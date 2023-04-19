@@ -13,7 +13,7 @@ import {
   InfoBox,
   InfoLienGuideUtilisationCDC,
   AlertBox,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
@@ -45,7 +45,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
   const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>();
 
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Je signale un changement de fournisseur</Heading1>
@@ -182,7 +182,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
           </form>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

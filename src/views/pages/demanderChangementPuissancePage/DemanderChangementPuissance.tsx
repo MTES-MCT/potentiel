@@ -11,7 +11,7 @@ import {
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
@@ -49,7 +49,7 @@ export const DemanderChangementPuissance = ({
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Je signale un changement de puissance</Heading1>
@@ -114,7 +114,7 @@ export const DemanderChangementPuissance = ({
           </form>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

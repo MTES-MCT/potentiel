@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Heading1, PageTemplate } from '@components';
+import { Heading1, LegacyPageTemplate } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type StatistiquesProps = {
@@ -11,7 +11,7 @@ type StatistiquesProps = {
 
 export const Statistiques = ({ mapIframeUrl, mainIframeUrl, request }: StatistiquesProps) => {
   return (
-    <PageTemplate user={request.user}>
+    <LegacyPageTemplate user={request.user}>
       <main role="main">
         <section className="section section-color">
           <div className="container">
@@ -47,7 +47,7 @@ export const Statistiques = ({ mapIframeUrl, mainIframeUrl, request }: Statistiq
           ></div>
         </section>
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

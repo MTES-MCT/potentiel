@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Heading1, PageTemplate } from '@components';
+import { Heading1, LegacyPageTemplate } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type CreStatistiquesPageProps = {
@@ -10,7 +10,7 @@ type CreStatistiquesPageProps = {
 
 export const CreStatistiques = ({ iframeUrl, request }: CreStatistiquesPageProps) => {
   return (
-    <PageTemplate user={request.user} currentPage="cre-statistiques">
+    <LegacyPageTemplate user={request.user} currentPage="cre-statistiques">
       <main role="main" className="panel">
         <div className="panel__header">
           <Heading1>Tableau de bord</Heading1>
@@ -31,7 +31,7 @@ export const CreStatistiques = ({ iframeUrl, request }: CreStatistiquesPageProps
           />
         </section>
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

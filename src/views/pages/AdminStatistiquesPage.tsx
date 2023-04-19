@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Heading1, PageTemplate } from '@components';
+import { Heading1, LegacyPageTemplate } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type AdminStatistiquesProps = {
@@ -10,7 +10,7 @@ type AdminStatistiquesProps = {
 
 export const AdminStatistiques = ({ iframeUrl, request }: AdminStatistiquesProps) => {
   return (
-    <PageTemplate user={request.user} currentPage="admin-statistiques">
+    <LegacyPageTemplate user={request.user} currentPage="admin-statistiques">
       <main role="main" className="panel">
         <div className="panel__header">
           <Heading1>Tableau de bord</Heading1>
@@ -31,7 +31,7 @@ export const AdminStatistiques = ({ iframeUrl, request }: AdminStatistiquesProps
           ></div>
         </section>
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

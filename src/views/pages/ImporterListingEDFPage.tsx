@@ -4,7 +4,7 @@ import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import {
   SecondaryButton,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
@@ -23,7 +23,7 @@ export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
   } = request;
 
   return (
-    <PageTemplate user={request.user}>
+    <LegacyPageTemplate user={request.user}>
       <div className="panel">
         <div className="panel__header">
           <Heading1>Importer des données producteurs</Heading1>
@@ -45,7 +45,7 @@ export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
           </SecondaryButton>
         </form>
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

@@ -7,7 +7,7 @@ import ROUTES from '@routes';
 import { PaginatedList } from '../../../types';
 import {
   RequestList,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   InputCheckbox,
@@ -68,7 +68,7 @@ export const ModificationRequestList = ({
   const [afficherFiltres, setAfficherFiltres] = useState(false);
 
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <Heading1>
@@ -274,7 +274,7 @@ export const ModificationRequestList = ({
         {error && <ErrorBox title={error} />}
         <RequestList modificationRequests={modificationRequests} role={request.user?.role} />
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

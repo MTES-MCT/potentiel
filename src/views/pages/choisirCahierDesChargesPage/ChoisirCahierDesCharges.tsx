@@ -4,7 +4,7 @@ import {
   Heading1,
   InfoBox,
   InfoLienGuideUtilisationCDC,
-  PageTemplate,
+  LegacyPageTemplate,
 } from '@components';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
 import { Request } from 'express';
@@ -17,7 +17,7 @@ type ChoisirCahierDesChargesProps = {
 
 export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesChargesProps) => {
   return (
-    <PageTemplate user={request.user} currentPage="list-projects">
+    <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Cahier des charges</Heading1>
@@ -29,7 +29,7 @@ export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesCha
           <ChoisirCahierDesChargesFormulaire projet={projet} />
         </div>
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

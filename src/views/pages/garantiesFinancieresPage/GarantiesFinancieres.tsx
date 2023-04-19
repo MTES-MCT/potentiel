@@ -7,7 +7,7 @@ import ROUTES from '@routes';
 import { PaginatedList } from '../../../types';
 import {
   ProjectList,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Link,
@@ -63,7 +63,7 @@ export const GarantiesFinancieres = ({
   };
 
   return (
-    <PageTemplate user={request.user} currentPage="list-garanties-financieres">
+    <LegacyPageTemplate user={request.user} currentPage="list-garanties-financieres">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Garanties financières</Heading1>
@@ -201,7 +201,7 @@ export const GarantiesFinancieres = ({
           </>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

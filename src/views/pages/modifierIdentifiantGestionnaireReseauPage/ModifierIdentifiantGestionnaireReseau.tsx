@@ -6,7 +6,7 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
-  PageTemplate,
+  LegacyPageTemplate,
   ProjectInfo,
   ProjectProps,
   SecondaryLinkButton,
@@ -31,7 +31,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
   const { error, success } = (request.query as any) || {};
 
   return (
-    <PageTemplate user={request.user} currentPage="list-projects">
+    <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>
@@ -69,7 +69,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           </div>
         </form>
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 hydrateOnClient(ModifierIdentifiantGestionnaireReseau);

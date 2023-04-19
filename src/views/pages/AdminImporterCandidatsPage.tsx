@@ -2,7 +2,15 @@ import React from 'react';
 import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import { Request } from 'express';
-import { Button, ErrorBox, Heading1, Input, Label, PageTemplate, SuccessBox } from '@components';
+import {
+  Button,
+  ErrorBox,
+  Heading1,
+  Input,
+  Label,
+  LegacyPageTemplate,
+  SuccessBox,
+} from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type AdminImporterCandidatsProps = {
@@ -19,7 +27,7 @@ export const AdminImporterCandidats = ({
   otherError,
 }: AdminImporterCandidatsProps) => {
   return (
-    <PageTemplate user={request.user} currentPage="import-projects">
+    <LegacyPageTemplate user={request.user} currentPage="import-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Importer des candidats</Heading1>
@@ -55,7 +63,7 @@ export const AdminImporterCandidats = ({
           </div>
         </form>
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

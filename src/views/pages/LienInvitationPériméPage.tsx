@@ -1,4 +1,4 @@
-import { Heading1, Link, PageTemplate } from '@components';
+import { Heading1, Link, LegacyPageTemplate } from '@components';
 import React from 'react';
 import { Request } from 'express';
 import { hydrateOnClient } from '../helpers';
@@ -9,7 +9,7 @@ interface LienInvitationPériméProps {
 
 export const LienInvitationPérimé = ({ request }: LienInvitationPériméProps) => {
   return (
-    <PageTemplate user={request.user}>
+    <LegacyPageTemplate user={request.user}>
       <main role="main">
         <section className="section section-grey">
           <div className="container">
@@ -29,7 +29,7 @@ export const LienInvitationPérimé = ({ request }: LienInvitationPériméProps)
           </div>
         </section>
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

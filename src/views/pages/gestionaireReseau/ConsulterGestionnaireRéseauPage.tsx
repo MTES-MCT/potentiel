@@ -6,7 +6,7 @@ import {
   Input,
   Label,
   Link,
-  PageTemplate,
+  LegacyPageTemplate,
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '@views/helpers';
@@ -29,7 +29,7 @@ export const ConsulterGestionnaireRéseau = ({
   },
   erreurValidation,
 }: ConsulterGestionnaireRéseauProps) => (
-  <PageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
+  <LegacyPageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
     <div className="panel">
       <div className="panel__header">
         <Heading1>Gestionnaire de réseau ({raisonSociale})</Heading1>
@@ -62,7 +62,7 @@ export const ConsulterGestionnaireRéseau = ({
         <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </form>
     </div>
-  </PageTemplate>
+  </LegacyPageTemplate>
 );
 
 hydrateOnClient(ConsulterGestionnaireRéseau);

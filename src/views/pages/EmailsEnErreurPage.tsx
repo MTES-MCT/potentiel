@@ -1,7 +1,7 @@
 import {
   PaginationPanel,
   Button,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
@@ -23,7 +23,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
   const { error, success } = (request.query as any) || {};
 
   return (
-    <PageTemplate user={request.user} currentPage="list-notifications">
+    <LegacyPageTemplate user={request.user} currentPage="list-notifications">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Emails en erreur</Heading1>
@@ -112,7 +112,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
           </>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

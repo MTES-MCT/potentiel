@@ -3,7 +3,7 @@ import {
   Input,
   Label,
   Button,
-  PageTemplate,
+  LegacyPageTemplate,
   Tile,
   SecondaryLinkButton,
   RefreshIcon,
@@ -29,7 +29,7 @@ export const ImportDonneesRaccordement = ({
   tâches,
   résultatSoumissionFormulaire,
 }: ImportDonnéesRaccordementProps) => (
-  <PageTemplate user={request.user} currentPage="import-données-raccordement">
+  <LegacyPageTemplate user={request.user} currentPage="import-données-raccordement">
     <div className="panel">
       <div className="panel__header">
         <Heading1>Import des données de raccordement</Heading1>
@@ -105,7 +105,7 @@ export const ImportDonneesRaccordement = ({
         </ul>
       )}
     </div>
-  </PageTemplate>
+  </LegacyPageTemplate>
 );
 
 hydrateOnClient(ImportDonneesRaccordement);

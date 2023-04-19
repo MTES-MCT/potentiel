@@ -1,39 +1,15 @@
 import React from 'react';
 import routes from '@routes';
-import { Footer } from './Footer';
-import { Header } from './Header';
-import { DropdownMenu } from './UI/molecules/dropdowns/DropdownMenu';
+import { Header } from '../../Header';
+import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
-type CurrentPage =
-  | 'list-projects'
-  | 'list-requests'
-  | 'list-garanties-financieres'
-  | 'list-missing-owner-projects'
-  | 'ademe-statistiques'
-  | 'acheteur-oblige-statistiques'
-  | 'import-projects'
-  | 'notify-candidates'
-  | 'list-invitations'
-  | 'list-notifications'
-  | 'admin-upload-legacy-modification-files'
-  | 'import-données-raccordement'
-  | 'list-dreal'
-  | 'regenerate-certificates'
-  | 'admin-users'
-  | 'admin-statistiques'
-  | 'cre-statistiques'
-  | 'inviter-dgec-validateur'
-  | 'liste-gestionnaires-réseau'
-  | 'détail-gestionnaire-réseau'
-  | undefined;
-
-const getUserNavigation = ({
+export const UserNavigation = ({
   user,
   currentPage,
 }: {
   user: UtilisateurReadModel;
-  currentPage?: CurrentPage;
+  currentPage?: string;
 }) => {
   switch (user.role) {
     case 'porteur-projet':
@@ -55,7 +31,7 @@ const getUserNavigation = ({
   }
 };
 
-const MenuCaisseDesDépôts = (currentPage: CurrentPage) => (
+const MenuCaisseDesDépôts = (currentPage?: string) => (
   <Header.MenuItem
     href={routes.LISTE_PROJETS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
@@ -64,7 +40,7 @@ const MenuCaisseDesDépôts = (currentPage: CurrentPage) => (
   </Header.MenuItem>
 );
 
-const MenuCre = (currentPage: CurrentPage) => (
+const MenuCre = (currentPage?: string) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -81,7 +57,7 @@ const MenuCre = (currentPage: CurrentPage) => (
   </>
 );
 
-const MenuAdmin = (currentPage: CurrentPage) => (
+const MenuAdmin = (currentPage?: string) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -180,7 +156,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
   </>
 );
 
-const MenuPorteurProjet = (currentPage: CurrentPage) => (
+const MenuPorteurProjet = (currentPage?: string) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -203,7 +179,7 @@ const MenuPorteurProjet = (currentPage: CurrentPage) => (
   </>
 );
 
-const MenuAcheteurObligé = (currentPage: CurrentPage) => (
+const MenuAcheteurObligé = (currentPage?: string) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -220,7 +196,7 @@ const MenuAcheteurObligé = (currentPage: CurrentPage) => (
   </>
 );
 
-const MenuAdeme = (currentPage: CurrentPage) => (
+const MenuAdeme = (currentPage?: string) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -237,7 +213,7 @@ const MenuAdeme = (currentPage: CurrentPage) => (
   </>
 );
 
-const MenuDreal = (currentPage: CurrentPage) => (
+const MenuDreal = (currentPage?: string) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -259,29 +235,3 @@ const MenuDreal = (currentPage: CurrentPage) => (
     </Header.MenuItem>
   </>
 );
-
-export const PageTemplate = ({
-  user,
-  children,
-  currentPage,
-  fullWidth,
-}: {
-  user: UtilisateurReadModel;
-  children: React.ReactNode;
-  currentPage?: CurrentPage;
-  fullWidth?: true;
-}) => {
-  return (
-    <>
-      <Header user={user}>{user && getUserNavigation({ user, currentPage })}</Header>
-      <main
-        role="main"
-        className={fullWidth ? '' : 'flex flex-col px-2 py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl'}
-        style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-      >
-        {children}
-      </main>
-      <Footer />
-    </>
-  );
-};

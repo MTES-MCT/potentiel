@@ -1,5 +1,5 @@
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Heading1, LinkButton, ListeVide, PageTemplate, SuccessBox } from '@components';
+import { Heading1, LinkButton, ListeVide, LegacyPageTemplate, SuccessBox } from '@components';
 import { hydrateOnClient } from '@views/helpers';
 import React from 'react';
 import { Liste } from './components/Liste';
@@ -17,7 +17,7 @@ export const ListeGestionnairesRéseau = ({
   gestionnairesRéseau,
   success,
 }: ListeGestionnairesRéseauProps) => (
-  <PageTemplate user={user} currentPage={'liste-gestionnaires-réseau'}>
+  <LegacyPageTemplate user={user} currentPage={'liste-gestionnaires-réseau'}>
     <div className="panel flex flex-col">
       <div className="panel__header">
         <Heading1>Liste des gestionnaires de réseau</Heading1>
@@ -32,7 +32,7 @@ export const ListeGestionnairesRéseau = ({
         <Liste {...{ gestionnairesRéseau }} />
       )}
     </div>
-  </PageTemplate>
+  </LegacyPageTemplate>
 );
 
 hydrateOnClient(ListeGestionnairesRéseau);

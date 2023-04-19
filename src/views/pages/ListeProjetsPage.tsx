@@ -10,7 +10,7 @@ import {
   ProjectList,
   ExcelFileIcon,
   SecondaryLinkButton,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Button,
@@ -78,7 +78,7 @@ export const ListeProjets = ({
   const [afficherFiltres, setAfficherFiltres] = useState(false);
 
   return (
-    <PageTemplate user={request.user} currentPage="list-projects">
+    <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</Heading1>
@@ -378,7 +378,7 @@ export const ListeProjets = ({
           <ListeVide titre="Aucun projet à lister" />
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

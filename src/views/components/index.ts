@@ -12,8 +12,6 @@ export * from './Header';
 export * from './InfoLienGuideUtilisationCDC';
 export * from './MissingOwnerProjectList';
 export * from './ModificationRequestActionTitles';
-export * from './PageTemplate';
 export * from './ProjectActions';
 export * from './ProjectInfo';
-export * from './UI/organisms/ProjectList';
 export * from './RequestList';

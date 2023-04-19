@@ -5,7 +5,7 @@ import {
   Heading1,
   Heading2,
   ModificationRequestActionTitles,
-  PageTemplate,
+  LegacyPageTemplate,
   ProjectInfo,
   SecondaryButton,
   SuccessBox,
@@ -41,7 +41,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
     isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status);
 
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <Heading1>
@@ -129,7 +129,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
             </form>
           )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

@@ -6,7 +6,7 @@ import ROUTES from '@routes';
 import {
   Button,
   Input,
-  PageTemplate,
+  LegacyPageTemplate,
   Select,
   SuccessBox,
   ErrorBox,
@@ -28,7 +28,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
   const { error, success } = (request.query as any) || {};
 
   return (
-    <PageTemplate user={request.user} currentPage="admin-users">
+    <LegacyPageTemplate user={request.user} currentPage="admin-users">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Gérer les utilisateurs partenaires</Heading1>
@@ -110,7 +110,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
           </>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

@@ -8,7 +8,7 @@ import {
   Heading2,
   Input,
   Label,
-  PageTemplate,
+  LegacyPageTemplate,
   ProjectInfo,
   ProjectProps,
 } from '@components';
@@ -29,7 +29,7 @@ export const TransmettreDateMiseEnService = ({
   error,
 }: TransmettreDateMiseEnServiceProps) => {
   return (
-    <PageTemplate user={user} currentPage="list-projects">
+    <LegacyPageTemplate user={user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Transmettre une date de mise en service</Heading1>
@@ -52,7 +52,7 @@ export const TransmettreDateMiseEnService = ({
           </Button>
         </form>
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 hydrateOnClient(TransmettreDateMiseEnService);

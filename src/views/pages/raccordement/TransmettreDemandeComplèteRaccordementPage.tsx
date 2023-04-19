@@ -12,9 +12,9 @@ import {
   InfoBox,
   Input,
   Label,
-  PageTemplate,
   PlugIcon,
   Select,
+  PageTemplate,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain';
@@ -65,7 +65,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
   };
 
   return (
-    <PageTemplate fullWidth={true} user={user} currentPage="list-projects">
+    <PageTemplate user={user} currentPage="list-projects">
       <section className="bg-blue-france-sun-base text-white px-2 md:px-0 py-6 mb-3">
         <Container>
           <RésuméProjet {...résuméProjet} />

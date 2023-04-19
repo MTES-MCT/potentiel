@@ -2,11 +2,11 @@ import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
-  DownloadLink,
   Heading1,
   Link,
   LinkButton,
-  PageTemplate,
+  DownloadLink,
+  LegacyPageTemplate,
   SuccessBox,
   Tile,
 } from '@components';
@@ -30,7 +30,7 @@ export const ListeDossiersRaccordement = ({
   success,
 }: ListeDossiersRaccordementProps) => {
   return (
-    <PageTemplate user={user} currentPage="list-projects">
+    <LegacyPageTemplate user={user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Dossiers de raccordement</Heading1>
@@ -100,7 +100,7 @@ export const ListeDossiersRaccordement = ({
           ),
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 hydrateOnClient(ListeDossiersRaccordement);

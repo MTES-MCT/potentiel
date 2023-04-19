@@ -7,7 +7,7 @@ import {
   Callout,
   Link,
   ExternalLink,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   AlertBox,
@@ -49,7 +49,7 @@ export const ProjectDetails = ({
   const { error, success } = (request.query as any) || {};
 
   return (
-    <PageTemplate user={request.user} currentPage="list-projects">
+    <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <ProjectHeader {...{ project, user }} />
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
@@ -94,7 +94,7 @@ export const ProjectDetails = ({
           <ContratEnedis contrat={project.contratEnedis} />
         )}
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

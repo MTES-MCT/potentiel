@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Heading2, PageTemplate } from '@components';
+import { Heading2, LegacyPageTemplate } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 export const Error = ({ errorTitle, errorMessage, request }: Props) => {
   return (
-    <PageTemplate user={request.user}>
+    <LegacyPageTemplate user={request.user}>
       <main role="main">
         <section className="section section-grey pt-10">
           <div className="container">
@@ -20,7 +20,7 @@ export const Error = ({ errorTitle, errorMessage, request }: Props) => {
           </div>
         </section>
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 
