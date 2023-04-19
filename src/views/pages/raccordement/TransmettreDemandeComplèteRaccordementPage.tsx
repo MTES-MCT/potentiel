@@ -85,22 +85,33 @@ export const TransmettreDemandeComplèteRaccordement = ({
               <div className="flex flex-col gap-4">
                 <div>
                   <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
-                  <Select
-                    id="codeEIC"
-                    name="codeEIC"
-                    onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-                    disabled={!!identifiantGestionnaire}
-                    defaultValue={identifiantGestionnaire || 'none'}
-                  >
-                    <option value="none" disabled hidden>
-                      Sélectionnez votre gestionnaire de réseau
-                    </option>
-                    {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-                      <option value={codeEIC} key={codeEIC}>
-                        {raisonSociale} (code EIC : {codeEIC})
+                  {identifiantGestionnaire ? (
+                    <>
+                      <Input
+                        type="hidden"
+                        id="codeEIC"
+                        name="codeEIC"
+                        value={identifiantGestionnaire}
+                      />
+                      <Input type="text" value={gestionnaireRéseauActuel?.raisonSociale} disabled />
+                    </>
+                  ) : (
+                    <Select
+                      id="codeEIC"
+                      name="codeEIC"
+                      onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
+                      defaultValue={'none'}
+                    >
+                      <option value="none" disabled hidden>
+                        Sélectionnez votre gestionnaire de réseau
                       </option>
-                    ))}
-                  </Select>
+                      {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
+                        <option value={codeEIC} key={codeEIC}>
+                          {raisonSociale} (code EIC : {codeEIC})
+                        </option>
+                      ))}
+                    </Select>
+                  )}
                 </div>
 
                 <div>
