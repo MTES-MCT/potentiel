@@ -1,6 +1,6 @@
 import React from 'react';
 import routes from '@routes';
-import { Header } from '../../Header';
+import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
