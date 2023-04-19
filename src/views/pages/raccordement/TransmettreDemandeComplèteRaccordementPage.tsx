@@ -37,8 +37,20 @@ export const TransmettreDemandeComplèteRaccordement = ({
   error,
   identifiantGestionnaire,
 }: TransmettreDemandeComplèteRaccordementProps) => {
-  const [format, setFormat] = useState('');
-  const [légende, setLégende] = useState('');
+  const gestionnaireRéseauActuel = gestionnairesRéseau?.find(
+    (gestionnaire) => gestionnaire.codeEIC === identifiantGestionnaire,
+  );
+
+  const [format, setFormat] = useState(
+    gestionnaireRéseauActuel
+      ? gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement.format
+      : '',
+  );
+  const [légende, setLégende] = useState(
+    gestionnaireRéseauActuel
+      ? gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement.légende
+      : '',
+  );
 
   const handleGestionnaireSéléctionné = (codeEIC: string) => {
     const gestionnaireSélectionné = gestionnairesRéseau?.find(
