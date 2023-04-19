@@ -463,5 +463,11 @@ class routes {
       reference || ':reference'
     }/transmettre-proposition-technique-et-financiere`;
   };
+
+  static GET_ACCUSE_RECEPTION_FILE = (projetId?: string, reference?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/accuse-reception`;
+  };
 }
 export default routes;

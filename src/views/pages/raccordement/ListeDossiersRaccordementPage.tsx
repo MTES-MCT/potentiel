@@ -1,7 +1,15 @@
 import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Heading1, Link, LinkButton, PageTemplate, SuccessBox, Tile } from '@components';
+import {
+  DownloadLink,
+  Heading1,
+  Link,
+  LinkButton,
+  PageTemplate,
+  SuccessBox,
+  Tile,
+} from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { DossierRaccordementReadModel } from '@potentiel/domain';
 import routes from '@routes';
@@ -47,6 +55,9 @@ export const ListeDossiersRaccordement = ({
                 <li>Référence : {référence}</li>
                 <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
                 <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
+                <li>
+                  <DownloadLink href="">Accusé de réception</DownloadLink>
+                </li>
                 <li>
                   Date de mise en service :{' '}
                   {dateMiseEnService ? (
