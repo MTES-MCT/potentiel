@@ -1,8 +1,9 @@
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
+  consulterProjetQueryHandlerFactory,
   listerGestionnaireRéseauQueryHandlerFactory,
 } from '@potentiel/domain';
-import { listProjection } from '@potentiel/pg-projections';
+import { findProjection, listProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -14,6 +15,8 @@ import { Project } from '@infra/sequelize/projectionsNext';
 const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
   list: listProjection,
 });
+
+const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -51,10 +54,19 @@ v1Router.get(
       });
 
       if (projet) {
+        const identifiantProjet = {
+          appelOffre: projet.appelOffreId,
+          période: projet.periodeId,
+          famille: projet.familleId,
+          numéroCRE: projet.numeroCRE,
+        };
+
+        const { identifiantGestionnaire } = await consulterProjet({ identifiantProjet });
+
         const gestionnairesRéseau = await listerGestionnaireRéseau({});
         return response.send(
           TransmettreDemandeComplèteRaccordementPage({
-            gestionnaireActuel,
+            identifiantGestionnaire: identifiantGestionnaire?.codeEIC,
             user,
             gestionnairesRéseau,
             projet,

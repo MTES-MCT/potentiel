@@ -45,7 +45,6 @@ export const ListeDossiersRaccordement = ({
         {dossiers.map(
           ({
             référence,
-            gestionnaireRéseau,
             dateQualification,
             dateMiseEnService,
             propositionTechniqueEtFinancière,
@@ -53,7 +52,6 @@ export const ListeDossiersRaccordement = ({
             <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">
               <ul className="list-none p-0">
                 <li>Référence : {référence}</li>
-                <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
                 <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
                 <li>
                   <DownloadLink fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(projetId, référence)}>

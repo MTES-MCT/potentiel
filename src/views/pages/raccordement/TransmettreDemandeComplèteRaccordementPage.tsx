@@ -24,6 +24,7 @@ type TransmettreDemandeComplèteRaccordementProps = {
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
   projet: ProjectProps;
   error?: string;
+  identifiantGestionnaire?: string;
 };
 
 export const TransmettreDemandeComplèteRaccordement = ({
@@ -31,6 +32,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
   gestionnairesRéseau,
   projet,
   error,
+  identifiantGestionnaire,
 }: TransmettreDemandeComplèteRaccordementProps) => {
   const [format, setFormat] = useState('');
   const [légende, setLégende] = useState('');
@@ -68,7 +70,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
                   id="codeEIC"
                   name="codeEIC"
                   onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-                  defaultValue="none"
+                  defaultValue={identifiantGestionnaire || 'none'}
                 >
                   <option value="none" disabled hidden>
                     Sélectionnez votre gestionnaire de réseau

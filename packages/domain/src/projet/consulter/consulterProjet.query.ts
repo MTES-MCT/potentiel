@@ -2,7 +2,6 @@ import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '..';
 import { ProjetReadModel } from '../projet.readModel';
 import { isNone } from '@potentiel/monads';
-import { ProjetInconnuError } from './projetInconnu.error';
 
 export type ConsulterProjetQuery = {
   identifiantProjet: IdentifiantProjet;
@@ -23,7 +22,7 @@ export const consulterProjetQueryHandlerFactory: QueryHandlerFactory<
     );
 
     if (isNone(result)) {
-      throw new ProjetInconnuError();
+      return { type: 'projet' };
     }
 
     return result;

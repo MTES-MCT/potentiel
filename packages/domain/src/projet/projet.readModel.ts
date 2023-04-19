@@ -4,6 +4,6 @@ import { IdentifiantGestionnaireRéseau } from '../gestionnaireRéseau';
 export type ProjetReadModel = ReadModel<
   'projet',
   {
-    identifiantGestionnaire: IdentifiantGestionnaireRéseau;
+    identifiantGestionnaire?: IdentifiantGestionnaireRéseau;
   }
 >;
