@@ -103,7 +103,8 @@ export const TransmettreDemandeComplèteRaccordement = ({
                     id="codeEIC"
                     name="codeEIC"
                     onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-                    defaultValue="none"
+                    disabled={!!identifiantGestionnaire}
+                    defaultValue={identifiantGestionnaire || 'none'}
                   >
                     <option value="none" disabled hidden>
                       Sélectionnez votre gestionnaire de réseau
