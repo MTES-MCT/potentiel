@@ -1,5 +1,10 @@
 version: '3'
 
+# fix problem for mac 
+# Error reference : Inaccessible host: `potentiel.localhost' at port `undefined'. This service may not be available in the `us-east-1' region.
+environment:
+  JDBC_PARAMS: "ssl=true"
+
 services:
   db:
     image: postgres:13
