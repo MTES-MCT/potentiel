@@ -92,7 +92,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
             >
               {error && <ErrorBox>{error}</ErrorBox>}
 
-              <Heading2>Transmettre une demande de raccordement</Heading2>
+              <Heading2>Transmettre une demande complète de raccordement</Heading2>
 
               <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
