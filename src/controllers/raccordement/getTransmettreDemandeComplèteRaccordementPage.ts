@@ -1,5 +1,6 @@
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
+  RésuméProjetReadModel,
   consulterProjetQueryHandlerFactory,
   listerGestionnaireRéseauQueryHandlerFactory,
 } from '@potentiel/domain';
@@ -75,8 +76,7 @@ v1Router.get(
 
       const gestionnairesRéseau = await listerGestionnaireRéseau({});
 
-      type StatutProjetReadModel = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
-      const getStatutProjet = (): StatutProjetReadModel => {
+      const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
           return 'non-notifié';
         }
@@ -97,6 +97,8 @@ v1Router.get(
           gestionnairesRéseau,
           identifiantProjet: projet.id,
           résuméProjet: {
+            type: 'résumé-projet',
+            identifiantProjet: projet.id,
             appelOffre: projet.appelOffreId,
             période: projet.periodeId,
             famille: projet.familleId,

@@ -1,6 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain';
 import { IdentifiantGestionnaireRéseau } from '../gestionnaireRéseau';
-import { StatutProjet } from './statutProjet';
 
 export type ProjetReadModel = ReadModel<
   'projet',
@@ -9,6 +8,7 @@ export type ProjetReadModel = ReadModel<
   }
 >;
 
+type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 export type RésuméProjetReadModel = ReadModel<
   'résumé-projet',
   {
