@@ -37,10 +37,8 @@ export const consumerFactory = async (name: string): Promise<Consumer> => {
 
           await consumerRedisClient.xadd(`${name}-DLQ`, '*', messageValue);
         }
-      } else {
-        console.log(`Unknown event ${eventType}`);
-        console.log(eventPayload);
       }
+
       const [messageId] = message;
       await consumerRedisClient.xack(streamName, groupName, messageId);
 
