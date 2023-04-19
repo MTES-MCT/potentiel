@@ -6,6 +6,8 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   PermissionConsulterDossierRaccordement,
   consulterDossierRaccordementQueryHandlerFactory,
+  consulterGestionnaireRéseauQueryHandlerFactory,
+  consulterProjetQueryHandlerFactory,
   listerDossiersRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
@@ -17,6 +19,12 @@ const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory
 });
 
 const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
+
+const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
+
+const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
   find: findProjection,
 });
 
@@ -52,25 +60,37 @@ v1Router.get(
         });
       }
 
+      const identifiantProjet = {
+        appelOffre: projet.appelOffreId,
+        période: projet.periodeId,
+        famille: projet.familleId,
+        numéroCRE: projet.numeroCRE,
+      };
+
       const { références } = await listerDossiersRaccordement({
-        identifiantProjet: {
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        },
+        identifiantProjet,
       });
 
       if (références.length > 0) {
         const dossiers = await Promise.all(
           références.map((référence) => consulterDossierRaccordement({ référence })),
         );
+
+        const { identifiantGestionnaire = { codeEIC: '' } } = await consulterProjet({
+          identifiantProjet,
+        });
+
+        const gestionnaireRéseau = await consulterGestionnaireRéseau({
+          codeEIC: identifiantGestionnaire.codeEIC,
+        });
+
         return response.send(
           ListeDossiersRaccordementPage({
             dossiers,
             user,
             projetId,
             nomProjet: projet.nomProjet,
+            gestionnaireRéseau,
             success: success as string,
           }),
         );

@@ -37,6 +37,7 @@ const transmettreDemandeComplèteRaccordementCommand =
 const consulterGestionnaireRéseauQuery = consulterGestionnaireRéseauQueryHandlerFactory({
   find: findProjection,
 });
+
 const transmettreDemandeComplèteRaccordement = transmettreDemandeComplèteRaccordementUseCaseFactory(
   {
     transmettreDemandeComplèteRaccordementCommand,

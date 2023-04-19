@@ -11,7 +11,7 @@ import {
   Tile,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
-import { DossierRaccordementReadModel } from '@potentiel/domain';
+import { DossierRaccordementReadModel, GestionnaireRéseauReadModel } from '@potentiel/domain';
 import routes from '@routes';
 
 type ListeDossiersRaccordementProps = {
@@ -20,6 +20,7 @@ type ListeDossiersRaccordementProps = {
   projetId: string;
   nomProjet: string;
   success?: string;
+  gestionnaireRéseau: GestionnaireRéseauReadModel;
 };
 
 export const ListeDossiersRaccordement = ({
@@ -28,6 +29,7 @@ export const ListeDossiersRaccordement = ({
   nomProjet,
   projetId,
   success,
+  gestionnaireRéseau,
 }: ListeDossiersRaccordementProps) => {
   return (
     <LegacyPageTemplate user={user} currentPage="list-projects">
@@ -42,6 +44,10 @@ export const ListeDossiersRaccordement = ({
             Ajouter
           </LinkButton>
         </div>
+        <p>
+          Gestionnaire de réseau :{' '}
+          {`${gestionnaireRéseau.raisonSociale} (${gestionnaireRéseau.codeEIC})`}
+        </p>
         {dossiers.map(
           ({
             référence,
