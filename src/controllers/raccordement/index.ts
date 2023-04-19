@@ -6,3 +6,4 @@ export * from './postTransmettreDateMiseEnService';
 export * from './getTransmettrePropositionTechniqueEtFinancière';
 export * from './postTransmettrePropositionTechniqueEtFinancière';
 export * from './getAccuséRéceptionFile';
+export * from './getPropositionTechniqueEtFinanciereFile';

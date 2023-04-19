@@ -37,14 +37,22 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
         <form
           className="flex gap-3 flex-col"
           method="POST"
+          encType="multipart/form-data"
           action={routes.POST_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE(projet.id, reference)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2>Concernant le projet</Heading2>
           <ProjectInfo project={projet} className="mb-3" />
           <Heading2>Transmettre la proposition technique et financière</Heading2>
+
+          <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+
           <div>
-            <Label htmlFor="dateSignature">Date de signature (champ obligatoire)</Label>
+            <Label htmlFor="file">Proposition technique et financière signée</Label>
+            <Input type="file" id="file" name="file" required />
+          </div>
+          <div>
+            <Label htmlFor="dateSignature">Date de signature</Label>
             <Input type="date" id="dateSignature" name="dateSignature" required />
           </div>
           <Button type="submit" className="m-auto">

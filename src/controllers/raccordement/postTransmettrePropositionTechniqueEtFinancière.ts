@@ -1,6 +1,7 @@
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettrePropositionTechniqueEtFinancière,
+  formatIdentifiantProjet,
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -17,6 +18,10 @@ import { Project } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
+import { upload as uploadMiddleware } from '../upload';
+import { extname, join } from 'path';
+import { createReadStream } from 'fs';
+import { upload } from '@potentiel/file-storage';
 
 const transmettrePropositionTechniqueEtFinancière =
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
@@ -41,6 +46,7 @@ const schema = yup.object({
 
 v1Router.post(
   routes.POST_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE(),
+  uploadMiddleware.single('file'),
   vérifierPermissionUtilisateur(PermissionTransmettrePropositionTechniqueEtFinancière),
   safeAsyncHandler(
     {
@@ -80,10 +86,19 @@ v1Router.post(
           dateSignature,
         });
 
+        const filePath = join(
+          formatIdentifiantProjet(identifiantProjet),
+          reference,
+          `proposition-technique-et-financiere${extname(request.file!.originalname)}`,
+        );
+        const content = createReadStream(request.file!.path);
+        await upload(filePath, content);
+
         return response.redirect(
-          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId), {
-            success:
-              'La date de signature de la proposition technique et financière a bien été enregistrée',
+          routes.SUCCESS_OR_ERROR_PAGE({
+            success: 'La proposition technique et financière a bien été enregistrée',
+            redirectUrl: routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId),
+            redirectTitle: 'Retourner sur la page raccordement',
           }),
         );
       } catch (error) {

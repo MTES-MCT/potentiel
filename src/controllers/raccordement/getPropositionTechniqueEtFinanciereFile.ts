@@ -53,7 +53,7 @@ v1Router.get(
         const filePath = join(
           formatIdentifiantProjet(identifiantProjet),
           reference,
-          `demande-complete-raccordement`,
+          `proposition-technique-et-financiere`,
         );
         const extension = await getFileExtension(filePath);
         const fileContent = await download(`${filePath}${extension}`);
@@ -61,7 +61,7 @@ v1Router.get(
         response.type(extension);
         response.setHeader(
           'Content-Disposition',
-          `attachment; filename=accuse-reception-${reference}${extension}`,
+          `attachment; filename=proposition-technique-et-financiere-${reference}${extension}`,
         );
         fileContent.pipe(response);
         response.status(200);
