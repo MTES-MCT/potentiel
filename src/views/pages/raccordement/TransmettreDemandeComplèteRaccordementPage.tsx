@@ -1,8 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
-  Badge,
   Button,
   Container,
   ErrorBox,
@@ -14,27 +13,12 @@ import {
   Label,
   PlugIcon,
   Select,
-  PageTemplate,
+  Link,
+  PageProjet,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
-import { GestionnaireRéseauReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
-
-type StatutProjetReadModel = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
-
-type RésuméProjetReadModel = {
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
-  statut: StatutProjetReadModel;
-  nom: string;
-  localité: {
-    commune: string;
-    département: string;
-    région: string;
-  };
-};
 
 type TransmettreDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -44,14 +28,6 @@ type TransmettreDemandeComplèteRaccordementProps = {
   error?: string;
   identifiantGestionnaire?: string;
 };
-
-const EntêteProjet: FC<RésuméProjetReadModel> = (résuméProjet) => (
-  <section className="bg-blue-france-sun-base text-white px-2 md:px-0 py-6 mb-3">
-    <Container>
-      <RésuméProjet {...résuméProjet} />
-    </Container>
-  </section>
-);
 
 export const TransmettreDemandeComplèteRaccordement = ({
   user,
@@ -73,9 +49,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
   };
 
   return (
-    <PageTemplate user={user}>
-      <EntêteProjet {...résuméProjet} />
-
+    <PageProjet user={user} résuméProjet={résuméProjet}>
       <section className="px-2 py-3 md:px-0">
         <Container>
           <Heading1>
@@ -148,9 +122,12 @@ export const TransmettreDemandeComplèteRaccordement = ({
                   <Input type="date" id="dateQualification" name="dateQualification" required />
                 </div>
 
-                <Button type="submit" className="m-auto">
-                  Transmettre
-                </Button>
+                <div className="flex flex-col md:flex-row gap-4 m-auto">
+                  <Button type="submit">Transmettre</Button>
+                  <Link href={routes.PROJECT_DETAILS(identifiantProjet)} className="m-auto">
+                    Retour vers le projet
+                  </Link>
+                </div>
               </div>
             </form>
 
@@ -168,70 +145,8 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
         </Container>
       </section>
-    </PageTemplate>
+    </PageProjet>
   );
 };
 
 hydrateOnClient(TransmettreDemandeComplèteRaccordement);
-
-const RésuméProjet: FC<RésuméProjetReadModel> = ({
-  appelOffre,
-  période,
-  famille,
-  numéroCRE,
-  statut,
-  nom,
-  localité,
-  children,
-}) => (
-  <div className="w-full py-3 lg:flex justify-between gap-2">
-    <div className="mb-3">
-      <div
-        className="flex justify-start items-center
-      "
-      >
-        <h1 className="mb-0 pb-0 text-white">{nom}</h1>
-        <StatutProjet statut={statut} />
-      </div>
-      <p className="text-sm font-medium p-0 m-0">
-        {localité.commune}, {localité.département}, {localité.région}
-      </p>
-      <div className="text-sm">
-        {appelOffre}-{période}
-        {famille && `-${famille}`}-{numéroCRE}
-      </div>
-    </div>
-    <div>{children}</div>
-  </div>
-);
-
-const StatutProjet: FC<{
-  statut: StatutProjetReadModel;
-}> = ({ statut }) => {
-  switch (statut) {
-    case 'abandonné':
-      return (
-        <Badge type="warning" className="ml-2 self-center">
-          Abandonné
-        </Badge>
-      );
-    case 'classé':
-      return (
-        <Badge type="success" className="ml-2 self-center">
-          Classé
-        </Badge>
-      );
-    case 'éliminé':
-      return (
-        <Badge type="error" className="ml-2 self-center">
-          Éliminé
-        </Badge>
-      );
-    case 'non-notifié':
-      return (
-        <Badge type="info" className="ml-2 self-center">
-          Non-notifié
-        </Badge>
-      );
-  }
-};
