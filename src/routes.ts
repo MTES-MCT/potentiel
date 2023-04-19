@@ -467,7 +467,13 @@ class routes {
   static GET_ACCUSE_RECEPTION_FILE = (projetId?: string, reference?: string) => {
     return `/projet/${projetId || ':projetId'}/raccordements/${
       reference || ':reference'
-    }/accuse-reception`;
+    }/telecharger-accuse-reception`;
+  };
+
+  static GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE = (projetId?: string, reference?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/telecharger-proposition-technique-et-financiere`;
   };
 }
 export default routes;

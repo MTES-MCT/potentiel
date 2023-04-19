@@ -55,7 +55,7 @@ export const ListeDossiersRaccordement = ({
                 <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
                 <li>
                   <DownloadLink fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(projetId, référence)}>
-                    Accusé de réception
+                    Télécharger l'accusé de réception
                   </DownloadLink>
                 </li>
                 <li>
@@ -77,9 +77,19 @@ export const ListeDossiersRaccordement = ({
                 <li>
                   Date de signature de la proposition technique et financière :{' '}
                   {propositionTechniqueEtFinancière ? (
-                    <span>
-                      {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
-                    </span>
+                    <>
+                      <span>
+                        {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
+                      </span>
+                      <DownloadLink
+                        fileUrl={routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
+                          projetId,
+                          référence,
+                        )}
+                      >
+                        Télécharger la proposition technique et financière signée
+                      </DownloadLink>
+                    </>
                   ) : (
                     <span className="italic">Non renseignée</span>
                   )}
