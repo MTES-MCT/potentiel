@@ -7,6 +7,7 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { join } from 'path';
 import { download, getFileExtension } from '@potentiel/file-storage';
+import { logger } from '@core/utils';
 
 const schema = yup.object({
   params: yup.object({
@@ -56,14 +57,19 @@ v1Router.get(
           reference,
           `demande-complete-raccordement`,
         );
-
         const extension = await getFileExtension(filePath);
         const fileContent = await download(`${filePath}${extension}`);
 
         response.type(extension);
+        response.setHeader(
+          'Content-Disposition',
+          `attachment; filename=accuse-reception-${reference}${extension}`,
+        );
         fileContent.pipe(response);
         response.status(200);
-      } catch (error) {}
+      } catch (error) {
+        logger.error(error);
+      }
     },
   ),
 );
