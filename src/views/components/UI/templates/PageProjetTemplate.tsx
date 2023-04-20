@@ -5,13 +5,13 @@ import { Badge, Container, PageTemplate } from '@components';
 import { RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
 
-export const PageProjet: FC<{
+export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
   résuméProjet: RésuméProjetReadModel;
 }> = ({ user, résuméProjet, children }) => (
   <PageTemplate user={user}>
     <EntêteProjet {...résuméProjet} />
-    {children}
+    <Container className="px-2 py-3 md:px-0">{children}</Container>
   </PageTemplate>
 );
 
