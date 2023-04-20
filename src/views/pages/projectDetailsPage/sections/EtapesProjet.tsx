@@ -9,10 +9,9 @@ type EtapesProjetProps = {
   project: { id: string };
   user: Request['user'];
   projectEventList: ProjectEventListDTO;
-  now: number;
 };
 
-export const EtapesProjet = ({ user, projectEventList, now, project }: EtapesProjetProps) => (
+export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetProps) => (
   <Section
     title="Étapes du projet"
     icon={CalendarIcon}
@@ -21,7 +20,6 @@ export const EtapesProjet = ({ user, projectEventList, now, project }: EtapesPro
     <Timeline
       {...{
         projectEventList,
-        now,
       }}
     />
     {userIs(['admin', 'dgec-validateur', 'dreal'])(user) && <AttachFile projectId={project.id} />}

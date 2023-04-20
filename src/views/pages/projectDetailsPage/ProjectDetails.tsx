@@ -36,15 +36,9 @@ type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
-  now: number;
 };
 
-export const ProjectDetails = ({
-  request,
-  project,
-  projectEventList,
-  now,
-}: ProjectDetailsProps) => {
+export const ProjectDetails = ({ request, project, projectEventList }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
 
@@ -63,7 +57,7 @@ export const ProjectDetails = ({
           <CDCInfo {...{ project, user }} />
         </Callout>
         <div className="flex flex-col lg:flex-row gap-3">
-          {projectEventList && <EtapesProjet {...{ project, user, projectEventList, now }} />}
+          {projectEventList && <EtapesProjet {...{ project, user, projectEventList }} />}
           <div className={`flex flex-col flex-grow gap-3`}>
             <InfoGenerales {...{ project }} />
             <Contact {...{ user, project }} />

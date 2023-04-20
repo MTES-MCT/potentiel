@@ -78,7 +78,6 @@ v1Router.get(
                 request,
                 project,
                 projectEventList,
-                now: new Date().getTime(),
               }),
             );
           },

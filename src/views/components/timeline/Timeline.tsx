@@ -51,7 +51,6 @@ import { DemandeAnnulationAbandonItem } from './components/DemandeAnnulationAban
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO;
-  now: number;
 };
 
 type ItemProps =
@@ -77,7 +76,6 @@ export const Timeline = ({
     events,
     project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
   },
-  now,
 }: TimelineProps) => {
   const garantiesFinancières = events.find(is('garanties-financières'));
 
