@@ -4,9 +4,6 @@ import {
   ProjectNotifiedDTO,
   ProjectCertificateGeneratedDTO,
   ProjectClaimedDTO,
-  ProjectDCRDueDateSetDTO,
-  ProjectDCRSubmittedDTO,
-  ProjectDCRRemovedDTO,
   ProjectNotificationDateSetDTO,
   ModificationRequestedDTO,
   ModificationRequestAcceptedDTO,
@@ -18,8 +15,6 @@ import {
   CovidDelayGrantedDTO,
   ProjectCompletionDueDateSetDTO,
   DemandeAbandonDTO,
-  DateMiseEnServiceDTO,
-  DateFileAttenteDTO,
   GarantiesFinancièresDTO,
 } from '@modules/frise';
 import { Timeline } from './Timeline';
@@ -64,11 +59,6 @@ export const adminGarantiesFinancieresDues = () => (
           date: new Date('2022-01-13').getTime(),
           statut: 'en attente',
         } as GarantiesFinancièresDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'admin',
-          date: new Date('2022-02-13').getTime(),
-        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     now={new Date().getTime()}
@@ -100,11 +90,6 @@ export const PPGarantiesFinancieresDues = () => (
           date: new Date('2022-01-13').getTime(),
           statut: 'en attente',
         } as GarantiesFinancièresDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-02-13').getTime(),
-        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     now={new Date().getTime()}
@@ -136,11 +121,6 @@ export const PPGarantiesFinancieresEnRetard = () => (
           date: new Date('2019-01-13').getTime(),
           statut: 'en attente',
         } as GarantiesFinancièresDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-02-03').getTime(),
-        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     now={new Date('2022-01-12').getTime()}
@@ -172,16 +152,12 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
           date: new Date('2019-01-13').getTime(),
           statut: 'en attente',
         } as GarantiesFinancièresDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-03').getTime(),
-        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     now={new Date('2022-02-12').getTime()}
   />
 );
+
 export const garantiesFinancieresConstituees = () => (
   <Timeline
     projectEventList={{
@@ -275,67 +251,6 @@ export const garantiesFinancieresValidées = () => (
       ],
     }}
     now={new Date().getTime()}
-  />
-);
-
-export const PPDCRSupprimée = () => (
-  <Timeline
-    projectEventList={{
-      project,
-      events: [
-        {
-          type: 'ProjectNotified',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-01').getTime(),
-        } as ProjectNotifiedDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-03').getTime(),
-        } as ProjectDCRDueDateSetDTO,
-        {
-          type: 'ProjectDCRSubmitted',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-17').getTime(),
-          file: { id: 'file-id', name: 'file-name' },
-        } as ProjectDCRSubmittedDTO,
-        {
-          type: 'ProjectDCRRemoved',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-17').getTime(),
-          removedBy: 'someone',
-        } as ProjectDCRRemovedDTO,
-      ],
-    }}
-    now={new Date('2022-01-03').getTime()}
-  />
-);
-export const PPDCRConstituée = () => (
-  <Timeline
-    projectEventList={{
-      project,
-      events: [
-        {
-          type: 'ProjectNotified',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-01').getTime(),
-        } as ProjectNotifiedDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-03').getTime(),
-        } as ProjectDCRDueDateSetDTO,
-        {
-          type: 'ProjectDCRSubmitted',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-17').getTime(),
-          fileId: 'file-id',
-          filename: 'file-name',
-          submittedBy: 'someone',
-        } as ProjectDCRSubmittedDTO,
-      ],
-    }}
-    now={new Date('2022-01-03').getTime()}
   />
 );
 
@@ -613,6 +528,7 @@ export const RecoursRejectedForPP = () => (
     now={new Date().getTime()}
   />
 );
+
 export const DelayRequestedForDreal = () => (
   <Timeline
     projectEventList={{
@@ -760,11 +676,6 @@ export const drealGarantiesFinancieresNotUploaded = () => (
           variant: 'dreal',
           date: new Date('2022-01-12').getTime(),
         } as ProjectNotifiedDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'dreal',
-          date: new Date('2022-02-13').getTime(),
-        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     now={new Date().getTime()}
@@ -790,11 +701,6 @@ export const PPGarantiesFinancieresNotUploaded = () => (
           email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-02-13').getTime(),
-        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     now={new Date().getTime()}
@@ -811,11 +717,6 @@ export const drealGarantiesFinancieresUploaded = () => (
           variant: 'dreal',
           date: new Date('2022-01-12').getTime(),
         } as ProjectNotifiedDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'dreal',
-          date: new Date('2022-02-13').getTime(),
-        } as ProjectDCRDueDateSetDTO,
         {
           type: 'garanties-financières',
           variant: 'dreal',
@@ -849,11 +750,6 @@ export const PPGarantiesFinancieresUploaded = () => (
           email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-02-13').getTime(),
-        } as ProjectDCRDueDateSetDTO,
         {
           type: 'garanties-financières',
           variant: 'porteur-projet',
@@ -1066,11 +962,6 @@ export const AdminDélaiCovid = () => (
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'admin',
-          date: new Date('2022-02-13').getTime(),
-        } as ProjectDCRDueDateSetDTO,
-        {
           type: 'CovidDelayGranted',
           variant: 'admin',
           date: new Date('2022-02-13').getTime(),
@@ -1217,33 +1108,6 @@ export const AbandonRejetéForPP = () => (
           statut: 'rejetée',
           demandeUrl: 'demandeUrl',
         } as DemandeAbandonDTO,
-      ],
-    }}
-    now={new Date().getTime()}
-  />
-);
-
-export const DateMESEtFA = () => (
-  <Timeline
-    projectEventList={{
-      project,
-      events: [
-        {
-          type: 'ProjectNotified',
-          variant: 'porteur-projet',
-          date: new Date('2019-01-12').getTime(),
-        } as ProjectNotifiedDTO,
-        {
-          type: 'DateMiseEnService',
-          variant: 'porteur-projet',
-          statut: 'renseignée',
-          date: new Date('2019-01-13').getTime(),
-        } as DateMiseEnServiceDTO,
-        {
-          type: 'DateFileAttente',
-          variant: 'porteur-projet',
-          date: new Date('2019-01-13').getTime(),
-        } as DateFileAttenteDTO,
       ],
     }}
     now={new Date().getTime()}
