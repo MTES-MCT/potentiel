@@ -41,51 +41,72 @@ export const ListeDossiersRaccordement = ({
   gestionnaireRéseau,
   dossiers,
   success,
-}: ListeDossiersRaccordementProps) => {
-  return (
-    <PageProjetTemplate
-      titre={
-        <>
-          <PlugIcon className="mr-1" />
-          Raccordement
-        </>
-      }
-      user={user}
-      résuméProjet={résuméProjet}
-    >
-      {success && <SuccessBox>{success}</SuccessBox>}
+}: ListeDossiersRaccordementProps) => (
+  <PageProjetTemplate
+    titre={
+      <>
+        <PlugIcon className="mr-1" />
+        Raccordement
+      </>
+    }
+    user={user}
+    résuméProjet={résuméProjet}
+  >
+    {success && <SuccessBox>{success}</SuccessBox>}
 
-      <div className="my-2 md:my-4">
-        {dossiers.length === 1 ? (
-          <Dossier identifiantProjet={identifiantProjet} dossier={dossiers[0]} />
-        ) : (
-          <ListeDossiers identifiantProjet={identifiantProjet} dossiers={dossiers} />
-        )}
-      </div>
+    <div className="my-2 md:my-4">
+      {dossiers.length === 1 ? (
+        <Dossier dossier={dossiers[0]} />
+      ) : (
+        <ListeDossiers identifiantProjet={identifiantProjet} dossiers={dossiers} />
+      )}
+    </div>
 
-      <InfoBox className="py-4">
-        Si le raccordement de votre projet est réalisé en plusieurs étapes, vous pouvez{' '}
-        <Link href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet)}>
-          transmettre une autre demande complète de raccordement
-        </Link>
-        .
-      </InfoBox>
-    </PageProjetTemplate>
-  );
-};
+    <InfoBox className="py-4">
+      Si le raccordement de votre projet est réalisé en plusieurs étapes, vous pouvez{' '}
+      <Link href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet)}>
+        transmettre une autre demande complète de raccordement
+      </Link>
+      .
+    </InfoBox>
+  </PageProjetTemplate>
+);
+
 hydrateOnClient(ListeDossiersRaccordement);
 
-const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadModel }> = ({
-  identifiantProjet,
-  dossier: { référence, dateQualification, propositionTechniqueEtFinancière, dateMiseEnService },
+const DossierArrow = () => (
+  <div className="flex flex-col my-3 mx-auto md:mx-3 ">
+    <RiArrowRightCircleLine className="w-12 h-12 my-auto text-blue-france-sun-base block rotate-180" />
+  </div>
+);
+
+const DossierStep: FC<{
+  done?: true;
+  titre: string;
+}> = ({ done, titre, children }) => (
+  <div
+    className={`flex flex-col p-5 border-2 border-solid max-w-xs mx-auto w-full md:max-w-none md:mx-0 md:w-1/3 ${
+      done ? 'border-success-425-base bg-green-50' : 'border-blue-france-sun-base'
+    }`}
+  >
+    <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
+      {done ? (
+        <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" />
+      ) : (
+        <ClockIcon className="w-8 h-8 md:mx-auto" />
+      )}
+      <div className="uppercase font-bold text-sm">{titre}</div>
+    </div>
+
+    {children}
+  </div>
+);
+
+const Dossier: FC<{ dossier: DossierRaccordementReadModel }> = ({
+  dossier: { référence, dateQualification },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
-    <div className="flex flex-col p-5 border-2 border-solid border-success-425-base bg-green-50 w-full md:w-1/3">
-      <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
-        <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" />
-        <div className="uppercase font-bold text-sm">Demande complète de raccordement</div>
-      </div>
-
+    <DossierStep done titre="Demande complète de raccordement">
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
           <TagIcon className="mr-1" />
@@ -102,25 +123,11 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
           </Link>
         </div>
       </div>
-    </div>
-    <div className="flex flex-col my-3 mx-auto md:mx-3">
-      <RiArrowRightCircleLine className="w-12 h-12 my-auto text-blue-france-sun-base" />
-    </div>
-    <div className="flex flex-col p-5 gap-2 md:gap-5 border border-solid border-blue-france-sun-base w-full md:w-1/3">
-      <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
-        <ClockIcon className="w-8 h-8 md:mx-auto" />
-        <div className="uppercase font-bold text-sm ">Proposition technique et financière</div>
-      </div>
-    </div>
-    <div className="flex flex-col my-3 mx-auto md:mx-3">
-      <RiArrowRightCircleLine className="w-12 h-12 my-auto text-blue-france-sun-base" />
-    </div>
-    <div className="flex flex-col p-5 gap-2 md:gap-5 border border-solid border-blue-france-sun-base w-full md:w-1/3">
-      <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
-        <ClockIcon className="w-8 h-8 md:mx-auto" />
-        <div className="uppercase font-bold text-sm">Mise en service</div>
-      </div>
-    </div>
+    </DossierStep>
+    <DossierArrow />
+    <DossierStep titre="Proposition technique et financière" />
+    <DossierArrow />
+    <DossierStep titre="Mise en service" />
   </div>
 );
 
