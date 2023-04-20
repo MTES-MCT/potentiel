@@ -1,6 +1,5 @@
 version: '3'
 
-
 services:
   db:
     image: postgres:13
@@ -25,7 +24,3 @@ services:
     container_name: potentiel_s3
     ports:
       - 9444:9000
-    # fix problem for mac 
-    # Error reference : Inaccessible host: `potentiel.localhost' at port `undefined'. This service may not be available in the `us-east-1' region.
-    environment:
-      JDBC_PARAMS: "ssl=true"
