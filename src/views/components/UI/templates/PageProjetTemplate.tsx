@@ -1,17 +1,21 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Badge, Container, PageTemplate } from '@components';
+import { Badge, Container, Heading1, PageTemplate } from '@components';
 import { RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
   résuméProjet: RésuméProjetReadModel;
-}> = ({ user, résuméProjet, children }) => (
+  titre: ReactNode;
+}> = ({ user, résuméProjet, titre, children }) => (
   <PageTemplate user={user}>
     <EntêteProjet {...résuméProjet} />
-    <Container className="px-2 py-3 md:px-0 mb-4">{children}</Container>
+    <Container className="px-2 py-3 md:px-0 mb-4">
+      <Heading1 className="mb-6">{titre}</Heading1>
+      {children}
+    </Container>
   </PageTemplate>
 );
 
