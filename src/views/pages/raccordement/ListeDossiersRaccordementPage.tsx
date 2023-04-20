@@ -12,7 +12,6 @@ import {
   SuccessIcon,
   ClockIcon,
   CalendarIcon,
-  PaperClipIcon,
   TagIcon,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
@@ -104,7 +103,8 @@ const DossierStep: FC<{
   </div>
 );
 
-const Dossier: FC<{ dossier: DossierRaccordementReadModel }> = ({
+const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadModel }> = ({
+  identifiantProjet,
   dossier: { référence, dateQualification },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
@@ -119,10 +119,12 @@ const Dossier: FC<{ dossier: DossierRaccordementReadModel }> = ({
           {formatDate(new Date(dateQualification))}
         </div>
         <div>
-          <Link className="flex items-center" href="">
-            <PaperClipIcon className="mr-1" />
+          <DownloadLink
+            className="flex items-center"
+            fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, référence)}
+          >
             Télécharger l'accusé de réception
-          </Link>
+          </DownloadLink>
         </div>
       </div>
     </DossierStep>
