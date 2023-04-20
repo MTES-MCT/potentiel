@@ -8,40 +8,41 @@ import {
   Heading2,
   Input,
   Label,
-  LegacyPageTemplate,
-  ProjectInfo,
-  ProjectProps,
+  PageProjetTemplate,
+  PlugIcon,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '@routes';
+import { RésuméProjetReadModel } from '@potentiel/domain';
 
 type TransmettreDateMiseEnServiceProps = {
+  identifiantProjet: string;
   user: UtilisateurReadModel;
-  projet: ProjectProps;
+  résuméProjet: RésuméProjetReadModel;
   reference: string;
   error?: string;
 };
 
 export const TransmettreDateMiseEnService = ({
   user,
-  projet,
   reference,
   error,
+  résuméProjet,
+  identifiantProjet,
 }: TransmettreDateMiseEnServiceProps) => {
   return (
-    <LegacyPageTemplate user={user} currentPage="list-projects">
-      <div className="panel">
-        <div className="panel__header">
-          <Heading1>Transmettre une date de mise en service</Heading1>
-        </div>
+    <PageProjetTemplate user={user} résuméProjet={résuméProjet}>
+      <Heading1>
+        <PlugIcon className="mr-1" />
+        Raccordement
+      </Heading1>
+      <div className="flex flex-col md:flex-row gap-4">
         <form
-          className="flex gap-3 flex-col"
+          className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
-          action={routes.POST_TRANSMETTRE_DATE_MISE_EN_SERVICE(projet.id, reference)}
+          action={routes.POST_TRANSMETTRE_DATE_MISE_EN_SERVICE(identifiantProjet, reference)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
-          <Heading2>Concernant le projet</Heading2>
-          <ProjectInfo project={projet} className="mb-3" />
           <Heading2>Transmettre la date de mise en service</Heading2>
           <div>
             <Label htmlFor="dateMiseEnService">Date de mise en service (champ obligatoire)</Label>
@@ -52,7 +53,7 @@ export const TransmettreDateMiseEnService = ({
           </Button>
         </form>
       </div>
-    </LegacyPageTemplate>
+    </PageProjetTemplate>
   );
 };
 hydrateOnClient(TransmettreDateMiseEnService);

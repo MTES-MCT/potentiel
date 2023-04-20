@@ -1,4 +1,4 @@
-import { PermissionTransmettreDateMiseEnService } from '@potentiel/domain';
+import { PermissionTransmettreDateMiseEnService, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -40,8 +40,11 @@ v1Router.get(
           'departementProjet',
           'periodeId',
           'familleId',
-          'notifiedOn',
           'appelOffreId',
+          'numeroCRE',
+          'notifiedOn',
+          'abandonedOn',
+          'classe',
         ],
       });
 
@@ -53,10 +56,39 @@ v1Router.get(
         });
       }
 
+      const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
+        if (!projet.notifiedOn) {
+          return 'non-notifié';
+        }
+        if (projet.abandonedOn !== 0) {
+          return 'abandonné';
+        }
+        if (projet.classe === 'Classé') {
+          return 'classé';
+        }
+
+        return 'éliminé';
+      };
+
       return response.send(
         TransmettreDateMiseEnServicePage({
           user,
-          projet,
+          identifiantProjet: projet.id,
+          résuméProjet: {
+            type: 'résumé-projet',
+            identifiantProjet: projet.id,
+            appelOffre: projet.appelOffreId,
+            période: projet.periodeId,
+            famille: projet.familleId,
+            numéroCRE: projet.numeroCRE,
+            statut: getStatutProjet(),
+            nom: projet.nomProjet,
+            localité: {
+              commune: projet.communeProjet,
+              département: projet.departementProjet,
+              région: projet.regionProjet,
+            },
+          },
           reference,
           error: error as string,
         }),
