@@ -88,7 +88,7 @@ const Etape: FC<{
   titre: string;
 }> = ({ statut, titre, children }) => (
   <div
-    className={`flex flex-col p-5 border-2 border-solid max-w-xs mx-auto w-full md:max-w-none md:mx-0 md:w-1/3 ${
+    className={`flex flex-col p-5 border-2 border-solid w-full md:max-w-none md:mx-0 md:w-1/3 ${
       statut === 'faite' ? 'border-success-425-base bg-green-50' : 'border-blue-france-sun-base'
     }`}
   >
