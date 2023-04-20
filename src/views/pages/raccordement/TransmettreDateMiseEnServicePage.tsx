@@ -3,6 +3,7 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   Button,
+  Callout,
   ErrorBox,
   Heading2,
   Input,
@@ -52,23 +53,25 @@ export const TransmettreDateMiseEnService = ({
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2 className="mb-0">Transmettre la date de mise en service</Heading2>
 
-          <ul className="list-none p-0">
-            <li className="mt-0 mb-3">
-              Référence du dossier de raccordement : <span className="font-bold">{reference}</span>
-            </li>
-            {dateMiseEnServiceActuelle && (
-              <li className="mt-0 mb-3">
-                Date de mise en service actuelle :{' '}
-                <span className="font-bold">
-                  {afficherDate(new Date(dateMiseEnServiceActuelle))}
-                </span>
+          <Callout className="text-sm my-4 px-3 pt-1 pb-0">
+            <ul className="list-none p-0">
+              <li className="my-0">
+                Référence du dossier de raccordement :{' '}
+                <span className="font-bold">{reference}</span>
               </li>
-            )}
-          </ul>
+              {dateMiseEnServiceActuelle && (
+                <li className="my-0">
+                  Date de mise en service actuelle :{' '}
+                  <span className="font-bold">
+                    {afficherDate(new Date(dateMiseEnServiceActuelle))}
+                  </span>
+                </li>
+              )}
+            </ul>
+          </Callout>
+
           <div>
-            <Label htmlFor="dateMiseEnService">
-              Renseignez la date de mise en service (champ obligatoire) :
-            </Label>
+            <Label htmlFor="dateMiseEnService">Date de mise en service (champ obligatoire)</Label>
             <Input type="date" id="dateMiseEnService" name="dateMiseEnService" required />
           </div>
 

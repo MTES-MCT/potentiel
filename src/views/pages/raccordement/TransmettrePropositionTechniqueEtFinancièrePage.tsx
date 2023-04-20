@@ -3,6 +3,7 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   Button,
+  Callout,
   ErrorBox,
   Heading2,
   InfoBox,
@@ -57,17 +58,20 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2 className="mb-0">Transmettre la proposition technique et financière</Heading2>
 
-          <ul className="list-none p-0">
-            <li className="mt-0 mb-3">
-              Référence du dossier de raccordement : <span className="font-bold">{reference}</span>
-            </li>
-            {dateSignatureActuelle && (
-              <li className="mt-0 mb-3">
-                Date de signature de la proposition technique et financière actuelle :{' '}
-                <span className="font-bold">{afficherDate(new Date(dateSignatureActuelle))}</span>
+          <Callout className="text-sm my-4 px-3 pt-1 pb-0">
+            <ul className="list-none p-0">
+              <li className="my-0">
+                Référence du dossier de raccordement :{' '}
+                <span className="font-bold">{reference}</span>
               </li>
-            )}
-          </ul>
+              {dateSignatureActuelle && (
+                <li className="my-0">
+                  Date de signature de la proposition technique et financière actuelle :{' '}
+                  <span className="font-bold">{afficherDate(new Date(dateSignatureActuelle))}</span>
+                </li>
+              )}
+            </ul>
+          </Callout>
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
