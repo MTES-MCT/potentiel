@@ -11,6 +11,9 @@ import {
   InfoBox,
   SuccessIcon,
   ClockIcon,
+  CalendarIcon,
+  PaperClipIcon,
+  TagIcon,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -83,9 +86,21 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
         <div className="uppercase font-bold text-sm">Demande complète de raccordement</div>
       </div>
 
-      <div className="flex flex-col uppercase text-sm gap-2">
-        <div>Dossier {référence}</div>
-        <div>Date {formatDate(new Date(dateQualification))}</div>
+      <div className="flex flex-col text-sm gap-2">
+        <div className="flex items-center">
+          <TagIcon className="mr-1" />
+          <span className="font-bold">{référence}</span>
+        </div>
+        <div className="flex items-center">
+          <CalendarIcon className="mr-1" />
+          {formatDate(new Date(dateQualification))}
+        </div>
+        <div>
+          <Link className="flex items-center" href="">
+            <PaperClipIcon className="mr-1" />
+            Télécharger l'accusé de réception
+          </Link>
+        </div>
       </div>
     </div>
     <div className="flex flex-col my-3 mx-auto md:mx-3">
