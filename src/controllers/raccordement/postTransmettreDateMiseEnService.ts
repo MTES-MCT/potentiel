@@ -80,8 +80,10 @@ v1Router.post(
         });
 
         return response.redirect(
-          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId), {
+          routes.SUCCESS_OR_ERROR_PAGE({
             success: 'La date de mise en service a bien été enregistrée',
+            redirectUrl: routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId),
+            redirectTitle: 'Retourner sur la page raccordement',
           }),
         );
       } catch (error) {
