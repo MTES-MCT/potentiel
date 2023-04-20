@@ -1,7 +1,16 @@
 import React, { FC, ReactNode } from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Badge, Container, Heading1, PageTemplate } from '@components';
+import {
+  Badge,
+  BadgeType,
+  Container,
+  Heading1,
+  KeyIcon,
+  Link,
+  MapPinIcon,
+  PageTemplate,
+} from '@components';
 import { RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
 
@@ -34,55 +43,47 @@ const EntêteProjet: FC<RésuméProjetReadModel> = ({
       <div className="w-full py-3 lg:flex justify-between gap-2 px-4">
         <div className="mb-3">
           <div className="flex justify-start items-center">
-            <a
+            <Link
               href={routes.PROJECT_DETAILS(identifiantProjet)}
-              className="no-underline text-3xl font-bold"
-              style={{ color: 'white' }}
+              className="no-underline text-3xl font-bold text-white"
+              style={{ color: 'white', textDecoration: 'none' }}
             >
               {nom}
-            </a>
+            </Link>
             <StatutProjet statut={statut} />
           </div>
-          <p className="text-sm font-medium p-0 m-0">
-            {localité.commune}, {localité.département}, {localité.région}
-          </p>
-          <div className="text-sm">
+          <div className="text-xs italic">
+            <KeyIcon className="mr-1" />
             {appelOffre}-{période}
             {famille && `-${famille}`}-{numéroCRE}
           </div>
+          <p className="text-sm font-medium p-0 m-0 mt-2">
+            <MapPinIcon className="mr-1" />
+            {localité.commune}, {localité.département}, {localité.région}
+          </p>
         </div>
       </div>
     </Container>
   </section>
 );
 
-const StatutProjet: FC<{
-  statut: RésuméProjetReadModel['statut'];
-}> = ({ statut }) => {
+const getBadgeType = (statut: RésuméProjetReadModel['statut']): BadgeType => {
   switch (statut) {
     case 'abandonné':
-      return (
-        <Badge type="warning" className="ml-2 self-center">
-          Abandonné
-        </Badge>
-      );
+      return 'warning';
     case 'classé':
-      return (
-        <Badge type="success" className="ml-2 self-center">
-          Classé
-        </Badge>
-      );
+      return 'success';
     case 'éliminé':
-      return (
-        <Badge type="error" className="ml-2 self-center">
-          Éliminé
-        </Badge>
-      );
+      return 'error';
     case 'non-notifié':
-      return (
-        <Badge type="info" className="ml-2 self-center">
-          Non-notifié
-        </Badge>
-      );
+      return 'info';
   }
 };
+
+const StatutProjet: FC<{
+  statut: RésuméProjetReadModel['statut'];
+}> = ({ statut }) => (
+  <Badge type={getBadgeType(statut)} className="ml-2 self-center">
+    {statut}
+  </Badge>
+);
