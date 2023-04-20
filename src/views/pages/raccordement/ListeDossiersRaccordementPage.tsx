@@ -46,7 +46,7 @@ export const ListeDossiersRaccordement = ({
     titre={
       <>
         <PlugIcon className="mr-1" />
-        Raccordement
+        Raccordement ({gestionnaireRéseau.raisonSociale})
       </>
     }
     user={user}
@@ -56,7 +56,7 @@ export const ListeDossiersRaccordement = ({
 
     <div className="my-2 md:my-4">
       {dossiers.length === 1 ? (
-        <Dossier dossier={dossiers[0]} />
+        <Dossier identifiantProjet={identifiantProjet} dossier={dossiers[0]} />
       ) : (
         <ListeDossiers identifiantProjet={identifiantProjet} dossiers={dossiers} />
       )}
@@ -84,16 +84,16 @@ const Separateur = () => {
 };
 
 const Etape: FC<{
-  done?: true;
+  statut: 'faite' | 'en-attente';
   titre: string;
-}> = ({ done, titre, children }) => (
+}> = ({ statut, titre, children }) => (
   <div
     className={`flex flex-col p-5 border-2 border-solid max-w-xs mx-auto w-full md:max-w-none md:mx-0 md:w-1/3 ${
-      done ? 'border-success-425-base bg-green-50' : 'border-blue-france-sun-base'
+      statut === 'faite' ? 'border-success-425-base bg-green-50' : 'border-blue-france-sun-base'
     }`}
   >
     <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
-      {done ? (
+      {statut === 'faite' ? (
         <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" />
       ) : (
         <ClockIcon className="w-8 h-8 md:mx-auto" />
@@ -107,10 +107,10 @@ const Etape: FC<{
 
 const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadModel }> = ({
   identifiantProjet,
-  dossier: { référence, dateQualification },
+  dossier: { référence, dateQualification, propositionTechniqueEtFinancière },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
-    <Etape done titre="Demande complète de raccordement">
+    <Etape statut="faite" titre="Demande complète de raccordement">
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
           <TagIcon className="mr-1" />
@@ -131,9 +131,42 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
       </div>
     </Etape>
     <Separateur />
-    <Etape titre="Proposition technique et financière" />
+    <Etape
+      titre="Proposition technique et financière"
+      statut={propositionTechniqueEtFinancière ? 'faite' : 'en-attente'}
+    >
+      {propositionTechniqueEtFinancière ? (
+        <div className="flex flex-col text-sm gap-2">
+          <div className="flex items-center">
+            <CalendarIcon className="mr-1" />
+            {formatDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
+          </div>
+          <div>
+            <DownloadLink
+              className="flex items-center"
+              fileUrl={routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
+                identifiantProjet,
+                référence,
+              )}
+            >
+              Télécharger
+            </DownloadLink>
+          </div>
+        </div>
+      ) : (
+        <Link
+          className="mt-4 text-center"
+          href={routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
+            identifiantProjet,
+            référence,
+          )}
+        >
+          Transmettre
+        </Link>
+      )}
+    </Etape>
     <Separateur />
-    <Etape titre="Mise en service" />
+    <Etape statut="en-attente" titre="Mise en service" />
   </div>
 );
 
