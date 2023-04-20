@@ -1,6 +1,7 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
+  consulterDossierRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -9,6 +10,11 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
+import { findProjection } from '@potentiel/pg-projections';
+
+const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
 
 const schema = yup.object({
   params: yup.object({
@@ -59,6 +65,10 @@ v1Router.get(
         });
       }
 
+      const dossierRaccordement = await consulterDossierRaccordement({
+        référence: reference,
+      });
+
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
           return 'non-notifié';
@@ -93,6 +103,8 @@ v1Router.get(
             },
           },
           reference,
+          dateSignatureActuelle:
+            dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature,
           error: error as string,
         }),
       );
