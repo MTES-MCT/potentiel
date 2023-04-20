@@ -53,7 +53,11 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
           )}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
-          <Heading2>Transmettre la proposition technique et financière</Heading2>
+          <Heading2 className="mb-0">Transmettre la proposition technique et financière</Heading2>
+
+          <p className="mt-0 mb-3">
+            Référence du dossier de raccordement : <span className="font-bold">{reference}</span>
+          </p>
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 

@@ -48,8 +48,11 @@ export const TransmettreDateMiseEnService = ({
           action={routes.POST_TRANSMETTRE_DATE_MISE_EN_SERVICE(identifiantProjet, reference)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
-          <Heading2>Transmettre la date de mise en service</Heading2>
+          <Heading2 className="mb-0">Transmettre la date de mise en service</Heading2>
 
+          <p className="mt-0 mb-3">
+            Référence du dossier de raccordement : <span className="font-bold">{reference}</span>
+          </p>
           <div>
             <Label htmlFor="dateMiseEnService">Date de mise en service (champ obligatoire)</Label>
             <Input type="date" id="dateMiseEnService" name="dateMiseEnService" required />
