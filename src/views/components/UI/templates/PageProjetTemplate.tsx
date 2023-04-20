@@ -12,7 +12,7 @@ export const PageProjetTemplate: FC<{
 }> = ({ user, résuméProjet, titre, children }) => (
   <PageTemplate user={user}>
     <EntêteProjet {...résuméProjet} />
-    <Container className="px-2 py-3 md:px-0 mb-4">
+    <Container className="px-4 py-3 mb-4">
       <Heading1 className="mb-6">{titre}</Heading1>
       {children}
     </Container>
@@ -29,9 +29,9 @@ const EntêteProjet: FC<RésuméProjetReadModel> = ({
   nom,
   localité,
 }) => (
-  <section className="bg-blue-france-sun-base text-white px-2 md:px-0 py-6 mb-3">
-    <Container>
-      <div className="w-full py-3 lg:flex justify-between gap-2">
+  <section className="bg-blue-france-sun-base text-white py-6 mb-3">
+    <Container className="xl:mx-auto xl:max-w-7xl">
+      <div className="w-full py-3 lg:flex justify-between gap-2 px-4">
         <div className="mb-3">
           <div className="flex justify-start items-center">
             <a
