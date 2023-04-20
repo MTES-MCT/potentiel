@@ -1,4 +1,8 @@
-import { PermissionTransmettreDateMiseEnService, RésuméProjetReadModel } from '@potentiel/domain';
+import {
+  PermissionTransmettreDateMiseEnService,
+  RésuméProjetReadModel,
+  consulterDossierRaccordementQueryHandlerFactory,
+} from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -6,6 +10,11 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettreDateMiseEnServicePage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
+import { findProjection } from '@potentiel/pg-projections';
+
+const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
 
 const schema = yup.object({
   params: yup.object({
@@ -56,6 +65,8 @@ v1Router.get(
         });
       }
 
+      const dossierRaccordement = await consulterDossierRaccordement({ référence: reference });
+
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
           return 'non-notifié';
@@ -90,6 +101,7 @@ v1Router.get(
             },
           },
           reference,
+          dateMiseEnServiceActuelle: dossierRaccordement?.dateMiseEnService,
           error: error as string,
         }),
       );

@@ -11,7 +11,7 @@ import {
   PageProjetTemplate,
   PlugIcon,
 } from '@components';
-import { hydrateOnClient } from '../../helpers';
+import { afficherDate, hydrateOnClient } from '../../helpers';
 import routes from '@routes';
 import { RésuméProjetReadModel } from '@potentiel/domain';
 
@@ -21,6 +21,7 @@ type TransmettreDateMiseEnServiceProps = {
   résuméProjet: RésuméProjetReadModel;
   reference: string;
   error?: string;
+  dateMiseEnServiceActuelle?: string;
 };
 
 export const TransmettreDateMiseEnService = ({
@@ -29,6 +30,7 @@ export const TransmettreDateMiseEnService = ({
   error,
   résuméProjet,
   identifiantProjet,
+  dateMiseEnServiceActuelle,
 }: TransmettreDateMiseEnServiceProps) => {
   return (
     <PageProjetTemplate
@@ -50,11 +52,23 @@ export const TransmettreDateMiseEnService = ({
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2 className="mb-0">Transmettre la date de mise en service</Heading2>
 
-          <p className="mt-0 mb-3">
-            Référence du dossier de raccordement : <span className="font-bold">{reference}</span>
-          </p>
+          <ul className="list-none p-0">
+            <li className="mt-0 mb-3">
+              Référence du dossier de raccordement : <span className="font-bold">{reference}</span>
+            </li>
+            {dateMiseEnServiceActuelle && (
+              <li className="mt-0 mb-3">
+                Date de mise en service actuelle :{' '}
+                <span className="font-bold">
+                  {afficherDate(new Date(dateMiseEnServiceActuelle))}
+                </span>
+              </li>
+            )}
+          </ul>
           <div>
-            <Label htmlFor="dateMiseEnService">Date de mise en service (champ obligatoire)</Label>
+            <Label htmlFor="dateMiseEnService">
+              Renseignez la date de mise en service (champ obligatoire) :
+            </Label>
             <Input type="date" id="dateMiseEnService" name="dateMiseEnService" required />
           </div>
 
