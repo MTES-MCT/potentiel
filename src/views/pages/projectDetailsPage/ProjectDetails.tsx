@@ -63,11 +63,20 @@ export const ProjectDetails = ({ request, project, projectEventList }: ProjectDe
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
 
-            <Section title="Raccordement" icon={PlugIcon}>
-              <LinkButton href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>
-                Voir
-              </LinkButton>
-            </Section>
+            {userIs([
+              'admin',
+              'dgec-validateur',
+              'porteur-projet',
+              'dreal',
+              'acheteur-obligé',
+              'cre',
+            ])(user) && (
+              <Section title="Raccordement" icon={PlugIcon}>
+                <LinkButton href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>
+                  Voir
+                </LinkButton>
+              </Section>
+            )}
 
             {project.notesInnovation && (
               <ResultatsAppelOffreInnovation
