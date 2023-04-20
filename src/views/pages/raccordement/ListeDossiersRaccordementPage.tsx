@@ -77,28 +77,34 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
   dossier: { référence, dateQualification, propositionTechniqueEtFinancière, dateMiseEnService },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
-    <div className="flex flex-col p-5 border-2 border-solid border-success-425-base bg-green-50">
-      <SuccessIcon className="w-8 h-8 mx-auto mb-3 text-success-425-base" />
-      <div className="uppercase font-bold text-sm mb-5">Demande complète de raccordement</div>
+    <div className="flex flex-col p-5 border-2 border-solid border-success-425-base bg-green-50 w-full md:w-1/3">
+      <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
+        <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" />
+        <div className="uppercase font-bold text-sm">Demande complète de raccordement</div>
+      </div>
 
       <div className="flex flex-col uppercase text-sm gap-2">
         <div>Dossier {référence}</div>
         <div>Date {formatDate(new Date(dateQualification))}</div>
       </div>
     </div>
-    <div className="flex flex-col mx-3">
+    <div className="flex flex-col my-3 mx-auto md:mx-3">
       <RiArrowRightCircleLine className="w-12 h-12 my-auto text-blue-france-sun-base" />
     </div>
-    <div className="flex flex-col p-5 gap-2 md:gap-5 border border-solid border-blue-france-sun-base">
-      <ClockIcon className="w-6 h-6 mx-auto mb-3" />
-      <div className="uppercase font-bold text-sm mb-5">Proposition technique et financière</div>
+    <div className="flex flex-col p-5 gap-2 md:gap-5 border border-solid border-blue-france-sun-base w-full md:w-1/3">
+      <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
+        <ClockIcon className="w-8 h-8 md:mx-auto" />
+        <div className="uppercase font-bold text-sm ">Proposition technique et financière</div>
+      </div>
     </div>
-    <div className="flex flex-col mx-3">
+    <div className="flex flex-col my-3 mx-auto md:mx-3">
       <RiArrowRightCircleLine className="w-12 h-12 my-auto text-blue-france-sun-base" />
     </div>
-    <div className="flex flex-col p-5 gap-2 md:gap-5 border border-solid border-blue-france-sun-base">
-      <ClockIcon className="w-6 h-6 mx-auto mb-3" />
-      <div className="uppercase font-bold text-sm mb-5">Mise en service</div>
+    <div className="flex flex-col p-5 gap-2 md:gap-5 border border-solid border-blue-france-sun-base w-full md:w-1/3">
+      <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
+        <ClockIcon className="w-8 h-8 md:mx-auto" />
+        <div className="uppercase font-bold text-sm">Mise en service</div>
+      </div>
     </div>
   </div>
 );
