@@ -61,7 +61,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
 
   return (
     <PageProjetTemplate user={user} résuméProjet={résuméProjet}>
-      <Heading1>
+      <Heading1 className="mb-6">
         <PlugIcon className="mr-1" />
         Raccordement
       </Heading1>

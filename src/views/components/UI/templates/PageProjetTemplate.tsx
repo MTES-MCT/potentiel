@@ -11,7 +11,7 @@ export const PageProjetTemplate: FC<{
 }> = ({ user, résuméProjet, children }) => (
   <PageTemplate user={user}>
     <EntêteProjet {...résuméProjet} />
-    <Container className="px-2 py-3 md:px-0">{children}</Container>
+    <Container className="px-2 py-3 md:px-0 mb-4">{children}</Container>
   </PageTemplate>
 );
 
@@ -30,15 +30,13 @@ const EntêteProjet: FC<RésuméProjetReadModel> = ({
       <div className="w-full py-3 lg:flex justify-between gap-2">
         <div className="mb-3">
           <div className="flex justify-start items-center">
-            <h1 className="mb-0 pb-0 text-white">
-              <a
-                href={routes.PROJECT_DETAILS(identifiantProjet)}
-                className="no-underline"
-                style={{ color: 'white' }}
-              >
-                {nom}
-              </a>
-            </h1>
+            <a
+              href={routes.PROJECT_DETAILS(identifiantProjet)}
+              className="no-underline text-3xl font-bold"
+              style={{ color: 'white' }}
+            >
+              {nom}
+            </a>
             <StatutProjet statut={statut} />
           </div>
           <p className="text-sm font-medium p-0 m-0">
