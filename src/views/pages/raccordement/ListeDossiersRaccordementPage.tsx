@@ -13,6 +13,8 @@ import {
   ClockIcon,
   CalendarIcon,
   TagIcon,
+  ArrowDownWithCircle,
+  ArrowRightWithCircle,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -21,7 +23,6 @@ import {
   RésuméProjetReadModel,
 } from '@potentiel/domain';
 import routes from '@routes';
-import { RiArrowRightCircleLine } from '@react-icons/all-files/ri/RiArrowRightCircleLine';
 import { formatDate } from '../../../helpers/formatDate';
 
 type ListeDossiersRaccordementProps = {
@@ -73,15 +74,16 @@ export const ListeDossiersRaccordement = ({
 
 hydrateOnClient(ListeDossiersRaccordement);
 
-const DossierArrow = () => {
+const Separateur = () => {
   return (
     <div className="flex flex-col my-3 mx-auto md:mx-3">
-      <RiArrowRightCircleLine className="w-12 h-12 my-auto text-blue-france-sun-base block raccordement-dossier-arrow" />
+      <ArrowRightWithCircle className="w-12 h-12 my-auto text-blue-france-sun-base hidden md:block" />
+      <ArrowDownWithCircle className="w-12 h-12 my-auto text-blue-france-sun-base block md:hidden" />
     </div>
   );
 };
 
-const DossierStep: FC<{
+const Etape: FC<{
   done?: true;
   titre: string;
 }> = ({ done, titre, children }) => (
@@ -108,7 +110,7 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
   dossier: { référence, dateQualification },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
-    <DossierStep done titre="Demande complète de raccordement">
+    <Etape done titre="Demande complète de raccordement">
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
           <TagIcon className="mr-1" />
@@ -127,11 +129,11 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
           </DownloadLink>
         </div>
       </div>
-    </DossierStep>
-    <DossierArrow />
-    <DossierStep titre="Proposition technique et financière" />
-    <DossierArrow />
-    <DossierStep titre="Mise en service" />
+    </Etape>
+    <Separateur />
+    <Etape titre="Proposition technique et financière" />
+    <Separateur />
+    <Etape titre="Mise en service" />
   </div>
 );
 
