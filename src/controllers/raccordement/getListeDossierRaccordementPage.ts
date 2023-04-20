@@ -5,6 +5,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   PermissionConsulterDossierRaccordement,
+  RésuméProjetReadModel,
   consulterDossierRaccordementQueryHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
@@ -49,7 +50,21 @@ v1Router.get(
       } = request;
 
       const projet = await Project.findByPk(projetId, {
-        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE', 'nomProjet'],
+        attributes: [
+          'id',
+          'nomProjet',
+          'nomCandidat',
+          'communeProjet',
+          'regionProjet',
+          'departementProjet',
+          'periodeId',
+          'familleId',
+          'appelOffreId',
+          'numeroCRE',
+          'notifiedOn',
+          'abandonedOn',
+          'classe',
+        ],
       });
 
       if (!projet) {
@@ -72,6 +87,20 @@ v1Router.get(
       });
 
       if (références.length > 0) {
+        const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
+          if (!projet.notifiedOn) {
+            return 'non-notifié';
+          }
+          if (projet.abandonedOn !== 0) {
+            return 'abandonné';
+          }
+          if (projet.classe === 'Classé') {
+            return 'classé';
+          }
+
+          return 'éliminé';
+        };
+
         const dossiers = await Promise.all(
           références.map((référence) => consulterDossierRaccordement({ référence })),
         );
@@ -86,11 +115,25 @@ v1Router.get(
 
         return response.send(
           ListeDossiersRaccordementPage({
-            dossiers,
             user,
-            projetId,
-            nomProjet: projet.nomProjet,
+            identifiantProjet: projetId,
+            résuméProjet: {
+              type: 'résumé-projet',
+              identifiantProjet: projet.id,
+              appelOffre: projet.appelOffreId,
+              période: projet.periodeId,
+              famille: projet.familleId,
+              numéroCRE: projet.numeroCRE,
+              statut: getStatutProjet(),
+              nom: projet.nomProjet,
+              localité: {
+                commune: projet.communeProjet,
+                département: projet.departementProjet,
+                région: projet.regionProjet,
+              },
+            },
             gestionnaireRéseau,
+            dossiers,
             success: success as string,
           }),
         );
