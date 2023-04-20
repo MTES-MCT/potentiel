@@ -74,11 +74,13 @@ export const ListeDossiersRaccordement = ({
 
 hydrateOnClient(ListeDossiersRaccordement);
 
-const DossierArrow = () => (
-  <div className="flex flex-col my-3 mx-auto md:mx-3 ">
-    <RiArrowRightCircleLine className="w-12 h-12 my-auto text-blue-france-sun-base block rotate-180" />
-  </div>
-);
+const DossierArrow = () => {
+  return (
+    <div className="flex flex-col my-3 mx-auto md:mx-3">
+      <RiArrowRightCircleLine className="w-12 h-12 my-auto text-blue-france-sun-base block raccordement-dossier-arrow" />
+    </div>
+  );
+};
 
 const DossierStep: FC<{
   done?: true;

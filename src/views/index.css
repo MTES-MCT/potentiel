@@ -397,3 +397,11 @@ pre {
 #menu-toggle:checked ~ label .menu-open {
   display: none;
 }
+
+.raccordement-dossier-arrow {
+  transform: rotate(90deg);
+
+  @media screen and (min-width: theme('screens.md')) {
+    transform: rotate(0);
+  }
+}
