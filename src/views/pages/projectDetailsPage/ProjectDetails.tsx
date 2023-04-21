@@ -59,10 +59,14 @@ export const ProjectDetails = ({
 
         {
           <DisplayDCRAlertInfos dcrDueOn={project.dcrDueOn} now={now}>
-            L'accusé de réception de la demande complète de raccordement doit être transmis dans
-            Potentiel avant le {afficherDate(project.dcrDueOn)}.
-            <br />
-            <Link>Transmettre une demande complète de raccordement (accusé de réception)</Link>
+            <div className="p-2">
+              L'accusé de réception de la demande complète de raccordement doit être transmis dans
+              Potentiel avant le {afficherDate(project.dcrDueOn)}.
+              <br />
+              <Link href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(project.id)}>
+                Transmettre une demande complète de raccordement (accusé de réception)
+              </Link>
+            </div>
           </DisplayDCRAlertInfos>
         }
 
