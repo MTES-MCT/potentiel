@@ -1,7 +1,7 @@
 import { ProjectEventListDTO } from '@modules/frise';
 import { ProjectDataForProjectPage } from '@modules/project/queries';
 import { Request } from 'express';
-import React from 'react';
+import React, { FC } from 'react';
 import { userIs } from '@modules/users';
 import {
   Callout,
@@ -33,9 +33,15 @@ type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
+  now: number;
 };
 
-export const ProjectDetails = ({ request, project, projectEventList }: ProjectDetailsProps) => {
+export const ProjectDetails = ({
+  request,
+  project,
+  projectEventList,
+  now,
+}: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
 
@@ -50,14 +56,16 @@ export const ProjectDetails = ({ request, project, projectEventList }: ProjectDe
             {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
           />
         )}
+
         {
-          <AlertBox>
+          <DisplayDCRAlertInfos dcrDueOn={project.dcrDueOn} now={now}>
             L'accusé de réception de la demande complète de raccordement doit être transmis dans
             Potentiel avant le {afficherDate(project.dcrDueOn)}.
             <br />
             <Link>Transmettre une demande complète de raccordement (accusé de réception)</Link>
-          </AlertBox>
+          </DisplayDCRAlertInfos>
         }
+
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
@@ -179,5 +187,11 @@ const AlerteAnnulationAbandonPossible = ({
     )}
   </>
 );
+
+const DisplayDCRAlertInfos: FC<{
+  dcrDueOn: ProjectDataForProjectPage['dcrDueOn'];
+  now: number;
+}> = ({ dcrDueOn, now, children }) =>
+  now > dcrDueOn ? <ErrorBox>{children}</ErrorBox> : <AlertBox>{children}</AlertBox>;
 
 hydrateOnClient(ProjectDetails);
