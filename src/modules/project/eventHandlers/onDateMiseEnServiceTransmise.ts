@@ -17,7 +17,7 @@ export const makeOnDateMiseEnServiceTransmise =
   async ({ payload }: DateMiseEnServiceTransmiseEvent) => {
     const { identifiantProjet, dateMiseEnService } = payload;
     console.log(identifiantProjet);
-    const [appelOffre, famille = '', période, numéroCRE] = identifiantProjet.split('#');
+    const [appelOffre, période, famille = '', numéroCRE] = identifiantProjet.split('#');
 
     const projet = await ProjectModel.findOne({
       where: {
@@ -28,6 +28,8 @@ export const makeOnDateMiseEnServiceTransmise =
       },
       attributes: ['id'],
     });
+
+    console.log(projet);
 
     if (!projet) {
       return;

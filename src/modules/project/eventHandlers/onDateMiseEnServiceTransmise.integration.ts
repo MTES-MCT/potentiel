@@ -2,18 +2,23 @@ import { okAsync } from '@core/utils';
 import { InfraNotAvailableError } from '@modules/shared';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 
-
 import { makeOnDateMiseEnServiceTransmise } from './onDateMiseEnServiceTransmise';
 import { DomainEvent } from '@core/domain';
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
 import { Project } from '../Project';
 import { DateMiseEnServiceTransmiseEvent } from 'packages/domain/src/raccordement/transmettreDateMiseEnService/dateMiseEnServiceTransmise.event';
+import { resetDatabase } from '@infra/sequelize/helpers';
+import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
 
 describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null),
   );
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(async () => {
+    await publishToEventStore.mockClear();
+    await resetDatabase();
+    await ProjectModel.create({});
+  });
 
   const dateAchèvementInitiale = new Date('2024-01-01').getTime();
 
@@ -269,6 +274,9 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
         completionDueOn: dateAchèvementInitiale,
         délaiCDC2022Appliqué: false,
+        numeroCRE: '001',
+        appelOffreId: 'Eolien',
+        periodeId: '1',
       };
       const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
@@ -278,16 +286,16 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         getProjectAppelOffre,
       });
 
-      const événementMeSRenseignée: DateMiseEnServiceTransmiseEvent = {
+      const événementDateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
         type: 'DateMiseEnServiceTransmise',
         payload: {
           dateMiseEnService: new Date('01/01/2023').toISOString(),
           référenceDossierRaccordement: '',
-          identifiantProjet: 'Eolien#1#001',
+          identifiantProjet: 'Eolien#1##001',
         },
       };
 
-      await onDateMiseEnServiceTransmise(événementMeSRenseignée);
+      await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
 
       expect(publishToEventStore).toHaveBeenCalledTimes(1);
       const évènement = publishToEventStore.mock.calls[0][0];
