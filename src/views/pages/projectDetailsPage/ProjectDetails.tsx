@@ -14,9 +14,6 @@ import {
   Button,
   InfoBox,
   Heading2,
-  Section,
-  PlugIcon,
-  LinkButton,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import {
@@ -59,24 +56,9 @@ export const ProjectDetails = ({ request, project, projectEventList }: ProjectDe
         <div className="flex flex-col lg:flex-row gap-3">
           {projectEventList && <EtapesProjet {...{ project, user, projectEventList }} />}
           <div className={`flex flex-col flex-grow gap-3`}>
-            <InfoGenerales {...{ project }} />
+            <InfoGenerales {...{ project, role: user.role }} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
-
-            {userIs([
-              'admin',
-              'dgec-validateur',
-              'porteur-projet',
-              'dreal',
-              'acheteur-obligé',
-              'cre',
-            ])(user) && (
-              <Section title="Raccordement" icon={PlugIcon}>
-                <LinkButton href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>
-                  Voir
-                </LinkButton>
-              </Section>
-            )}
 
             {project.notesInnovation && (
               <ResultatsAppelOffreInnovation

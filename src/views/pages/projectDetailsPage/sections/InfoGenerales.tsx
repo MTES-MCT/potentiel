@@ -2,12 +2,14 @@ import React from 'react';
 import { ProjectDataForProjectPage } from '@modules/project';
 import { BuildingIcon, Heading3, Link, Section } from '@components';
 import routes from '@routes';
+import { UserRole } from '@modules/users';
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
+  role: UserRole;
 };
 
-export const InfoGenerales = ({ project }: InfoGeneralesProps) => (
+export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
   <Section title="Informations générales" icon={BuildingIcon} className="flex gap-4 flex-col">
     <div>
       <Heading3 className="mb-0">Performances</Heading3>
@@ -25,11 +27,15 @@ export const InfoGenerales = ({ project }: InfoGeneralesProps) => (
         {project.departementProjet}, {project.regionProjet}
       </p>
     </div>
-    <div className="mb-3">
-      <Heading3 className="mb-0">Raccordement au réseau</Heading3>
-      <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>
-        Mettre à jour ou consulter les données de raccordement
-      </Link>
-    </div>
+    {['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
+      role,
+    ) && (
+      <div className="mb-3">
+        <Heading3 className="mb-0">Raccordement au réseau</Heading3>
+        <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>
+          Mettre à jour ou consulter les données de raccordement
+        </Link>
+      </div>
+    )}
   </Section>
 );
