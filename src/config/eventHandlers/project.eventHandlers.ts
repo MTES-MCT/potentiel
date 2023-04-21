@@ -11,7 +11,7 @@ import {
   handlePeriodeNotified,
   handleProjectCertificateObsolete,
   handleProjectRawDataImported,
-  makeOnDonnéesDeRaccordementRenseignées,
+  makeOnDateMiseEnServiceTransmise,
   makeOnDélaiAccordé,
   PeriodeNotified,
   ProjectCertificateObsolete,
@@ -94,7 +94,7 @@ const onAbandonAccordé = async (event: DomainEvent) => {
 };
 subscribeToRedis(onAbandonAccordé, 'Project.onAbandonAccordé');
 
-const onDonnéesDeRaccordementRenseignéesHandler = makeOnDonnéesDeRaccordementRenseignées({
+const onDonnéesDeRaccordementRenseignéesHandler = makeOnDateMiseEnServiceTransmise({
   projectRepo,
   publishToEventStore: eventStore.publish,
   getProjectAppelOffre,

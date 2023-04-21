@@ -1,8 +1,9 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
 import { logger, okAsync } from '@core/utils';
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { DonnéesDeRaccordementRenseignées, ProjectCompletionDueDateSet } from '../events';
+import { ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
+import { DateMiseEnServiceTransmiseEvent } from '@potentiel/domain';
 
 type Dépendances = {
   projectRepo: TransactionalRepository<Project>;
@@ -10,10 +11,10 @@ type Dépendances = {
   getProjectAppelOffre: GetProjectAppelOffre;
 };
 
-export const makeOnDonnéesDeRaccordementRenseignées =
+export const makeOnDateMiseEnServiceTransmise =
   ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
-  ({ payload }: DonnéesDeRaccordementRenseignées) => {
-    const { projetId } = payload;
+  ({ payload }: DateMiseEnServiceTransmiseEvent) => {
+    const { identifiantProjet } = payload;
     if (!('dateMiseEnService' in payload)) {
       return okAsync(null);
     }

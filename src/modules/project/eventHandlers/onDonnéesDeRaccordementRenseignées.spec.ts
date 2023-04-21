@@ -5,12 +5,13 @@ import {
   DonnéesDeRaccordementRenseignées,
   DonnéesDeRaccordementRenseignéesdPayload,
 } from '../events';
-import { makeOnDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées';
+import { makeOnDateMiseEnServiceTransmise } from './onDonnéesDeRaccordementRenseignées';
 import { DomainEvent } from '@core/domain';
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
 import { Project } from '../Project';
+import { DateMiseEnServiceTransmiseEvent } from 'packages/domain/src/raccordement/transmettreDateMiseEnService/dateMiseEnServiceTransmise.event';
 
-describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
+describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null),
   );
@@ -24,26 +25,6 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
   const fakeProject = makeFakeProject();
 
   const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-
-  describe(`Données de raccordement sans date de mise en service`, () => {
-    it(`Lorsqu'un événement DonnéesDeRaccordementRenseignées est émis sans date de mise en service, 
-    alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
-      const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
-        projectRepo,
-        publishToEventStore,
-        getProjectAppelOffre: jest.fn(),
-      });
-
-      const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-        payload: {
-          projetId: fakeProject.id.toString(),
-        } as DonnéesDeRaccordementRenseignéesdPayload,
-      });
-
-      await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
-      expect(publishToEventStore).not.toHaveBeenCalled();
-    });
-  });
 
   describe(`Projets ne pouvant pas bénéficier du délai de 18 mois`, () => {
     describe(`Dates hors limites`, () => {
@@ -70,7 +51,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           );
           it(`Etant donné un projet PV ${type} dont la date de mise en service est supérieure au 31 décembre 2024
       alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
-            const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
+            const onDonnéesDeRaccordementRenseignées = makeOnDateMiseEnServiceTransmise({
               projectRepo,
               publishToEventStore,
               getProjectAppelOffre,
@@ -89,7 +70,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
           it(`Etant donné un projet PV ${type} dont la date de mise en service est inférieure au 1er septembre 2022,
       alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
-            const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
+            const onDonnéesDeRaccordementRenseignées = makeOnDateMiseEnServiceTransmise({
               projectRepo,
               publishToEventStore,
               getProjectAppelOffre,
@@ -129,7 +110,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
         );
         it(`Etant donné un projet éolien dont la date de mise en service est antérieure au 1er juin 2022
       alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
-          const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
+          const onDonnéesDeRaccordementRenseignées = makeOnDateMiseEnServiceTransmise({
             projectRepo,
             publishToEventStore,
             getProjectAppelOffre,
@@ -148,7 +129,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
         it(`Etant donné un projet éolien dont la date de mise en service est postérieure au 30 septembre 2024
       alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
-          const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
+          const onDonnéesDeRaccordementRenseignées = makeOnDateMiseEnServiceTransmise({
             projectRepo,
             publishToEventStore,
             getProjectAppelOffre,
@@ -196,7 +177,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           cahierDesCharges: { type: 'modifié', paruLe: '30/07/2022' },
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-        const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
+        const onDonnéesDeRaccordementRenseignées = makeOnDateMiseEnServiceTransmise({
           projectRepo,
           publishToEventStore,
           getProjectAppelOffre,
@@ -243,7 +224,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           délaiCDC2022appliqué: true,
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-        const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
+        const onDonnéesDeRaccordementRenseignées = makeOnDateMiseEnServiceTransmise({
           projectRepo,
           publishToEventStore,
           getProjectAppelOffre,
@@ -293,20 +274,22 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
       };
       const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-      const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
+      const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
         projectRepo,
         publishToEventStore,
         getProjectAppelOffre,
       });
 
-      const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
+      const événementMeSRenseignée: DateMiseEnServiceTransmiseEvent = {
+        type: 'DateMiseEnServiceTransmise',
         payload: {
-          projetId: fakeProject.id.toString(),
-          dateMiseEnService: new Date('01/01/2023'),
-        } as DonnéesDeRaccordementRenseignéesdPayload,
-      });
+          dateMiseEnService: new Date('01/01/2023').toISOString(),
+          référenceDossierRaccordement: '',
+          identifiantProjet: fakeProject.id.toString(),
+        },
+      };
 
-      await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
+      await onDateMiseEnServiceTransmise(événementMeSRenseignée);
 
       expect(publishToEventStore).toHaveBeenCalledTimes(1);
       const évènement = publishToEventStore.mock.calls[0][0];
