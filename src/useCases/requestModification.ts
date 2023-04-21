@@ -3,7 +3,7 @@ import { ok, wrapInfra, err, errAsync } from '@core/utils';
 import { User, formatCahierDesChargesRéférence } from '@entities';
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
 import { ModificationRequested } from '@modules/modificationRequest';
-import { NumeroGestionnaireSubmitted, Project } from '@modules/project';
+import { Project } from '@modules/project';
 import { userIsNot } from '@modules/users';
 import { UnauthorizedError } from '@modules/shared';
 
@@ -21,7 +21,6 @@ interface RequestCommon {
     filename: string;
   };
   projectId: string;
-  numeroGestionnaire?: string;
 }
 
 interface AbandonRequest {
@@ -42,7 +41,7 @@ export default function makeRequestModification({
   shouldUserAccessProject,
   projectRepo,
 }: MakeUseCaseProps) {
-  return ({ user, projectId, file, type, justification, numeroGestionnaire }: CallUseCaseProps) => {
+  return ({ user, projectId, file, type, justification }: CallUseCaseProps) => {
     if (userIsNot('porteur-projet')(user)) return errAsync(new UnauthorizedError());
 
     return wrapInfra(
@@ -72,31 +71,20 @@ export default function makeRequestModification({
       })
       .andThen((fileId) =>
         projectRepo.load(new UniqueEntityID(projectId)).andThen((project) =>
-          eventBus
-            .publish(
-              new ModificationRequested({
-                payload: {
-                  type,
-                  modificationRequestId: new UniqueEntityID().toString(),
-                  projectId,
-                  requestedBy: user.id,
-                  ...(fileId ? { fileId } : {}),
-                  justification,
-                  authority: 'dgec',
-                  cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
-                },
-              }),
-            )
-            .andThen(() => {
-              if (numeroGestionnaire) {
-                return eventBus.publish(
-                  new NumeroGestionnaireSubmitted({
-                    payload: { projectId, submittedBy: user.id, numeroGestionnaire },
-                  }),
-                );
-              }
-              return ok(null);
+          eventBus.publish(
+            new ModificationRequested({
+              payload: {
+                type,
+                modificationRequestId: new UniqueEntityID().toString(),
+                projectId,
+                requestedBy: user.id,
+                ...(fileId ? { fileId } : {}),
+                justification,
+                authority: 'dgec',
+                cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
+              },
             }),
+          ),
         ),
       );
   };

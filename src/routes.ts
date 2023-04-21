@@ -299,15 +299,6 @@ class routes {
 
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project';
 
-  static DEPOSER_ETAPE_ACTION = '/deposer-etape';
-  static SUPPRIMER_ETAPE_ACTION = (args?: { projectId: string; type: string }) => {
-    const route = '/projet/:projectId/supprimer/:type';
-    if (args) {
-      const { type, projectId } = args;
-      return route.replace(':projectId', projectId).replace(':type', type);
-    } else return route;
-  };
-
   /* CRE4 GF */
   static REMOVE_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
     const route = '/projet/:projectId/annuler-depot/garanties-financieres';
@@ -398,14 +389,6 @@ class routes {
 
   static IMPORT_DONNEES_RACCORDEMENT = '/admin/import-donnees-raccordement.html';
   static POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT = '/admin/demarrer-import-donnees-raccordement';
-
-  static GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU = (projetId?: Project['id']) => {
-    const route = '/projet/:projetId/modifier-identifiant-gestionnaire-reseau.html';
-    if (projetId) {
-      return route.replace(':projetId', projetId);
-    } else return route;
-  };
-  static POST_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU = '/modifier-identifant-gestionnaire-reseau';
 
   static GET_LISTE_DOSSIERS_RACCORDEMENT = (projetId?: string) => {
     const route = '/projet/:projetId/raccordements';

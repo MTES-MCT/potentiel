@@ -61,7 +61,6 @@ export const adminGarantiesFinancieresDues = () => (
         } as GarantiesFinancièresDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -92,7 +91,6 @@ export const PPGarantiesFinancieresDues = () => (
         } as GarantiesFinancièresDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -123,7 +121,6 @@ export const PPGarantiesFinancieresEnRetard = () => (
         } as GarantiesFinancièresDTO,
       ],
     }}
-    now={new Date('2022-01-12').getTime()}
   />
 );
 
@@ -154,7 +151,6 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
         } as GarantiesFinancièresDTO,
       ],
     }}
-    now={new Date('2022-02-12').getTime()}
   />
 );
 
@@ -202,7 +198,6 @@ export const garantiesFinancieresConstituees = () => (
         } as GarantiesFinancièresDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -250,7 +245,6 @@ export const garantiesFinancieresValidées = () => (
         } as GarantiesFinancièresDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -267,7 +261,6 @@ export const projetHistorique = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -283,7 +276,6 @@ export const PPAttestationEnCoursDeGeneration = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -299,7 +291,6 @@ export const AdminAttestationEnCoursDeGeneration = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -315,7 +306,6 @@ export const projetEliminé = () => (
         } as ProjectImportedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -336,7 +326,6 @@ export const RecoursAccepte = () => (
         } as ProjectNotificationDateSetDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -371,7 +360,6 @@ export const PuissanceRequestedForPP = () => (
         } as ModificationRequestedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -405,7 +393,6 @@ export const DelayRequestedForPP = () => (
         } as ModificationRequestedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -445,7 +432,6 @@ export const DelayRequestedInstructionStartedForPP = () => (
         },
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -485,7 +471,6 @@ export const DelayAcceptedForPP = () => (
         } as ModificationRequestAcceptedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -525,7 +510,6 @@ export const RecoursRejectedForPP = () => (
         } as ModificationRequestRejectedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -550,7 +534,6 @@ export const DelayRequestedForDreal = () => (
         } as ModificationRequestedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -581,7 +564,6 @@ export const DelayRequestedInstructionStartedForDreal = () => (
         },
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -605,7 +587,6 @@ export const RecoursRequestedForADMIN = () => (
         } as ModificationRequestedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -662,7 +643,6 @@ export const PPModificationReceived = () => (
         } as ModificationReceivedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -678,7 +658,6 @@ export const drealGarantiesFinancieresNotUploaded = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -703,7 +682,6 @@ export const PPGarantiesFinancieresNotUploaded = () => (
         } as ProjectCertificateGeneratedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -727,7 +705,6 @@ export const drealGarantiesFinancieresUploaded = () => (
         } as GarantiesFinancièresDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -760,7 +737,6 @@ export const PPGarantiesFinancieresUploaded = () => (
         } as GarantiesFinancièresDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -836,7 +812,6 @@ export const LegacyModificationsAndDelayRequestForPP = () => (
         } as ModificationRequestAcceptedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -869,7 +844,6 @@ export const LegacyRecoursRejectedForPP = () => (
         } as LegacyModificationImportedDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -933,7 +907,6 @@ export const AdminFichierAttache = () => (
         },
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -973,7 +946,6 @@ export const AdminDélaiCovid = () => (
         } as ProjectCompletionDueDateSetDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -1010,7 +982,6 @@ export const DemandeDelaiSignaléAcceptée = () => (
         },
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -1045,7 +1016,6 @@ export const DemandeDelaiSignaléRefusée = () => (
         },
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -1078,7 +1048,6 @@ export const AbandonDemandéForAdmin = () => (
         } as DemandeAbandonDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );
 
@@ -1110,6 +1079,5 @@ export const AbandonRejetéForPP = () => (
         } as DemandeAbandonDTO,
       ],
     }}
-    now={new Date().getTime()}
   />
 );

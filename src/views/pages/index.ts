@@ -15,7 +15,6 @@ export * from './importDonneesRaccordementPage';
 export * from './inviterDgecValidateurPage';
 export * from './modificationRequestListPage';
 export * from './modificationRequestPage';
-export * from './modifierIdentifiantGestionnaireReseauPage';
 export * from './newModificationRequestPage';
 export * from './partnersListPage';
 export * from './projectDetailsPage';

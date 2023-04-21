@@ -6,7 +6,6 @@ import {
   Project,
   ModificationRequest,
   User as UserModel,
-  Raccordements,
   UserProjects,
   File,
 } from '@infra/sequelize/projectionsNext';
@@ -28,11 +27,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           model: File,
           as: 'certificateFile',
           attributes: ['id', 'filename'],
-        },
-        {
-          model: Raccordements,
-          as: 'raccordements',
-          attributes: ['identifiantGestionnaire'],
         },
         {
           model: UserProjects,
@@ -164,7 +158,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           potentielIdentifier,
           contratEDF,
           contratEnedis,
-          raccordements,
           dcrDueOn,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
@@ -221,31 +214,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             prixReference,
             ...(notifiedOn && { certificateFile }),
           }),
-          ...(userIs([
-            'admin',
-            'porteur-projet',
-            'dreal',
-            'acheteur-obligé',
-            'ademe',
-            'dgec-validateur',
-            'cre',
-          ])(user) && { fournisseur, evaluationCarbone }),
-          ...(userIs([
-            'admin',
-            'porteur-projet',
-            'dreal',
-            'acheteur-obligé',
-            'dgec-validateur',
-            'cre',
-          ])(user) &&
-            raccordements &&
-            raccordements.identifiantGestionnaire && {
-              gestionnaireDeRéseau: {
-                identifiantGestionnaire: raccordements.identifiantGestionnaire,
-                codeEICGestionnaireRéseau: raccordements.gestionnaireRéseau?.codeEIC,
-                raisonSocialeGestionnaireRéseau: raccordements.gestionnaireRéseau?.raisonSociale,
-              },
-            }),
         }),
     )
     .andThen((dto) =>

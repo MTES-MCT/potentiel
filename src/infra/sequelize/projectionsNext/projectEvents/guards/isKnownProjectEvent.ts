@@ -4,7 +4,6 @@ import {
   CovidDelayGrantedEvent,
   ProjectCertificateEvents,
   ProjectClaimedEvent,
-  ProjectDCREvents,
   ProjectImportedEvent,
   ProjectNotificationDateSetEvent,
   ProjectNotifiedEvent,
@@ -31,7 +30,6 @@ export type KnownProjectEvents =
   | ProjectNotificationDateSetEvent
   | CovidDelayGrantedEvent
   | ProjectCertificateEvents
-  | ProjectDCREvents
   | ModificationRequestEvents
   | FileAttachedToProjectEvent
   | LegacyModificationFileAttachedEvent
@@ -68,9 +66,6 @@ export const isKnownProjectEvent = or(
   is('ProjectCertificateGenerated'),
   is('ProjectCertificateRegenerated'),
   is('ProjectCertificateUpdated'),
-  is('ProjectDCRSubmitted'),
-  is('ProjectDCRRemoved'),
-  is('ProjectDCRDueDateSet'),
   is('ModificationRequested'),
   is('ModificationRequestAccepted'),
   is('ModificationRequestRejected'),

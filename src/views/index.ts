@@ -43,7 +43,6 @@ import {
   DéclarationAccessibilité,
   InviterDgecValidateur,
   AcheteurObligeStatistiques,
-  ModifierIdentifiantGestionnaireReseau,
   CreStatistiques,
   ListeGestionnairesRéseau,
   ConsulterGestionnaireRéseau,
@@ -375,15 +374,6 @@ export const InviterDgecValidateurPage = (props: Parameters<typeof InviterDgecVa
     Component: InviterDgecValidateur,
     props,
     title: 'Inviter un utilisateur DGEC validateur',
-  });
-
-export const ModifierIdentifiantGestionnaireReseauPage = (
-  props: Parameters<typeof ModifierIdentifiantGestionnaireReseau>[0],
-) =>
-  makeHtml({
-    Component: ModifierIdentifiantGestionnaireReseau,
-    props,
-    title: "Modifier l'identifiant du dossier de raccordement",
   });
 
 export const ListeGestionnairesRéseauPage = (

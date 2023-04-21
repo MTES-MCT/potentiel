@@ -7,7 +7,6 @@ import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
 import { CahierDesChargesInitial } from './CahierDesChargesInitial';
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible';
 import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable';
-import { GestionnaireRéseauFormInputs } from '@views/pages/modifierIdentifiantGestionnaireReseauPage';
 
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage;
@@ -85,26 +84,6 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
               >
                 <div className="flex-column">
                   <CahierDesChargesModifiéDisponible {...cahierDesChargesModifié} />
-
-                  {sélectionné &&
-                    cahierDesChargesModifié.numéroGestionnaireRequis &&
-                    (idCdc === cahierDesChargesActuel ? (
-                      <p>
-                        Identifiant du dossier de raccordement pour votre projet :{' '}
-                        {identifiantGestionnaireRéseau}
-                      </p>
-                    ) : (
-                      <div>
-                        <p className="my-2">
-                          Pour récupérer votre date de mise en service et ainsi pouvoir bénéficier
-                          des avantages de ce cahier des charges, vous devez renseigner
-                          l'identifiant du dossier de raccordement de votre projet :
-                        </p>
-                        <GestionnaireRéseauFormInputs
-                          identifiantGestionnaireRéseauActuel={projet.identifiantGestionnaireRéseau}
-                        />
-                      </div>
-                    ))}
                 </div>
               </CahierDesChargesSelectionnable>
             </li>

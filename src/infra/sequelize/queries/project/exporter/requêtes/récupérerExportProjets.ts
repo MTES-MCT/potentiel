@@ -4,7 +4,7 @@ import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Colonne, isNotPropriétéDeLaColonneDétail, isPropriétéDeLaColonneDétail } from '../Colonne';
 import { Literal } from 'sequelize/types/utils';
-import { Project, Raccordements, UserProjects } from '@infra/sequelize/projectionsNext';
+import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { Op } from 'sequelize';
 
 export const récupérerExportProjets = ({
@@ -40,11 +40,6 @@ export const récupérerExportProjets = ({
         {
           model: GarantiesFinancières,
           as: 'garantiesFinancières',
-          attributes: [],
-        },
-        {
-          model: Raccordements,
-          as: 'raccordements',
           attributes: [],
         },
         ...(seulementLesProjetsAvecAccèsPour

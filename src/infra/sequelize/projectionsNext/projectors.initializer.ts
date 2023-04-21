@@ -5,7 +5,6 @@ import { ProjectEventProjector } from './projectEvents/projectEvent.projector';
 import { TâchesProjector } from './tâches/tâches.projector';
 import { ModificationRequestProjector } from './modificationRequest/modificationRequest.projector';
 import { ProjectProjector } from './project/project.projector';
-import { RaccordementsProjector } from './raccordements/raccordements.projector';
 import { UserProjector } from './users/user.projector';
 import { UserProjectsProjector } from './userProjects/userProjects.projector';
 import { UserProjectClaimsProjector } from './userProjectClaims/userProjectClaims.projector';
@@ -21,7 +20,6 @@ export const initializeProjectors = (sequelize: Sequelize, subscribe: Subscribe)
     TâchesProjector,
     ModificationRequestProjector,
     ProjectProjector,
-    RaccordementsProjector,
     UserProjector,
     UserProjectsProjector,
     UserProjectClaimsProjector,

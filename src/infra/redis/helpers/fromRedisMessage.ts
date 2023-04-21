@@ -14,7 +14,6 @@ import * as DemandeDélaiEvents from '@modules/demandeModification/demandeDélai
 import * as DemandeAbandonEvents from '@modules/demandeModification/demandeAbandon/events';
 import * as DemandeAnnulationAbandonEvents from '@modules/demandeModification/demandeAnnulationAbandon/events';
 import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events';
-import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events';
 import * as UtilisateurEvents from '@modules/utilisateur/events';
 import { RedisMessage } from './RedisMessage';
 
@@ -49,7 +48,6 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeAbandonEvents,
   ...DemandeAnnulationAbandonEvents,
   ...DemandeChangementDePuissanceEvents,
-  ...ImportDonnéesRaccordementEvents,
   ...UtilisateurEvents,
 };
 

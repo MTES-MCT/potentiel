@@ -14,10 +14,6 @@ import {
   initializeProjectModelModelAssociations,
 } from './project/project.initializer';
 import { initializeProjectEventModel } from './projectEvents/projectEvent.initializer';
-import {
-  initializeRaccordementsModel,
-  initializeRaccordementsModelAssociations,
-} from './raccordements/raccordements.initializer';
 import { initializeTâchesModel } from './tâches/tâches.initializer';
 import {
   initializeUserDrealModel,
@@ -41,7 +37,6 @@ export const initializeModels = (sequelize: Sequelize) => {
   initializeNotificationModel(sequelize);
   initializeProjectModel(sequelize);
   initializeProjectEventModel(sequelize);
-  initializeRaccordementsModel(sequelize);
   initializeTâchesModel(sequelize);
   initializeUserDrealModel(sequelize);
   initializeUserProjectClaimsModel(sequelize);
@@ -52,7 +47,6 @@ export const initializeModels = (sequelize: Sequelize) => {
   initializeGarantiesFinancièresModelAssociations();
   initializeModificationRequestModelAssociations();
   initializeProjectModelModelAssociations();
-  initializeRaccordementsModelAssociations();
   initializeUserDrealModelAssociations();
   initializeUserProjectClaimsModelAssociations();
   initializeUserProjectsModelAssociations();

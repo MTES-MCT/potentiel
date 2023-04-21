@@ -9,11 +9,9 @@ import {
   ProjectImportedDTO,
   ProjectNotifiedDTO,
   ProjectCertificateGeneratedDTO,
-  ProjectDCRDueDateSetDTO,
   ProjectCompletionDueDateSetDTO,
   ProjectEventListDTO,
   GarantiesFinancièresDTO,
-  PtfDTO,
 } from '@modules/frise';
 
 export default { title: 'Project page' };
@@ -56,11 +54,6 @@ const projectEventList: ProjectEventListDTO = {
       date: new Date('2022-01-13').getTime(),
       statut: 'en attente',
     } as GarantiesFinancièresDTO,
-    {
-      type: 'ProjectDCRDueDateSet',
-      variant: 'admin',
-      date: new Date('2022-02-13').getTime(),
-    } as ProjectDCRDueDateSetDTO,
   ],
 };
 
@@ -137,7 +130,6 @@ const fakeProjectData = {
 
 export const forAdminsLaureat = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     project={
       {
@@ -151,7 +143,6 @@ export const forAdminsLaureat = () => (
 
 export const forAdminsElimine = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     project={
       {
@@ -165,7 +156,6 @@ export const forAdminsElimine = () => (
 
 export const forAdminsNonNotifié = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     project={
       {
@@ -180,7 +170,6 @@ export const forAdminsNonNotifié = () => (
 
 export const forAdminsAbandonné = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     project={
       {
@@ -196,7 +185,6 @@ export const forAdminsAbandonné = () => (
 export const forPorteurProjet = () => (
   <ProjectDetails
     projectEventList={projectEventList}
-    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -212,7 +200,6 @@ export const forPorteurProjet = () => (
 export const forPorteurProjetElimine = () => (
   <ProjectDetails
     projectEventList={projectEventList}
-    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -227,7 +214,6 @@ export const forPorteurProjetElimine = () => (
 
 export const forPorteurProjetWithGarantiesFinancieres = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -241,37 +227,8 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
   />
 );
 
-export const forPorteurProjetWithPTF = () => (
-  <ProjectDetails
-    now={new Date().getTime()}
-    request={makeFakeRequest({
-      user: makeFakeUser({ role: 'porteur-projet' }),
-    })}
-    project={
-      {
-        ...fakeProjectData,
-        isClasse: true,
-      } as ProjectDataForProjectPage
-    }
-    projectEventList={{
-      ...projectEventList,
-      events: [
-        ...projectEventList.events,
-        {
-          type: 'proposition-technique-et-financière',
-          variant: 'porteur-projet',
-          date: new Date('2022-02-13').getTime(),
-          statut: 'envoyée',
-          url: 'file-url',
-        } as PtfDTO,
-      ],
-    }}
-  />
-);
-
 export const forPorteurProjetWithSuccess = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
       query: { success: 'Une invitation a bien été envoyée' },
@@ -283,7 +240,6 @@ export const forPorteurProjetWithSuccess = () => (
 
 export const forDrealGFPassDue = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'dreal' }),
     })}
@@ -299,7 +255,6 @@ export const forDrealGFPassDue = () => (
 
 export const forDrealGFStillDue = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'dreal' }),
     })}
@@ -323,7 +278,6 @@ if (appelOffreInnovation) {
 
 export const forAOInnovation = () => (
   <ProjectDetails
-    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}

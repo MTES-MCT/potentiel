@@ -13,10 +13,8 @@ import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDe
 import { AppelOffreRepo } from '@dataAccess';
 import {
   CahierDesChargesNonDisponibleError,
-  IdentifiantGestionnaireRéseauObligatoireError,
   PasDeChangementDeCDCPourCetAOError,
   CahierDesChargesInitialNonDisponibleError,
-  IdentifiantGestionnaireRéseauExistantError,
 } from '../errors';
 
 type Commande = {
@@ -35,8 +33,6 @@ type ChoisirCahierDesCharges = (
   | CahierDesChargesInitialNonDisponibleError
   | PasDeChangementDeCDCPourCetAOError
   | CahierDesChargesNonDisponibleError
-  | IdentifiantGestionnaireRéseauObligatoireError
-  | IdentifiantGestionnaireRéseauExistantError
 >;
 
 type MakeChoisirCahierDesCharges = (dépendances: {
@@ -135,30 +131,6 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
     return okAsync(arg);
   };
 
-  const vérifierIdentifiantGestionnaireRéseau = (arg: {
-    commande: Commande;
-    projet: Project;
-    appelOffre: AppelOffre;
-    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' };
-  }) => {
-    const { commande, projet, cahierDesChargesChoisi } = arg;
-    const { cahierDesCharges } = commande;
-
-    if (cahierDesCharges.type === 'initial') {
-      return okAsync(arg);
-    }
-
-    if (
-      cahierDesChargesChoisi.type === 'modifié' &&
-      cahierDesChargesChoisi.numéroGestionnaireRequis &&
-      !projet.identifiantGestionnaireRéseau
-    ) {
-      return errAsync(new IdentifiantGestionnaireRéseauObligatoireError());
-    }
-
-    return okAsync(arg);
-  };
-
   const enregistrerLeChoix = ({
     commande: { cahierDesCharges, projetId, utilisateur },
   }: {
@@ -191,6 +163,5 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
       .andThen(chargerCahierDesChargesChoisi)
       .andThen(vérifierSiPasDéjàSouscrit)
       .andThen(vérifierSiLInitialPeutÊtreChoisi)
-      .andThen(vérifierIdentifiantGestionnaireRéseau)
       .andThen(enregistrerLeChoix);
 };

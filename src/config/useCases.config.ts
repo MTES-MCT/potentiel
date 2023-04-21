@@ -44,18 +44,13 @@ import {
   makeImportProjects,
   makeRegenerateCertificatesForPeriode,
   makeRemoveGF,
-  makeRemoveStep,
   makeSignalerDemandeAbandon,
   makeSignalerDemandeDelai,
   makeSignalerDemandeRecours,
-  makeSubmitDCR,
   makeSubmitGF,
-  makeSubmitPTF,
   makeChoisirCahierDesCharges,
   makeUploadGF,
   makeWithdrawGF,
-  renseignerIdentifiantGestionnaireRéseauFactory,
-  makeRenseignerDonnéesDeRaccordement,
   makeValiderGF,
   makeInvaliderGF,
 } from '@modules/project';
@@ -74,14 +69,12 @@ import {
   getProjectAppelOffreId,
   getProjectDataForProjectClaim,
   getProjectIdsForPeriode,
-  getProjetsParIdentifiantGestionnaireRéseau,
   getPuissanceProjet,
   getUserByEmail,
   getUserById,
   hasDemandeDeMêmeTypeOuverte,
   hasGarantiesFinancières,
   isProjectParticipatif,
-  trouverProjetsParIdentifiantGestionnaireRéseau,
 } from './queries.config';
 import {
   demandeAbandonRepo,
@@ -94,7 +87,6 @@ import {
   projectClaimRepo,
   projectRepo,
   userRepo,
-  importRepo,
   utilisateurRepo,
   demandeAnnulationAbandonRepo,
 } from './repos.config';
@@ -104,10 +96,6 @@ import {
   makeNotifierPorteurRévocationAccèsProjet,
 } from '@modules/notification';
 
-import {
-  makeDémarrerImportDonnéesRaccordement,
-  makeMettreAJourDonnéesDeRaccordement,
-} from '@modules/imports/donnéesRaccordement';
 import { makeCréerProfilUtilisateur, makeInviterUtilisateur } from '@modules/utilisateur';
 import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/demander';
 import { getProjectAppelOffre } from './queryProjectAO.config';
@@ -164,18 +152,6 @@ export const revokeUserRightsToProject = makeRevokeRightsToProject({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 });
 
-export const submitDCR = makeSubmitDCR({
-  fileRepo,
-  projectRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
-export const submitPTF = makeSubmitPTF({
-  fileRepo,
-  projectRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
 export const submitGF = makeSubmitGF({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
@@ -191,11 +167,6 @@ export const uploadGF = makeUploadGF({
 export const addGFExpirationDate = makeAddGFExpirationDate({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
-});
-
-export const removeStep = makeRemoveStep({
-  eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 });
 
 export const removeGF = makeRemoveGF({
@@ -289,14 +260,6 @@ export const choisirCahierDesCharges = makeChoisirCahierDesCharges({
   projectRepo,
   findAppelOffreById: oldAppelOffreRepo.findById,
 });
-
-export const renseignerIdentifiantGestionnaireRéseau =
-  renseignerIdentifiantGestionnaireRéseauFactory({
-    publish: publishToEventStore,
-    shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-    projectRepo,
-    trouverProjetsParIdentifiantGestionnaireRéseau,
-  });
 
 export const importProjects = makeImportProjects({
   eventBus: eventStore,
@@ -451,22 +414,6 @@ export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangem
 
 export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévocationAccèsProjet({
   sendNotification,
-});
-
-export const démarrerImportDonnéesRaccordement = makeDémarrerImportDonnéesRaccordement({
-  importRepo,
-  publishToEventStore,
-});
-
-export const renseignerDonnéesDeRaccordement = makeRenseignerDonnéesDeRaccordement({
-  projectRepo,
-  publishToEventStore,
-});
-
-export const mettreAJourDonnéesDeRaccordement = makeMettreAJourDonnéesDeRaccordement({
-  getProjetsParIdentifiantGestionnaireRéseau,
-  publishToEventStore,
-  renseignerDonnéesDeRaccordement,
 });
 
 export const inviterUtilisateur = makeInviterUtilisateur({

@@ -1,7 +1,7 @@
 import { errAsync, ok, okAsync, wrapInfra } from '@core/utils';
 import { EntityNotFoundError } from '@modules/shared';
 import { RésuméProjetQueryHandler, RésuméProjetReadModel } from '@modules/project';
-import { Raccordements, Project } from '@infra/sequelize/projectionsNext';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 
 export const résuméProjetQueryHandler: RésuméProjetQueryHandler = (projectId) =>
@@ -19,12 +19,6 @@ export const résuméProjetQueryHandler: RésuméProjetQueryHandler = (projectId
         'regionProjet',
         'periodeId',
         'puissance',
-      ],
-      include: [
-        {
-          model: Raccordements,
-          as: 'raccordements',
-        },
       ],
     }),
   )
@@ -56,9 +50,6 @@ export const résuméProjetQueryHandler: RésuméProjetQueryHandler = (projectId
         periodeId: projet.periodeId,
         puissance: projet.puissance,
         unitePuissance: appelOffre.unitePuissance,
-        ...(projet.raccordements?.identifiantGestionnaire && {
-          identifiantGestionnaire: projet.raccordements.identifiantGestionnaire,
-        }),
       };
       return ok(projetProps);
     });

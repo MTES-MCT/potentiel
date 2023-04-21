@@ -7,7 +7,6 @@ export * from './lettreInformation';
 export * from './modificationRequest';
 export * from './notificationCandidats';
 export * from './project';
-export * from './steps';
 export * from './tableauxDeBord';
 export * from './userAccount';
 export * from './getDéclarationAccessibilitéPage';

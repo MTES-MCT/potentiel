@@ -1,9 +1,5 @@
 import { UniqueEntityID } from '@core/domain';
-import {
-  CahierDesChargesChoisi,
-  DonnéesDeRaccordementRenseignées,
-  NumeroGestionnaireSubmitted,
-} from './events';
+import { CahierDesChargesChoisi, DonnéesDeRaccordementRenseignées } from './events';
 import { makeProject } from './Project';
 
 describe(`Fabriquer l'aggregat projet`, () => {
@@ -60,26 +56,6 @@ describe(`Fabriquer l'aggregat projet`, () => {
       })._unsafeUnwrap();
 
       expect(projet.identifiantGestionnaireRéseau).toEqual('');
-    });
-
-    it(`Quand on fabrique un projet avec un évènement 'NumeroGestionnaireSubmitted'
-      Alors l'identifiant du gestionnaire de réseau du projet devrait être celui mentionné dans l'évènement`, () => {
-      const projet = makeProject({
-        projectId,
-        history: [
-          new NumeroGestionnaireSubmitted({
-            payload: {
-              projectId: projectId.toString(),
-              submittedBy: 'porteur-projet',
-              numeroGestionnaire: 'NUMERO-GESTIONNAIRE',
-            },
-          }),
-        ],
-        getProjectAppelOffre: jest.fn(),
-        buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap();
-
-      expect(projet.identifiantGestionnaireRéseau).toEqual('NUMERO-GESTIONNAIRE');
     });
   });
 
