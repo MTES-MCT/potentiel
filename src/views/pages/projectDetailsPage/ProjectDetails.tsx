@@ -15,7 +15,7 @@ import {
   InfoBox,
   Heading2,
 } from '@components';
-import { hydrateOnClient } from '../../helpers';
+import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
   EtapesProjet,
   EditProjectData,
@@ -50,6 +50,14 @@ export const ProjectDetails = ({ request, project, projectEventList }: ProjectDe
             {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
           />
         )}
+        {
+          <AlertBox>
+            L'accusé de réception de la demande complète de raccordement doit être transmis dans
+            Potentiel avant le {afficherDate(project.dcrDueOn)}.
+            <br />
+            <Link>Transmettre une demande complète de raccordement (accusé de réception)</Link>
+          </AlertBox>
+        }
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>

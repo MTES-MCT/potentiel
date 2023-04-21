@@ -165,6 +165,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEDF,
           contratEnedis,
           raccordements,
+          dcrDueOn,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
         okAsync({
@@ -197,6 +198,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           isAbandoned: abandonedOn !== 0,
           isLegacy: appelOffre.periode.type === 'legacy',
           motifsElimination,
+          dcrDueOn,
           users: users
             ?.map(({ user }) => user.get())
             .map(({ id, email, fullName }) => ({

@@ -14,6 +14,7 @@ export type GetProjectDataForProjectPage = (args: {
 }) => ResultAsync<ProjectDataForProjectPage, EntityNotFoundError | InfraNotAvailableError>;
 
 export type ProjectDataForProjectPage = {
+  dcrDueOn: number;
   alerteAnnulationAbandon?: AlerteAnnulationAbandon;
   id: string;
   potentielIdentifier: string;
