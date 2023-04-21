@@ -4,6 +4,7 @@ import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
 import { DateMiseEnServiceTransmiseEvent } from '@potentiel/domain';
+import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
 
 type Dépendances = {
   projectRepo: TransactionalRepository<Project>;
@@ -13,13 +14,27 @@ type Dépendances = {
 
 export const makeOnDateMiseEnServiceTransmise =
   ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
-  ({ payload }: DateMiseEnServiceTransmiseEvent) => {
-    const { identifiantProjet } = payload;
-    if (!('dateMiseEnService' in payload)) {
-      return okAsync(null);
+  async ({ payload }: DateMiseEnServiceTransmiseEvent) => {
+    const { identifiantProjet, dateMiseEnService } = payload;
+    console.log(identifiantProjet);
+    const [appelOffre, famille = '', période, numéroCRE] = identifiantProjet.split('#');
+
+    const projet = await ProjectModel.findOne({
+      where: {
+        appelOffreId: appelOffre,
+        periodeId: période,
+        familleId: famille,
+        numeroCRE: numéroCRE,
+      },
+      attributes: ['id'],
+    });
+
+    if (!projet) {
+      return;
     }
+
     return projectRepo.transaction(
-      new UniqueEntityID(projetId),
+      new UniqueEntityID(projet.id),
       ({
         appelOffreId,
         periodeId,
@@ -42,7 +57,7 @@ export const makeOnDateMiseEnServiceTransmise =
         });
         if (!projectAppelOffre) {
           logger.error(
-            `project eventHandler onDonnéesDeRaccordementRenseignées : AO non trouvé. Projet ${projetId}`,
+            `project eventHandler onDonnéesDeRaccordementRenseignées : AO non trouvé. Projet ${projet.id}`,
           );
           return okAsync(null);
         }
@@ -56,14 +71,14 @@ export const makeOnDateMiseEnServiceTransmise =
           );
         if (!donnéesCDC || !donnéesCDC.délaiApplicable) {
           logger.error(
-            `project eventHandler onDonnéesDeRaccordementRenseignées : données CDC modifié non trouvées. Projet ${projetId}`,
+            `project eventHandler onDonnéesDeRaccordementRenseignées : données CDC modifié non trouvées. Projet ${projet.id}`,
           );
           return okAsync(null);
         }
         if (
-          payload.dateMiseEnService.getTime() <
+          new Date(dateMiseEnService).getTime() <
             new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.min).getTime() ||
-          payload.dateMiseEnService.getTime() >
+          new Date(dateMiseEnService).getTime() >
             new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.max).getTime()
         ) {
           return okAsync(null);
@@ -77,7 +92,7 @@ export const makeOnDateMiseEnServiceTransmise =
         return publishToEventStore(
           new ProjectCompletionDueDateSet({
             payload: {
-              projectId: projetId,
+              projectId: projet.id,
               completionDueOn: nouvelleDate.getTime(),
               reason: 'délaiCdc2022',
             },
