@@ -23,7 +23,7 @@ import {
   RésuméProjetReadModel,
 } from '@potentiel/domain';
 import routes from '@routes';
-import { formatDate } from '../../../helpers/formatDate';
+import { userIs } from '@modules/users';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
@@ -56,9 +56,13 @@ export const ListeDossiersRaccordement = ({
 
     <div className="my-2 md:my-4">
       {dossiers.length === 1 ? (
-        <Dossier identifiantProjet={identifiantProjet} dossier={dossiers[0]} />
+        <Dossier user={user} identifiantProjet={identifiantProjet} dossier={dossiers[0]} />
       ) : (
-        <ListeDossiers identifiantProjet={identifiantProjet} dossiers={dossiers} />
+        dossiers.map((dossier) => (
+          <Tile key={dossier.référence} className="mb-3">
+            <Dossier user={user} identifiantProjet={identifiantProjet} dossier={dossier} />
+          </Tile>
+        ))
       )}
     </div>
 
@@ -84,19 +88,19 @@ const Separateur = () => {
 };
 
 const Etape: FC<{
-  statut: 'faite' | 'en-attente';
+  faite: boolean;
   titre: string;
-}> = ({ statut, titre, children }) => (
+}> = ({ faite, titre, children }) => (
   <div
     className={`flex flex-col p-5 border-2 border-solid w-full md:max-w-none md:mx-0 md:w-1/3 ${
-      statut === 'faite' ? 'border-success-425-base bg-green-50' : 'border-blue-france-sun-base'
+      faite ? 'border-success-425-base bg-green-50' : 'border-grey-625-base'
     }`}
   >
     <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
-      {statut === 'faite' ? (
+      {faite ? (
         <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" />
       ) : (
-        <ClockIcon className="w-8 h-8 md:mx-auto" />
+        <ClockIcon className="w-8 h-8 md:mx-auto text-grey-625-base" />
       )}
       <div className="uppercase font-bold text-sm">{titre}</div>
     </div>
@@ -105,12 +109,17 @@ const Etape: FC<{
   </div>
 );
 
-const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadModel }> = ({
+const Dossier: FC<{
+  user: UtilisateurReadModel;
+  identifiantProjet: string;
+  dossier: DossierRaccordementReadModel;
+}> = ({
+  user,
   identifiantProjet,
-  dossier: { référence, dateQualification, propositionTechniqueEtFinancière },
+  dossier: { référence, dateQualification, propositionTechniqueEtFinancière, dateMiseEnService },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
-    <Etape statut="faite" titre="Demande complète de raccordement">
+    <Etape faite={true} titre="Demande complète de raccordement">
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
           <TagIcon className="mr-1" />
@@ -118,7 +127,7 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
         </div>
         <div className="flex items-center">
           <CalendarIcon className="mr-1" />
-          {formatDate(new Date(dateQualification))}
+          {afficherDate(new Date(dateQualification))}
         </div>
         <div>
           <DownloadLink
@@ -131,15 +140,12 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
       </div>
     </Etape>
     <Separateur />
-    <Etape
-      titre="Proposition technique et financière"
-      statut={propositionTechniqueEtFinancière ? 'faite' : 'en-attente'}
-    >
+    <Etape titre="Proposition technique et financière" faite={!!propositionTechniqueEtFinancière}>
       {propositionTechniqueEtFinancière ? (
         <div className="flex flex-col text-sm gap-2">
           <div className="flex items-center">
             <CalendarIcon className="mr-1" />
-            {formatDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
+            {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
           </div>
           <div>
             <DownloadLink
@@ -166,81 +172,22 @@ const Dossier: FC<{ identifiantProjet: string; dossier: DossierRaccordementReadM
       )}
     </Etape>
     <Separateur />
-    <Etape statut="en-attente" titre="Mise en service" />
+    <Etape faite={!!dateMiseEnService} titre="Mise en service">
+      {dateMiseEnService ? (
+        <div className="flex items-center">
+          <CalendarIcon className="mr-1" />
+          {afficherDate(new Date(dateMiseEnService))}
+        </div>
+      ) : userIs(['admin'])(user) ? (
+        <Link
+          className="mt-4 text-center"
+          href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(identifiantProjet, référence)}
+        >
+          Transmettre
+        </Link>
+      ) : (
+        <p>En attente ...</p>
+      )}
+    </Etape>
   </div>
-);
-
-const ListeDossiers: FC<{
-  identifiantProjet: string;
-  dossiers: ListeDossiersRaccordementProps['dossiers'];
-}> = ({ identifiantProjet, dossiers }) => (
-  <>
-    {dossiers.map(
-      ({ référence, dateQualification, dateMiseEnService, propositionTechniqueEtFinancière }) => (
-        <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">
-          <ul className="list-none p-0">
-            <li>Référence : {référence}</li>
-            <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
-            <li>
-              <DownloadLink
-                fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, référence)}
-              >
-                Télécharger l'accusé de réception
-              </DownloadLink>
-            </li>
-            <li>
-              Date de mise en service :{' '}
-              {dateMiseEnService ? (
-                <span>{afficherDate(new Date(dateMiseEnService))}</span>
-              ) : (
-                <span className="italic">Non renseignée</span>
-              )}
-              {['admin', 'dgec-validateur'].includes(user.role) && (
-                <Link
-                  href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(
-                    identifiantProjet,
-                    référence,
-                  )}
-                  className="ml-3"
-                >
-                  Transmettre la date de mise en service
-                </Link>
-              )}
-            </li>
-            <li>
-              Date de signature de la proposition technique et financière :{' '}
-              {propositionTechniqueEtFinancière ? (
-                <>
-                  <span>
-                    {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
-                  </span>
-                  <DownloadLink
-                    fileUrl={routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
-                      identifiantProjet,
-                      référence,
-                    )}
-                  >
-                    Télécharger la proposition technique et financière signée
-                  </DownloadLink>
-                </>
-              ) : (
-                <span className="italic">Non renseignée</span>
-              )}
-              {['admin', 'dgec-validateur', 'porteur-projet'].includes(user.role) && (
-                <Link
-                  href={routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
-                    identifiantProjet,
-                    référence,
-                  )}
-                  className="ml-3"
-                >
-                  Transmettre la proposition technique et financière
-                </Link>
-              )}
-            </li>
-          </ul>
-        </Tile>
-      ),
-    )}
-  </>
 );
