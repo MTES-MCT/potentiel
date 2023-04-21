@@ -45,7 +45,7 @@ export const ListeDossiersRaccordement = ({
   <PageProjetTemplate
     titre={
       <>
-        <PlugIcon className="mr-1" />
+        <PlugIcon className="mr-1" aria-hidden />
         Raccordement ({gestionnaireRéseau.raisonSociale})
       </>
     }
@@ -67,7 +67,7 @@ export const ListeDossiersRaccordement = ({
     </div>
 
     <InfoBox className="py-4">
-      Si le raccordement de votre projet est réalisé en plusieurs étapes, vous pouvez{' '}
+      Si le raccordement comporte plusieurs points d'injection, vous pouvez{' '}
       <Link href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet)}>
         transmettre une autre demande complète de raccordement
       </Link>
@@ -81,8 +81,14 @@ hydrateOnClient(ListeDossiersRaccordement);
 const Separateur = () => {
   return (
     <div className="flex flex-col my-3 mx-auto md:mx-3">
-      <ArrowRightWithCircle className="w-12 h-12 my-auto text-blue-france-sun-base hidden md:block" />
-      <ArrowDownWithCircle className="w-12 h-12 my-auto text-blue-france-sun-base block md:hidden" />
+      <ArrowRightWithCircle
+        className="w-12 h-12 my-auto text-blue-france-sun-base hidden md:block"
+        aria-hidden
+      />
+      <ArrowDownWithCircle
+        className="w-12 h-12 my-auto text-blue-france-sun-base block md:hidden"
+        aria-hidden
+      />
     </div>
   );
 };
@@ -98,9 +104,9 @@ const Etape: FC<{
   >
     <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
       {faite ? (
-        <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" />
+        <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" title="étape validée" />
       ) : (
-        <ClockIcon className="w-8 h-8 md:mx-auto text-grey-625-base" />
+        <ClockIcon className="w-8 h-8 md:mx-auto text-grey-625-base" title="étape à venir" />
       )}
       <div className="uppercase font-bold text-sm">{titre}</div>
     </div>
@@ -122,11 +128,11 @@ const Dossier: FC<{
     <Etape faite={true} titre="Demande complète de raccordement">
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
-          <TagIcon className="mr-1" />
+          <TagIcon className="mr-1" title="référence du dossier de raccordement" />
           <span className="font-bold">{référence}</span>
         </div>
         <div className="flex items-center">
-          <CalendarIcon className="mr-1" />
+          <CalendarIcon className="mr-1" title="date de l'accusé de réception" />
           {afficherDate(new Date(dateQualification))}
         </div>
         <div>
@@ -144,7 +150,10 @@ const Dossier: FC<{
       {propositionTechniqueEtFinancière ? (
         <div className="flex flex-col text-sm gap-2">
           <div className="flex items-center">
-            <CalendarIcon className="mr-1" />
+            <CalendarIcon
+              className="mr-1"
+              title="date de signature de la proposition technique et financière"
+            />
             {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
           </div>
           <div>
@@ -175,7 +184,7 @@ const Dossier: FC<{
     <Etape faite={!!dateMiseEnService} titre="Mise en service">
       {dateMiseEnService ? (
         <div className="flex items-center">
-          <CalendarIcon className="mr-1" />
+          <CalendarIcon className="mr-1" title="date de mise en service" />
           {afficherDate(new Date(dateMiseEnService))}
         </div>
       ) : userIs(['admin'])(user) ? (
@@ -186,7 +195,7 @@ const Dossier: FC<{
           Transmettre
         </Link>
       ) : (
-        <p>En attente ...</p>
+        <p>La date de mise en service sera renseignée par la DGEC.</p>
       )}
     </Etape>
   </div>
