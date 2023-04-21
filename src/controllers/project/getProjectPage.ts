@@ -17,6 +17,12 @@ import {
 import routes from '@routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '@modules/project';
+import { listerDossiersRaccordementQueryHandlerFactory } from '@potentiel/domain';
+import { findProjection } from '@potentiel/pg-projections';
+
+const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().uuid().required() }),
@@ -47,6 +53,19 @@ v1Router.get(
           customMessage: `Votre compte ne vous permet pas d'accéder à ce projet.`,
         });
       }
+
+      const projet = await getProjectDataForProjectPage({ projectId, user });
+
+      if (!projet) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
+      const identifiantNaturel = {
+        appelOffre: projet.appelOffreId,
+        période: projet.periodeId,
+        famille: projet.familleId,
+        numéroCRE: projet.numeroCRE,
+      };
 
       await getProjectDataForProjectPage({ projectId, user })
         .andThen((project) => {
