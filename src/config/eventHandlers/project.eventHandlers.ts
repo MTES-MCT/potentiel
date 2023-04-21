@@ -6,7 +6,6 @@ import {
 } from '@modules/demandeModification';
 import { LegacyModificationImported } from '@modules/modificationRequest';
 import {
-  DonnéesDeRaccordementRenseignées,
   handleLegacyModificationImported,
   handlePeriodeNotified,
   handleProjectCertificateObsolete,
@@ -94,24 +93,23 @@ const onAbandonAccordé = async (event: DomainEvent) => {
 };
 subscribeToRedis(onAbandonAccordé, 'Project.onAbandonAccordé');
 
-const onDonnéesDeRaccordementRenseignéesHandler = makeOnDateMiseEnServiceTransmise({
+const onDateMiseEnServiceTransmiseHandler = makeOnDateMiseEnServiceTransmise({
   projectRepo,
   publishToEventStore: eventStore.publish,
   getProjectAppelOffre,
 });
 
-const onDonnéesDeRaccordementRenseignées = async (event: DomainEvent) => {
-  if (!(event instanceof DonnéesDeRaccordementRenseignées)) {
+const onDateMiseEnServiceTransmise = async (event) => {
+  if (!(event.type === 'DateMiseEnServiceTransmise')) {
     return Promise.resolve();
   }
 
-  return onDonnéesDeRaccordementRenseignéesHandler(event).match(
-    () => Promise.resolve(),
-    (e) => Promise.reject(e),
-  );
+  try {
+    return await onDateMiseEnServiceTransmiseHandler(event);
+  } catch (error) {}
 };
 
-subscribeToRedis(onDonnéesDeRaccordementRenseignées, 'Project.onDonnéesDeRaccordementRenseignées');
+subscribeToRedis(onDateMiseEnServiceTransmise, 'Project.onDonnéesDeRaccordementRenseignées');
 
 const onAnnulationAbandonAccordéeHandler = makeOnAnnulationAbandonAccordée({
   projectRepo,
