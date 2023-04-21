@@ -1,15 +1,11 @@
-import { userIs } from '@modules/users';
-import { okAsync } from '@core/utils';
 import { getProjectEvents } from '@config';
 import { getProjectDataForProjectPage } from '@config/queries.config';
 import { shouldUserAccessProject } from '@config/useCases.config';
-import { EntityNotFoundError } from '@modules/shared';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import { ProjectDetailsPage } from '@views';
 import {
   notFoundResponse,
-  errorResponse,
   unauthorizedResponse,
   miseAJourStatistiquesUtilisation,
   vérifierPermissionUtilisateur,
@@ -54,61 +50,52 @@ v1Router.get(
         });
       }
 
-      const projet = await getProjectDataForProjectPage({ projectId, user });
+      const rawProjet = await getProjectDataForProjectPage({ projectId, user });
 
-      if (!projet) {
+      if (rawProjet.isErr()) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      const identifiantNaturel = {
+      const projet = rawProjet.value;
+
+      const identifiantProjet = {
         appelOffre: projet.appelOffreId,
         période: projet.periodeId,
         famille: projet.familleId,
         numéroCRE: projet.numeroCRE,
       };
 
-      await getProjectDataForProjectPage({ projectId, user })
-        .andThen((project) => {
-          if (userIs('ademe')(user)) {
-            return okAsync({ project, projectEventList: undefined });
-          }
-          return getProjectEvents({ projectId, user }).map((projectEventList) => ({
-            project,
-            projectEventList,
-          }));
-        })
-        .match(
-          ({ project, projectEventList }) => {
-            miseAJourStatistiquesUtilisation({
-              type: 'projetConsulté',
-              données: {
-                utilisateur: { role: request.user.role },
-                projet: {
-                  appelOffreId: project.appelOffreId,
-                  periodeId: project.periodeId,
-                  ...(project.familleId && { familleId: project.familleId }),
-                  numéroCRE: project.numeroCRE,
-                },
-              },
-            });
+      const { références } = await listerDossiersRaccordement({ identifiantProjet });
+      const dossiersRaccordementExistant = références.length > 0;
 
-            return response.send(
-              ProjectDetailsPage({
-                request,
-                project,
-                projectEventList,
-                now: new Date().getTime(),
-              }),
-            );
-          },
-          (e) => {
-            if (e instanceof EntityNotFoundError) {
-              return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
-            }
+      const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
-            return errorResponse({ request, response });
+      if (rawProjectEventList.isErr()) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
+      miseAJourStatistiquesUtilisation({
+        type: 'projetConsulté',
+        données: {
+          utilisateur: { role: request.user.role },
+          projet: {
+            appelOffreId: projet.appelOffreId,
+            periodeId: projet.periodeId,
+            ...(projet.familleId && { familleId: projet.familleId }),
+            numéroCRE: projet.numeroCRE,
           },
-        );
+        },
+      });
+
+      return response.send(
+        ProjectDetailsPage({
+          request,
+          project: projet,
+          projectEventList: rawProjectEventList.value,
+          now: new Date().getTime(),
+          dossiersRaccordementExistant,
+        }),
+      );
     },
   ),
 );

@@ -34,6 +34,7 @@ type ProjectDetailsProps = {
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
   now: number;
+  dossiersRaccordementExistant: boolean;
 };
 
 export const ProjectDetails = ({
@@ -41,6 +42,7 @@ export const ProjectDetails = ({
   project,
   projectEventList,
   now,
+  dossiersRaccordementExistant,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -57,7 +59,7 @@ export const ProjectDetails = ({
           />
         )}
 
-        {
+        {!dossiersRaccordementExistant && (
           <DisplayDCRAlertInfos dcrDueOn={project.dcrDueOn} now={now}>
             <div className="p-2">
               L'accusé de réception de la demande complète de raccordement doit être transmis dans
@@ -68,7 +70,7 @@ export const ProjectDetails = ({
               </Link>
             </div>
           </DisplayDCRAlertInfos>
-        }
+        )}
 
         <Callout>
           <CDCInfo {...{ project, user }} />
