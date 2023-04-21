@@ -39,18 +39,20 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
       const appelOffreId = 'Eolien';
       const periodeId = '1';
       const numeroCRE = '123';
+      const familleId = '';
 
       const projet = makeFakeProject({
         id: projetId.toString(),
         appelOffreId,
         periodeId,
         numeroCRE,
+        familleId,
       });
 
       try {
         await ProjectModel.create(projet);
       } catch (error) {
-        console.log(error);
+        console.log('error', error);
       }
 
       const getProjectAppelOffre = jest.fn(
@@ -81,6 +83,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         appelOffreId,
         periodeId,
         id: projetId,
+        familleId,
       };
       const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
@@ -95,7 +98,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         payload: {
           dateMiseEnService: new Date('01/01/2023').toISOString(),
           référenceDossierRaccordement: '',
-          identifiantProjet: 'Eolien#1##001',
+          identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
         },
       };
 

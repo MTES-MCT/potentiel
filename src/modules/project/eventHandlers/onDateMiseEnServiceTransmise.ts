@@ -16,20 +16,17 @@ export const makeOnDateMiseEnServiceTransmise =
   ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
   async ({ payload }: DateMiseEnServiceTransmiseEvent) => {
     const { identifiantProjet, dateMiseEnService } = payload;
-    console.log(identifiantProjet);
-    const [appelOffre, période, famille = '', numéroCRE] = identifiantProjet.split('#');
+    const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
 
     const projet = await ProjectModel.findOne({
       where: {
         appelOffreId: appelOffre,
         periodeId: période,
-        familleId: famille,
+        familleId: famille || '',
         numeroCRE: numéroCRE,
       },
       attributes: ['id'],
     });
-
-    console.log(projet);
 
     if (!projet) {
       return;

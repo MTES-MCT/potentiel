@@ -105,8 +105,10 @@ const onDateMiseEnServiceTransmise = async (event) => {
   }
 
   try {
-    return await onDateMiseEnServiceTransmiseHandler(event);
-  } catch (error) {}
+    await onDateMiseEnServiceTransmiseHandler(event);
+  } catch (error) {
+    Promise.reject(error);
+  }
 };
 
 subscribeToRedis(onDateMiseEnServiceTransmise, 'Project.onDonnéesDeRaccordementRenseignées');
