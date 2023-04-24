@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master # will be removed
 
 jobs:
   call-shared-workflow:
