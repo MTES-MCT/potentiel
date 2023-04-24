@@ -98,6 +98,7 @@ const onDateMiseEnServiceTransmiseHandler = makeOnDateMiseEnServiceTransmise({
   projectRepo,
   publishToEventStore: eventStore.publish,
   getProjectAppelOffre,
+  findProjectByIdentifiers,
 });
 
 const onDateMiseEnServiceTransmise = async (event: DomainEvent) => {

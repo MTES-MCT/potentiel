@@ -4,16 +4,21 @@ import {
   fakeTransactionalRepo,
   makeFakeProject as makeFakeProjectAggregate,
 } from '../../../__tests__/fixtures/aggregates';
-import makeFakeProject from '../../../__tests__/fixtures/project';
 import { makeOnDateMiseEnServiceTransmise } from './onDateMiseEnServiceTransmise';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
 import { Project } from '../Project';
-import { resetDatabase } from '@infra/sequelize/helpers';
-//import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
 import { DateMiseEnServiceTransmise } from '../events';
 
 describe(`Handler onDateMiseEnServiceTransmise`, () => {
+  const projetId = new UniqueEntityID();
+  const appelOffreId = 'Eolien';
+  const periodeId = '1';
+  const numeroCRE = '123';
+  const familleId = '';
+
+  const findProjectByIdentifiers = jest.fn(() => okAsync(projetId.toString()));
+
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null),
   );
@@ -38,24 +43,8 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
       } as ProjectAppelOffre),
   );
 
-  const projetId = new UniqueEntityID();
-  const appelOffreId = 'Eolien';
-  const periodeId = '1';
-  const numeroCRE = '123';
-  const familleId = '';
-
-  const projet = makeFakeProject({
-    id: projetId.toString(),
-    appelOffreId,
-    periodeId,
-    numeroCRE,
-    familleId,
-  });
-
   beforeEach(async () => {
     await publishToEventStore.mockClear();
-    await resetDatabase();
-    await ProjectModel.create(projet);
   });
 
   const dateAchèvementInitiale = new Date('2024-01-01').getTime();
@@ -87,6 +76,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         projectRepo,
         publishToEventStore,
         getProjectAppelOffre,
+        findProjectByIdentifiers,
       });
 
       const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
@@ -136,6 +126,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           projectRepo,
           publishToEventStore,
           getProjectAppelOffre,
+          findProjectByIdentifiers,
         });
 
         const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
@@ -174,6 +165,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           projectRepo,
           publishToEventStore,
           getProjectAppelOffre,
+          findProjectByIdentifiers,
         });
 
         const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
@@ -213,6 +205,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           projectRepo,
           publishToEventStore,
           getProjectAppelOffre,
+          findProjectByIdentifiers,
         });
 
         const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
