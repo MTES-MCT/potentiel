@@ -16,6 +16,7 @@ import {
   ProjectCertificateObsolete,
   ProjectRawDataImported,
   makeOnAnnulationAbandonAccordée,
+  DateMiseEnServiceTransmise,
 } from '@modules/project';
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';
@@ -99,19 +100,18 @@ const onDateMiseEnServiceTransmiseHandler = makeOnDateMiseEnServiceTransmise({
   getProjectAppelOffre,
 });
 
-const onDateMiseEnServiceTransmise = async (event) => {
-  if (!(event.type === 'DateMiseEnServiceTransmise')) {
+const onDateMiseEnServiceTransmise = async (event: DomainEvent) => {
+  if (!(event instanceof DateMiseEnServiceTransmise)) {
     return Promise.resolve();
   }
 
-  try {
-    await onDateMiseEnServiceTransmiseHandler(event);
-  } catch (error) {
-    Promise.reject(error);
-  }
+  return onDateMiseEnServiceTransmiseHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e),
+  );
 };
 
-subscribeToRedis(onDateMiseEnServiceTransmise, 'Project.onDonnéesDeRaccordementRenseignées');
+subscribeToRedis(onDateMiseEnServiceTransmise, 'Project.onDateMiseEnServiceTransmise');
 
 const onAnnulationAbandonAccordéeHandler = makeOnAnnulationAbandonAccordée({
   projectRepo,

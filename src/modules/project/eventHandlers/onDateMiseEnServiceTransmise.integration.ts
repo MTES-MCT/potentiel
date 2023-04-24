@@ -9,9 +9,9 @@ import { makeOnDateMiseEnServiceTransmise } from './onDateMiseEnServiceTransmise
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
 import { Project } from '../Project';
-import { DateMiseEnServiceTransmiseEvent } from '@potentiel/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
+import { DateMiseEnServiceTransmise } from '../events';
 
 describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
@@ -89,14 +89,13 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         getProjectAppelOffre,
       });
 
-      const événementDateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
-        type: 'DateMiseEnServiceTransmise',
+      const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
         payload: {
           dateMiseEnService: new Date('01/01/2023').toISOString(),
           référenceDossierRaccordement: 'ref-du-dossier',
           identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
         },
-      };
+      });
 
       await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
 
@@ -139,14 +138,13 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           getProjectAppelOffre,
         });
 
-        const événementDateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
-          type: 'DateMiseEnServiceTransmise',
+        const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
           payload: {
             dateMiseEnService: new Date('01/01/2021').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
             identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
           },
-        };
+        });
 
         await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
 
@@ -178,14 +176,13 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           getProjectAppelOffre,
         });
 
-        const événementDateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
-          type: 'DateMiseEnServiceTransmise',
+        const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
           payload: {
             dateMiseEnService: new Date('01/01/2023').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
             identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
           },
-        };
+        });
 
         await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
 
@@ -218,14 +215,13 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           getProjectAppelOffre,
         });
 
-        const événementDateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
-          type: 'DateMiseEnServiceTransmise',
+        const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
           payload: {
             dateMiseEnService: new Date('01/01/2023').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
             identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
           },
-        };
+        });
 
         await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
 
