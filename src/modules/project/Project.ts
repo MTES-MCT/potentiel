@@ -79,7 +79,6 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   CahierDesChargesChoisi,
-  DonnéesDeRaccordementRenseignées,
   LegacyAbandonSupprimé,
   GarantiesFinancièresValidées,
   GarantiesFinancièresInvalidées,
@@ -1305,14 +1304,6 @@ export const makeProject = (args: {
             alternatif: event.payload.alternatif,
           }),
         };
-        break;
-      case DonnéesDeRaccordementRenseignées.type:
-        if (event.payload.dateMiseEnService) {
-          props.dateMiseEnService = new Date(event.payload.dateMiseEnService);
-        }
-        if (event.payload.dateFileAttente) {
-          props.dateFileAttente = new Date(event.payload.dateFileAttente);
-        }
         break;
       case ProjectDCRDueDateSet.type:
         props.dcrDueOn = new Date(event.payload.dcrDueOn);

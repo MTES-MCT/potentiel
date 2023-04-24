@@ -6,7 +6,6 @@ export * from './onContratEDFRapprochéAutomatiquement';
 export * from './onContratEnedisMisAJour';
 export * from './onContratEnedisRapprochéAutomatiquement';
 export * from './onCovidDelayGranted';
-export * from './onDonnéesDeRaccordementRenseignées';
 export * from './onIdentifiantPotentielPPE2Batiment2Corrigé';
 export * from './onLegacyAbandonSupprimé';
 export * from './onProjectAbandoned';

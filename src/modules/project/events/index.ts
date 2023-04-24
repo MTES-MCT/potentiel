@@ -7,7 +7,6 @@ export * from './DateEchéanceGFAjoutée';
 export * from './DemandeAbandonSignaled';
 export * from './DemandeDelaiSignaled';
 export * from './DemandeRecoursSignaled';
-export * from './DonnéesDeRaccordementRenseignées';
 export * from './EtapeGFSupprimée';
 export * from './GarantiesFinancièresInvalidées';
 export * from './GarantiesFinancièresValidées';
