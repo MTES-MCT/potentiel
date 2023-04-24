@@ -9,7 +9,7 @@ import { makeOnDateMiseEnServiceTransmise } from './onDateMiseEnServiceTransmise
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
 import { Project } from '../Project';
-import { DateMiseEnServiceTransmiseEvent } from 'packages/domain/src/raccordement/transmettreDateMiseEnService/dateMiseEnServiceTransmise.event';
+import { DateMiseEnServiceTransmiseEvent } from '@potentiel/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
 
