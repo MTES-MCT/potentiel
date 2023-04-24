@@ -24,7 +24,7 @@ jobs:
         run: |
           curl -O https://cli-dl.scalingo.com/install && bash install
           scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
-          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy --branch ${GITHUB_BASE_REF:-${GITHUB_REF#refs/heads/}} 
+          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy ${{ github.ref_name }}
       
   application-version:
     runs-on: ubuntu-latest
