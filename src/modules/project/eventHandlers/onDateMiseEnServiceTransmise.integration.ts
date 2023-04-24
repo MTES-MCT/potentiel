@@ -10,7 +10,7 @@ import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
 import { Project } from '../Project';
 import { resetDatabase } from '@infra/sequelize/helpers';
-import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
+//import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
 import { DateMiseEnServiceTransmise } from '../events';
 
 describe(`Handler onDateMiseEnServiceTransmise`, () => {

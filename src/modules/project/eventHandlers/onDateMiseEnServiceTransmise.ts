@@ -1,14 +1,18 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { logger, okAsync, wrapInfra } from '@core/utils';
+import { logger, okAsync } from '@core/utils';
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { DateMiseEnServiceTransmise, ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
-import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
+import { FindProjectByIdentifiers } from '../queries';
+import { findProjectByIdentifiers } from '@config';
+import { err, fromPromise } from 'neverthrow';
+//import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
 
 type Dépendances = {
   projectRepo: TransactionalRepository<Project>;
   publishToEventStore: EventStore['publish'];
   getProjectAppelOffre: GetProjectAppelOffre;
+  findProjectByIdentifiers: FindProjectByIdentifiers;
 };
 
 export const makeOnDateMiseEnServiceTransmise =
@@ -17,23 +21,23 @@ export const makeOnDateMiseEnServiceTransmise =
     const { identifiantProjet, dateMiseEnService } = payload;
     const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
 
-    return wrapInfra(
-      ProjectModel.findOne({
-        where: {
-          appelOffreId: appelOffre,
-          periodeId: période,
-          familleId: famille || '',
-          numeroCRE: numéroCRE,
-        },
-        attributes: ['id'],
+    return fromPromise(
+      findProjectByIdentifiers({
+        appelOffreId: appelOffre,
+        periodeId: période,
+        familleId: famille,
+        numeroCRE: numéroCRE,
       }),
-    ).andThen((projet) => {
-      if (!projet) {
+      () => {
+        return err(new Error(`Projet non trouvé`));
+      },
+    ).andThen((projetId) => {
+      if (!projetId) {
         return okAsync(null);
       }
 
       return projectRepo.transaction(
-        new UniqueEntityID(projet.id),
+        new UniqueEntityID(projetId),
         ({
           appelOffreId,
           periodeId,
@@ -56,7 +60,7 @@ export const makeOnDateMiseEnServiceTransmise =
           });
           if (!projectAppelOffre) {
             logger.error(
-              `project eventHandler onDonnéesDeRaccordementRenseignées : AO non trouvé. Projet ${projet.id}`,
+              `project eventHandler onDonnéesDeRaccordementRenseignées : AO non trouvé. Projet ${projetId.id}`,
             );
             return okAsync(null);
           }
@@ -70,7 +74,7 @@ export const makeOnDateMiseEnServiceTransmise =
             );
           if (!donnéesCDC || !donnéesCDC.délaiApplicable) {
             logger.error(
-              `project eventHandler onDonnéesDeRaccordementRenseignées : données CDC modifié non trouvées. Projet ${projet.id}`,
+              `project eventHandler onDonnéesDeRaccordementRenseignées : données CDC modifié non trouvées. Projet ${projetId.id}`,
             );
             return okAsync(null);
           }
@@ -91,7 +95,7 @@ export const makeOnDateMiseEnServiceTransmise =
           return publishToEventStore(
             new ProjectCompletionDueDateSet({
               payload: {
-                projectId: projet.id,
+                projectId: projetId.id,
                 completionDueOn: nouvelleDate.getTime(),
                 reason: 'délaiCdc2022',
               },
