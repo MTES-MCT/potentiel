@@ -4,7 +4,6 @@ import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { DateMiseEnServiceTransmise, ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
 import { FindProjectByIdentifiers } from '../queries';
-import { findProjectByIdentifiers } from '@config';
 
 type Dépendances = {
   projectRepo: TransactionalRepository<Project>;
@@ -14,7 +13,12 @@ type Dépendances = {
 };
 
 export const makeOnDateMiseEnServiceTransmise =
-  ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
+  ({
+    projectRepo,
+    publishToEventStore,
+    getProjectAppelOffre,
+    findProjectByIdentifiers,
+  }: Dépendances) =>
   ({ payload }: DateMiseEnServiceTransmise) => {
     const { identifiantProjet, dateMiseEnService } = payload;
     const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');

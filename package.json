@@ -31,7 +31,7 @@
     "lint": "eslint ./src --ext .ts,.tsx",
     "format": "prettier '**/*.{ts,tsx,css}' --write",
     "format:check": "prettier '**/*.{ts,tsx,css}' --check",
-    "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
+    "test": "NODE_ENV=test jest --config=jest.unit.config.js --detectOpenHandles",
     "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
     "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --runInBand",
     "test-int:watch": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --watch",
