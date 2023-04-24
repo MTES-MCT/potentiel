@@ -1,0 +1,17 @@
+name: Pull Request workflow
+
+on: 
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - '.storybook/**'
+      - '.vscode/**'
+      - 'scripts/**'
+      - 'docs/**'
+      - '.env.template'
+      - '.prettier**'
+      - 'LICENSE'
+
+jobs:
+  call-shared-workflow:
+    uses: ./.github/workflows/shared-workflow.yml
