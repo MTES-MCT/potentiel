@@ -138,6 +138,8 @@ export const forAdminsLaureat = () => (
       } as ProjectDataForProjectPage
     }
     projectEventList={projectEventList}
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
   />
 );
 
@@ -151,6 +153,8 @@ export const forAdminsElimine = () => (
       } as ProjectDataForProjectPage
     }
     projectEventList={projectEventList}
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
   />
 );
 
@@ -165,6 +169,8 @@ export const forAdminsNonNotifié = () => (
       } as ProjectDataForProjectPage
     }
     projectEventList={projectEventList}
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
   />
 );
 
@@ -179,12 +185,16 @@ export const forAdminsAbandonné = () => (
       } as ProjectDataForProjectPage
     }
     projectEventList={projectEventList}
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
   />
 );
 
 export const forPorteurProjet = () => (
   <ProjectDetails
     projectEventList={projectEventList}
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -200,6 +210,8 @@ export const forPorteurProjet = () => (
 export const forPorteurProjetElimine = () => (
   <ProjectDetails
     projectEventList={projectEventList}
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -224,11 +236,15 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
       } as ProjectDataForProjectPage
     }
     projectEventList={projectEventList}
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
   />
 );
 
 export const forPorteurProjetWithSuccess = () => (
   <ProjectDetails
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
       query: { success: 'Une invitation a bien été envoyée' },
@@ -250,11 +266,15 @@ export const forDrealGFPassDue = () => (
       } as ProjectDataForProjectPage
     }
     projectEventList={projectEventList}
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
   />
 );
 
 export const forDrealGFStillDue = () => (
   <ProjectDetails
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'dreal' }),
     })}
@@ -278,6 +298,8 @@ if (appelOffreInnovation) {
 
 export const forAOInnovation = () => (
   <ProjectDetails
+    now={new Date().getTime()}
+    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
