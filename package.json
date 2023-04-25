@@ -28,6 +28,7 @@
     "build:migrations": "ttsc --build tsconfig.migrations.json",
     "prepare": "husky install",
     "install": "ts-node ./scripts/postInstall.ts",
+    "start-migration-raccordement" : "ts-node ./scripts/migrationRaccordement.ts",
     "lint": "eslint ./src --ext .ts,.tsx",
     "format": "prettier '**/*.{ts,tsx,css}' --write",
     "format:check": "prettier '**/*.{ts,tsx,css}' --check",
