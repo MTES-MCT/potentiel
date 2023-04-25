@@ -173,19 +173,41 @@ export const sleep = async (ms: number) => {
             famille: projet.familleId,
           };
           const référenceDossierRaccordement = projet.identifiantGestionnaire;
-          // Step 2
-          // Les projets qui ont un identifiant gestionnaire réseaux et pas de DCR
-          // concerne les projets pour lesquels les porteurs ont renseigné leur identifiant pour permettre la récupération des dates de MeS
+
+          await transmettreDemandeComplèteRaccordementUseCase({
+            identifiantGestionnaireRéseau: {
+              codeEIC: '17X100A100A0001A',
+            },
+            référenceDossierRaccordement,
+            dateQualification: projet.dateFileAttente || undefined,
+            identifiantProjet,
+          });
+
+          await sleep(50);
+
+          if (projet.ptfDateDeSignature) {
+            await transmettrePropositionTechniqueEtFinancièreCommand({
+              dateSignature: projet.ptfDateDeSignature,
+              identifiantProjet,
+              référenceDossierRaccordement,
+            });
+          }
+
+          await sleep(50);
+
+          if (projet.dateMiseEnService) {
+            await transmettreDateMiseEnServiceCommand({
+              dateMiseEnService: projet.dateMiseEnService,
+              identifiantProjet,
+              référenceDossierRaccordement,
+            });
+
+            await sleep(50);
+          }
+
+          projetMigré.push(projet.id);
         } else if (!projet.identifiantGestionnaire && !projet.dcrDate) {
-          const identifiantProjet = {
-            appelOffre: projet.appelOffreId,
-            numéroCRE: projet.numeroCRE,
-            période: projet.periodeId,
-            famille: projet.familleId,
-          };
-          const référenceDossierRaccordement = 'Référence non transmise';
-          // Step 3
-          // Les projets qui ont une PTF sans DCR avec ou sans identifiant
+          console.log('pas de migration');
         } else {
           console.log('Projet ne rentrant pas dans les conditions');
           console.table(projet);
