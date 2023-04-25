@@ -42,7 +42,7 @@ export const sleep = async (ms: number) => {
 
 (async () => {
   console.log('récupération en cours');
-  const result = await executeSelect<{
+  const projets = await executeSelect<{
     id: string;
     appelOffreId: string;
     periodeId: string;
@@ -75,70 +75,128 @@ export const sleep = async (ms: number) => {
     left join files "dcrFile" on "dcrFile".id::text = dcr.payload->'file'->>'id' and "dcrFile".designation = 'dcr'
     left join files "ptfFile" on "ptfFile".id = r."ptfFichierId" and "ptfFile".designation = 'ptf'`);
 
-  console.log(`${result.length} projets récupérés`);
+  console.log(`${projets.length} projets récupérés`);
 
   // TODO archiver event du projet
   const projetMigré: string[] = [];
 
-  for (const projet of result) {
-    try {
-      if (projet.identifiantGestionnaire && projet.dcrDate) {
-        const identifiantProjet = {
-          appelOffre: projet.appelOffreId,
-          numéroCRE: projet.numeroCRE,
-          période: projet.periodeId,
-          famille: projet.familleId,
-        };
-        const référenceDossierRaccordement = projet.identifiantGestionnaire;
+  await Promise.all(
+    projets.map(async (projet) => {
+      try {
+        if (projet.identifiantGestionnaire && projet.dcrDate) {
+          const identifiantProjet = {
+            appelOffre: projet.appelOffreId,
+            numéroCRE: projet.numeroCRE,
+            période: projet.periodeId,
+            famille: projet.familleId,
+          };
+          const référenceDossierRaccordement = projet.identifiantGestionnaire;
 
-        await transmettreDemandeComplèteRaccordementUseCase({
-          identifiantGestionnaireRéseau: {
-            codeEIC: '17X100A100A0001A',
-          },
-          référenceDossierRaccordement,
-          dateQualification: projet.dcrDate,
-          identifiantProjet,
-        });
-
-        await sleep(50);
-
-        if (projet.ptfDateDeSignature) {
-          await transmettrePropositionTechniqueEtFinancièreCommand({
-            dateSignature: projet.ptfDateDeSignature,
-            identifiantProjet,
+          await transmettreDemandeComplèteRaccordementUseCase({
+            identifiantGestionnaireRéseau: {
+              codeEIC: '17X100A100A0001A',
+            },
             référenceDossierRaccordement,
-          });
-        }
-
-        await sleep(50);
-
-        if (projet.dateMiseEnService) {
-          await transmettreDateMiseEnServiceCommand({
-            dateMiseEnService: projet.dateMiseEnService,
+            dateQualification: projet.dcrDate,
             identifiantProjet,
-            référenceDossierRaccordement,
           });
 
           await sleep(50);
-        }
 
-        projetMigré.push(projet.id);
-      } else if (projet.identifiantGestionnaire && !projet.dcrDate) {
-        // Step 2
-        // Les projets qui ont un identifiant gestionnaire réseaux et pas de DCR
-        // concerne les projets pour lesquels les porteurs ont renseigné leur identifiant pour permettre la récupération des dates de MeS
-      } else if (projet.ptfDateDeSignature && !projet.dcrDate) {
-        // Step 3
-        // Les projets qui ont une PTF sans DCR avec ou sans identifiant
-      } else {
-        console.log('Projet ne rentrant pas dans les conditions');
-        console.table(projet);
+          if (projet.ptfDateDeSignature) {
+            await transmettrePropositionTechniqueEtFinancièreCommand({
+              dateSignature: projet.ptfDateDeSignature,
+              identifiantProjet,
+              référenceDossierRaccordement,
+            });
+          }
+
+          await sleep(50);
+
+          if (projet.dateMiseEnService) {
+            await transmettreDateMiseEnServiceCommand({
+              dateMiseEnService: projet.dateMiseEnService,
+              identifiantProjet,
+              référenceDossierRaccordement,
+            });
+
+            await sleep(50);
+          }
+
+          projetMigré.push(projet.id);
+        } else if (!projet.identifiantGestionnaire && projet.dcrDate) {
+          const identifiantProjet = {
+            appelOffre: projet.appelOffreId,
+            numéroCRE: projet.numeroCRE,
+            période: projet.periodeId,
+            famille: projet.familleId,
+          };
+          const référenceDossierRaccordement = 'Référence non transmise';
+
+          await transmettreDemandeComplèteRaccordementUseCase({
+            identifiantGestionnaireRéseau: {
+              codeEIC: '17X100A100A0001A',
+            },
+            référenceDossierRaccordement,
+            dateQualification: projet.dcrDate,
+            identifiantProjet,
+          });
+
+          await sleep(50);
+
+          if (projet.ptfDateDeSignature) {
+            await transmettrePropositionTechniqueEtFinancièreCommand({
+              dateSignature: projet.ptfDateDeSignature,
+              identifiantProjet,
+              référenceDossierRaccordement,
+            });
+          }
+
+          await sleep(50);
+
+          if (projet.dateMiseEnService) {
+            await transmettreDateMiseEnServiceCommand({
+              dateMiseEnService: projet.dateMiseEnService,
+              identifiantProjet,
+              référenceDossierRaccordement,
+            });
+
+            await sleep(50);
+          }
+
+          projetMigré.push(projet.id);
+        } else if (projet.identifiantGestionnaire && !projet.dcrDate) {
+          const identifiantProjet = {
+            appelOffre: projet.appelOffreId,
+            numéroCRE: projet.numeroCRE,
+            période: projet.periodeId,
+            famille: projet.familleId,
+          };
+          const référenceDossierRaccordement = projet.identifiantGestionnaire;
+          // Step 2
+          // Les projets qui ont un identifiant gestionnaire réseaux et pas de DCR
+          // concerne les projets pour lesquels les porteurs ont renseigné leur identifiant pour permettre la récupération des dates de MeS
+        } else if (!projet.identifiantGestionnaire && !projet.dcrDate) {
+          const identifiantProjet = {
+            appelOffre: projet.appelOffreId,
+            numéroCRE: projet.numeroCRE,
+            période: projet.periodeId,
+            famille: projet.familleId,
+          };
+          const référenceDossierRaccordement = 'Référence non transmise';
+          // Step 3
+          // Les projets qui ont une PTF sans DCR avec ou sans identifiant
+        } else {
+          console.log('Projet ne rentrant pas dans les conditions');
+          console.table(projet);
+        }
+      } catch (e) {
+        console.log('Erreur lors de la migration du projet');
+        console.error(e);
       }
-    } catch (e) {
-      console.log('Erreur lors de la migration du projet');
-      console.error(e);
-    }
-    console.log(`${result.indexOf(projet) + 1}/${result.length}`);
-  }
-  console.log(`nombre de projets migrés : ${projetMigré.length}/${result.length}`);
+      console.log(`${projets.indexOf(projet) + 1}/${projets.length}`);
+    }),
+  );
+
+  console.log(`nombre de projets migrés : ${projetMigré.length}/${projets.length}`);
 })();
