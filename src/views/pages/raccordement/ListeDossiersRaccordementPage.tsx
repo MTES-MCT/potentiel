@@ -15,6 +15,7 @@ import {
   TagIcon,
   ArrowDownWithCircle,
   ArrowRightWithCircle,
+  AlertBox,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -133,7 +134,11 @@ const Dossier: FC<{
         </div>
         <div className="flex items-center">
           <CalendarIcon className="mr-1" title="date de l'accusé de réception" />
-          {afficherDate(new Date(dateQualification))}
+          {dateQualification ? (
+            afficherDate(new Date(dateQualification))
+          ) : (
+            <AlertBox title="Date de l'accusé de réception à renseigner" />
+          )}
         </div>
         <div>
           <DownloadLink

@@ -4,7 +4,7 @@ export type DossierRaccordementReadModel = ReadModel<
   'dossier-raccordement',
   {
     référence: string;
-    dateQualification: string;
+    dateQualification?: string;
     propositionTechniqueEtFinancière?: {
       dateSignature: string;
     };

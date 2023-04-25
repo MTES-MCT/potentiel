@@ -15,7 +15,7 @@ import { PlusieursGestionnairesRéseauPourUnProjetError } from '../raccordement.
 export type TransmettreDemandeComplèteRaccordementCommand = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
   identifiantProjet: IdentifiantProjet;
-  dateQualification: Date;
+  dateQualification?: Date;
   référenceDossierRaccordement: string;
 };
 
@@ -52,7 +52,7 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
       type: 'DemandeComplèteDeRaccordementTransmise',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        dateQualification: dateQualification.toISOString(),
+        dateQualification: dateQualification?.toISOString(),
         identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
           identifiantGestionnaireRéseau,
         ),

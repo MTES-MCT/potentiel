@@ -5,7 +5,7 @@ export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
   {
     identifiantProjet: string;
     identifiantGestionnaireRéseau: string;
-    dateQualification: string;
+    dateQualification?: string;
     référenceDossierRaccordement: string;
   }
 >;
