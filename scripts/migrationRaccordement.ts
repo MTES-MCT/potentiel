@@ -79,6 +79,7 @@ export const sleep = async (ms: number) => {
   console.log(`${projets.length} projets récupérés`);
 
   // TODO archiver event du projet
+  let compteur = 0;
   const projetMigré: string[] = [];
 
   for (const projet of projets) {
@@ -143,7 +144,7 @@ export const sleep = async (ms: number) => {
       console.log('Erreur lors de la migration du projet');
       console.error(e);
     }
-    console.log(`${projets.indexOf(projet) + 1}/${projets.length}`);
+    console.log(`${compteur++}/${projets.length}`);
   }
 
   console.log(`nombre de projets migrés : ${projetMigré.length}/${projets.length}`);
