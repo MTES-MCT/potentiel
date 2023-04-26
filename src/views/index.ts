@@ -51,6 +51,7 @@ import {
   ListeDossiersRaccordement,
   TransmettreDateMiseEnService,
   TransmettrePropositionTechniqueEtFinancière,
+  ModifierDemandeComplèteRaccordement,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>

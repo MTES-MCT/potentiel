@@ -140,20 +140,21 @@ const Dossier: FC<{
             <AlertBox title="Date de l'accusé de réception à renseigner" />
           )}
         </div>
-        <div>
-          <DownloadLink
-            className="flex items-center"
-            fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, référence)}
-          >
-            Télécharger l'accusé de réception
-          </DownloadLink>
-        </div>
+        <DownloadLink
+          className="flex items-center"
+          fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, référence)}
+        >
+          Télécharger l'accusé de réception
+        </DownloadLink>
+        <Link
+          href={routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
+            identifiantProjet,
+            référence,
+          )}
+        >
+          Modifier
+        </Link>
       </div>
-      <Link
-        href={routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet, référence)}
-      >
-        Modifier
-      </Link>
     </Etape>
     <Separateur />
     <Etape titre="Proposition technique et financière" faite={!!propositionTechniqueEtFinancière}>

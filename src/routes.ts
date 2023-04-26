@@ -467,5 +467,11 @@ class routes {
       reference || ':reference'
     }/modifier-demande-complete-raccordement.html`;
   };
+
+  static POST_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT = (projetId?: string, reference?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/modifier-demande-complete-raccordement`;
+  };
 }
 export default routes;

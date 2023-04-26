@@ -4,9 +4,7 @@ import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/Utilisate
 import {
   Button,
   ErrorBox,
-  ExternalLink,
   Heading2,
-  InfoBox,
   Input,
   Label,
   PlugIcon,
@@ -14,18 +12,17 @@ import {
   PageProjetTemplate,
   Callout,
 } from '@components';
-import { hydrateOnClient } from '../../helpers';
-import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
+import { afficherDate, hydrateOnClient } from '../../helpers';
+import { RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
 
 type ModifierDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
   user: UtilisateurReadModel;
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
   résuméProjet: RésuméProjetReadModel;
   error?: string;
   reference: string;
-  dateQualificationActuelle: string;
+  dateQualificationActuelle?: string;
 };
 
 export const ModifierDemandeComplèteRaccordement = ({
@@ -52,7 +49,7 @@ export const ModifierDemandeComplèteRaccordement = ({
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
-          action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(identifiantProjet)}
+          action={routes.POST_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT(identifiantProjet, reference)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
 
@@ -98,18 +95,6 @@ export const ModifierDemandeComplèteRaccordement = ({
             </div>
           </div>
         </form>
-
-        <InfoBox
-          className="flex md:w-1/3 md:mx-auto"
-          title="* Où trouver la référence du dossier de raccordement ?"
-        >
-          Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre demande
-          complète de raccordement (
-          <ExternalLink href="https://docs.potentiel.beta.gouv.fr/gerer-mes-projets-et-documents/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
-            Voir un exemple
-          </ExternalLink>
-          )
-        </InfoBox>
       </div>
     </PageProjetTemplate>
   );

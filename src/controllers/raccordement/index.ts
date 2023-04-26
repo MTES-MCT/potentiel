@@ -8,3 +8,4 @@ export * from './postTransmettrePropositionTechniqueEtFinancière';
 export * from './getAccuséRéceptionFile';
 export * from './getPropositionTechniqueEtFinanciereFile';
 export * from './getModifierDemandeComplèteRaccordementPage';
+export * from './postModifierDemandeComplèteRaccordement';

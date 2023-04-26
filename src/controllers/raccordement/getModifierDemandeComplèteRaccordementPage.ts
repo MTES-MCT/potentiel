@@ -10,6 +10,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { findProjection } from '@potentiel/pg-projections';
+import { ModifierDemandeComplèteRaccordementPage } from '@views';
 
 const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
   find: findProjection,
@@ -102,8 +103,7 @@ v1Router.get(
             },
           },
           reference,
-          dateSignatureActuelle:
-            dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature,
+          dateQualificationActuelle: dossierRaccordement.dateQualification,
           error: error as string,
         }),
       );
