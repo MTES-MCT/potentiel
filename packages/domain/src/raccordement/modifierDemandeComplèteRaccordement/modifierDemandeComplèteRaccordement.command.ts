@@ -6,6 +6,7 @@ import {
   createRaccordementAggregateId,
 } from '../raccordement.aggregate';
 import { DemandeComplèteRaccordementModifiéeEvent } from './DemandeComplèteRaccordementModifiée.event';
+import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 
 type ModifierDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
@@ -31,8 +32,7 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
     if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
-      // throw err
-      return;
+      throw new DossierRaccordementNonRéférencéError();
     }
 
     const event: DemandeComplèteRaccordementModifiéeEvent = {
