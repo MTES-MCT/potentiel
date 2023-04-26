@@ -7,3 +7,4 @@ export * from './getTransmettrePropositionTechniqueEtFinancière';
 export * from './postTransmettrePropositionTechniqueEtFinancière';
 export * from './getAccuséRéceptionFile';
 export * from './getPropositionTechniqueEtFinanciereFile';
+export * from './getModifierDemandeComplèteRaccordementPage';

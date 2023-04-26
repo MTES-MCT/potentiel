@@ -149,6 +149,11 @@ const Dossier: FC<{
           </DownloadLink>
         </div>
       </div>
+      <Link
+        href={routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet, référence)}
+      >
+        Modifier
+      </Link>
     </Etape>
     <Separateur />
     <Etape titre="Proposition technique et financière" faite={!!propositionTechniqueEtFinancière}>

@@ -458,5 +458,14 @@ class routes {
       reference || ':reference'
     }/telecharger-proposition-technique-et-financiere`;
   };
+
+  static GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/modifier-demande-complete-raccordement.html`;
+  };
 }
 export default routes;

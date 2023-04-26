@@ -438,3 +438,12 @@ export const TransmettrePropositionTechniqueEtFinancièrePage = (
     props,
     title: 'Transmettre une proposition technique et financière',
   });
+
+export const ModifierDemandeComplèteRaccordementPage = (
+  props: Parameters<typeof ModifierDemandeComplèteRaccordement>[0],
+) =>
+  makeHtml({
+    Component: ModifierDemandeComplèteRaccordement,
+    props,
+    title: 'Modifier une demande complète de raccordement',
+  });
