@@ -3,7 +3,7 @@ import { isSome } from '@potentiel/monads';
 import { DossierRaccordementReadModel } from '../../consulter/dossierRaccordement.readModel';
 import { DemandeComplèteRaccordementModifiéeEvent } from '../DemandeComplèteRaccordementModifiée.event';
 
-export const dateMiseEnServiceTransmiseHandlerFactory: DomainEventHandlerFactory<
+export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHandlerFactory<
   DemandeComplèteRaccordementModifiéeEvent,
   {
     find: Find;

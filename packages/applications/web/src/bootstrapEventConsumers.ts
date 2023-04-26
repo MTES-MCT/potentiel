@@ -5,6 +5,7 @@ import {
   dateMiseEnServiceTransmiseHandlerFactory,
   propositionTechniqueEtFinancièreTransmiseHandlerFactory,
 } from '@potentiel/domain';
+import { demandeComplèteRaccordementeModifiéeHandlerFactory } from '@potentiel/domain/src/raccordement/modifierDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementModifiée.handler';
 import { createProjection, updateProjection, findProjection } from '@potentiel/pg-projections';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
 
@@ -34,6 +35,13 @@ export async function bootstrapEventConsumers() {
   consumerRaccordement.consume(
     'PropositionTechniqueEtFinancièreTransmise',
     propositionTechniqueEtFinancièreTransmiseHandlerFactory({
+      find: findProjection,
+      update: updateProjection,
+    }),
+  );
+  consumerRaccordement.consume(
+    'DemandeComplèteRaccordementModifiée',
+    demandeComplèteRaccordementeModifiéeHandlerFactory({
       find: findProjection,
       update: updateProjection,
     }),

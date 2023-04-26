@@ -30,7 +30,7 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement)) {
+    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
       // throw err
       return;
     }

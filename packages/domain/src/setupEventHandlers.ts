@@ -6,6 +6,7 @@ import {
 import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './raccordement/transmettrePropositionTechniqueEtFinancière/handlers/propositionTechniqueEtFinancièreTransmise.handler';
 import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordement/transmettreDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementTransmise.handler';
 import { dateMiseEnServiceTransmiseHandlerFactory } from './raccordement/transmettreDateMiseEnService/handlers/dateMiseEnServiceTransmise.handler';
+import { demandeComplèteRaccordementeModifiéeHandlerFactory } from './raccordement/modifierDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementModifiée.handler';
 
 type Ports = {
   subscribe: Subscribe;
@@ -41,6 +42,13 @@ export const setupEventHandlers = async ({
     subscribe(
       'DateMiseEnServiceTransmise',
       dateMiseEnServiceTransmiseHandlerFactory({
+        find,
+        update,
+      }),
+    ),
+    subscribe(
+      'DemandeComplèteRaccordementModifiée',
+      demandeComplèteRaccordementeModifiéeHandlerFactory({
         find,
         update,
       }),
