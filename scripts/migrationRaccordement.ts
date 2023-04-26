@@ -7,6 +7,7 @@ import {
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
+  formatIdentifiantProjet,
 } from '@potentiel/domain';
 
 console.log('Début script migration raccordement');
@@ -83,135 +84,62 @@ export const sleep = async (ms: number) => {
   await Promise.all(
     projets.map(async (projet) => {
       try {
+        const identifiantProjet = {
+          appelOffre: projet.appelOffreId,
+          numéroCRE: projet.numeroCRE,
+          période: projet.periodeId,
+          famille: projet.familleId,
+        };
+        console.log(`Projet: ${formatIdentifiantProjet(identifiantProjet)}`);
         if (projet.identifiantGestionnaire && projet.dcrDate) {
-          const identifiantProjet = {
-            appelOffre: projet.appelOffreId,
-            numéroCRE: projet.numeroCRE,
-            période: projet.periodeId,
-            famille: projet.familleId,
-          };
-          const référenceDossierRaccordement = projet.identifiantGestionnaire;
-
-          await transmettreDemandeComplèteRaccordementUseCase({
-            identifiantGestionnaireRéseau: {
-              codeEIC: '17X100A100A0001A',
-            },
-            référenceDossierRaccordement,
-            dateQualification: projet.dcrDate,
-            identifiantProjet,
-          });
-
-          await sleep(50);
-
-          if (projet.ptfDateDeSignature) {
-            await transmettrePropositionTechniqueEtFinancièreCommand({
-              dateSignature: projet.ptfDateDeSignature,
-              identifiantProjet,
-              référenceDossierRaccordement,
-            });
-          }
-
-          await sleep(50);
-
-          if (projet.dateMiseEnService) {
-            await transmettreDateMiseEnServiceCommand({
-              dateMiseEnService: projet.dateMiseEnService,
-              identifiantProjet,
-              référenceDossierRaccordement,
-            });
-
-            await sleep(50);
-          }
-
-          projetMigré.push(projet.id);
+          console.log('Projet avec identifiant Gestionnaire et avec DCR');
         } else if (!projet.identifiantGestionnaire && projet.dcrDate) {
-          const identifiantProjet = {
-            appelOffre: projet.appelOffreId,
-            numéroCRE: projet.numeroCRE,
-            période: projet.periodeId,
-            famille: projet.familleId,
-          };
-          const référenceDossierRaccordement = 'Référence non transmise';
-
-          await transmettreDemandeComplèteRaccordementUseCase({
-            identifiantGestionnaireRéseau: {
-              codeEIC: '17X100A100A0001A',
-            },
-            référenceDossierRaccordement,
-            dateQualification: projet.dcrDate,
-            identifiantProjet,
-          });
-
-          await sleep(50);
-
-          if (projet.ptfDateDeSignature) {
-            await transmettrePropositionTechniqueEtFinancièreCommand({
-              dateSignature: projet.ptfDateDeSignature,
-              identifiantProjet,
-              référenceDossierRaccordement,
-            });
-          }
-
-          await sleep(50);
-
-          if (projet.dateMiseEnService) {
-            await transmettreDateMiseEnServiceCommand({
-              dateMiseEnService: projet.dateMiseEnService,
-              identifiantProjet,
-              référenceDossierRaccordement,
-            });
-
-            await sleep(50);
-          }
-
-          projetMigré.push(projet.id);
+          console.log('Projet sans identifiant Gestionnaire et avec DCR');
         } else if (projet.identifiantGestionnaire && !projet.dcrDate) {
-          const identifiantProjet = {
-            appelOffre: projet.appelOffreId,
-            numéroCRE: projet.numeroCRE,
-            période: projet.periodeId,
-            famille: projet.familleId,
-          };
-          const référenceDossierRaccordement = projet.identifiantGestionnaire;
+          console.log('Projet avec identifiant Gestionnaire et sans DCR');
+        } else {
+          console.log('Projet sans identifiant Gestionnaire et sans DCR');
+        }
 
-          await transmettreDemandeComplèteRaccordementUseCase({
-            identifiantGestionnaireRéseau: {
-              codeEIC: '17X100A100A0001A',
-            },
-            référenceDossierRaccordement,
-            dateQualification: projet.dateFileAttente || undefined,
+        const référenceDossierRaccordement =
+          projet.identifiantGestionnaire || 'Référence non transmise';
+        const dateQualification = projet.dcrDate ?? projet.dateFileAttente ?? undefined;
+
+        await transmettreDemandeComplèteRaccordementUseCase({
+          identifiantGestionnaireRéseau: {
+            codeEIC: '17X100A100A0001A',
+          },
+          référenceDossierRaccordement,
+          dateQualification,
+          identifiantProjet,
+        });
+
+        await sleep(50);
+
+        if (projet.ptfDateDeSignature) {
+          await transmettrePropositionTechniqueEtFinancièreCommand({
+            dateSignature: projet.ptfDateDeSignature,
             identifiantProjet,
+            référenceDossierRaccordement,
+          });
+        }
+        await sleep(50);
+
+        if (projet.dateMiseEnService) {
+          await transmettreDateMiseEnServiceCommand({
+            dateMiseEnService: projet.dateMiseEnService,
+            identifiantProjet,
+            référenceDossierRaccordement,
           });
 
           await sleep(50);
-
-          if (projet.ptfDateDeSignature) {
-            await transmettrePropositionTechniqueEtFinancièreCommand({
-              dateSignature: projet.ptfDateDeSignature,
-              identifiantProjet,
-              référenceDossierRaccordement,
-            });
-          }
-
-          await sleep(50);
-
-          if (projet.dateMiseEnService) {
-            await transmettreDateMiseEnServiceCommand({
-              dateMiseEnService: projet.dateMiseEnService,
-              identifiantProjet,
-              référenceDossierRaccordement,
-            });
-
-            await sleep(50);
-          }
-
-          projetMigré.push(projet.id);
-        } else if (!projet.identifiantGestionnaire && !projet.dcrDate) {
-          console.log('pas de migration');
-        } else {
-          console.log('Projet ne rentrant pas dans les conditions');
-          console.table(projet);
         }
+
+        // TODO: gérer les fichiers
+
+        // TODO: archiver les events
+
+        projetMigré.push(projet.id);
       } catch (e) {
         console.log('Erreur lors de la migration du projet');
         console.error(e);
