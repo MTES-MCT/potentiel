@@ -21,7 +21,7 @@ import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { extname, join } from 'path';
 import { createReadStream } from 'fs';
-import { upload } from '@potentiel/file-storage';
+import { deleteFile, upload } from '@potentiel/file-storage';
 
 const modifierDemandeComplèteRaccordement =
   modifierDemandeComplèteRaccordementCommandHandlerFactory({
@@ -98,10 +98,17 @@ v1Router.post(
           dateQualification,
         });
 
+        const fileToDeletePath = join(
+          formatIdentifiantProjet(identifiantProjet),
+          reference,
+          `demande-complete-raccordement`,
+        );
+        await deleteFile(fileToDeletePath);
+
         const filePath = join(
           formatIdentifiantProjet(identifiantProjet),
           reference,
-          `proposition-technique-et-financiere${extname(file.originalname)}`,
+          `demande-complete-raccordement${extname(file.originalname)}`,
         );
         const content = createReadStream(file.path);
         await upload(filePath, content);
