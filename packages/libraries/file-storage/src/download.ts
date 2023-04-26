@@ -2,8 +2,19 @@ import { Readable } from 'stream';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 
-export const download = async (filePath: string) => {
-  const result = await getClient().getObject({ Bucket: getBucketName(), Key: filePath }).promise();
+export class FichierInexistant extends Error {
+  constructor() {
+    super(`Le fichier n'existe pas`);
+  }
+}
 
-  return Readable.from(result.Body as Buffer);
+export const download = async (filePath: string) => {
+  try {
+    const result = await getClient()
+      .getObject({ Bucket: getBucketName(), Key: filePath })
+      .promise();
+    return Readable.from(result.Body as Buffer);
+  } catch (e) {
+    throw new FichierInexistant();
+  }
 };
