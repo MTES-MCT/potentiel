@@ -1,81 +1,44 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
-import { CommandHandlerFactory, DomainEvent, LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
-  IdentifiantProjet,
-  TransmettreDemandeComplèteRaccordementCommand,
-  createRaccordementAggregateId,
-  formatIdentifiantProjet,
-  loadRaccordementAggregateFactory,
+  consulterDossierRaccordementQueryHandlerFactory,
+  modifierDemandeComplèteRaccordementCommandHandlerFactory,
 } from '@potentiel/domain';
-import { isNone } from '@potentiel/monads';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-
-type ModifierDemandeComplèteRaccordementCommand = {
-  identifiantProjet: IdentifiantProjet;
-  dateQualification: Date;
-  référenceDossierRaccordement: string;
-};
-
-type ModifierDemandeComplèteRaccordementDependencies = {
-  publish: Publish;
-  loadAggregate: LoadAggregate;
-};
-
-const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
-  TransmettreDemandeComplèteRaccordementCommand,
-  ModifierDemandeComplèteRaccordementDependencies
-> =
-  ({ publish, loadAggregate }) =>
-  async ({ identifiantProjet, dateQualification, référenceDossierRaccordement }) => {
-    const loadRaccordementAggregate = loadRaccordementAggregateFactory({
-      loadAggregate,
-    });
-
-    const raccordement = await loadRaccordementAggregate(identifiantProjet);
-
-    if (isNone(raccordement)) {
-      // throw err
-      return;
-    }
-
-    type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
-      'DemandeComplèteRaccordementModifiée',
-      {
-        identifiantProjet: string;
-        dateQualification: string;
-        référenceDossierRaccordement: string;
-      }
-    >;
-
-    const event: DemandeComplèteRaccordementModifiéeEvent = {
-      type: 'DemandeComplèteRaccordementModifiée',
-      payload: {
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        dateQualification: dateQualification.toISOString(),
-        référenceDossierRaccordement,
-      },
-    };
-
-    await publish(createRaccordementAggregateId(identifiantProjet), event);
-  };
-
-const modifierDemandeComplèteRaccordement =
-  modifierDemandeComplèteRaccordementCommandHandlerFactory({
-    loadAggregate,
-    publish,
-  });
+import { findProjection } from '@potentiel/pg-projections';
+import { expect } from 'chai';
 
 Quand(`le porteur modifie la date de qualification`, async function (this: PotentielWorld) {
   try {
+    const modifierDemandeComplèteRaccordement =
+      modifierDemandeComplèteRaccordementCommandHandlerFactory({
+        loadAggregate,
+        publish,
+      });
+
     await modifierDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       dateQualification: new Date('2023-04-26'),
     });
   } catch (error) {
-    if (error instanceof DossierRaccordementNonRéférencéError) {
-      this.error = error;
-    }
+    // if (error instanceof DossierRaccordementNonRéférencéError) {
+    //   this.error = error;
+    // }
   }
 });
+
+Alors(
+  `la date de qualification du dossier de raccordement devrait être consultable`,
+  async function (this: PotentielWorld) {
+    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+      find: findProjection,
+    });
+
+    const actual = await consulterDossierRaccordement({
+      référence: this.raccordementWorld.référenceDossierRaccordement,
+    });
+
+    expect(actual.dateQualification).to.equal(new Date('2023-04-26').toISOString());
+  },
+);

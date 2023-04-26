@@ -8,3 +8,4 @@ export * from './raccordement.permissions';
 export * from './transmettreDemandeComplèteRaccordement';
 export * from './transmettreDateMiseEnService';
 export * from './transmettrePropositionTechniqueEtFinancière';
+export * from './modifierDemandeComplèteRaccordement/modifierDemandeComplèteRaccordement.command';
