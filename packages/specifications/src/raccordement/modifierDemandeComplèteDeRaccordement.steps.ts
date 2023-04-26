@@ -9,23 +9,26 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
 
-Quand(`le porteur modifie la date de qualification`, async function (this: PotentielWorld) {
-  const modifierDemandeComplèteRaccordement =
-    modifierDemandeComplèteRaccordementCommandHandlerFactory({
-      loadAggregate,
-      publish,
-    });
+Quand(
+  `le porteur modifie la date de qualification au {string}`,
+  async function (this: PotentielWorld, dateQualification: string) {
+    const modifierDemandeComplèteRaccordement =
+      modifierDemandeComplèteRaccordementCommandHandlerFactory({
+        loadAggregate,
+        publish,
+      });
 
-  await modifierDemandeComplèteRaccordement({
-    identifiantProjet: this.raccordementWorld.identifiantProjet,
-    référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-    dateQualification: new Date('2023-04-26'),
-  });
-});
+    await modifierDemandeComplèteRaccordement({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      dateQualification: new Date(dateQualification),
+    });
+  },
+);
 
 Alors(
-  `la date de qualification du dossier de raccordement devrait être consultable`,
-  async function (this: PotentielWorld) {
+  `la date de qualification {string} devrait être consultable dans le dossier de raccordement`,
+  async function (this: PotentielWorld, dateQualification: string) {
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
     });
@@ -34,7 +37,7 @@ Alors(
       référence: this.raccordementWorld.référenceDossierRaccordement,
     });
 
-    expect(actual.dateQualification).to.equal(new Date('2023-04-26').toISOString());
+    expect(actual.dateQualification).to.equal(new Date(dateQualification).toISOString());
   },
 );
 
