@@ -53,7 +53,7 @@ export const ModifierDemandeComplèteRaccordement = ({
         >
           {error && <ErrorBox>{error}</ErrorBox>}
 
-          <Heading2>Transmettre une demande complète de raccordement</Heading2>
+          <Heading2>Modifier une demande complète de raccordement</Heading2>
 
           <Callout className="text-sm my-4 px-3 pt-1 pb-0">
             <ul className="list-none p-0">
