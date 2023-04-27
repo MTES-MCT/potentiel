@@ -11,7 +11,8 @@ import { DossierRaccordementNonRéférencéError } from '../raccordement.errors'
 type ModifierDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
   dateQualification: Date;
-  référenceDossierRaccordement: string;
+  referenceActuelle: string;
+  nouvelleReference: string;
 };
 
 type ModifierDemandeComplèteRaccordementDependencies = {
@@ -24,14 +25,14 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
   ModifierDemandeComplèteRaccordementDependencies
 > =
   ({ publish, loadAggregate }) =>
-  async ({ identifiantProjet, dateQualification, référenceDossierRaccordement }) => {
+  async ({ identifiantProjet, dateQualification, referenceActuelle, nouvelleReference }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
     });
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
+    if (isNone(raccordement) || !raccordement.références.includes(referenceActuelle)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -40,7 +41,8 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         dateQualification: dateQualification.toISOString(),
-        référenceDossierRaccordement,
+        referenceActuelle,
+        nouvelleReference,
       },
     };
 

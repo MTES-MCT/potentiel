@@ -35,6 +35,7 @@ const schema = yup.object({
     reference: yup.string().required(),
   }),
   body: yup.object({
+    nouvelleReference: yup.string().required(),
     dateQualification: yup
       .date()
       .required(`La date de qualification est obligatoire`)
@@ -56,7 +57,7 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        params: { projetId, reference },
+        params: { projetId, reference, nouvelleReference },
         body: { dateQualification },
         file,
       } = request;
@@ -94,8 +95,9 @@ v1Router.post(
       try {
         await modifierDemandeComplèteRaccordement({
           identifiantProjet,
-          référenceDossierRaccordement: reference,
           dateQualification,
+          nouvelleReference,
+          referenceActuelle: reference,
         });
 
         const fileToDeletePath = join(

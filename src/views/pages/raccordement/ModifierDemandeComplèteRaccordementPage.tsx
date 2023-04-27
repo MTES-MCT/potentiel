@@ -11,9 +11,11 @@ import {
   Link,
   PageProjetTemplate,
   Callout,
+  InfoBox,
+  EditIcon,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
-import { RésuméProjetReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
 
 type ModifierDemandeComplèteRaccordementProps = {
@@ -23,7 +25,7 @@ type ModifierDemandeComplèteRaccordementProps = {
   error?: string;
   reference: string;
   dateQualificationActuelle?: string;
-  gestionnaireDeRéseauActuel: string;
+  gestionnaireRéseauActuel: GestionnaireRéseauReadModel;
 };
 
 export const ModifierDemandeComplèteRaccordement = ({
@@ -33,6 +35,10 @@ export const ModifierDemandeComplèteRaccordement = ({
   error,
   reference,
   dateQualificationActuelle,
+  gestionnaireRéseauActuel: {
+    aideSaisieRéférenceDossierRaccordement: { format, légende },
+    raisonSociale,
+  },
 }: ModifierDemandeComplèteRaccordementProps) => {
   return (
     <PageProjetTemplate
@@ -58,6 +64,14 @@ export const ModifierDemandeComplèteRaccordement = ({
 
           <Callout className="text-sm my-4 px-3 pt-1 pb-0">
             <ul className="list-none p-0">
+              <li>
+                Gestionnaire de réseau actuel :{' '}
+                <span className="font-bold mr-2">{raisonSociale}</span>
+                <Link href="">
+                  <EditIcon className="mr-1" />
+                  Modifier
+                </Link>
+              </li>
               <li className="my-0">
                 Référence du dossier de raccordement :{' '}
                 <span className="font-bold">{reference}</span>
