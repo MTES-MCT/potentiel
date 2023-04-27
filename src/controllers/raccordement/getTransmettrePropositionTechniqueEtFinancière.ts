@@ -66,6 +66,12 @@ v1Router.get(
       }
 
       const dossierRaccordement = await consulterDossierRaccordement({
+        identifiantProjet: {
+          appelOffre: projet.appelOffreId,
+          période: projet.periodeId,
+          famille: projet.familleId,
+          numéroCRE: projet.numeroCRE,
+        },
         référence: reference,
       });
 

@@ -2,10 +2,11 @@ CREATE OR REPLACE PROCEDURE migration_raccordement()
 LANGUAGE plpgsql
 AS $$
     declare
-        identifiantGestionnaire varchar;
+        referenceDossier varchar;
         dateQualification timestamp;
         identifiantEnedis varchar DEFAULT '17X100A100A0001A';
         identifiantProjet varchar;
+        projection jsonb;
         projet record;
         projets cursor for
             select
@@ -34,11 +35,11 @@ begin
         fetch projets into projet;
         exit when not found;
         identifiantProjet := projet."appelOffreId" || '#' || projet."periodeId" || '#' || projet."familleId" || '#' || projet."numeroCRE";
-        identifiantGestionnaire := 'Référence non transmise';
+        referenceDossier := 'Référence non transmise';
         dateQualification := null;
 
         if projet."identifiantGestionnaire" is not null then
-            identifiantGestionnaire := projet."identifiantGestionnaire";
+            referenceDossier := projet."identifiantGestionnaire";
         end if;
 
         if projet."dcrDate" is not null then
@@ -49,6 +50,7 @@ begin
             end if;
         end if;
 
+        -- Insert des events dans le stream
         INSERT
             INTO "EVENT_STREAM" ("streamId", "createdAt", "type", "version", "payload")
             VALUES(
@@ -62,13 +64,13 @@ begin
                                 'identifiantProjet', identifiantProjet,
                                 'identifiantGestionnaireRéseau', identifiantEnedis,
                                 'dateQualification', dateQualification,
-                                'référenceDossierRaccordement',  identifiantGestionnaire
+                                'référenceDossierRaccordement',  referenceDossier
                             )
                         ELSE
                             json_build_object(
                                 'identifiantProjet', identifiantProjet,
                                 'identifiantGestionnaireRéseau', identifiantEnedis,
-                                'référenceDossierRaccordement',  identifiantGestionnaire
+                                'référenceDossierRaccordement',  referenceDossier
                             )
                     END
             );
@@ -83,7 +85,7 @@ begin
                     1,
                     json_build_object(
                         'identifiantProjet', identifiantProjet,
-                        'référenceDossierRaccordement',  identifiantGestionnaire,
+                        'référenceDossierRaccordement',  referenceDossier,
                         'dateSignature', projet."ptfDateDeSignature"
                     )
             );
@@ -99,12 +101,70 @@ begin
                     1,
                     json_build_object(
                         'identifiantProjet', identifiantProjet,
-                        'référenceDossierRaccordement',  identifiantGestionnaire,
+                        'référenceDossierRaccordement',  referenceDossier,
                         'dateMiseEnService', projet."dateMiseEnService"
                     )
             );
         end if;
 
+        -- Insert de la projection 'dossier-raccordement'
+        projection := json_build_object('référence', referenceDossier);
+
+        if dateQualification is not null then
+            projection := jsonb_set(projection, '{dateQualification}', to_jsonb(to_json(dateQualification)));
+        end if;
+
+        if projet."ptfDateDeSignature" is not null THEN
+            projection := jsonb_set(projection, '{propositionTechniqueEtFinancière}', '{ "dateSignature":  null }'::jsonb);
+            projection := jsonb_set(projection, '{propositionTechniqueEtFinancière, dateSignature}', to_jsonb(to_json(projet."ptfDateDeSignature")));
+        end if;
+
+        if projet."dateMiseEnService" is not null then
+            projection := jsonb_set(projection, '{dateMiseEnService}', to_jsonb(to_json(projet."dateMiseEnService")));
+        end if;
+
+        INSERT INTO "PROJECTION" ("key", "value")
+        VALUES (
+            'dossier-raccordement#' || identifiantProjet || '#' || referenceDossier,
+            projection
+        );
+
+        -- Insert de la projection 'liste-dossiers-raccordement'
+        /*
+        export type ListeDossiersRaccordementReadModel = ReadModel<
+          'liste-dossiers-raccordement',
+          {
+            références: Array<string>;
+          }
+        >;
+        */
+        INSERT INTO "PROJECTION" ("key", "value")
+        VALUES (
+            'liste-dossiers-raccordement#' || identifiantProjet,
+            json_build_object(
+                'références',
+                json_build_array(referenceDossier)
+            )
+        );
+
+        -- Insert de la projection 'projet'
+        /*
+        export type ProjetReadModel = ReadModel<
+          'projet',
+          {
+            identifiantGestionnaire?: IdentifiantGestionnaireRéseau;
+          }
+        >;
+        */
+
+        INSERT INTO "PROJECTION" ("key", "value")
+        VALUES (
+            'projet#' || identifiantProjet,
+            json_build_object(
+                'identifiantGestionnaire',
+                json_build_object('codeEIC', identifiantEnedis)
+            )
+        );
 
     end loop;
 end;

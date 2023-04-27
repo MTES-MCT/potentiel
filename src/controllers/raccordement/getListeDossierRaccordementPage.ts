@@ -102,7 +102,9 @@ v1Router.get(
         };
 
         const dossiers = await Promise.all(
-          références.map((référence) => consulterDossierRaccordement({ référence })),
+          références.map((référence) =>
+            consulterDossierRaccordement({ identifiantProjet, référence }),
+          ),
         );
 
         const { identifiantGestionnaire = { codeEIC: '' } } = await consulterProjet({
