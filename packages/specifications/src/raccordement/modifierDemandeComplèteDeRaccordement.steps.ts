@@ -28,7 +28,7 @@ Quand(
 );
 
 Alors(
-  `la date de qualification {string} et la référence {string} devraient être consultables dans le dossier de raccordement`,
+  `la date de qualification {string} et la référence {string} devraient être consultables dans un nouveau dossier de raccordement`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
@@ -39,6 +39,23 @@ Alors(
     });
 
     expect(actual.dateQualification).to.equal(new Date(dateQualification).toISOString());
+  },
+);
+
+Alors(
+  `l'ancien dossier de raccordement ne devrait plus être consultable`,
+  async function (this: PotentielWorld) {
+    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+      find: findProjection,
+    });
+
+    try {
+      await consulterDossierRaccordement({
+        référence: this.raccordementWorld.référenceDossierRaccordement,
+      });
+    } catch (error) {
+      expect(error).to.be.instanceOf(DossierRaccordementNonRéférencéError);
+    }
   },
 );
 

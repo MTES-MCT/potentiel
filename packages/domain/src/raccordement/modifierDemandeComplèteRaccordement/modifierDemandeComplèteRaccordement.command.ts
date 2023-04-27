@@ -31,7 +31,6 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
     });
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
-    console.log('raccordement', raccordement, 'référence actuelle', referenceActuelle);
 
     if (isNone(raccordement) || !raccordement.références.includes(referenceActuelle)) {
       throw new DossierRaccordementNonRéférencéError();

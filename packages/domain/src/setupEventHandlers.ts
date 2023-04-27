@@ -1,4 +1,4 @@
-import { Create, Find, Subscribe, Unsubscribe, Update } from '@potentiel/core-domain';
+import { Create, Find, Subscribe, Unsubscribe, Update, Remove } from '@potentiel/core-domain';
 import {
   gestionnaireRéseauAjoutéHandlerFactory,
   gestionnaireRéseauModifiéHandlerFactory,
@@ -13,6 +13,7 @@ type Ports = {
   create: Create;
   update: Update;
   find: Find;
+  remove: Remove;
 };
 
 export const setupEventHandlers = async ({
@@ -20,6 +21,7 @@ export const setupEventHandlers = async ({
   find,
   update,
   subscribe,
+  remove,
 }: Ports): Promise<Unsubscribe[]> => {
   return Promise.all([
     subscribe('GestionnaireRéseauAjouté', gestionnaireRéseauAjoutéHandlerFactory({ create })),
@@ -50,7 +52,8 @@ export const setupEventHandlers = async ({
       'DemandeComplèteRaccordementModifiée',
       demandeComplèteRaccordementeModifiéeHandlerFactory({
         find,
-        update,
+        create,
+        remove,
       }),
     ),
   ]);

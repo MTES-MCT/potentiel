@@ -6,7 +6,12 @@ import {
   propositionTechniqueEtFinancièreTransmiseHandlerFactory,
 } from '@potentiel/domain';
 import { demandeComplèteRaccordementeModifiéeHandlerFactory } from '@potentiel/domain/src/raccordement/modifierDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementModifiée.handler';
-import { createProjection, updateProjection, findProjection } from '@potentiel/pg-projections';
+import {
+  createProjection,
+  updateProjection,
+  findProjection,
+  removeProjection,
+} from '@potentiel/pg-projections';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
 
 export async function bootstrapEventConsumers() {
@@ -43,7 +48,8 @@ export async function bootstrapEventConsumers() {
     'DemandeComplèteRaccordementModifiée',
     demandeComplèteRaccordementeModifiéeHandlerFactory({
       find: findProjection,
-      update: updateProjection,
+      create: createProjection,
+      remove: removeProjection,
     }),
   );
 }

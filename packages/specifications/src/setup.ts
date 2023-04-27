@@ -3,7 +3,12 @@ import { Unsubscribe } from '@potentiel/core-domain';
 import { setupEventHandlers } from '@potentiel/domain';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
-import { createProjection, findProjection, updateProjection } from '@potentiel/pg-projections';
+import {
+  createProjection,
+  findProjection,
+  removeProjection,
+  updateProjection,
+} from '@potentiel/pg-projections';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -32,6 +37,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     find: findProjection,
     subscribe,
     update: updateProjection,
+    remove: removeProjection,
   });
 
   await this.gestionnaireRéseauWorld.createEnedis();
