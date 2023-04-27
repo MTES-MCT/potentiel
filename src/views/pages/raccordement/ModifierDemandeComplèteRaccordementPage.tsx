@@ -23,6 +23,7 @@ type ModifierDemandeComplèteRaccordementProps = {
   error?: string;
   reference: string;
   dateQualificationActuelle?: string;
+  gestionnaireDeRéseauActuel: string;
 };
 
 export const ModifierDemandeComplèteRaccordement = ({
@@ -73,6 +74,25 @@ export const ModifierDemandeComplèteRaccordement = ({
           </Callout>
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+
+          <div>
+            <Label htmlFor="referenceDossierRaccordement">
+              Référence du dossier de raccordement du projet *
+            </Label>
+            {(format || légende) && (
+              <InfoBox className="mt-2 mb-3">
+                {légende && <p className="m-0">Format attendu : {légende}</p>}
+                {format && <p className="m-0 italic">Exemple : {format}</p>}
+              </InfoBox>
+            )}
+            <Input
+              type="text"
+              id="referenceDossierRaccordement"
+              name="referenceDossierRaccordement"
+              placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
+              required
+            />
+          </div>
 
           <div className="flex flex-col gap-4">
             <div>

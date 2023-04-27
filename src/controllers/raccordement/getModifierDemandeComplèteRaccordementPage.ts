@@ -2,6 +2,8 @@ import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
   consulterDossierRaccordementQueryHandlerFactory,
+  consulterGestionnaireRéseauQueryHandlerFactory,
+  consulterProjetQueryHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -13,6 +15,14 @@ import { findProjection } from '@potentiel/pg-projections';
 import { ModifierDemandeComplèteRaccordementPage } from '@views';
 
 const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
+
+const consulterProjet = consulterProjetQueryHandlerFactory({
+  find: findProjection,
+});
+
+const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
   find: findProjection,
 });
 
@@ -83,6 +93,19 @@ v1Router.get(
         return 'éliminé';
       };
 
+      const { identifiantGestionnaire } = await consulterProjet({
+        identifiantProjet: {
+          appelOffre: projet.appelOffreId,
+          numéroCRE: projet.numeroCRE,
+          période: projet.periodeId,
+          famille: projet.familleId,
+        },
+      });
+
+      const gestionnaireRéseauActuel = await consulterGestionnaireRéseau({
+        codeEIC: identifiantGestionnaire!.codeEIC,
+      });
+
       return response.send(
         ModifierDemandeComplèteRaccordementPage({
           user,
@@ -105,6 +128,7 @@ v1Router.get(
           reference,
           dateQualificationActuelle: dossierRaccordement.dateQualification,
           error: error as string,
+          gestionnaireRéseauActuel,
         }),
       );
     },
