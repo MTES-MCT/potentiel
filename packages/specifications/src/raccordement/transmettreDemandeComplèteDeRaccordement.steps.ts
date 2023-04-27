@@ -122,6 +122,7 @@ Alors(
 
     const actual = await consulterDossierRaccordement({
       référence: this.raccordementWorld.référenceDossierRaccordement,
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
     const expected: DossierRaccordementReadModel = {

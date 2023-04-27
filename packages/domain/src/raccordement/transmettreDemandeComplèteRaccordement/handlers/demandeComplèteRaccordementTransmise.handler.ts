@@ -16,7 +16,7 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
   ({ create, update, find }) =>
   async (event) => {
     await create<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.référenceDossierRaccordement}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
       {
         dateQualification: event.payload.dateQualification,
         référence: event.payload.référenceDossierRaccordement,

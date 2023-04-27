@@ -35,6 +35,7 @@ Alors(
 
     const actual = await consulterDossierRaccordement({
       référence: this.raccordementWorld.référenceDossierRaccordement,
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
     expect(actual.propositionTechniqueEtFinancière).to.deep.equal({

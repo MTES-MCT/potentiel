@@ -16,7 +16,7 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
   ({ find, create, remove, update }) =>
   async (event) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.referenceActuelle}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.referenceActuelle}`,
     );
 
     if (isNone(dossierRaccordement)) {
@@ -25,7 +25,7 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
     }
 
     await create<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.nouvelleReference}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.nouvelleReference}`,
       {
         ...dossierRaccordement,
         dateQualification: event.payload.dateQualification,
@@ -34,7 +34,7 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
     );
 
     await remove<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.referenceActuelle}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.referenceActuelle}`,
     );
 
     const listeDossierRaccordement = await find<ListeDossiersRaccordementReadModel>(

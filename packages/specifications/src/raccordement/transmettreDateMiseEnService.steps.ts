@@ -34,6 +34,7 @@ Alors(
 
     const actual = await consulterDossierRaccordement({
       référence: this.raccordementWorld.référenceDossierRaccordement,
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
     expect(actual.dateMiseEnService).to.equal(new Date(dateMiseEnService).toISOString());
