@@ -120,6 +120,25 @@ v1Router.post(
         const content = createReadStream(file.path);
         await upload(newFilePath, content);
 
+        const fichierPTF = await getFiles(
+          join(
+            formatIdentifiantProjet(identifiantProjet),
+            reference,
+            `proposition-technique-et-financiere`,
+          ),
+        );
+
+        if (fichierPTF.length > 0) {
+          await renameFile(
+            fichierPTF[0],
+            join(
+              formatIdentifiantProjet(identifiantProjet),
+              nouvelleReference,
+              `proposition-technique-et-financiere`,
+            ),
+          );
+        }
+
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: 'La demande complète de raccordement est bien mise à jour',
