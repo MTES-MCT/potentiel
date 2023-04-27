@@ -21,7 +21,7 @@ import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { extname, join } from 'path';
 import { createReadStream } from 'fs';
-import { deleteFile, getFileExtension, upload } from '@potentiel/file-storage';
+import { deleteFile, getFiles, upload } from '@potentiel/file-storage';
 
 const modifierDemandeComplèteRaccordement =
   modifierDemandeComplèteRaccordementCommandHandlerFactory({
@@ -106,10 +106,10 @@ v1Router.post(
           `demande-complete-raccordement`,
         );
 
-        if (await fileExists(fileToDeletePath)) {
-          const fileToDeleteExtension = await getFileExtension(fileToDeletePath);
+        const files = await getFiles(fileToDeletePath);
 
-          await deleteFile(`${fileToDeletePath}${fileToDeleteExtension}`);
+        if (files.length > 0) {
+          await deleteFile(files[0]);
         }
 
         const newFilePath = join(

@@ -5,8 +5,8 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { join } from 'path';
-import { download, getFileExtension } from '@potentiel/file-storage';
+import { extname, join } from 'path';
+import { download, getFiles } from '@potentiel/file-storage';
 import { logger } from '@core/utils';
 
 const schema = yup.object({
@@ -55,16 +55,22 @@ v1Router.get(
           reference,
           `proposition-technique-et-financiere`,
         );
-        const extension = await getFileExtension(filePath);
-        const fileContent = await download(`${filePath}${extension}`);
 
-        response.type(extension);
-        response.setHeader(
-          'Content-Disposition',
-          `attachment; filename=proposition-technique-et-financiere-${reference}${extension}`,
-        );
-        fileContent.pipe(response);
-        response.status(200);
+        const files = await getFiles(filePath);
+
+        if (files.length > 0) {
+          const fileContent = await download(files[0]);
+          const extension = extname(files[0]);
+          response.type(extension);
+          response.setHeader(
+            'Content-Disposition',
+            `attachment; filename=proposition-technique-et-financiere-${reference}${extension}`,
+          );
+          fileContent.pipe(response);
+          response.status(200);
+        }
+
+        return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
       } catch (error) {
         logger.error(error);
       }
