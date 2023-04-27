@@ -57,8 +57,8 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        params: { projetId, reference, nouvelleReference },
-        body: { dateQualification },
+        params: { projetId, reference },
+        body: { dateQualification, nouvelleReference },
         file,
       } = request;
 
@@ -105,9 +105,12 @@ v1Router.post(
           reference,
           `demande-complete-raccordement`,
         );
-        const fileToDeleteExtension = await getFileExtension(fileToDeletePath);
 
-        await deleteFile(`${fileToDeletePath}${fileToDeleteExtension}`);
+        if (await fileExists(fileToDeletePath)) {
+          const fileToDeleteExtension = await getFileExtension(fileToDeletePath);
+
+          await deleteFile(`${fileToDeletePath}${fileToDeleteExtension}`);
+        }
 
         const newFilePath = join(
           formatIdentifiantProjet(identifiantProjet),
