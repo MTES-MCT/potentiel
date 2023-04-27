@@ -13,6 +13,7 @@ import {
   Callout,
   InfoBox,
   EditIcon,
+  DownloadLink,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
@@ -65,8 +66,7 @@ export const ModifierDemandeComplèteRaccordement = ({
           <Callout className="text-sm my-4 px-3 pt-1 pb-0">
             <ul className="list-none p-0">
               <li>
-                Gestionnaire de réseau actuel :{' '}
-                <span className="font-bold mr-2">{raisonSociale}</span>
+                Gestionnaire de réseau : <span className="font-bold mr-2">{raisonSociale}</span>
                 <Link href="">
                   <EditIcon className="mr-1" />
                   Modifier le gestionnaire
@@ -78,12 +78,19 @@ export const ModifierDemandeComplèteRaccordement = ({
               </li>
               {dateQualificationActuelle && (
                 <li className="my-0">
-                  Date de qualification actuelle de la demande complète de raccordement :{' '}
+                  Date de qualification de la demande complète de raccordement :{' '}
                   <span className="font-bold">
                     {afficherDate(new Date(dateQualificationActuelle))}
                   </span>
                 </li>
               )}
+              <li>
+                <DownloadLink
+                  fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, reference)}
+                >
+                  Accusé de réception de la demande complète de raccordement
+                </DownloadLink>
+              </li>
             </ul>
           </Callout>
 
