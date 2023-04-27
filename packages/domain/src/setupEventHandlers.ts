@@ -54,6 +54,7 @@ export const setupEventHandlers = async ({
         find,
         create,
         remove,
+        update,
       }),
     ),
   ]);

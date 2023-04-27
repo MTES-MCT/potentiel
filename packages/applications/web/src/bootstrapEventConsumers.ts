@@ -50,6 +50,7 @@ export async function bootstrapEventConsumers() {
       find: findProjection,
       create: createProjection,
       remove: removeProjection,
+      update: updateProjection,
     }),
   );
 }
