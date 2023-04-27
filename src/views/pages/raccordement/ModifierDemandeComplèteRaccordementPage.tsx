@@ -97,7 +97,7 @@ export const ModifierDemandeComplèteRaccordement = ({
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
           <div>
-            <Label htmlFor="referenceDossierRaccordement">
+            <Label htmlFor="nouvelleReference">
               Référence du dossier de raccordement du projet *
             </Label>
             {(format || légende) && (
@@ -108,8 +108,8 @@ export const ModifierDemandeComplèteRaccordement = ({
             )}
             <Input
               type="text"
-              id="referenceDossierRaccordement"
-              name="referenceDossierRaccordement"
+              id="nouvelleReference"
+              name="nouvelleReference"
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
               required
             />
