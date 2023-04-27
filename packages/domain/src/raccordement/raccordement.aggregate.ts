@@ -1,6 +1,7 @@
 import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../projet';
 import { DemandeComplèteRaccordementTransmiseEvent } from './transmettreDemandeComplèteRaccordement/demandeComplèteRaccordementTransmise.event';
+import { DemandeComplèteRaccordementModifiéeEvent } from './modifierDemandeComplèteRaccordement/DemandeComplèteRaccordementModifiée.event';
 
 type RaccordementAggregateId = `raccordement#${string}`;
 
@@ -19,7 +20,9 @@ const defaultAggregateState: RaccordementState = {
   références: [],
 };
 
-type RaccordementEvent = DemandeComplèteRaccordementTransmiseEvent;
+type RaccordementEvent =
+  | DemandeComplèteRaccordementTransmiseEvent
+  | DemandeComplèteRaccordementModifiéeEvent;
 
 const raccordementAggregateStateFactory: AggregateStateFactory<
   RaccordementState,
@@ -32,6 +35,13 @@ const raccordementAggregateStateFactory: AggregateStateFactory<
           ...aggregate,
           gestionnaireRéseau: { codeEIC: event.payload.identifiantGestionnaireRéseau },
           références: [...aggregate.références, event.payload.référenceDossierRaccordement],
+        };
+      case 'DemandeComplèteRaccordementModifiée':
+        return {
+          ...aggregate,
+          références: [...aggregate.références, event.payload.nouvelleReference].filter(
+            (référence) => référence !== event.payload.referenceActuelle,
+          ),
         };
       default:
         return { ...aggregate };

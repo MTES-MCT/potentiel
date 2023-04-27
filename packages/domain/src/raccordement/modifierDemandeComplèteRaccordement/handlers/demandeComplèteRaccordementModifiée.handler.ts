@@ -13,15 +13,16 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
   ({ find, update }) =>
   async (event) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.référenceDossierRaccordement}`,
+      `dossier-raccordement#${event.payload.referenceActuelle}`,
     );
 
     if (isSome(dossierRaccordement)) {
       await update<DossierRaccordementReadModel>(
-        `dossier-raccordement#${event.payload.référenceDossierRaccordement}`,
+        `dossier-raccordement#${event.payload.referenceActuelle}`,
         {
           ...dossierRaccordement,
           dateQualification: event.payload.dateQualification,
+          référence: event.payload.nouvelleReference,
         },
       );
     } else {

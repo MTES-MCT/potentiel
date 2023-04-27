@@ -10,8 +10,8 @@ import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
 
 Quand(
-  `le porteur modifie la date de qualification au {string}`,
-  async function (this: PotentielWorld, dateQualification: string) {
+  `le porteur modifie la date de qualification au {string} et une nouvelle référence {string}`,
+  async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
     const modifierDemandeComplèteRaccordement =
       modifierDemandeComplèteRaccordementCommandHandlerFactory({
         loadAggregate,
@@ -20,21 +20,22 @@ Quand(
 
     await modifierDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
-      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       dateQualification: new Date(dateQualification),
+      referenceActuelle: this.raccordementWorld.référenceDossierRaccordement,
+      nouvelleReference,
     });
   },
 );
 
 Alors(
-  `la date de qualification {string} devrait être consultable dans le dossier de raccordement`,
-  async function (this: PotentielWorld, dateQualification: string) {
+  `la date de qualification {string} et la référence {string} devraient être consultables dans le dossier de raccordement`,
+  async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
     });
 
     const actual = await consulterDossierRaccordement({
-      référence: this.raccordementWorld.référenceDossierRaccordement,
+      référence: nouvelleReference,
     });
 
     expect(actual.dateQualification).to.equal(new Date(dateQualification).toISOString());
@@ -53,8 +54,9 @@ Quand(
 
       await modifierDemandeComplèteRaccordement({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
-        référenceDossierRaccordement: 'dossier-inconnu',
         dateQualification: new Date('2023-04-26'),
+        referenceActuelle: 'dossier-inconnu',
+        nouvelleReference: 'nouvelle-reference',
       });
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
