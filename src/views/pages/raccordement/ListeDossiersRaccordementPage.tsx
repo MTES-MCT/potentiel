@@ -16,6 +16,7 @@ import {
   ArrowDownWithCircle,
   ArrowRightWithCircle,
   AlertBox,
+  EditIcon,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -97,11 +98,12 @@ const Separateur = () => {
 const Etape: FC<{
   faite: boolean;
   titre: string;
-}> = ({ faite, titre, children }) => (
+  className?: string;
+}> = ({ faite, titre, children, className = '' }) => (
   <div
     className={`flex flex-col p-5 border-2 border-solid w-full md:max-w-none md:mx-0 md:w-1/3 ${
       faite ? 'border-success-425-base bg-green-50' : 'border-grey-625-base'
-    }`}
+    } ${className}`}
   >
     <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
       {faite ? (
@@ -126,7 +128,7 @@ const Dossier: FC<{
   dossier: { référence, dateQualification, propositionTechniqueEtFinancière, dateMiseEnService },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
-    <Etape faite={true} titre="Demande complète de raccordement">
+    <Etape faite={true} titre="Demande complète de raccordement" className="relative">
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
           <TagIcon className="mr-1" title="référence du dossier de raccordement" />
@@ -151,7 +153,9 @@ const Dossier: FC<{
             identifiantProjet,
             référence,
           )}
+          className="absolute top-2 right-2"
         >
+          <EditIcon aria-hidden className="mr-1" />
           Modifier
         </Link>
       </div>

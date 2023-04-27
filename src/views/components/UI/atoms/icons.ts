@@ -40,3 +40,4 @@ export { HiOutlineClipboardCheck as ClipboardCheckIcon } from '@react-icons/all-
 export { CgPlug as PlugIcon } from '@react-icons/all-files/cg/CgPlug';
 export { RiKey2Line as KeyIcon } from '@react-icons/all-files/ri/RiKey2Line';
 export { RiPriceTag3Line as TagIcon } from '@react-icons/all-files/ri/RiPriceTag3Line';
+export { RiPencilFill as EditIcon } from '@react-icons/all-files/ri/RiPencilFill';
