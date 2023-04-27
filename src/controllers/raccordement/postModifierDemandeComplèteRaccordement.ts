@@ -114,7 +114,7 @@ v1Router.post(
 
         const newFilePath = join(
           formatIdentifiantProjet(identifiantProjet),
-          reference,
+          nouvelleReference,
           `demande-complete-raccordement${extname(file.originalname)}`,
         );
         const content = createReadStream(file.path);
