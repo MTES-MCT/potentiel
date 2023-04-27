@@ -69,7 +69,7 @@ export const ModifierDemandeComplèteRaccordement = ({
                 <span className="font-bold mr-2">{raisonSociale}</span>
                 <Link href="">
                   <EditIcon className="mr-1" />
-                  Modifier
+                  Modifier le gestionnaire
                 </Link>
               </li>
               <li className="my-0">
