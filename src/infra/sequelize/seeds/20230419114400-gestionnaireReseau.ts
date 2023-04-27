@@ -4,7 +4,12 @@ import {
   setupEventHandlers,
 } from '@potentiel/domain';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
-import { createProjection, findProjection, updateProjection } from '@potentiel/pg-projections';
+import {
+  createProjection,
+  findProjection,
+  removeProjection,
+  updateProjection,
+} from '@potentiel/pg-projections';
 
 export default {
   up: async () => {
@@ -15,6 +20,7 @@ export default {
         find: findProjection,
         subscribe,
         update: updateProjection,
+        remove: removeProjection,
       });
 
       const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
