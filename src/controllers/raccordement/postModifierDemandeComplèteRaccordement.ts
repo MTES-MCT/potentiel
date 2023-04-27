@@ -21,7 +21,7 @@ import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { extname, join } from 'path';
 import { createReadStream } from 'fs';
-import { deleteFile, getFiles, upload } from '@potentiel/file-storage';
+import { deleteFile, getFiles, renameFile, upload } from '@potentiel/file-storage';
 
 const modifierDemandeComplèteRaccordement =
   modifierDemandeComplèteRaccordementCommandHandlerFactory({
@@ -134,7 +134,7 @@ v1Router.post(
             join(
               formatIdentifiantProjet(identifiantProjet),
               nouvelleReference,
-              `proposition-technique-et-financiere`,
+              `proposition-technique-et-financiere${extname(fichierPTF[0])}`,
             ),
           );
         }
