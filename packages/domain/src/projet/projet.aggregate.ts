@@ -1,6 +1,7 @@
 import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from ".";
+import { IdentifiantProjet, formatIdentifiantProjet } from '.';
 import { GestionnaireRéseauProjetModifiéEvent } from '../raccordement/modifierGestionnaireRéseauProjet/modifierGestionnaireRéseauProjet.event';
+import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement';
 
 type ProjetAggregateId = `projet#${string}`;
 
@@ -18,12 +19,13 @@ const defaultAggregateState: ProjetState = {
   gestionnaireRéseau: { codeEIC: '' },
 };
 
-type ProjetEvent = GestionnaireRéseauProjetModifiéEvent;
+type ProjetEvent = GestionnaireRéseauProjetModifiéEvent | DemandeComplèteRaccordementTransmiseEvent;
 
 const projetAggregateStateFactory: AggregateStateFactory<ProjetState, ProjetEvent> = (events) => {
   return events.reduce((aggregate, event) => {
     switch (event.type) {
       case 'GestionnaireRéseauProjetModifié':
+      case 'DemandeComplèteDeRaccordementTransmise':
         return {
           ...aggregate,
           gestionnaireRéseau: { codeEIC: event.payload.identifiantGestionnaireRéseau },
