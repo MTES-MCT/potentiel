@@ -18,6 +18,7 @@ import {
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
+import { userIs } from '@modules/users';
 
 type ModifierDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -67,10 +68,14 @@ export const ModifierDemandeComplèteRaccordement = ({
             <ul className="list-none p-0">
               <li>
                 Gestionnaire de réseau : <span className="font-bold mr-2">{raisonSociale}</span>
-                <Link href="">
-                  <EditIcon className="mr-1" />
-                  Modifier le gestionnaire
-                </Link>
+                {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
+                  <Link
+                    href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
+                  >
+                    <EditIcon className="mr-1" />
+                    Modifier le gestionnaire
+                  </Link>
+                )}
               </li>
               <li className="my-0">
                 Référence du dossier de raccordement :{' '}

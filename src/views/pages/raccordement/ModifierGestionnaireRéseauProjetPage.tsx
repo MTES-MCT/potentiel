@@ -61,7 +61,10 @@ export const ModifierGestionnaireRéseauProjet = ({
 
           {gestionnaireActuel && (
             <Callout className="text-sm my-4 px-3 pt-1 pb-0">
-              <p>Gestionnaire de réseau actuel: {gestionnaireActuel.raisonSociale}</p>
+              <p>
+                Gestionnaire de réseau actuel:{' '}
+                <span className="font-bold">{gestionnaireActuel.raisonSociale}</span>
+              </p>
             </Callout>
           )}
 
@@ -87,8 +90,9 @@ export const ModifierGestionnaireRéseauProjet = ({
           </div>
         </form>
 
-        <InfoBox className="flex md:w-1/3 md:mx-auto" title="Concernant le dépôt">
-          Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire.
+        <InfoBox className="flex md:w-1/3 md:mx-auto" title="Concernant la modification">
+          La modification de cette information sera appliquée sur tous les dossiers de raccordements
+          du projet.
         </InfoBox>
       </div>
     </PageProjetTemplate>

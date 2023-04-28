@@ -54,6 +54,12 @@ export const ListeDossiersRaccordement = ({
     user={user}
     résuméProjet={résuméProjet}
   >
+    {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
+      <Link href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}>
+        <EditIcon className="mr-1" />
+        Modifier le gestionnaire de réseau
+      </Link>
+    )}
     {success && <SuccessBox>{success}</SuccessBox>}
 
     <div className="my-2 md:my-4">
