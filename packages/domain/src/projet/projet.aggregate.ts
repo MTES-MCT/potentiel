@@ -25,7 +25,6 @@ const projetAggregateStateFactory: AggregateStateFactory<ProjetState, ProjetEven
   return events.reduce((aggregate, event) => {
     switch (event.type) {
       case 'GestionnaireRéseauProjetModifié':
-      case 'DemandeComplèteDeRaccordementTransmise':
         return {
           ...aggregate,
           gestionnaireRéseau: { codeEIC: event.payload.identifiantGestionnaireRéseau },

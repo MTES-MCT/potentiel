@@ -50,6 +50,7 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
     const projetKey: `projet#${string}` = `projet#${event.payload.identifiantProjet}`;
     const projet = await find<ProjetReadModel>(projetKey);
 
+    // TODO : est-ce qu'on émettrait pas un event GestionnaireRéseauProjetModifiéEvent ici plutôt ?
     if (isNone(projet)) {
       await create<ProjetReadModel>(projetKey, {
         identifiantGestionnaire: {

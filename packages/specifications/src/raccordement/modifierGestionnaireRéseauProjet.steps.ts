@@ -23,7 +23,7 @@ Quand(
 );
 
 Alors(
-  `Alors le gestionaire de réseau {string} devrait être consultable dans le projet`,
+  `le gestionaire de réseau {string} devrait être consultable dans le projet`,
   async function (this: PotentielWorld, codeEIC: string) {
     const consulterProjet = consulterProjetQueryHandlerFactory({
       find: findProjection,
@@ -33,7 +33,7 @@ Alors(
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
-    expect(résultat.identifiantGestionnaire).to.equal({
+    expect(résultat.identifiantGestionnaire).to.deep.equal({
       codeEIC,
     });
   },

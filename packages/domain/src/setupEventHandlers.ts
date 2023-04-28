@@ -7,6 +7,7 @@ import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './racc
 import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordement/transmettreDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementTransmise.handler';
 import { dateMiseEnServiceTransmiseHandlerFactory } from './raccordement/transmettreDateMiseEnService/handlers/dateMiseEnServiceTransmise.handler';
 import { demandeComplèteRaccordementeModifiéeHandlerFactory } from './raccordement/modifierDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementModifiée.handler';
+import { gestionnaireRéseauProjetModifiéHandlerFactory } from './projet/handlers/gestionnaireRéseauProjetModifié.handler';
 
 type Ports = {
   subscribe: Subscribe;
@@ -56,6 +57,10 @@ export const setupEventHandlers = async ({
         remove,
         update,
       }),
+    ),
+    subscribe(
+      'GestionnaireRéseauProjetModifié',
+      gestionnaireRéseauProjetModifiéHandlerFactory({ find, create, update }),
     ),
   ]);
 };
