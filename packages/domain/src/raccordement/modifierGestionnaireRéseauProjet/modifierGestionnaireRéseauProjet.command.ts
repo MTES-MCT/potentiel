@@ -5,13 +5,13 @@ import { createProjetAggregateId } from '../../projet/projet.aggregate';
 
 type Dependencies = { publish: Publish };
 
-type modifierGestionnaireRéseauProjetCommand = {
+export type ModifierGestionnaireRéseauProjetCommand = {
   identifiantGestionnaireRéseau: string;
   identifiantProjet: IdentifiantProjet;
 };
 
 export const modifierGestionnaireRéseauProjetCommandHandlerFactory: CommandHandlerFactory<
-  modifierGestionnaireRéseauProjetCommand,
+  ModifierGestionnaireRéseauProjetCommand,
   Dependencies
 > =
   ({ publish }) =>

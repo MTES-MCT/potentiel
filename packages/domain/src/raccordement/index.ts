@@ -10,3 +10,4 @@ export * from './transmettreDateMiseEnService';
 export * from './transmettrePropositionTechniqueEtFinancière';
 export * from './modifierDemandeComplèteRaccordement';
 export * from './modifierGestionnaireRéseauProjet/modifierGestionnaireRéseauProjet.command';
+export * from './modifierGestionnaireRéseauProjet/modifierGestionnaireRéseauProjet.usecase';
