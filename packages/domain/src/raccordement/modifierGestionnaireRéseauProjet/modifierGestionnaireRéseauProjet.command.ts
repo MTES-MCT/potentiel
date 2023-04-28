@@ -1,9 +1,9 @@
-import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-domain';
+import { CommandHandlerFactory, Publish } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { GestionnaireRéseauProjetModifiéEvent } from './modifierGestionnaireRéseauProjet.event';
 import { createProjetAggregateId } from '../../projet/projet.aggregate';
 
-type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
+type Dependencies = { publish: Publish };
 
 type modifierGestionnaireRéseauProjetCommand = {
   identifiantGestionnaireRéseau: string;

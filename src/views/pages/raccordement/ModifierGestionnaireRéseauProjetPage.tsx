@@ -53,7 +53,6 @@ export const ModifierGestionnaireRéseauProjet = ({
         <form
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
-          encType="multipart/form-data"
           action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(identifiantProjet)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}

@@ -4,8 +4,9 @@ import {
   demandeComplèteRaccordementTransmiseHandlerFactory,
   dateMiseEnServiceTransmiseHandlerFactory,
   propositionTechniqueEtFinancièreTransmiseHandlerFactory,
+  gestionnaireRéseauProjetModifiéHandlerFactory,
+  demandeComplèteRaccordementeModifiéeHandlerFactory,
 } from '@potentiel/domain';
-import { demandeComplèteRaccordementeModifiéeHandlerFactory } from '@potentiel/domain/src/raccordement/modifierDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementModifiée.handler';
 import {
   createProjection,
   updateProjection,
@@ -17,6 +18,7 @@ import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
 export async function bootstrapEventConsumers() {
   const consumerGestionnaireRéseau = await consumerFactory('gestionnaireRéseauProjector');
   const consumerRaccordement = await consumerFactory('raccordementProjector');
+  const consumerProjet = await consumerFactory('projetProjector');
   consumerGestionnaireRéseau.consume(
     'GestionnaireRéseauAjouté',
     gestionnaireRéseauAjoutéHandlerFactory({ create: createProjection }),
@@ -50,6 +52,14 @@ export async function bootstrapEventConsumers() {
       find: findProjection,
       create: createProjection,
       remove: removeProjection,
+      update: updateProjection,
+    }),
+  );
+  consumerProjet.consume(
+    'GestionnaireRéseauProjetModifié',
+    gestionnaireRéseauProjetModifiéHandlerFactory({
+      find: findProjection,
+      create: createProjection,
       update: updateProjection,
     }),
   );

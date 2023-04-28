@@ -1,6 +1,7 @@
 import {
   GestionnaireNonRéférencéError,
   PermissionModifierGestionnaireRéseauProjet,
+  modifierGestionnaireRéseauProjetCommandHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -15,6 +16,11 @@ import {
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
+import { publish } from '@potentiel/pg-event-sourcing';
+
+const modifierGestionnaireRéseauProjet = modifierGestionnaireRéseauProjetCommandHandlerFactory({
+  publish,
+});
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -76,7 +82,7 @@ v1Router.post(
       try {
         await modifierGestionnaireRéseauProjet({
           identifiantProjet,
-          identifiantGestionnaireRéseau: { codeEIC },
+          identifiantGestionnaireRéseau: codeEIC,
         });
 
         return response.redirect(
