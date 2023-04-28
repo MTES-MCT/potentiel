@@ -1,10 +1,9 @@
 import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
-import { createRaccordementAggregateId } from '../raccordement.aggregate';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauProjetModifiéEvent } from './modifierGestionnaireRéseauProjet.event';
 import { ProjetNonRéférencéError } from '../../projet/projet.errors';
-import { loadProjetAggregateFactory } from '../../projet/projet.aggregate';
+import { createProjetAggregateId, loadProjetAggregateFactory } from '../../projet/projet.aggregate';
 
 type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
 
@@ -37,5 +36,5 @@ export const modifierGestionnaireRéseauProjetCommandHandlerFactory: CommandHand
       },
     };
 
-    await publish(createRaccordementAggregateId(identifiantProjet), event);
+    await publish(createProjetAggregateId(identifiantProjet), event);
   };
