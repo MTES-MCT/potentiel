@@ -474,7 +474,11 @@ class routes {
     }/modifier-demande-complete-raccordement`;
   };
 
-  static POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (projetId?: string, reference?: string) => {
+  static GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE = (projetId?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/modifier-gestionnaire-reseau.html`;
+  };
+
+  static POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (projetId?: string) => {
     return `/projet/${projetId || ':projetId'}/raccordements/modifier-gestionnaire-reseau`;
   };
 }

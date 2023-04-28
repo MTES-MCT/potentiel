@@ -22,6 +22,7 @@ import {
   PermissionConsulterDossierRaccordement,
   PermissionTransmettreDateMiseEnService,
   PermissionTransmettrePropositionTechniqueEtFinancière,
+  PermissionModifierGestionnaireRéseauProjet,
 } from '@potentiel/domain';
 
 export type Permission = {
@@ -56,6 +57,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionTransmettreDemandeComplèteRaccordement,
         PermissionConsulterDossierRaccordement,
         PermissionTransmettrePropositionTechniqueEtFinancière,
+        PermissionModifierGestionnaireRéseauProjet,
       ];
     case 'caisse-des-dépôts':
       return [
@@ -86,6 +88,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterDossierRaccordement,
         PermissionTransmettreDateMiseEnService,
         PermissionTransmettrePropositionTechniqueEtFinancière,
+        PermissionModifierGestionnaireRéseauProjet,
       ];
     case 'dgec-validateur':
       return [
@@ -105,6 +108,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterDossierRaccordement,
         PermissionTransmettreDateMiseEnService,
         PermissionTransmettrePropositionTechniqueEtFinancière,
+        PermissionModifierGestionnaireRéseauProjet,
       ];
     case 'acheteur-obligé':
     case 'cre':

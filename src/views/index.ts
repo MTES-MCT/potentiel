@@ -52,6 +52,7 @@ import {
   TransmettreDateMiseEnService,
   TransmettrePropositionTechniqueEtFinancière,
   ModifierDemandeComplèteRaccordement,
+  ModifierGestionnaireRéseauProjet,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -447,4 +448,13 @@ export const ModifierDemandeComplèteRaccordementPage = (
     Component: ModifierDemandeComplèteRaccordement,
     props,
     title: 'Modifier une demande complète de raccordement',
+  });
+
+export const ModifierGestionnaireRéseauProjetPage = (
+  props: Parameters<typeof ModifierGestionnaireRéseauProjet>[0],
+) =>
+  makeHtml({
+    Component: ModifierGestionnaireRéseauProjet,
+    props,
+    title: 'Modifier le gestionnaire réseau du projet',
   });

@@ -20,27 +20,24 @@ import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentie
 type ModifierGestionnaireRéseauProjetProps = {
   user: UtilisateurReadModel;
   résuméProjet: RésuméProjetReadModel;
-  reference: string;
   error?: string;
   identifiantProjet: string;
-  gestionnaireActuel: GestionnaireRéseauReadModel;
+  identifiantGestionnaireActuel: string;
   listeGestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 
 export const ModifierGestionnaireRéseauProjet = ({
   user,
   résuméProjet,
-  reference,
   error,
   identifiantProjet,
-  gestionnaireActuel,
+  identifiantGestionnaireActuel,
   listeGestionnairesRéseau,
 }: ModifierGestionnaireRéseauProjetProps) => {
-  const handleGestionnaireSéléctionné = (codeEIC: string) => {
-    const gestionnaireSélectionné = listeGestionnairesRéseau?.find(
-      (gestionnaire) => gestionnaire.codeEIC === codeEIC,
-    );
-  };
+  const gestionnaireActuel = listeGestionnairesRéseau.find(
+    (gestionnaire) => gestionnaire.codeEIC === identifiantGestionnaireActuel,
+  );
+
   return (
     <PageProjetTemplate
       titre={
@@ -57,23 +54,20 @@ export const ModifierGestionnaireRéseauProjet = ({
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
-          action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(identifiantProjet, reference)}
+          action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(identifiantProjet)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2 className="mb-0">Modifier le gestionnaire de réseau du projet</Heading2>
 
-          <Callout className="text-sm my-4 px-3 pt-1 pb-0">
-            <p>Gestionnaire de réseau actuel: {gestionnaireActuel}</p>
-          </Callout>
+          {gestionnaireActuel && (
+            <Callout className="text-sm my-4 px-3 pt-1 pb-0">
+              <p>Gestionnaire de réseau actuel: {gestionnaireActuel.raisonSociale}</p>
+            </Callout>
+          )}
 
           <div>
             <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
-            <Select
-              id="codeEIC"
-              name="codeEIC"
-              onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-              defaultValue={'none'}
-            >
+            <Select id="codeEIC" name="codeEIC" defaultValue={'none'}>
               <option value="none" disabled hidden>
                 Sélectionnez votre gestionnaire de réseau
               </option>
