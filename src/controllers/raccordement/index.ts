@@ -10,3 +10,4 @@ export * from './getPropositionTechniqueEtFinanciereFile';
 export * from './getModifierDemandeComplèteRaccordementPage';
 export * from './postModifierDemandeComplèteRaccordement';
 export * from './getModifierGestionnaireRéseauProjetPage';
+export * from './postModifierGestionnaireRéseauProjet';
