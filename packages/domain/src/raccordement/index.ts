@@ -9,3 +9,4 @@ export * from './transmettreDemandeComplèteRaccordement';
 export * from './transmettreDateMiseEnService';
 export * from './transmettrePropositionTechniqueEtFinancière';
 export * from './modifierDemandeComplèteRaccordement/modifierDemandeComplèteRaccordement.command';
+export * from './modifierGestionnaireRéseauProjet/modifierGestionnaireRéseauProjet.command';
