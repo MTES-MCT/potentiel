@@ -28,7 +28,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
 
     # Scénario: Impossible de transmettre une demande complète de raccordement pour un projet inconnu
     #     Quand le porteur du projet transmet une demande complète de raccordement pour un projet inconnu
-    #     Alors le porteur devrait être informé que "Le projet n'existe pas"
+    #     Alors le porteur devrait être informé que "Le projet n'est pas référencé"
 
     # Scénario: Impossible de transmettre une demande complète de raccordement pour un projet sur lequel le porteur n'a pas les accès
     #     Etant donné un projet
