@@ -12,9 +12,10 @@ import {
   errorResponse,
   iso8601DateToDateYupTransformation,
   notFoundResponse,
+  unauthorizedResponse,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
@@ -61,6 +62,7 @@ v1Router.post(
     },
     async (request, response) => {
       const {
+        user,
         params: { projetId, reference },
         body: { dateQualification, nouvelleReference },
         file,
@@ -87,6 +89,20 @@ v1Router.post(
           response,
           ressourceTitle: 'Projet',
         });
+      }
+
+      if (user.role === 'porteur-projet') {
+        const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
+          where: { projectId: projetId, userId: user.id },
+        }));
+
+        if (!porteurAAccèsAuProjet) {
+          return unauthorizedResponse({
+            request,
+            response,
+            customMessage: `Vous n'avez pas accès à ce projet.`,
+          });
+        }
       }
 
       const identifiantProjet = {

@@ -88,6 +88,20 @@ v1Router.post(
         });
       }
 
+      if (user.role === 'porteur-projet') {
+        const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
+          where: { projectId: projetId, userId: user.id },
+        }));
+
+        if (!porteurAAccèsAuProjet) {
+          return unauthorizedResponse({
+            request,
+            response,
+            customMessage: `Vous n'avez pas accès à ce projet.`,
+          });
+        }
+      }
+
       const identifiantProjet = {
         appelOffre: projet.appelOffreId,
         période: projet.periodeId,
