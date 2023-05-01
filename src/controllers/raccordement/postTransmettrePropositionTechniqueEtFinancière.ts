@@ -12,9 +12,10 @@ import {
   errorResponse,
   iso8601DateToDateYupTransformation,
   notFoundResponse,
+  unauthorizedResponse,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
@@ -63,6 +64,7 @@ v1Router.post(
         params: { projetId, reference },
         body: { dateSignature },
         file,
+        user,
       } = request;
 
       if (!file) {
