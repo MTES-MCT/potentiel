@@ -2,6 +2,9 @@ module.exports = {
   content: ['./src/views/**/*.tsx', './src/views/**/*.html'],
   darkMode: 'media', // or 'class'
   theme: {
+    fontFamily: {
+      body: ['Marianne', 'Arial', 'sans-serif'],
+    },
     extend: {
       colors: {
         'blue-france-sun': {
