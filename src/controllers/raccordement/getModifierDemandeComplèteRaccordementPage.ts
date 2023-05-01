@@ -4,6 +4,7 @@ import {
   consulterDossierRaccordementQueryHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
+  formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -13,6 +14,8 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { findProjection } from '@potentiel/pg-projections';
 import { ModifierDemandeComplèteRaccordementPage } from '@views';
+import { getFiles } from '@potentiel/file-storage';
+import { join } from 'path';
 
 const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
   find: findProjection,
@@ -99,18 +102,27 @@ v1Router.get(
         return 'éliminé';
       };
 
+      const identifiantProjet = {
+        appelOffre: projet.appelOffreId,
+        numéroCRE: projet.numeroCRE,
+        période: projet.periodeId,
+        famille: projet.familleId,
+      };
+
       const { identifiantGestionnaire } = await consulterProjet({
-        identifiantProjet: {
-          appelOffre: projet.appelOffreId,
-          numéroCRE: projet.numeroCRE,
-          période: projet.periodeId,
-          famille: projet.familleId,
-        },
+        identifiantProjet,
       });
 
       const gestionnaireRéseauActuel = await consulterGestionnaireRéseau({
         codeEIC: identifiantGestionnaire!.codeEIC,
       });
+
+      const filePath = join(
+        formatIdentifiantProjet(identifiantProjet),
+        reference,
+        `demande-complete-raccordement`,
+      );
+      const files = await getFiles(filePath);
 
       return response.send(
         ModifierDemandeComplèteRaccordementPage({
@@ -135,6 +147,7 @@ v1Router.get(
           dateQualificationActuelle: dossierRaccordement.dateQualification,
           error: error as string,
           gestionnaireRéseauActuel,
+          existingFile: !!(files.length > 0),
         }),
       );
     },

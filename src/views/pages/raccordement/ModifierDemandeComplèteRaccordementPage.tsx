@@ -28,6 +28,7 @@ type ModifierDemandeComplèteRaccordementProps = {
   reference: string;
   dateQualificationActuelle?: string;
   gestionnaireRéseauActuel: GestionnaireRéseauReadModel;
+  existingFile: boolean;
 };
 
 export const ModifierDemandeComplèteRaccordement = ({
@@ -41,6 +42,7 @@ export const ModifierDemandeComplèteRaccordement = ({
     aideSaisieRéférenceDossierRaccordement: { format, légende },
     raisonSociale,
   },
+  existingFile,
 }: ModifierDemandeComplèteRaccordementProps) => {
   return (
     <PageProjetTemplate
@@ -89,13 +91,15 @@ export const ModifierDemandeComplèteRaccordement = ({
                   </span>
                 </li>
               )}
-              <li>
-                <DownloadLink
-                  fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, reference)}
-                >
-                  Accusé de réception de la demande complète de raccordement
-                </DownloadLink>
-              </li>
+              {existingFile && (
+                <li>
+                  <DownloadLink
+                    fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, reference)}
+                  >
+                    Accusé de réception de la demande complète de raccordement
+                  </DownloadLink>
+                </li>
+              )}
             </ul>
           </Callout>
 
