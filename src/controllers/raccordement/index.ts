@@ -5,7 +5,7 @@ export * from './postTransmettreDemandeComplèteRaccordement';
 export * from './postTransmettreDateMiseEnService';
 export * from './getTransmettrePropositionTechniqueEtFinancière';
 export * from './postTransmettrePropositionTechniqueEtFinancière';
-export * from './getAccuséRéceptionFile';
+export * from './getDemandeComplèteRaccordementAccuséRéceptionFile';
 export * from './getPropositionTechniqueEtFinanciereFile';
 export * from './getModifierDemandeComplèteRaccordementPage';
 export * from './postModifierDemandeComplèteRaccordement';
