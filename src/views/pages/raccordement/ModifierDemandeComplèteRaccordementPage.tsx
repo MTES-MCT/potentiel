@@ -14,6 +14,7 @@ import {
   InfoBox,
   EditIcon,
   DownloadLink,
+  ExternalLink,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
@@ -139,12 +140,26 @@ export const ModifierDemandeComplèteRaccordement = ({
 
             <div className="flex flex-col md:flex-row gap-4 m-auto">
               <Button type="submit">Transmettre</Button>
-              <Link href={routes.PROJECT_DETAILS(identifiantProjet)} className="m-auto">
-                Retour vers le projet
+              <Link
+                href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
+                className="m-auto"
+              >
+                Retour vers le dossier de raccordement
               </Link>
             </div>
           </div>
         </form>
+        <InfoBox
+          className="flex md:w-1/3 md:mx-auto"
+          title="* Où trouver la référence du dossier de raccordement ?"
+        >
+          Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre demande
+          complète de raccordement (
+          <ExternalLink href="https://docs.potentiel.beta.gouv.fr/gerer-mes-projets-et-documents/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
+            Voir un exemple
+          </ExternalLink>
+          )
+        </InfoBox>
       </div>
     </PageProjetTemplate>
   );
