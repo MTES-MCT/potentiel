@@ -53,7 +53,11 @@ v1Router.post(
     {
       schema,
       onError: ({ request, response }) =>
-        notFoundResponse({ request, response, ressourceTitle: 'Projet' }),
+        response.redirect(
+          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(request.params.projetId), {
+            error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
+          }),
+        ),
     },
     async (request, response) => {
       const {

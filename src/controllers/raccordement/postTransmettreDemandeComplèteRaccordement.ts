@@ -66,9 +66,12 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) => {
-        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
-      },
+      onError: ({ request, response }) =>
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(request.params.projetId), {
+            error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
+          }),
+        ),
     },
     async (request, response) => {
       const {
