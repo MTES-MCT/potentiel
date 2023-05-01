@@ -26,7 +26,7 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
       user,
     ) && (
       <InfoBox>
-        Les données de raccordement de votre projet sont dorénavant consultables et modifiables sur{' '}
+        Les données de raccordement du projet sont dorénavant consultables et modifiables sur{' '}
         <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>cette page dédiée.</Link>
       </InfoBox>
     )}
