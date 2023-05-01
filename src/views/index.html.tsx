@@ -87,7 +87,9 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
           : ''}
       </head>
 
-      <body className="min-h-screen flex flex-col">
+      <body
+        className="min-h-screen flex flex-col font-body text-base leading-normal antialiased box-border relative"
+      >
         <svg aria-hidden="true" focusable="false" style="display:none">
           <defs>
             <symbol
