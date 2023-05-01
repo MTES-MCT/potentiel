@@ -57,19 +57,19 @@ v1Router.get(
         );
         const files = await getFiles(filePath);
 
-        if (files.length > 0) {
-          const fileContent = await download(files[0]);
-          const extension = extname(files[0]);
-          response.type(extension);
-          response.setHeader(
-            'Content-Disposition',
-            `attachment; filename=accuse-reception-${reference}${extension}`,
-          );
-          fileContent.pipe(response);
-          response.status(200);
+        if (files.length === 0) {
+          return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
         }
 
-        return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
+        const fileContent = await download(files[0]);
+        const extension = extname(files[0]);
+        response.type(extension);
+        response.setHeader(
+          'Content-Disposition',
+          `attachment; filename=accuse-reception-${reference}${extension}`,
+        );
+        fileContent.pipe(response);
+        return response.status(200);
       } catch (error) {
         logger.error(error);
       }
