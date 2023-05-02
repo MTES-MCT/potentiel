@@ -1,10 +1,12 @@
 {
   "extends": "@potentiel/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "declaration": true
+    "outDir": "dist",
+    "rootDir": "src"
   },
-  "include": [
-    "src"
+  "references": [
+    {
+      "path": "../monads"
+    }
   ]
 }

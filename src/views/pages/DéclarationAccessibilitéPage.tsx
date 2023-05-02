@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Link, PageTemplate, ExternalLink, Heading1, Heading2 } from '@components';
+import { Link, LegacyPageTemplate, ExternalLink, Heading1, Heading2 } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type DéclarationAccessibilitéProps = {
@@ -9,7 +9,7 @@ type DéclarationAccessibilitéProps = {
 
 export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilitéProps) => {
   return (
-    <PageTemplate user={request.user}>
+    <LegacyPageTemplate user={request.user}>
       <main role="main">
         <Heading1>Déclaration d’accessibilité</Heading1>
         <p>Établie le 15 décembre 2022.</p>
@@ -66,7 +66,7 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
           </ul>
         </p>
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

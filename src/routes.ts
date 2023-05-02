@@ -299,15 +299,6 @@ class routes {
 
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project';
 
-  static DEPOSER_ETAPE_ACTION = '/deposer-etape';
-  static SUPPRIMER_ETAPE_ACTION = (args?: { projectId: string; type: string }) => {
-    const route = '/projet/:projectId/supprimer/:type';
-    if (args) {
-      const { type, projectId } = args;
-      return route.replace(':projectId', projectId).replace(':type', type);
-    } else return route;
-  };
-
   /* CRE4 GF */
   static REMOVE_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
     const route = '/projet/:projectId/annuler-depot/garanties-financieres';
@@ -396,16 +387,114 @@ class routes {
   static ATTACHER_FICHIER_AU_PROJET_ACTION = '/attacher-fichier-au-projet';
   static RETIRER_FICHIER_DU_PROJET_ACTION = '/retirer-fichier-du-projet';
 
-  static IMPORT_DONNEES_RACCORDEMENT = '/admin/import-donnees-raccordement.html';
-  static POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT = '/admin/demarrer-import-donnees-raccordement';
-
-  static GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU = (projetId?: Project['id']) => {
-    const route = '/projet/:projetId/modifier-identifiant-gestionnaire-reseau.html';
+  static GET_LISTE_DOSSIERS_RACCORDEMENT = (projetId?: string) => {
+    const route = '/projet/:projetId/raccordements';
     if (projetId) {
       return route.replace(':projetId', projetId);
-    } else return route;
+    } else {
+      return route;
+    }
   };
-  static POST_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU = '/modifier-identifant-gestionnaire-reseau';
-}
 
+  static POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT = (projetId?: string) => {
+    const route = '/projet/:projetId/transmettre-demande-complete-raccordement';
+    if (projetId) {
+      return route.replace(':projetId', projetId);
+    } else {
+      return route;
+    }
+  };
+
+  static GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE = (projetId?: string) => {
+    const route = '/projet/:projetId/transmettre-demande-complete-raccordement.html';
+    if (projetId) {
+      return route.replace(':projetId', projetId);
+    } else {
+      return route;
+    }
+  };
+
+  static GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE = (projetId?: string, reference?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/transmettre-date-mise-en-service.html`;
+  };
+
+  static POST_TRANSMETTRE_DATE_MISE_EN_SERVICE = (projetId?: string, reference?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/transmettre-date-mise-en-service`;
+  };
+
+  static GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/transmettre-proposition-technique-et-financiere.html`;
+  };
+
+  static POST_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/transmettre-proposition-technique-et-financiere`;
+  };
+
+  static GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE = (projetId?: string, reference?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/telecharger-accuse-reception`;
+  };
+
+  static GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE = (projetId?: string, reference?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/telecharger-proposition-technique-et-financiere`;
+  };
+
+  static GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/modifier-demande-complete-raccordement.html`;
+  };
+
+  static POST_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT = (projetId?: string, reference?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/modifier-demande-complete-raccordement`;
+  };
+
+  static GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE = (projetId?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/modifier-gestionnaire-reseau.html`;
+  };
+
+  static POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (projetId?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/modifier-gestionnaire-reseau`;
+  };
+
+  static GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/modifier-proposition-technique-et-financiere.html`;
+  };
+
+  static POST_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/modifier-proposition-technique-et-financiere`;
+  };
+}
 export default routes;

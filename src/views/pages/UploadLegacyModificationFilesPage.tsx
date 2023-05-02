@@ -2,7 +2,15 @@ import type { Request } from 'express';
 import React from 'react';
 import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
-import { ErrorBox, Button, PageTemplate, SuccessBox, Heading1, Label, Input } from '@components';
+import {
+  ErrorBox,
+  Button,
+  LegacyPageTemplate,
+  SuccessBox,
+  Heading1,
+  Label,
+  Input,
+} from '@components';
 import { hydrateOnClient } from '../helpers/hydrateOnClient';
 
 export type UploadLegacyModificationFileResult =
@@ -30,7 +38,7 @@ export const UploadLegacyModificationFiles = ({
   const successes = results?.filter((result) => !result.error) || [];
 
   return (
-    <PageTemplate user={request.user} currentPage={'admin-upload-legacy-modification-files'}>
+    <LegacyPageTemplate user={request.user} currentPage={'admin-upload-legacy-modification-files'}>
       <div className="panel">
         <div className="panel__header">
           <Heading1>Importer des courriers historiques</Heading1>
@@ -85,7 +93,7 @@ export const UploadLegacyModificationFiles = ({
           </Button>
         </form>
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

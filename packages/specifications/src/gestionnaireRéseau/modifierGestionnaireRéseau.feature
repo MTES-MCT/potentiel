@@ -3,8 +3,8 @@ Fonctionnalité: Modifier un gestionnaire de réseau
 
 Scénario: Un administrateur modifie un gestionnaire de réseau
     Etant donné un gestionnaire de réseau
-    | Code EIC          | 17X100A100A0001A  |
-    | Raison sociale    | Enedis            |
+    | Code EIC          | 17X0000009352859                     |
+    | Raison sociale    | Arc Energies Maurienne             |
     Quand un administrateur modifie les données du gestionnaire de réseau
     | Raison sociale | RTE              |
     | Légende        | Trois lettres    |

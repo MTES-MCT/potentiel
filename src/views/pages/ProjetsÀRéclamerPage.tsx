@@ -13,7 +13,7 @@ import {
   LinkButton,
   ListeVide,
   MissingOwnerProjectList,
-  PageTemplate,
+  LegacyPageTemplate,
   Select,
   SuccessBox,
 } from '@components';
@@ -60,7 +60,7 @@ export const ProjetsÀRéclamer = ({
   const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
   return (
-    <PageTemplate user={request.user} currentPage="list-missing-owner-projects">
+    <LegacyPageTemplate user={request.user} currentPage="list-missing-owner-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Projets à réclamer</Heading1>
@@ -223,7 +223,7 @@ export const ProjetsÀRéclamer = ({
           <ListeVide titre="Aucun projet à afficher" />
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

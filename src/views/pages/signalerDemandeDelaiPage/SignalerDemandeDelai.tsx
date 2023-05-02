@@ -3,7 +3,7 @@ import {
   Input,
   SecondaryLinkButton,
   ProjectInfo,
-  PageTemplate,
+  LegacyPageTemplate,
   Astérisque,
   FormulaireChampsObligatoireLégende,
   ErrorBox,
@@ -32,7 +32,7 @@ export const SignalerDemandeDelai = ({
   const [doesNewDateImpactProject, newDateImpactsProject] = useState(true);
 
   return (
-    <PageTemplate user={user} currentPage="list-projects">
+    <LegacyPageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
         <div className="panel__header">
           <Heading1>Enregistrer une demande de délai traitée hors Potentiel</Heading1>
@@ -162,7 +162,7 @@ export const SignalerDemandeDelai = ({
           </div>
         </form>
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

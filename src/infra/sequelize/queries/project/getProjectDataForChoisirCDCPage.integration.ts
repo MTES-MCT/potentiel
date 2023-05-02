@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import { Project, Raccordements } from '@infra/sequelize/projectionsNext';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForChoisirCDCPage } from './getProjectDataForChoisirCDCPage';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
@@ -30,12 +30,6 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
       }),
     );
 
-    await Raccordements.create({
-      projetId,
-      id: new UniqueEntityID().toString(),
-      identifiantGestionnaire: 'identifiant-gestionnaire',
-    });
-
     const expected: Partial<ProjectDataForChoisirCDCPage> = {
       id: projetId,
       appelOffre: getProjectAppelOffre({
@@ -44,7 +38,6 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
         familleId: '1',
       }),
       cahierDesChargesActuel: '30/07/2021',
-      identifiantGestionnaireRéseau: 'identifiant-gestionnaire',
     };
 
     const readModel = await getProjectDataForChoisirCDCPage(projetId);

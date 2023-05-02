@@ -1,7 +1,7 @@
 import { errAsync, okAsync, wrapInfra } from '@core/utils';
 import { EntityNotFoundError } from '@modules/shared';
 import { GetProjectDataForChoisirCDCPage } from '@modules/project';
-import { Raccordements, Project } from '@infra/sequelize/projectionsNext';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { CahierDesChargesRéférence } from '@entities';
 
@@ -9,12 +9,6 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
   wrapInfra(
     Project.findByPk(projectId, {
       attributes: ['id', 'appelOffreId', 'familleId', 'periodeId', 'cahierDesChargesActuel'],
-      include: [
-        {
-          model: Raccordements,
-          as: 'raccordements',
-        },
-      ],
     }),
   ).andThen((projet) => {
     if (!projet) {
@@ -35,9 +29,6 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
       id: projet.id,
       cahierDesChargesActuel: projet.cahierDesChargesActuel as CahierDesChargesRéférence,
       appelOffre,
-      ...(projet.raccordements?.identifiantGestionnaire && {
-        identifiantGestionnaireRéseau: projet.raccordements.identifiantGestionnaire,
-      }),
     };
 
     return okAsync(projetProps);

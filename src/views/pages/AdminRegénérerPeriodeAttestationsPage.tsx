@@ -9,7 +9,7 @@ import {
   Heading1,
   Input,
   Label,
-  PageTemplate,
+  LegacyPageTemplate,
   Select,
   SuccessBox,
   TextArea,
@@ -33,7 +33,7 @@ export const AdminRegénérerPeriodeAttestations = ({
     ?.familles.sort((a, b) => a.title.localeCompare(b.title));
 
   return (
-    <PageTemplate user={request.user} currentPage="regenerate-certificates">
+    <LegacyPageTemplate user={request.user} currentPage="regenerate-certificates">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Regénérer des attestations</Heading1>
@@ -176,7 +176,7 @@ export const AdminRegénérerPeriodeAttestations = ({
           </p>
         </form>
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

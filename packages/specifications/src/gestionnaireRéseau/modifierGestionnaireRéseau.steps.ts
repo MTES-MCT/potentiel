@@ -1,33 +1,33 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
   consulterGestionnaireRéseauQueryHandlerFactory,
+  GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
   listerGestionnaireRéseauQueryHandlerFactory,
   modifierGestionnaireRéseauFactory,
 } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
-import waitForExpect from 'wait-for-expect';
-import { GestionnaireRéseauWorld } from './gestionnaireRéseau.world';
+import { PotentielWorld } from '../potentiel.world';
 
-EtantDonné(
-  'un gestionnaire de réseau',
-  async function (this: GestionnaireRéseauWorld, table: DataTable) {
-    const exemple = table.rowsHash();
-    this.codeEIC = exemple['Code EIC'];
-    this.raisonSociale = exemple['Raison sociale'];
+EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
+  const exemple = table.rowsHash();
+  this.gestionnaireRéseauWorld.codeEIC = exemple['Code EIC'];
+  this.gestionnaireRéseauWorld.raisonSociale = exemple['Raison sociale'];
 
-    await this.createGestionnaireRéseau(this.codeEIC, this.raisonSociale);
-  },
-);
+  await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
+    this.gestionnaireRéseauWorld.codeEIC,
+    this.gestionnaireRéseauWorld.raisonSociale,
+  );
+});
 
 Quand(
   'un administrateur modifie les données du gestionnaire de réseau',
-  async function (this: GestionnaireRéseauWorld, table: DataTable) {
+  async function (this: PotentielWorld, table: DataTable) {
     const example = table.rowsHash();
-    this.raisonSociale = example['Raison sociale'];
-    this.légende = example['Légende'];
-    this.format = example['Format'];
+    this.gestionnaireRéseauWorld.raisonSociale = example['Raison sociale'];
+    this.gestionnaireRéseauWorld.légende = example['Légende'];
+    this.gestionnaireRéseauWorld.format = example['Format'];
 
     const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
       publish,
@@ -35,11 +35,11 @@ Quand(
     });
 
     await modifierGestionnaireRéseau({
-      codeEIC: this.codeEIC,
-      raisonSociale: this.raisonSociale,
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
-        format: this.format,
-        légende: this.légende,
+        format: this.gestionnaireRéseauWorld.format,
+        légende: this.gestionnaireRéseauWorld.légende,
       },
     });
   },
@@ -47,7 +47,7 @@ Quand(
 
 Quand(
   'un administrateur modifie un gestionnaire de réseau inconnu',
-  async function (this: GestionnaireRéseauWorld) {
+  async function (this: PotentielWorld) {
     const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
       publish,
       loadAggregate,
@@ -62,57 +62,57 @@ Quand(
           légende: 'des lettres séparées par un tiret',
         },
       });
-    } catch (err) {
-      this.error = err as Error;
+    } catch (error) {
+      if (error instanceof GestionnaireRéseauInconnuError) {
+        this.error = error;
+      }
     }
   },
 );
 
 Alors(
   `le gestionnaire de réseau devrait être à jour dans le référenciel des gestionnaires de réseau`,
-  async function (this: GestionnaireRéseauWorld) {
+  async function (this: PotentielWorld) {
     const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-      listGestionnaireRéseau: listProjection,
+      list: listProjection,
     });
 
-    await waitForExpect(async () => {
-      const expected: GestionnaireRéseauReadModel = {
-        type: 'gestionnaire-réseau',
-        codeEIC: this.codeEIC,
-        raisonSociale: this.raisonSociale,
-        aideSaisieRéférenceDossierRaccordement: {
-          format: this.format,
-          légende: this.légende,
-        },
-      };
+    const expected: GestionnaireRéseauReadModel = {
+      type: 'gestionnaire-réseau',
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        format: this.gestionnaireRéseauWorld.format,
+        légende: this.gestionnaireRéseauWorld.légende,
+      },
+    };
 
-      const actual = await listerGestionnaireRéseau({});
-      actual.should.deep.contain(expected);
-    });
+    const actual = await listerGestionnaireRéseau({});
+    actual.should.deep.contain(expected);
   },
 );
 
 Alors(
   `l'administrateur devrait pouvoir consulter les détails à jour du gestionnaire de réseau`,
-  async function (this: GestionnaireRéseauWorld) {
+  async function (this: PotentielWorld) {
     const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-      findGestionnaireRéseau: findProjection,
+      find: findProjection,
     });
 
-    await waitForExpect(async () => {
-      const expected: GestionnaireRéseauReadModel = {
-        type: 'gestionnaire-réseau',
-        codeEIC: this.codeEIC,
-        raisonSociale: this.raisonSociale,
-        aideSaisieRéférenceDossierRaccordement: {
-          format: this.format,
-          légende: this.légende,
-        },
-      };
+    const expected: GestionnaireRéseauReadModel = {
+      type: 'gestionnaire-réseau',
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        format: this.gestionnaireRéseauWorld.format,
+        légende: this.gestionnaireRéseauWorld.légende,
+      },
+    };
 
-      const actual = await consulterGestionnaireRéseau({ codeEIC: this.codeEIC });
-
-      actual.should.be.deep.equal(expected);
+    const actual = await consulterGestionnaireRéseau({
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
     });
+
+    actual.should.be.deep.equal(expected);
   },
 );

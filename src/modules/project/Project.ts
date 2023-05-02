@@ -33,8 +33,6 @@ import {
   AttachmentRequiredForDemandeRecoursAcceptedError,
   EliminatedProjectCannotBeAbandonnedError,
   GFCertificateHasAlreadyBeenSentError,
-  DCRCertificatDéjàEnvoyéError,
-  PTFCertificatDéjàEnvoyéError,
   IllegalProjectStateError,
   NoGFCertificateToDeleteError,
   NoGFCertificateToUpdateError,
@@ -64,12 +62,8 @@ import {
   ProjectCompletionDueDateSet,
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
-  ProjectDCRSubmitted,
-  ProjectDCRRemoved,
   ProjectDCRDueDateCancelled,
   ProjectDCRDueDateSet,
-  ProjectPTFSubmitted,
-  ProjectPTFRemoved,
   ProjectFournisseursUpdated,
   ProjectGFDueDateCancelled,
   ProjectGFDueDateSet,
@@ -85,8 +79,6 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   CahierDesChargesChoisi,
-  NumeroGestionnaireSubmitted,
-  DonnéesDeRaccordementRenseignées,
   LegacyAbandonSupprimé,
   GarantiesFinancièresValidées,
   GarantiesFinancièresInvalidées,
@@ -149,18 +141,6 @@ export interface Project extends EventStoreAggregate {
     certificateFileId: string;
     reason?: string;
   }) => Result<null, IllegalInitialStateForAggregateError>;
-  submitDemandeComplèteRaccordement: (args: {
-    projectId: string;
-    dcrDate: Date;
-    fileId: string;
-    submittedBy: string;
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>;
-  submitPropositionTechniqueFinancière: (args: {
-    projectId: string;
-    fileId: string;
-    ptfDate: Date;
-    submittedBy: string;
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError>;
   submitGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
@@ -295,8 +275,6 @@ export interface ProjectProps {
   fieldsUpdatedAfterImport: Set<string>;
   potentielIdentifier?: string;
   hasCurrentGf: boolean;
-  hasCurrentPtf: boolean;
-  hasCurrentDcr: boolean;
   GFExpirationDate: Date | undefined;
   appelOffreId: string;
   periodeId: string;
@@ -342,8 +320,6 @@ export const makeProject = (args: {
     cahierDesCharges: { type: 'initial' },
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
-    hasCurrentPtf: false,
-    hasCurrentDcr: false,
     GFExpirationDate: undefined,
     potentielIdentifier: '',
     appelOffreId: '',
@@ -824,40 +800,6 @@ export const makeProject = (args: {
 
       return ok(null);
     },
-    submitDemandeComplèteRaccordement: function ({ projectId, dcrDate, fileId, submittedBy }) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-
-      if (props.hasCurrentDcr) {
-        return err(new DCRCertificatDéjàEnvoyéError());
-      }
-
-      _publishEvent(
-        new ProjectDCRSubmitted({
-          payload: { projectId, dcrDate, fileId, submittedBy },
-        }),
-      );
-
-      return ok(null);
-    },
-    submitPropositionTechniqueFinancière: function ({ projectId, fileId, ptfDate, submittedBy }) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-
-      if (props.hasCurrentPtf) {
-        return err(new PTFCertificatDéjàEnvoyéError());
-      }
-
-      _publishEvent(
-        new ProjectPTFSubmitted({
-          payload: { projectId, ptfDate, fileId, submittedBy },
-        }),
-      );
-
-      return ok(null);
-    },
     submitGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
@@ -1332,18 +1274,6 @@ export const makeProject = (args: {
           props.GFExpirationDate = event.payload.expirationDate;
         }
         break;
-      case ProjectDCRSubmitted.type:
-        props.hasCurrentDcr = true;
-        break;
-      case ProjectDCRRemoved.type:
-        props.hasCurrentDcr = false;
-        break;
-      case ProjectPTFSubmitted.type:
-        props.hasCurrentPtf = true;
-        break;
-      case ProjectPTFRemoved.type:
-        props.hasCurrentPtf = false;
-        break;
       case ProjectGFRemoved.type:
       case ProjectGFWithdrawn.type:
         props.hasCurrentGf = false;
@@ -1374,17 +1304,6 @@ export const makeProject = (args: {
             alternatif: event.payload.alternatif,
           }),
         };
-        break;
-      case NumeroGestionnaireSubmitted.type:
-        props.identifiantGestionnaireRéseau = event.payload.numeroGestionnaire;
-        break;
-      case DonnéesDeRaccordementRenseignées.type:
-        if (event.payload.dateMiseEnService) {
-          props.dateMiseEnService = new Date(event.payload.dateMiseEnService);
-        }
-        if (event.payload.dateFileAttente) {
-          props.dateFileAttente = new Date(event.payload.dateFileAttente);
-        }
         break;
       case ProjectDCRDueDateSet.type:
         props.dcrDueOn = new Date(event.payload.dcrDueOn);

@@ -12,7 +12,7 @@ import {
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
@@ -36,7 +36,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Je demande un abandon de mon projet</Heading1>
@@ -108,7 +108,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
           </form>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

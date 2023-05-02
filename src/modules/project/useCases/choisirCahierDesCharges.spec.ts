@@ -17,7 +17,6 @@ import {
   NouveauCahierDesChargesDéjàSouscrit,
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
-  IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { AppelOffreRepo } from '@dataAccess';
 
@@ -229,46 +228,6 @@ describe('Choisir un cahier des charges', () => {
       });
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(CahierDesChargesNonDisponibleError);
-      expect(publishToEventStore).not.toHaveBeenCalled();
-    });
-  });
-
-  describe(`Impossible de souscrire si le projet n'a pas d'identifiant gestionnaire réseau et que le CDC en requiert un`, () => {
-    it(`Etant donné un utilisateur ayant les droits sur un projet
-        Et l'AO avec un CDC modifié paru le 30/08/2022 qui requiert un identifiant gestionnaire réseau
-        Et le projet n'ayant pas d'identifiant du gestionnaire de réseau de renseigné
-        Lorsqu'il souscrit au CDC alternatif paru le 30/08/2022
-        Alors l'utilisateur devrait être alerté que l'identifiant gestionnaire réseau est obligatoire pour choisier ce CDC '`, async () => {
-      const shouldUserAccessProject = jest.fn(async () => true);
-
-      const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
-        ({
-          id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'notified' }],
-          familles: [{ id: 'familleId' }],
-          choisirNouveauCahierDesCharges: true,
-          cahiersDesChargesModifiésDisponibles: [
-            { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
-          ] as ReadonlyArray<CahierDesChargesModifié>,
-        } as AppelOffre);
-
-      const choisirCahierDesCharges = makeChoisirCahierDesCharges({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo: fakeRepo({ ...fakeProject, identifiantGestionnaireRéseau: '' }),
-        findAppelOffreById,
-      });
-
-      const res = await choisirCahierDesCharges({
-        projetId,
-        utilisateur: user,
-        cahierDesCharges: {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-        },
-      });
-
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(IdentifiantGestionnaireRéseauObligatoireError);
       expect(publishToEventStore).not.toHaveBeenCalled();
     });
   });

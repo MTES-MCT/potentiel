@@ -9,7 +9,7 @@ import {
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
@@ -47,7 +47,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
   );
 
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Je demande un délai supplémentaire</Heading1>
@@ -155,7 +155,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           </form>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

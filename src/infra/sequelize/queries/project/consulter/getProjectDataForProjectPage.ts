@@ -6,7 +6,6 @@ import {
   Project,
   ModificationRequest,
   User as UserModel,
-  Raccordements,
   UserProjects,
   File,
 } from '@infra/sequelize/projectionsNext';
@@ -28,11 +27,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           model: File,
           as: 'certificateFile',
           attributes: ['id', 'filename'],
-        },
-        {
-          model: Raccordements,
-          as: 'raccordements',
-          attributes: ['identifiantGestionnaire'],
         },
         {
           model: UserProjects,
@@ -164,7 +158,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           potentielIdentifier,
           contratEDF,
           contratEnedis,
-          raccordements,
+          dcrDueOn,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
         okAsync({
@@ -197,6 +191,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           isAbandoned: abandonedOn !== 0,
           isLegacy: appelOffre.periode.type === 'legacy',
           motifsElimination,
+          dcrDueOn,
           users: users
             ?.map(({ user }) => user.get())
             .map(({ id, email, fullName }) => ({
@@ -213,17 +208,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             'porteur-projet',
             'dreal',
             'acheteur-obligé',
-            'dgec-validateur',
-            'cre',
-          ])(user) && {
-            prixReference,
-            ...(notifiedOn && { certificateFile }),
-          }),
-          ...(userIs([
-            'admin',
-            'porteur-projet',
-            'dreal',
-            'acheteur-obligé',
             'ademe',
             'dgec-validateur',
             'cre',
@@ -235,15 +219,10 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             'acheteur-obligé',
             'dgec-validateur',
             'cre',
-          ])(user) &&
-            raccordements &&
-            raccordements.identifiantGestionnaire && {
-              gestionnaireDeRéseau: {
-                identifiantGestionnaire: raccordements.identifiantGestionnaire,
-                codeEICGestionnaireRéseau: raccordements.gestionnaireRéseau?.codeEIC,
-                raisonSocialeGestionnaireRéseau: raccordements.gestionnaireRéseau?.raisonSociale,
-              },
-            }),
+          ])(user) && {
+            prixReference,
+            ...(notifiedOn && { certificateFile }),
+          }),
         }),
     )
     .andThen((dto) =>

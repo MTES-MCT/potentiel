@@ -1,9 +1,5 @@
-import {
-  ensureRole,
-  choisirCahierDesCharges,
-  renseignerIdentifiantGestionnaireRéseau,
-} from '@config';
-import { logger, okAsync } from '@core/utils';
+import { ensureRole, choisirCahierDesCharges } from '@config';
+import { logger } from '@core/utils';
 import { UnauthorizedError } from '@modules/shared';
 import routes from '@routes';
 import { errorResponse, unauthorizedResponse } from '../helpers';
@@ -12,8 +8,6 @@ import * as yup from 'yup';
 import {
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
-  IdentifiantGestionnaireRéseauExistantError,
-  IdentifiantGestionnaireRéseauObligatoireError,
   NouveauCahierDesChargesDéjàSouscrit,
   PasDeChangementDeCDCPourCetAOError,
 } from '@modules/project';
@@ -84,75 +78,52 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: {
-          projectId,
-          redirectUrl,
-          type,
-          choixCDC,
-          identifiantGestionnaireRéseau,
-          codeEICGestionnaireRéseau,
-        },
+        body: { projectId, redirectUrl, type, choixCDC },
         user,
       } = request;
 
-      return (() => {
-        if (!identifiantGestionnaireRéseau) {
-          return okAsync(null);
-        }
+      return choisirCahierDesCharges({
+        projetId: projectId,
+        utilisateur: user,
+        cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),
+      }).match(
+        () => {
+          return response.redirect(
+            routes.SUCCESS_OR_ERROR_PAGE({
+              success:
+                "Votre demande de changement de modalités d'instruction a bien été enregistrée.",
+              redirectUrl,
+              redirectTitle: getRedirectTitle(type),
+            }),
+          );
+        },
+        (error) => {
+          if (error instanceof UnauthorizedError) {
+            return unauthorizedResponse({ request, response });
+          }
 
-        return renseignerIdentifiantGestionnaireRéseau({
-          projetId: projectId,
-          utilisateur: user,
-          identifiantGestionnaireRéseau,
-        });
-      })()
-        .andThen(() =>
-          choisirCahierDesCharges({
-            projetId: projectId,
-            utilisateur: user,
-            cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),
-          }),
-        )
-        .match(
-          () => {
-            return response.redirect(
-              routes.SUCCESS_OR_ERROR_PAGE({
-                success:
-                  "Votre demande de changement de modalités d'instruction a bien été enregistrée.",
-                redirectUrl,
-                redirectTitle: getRedirectTitle(type),
-              }),
-            );
-          },
-          (error) => {
-            if (error instanceof UnauthorizedError) {
-              return unauthorizedResponse({ request, response });
-            }
-
-            if (
-              error instanceof IdentifiantGestionnaireRéseauExistantError ||
-              error instanceof IdentifiantGestionnaireRéseauObligatoireError ||
-              error instanceof NouveauCahierDesChargesDéjàSouscrit ||
-              error instanceof PasDeChangementDeCDCPourCetAOError ||
-              error instanceof CahierDesChargesInitialNonDisponibleError ||
-              error instanceof CahierDesChargesNonDisponibleError
-            ) {
-              return errorResponse({
-                request,
-                response,
-                customMessage: error.message,
-              });
-            }
-
-            logger.error(error);
+          if (
+            error instanceof NouveauCahierDesChargesDéjàSouscrit ||
+            error instanceof PasDeChangementDeCDCPourCetAOError ||
+            error instanceof CahierDesChargesInitialNonDisponibleError ||
+            error instanceof CahierDesChargesNonDisponibleError
+          ) {
             return errorResponse({
               request,
               response,
-              customMessage:
-                'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+              customMessage: error.message,
             });
-          },
-        );
+          }
+
+          logger.error(error);
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+          });
+        },
+      );
     },
   ),
 );

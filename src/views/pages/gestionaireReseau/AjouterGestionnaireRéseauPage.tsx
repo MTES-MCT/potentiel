@@ -7,7 +7,7 @@ import {
   Input,
   Label,
   Link,
-  PageTemplate,
+  LegacyPageTemplate,
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '@views/helpers';
@@ -25,7 +25,7 @@ export const AjouterGestionnaireRéseau = ({
   erreur,
   erreurValidation,
 }: AjouterGestionnaireRéseauProps) => (
-  <PageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
+  <LegacyPageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
     <div className="panel">
       <div className="panel__header">
         <Heading1>Ajouter un gestionnaire de réseau</Heading1>
@@ -66,7 +66,7 @@ export const AjouterGestionnaireRéseau = ({
         <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </form>
     </div>
-  </PageTemplate>
+  </LegacyPageTemplate>
 );
 
 hydrateOnClient(AjouterGestionnaireRéseau);

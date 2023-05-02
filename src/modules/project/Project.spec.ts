@@ -1,9 +1,5 @@
 import { UniqueEntityID } from '@core/domain';
-import {
-  CahierDesChargesChoisi,
-  DonnéesDeRaccordementRenseignées,
-  NumeroGestionnaireSubmitted,
-} from './events';
+import { CahierDesChargesChoisi } from './events';
 import { makeProject } from './Project';
 
 describe(`Fabriquer l'aggregat projet`, () => {
@@ -61,26 +57,6 @@ describe(`Fabriquer l'aggregat projet`, () => {
 
       expect(projet.identifiantGestionnaireRéseau).toEqual('');
     });
-
-    it(`Quand on fabrique un projet avec un évènement 'NumeroGestionnaireSubmitted'
-      Alors l'identifiant du gestionnaire de réseau du projet devrait être celui mentionné dans l'évènement`, () => {
-      const projet = makeProject({
-        projectId,
-        history: [
-          new NumeroGestionnaireSubmitted({
-            payload: {
-              projectId: projectId.toString(),
-              submittedBy: 'porteur-projet',
-              numeroGestionnaire: 'NUMERO-GESTIONNAIRE',
-            },
-          }),
-        ],
-        getProjectAppelOffre: jest.fn(),
-        buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap();
-
-      expect(projet.identifiantGestionnaireRéseau).toEqual('NUMERO-GESTIONNAIRE');
-    });
   });
 
   describe(`Données de raccordement du projet`, () => {
@@ -95,31 +71,6 @@ describe(`Fabriquer l'aggregat projet`, () => {
 
       expect(projet.dateMiseEnService).toBeUndefined();
       expect(projet.dateFileAttente).toBeUndefined();
-    });
-
-    it(`Quand on fabrique un projet avec évènement 'DonnéesDeRaccordementRenseignées'
-        Alors le projet devrait avoir la date de mise en service des données de raccordement
-        Et le projet devrait avoir la date en file d'attente des données de raccordement`, () => {
-      const dateMiseEnService = new Date('2024-01-01');
-      const dateFileAttente = new Date('2023-01-01');
-
-      const projet = makeProject({
-        projectId,
-        history: [
-          new DonnéesDeRaccordementRenseignées({
-            payload: {
-              projetId: projectId.toString(),
-              dateMiseEnService,
-              dateFileAttente,
-            },
-          }),
-        ],
-        getProjectAppelOffre: jest.fn(),
-        buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap();
-
-      expect(projet.dateMiseEnService).toEqual(dateMiseEnService);
-      expect(projet.dateFileAttente).toEqual(dateFileAttente);
     });
   });
 });

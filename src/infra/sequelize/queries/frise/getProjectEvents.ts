@@ -9,14 +9,12 @@ import {
   isKnownProjectEvent,
   KnownProjectEvents,
   ProjectEvent,
-  Raccordements,
   User,
   Project,
   File,
 } from '@infra/sequelize/projectionsNext';
 import { ProjectAppelOffre } from '@entities';
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
-import { getPtfDTO } from './getPtfDTO';
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
   return wrapInfra(
@@ -45,11 +43,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
             { model: User, as: 'envoyéesParRef', required: false, attributes: ['role'] },
           ],
         },
-        {
-          model: Raccordements,
-          as: 'raccordements',
-          include: [{ model: File, as: 'ptfFichier' }],
-        },
       ],
     }),
   )
@@ -77,8 +70,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         garantiesFinancières,
         user,
       });
-
-      const ptfDTO = getPtfDTO({ ptf: raccordement, projetStatus: status, user });
 
       const garantieFinanciereEnMois =
         projectAppelOffre &&
@@ -199,28 +190,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     });
                   }
                   break;
-                case 'ProjectDCRSubmitted':
-                  if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
-                    const { file } = payload;
-                    if (type === 'ProjectDCRSubmitted') {
-                      events.push({
-                        type,
-                        date: valueDate,
-                        variant: user.role,
-                        file: file && { id: file.id, name: file.name },
-                      });
-                    }
-                  }
-                  break;
-                case 'ProjectDCRRemoved':
-                  if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
-                    events.push({
-                      type,
-                      date: valueDate,
-                      variant: user.role,
-                    });
-                  }
-                  break;
                 case 'ProjectCompletionDueDateSet':
                   if (
                     userIs([
@@ -238,23 +207,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       ...(payload?.reason === 'délaiCdc2022' && { délaiCDC2022Appliqué: true }),
-                    });
-                  }
-                  break;
-                case 'ProjectDCRDueDateSet':
-                  if (
-                    userIs([
-                      'admin',
-                      'porteur-projet',
-                      'dreal',
-                      'acheteur-obligé',
-                      'dgec-validateur',
-                    ])(user)
-                  ) {
-                    events.push({
-                      type,
-                      date: valueDate,
-                      variant: user.role,
                     });
                   }
                   break;
@@ -843,53 +795,12 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     });
                   }
                   break;
-                case 'DateMiseEnService':
-                  if (
-                    userIs([
-                      'admin',
-                      'porteur-projet',
-                      'dreal',
-                      'acheteur-obligé',
-                      'dgec-validateur',
-                    ])(user)
-                  ) {
-                    events.push({
-                      type,
-                      variant: user.role,
-                      ...(payload.statut === 'renseignée'
-                        ? {
-                            date: new Date(payload.dateMiseEnService).getTime(),
-                            statut: 'renseignée',
-                          }
-                        : { statut: 'non-renseignée' }),
-                    });
-                  }
-                  break;
-                case 'DateFileAttente':
-                  if (
-                    userIs([
-                      'admin',
-                      'porteur-projet',
-                      'dreal',
-                      'acheteur-obligé',
-                      'dgec-validateur',
-                    ])(user)
-                  ) {
-                    events.push({
-                      type,
-                      variant: user.role,
-                      date: new Date(payload.dateFileAttente).getTime(),
-                    });
-                  }
-                  break;
               }
               return Promise.resolve(events);
             },
             Promise.resolve([] as ProjectEventDTO[]),
           )
-        )
-          .concat(garantiesFinancièresDTO ? [garantiesFinancièresDTO] : [])
-          .concat(ptfDTO ? [ptfDTO] : []),
+        ).concat(garantiesFinancièresDTO ? [garantiesFinancièresDTO] : []),
       };
     });
 };

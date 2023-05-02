@@ -25,6 +25,8 @@ export { HiOutlinePaperClip as PaperClipIcon } from '@react-icons/all-files/hi/H
 export { HiInboxIn as InboxInIcon } from '@react-icons/all-files/hi/HiInboxIn';
 export { HiOutlineCalendar as CalendarIcon } from '@react-icons/all-files/hi/HiOutlineCalendar';
 export { RiArrowDownSLine as ArrowDownIcon } from '@react-icons/all-files/ri/RiArrowDownSLine';
+export { RiArrowRightCircleLine as ArrowRightWithCircle } from '@react-icons/all-files/ri/RiArrowRightCircleLine';
+export { RiArrowDownCircleLine as ArrowDownWithCircle } from '@react-icons/all-files/ri/RiArrowDownCircleLine';
 export { RiForbidLine as SkipIcon } from '@react-icons/all-files/ri/RiForbidLine';
 export { ImPower as PowerIcon } from '@react-icons/all-files/im/ImPower';
 export { MdEuroSymbol as EuroIcon } from '@react-icons/all-files/md/MdEuroSymbol';
@@ -36,3 +38,6 @@ export { RiBuilding4Line as BuildingIcon } from '@react-icons/all-files/ri/RiBui
 export { HiOutlineCog as CogIcon } from '@react-icons/all-files/hi/HiOutlineCog';
 export { HiOutlineClipboardCheck as ClipboardCheckIcon } from '@react-icons/all-files/hi/HiOutlineClipboardCheck';
 export { CgPlug as PlugIcon } from '@react-icons/all-files/cg/CgPlug';
+export { RiKey2Line as KeyIcon } from '@react-icons/all-files/ri/RiKey2Line';
+export { RiPriceTag3Line as TagIcon } from '@react-icons/all-files/ri/RiPriceTag3Line';
+export { RiPencilFill as EditIcon } from '@react-icons/all-files/ri/RiPencilFill';

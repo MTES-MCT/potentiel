@@ -14,7 +14,6 @@ export * from './ModificationRequestEvents';
 export * from './ProjectCertificateEvents';
 export * from './ProjectClaimedEvent';
 export * from './ProjectCompletionDueDateSetEvent';
-export * from './ProjectDCREvents';
 export * from './ProjectImportedEvent';
 export * from './ProjectNotificationDateSetEvent';
 export * from './ProjectNotifiedEvent';

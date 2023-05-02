@@ -10,7 +10,7 @@ import {
   CahierDesChargesRéférence,
   ProjectAppelOffre,
 } from '@entities';
-import { ModificationRequest, Project, Raccordements, User, File } from '@infra/sequelize';
+import { ModificationRequest, Project, User, File } from '@infra/sequelize';
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
   modificationRequestId,
@@ -49,9 +49,6 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'potentielIdentifier',
             'technologie',
             'cahierDesChargesActuel',
-          ],
-          include: [
-            { model: Raccordements, as: 'raccordements', attributes: ['identifiantGestionnaire'] },
           ],
         },
         {
@@ -101,8 +98,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       cahierDesCharges: cahierDesChargesRéférence,
     } = modificationRequestRaw.get();
 
-    const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie, raccordements } =
-      project.get();
+    const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get();
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId });
 
     return ok<ModificationRequestPageDTO>({
@@ -133,10 +129,6 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         completionDueOn: new Date(completionDueOn).getTime(),
         unitePuissance: appelOffre?.unitePuissance || '??',
         technologie: technologie || 'N/A',
-        ...(raccordements &&
-          raccordements.identifiantGestionnaire && {
-            identifiantGestionnaire: raccordements.identifiantGestionnaire,
-          }),
       },
       ...(type === 'puissance' && {
         puissanceAuMomentDuDepot,

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-type BadgeType = 'success' | 'error' | 'info' | 'warning';
+export type BadgeType = 'success' | 'error' | 'info' | 'warning';
 
 type BadgeProps = {
   className?: string;

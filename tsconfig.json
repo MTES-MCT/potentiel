@@ -1,9 +1,15 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "jsx": "react",
-    "typeRoots": ["./src/types", "node_modules/@types"],
+    "typeRoots": [
+      "./src/types",
+      "node_modules/@types"
+    ],
     "strictNullChecks": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -19,22 +25,48 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@routes": ["src/routes.ts"],
-      "@modules/*": ["src/modules/*"],
-      "@core/*": ["src/core/*/index.ts"],
-      "@entities": ["src/entities/index.ts"],
-      "@entities/*": ["src/entities/*.ts"],
-      "@infra/*": ["src/infra/*"],
-      "@useCases": ["src/useCases/index.ts"],
-      "@views": ["src/views/index.ts"],
-      "@views/*": ["src/views/*/index.ts"],
+      "@routes": [
+        "src/routes.ts"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@core/*": [
+        "src/core/*/index.ts"
+      ],
+      "@entities": [
+        "src/entities/index.ts"
+      ],
+      "@entities/*": [
+        "src/entities/*.ts"
+      ],
+      "@infra/*": [
+        "src/infra/*"
+      ],
+      "@useCases": [
+        "src/useCases/index.ts"
+      ],
+      "@views": [
+        "src/views/index.ts"
+      ],
+      "@views/*": [
+        "src/views/*/index.ts"
+      ],
       "@components": [
         "src/views/components/index.ts"
       ],
-      "@dataAccess": ["src/dataAccess/index.ts"],
-      "@dataAccess/*": ["src/dataAccess/*/index.ts"],
-      "@config": ["src/config/index.ts"],
-      "@config/*": ["src/config/*.ts"],
+      "@dataAccess": [
+        "src/dataAccess/index.ts"
+      ],
+      "@dataAccess/*": [
+        "src/dataAccess/*/index.ts"
+      ],
+      "@config": [
+        "src/config/index.ts"
+      ],
+      "@config/*": [
+        "src/config/*.ts"
+      ],
     },
     "plugins": [
       {
@@ -42,6 +74,48 @@
       }
     ]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "references": [
+    {
+      "path": "packages/applications/web"
+    },
+    {
+      "path": "packages/domain"
+    },
+    {
+      "path": "packages/specifications"
+    },
+    {
+      "path": "packages/libraries/core-domain"
+    },
+    {
+      "path": "packages/libraries/monads"
+    },
+    {
+      "path": "packages/libraries/monitoring"
+    },
+    {
+      "path": "packages/libraries/pg-event-sourcing"
+    },
+    {
+      "path": "packages/libraries/pg-helpers"
+    },
+    {
+      "path": "packages/libraries/pg-projections"
+    },
+    {
+      "path": "packages/libraries/redis-event-bus-client"
+    },
+    {
+      "path": "packages/libraries/redis-event-bus-consumer"
+    },
+    {
+      "path": "packages/libraries/file-storage"
+    }
+  ],
 }

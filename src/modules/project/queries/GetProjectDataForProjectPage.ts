@@ -14,12 +14,12 @@ export type GetProjectDataForProjectPage = (args: {
 }) => ResultAsync<ProjectDataForProjectPage, EntityNotFoundError | InfraNotAvailableError>;
 
 export type ProjectDataForProjectPage = {
+  dcrDueOn: number;
   alerteAnnulationAbandon?: AlerteAnnulationAbandon;
   id: string;
   potentielIdentifier: string;
 
   appelOffre: ProjectAppelOffre;
-  gestionnaireDeRéseau?: GestionnaireDeRéseau;
 
   appelOffreId: string;
   periodeId: string;
@@ -138,12 +138,6 @@ type AlerteAnnulationAbandon =
       actionPossible: 'demander-annulation-abandon';
       dateLimite: string;
     };
-
-type GestionnaireDeRéseau = {
-  identifiantGestionnaire: string;
-  codeEICGestionnaireRéseau?: string;
-  raisonSocialeGestionnaireRéseau?: string;
-};
 
 type NotesInnovation = {
   note: string;

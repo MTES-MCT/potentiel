@@ -3,7 +3,7 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
-  PageTemplate,
+  LegacyPageTemplate,
   ProjectInfo,
   SecondaryButton,
   SuccessBox,
@@ -40,7 +40,7 @@ export const DemandeAnnulationAbandon = ({
   const showFormulaireAdministrateur =
     isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status);
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
           <Heading1>Je demande une annulation de l'abandon accordé de mon projet</Heading1>
@@ -97,7 +97,7 @@ export const DemandeAnnulationAbandon = ({
             </form>
           )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

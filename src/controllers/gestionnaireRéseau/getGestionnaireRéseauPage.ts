@@ -11,7 +11,7 @@ import {
 import { findProjection } from '@potentiel/pg-projections';
 
 const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauQueryHandlerFactory({
-  findGestionnaireRéseau: findProjection,
+  find: findProjection,
 });
 
 const schema = yup.object({

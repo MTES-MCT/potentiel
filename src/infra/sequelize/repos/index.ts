@@ -15,7 +15,6 @@ import {
   makeDemandeAbandon,
   makeDemandeAnnulationAbandon,
 } from '@modules/demandeModification';
-import { makeImportDonnéesRaccordement } from '@modules/imports/donnéesRaccordement';
 import { makeUtilisateur } from '@modules/utilisateur';
 
 export const fileRepo = makeFileRepo({ fileStorageService });
@@ -65,13 +64,6 @@ export const demandeAnnulationAbandonRepo = {
   ...makeEventStoreRepo({
     eventStore,
     makeAggregate: makeDemandeAnnulationAbandon,
-  }),
-};
-
-export const importRepo = {
-  ...makeEventStoreTransactionalRepo({
-    eventStore,
-    makeAggregate: makeImportDonnéesRaccordement,
   }),
 };
 

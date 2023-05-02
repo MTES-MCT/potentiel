@@ -9,9 +9,6 @@ import {
   DemandeAbandonDTO,
   CahierDesChargesChoisiDTO,
   GarantiesFinancièresDTO,
-  DateMiseEnServiceDTO,
-  DateFileAttenteDTO,
-  PtfDTO,
   DemandeAnnulationAbandonDTO,
 } from '@modules/frise';
 import {
@@ -19,13 +16,8 @@ import {
   DesignationItem,
   GFItem,
   ImportItem,
-  PTFItem,
-  DCRItem,
   ACItem,
   CAItem,
-  CRItem,
-  MeSItem,
-  DateFileAttenteItem,
   ModificationRequestItem,
   ModificationReceivedItem,
   AttachedFileItem,
@@ -40,13 +32,9 @@ import {
 import {
   ACItemProps,
   CAItemProps,
-  CRItemProps,
-  DCRItemProps,
   DesignationItemProps,
   extractACItemProps,
   extractCAItemProps,
-  extractCRItemProps,
-  extractDCRItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
   ImportItemProps,
@@ -63,16 +51,12 @@ import { DemandeAnnulationAbandonItem } from './components/DemandeAnnulationAban
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO;
-  now: number;
 };
 
 type ItemProps =
   | ImportItemProps
   | DesignationItemProps
-  | DCRItemProps
   | ACItemProps
-  | PtfDTO
-  | CRItemProps
   | CAItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
@@ -85,29 +69,21 @@ type ItemProps =
   | DemandeAbandonDTO
   | DemandeAnnulationAbandonDTO
   | CahierDesChargesChoisiDTO
-  | GarantiesFinancièresDTO
-  | DateMiseEnServiceDTO
-  | DateFileAttenteDTO;
+  | GarantiesFinancièresDTO;
 
 export const Timeline = ({
   projectEventList: {
     events,
     project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
   },
-  now,
 }: TimelineProps) => {
   const garantiesFinancières = events.find(is('garanties-financières'));
-  const ptf = events.find(is('proposition-technique-et-financière'));
-  const dateMiseEnService = events.find(is('DateMiseEnService'));
-  const dateFileAttente = events.find(is('DateFileAttente'));
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
     garantiesFinancières?.date !== 0 ? garantiesFinancières : undefined,
-    extractDCRItemProps(events, now, { status }),
     extractACItemProps(events, { status }),
-    ptf?.statut === 'envoyée' ? ptf : undefined,
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -119,17 +95,11 @@ export const Timeline = ({
     ...events.filter(is('DemandeAbandon')),
     ...events.filter(is('DemandeAnnulationAbandon')),
     ...events.filter(is('CahierDesChargesChoisi')),
-    dateMiseEnService?.statut === 'renseignée' ? dateMiseEnService : undefined,
-    dateFileAttente ? dateFileAttente : undefined,
   ]
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date);
 
-  ptf?.statut === 'en-attente' && insertBefore(itemProps, 'attestation-de-conformite', ptf);
-  insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { status }));
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }));
-  dateMiseEnService?.statut === 'non-renseignée' &&
-    insertAfter(itemProps, 'attestation-de-conformite', dateMiseEnService);
   garantiesFinancières?.date === 0 && insertAfter(itemProps, 'designation', garantiesFinancières);
 
   const timelineItems = itemProps.map((props) => {
@@ -152,23 +122,8 @@ export const Timeline = ({
           />
         );
 
-      case 'demande-complete-de-raccordement':
-        return <DCRItem {...{ ...props, projectId }} />;
-
-      case 'proposition-technique-et-financière':
-        return <PTFItem {...{ ...props, projectId }} />;
-
-      case 'convention-de-raccordement':
-        return <CRItem />;
-
       case 'attestation-de-conformite':
         return <ACItem {...props} />;
-
-      case 'DateMiseEnService':
-        return <MeSItem {...props} />;
-
-      case 'DateFileAttente':
-        return <DateFileAttenteItem {...props} />;
 
       case 'contrat-achat':
         return <CAItem />;
@@ -226,22 +181,6 @@ export const Timeline = ({
 
 function isNotNil<T>(arg: T): arg is Exclude<T, null | undefined> {
   return arg !== null && arg !== undefined;
-}
-
-function insertBefore(
-  itemProps: ItemProps[],
-  referenceType: ItemProps['type'],
-  item: ItemProps | null,
-) {
-  if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
-    if (item) {
-      itemProps.splice(
-        itemProps.findIndex((props) => props.type === referenceType),
-        0,
-        item,
-      );
-    }
-  }
 }
 
 function insertAfter(

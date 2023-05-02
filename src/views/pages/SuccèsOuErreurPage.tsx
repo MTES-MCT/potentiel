@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import React from 'react';
-import { LinkButton, PageTemplate, SuccessBox, ErrorBox } from '@components';
+import { LinkButton, LegacyPageTemplate, SuccessBox, ErrorBox } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 interface SuccèsOuErreurProps {
@@ -31,7 +31,7 @@ export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
     </div>
   );
 
-  return <PageTemplate user={request.user}>{contents}</PageTemplate>;
+  return <LegacyPageTemplate user={request.user}>{contents}</LegacyPageTemplate>;
 };
 
 hydrateOnClient(SuccèsOuErreur);

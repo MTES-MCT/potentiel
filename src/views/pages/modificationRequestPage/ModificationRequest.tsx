@@ -3,7 +3,7 @@ import {
   ProjectInfo,
   SuccessBox,
   SecondaryButton,
-  PageTemplate,
+  LegacyPageTemplate,
   ErrorBox,
   Heading1,
   Heading2,
@@ -52,7 +52,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
     showFormulaireAdministrateur && type === 'delai' && status === 'envoyée';
 
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <Heading1>
@@ -128,7 +128,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
             <CancelButton status={status} id={id} />
           ))}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

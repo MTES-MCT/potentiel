@@ -2,7 +2,7 @@ import { Request } from 'express';
 import React from 'react';
 import { dataId } from '../../helpers/testId';
 import routes from '@routes';
-import { Button, ErrorBox, PageTemplate } from '@components';
+import { Button, ErrorBox, LegacyPageTemplate } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 interface FakeLoginProps {
@@ -12,7 +12,7 @@ interface FakeLoginProps {
 export const FakeLogin = ({ request }: FakeLoginProps) => {
   const { error } = (request.query as any) || {};
   return (
-    <PageTemplate user={request.user}>
+    <LegacyPageTemplate user={request.user}>
       <main role="main">
         <section className="section section-grey" style={{ minHeight: 'calc(100vh - 420px)' }}>
           <div className="container">
@@ -36,7 +36,7 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
           </div>
         </section>
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

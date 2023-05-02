@@ -9,7 +9,7 @@ import {
   Heading2,
   Input,
   ListeVide,
-  PageTemplate,
+  LegacyPageTemplate,
   Select,
   SuccessBox,
   Label,
@@ -27,7 +27,7 @@ type DrealListProps = {
 export const DrealList = ({ request, users, validationErrors }: DrealListProps) => {
   const { success, error } = (request.query as any) || {};
   return (
-    <PageTemplate user={request.user} currentPage="list-dreal">
+    <LegacyPageTemplate user={request.user} currentPage="list-dreal">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Gérer les Région</Heading1>
@@ -113,7 +113,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
           </>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

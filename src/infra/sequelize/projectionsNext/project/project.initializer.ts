@@ -3,7 +3,6 @@ import { Project } from './project.model';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { File } from '../file/file.model';
 import { UserProjects } from '../userProjects/userProjects.model';
-import { Raccordements } from '../raccordements/raccordements.model';
 
 export const initializeProjectModel = (sequelize: Sequelize) => {
   Project.init(
@@ -174,14 +173,6 @@ export const initializeProjectModel = (sequelize: Sequelize) => {
         type: DataTypes.JSON,
         allowNull: true,
       },
-      dateMiseEnService: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      dateFileAttente: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
       soumisAuxGF: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -216,11 +207,6 @@ export const initializeProjectModelModelAssociations = () => {
 
   Project.hasOne(GarantiesFinancières, {
     as: 'garantiesFinancières',
-    foreignKey: 'projetId',
-  });
-
-  Project.hasOne(Raccordements, {
-    as: 'raccordements',
     foreignKey: 'projetId',
   });
 };

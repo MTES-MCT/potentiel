@@ -1,8 +1,12 @@
-import { World } from '@cucumber/cucumber';
-import { createGestionnaireRéseauAggregateId } from '@potentiel/domain';
+import {
+  GestionnaireRéseauAjoutéEvent,
+  GestionnaireRéseauReadModel,
+  createGestionnaireRéseauAggregateId,
+} from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
+import { sleep } from '../helpers/sleep';
 
-export class GestionnaireRéseauWorld extends World {
+export class GestionnaireRéseauWorld {
   #codeEIC!: string;
 
   get codeEIC() {
@@ -43,24 +47,45 @@ export class GestionnaireRéseauWorld extends World {
     this.#format = value;
   }
 
-  #error!: Error;
+  #enedis!: GestionnaireRéseauReadModel;
 
-  get error() {
-    return this.#error || new Error('Error was not setted in the test context');
+  get enedis() {
+    if (!this.#enedis) {
+      throw new Error('Enedis not initialized');
+    }
+    return this.#enedis;
   }
 
-  set error(value: Error) {
-    this.#error = value;
+  constructor() {}
+
+  async createEnedis() {
+    this.#enedis = {
+      codeEIC: '17X100A100A0001A',
+      raisonSociale: 'Enedis',
+      type: 'gestionnaire-réseau',
+      aideSaisieRéférenceDossierRaccordement: {
+        format: '',
+        légende: '',
+      },
+    };
+
+    await this.createGestionnaireRéseau(this.#enedis.codeEIC, this.#enedis.raisonSociale);
   }
 
   async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {
-    await publish(createGestionnaireRéseauAggregateId(codeEIC), {
+    const event: GestionnaireRéseauAjoutéEvent = {
       type: 'GestionnaireRéseauAjouté',
       payload: {
         codeEIC,
         raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: '',
+          légende: '',
+        },
       },
-    });
+    };
+    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
     this.codeEIC = codeEIC;
+    await sleep(100);
   }
 }

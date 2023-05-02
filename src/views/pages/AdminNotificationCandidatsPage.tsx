@@ -8,7 +8,7 @@ import {
   Input,
   Label,
   ListeVide,
-  PageTemplate,
+  LegacyPageTemplate,
   ProjectList,
   SecondaryLinkButton,
   Select,
@@ -44,7 +44,7 @@ export const AdminNotificationCandidats = ({
   if (!données) {
     // All projects have been notified
     return (
-      <PageTemplate user={request.user} currentPage="notify-candidates">
+      <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
         <div className="panel">
           <div className="panel__header">
             <Heading1>Notifier des candidats</Heading1>
@@ -53,7 +53,7 @@ export const AdminNotificationCandidats = ({
           {error && <ErrorBox title={error} />}
           <ListeVide titre="Tous les candidats ont été notifiés" />
         </div>
-      </PageTemplate>
+      </LegacyPageTemplate>
     );
   }
 
@@ -70,7 +70,7 @@ export const AdminNotificationCandidats = ({
   const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
   return (
-    <PageTemplate user={request.user} currentPage="notify-candidates">
+    <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Notifier les candidats</Heading1>
@@ -224,7 +224,7 @@ export const AdminNotificationCandidats = ({
         {error && <ErrorBox title={error} />}
         <ProjectList projects={projetsPériodeSélectionnée} role={request.user?.role} />
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

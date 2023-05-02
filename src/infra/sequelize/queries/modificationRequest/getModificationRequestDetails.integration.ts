@@ -4,7 +4,7 @@ import makeFakeFile from '../../../../__tests__/fixtures/file';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getModificationRequestDetails } from './getModificationRequestDetails';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest, Project, Raccordements, User, File } from '@infra/sequelize';
+import { ModificationRequest, Project, User, File } from '@infra/sequelize';
 
 describe('Requête getModificationRequestDetails', () => {
   const projectId = new UniqueEntityID().toString();
@@ -142,53 +142,6 @@ describe('Requête getModificationRequestDetails', () => {
           notifiedOn: projectInfo.notifiedOn,
         },
       });
-    });
-  });
-
-  describe(`Données de raccordement attendues`, () => {
-    it(`Etant donné un projet ayant un identifiant de gestionnaire réseau,
-      et une demande de modification, 
-      lorsqu'un utilisateur affiche le détail de la demande,
-      alors la requête devrait retourner l'identifiant de gestionnnaire réseau`, async () => {
-      const identifiantGestionnaire = 'identifiant-du-gestionnaire';
-      await Raccordements.create({
-        id: new UniqueEntityID().toString(),
-        projetId: projectId,
-        identifiantGestionnaire,
-      });
-
-      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
-
-      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-      await User.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
-
-      await ModificationRequest.create({
-        id: modificationRequestId,
-        projectId,
-        userId,
-        fileId,
-        type: 'recours',
-        requestedOn: 123,
-        respondedOn: 321,
-        respondedBy: userId2,
-        status: 'envoyée',
-        justification: 'justification',
-        versionDate,
-      });
-
-      const modificationRequestResult = await getModificationRequestDetails(
-        modificationRequestId.toString(),
-      );
-
-      expect(modificationRequestResult.isOk()).toBe(true);
-      if (modificationRequestResult.isErr()) return;
-
-      const modificationRequestDTO = modificationRequestResult.value;
-
-      expect(modificationRequestDTO.id).toEqual(modificationRequestId);
-      expect(modificationRequestDTO.project.identifiantGestionnaire).toEqual(
-        identifiantGestionnaire,
-      );
     });
   });
 });

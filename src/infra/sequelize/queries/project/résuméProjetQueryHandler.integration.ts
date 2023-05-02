@@ -1,8 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
-import { Project, Raccordements } from '@infra/sequelize/projectionsNext';
+import { Project } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import * as uuid from 'uuid';
 import { résuméProjetQueryHandler } from './résuméProjetQueryHandler';
 import { RésuméProjetReadModel } from '@modules/project';
 
@@ -19,13 +18,6 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
   it(`Lorsqu'on récupère les données pour le résumé d'un projet,
       alors une liste définie de données devrait être retournée.`, async () => {
     await Project.create(fakeProjet);
-    const identifiantGestionnaire = 'identifiant';
-
-    await Raccordements.create({
-      projetId: fakeProjet.id,
-      id: uuid.v4(),
-      identifiantGestionnaire,
-    });
 
     const résultat = await résuméProjetQueryHandler(projetId);
     expect(résultat.isOk()).toBe(true);
@@ -41,7 +33,6 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
       familleId: fakeProjet.familleId,
       notifiedOn,
       appelOffreId: fakeProjet.appelOffreId,
-      identifiantGestionnaire,
       puissance: fakeProjet.puissance,
       unitePuissance: 'MWc',
     };

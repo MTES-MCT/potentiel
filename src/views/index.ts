@@ -28,7 +28,6 @@ import {
   DemanderChangementPuissance,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
-  ImportDonneesRaccordement,
   AdminNotificationCandidats,
   AdminRegénérerPeriodeAttestations,
   AdminImporterCandidats,
@@ -43,11 +42,17 @@ import {
   DéclarationAccessibilité,
   InviterDgecValidateur,
   AcheteurObligeStatistiques,
-  ModifierIdentifiantGestionnaireReseau,
   CreStatistiques,
   ListeGestionnairesRéseau,
   ConsulterGestionnaireRéseau,
   AjouterGestionnaireRéseau,
+  TransmettreDemandeComplèteRaccordement,
+  ListeDossiersRaccordement,
+  TransmettreDateMiseEnService,
+  TransmettrePropositionTechniqueEtFinancière,
+  ModifierDemandeComplèteRaccordement,
+  ModifierGestionnaireRéseauProjet,
+  ModifierPropositionTechniqueEtFinancière,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -277,15 +282,6 @@ export const AbonnementLettreInformationPage = (
     title: 'Abdonnement lettre information',
   });
 
-export const ImportDonneesRaccordementPage = (
-  props: Parameters<typeof ImportDonneesRaccordement>[0],
-) =>
-  makeHtml({
-    Component: ImportDonneesRaccordement,
-    props,
-    title: 'Importer données de raccordement',
-  });
-
 export const AdminNotificationCandidatsPage = (
   props: Parameters<typeof AdminNotificationCandidats>[0],
 ) =>
@@ -373,15 +369,6 @@ export const InviterDgecValidateurPage = (props: Parameters<typeof InviterDgecVa
     title: 'Inviter un utilisateur DGEC validateur',
   });
 
-export const ModifierIdentifiantGestionnaireReseauPage = (
-  props: Parameters<typeof ModifierIdentifiantGestionnaireReseau>[0],
-) =>
-  makeHtml({
-    Component: ModifierIdentifiantGestionnaireReseau,
-    props,
-    title: "Modifier l'identifiant du dossier de raccordement",
-  });
-
 export const ListeGestionnairesRéseauPage = (
   props: Parameters<typeof ListeGestionnairesRéseau>[0],
 ) =>
@@ -407,4 +394,67 @@ export const AjouterGestionnaireRéseauPage = (
     Component: AjouterGestionnaireRéseau,
     props,
     title: 'Ajouter un gestionnaire de réseau',
+  });
+
+export const TransmettreDemandeComplèteRaccordementPage = (
+  props: Parameters<typeof TransmettreDemandeComplèteRaccordement>[0],
+) =>
+  makeHtml({
+    Component: TransmettreDemandeComplèteRaccordement,
+    props,
+    title: 'Transmettre une demande complète de raccordement',
+  });
+
+export const ListeDossiersRaccordementPage = (
+  props: Parameters<typeof ListeDossiersRaccordement>[0],
+) =>
+  makeHtml({
+    Component: ListeDossiersRaccordement,
+    props,
+    title: 'Liste des dossiers de raccordement',
+  });
+
+export const TransmettreDateMiseEnServicePage = (
+  props: Parameters<typeof TransmettreDateMiseEnService>[0],
+) =>
+  makeHtml({
+    Component: TransmettreDateMiseEnService,
+    props,
+    title: 'Transmettre une date de mise en service',
+  });
+
+export const TransmettrePropositionTechniqueEtFinancièrePage = (
+  props: Parameters<typeof TransmettrePropositionTechniqueEtFinancière>[0],
+) =>
+  makeHtml({
+    Component: TransmettrePropositionTechniqueEtFinancière,
+    props,
+    title: 'Transmettre une proposition technique et financière',
+  });
+
+export const ModifierDemandeComplèteRaccordementPage = (
+  props: Parameters<typeof ModifierDemandeComplèteRaccordement>[0],
+) =>
+  makeHtml({
+    Component: ModifierDemandeComplèteRaccordement,
+    props,
+    title: 'Modifier une demande complète de raccordement',
+  });
+
+export const ModifierGestionnaireRéseauProjetPage = (
+  props: Parameters<typeof ModifierGestionnaireRéseauProjet>[0],
+) =>
+  makeHtml({
+    Component: ModifierGestionnaireRéseauProjet,
+    props,
+    title: 'Modifier le gestionnaire réseau du projet',
+  });
+
+export const ModifierPropositionTechniqueEtFinancièrePage = (
+  props: Parameters<typeof ModifierPropositionTechniqueEtFinancière>[0],
+) =>
+  makeHtml({
+    Component: ModifierPropositionTechniqueEtFinancière,
+    props,
+    title: 'Modifier une proposition technique et financière',
   });

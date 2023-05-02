@@ -16,7 +16,7 @@ import {
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
@@ -40,7 +40,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
-    <PageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={request.user} currentPage="list-requests">
       {' '}
       <div className="panel">
         <div className="panel__header">
@@ -153,7 +153,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
           </form>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

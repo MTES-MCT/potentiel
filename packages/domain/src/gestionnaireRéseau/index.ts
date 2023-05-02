@@ -5,3 +5,4 @@ export * from './lister';
 export * from './gestionnaireRéseau.aggregate';
 export * from './gestionnaireRéseau.readModel';
 export * from './gestionnaireRéseau.permissions';
+export * from './identifiantGestionnaireRéseau';

@@ -1,13 +1,13 @@
 import { ProjectEventListDTO } from '@modules/frise';
 import { ProjectDataForProjectPage } from '@modules/project/queries';
 import { Request } from 'express';
-import React from 'react';
+import React, { FC } from 'react';
 import { userIs } from '@modules/users';
 import {
   Callout,
   Link,
   ExternalLink,
-  PageTemplate,
+  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   AlertBox,
@@ -15,7 +15,7 @@ import {
   InfoBox,
   Heading2,
 } from '@components';
-import { hydrateOnClient } from '../../helpers';
+import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
   EtapesProjet,
   EditProjectData,
@@ -25,7 +25,6 @@ import {
   ResultatsAppelOffreInnovation,
   ContratEDF,
   ContratEnedis,
-  GestionnaireDeRéseau,
 } from './sections';
 import { ProjectHeader } from './components';
 import routes from '@routes';
@@ -35,6 +34,7 @@ type ProjectDetailsProps = {
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
   now: number;
+  dossiersRaccordementExistant: boolean;
 };
 
 export const ProjectDetails = ({
@@ -42,12 +42,13 @@ export const ProjectDetails = ({
   project,
   projectEventList,
   now,
+  dossiersRaccordementExistant,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
 
   return (
-    <PageTemplate user={request.user} currentPage="list-projects">
+    <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <ProjectHeader {...{ project, user }} />
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
@@ -57,21 +58,29 @@ export const ProjectDetails = ({
             {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
           />
         )}
+
+        {!dossiersRaccordementExistant && (
+          <DisplayDCRAlertInfos dcrDueOn={project.dcrDueOn} now={now}>
+            <div className="p-2">
+              L'accusé de réception de la demande complète de raccordement doit être transmis dans
+              Potentiel avant le {afficherDate(project.dcrDueOn)}.
+              <br />
+              <Link href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(project.id)}>
+                Transmettre une demande complète de raccordement (accusé de réception)
+              </Link>
+            </div>
+          </DisplayDCRAlertInfos>
+        )}
+
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
         <div className="flex flex-col lg:flex-row gap-3">
-          {projectEventList && <EtapesProjet {...{ project, user, projectEventList, now }} />}
+          {projectEventList && <EtapesProjet {...{ project, user, projectEventList }} />}
           <div className={`flex flex-col flex-grow gap-3`}>
-            <InfoGenerales {...{ project }} />
+            <InfoGenerales {...{ project, role: user.role }} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
-
-            <GestionnaireDeRéseau
-              gestionnaireRéseau={project.gestionnaireDeRéseau}
-              projetId={project.id}
-              role={user.role}
-            />
 
             {project.notesInnovation && (
               <ResultatsAppelOffreInnovation
@@ -92,7 +101,7 @@ export const ProjectDetails = ({
           <ContratEnedis contrat={project.contratEnedis} />
         )}
       </main>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 
@@ -184,5 +193,11 @@ const AlerteAnnulationAbandonPossible = ({
     )}
   </>
 );
+
+const DisplayDCRAlertInfos: FC<{
+  dcrDueOn: ProjectDataForProjectPage['dcrDueOn'];
+  now: number;
+}> = ({ dcrDueOn, now, children }) =>
+  now > dcrDueOn ? <ErrorBox>{children}</ErrorBox> : <AlertBox>{children}</AlertBox>;
 
 hydrateOnClient(ProjectDetails);

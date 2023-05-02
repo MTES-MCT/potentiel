@@ -18,6 +18,11 @@ import {
   PermissionConsulterGestionnaireRéseau,
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
+  PermissionTransmettreDemandeComplèteRaccordement,
+  PermissionConsulterDossierRaccordement,
+  PermissionTransmettreDateMiseEnService,
+  PermissionTransmettrePropositionTechniqueEtFinancière,
+  PermissionModifierGestionnaireRéseauProjet,
 } from '@potentiel/domain';
 
 export type Permission = {
@@ -38,6 +43,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
+        PermissionConsulterDossierRaccordement,
       ];
     case 'porteur-projet':
       return [
@@ -48,6 +54,10 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionUploaderGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
+        PermissionTransmettreDemandeComplèteRaccordement,
+        PermissionConsulterDossierRaccordement,
+        PermissionTransmettrePropositionTechniqueEtFinancière,
+        PermissionModifierGestionnaireRéseauProjet,
       ];
     case 'caisse-des-dépôts':
       return [
@@ -74,6 +84,11 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterGestionnaireRéseau,
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
+        PermissionTransmettreDemandeComplèteRaccordement,
+        PermissionConsulterDossierRaccordement,
+        PermissionTransmettreDateMiseEnService,
+        PermissionTransmettrePropositionTechniqueEtFinancière,
+        PermissionModifierGestionnaireRéseauProjet,
       ];
     case 'dgec-validateur':
       return [
@@ -89,10 +104,21 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterGestionnaireRéseau,
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
+        PermissionTransmettreDemandeComplèteRaccordement,
+        PermissionConsulterDossierRaccordement,
+        PermissionTransmettreDateMiseEnService,
+        PermissionTransmettrePropositionTechniqueEtFinancière,
+        PermissionModifierGestionnaireRéseauProjet,
       ];
     case 'acheteur-obligé':
-    case 'ademe':
     case 'cre':
+      return [
+        PermissionListerProjets,
+        PermissionConsulterProjet,
+        PermissionExporterProjets,
+        PermissionConsulterDossierRaccordement,
+      ];
+    case 'ademe':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     default:
       return [];

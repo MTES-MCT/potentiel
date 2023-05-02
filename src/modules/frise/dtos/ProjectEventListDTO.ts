@@ -15,9 +15,6 @@ export type ProjectEventDTO =
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
   | GarantiesFinancièresDTO
-  | ProjectDCRSubmittedDTO
-  | ProjectDCRRemovedDTO
-  | ProjectDCRDueDateSetDTO
   | ProjectNotificationDateSetDTO
   | ProjectCompletionDueDateSetDTO
   | ModificationRequestedDTO
@@ -36,9 +33,6 @@ export type ProjectEventDTO =
   | DemandeDélaiDTO
   | DemandeAbandonDTO
   | CahierDesChargesChoisiDTO
-  | DateMiseEnServiceDTO
-  | DateFileAttenteDTO
-  | PtfDTO
   | DemandeAnnulationAbandonDTO;
 
 type File = {
@@ -149,39 +143,6 @@ export type GarantiesFinancièresDTO = {
       dateEchéance?: number;
       url: string;
       retraitDépôtPossible?: true;
-    }
-);
-
-export type ProjectDCRSubmittedDTO = {
-  type: 'ProjectDCRSubmitted';
-  date: number;
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal';
-  file?: File;
-};
-
-export type ProjectDCRRemovedDTO = {
-  type: 'ProjectDCRRemoved';
-  date: number;
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal';
-};
-
-export type ProjectDCRDueDateSetDTO = {
-  type: 'ProjectDCRDueDateSet';
-  date: number;
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'acheteur-obligé';
-};
-
-export type PtfDTO = {
-  type: 'proposition-technique-et-financière';
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal';
-} & (
-  | {
-      statut: 'en-attente';
-    }
-  | {
-      statut: 'envoyée';
-      date: number;
-      url: string;
     }
 );
 
@@ -527,17 +488,6 @@ export type CahierDesChargesChoisiDTO = {
       alternatif?: true;
     }
 );
-
-export type DateMiseEnServiceDTO = {
-  type: 'DateMiseEnService';
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur';
-} & ({ statut: 'renseignée'; date: number } | { statut: 'non-renseignée' });
-
-export type DateFileAttenteDTO = {
-  type: 'DateFileAttente';
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur';
-  date: number;
-};
 
 export type ProjectEventListDTO = {
   project: {

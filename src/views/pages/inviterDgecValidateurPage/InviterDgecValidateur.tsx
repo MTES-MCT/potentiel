@@ -8,7 +8,7 @@ import {
   Heading2,
   Input,
   Label,
-  PageTemplate,
+  LegacyPageTemplate,
   RésultatSoumissionFormulaire,
   RésultatSoumissionFormulaireProps,
 } from '@components';
@@ -24,7 +24,7 @@ export const InviterDgecValidateur = ({
   résultatSoumissionFormulaire,
 }: InviterDgecValidateurProps) => {
   return (
-    <PageTemplate user={request.user} currentPage="inviter-dgec-validateur">
+    <LegacyPageTemplate user={request.user} currentPage="inviter-dgec-validateur">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Gérer les DGEC-VALIDATEUR</Heading1>
@@ -76,7 +76,7 @@ export const InviterDgecValidateur = ({
           </form>
         </div>
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

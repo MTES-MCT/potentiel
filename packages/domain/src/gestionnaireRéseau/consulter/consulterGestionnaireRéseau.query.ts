@@ -1,25 +1,26 @@
 import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
+import { GestionnaireNonRéférencéError } from './gestionnaireNonRéférencé.error';
 
-type ConsulterGestionnaireRéseauQuery = {
+export type ConsulterGestionnaireRéseauQuery = {
   codeEIC: string;
 };
 
 type ConsulterGestionnaireRéseauDependencies = {
-  findGestionnaireRéseau: Find<GestionnaireRéseauReadModel>;
+  find: Find;
 };
 
 export const consulterGestionnaireRéseauQueryHandlerFactory: QueryHandlerFactory<
   ConsulterGestionnaireRéseauQuery,
   GestionnaireRéseauReadModel,
   ConsulterGestionnaireRéseauDependencies
-> = ({ findGestionnaireRéseau }) => {
+> = ({ find }) => {
   return async ({ codeEIC }) => {
-    const result = await findGestionnaireRéseau(`gestionnaire-réseau#${codeEIC}`);
+    const result = await find<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${codeEIC}`);
 
     if (isNone(result)) {
-      throw new Error();
+      throw new GestionnaireNonRéférencéError();
     }
 
     return result;

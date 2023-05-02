@@ -2,7 +2,7 @@ import {
   ErrorBox,
   Heading1,
   ListeVide,
-  PageTemplate,
+  LegacyPageTemplate,
   PaginationPanel,
   SecondaryButton,
   SuccessBox,
@@ -27,7 +27,7 @@ export const InvitationsCandidatsEnAttente = ({
   const { error, success } = (request.query as any) || {};
 
   return (
-    <PageTemplate user={request.user} currentPage="list-invitations">
+    <LegacyPageTemplate user={request.user} currentPage="list-invitations">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Invitations de candidats en attente</Heading1>
@@ -109,7 +109,7 @@ export const InvitationsCandidatsEnAttente = ({
           </>
         )}
       </div>
-    </PageTemplate>
+    </LegacyPageTemplate>
   );
 };
 

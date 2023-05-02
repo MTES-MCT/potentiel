@@ -1,0 +1,86 @@
+import { When as Quand, Then as Alors } from '@cucumber/cucumber';
+import { PotentielWorld } from '../potentiel.world';
+import {
+  DossierRaccordementNonRéférencéError,
+  consulterDossierRaccordementQueryHandlerFactory,
+  transmettreDateMiseEnServiceCommandHandlerFactory,
+} from '@potentiel/domain';
+import { findProjection } from '@potentiel/pg-projections';
+import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { expect } from 'chai';
+
+Quand(
+  `un administrateur transmet la date de mise en service {string} pour ce dossier de raccordement`,
+  async function (this: PotentielWorld, dateMiseEnService: string) {
+    const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
+      loadAggregate,
+      publish,
+    });
+
+    await transmettreDateMiseEnService({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      dateMiseEnService: new Date(dateMiseEnService),
+    });
+  },
+);
+
+Alors(
+  `la date de mise en service {string} devrait être consultable dans le dossier de raccordement`,
+  async function (this: PotentielWorld, dateMiseEnService: string) {
+    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+      find: findProjection,
+    });
+
+    const actual = await consulterDossierRaccordement({
+      référence: this.raccordementWorld.référenceDossierRaccordement,
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+    });
+
+    expect(actual.dateMiseEnService).to.equal(new Date(dateMiseEnService).toISOString());
+  },
+);
+
+Quand(
+  `un administrateur transmet une date de mise en service pour un projet n'ayant aucun dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
+      loadAggregate,
+      publish,
+    });
+
+    try {
+      await transmettreDateMiseEnService({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: 'dossier-inconnu',
+        dateMiseEnService: new Date('2023-03-15'),
+      });
+    } catch (error) {
+      if (error instanceof DossierRaccordementNonRéférencéError) {
+        this.error = error;
+      }
+    }
+  },
+);
+
+Quand(
+  `un administrateur transmet une date de mise en service pour un dossier de raccordement non référencé`,
+  async function (this: PotentielWorld) {
+    const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
+      loadAggregate,
+      publish,
+    });
+
+    try {
+      await transmettreDateMiseEnService({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: 'dossier-inconnu',
+        dateMiseEnService: new Date('2023-03-15'),
+      });
+    } catch (error) {
+      if (error instanceof DossierRaccordementNonRéférencéError) {
+        this.error = error;
+      }
+    }
+  },
+);

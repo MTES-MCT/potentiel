@@ -8,7 +8,7 @@ type DownloadLinkProps = {
 
 export const DownloadLink: FC<DownloadLinkProps> = ({ children, className, fileUrl }) => (
   <Link className={className} href={fileUrl} download>
+    <FileDownloadIcon className="text-lg mr-1 -mb-1 shrink-0" aria-hidden />
     {children}
-    <FileDownloadIcon className="text-lg ml-1 -mb-1 shrink-0" aria-hidden />
   </Link>
 );
