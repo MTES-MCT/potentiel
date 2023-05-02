@@ -27,12 +27,17 @@ import {
 import routes from '@routes';
 import { userIs } from '@modules/users';
 
+type Dossier = DossierRaccordementReadModel & {
+  hasPTFFile: boolean;
+  hasDCRFile: boolean;
+};
+
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
   identifiantProjet: string;
   résuméProjet: RésuméProjetReadModel;
   gestionnaireRéseau: GestionnaireRéseauReadModel;
-  dossiers: ReadonlyArray<DossierRaccordementReadModel>;
+  dossiers: ReadonlyArray<Dossier>;
   success?: string;
 };
 
@@ -127,11 +132,18 @@ const Etape: FC<{
 const Dossier: FC<{
   user: UtilisateurReadModel;
   identifiantProjet: string;
-  dossier: DossierRaccordementReadModel;
+  dossier: Dossier;
 }> = ({
   user,
   identifiantProjet,
-  dossier: { référence, dateQualification, propositionTechniqueEtFinancière, dateMiseEnService },
+  dossier: {
+    référence,
+    dateQualification,
+    propositionTechniqueEtFinancière,
+    dateMiseEnService,
+    hasDCRFile,
+    hasPTFFile,
+  },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
     <Etape faite={true} titre="Demande complète de raccordement" className="relative">
@@ -148,12 +160,14 @@ const Dossier: FC<{
             <AlertBox title="Date de l'accusé de réception à renseigner" />
           )}
         </div>
-        <DownloadLink
-          className="flex items-center"
-          fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, référence)}
-        >
-          Télécharger l'accusé de réception
-        </DownloadLink>
+        {hasDCRFile && (
+          <DownloadLink
+            className="flex items-center"
+            fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, référence)}
+          >
+            Télécharger l'accusé de réception
+          </DownloadLink>
+        )}
         {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
           <Link
             href={routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
@@ -179,17 +193,19 @@ const Dossier: FC<{
             />
             {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
           </div>
-          <div>
-            <DownloadLink
-              className="flex items-center"
-              fileUrl={routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
-                identifiantProjet,
-                référence,
-              )}
-            >
-              Télécharger
-            </DownloadLink>
-          </div>
+          {hasPTFFile && (
+            <div>
+              <DownloadLink
+                className="flex items-center"
+                fileUrl={routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
+                  identifiantProjet,
+                  référence,
+                )}
+              >
+                Télécharger
+              </DownloadLink>
+            </div>
+          )}
         </div>
       ) : (
         <Link

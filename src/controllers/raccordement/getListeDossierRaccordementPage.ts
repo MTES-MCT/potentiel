@@ -9,11 +9,14 @@ import {
   consulterDossierRaccordementQueryHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
+  formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { findProjection } from '@potentiel/pg-projections';
 import { ListeDossiersRaccordementPage } from '@views';
+import { join } from 'path';
+import { getFiles } from '@potentiel/file-storage';
 
 const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
   find: findProjection,
@@ -102,9 +105,29 @@ v1Router.get(
         };
 
         const dossiers = await Promise.all(
-          références.map((référence) =>
-            consulterDossierRaccordement({ identifiantProjet, référence }),
-          ),
+          références.map(async (référence) => {
+            const fileDCRPath = join(
+              formatIdentifiantProjet(identifiantProjet),
+              référence,
+              `demande-complete-raccordement`,
+            );
+            const DCRFiles = await getFiles(fileDCRPath);
+
+            const filePTFPath = join(
+              formatIdentifiantProjet(identifiantProjet),
+              référence,
+              `demande-complete-raccordement`,
+            );
+            const PTFFiles = await getFiles(filePTFPath);
+
+            const dossier = await consulterDossierRaccordement({ identifiantProjet, référence });
+
+            return {
+              ...dossier,
+              hasPTFFile: !!(PTFFiles.length > 0),
+              hasDCRFile: !!(DCRFiles.length > 0),
+            };
+          }),
         );
 
         const { identifiantGestionnaire = { codeEIC: '' } } = await consulterProjet({
