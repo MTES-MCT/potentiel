@@ -5,6 +5,8 @@ import {
   createRaccordementAggregateId,
 } from '../raccordement.aggregate';
 import { PropositionTechniqueEtFinancièreModifiéeEvent } from './PropositionTechniqueEtFinancièreModifiée.event';
+import { isNone } from '@potentiel/monads';
+import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 
 type ModifierPropositionTechniqueEtFinancièreCommand = {
   identifiantProjet: IdentifiantProjet;
@@ -27,11 +29,11 @@ export const modifierPropositionTechniqueEtFinancièreCommandHandlerFactory: Com
       loadAggregate,
     });
 
-    //const raccordement = await loadRaccordementAggregate(identifiantProjet);
+    const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    // if (isNone(raccordement) || !raccordement.références.includes(referenceActuelle)) {
-    //   throw new DossierRaccordementNonRéférencéError();
-    // }
+    if (isNone(raccordement) || !raccordement.références.includes(référence)) {
+      throw new DossierRaccordementNonRéférencéError();
+    }
 
     const event: PropositionTechniqueEtFinancièreModifiéeEvent = {
       type: 'PropositionTechniqueEtFinancièreModifiée',
