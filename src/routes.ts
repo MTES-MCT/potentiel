@@ -444,7 +444,7 @@ class routes {
     }/transmettre-proposition-technique-et-financiere`;
   };
 
-  static GET_ACCUSE_RECEPTION_FILE = (projetId?: string, reference?: string) => {
+  static GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE = (projetId?: string, reference?: string) => {
     return `/projet/${projetId || ':projetId'}/raccordements/${
       reference || ':reference'
     }/telecharger-accuse-reception`;

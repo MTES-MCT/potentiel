@@ -17,7 +17,7 @@ const schema = yup.object({
 });
 
 v1Router.get(
-  routes.GET_ACCUSE_RECEPTION_FILE(),
+  routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(),
   vérifierPermissionUtilisateur(PermissionConsulterDossierRaccordement),
   safeAsyncHandler(
     {

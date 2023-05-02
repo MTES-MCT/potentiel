@@ -95,7 +95,10 @@ export const ModifierDemandeComplèteRaccordement = ({
               {existingFile && (
                 <li>
                   <DownloadLink
-                    fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, reference)}
+                    fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(
+                      identifiantProjet,
+                      reference,
+                    )}
                   >
                     Accusé de réception de la demande complète de raccordement
                   </DownloadLink>

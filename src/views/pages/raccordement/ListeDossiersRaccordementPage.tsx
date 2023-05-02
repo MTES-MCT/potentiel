@@ -163,7 +163,7 @@ const Dossier: FC<{
         {hasDCRFile && (
           <DownloadLink
             className="flex items-center"
-            fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(identifiantProjet, référence)}
+            fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(identifiantProjet, référence)}
           >
             Télécharger l'accusé de réception
           </DownloadLink>
