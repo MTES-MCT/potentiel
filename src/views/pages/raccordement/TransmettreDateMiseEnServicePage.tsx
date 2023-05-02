@@ -77,8 +77,11 @@ export const TransmettreDateMiseEnService = ({
 
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <Button type="submit">Transmettre</Button>
-            <Link href={routes.PROJECT_DETAILS(identifiantProjet)} className="m-auto">
-              Retour vers le projet
+            <Link
+              href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
+              className="m-auto"
+            >
+              Retour vers le dossier de raccordement
             </Link>
           </div>
         </form>
