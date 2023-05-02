@@ -6,6 +6,7 @@ import {
   propositionTechniqueEtFinancièreTransmiseHandlerFactory,
   gestionnaireRéseauProjetModifiéHandlerFactory,
   demandeComplèteRaccordementeModifiéeHandlerFactory,
+  propositionTechniqueEtFinancièreModifiéeHandlerFactory,
 } from '@potentiel/domain';
 import {
   createProjection,
@@ -60,6 +61,13 @@ export async function bootstrapEventConsumers() {
     gestionnaireRéseauProjetModifiéHandlerFactory({
       find: findProjection,
       create: createProjection,
+      update: updateProjection,
+    }),
+  );
+  consumerRaccordement.consume(
+    'PropositionTechniqueEtFinancièreModifiée',
+    propositionTechniqueEtFinancièreModifiéeHandlerFactory({
+      find: findProjection,
       update: updateProjection,
     }),
   );

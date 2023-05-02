@@ -1,7 +1,12 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
-import { modifierPropositionTechniqueEtFinancièreCommandHandlerFactory } from '@potentiel/domain';
+import {
+  consulterDossierRaccordementQueryHandlerFactory,
+  modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
+} from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { findProjection } from '@potentiel/pg-projections';
+import { expect } from 'chai';
 
 Quand(
   `le porteur modifie la date de signature de la proposition technique et financière au {string}`,
@@ -20,21 +25,23 @@ Quand(
   },
 );
 
-// Alors(
-//   `la date de qualification {string} et la référence {string} devraient être consultables dans un nouveau dossier de raccordement`,
-//   async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
-//     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-//       find: findProjection,
-//     });
+Alors(
+  `la date de signature {string} devrait être consultable dans le dossier de raccordement`,
+  async function (this: PotentielWorld, dateSignature: string) {
+    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+      find: findProjection,
+    });
 
-//     const actual = await consulterDossierRaccordement({
-//       référence: nouvelleReference,
-//       identifiantProjet: this.raccordementWorld.identifiantProjet,
-//     });
+    const actual = await consulterDossierRaccordement({
+      référence: this.raccordementWorld.référenceDossierRaccordement,
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+    });
 
-//     expect(actual.dateQualification).to.equal(new Date(dateQualification).toISOString());
-//   },
-// );
+    expect(actual.propositionTechniqueEtFinancière).to.deep.equal({
+      dateSignature: new Date(dateSignature).toISOString(),
+    });
+  },
+);
 
 // Alors(
 //   `l'ancien dossier de raccordement ne devrait plus être consultable`,
