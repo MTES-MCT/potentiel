@@ -20,7 +20,7 @@ Quand(
 
     await modifierPropositionTechniqueEtFinancière({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
-      référence: this.raccordementWorld.référenceDossierRaccordement,
+      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       dateSignature: new Date(dateSignature),
     });
   },
@@ -57,7 +57,7 @@ Quand(
       await modifierPropositionTechniqueEtFinancière({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateSignature: new Date('2023-04-26'),
-        référence: 'dossier-inconnu',
+        référenceDossierRaccordement: 'dossier-inconnu',
       });
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {

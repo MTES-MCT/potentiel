@@ -12,3 +12,4 @@ export * from './postModifierDemandeComplèteRaccordement';
 export * from './getModifierGestionnaireRéseauProjetPage';
 export * from './postModifierGestionnaireRéseauProjet';
 export * from './getModifierPropositionTechniqueEtFinancière';
+export * from './postModifierPropositionTechniqueEtFinancière';

@@ -11,7 +11,7 @@ import { DossierRaccordementNonRéférencéError } from '../raccordement.errors'
 type ModifierPropositionTechniqueEtFinancièreCommand = {
   identifiantProjet: IdentifiantProjet;
   dateSignature: Date;
-  référence: string;
+  référenceDossierRaccordement: string;
 };
 
 type ModifierPropositionTechniqueEtFinancièreDependencies = {
@@ -24,14 +24,14 @@ export const modifierPropositionTechniqueEtFinancièreCommandHandlerFactory: Com
   ModifierPropositionTechniqueEtFinancièreDependencies
 > =
   ({ publish, loadAggregate }) =>
-  async ({ identifiantProjet, référence, dateSignature }) => {
+  async ({ identifiantProjet, référenceDossierRaccordement, dateSignature }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
     });
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référence)) {
+    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -40,7 +40,7 @@ export const modifierPropositionTechniqueEtFinancièreCommandHandlerFactory: Com
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         dateSignature: dateSignature.toISOString(),
-        référence,
+        référenceDossierRaccordement,
       },
     };
 

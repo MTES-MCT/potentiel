@@ -5,6 +5,6 @@ export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
   {
     identifiantProjet: string;
     dateSignature: string;
-    référence: string;
+    référenceDossierRaccordement: string;
   }
 >;

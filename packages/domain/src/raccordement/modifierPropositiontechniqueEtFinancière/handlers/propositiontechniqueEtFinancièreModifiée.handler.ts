@@ -13,7 +13,7 @@ export const propositionTechniqueEtFinancièreModifiéeHandlerFactory: DomainEve
   ({ find, update }) =>
   async (event) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référence}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
     );
 
     if (isNone(dossierRaccordement)) {
@@ -22,7 +22,7 @@ export const propositionTechniqueEtFinancièreModifiéeHandlerFactory: DomainEve
     }
 
     await update<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référence}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
       {
         ...dossierRaccordement,
         propositionTechniqueEtFinancière: {

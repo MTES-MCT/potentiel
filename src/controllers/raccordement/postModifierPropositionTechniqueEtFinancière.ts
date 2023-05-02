@@ -2,7 +2,7 @@ import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettrePropositionTechniqueEtFinancière,
   formatIdentifiantProjet,
-  transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
+  modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -22,10 +22,10 @@ import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { extname, join } from 'path';
 import { createReadStream } from 'fs';
-import { upload } from '@potentiel/file-storage';
+import { deleteFile, getFiles, upload } from '@potentiel/file-storage';
 
-const transmettrePropositionTechniqueEtFinancière =
-  transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
+const modifierPropositionTechniqueEtFinancière =
+  modifierPropositionTechniqueEtFinancièreCommandHandlerFactory({
     publish,
     loadAggregate,
   });
@@ -46,7 +46,7 @@ const schema = yup.object({
 });
 
 v1Router.post(
-  routes.POST_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE(),
+  routes.POST_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE(),
   uploadMiddleware.single('file'),
   vérifierPermissionUtilisateur(PermissionTransmettrePropositionTechniqueEtFinancière),
   safeAsyncHandler(
@@ -55,7 +55,7 @@ v1Router.post(
       onError: ({ request, response }) =>
         response.redirect(
           addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(request.params.projetId), {
-            error: `Une erreur est survenue lors de l'envoi de la date de signature de la proposition technique et financière, merci de vérifier les informations communiquées.`,
+            error: `Une erreur est survenue lors de la mise à jour de la date de signature de la proposition technique et financière, merci de vérifier les informations communiquées.`,
           }),
         ),
     },
@@ -69,12 +69,9 @@ v1Router.post(
 
       if (!file) {
         return response.redirect(
-          addQueryParams(
-            routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(projetId),
-            {
-              error: `Vous devez joindre la proposition technique et financière`,
-            },
-          ),
+          addQueryParams(routes.GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(projetId), {
+            error: `Vous devez joindre la proposition technique et financière`,
+          }),
         );
       }
 
@@ -112,23 +109,35 @@ v1Router.post(
       };
 
       try {
-        await transmettrePropositionTechniqueEtFinancière({
+        await modifierPropositionTechniqueEtFinancière({
           identifiantProjet,
           référenceDossierRaccordement: reference,
           dateSignature,
         });
 
-        const filePath = join(
+        const fileToDeletePath = join(
+          formatIdentifiantProjet(identifiantProjet),
+          reference,
+          `proposition-technique-et-financiere`,
+        );
+
+        const files = await getFiles(fileToDeletePath);
+
+        if (files.length > 0) {
+          await deleteFile(files[0]);
+        }
+
+        const newFilePath = join(
           formatIdentifiantProjet(identifiantProjet),
           reference,
           `proposition-technique-et-financiere${extname(file.originalname)}`,
         );
         const content = createReadStream(file.path);
-        await upload(filePath, content);
+        await upload(newFilePath, content);
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
-            success: 'La proposition technique et financière a bien été enregistrée',
+            success: 'La proposition technique et financière a bien été mise à jour',
             redirectUrl: routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId),
             redirectTitle: 'Retourner sur la page raccordement',
           }),
@@ -137,7 +146,7 @@ v1Router.post(
         if (error instanceof DossierRaccordementNonRéférencéError) {
           return response.redirect(
             addQueryParams(
-              routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(projetId, reference),
+              routes.GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(projetId, reference),
               {
                 error: error.message,
               },
