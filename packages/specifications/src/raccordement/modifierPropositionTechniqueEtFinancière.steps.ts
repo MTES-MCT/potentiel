@@ -1,6 +1,7 @@
 import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
+  DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
@@ -43,58 +44,25 @@ Alors(
   },
 );
 
-// Alors(
-//   `l'ancien dossier de raccordement ne devrait plus être consultable`,
-//   async function (this: PotentielWorld) {
-//     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-//       find: findProjection,
-//     });
+Quand(
+  `un administrateur modifie la date de signature pour un dossier de raccordement non connu`,
+  async function (this: PotentielWorld) {
+    try {
+      const modifierPropositionTechniqueEtFinancière =
+        modifierPropositionTechniqueEtFinancièreCommandHandlerFactory({
+          loadAggregate,
+          publish,
+        });
 
-//     try {
-//       await consulterDossierRaccordement({
-//         identifiantProjet: this.raccordementWorld.identifiantProjet,
-//         référence: this.raccordementWorld.référenceDossierRaccordement,
-//       });
-//     } catch (error) {
-//       expect(error).to.be.instanceOf(DossierRaccordementNonRéférencéError);
-//     }
-//   },
-// );
-
-// Alors(
-//   `le dossier est consultable dans la liste des dossiers de raccordement du projet avec comme référence {string}`,
-//   async function (this: PotentielWorld, nouvelleReference: string) {
-//     const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
-//       find: findProjection,
-//     });
-
-//     const actual = await listerDossiersRaccordement({
-//       identifiantProjet: this.raccordementWorld.identifiantProjet,
-//     });
-//     actual.références.should.contain(nouvelleReference);
-//   },
-// );
-
-// Quand(
-//   `un administrateur modifie la date de qualification pour un dossier de raccordement non connu`,
-//   async function (this: PotentielWorld) {
-//     try {
-//       const modifierPropositionTechniqueEtFinancière =
-//         modifierPropositionTechniqueEtFinancièreCommandHandlerFactory({
-//           loadAggregate,
-//           publish,
-//         });
-
-//       await modifierPropositionTechniqueEtFinancière({
-//         identifiantProjet: this.raccordementWorld.identifiantProjet,
-//         dateQualification: new Date('2023-04-26'),
-//         referenceActuelle: 'dossier-inconnu',
-//         nouvelleReference: 'nouvelle-reference',
-//       });
-//     } catch (error) {
-//       if (error instanceof DossierRaccordementNonRéférencéError) {
-//         this.error = error;
-//       }
-//     }
-//   },
-// );
+      await modifierPropositionTechniqueEtFinancière({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        dateSignature: new Date('2023-04-26'),
+        référence: 'dossier-inconnu',
+      });
+    } catch (error) {
+      if (error instanceof DossierRaccordementNonRéférencéError) {
+        this.error = error;
+      }
+    }
+  },
+);
