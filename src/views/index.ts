@@ -28,7 +28,6 @@ import {
   DemanderChangementPuissance,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
-  ImportDonneesRaccordement,
   AdminNotificationCandidats,
   AdminRegénérerPeriodeAttestations,
   AdminImporterCandidats,
@@ -280,15 +279,6 @@ export const AbonnementLettreInformationPage = (
     Component: AbonnementLettreInformation,
     props,
     title: 'Abdonnement lettre information',
-  });
-
-export const ImportDonneesRaccordementPage = (
-  props: Parameters<typeof ImportDonneesRaccordement>[0],
-) =>
-  makeHtml({
-    Component: ImportDonneesRaccordement,
-    props,
-    title: 'Importer données de raccordement',
   });
 
 export const AdminNotificationCandidatsPage = (

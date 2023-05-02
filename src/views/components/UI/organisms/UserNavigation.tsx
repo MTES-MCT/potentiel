@@ -84,12 +84,6 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Courriers historiques
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.IMPORT_DONNEES_RACCORDEMENT}
-        {...(currentPage === 'import-données-raccordement' && { isCurrent: true })}
-      >
-        Données de raccordement
-      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Désignation'}>
       <DropdownMenu.DropdownItem

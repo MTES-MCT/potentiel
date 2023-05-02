@@ -387,9 +387,6 @@ class routes {
   static ATTACHER_FICHIER_AU_PROJET_ACTION = '/attacher-fichier-au-projet';
   static RETIRER_FICHIER_DU_PROJET_ACTION = '/retirer-fichier-du-projet';
 
-  static IMPORT_DONNEES_RACCORDEMENT = '/admin/import-donnees-raccordement.html';
-  static POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT = '/admin/demarrer-import-donnees-raccordement';
-
   static GET_LISTE_DOSSIERS_RACCORDEMENT = (projetId?: string) => {
     const route = '/projet/:projetId/raccordements';
     if (projetId) {
