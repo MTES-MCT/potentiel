@@ -112,7 +112,7 @@ const Etape: FC<{
   className?: string;
 }> = ({ faite, titre, children, className = '' }) => (
   <div
-    className={`flex flex-col p-5 border-2 border-solid w-full md:max-w-none md:mx-0 md:w-1/3 ${
+    className={`flex flex-col p-5 border-2 border-solid w-full md:max-w-none md:mx-0 md:w-1/3 relative ${
       faite ? 'border-success-425-base bg-green-50' : 'border-grey-625-base'
     } ${className}`}
   >
@@ -146,7 +146,7 @@ const Dossier: FC<{
   },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
-    <Etape faite={true} titre="Demande complète de raccordement" className="relative">
+    <Etape faite={true} titre="Demande complète de raccordement">
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
           <TagIcon className="mr-1" title="référence du dossier de raccordement" />

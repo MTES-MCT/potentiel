@@ -52,6 +52,7 @@ import {
   TransmettrePropositionTechniqueEtFinancière,
   ModifierDemandeComplèteRaccordement,
   ModifierGestionnaireRéseauProjet,
+  ModifierPropositionTechniqueEtFinancière,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -447,4 +448,13 @@ export const ModifierGestionnaireRéseauProjetPage = (
     Component: ModifierGestionnaireRéseauProjet,
     props,
     title: 'Modifier le gestionnaire réseau du projet',
+  });
+
+export const ModifierPropositionTechniqueEtFinancièrePage = (
+  props: Parameters<typeof ModifierPropositionTechniqueEtFinancière>[0],
+) =>
+  makeHtml({
+    Component: ModifierPropositionTechniqueEtFinancière,
+    props,
+    title: 'Modifier une proposition technique et financière',
   });

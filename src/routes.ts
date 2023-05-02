@@ -487,5 +487,14 @@ class routes {
       reference || ':reference'
     }/modifier-proposition-technique-et-financiere.html`;
   };
+
+  static POST_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/modifier-proposition-technique-et-financiere`;
+  };
 }
 export default routes;

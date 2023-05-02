@@ -4,3 +4,4 @@ export * from './TransmettreDateMiseEnServicePage';
 export * from './TransmettrePropositionTechniqueEtFinancièrePage';
 export * from './ModifierDemandeComplèteRaccordementPage';
 export * from './ModifierGestionnaireRéseauProjetPage';
+export * from './ModifierPropositionTechniqueEtFinancièrePage';

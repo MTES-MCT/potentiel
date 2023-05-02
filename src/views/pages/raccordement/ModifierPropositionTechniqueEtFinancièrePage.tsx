@@ -53,13 +53,13 @@ export const ModifierPropositionTechniqueEtFinancière = ({
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
-          action={routes.POST_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE(
+          action={routes.POST_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE(
             identifiantProjet,
             reference,
           )}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
-          <Heading2 className="mb-0">Transmettre la proposition technique et financière</Heading2>
+          <Heading2 className="mb-0">Modifier la proposition technique et financière</Heading2>
 
           <Callout className="text-sm my-4 px-3 pt-1 pb-0">
             <ul className="list-none p-0">
