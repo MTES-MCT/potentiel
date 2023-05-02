@@ -478,5 +478,14 @@ class routes {
   static POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (projetId?: string) => {
     return `/projet/${projetId || ':projetId'}/raccordements/modifier-gestionnaire-reseau`;
   };
+
+  static GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/modifier-proposition-technique-et-financiere.html`;
+  };
 }
 export default routes;

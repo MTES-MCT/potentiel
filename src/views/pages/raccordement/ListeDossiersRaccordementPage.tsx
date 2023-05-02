@@ -206,6 +206,18 @@ const Dossier: FC<{
               </DownloadLink>
             </div>
           )}
+          {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
+            <Link
+              href={routes.GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
+                identifiantProjet,
+                référence,
+              )}
+              className="absolute top-2 right-2"
+            >
+              <EditIcon aria-hidden className="mr-1" />
+              Modifier
+            </Link>
+          )}
         </div>
       ) : (
         <Link
