@@ -25,12 +25,3 @@ Fonctionnalité: Transmettre une demande complète de raccordement
     Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé
         Quand le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé
         Alors le porteur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
-
-    # Scénario: Impossible de transmettre une demande complète de raccordement pour un projet inconnu
-    #     Quand le porteur du projet transmet une demande complète de raccordement pour un projet inconnu
-    #     Alors le porteur devrait être informé que "Le projet n'est pas référencé"
-
-    # Scénario: Impossible de transmettre une demande complète de raccordement pour un projet sur lequel le porteur n'a pas les accès
-    #     Etant donné un projet
-    #     Quand le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau
-    #     Alors le porteur devrait être informé que "Accès au projet refusé"
