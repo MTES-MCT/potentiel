@@ -95,6 +95,9 @@ module.exports = {
           hover: '#ffc6bd',
           active: '#ffb0a2',
         },
+        'warning-975': {
+          base: '#fff4f3',
+        },
         'info-425': {
           base: '#0063cb',
           hover: '#3b87ff',
