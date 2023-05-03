@@ -12,7 +12,7 @@ export const onProjectClaimed = ProjectProjector.on(
         payload: { projectId, claimerEmail, attestationDesignationFileId },
       } = évènement;
 
-      const project = await Project.findByPk(projectId);
+      const project = await Project.findByPk(projectId, { transaction });
 
       if (project === null) {
         throw new EntityNotFoundError();
