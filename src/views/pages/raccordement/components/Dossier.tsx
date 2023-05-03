@@ -134,8 +134,19 @@ export const Dossier: FC<{
     <Etape statut={dateMiseEnService ? 'étape validée' : 'étape à venir'} titre="Mise en service">
       {dateMiseEnService ? (
         <div className="flex items-center">
-          <CalendarIcon className="mr-1" title="date de mise en service" />
-          {afficherDate(new Date(dateMiseEnService))}
+          <div>
+            <CalendarIcon className="mr-1" title="date de mise en service" />
+            {afficherDate(new Date(dateMiseEnService))}
+          </div>
+          {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
+            <Link
+              href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(identifiantProjet, référence)}
+              className="absolute top-2 right-2 text-sm"
+            >
+              <EditIcon aria-hidden className="mr-1" />
+              Modifier
+            </Link>
+          )}
         </div>
       ) : userIs(['admin'])(user) ? (
         <Link
