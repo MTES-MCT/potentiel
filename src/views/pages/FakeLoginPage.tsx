@@ -1,8 +1,7 @@
 import { Request } from 'express';
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import routes from '@routes';
-import { PrimaryButton, ErrorBox, LegacyPageTemplate } from '@components';
+import { PrimaryButton, ErrorBox, LegacyPageTemplate, Label, Input } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 interface FakeLoginProps {
@@ -20,15 +19,9 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
               <h3 id="login">Je m‘identifie</h3>
               {!!error && <ErrorBox title={error} />}
               <div className="form__group">
-                <label htmlFor="email">Courrier électronique</label>
-                <input type="email" name="email" id="email" {...dataId('email-field')} />
-                <PrimaryButton
-                  type="submit"
-                  name="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
-                  className="mt-2"
-                >
+                <Label htmlFor="email">Courrier électronique</Label>
+                <Input type="email" name="email" id="email" />
+                <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
                   Je m'identifie
                 </PrimaryButton>
               </div>
