@@ -33,7 +33,6 @@ export const onProjectFournisseursUpdated = ProjectProjector.on(
 
       await projectInstance.save({ transaction });
     } catch (error) {
-      console.log('erreur : ', error);
       logger.error(
         new ProjectionEnEchec(
           `Erreur lors du traitement de l'évènement ProjectFournisseursUpdated`,
