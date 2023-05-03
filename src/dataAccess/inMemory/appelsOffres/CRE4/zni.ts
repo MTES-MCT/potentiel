@@ -213,6 +213,34 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '1c', territoire: 'Guyane', noteThreshold: 65.52 },
       ],
     },
+    {
+      id: '6',
+      title: 'sixième',
+      certificateTemplate: 'cre4.v1',
+      cahierDesCharges: {
+        référence: '2020/S 202-487521',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
+      },
+      noteThresholdBy: 'family',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' }, // à confirmer si c'est bien deux mois ici
+      noteThreshold: [
+        { familleId: '2a', territoire: 'Corse', noteThreshold: 46.36 },
+        { familleId: '2b', territoire: 'Corse', noteThreshold: 49.7 },
+        { familleId: '2a ', territoire: 'Guadeloupe', noteThreshold: 45.22 },
+        { familleId: '2b', territoire: 'Guadeloupe', noteThreshold: 34.84 },
+        { familleId: '2a ', territoire: 'Guyane', noteThreshold: 40.29 },
+        { familleId: '2b', territoire: 'Guyane', noteThreshold: 29.38 },
+        { familleId: '2c', territoire: 'Guyane', noteThreshold: 40.45 },
+        { familleId: '2a', territoire: 'Martinique', noteThreshold: 18.6 },
+        { familleId: '2b', territoire: 'Martinique', noteThreshold: 15.24 },
+        { familleId: '2c', territoire: 'Martinique', noteThreshold: 54.18 },
+        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 45.48 },
+        { familleId: '2b', territoire: 'Mayotte', noteThreshold: 45.21 },
+        { familleId: '2a', territoire: 'La Réunion', noteThreshold: 42.59 },
+        { familleId: '2b', territoire: 'La Réunion', noteThreshold: 32.6 },
+        { familleId: '2c', territoire: 'La Réunion', noteThreshold: 24.18 },
+      ],
+    },
   ],
   familles: [
     // 2017 ZNI avec stockage
