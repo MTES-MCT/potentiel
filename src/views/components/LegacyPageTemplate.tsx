@@ -1,6 +1,7 @@
 import React from 'react';
 import { Footer, Header, UserNavigation } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { App } from '@views';
 
 export const LegacyPageTemplate = ({
   user,
@@ -12,7 +13,7 @@ export const LegacyPageTemplate = ({
   currentPage?: string;
 }) => {
   return (
-    <>
+    <App>
       <Header user={user}>{user && <UserNavigation {...{ user, currentPage }} />}</Header>
       <main
         role="main"
@@ -23,6 +24,6 @@ export const LegacyPageTemplate = ({
         {children}
       </main>
       <Footer />
-    </>
+    </App>
   );
 };

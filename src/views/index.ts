@@ -55,6 +55,8 @@ import {
   ModifierPropositionTechniqueEtFinancière,
 } from './pages';
 
+export { App } from './App';
+
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
     Component: Statistiques,
