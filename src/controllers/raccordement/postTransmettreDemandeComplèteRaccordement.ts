@@ -52,7 +52,7 @@ const schema = yup.object({
     referenceDossierRaccordement: yup.string().required(),
     dateQualification: yup
       .date()
-      .optional()
+      .required(`La date de qualification est obligatoire`)
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
       .typeError(`La date de qualification n'est pas valide`),
@@ -130,7 +130,7 @@ v1Router.post(
         await transmettreDemandeComplèteRaccordement({
           identifiantProjet,
           identifiantGestionnaireRéseau: { codeEIC },
-          dateQualification: dateQualification || undefined,
+          dateQualification,
           référenceDossierRaccordement,
         });
 

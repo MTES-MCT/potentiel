@@ -142,7 +142,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
 
             <div>
               <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
-              <Input type="date" id="dateQualification" name="dateQualification" />
+              <Input type="date" id="dateQualification" name="dateQualification" required />
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 m-auto">
