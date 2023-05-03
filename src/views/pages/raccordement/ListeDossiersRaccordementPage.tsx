@@ -15,8 +15,8 @@ import {
   TagIcon,
   ArrowDownWithCircle,
   ArrowRightWithCircle,
-  AlertBox,
   EditIcon,
+  WarningIcon,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -107,20 +107,24 @@ const Separateur = () => {
 };
 
 const Etape: FC<{
-  faite: boolean;
+  statut: 'étape validée' | 'étape à venir' | 'étape incomplète';
   titre: string;
   className?: string;
-}> = ({ faite, titre, children, className = '' }) => (
+}> = ({ statut, titre, children, className = '' }) => (
   <div
     className={`flex flex-col p-5 border-2 border-solid w-full md:max-w-none md:mx-0 md:w-1/3 relative ${
-      faite ? 'border-success-425-base bg-green-50' : 'border-grey-625-base'
+      statut ? 'border-success-425-base bg-green-50' : 'border-grey-625-base'
     } ${className}`}
   >
     <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
-      {faite ? (
+      {statut === 'étape validée' && (
         <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" title="étape validée" />
-      ) : (
+      )}
+      {statut === 'étape à venir' && (
         <ClockIcon className="w-8 h-8 md:mx-auto text-grey-625-base" title="étape à venir" />
+      )}
+      {statut === 'étape incomplète' && (
+        <WarningIcon className="w-8 h-8 md:mx-auto text-grey-625-base" title="étape incomplète" />
       )}
       <div className="uppercase font-bold text-sm">{titre}</div>
     </div>
@@ -146,7 +150,10 @@ const Dossier: FC<{
   },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
-    <Etape faite={true} titre="Demande complète de raccordement">
+    <Etape
+      statut={dateQualification ? 'étape validée' : 'étape incomplète'}
+      titre="Demande complète de raccordement"
+    >
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
           <TagIcon className="mr-1" title="référence du dossier de raccordement" />
@@ -157,7 +164,7 @@ const Dossier: FC<{
           {dateQualification ? (
             afficherDate(new Date(dateQualification))
           ) : (
-            <AlertBox title="Date de l'accusé de réception à renseigner" />
+            <p>Date de l'accusé de réception à renseigner</p>
           )}
         </div>
         {hasDCRFile && (
@@ -183,7 +190,10 @@ const Dossier: FC<{
       </div>
     </Etape>
     <Separateur />
-    <Etape titre="Proposition technique et financière" faite={!!propositionTechniqueEtFinancière}>
+    <Etape
+      titre="Proposition technique et financière"
+      statut={propositionTechniqueEtFinancière ? 'étape validée' : 'étape à venir'}
+    >
       {propositionTechniqueEtFinancière ? (
         <div className="flex flex-col text-sm gap-2">
           <div className="flex items-center">
@@ -232,7 +242,7 @@ const Dossier: FC<{
       )}
     </Etape>
     <Separateur />
-    <Etape faite={!!dateMiseEnService} titre="Mise en service">
+    <Etape statut={dateMiseEnService ? 'étape validée' : 'étape à venir'} titre="Mise en service">
       {dateMiseEnService ? (
         <div className="flex items-center">
           <CalendarIcon className="mr-1" title="date de mise en service" />
