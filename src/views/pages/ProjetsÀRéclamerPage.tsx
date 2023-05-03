@@ -194,11 +194,7 @@ export const ProjetsÀRéclamer = ({
           </form>
         </div>
         {success && <SuccessBox title={success} />}
-        {error && (
-          <ErrorBox>
-            <pre className="whitespace-pre-wrap">{error}</pre>
-          </ErrorBox>
-        )}
+        {error && <ErrorBox className="whitespace-pre-wrap">{error}</ErrorBox>}
         {projects ? (
           <>
             <div className="m-2">
