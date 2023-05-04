@@ -43,7 +43,12 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
         }`}
       >
         {isCurrent && <div className="lg:hidden h-[24px] w-[2px] bg-blue-france-sun-base" />}
-        <div className={`flex-1 no-underline pl-4 lg:pl-0 flex items-center`}>
+        <div
+          className={`flex-1 no-underline pl-4 lg:pl-0 flex items-center`}
+          tabIndex={0}
+          aria-haspopup="true"
+          onKeyDown={() => setVisible(!visible)}
+        >
           {buttonChildren}
           <ArrowDownIcon
             style={{ transform: visible ? 'rotate(180deg)' : '' }}
