@@ -222,15 +222,15 @@ const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
   <nav role="navigation" aria-label="Accès rapide" className="bg-grey-950-base">
     <ul className="flex row list-none justify-start px-0 py-4 gap-2 xl:mx-auto xl:max-w-7xl my-0">
       <li>
-        <Link href="#contenu">Contenu</Link>
+        <Link href="#contenu">Accéder au contenu</Link>
       </li>
       {menuDisponible && (
         <li>
-          <Link href="#menu-principal">Menu</Link>
+          <Link href="#menu-principal">Accéder au menu</Link>
         </li>
       )}
       <li>
-        <Link href="#pied-de-page">Pied de page</Link>
+        <Link href="#pied-de-page">Accéder au pied de page</Link>
       </li>
     </ul>
   </nav>

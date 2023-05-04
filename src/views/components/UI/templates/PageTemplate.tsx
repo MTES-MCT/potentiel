@@ -14,7 +14,7 @@ export const PageTemplate = ({
   return (
     <>
       <Header user={user}>{user && <UserNavigation {...{ user, currentPage }} />}</Header>
-      <main role="main" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+      <main role="main" id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         {children}
       </main>
       <Footer />
