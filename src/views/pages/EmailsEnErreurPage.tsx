@@ -11,7 +11,6 @@ import { FailedNotificationDTO } from '@modules/notification';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 type EmailsEnErreurProps = {
@@ -38,13 +37,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
             {!!notifications.itemCount && (
-              <PrimaryButton
-                className="mt-3"
-                type="submit"
-                name="submit"
-                id="submit"
-                {...dataId('submit-button')}
-              >
+              <PrimaryButton className="mt-3" type="submit" name="submit" id="submit">
                 Réessayer toutes les notifications en erreur
               </PrimaryButton>
             )}
@@ -60,7 +53,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
             <div className="m-2">
               <strong>{notifications.itemCount}</strong> notifications{' '}
             </div>
-            <table className="table" style={{ width: '100%' }} {...dataId('notificationList-list')}>
+            <table className="table w-full">
               <thead>
                 <tr>
                   <th>Destinataire</th>
@@ -72,10 +65,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
               <tbody>
                 {notifications.items.map((notification) => {
                   return (
-                    <tr
-                      key={'notification_' + notification.id}
-                      {...dataId('notificationList-item')}
-                    >
+                    <tr key={'notification_' + notification.id}>
                       <td>
                         {notification.recipient.email} {notification.recipient.name}
                       </td>

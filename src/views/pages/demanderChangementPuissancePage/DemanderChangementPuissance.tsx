@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProjectAppelOffre, Technologie } from '@entities';
-import { dataId } from '../../../helpers/testId';
 import { Request } from 'express';
 
 import {
@@ -90,7 +89,7 @@ export const DemanderChangementPuissance = ({
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3" />
-              <div {...dataId('modificationRequest-demandesInputs')}>
+              <div>
                 <ChangementPuissance
                   {...{
                     ...project,
@@ -100,12 +99,7 @@ export const DemanderChangementPuissance = ({
                   }}
                 />
 
-                <PrimaryButton
-                  className="mt-3 mr-1"
-                  type="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
-                >
+                <PrimaryButton className="mt-3 mr-1" type="submit" id="submit">
                   Envoyer
                 </PrimaryButton>
                 <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>

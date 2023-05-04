@@ -20,7 +20,6 @@ import ROUTES from '@routes';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
-import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
 
@@ -201,17 +200,10 @@ export const AdminNotificationCandidats = ({
                 name="notificationDate"
                 id="notificationDate"
                 defaultValue={afficherDate(new Date())}
-                {...dataId('modificationRequest-notificationDateField')}
                 className="w-auto"
               />
               {request.user?.role === 'dgec-validateur' && (
-                <PrimaryButton
-                  type="submit"
-                  name="submit"
-                  id="submit"
-                  className="mt-4"
-                  {...dataId('submit-button')}
-                >
+                <PrimaryButton type="submit" name="submit" id="submit" className="mt-4">
                   Envoyer la notification aux {projetsPériodeSélectionnée.itemCount} candidats de
                   cette période
                 </PrimaryButton>

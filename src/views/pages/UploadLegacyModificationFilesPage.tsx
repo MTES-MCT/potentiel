@@ -1,6 +1,5 @@
 import type { Request } from 'express';
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import {
   ErrorBox,
@@ -82,13 +81,7 @@ export const UploadLegacyModificationFiles = ({
           <div className="text-sm mt-2">
             Vous pouvez attacher jusqu'à 50Mo de fichiers à la fois
           </div>
-          <PrimaryButton
-            className="mt-2"
-            type="submit"
-            name="submit"
-            id="submit"
-            {...dataId('submit-button')}
-          >
+          <PrimaryButton className="mt-2" type="submit" name="submit" id="submit">
             Envoyer
           </PrimaryButton>
         </form>

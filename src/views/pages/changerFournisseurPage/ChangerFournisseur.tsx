@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ProjectAppelOffre } from '@entities';
 import routes from '@routes';
-import { dataId } from '../../../helpers/testId';
 import { Request } from 'express';
 
 import {
@@ -127,7 +126,6 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                     type="number"
                     disabled
                     defaultValue={project.evaluationCarbone}
-                    {...dataId('modificationRequest-oldEvaluationCarboneField')}
                     name="evaluation-carbone-actuelle"
                     id="evaluation-carbone-actuelle"
                   />
@@ -139,7 +137,6 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                     type="number"
                     name="evaluationCarbone"
                     id="evaluationCarbone"
-                    {...dataId('modificationRequest-evaluationCarboneField')}
                   />
                   {evaluationCarbone &&
                     evaluationCarbone > project.evaluationCarboneDeRéférence &&
@@ -155,12 +152,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
               <Label htmlFor="candidats" className="mt-6">
                 Pièce-jointe
               </Label>
-              <Input
-                type="file"
-                name="file"
-                {...dataId('modificationRequest-fileField')}
-                id="file"
-              />
+              <Input type="file" name="file" id="file" />
               <Label htmlFor="justification" className="mt-4">
                 <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
                 <br />
@@ -171,15 +163,9 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                 name="justification"
                 id="justification"
                 defaultValue={justification || ''}
-                {...dataId('modificationRequest-justificationField')}
               />
 
-              <PrimaryButton
-                className="mt-3 mr-1"
-                type="submit"
-                id="submit"
-                {...dataId('submit-button')}
-              >
+              <PrimaryButton className="mt-3 mr-1" type="submit" id="submit">
                 Envoyer
               </PrimaryButton>
               <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>

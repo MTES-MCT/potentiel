@@ -1,7 +1,6 @@
 import React from 'react';
 import { ProjectAppelOffre } from '@entities';
 import routes from '@routes';
-import { dataId } from '../../../helpers/testId';
 import { Request } from 'express';
 
 import {
@@ -74,7 +73,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
 
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3" />
-              <div {...dataId('modificationRequest-demandesInputs')}>
+              <div>
                 <Label htmlFor="justification">
                   <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
                   <br />
@@ -85,21 +84,10 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   name="justification"
                   id="justification"
                   defaultValue={justification || ''}
-                  {...dataId('modificationRequest-justificationField')}
                 />
                 <Label htmlFor="file">Pièce justificative</Label>
-                <Input
-                  type="file"
-                  name="file"
-                  {...dataId('modificationRequest-fileField')}
-                  id="file"
-                />
-                <PrimaryButton
-                  className="mt-3 mr-1"
-                  type="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
-                >
+                <Input type="file" name="file" id="file" />
+                <PrimaryButton className="mt-3 mr-1" type="submit" id="submit">
                   Envoyer
                 </PrimaryButton>
                 <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>

@@ -1,6 +1,5 @@
 import type { Request } from 'express';
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import {
   SecondaryButton,
@@ -34,13 +33,7 @@ export const ImporterListingEnedis = ({ request }: ImporterListingEnedisProps) =
           {error && <ErrorBox title={error as string} />}
           <Label htmlFor="file">Sélectionner le fichier à importer.</Label>
           <Input type="file" name="file" id="file" />
-          <SecondaryButton
-            className="mt-2"
-            type="submit"
-            name="submit"
-            id="submit"
-            {...dataId('submit-button')}
-          >
+          <SecondaryButton className="mt-2" type="submit" name="submit" id="submit">
             Envoyer
           </SecondaryButton>
         </form>

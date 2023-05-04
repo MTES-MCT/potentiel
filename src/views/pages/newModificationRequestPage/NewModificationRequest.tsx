@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProjectAppelOffre } from '@entities';
-import { dataId } from '../../../helpers/testId';
 import { Request } from 'express';
 
 import {
@@ -90,18 +89,13 @@ export const NewModificationRequest = ({
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
-              <div {...dataId('modificationRequest-demandesInputs')}>
+              <div>
                 {action === 'actionnaire' && (
                   <ChangementActionnaire {...{ project, actionnaire, justification }} />
                 )}
                 {action === 'recours' && <DemandeRecours {...{ justification }} />}
 
-                <PrimaryButton
-                  className="mt-3 mr-1"
-                  type="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
-                >
+                <PrimaryButton className="mt-3 mr-1" type="submit" id="submit">
                   Envoyer
                 </PrimaryButton>
                 <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>

@@ -165,7 +165,6 @@ export const AdminRegénérerPeriodeAttestations = ({
             className="mt-2"
             type="submit"
             name="submit"
-            {...dataId('submit-button')}
             confirmation="Êtes-vous sur de vouloir regénérer les attestations pour tous les projets de cette période ?"
           >
             Regénérer les attestations des projets de cette période

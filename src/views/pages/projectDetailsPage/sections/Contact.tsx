@@ -15,7 +15,6 @@ import {
 
 import { ProjectDataForProjectPage } from '@modules/project';
 import { userIs } from '@modules/users';
-import { dataId } from '../../../../helpers/testId';
 
 type ContactProps = {
   project: ProjectDataForProjectPage;
@@ -48,8 +47,8 @@ type ListComptesAvecAccesProps = {
 };
 const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
   <div>
-    <Heading3 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</Heading3>
-    <ul style={{ marginTop: 5, marginBottom: 5 }}>
+    <Heading3 className="mt-4 mb-1">Comptes ayant accès à ce projet</Heading3>
+    <ul className="my-1">
       {project.users.map(({ id, fullName, email }) => (
         <li key={'project_user_' + id}>
           {fullName && `${fullName} - `}
@@ -60,7 +59,7 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
                 projectId: project.id,
                 userId: id,
               })}
-              style={{ marginLeft: 5 }}
+              className="ml-1"
               confirmation={`Êtes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
             >
               retirer
@@ -98,13 +97,7 @@ const InvitationForm = ({ project }: InvitationFormProps) => {
           Courrier électronique de la personne habilitée à suivre ce projet
         </Label>
         <Input type="email" name="email" id="email" required />
-        <PrimaryButton
-          className="mt-2 mr-3"
-          type="submit"
-          name="submit"
-          id="submit"
-          {...dataId('submit-button')}
-        >
+        <PrimaryButton className="mt-2 mr-3" type="submit" name="submit" id="submit">
           Accorder les droits sur ce projet
         </PrimaryButton>
         <Link

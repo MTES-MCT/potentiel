@@ -80,12 +80,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                   ))}
               </Select>
             </div>
-            <PrimaryButton
-              type="submit"
-              id="submit"
-              {...dataId('submit-button')}
-              className="m-auto"
-            >
+            <PrimaryButton type="submit" id="submit" className="m-auto">
               Inviter
             </PrimaryButton>
           </form>

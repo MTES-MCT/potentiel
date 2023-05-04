@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProjectAppelOffre } from '@entities';
-import { dataId } from '../../../helpers/testId';
 import { Request } from 'express';
 
 import {
@@ -79,7 +78,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
-              <div {...dataId('modificationRequest-demandesInputs')}>
+              <div>
                 <AlertBox title="Attention : révocation des droits sur le projet" className="my-7">
                   Une fois ce formulaire de changement de producteur envoyé, vous ne pourrez plus
                   suivre ce projet sur Potentiel. Tous les accès actuels seront retirés.
@@ -110,20 +109,13 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                   type="text"
                   name="producteur"
                   id="producteur"
-                  {...dataId('modificationRequest-producteurField')}
                   required
                   {...(isEolien && { disabled: true })}
                 />
                 <label htmlFor="candidats" className="mt-4 ">
                   Statuts mis à jour
                 </label>
-                <Input
-                  type="file"
-                  name="file"
-                  {...dataId('modificationRequest-fileField')}
-                  id="file"
-                  {...(isEolien && { disabled: true })}
-                />
+                <Input type="file" name="file" id="file" {...(isEolien && { disabled: true })} />
                 <Label htmlFor="justification" className="mt-4">
                   Veuillez nous indiquer les raisons qui motivent votre demande
                   <br />
@@ -136,15 +128,9 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                   name="justification"
                   id="justification"
                   defaultValue={justification || ''}
-                  {...dataId('modificationRequest-justificationField')}
                   {...(isEolien && { disabled: true })}
                 />
-                <PrimaryButton
-                  className="mt-3 mr-1"
-                  type="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
-                >
+                <PrimaryButton className="mt-3 mr-1" type="submit" id="submit">
                   Envoyer
                 </PrimaryButton>
                 <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>

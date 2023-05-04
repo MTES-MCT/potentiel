@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { dataId } from '../../../../helpers/testId';
 import { ProjectDataForProjectPage } from '@modules/project/queries';
 import ROUTES from '@routes';
 import {
@@ -292,7 +291,6 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               type="text"
               name="notificationDate"
               id="notificationDate"
-              {...dataId('date-field')}
               defaultValue={
                 query.notificationDate ||
                 (project.notifiedOn && afficherDate(new Date(project.notifiedOn)))
@@ -300,11 +298,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               placeholder="Renseigner une date de désignation"
               style={{ width: 'auto' }}
             />
-            <div
-              className="notification error"
-              style={{ display: 'none' }}
-              {...dataId('error-message-wrong-format')}
-            >
+            <div className="notification error" style={{ display: 'none' }}>
               Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
               soit par exemple 25/05/2022 pour 25 Mai 2022.
             </div>
@@ -359,7 +353,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             placeholder="Renseigner un message justificatif du changement"
           />
         </div>
-        <PrimaryButton className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
+        <PrimaryButton className="mt-2" type="submit" name="submit">
           Modifier
         </PrimaryButton>
       </form>

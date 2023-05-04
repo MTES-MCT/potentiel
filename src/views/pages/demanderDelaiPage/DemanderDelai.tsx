@@ -23,7 +23,6 @@ import { Request } from 'express';
 import React from 'react';
 import format from 'date-fns/format';
 
-import { dataId } from '../../../helpers/testId';
 import { hydrateOnClient } from '../../helpers';
 
 type DemanderDelaiProps = {
@@ -85,7 +84,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-1">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3" />
-              <div {...dataId('modificationRequest-demandesInputs')}>
+              <div>
                 <div className="flex flex-col gap-5">
                   <div>
                     <label>Date théorique d'achèvement</label>
@@ -123,31 +122,18 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                       name="justification"
                       id="justification"
                       defaultValue={justification || ''}
-                      {...dataId('modificationRequest-justificationField')}
                     />
                   </div>
                   <div>
                     <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
-                    <Input
-                      type="file"
-                      name="file"
-                      {...dataId('modificationRequest-fileField')}
-                      id="file"
-                    />
+                    <Input type="file" name="file" id="file" />
                   </div>
                 </div>
 
-                <PrimaryButton
-                  type="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
-                  className="mt-4 mr-2"
-                >
+                <PrimaryButton type="submit" id="submit" className="mt-4 mr-2">
                   Envoyer
                 </PrimaryButton>
-                <SecondaryLinkButton {...dataId('cancel-button')} href={routes.LISTE_PROJETS}>
-                  Annuler
-                </SecondaryLinkButton>
+                <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
               </div>
             </div>
           </form>

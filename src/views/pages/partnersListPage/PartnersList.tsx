@@ -76,12 +76,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                 <option value="caisse-des-dépôts">Caisse des dépôts</option>
               </Select>
             </div>
-            <PrimaryButton
-              className="m-auto"
-              type="submit"
-              id="submit"
-              {...dataId('submit-button')}
-            >
+            <PrimaryButton className="m-auto" type="submit" id="submit">
               Inviter
             </PrimaryButton>
           </form>

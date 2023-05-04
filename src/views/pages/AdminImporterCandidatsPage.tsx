@@ -1,5 +1,4 @@
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import {
@@ -50,20 +49,8 @@ export const AdminImporterCandidats = ({
 
           <div className="form__group">
             <Label htmlFor="candidats">Fichier csv des candidats</Label>
-            <Input
-              type="file"
-              name="candidats"
-              {...dataId('candidats-field')}
-              id="candidats"
-              required
-            />
-            <PrimaryButton
-              type="submit"
-              name="submit"
-              id="submit"
-              {...dataId('submit-button')}
-              className="mt-2"
-            >
+            <Input type="file" name="candidats" id="candidats" required />
+            <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
               Envoyer
             </PrimaryButton>
           </div>
