@@ -20,9 +20,11 @@ export const TextArea = ({ className = '', error = '', onChange, ...props }: Tex
     <>
       <textarea
         {...props}
-        className={`${className} bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid outline-offset-4 outline-2 outline-solid outline-outline-base ${
-          isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'
-        } rounded-none`}
+        className={`
+        w-full py-2 px-3 rounded-[3px] text-base bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid 
+        outline-offset-4 outline-2 outline-solid outline-outline-base 
+        disabled:cursor-not-allowed disabled:border-b-grey-925-base disabled:bg-grey-950-base 
+        ${isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'} ${className}`}
         onChange={(e) => {
           valueChanged(true);
           onChange && onChange(e);

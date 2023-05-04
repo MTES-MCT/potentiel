@@ -92,9 +92,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                     <Input
                       type="text"
                       disabled
-                      defaultValue={format(project.completionDueOn, 'dd / MM / yyyy')}
-                      style={{ backgroundColor: '#CECECE' }}
-                      {...dataId('modificationRequest-presentServiceDateField')}
+                      defaultValue={format(project.completionDueOn, 'dd/MM/yyyy')}
                     />
                   </div>
                   <div>

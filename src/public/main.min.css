@@ -64,28 +64,8 @@
   --theme-info-border: var(--light-blue);
   --theme-info-bg: var(--lighter-blue);
 }
-input,
-textarea {
-  width: 100%;
-  padding: 0.5em 0.875em;
-  font: inherit;
-  line-height: 1.6;
-  color: #1c1c1c;
-  color: var(--black);
-  border-radius: 3px;
-  border-radius: var(--theme-border-radius);
-  border: 1px solid #adb9c9;
-  border: 1px solid var(--theme-border);
-  background: #fff;
-  background: var(--theme-background-white);
-  vertical-align: middle;
-  position: relative;
-}
-input:disabled {
-  background-color: #ebeff3;
-  background-color: var(--theme-background-grey);
-}
-input[type='checkbox'],
+
+// TODO : créer un composant radio
 input[type='radio'] {
   margin: 0;
   margin-right: 0.5em;
@@ -127,14 +107,8 @@ input[type='radio']:checked:before {
   transform: scale(1);
   transition: transform 0.2s ease-out;
 }
-input[type='checkbox'] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  height: 1.4em;
-  width: 1.5em;
-  padding: 0;
-}
+
+// TODO : retravailler l'input checkbox pour gérer cette partie
 input[type='checkbox']:checked {
   opacity: 1;
   transition: border-color 0.2s ease-in, background-color 0.2s ease-out;
@@ -143,8 +117,8 @@ input[type='checkbox']:before {
   transform: scale(0);
   content: '';
   position: absolute;
-  top: 0.2em;
-  left: 0.15em;
+  top: 4px;
+  left: 3px;
   height: 1em;
   width: 1em;
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><path d="M14.23 1.304L6.112 9.501 2.767 6.117a1.029 1.029 0 0 0-1.464 0 1.054 1.054 0 0 0 0 1.479l4.055 4.101c.208.21.481.31.754.305.272.005.545-.095.753-.305l8.829-8.915a1.053 1.053 0 0 0 0-1.478 1.027 1.027 0 0 0-1.464 0z" fill="white" /></svg>')
@@ -157,21 +131,7 @@ input[type='checkbox']:checked:before {
   transform: scale(1);
   transition: transform 0.2s ease-out;
 }
-input[type='file'] {
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-}
-label.required:before {
-  content: '✱';
-  color: #d63626;
-  color: var(--red);
-  font-weight: 700;
-  padding-right: 0.5em;
-  padding-right: var(--space-xs);
-  position: absolute;
-  left: 0;
-  transform: translateX(-100%);
-}
+
 a.button,
 a.button:active,
 a.button:focus,
@@ -217,9 +177,7 @@ button.button:disabled {
   background-color: var(--light-grey);
 }
 a.button:hover,
-button.button:hover,
-input[type='button']:hover,
-input[type='submit']:hover {
+button.button:hover {
   background: #003b80;
   background: var(--theme-secondary-darken);
 }

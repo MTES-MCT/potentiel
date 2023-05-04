@@ -356,7 +356,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             name="reason"
             id="reason"
             defaultValue={query.reason}
-            placeholder="Renseigner un message justifcatif du changement"
+            placeholder="Renseigner un message justificatif du changement"
           />
         </div>
         <PrimaryButton className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
