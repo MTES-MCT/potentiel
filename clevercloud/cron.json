@@ -1,4 +1,0 @@
-[
-  "0 0 * * * $ROOT/scripts/backup_files.sh",
-  "0 5 * * * $ROOT/scripts/backup_db.sh"
-]
