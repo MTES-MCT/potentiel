@@ -96,7 +96,6 @@ import { toProjectDataForCertificate } from './mappers';
 
 export interface Project extends EventStoreAggregate {
   notify: (args: {
-    appelOffre: ProjectAppelOffre;
     notifiedOn: number;
   }) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>;
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>;
@@ -381,20 +380,30 @@ export const makeProject = (args: {
 
   // public methods
   return ok({
-    notify: function ({ appelOffre, notifiedOn }) {
+    notify: function ({ notifiedOn }) {
       const { data, projectId } = props;
 
       if (props.notifiedOn) {
         return err(new ProjectAlreadyNotifiedError());
       }
 
+      const projectAppelOffre = getProjectAppelOffre({
+        appelOffreId: props.appelOffreId,
+        periodeId: props.periodeId,
+        familleId: props.familleId,
+      });
+
+      if (!projectAppelOffre) {
+        return err(new Error(`L'appel offre ${props.appelOffreId} n'existe pas`));
+      }
+
       _publishEvent(
         new ProjectNotified({
           payload: {
             projectId: projectId.toString(),
-            appelOffreId: appelOffre.id,
-            periodeId: appelOffre.periode.id,
-            familleId: appelOffre.famille?.id,
+            appelOffreId: props.appelOffreId,
+            periodeId: props.periodeId,
+            familleId: props.familleId,
             candidateEmail: data?.email || '',
             candidateName: data?.nomRepresentantLegal || '',
             notifiedOn,
@@ -402,13 +411,14 @@ export const makeProject = (args: {
         }),
       );
 
-      _updateDCRDate(appelOffre);
-      _updateCompletionDate(appelOffre);
+      _updateDCRDate(projectAppelOffre);
+      _updateCompletionDate(projectAppelOffre);
+
       if (
-        appelOffre.famille?.soumisAuxGarantiesFinancieres === 'après candidature' ||
-        appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
+        projectAppelOffre.famille?.soumisAuxGarantiesFinancieres === 'après candidature' ||
+        projectAppelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
       ) {
-        _updateGFDate(appelOffre);
+        _updateGFDate(projectAppelOffre);
       }
 
       return ok(null);
