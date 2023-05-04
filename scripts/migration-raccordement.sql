@@ -49,12 +49,8 @@ begin
         fetch projets into projet;
         exit when not found;
         identifiantProjet := projet."appelOffreId" || '#' || projet."periodeId" || '#' || projet."familleId" || '#' || projet."numeroCRE";
-        referenceDossier := 'Référence non transmise';
+        referenceDossier := projet."identifiantGestionnaire";
         dateQualification := null;
-
-        if projet."identifiantGestionnaire" is not null then
-            referenceDossier := projet."identifiantGestionnaire";
-        end if;
 
         if projet."dcrDate" is not null then
             dateQualification := projet."dcrDate";
