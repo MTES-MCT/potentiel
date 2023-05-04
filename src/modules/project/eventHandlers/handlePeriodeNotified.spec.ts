@@ -58,11 +58,6 @@ describe('handlePeriodeNotified', () => {
 
   it('should call Project.notify() on each unnotified project', () => {
     expect(fakeProject.notify).toHaveBeenCalledWith({
-      appelOffre: {
-        id: fakePayload.appelOffreId,
-        periode: { id: fakePayload.periodeId },
-        famille: { id: fakePayload.familleId },
-      },
       notifiedOn: 1,
     });
   });
