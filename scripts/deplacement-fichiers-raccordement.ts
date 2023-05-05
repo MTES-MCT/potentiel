@@ -43,7 +43,7 @@ import * as fs from 'fs';
 import { S3 } from 'aws-sdk';
 import { Readable } from 'stream';
 import { extname, join } from 'path';
-import { formatIdentifiantProjet } from '../packages/domain/src/projet/identifiantProjet';
+import { formatIdentifiantProjet } from '@potentiel/domain';
 
 const printProgress = (progress) => {
   readline.cursorTo(process.stdout, 0);
@@ -73,6 +73,7 @@ const target = new S3({
 });
 
 async function moveFiles() {
+  const startTime = new Date();
   const jsonString = fs.readFileSync('./files.json', 'utf-8');
   const files = JSON.parse(jsonString) as Array<{
     id: string;
@@ -134,7 +135,8 @@ async function moveFiles() {
     printProgress(`${total - files.length}/${total}`);
   }
 
-  console.info(`\n✅ Migration completed successfully.`);
+  const timeElapsed = new Date().getTime() - startTime.getTime();
+  console.info(`\n✅ Migration completed successfully ${timeElapsed}ms.`);
 }
 
 moveFiles();
