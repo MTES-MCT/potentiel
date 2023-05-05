@@ -43,7 +43,10 @@ jobs:
         run: |
           GIT_BRANCH=${GITHUB_BASE_REF:-${GITHUB_REF#refs/heads/}}
           BRANCH_VERSION=$(printf '%s\n' ${GIT_BRANCH//release\//})
+          echo "BRANCH_VERSION=${BRANCH_VERSION}"
+          echo "$(git tag --list | sort -V | tail -n1)"
           TAG_VERSION=$(git tag --list | sort -V | tail -n1)
+          echo "TAG_VERSION=${TAG_VERSION}"
           export BRANCH_VERSION="${BRANCH_VERSION}" && TAG_VERSION="${TAG_VERSION}" && npm run version
           PATCH_VERSION="$(cat .patch-version)"
           APPLICATION_VERSION=${BRANCH_VERSION}.${PATCH_VERSION}
@@ -70,6 +73,7 @@ jobs:
           default_bump: false
           default_prerelease_bump: false
           custom_tag: ${{ env.APPLICATION_VERSION }}
+          tag_prefix: ''
       - uses: actions/checkout@v3
       - name: Deploy to Production
         run: |
