@@ -4,6 +4,7 @@ import {
   ListeVide,
   ModificationRequestActionTitles,
   PaginationPanel,
+  Table,
 } from '@components';
 import {
   ModificationRequestListItemDTO,
@@ -12,7 +13,6 @@ import {
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import {
   afficherDate,
@@ -61,7 +61,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
 
   return (
     <>
-      <table className="table" {...dataId('requestList-list')}>
+      <Table className="table">
         <thead>
           <tr>
             <th>Période</th>
@@ -160,7 +160,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
             );
           })}
         </tbody>
-      </table>
+      </Table>
       <PaginationPanel
         nombreDePage={modificationRequests.pageCount}
         pagination={{

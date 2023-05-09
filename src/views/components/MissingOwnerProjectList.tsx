@@ -7,6 +7,7 @@ import {
   Label,
   ListeVide,
   PaginationPanel,
+  Table,
 } from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
@@ -157,7 +158,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
         className="max-w-full"
         method="post"
       >
-        <table className="table missingOwnerProjectList">
+        <Table>
           <thead>
             <tr>
               <th></th>
@@ -196,7 +197,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
               );
             })}
           </tbody>
-        </table>
+        </Table>
 
         <input type="hidden" name="projectIds" value={selectedProjectList} />
 

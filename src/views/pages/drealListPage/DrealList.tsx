@@ -14,6 +14,7 @@ import {
   SuccessBox,
   Label,
   FormulaireChampsObligatoireLégende,
+  Table,
 } from '@components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { REGIONS, Région } from '@modules/dreal/région';
@@ -90,7 +91,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
         ) : (
           <>
             <Heading2>Les utilisateurs rattachés à une région</Heading2>
-            <table className="table" {...dataId('projectList-list')}>
+            <Table>
               <thead>
                 <tr>
                   <th>Utilisateur</th>
@@ -109,7 +110,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
           </>
         )}
       </div>

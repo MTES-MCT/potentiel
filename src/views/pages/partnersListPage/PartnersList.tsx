@@ -15,6 +15,7 @@ import {
   ListeVide,
   Label,
   FormulaireChampsObligatoireLégende,
+  Table,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -87,7 +88,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
         ) : (
           <>
             <Heading2>Liste des utilisateurs</Heading2>
-            <table className="table" {...dataId('projectList-list')}>
+            <Table>
               <thead>
                 <tr>
                   <th>Nom (email)</th>
@@ -106,7 +107,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
           </>
         )}
       </div>

@@ -6,6 +6,7 @@ import {
   PaginationPanel,
   SecondaryButton,
   SuccessBox,
+  Table,
 } from '@components';
 import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
 import ROUTES from '@routes';
@@ -46,7 +47,7 @@ export const InvitationsCandidatsEnAttente = ({
             <div className="m-2">
               <strong>{invitations.itemCount}</strong> invitations en attente{' '}
             </div>
-            <table className="table" style={{ width: '100%' }} {...dataId('invitationList-list')}>
+            <Table>
               <thead>
                 <tr>
                   <th>Email</th>
@@ -93,7 +94,7 @@ export const InvitationsCandidatsEnAttente = ({
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
             {!Array.isArray(invitations) ? (
               <PaginationPanel
                 nombreDePage={invitations.pageCount}

@@ -6,6 +6,7 @@ import {
   ErrorBox,
   Heading1,
   ListeVide,
+  Table,
 } from '@components';
 import { FailedNotificationDTO } from '@modules/notification';
 import ROUTES from '@routes';
@@ -53,7 +54,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
             <div className="m-2">
               <strong>{notifications.itemCount}</strong> notifications{' '}
             </div>
-            <table className="table w-full">
+            <Table>
               <thead>
                 <tr>
                   <th>Destinataire</th>
@@ -88,7 +89,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
             {!Array.isArray(notifications) && (
               <PaginationPanel
                 nombreDePage={notifications.pageCount}
