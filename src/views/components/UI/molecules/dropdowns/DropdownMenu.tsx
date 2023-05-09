@@ -29,6 +29,13 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
     return () => document.removeEventListener('click', onClickOut);
   }, [setVisible]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setVisible(!visible);
+    }
+  };
+
   return (
     <li
       ref={ref}
@@ -47,7 +54,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
           className={`flex-1 no-underline pl-4 lg:pl-0 flex items-center`}
           tabIndex={0}
           aria-haspopup="true"
-          onKeyDown={() => setVisible(!visible)}
+          onKeyDown={(event) => handleKeyDown(event)}
         >
           {buttonChildren}
           <ArrowDownIcon
