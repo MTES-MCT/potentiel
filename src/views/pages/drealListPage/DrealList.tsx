@@ -15,6 +15,7 @@ import {
   Label,
   FormulaireChampsObligatoireLégende,
   Table,
+  Td,
 } from '@components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { REGIONS, Région } from '@modules/dreal/région';
@@ -102,10 +103,10 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                 {users.map(({ user, dreals }, index) => {
                   return (
                     <tr key={'user_' + index} {...dataId('drealList-item')}>
-                      <td valign="top">
+                      <Td valign="top">
                         {user.fullName} ({user.email})
-                      </td>
-                      <td valign="top">{dreals.join(', ')}</td>
+                      </Td>
+                      <Td valign="top">{dreals.join(', ')}</Td>
                     </tr>
                   );
                 })}

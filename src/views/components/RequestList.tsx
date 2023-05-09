@@ -5,6 +5,7 @@ import {
   ModificationRequestActionTitles,
   PaginationPanel,
   Table,
+  Td,
 } from '@components';
 import {
   ModificationRequestListItemDTO,
@@ -78,15 +79,15 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
               modificationRequestItem;
             return (
               <tr key={`modificationRequest_${modificationRequest.id}`}>
-                <td valign="top">
+                <Td valign="top">
                   <div className="italic leading-normal text-xs">
                     {project.appelOffreId} Période {project.periodeId}
                   </div>
                   <div className="italic leading-normal text-xs">
                     {project.familleId?.length ? `famille ${project.familleId}` : null}
                   </div>
-                </td>
-                <td valign="top">
+                </Td>
+                <Td valign="top">
                   <div>{project.nomProjet}</div>
                   <div className="italic leading-normal text-xs">
                     <span>{project.communeProjet}</span>, <span>{project.departementProjet}</span>,{' '}
@@ -97,8 +98,8 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                       {afficherDate(requestedOn)}
                     </div>
                   </div>
-                </td>
-                <td valign="top">
+                </Td>
+                <Td valign="top">
                   <ModificationRequestActionTitles action={modificationRequest.type} />
                   <div className="italic leading-none text-xs">
                     {modificationRequest.description}
@@ -116,16 +117,16 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                       </Link>
                     )}
                   </div>
-                </td>
-                <td
+                </Td>
+                <Td
                   valign="top"
                   className={`notification ${
                     status ? ModificationRequestColorByStatus[status] : ''
                   }`}
                 >
                   {status ? ModificationRequestStatusTitle[status] : ''}
-                </td>
-                <td>
+                </Td>
+                <Td>
                   <LinkButton
                     href={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}
                     title={`${buttonTitleByType(modificationRequest.type)} pour le projet ${
@@ -134,9 +135,9 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                   >
                     Voir
                   </LinkButton>
-                </td>
+                </Td>
                 {requestActions && requestActions(modificationRequestItem) && (
-                  <td className="relative">
+                  <Td className="relative">
                     <img
                       src="/images/icons/external/more.svg"
                       height="12"
@@ -154,7 +155,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                         ),
                       )}
                     </ul>
-                  </td>
+                  </Td>
                 )}
               </tr>
             );

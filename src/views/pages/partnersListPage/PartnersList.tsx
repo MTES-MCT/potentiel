@@ -16,6 +16,7 @@ import {
   Label,
   FormulaireChampsObligatoireLégende,
   Table,
+  Td,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -99,10 +100,10 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                 {users.map(({ id, fullName, email, role }) => {
                   return (
                     <tr key={'user_' + id} {...dataId('userList-item')}>
-                      <td valign="top">
+                      <Td valign="top">
                         {fullName} ({email})
-                      </td>
-                      <td valign="top">{role}</td>
+                      </Td>
+                      <Td valign="top">{role}</Td>
                     </tr>
                   );
                 })}

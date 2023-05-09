@@ -8,6 +8,7 @@ import {
   ListeVide,
   PaginationPanel,
   Table,
+  Td,
 } from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
@@ -29,7 +30,7 @@ type ColumnRenderer = (props: { project: Project; email: User['email'] }) => Rea
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
   Projet: ({ project }) => (
-    <td valign="top" className="missingOwnerProjectList-projet-column">
+    <Td valign="top" className="missingOwnerProjectList-projet-column">
       <div>{project.nomProjet}</div>
       <div className="italic text-xs">
         <div>{project.departementProjet}</div>
@@ -38,35 +39,35 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           {project.appelOffreId} - {project.periodeId}
         </div>
       </div>
-    </td>
+    </Td>
   ),
   Candidat: ({ project }) => (
-    <td valign="top" className="projectList-candidat-column">
+    <Td valign="top" className="projectList-candidat-column">
       <div>{project.nomCandidat}</div>
       <div className="italic text-xs">
         <span>{project.nomRepresentantLegal}</span> <span>{project.email}</span>
       </div>
-    </td>
+    </Td>
   ),
   Puissance: ({ project }) => (
-    <td valign="top" className="projectList-puissance-column">
+    <Td valign="top" className="projectList-puissance-column">
       <span>{project.puissance}</span>{' '}
       <span className="italic text-xs">{project.appelOffre?.unitePuissance}</span>
-    </td>
+    </Td>
   ),
   Region: ({ project }) => (
-    <td valign="top" className="projectList-puissance-column">
+    <Td valign="top" className="projectList-puissance-column">
       <span>{project.regionProjet}</span>{' '}
-    </td>
+    </Td>
   ),
   'Projet pre-affecte': ({ project, email }) => (
-    <td valign="top" className="projectList-projet-pre-affecte-column">
+    <Td valign="top" className="projectList-projet-pre-affecte-column">
       <span>{project.email === email ? 'Oui' : 'Non'}</span>
-    </td>
+    </Td>
   ),
   'N° CRE': ({ project, email }) =>
     email !== project.email ? (
-      <td valign="top" className="projectList-numero-cre-column">
+      <Td valign="top" className="projectList-numero-cre-column">
         <Label htmlFor={`numeroCRE|${project.id}`} className="mb-1">
           Renseigner le numéro CRE
         </Label>
@@ -77,13 +78,13 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           placeholder="N° CRE"
           className="min-w-[110px]"
         />
-      </td>
+      </Td>
     ) : (
-      <td>--</td>
+      <Td>--</Td>
     ),
   Prix: ({ project, email }) =>
     email !== project.email ? (
-      <td valign="top" className="projectList-prix-column">
+      <Td valign="top" className="projectList-prix-column">
         <Label htmlFor={`prix|${project.id}`} className="mb-1">
           Renseigner le prix (€/MWh)
         </Label>
@@ -95,13 +96,13 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           placeholder="0.00"
           className="min-w-[110px]"
         />
-      </td>
+      </Td>
     ) : (
-      <td>--</td>
+      <Td>--</Td>
     ),
   'Attestation de designation': ({ project, email }) =>
     email !== project.email ? (
-      <td valign="top" className="projectList-attestation-designation-column">
+      <Td valign="top" className="projectList-attestation-designation-column">
         <Label htmlFor={`attestation-designation|${project.id}`} className="mb-1">
           Ajouter l'attestation de désignation
         </Label>
@@ -111,9 +112,9 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           name={`attestation-designation|${project.id}`}
           className="min-w-[110px]"
         />
-      </td>
+      </Td>
     ) : (
-      <td>--</td>
+      <Td>--</Td>
     ),
 };
 
@@ -172,18 +173,18 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
             {items.map((project) => {
               return (
                 <tr key={`project_${project.id}`}>
-                  <td>
+                  <Td>
                     <InputCheckbox
                       value={project.id}
                       checked={selectedProjectList.includes(project.id)}
                       onChange={séléctionnerUnProjet(project.id)}
                     />
-                  </td>
+                  </Td>
                   {displayColumns?.map((column) => {
                     const Column = ColumnComponent[column];
                     if (!Column) {
                       logger.error(`Column ${column} could not be found`);
-                      return <td></td>;
+                      return <Td></Td>;
                     }
                     return (
                       <Column

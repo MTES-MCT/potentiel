@@ -136,27 +136,11 @@ button::-moz-focus-inner {
   border: 0;
 }
 
-.table {
-  background: #fff;
-  background: var(--theme-background-white);
-  border: 1px solid #c9d3df;
-  border: 1px solid var(--theme-border-lighter);
-  border-left: 0;
-  border-right: 0;
-  border-radius: 2px;
-  position: relative;
-  width: 100%;
-  border-collapse: collapse;
-}
 .table td,
 .table th {
   padding: 1em;
   padding: var(--space-s);
   text-align: left;
-}
-.table td {
-  border-top: 1px solid #ebeff3;
-  border-top: 1px solid var(--lighter-grey);
 }
 .table thead th {
   background: #fafbfc;

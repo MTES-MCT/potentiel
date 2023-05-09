@@ -7,6 +7,7 @@ import {
   SecondaryButton,
   SuccessBox,
   Table,
+  Td,
 } from '@components';
 import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
 import ROUTES from '@routes';
@@ -59,7 +60,7 @@ export const InvitationsCandidatsEnAttente = ({
                 {invitations.items.map((invitation) => {
                   return (
                     <tr key={'invitation_' + invitation.email} {...dataId('invitationList-item')}>
-                      <td>
+                      <Td>
                         {invitation.email}{' '}
                         {invitation.fullName ? (
                           <div
@@ -74,11 +75,11 @@ export const InvitationsCandidatsEnAttente = ({
                         ) : (
                           ''
                         )}
-                      </td>
-                      <td>
+                      </Td>
+                      <Td>
                         {invitation.invitedOn ? afficherDateAvecHeure(invitation.invitedOn) : ''}
-                      </td>
-                      <td>
+                      </Td>
+                      <Td>
                         <form
                           action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION}
                           method="POST"
@@ -89,7 +90,7 @@ export const InvitationsCandidatsEnAttente = ({
                             relancer
                           </SecondaryButton>
                         </form>
-                      </td>
+                      </Td>
                     </tr>
                   );
                 })}

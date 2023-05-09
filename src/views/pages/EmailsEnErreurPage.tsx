@@ -7,6 +7,7 @@ import {
   Heading1,
   ListeVide,
   Table,
+  Td,
 } from '@components';
 import { FailedNotificationDTO } from '@modules/notification';
 import ROUTES from '@routes';
@@ -67,16 +68,16 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                 {notifications.items.map((notification) => {
                   return (
                     <tr key={'notification_' + notification.id}>
-                      <td>
+                      <Td>
                         {notification.recipient.email} {notification.recipient.name}
-                      </td>
-                      <td>{notification.type}</td>
-                      <td>
+                      </Td>
+                      <Td>{notification.type}</Td>
+                      <Td>
                         {notification.createdAt
                           ? afficherDateAvecHeure(notification.createdAt)
                           : ''}
-                      </td>
-                      <td valign="top" className="relative">
+                      </Td>
+                      <Td valign="top" className="relative">
                         {notification.error && (
                           <ErrorBox title="Echec de l‘envoi">
                             <div className="italic leading-normal text-xs">
@@ -84,7 +85,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                             </div>
                           </ErrorBox>
                         )}
-                      </td>
+                      </Td>
                     </tr>
                   );
                 })}
