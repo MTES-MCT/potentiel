@@ -26,6 +26,7 @@ SELECT
 FROM files f 
 INNER JOIN projects p ON f."forProject" = p.id
 INNER JOIN raccordements r ON p.id = r."projetId"
+WHERE f.designation IN ('dcr', 'ptf')
 ORDER BY f."updatedAt" DESC
 -------------------------------------------------------------------------------------------------------------------------------------------------
 */
@@ -110,7 +111,7 @@ async function moveFiles() {
     sourceFilePath,
   }));
 
-  const total = filesToMigrate.size;
+  const total = files.length;
   let totalExisting = 0;
   console.info(`🚚 Start moving files 10 by 10`);
 
