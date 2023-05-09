@@ -50,7 +50,13 @@ export const AdminImporterCandidats = ({
 
           <div className="form__group">
             <Label htmlFor="candidats">Fichier csv des candidats</Label>
-            <Input type="file" name="candidats" {...dataId('candidats-field')} id="candidats" />
+            <Input
+              type="file"
+              name="candidats"
+              {...dataId('candidats-field')}
+              id="candidats"
+              required
+            />
             <Button
               type="submit"
               name="submit"
