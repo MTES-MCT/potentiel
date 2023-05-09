@@ -20,6 +20,12 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
   changeOpenState,
   ...props
 }) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      changeOpenState(!isOpen);
+    }
+  };
   const button =
     design === 'link' ? (
       <Link
@@ -37,6 +43,7 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
       <Button
         className="inline-flex justify-start items-center"
         onClick={() => changeOpenState(!isOpen)}
+        onKeyDown={(event) => handleKeyDown(event)}
       >
         {text}{' '}
         {isOpen ? (
@@ -47,7 +54,13 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
       </Button>
     );
   return (
-    <div className={`flex flex-col w-fit ${className}`} {...props}>
+    <div
+      tabIndex={0}
+      aria-haspopup="true"
+      onKeyDown={(event) => handleKeyDown(event)}
+      className={`flex flex-col w-fit ${className}`}
+      {...props}
+    >
       {button}
       <div className={isOpen && !disabled ? 'block' : 'hidden'}>{children}</div>
     </div>
