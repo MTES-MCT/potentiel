@@ -132,24 +132,10 @@ input[type='checkbox']:checked:before {
   transition: transform 0.2s ease-out;
 }
 
-button::-moz-focus-inner {
-  border: 0;
-}
-
 form {
   max-width: 35em;
   margin: 0 auto;
 }
-/* label,
-legend {
-  display: block;
-  color: #26353f;
-  color: var(--theme-dark-text);
-}
-legend {
-  margin-bottom: 0.5em;
-  margin-bottom: var(--space-xs);
-} */
 .form__group {
   position: relative;
   display: block;

@@ -1,14 +1,12 @@
 import React, { ComponentProps } from 'react';
 
-export type TableProps = ComponentProps<'table'>;
+type TdProps = ComponentProps<'table'>;
 
-export const Table = ({ children, className = '', ...props }: TableProps) => {
-  return (
-    <table
-      {...props}
-      className={`bg-white border border-solid border-x-0 border-slate-200 rounded-sm relative w-full border-collapse ${className}`}
-    >
-      {children}
-    </table>
-  );
-};
+export const Table = ({ children, className = '', ...props }: TdProps) => (
+  <table
+    {...props}
+    className={`p-4 text-left border-collapse border border-solid border-slate-200 w-full rounded-sm ${className}`}
+  >
+    {children}
+  </table>
+);

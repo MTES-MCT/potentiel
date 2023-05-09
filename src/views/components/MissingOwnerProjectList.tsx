@@ -15,7 +15,6 @@ import { logger } from '@core/utils';
 import { Project, User } from '@entities';
 import routes from '@routes';
 import { PaginatedList } from '../../types';
-import { ACTION_BY_ROLE } from './actions';
 
 type Columns =
   | 'Projet'
@@ -126,7 +125,7 @@ type Props = {
 };
 
 export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
-  const { role, email } = user;
+  const { email } = user;
 
   let items: Array<Project>;
   if (Array.isArray(projects)) {
@@ -167,7 +166,6 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
               {displayColumns?.map((column) => (
                 <Th key={column}>{column}</Th>
               ))}
-              {ACTION_BY_ROLE[role] ? <Th></Th> : ''}
             </tr>
           </thead>
           <tbody>
