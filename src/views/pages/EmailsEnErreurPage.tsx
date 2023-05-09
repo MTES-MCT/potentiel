@@ -8,6 +8,7 @@ import {
   ListeVide,
   Table,
   Td,
+  Th,
 } from '@components';
 import { FailedNotificationDTO } from '@modules/notification';
 import ROUTES from '@routes';
@@ -58,10 +59,10 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
             <Table>
               <thead>
                 <tr>
-                  <th>Destinataire</th>
-                  <th style={{ width: 150 }}>Type</th>
-                  <th style={{ width: 100 }}>Date</th>
-                  <th>Status</th>
+                  <Th>Destinataire</Th>
+                  <Th className="w-[150px]">Type</Th>
+                  <Th className="w-[100px]">Date</Th>
+                  <Th>Status</Th>
                 </tr>
               </thead>
               <tbody>

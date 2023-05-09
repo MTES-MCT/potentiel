@@ -9,6 +9,7 @@ import {
   PaginationPanel,
   Table,
   Td,
+  Th,
 } from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
@@ -162,11 +163,11 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
         <Table>
           <thead>
             <tr>
-              <th></th>
+              <Th></Th>
               {displayColumns?.map((column) => (
-                <th key={column}>{column}</th>
+                <Th key={column}>{column}</Th>
               ))}
-              {ACTION_BY_ROLE[role] ? <th></th> : ''}
+              {ACTION_BY_ROLE[role] ? <Th></Th> : ''}
             </tr>
           </thead>
           <tbody>

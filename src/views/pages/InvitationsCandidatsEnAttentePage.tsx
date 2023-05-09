@@ -8,6 +8,7 @@ import {
   SuccessBox,
   Table,
   Td,
+  Th,
 } from '@components';
 import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
 import ROUTES from '@routes';
@@ -51,9 +52,9 @@ export const InvitationsCandidatsEnAttente = ({
             <Table>
               <thead>
                 <tr>
-                  <th>Email</th>
-                  <th style={{ width: 150 }}>Date d‘invitation</th>
-                  <th style={{ width: 100 }}></th>
+                  <Th>Email</Th>
+                  <Th className="w-[150px]">Date d‘invitation</Th>
+                  <Th className="w-[100px]"></Th>
                 </tr>
               </thead>
               <tbody>

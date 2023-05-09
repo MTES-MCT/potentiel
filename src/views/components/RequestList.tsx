@@ -6,6 +6,7 @@ import {
   PaginationPanel,
   Table,
   Td,
+  Th,
 } from '@components';
 import {
   ModificationRequestListItemDTO,
@@ -65,12 +66,12 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
       <Table className="table">
         <thead>
           <tr>
-            <th>Période</th>
-            <th>Projet</th>
-            <th>Type</th>
-            <th>Statut</th>
-            <th>Lien</th>
-            {requestActions ? <th></th> : null}
+            <Th>Période</Th>
+            <Th>Projet</Th>
+            <Th>Type</Th>
+            <Th>Statut</Th>
+            <Th>Lien</Th>
+            {requestActions ? <Th></Th> : null}
           </tr>
         </thead>
         <tbody>

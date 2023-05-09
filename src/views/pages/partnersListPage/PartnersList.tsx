@@ -17,6 +17,7 @@ import {
   FormulaireChampsObligatoireLégende,
   Table,
   Td,
+  Th,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -92,8 +93,8 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
             <Table>
               <thead>
                 <tr>
-                  <th>Nom (email)</th>
-                  <th>Role</th>
+                  <Th>Nom (email)</Th>
+                  <Th>Role</Th>
                 </tr>
               </thead>
               <tbody>

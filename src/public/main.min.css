@@ -135,34 +135,6 @@ input[type='checkbox']:checked:before {
 button::-moz-focus-inner {
   border: 0;
 }
-
-.table td,
-.table th {
-  padding: 1em;
-  padding: var(--space-s);
-  text-align: left;
-}
-.table thead th {
-  background: #fafbfc;
-  background: var(--lightest-grey);
-  border-bottom: 1px solid #c9d3df;
-  border-bottom: 1px solid var(--theme-border-lighter);
-  font-size: 0.875em;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.table thead th.ascending:after {
-  font-size: 0.75em;
-  content: '▲';
-  margin-left: 0.5em;
-  margin-left: var(--space-xs);
-}
-.table thead th.descending:after {
-  font-size: 0.75em;
-  content: '▼';
-  margin-left: 0.5em;
-  margin-left: var(--space-xs);
-}
 .table tr:hover {
   background: #fafbfc;
   background: var(--lightest-grey);

@@ -16,6 +16,7 @@ import {
   FormulaireChampsObligatoireLégende,
   Table,
   Td,
+  Th,
 } from '@components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { REGIONS, Région } from '@modules/dreal/région';
@@ -95,8 +96,8 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
             <Table>
               <thead>
                 <tr>
-                  <th>Utilisateur</th>
-                  <th>Région(s)</th>
+                  <Th>Utilisateur</Th>
+                  <Th>Région(s)</Th>
                 </tr>
               </thead>
               <tbody>
