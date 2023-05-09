@@ -29,7 +29,7 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
   const button =
     design === 'link' ? (
       <Link
-        className="inline-flex justify-start items-center"
+        className="inline-flex justify-start items-center cursor-pointer"
         onClick={() => changeOpenState(!isOpen)}
       >
         {text}{' '}

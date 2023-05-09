@@ -135,16 +135,12 @@ input[type='checkbox']:checked:before {
 button::-moz-focus-inner {
   border: 0;
 }
-.table tr:hover {
-  background: #fafbfc;
-  background: var(--lightest-grey);
-}
 
 form {
   max-width: 35em;
   margin: 0 auto;
 }
-label,
+/* label,
 legend {
   display: block;
   color: #26353f;
@@ -153,7 +149,7 @@ legend {
 legend {
   margin-bottom: 0.5em;
   margin-bottom: var(--space-xs);
-}
+} */
 .form__group {
   position: relative;
   display: block;

@@ -12,7 +12,7 @@ type InfoGeneralesProps = {
 export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
   <Section title="Informations générales" icon={BuildingIcon} className="flex gap-4 flex-col">
     <div>
-      <Heading3 className="mb-0">Performances</Heading3>
+      <Heading3 className="m-0">Performances</Heading3>
       <p className="m-0">
         Puissance installée: {project.puissance} {project.appelOffre?.unitePuissance}
       </p>
