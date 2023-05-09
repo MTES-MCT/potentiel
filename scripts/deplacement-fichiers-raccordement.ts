@@ -2,14 +2,6 @@
 Requête pour récupérer les fichiers dcr et ptf à déplacer :
 -------------------------------------------------------------------------------------------------------------------------------------------------
 SELECT
-    REPLACE(f."storedAt", 'S3:potentiel-production:', '') AS "sourceFilePath",
-    CONCAT(p."appelOffreId", '#', p."periodeId", '#', p."familleId", '#', p."numeroCRE", '/', r."identifiantGestionnaire", CASE WHEN f.designation = 'dcr' THEN '/demande-complete-raccordement.' ELSE '/proposition-technique-et-financiere.' END, SUBSTRING(f."storedAt" from '\.([^\.]*)$')) AS "targetFilePath"
-FROM files f 
-INNER JOIN projects p ON f."forProject" = p.id
-INNER JOIN raccordements r ON p.id = r."projetId" AND r."identifiantGestionnaire" is not null
-WHERE f.designation IN ('dcr', 'ptf');
-
-SELECT
     p."id",
     p."appelOffreId",
     p."periodeId",
@@ -30,11 +22,11 @@ SELECT
     END as "referenceDossier",
     
     REPLACE(f."storedAt", 'S3:potentiel-production:', '') AS "sourceFilePath",
-    CONCAT(CASE WHEN f.designation = 'dcr' THEN 'demande-complete-raccordement.' ELSE 'proposition-technique-et-financiere.' END, SUBSTRING(f."storedAt" from '\.([^\.]*)$')) AS "targetFileName"
+    f.designation as "fileType"
 FROM files f 
 INNER JOIN projects p ON f."forProject" = p.id
 INNER JOIN raccordements r ON p.id = r."projetId"
-WHERE f.designation IN ('dcr', 'ptf');
+ORDER BY f."updatedAt" DESC
 -------------------------------------------------------------------------------------------------------------------------------------------------
 */
 
@@ -75,7 +67,7 @@ const target = new S3({
 async function moveFiles() {
   const startTime = new Date();
   const jsonString = fs.readFileSync('./files.json', 'utf-8');
-  const files = JSON.parse(jsonString) as Array<{
+  const allFiles = JSON.parse(jsonString) as Array<{
     id: string;
     appelOffreId: string;
     periodeId: string;
@@ -86,48 +78,84 @@ async function moveFiles() {
     fileType: 'dcr' | 'ptf';
   }>;
 
-  const total = files.length;
+  const filesToMigrate = new Map<string, string>();
+
+  for (const file of allFiles) {
+    const identifiantProjet = {
+      appelOffre: file.appelOffreId,
+      période: file.periodeId,
+      famille: file.familleId,
+      numéroCRE: file.numeroCRE,
+    };
+
+    const fileName = `${
+      file.fileType === 'dcr'
+        ? 'demande-complete-raccordement'
+        : 'proposition-technique-et-financiere'
+    }${extname(file.sourceFilePath)}`;
+
+    const targetFilePath = join(
+      formatIdentifiantProjet(identifiantProjet),
+      file.referenceDossier,
+      fileName,
+    );
+
+    if (!filesToMigrate.has(targetFilePath)) {
+      filesToMigrate.set(targetFilePath, file.sourceFilePath);
+    }
+  }
+
+  const files = Array.from(filesToMigrate.entries(), ([targetFilePath, sourceFilePath]) => ({
+    targetFilePath,
+    sourceFilePath,
+  }));
+
+  const total = filesToMigrate.size;
+  let totalExisting = 0;
   console.info(`🚚 Start moving files 10 by 10`);
 
   while (files.length) {
     await Promise.all(
-      files.splice(0, 10).map(async (file) => {
-        const identifiantProjet = {
-          appelOffre: file.appelOffreId,
-          période: file.periodeId,
-          famille: file.familleId,
-          numéroCRE: file.numeroCRE,
+      files.splice(0, 10).map(async ({ targetFilePath, sourceFilePath }) => {
+        const fileAlreadyUploaded = async () => {
+          try {
+            await target.headObject({ Bucket: targetBucketName, Key: targetFilePath }).promise();
+            return true;
+          } catch (error) {
+            // console.error(`ERROR : ${JSON.stringify(error)}\nfor ${targetFilePath}`);
+            return false;
+          }
         };
 
-        const fileName = `${
-          file.fileType === 'dcr'
-            ? 'demande-complete-raccordement'
-            : 'proposition-technique-et-financiere'
-        }${extname(file.sourceFilePath)}`;
+        const alreadyExists = await fileAlreadyUploaded();
+        if (!alreadyExists) {
+          try {
+            const start = new Date().getTime();
+            const result = await source
+              .getObject({ Bucket: sourceBucketName, Key: sourceFilePath })
+              .promise();
 
-        const targetFilePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          file.referenceDossier,
-          fileName,
-        );
+            const fileContent = Readable.from(result.Body as Buffer);
 
-        try {
-          const result = await source
-            .getObject({ Bucket: sourceBucketName, Key: file.sourceFilePath })
-            .promise();
-          const fileContent = Readable.from(result.Body as Buffer);
-
-          await target
-            .upload({
-              Bucket: targetBucketName,
-              Key: targetFilePath,
-              Body: fileContent,
-            })
-            .promise();
-        } catch (error) {
-          console.error(
-            `\n An error occured while moving file from ${file.sourceFilePath} to ${targetFilePath}`,
-          );
+            await target
+              .upload({
+                Bucket: targetBucketName,
+                Key: targetFilePath,
+                Body: fileContent,
+              })
+              .promise();
+            console.info(
+              `File [${sourceFilePath}] migration to [${targetFilePath}] took ${
+                new Date().getTime() - start
+              }ms`,
+            );
+          } catch (error) {
+            console.error(
+              `\nAn error occured while moving file from ${sourceFilePath} to ${targetFilePath}\n ${error.message}`,
+            );
+          }
+        } else {
+          totalExisting = totalExisting + 1;
         }
       }),
     );
@@ -136,7 +164,9 @@ async function moveFiles() {
   }
 
   const timeElapsed = new Date().getTime() - startTime.getTime();
-  console.info(`\n✅ Migration completed successfully ${timeElapsed}ms.`);
+  console.info(
+    `\n✅ Migration completed successfully ${timeElapsed}ms. Total already uploaded = ${totalExisting}`,
+  );
 }
 
 moveFiles();
