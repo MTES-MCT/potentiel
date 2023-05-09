@@ -36,6 +36,17 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
     }
   };
 
+  const menuRef = React.createRef<HTMLUListElement>();
+  const handleKeyDownOnMenuList = (event: React.KeyboardEvent<HTMLUListElement>) => {
+    if (
+      event.key === 'Tab' &&
+      (event.target as Element).nodeName === 'A' &&
+      (event.target as Element).parentElement === menuRef.current?.lastChild
+    ) {
+      setVisible(false);
+    }
+  };
+
   return (
     <li
       ref={ref}
@@ -68,6 +79,8 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
         className={`list-none p-0 pl-4 lg:pl-0 lg:mt-4 z-10 lg:absolute top-full left-0 bg-white w-full lg:w-auto lg:shadow-[0_2px_6px_1px_rgba(0,0,0,0.2)] min-w-[300px] ${
           visible ? 'block' : 'hidden'
         }`}
+        ref={menuRef}
+        onKeyDown={(event) => handleKeyDownOnMenuList(event)}
       >
         {children}
       </ul>
