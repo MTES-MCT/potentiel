@@ -2,7 +2,7 @@ import React from 'react';
 import { Request } from 'express';
 import routes from '@routes';
 import {
-  Button,
+  PrimaryButton,
   FormulaireChampsObligatoireLégende,
   Heading1,
   Heading2,
@@ -70,9 +70,9 @@ export const InviterDgecValidateur = ({
                   })}
               />
             </div>
-            <Button type="submit" id="submit" className="m-auto">
+            <PrimaryButton type="submit" id="submit" className="m-auto">
               Inviter
-            </Button>
+            </PrimaryButton>
           </form>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
-  Button,
+  PrimaryButton,
   ErrorBox,
   ExternalLink,
   Heading2,
@@ -146,7 +146,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 m-auto">
-              <Button type="submit">Transmettre</Button>
+              <PrimaryButton type="submit">Transmettre</PrimaryButton>
               {identifiantGestionnaire ? (
                 <Link
                   href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}

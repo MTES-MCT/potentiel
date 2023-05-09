@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ROUTES from '@routes';
 import {
-  Button,
+  PrimaryButton,
   SecondaryButton,
   Input,
   TextArea,
@@ -69,9 +69,9 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           <div className="text-sm mt-4">
             Les fichiers attachés sont visibles de l'administration et du porteur de projet.
           </div>
-          <Button className="mt-2 mr-2" type="submit" name="submit">
+          <PrimaryButton className="mt-2 mr-2" type="submit" name="submit">
             Envoyer
-          </Button>
+          </PrimaryButton>
           <Link
             onClick={() => {
               setFormVisible(false);

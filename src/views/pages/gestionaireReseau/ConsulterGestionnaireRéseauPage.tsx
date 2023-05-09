@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button,
+  PrimaryButton,
   FormulaireChampsObligatoireLégende,
   Heading1,
   Input,
@@ -56,9 +56,9 @@ export const ConsulterGestionnaireRéseau = ({
           </div>
           <ChampsAideALaSaisieIdentifiant format={format} légende={légende} />
         </div>
-        <Button type="submit" className="mt-4 mr-3">
+        <PrimaryButton type="submit" className="mt-4 mr-3">
           Enregistrer
-        </Button>
+        </PrimaryButton>
         <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </form>
     </div>

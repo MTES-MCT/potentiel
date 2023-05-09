@@ -4,7 +4,7 @@ import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import {
   ErrorBox,
-  Button,
+  PrimaryButton,
   LegacyPageTemplate,
   SuccessBox,
   Heading1,
@@ -82,7 +82,7 @@ export const UploadLegacyModificationFiles = ({
           <div className="text-sm mt-2">
             Vous pouvez attacher jusqu'à 50Mo de fichiers à la fois
           </div>
-          <Button
+          <PrimaryButton
             className="mt-2"
             type="submit"
             name="submit"
@@ -90,7 +90,7 @@ export const UploadLegacyModificationFiles = ({
             {...dataId('submit-button')}
           >
             Envoyer
-          </Button>
+          </PrimaryButton>
         </form>
       </div>
     </LegacyPageTemplate>

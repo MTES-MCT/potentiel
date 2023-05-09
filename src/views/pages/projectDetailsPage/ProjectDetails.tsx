@@ -11,7 +11,7 @@ import {
   SuccessBox,
   ErrorBox,
   AlertBox,
-  Button,
+  PrimaryButton,
   InfoBox,
   Heading2,
 } from '@components';
@@ -161,13 +161,13 @@ const AlerteAnnulationAbandonPossible = ({
               className="m-0 p-0"
             >
               <input type="hidden" name="projetId" value={projetId} />
-              <Button
+              <PrimaryButton
                 type="submit"
                 confirmation="Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?"
                 className="mt-4"
               >
                 Demander l'annulation de l'abandon
-              </Button>
+              </PrimaryButton>
             </form>
           </>
         )}

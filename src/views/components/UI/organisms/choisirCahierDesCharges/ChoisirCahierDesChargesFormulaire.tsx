@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, SecondaryLinkButton } from '@components';
+import { PrimaryButton, SecondaryLinkButton } from '@components';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
 import routes from '@routes';
 import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
@@ -92,9 +92,9 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
       </ul>
 
       <div className="flex items-center justify-center">
-        <Button type="submit" disabled={!peutEnregistrerLeChangement}>
+        <PrimaryButton type="submit" disabled={!peutEnregistrerLeChangement}>
           Enregistrer mon changement
-        </Button>
+        </PrimaryButton>
         <SecondaryLinkButton className="ml-3" href={routes.PROJECT_DETAILS(projetId)}>
           Annuler
         </SecondaryLinkButton>

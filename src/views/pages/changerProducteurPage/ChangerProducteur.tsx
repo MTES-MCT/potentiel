@@ -5,7 +5,7 @@ import { Request } from 'express';
 
 import {
   ProjectInfo,
-  Button,
+  PrimaryButton,
   FormulaireChampsObligatoireLégende,
   Label,
   SecondaryLinkButton,
@@ -139,14 +139,14 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                   {...dataId('modificationRequest-justificationField')}
                   {...(isEolien && { disabled: true })}
                 />
-                <Button
+                <PrimaryButton
                   className="mt-3 mr-1"
                   type="submit"
                   id="submit"
                   {...dataId('submit-button')}
                 >
                   Envoyer
-                </Button>
+                </PrimaryButton>
                 <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
               </div>
             </div>

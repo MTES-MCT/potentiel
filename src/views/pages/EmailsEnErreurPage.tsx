@@ -1,6 +1,6 @@
 import {
   PaginationPanel,
-  Button,
+  PrimaryButton,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
@@ -38,7 +38,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
             {!!notifications.itemCount && (
-              <Button
+              <PrimaryButton
                 className="mt-3"
                 type="submit"
                 name="submit"
@@ -46,7 +46,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                 {...dataId('submit-button')}
               >
                 Réessayer toutes les notifications en erreur
-              </Button>
+              </PrimaryButton>
             )}
           </form>
           {success && <SuccessBox title={success} />}

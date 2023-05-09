@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import { UserRole } from '@modules/users';
 
 import {
-  Button,
+  PrimaryButton,
   SecondaryButton,
   FormulaireChampsObligatoireLégende,
   Input,
@@ -180,7 +180,7 @@ const Formulaire = ({ projetId, garantieFinanciereEnMois, action, role }: Formul
           {getInfoDuréeGF(garantieFinanciereEnMois)}
         </p>
         <div className="flex gap-4 flex-col md:flex-row">
-          <Button type="submit">Envoyer</Button>
+          <PrimaryButton type="submit">Envoyer</PrimaryButton>
           <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
         </div>
       </form>
@@ -296,7 +296,7 @@ const DateEchéanceFormulaire = ({
           <Astérisque className="text-black" /> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
         </p>
         <div className="flex gap-4 flex-col md:flex-row">
-          <Button type="submit">Enregistrer</Button>
+          <PrimaryButton type="submit">Enregistrer</PrimaryButton>
           <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
         </div>
       </form>

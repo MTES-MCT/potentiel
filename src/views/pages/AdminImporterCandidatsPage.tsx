@@ -3,7 +3,7 @@ import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import {
-  Button,
+  PrimaryButton,
   ErrorBox,
   Heading1,
   Input,
@@ -57,7 +57,7 @@ export const AdminImporterCandidats = ({
               id="candidats"
               required
             />
-            <Button
+            <PrimaryButton
               type="submit"
               name="submit"
               id="submit"
@@ -65,7 +65,7 @@ export const AdminImporterCandidats = ({
               className="mt-2"
             >
               Envoyer
-            </Button>
+            </PrimaryButton>
           </div>
         </form>
       </div>

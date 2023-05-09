@@ -1,7 +1,14 @@
 import { Request } from 'express';
 import React from 'react';
 import routes from '@routes';
-import { Footer, Header, Button, Input, Container, SecondaryLinkButton } from '../components';
+import {
+  Footer,
+  Header,
+  PrimaryButton,
+  Input,
+  Container,
+  SecondaryLinkButton,
+} from '../components';
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine';
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
 import { hydrateOnClient } from '../helpers';
@@ -90,10 +97,10 @@ const AbonnementLettreInformationForm = ({
         </div>
 
         <div className="flex flex-row gap-2 mx-auto mt-2">
-          <Button className="inline-flex items-center" type="submit">
+          <PrimaryButton className="inline-flex items-center" type="submit">
             <RiSaveLine className="mr-2" />
             M'abonner
-          </Button>
+          </PrimaryButton>
           <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
         </div>
       </form>

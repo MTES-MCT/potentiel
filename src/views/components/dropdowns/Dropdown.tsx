@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Button, ChevronDownIcon, ChevronUpIcon } from '@components';
+import { Link, PrimaryButton, ChevronDownIcon, ChevronUpIcon } from '@components';
 
 interface DropdownProps extends React.ComponentProps<'div'> {
   text: string;
@@ -40,7 +40,7 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
         )}
       </Link>
     ) : (
-      <Button
+      <PrimaryButton
         className="inline-flex justify-start items-center"
         onClick={() => changeOpenState(!isOpen)}
         onKeyDown={(event) => handleKeyDown(event)}
@@ -51,7 +51,7 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
         ) : (
           <ChevronDownIcon className="w-5 h-5 ml-1" title="Ouvrir le contenu" />
         )}
-      </Button>
+      </PrimaryButton>
     );
   return (
     <div

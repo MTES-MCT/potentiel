@@ -13,7 +13,7 @@ import {
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
-  Button,
+  PrimaryButton,
   Input,
   Label,
   Heading1,
@@ -303,7 +303,7 @@ export const ListeProjets = ({
                   ci-dessous:
                 </Label>
                 <Input required type="email" name="email" id="email" {...dataId('email-field')} />
-                <Button
+                <PrimaryButton
                   className="mt-4"
                   type="submit"
                   name="submit"
@@ -312,7 +312,7 @@ export const ListeProjets = ({
                 >
                   Accorder les droits sur {selectedProjectIds.length}{' '}
                   {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
-                </Button>
+                </PrimaryButton>
               </form>
             </Dropdown>
           )}

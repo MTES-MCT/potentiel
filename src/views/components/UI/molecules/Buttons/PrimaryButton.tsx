@@ -1,9 +1,9 @@
 import { ConfirmationProp, demanderConfirmation } from '@views/helpers';
 import React, { ComponentProps, FC, useRef } from 'react';
 
-export type ButtonProps = ComponentProps<'button'> & ConfirmationProp;
+export type PrimaryButtonProps = ComponentProps<'button'> & ConfirmationProp;
 
-export const Button: FC<ButtonProps> = ({
+export const PrimaryButton: FC<PrimaryButtonProps> = ({
   children,
   className = '',
   confirmation = undefined,

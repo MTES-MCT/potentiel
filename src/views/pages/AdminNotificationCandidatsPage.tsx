@@ -1,6 +1,6 @@
 import {
   BarreDeRecherche,
-  Button,
+  PrimaryButton,
   Dropdown,
   ErrorBox,
   ExcelFileIcon,
@@ -205,7 +205,7 @@ export const AdminNotificationCandidats = ({
                 className="w-auto"
               />
               {request.user?.role === 'dgec-validateur' && (
-                <Button
+                <PrimaryButton
                   type="submit"
                   name="submit"
                   id="submit"
@@ -214,7 +214,7 @@ export const AdminNotificationCandidats = ({
                 >
                   Envoyer la notification aux {projetsPériodeSélectionnée.itemCount} candidats de
                   cette période
-                </Button>
+                </PrimaryButton>
               )}
             </div>
           )}

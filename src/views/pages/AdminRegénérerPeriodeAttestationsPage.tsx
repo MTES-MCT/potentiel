@@ -4,7 +4,7 @@ import { appelsOffreStatic } from '@dataAccess/inMemory';
 import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import {
-  Button,
+  PrimaryButton,
   ErrorBox,
   Heading1,
   Input,
@@ -161,7 +161,7 @@ export const AdminRegénérerPeriodeAttestations = ({
             <TextArea name="reason" id="reason" defaultValue={reason} />
           </div>
 
-          <Button
+          <PrimaryButton
             className="mt-2"
             type="submit"
             name="submit"
@@ -169,7 +169,7 @@ export const AdminRegénérerPeriodeAttestations = ({
             confirmation="Êtes-vous sur de vouloir regénérer les attestations pour tous les projets de cette période ?"
           >
             Regénérer les attestations des projets de cette période
-          </Button>
+          </PrimaryButton>
           <p>
             Un email sera envoyé aux porteurs de projets pour leur signaler la mise à jour de leur
             attestation.{' '}

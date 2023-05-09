@@ -5,7 +5,7 @@ import { Request } from 'express';
 
 import {
   ProjectInfo,
-  Button,
+  PrimaryButton,
   FormulaireChampsObligatoireLégende,
   SecondaryLinkButton,
   InfoBox,
@@ -100,14 +100,14 @@ export const DemanderChangementPuissance = ({
                   }}
                 />
 
-                <Button
+                <PrimaryButton
                   className="mt-3 mr-1"
                   type="submit"
                   id="submit"
                   {...dataId('submit-button')}
                 >
                   Envoyer
-                </Button>
+                </PrimaryButton>
                 <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
               </div>
             </div>

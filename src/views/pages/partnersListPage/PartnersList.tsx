@@ -4,7 +4,7 @@ import { User } from '@entities';
 import { dataId } from '../../../helpers/testId';
 import ROUTES from '@routes';
 import {
-  Button,
+  PrimaryButton,
   Input,
   LegacyPageTemplate,
   Select,
@@ -76,9 +76,14 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                 <option value="caisse-des-dépôts">Caisse des dépôts</option>
               </Select>
             </div>
-            <Button className="m-auto" type="submit" id="submit" {...dataId('submit-button')}>
+            <PrimaryButton
+              className="m-auto"
+              type="submit"
+              id="submit"
+              {...dataId('submit-button')}
+            >
               Inviter
-            </Button>
+            </PrimaryButton>
           </form>
         </div>
 

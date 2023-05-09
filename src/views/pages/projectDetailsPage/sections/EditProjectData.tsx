@@ -6,7 +6,7 @@ import { ProjectDataForProjectPage } from '@modules/project/queries';
 import ROUTES from '@routes';
 import {
   BuildingIcon,
-  Button,
+  PrimaryButton,
   Input,
   InputCheckbox,
   Label,
@@ -359,9 +359,9 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             placeholder="Renseigner un message justifcatif du changement"
           />
         </div>
-        <Button className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
+        <PrimaryButton className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
           Modifier
-        </Button>
+        </PrimaryButton>
       </form>
     </Section>
   );

@@ -1,5 +1,4 @@
 export * from './Badge';
-export * from './Button';
 export * from './Callout';
 export * from './Heading1';
 export * from './Heading2';
@@ -10,7 +9,6 @@ export * from './Label';
 export * from './Link';
 export * from './LinkButton';
 export * from './RichRadio';
-export * from './SecondaryButton';
 export * from './SecondaryLinkButton';
 export * from './Tile';
 export * from './icons';

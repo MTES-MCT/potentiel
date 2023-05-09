@@ -3,7 +3,7 @@ import React from 'react';
 import { dataId } from '../../../helpers/testId';
 import ROUTES from '@routes';
 import {
-  Button,
+  PrimaryButton,
   ErrorBox,
   Heading1,
   Heading2,
@@ -80,9 +80,14 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                   ))}
               </Select>
             </div>
-            <Button type="submit" id="submit" {...dataId('submit-button')} className="m-auto">
+            <PrimaryButton
+              type="submit"
+              id="submit"
+              {...dataId('submit-button')}
+              className="m-auto"
+            >
               Inviter
-            </Button>
+            </PrimaryButton>
           </form>
         </div>
         {users.length === 0 ? (
