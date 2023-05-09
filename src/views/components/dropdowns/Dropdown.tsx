@@ -21,9 +21,9 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
   ...props
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === ' ' || event.key === 'Enter') {
       event.preventDefault();
-      changeOpenState(!isOpen);
+      !isOpen && changeOpenState(!isOpen);
     }
   };
   const button =
