@@ -16,6 +16,7 @@ import {
   LegacyPageTemplate,
   Select,
   SuccessBox,
+  Fieldset,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 
@@ -100,7 +101,7 @@ export const ProjetsÀRéclamer = ({
               changeOpenState={(state) => setAfficherFiltres(state)}
               className="mt-8 mb-6 !w-full"
             >
-              <fieldset className="mt-4">
+              <Fieldset className="mt-4">
                 <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
                 <Select
                   id="appelOffreId"
@@ -183,7 +184,7 @@ export const ProjetsÀRéclamer = ({
                     </Select>
                   </>
                 )}
-              </fieldset>
+              </Fieldset>
             </Dropdown>
 
             {hasFilters && (

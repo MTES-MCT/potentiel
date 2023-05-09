@@ -15,6 +15,7 @@ import {
   BarreDeRecherche,
   Label,
   Select,
+  Fieldset,
 } from '@components';
 import {
   hydrateOnClient,
@@ -91,7 +92,7 @@ export const ModificationRequestList = ({
               defaultValue={recherche || ''}
               className="mt-8"
             />
-            <fieldset className="mt-4">
+            <Fieldset className="mt-4">
               <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
               <Select
                 id="appelOffreId"
@@ -228,7 +229,7 @@ export const ModificationRequestList = ({
                   </Select>
                 </div>
               </div>
-            </fieldset>
+            </Fieldset>
 
             {hasFilters && (
               <LinkButton href="#" onClick={resetUrlParams} className="mt-4">

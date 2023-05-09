@@ -206,12 +206,6 @@ legend {
   margin-top: 2em;
   margin-top: var(--space-l);
 }
-fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
 
 .panel {
   background: #fff;

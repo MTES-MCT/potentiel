@@ -22,6 +22,7 @@ import {
   Select,
   Dropdown,
   LinkButton,
+  Fieldset,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -98,7 +99,7 @@ export const ListeProjets = ({
               className="mt-8"
             />
 
-            <fieldset className="mt-4">
+            <Fieldset className="mt-4">
               <div>
                 <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
                 <Select
@@ -262,7 +263,7 @@ export const ListeProjets = ({
                   </div>
                 )}
               </div>
-            </fieldset>
+            </Fieldset>
             {hasFilters && (
               <LinkButton href="#" onClick={resetUrlParams} className="mt-4">
                 Retirer tous les filtres

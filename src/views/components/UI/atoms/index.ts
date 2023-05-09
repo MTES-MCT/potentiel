@@ -12,3 +12,4 @@ export * from './Tile';
 export * from './icons';
 export * from './ListeVide';
 export * from './Select';
+export * from './Fieldset';
