@@ -9,12 +9,6 @@ SELECT
     p."numeroCRE",
     
     CASE 
-        WHEN r."identifiantGestionnaire" IS NOT NULL AND SUBSTRING(r."identifiantGestionnaire" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})') != ''
-        THEN SUBSTRING(r."identifiantGestionnaire" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})')
-
-        WHEN SUBSTRING(f."storedAt" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})') != '' 
-        THEN SUBSTRING(f."storedAt" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})') 
-        
         WHEN r."identifiantGestionnaire" IS NOT NULL
         THEN r."identifiantGestionnaire"
 
