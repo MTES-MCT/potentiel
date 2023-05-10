@@ -4,13 +4,18 @@ import { isProdEnv, isStagingEnv } from './env.config';
 
 let fileStorageService: FileStorageService;
 if (isStagingEnv || isProdEnv) {
-  const { S3_ENDPOINT, S3_BUCKET } = process.env;
+  const {
+    LEGACY_S3_ACCESS_KEY_ID,
+    LEGACY_S3_SECRET_ACCESS_KEY,
+    LEGACY_S3_ENDPOINT,
+    LEGACY_S3_BUCKET,
+  } = process.env;
 
   const missingVars = [
-    'S3_BUCKET',
-    'S3_ENDPOINT',
-    'AWS_ACCESS_KEY_ID',
-    'AWS_SECRET_ACCESS_KEY',
+    'LEGACY_S3_BUCKET',
+    'LEGACY_S3_ENDPOINT',
+    'LEGACY_S3_ACCESS_KEY_ID',
+    'LEGACY_S3_SECRET_ACCESS_KEY',
   ].filter((key) => !process.env[key]);
 
   if (missingVars.length) {
@@ -21,9 +26,14 @@ if (isStagingEnv || isProdEnv) {
     process.exit(1);
   }
 
-  fileStorageService = makeS3FileStorageService({ endpoint: S3_ENDPOINT!, bucket: S3_BUCKET! });
+  fileStorageService = makeS3FileStorageService({
+    accessKeyId: LEGACY_S3_ACCESS_KEY_ID!,
+    secretAccessKey: LEGACY_S3_SECRET_ACCESS_KEY!,
+    endpoint: LEGACY_S3_ENDPOINT!,
+    bucket: LEGACY_S3_BUCKET!,
+  });
 
-  console.log(`FileService will be using S3 on bucket ${S3_BUCKET}`);
+  console.log(`FileService will be using S3 on bucket ${LEGACY_S3_BUCKET}`);
 } else {
   console.log('FileService will be using LocalFileStorage is userData/');
   fileStorageService = makeLocalFileStorageService('userData');

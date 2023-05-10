@@ -35,11 +35,13 @@ function parseIdentifier(fileId: string, _bucket: string): Result<string, WrongI
 }
 
 export const makeS3FileStorageService = (args: {
+  accessKeyId: string;
+  secretAccessKey: string;
   endpoint: string;
   bucket: string;
 }): FileStorageService => {
-  const { endpoint, bucket } = args;
-  const _client = new AWS.S3({ endpoint });
+  const { accessKeyId, secretAccessKey, endpoint, bucket } = args;
+  const _client = new AWS.S3({ endpoint, accessKeyId, secretAccessKey });
 
   return {
     upload({ contents, path: filePath }) {

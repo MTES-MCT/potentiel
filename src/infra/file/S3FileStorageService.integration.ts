@@ -3,8 +3,10 @@ import { makeS3FileStorageService } from './S3FileStorageService';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const bucket = process.env.S3_BUCKET;
-const endpoint = process.env.S3_ENDPOINT;
+const accessKeyId = process.env.LEGACY_S3_ACCESS_KEY_ID!;
+const secretAccessKey = process.env.LEGACY_S3_SECRET_ACCESS_KEY!;
+const bucket = process.env.LEGACY_S3_BUCKET!;
+const endpoint = process.env.LEGACY_S3_ENDPOINT!;
 
 describe.skip('S3FileStorageService', () => {
   const fakePath = `test/fakeFile-${Date.now()}.txt`;
@@ -21,7 +23,12 @@ describe.skip('S3FileStorageService', () => {
       if (!bucket) return;
       if (!endpoint) return;
 
-      const fileStorageService = makeS3FileStorageService({ endpoint, bucket });
+      const fileStorageService = makeS3FileStorageService({
+        accessKeyId,
+        secretAccessKey,
+        endpoint,
+        bucket,
+      });
 
       afterAll(async () => {
         if (uploadedFileId) await fileStorageService.remove(uploadedFileId);
@@ -48,6 +55,8 @@ describe.skip('S3FileStorageService', () => {
         if (!endpoint) return;
 
         const fileStorageService = makeS3FileStorageService({
+          accessKeyId,
+          secretAccessKey,
           endpoint,
           bucket: 'CONTAINERTHATDOESNTEXIST',
         });
@@ -68,7 +77,12 @@ describe.skip('S3FileStorageService', () => {
     if (!bucket) return;
     if (!endpoint) return;
 
-    const fileStorageService = makeS3FileStorageService({ endpoint, bucket });
+    const fileStorageService = makeS3FileStorageService({
+      accessKeyId,
+      secretAccessKey,
+      endpoint,
+      bucket,
+    });
 
     describe('given an existing file', () => {
       let uploadedFileId: string;
