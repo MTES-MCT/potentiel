@@ -7,9 +7,9 @@ export type IdentifiantProjet = {
 
 export const formatIdentifiantProjet = ({
   appelOffre,
-  numéroCRE,
   période,
   famille = '',
+  numéroCRE,
 }: IdentifiantProjet): `${string}#${string}#${string}#${string}` => {
   return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
 };
