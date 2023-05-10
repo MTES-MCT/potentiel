@@ -106,6 +106,7 @@ export async function makeServer(port: number, sessionSecret: string) {
 
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
+        process.env.start_datetime = new Date().getTime().toString();
         logger.info(`Server listening on port ${port}!`);
         logger.info(`NODE_ENV is ${process.env.NODE_ENV}`);
         logger.info(`Version ${process.env.npm_package_version}`);

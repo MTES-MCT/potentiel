@@ -10,7 +10,7 @@ export const onContratEnedisRapprochéAutomatiquement = ProjectProjector.on(
   async (évènement, transaction) => {
     try {
       const { projectId, numero } = évènement.payload;
-      const projectInstance = await Project.findByPk(projectId);
+      const projectInstance = await Project.findByPk(projectId, { transaction });
 
       if (!projectInstance) {
         logger.error(
@@ -23,7 +23,7 @@ export const onContratEnedisRapprochéAutomatiquement = ProjectProjector.on(
         numero,
       };
 
-      await projectInstance.save();
+      await projectInstance.save({ transaction });
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

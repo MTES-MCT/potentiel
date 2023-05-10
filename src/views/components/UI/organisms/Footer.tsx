@@ -114,11 +114,6 @@ const Footer = () => {
                   Gestion des cookies
                 </a>
               </li>
-              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
-                <span className="text-grey-425-base">
-                  Version {process.env.npm_package_version}
-                </span>
-              </li>
             </ul>
             <p className="text-xs text-grey-425-base mt-2 mb-4">
               Sauf mention contraire, tous les contenus de ce site sont sous{' '}

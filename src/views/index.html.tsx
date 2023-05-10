@@ -66,7 +66,7 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
         ${html`
           <script src="/js/shared.js"></script>
           <script src="/js/${formatJsName(Component.name)}.js?${process.env
-              .npm_package_version}"></script>
+              .start_datetime}"></script>
         `}
         ${trackerWebsiteId ? getTrackerScript(trackerWebsiteId) : ''}
         ${crispWebsiteId
