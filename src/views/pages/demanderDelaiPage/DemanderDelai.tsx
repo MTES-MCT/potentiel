@@ -4,7 +4,7 @@ import {
   Astérisque,
   Input,
   FormulaireChampsObligatoireLégende,
-  Button,
+  PrimaryButton,
   SecondaryLinkButton,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
@@ -139,14 +139,14 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                   </div>
                 </div>
 
-                <Button
+                <PrimaryButton
                   type="submit"
                   id="submit"
                   {...dataId('submit-button')}
                   className="mt-4 mr-2"
                 >
                   Envoyer
-                </Button>
+                </PrimaryButton>
                 <SecondaryLinkButton {...dataId('cancel-button')} href={routes.LISTE_PROJETS}>
                   Annuler
                 </SecondaryLinkButton>

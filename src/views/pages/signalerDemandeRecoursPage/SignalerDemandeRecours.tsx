@@ -1,7 +1,7 @@
 import React from 'react';
 import { Request } from 'express';
 import {
-  Button,
+  PrimaryButton,
   ErrorBox,
   Heading1,
   Input,
@@ -108,7 +108,7 @@ export const SignalerDemandeRecours = ({
             />
           </div>
           <div className="m-auto flex gap-4">
-            <Button type="submit">Enregistrer</Button>
+            <PrimaryButton type="submit">Enregistrer</PrimaryButton>
             <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
               Annuler
             </SecondaryLinkButton>

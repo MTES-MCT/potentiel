@@ -1,22 +1,17 @@
 import React, { ComponentProps, ReactElement, useEffect, useRef, useState } from 'react';
 import { ArrowDownIcon } from '../../atoms/icons';
 
-type DropdownMenuProps = ComponentProps<'li'> & {
+type DropdownMenuSecondaryButtonProps = ComponentProps<'div'> & {
   buttonChildren: React.ReactNode;
   children?: (ReactElement | false)[];
 };
 
-export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof DropdownItem } = ({
-  buttonChildren,
-  children,
-  className,
-  ...props
-}: DropdownMenuProps) => {
+export const DropdownMenuSecondaryButton: React.FC<DropdownMenuSecondaryButtonProps> & {
+  DropdownItem: typeof DropdownItem;
+} = ({ buttonChildren, children, className, ...props }: DropdownMenuSecondaryButtonProps) => {
   const [visible, setVisible] = useState(false);
-  const isCurrent = children
-    ? children.some((subMenu) => subMenu && subMenu.props.isCurrent)
-    : undefined;
-  const ref = useRef<HTMLLIElement>(null);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onClickOut = (e: MouseEvent) => {
@@ -48,7 +43,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
   };
 
   return (
-    <li
+    <div
       ref={ref}
       className={`flex flex-col relative cursor-pointer ${className}`}
       aria-expanded={visible}
@@ -56,11 +51,8 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
     >
       <div
         onClick={() => setVisible(!visible)}
-        className={`flex items-center flex-1 py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
-          isCurrent && 'font-medium lg:border-l-0 lg:border-b-2 lg:border-b-blue-france-sun-base'
-        }`}
+        className={`inline-flex items-center px-6 py-2 border border-solid text-base text-decoration-none shadow-sm font-medium border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base`}
       >
-        {isCurrent && <div className="lg:hidden h-[24px] w-[2px] bg-blue-france-sun-base" />}
         <div
           className={`flex-1 no-underline pl-4 lg:pl-0 flex items-center`}
           tabIndex={0}
@@ -84,7 +76,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
       >
         {children}
       </ul>
-    </li>
+    </div>
   );
 };
 
@@ -118,4 +110,4 @@ const DropdownItem = ({ children, href, isCurrent, download, disabled }: Dropdow
   </li>
 );
 
-DropdownMenu.DropdownItem = DropdownItem;
+DropdownMenuSecondaryButton.DropdownItem = DropdownItem;

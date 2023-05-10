@@ -6,7 +6,7 @@ import { Request } from 'express';
 
 import {
   ProjectInfo,
-  Button,
+  PrimaryButton,
   FormulaireChampsObligatoireLégende,
   Label,
   InfoBox,
@@ -94,14 +94,14 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   {...dataId('modificationRequest-fileField')}
                   id="file"
                 />
-                <Button
+                <PrimaryButton
                   className="mt-3 mr-1"
                   type="submit"
                   id="submit"
                   {...dataId('submit-button')}
                 >
                   Envoyer
-                </Button>
+                </PrimaryButton>
                 <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
               </div>
             </div>

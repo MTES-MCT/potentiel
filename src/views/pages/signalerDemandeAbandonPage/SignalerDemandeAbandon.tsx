@@ -1,7 +1,7 @@
 import React from 'react';
 import { Request } from 'express';
 import {
-  Button,
+  PrimaryButton,
   Input,
   LegacyPageTemplate,
   ProjectInfo,
@@ -105,7 +105,7 @@ export const SignalerDemandeAbandon = ({
           </div>
 
           <div className="m-auto flex gap-4">
-            <Button type="submit">Enregistrer</Button>
+            <PrimaryButton type="submit">Enregistrer</PrimaryButton>
             <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
               Annuler
             </SecondaryLinkButton>

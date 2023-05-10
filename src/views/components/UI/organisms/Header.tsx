@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import routes from '@routes';
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine';
 
@@ -51,6 +51,20 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   user,
   children,
 }: HeaderProps) => {
+  const [skipLinksVisible, setSkipLinksVisible] = useState(false);
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Tab') {
+        setSkipLinksVisible(true);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <>
       <header
@@ -60,6 +74,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
         }}
       >
         <div className="p-2 lg:p-0 text-lg">
+          {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
           <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
             <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
               <LogoAndTitle />
@@ -179,7 +194,10 @@ const MainMenu = ({ children }: MainMenuProps) => (
       <MenuIcon className="menu-open" />
       <CloseIcon className="menu-close hidden" />
     </Label>
-    <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
+    <nav
+      id="menu-principal"
+      className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0"
+    >
       <ul className="flex flex-col list-none px-2 lg:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
         {children}
       </ul>
@@ -212,4 +230,24 @@ const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
 );
 
 Header.MenuItem = MenuItem;
+
+type MenuAccèsRapidesProps = { menuDisponible: boolean };
+const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
+  <nav role="navigation" aria-label="Accès rapide" className="bg-grey-950-base">
+    <ul className="flex row list-none justify-start px-0 py-4 gap-2 xl:mx-auto xl:max-w-7xl my-0">
+      <li>
+        <Link href="#contenu">Accéder au contenu</Link>
+      </li>
+      {menuDisponible && (
+        <li>
+          <Link href="#menu-principal">Accéder au menu</Link>
+        </li>
+      )}
+      <li>
+        <Link href="#pied-de-page">Accéder au pied de page</Link>
+      </li>
+    </ul>
+  </nav>
+);
+
 export { Header };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   AlertBox,
-  Button,
+  PrimaryButton,
   Input,
   InputCheckbox,
   Label,
@@ -214,12 +214,12 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
               poursuites judiciaires.
             </Label>
             {selectedProjectList.length > 0 && swornStatement && (
-              <Button type="submit" name="submit" id="submit" className="my-4">
+              <PrimaryButton type="submit" name="submit" id="submit" className="my-4">
                 Réclamer la propriété{' '}
                 {selectedProjectList.length === 1
                   ? 'du project séléctionné'
                   : `des ${selectedProjectList.length} projets séléctionnés`}
-              </Button>
+              </PrimaryButton>
             )}
           </>
         </AlertBox>

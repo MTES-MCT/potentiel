@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserRole } from '@modules/users';
 import { ACTION_BY_ROLE } from './actions';
-import { DropdownSecondary } from './UI';
+import { DropdownMenuSecondaryButton } from './UI';
 import { ProjectAppelOffre } from '@entities';
 
 type Props = {
@@ -35,22 +35,20 @@ export const ProjectActions = ({ project, role }: Props) => {
   if (!actions || !actions.length) return null;
   return (
     <div className="relative">
-      <ul>
-        <DropdownSecondary titre="Actions">
-          {actions.map(({ title, link, isDownload, disabled }, index) => {
-            return (
-              <DropdownSecondary.DropdownItem
-                href={link}
-                download={isDownload ? true : undefined}
-                disabled={disabled ? true : undefined}
-                key={`${title}#${index}`}
-              >
-                {title}
-              </DropdownSecondary.DropdownItem>
-            );
-          })}
-        </DropdownSecondary>
-      </ul>
+      <DropdownMenuSecondaryButton buttonChildren="Actions">
+        {actions.map(({ title, link, isDownload, disabled }, index) => {
+          return (
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={link}
+              download={isDownload ? true : undefined}
+              disabled={disabled ? true : undefined}
+              key={`${title}#${index}`}
+            >
+              {title}
+            </DropdownMenuSecondaryButton.DropdownItem>
+          );
+        })}
+      </DropdownMenuSecondaryButton>
     </div>
   );
 };

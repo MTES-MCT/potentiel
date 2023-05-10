@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button,
+  PrimaryButton,
   ErrorBox,
   FormulaireChampsObligatoireLégende,
   Heading1,
@@ -60,9 +60,9 @@ export const AjouterGestionnaireRéseau = ({
           </div>
           <ChampsAideALaSaisieIdentifiant />
         </div>
-        <Button type="submit" className="mt-4 mr-3">
+        <PrimaryButton type="submit" className="mt-4 mr-3">
           Ajouter
-        </Button>
+        </PrimaryButton>
         <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </form>
     </div>

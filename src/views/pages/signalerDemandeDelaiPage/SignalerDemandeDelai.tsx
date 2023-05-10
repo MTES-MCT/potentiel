@@ -1,5 +1,5 @@
 import {
-  Button,
+  PrimaryButton,
   Input,
   SecondaryLinkButton,
   ProjectInfo,
@@ -155,7 +155,7 @@ export const SignalerDemandeDelai = ({
           </div>
 
           <div className="m-auto flex gap-4">
-            <Button type="submit">Enregistrer</Button>
+            <PrimaryButton type="submit">Enregistrer</PrimaryButton>
             <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
               Annuler
             </SecondaryLinkButton>

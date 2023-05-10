@@ -2,7 +2,7 @@ import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
-  Button,
+  PrimaryButton,
   ErrorBox,
   Heading2,
   Input,
@@ -142,7 +142,7 @@ export const ModifierDemandeComplèteRaccordement = ({
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 m-auto">
-              <Button type="submit">Transmettre</Button>
+              <PrimaryButton type="submit">Transmettre</PrimaryButton>
               <Link
                 href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
                 className="m-auto"

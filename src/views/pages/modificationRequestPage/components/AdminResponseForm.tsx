@@ -1,4 +1,4 @@
-import { FormulaireChampsObligatoireLégende, Button } from '@components';
+import { FormulaireChampsObligatoireLégende, PrimaryButton } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
@@ -41,22 +41,22 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
       <input type="hidden" name="versionDate" value={versionDate} />
       <UploadResponseFile modificationRequest={modificationRequest} />
       {children}
-      <Button
+      <PrimaryButton
         type="submit"
         name="submitAccept"
         confirmation={`Êtes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`}
         className="mt-4 mr-4"
       >
         Accepter la demande {ModificationRequestTitleByType[type]}
-      </Button>
-      <Button
+      </PrimaryButton>
+      <PrimaryButton
         className="bg-red-marianne-425-base hover:bg-red-marianne-425-hover focus:bg-red-marianne-425-active block mt-4"
         type="submit"
         confirmation={`Êtes-vous sur de vouloir rejeter la demande ${ModificationRequestTitleByType[type]} ?`}
         name="submitRefuse"
       >
         Rejeter la demande {ModificationRequestTitleByType[type]}
-      </Button>
+      </PrimaryButton>
     </form>
   );
 };

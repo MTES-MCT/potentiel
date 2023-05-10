@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Button, ChevronDownIcon, ChevronUpIcon } from '@components';
+import { Link, PrimaryButton, ChevronDownIcon, ChevronUpIcon } from '@components';
 
 interface DropdownProps extends React.ComponentProps<'div'> {
   text: string;
@@ -20,6 +20,12 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
   changeOpenState,
   ...props
 }) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault();
+      !isOpen && changeOpenState(!isOpen);
+    }
+  };
   const button =
     design === 'link' ? (
       <Link
@@ -34,9 +40,10 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
         )}
       </Link>
     ) : (
-      <Button
+      <PrimaryButton
         className="inline-flex justify-start items-center"
         onClick={() => changeOpenState(!isOpen)}
+        onKeyDown={(event) => handleKeyDown(event)}
       >
         {text}{' '}
         {isOpen ? (
@@ -44,10 +51,16 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
         ) : (
           <ChevronDownIcon className="w-5 h-5 ml-1" title="Ouvrir le contenu" />
         )}
-      </Button>
+      </PrimaryButton>
     );
   return (
-    <div className={`flex flex-col w-fit ${className}`} {...props}>
+    <div
+      tabIndex={0}
+      aria-haspopup="true"
+      onKeyDown={(event) => handleKeyDown(event)}
+      className={`flex flex-col w-fit ${className}`}
+      {...props}
+    >
       {button}
       <div className={isOpen && !disabled ? 'block' : 'hidden'}>{children}</div>
     </div>

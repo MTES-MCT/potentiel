@@ -2,7 +2,7 @@ import { Request } from 'express';
 import React from 'react';
 import { dataId } from '../../helpers/testId';
 import routes from '@routes';
-import { Button, ErrorBox, LegacyPageTemplate } from '@components';
+import { PrimaryButton, ErrorBox, LegacyPageTemplate } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 interface FakeLoginProps {
@@ -22,7 +22,7 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
               <div className="form__group">
                 <label htmlFor="email">Courrier électronique</label>
                 <input type="email" name="email" id="email" {...dataId('email-field')} />
-                <Button
+                <PrimaryButton
                   type="submit"
                   name="submit"
                   id="submit"
@@ -30,7 +30,7 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
                   className="mt-2"
                 >
                   Je m'identifie
-                </Button>
+                </PrimaryButton>
               </div>
             </form>
           </div>

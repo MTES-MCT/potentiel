@@ -4,7 +4,7 @@ import routes from '@routes';
 import {
   Footer,
   Header,
-  Button,
+  PrimaryButton,
   Input,
   Container,
   LinkButton,
@@ -121,10 +121,10 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
         />
 
         <div className="flex flex-row gap-2 mx-auto mt-2">
-          <Button className="inline-flex items-center" type="submit">
+          <PrimaryButton className="inline-flex items-center" type="submit">
             <RiSaveLine className="mr-2" />
             M'inscrire
-          </Button>
+          </PrimaryButton>
           <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
         </div>
       </form>

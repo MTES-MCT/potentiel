@@ -1,16 +1,16 @@
 import React from 'react';
-import { Button } from './Button';
+import { PrimaryButton } from './PrimaryButton';
 
 export default {
   title: 'Components/Atoms/Button',
-  component: Button,
+  component: PrimaryButton,
   argTypes: {
     children: { control: 'text' },
     disabled: { control: 'boolean' },
   },
 };
 
-const Template = (args) => <Button {...args} />;
+const Template = (args) => <PrimaryButton {...args} />;
 
 export const Default = Template.bind({});
 

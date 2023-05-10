@@ -1,5 +1,5 @@
 import {
-  Button,
+  PrimaryButton,
   DownloadLink,
   ErrorBox,
   Heading1,
@@ -74,9 +74,9 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               <div>
                 <form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
                   <input type="hidden" name="demandeAbandonId" value={id} />
-                  <Button type="submit" className="mt-4">
+                  <PrimaryButton type="submit" className="mt-4">
                     Je confirme ma demande
-                  </Button>
+                  </PrimaryButton>
                 </form>
               </div>
             )}
@@ -101,14 +101,14 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               {!['en attente de confirmation', 'demande confirmée'].includes(
                 modificationRequest.status,
               ) && (
-                <Button
+                <PrimaryButton
                   type="submit"
                   name="submitConfirm"
                   {...dataId('ask-confirmation-button')}
                   className="mt-2"
                 >
                   Demander une confirmation au porteur de projet
-                </Button>
+                </PrimaryButton>
               )}
             </AdminResponseForm>
           </div>

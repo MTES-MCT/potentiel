@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import { Request } from 'express';
 
 import ROUTES from '@routes';
-import { Button, Heading3, Input, Label, Link, UserIcon, Section, Dropdown } from '@components';
+import {
+  PrimaryButton,
+  Heading3,
+  Input,
+  Label,
+  Link,
+  UserIcon,
+  Section,
+  Dropdown,
+} from '@components';
 
 import { ProjectDataForProjectPage } from '@modules/project';
 import { userIs } from '@modules/users';
@@ -89,7 +98,7 @@ const InvitationForm = ({ project }: InvitationFormProps) => {
           Courrier électronique de la personne habilitée à suivre ce projet
         </Label>
         <Input type="email" name="email" id="email" required />
-        <Button
+        <PrimaryButton
           className="mt-2 mr-3"
           type="submit"
           name="submit"
@@ -97,7 +106,7 @@ const InvitationForm = ({ project }: InvitationFormProps) => {
           {...dataId('submit-button')}
         >
           Accorder les droits sur ce projet
-        </Button>
+        </PrimaryButton>
         <Link
           onClick={(e) => {
             e.preventDefault();

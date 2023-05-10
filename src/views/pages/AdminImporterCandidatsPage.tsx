@@ -3,7 +3,7 @@ import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import {
-  Button,
+  PrimaryButton,
   ErrorBox,
   Heading1,
   Input,
@@ -50,8 +50,14 @@ export const AdminImporterCandidats = ({
 
           <div className="form__group">
             <Label htmlFor="candidats">Fichier csv des candidats</Label>
-            <Input type="file" name="candidats" {...dataId('candidats-field')} id="candidats" />
-            <Button
+            <Input
+              type="file"
+              name="candidats"
+              {...dataId('candidats-field')}
+              id="candidats"
+              required
+            />
+            <PrimaryButton
               type="submit"
               name="submit"
               id="submit"
@@ -59,7 +65,7 @@ export const AdminImporterCandidats = ({
               className="mt-2"
             >
               Envoyer
-            </Button>
+            </PrimaryButton>
           </div>
         </form>
       </div>

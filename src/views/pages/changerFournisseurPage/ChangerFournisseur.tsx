@@ -7,7 +7,7 @@ import { Request } from 'express';
 import {
   ChoisirCahierDesChargesFormulaire,
   ProjectInfo,
-  Button,
+  PrimaryButton,
   Label,
   SecondaryLinkButton,
   InfoBox,
@@ -174,9 +174,14 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                 {...dataId('modificationRequest-justificationField')}
               />
 
-              <Button className="mt-3 mr-1" type="submit" id="submit" {...dataId('submit-button')}>
+              <PrimaryButton
+                className="mt-3 mr-1"
+                type="submit"
+                id="submit"
+                {...dataId('submit-button')}
+              >
                 Envoyer
-              </Button>
+              </PrimaryButton>
               <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
             </div>
           </form>
