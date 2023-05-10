@@ -11,7 +11,6 @@ import { isDevEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap } from '@potentiel/web';
-import { maintenanceMiddleware } from './middlewares/maintenance.middleware';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -92,7 +91,6 @@ export async function makeServer(port: number, sessionSecret: string) {
 
     app.use(v1Router);
     app.use(express.static(path.join(__dirname, 'public')));
-    app.use(maintenanceMiddleware);
 
     app.use(Sentry.Handlers.errorHandler());
 
