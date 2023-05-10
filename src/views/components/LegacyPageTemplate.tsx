@@ -16,6 +16,7 @@ export const LegacyPageTemplate = ({
       <Header user={user}>{user && <UserNavigation {...{ user, currentPage }} />}</Header>
       <main
         role="main"
+        id="contenu"
         className="flex flex-col px-2 py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl"
         style={{ fontFamily: 'Marianne, arial, sans-serif' }}
       >
