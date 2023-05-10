@@ -1,10 +1,9 @@
-import { DownloadLinkButton, SecondaryLinkButton, InboxInIcon, Link } from '@components';
+import { DownloadLinkButton, SecondaryLinkButton, DropdownMenuSecondaryButton } from '@components';
 import { User } from '@entities';
-import { Menu, Transition } from '@headlessui/react';
 import { ProjectDataForProjectPage } from '@modules/project';
 import { userIs } from '@modules/users';
 import routes from '@routes';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
@@ -22,69 +21,31 @@ const EnregistrerUneModification = ({
   signalementAbandonAutorisé,
   signalementRecoursAutorisé,
 }: EnregistrerUneModificationProps) => (
-  <Menu as="div" className="self-stretch relative grow md:grow-0 text-left mx-auto">
-    <Menu.Button className="inline-flex w-full items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
-      Enregistrer une modification
-    </Menu.Button>
-    <Transition
-      as={Fragment}
-      enter="transition ease-out duration-100"
-      enterFrom="transform opacity-0 scale-95"
-      enterTo="transform opacity-100 scale-100"
-      leave="transition ease-in duration-75"
-      leaveFrom="transform opacity-100 scale-100"
-      leaveTo="transform opacity-0 scale-95"
+  <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
+    <DropdownMenuSecondaryButton.DropdownItem
+      href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
     >
-      <Menu.Items className="absolute w-full z-10 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 border-solid border border-blue-france-sun-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-t-0">
-        <Menu.Item key={`signaler_demande_delai`}>
-          <Link
-            href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
-            className="no-underline bg-none hover:bg-none"
-          >
-            <div
-              className={
-                'text-center rounded-md w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-              }
-            >
-              Demande de délai
-            </div>
-          </Link>
-        </Menu.Item>
-        {signalementAbandonAutorisé && (
-          <Menu.Item key={`signaler_demande_abandon`}>
-            <Link
-              href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(project.id)}
-              className="no-underline bg-none hover:bg-none"
-            >
-              <div
-                className={
-                  'text-center rounded-md w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-                }
-              >
-                Demande d'abandon
-              </div>
-            </Link>
-          </Menu.Item>
-        )}
-        {signalementRecoursAutorisé && getProjectStatus(project) === 'éliminé' && (
-          <Menu.Item key={`signaler_demande_recours`}>
-            <Link
-              href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(project.id)}
-              className="no-underline bg-none hover:bg-none"
-            >
-              <div
-                className={
-                  'text-center rounded-md w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-                }
-              >
-                Demande de recours
-              </div>
-            </Link>
-          </Menu.Item>
-        )}
-      </Menu.Items>
-    </Transition>
-  </Menu>
+      <span>Demande de délai</span>
+    </DropdownMenuSecondaryButton.DropdownItem>
+    {signalementAbandonAutorisé ? (
+      <DropdownMenuSecondaryButton.DropdownItem
+        href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(project.id)}
+      >
+        <span>Demande d'abandon</span>
+      </DropdownMenuSecondaryButton.DropdownItem>
+    ) : (
+      <></>
+    )}
+    {signalementRecoursAutorisé && getProjectStatus(project) === 'éliminé' ? (
+      <DropdownMenuSecondaryButton.DropdownItem
+        href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(project.id)}
+      >
+        <span>Demande de recours</span>
+      </DropdownMenuSecondaryButton.DropdownItem>
+    ) : (
+      <></>
+    )}
+  </DropdownMenuSecondaryButton>
 );
 
 const getProjectStatus = (project: ProjectDataForProjectPage) =>
@@ -108,113 +69,32 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
     )}
 
     {project.isClasse && (
-      <Menu as="div" className="m-auto self-stretch relative grow md:grow-0 text-left">
-        <Menu.Button className="inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
-          <InboxInIcon className="h-5 w-5 align-middle mr-2" aria-hidden />
-          Faire une demande
-        </Menu.Button>
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items
-            style={{ width: 216.76 }}
-            className="absolute xs:left-0 lg:right-0 z-10 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 border-solid border border-blue-france-sun-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-t-0"
+      <DropdownMenuSecondaryButton buttonChildren="Faire une demande">
+        <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
+          <span>Demander un délai</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+        {project.appelOffre.type !== 'eolien' && (
+          <DropdownMenuSecondaryButton.DropdownItem
+            href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
           >
-            <Menu.Item key={`action_demande_delai`}>
-              <Link
-                href={routes.DEMANDER_DELAI(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div
-                  className={
-                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-                  }
-                >
-                  Demander un délai
-                </div>
-              </Link>
-            </Menu.Item>
-            {project.appelOffre.type !== 'eolien' && (
-              <Menu.Item key={`action_changer_producteur`}>
-                <Link
-                  href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
-                  className="no-underline bg-none hover:bg-none"
-                >
-                  <div
-                    className={
-                      'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-                    }
-                  >
-                    Changer de producteur
-                  </div>
-                </Link>
-              </Menu.Item>
-            )}
-            <Menu.Item key={`action_changer_fournisseur`}>
-              <Link
-                href={routes.CHANGER_FOURNISSEUR(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div
-                  className={
-                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-                  }
-                >
-                  Changer de fournisseur
-                </div>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={`action_changer_actionnaire`}>
-              <Link
-                href={routes.CHANGER_ACTIONNAIRE(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div
-                  className={
-                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-                  }
-                >
-                  Changer d'actionnaire
-                </div>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={`action_changer_puissance`}>
-              <Link
-                href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div
-                  className={
-                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-                  }
-                >
-                  Changer de puissance
-                </div>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={`action_demande_abandon`}>
-              <Link
-                href={routes.GET_DEMANDER_ABANDON(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div
-                  className={
-                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-                  }
-                >
-                  Demander un abandon
-                </div>
-              </Link>
-            </Menu.Item>
-          </Menu.Items>
-        </Transition>
-      </Menu>
+            <span>Changer de producteur</span>
+          </DropdownMenuSecondaryButton.DropdownItem>
+        )}
+        <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
+          <span>Changer de fournisseur</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+        <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_ACTIONNAIRE(project.id)}>
+          <span>Changer d'actionnaire</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+        <DropdownMenuSecondaryButton.DropdownItem
+          href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
+        >
+          <span>Changer de puissance</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+        <DropdownMenuSecondaryButton.DropdownItem href={routes.GET_DEMANDER_ABANDON(project.id)}>
+          <span>Demander un abandon</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      </DropdownMenuSecondaryButton>
     )}
 
     {project.notifiedOn && project.certificateFile && (
