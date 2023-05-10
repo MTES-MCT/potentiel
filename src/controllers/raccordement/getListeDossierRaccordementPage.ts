@@ -116,7 +116,7 @@ v1Router.get(
             const filePTFPath = join(
               formatIdentifiantProjet(identifiantProjet),
               référence,
-              `demande-complete-raccordement`,
+              `proposition-technique-et-financiere`,
             );
             const PTFFiles = await getFiles(filePTFPath);
 
