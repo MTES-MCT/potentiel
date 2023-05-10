@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import routes from '@routes';
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine';
 
@@ -51,6 +51,20 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   user,
   children,
 }: HeaderProps) => {
+  const [skipLinksVisible, setSkipLinksVisible] = useState(false);
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Tab') {
+        setSkipLinksVisible(true);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <>
       <header
@@ -60,7 +74,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
         }}
       >
         <div className="p-2 lg:p-0 text-lg">
-          <MenuAccèsRapides menuDisponible={!!children} />
+          {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
           <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
             <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
               <LogoAndTitle />
