@@ -1,5 +1,5 @@
 import { TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { logger, okAsync, err } from '@core/utils';
+import { logger, okAsync } from '@core/utils';
 import { PeriodeNotified } from '../events/PeriodeNotified';
 import { GenerateCertificate } from '../useCases/generateCertificate';
 import { Project } from '../Project';
@@ -22,11 +22,6 @@ export const handlePeriodeNotified =
     } = deps;
 
     const { periodeId, appelOffreId, notifiedOn, requestedBy } = event.payload;
-    const appelOffre = getProjectAppelOffre(event.payload);
-
-    if (!appelOffre) {
-      return err(new Error(`L'appel offre ${appelOffreId} n'existe pas`));
-    }
 
     const unnotifiedProjectIdsResult = await getUnnotifiedProjectsForPeriode(
       appelOffreId,
@@ -43,7 +38,7 @@ export const handlePeriodeNotified =
       await projectRepo
         .transaction(new UniqueEntityID(unnotifiedProjectId.projectId), (project) => {
           return project
-            .notify({ appelOffre, notifiedOn })
+            .notify({ notifiedOn })
             .map((): boolean => project.shouldCertificateBeGenerated);
         })
         .andThen((shouldCertificateBeGenerated) => {

@@ -19,7 +19,7 @@ export const onContratEDFRapprochéAutomatiquement = ProjectProjector.on(
         statut,
         duree,
       } = évènement.payload;
-      const projectInstance = await Project.findByPk(projectId);
+      const projectInstance = await Project.findByPk(projectId, { transaction });
 
       if (!projectInstance) {
         logger.error(
@@ -38,7 +38,7 @@ export const onContratEDFRapprochéAutomatiquement = ProjectProjector.on(
         duree: duree && Number(duree),
       } as any;
 
-      await projectInstance.save();
+      await projectInstance.save({ transaction });
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

@@ -12,7 +12,7 @@ export const onProjectReimported = ProjectProjector.on(
       const {
         payload: { projectId, data },
       } = évènement;
-      const project = await Project.findByPk(projectId);
+      const project = await Project.findByPk(projectId, { transaction });
 
       if (project === null) {
         throw new Error(`onProjectReimported for project that is not found ${projectId}`);
@@ -31,7 +31,7 @@ export const onProjectReimported = ProjectProjector.on(
           other.evaluationCarbone ?? project.evaluationCarboneDeRéférence,
       });
 
-      await project.save();
+      await project.save({ transaction });
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
