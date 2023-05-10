@@ -81,7 +81,6 @@ export const ListeProjets = ({
 
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [displaySelection, setDisplaySelection] = useState(false);
-  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">

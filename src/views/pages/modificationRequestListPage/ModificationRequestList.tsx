@@ -69,8 +69,6 @@ export const ModificationRequestList = ({
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title));
 
-  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
