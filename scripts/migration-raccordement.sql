@@ -15,21 +15,7 @@ AS $$
                 p."periodeId",
                 p."familleId",
                 p."numeroCRE",
-                CASE 
-                    WHEN r."identifiantGestionnaire" IS NOT NULL AND SUBSTRING(r."identifiantGestionnaire" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})') != ''
-                    THEN SUBSTRING(r."identifiantGestionnaire" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})')
-
-                    WHEN SUBSTRING("dcrFile"."storedAt" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})') != '' 
-                    THEN SUBSTRING("dcrFile"."storedAt" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})') 
-                    
-                    WHEN SUBSTRING("ptfFile"."storedAt" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})') != '' 
-                    THEN SUBSTRING("ptfFile"."storedAt" from '(\D{3}[-\s]RP[-\s]20\d{2}[-\s]\d{6})') 
-                    
-                    WHEN r."identifiantGestionnaire" IS NOT NULL
-                    THEN r."identifiantGestionnaire"
-
-                    ELSE 'Référence non transmise' 
-                END as "identifiantGestionnaire",
+                r."identifiantGestionnaire",
                 p."dateMiseEnService",
                 p."dateFileAttente",
                 "dcrFile"."storedAt" as "dcrFilePath",
@@ -38,7 +24,7 @@ AS $$
                 r."ptfDateDeSignature"
             from projects p
             left join raccordements r on r."projetId" = p.id
-            left join project_events dcr on dcr."projectId" = p.id and dcr.type = 'ProjectDCRSubmitted'
+            left join project_events dcr on dcr."projectId" = p.id and dcr.type = 'projetDCRSubmitted'
             left join files "dcrFile" on "dcrFile".id::text = dcr.payload->'file'->>'id' and "dcrFile".designation = 'dcr'
             left join files "ptfFile" on "ptfFile".id = r."ptfFichierId" and "ptfFile".designation = 'ptf';
 
@@ -49,8 +35,12 @@ begin
         fetch projets into projet;
         exit when not found;
         identifiantProjet := projet."appelOffreId" || '#' || projet."periodeId" || '#' || projet."familleId" || '#' || projet."numeroCRE";
-        referenceDossier := projet."identifiantGestionnaire";
+        referenceDossier := 'Référence non transmise';
         dateQualification := null;
+
+        if projet."identifiantGestionnaire" is not null then
+            referenceDossier := projet."identifiantGestionnaire";
+        end if;
 
         if projet."dcrDate" is not null then
             dateQualification := projet."dcrDate";
