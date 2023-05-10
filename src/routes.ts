@@ -496,5 +496,7 @@ class routes {
       reference || ':reference'
     }/modifier-proposition-technique-et-financiere`;
   };
+
+  static GET_MAINTENANCE_PAGE = `/site-en-maintenance.html`;
 }
 export default routes;

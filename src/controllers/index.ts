@@ -17,3 +17,4 @@ export * from './importerListingEnedis';
 export * from './upload';
 export * from './v1Router';
 export * from './raccordement';
+export * from './getMaintenancePage';

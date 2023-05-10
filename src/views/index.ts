@@ -53,6 +53,7 @@ import {
   ModifierDemandeComplèteRaccordement,
   ModifierGestionnaireRéseauProjet,
   ModifierPropositionTechniqueEtFinancière,
+  Maintenance,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -457,4 +458,11 @@ export const ModifierPropositionTechniqueEtFinancièrePage = (
     Component: ModifierPropositionTechniqueEtFinancière,
     props,
     title: 'Modifier une proposition technique et financière',
+  });
+
+export const MaintenancePage = (props: Parameters<typeof Maintenance>[0]) =>
+  makeHtml({
+    Component: Maintenance,
+    props,
+    title: 'Site web en maintenance',
   });
