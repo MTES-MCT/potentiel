@@ -1,16 +1,23 @@
-import { Client, QueryResult } from 'pg';
+import { QueryResult, Pool, PoolClient } from 'pg';
 import { getConnectionString } from './getConnectionString';
 
-export const useClient = async <TResult extends Record<string, unknown>>(
-  callback: (client: Client) => Promise<QueryResult<TResult>>,
+let pool: Pool;
+
+export const usePoolClient = async <TResult extends Record<string, unknown>>(
+  callback: (poolClient: PoolClient) => Promise<QueryResult<TResult>>,
 ) => {
-  let client;
+  if (!pool) {
+    pool = new Pool({
+      connectionString: getConnectionString(),
+    });
+  }
+
+  let poolClient: PoolClient | undefined;
 
   try {
-    client = new Client(getConnectionString());
-    await client.connect();
-    return await callback(client);
+    poolClient = await pool.connect();
+    return await callback(poolClient);
   } finally {
-    await client?.end();
+    poolClient?.release();
   }
 };
