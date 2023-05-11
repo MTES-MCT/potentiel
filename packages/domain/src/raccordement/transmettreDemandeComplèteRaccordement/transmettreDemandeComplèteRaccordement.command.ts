@@ -11,7 +11,7 @@ import {
 } from '../raccordement.aggregate';
 import { isSome } from '@potentiel/monads';
 import { PlusieursGestionnairesRéseauPourUnProjetError } from '../raccordement.errors';
-import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './accuséRéceptionDemandeComplèteRaccordementTransmis';
+import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 
 export type TransmettreDemandeComplèteRaccordementCommand = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
@@ -68,6 +68,7 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
     const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
       type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       payload: {
+        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         référenceDossierRaccordement,
         format: formatFichier,
       },

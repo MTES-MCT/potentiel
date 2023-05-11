@@ -1,11 +1,10 @@
 import { CommandHandler, QueryHandler } from '@potentiel/core-domain';
-import { UploadFile, uploadFile } from '@potentiel/adapter-domain';
+import { UploadFile } from '@potentiel/adapter-domain';
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 import {
   ConsulterGestionnaireRéseauQuery,
   GestionnaireRéseauReadModel,
 } from '../../gestionnaireRéseau';
-import { upload } from '@potentiel/file-storage';
 
 type Dependencies = {
   transmettreDemandeComplèteRaccordementCommand: CommandHandler<TransmettreDemandeComplèteRaccordementCommand>;
@@ -30,6 +29,7 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
   ({
     transmettreDemandeComplèteRaccordementCommand,
     consulterGestionnaireRéseauQuery,
+    uploadFile,
   }: Dependencies) =>
   async ({
     dateQualification,
@@ -42,8 +42,8 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
     });
 
-    const uploadFichier = uploadFile(upload);
-    await uploadFichier(path);
+    // const uploadFichier = uploadFile(upload);
+    // await uploadFichier(path);
 
     await transmettreDemandeComplèteRaccordementCommand({
       identifiantProjet,

@@ -20,17 +20,17 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
-  #accuséReception!: { format: string };
+  #accuséRéception!: { format: string };
 
-  get accuséReception(): { format: string } {
-    if (!this.#accuséReception) {
-      throw new Error('accuséReception not initialized');
+  get accuséRéception(): { format: string } {
+    if (!this.#accuséRéception) {
+      throw new Error('accuséRéception not initialized');
     }
-    return this.#accuséReception;
+    return this.#accuséRéception;
   }
 
-  set accuséReception(value: { format: string }) {
-    this.#accuséReception = value;
+  set accuséRéception(value: { format: string }) {
+    this.#accuséRéception = value;
   }
 
   #référenceDossierRaccordement!: string;
@@ -57,6 +57,9 @@ export class RaccordementWorld {
       appelOffre: 'PPE2 - Eolien',
       période: '1',
       numéroCRE: '23',
+    };
+    this.#accuséRéception = {
+      format: 'application/pdf',
     };
   }
 

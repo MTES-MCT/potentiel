@@ -20,7 +20,8 @@ EtantDonné(
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     const dateQualification = new Date(exemple['La date de qualification']);
-    const référenceDemandeRaccordement = exemple['La référence du dossier de raccordement'];
+    const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
+    const format = exemple["Le format de l'accusé de réception"];
 
     const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
@@ -30,8 +31,8 @@ EtantDonné(
         codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
       },
       dateQualification,
-      référenceDossierRaccordement: référenceDemandeRaccordement,
-      accuséRéception: { format: 'un format', path: 'un path' },
+      référenceDossierRaccordement,
+      accuséRéception: { format, path: 'un path' },
     });
   },
 );
@@ -65,9 +66,6 @@ Quand(
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
     this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence du dossier de raccordement'];
-    this.raccordementWorld.accuséReception = {
-      format: exemple[`Le format de l'accusé de réception `],
-    };
 
     const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
@@ -78,7 +76,7 @@ Quand(
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-      accuséRéception: { path: 'le path', format: this.raccordementWorld.accuséReception.format },
+      accuséRéception: { ...this.raccordementWorld.accuséRéception, path: 'le path' },
     });
   },
 );
@@ -137,7 +135,7 @@ Alors(
       type: 'dossier-raccordement',
       référence: this.raccordementWorld.référenceDossierRaccordement,
       dateQualification: this.raccordementWorld.dateQualification.toISOString(),
-      accuséRéception: this.raccordementWorld.accuséReception,
+      accuséRéception: this.raccordementWorld.accuséRéception,
     };
 
     actual.should.be.deep.equal(expected);
@@ -176,7 +174,6 @@ EtantDonné(
   `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
   async function (this: PotentielWorld) {
     const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
-
     await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
@@ -184,7 +181,7 @@ EtantDonné(
       },
       dateQualification: new Date('2022-12-31'),
       référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
-      accuséRéception: { format: 'un format', path: 'un path' },
+      accuséRéception: { ...this.raccordementWorld.accuséRéception, path: 'un path' },
     });
   },
 );
