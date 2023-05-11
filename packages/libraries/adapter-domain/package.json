@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@potentiel/monads": "*",
-   "@potentiel/file-storage": "*"
+    "@potentiel/file-storage": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

@@ -22,6 +22,7 @@ import {
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { uploadFile } from '@potentiel/adapter-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
@@ -42,6 +43,7 @@ const transmettreDemandeComplèteRaccordement = transmettreDemandeComplèteRacco
   {
     transmettreDemandeComplèteRaccordementCommand,
     consulterGestionnaireRéseauQuery,
+    uploadFile,
   },
 );
 
@@ -132,6 +134,10 @@ v1Router.post(
           identifiantGestionnaireRéseau: { codeEIC },
           dateQualification,
           référenceDossierRaccordement,
+          accuséRéception: {
+            format: file.mimetype,
+            contenu: file,
+          },
         });
 
         const filePath = join(

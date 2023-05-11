@@ -1,4 +1,6 @@
+import { createReadStream } from 'fs';
 import { CommandHandler, QueryHandler } from '@potentiel/core-domain';
+// import { UploadFile } from '@potentiel/adapter-domain';
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 import {
   ConsulterGestionnaireRéseauQuery,
@@ -11,6 +13,17 @@ type Dependencies = {
     ConsulterGestionnaireRéseauQuery,
     GestionnaireRéseauReadModel
   >;
+  uploadFile: UploadFile;
+};
+
+type TransmettreDemandeComplèteRaccordementUseCaseFactoryParams = Omit<
+  TransmettreDemandeComplèteRaccordementCommand,
+  'accuséRéception'
+> & {
+  accuséRéception: {
+    format: string;
+    contenu: Express.Multer.File;
+  };
 };
 
 export const transmettreDemandeComplèteRaccordementUseCaseFactory =
@@ -23,15 +36,22 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     identifiantGestionnaireRéseau,
     identifiantProjet,
     référenceDossierRaccordement,
-  }: TransmettreDemandeComplèteRaccordementCommand) => {
+    accuséRéception: { format, contenu },
+  }: TransmettreDemandeComplèteRaccordementUseCaseFactoryParams) => {
     const gestionnaireRéseau = await consulterGestionnaireRéseauQuery({
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
     });
+
+    const readableContenu = createReadStream(contenu.path);
+
+    // appeler adapter
+    // upload;
 
     await transmettreDemandeComplèteRaccordementCommand({
       identifiantProjet,
       identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
       dateQualification,
       référenceDossierRaccordement,
+      formatFichier: format,
     });
   };

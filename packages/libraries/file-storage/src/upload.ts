@@ -2,7 +2,9 @@ import { Readable } from 'stream';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 
-export const upload = async (filePath: string, content: Readable) => {
+export type Upload = (filePath: string, content: Readable) => Promise<void>;
+
+export const upload: Upload = async (filePath: string, content: Readable) => {
   await getClient()
     .upload({
       Bucket: getBucketName(),

@@ -17,7 +17,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
   dateQualification?: Date;
   référenceDossierRaccordement: string;
-  accuséRéception: { format: string; contenu: Express.Multer.File };
+  formatFichier: string;
 };
 
 export type TransmettreDemandeComplèteRaccordementDependencies = {
@@ -35,6 +35,7 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
     dateQualification,
     identifiantGestionnaireRéseau,
     référenceDossierRaccordement,
+    formatFichier,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -62,4 +63,14 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
     };
 
     await publish(createRaccordementAggregateId(identifiantProjet), event);
+
+    // const accuséRéceptionTransmisEvent = {
+    //   type: 'AccuséRécéptionDemandeComplèteRaccordementTransmis',
+    //   payload: {
+    //     référenceDossierRaccordement,
+    //     format: formatFichier
+    //   }
+    // }
+
+    // await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
   };
