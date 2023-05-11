@@ -136,7 +136,7 @@ v1Router.post(
           référenceDossierRaccordement,
           accuséRéception: {
             format: file.mimetype,
-            contenu: file,
+            path: file.path,
           },
         });
 

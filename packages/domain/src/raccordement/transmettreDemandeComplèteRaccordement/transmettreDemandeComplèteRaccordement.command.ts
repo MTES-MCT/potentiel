@@ -11,6 +11,7 @@ import {
 } from '../raccordement.aggregate';
 import { isSome } from '@potentiel/monads';
 import { PlusieursGestionnairesRéseauPourUnProjetError } from '../raccordement.errors';
+import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './accuséRéceptionDemandeComplèteRaccordementTransmis';
 
 export type TransmettreDemandeComplèteRaccordementCommand = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
@@ -64,13 +65,13 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
 
     await publish(createRaccordementAggregateId(identifiantProjet), event);
 
-    // const accuséRéceptionTransmisEvent = {
-    //   type: 'AccuséRécéptionDemandeComplèteRaccordementTransmis',
-    //   payload: {
-    //     référenceDossierRaccordement,
-    //     format: formatFichier
-    //   }
-    // }
+    const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
+      type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+      payload: {
+        référenceDossierRaccordement,
+        format: formatFichier,
+      },
+    };
 
-    // await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
+    await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
   };

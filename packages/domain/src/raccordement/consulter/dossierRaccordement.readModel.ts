@@ -9,5 +9,6 @@ export type DossierRaccordementReadModel = ReadModel<
       dateSignature: string;
     };
     dateMiseEnService?: string;
+    accuséRéception?: { format: string };
   }
 >;

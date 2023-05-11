@@ -20,6 +20,19 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
+  #accuséReception!: { format: string };
+
+  get accuséReception(): { format: string } {
+    if (!this.#accuséReception) {
+      throw new Error('accuséReception not initialized');
+    }
+    return this.#accuséReception;
+  }
+
+  set accuséReception(value: { format: string }) {
+    this.#accuséReception = value;
+  }
+
   #référenceDossierRaccordement!: string;
 
   get référenceDossierRaccordement(): string {

@@ -13,6 +13,7 @@ import {
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
+import { uploadFile } from '@potentiel/adapter-domain';
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
@@ -30,6 +31,7 @@ EtantDonné(
       },
       dateQualification,
       référenceDossierRaccordement: référenceDemandeRaccordement,
+      accuséRéception: { format: 'un format', path: 'un path' },
     });
   },
 );
@@ -51,6 +53,7 @@ Quand(
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      accuséRéception: { format: 'un format', path: 'un path' },
     });
   },
 );
@@ -62,6 +65,9 @@ Quand(
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
     this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence du dossier de raccordement'];
+    this.raccordementWorld.accuséReception = {
+      format: exemple[`Le format de l'accusé de réception `],
+    };
 
     const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
@@ -72,6 +78,7 @@ Quand(
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      accuséRéception: { path: 'le path', format: this.raccordementWorld.accuséReception.format },
     });
   },
 );
@@ -89,6 +96,7 @@ Quand(
         },
         dateQualification: new Date(),
         référenceDossierRaccordement: 'une référence',
+        accuséRéception: { format: 'un format', path: 'un path' },
       });
     } catch (e) {
       if (e instanceof GestionnaireNonRéférencéError) {
@@ -129,6 +137,7 @@ Alors(
       type: 'dossier-raccordement',
       référence: this.raccordementWorld.référenceDossierRaccordement,
       dateQualification: this.raccordementWorld.dateQualification.toISOString(),
+      accuséRéception: this.raccordementWorld.accuséReception,
     };
 
     actual.should.be.deep.equal(expected);
@@ -175,6 +184,7 @@ EtantDonné(
       },
       dateQualification: new Date('2022-12-31'),
       référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
+      accuséRéception: { format: 'un format', path: 'un path' },
     });
   },
 );
@@ -198,6 +208,7 @@ Quand(
         },
         dateQualification: new Date('2022-11-24'),
         référenceDossierRaccordement: 'Enieme-DCR',
+        accuséRéception: { format: 'un format', path: 'un path' },
       });
     } catch (error) {
       if (error instanceof PlusieursGestionnairesRéseauPourUnProjetError) {
@@ -222,6 +233,7 @@ function getUseCase() {
     transmettreDemandeComplèteRaccordementUseCaseFactory({
       consulterGestionnaireRéseauQuery,
       transmettreDemandeComplèteRaccordementCommand,
+      uploadFile,
     });
   return transmettreDemandeComplèteRaccordementUseCase;
 }
