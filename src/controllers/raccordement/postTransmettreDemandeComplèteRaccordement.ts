@@ -43,7 +43,7 @@ const transmettreDemandeComplèteRaccordement = transmettreDemandeComplèteRacco
   {
     transmettreDemandeComplèteRaccordementCommand,
     consulterGestionnaireRéseauQuery,
-    uploadFile,
+    enregistrerAccuséRéceptionDemandeComplèteRaccordement: uploadFile,
   },
 );
 
