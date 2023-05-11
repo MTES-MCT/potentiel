@@ -10,5 +10,6 @@ export const listerGestionnaireRéseauQueryHandlerFactory: QueryHandlerFactory<
   ReadonlyArray<GestionnaireRéseauReadModel>,
   ListerGestionnaireRéseauDependencies
 > = ({ list }) => {
-  return async () => list<GestionnaireRéseauReadModel>({ type: 'gestionnaire-réseau' });
+  return async () =>
+    list<GestionnaireRéseauReadModel>({ type: 'gestionnaire-réseau', orderBy: 'raisonSociale' });
 };

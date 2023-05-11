@@ -15,6 +15,7 @@ export type Find = <TReadModel extends ReadModel>(
 
 export type ListOptions<TReadModel extends ReadModel> = {
   type: TReadModel['type'];
+  orderBy?: keyof TReadModel;
 };
 
 export type List = <TReadModel extends ReadModel>(
