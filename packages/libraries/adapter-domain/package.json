@@ -1,0 +1,18 @@
+{
+  "name": "@potentiel/adapter-domain",
+  "version": "0.0.0",
+  "description": "Domain adapters functions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel/monads": "*",
+   "@potentiel/file-storage": "*"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

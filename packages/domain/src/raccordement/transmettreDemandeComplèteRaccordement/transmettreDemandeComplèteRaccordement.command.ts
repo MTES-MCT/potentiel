@@ -17,6 +17,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
   dateQualification?: Date;
   référenceDossierRaccordement: string;
+  accuséRéception: { format: string; contenu: Express.Multer.File };
 };
 
 export type TransmettreDemandeComplèteRaccordementDependencies = {
