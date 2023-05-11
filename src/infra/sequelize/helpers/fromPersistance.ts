@@ -53,8 +53,8 @@ export const fromPersistance = (eventRaw: any): DomainEvent | null => {
   const EventClass = EventClassByType[eventRaw.type];
 
   if (!EventClass) {
-    logger.error(
-      `MEGA FAIL: SequelizeEventStore does not recognize this event type (see sequelizeEventStore.fromPersistance for missing type ${eventRaw.type}`,
+    logger.warning(
+      `SequelizeEventStore does not recognize this event type (see sequelizeEventStore.fromPersistance for missing type ${eventRaw.type}`,
     );
     return null;
   }
