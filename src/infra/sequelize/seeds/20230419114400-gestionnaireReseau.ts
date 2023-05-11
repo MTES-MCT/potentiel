@@ -1,7 +1,8 @@
 import { Unsubscribe } from '@potentiel/core-domain';
 import {
-  ajouterGestionnaireRéseauCommandHandlerFactory,
+  createAjouterGestionnaireRéseauCommand,
   setupEventHandlers,
+  setupMessageHandlers,
 } from '@potentiel/domain';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
@@ -10,11 +11,16 @@ import {
   removeProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
+import { mediator } from 'mediateur';
 
 export default {
   up: async () => {
     let unsubscribe: Promise<Unsubscribe[]> | undefined;
     try {
+      setupMessageHandlers({
+        loadAggregate,
+        publish,
+      });
       unsubscribe = setupEventHandlers({
         create: createProjection,
         find: findProjection,
@@ -23,12 +29,7 @@ export default {
         remove: removeProjection,
       });
 
-      const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
-        publish,
-        loadAggregate,
-      });
-
-      await ajouterGestionnaireRéseau({
+      const ajouterGestionnaireRéseauCommand = createAjouterGestionnaireRéseauCommand({
         codeEIC: '12345',
         raisonSociale: 'Potentiel dev',
         aideSaisieRéférenceDossierRaccordement: {
@@ -36,6 +37,8 @@ export default {
           légende: 'cinq chiffres',
         },
       });
+
+      mediator.send(ajouterGestionnaireRéseauCommand);
     } catch (error) {
       console.error(error);
     } finally {

@@ -1,4 +1,5 @@
-import { Publish, LoadAggregate, CommandHandlerFactory } from '@potentiel/core-domain';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import {
   createGestionnaireRéseauAggregateId,
@@ -7,26 +8,35 @@ import {
 import { GestionnaireRéseauAjoutéEvent } from './gestionnaireRéseauAjouté.event';
 import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
 
-type AjouterGestionnaireRéseauCommand = {
-  codeEIC: string;
-  raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
-};
+const AJOUTER_GESTIONNAIRE_RÉSEAU = Symbol('AJOUTER_GESTIONNAIRE_RÉSEAU');
+
+type AjouterGestionnaireRéseauCommand = Message<
+  typeof AJOUTER_GESTIONNAIRE_RÉSEAU,
+  {
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
+  }
+>;
 
 type AjouterGestionnaireRéseauDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
 };
 
-export const ajouterGestionnaireRéseauCommandHandlerFactory: CommandHandlerFactory<
-  AjouterGestionnaireRéseauCommand,
-  AjouterGestionnaireRéseauDependencies
-> = ({ publish, loadAggregate }) => {
+export const registerAjouterGestionnaireRéseauCommand = ({
+  publish,
+  loadAggregate,
+}: AjouterGestionnaireRéseauDependencies) => {
   const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
     loadAggregate,
   });
 
-  return async ({ aideSaisieRéférenceDossierRaccordement, codeEIC, raisonSociale }) => {
+  const commandHandler: MessageHandler<AjouterGestionnaireRéseauCommand> = async ({
+    aideSaisieRéférenceDossierRaccordement,
+    codeEIC,
+    raisonSociale,
+  }) => {
     const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
     if (isSome(gestionnaireRéseau)) {
@@ -43,4 +53,13 @@ export const ajouterGestionnaireRéseauCommandHandlerFactory: CommandHandlerFact
     };
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
   };
+
+  mediator.register(AJOUTER_GESTIONNAIRE_RÉSEAU, commandHandler);
 };
+
+export const createAjouterGestionnaireRéseauCommand = (
+  commandData: AjouterGestionnaireRéseauCommand['data'],
+): AjouterGestionnaireRéseauCommand => ({
+  type: AJOUTER_GESTIONNAIRE_RÉSEAU,
+  data: { ...commandData },
+});

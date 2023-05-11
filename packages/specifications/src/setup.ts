@@ -1,7 +1,7 @@
 import { BeforeAll, Before, After, setWorldConstructor, BeforeStep } from '@cucumber/cucumber';
 import { Unsubscribe } from '@potentiel/core-domain';
-import { setupEventHandlers } from '@potentiel/domain';
-import { subscribe } from '@potentiel/pg-event-sourcing';
+import { setupEventHandlers, setupMessageHandlers } from '@potentiel/domain';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import {
   createProjection,
@@ -20,7 +20,14 @@ setWorldConstructor(PotentielWorld);
 
 let unsubscribes: Unsubscribe[] | undefined;
 
+<<<<<<< HEAD
 const bucketName = 'potentiel';
+=======
+setupMessageHandlers({
+  loadAggregate,
+  publish,
+});
+>>>>>>> 5d90ea76 (♻️ Refacto commande gestionnaireReseau)
 
 BeforeAll(() => {
   process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';

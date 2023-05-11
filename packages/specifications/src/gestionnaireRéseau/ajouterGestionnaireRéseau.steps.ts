@@ -1,14 +1,14 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
-  ajouterGestionnaireRéseauCommandHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauReadModel,
   listerGestionnaireRéseauQueryHandlerFactory,
+  createAjouterGestionnaireRéseauCommand,
 } from '@potentiel/domain';
-import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
+import { mediator } from 'mediateur';
 
 EtantDonné(
   'un gestionnaire de réseau ayant pour code EIC {string}',
@@ -26,34 +26,24 @@ Quand(
     this.gestionnaireRéseauWorld.format = example['Format'];
     this.gestionnaireRéseauWorld.légende = example['Légende'];
 
-    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
-      publish,
-      loadAggregate,
-    });
-
-    const command = {
+    const command = createAjouterGestionnaireRéseauCommand({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
       raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
         format: this.gestionnaireRéseauWorld.format,
         légende: this.gestionnaireRéseauWorld.légende,
       },
-    };
+    });
 
-    await ajouterGestionnaireRéseau(command);
+    await mediator.send(command);
   },
 );
 
 Quand(
   'un administrateur ajoute un gestionnaire de réseau ayant le même code EIC',
   async function (this: PotentielWorld) {
-    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
-      publish,
-      loadAggregate,
-    });
-
     try {
-      await ajouterGestionnaireRéseau({
+      const command = createAjouterGestionnaireRéseauCommand({
         codeEIC: this.gestionnaireRéseauWorld.codeEIC,
         raisonSociale: 'autre raison sociale',
         aideSaisieRéférenceDossierRaccordement: {
@@ -61,6 +51,8 @@ Quand(
           légende: 'autre légende',
         },
       });
+
+      await mediator.send(command);
     } catch (error) {
       if (error instanceof GestionnaireRéseauDéjàExistantError) {
         this.error = error;

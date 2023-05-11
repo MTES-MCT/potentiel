@@ -1,14 +1,14 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
   consulterGestionnaireRéseauQueryHandlerFactory,
+  createModifierGestionnaireRéseauCommand,
   GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
   listerGestionnaireRéseauQueryHandlerFactory,
-  modifierGestionnaireRéseauFactory,
 } from '@potentiel/domain';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
+import { mediator } from 'mediateur';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
@@ -29,12 +29,7 @@ Quand(
     this.gestionnaireRéseauWorld.légende = example['Légende'];
     this.gestionnaireRéseauWorld.format = example['Format'];
 
-    const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
-      publish,
-      loadAggregate,
-    });
-
-    await modifierGestionnaireRéseau({
+    const modifierGestionnaireRéseauCommand = createModifierGestionnaireRéseauCommand({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
       raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
@@ -42,19 +37,16 @@ Quand(
         légende: this.gestionnaireRéseauWorld.légende,
       },
     });
+
+    await mediator.send(modifierGestionnaireRéseauCommand);
   },
 );
 
 Quand(
   'un administrateur modifie un gestionnaire de réseau inconnu',
   async function (this: PotentielWorld) {
-    const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
-      publish,
-      loadAggregate,
-    });
-
     try {
-      await modifierGestionnaireRéseau({
+      const modifierGestionnaireRéseauCommand = createModifierGestionnaireRéseauCommand({
         codeEIC: 'Code EIC inconnu',
         raisonSociale: 'RTE',
         aideSaisieRéférenceDossierRaccordement: {
@@ -62,6 +54,8 @@ Quand(
           légende: 'des lettres séparées par un tiret',
         },
       });
+
+      await mediator.send(modifierGestionnaireRéseauCommand);
     } catch (error) {
       if (error instanceof GestionnaireRéseauInconnuError) {
         this.error = error;
