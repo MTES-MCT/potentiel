@@ -1,6 +1,19 @@
+<<<<<<< HEAD
 import { Before, setWorldConstructor, BeforeStep, After, BeforeAll } from '@cucumber/cucumber';
 import { setupDomain, UnsetupDomain } from '@potentiel/domain';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+=======
+import {
+  BeforeAll,
+  Before,
+  After,
+  setWorldConstructor,
+  AfterStep,
+} from '@cucumber/cucumber';
+import { Unsubscribe } from '@potentiel/core-domain';
+import { setupEventHandlers } from '@potentiel/domain';
+import { subscribe } from '@potentiel/pg-event-sourcing';
+>>>>>>> d1d1cb43 (✅ Update sleep between steps)
 import { executeQuery } from '@potentiel/pg-helpers';
 import {
   createProjection,
