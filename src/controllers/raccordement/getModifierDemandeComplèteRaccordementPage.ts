@@ -2,8 +2,8 @@ import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
   consulterDossierRaccordementQueryHandlerFactory,
-  consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
+  createConsulterGestionnaireRéseauQuery,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -16,16 +16,13 @@ import { findProjection } from '@potentiel/pg-projections';
 import { ModifierDemandeComplèteRaccordementPage } from '@views';
 import { getFiles } from '@potentiel/file-storage';
 import { join } from 'path';
+import { mediator } from 'mediateur';
 
 const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
   find: findProjection,
 });
 
 const consulterProjet = consulterProjetQueryHandlerFactory({
-  find: findProjection,
-});
-
-const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
   find: findProjection,
 });
 
@@ -113,9 +110,11 @@ v1Router.get(
         identifiantProjet,
       });
 
-      const gestionnaireRéseauActuel = await consulterGestionnaireRéseau({
-        codeEIC: identifiantGestionnaire!.codeEIC,
-      });
+      const gestionnaireRéseauActuel = await mediator.send(
+        createConsulterGestionnaireRéseauQuery({
+          codeEIC: identifiantGestionnaire!.codeEIC,
+        }),
+      );
 
       const filePath = join(
         formatIdentifiantProjet(identifiantProjet),

@@ -4,10 +4,10 @@ import {
   PermissionTransmettreDemandeComplèteRaccordement,
   PlusieursGestionnairesRéseauPourUnProjetError,
   consulterGestionnaireRéseauQueryHandlerFactory,
+  formatIdentifiantProjet,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -31,10 +31,6 @@ const transmettreDemandeComplèteRaccordementCommand =
     loadAggregate,
     publish,
   });
-
-const consulterGestionnaireRéseauQuery = consulterGestionnaireRéseauQueryHandlerFactory({
-  find: findProjection,
-});
 
 const transmettreDemandeComplèteRaccordement = transmettreDemandeComplèteRaccordementUseCaseFactory(
   {

@@ -6,6 +6,7 @@ import { executeQuery } from '@potentiel/pg-helpers';
 import {
   createProjection,
   findProjection,
+  listProjection,
   removeProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
@@ -27,6 +28,7 @@ setupMessageHandlers({
   loadAggregate,
   publish,
   find: findProjection,
+  list: listProjection,
 });
 >>>>>>> 5d90ea76 (♻️ Refacto commande gestionnaireReseau)
 

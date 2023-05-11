@@ -2,9 +2,9 @@ import {
   PermissionTransmettreDemandeComplèteRaccordement,
   RésuméProjetReadModel,
   consulterProjetQueryHandlerFactory,
-  listerGestionnaireRéseauQueryHandlerFactory,
+  createListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
+import { findProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -12,10 +12,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettreDemandeComplèteRaccordementPage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
-
-const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-  list: listProjection,
-});
+import { mediator } from 'mediateur';
 
 const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
 
@@ -74,7 +71,7 @@ v1Router.get(
 
       const { identifiantGestionnaire } = await consulterProjet({ identifiantProjet });
 
-      const gestionnairesRéseau = await listerGestionnaireRéseau({});
+      const gestionnairesRéseau = await mediator.send(createListerGestionnaireRéseauQuery());
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
@@ -117,3 +114,6 @@ v1Router.get(
     },
   ),
 );
+function createListerGestionnaireRéseau(arg0: {}): any {
+  throw new Error('Function not implemented.');
+}

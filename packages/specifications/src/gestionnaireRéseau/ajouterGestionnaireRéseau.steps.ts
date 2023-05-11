@@ -2,11 +2,10 @@ import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@
 import {
   GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauReadModel,
-  listerGestionnaireRéseauQueryHandlerFactory,
   createConsulterGestionnaireRéseauQuery,
   createAjouterGestionnaireRéseauCommand,
+  createListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
-import { listProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 
@@ -64,10 +63,6 @@ Quand(
 Alors(
   'le gestionnaire de réseau devrait être disponible dans le référenciel des gestionnaires de réseau',
   async function (this: PotentielWorld) {
-    const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-      list: listProjection,
-    });
-
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -78,9 +73,7 @@ Alors(
       },
     };
 
-    const actual = await listerGestionnaireRéseau({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-    });
+    const actual = await mediator.send(createListerGestionnaireRéseauQuery());
 
     actual.should.deep.contain(expected);
   },

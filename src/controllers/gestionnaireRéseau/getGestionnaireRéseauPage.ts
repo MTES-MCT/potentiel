@@ -6,13 +6,9 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import {
   PermissionConsulterGestionnaireRéseau,
-  consulterGestionnaireRéseauQueryHandlerFactory,
+  createConsulterGestionnaireRéseauQuery,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
-
-const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauQueryHandlerFactory({
-  find: findProjection,
-});
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({ codeEIC: yup.string().required() }),
@@ -33,7 +29,9 @@ v1Router.get(
         params: { codeEIC },
         query: { errors },
       } = request;
-      const gestionnaireRéseau = await consulterGestionnaireRéseauQueryHandler({ codeEIC });
+      const gestionnaireRéseau = await mediator.send(
+        createConsulterGestionnaireRéseauQuery({ codeEIC }),
+      );
 
       if (!gestionnaireRéseau) {
         return notFoundResponse({ request, response, ressourceTitle: 'Gestionnaire réseau' });

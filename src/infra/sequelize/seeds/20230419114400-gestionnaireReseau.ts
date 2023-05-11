@@ -8,6 +8,7 @@ import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing'
 import {
   createProjection,
   findProjection,
+  listProjection,
   removeProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
@@ -20,7 +21,10 @@ export default {
       setupMessageHandlers({
         loadAggregate,
         publish,
+        find: findProjection,
+        list: listProjection,
       });
+
       unsubscribe = setupEventHandlers({
         create: createProjection,
         find: findProjection,

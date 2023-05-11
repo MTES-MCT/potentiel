@@ -2,9 +2,9 @@ import {
   PermissionModifierGestionnaireRéseauProjet,
   RésuméProjetReadModel,
   consulterProjetQueryHandlerFactory,
-  listerGestionnaireRéseauQueryHandlerFactory,
+  createListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
+import { findProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -12,10 +12,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { ModifierGestionnaireRéseauProjetPage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
-
-const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-  list: listProjection,
-});
+import { mediator } from 'mediateur';
 
 const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
 
@@ -74,7 +71,7 @@ v1Router.get(
 
       const { identifiantGestionnaire } = await consulterProjet({ identifiantProjet });
 
-      const listeGestionnairesRéseau = await listerGestionnaireRéseau({});
+      const listeGestionnairesRéseau = await mediator.send(createListerGestionnaireRéseauQuery());
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {

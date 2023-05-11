@@ -1,12 +1,11 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
   createConsulterGestionnaireRéseauQuery,
+  createListerGestionnaireRéseauQuery,
   createModifierGestionnaireRéseauCommand,
   GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
-  listerGestionnaireRéseauQueryHandlerFactory,
 } from '@potentiel/domain';
-import { listProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 
@@ -67,10 +66,6 @@ Quand(
 Alors(
   `le gestionnaire de réseau devrait être à jour dans le référenciel des gestionnaires de réseau`,
   async function (this: PotentielWorld) {
-    const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-      list: listProjection,
-    });
-
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -81,7 +76,7 @@ Alors(
       },
     };
 
-    const actual = await listerGestionnaireRéseau({});
+    const actual = await mediator.send(createListerGestionnaireRéseauQuery());
     actual.should.deep.contain(expected);
   },
 );

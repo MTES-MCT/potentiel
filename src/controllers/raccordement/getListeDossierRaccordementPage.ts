@@ -7,8 +7,8 @@ import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
   consulterDossierRaccordementQueryHandlerFactory,
-  consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
+  createConsulterGestionnaireRéseauQuery,
   formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
@@ -17,6 +17,7 @@ import { findProjection } from '@potentiel/pg-projections';
 import { ListeDossiersRaccordementPage } from '@views';
 import { join } from 'path';
 import { getFiles } from '@potentiel/file-storage';
+import { mediator } from 'mediateur';
 
 const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
   find: findProjection,
@@ -27,10 +28,6 @@ const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFac
 });
 
 const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
-
-const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-  find: findProjection,
-});
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -134,9 +131,11 @@ v1Router.get(
           identifiantProjet,
         });
 
-        const gestionnaireRéseau = await consulterGestionnaireRéseau({
-          codeEIC: identifiantGestionnaire.codeEIC,
-        });
+        const gestionnaireRéseau = await mediator.send(
+          createConsulterGestionnaireRéseauQuery({
+            codeEIC: identifiantGestionnaire.codeEIC,
+          }),
+        );
 
         return response.send(
           ListeDossiersRaccordementPage({
