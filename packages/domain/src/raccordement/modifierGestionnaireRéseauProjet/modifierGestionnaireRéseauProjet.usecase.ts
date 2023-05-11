@@ -1,28 +1,26 @@
-import { CommandHandler, QueryHandler } from '@potentiel/core-domain';
+import { CommandHandler } from '@potentiel/core-domain';
 import {
-  ConsulterGestionnaireRéseauQuery,
   GestionnaireNonRéférencéError,
-  GestionnaireRéseauReadModel,
+  createConsulterGestionnaireRéseauQuery,
 } from '../../gestionnaireRéseau';
 import { ModifierGestionnaireRéseauProjetCommand } from './modifierGestionnaireRéseauProjet.command';
+import { mediator } from 'mediateur';
 
 type Dependencies = {
   modifierGestionnaireRéseauProjetCommand: CommandHandler<ModifierGestionnaireRéseauProjetCommand>;
-  consulterGestionnaireRéseauQuery: QueryHandler<
-    ConsulterGestionnaireRéseauQuery,
-    GestionnaireRéseauReadModel
-  >;
 };
 
 export const modifierGestionnaireRéseauProjetUseCaseFactory =
-  ({ modifierGestionnaireRéseauProjetCommand, consulterGestionnaireRéseauQuery }: Dependencies) =>
+  ({ modifierGestionnaireRéseauProjetCommand }: Dependencies) =>
   async ({
     identifiantGestionnaireRéseau,
     identifiantProjet,
   }: ModifierGestionnaireRéseauProjetCommand) => {
-    const gestionnaireRéseau = await consulterGestionnaireRéseauQuery({
-      codeEIC: identifiantGestionnaireRéseau,
-    });
+    const gestionnaireRéseau = await mediator.send(
+      createConsulterGestionnaireRéseauQuery({
+        codeEIC: identifiantGestionnaireRéseau,
+      }),
+    );
 
     if (!gestionnaireRéseau) {
       throw new GestionnaireNonRéférencéError();

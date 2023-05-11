@@ -26,6 +26,7 @@ const bucketName = 'potentiel';
 setupMessageHandlers({
   loadAggregate,
   publish,
+  find: findProjection,
 });
 >>>>>>> 5d90ea76 (♻️ Refacto commande gestionnaireReseau)
 

@@ -5,7 +5,6 @@ import {
   GestionnaireNonRéférencéError,
   PlusieursGestionnairesRéseauPourUnProjetError,
   consulterDossierRaccordementQueryHandlerFactory,
-  consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
   formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
@@ -241,10 +240,6 @@ Quand(
 );
 
 function getUseCase() {
-  const consulterGestionnaireRéseauQuery = consulterGestionnaireRéseauQueryHandlerFactory({
-    find: findProjection,
-  });
-
   const transmettreDemandeComplèteRaccordementCommand =
     transmettreDemandeComplèteRaccordementCommandHandlerFactory({
       loadAggregate,
@@ -253,7 +248,6 @@ function getUseCase() {
 
   const transmettreDemandeComplèteRaccordementUseCase =
     transmettreDemandeComplèteRaccordementUseCaseFactory({
-      consulterGestionnaireRéseauQuery,
       transmettreDemandeComplèteRaccordementCommand,
       enregistrerAccuséRéceptionDemandeComplèteRaccordement,
     });

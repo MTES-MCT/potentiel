@@ -4,7 +4,6 @@ import { publish } from '@potentiel/pg-event-sourcing';
 import {
   GestionnaireNonRéférencéError,
   GestionnaireRéseauAjoutéEvent,
-  consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
   createGestionnaireRéseauAggregateId,
   modifierGestionnaireRéseauProjetCommandHandlerFactory,
@@ -74,17 +73,12 @@ Quand(
 );
 
 function getUseCase() {
-  const consulterGestionnaireRéseauQuery = consulterGestionnaireRéseauQueryHandlerFactory({
-    find: findProjection,
-  });
-
   const modifierGestionnaireRéseauProjetCommand =
     modifierGestionnaireRéseauProjetCommandHandlerFactory({
       publish,
     });
 
   return modifierGestionnaireRéseauProjetUseCaseFactory({
-    consulterGestionnaireRéseauQuery,
     modifierGestionnaireRéseauProjetCommand,
   });
 }

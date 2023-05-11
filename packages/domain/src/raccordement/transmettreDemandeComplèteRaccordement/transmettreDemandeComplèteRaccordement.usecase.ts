@@ -1,8 +1,7 @@
-import { CommandHandler, QueryHandler } from '@potentiel/core-domain';
+import { CommandHandler } from '@potentiel/core-domain';
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 import {
-  ConsulterGestionnaireRéseauQuery,
-  GestionnaireRéseauReadModel,
+  createConsulterGestionnaireRéseauQuery,
 } from '../../gestionnaireRéseau';
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordement } from './enregistrerAccuséRéceptionDemandeComplèteRaccordement';
 import { Readable } from 'stream';
@@ -32,16 +31,33 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     consulterGestionnaireRéseauQuery,
     enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   }: Dependencies) =>
+import { mediator } from 'mediateur';
+
+type Dependencies = {
+  transmettreDemandeComplèteRaccordementCommand: CommandHandler<TransmettreDemandeComplèteRaccordementCommand>;
+};
+
+export const transmettreDemandeComplèteRaccordementUseCaseFactory =
+  ({ transmettreDemandeComplèteRaccordementCommand }: Dependencies) =>
   async ({
     dateQualification,
     identifiantGestionnaireRéseau,
     identifiantProjet,
     référenceDossierRaccordement,
+<<<<<<< HEAD
     accuséRéception: { format, content },
   }: TransmettreDemandeComplèteRaccordementUseCaseFactoryParams) => {
     const gestionnaireRéseau = await consulterGestionnaireRéseauQuery({
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
     });
+=======
+  }: TransmettreDemandeComplèteRaccordementCommand) => {
+    const gestionnaireRéseau = await mediator.send(
+      createConsulterGestionnaireRéseauQuery({
+        codeEIC: identifiantGestionnaireRéseau.codeEIC,
+      }),
+    );
+>>>>>>> a5f84974 (♻️ Refacto consulter gestionnaire reseau)
 
     await transmettreDemandeComplèteRaccordementCommand({
       identifiantProjet,

@@ -1,22 +1,27 @@
-import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 import { GestionnaireNonRéférencéError } from './gestionnaireNonRéférencé.error';
+import { Message, MessageHandler, mediator } from 'mediateur';
 
-export type ConsulterGestionnaireRéseauQuery = {
-  codeEIC: string;
-};
+const CONSULTER_GESTIONNAIRE_RÉSEAU = Symbol('CONSULTER_GESTIONNAIRE_RÉSEAU');
+
+export type ConsulterGestionnaireRéseauQuery = Message<
+  typeof CONSULTER_GESTIONNAIRE_RÉSEAU,
+  {
+    codeEIC: string;
+  },
+  GestionnaireRéseauReadModel
+>;
 
 type ConsulterGestionnaireRéseauDependencies = {
   find: Find;
 };
 
-export const consulterGestionnaireRéseauQueryHandlerFactory: QueryHandlerFactory<
-  ConsulterGestionnaireRéseauQuery,
-  GestionnaireRéseauReadModel,
-  ConsulterGestionnaireRéseauDependencies
-> = ({ find }) => {
-  return async ({ codeEIC }) => {
+export const registerConsulterGestionnaireRéseauQuery = ({
+  find,
+}: ConsulterGestionnaireRéseauDependencies) => {
+  const queryHandler: MessageHandler<ConsulterGestionnaireRéseauQuery> = async ({ codeEIC }) => {
     const result = await find<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${codeEIC}`);
 
     if (isNone(result)) {
@@ -25,4 +30,13 @@ export const consulterGestionnaireRéseauQueryHandlerFactory: QueryHandlerFactor
 
     return result;
   };
+
+  mediator.register(CONSULTER_GESTIONNAIRE_RÉSEAU, queryHandler);
 };
+
+export const createConsulterGestionnaireRéseauQuery = (
+  queryData: ConsulterGestionnaireRéseauQuery['data'],
+): ConsulterGestionnaireRéseauQuery => ({
+  type: CONSULTER_GESTIONNAIRE_RÉSEAU,
+  data: { ...queryData },
+});

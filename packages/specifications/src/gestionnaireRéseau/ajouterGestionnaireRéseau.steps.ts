@@ -1,12 +1,12 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
-  consulterGestionnaireRéseauQueryHandlerFactory,
   GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauReadModel,
   listerGestionnaireRéseauQueryHandlerFactory,
+  createConsulterGestionnaireRéseauQuery,
   createAjouterGestionnaireRéseauCommand,
 } from '@potentiel/domain';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
+import { listProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 
@@ -89,10 +89,6 @@ Alors(
 Alors(
   `l'administrateur devrait pouvoir consulter les détails du gestionnaire de réseau`,
   async function (this: PotentielWorld) {
-    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-      find: findProjection,
-    });
-
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -103,9 +99,11 @@ Alors(
       },
     };
 
-    const actual = await consulterGestionnaireRéseau({
+    const query = createConsulterGestionnaireRéseauQuery({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
     });
+
+    const actual = await mediator.send(query);
 
     actual.should.be.deep.equal(expected);
   },
