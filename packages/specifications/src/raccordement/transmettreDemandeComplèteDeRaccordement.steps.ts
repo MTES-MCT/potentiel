@@ -189,7 +189,7 @@ EtantDonné(
       },
       dateQualification: new Date('2022-12-31'),
       référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
-      accuséRéception: { ...this.raccordementWorld.accuséRéception, path: 'unpath.pdf' },
+      accuséRéception: this.raccordementWorld.accuséRéception,
     });
   },
 );
