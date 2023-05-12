@@ -18,7 +18,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
   dateQualification?: Date;
   référenceDossierRaccordement: string;
-  formatFichier: string;
+  accuséRéception: { format: string };
 };
 
 export type TransmettreDemandeComplèteRaccordementDependencies = {
@@ -36,7 +36,7 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
     dateQualification,
     identifiantGestionnaireRéseau,
     référenceDossierRaccordement,
-    formatFichier,
+    accuséRéception,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -70,7 +70,7 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         référenceDossierRaccordement,
-        format: formatFichier,
+        format: accuséRéception.format,
       },
     };
 

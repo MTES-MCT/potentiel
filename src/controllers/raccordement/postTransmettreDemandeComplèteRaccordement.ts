@@ -137,6 +137,7 @@ v1Router.post(
           accuséRéception: {
             format: file.mimetype,
             path: file.path,
+            content: createReadStream(file.path),
           },
         });
 

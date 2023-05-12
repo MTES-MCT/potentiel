@@ -5,7 +5,6 @@ import {
   createRaccordementAggregateId,
 } from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
-import { createReadStream } from 'fs';
 import { Readable } from 'stream';
 
 export class RaccordementWorld {
@@ -62,8 +61,10 @@ export class RaccordementWorld {
     };
     this.#accuséRéception = {
       format: 'application/pdf',
-      path: 'path/to/file',
-      content: createReadStream("contenu d'un fichier"),
+      path: 'path/to/file.pdf',
+      content: Readable.from("Contenu d'un fichier", {
+        encoding: 'utf8',
+      }),
     };
   }
 

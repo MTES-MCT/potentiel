@@ -135,7 +135,7 @@ Alors(
       type: 'dossier-raccordement',
       référence: this.raccordementWorld.référenceDossierRaccordement,
       dateQualification: this.raccordementWorld.dateQualification.toISOString(),
-      accuséRéception: this.raccordementWorld.accuséRéception,
+      accuséRéception: { format: this.raccordementWorld.accuséRéception.format },
     };
 
     actual.should.be.deep.equal(expected);
@@ -174,8 +174,7 @@ Alors(
   'un accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement',
   async function (this: PotentielWorld) {
     const fichier = await download(this.raccordementWorld.accuséRéception.path);
-
-    // fichier.should.be.equal();
+    fichier.should.be.equal(this.raccordementWorld.accuséRéception.content);
   },
 );
 
@@ -214,7 +213,7 @@ Quand(
         },
         dateQualification: new Date('2022-11-24'),
         référenceDossierRaccordement: 'Enieme-DCR',
-        accuséRéception: { format: 'un format', path: 'un path' },
+        accuséRéception: this.raccordementWorld.accuséRéception,
       });
     } catch (error) {
       if (error instanceof PlusieursGestionnairesRéseauPourUnProjetError) {

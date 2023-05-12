@@ -5,6 +5,7 @@ import {
   GestionnaireRéseauReadModel,
 } from '../../gestionnaireRéseau';
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordement } from './enregistrerAccuséRéceptionDemandeComplèteRaccordement';
+import { Readable } from 'stream';
 
 type Dependencies = {
   transmettreDemandeComplèteRaccordementCommand: CommandHandler<TransmettreDemandeComplèteRaccordementCommand>;
@@ -22,6 +23,7 @@ type TransmettreDemandeComplèteRaccordementUseCaseFactoryParams = Omit<
   accuséRéception: {
     format: Express.Multer.File['mimetype'];
     path: Express.Multer.File['path'];
+    content: Readable;
   };
 };
 
@@ -36,19 +38,19 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     identifiantGestionnaireRéseau,
     identifiantProjet,
     référenceDossierRaccordement,
-    accuséRéception: { format, path },
+    accuséRéception: { format, path, content },
   }: TransmettreDemandeComplèteRaccordementUseCaseFactoryParams) => {
     const gestionnaireRéseau = await consulterGestionnaireRéseauQuery({
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
     });
 
-    await enregistrerAccuséRéceptionDemandeComplèteRaccordement(path);
+    await enregistrerAccuséRéceptionDemandeComplèteRaccordement(path, content);
 
     await transmettreDemandeComplèteRaccordementCommand({
       identifiantProjet,
       identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
       dateQualification,
       référenceDossierRaccordement,
-      formatFichier: format,
+      accuséRéception: { format },
     });
   };
