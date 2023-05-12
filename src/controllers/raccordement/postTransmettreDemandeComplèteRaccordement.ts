@@ -4,7 +4,6 @@ import {
   PermissionTransmettreDemandeComplèteRaccordement,
   PlusieursGestionnairesRéseauPourUnProjetError,
   consulterGestionnaireRéseauQueryHandlerFactory,
-  formatIdentifiantProjet,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
@@ -26,8 +25,6 @@ import { uploadFile } from '@potentiel/adapter-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { upload } from '@potentiel/file-storage';
-import { extname, join } from 'path';
 
 const transmettreDemandeComplèteRaccordementCommand =
   transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -140,14 +137,6 @@ v1Router.post(
             content: createReadStream(file.path),
           },
         });
-
-        const filePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          référenceDossierRaccordement,
-          `demande-complete-raccordement${extname(file.originalname)}`,
-        );
-        const content = createReadStream(file.path);
-        await upload(filePath, content);
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
