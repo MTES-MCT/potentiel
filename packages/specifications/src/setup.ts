@@ -33,6 +33,22 @@ BeforeAll(() => {
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
   await sleep(100);
+});
+
+Before<PotentielWorld>(async function (this: PotentielWorld) {
+  await executeQuery(`DELETE FROM "EVENT_STREAM"`);
+  await executeQuery(`DELETE FROM "PROJECTION"`);
+
+  unsubscribes = await setupEventHandlers({
+    create: createProjection,
+    find: findProjection,
+    subscribe,
+    update: updateProjection,
+    remove: removeProjection,
+  });
+
+  await this.gestionnaireRéseauWorld.createEnedis();
+
   const isBucketExists = async () => {
     try {
       await getClient()
@@ -59,21 +75,6 @@ BeforeStep(async () => {
       Bucket: bucketName,
     })
     .promise();
-});
-
-Before<PotentielWorld>(async function (this: PotentielWorld) {
-  await executeQuery(`DELETE FROM "EVENT_STREAM"`);
-  await executeQuery(`DELETE FROM "PROJECTION"`);
-
-  unsubscribes = await setupEventHandlers({
-    create: createProjection,
-    find: findProjection,
-    subscribe,
-    update: updateProjection,
-    remove: removeProjection,
-  });
-
-  await this.gestionnaireRéseauWorld.createEnedis();
 });
 
 After(async () => {

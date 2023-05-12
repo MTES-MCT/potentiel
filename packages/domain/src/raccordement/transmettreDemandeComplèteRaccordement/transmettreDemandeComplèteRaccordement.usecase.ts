@@ -47,8 +47,6 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     console.log('--------- PATH', path);
     console.log('--------- CONTENT', content);
 
-    await enregistrerAccuséRéceptionDemandeComplèteRaccordement(path, content);
-
     await transmettreDemandeComplèteRaccordementCommand({
       identifiantProjet,
       identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
@@ -56,4 +54,6 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
       référenceDossierRaccordement,
       accuséRéception: { format },
     });
+
+    await enregistrerAccuséRéceptionDemandeComplèteRaccordement(path, content);
   };
