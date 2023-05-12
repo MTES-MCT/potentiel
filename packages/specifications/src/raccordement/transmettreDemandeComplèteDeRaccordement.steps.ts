@@ -178,7 +178,7 @@ Alors(
 );
 
 Alors(
-  'un accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement',
+  `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement`,
   async function (this: PotentielWorld) {
     const fichier = await download(this.raccordementWorld.accuséRéception.path);
     fichier.should.be.ok;

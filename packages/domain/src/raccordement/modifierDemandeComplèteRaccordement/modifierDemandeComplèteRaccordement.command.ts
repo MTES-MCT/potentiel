@@ -7,25 +7,41 @@ import {
 } from '../raccordement.aggregate';
 import { DemandeComplèteRaccordementModifiéeEvent } from './DemandeComplèteRaccordementModifiée.event';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { Readable } from 'stream';
+import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from './remplacerAccuséRéceptionDemandeComplèteRaccordement';
 
 type ModifierDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
   dateQualification: Date;
   referenceActuelle: string;
   nouvelleReference: string;
+  fichierASupprimerPath: string;
+  nouveauFichier: {
+    format: string;
+    path: string;
+    content: Readable;
+  };
 };
 
 type ModifierDemandeComplèteRaccordementDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
+  remplacerAccuséRéceptionDemandeComplèteRaccordement: RemplacerAccuséRéceptionDemandeComplèteRaccordement;
 };
 
 export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
   ModifierDemandeComplèteRaccordementCommand,
   ModifierDemandeComplèteRaccordementDependencies
 > =
-  ({ publish, loadAggregate }) =>
-  async ({ identifiantProjet, dateQualification, referenceActuelle, nouvelleReference }) => {
+  ({ publish, loadAggregate, remplacerAccuséRéceptionDemandeComplèteRaccordement }) =>
+  async ({
+    identifiantProjet,
+    dateQualification,
+    referenceActuelle,
+    nouvelleReference,
+    fichierASupprimerPath,
+    nouveauFichier,
+  }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
     });
@@ -47,4 +63,9 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
     };
 
     await publish(createRaccordementAggregateId(identifiantProjet), event);
+
+    await remplacerAccuséRéceptionDemandeComplèteRaccordement({
+      fichierASupprimerPath,
+      nouveauFichier,
+    });
   };

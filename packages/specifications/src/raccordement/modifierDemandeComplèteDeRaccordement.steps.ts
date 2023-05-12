@@ -9,6 +9,7 @@ import {
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
+import { replaceFile } from '@potentiel/adapter-domain';
 
 Quand(
   `le porteur modifie la date de qualification au {string} et une nouvelle référence {string}`,
@@ -17,6 +18,7 @@ Quand(
       modifierDemandeComplèteRaccordementCommandHandlerFactory({
         loadAggregate,
         publish,
+        remplacerAccuséRéceptionDemandeComplèteRaccordement: replaceFile,
       });
 
     await modifierDemandeComplèteRaccordement({
@@ -24,6 +26,8 @@ Quand(
       dateQualification: new Date(dateQualification),
       referenceActuelle: this.raccordementWorld.référenceDossierRaccordement,
       nouvelleReference,
+      fichierASupprimerPath: this.raccordementWorld.accuséRéception.path,
+      nouveauFichier: this.raccordementWorld.accuséRéception,
     });
   },
 );
@@ -84,6 +88,7 @@ Quand(
         modifierDemandeComplèteRaccordementCommandHandlerFactory({
           loadAggregate,
           publish,
+          remplacerAccuséRéceptionDemandeComplèteRaccordement: replaceFile,
         });
 
       await modifierDemandeComplèteRaccordement({
@@ -91,6 +96,8 @@ Quand(
         dateQualification: new Date('2023-04-26'),
         referenceActuelle: 'dossier-inconnu',
         nouvelleReference: 'nouvelle-reference',
+        fichierASupprimerPath: this.raccordementWorld.accuséRéception.path,
+        nouveauFichier: this.raccordementWorld.accuséRéception,
       });
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {

@@ -3,6 +3,7 @@ import {
   IdentifiantProjet,
   formatIdentifiantProjet,
   createRaccordementAggregateId,
+  AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
 } from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { Readable } from 'stream';
@@ -69,16 +70,32 @@ export class RaccordementWorld {
   }
 
   async createDemandeComplèteRaccordement(codeEIC: string) {
+    const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
+    const identifiantProjet = formatIdentifiantProjet(this.identifiantProjet);
     const event: DemandeComplèteRaccordementTransmiseEvent = {
       type: 'DemandeComplèteDeRaccordementTransmise',
       payload: {
-        identifiantProjet: formatIdentifiantProjet(this.identifiantProjet),
+        identifiantProjet,
         identifiantGestionnaireRéseau: codeEIC,
         dateQualification: new Date().toISOString(),
-        référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
+        référenceDossierRaccordement,
       },
     };
-    await publish(createRaccordementAggregateId(this.identifiantProjet), event);
-    this.#référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
+    await publish(createRaccordementAggregateId(this.#identifiantProjet), event);
+    this.#référenceDossierRaccordement = référenceDossierRaccordement;
+
+    const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
+      type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+      payload: {
+        identifiantProjet,
+        référenceDossierRaccordement,
+        format: this.#accuséRéception.format,
+      },
+    };
+
+    await publish(
+      createRaccordementAggregateId(this.#identifiantProjet),
+      accuséRéceptionTransmisEvent,
+    );
   }
 }

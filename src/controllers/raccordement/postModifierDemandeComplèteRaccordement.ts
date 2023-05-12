@@ -1,3 +1,6 @@
+import { extname, join } from 'path';
+import { extension } from 'mime-types';
+import { createReadStream } from 'fs';
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
@@ -20,14 +23,14 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { extname, join } from 'path';
-import { createReadStream } from 'fs';
-import { deleteFile, getFiles, renameFile, upload } from '@potentiel/file-storage';
+import { getFiles, renameFile } from '@potentiel/file-storage';
+import { replaceFile } from '@potentiel/adapter-domain';
 
 const modifierDemandeComplèteRaccordement =
   modifierDemandeComplèteRaccordementCommandHandlerFactory({
     publish,
     loadAggregate,
+    remplacerAccuséRéceptionDemandeComplèteRaccordement: replaceFile,
   });
 
 const schema = yup.object({
@@ -118,27 +121,21 @@ v1Router.post(
           dateQualification,
           nouvelleReference,
           referenceActuelle: reference,
+          fichierASupprimerPath: join(
+            formatIdentifiantProjet(identifiantProjet),
+            reference,
+            `demande-complete-raccordement`,
+          ),
+          nouveauFichier: {
+            format: file.mimetype,
+            path: join(
+              formatIdentifiantProjet(identifiantProjet),
+              nouvelleReference,
+              `demande-complete-raccordement${extension(file.mimetype)}`,
+            ),
+            content: createReadStream(file.path),
+          },
         });
-
-        const fileToDeletePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          reference,
-          `demande-complete-raccordement`,
-        );
-
-        const files = await getFiles(fileToDeletePath);
-
-        if (files.length > 0) {
-          await deleteFile(files[0]);
-        }
-
-        const newFilePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          nouvelleReference,
-          `demande-complete-raccordement${extname(file.originalname)}`,
-        );
-        const content = createReadStream(file.path);
-        await upload(newFilePath, content);
 
         const fichierPTF = await getFiles(
           join(
