@@ -44,9 +44,6 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
     });
 
-    console.log('--------- PATH', path);
-    console.log('--------- CONTENT', content);
-
     await transmettreDemandeComplèteRaccordementCommand({
       identifiantProjet,
       identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },

@@ -15,6 +15,7 @@ import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
 import { uploadFile } from '@potentiel/adapter-domain';
 import { download } from '@potentiel/file-storage';
+import { Readable } from 'stream';
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
@@ -54,7 +55,13 @@ Quand(
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-      accuséRéception: this.raccordementWorld.accuséRéception,
+      accuséRéception: {
+        format: 'application/pdf',
+        path: 'path/to/file2.pdf',
+        content: Readable.from("Contenu d'un autre fichier", {
+          encoding: 'utf8',
+        }),
+      },
     });
   },
 );
