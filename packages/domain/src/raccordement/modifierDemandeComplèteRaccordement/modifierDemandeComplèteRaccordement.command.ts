@@ -8,7 +8,9 @@ import {
 import { DemandeComplèteRaccordementModifiéeEvent } from './DemandeComplèteRaccordementModifiée.event';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { Readable } from 'stream';
+
 import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from './remplacerAccuséRéceptionDemandeComplèteRaccordement';
+import { RenommerPropositionTechniqueEtFinancière } from './renommerPropositionTechniqueEtFinancière';
 
 type ModifierDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
@@ -25,13 +27,19 @@ type ModifierDemandeComplèteRaccordementDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
   remplacerAccuséRéceptionDemandeComplèteRaccordement: RemplacerAccuséRéceptionDemandeComplèteRaccordement;
+  renommerPropositionTechniqueEtFinancière: RenommerPropositionTechniqueEtFinancière;
 };
 
 export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
   ModifierDemandeComplèteRaccordementCommand,
   ModifierDemandeComplèteRaccordementDependencies
 > =
-  ({ publish, loadAggregate, remplacerAccuséRéceptionDemandeComplèteRaccordement }) =>
+  ({
+    publish,
+    loadAggregate,
+    remplacerAccuséRéceptionDemandeComplèteRaccordement,
+    renommerPropositionTechniqueEtFinancière,
+  }) =>
   async ({
     identifiantProjet,
     dateQualification,
@@ -72,6 +80,5 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
       identifiantProjet,
       ancienneRéférence,
       nouvelleRéférence,
-      ancienFichier: { format },
     });
   };

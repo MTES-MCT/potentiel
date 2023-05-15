@@ -1,9 +1,7 @@
-import { extname, join } from 'path';
 import { createReadStream } from 'fs';
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
-  formatIdentifiantProjet,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -22,14 +20,17 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { getFiles, renameFile } from '@potentiel/file-storage';
-import { remplacerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
+import {
+  remplacerAccuséRéceptionDemandeComplèteRaccordement,
+  renommerPropositionTechniqueEtFinancière,
+} from '@potentiel/adapter-domain';
 
 const modifierDemandeComplèteRaccordement =
   modifierDemandeComplèteRaccordementCommandHandlerFactory({
     publish,
     loadAggregate,
     remplacerAccuséRéceptionDemandeComplèteRaccordement,
+    renommerPropositionTechniqueEtFinancière,
   });
 
 const schema = yup.object({
@@ -131,25 +132,6 @@ v1Router.post(
             content: createReadStream(file.path),
           },
         });
-
-        const fichierPTF = await getFiles(
-          join(
-            formatIdentifiantProjet(identifiantProjet),
-            reference,
-            `proposition-technique-et-financiere`,
-          ),
-        );
-
-        if (fichierPTF.length > 0) {
-          await renameFile(
-            fichierPTF[0],
-            join(
-              formatIdentifiantProjet(identifiantProjet),
-              nouvelleReference,
-              `proposition-technique-et-financiere${extname(fichierPTF[0])}`,
-            ),
-          );
-        }
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

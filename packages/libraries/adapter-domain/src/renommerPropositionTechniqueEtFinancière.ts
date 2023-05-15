@@ -3,16 +3,10 @@ import {
   formatIdentifiantProjet,
 } from '@potentiel/domain';
 import { getFiles, renameFile } from '@potentiel/file-storage';
-import { join } from 'path';
-import { extension } from 'mime-types';
+import { extname, join } from 'path';
 
 export const renommerPropositionTechniqueEtFinancière: RenommerPropositionTechniqueEtFinancière =
-  async ({
-    ancienneRéférence,
-    nouvelleRéférence,
-    identifiantProjet,
-    ancienFichier: { format },
-  }) => {
+  async ({ ancienneRéférence, nouvelleRéférence, identifiantProjet }) => {
     const fichierPTF = await getFiles(
       join(
         formatIdentifiantProjet(identifiantProjet),
@@ -27,7 +21,7 @@ export const renommerPropositionTechniqueEtFinancière: RenommerPropositionTechn
         join(
           formatIdentifiantProjet(identifiantProjet),
           nouvelleRéférence,
-          `proposition-technique-et-financiere.${extension(format)}`,
+          `proposition-technique-et-financiere${extname(fichierPTF[0])}`,
         ),
       );
     }

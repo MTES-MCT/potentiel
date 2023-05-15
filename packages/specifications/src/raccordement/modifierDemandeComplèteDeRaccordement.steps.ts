@@ -10,7 +10,10 @@ import {
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
-import { remplacerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
+import {
+  remplacerAccuséRéceptionDemandeComplèteRaccordement,
+  renommerPropositionTechniqueEtFinancière,
+} from '@potentiel/adapter-domain';
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';
@@ -23,6 +26,7 @@ Quand(
         loadAggregate,
         publish,
         remplacerAccuséRéceptionDemandeComplèteRaccordement,
+        renommerPropositionTechniqueEtFinancière,
       });
 
     await modifierDemandeComplèteRaccordement({
@@ -105,6 +109,7 @@ Quand(
           loadAggregate,
           publish,
           remplacerAccuséRéceptionDemandeComplèteRaccordement,
+          renommerPropositionTechniqueEtFinancière,
         });
 
       await modifierDemandeComplèteRaccordement({
