@@ -67,4 +67,11 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
       nouvelleRéférence,
       nouveauFichier,
     });
+
+    await renommerPropositionTechniqueEtFinancière({
+      identifiantProjet,
+      ancienneRéférence,
+      nouvelleRéférence,
+      ancienFichier: { format },
+    });
   };
