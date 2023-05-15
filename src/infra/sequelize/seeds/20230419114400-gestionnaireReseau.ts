@@ -2,7 +2,7 @@ import { Unsubscribe } from '@potentiel/core-domain';
 import {
   newAjouterGestionnaireRéseauCommand,
   setupEventHandlers,
-  setupMessageHandlers,
+  setupDomain,
 } from '@potentiel/domain';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
@@ -18,7 +18,7 @@ export default {
   up: async () => {
     let unsubscribe: Promise<Unsubscribe[]> | undefined;
     try {
-      setupMessageHandlers({
+      setupDomain({
         commandPorts: {
           loadAggregate,
           publish,

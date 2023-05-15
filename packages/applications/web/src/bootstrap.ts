@@ -1,11 +1,11 @@
-import { setupMessageHandlers } from '@potentiel/domain';
+import { setupDomain } from '@potentiel/domain';
 import { bootstrapEventConsumers } from './bootstrapEventConsumers';
 import { bootstrapEventStreamer } from './bootstrapEventStreamer';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
 
 export const bootstrap = async () => {
-  setupMessageHandlers({
+  setupDomain({
     commandPorts: {
       loadAggregate,
       publish,

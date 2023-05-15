@@ -11,6 +11,7 @@ import {
   registerListerDossiersRaccordementQuery,
   registerModifierDemandeComplèteRaccordementCommand,
   registerModifierGestionnaireRéseauProjetCommand,
+  registerModifierGestionnaireRéseauProjetUseCase,
   registerModifierPropositionTechniqueEtFinancièreCommand,
   registerTransmettreDateMiseEnServiceCommand,
   registerTransmettreDemandeComplèteRaccordementCommand,
@@ -28,12 +29,13 @@ type Ports = {
   };
 };
 
-export const setupMessageHandlers = async ({
+export const setupDomain = async ({
   commandPorts: eventStreamPort,
   queryPorts: projectionPort,
 }: Ports) => {
   registerCommands(eventStreamPort);
   registerQueries(projectionPort);
+  registerUseCases();
 };
 
 const registerCommands = (ports: Ports['commandPorts']) => {
@@ -63,4 +65,9 @@ const registerQueries = (ports: Ports['queryPorts']) => {
   // Dossier de raccordement
   registerConsulterDossierRaccordementQuery(ports);
   registerListerDossiersRaccordementQuery(ports);
+};
+
+const registerUseCases = () => {
+  //Dossier de raccordement
+  registerModifierGestionnaireRéseauProjetUseCase();
 };

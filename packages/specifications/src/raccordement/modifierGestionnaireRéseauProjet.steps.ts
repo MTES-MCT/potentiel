@@ -6,7 +6,7 @@ import {
   GestionnaireRéseauAjoutéEvent,
   createGestionnaireRéseauAggregateId,
   newConsulterProjetQuery,
-  modifierGestionnaireRéseauProjetUseCase,
+  newModifierGestionnaireRéseauProjetUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
@@ -25,12 +25,15 @@ Quand(
         },
       },
     };
+
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
 
-    await modifierGestionnaireRéseauProjetUseCase({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-      identifiantGestionnaireRéseau: codeEIC,
-    });
+    await mediator.send(
+      newModifierGestionnaireRéseauProjetUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantGestionnaireRéseau: codeEIC,
+      }),
+    );
   },
 );
 
@@ -53,10 +56,12 @@ Quand(
   `le porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé`,
   async function (this: PotentielWorld) {
     try {
-      await modifierGestionnaireRéseauProjetUseCase({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        identifiantGestionnaireRéseau: 'GESTIONNAIRE-INCONNU',
-      });
+      await mediator.send(
+        newModifierGestionnaireRéseauProjetUseCase({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          identifiantGestionnaireRéseau: 'GESTIONNAIRE-INCONNU',
+        }),
+      );
     } catch (error) {
       if (error instanceof GestionnaireNonRéférencéError) {
         this.error = error;
