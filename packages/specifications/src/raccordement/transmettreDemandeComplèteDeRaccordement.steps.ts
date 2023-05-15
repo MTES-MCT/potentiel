@@ -185,7 +185,7 @@ Alors(
     const path = join(
       formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
       this.raccordementWorld.référenceDossierRaccordement,
-      `demande-complete-raccordement${extension(this.raccordementWorld.accuséRéception.format)}`,
+      `demande-complete-raccordement.${extension(this.raccordementWorld.accuséRéception.format)}`,
     );
     const fichier = await download(path);
     fichier.should.be.ok;

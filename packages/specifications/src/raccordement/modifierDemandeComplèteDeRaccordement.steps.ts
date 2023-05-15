@@ -3,6 +3,7 @@ import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
+  formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
 } from '@potentiel/domain';
@@ -10,6 +11,9 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
 import { remplacerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
+import { download } from '@potentiel/file-storage';
+import { extension } from 'mime-types';
+import { join } from 'path';
 
 Quand(
   `le porteur modifie la date de qualification au {string} et une nouvelle référence {string}`,
@@ -76,6 +80,20 @@ Alors(
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
     actual.références.should.contain(nouvelleReference);
+  },
+);
+
+Alors(
+  `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement pour la nouvelle référence {string}`,
+  async function (this: PotentielWorld, nouvelleRéférence: string) {
+    const path = join(
+      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+      nouvelleRéférence,
+      `demande-complete-raccordement.${extension(this.raccordementWorld.accuséRéception.format)}`,
+    );
+    console.log('********************', path);
+    const fichier = await download(path);
+    fichier.should.be.ok;
   },
 );
 

@@ -11,7 +11,7 @@ export const enregistrerAccuséRéceptionDemandeComplèteRaccordement: Enregistr
     const path = join(
       formatIdentifiantProjet(identifiantProjet),
       référenceDossierRaccordement,
-      `demande-complete-raccordement${extension(format)}`,
+      `demande-complete-raccordement.${extension(format)}`,
     );
     await upload(path, content);
   };
