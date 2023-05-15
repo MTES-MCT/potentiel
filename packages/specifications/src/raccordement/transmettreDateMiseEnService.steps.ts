@@ -2,12 +2,12 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
-  consulterDossierRaccordementQueryHandlerFactory,
+  createConsulterDossierRaccordementQuery,
   transmettreDateMiseEnServiceCommandHandlerFactory,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
+import { mediator } from 'mediateur';
 
 Quand(
   `un administrateur transmet la date de mise en service {string} pour ce dossier de raccordement`,
@@ -28,14 +28,12 @@ Quand(
 Alors(
   `la date de mise en service {string} devrait être consultable dans le dossier de raccordement`,
   async function (this: PotentielWorld, dateMiseEnService: string) {
-    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-      find: findProjection,
-    });
-
-    const actual = await consulterDossierRaccordement({
-      référence: this.raccordementWorld.référenceDossierRaccordement,
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
+    const actual = await mediator.send(
+      createConsulterDossierRaccordementQuery({
+        référence: this.raccordementWorld.référenceDossierRaccordement,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
     expect(actual.dateMiseEnService).to.equal(new Date(dateMiseEnService).toISOString());
   },

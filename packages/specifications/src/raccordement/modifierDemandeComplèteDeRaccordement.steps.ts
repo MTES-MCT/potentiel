@@ -4,6 +4,7 @@ import {
   DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   formatIdentifiantProjet,
+  createConsulterDossierRaccordementQuery,
   listerDossiersRaccordementQueryHandlerFactory,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
   modifierDemandeComplèteRaccordementUseCaseFactory,
@@ -18,6 +19,7 @@ import {
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';
+import { mediator } from 'mediateur';
 
 Quand(
   `le porteur modifie une demande complète de raccordement avec une date de qualification au {string}, une nouvelle référence {string} et un nouveau fichier`,
@@ -37,14 +39,12 @@ Quand(
 Alors(
   `la date de qualification {string}, la référence {string} et le format du fichier devraient être consultables dans un nouveau dossier de raccordement`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
-    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-      find: findProjection,
-    });
-
-    const actual = await consulterDossierRaccordement({
-      référence: nouvelleReference,
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
+    const actual = await mediator.send(
+      createConsulterDossierRaccordementQuery({
+        référence: nouvelleReference,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
     expect(actual.dateQualification).to.equal(new Date(dateQualification).toISOString());
   },
@@ -53,15 +53,13 @@ Alors(
 Alors(
   `l'ancien dossier de raccordement ne devrait plus être consultable`,
   async function (this: PotentielWorld) {
-    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-      find: findProjection,
-    });
-
     try {
-      await consulterDossierRaccordement({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        référence: this.raccordementWorld.référenceDossierRaccordement,
-      });
+      await mediator.send(
+        createConsulterDossierRaccordementQuery({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          référence: this.raccordementWorld.référenceDossierRaccordement,
+        }),
+      );
     } catch (error) {
       expect(error).to.be.instanceOf(DossierRaccordementNonRéférencéError);
     }

@@ -5,14 +5,15 @@ import {
   DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   formatIdentifiantProjet,
+  createConsulterDossierRaccordementQuery,
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
 import { join } from 'path';
 import { extension } from 'mime-types';
 import { download } from '@potentiel/file-storage';
 import { enregistrerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
+import { mediator } from 'mediateur';
 
 Quand(
   `le porteur de projet transmet une proposition technique et financière pour ce dossier de raccordement avec la date de signature au {string}`,
@@ -37,6 +38,7 @@ Quand(
 Alors(
   `une proposition technique et financière devrait être consultable dans le dossier de raccordement avec une date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
+<<<<<<< HEAD
     const dateSignatureISOString = new Date(dateSignature).toISOString();
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
@@ -46,6 +48,14 @@ Alors(
       référence: this.raccordementWorld.référenceDossierRaccordement,
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
+=======
+    const actual = await mediator.send(
+      createConsulterDossierRaccordementQuery({
+        référence: this.raccordementWorld.référenceDossierRaccordement,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
+>>>>>>> 292cdf5c (♻️ Refacto consulter raccordement)
 
     const expected = {
       dateSignature: dateSignatureISOString,

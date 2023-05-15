@@ -11,6 +11,7 @@ import {
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
   createConsulterProjetQuery,
+  createConsulterDossierRaccordementQuery,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
@@ -132,14 +133,12 @@ Alors(
 Alors(
   'le projet devrait avoir un dossier de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
-    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-      find: findProjection,
-    });
-
-    const actual = await consulterDossierRaccordement({
-      référence: this.raccordementWorld.référenceDossierRaccordement,
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
+    const actual = await mediator.send(
+      createConsulterDossierRaccordementQuery({
+        référence: this.raccordementWorld.référenceDossierRaccordement,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
     const expected: DossierRaccordementReadModel = {
       type: 'dossier-raccordement',

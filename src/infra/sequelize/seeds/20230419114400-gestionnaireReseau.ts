@@ -19,10 +19,14 @@ export default {
     let unsubscribe: Promise<Unsubscribe[]> | undefined;
     try {
       setupMessageHandlers({
-        loadAggregate,
-        publish,
-        find: findProjection,
-        list: listProjection,
+        commandPorts: {
+          loadAggregate,
+          publish,
+        },
+        queryPorts: {
+          find: findProjection,
+          list: listProjection,
+        },
       });
 
       unsubscribe = setupEventHandlers({

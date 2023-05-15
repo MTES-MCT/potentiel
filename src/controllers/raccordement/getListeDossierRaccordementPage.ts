@@ -6,11 +6,11 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
-  consulterDossierRaccordementQueryHandlerFactory,
-  registerConsulterProjetQuery,
   createConsulterGestionnaireRéseauQuery,
   formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
+  createConsulterDossierRaccordementQuery,
+  createConsulterProjetQuery,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { findProjection } from '@potentiel/pg-projections';
@@ -22,12 +22,6 @@ import { mediator } from 'mediateur';
 const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
   find: findProjection,
 });
-
-const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
-
-const consulterProjet = registerConsulterProjetQuery({ find: findProjection });
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -117,7 +111,9 @@ v1Router.get(
             );
             const PTFFiles = await getFiles(filePTFPath);
 
-            const dossier = await consulterDossierRaccordement({ identifiantProjet, référence });
+            const dossier = await mediator.send(
+              createConsulterDossierRaccordementQuery({ identifiantProjet, référence }),
+            );
 
             return {
               ...dossier,
@@ -127,9 +123,11 @@ v1Router.get(
           }),
         );
 
-        const { identifiantGestionnaire = { codeEIC: '' } } = await consulterProjet({
-          identifiantProjet,
-        });
+        const { identifiantGestionnaire = { codeEIC: '' } } = await mediator.send(
+          createConsulterProjetQuery({
+            identifiantProjet,
+          }),
+        );
 
         const gestionnaireRéseau = await mediator.send(
           createConsulterGestionnaireRéseauQuery({

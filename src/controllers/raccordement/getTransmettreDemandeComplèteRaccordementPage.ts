@@ -1,10 +1,9 @@
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
   RésuméProjetReadModel,
-  registerConsulterProjetQuery,
+  createConsulterProjetQuery,
   createListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -13,8 +12,6 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettreDemandeComplèteRaccordementPage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
-
-const consulterProjet = registerConsulterProjetQuery({ find: findProjection });
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -69,7 +66,9 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
 
-      const { identifiantGestionnaire } = await consulterProjet({ identifiantProjet });
+      const { identifiantGestionnaire } = await mediator.send(
+        createConsulterProjetQuery({ identifiantProjet }),
+      );
 
       const gestionnairesRéseau = await mediator.send(createListerGestionnaireRéseauQuery());
 

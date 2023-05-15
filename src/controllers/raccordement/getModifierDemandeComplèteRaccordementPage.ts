@@ -1,9 +1,9 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
-  consulterDossierRaccordementQueryHandlerFactory,
-  registerConsulterProjetQuery,
+  createConsulterDossierRaccordementQuery,
   createConsulterGestionnaireRéseauQuery,
+  createConsulterProjetQuery,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -12,19 +12,10 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { findProjection } from '@potentiel/pg-projections';
 import { ModifierDemandeComplèteRaccordementPage } from '@views';
 import { getFiles } from '@potentiel/file-storage';
 import { join } from 'path';
 import { mediator } from 'mediateur';
-
-const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
-
-const consulterProjet = registerConsulterProjetQuery({
-  find: findProjection,
-});
 
 const schema = yup.object({
   params: yup.object({
@@ -75,15 +66,17 @@ v1Router.get(
         });
       }
 
-      const dossierRaccordement = await consulterDossierRaccordement({
-        identifiantProjet: {
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        },
-        référence: reference,
-      });
+      const dossierRaccordement = await mediator.send(
+        createConsulterDossierRaccordementQuery({
+          identifiantProjet: {
+            appelOffre: projet.appelOffreId,
+            période: projet.periodeId,
+            famille: projet.familleId,
+            numéroCRE: projet.numeroCRE,
+          },
+          référence: reference,
+        }),
+      );
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
@@ -106,9 +99,11 @@ v1Router.get(
         famille: projet.familleId,
       };
 
-      const { identifiantGestionnaire } = await consulterProjet({
-        identifiantProjet,
-      });
+      const { identifiantGestionnaire } = await mediator.send(
+        createConsulterProjetQuery({
+          identifiantProjet,
+        }),
+      );
 
       const gestionnaireRéseauActuel = await mediator.send(
         createConsulterGestionnaireRéseauQuery({

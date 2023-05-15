@@ -4,15 +4,16 @@ import {
   DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   formatIdentifiantProjet,
+  createConsulterDossierRaccordementQuery,
   modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';
 import { enregistrerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
+import { mediator } from 'mediateur';
 
 Quand(
   `le porteur modifie la proposition technique et financière avec une date de signature au {string} et un nouveau fichier`,
@@ -36,14 +37,12 @@ Quand(
 Alors(
   `la date de signature {string} et le format du fichier devraient être consultables dans le dossier de raccordement`,
   async function (this: PotentielWorld, dateSignature: string) {
-    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-      find: findProjection,
-    });
-
-    const actual = await consulterDossierRaccordement({
-      référence: this.raccordementWorld.référenceDossierRaccordement,
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
+    const actual = await mediator.send(
+      createConsulterDossierRaccordementQuery({
+        référence: this.raccordementWorld.référenceDossierRaccordement,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
     console.log('********************* ACTUAL', actual);
 
