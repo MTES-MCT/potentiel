@@ -6,6 +6,8 @@ import {
   formatIdentifiantProjet,
   createConsulterDossierRaccordementQuery,
   createTransmettrePropositionTechniqueEtFinancièreCommand,
+  newConsulterDossierRaccordementQuery,
+  newTransmettrePropositionTechniqueEtFinancièreCommand,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { join } from 'path';
@@ -32,7 +34,7 @@ Quand(
         this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
     });
     await mediator.send(
-      createTransmettrePropositionTechniqueEtFinancièreCommand({
+      newTransmettrePropositionTechniqueEtFinancièreCommand({
         dateSignature: new Date(dateSignature),
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -54,7 +56,7 @@ Alors(
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
     const actual = await mediator.send(
-      createConsulterDossierRaccordementQuery({
+      newConsulterDossierRaccordementQuery({
         référence: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
@@ -89,7 +91,7 @@ Quand(
       });
     try {
       await mediator.send(
-        createTransmettrePropositionTechniqueEtFinancièreCommand({
+        newTransmettrePropositionTechniqueEtFinancièreCommand({
           dateSignature: new Date(),
           référenceDossierRaccordement: 'dossier-inconnu',
           identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -123,7 +125,7 @@ Quand(
       });
     try {
       await mediator.send(
-        createTransmettrePropositionTechniqueEtFinancièreCommand({
+        newTransmettrePropositionTechniqueEtFinancièreCommand({
           dateSignature: new Date(),
           référenceDossierRaccordement: 'dossier-inconnu',
           identifiantProjet: this.raccordementWorld.identifiantProjet,

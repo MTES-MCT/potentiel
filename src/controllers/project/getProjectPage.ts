@@ -13,7 +13,7 @@ import {
 import routes from '@routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '@modules/project';
-import { createListerDossiersRaccordementQuery } from '@potentiel/domain';
+import { newListerDossiersRaccordementQuery } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({
@@ -62,7 +62,7 @@ v1Router.get(
       };
 
       const { références } = await mediator.send(
-        createListerDossiersRaccordementQuery({ identifiantProjet }),
+        newListerDossiersRaccordementQuery({ identifiantProjet }),
       );
       const dossiersRaccordementExistant = références.length > 0;
 

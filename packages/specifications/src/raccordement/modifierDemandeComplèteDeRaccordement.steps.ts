@@ -9,6 +9,9 @@ import {
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
   modifierDemandeComplèteRaccordementUseCaseFactory,
   createModifierDemandeComplèteRaccordementCommand,
+  newConsulterDossierRaccordementQuery,
+  newListerDossiersRaccordementQuery,
+  newModifierDemandeComplèteRaccordementCommand,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import {
@@ -35,7 +38,7 @@ Quand(
   `le porteur modifie la date de qualification au {string} et une nouvelle référence {string}`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
     await mediator.send(
-      createModifierDemandeComplèteRaccordementCommand({
+      newModifierDemandeComplèteRaccordementCommand({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: new Date(dateQualification),
         referenceActuelle: this.raccordementWorld.référenceDossierRaccordement,
@@ -49,7 +52,7 @@ Alors(
   `la date de qualification {string}, la référence {string} et le format du fichier devraient être consultables dans un nouveau dossier de raccordement`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
     const actual = await mediator.send(
-      createConsulterDossierRaccordementQuery({
+      newConsulterDossierRaccordementQuery({
         référence: nouvelleReference,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
@@ -64,7 +67,7 @@ Alors(
   async function (this: PotentielWorld) {
     try {
       await mediator.send(
-        createConsulterDossierRaccordementQuery({
+        newConsulterDossierRaccordementQuery({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           référence: this.raccordementWorld.référenceDossierRaccordement,
         }),
@@ -79,7 +82,7 @@ Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet avec comme référence {string}`,
   async function (this: PotentielWorld, nouvelleReference: string) {
     const actual = await mediator.send(
-      createListerDossiersRaccordementQuery({
+      newListerDossiersRaccordementQuery({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -117,7 +120,7 @@ Quand(
         nouveauFichier: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
       await mediator.send(
-        createModifierDemandeComplèteRaccordementCommand({
+        newModifierDemandeComplèteRaccordementCommand({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           dateQualification: new Date('2023-04-26'),
           referenceActuelle: 'dossier-inconnu',

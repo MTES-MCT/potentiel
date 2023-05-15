@@ -1,7 +1,7 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
-  createConsulterDossierRaccordementQuery,
+  newConsulterDossierRaccordementQuery,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -62,7 +62,7 @@ v1Router.get(
       }
 
       const dossierRaccordement = await mediator.send(
-        createConsulterDossierRaccordementQuery({
+        newConsulterDossierRaccordementQuery({
           identifiantProjet: {
             appelOffre: projet.appelOffreId,
             période: projet.periodeId,

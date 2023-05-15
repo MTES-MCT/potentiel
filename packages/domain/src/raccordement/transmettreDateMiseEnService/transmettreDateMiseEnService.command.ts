@@ -7,7 +7,7 @@ import {
 } from '../raccordement.aggregate';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
 
 const TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND = Symbol('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND');
 
@@ -16,7 +16,7 @@ type TransmettreDateMiseEnServiceCommandDependencies = {
   publish: Publish;
 };
 
-type TransmettreDateMiseEnServiceCommandCommand = Message<
+type TransmettreDateMiseEnServiceCommand = Message<
   typeof TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND,
   {
     dateMiseEnService: Date;
@@ -29,7 +29,7 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
   loadAggregate,
   publish,
 }: TransmettreDateMiseEnServiceCommandDependencies) => {
-  const handler: MessageHandler<TransmettreDateMiseEnServiceCommandCommand> = async ({
+  const handler: MessageHandler<TransmettreDateMiseEnServiceCommand> = async ({
     dateMiseEnService,
     référenceDossierRaccordement,
     identifiantProjet,
@@ -59,9 +59,5 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
   mediator.register(TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND, handler);
 };
 
-export const createTransmettreDateMiseEnServiceCommand = (
-  commandData: TransmettreDateMiseEnServiceCommandCommand['data'],
-): TransmettreDateMiseEnServiceCommandCommand => ({
-  type: TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND,
-  data: { ...commandData },
-});
+export const newTransmettreDateMiseEnServiceCommand =
+  newMessage<TransmettreDateMiseEnServiceCommand>(TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND);

@@ -1,7 +1,7 @@
 import {
   GestionnaireNonRéférencéError,
   PermissionModifierGestionnaireRéseauProjet,
-  createModifierGestionnaireRéseauProjetCommand,
+  newModifierGestionnaireRéseauProjetCommand,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -77,7 +77,7 @@ v1Router.post(
 
       try {
         await mediator.send(
-          createModifierGestionnaireRéseauProjetCommand({
+          newModifierGestionnaireRéseauProjetCommand({
             identifiantProjet,
             identifiantGestionnaireRéseau: codeEIC,
           }),

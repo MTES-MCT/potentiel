@@ -2,7 +2,7 @@ import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 import { GestionnaireNonRéférencéError } from './gestionnaireNonRéférencé.error';
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
 
 const CONSULTER_GESTIONNAIRE_RÉSEAU = Symbol('CONSULTER_GESTIONNAIRE_RÉSEAU');
 
@@ -34,9 +34,6 @@ export const registerConsulterGestionnaireRéseauQuery = ({
   mediator.register(CONSULTER_GESTIONNAIRE_RÉSEAU, queryHandler);
 };
 
-export const createConsulterGestionnaireRéseauQuery = (
-  queryData: ConsulterGestionnaireRéseauQuery['data'],
-): ConsulterGestionnaireRéseauQuery => ({
-  type: CONSULTER_GESTIONNAIRE_RÉSEAU,
-  data: { ...queryData },
-});
+export const newConsulterGestionnaireRéseauQuery = newMessage<ConsulterGestionnaireRéseauQuery>(
+  CONSULTER_GESTIONNAIRE_RÉSEAU,
+);

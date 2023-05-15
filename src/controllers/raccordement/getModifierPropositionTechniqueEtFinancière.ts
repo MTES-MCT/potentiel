@@ -1,7 +1,7 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
-  createConsulterDossierRaccordementQuery,
+  newConsulterDossierRaccordementQuery,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -71,7 +71,7 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
       const dossierRaccordement = await mediator.send(
-        createConsulterDossierRaccordementQuery({
+        newConsulterDossierRaccordementQuery({
           identifiantProjet,
           référence: reference,
         }),

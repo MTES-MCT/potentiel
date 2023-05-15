@@ -1,10 +1,10 @@
 import {
   GestionnaireNonRéférencéError,
-  createConsulterGestionnaireRéseauQuery,
+  newConsulterGestionnaireRéseauQuery,
 } from '../../gestionnaireRéseau';
 import {
   ModifierGestionnaireRéseauProjetCommand,
-  createModifierGestionnaireRéseauProjetCommand,
+  newModifierGestionnaireRéseauProjetCommand,
 } from './modifierGestionnaireRéseauProjet.command';
 import { mediator } from 'mediateur';
 
@@ -13,7 +13,7 @@ export const modifierGestionnaireRéseauProjetUseCase = async ({
   identifiantProjet,
 }: ModifierGestionnaireRéseauProjetCommand['data']) => {
   const gestionnaireRéseau = await mediator.send(
-    createConsulterGestionnaireRéseauQuery({
+    newConsulterGestionnaireRéseauQuery({
       codeEIC: identifiantGestionnaireRéseau,
     }),
   );
@@ -23,7 +23,7 @@ export const modifierGestionnaireRéseauProjetUseCase = async ({
   }
 
   await mediator.send(
-    createModifierGestionnaireRéseauProjetCommand({
+    newModifierGestionnaireRéseauProjetCommand({
       identifiantProjet,
       identifiantGestionnaireRéseau,
     }),

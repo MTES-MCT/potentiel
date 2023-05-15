@@ -1,8 +1,8 @@
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
   RésuméProjetReadModel,
-  createConsulterProjetQuery,
-  createListerGestionnaireRéseauQuery,
+  newConsulterProjetQuery,
+  newListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -67,10 +67,10 @@ v1Router.get(
       };
 
       const { identifiantGestionnaire } = await mediator.send(
-        createConsulterProjetQuery({ identifiantProjet }),
+        newConsulterProjetQuery({ identifiantProjet }),
       );
 
-      const gestionnairesRéseau = await mediator.send(createListerGestionnaireRéseauQuery());
+      const gestionnairesRéseau = await mediator.send(newListerGestionnaireRéseauQuery({}));
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {

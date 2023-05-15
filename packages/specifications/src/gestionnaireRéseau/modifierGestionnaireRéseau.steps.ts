@@ -1,8 +1,8 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
-  createConsulterGestionnaireRéseauQuery,
-  createListerGestionnaireRéseauQuery,
-  createModifierGestionnaireRéseauCommand,
+  newConsulterGestionnaireRéseauQuery,
+  newListerGestionnaireRéseauQuery,
+  newModifierGestionnaireRéseauCommand,
   GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
 } from '@potentiel/domain';
@@ -28,7 +28,7 @@ Quand(
     this.gestionnaireRéseauWorld.légende = example['Légende'];
     this.gestionnaireRéseauWorld.format = example['Format'];
 
-    const modifierGestionnaireRéseauCommand = createModifierGestionnaireRéseauCommand({
+    const modifierGestionnaireRéseauCommand = newModifierGestionnaireRéseauCommand({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
       raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
@@ -45,7 +45,7 @@ Quand(
   'un administrateur modifie un gestionnaire de réseau inconnu',
   async function (this: PotentielWorld) {
     try {
-      const modifierGestionnaireRéseauCommand = createModifierGestionnaireRéseauCommand({
+      const modifierGestionnaireRéseauCommand = newModifierGestionnaireRéseauCommand({
         codeEIC: 'Code EIC inconnu',
         raisonSociale: 'RTE',
         aideSaisieRéférenceDossierRaccordement: {
@@ -76,7 +76,7 @@ Alors(
       },
     };
 
-    const actual = await mediator.send(createListerGestionnaireRéseauQuery());
+    const actual = await mediator.send(newListerGestionnaireRéseauQuery({}));
     actual.should.deep.contain(expected);
   },
 );
@@ -94,7 +94,7 @@ Alors(
       },
     };
 
-    const query = createConsulterGestionnaireRéseauQuery({
+    const query = newConsulterGestionnaireRéseauQuery({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
     });
 

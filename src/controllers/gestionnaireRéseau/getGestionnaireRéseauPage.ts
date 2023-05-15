@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import {
   PermissionConsulterGestionnaireRéseau,
-  createConsulterGestionnaireRéseauQuery,
+  newConsulterGestionnaireRéseauQuery,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 
@@ -30,7 +30,7 @@ v1Router.get(
         query: { errors },
       } = request;
       const gestionnaireRéseau = await mediator.send(
-        createConsulterGestionnaireRéseauQuery({ codeEIC }),
+        newConsulterGestionnaireRéseauQuery({ codeEIC }),
       );
 
       if (!gestionnaireRéseau) {

@@ -3,6 +3,7 @@ import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
   createModifierPropositionTechniqueEtFinancièreCommand,
+  newModifierPropositionTechniqueEtFinancièreCommand,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -121,7 +122,7 @@ v1Router.post(
           },
         });
         await mediator.send(
-          createModifierPropositionTechniqueEtFinancièreCommand({
+          newModifierPropositionTechniqueEtFinancièreCommand({
             identifiantProjet,
             référenceDossierRaccordement: reference,
             dateSignature,

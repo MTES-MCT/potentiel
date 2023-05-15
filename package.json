@@ -100,6 +100,7 @@
     "keycloak-connect": "^17.0.1",
     "mime-types": "^2.1.35",
     "mediateur": "^0.1.0-beta.20230420150336",
+    "mediateur": "^0.1.0-beta.20230515152338",
     "minisearch": "^5.1.0",
     "mkdirp": "^1.0.4",
     "moment": "^2.29.4",

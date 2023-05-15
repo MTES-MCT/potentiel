@@ -2,7 +2,7 @@ import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { ListeDossiersRaccordementReadModel } from './listeDossierRaccordement.readModel';
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
 
 const LISTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('LISTER_DOSSIER_RACCORDEMENT_QUERY');
 
@@ -41,9 +41,6 @@ export const registerListerDossiersRaccordementQuery = ({
   mediator.register(LISTER_DOSSIER_RACCORDEMENT_QUERY, handler);
 };
 
-export const createListerDossiersRaccordementQuery = (
-  queryData: ListerDossiersRaccordementQuery['data'],
-): ListerDossiersRaccordementQuery => ({
-  type: LISTER_DOSSIER_RACCORDEMENT_QUERY,
-  data: { ...queryData },
-});
+export const newListerDossiersRaccordementQuery = newMessage<ListerDossiersRaccordementQuery>(
+  LISTER_DOSSIER_RACCORDEMENT_QUERY,
+);

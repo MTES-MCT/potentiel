@@ -1,3 +1,4 @@
+import { newConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau';
 import {
   createConsulterGestionnaireRéseauQuery,
 } from '../../gestionnaireRéseau';
@@ -30,9 +31,8 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   }: Dependencies) =>
   TransmettreDemandeComplèteRaccordementCommand,
-  createTransmettreDemandeComplèteRaccordementCommand,
+  newTransmettreDemandeComplèteRaccordementCommand,
 } from './transmettreDemandeComplèteRaccordement.command';
-import { createConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau';
 import { mediator } from 'mediateur';
 
 export const transmettreDemandeComplèteRaccordementUseCase = async ({
@@ -42,7 +42,7 @@ export const transmettreDemandeComplèteRaccordementUseCase = async ({
   référenceDossierRaccordement,
 }: TransmettreDemandeComplèteRaccordementCommand['data']) => {
   const gestionnaireRéseau = await mediator.send(
-    createConsulterGestionnaireRéseauQuery({
+    newConsulterGestionnaireRéseauQuery({
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
     }),
   );
@@ -73,8 +73,12 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     await transmettreDemandeComplèteRaccordementCommand({
 =======
   await mediator.send(
+<<<<<<< HEAD
     createTransmettreDemandeComplèteRaccordementCommand({
 >>>>>>> 16d23fe4 (♻️ Refacto transmettre DCR command)
+=======
+    newTransmettreDemandeComplèteRaccordementCommand({
+>>>>>>> 01ea5958 (♻️ Refacto creation des messages)
       identifiantProjet,
       identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
       dateQualification,

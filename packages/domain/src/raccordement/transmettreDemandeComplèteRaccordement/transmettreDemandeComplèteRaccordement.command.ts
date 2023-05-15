@@ -21,6 +21,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = {
   accuséRéception: { format: string };
 };
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
 
 const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -94,9 +95,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
   mediator.register(TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND, handler);
 };
 
-export const createTransmettreDemandeComplèteRaccordementCommand = (
-  commandData: TransmettreDemandeComplèteRaccordementCommand['data'],
-): TransmettreDemandeComplèteRaccordementCommand => ({
-  type: TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
-  data: { ...commandData },
-});
+export const newTransmettreDemandeComplèteRaccordementCommand =
+  newMessage<TransmettreDemandeComplèteRaccordementCommand>(
+    TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  );

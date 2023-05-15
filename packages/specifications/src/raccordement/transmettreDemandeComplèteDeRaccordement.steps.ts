@@ -12,6 +12,9 @@ import {
   createConsulterProjetQuery,
   createConsulterDossierRaccordementQuery,
   createListerDossiersRaccordementQuery,
+  newConsulterProjetQuery,
+  newConsulterDossierRaccordementQuery,
+  newListerDossiersRaccordementQuery,
   transmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
@@ -111,7 +114,7 @@ Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
     const actual = await mediator.send(
-      createListerDossiersRaccordementQuery({
+      newListerDossiersRaccordementQuery({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -124,7 +127,7 @@ Alors(
   'le projet devrait avoir un dossier de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
     const actual = await mediator.send(
-      createConsulterDossierRaccordementQuery({
+      newConsulterDossierRaccordementQuery({
         référence: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
@@ -144,7 +147,7 @@ Alors(
         codeEIC: '',
       },
     } = await mediator.send(
-      createConsulterProjetQuery({
+      newConsulterProjetQuery({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -163,7 +166,7 @@ Alors(
     });
   async function async(this: PotentielWorld) {
     const actual = await mediator.send(
-      createListerDossiersRaccordementQuery({
+      newListerDossiersRaccordementQuery({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );

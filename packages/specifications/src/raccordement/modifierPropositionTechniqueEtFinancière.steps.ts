@@ -6,6 +6,8 @@ import {
   formatIdentifiantProjet,
   createConsulterDossierRaccordementQuery,
   createModifierPropositionTechniqueEtFinancièreCommand,
+  newConsulterDossierRaccordementQuery,
+  newModifierPropositionTechniqueEtFinancièreCommand,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { download } from '@potentiel/file-storage';
@@ -31,7 +33,7 @@ Quand(
       nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
     });
     await mediator.send(
-      createModifierPropositionTechniqueEtFinancièreCommand({
+      newModifierPropositionTechniqueEtFinancièreCommand({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         dateSignature: new Date(dateSignature),
@@ -44,7 +46,7 @@ Alors(
   `la date de signature {string} et le format du fichier devraient être consultables dans le dossier de raccordement`,
   async function (this: PotentielWorld, dateSignature: string) {
     const actual = await mediator.send(
-      createConsulterDossierRaccordementQuery({
+      newConsulterDossierRaccordementQuery({
         référence: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
@@ -92,7 +94,7 @@ Quand(
         nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
       });
       await mediator.send(
-        createModifierPropositionTechniqueEtFinancièreCommand({
+        newModifierPropositionTechniqueEtFinancièreCommand({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           dateSignature: new Date('2023-04-26'),
           référenceDossierRaccordement: 'dossier-inconnu',

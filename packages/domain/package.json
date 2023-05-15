@@ -12,6 +12,7 @@
     "@potentiel/core-domain": "*",
     "@potentiel/adapter-domain": "*",
     "mediateur": "^0.1.0-beta.20230420150336"
+    "mediateur": "^0.1.0-beta.20230515152338"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

@@ -1,6 +1,6 @@
 import { Unsubscribe } from '@potentiel/core-domain';
 import {
-  createAjouterGestionnaireRéseauCommand,
+  newAjouterGestionnaireRéseauCommand,
   setupEventHandlers,
   setupMessageHandlers,
 } from '@potentiel/domain';
@@ -37,7 +37,7 @@ export default {
         remove: removeProjection,
       });
 
-      const ajouterGestionnaireRéseauCommand = createAjouterGestionnaireRéseauCommand({
+      const ajouterGestionnaireRéseauCommand = newAjouterGestionnaireRéseauCommand({
         codeEIC: '12345',
         raisonSociale: 'Potentiel dev',
         aideSaisieRéférenceDossierRaccordement: {
