@@ -1,4 +1,4 @@
-import { Publish, LoadAggregate, CommandHandlerFactory } from '@potentiel/core-domain';
+import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import {
   loadRaccordementAggregateFactory,
@@ -19,6 +19,20 @@ type ModifierPropositionTechniqueEtFinancièreCommand = {
   référenceDossierRaccordement: string;
   nouveauFichier: { format: string; content: Readable };
 };
+import { Message, MessageHandler, mediator } from 'mediateur';
+
+const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
+  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+);
+
+type ModifierPropositionTechniqueEtFinancièreCommand = Message<
+  typeof MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
+  {
+    identifiantProjet: IdentifiantProjet;
+    dateSignature: Date;
+    référenceDossierRaccordement: string;
+  }
+>;
 
 type ModifierPropositionTechniqueEtFinancièreDependencies = {
   publish: Publish;
@@ -36,6 +50,14 @@ export const modifierPropositionTechniqueEtFinancièreCommandHandlerFactory: Com
     référenceDossierRaccordement,
     dateSignature,
     nouveauFichier: { format, content },
+export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
+  publish,
+  loadAggregate,
+}: ModifierPropositionTechniqueEtFinancièreDependencies) => {
+  const handler: MessageHandler<ModifierPropositionTechniqueEtFinancièreCommand> = async ({
+    identifiantProjet,
+    référenceDossierRaccordement,
+    dateSignature,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -84,3 +106,13 @@ export const modifierPropositionTechniqueEtFinancièreCommandHandlerFactory: Com
       content,
     });
   };
+
+  mediator.register(MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND, handler);
+};
+
+export const createModifierPropositionTechniqueEtFinancièreCommand = (
+  commandData: ModifierPropositionTechniqueEtFinancièreCommand['data'],
+): ModifierPropositionTechniqueEtFinancièreCommand => ({
+  type: MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
+  data: { ...commandData },
+});

@@ -5,9 +5,8 @@ import {
   consulterDossierRaccordementQueryHandlerFactory,
   formatIdentifiantProjet,
   createConsulterDossierRaccordementQuery,
-  modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
+  createModifierPropositionTechniqueEtFinancièreCommand,
 } from '@potentiel/domain';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
@@ -31,6 +30,13 @@ Quand(
       dateSignature: new Date(dateSignature),
       nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
     });
+    await mediator.send(
+      createModifierPropositionTechniqueEtFinancièreCommand({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        dateSignature: new Date(dateSignature),
+      }),
+    );
   },
 );
 
@@ -85,6 +91,13 @@ Quand(
         référenceDossierRaccordement: 'dossier-inconnu',
         nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
       });
+      await mediator.send(
+        createModifierPropositionTechniqueEtFinancièreCommand({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          dateSignature: new Date('2023-04-26'),
+          référenceDossierRaccordement: 'dossier-inconnu',
+        }),
+      );
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
         this.error = error;

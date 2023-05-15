@@ -2,6 +2,8 @@ import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettrePropositionTechniqueEtFinancière,
   modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
+  createModifierPropositionTechniqueEtFinancièreCommand,
+  formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -15,7 +17,6 @@ import {
   vérifierPermissionUtilisateur,
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
@@ -28,6 +29,8 @@ const modifierPropositionTechniqueEtFinancière =
     loadAggregate,
     enregistrerFichierPropositionTechniqueEtFinancière,
   });
+import { deleteFile, getFiles, upload } from '@potentiel/file-storage';
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({
@@ -117,6 +120,13 @@ v1Router.post(
             content: createReadStream(file.path),
           },
         });
+        await mediator.send(
+          createModifierPropositionTechniqueEtFinancièreCommand({
+            identifiantProjet,
+            référenceDossierRaccordement: reference,
+            dateSignature,
+          }),
+        );
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
