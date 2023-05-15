@@ -38,7 +38,7 @@ const schema = yup.object({
     reference: yup.string().required(),
   }),
   body: yup.object({
-    nouvelleRéférence: yup.string().required(),
+    nouvelleReference: yup.string().required(),
     dateQualification: yup
       .date()
       .required(`La date de qualification est obligatoire`)
@@ -57,16 +57,22 @@ v1Router.post(
       schema,
       onError: ({ request, response }) =>
         response.redirect(
-          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(request.params.projetId), {
-            error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
-          }),
+          addQueryParams(
+            routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
+              request.params.projetId,
+              request.params.reference,
+            ),
+            {
+              error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
+            },
+          ),
         ),
     },
     async (request, response) => {
       const {
         user,
         params: { projetId, reference },
-        body: { dateQualification, nouvelleRéférence },
+        body: { dateQualification, nouvelleReference },
         file,
       } = request;
 
@@ -118,7 +124,7 @@ v1Router.post(
         await modifierDemandeComplèteRaccordement({
           identifiantProjet,
           dateQualification,
-          nouvelleRéférence,
+          nouvelleRéférence: nouvelleReference,
           ancienneRéférence: reference,
           nouveauFichier: {
             format: file.mimetype,
@@ -139,7 +145,7 @@ v1Router.post(
             fichierPTF[0],
             join(
               formatIdentifiantProjet(identifiantProjet),
-              nouvelleRéférence,
+              nouvelleReference,
               `proposition-technique-et-financiere${extname(fichierPTF[0])}`,
             ),
           );

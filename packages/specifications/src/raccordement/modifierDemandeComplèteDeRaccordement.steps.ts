@@ -91,7 +91,6 @@ Alors(
       nouvelleRéférence,
       `demande-complete-raccordement.${extension(this.raccordementWorld.accuséRéception.format)}`,
     );
-    console.log('********************', path);
     const fichier = await download(path);
     fichier.should.be.ok;
   },
