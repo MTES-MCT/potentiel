@@ -1,4 +1,4 @@
-import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-domain';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from './propositionTechniqueEtFinancièreTransmise.event';
 import {
@@ -37,6 +37,34 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
     référenceDossierRaccordement,
     identifiantProjet,
     propositionTechniqueEtFinancière: { format, content },
+import { Message, MessageHandler, mediator } from 'mediateur';
+
+const TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
+  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+);
+
+type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
+  typeof TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
+  {
+    dateSignature: Date;
+    référenceDossierRaccordement: string;
+    identifiantProjet: IdentifiantProjet;
+  }
+>;
+
+type TransmettrePropositionTechniqueEtFinancièreDependencies = {
+  loadAggregate: LoadAggregate;
+  publish: Publish;
+};
+
+export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
+  publish,
+  loadAggregate,
+}: TransmettrePropositionTechniqueEtFinancièreDependencies) => {
+  const handler: MessageHandler<TransmettrePropositionTechniqueEtFinancièreCommand> = async ({
+    dateSignature,
+    référenceDossierRaccordement,
+    identifiantProjet,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -85,3 +113,13 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
       content,
     });
   };
+
+  mediator.register(TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND, handler);
+};
+
+export const createTransmettrePropositionTechniqueEtFinancièreCommand = (
+  commandData: TransmettrePropositionTechniqueEtFinancièreCommand['data'],
+): TransmettrePropositionTechniqueEtFinancièreCommand => ({
+  type: TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
+  data: { ...commandData },
+});

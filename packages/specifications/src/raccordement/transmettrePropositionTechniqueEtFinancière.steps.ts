@@ -1,12 +1,11 @@
 import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   formatIdentifiantProjet,
   createConsulterDossierRaccordementQuery,
-  transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
+  createTransmettrePropositionTechniqueEtFinancièreCommand,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { join } from 'path';
@@ -32,13 +31,19 @@ Quand(
       propositionTechniqueEtFinancière:
         this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
     });
+    await mediator.send(
+      createTransmettrePropositionTechniqueEtFinancièreCommand({
+        dateSignature: new Date(dateSignature),
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
   },
 );
 
 Alors(
   `une proposition technique et financière devrait être consultable dans le dossier de raccordement avec une date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
-<<<<<<< HEAD
     const dateSignatureISOString = new Date(dateSignature).toISOString();
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
@@ -48,14 +53,12 @@ Alors(
       référence: this.raccordementWorld.référenceDossierRaccordement,
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
-=======
     const actual = await mediator.send(
       createConsulterDossierRaccordementQuery({
         référence: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
->>>>>>> 292cdf5c (♻️ Refacto consulter raccordement)
 
     const expected = {
       dateSignature: dateSignatureISOString,
@@ -84,6 +87,14 @@ Quand(
         propositionTechniqueEtFinancière:
           this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
       });
+    try {
+      await mediator.send(
+        createTransmettrePropositionTechniqueEtFinancièreCommand({
+          dateSignature: new Date(),
+          référenceDossierRaccordement: 'dossier-inconnu',
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+        }),
+      );
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
         this.error = error;
@@ -110,6 +121,14 @@ Quand(
         propositionTechniqueEtFinancière:
           this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
       });
+    try {
+      await mediator.send(
+        createTransmettrePropositionTechniqueEtFinancièreCommand({
+          dateSignature: new Date(),
+          référenceDossierRaccordement: 'dossier-inconnu',
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+        }),
+      );
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
         this.error = error;

@@ -12,6 +12,7 @@ import {
   registerModifierDemandeComplèteRaccordementCommand,
   registerModifierGestionnaireRéseauProjetCommand,
   registerModifierPropositionTechniqueEtFinancièreCommand,
+  registerTransmettrePropositionTechniqueEtFinancièreCommand,
 } from './raccordement';
 
 type Ports = {
@@ -44,6 +45,7 @@ const registerCommands = (ports: Ports['commandPorts']) => {
   // Dossier de raccordement
   registerModifierDemandeComplèteRaccordementCommand(ports);
   registerModifierPropositionTechniqueEtFinancièreCommand(ports);
+  registerTransmettrePropositionTechniqueEtFinancièreCommand(ports);
 };
 
 const registerQueries = (ports: Ports['queryPorts']) => {
