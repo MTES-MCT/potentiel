@@ -6,10 +6,14 @@ import { findProjection, listProjection } from '@potentiel/pg-projections';
 
 export const bootstrap = async () => {
   setupMessageHandlers({
-    loadAggregate,
-    publish,
-    find: findProjection,
-    list: listProjection,
+    commandPorts: {
+      loadAggregate,
+      publish,
+    },
+    queryPorts: {
+      find: findProjection,
+      list: listProjection,
+    },
   });
   await bootstrapEventStreamer();
   await bootstrapEventConsumers();

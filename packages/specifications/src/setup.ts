@@ -25,10 +25,14 @@ let unsubscribes: Unsubscribe[] | undefined;
 const bucketName = 'potentiel';
 =======
 setupMessageHandlers({
-  loadAggregate,
-  publish,
-  find: findProjection,
-  list: listProjection,
+  commandPorts: {
+    loadAggregate,
+    publish,
+  },
+  queryPorts: {
+    find: findProjection,
+    list: listProjection,
+  },
 });
 >>>>>>> 5d90ea76 (♻️ Refacto commande gestionnaireReseau)
 

@@ -5,37 +5,38 @@ import {
   registerListerGestionnaireRéseauQuery,
   registerModifierGestionnaireRéseauCommand,
 } from './gestionnaireRéseau';
+import { registerConsulterProjetQuery } from './projet';
 
-type MessageHandlerPorts = {
-  publish: Publish;
-  loadAggregate: LoadAggregate;
-  find: Find;
-  list: List;
+type Ports = {
+  commandPorts: {
+    publish: Publish;
+    loadAggregate: LoadAggregate;
+  };
+  queryPorts: {
+    find: Find;
+    list: List;
+  };
 };
 
 export const setupMessageHandlers = async ({
-  publish,
-  loadAggregate,
-  find,
-  list,
-}: MessageHandlerPorts) => {
-  registerCommands(publish, loadAggregate);
-  registerQueries(find, list);
+  commandPorts: eventStreamPort,
+  queryPorts: projectionPort,
+}: Ports) => {
+  registerCommands(eventStreamPort);
+  registerQueries(projectionPort);
 };
 
-const registerCommands = (publish: Publish, loadAggregate: LoadAggregate) => {
-  registerAjouterGestionnaireRéseauCommand({
-    publish,
-    loadAggregate,
-  });
-
-  registerModifierGestionnaireRéseauCommand({
-    publish,
-    loadAggregate,
-  });
+const registerCommands = (ports: Ports['commandPorts']) => {
+  // Gestionnaire de réseau
+  registerAjouterGestionnaireRéseauCommand(ports);
+  registerModifierGestionnaireRéseauCommand(ports);
 };
 
-const registerQueries = (find: Find, list: List) => {
-  registerConsulterGestionnaireRéseauQuery({ find });
-  registerListerGestionnaireRéseauQuery({ list });
+const registerQueries = (ports: Ports['queryPorts']) => {
+  // Gestionnaire de réseau
+  registerConsulterGestionnaireRéseauQuery(ports);
+  registerListerGestionnaireRéseauQuery(ports);
+
+  // Projet
+  registerConsulterProjetQuery(ports);
 };

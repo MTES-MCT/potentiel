@@ -10,6 +10,7 @@ import {
   listerDossiersRaccordementQueryHandlerFactory,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
+  createConsulterProjetQuery,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
@@ -18,6 +19,7 @@ import { Readable } from 'stream';
 import { join } from 'path';
 import { extension } from 'mime-types';
 import { enregistrerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
+import { mediator } from 'mediateur';
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
@@ -148,15 +150,15 @@ Alors(
 
     actual.should.be.deep.equal(expected);
 
-    const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
-
     const {
       identifiantGestionnaire = {
         codeEIC: '',
       },
-    } = await consulterProjet({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
+    } = await mediator.send(
+      createConsulterProjetQuery({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
     identifiantGestionnaire.should.be.deep.equal({
       codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,

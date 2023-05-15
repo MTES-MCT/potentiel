@@ -2,7 +2,7 @@ import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
   consulterDossierRaccordementQueryHandlerFactory,
-  consulterProjetQueryHandlerFactory,
+  registerConsulterProjetQuery,
   createConsulterGestionnaireRéseauQuery,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
@@ -22,7 +22,7 @@ const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFac
   find: findProjection,
 });
 
-const consulterProjet = consulterProjetQueryHandlerFactory({
+const consulterProjet = registerConsulterProjetQuery({
   find: findProjection,
 });
 

@@ -4,13 +4,13 @@ import { publish } from '@potentiel/pg-event-sourcing';
 import {
   GestionnaireNonRéférencéError,
   GestionnaireRéseauAjoutéEvent,
-  consulterProjetQueryHandlerFactory,
   createGestionnaireRéseauAggregateId,
   modifierGestionnaireRéseauProjetCommandHandlerFactory,
   modifierGestionnaireRéseauProjetUseCaseFactory,
+  createConsulterProjetQuery,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
+import { mediator } from 'mediateur';
 
 Quand(
   `le porteur modifie le gestionnaire de réseau de son projet avec un gestionnaire ayant le code EIC {string}`,
@@ -40,13 +40,11 @@ Quand(
 Alors(
   `le gestionaire de réseau {string} devrait être consultable dans le projet`,
   async function (this: PotentielWorld, codeEIC: string) {
-    const consulterProjet = consulterProjetQueryHandlerFactory({
-      find: findProjection,
-    });
-
-    const résultat = await consulterProjet({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
+    const résultat = await mediator.send(
+      createConsulterProjetQuery({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
     expect(résultat.identifiantGestionnaire).to.deep.equal({
       codeEIC,

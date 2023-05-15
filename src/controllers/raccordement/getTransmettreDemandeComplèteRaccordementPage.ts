@@ -1,7 +1,7 @@
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
   RésuméProjetReadModel,
-  consulterProjetQueryHandlerFactory,
+  registerConsulterProjetQuery,
   createListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
@@ -14,7 +14,7 @@ import { TransmettreDemandeComplèteRaccordementPage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
 
-const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
+const consulterProjet = registerConsulterProjetQuery({ find: findProjection });
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),

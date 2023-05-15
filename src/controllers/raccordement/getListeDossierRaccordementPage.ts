@@ -7,7 +7,7 @@ import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
   consulterDossierRaccordementQueryHandlerFactory,
-  consulterProjetQueryHandlerFactory,
+  registerConsulterProjetQuery,
   createConsulterGestionnaireRéseauQuery,
   formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
@@ -27,7 +27,7 @@ const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFac
   find: findProjection,
 });
 
-const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
+const consulterProjet = registerConsulterProjetQuery({ find: findProjection });
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
