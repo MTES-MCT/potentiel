@@ -52,11 +52,13 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
   await executeQuery(`DELETE FROM "PROJECTION"`);
 
   unsubscribes = await setupEventHandlers({
-    create: createProjection,
-    find: findProjection,
+    eventPorts: {
+      create: createProjection,
+      find: findProjection,
+      update: updateProjection,
+      remove: removeProjection,
+    },
     subscribe,
-    update: updateProjection,
-    remove: removeProjection,
   });
 
   await this.gestionnaireRéseauWorld.createEnedis();

@@ -16,63 +16,41 @@ import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from '
 
 type Ports = {
   subscribe: Subscribe;
-  create: Create;
-  update: Update;
-  find: Find;
-  remove: Remove;
+  eventPorts: {
+    create: Create;
+    update: Update;
+    find: Find;
+    remove: Remove;
+  };
 };
 
 export const setupEventHandlers = async ({
-  create,
-  find,
-  update,
   subscribe,
-  remove,
+  eventPorts,
 }: Ports): Promise<Unsubscribe[]> => {
   return Promise.all([
-    subscribe('GestionnaireRéseauAjouté', gestionnaireRéseauAjoutéHandlerFactory({ create })),
-    subscribe('GestionnaireRéseauModifié', gestionnaireRéseauModifiéHandlerFactory({ update })),
+    subscribe('GestionnaireRéseauAjouté', gestionnaireRéseauAjoutéHandlerFactory(eventPorts)),
+    subscribe('GestionnaireRéseauModifié', gestionnaireRéseauModifiéHandlerFactory(eventPorts)),
     subscribe(
       'DemandeComplèteDeRaccordementTransmise',
-      demandeComplèteRaccordementTransmiseHandlerFactory({
-        create,
-        find,
-        update,
-      }),
+      demandeComplèteRaccordementTransmiseHandlerFactory(eventPorts),
     ),
     subscribe(
       'PropositionTechniqueEtFinancièreTransmise',
-      propositionTechniqueEtFinancièreTransmiseHandlerFactory({
-        find,
-        update,
-      }),
+      propositionTechniqueEtFinancièreTransmiseHandlerFactory(eventPorts),
     ),
-    subscribe(
-      'DateMiseEnServiceTransmise',
-      dateMiseEnServiceTransmiseHandlerFactory({
-        find,
-        update,
-      }),
-    ),
+    subscribe('DateMiseEnServiceTransmise', dateMiseEnServiceTransmiseHandlerFactory(eventPorts)),
     subscribe(
       'DemandeComplèteRaccordementModifiée',
-      demandeComplèteRaccordementeModifiéeHandlerFactory({
-        find,
-        create,
-        remove,
-        update,
-      }),
+      demandeComplèteRaccordementeModifiéeHandlerFactory(eventPorts),
     ),
     subscribe(
       'GestionnaireRéseauProjetModifié',
-      gestionnaireRéseauProjetModifiéHandlerFactory({ find, create, update }),
+      gestionnaireRéseauProjetModifiéHandlerFactory(eventPorts),
     ),
     subscribe(
       'PropositionTechniqueEtFinancièreModifiée',
-      propositionTechniqueEtFinancièreModifiéeHandlerFactory({
-        find,
-        update,
-      }),
+      propositionTechniqueEtFinancièreModifiéeHandlerFactory(eventPorts),
     ),
     subscribe(
       'AccuséRéceptionDemandeComplèteRaccordementTransmis',
