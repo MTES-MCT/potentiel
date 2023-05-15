@@ -14,6 +14,10 @@ type TransmettrePropositionTechniqueEtFinancièreCommand = {
   dateSignature: Date;
   référenceDossierRaccordement: string;
   identifiantProjet: IdentifiantProjet;
+  propositionTechniqueEtFinancière: {
+    format: string;
+    content: string;
+  };
 };
 
 export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: CommandHandlerFactory<
@@ -21,7 +25,12 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
   Dependencies
 > =
   ({ publish, loadAggregate }) =>
-  async ({ dateSignature, référenceDossierRaccordement, identifiantProjet }) => {
+  async ({
+    dateSignature,
+    référenceDossierRaccordement,
+    identifiantProjet,
+    propositionTechniqueEtFinancière: { format, content },
+  }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
     });
@@ -32,14 +41,32 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
-      type: 'PropositionTechniqueEtFinancièreTransmise',
+    const propositionTechniqueEtFinancièreTransmiseEvent: PropositionTechniqueEtFinancièreTransmiseEvent =
+      {
+        type: 'PropositionTechniqueEtFinancièreTransmise',
+        payload: {
+          dateSignature: dateSignature.toISOString(),
+          référenceDossierRaccordement,
+          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        },
+      };
+
+    await publish(
+      createRaccordementAggregateId(identifiantProjet),
+      propositionTechniqueEtFinancièreTransmiseEvent,
+    );
+
+    const fichierPropositionTechniqueEtFinancièreTransmisEvent = {
+      type: 'FichierPropositionTechniqueEtFinancièreTransmis',
       payload: {
-        dateSignature: dateSignature.toISOString(),
+        identifiantProjet,
+        format,
         référenceDossierRaccordement,
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       },
     };
 
-    await publish(createRaccordementAggregateId(identifiantProjet), event);
+    await publish(
+      createRaccordementAggregateId(identifiantProjet),
+      fichierPropositionTechniqueEtFinancièreTransmisEvent,
+    );
   };

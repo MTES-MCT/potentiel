@@ -116,6 +116,10 @@ v1Router.post(
           identifiantProjet,
           référenceDossierRaccordement: reference,
           dateSignature,
+          propositionTechniqueEtFinancière: {
+            format: file.mimetype,
+            content: createReadStream(file.path),
+          },
         });
 
         const filePath = join(
