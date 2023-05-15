@@ -5,9 +5,8 @@ import {
   GestionnaireNonRéférencéError,
   GestionnaireRéseauAjoutéEvent,
   createGestionnaireRéseauAggregateId,
-  modifierGestionnaireRéseauProjetCommandHandlerFactory,
-  modifierGestionnaireRéseauProjetUseCaseFactory,
   createConsulterProjetQuery,
+  modifierGestionnaireRéseauProjetUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
@@ -28,9 +27,7 @@ Quand(
     };
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
 
-    const modifierGestionnaireRéseauProjet = getUseCase();
-
-    await modifierGestionnaireRéseauProjet({
+    await modifierGestionnaireRéseauProjetUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: codeEIC,
     });
@@ -55,10 +52,8 @@ Alors(
 Quand(
   `le porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé`,
   async function (this: PotentielWorld) {
-    const modifierGestionnaireRéseauProjet = getUseCase();
-
     try {
-      await modifierGestionnaireRéseauProjet({
+      await modifierGestionnaireRéseauProjetUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         identifiantGestionnaireRéseau: 'GESTIONNAIRE-INCONNU',
       });
@@ -69,14 +64,3 @@ Quand(
     }
   },
 );
-
-function getUseCase() {
-  const modifierGestionnaireRéseauProjetCommand =
-    modifierGestionnaireRéseauProjetCommandHandlerFactory({
-      publish,
-    });
-
-  return modifierGestionnaireRéseauProjetUseCaseFactory({
-    modifierGestionnaireRéseauProjetCommand,
-  });
-}

@@ -10,6 +10,7 @@ import {
   registerConsulterDossierRaccordementQuery,
   registerListerDossiersRaccordementQuery,
   registerModifierDemandeComplèteRaccordementCommand,
+  registerModifierGestionnaireRéseauProjetCommand,
 } from './raccordement';
 
 type Ports = {
@@ -35,6 +36,9 @@ const registerCommands = (ports: Ports['commandPorts']) => {
   // Gestionnaire de réseau
   registerAjouterGestionnaireRéseauCommand(ports);
   registerModifierGestionnaireRéseauCommand(ports);
+
+  // Projet
+  registerModifierGestionnaireRéseauProjetCommand(ports);
 
   // Dossier de raccordement
   registerModifierDemandeComplèteRaccordementCommand(ports);
