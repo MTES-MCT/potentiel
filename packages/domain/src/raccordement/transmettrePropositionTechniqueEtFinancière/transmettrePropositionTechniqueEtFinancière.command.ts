@@ -7,6 +7,7 @@ import {
 } from '../raccordement.aggregate';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { Readable } from 'stream';
 
 type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
 
@@ -16,7 +17,7 @@ type TransmettrePropositionTechniqueEtFinancièreCommand = {
   identifiantProjet: IdentifiantProjet;
   propositionTechniqueEtFinancière: {
     format: string;
-    content: string;
+    content: Readable;
   };
 };
 

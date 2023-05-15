@@ -4,7 +4,7 @@ import { FichierPropositionTechniqueEtFinancièreTransmisEvent } from '../fichie
 import { isSome } from '@potentiel/monads';
 import { DossierRaccordementReadModel } from '../../consulter/dossierRaccordement.readModel';
 
-export const fichierpropositionTechniqueEtFinancièreTransmisHandlerFactory: DomainEventHandlerFactory<
+export const fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory: DomainEventHandlerFactory<
   FichierPropositionTechniqueEtFinancièreTransmisEvent,
   {
     find: Find;
@@ -18,6 +18,15 @@ export const fichierpropositionTechniqueEtFinancièreTransmisHandlerFactory: Dom
     );
 
     if (isSome(dossierRaccordement)) {
+      console.log('--------------', {
+        ...dossierRaccordement,
+        ...(dossierRaccordement.propositionTechniqueEtFinancière && {
+          propositionTechniqueEtFinancière: {
+            ...dossierRaccordement.propositionTechniqueEtFinancière,
+            format: event.payload.format,
+          },
+        }),
+      });
       await update<DossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
         {

@@ -35,6 +35,19 @@ export class RaccordementWorld {
     this.#accuséRéception = value;
   }
 
+  #fichierPropositionTechniqueEtFinancière!: { format: string; content: Readable };
+
+  get fichierPropositionTechniqueEtFinancière(): { format: string; content: Readable } {
+    if (!this.#fichierPropositionTechniqueEtFinancière) {
+      throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
+    }
+    return this.#fichierPropositionTechniqueEtFinancière;
+  }
+
+  set fichierPropositionTechniqueEtFinancière(value: { format: string; content: Readable }) {
+    this.#fichierPropositionTechniqueEtFinancière = value;
+  }
+
   #référenceDossierRaccordement!: string;
 
   get référenceDossierRaccordement(): string {
@@ -63,6 +76,12 @@ export class RaccordementWorld {
     this.#accuséRéception = {
       format: 'application/pdf',
       content: Readable.from("Contenu d'un fichier", {
+        encoding: 'utf8',
+      }),
+    };
+    this.#fichierPropositionTechniqueEtFinancière = {
+      format: 'application/pdf',
+      content: Readable.from("Contenu d'un fichier PTF", {
         encoding: 'utf8',
       }),
     };

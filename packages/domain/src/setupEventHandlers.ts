@@ -12,6 +12,7 @@ import {
   accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
   propositionTechniqueEtFinancièreModifiéeHandlerFactory,
 } from './raccordement';
+import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './raccordement/transmettrePropositionTechniqueEtFinancière/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 
 type Ports = {
   subscribe: Subscribe;
@@ -76,6 +77,13 @@ export const setupEventHandlers = async ({
     subscribe(
       'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory({
+        find,
+        update,
+      }),
+    ),
+    subscribe(
+      'FichierPropositionTechniqueEtFinancièreTransmis',
+      fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory({
         find,
         update,
       }),

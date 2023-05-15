@@ -3,11 +3,16 @@ import { PotentielWorld } from '../potentiel.world';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   DossierRaccordementNonRéférencéError,
+  DossierRaccordementReadModel,
   consulterDossierRaccordementQueryHandlerFactory,
+  formatIdentifiantProjet,
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
+import { join } from 'path';
+import { extension } from 'mime-types';
+import { download } from '@potentiel/file-storage';
 
 Quand(
   `le porteur de projet transmet une proposition technique et financière pour ce dossier de raccordement avec la date de signature au {string}`,
@@ -22,6 +27,8 @@ Quand(
       dateSignature: new Date(dateSignature),
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       identifiantProjet: this.raccordementWorld.identifiantProjet,
+      propositionTechniqueEtFinancière:
+        this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
     });
   },
 );
@@ -29,6 +36,7 @@ Quand(
 Alors(
   `une proposition technique et financière devrait être consultable dans le dossier de raccordement avec une date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
+    const dateSignatureISOString = new Date(dateSignature).toISOString();
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
     });
@@ -38,9 +46,16 @@ Alors(
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
-    expect(actual.propositionTechniqueEtFinancière).to.deep.equal({
-      dateSignature: new Date(dateSignature).toISOString(),
-    });
+    const expected: DossierRaccordementReadModel = {
+      type: 'dossier-raccordement',
+      référence: this.raccordementWorld.référenceDossierRaccordement,
+      propositionTechniqueEtFinancière: {
+        dateSignature: dateSignatureISOString,
+        format: this.raccordementWorld.fichierPropositionTechniqueEtFinancière.format,
+      },
+    };
+
+    expect(actual.propositionTechniqueEtFinancière).to.deep.equal(expected);
   },
 );
 
@@ -58,6 +73,8 @@ Quand(
         dateSignature: new Date(),
         référenceDossierRaccordement: 'dossier-inconnu',
         identifiantProjet: this.raccordementWorld.identifiantProjet,
+        propositionTechniqueEtFinancière:
+          this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
       });
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
@@ -81,6 +98,8 @@ Quand(
         dateSignature: new Date(),
         référenceDossierRaccordement: 'dossier-inconnu',
         identifiantProjet: this.raccordementWorld.identifiantProjet,
+        propositionTechniqueEtFinancière:
+          this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
       });
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
@@ -89,3 +108,19 @@ Quand(
     }
   },
 );
+
+Alors(
+  `le fichier  devrait être enregistré et consultable pour ce dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const path = join(
+      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+      this.raccordementWorld.référenceDossierRaccordement,
+      `proposition-technique-et-financiere.${extension(
+        this.raccordementWorld.fichierPropositionTechniqueEtFinancière.format,
+      )}`,
+    );
+    const fichier = await download(path);
+    fichier.should.be.ok;
+  },
+);
+//
