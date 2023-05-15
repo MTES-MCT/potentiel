@@ -17,18 +17,19 @@ describe('fromRedisMessage', () => {
   });
 
   describe('when the message type does not exist', () => {
-    it('should throw an error', () => {
-      expect(() =>
-        fromRedisMessage({
-          type: 'unknownEvent',
-        } as RedisMessage),
-      ).toThrow();
+    it('should return null', () => {
+      const actual = fromRedisMessage({
+        type: 'unknownEvent',
+      } as RedisMessage);
+
+      expect(actual).toBeNull();
     });
   });
 
   describe('when the message does not have a type', () => {
-    it('should throw an error', () => {
-      expect(() => fromRedisMessage({} as RedisMessage)).toThrow();
+    it('should return null', () => {
+      const actual = fromRedisMessage({} as RedisMessage);
+      expect(actual).toBeNull();
     });
   });
 });
