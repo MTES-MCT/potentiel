@@ -1,4 +1,4 @@
-import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-domain';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
@@ -20,18 +20,32 @@ export type TransmettreDemandeComplèteRaccordementCommand = {
   référenceDossierRaccordement: string;
   accuséRéception: { format: string };
 };
+import { Message, MessageHandler, mediator } from 'mediateur';
+
+const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
+  'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+);
+
+export type TransmettreDemandeComplèteRaccordementCommand = Message<
+  typeof TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  {
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
+    identifiantProjet: IdentifiantProjet;
+    dateQualification?: Date;
+    référenceDossierRaccordement: string;
+  }
+>;
 
 export type TransmettreDemandeComplèteRaccordementDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
 };
 
-export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
-  TransmettreDemandeComplèteRaccordementCommand,
-  TransmettreDemandeComplèteRaccordementDependencies
-> =
-  ({ publish, loadAggregate }) =>
-  async ({
+export const registerTransmettreDemandeComplèteRaccordementCommand = ({
+  publish,
+  loadAggregate,
+}: TransmettreDemandeComplèteRaccordementDependencies) => {
+  const handler: MessageHandler<TransmettreDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
     dateQualification,
     identifiantGestionnaireRéseau,
@@ -76,3 +90,13 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
 
     await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
   };
+
+  mediator.register(TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND, handler);
+};
+
+export const createTransmettreDemandeComplèteRaccordementCommand = (
+  commandData: TransmettreDemandeComplèteRaccordementCommand['data'],
+): TransmettreDemandeComplèteRaccordementCommand => ({
+  type: TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  data: { ...commandData },
+});

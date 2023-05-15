@@ -1,5 +1,3 @@
-import { CommandHandler } from '@potentiel/core-domain';
-import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 import {
   createConsulterGestionnaireRéseauQuery,
 } from '../../gestionnaireRéseau';
@@ -31,12 +29,25 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     consulterGestionnaireRéseauQuery,
     enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   }: Dependencies) =>
+  TransmettreDemandeComplèteRaccordementCommand,
+  createTransmettreDemandeComplèteRaccordementCommand,
+} from './transmettreDemandeComplèteRaccordement.command';
+import { createConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau';
 import { mediator } from 'mediateur';
 
-type Dependencies = {
-  transmettreDemandeComplèteRaccordementCommand: CommandHandler<TransmettreDemandeComplèteRaccordementCommand>;
-};
+export const transmettreDemandeComplèteRaccordementUseCase = async ({
+  dateQualification,
+  identifiantGestionnaireRéseau,
+  identifiantProjet,
+  référenceDossierRaccordement,
+}: TransmettreDemandeComplèteRaccordementCommand['data']) => {
+  const gestionnaireRéseau = await mediator.send(
+    createConsulterGestionnaireRéseauQuery({
+      codeEIC: identifiantGestionnaireRéseau.codeEIC,
+    }),
+  );
 
+<<<<<<< HEAD
 export const transmettreDemandeComplèteRaccordementUseCaseFactory =
   ({ transmettreDemandeComplèteRaccordementCommand }: Dependencies) =>
   async ({
@@ -60,10 +71,15 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
 >>>>>>> a5f84974 (♻️ Refacto consulter gestionnaire reseau)
 
     await transmettreDemandeComplèteRaccordementCommand({
+=======
+  await mediator.send(
+    createTransmettreDemandeComplèteRaccordementCommand({
+>>>>>>> 16d23fe4 (♻️ Refacto transmettre DCR command)
       identifiantProjet,
       identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
       dateQualification,
       référenceDossierRaccordement,
+<<<<<<< HEAD
       accuséRéception: { format },
     });
 
@@ -74,3 +90,8 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
       content,
     });
   };
+=======
+    }),
+  );
+};
+>>>>>>> 16d23fe4 (♻️ Refacto transmettre DCR command)

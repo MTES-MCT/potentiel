@@ -5,8 +5,7 @@ import {
   PlusieursGestionnairesRéseauPourUnProjetError,
   consulterGestionnaireRéseauQueryHandlerFactory,
   formatIdentifiantProjet,
-  transmettreDemandeComplèteRaccordementCommandHandlerFactory,
-  transmettreDemandeComplèteRaccordementUseCaseFactory,
+  transmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -122,7 +121,7 @@ v1Router.post(
       };
 
       try {
-        await transmettreDemandeComplèteRaccordement({
+        await transmettreDemandeComplèteRaccordementUseCase({
           identifiantProjet,
           identifiantGestionnaireRéseau: { codeEIC },
           dateQualification,

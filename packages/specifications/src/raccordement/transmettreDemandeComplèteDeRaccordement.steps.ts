@@ -1,5 +1,4 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   DossierRaccordementReadModel,
   GestionnaireNonRéférencéError,
@@ -13,6 +12,7 @@ import {
   createConsulterProjetQuery,
   createConsulterDossierRaccordementQuery,
   createListerDossiersRaccordementQuery,
+  transmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
 import { download } from '@potentiel/file-storage';
@@ -28,8 +28,6 @@ EtantDonné(
     const exemple = table.rowsHash();
     const dateQualification = new Date(exemple['La date de qualification']);
     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
-
-    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
     await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -50,8 +48,6 @@ Quand(
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
     this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence du dossier de raccordement'];
-
-    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
     await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -78,8 +74,6 @@ Quand(
     this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence du dossier de raccordement'];
 
-    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
-
     await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
@@ -95,8 +89,6 @@ Quand(
 Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé`,
   async function (this: PotentielWorld) {
-    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
-
     try {
       await transmettreDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -220,8 +212,6 @@ Quand(
       codeEICAutreGDR,
       'Un autre gestionnaire',
     );
-
-    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
     try {
       await transmettreDemandeComplèteRaccordementUseCase({
