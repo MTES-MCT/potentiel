@@ -5,12 +5,11 @@ import {
   consulterDossierRaccordementQueryHandlerFactory,
   formatIdentifiantProjet,
   createConsulterDossierRaccordementQuery,
-  listerDossiersRaccordementQueryHandlerFactory,
+  createListerDossiersRaccordementQuery,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
   modifierDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
 import {
   remplacerAccuséRéceptionDemandeComplèteRaccordement,
@@ -69,13 +68,12 @@ Alors(
 Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet avec comme référence {string}`,
   async function (this: PotentielWorld, nouvelleReference: string) {
-    const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
-      find: findProjection,
-    });
+    const actual = await mediator.send(
+      createListerDossiersRaccordementQuery({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
-    const actual = await listerDossiersRaccordement({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
     actual.références.should.contain(nouvelleReference);
   },
 );

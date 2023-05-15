@@ -1,21 +1,29 @@
-import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { ListeDossiersRaccordementReadModel } from './listeDossierRaccordement.readModel';
+import { Message, MessageHandler, mediator } from 'mediateur';
 
-type ListerDossiersRaccordementQuery = { identifiantProjet: IdentifiantProjet };
+const LISTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('LISTER_DOSSIER_RACCORDEMENT_QUERY');
 
-type Dependencies = {
+type ListerDossiersRaccordementQuery = Message<
+  typeof LISTER_DOSSIER_RACCORDEMENT_QUERY,
+  {
+    identifiantProjet: IdentifiantProjet;
+  },
+  ListeDossiersRaccordementReadModel
+>;
+
+type ListerDossiersRaccordementQueryDependencies = {
   find: Find;
 };
 
-export const listerDossiersRaccordementQueryHandlerFactory: QueryHandlerFactory<
-  ListerDossiersRaccordementQuery,
-  ListeDossiersRaccordementReadModel,
-  Dependencies
-> =
-  ({ find }) =>
-  async ({ identifiantProjet }) => {
+export const registerListerDossiersRaccordementQuery = ({
+  find,
+}: ListerDossiersRaccordementQueryDependencies) => {
+  const handler: MessageHandler<ListerDossiersRaccordementQuery> = async ({
+    identifiantProjet,
+  }) => {
     const result = await find<ListeDossiersRaccordementReadModel>(
       `liste-dossiers-raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
     );
@@ -29,3 +37,13 @@ export const listerDossiersRaccordementQueryHandlerFactory: QueryHandlerFactory<
 
     return result;
   };
+
+  mediator.register(LISTER_DOSSIER_RACCORDEMENT_QUERY, handler);
+};
+
+export const createListerDossiersRaccordementQuery = (
+  queryData: ListerDossiersRaccordementQuery['data'],
+): ListerDossiersRaccordementQuery => ({
+  type: LISTER_DOSSIER_RACCORDEMENT_QUERY,
+  data: { ...queryData },
+});

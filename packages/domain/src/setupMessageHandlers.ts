@@ -6,7 +6,10 @@ import {
   registerModifierGestionnaireRéseauCommand,
 } from './gestionnaireRéseau';
 import { registerConsulterProjetQuery } from './projet';
-import { registerConsulterDossierRaccordementQuery } from './raccordement';
+import {
+  registerConsulterDossierRaccordementQuery,
+  registerListerDossiersRaccordementQuery,
+} from './raccordement';
 
 type Ports = {
   commandPorts: {
@@ -43,4 +46,5 @@ const registerQueries = (ports: Ports['queryPorts']) => {
 
   // Dossier de raccordement
   registerConsulterDossierRaccordementQuery(ports);
+  registerListerDossiersRaccordementQuery(ports);
 };

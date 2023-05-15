@@ -12,8 +12,8 @@ import {
   transmettreDemandeComplèteRaccordementUseCaseFactory,
   createConsulterProjetQuery,
   createConsulterDossierRaccordementQuery,
+  createListerDossiersRaccordementQuery,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
 import { download } from '@potentiel/file-storage';
 import { Readable } from 'stream';
@@ -118,13 +118,11 @@ Quand(
 Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
-    const listerDemandeComplèteRaccordement = listerDossiersRaccordementQueryHandlerFactory({
-      find: findProjection,
-    });
-
-    const actual = await listerDemandeComplèteRaccordement({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
+    const actual = await mediator.send(
+      createListerDossiersRaccordementQuery({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
     actual.références.should.length(nombreDeDemandes);
   },
@@ -171,10 +169,13 @@ Alors(
     const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
       find: findProjection,
     });
+  async function async(this: PotentielWorld) {
+    const actual = await mediator.send(
+      createListerDossiersRaccordementQuery({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
 
-    const actual = await listerDossiersRaccordement({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
     actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
   },
 );
