@@ -15,6 +15,7 @@ import {
   registerModifierPropositionTechniqueEtFinancièreCommand,
   registerTransmettreDateMiseEnServiceCommand,
   registerTransmettreDemandeComplèteRaccordementCommand,
+  registerTransmettreDemandeComplèteRaccordementUseCase,
   registerTransmettrePropositionTechniqueEtFinancièreCommand,
 } from './raccordement';
 
@@ -70,4 +71,5 @@ const registerQueries = (ports: Ports['queryPorts']) => {
 const registerUseCases = () => {
   //Dossier de raccordement
   registerModifierGestionnaireRéseauProjetUseCase();
+  registerTransmettreDemandeComplèteRaccordementUseCase();
 };

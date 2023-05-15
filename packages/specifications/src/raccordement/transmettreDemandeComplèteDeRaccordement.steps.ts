@@ -15,7 +15,7 @@ import {
   newConsulterProjetQuery,
   newConsulterDossierRaccordementQuery,
   newListerDossiersRaccordementQuery,
-  transmettreDemandeComplèteRaccordementUseCase,
+  newTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
 import { download } from '@potentiel/file-storage';
@@ -41,6 +41,16 @@ EtantDonné(
       référenceDossierRaccordement,
       accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
+    await mediator.send(
+      newTransmettreDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantGestionnaireRéseau: {
+          codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
+        },
+        dateQualification,
+        référenceDossierRaccordement: référenceDemandeRaccordement,
+      }),
+    );
   },
 );
 
@@ -66,6 +76,16 @@ Quand(
         }),
       },
     });
+    await mediator.send(
+      newTransmettreDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantGestionnaireRéseau: {
+          codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
+        },
+        dateQualification: this.raccordementWorld.dateQualification,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      }),
+    );
   },
 );
 
@@ -86,6 +106,16 @@ Quand(
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
+    await mediator.send(
+      newTransmettreDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantGestionnaireRéseau: {
+          codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
+        },
+        dateQualification: this.raccordementWorld.dateQualification,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      }),
+    );
   },
 );
 
@@ -102,6 +132,16 @@ Quand(
         référenceDossierRaccordement: 'une référence',
         accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
+      await mediator.send(
+        newTransmettreDemandeComplèteRaccordementUseCase({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          identifiantGestionnaireRéseau: {
+            codeEIC: 'gestionnaire-de-réseau-inconnu',
+          },
+          dateQualification: new Date(),
+          référenceDossierRaccordement: 'une référence',
+        }),
+      );
     } catch (e) {
       if (e instanceof GestionnaireNonRéférencéError) {
         this.error = e;
@@ -204,6 +244,16 @@ EtantDonné(
       référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
       accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
+    await mediator.send(
+      newTransmettreDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantGestionnaireRéseau: {
+          codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
+        },
+        dateQualification: new Date('2022-12-31'),
+        référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
+      }),
+    );
   },
 );
 
@@ -226,6 +276,16 @@ Quand(
         référenceDossierRaccordement: 'Enieme-DCR',
         accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
+      await mediator.send(
+        newTransmettreDemandeComplèteRaccordementUseCase({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          identifiantGestionnaireRéseau: {
+            codeEIC: codeEICAutreGDR,
+          },
+          dateQualification: new Date('2022-11-24'),
+          référenceDossierRaccordement: 'Enieme-DCR',
+        }),
+      );
     } catch (error) {
       if (error instanceof PlusieursGestionnairesRéseauPourUnProjetError) {
         this.error = error;

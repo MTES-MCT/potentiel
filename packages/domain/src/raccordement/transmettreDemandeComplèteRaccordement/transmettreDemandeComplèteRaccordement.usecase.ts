@@ -33,57 +33,46 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
   TransmettreDemandeComplèteRaccordementCommand,
   newTransmettreDemandeComplèteRaccordementCommand,
 } from './transmettreDemandeComplèteRaccordement.command';
-import { mediator } from 'mediateur';
+import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
 
-export const transmettreDemandeComplèteRaccordementUseCase = async ({
-  dateQualification,
-  identifiantGestionnaireRéseau,
-  identifiantProjet,
-  référenceDossierRaccordement,
-}: TransmettreDemandeComplèteRaccordementCommand['data']) => {
-  const gestionnaireRéseau = await mediator.send(
-    newConsulterGestionnaireRéseauQuery({
-      codeEIC: identifiantGestionnaireRéseau.codeEIC,
-    }),
-  );
+const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
+  'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
+);
 
-<<<<<<< HEAD
 export const transmettreDemandeComplèteRaccordementUseCaseFactory =
   ({ transmettreDemandeComplèteRaccordementCommand }: Dependencies) =>
   async ({
+type TransmettreDemandeComplèteRaccordementUseCase = Message<
+  typeof TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+  TransmettreDemandeComplèteRaccordementCommand['data']
+>;
+
+export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
+  const runner: MessageHandler<TransmettreDemandeComplèteRaccordementUseCase> = async ({
     dateQualification,
     identifiantGestionnaireRéseau,
     identifiantProjet,
     référenceDossierRaccordement,
-<<<<<<< HEAD
     accuséRéception: { format, content },
   }: TransmettreDemandeComplèteRaccordementUseCaseFactoryParams) => {
     const gestionnaireRéseau = await consulterGestionnaireRéseauQuery({
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
     });
-=======
   }: TransmettreDemandeComplèteRaccordementCommand) => {
     const gestionnaireRéseau = await mediator.send(
       createConsulterGestionnaireRéseauQuery({
         codeEIC: identifiantGestionnaireRéseau.codeEIC,
       }),
     );
->>>>>>> a5f84974 (♻️ Refacto consulter gestionnaire reseau)
 
     await transmettreDemandeComplèteRaccordementCommand({
-=======
   await mediator.send(
-<<<<<<< HEAD
     createTransmettreDemandeComplèteRaccordementCommand({
->>>>>>> 16d23fe4 (♻️ Refacto transmettre DCR command)
-=======
     newTransmettreDemandeComplèteRaccordementCommand({
->>>>>>> 01ea5958 (♻️ Refacto creation des messages)
       identifiantProjet,
       identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
       dateQualification,
       référenceDossierRaccordement,
-<<<<<<< HEAD
       accuséRéception: { format },
     });
 
@@ -94,8 +83,28 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
       content,
     });
   };
-=======
     }),
   );
 };
->>>>>>> 16d23fe4 (♻️ Refacto transmettre DCR command)
+  }: TransmettreDemandeComplèteRaccordementCommand['data']) => {
+    const gestionnaireRéseau = await mediator.send(
+      newConsulterGestionnaireRéseauQuery({
+        codeEIC: identifiantGestionnaireRéseau.codeEIC,
+      }),
+    );
+
+    await mediator.send(
+      newTransmettreDemandeComplèteRaccordementCommand({
+        identifiantProjet,
+        identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
+        dateQualification,
+        référenceDossierRaccordement,
+      }),
+    );
+  };
+  mediator.register(TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);
+};
+
+export const newTransmettreDemandeComplèteRaccordementUseCase = newMessage(
+  TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+);
