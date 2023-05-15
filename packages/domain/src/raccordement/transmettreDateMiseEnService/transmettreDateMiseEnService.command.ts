@@ -1,4 +1,4 @@
-import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-domain';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { DateMiseEnServiceTransmiseEvent } from './dateMiseEnServiceTransmise.event';
 import {
@@ -7,21 +7,33 @@ import {
 } from '../raccordement.aggregate';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { Message, MessageHandler, mediator } from 'mediateur';
 
-type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
+const TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND = Symbol('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND');
 
-type TransmettrePropositionTechniqueEtFinancièreCommand = {
-  dateMiseEnService: Date;
-  référenceDossierRaccordement: string;
-  identifiantProjet: IdentifiantProjet;
+type TransmettreDateMiseEnServiceCommandDependencies = {
+  loadAggregate: LoadAggregate;
+  publish: Publish;
 };
 
-export const transmettreDateMiseEnServiceCommandHandlerFactory: CommandHandlerFactory<
-  TransmettrePropositionTechniqueEtFinancièreCommand,
-  Dependencies
-> =
-  ({ loadAggregate, publish }) =>
-  async ({ dateMiseEnService, référenceDossierRaccordement, identifiantProjet }) => {
+type TransmettreDateMiseEnServiceCommandCommand = Message<
+  typeof TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND,
+  {
+    dateMiseEnService: Date;
+    référenceDossierRaccordement: string;
+    identifiantProjet: IdentifiantProjet;
+  }
+>;
+
+export const registerTransmettreDateMiseEnServiceCommand = ({
+  loadAggregate,
+  publish,
+}: TransmettreDateMiseEnServiceCommandDependencies) => {
+  const handler: MessageHandler<TransmettreDateMiseEnServiceCommandCommand> = async ({
+    dateMiseEnService,
+    référenceDossierRaccordement,
+    identifiantProjet,
+  }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
     });
@@ -43,3 +55,13 @@ export const transmettreDateMiseEnServiceCommandHandlerFactory: CommandHandlerFa
 
     await publish(createRaccordementAggregateId(identifiantProjet), event);
   };
+
+  mediator.register(TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND, handler);
+};
+
+export const createTransmettreDateMiseEnServiceCommand = (
+  commandData: TransmettreDateMiseEnServiceCommandCommand['data'],
+): TransmettreDateMiseEnServiceCommandCommand => ({
+  type: TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND,
+  data: { ...commandData },
+});

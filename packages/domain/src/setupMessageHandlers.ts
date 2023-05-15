@@ -12,6 +12,7 @@ import {
   registerModifierDemandeComplèteRaccordementCommand,
   registerModifierGestionnaireRéseauProjetCommand,
   registerModifierPropositionTechniqueEtFinancièreCommand,
+  registerTransmettreDateMiseEnServiceCommand,
   registerTransmettreDemandeComplèteRaccordementCommand,
   registerTransmettrePropositionTechniqueEtFinancièreCommand,
 } from './raccordement';
@@ -48,6 +49,7 @@ const registerCommands = (ports: Ports['commandPorts']) => {
   registerModifierPropositionTechniqueEtFinancièreCommand(ports);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(ports);
   registerTransmettreDemandeComplèteRaccordementCommand(ports);
+  registerTransmettreDateMiseEnServiceCommand(ports);
 };
 
 const registerQueries = (ports: Ports['queryPorts']) => {
