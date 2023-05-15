@@ -1,6 +1,6 @@
 import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/domain';
 import { deleteFile, getFiles } from '@potentiel/file-storage';
-import { uploadFile } from './uploadFile';
+import { enregistrerAccuséRéceptionDemandeComplèteRaccordement } from './enregistrerAccuséRéceptionDemandeComplèteRaccordement';
 
 type ReplaceFile = RemplacerAccuséRéceptionDemandeComplèteRaccordement;
 
@@ -14,5 +14,5 @@ export const replaceFile: ReplaceFile = async ({
     await deleteFile(files[0]);
   }
 
-  await uploadFile(path, content);
+  await enregistrerAccuséRéceptionDemandeComplèteRaccordement(path, content);
 };

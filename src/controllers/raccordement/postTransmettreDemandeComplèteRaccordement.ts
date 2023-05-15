@@ -4,7 +4,6 @@ import {
   PermissionTransmettreDemandeComplèteRaccordement,
   PlusieursGestionnairesRéseauPourUnProjetError,
   consulterGestionnaireRéseauQueryHandlerFactory,
-  formatIdentifiantProjet,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
@@ -22,11 +21,10 @@ import {
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { uploadFile } from '@potentiel/adapter-domain';
+import { enregistrerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { extname, join } from 'path';
 
 const transmettreDemandeComplèteRaccordementCommand =
   transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -42,7 +40,7 @@ const transmettreDemandeComplèteRaccordement = transmettreDemandeComplèteRacco
   {
     transmettreDemandeComplèteRaccordementCommand,
     consulterGestionnaireRéseauQuery,
-    enregistrerAccuséRéceptionDemandeComplèteRaccordement: uploadFile,
+    enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   },
 );
 
@@ -135,11 +133,6 @@ v1Router.post(
           référenceDossierRaccordement,
           accuséRéception: {
             format: file.mimetype,
-            path: join(
-              formatIdentifiantProjet(identifiantProjet),
-              référenceDossierRaccordement,
-              `demande-complete-raccordement${extname(file.originalname)}`,
-            ),
             content: createReadStream(file.path),
           },
         });

@@ -1,6 +1,9 @@
 import { Readable } from 'stream';
+import { IdentifiantProjet } from '../../projet';
 
-export type EnregistrerAccuséRéceptionDemandeComplèteRaccordement = (
-  path: string,
-  content: Readable,
-) => Promise<void>;
+export type EnregistrerAccuséRéceptionDemandeComplèteRaccordement = (args: {
+  identifiantProjet: IdentifiantProjet;
+  référenceDossierRaccordement: string;
+  format: string;
+  content: Readable;
+}) => Promise<void>;

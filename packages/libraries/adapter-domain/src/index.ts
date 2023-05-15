@@ -1,2 +1,2 @@
-export * from './uploadFile';
+export * from './enregistrerAccuséRéceptionDemandeComplèteRaccordement';
 export * from './replaceFile';

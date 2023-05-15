@@ -64,8 +64,10 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
 
     await publish(createRaccordementAggregateId(identifiantProjet), event);
 
-    await remplacerAccuséRéceptionDemandeComplèteRaccordement({
-      fichierASupprimerPath,
-      nouveauFichier,
-    });
+    // await remplacerAccuséRéceptionDemandeComplèteRaccordement({
+    //   identifiantProjet,
+    //   référenceDossierRaccordement,
+    //   fichierASupprimerPath,
+    //   nouveauFichier,
+    // });
   };

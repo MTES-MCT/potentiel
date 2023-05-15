@@ -21,8 +21,7 @@ type TransmettreDemandeComplèteRaccordementUseCaseFactoryParams = Omit<
   'formatFichier'
 > & {
   accuséRéception: {
-    format: Express.Multer.File['mimetype'];
-    path: Express.Multer.File['path'];
+    format: string;
     content: Readable;
   };
 };
@@ -38,7 +37,7 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     identifiantGestionnaireRéseau,
     identifiantProjet,
     référenceDossierRaccordement,
-    accuséRéception: { format, path, content },
+    accuséRéception: { format, content },
   }: TransmettreDemandeComplèteRaccordementUseCaseFactoryParams) => {
     const gestionnaireRéseau = await consulterGestionnaireRéseauQuery({
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
@@ -52,5 +51,10 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
       accuséRéception: { format },
     });
 
-    await enregistrerAccuséRéceptionDemandeComplèteRaccordement(path, content);
+    await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
+      identifiantProjet,
+      référenceDossierRaccordement,
+      format,
+      content,
+    });
   };
