@@ -13,12 +13,10 @@ import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from './rempla
 type ModifierDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
   dateQualification: Date;
-  referenceActuelle: string;
-  nouvelleReference: string;
-  fichierASupprimerPath: string;
+  ancienneRéférence: string;
+  nouvelleRéférence: string;
   nouveauFichier: {
     format: string;
-    path: string;
     content: Readable;
   };
 };
@@ -37,9 +35,8 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
   async ({
     identifiantProjet,
     dateQualification,
-    referenceActuelle,
-    nouvelleReference,
-    fichierASupprimerPath,
+    ancienneRéférence,
+    nouvelleRéférence,
     nouveauFichier,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
@@ -48,7 +45,7 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(referenceActuelle)) {
+    if (isNone(raccordement) || !raccordement.références.includes(ancienneRéférence)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -57,17 +54,17 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         dateQualification: dateQualification.toISOString(),
-        referenceActuelle,
-        nouvelleReference,
+        ancienneRéférence,
+        nouvelleRéférence,
       },
     };
 
     await publish(createRaccordementAggregateId(identifiantProjet), event);
 
-    // await remplacerAccuséRéceptionDemandeComplèteRaccordement({
-    //   identifiantProjet,
-    //   référenceDossierRaccordement,
-    //   fichierASupprimerPath,
-    //   nouveauFichier,
-    // });
+    await remplacerAccuséRéceptionDemandeComplèteRaccordement({
+      identifiantProjet,
+      ancienneRéférence,
+      nouvelleRéférence,
+      nouveauFichier,
+    });
   };

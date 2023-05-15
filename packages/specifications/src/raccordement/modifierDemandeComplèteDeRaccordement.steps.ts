@@ -9,24 +9,23 @@ import {
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
-import { replaceFile } from '@potentiel/adapter-domain';
+import { remplacerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
 
 Quand(
   `le porteur modifie la date de qualification au {string} et une nouvelle référence {string}`,
-  async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
+  async function (this: PotentielWorld, dateQualification: string, nouvelleRéférence: string) {
     const modifierDemandeComplèteRaccordement =
       modifierDemandeComplèteRaccordementCommandHandlerFactory({
         loadAggregate,
         publish,
-        remplacerAccuséRéceptionDemandeComplèteRaccordement: replaceFile,
+        remplacerAccuséRéceptionDemandeComplèteRaccordement,
       });
 
     await modifierDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       dateQualification: new Date(dateQualification),
-      referenceActuelle: this.raccordementWorld.référenceDossierRaccordement,
-      nouvelleReference,
-      fichierASupprimerPath: this.raccordementWorld.accuséRéception.path,
+      ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
+      nouvelleRéférence,
       nouveauFichier: this.raccordementWorld.accuséRéception,
     });
   },
@@ -88,15 +87,14 @@ Quand(
         modifierDemandeComplèteRaccordementCommandHandlerFactory({
           loadAggregate,
           publish,
-          remplacerAccuséRéceptionDemandeComplèteRaccordement: replaceFile,
+          remplacerAccuséRéceptionDemandeComplèteRaccordement,
         });
 
       await modifierDemandeComplèteRaccordement({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: new Date('2023-04-26'),
-        referenceActuelle: 'dossier-inconnu',
-        nouvelleReference: 'nouvelle-reference',
-        fichierASupprimerPath: this.raccordementWorld.accuséRéception.path,
+        ancienneRéférence: 'dossier-inconnu',
+        nouvelleRéférence: 'nouvelle-reference',
         nouveauFichier: this.raccordementWorld.accuséRéception,
       });
     } catch (error) {

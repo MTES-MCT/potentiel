@@ -16,7 +16,7 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
   ({ find, create, remove, update }) =>
   async (event) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.referenceActuelle}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.ancienneRéférence}`,
     );
 
     if (isNone(dossierRaccordement)) {
@@ -25,16 +25,16 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
     }
 
     await create<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.nouvelleReference}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.nouvelleRéférence}`,
       {
         ...dossierRaccordement,
         dateQualification: event.payload.dateQualification,
-        référence: event.payload.nouvelleReference,
+        référence: event.payload.nouvelleRéférence,
       },
     );
 
     await remove<DossierRaccordementReadModel>(
-      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.referenceActuelle}`,
+      `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.ancienneRéférence}`,
     );
 
     const listeDossierRaccordement = await find<ListeDossiersRaccordementReadModel>(
@@ -52,9 +52,9 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
         ...listeDossierRaccordement,
         références: [
           ...listeDossierRaccordement.références.filter(
-            (référence) => référence !== event.payload.referenceActuelle,
+            (référence) => référence !== event.payload.ancienneRéférence,
           ),
-          event.payload.nouvelleReference,
+          event.payload.nouvelleRéférence,
         ],
       },
     );

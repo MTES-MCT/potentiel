@@ -22,16 +22,16 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
-  #accuséRéception!: { format: string; path: string; content: Readable };
+  #accuséRéception!: { format: string; content: Readable };
 
-  get accuséRéception(): { format: string; path: string; content: Readable } {
+  get accuséRéception(): { format: string; content: Readable } {
     if (!this.#accuséRéception) {
       throw new Error('accuséRéception not initialized');
     }
     return this.#accuséRéception;
   }
 
-  set accuséRéception(value: { format: string; path: string; content: Readable }) {
+  set accuséRéception(value: { format: string; content: Readable }) {
     this.#accuséRéception = value;
   }
 
@@ -62,7 +62,6 @@ export class RaccordementWorld {
     };
     this.#accuséRéception = {
       format: 'application/pdf',
-      path: 'path/to/file.pdf',
       content: Readable.from("Contenu d'un fichier", {
         encoding: 'utf8',
       }),
