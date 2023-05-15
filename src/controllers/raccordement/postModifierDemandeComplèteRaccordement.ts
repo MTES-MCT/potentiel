@@ -5,6 +5,8 @@ import {
   consulterDossierRaccordementQueryHandlerFactory,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
   modifierDemandeComplèteRaccordementUseCaseFactory,
+  createModifierDemandeComplèteRaccordementCommand,
+  formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -18,7 +20,6 @@ import {
   vérifierPermissionUtilisateur,
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
@@ -37,6 +38,10 @@ const modifierDemandeComplèteRaccordementCommand =
     loadAggregate,
     publish,
   });
+import { extname, join } from 'path';
+import { createReadStream } from 'fs';
+import { deleteFile, getFiles, renameFile, upload } from '@potentiel/file-storage';
+import { mediator } from 'mediateur';
 
 const modifierDemandeComplèteRaccordement = modifierDemandeComplèteRaccordementUseCaseFactory({
   consulterDossierRaccordementQuery,
@@ -144,6 +149,14 @@ v1Router.post(
             content: createReadStream(file.path),
           },
         });
+        await mediator.send(
+          createModifierDemandeComplèteRaccordementCommand({
+            identifiantProjet,
+            dateQualification,
+            nouvelleReference,
+            referenceActuelle: reference,
+          }),
+        );
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

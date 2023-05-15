@@ -13,12 +13,8 @@ import {
 import routes from '@routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '@modules/project';
-import { listerDossiersRaccordementQueryHandlerFactory } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
-
-const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
+import { createListerDossiersRaccordementQuery } from '@potentiel/domain';
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().uuid().required() }),
@@ -65,7 +61,9 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
 
-      const { références } = await listerDossiersRaccordement({ identifiantProjet });
+      const { références } = await mediator.send(
+        createListerDossiersRaccordementQuery({ identifiantProjet }),
+      );
       const dossiersRaccordementExistant = références.length > 0;
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });

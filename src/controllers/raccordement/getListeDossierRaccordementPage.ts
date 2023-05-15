@@ -8,20 +8,15 @@ import {
   RésuméProjetReadModel,
   createConsulterGestionnaireRéseauQuery,
   formatIdentifiantProjet,
-  listerDossiersRaccordementQueryHandlerFactory,
   createConsulterDossierRaccordementQuery,
   createConsulterProjetQuery,
+  createListerDossiersRaccordementQuery,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { findProjection } from '@potentiel/pg-projections';
 import { ListeDossiersRaccordementPage } from '@views';
 import { join } from 'path';
 import { getFiles } from '@potentiel/file-storage';
 import { mediator } from 'mediateur';
-
-const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -76,9 +71,11 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
 
-      const { références } = await listerDossiersRaccordement({
-        identifiantProjet,
-      });
+      const { références } = await mediator.send(
+        createListerDossiersRaccordementQuery({
+          identifiantProjet,
+        }),
+      );
 
       if (références.length > 0) {
         const getStatutProjet = (): RésuméProjetReadModel['statut'] => {

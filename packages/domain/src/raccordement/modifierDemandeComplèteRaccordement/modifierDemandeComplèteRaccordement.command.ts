@@ -1,4 +1,4 @@
-import { Publish, LoadAggregate, CommandHandlerFactory } from '@potentiel/core-domain';
+import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import {
@@ -18,6 +18,21 @@ export type ModifierDemandeComplèteRaccordementCommand = {
     format: string;
   };
 };
+import { Message, MessageHandler, mediator } from 'mediateur';
+
+const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
+  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+);
+
+type ModifierDemandeComplèteRaccordementCommand = Message<
+  typeof MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  {
+    identifiantProjet: IdentifiantProjet;
+    dateQualification: Date;
+    referenceActuelle: string;
+    nouvelleReference: string;
+  }
+>;
 
 type ModifierDemandeComplèteRaccordementDependencies = {
   publish: Publish;
@@ -35,6 +50,15 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
     ancienneRéférence,
     nouvelleRéférence,
     nouveauFichier,
+export const registerModifierDemandeComplèteRaccordementCommand = ({
+  publish,
+  loadAggregate,
+}: ModifierDemandeComplèteRaccordementDependencies) => {
+  const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
+    identifiantProjet,
+    dateQualification,
+    referenceActuelle,
+    nouvelleReference,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -72,3 +96,13 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
 
     await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
   };
+
+  mediator.register(MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND, handler);
+};
+
+export const createModifierDemandeComplèteRaccordementCommand = (
+  commandData: ModifierDemandeComplèteRaccordementCommand['data'],
+): ModifierDemandeComplèteRaccordementCommand => ({
+  type: MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  data: { ...commandData },
+});

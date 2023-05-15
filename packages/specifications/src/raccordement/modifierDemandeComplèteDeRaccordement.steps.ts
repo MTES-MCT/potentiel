@@ -8,8 +8,8 @@ import {
   createListerDossiersRaccordementQuery,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
   modifierDemandeComplèteRaccordementUseCaseFactory,
+  createModifierDemandeComplèteRaccordementCommand,
 } from '@potentiel/domain';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
 import {
   remplacerAccuséRéceptionDemandeComplèteRaccordement,
@@ -32,6 +32,16 @@ Quand(
       nouvelleRéférence,
       nouveauFichier: this.raccordementWorld.autreFichierDemandeComplèteRaccordement,
     });
+  `le porteur modifie la date de qualification au {string} et une nouvelle référence {string}`,
+  async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
+    await mediator.send(
+      createModifierDemandeComplèteRaccordementCommand({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        dateQualification: new Date(dateQualification),
+        referenceActuelle: this.raccordementWorld.référenceDossierRaccordement,
+        nouvelleReference,
+      }),
+    );
   },
 );
 
@@ -106,6 +116,14 @@ Quand(
         nouvelleRéférence: 'nouvelle-reference',
         nouveauFichier: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
+      await mediator.send(
+        createModifierDemandeComplèteRaccordementCommand({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          dateQualification: new Date('2023-04-26'),
+          referenceActuelle: 'dossier-inconnu',
+          nouvelleReference: 'nouvelle-reference',
+        }),
+      );
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
         this.error = error;
