@@ -42,9 +42,12 @@ const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
 export const transmettreDemandeComplèteRaccordementUseCaseFactory =
   ({ transmettreDemandeComplèteRaccordementCommand }: Dependencies) =>
   async ({
+type TransmettreDemandeComplèteRaccordementUseCaseData =
+  TransmettreDemandeComplèteRaccordementCommand['data'];
+
 type TransmettreDemandeComplèteRaccordementUseCase = Message<
   typeof TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
-  TransmettreDemandeComplèteRaccordementCommand['data']
+  TransmettreDemandeComplèteRaccordementUseCaseData
 >;
 
 export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {

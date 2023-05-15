@@ -12,9 +12,11 @@ const MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE = Symbol(
   'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
 );
 
+type ModifierGestionnaireRéseauProjetUseCaseData = ModifierGestionnaireRéseauProjetCommand['data'];
+
 type ModifierGestionnaireRéseauProjetUseCase = Message<
   typeof MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE,
-  ModifierGestionnaireRéseauProjetCommand['data']
+  ModifierGestionnaireRéseauProjetUseCaseData
 >;
 
 export const registerModifierGestionnaireRéseauProjetUseCase = () => {
