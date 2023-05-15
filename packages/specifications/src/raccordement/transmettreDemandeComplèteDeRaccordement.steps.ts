@@ -7,15 +7,18 @@ import {
   consulterDossierRaccordementQueryHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
+  formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
-import { uploadFile } from '@potentiel/adapter-domain';
 import { download } from '@potentiel/file-storage';
 import { Readable } from 'stream';
+import { join } from 'path';
+import { extension } from 'mime-types';
+import { enregistrerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
@@ -57,7 +60,6 @@ Quand(
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       accuséRéception: {
         format: 'application/pdf',
-        path: 'path/to/file2.pdf',
         content: Readable.from("Contenu d'un autre fichier", {
           encoding: 'utf8',
         }),
@@ -180,7 +182,12 @@ Alors(
 Alors(
   `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement`,
   async function (this: PotentielWorld) {
-    const fichier = await download(this.raccordementWorld.accuséRéception.path);
+    const path = join(
+      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+      this.raccordementWorld.référenceDossierRaccordement,
+      `demande-complete-raccordement${extension(this.raccordementWorld.accuséRéception.format)}`,
+    );
+    const fichier = await download(path);
     fichier.should.be.ok;
   },
 );
@@ -245,7 +252,7 @@ function getUseCase() {
     transmettreDemandeComplèteRaccordementUseCaseFactory({
       consulterGestionnaireRéseauQuery,
       transmettreDemandeComplèteRaccordementCommand,
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement: uploadFile,
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement,
     });
   return transmettreDemandeComplèteRaccordementUseCase;
 }

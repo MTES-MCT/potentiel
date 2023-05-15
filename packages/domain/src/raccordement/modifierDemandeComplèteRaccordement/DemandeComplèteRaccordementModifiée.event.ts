@@ -5,7 +5,7 @@ export type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
   {
     identifiantProjet: string;
     dateQualification: string;
-    ancienneRéférence: string;
-    nouvelleRéférence: string;
+    referenceActuelle: string;
+    nouvelleReference: string;
   }
 >;

@@ -39,8 +39,8 @@ const raccordementAggregateStateFactory: AggregateStateFactory<
       case 'DemandeComplèteRaccordementModifiée':
         return {
           ...aggregate,
-          références: [...aggregate.références, event.payload.nouvelleRéférence].filter(
-            (référence) => référence !== event.payload.ancienneRéférence,
+          références: [...aggregate.références, event.payload.nouvelleReference].filter(
+            (référence) => référence !== event.payload.referenceActuelle,
           ),
         };
       default:

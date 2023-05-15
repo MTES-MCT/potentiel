@@ -54,8 +54,8 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         dateQualification: dateQualification.toISOString(),
-        ancienneRéférence,
-        nouvelleRéférence,
+        referenceActuelle: ancienneRéférence,
+        nouvelleReference: nouvelleRéférence,
       },
     };
 

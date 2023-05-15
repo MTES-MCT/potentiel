@@ -1,5 +1,4 @@
 import { extname, join } from 'path';
-import { extension } from 'mime-types';
 import { createReadStream } from 'fs';
 import {
   DossierRaccordementNonRéférencéError,
@@ -24,13 +23,13 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { getFiles, renameFile } from '@potentiel/file-storage';
-import { replaceFile } from '@potentiel/adapter-domain';
+import { remplacerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
 
 const modifierDemandeComplèteRaccordement =
   modifierDemandeComplèteRaccordementCommandHandlerFactory({
     publish,
     loadAggregate,
-    remplacerAccuséRéceptionDemandeComplèteRaccordement: replaceFile,
+    remplacerAccuséRéceptionDemandeComplèteRaccordement,
   });
 
 const schema = yup.object({
@@ -39,7 +38,7 @@ const schema = yup.object({
     reference: yup.string().required(),
   }),
   body: yup.object({
-    nouvelleReference: yup.string().required(),
+    nouvelleRéférence: yup.string().required(),
     dateQualification: yup
       .date()
       .required(`La date de qualification est obligatoire`)
@@ -67,7 +66,7 @@ v1Router.post(
       const {
         user,
         params: { projetId, reference },
-        body: { dateQualification, nouvelleReference },
+        body: { dateQualification, nouvelleRéférence },
         file,
       } = request;
 
@@ -119,20 +118,10 @@ v1Router.post(
         await modifierDemandeComplèteRaccordement({
           identifiantProjet,
           dateQualification,
-          nouvelleReference,
-          referenceActuelle: reference,
-          fichierASupprimerPath: join(
-            formatIdentifiantProjet(identifiantProjet),
-            reference,
-            `demande-complete-raccordement`,
-          ),
+          nouvelleRéférence,
+          ancienneRéférence: reference,
           nouveauFichier: {
             format: file.mimetype,
-            path: join(
-              formatIdentifiantProjet(identifiantProjet),
-              nouvelleReference,
-              `demande-complete-raccordement${extension(file.mimetype)}`,
-            ),
             content: createReadStream(file.path),
           },
         });
@@ -150,7 +139,7 @@ v1Router.post(
             fichierPTF[0],
             join(
               formatIdentifiantProjet(identifiantProjet),
-              nouvelleReference,
+              nouvelleRéférence,
               `proposition-technique-et-financiere${extname(fichierPTF[0])}`,
             ),
           );
