@@ -75,6 +75,7 @@ v1Router.get(
         fichier.content.pipe(response);
         return response.status(200);
       } catch (error) {
+        console.error(error);
         logger.error(error);
       }
     },

@@ -35,7 +35,11 @@ export const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    if (!dossierRaccordement.accuséRéception || !dossierRaccordement.accuséRéception?.format) {
+    if (
+      !dossierRaccordement.accuséRéception ||
+      !dossierRaccordement.accuséRéception.format ||
+      dossierRaccordement.accuséRéception.format === 'none'
+    ) {
       throw new FormatFichierInexistantError();
     }
 

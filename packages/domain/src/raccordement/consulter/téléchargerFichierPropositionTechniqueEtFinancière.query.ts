@@ -37,7 +37,8 @@ export const téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFa
 
     if (
       !dossierRaccordement.propositionTechniqueEtFinancière ||
-      !dossierRaccordement.propositionTechniqueEtFinancière?.format
+      !dossierRaccordement.propositionTechniqueEtFinancière.format ||
+      dossierRaccordement.propositionTechniqueEtFinancière.format === 'none'
     ) {
       throw new FormatFichierInexistantError();
     }
