@@ -1,4 +1,13 @@
-import { Find, List, LoadAggregate, Publish } from '@potentiel/core-domain';
+import {
+  Create,
+  Find,
+  List,
+  LoadAggregate,
+  Publish,
+  Remove,
+  Subscribe,
+  Update,
+} from '@potentiel/core-domain';
 
 export type Ports = {
   commandPorts: {
@@ -9,4 +18,11 @@ export type Ports = {
     find: Find;
     list: List;
   };
+  eventPorts: {
+    create: Create;
+    update: Update;
+    find: Find;
+    remove: Remove;
+  };
+  subscribe: Subscribe;
 };

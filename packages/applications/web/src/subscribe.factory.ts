@@ -95,7 +95,7 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
 }
 =======
 
-  let unsubscribe: Promise<Unsubscribe> | undefined;
+  let unsubscribe: Unsubscribe | undefined;
 
   return () => {
     if (!unsubscribe) {

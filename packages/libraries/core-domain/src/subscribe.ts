@@ -6,4 +6,4 @@ export type Unsubscribe = () => Promise<void>;
 export type Subscribe = <TDomainEvent extends DomainEvent>(
   eventType: TDomainEvent['type'] | 'all',
   eventHandler: DomainEventHandler<TDomainEvent>,
-) => Promise<Unsubscribe>;
+) => Unsubscribe;

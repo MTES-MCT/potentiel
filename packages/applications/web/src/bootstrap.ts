@@ -1,4 +1,4 @@
-import { setupDomain, setupEventHandlers } from '@potentiel/domain';
+import { setupDomain } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
@@ -19,17 +19,12 @@ export const bootstrap = async () => {
       find: findProjection,
       list: listProjection,
     },
-  });
-
-  const subscribe = await subscribeFactory();
-
-  await setupEventHandlers({
-    subscribe,
     eventPorts: {
       create: createProjection,
       find: findProjection,
       remove: removeProjection,
       update: updateProjection,
     },
+    subscribe: await subscribeFactory(),
   });
 };

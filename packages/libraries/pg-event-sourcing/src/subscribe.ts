@@ -15,10 +15,10 @@ class EventStreamEmitter extends EventEmitter {
     this.#unlisten = () => Promise.reject(new Error('EventStream emmitter is not listenning.'));
   }
 
-  async subscribe<TDomainEvent extends DomainEvent>(
+  subscribe<TDomainEvent extends DomainEvent>(
     eventType: TDomainEvent['type'] | 'all',
     eventHandler: DomainEventHandler<TDomainEvent>,
-  ) {
+  ): Unsubscribe {
     if (!this.#isListening) {
       this.#unlisten = listenToNewEvent(eventStreamEmitter);
       this.#isListening = true;
@@ -49,10 +49,10 @@ class EventStreamEmitter extends EventEmitter {
 
 let eventStreamEmitter: EventStreamEmitter;
 
-export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
+export const subscribe = <TDomainEvent extends DomainEvent = Event>(
   eventType: TDomainEvent['type'] | 'all',
   eventHandler: DomainEventHandler<TDomainEvent>,
-): Promise<Unsubscribe> => {
+): Unsubscribe => {
   if (!eventStreamEmitter) {
     eventStreamEmitter = new EventStreamEmitter();
   }

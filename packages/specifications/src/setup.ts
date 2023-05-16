@@ -1,6 +1,5 @@
-import { BeforeAll, Before, After, setWorldConstructor, BeforeStep } from '@cucumber/cucumber';
-import { Unsubscribe } from '@potentiel/core-domain';
-import { setupEventHandlers, setupDomain } from '@potentiel/domain';
+import { Before, setWorldConstructor, BeforeStep, After } from '@cucumber/cucumber';
+import { setupDomain, UnsetupDomain } from '@potentiel/domain';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import {
@@ -41,6 +40,7 @@ BeforeAll(() => {
   process.env.AWS_ACCESS_KEY_ID = 'AKIAIOSFODNN7EXAMPLE';
   process.env.AWS_SECRET_ACCESS_KEY = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY';
 });
+let unsetupDomain: UnsetupDomain | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
@@ -48,10 +48,20 @@ BeforeStep(async () => {
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
+  process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+
   await executeQuery(`DELETE FROM "EVENT_STREAM"`);
   await executeQuery(`DELETE FROM "PROJECTION"`);
 
-  unsubscribes = await setupEventHandlers({
+  unsetupDomain = setupDomain({
+    commandPorts: {
+      loadAggregate,
+      publish,
+    },
+    queryPorts: {
+      find: findProjection,
+      list: listProjection,
+    },
     eventPorts: {
       create: createProjection,
       find: findProjection,
@@ -92,10 +102,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  if (unsubscribes) {
-    for (const unsubscribe of unsubscribes) {
-      await unsubscribe();
-    }
+  if (unsetupDomain) {
+    await unsetupDomain();
   }
-  unsubscribes = undefined;
+  unsetupDomain = undefined;
 });
