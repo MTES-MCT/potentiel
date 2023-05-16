@@ -9,6 +9,7 @@ import {
   propositionTechniqueEtFinancièreModifiéeHandlerFactory,
   accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
 } from '@potentiel/domain';
+import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from '@potentiel/domain/src/raccordement/transmettrePropositionTechniqueEtFinancière/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 import {
   createProjection,
   updateProjection,
@@ -75,6 +76,13 @@ export async function bootstrapEventConsumers() {
   consumerRaccordement.consume(
     'AccuséRéceptionDemandeComplèteRaccordementTransmis',
     accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory({
+      find: findProjection,
+      update: updateProjection,
+    }),
+  );
+  consumerRaccordement.consume(
+    'FichierPropositionTechniqueEtFinancièreTransmis',
+    fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory({
       find: findProjection,
       update: updateProjection,
     }),
