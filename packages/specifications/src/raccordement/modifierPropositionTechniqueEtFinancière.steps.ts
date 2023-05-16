@@ -10,7 +10,7 @@ import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
 
 Quand(
-  `le porteur modifie la date de signature de la proposition technique et financière au {string}`,
+  `le porteur modifie la proposition technique et financière avec une date de signature au {string} et un nouveau fichier`,
   async function (this: PotentielWorld, dateSignature: string) {
     const modifierPropositionTechniqueEtFinancière =
       modifierPropositionTechniqueEtFinancièreCommandHandlerFactory({
@@ -22,12 +22,13 @@ Quand(
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       dateSignature: new Date(dateSignature),
+      nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
     });
   },
 );
 
 Alors(
-  `la date de signature {string} devrait être consultable dans le dossier de raccordement`,
+  `la date de signature {string} et le format du fichier devraient être consultables dans le dossier de raccordement`,
   async function (this: PotentielWorld, dateSignature: string) {
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
@@ -43,6 +44,11 @@ Alors(
       format: 'none',
     });
   },
+);
+
+Alors(
+  `le nouveau fichier devrait être enregistré et consultable pour ce dossier de raccordement`,
+  async function (this: PotentielWorld) {},
 );
 
 Quand(

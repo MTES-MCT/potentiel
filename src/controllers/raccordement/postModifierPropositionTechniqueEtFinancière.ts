@@ -1,7 +1,6 @@
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettrePropositionTechniqueEtFinancière,
-  formatIdentifiantProjet,
   modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -20,9 +19,7 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { extname, join } from 'path';
 import { createReadStream } from 'fs';
-import { deleteFile, getFiles, upload } from '@potentiel/file-storage';
 
 const modifierPropositionTechniqueEtFinancière =
   modifierPropositionTechniqueEtFinancièreCommandHandlerFactory({
@@ -113,27 +110,11 @@ v1Router.post(
           identifiantProjet,
           référenceDossierRaccordement: reference,
           dateSignature,
+          nouveauFichier: {
+            format: file.mimetype,
+            content: createReadStream(file.path),
+          },
         });
-
-        const fileToDeletePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          reference,
-          `proposition-technique-et-financiere`,
-        );
-
-        const files = await getFiles(fileToDeletePath);
-
-        if (files.length > 0) {
-          await deleteFile(files[0]);
-        }
-
-        const newFilePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          reference,
-          `proposition-technique-et-financiere${extname(file.originalname)}`,
-        );
-        const content = createReadStream(file.path);
-        await upload(newFilePath, content);
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
