@@ -3,7 +3,7 @@ import { setupGestionnaireRéseau } from './gestionnaireRéseau/gestionnaireRés
 import { setupProjet } from './projet/projet.setup';
 import { setupRaccordement } from './raccordement/raccordement.setup';
 
-export const setupDomain = async (ports: Ports) => {
+export const setupDomain = (ports: Ports) => {
   setupGestionnaireRéseau(ports);
   setupProjet(ports);
   setupRaccordement(ports);

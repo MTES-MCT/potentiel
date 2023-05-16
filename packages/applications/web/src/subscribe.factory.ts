@@ -1,27 +1,31 @@
+import { Subscribe, Unsubscribe } from '@potentiel/core-domain';
 import {
   gestionnaireRéseauAjoutéHandlerFactory,
   gestionnaireRéseauModifiéHandlerFactory,
   demandeComplèteRaccordementTransmiseHandlerFactory,
   dateMiseEnServiceTransmiseHandlerFactory,
   propositionTechniqueEtFinancièreTransmiseHandlerFactory,
-  gestionnaireRéseauProjetModifiéHandlerFactory,
   demandeComplèteRaccordementeModifiéeHandlerFactory,
+  gestionnaireRéseauProjetModifiéHandlerFactory,
   propositionTechniqueEtFinancièreModifiéeHandlerFactory,
   accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
 } from '@potentiel/domain';
 import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from '@potentiel/domain/src/raccordement/transmettrePropositionTechniqueEtFinancière/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
+import { subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   updateProjection,
   findProjection,
   removeProjection,
 } from '@potentiel/pg-projections';
+import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
 
-export async function bootstrapEventConsumers() {
+export const subscribeFactory = async (): Promise<Subscribe> => {
   const consumerGestionnaireRéseau = await consumerFactory('gestionnaireRéseauProjector');
   const consumerRaccordement = await consumerFactory('raccordementProjector');
   const consumerProjet = await consumerFactory('projetProjector');
+
   consumerGestionnaireRéseau.consume(
     'GestionnaireRéseauAjouté',
     gestionnaireRéseauAjoutéHandlerFactory({ create: createProjection }),
@@ -73,6 +77,7 @@ export async function bootstrapEventConsumers() {
       update: updateProjection,
     }),
   );
+<<<<<<< HEAD:packages/applications/web/src/bootstrapEventConsumers.ts
   consumerRaccordement.consume(
     'AccuséRéceptionDemandeComplèteRaccordementTransmis',
     accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory({
@@ -88,3 +93,18 @@ export async function bootstrapEventConsumers() {
     }),
   );
 }
+=======
+
+  let unsubscribe: Promise<Unsubscribe> | undefined;
+
+  return () => {
+    if (!unsubscribe) {
+      unsubscribe = subscribe('all', async (event) => {
+        await publishToEventBus(event.type, event);
+      });
+    }
+
+    return unsubscribe;
+  };
+};
+>>>>>>> 4181fa85 (♻️ Refacto subscribe avec Redis):packages/applications/web/src/subscribe.factory.ts

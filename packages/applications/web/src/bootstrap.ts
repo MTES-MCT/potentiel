@@ -1,8 +1,13 @@
-import { setupDomain } from '@potentiel/domain';
-import { bootstrapEventConsumers } from './bootstrapEventConsumers';
-import { bootstrapEventStreamer } from './bootstrapEventStreamer';
+import { setupDomain, setupEventHandlers } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
+import {
+  createProjection,
+  findProjection,
+  listProjection,
+  removeProjection,
+  updateProjection,
+} from '@potentiel/pg-projections';
+import { subscribeFactory } from './subscribe.factory';
 
 export const bootstrap = async () => {
   setupDomain({
@@ -15,6 +20,16 @@ export const bootstrap = async () => {
       list: listProjection,
     },
   });
-  await bootstrapEventStreamer();
-  await bootstrapEventConsumers();
+
+  const subscribe = await subscribeFactory();
+
+  await setupEventHandlers({
+    subscribe,
+    eventPorts: {
+      create: createProjection,
+      find: findProjection,
+      remove: removeProjection,
+      update: updateProjection,
+    },
+  });
 };

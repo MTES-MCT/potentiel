@@ -38,6 +38,9 @@ const transmettreDemandeComplèteRaccordement = transmettreDemandeComplèteRacco
     enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   },
 );
+import { upload } from '@potentiel/file-storage';
+import { extname, join } from 'path';
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -121,6 +124,7 @@ v1Router.post(
       };
 
       try {
+<<<<<<< HEAD
         await newTransmettreDemandeComplèteRaccordementUseCase({
           identifiantProjet,
           identifiantGestionnaireRéseau: { codeEIC },
@@ -131,6 +135,16 @@ v1Router.post(
             content: createReadStream(file.path),
           },
         });
+=======
+        await mediator.send(
+          newTransmettreDemandeComplèteRaccordementUseCase({
+            identifiantProjet,
+            identifiantGestionnaireRéseau: { codeEIC },
+            dateQualification,
+            référenceDossierRaccordement,
+          }),
+        );
+>>>>>>> 4181fa85 (♻️ Refacto subscribe avec Redis)
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
