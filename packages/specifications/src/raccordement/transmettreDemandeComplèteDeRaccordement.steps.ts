@@ -182,6 +182,7 @@ Alors(
 Alors(
   `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement`,
   async function (this: PotentielWorld) {
+    // TODO : utiliser query
     const path = join(
       formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
       this.raccordementWorld.référenceDossierRaccordement,

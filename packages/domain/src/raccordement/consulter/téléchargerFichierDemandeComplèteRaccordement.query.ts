@@ -46,6 +46,7 @@ export const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory
     const fichier = await récupérerFichierDemandeComplèteRaccordement({
       identifiantProjet,
       référenceDossierRaccordement,
+      format: dossierRaccordement.accuséRéception.format,
     });
 
     return {

@@ -7,6 +7,7 @@ import { join } from 'path';
 
 export const renommerPropositionTechniqueEtFinancière: RenommerPropositionTechniqueEtFinancière =
   async ({ ancienneRéférence, nouvelleRéférence, identifiantProjet }) => {
+    // TODO : passer format ancien fichier pour récupérer directement le fichier
     const fichierPTF = await getFiles(
       join(
         formatIdentifiantProjet(identifiantProjet),

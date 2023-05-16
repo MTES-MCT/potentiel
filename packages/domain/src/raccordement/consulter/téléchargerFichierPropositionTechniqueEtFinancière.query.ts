@@ -46,6 +46,7 @@ export const téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFa
     const fichier = await récupérerFichierPropositionTechniqueEtFinancière({
       identifiantProjet,
       référenceDossierRaccordement,
+      format: dossierRaccordement.propositionTechniqueEtFinancière.format,
     });
 
     return {

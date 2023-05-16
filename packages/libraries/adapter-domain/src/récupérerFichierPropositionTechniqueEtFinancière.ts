@@ -2,23 +2,16 @@ import {
   RécupérerFichierPropositionTechniqueEtFinancière,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
-import { getFiles, download, FichierInexistant } from '@potentiel/file-storage';
+import { download } from '@potentiel/file-storage';
+import { extension } from 'mime-types';
 import { join } from 'path';
 
 export const récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancière =
-  async ({ identifiantProjet, référenceDossierRaccordement }) => {
+  async ({ identifiantProjet, référenceDossierRaccordement, format }) => {
     const filePath = join(
       formatIdentifiantProjet(identifiantProjet),
       référenceDossierRaccordement,
-      `proposition-technique-et-financiere`,
+      `proposition-technique-et-financiere.${extension(format)}`,
     );
-    const files = await getFiles(filePath);
-
-    if (files.length === 0) {
-      throw new FichierInexistant();
-    }
-
-    const fileContent = await download(files[0]);
-
-    return fileContent;
+    return await download(filePath);
   };
