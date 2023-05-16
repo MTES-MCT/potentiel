@@ -1,6 +1,5 @@
-import { Readable } from 'stream';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
-import { Find, QueryHandlerFactory, ReadModel } from '@potentiel/core-domain';
+import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import {
   DossierRaccordementNonRéférencéError,
@@ -9,6 +8,7 @@ import {
 import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
 import { RécupérerFichierDemandeComplèteRaccordement } from './récupérerFichierDemandeComplèteRaccordement';
 import { extension } from 'mime-types';
+import { TéléchargerFichierDemandeComplèteRaccordementReadModel } from './fichierDemandeComplèteRaccordement.readModel';
 
 type TéléchargerFichierDemandeComplèteRaccordementDependencies = {
   find: Find;
@@ -19,11 +19,6 @@ export type TéléchargerFichierDemandeComplèteRaccordementQuery = {
   identifiantProjet: IdentifiantProjet;
   référenceDossierRaccordement: string;
 };
-
-type TéléchargerFichierDemandeComplèteRaccordementReadModel = ReadModel<
-  'fichier-demander-complète-raccordement',
-  { format: string; content: Readable }
->;
 
 export const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
   TéléchargerFichierDemandeComplèteRaccordementQuery,
