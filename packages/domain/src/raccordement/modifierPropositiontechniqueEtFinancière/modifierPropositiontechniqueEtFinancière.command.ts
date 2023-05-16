@@ -21,6 +21,7 @@ type ModifierPropositionTechniqueEtFinancièreCommand = {
 };
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
@@ -111,7 +112,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
   mediator.register(MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND, handler);
 };
 
-export const newModifierPropositionTechniqueEtFinancièreCommand =
-  newMessage<ModifierPropositionTechniqueEtFinancièreCommand>(
+export const buildModifierPropositionTechniqueEtFinancièreCommand =
+  getMessageBuilder<ModifierPropositionTechniqueEtFinancièreCommand>(
     MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
   );

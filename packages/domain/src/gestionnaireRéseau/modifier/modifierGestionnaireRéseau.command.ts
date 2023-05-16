@@ -6,7 +6,7 @@ import {
 } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifié.event';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 const MODIFIER_GESTIONNAIRE_RÉSEAU = Symbol('MODIFIER_GESTIONNAIRE_RÉSEAU');
 
@@ -54,6 +54,5 @@ export const registerModifierGestionnaireRéseauCommand = ({
   mediator.register(MODIFIER_GESTIONNAIRE_RÉSEAU, commandHandler);
 };
 
-export const newModifierGestionnaireRéseauCommand = newMessage<ModifierGestionnaireRéseauCommand>(
-  MODIFIER_GESTIONNAIRE_RÉSEAU,
-);
+export const buildModifierGestionnaireRéseauCommand =
+  getMessageBuilder<ModifierGestionnaireRéseauCommand>(MODIFIER_GESTIONNAIRE_RÉSEAU);

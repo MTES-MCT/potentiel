@@ -3,7 +3,7 @@ import { isNone } from '@potentiel/monads';
 import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 export type ConsulterDossierRaccordementQuery = {
   identifiantProjet: IdentifiantProjet;
@@ -43,6 +43,5 @@ export const registerConsulterDossierRaccordementQuery = ({
   mediator.register(CONSULTER_DOSSIER_RACCORDEMENT_QUERY, queryHandler);
 };
 
-export const newConsulterDossierRaccordementQuery = newMessage<ConsulterDossierRaccordementQuery>(
-  CONSULTER_DOSSIER_RACCORDEMENT_QUERY,
-);
+export const buildConsulterDossierRaccordementQuery =
+  getMessageBuilder<ConsulterDossierRaccordementQuery>(CONSULTER_DOSSIER_RACCORDEMENT_QUERY);

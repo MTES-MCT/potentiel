@@ -7,7 +7,7 @@ import {
 } from '../raccordement.aggregate';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 const TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND = Symbol('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND');
 
@@ -59,5 +59,5 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
   mediator.register(TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND, handler);
 };
 
-export const newTransmettreDateMiseEnServiceCommand =
-  newMessage<TransmettreDateMiseEnServiceCommand>(TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND);
+export const buildTransmettreDateMiseEnServiceCommand =
+  getMessageBuilder<TransmettreDateMiseEnServiceCommand>(TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND);

@@ -5,8 +5,8 @@ import {
   GestionnaireNonRéférencéError,
   GestionnaireRéseauAjoutéEvent,
   createGestionnaireRéseauAggregateId,
-  newConsulterProjetQuery,
-  newModifierGestionnaireRéseauProjetUseCase,
+  buildConsulterProjetQuery,
+  buildModifierGestionnaireRéseauProjetUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
@@ -29,7 +29,7 @@ Quand(
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
 
     await mediator.send(
-      newModifierGestionnaireRéseauProjetUseCase({
+      buildModifierGestionnaireRéseauProjetUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         identifiantGestionnaireRéseau: codeEIC,
       }),
@@ -41,7 +41,7 @@ Alors(
   `le gestionaire de réseau {string} devrait être consultable dans le projet`,
   async function (this: PotentielWorld, codeEIC: string) {
     const résultat = await mediator.send(
-      newConsulterProjetQuery({
+      buildConsulterProjetQuery({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -57,7 +57,7 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       await mediator.send(
-        newModifierGestionnaireRéseauProjetUseCase({
+        buildModifierGestionnaireRéseauProjetUseCase({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           identifiantGestionnaireRéseau: 'GESTIONNAIRE-INCONNU',
         }),

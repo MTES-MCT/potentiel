@@ -16,6 +16,10 @@ import {
   newConsulterDossierRaccordementQuery,
   newListerDossiersRaccordementQuery,
   newTransmettreDemandeComplèteRaccordementUseCase,
+  buildConsulterProjetQuery,
+  buildConsulterDossierRaccordementQuery,
+  buildListerDossiersRaccordementQuery,
+  buildTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
 import { download } from '@potentiel/file-storage';
@@ -42,7 +46,7 @@ EtantDonné(
       accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
     await mediator.send(
-      newTransmettreDemandeComplèteRaccordementUseCase({
+      buildTransmettreDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         identifiantGestionnaireRéseau: {
           codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -77,7 +81,7 @@ Quand(
       },
     });
     await mediator.send(
-      newTransmettreDemandeComplèteRaccordementUseCase({
+      buildTransmettreDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         identifiantGestionnaireRéseau: {
           codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -107,7 +111,7 @@ Quand(
       accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
     await mediator.send(
-      newTransmettreDemandeComplèteRaccordementUseCase({
+      buildTransmettreDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         identifiantGestionnaireRéseau: {
           codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -133,7 +137,7 @@ Quand(
         accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
       await mediator.send(
-        newTransmettreDemandeComplèteRaccordementUseCase({
+        buildTransmettreDemandeComplèteRaccordementUseCase({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           identifiantGestionnaireRéseau: {
             codeEIC: 'gestionnaire-de-réseau-inconnu',
@@ -154,7 +158,7 @@ Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
     const actual = await mediator.send(
-      newListerDossiersRaccordementQuery({
+      buildListerDossiersRaccordementQuery({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -167,7 +171,7 @@ Alors(
   'le projet devrait avoir un dossier de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
     const actual = await mediator.send(
-      newConsulterDossierRaccordementQuery({
+      buildConsulterDossierRaccordementQuery({
         référence: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
@@ -187,7 +191,7 @@ Alors(
         codeEIC: '',
       },
     } = await mediator.send(
-      newConsulterProjetQuery({
+      buildConsulterProjetQuery({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -206,7 +210,7 @@ Alors(
     });
   async function async(this: PotentielWorld) {
     const actual = await mediator.send(
-      newListerDossiersRaccordementQuery({
+      buildListerDossiersRaccordementQuery({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -245,7 +249,7 @@ EtantDonné(
       accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
     await mediator.send(
-      newTransmettreDemandeComplèteRaccordementUseCase({
+      buildTransmettreDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         identifiantGestionnaireRéseau: {
           codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -277,7 +281,7 @@ Quand(
         accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
       await mediator.send(
-        newTransmettreDemandeComplèteRaccordementUseCase({
+        buildTransmettreDemandeComplèteRaccordementUseCase({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           identifiantGestionnaireRéseau: {
             codeEIC: codeEICAutreGDR,

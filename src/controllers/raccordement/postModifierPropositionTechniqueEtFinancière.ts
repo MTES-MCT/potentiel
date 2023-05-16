@@ -4,6 +4,7 @@ import {
   modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
   createModifierPropositionTechniqueEtFinancièreCommand,
   newModifierPropositionTechniqueEtFinancièreCommand,
+  buildModifierPropositionTechniqueEtFinancièreCommand,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -122,7 +123,7 @@ v1Router.post(
           },
         });
         await mediator.send(
-          newModifierPropositionTechniqueEtFinancièreCommand({
+          buildModifierPropositionTechniqueEtFinancièreCommand({
             identifiantProjet,
             référenceDossierRaccordement: reference,
             dateSignature,

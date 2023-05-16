@@ -1,8 +1,8 @@
 import {
   PermissionModifierGestionnaireRéseauProjet,
   RésuméProjetReadModel,
-  newConsulterProjetQuery,
-  newListerGestionnaireRéseauQuery,
+  buildConsulterProjetQuery,
+  buildListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -67,10 +67,10 @@ v1Router.get(
       };
 
       const { identifiantGestionnaire } = await mediator.send(
-        newConsulterProjetQuery({ identifiantProjet }),
+        buildConsulterProjetQuery({ identifiantProjet }),
       );
 
-      const listeGestionnairesRéseau = await mediator.send(newListerGestionnaireRéseauQuery({}));
+      const listeGestionnairesRéseau = await mediator.send(buildListerGestionnaireRéseauQuery({}));
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {

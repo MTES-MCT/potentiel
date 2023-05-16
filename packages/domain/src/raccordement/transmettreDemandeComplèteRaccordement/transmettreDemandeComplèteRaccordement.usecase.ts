@@ -1,4 +1,4 @@
-import { newConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau';
+import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau';
 import {
   createConsulterGestionnaireRéseauQuery,
 } from '../../gestionnaireRéseau';
@@ -31,9 +31,9 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   }: Dependencies) =>
   TransmettreDemandeComplèteRaccordementCommand,
-  newTransmettreDemandeComplèteRaccordementCommand,
+  buildTransmettreDemandeComplèteRaccordementCommand,
 } from './transmettreDemandeComplèteRaccordement.command';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
   'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
@@ -91,13 +91,13 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
 };
   }: TransmettreDemandeComplèteRaccordementCommand['data']) => {
     const gestionnaireRéseau = await mediator.send(
-      newConsulterGestionnaireRéseauQuery({
+      buildConsulterGestionnaireRéseauQuery({
         codeEIC: identifiantGestionnaireRéseau.codeEIC,
       }),
     );
 
     await mediator.send(
-      newTransmettreDemandeComplèteRaccordementCommand({
+      buildTransmettreDemandeComplèteRaccordementCommand({
         identifiantProjet,
         identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
         dateQualification,
@@ -108,6 +108,6 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
   mediator.register(TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);
 };
 
-export const newTransmettreDemandeComplèteRaccordementUseCase = newMessage(
+export const buildTransmettreDemandeComplèteRaccordementUseCase = getMessageBuilder(
   TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
 );

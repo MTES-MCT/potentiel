@@ -2,7 +2,7 @@ import { Find } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '..';
 import { ProjetReadModel } from '../projet.readModel';
 import { isNone } from '@potentiel/monads';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 const CONSULTER_PROJET = Symbol('CONSULTER_PROJET');
 
@@ -34,4 +34,4 @@ export const registerConsulterProjetQuery = ({ find }: ConsulterProjetDependenci
   mediator.register(CONSULTER_PROJET, queryHandler);
 };
 
-export const newConsulterProjetQuery = newMessage<ConsulterProjetQuery>(CONSULTER_PROJET);
+export const buildConsulterProjetQuery = getMessageBuilder<ConsulterProjetQuery>(CONSULTER_PROJET);

@@ -6,11 +6,11 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
-  newConsulterGestionnaireRéseauQuery,
+  buildConsulterGestionnaireRéseauQuery,
   formatIdentifiantProjet,
-  newConsulterDossierRaccordementQuery,
-  newConsulterProjetQuery,
-  newListerDossiersRaccordementQuery,
+  buildConsulterDossierRaccordementQuery,
+  buildConsulterProjetQuery,
+  buildListerDossiersRaccordementQuery,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { ListeDossiersRaccordementPage } from '@views';
@@ -72,7 +72,7 @@ v1Router.get(
       };
 
       const { références } = await mediator.send(
-        newListerDossiersRaccordementQuery({
+        buildListerDossiersRaccordementQuery({
           identifiantProjet,
         }),
       );
@@ -109,7 +109,7 @@ v1Router.get(
             const PTFFiles = await getFiles(filePTFPath);
 
             const dossier = await mediator.send(
-              newConsulterDossierRaccordementQuery({ identifiantProjet, référence }),
+              buildConsulterDossierRaccordementQuery({ identifiantProjet, référence }),
             );
 
             return {
@@ -121,13 +121,13 @@ v1Router.get(
         );
 
         const { identifiantGestionnaire = { codeEIC: '' } } = await mediator.send(
-          newConsulterProjetQuery({
+          buildConsulterProjetQuery({
             identifiantProjet,
           }),
         );
 
         const gestionnaireRéseau = await mediator.send(
-          newConsulterGestionnaireRéseauQuery({
+          buildConsulterGestionnaireRéseauQuery({
             codeEIC: identifiantGestionnaire.codeEIC,
           }),
         );

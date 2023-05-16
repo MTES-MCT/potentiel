@@ -1,12 +1,12 @@
 import {
   GestionnaireNonRéférencéError,
-  newConsulterGestionnaireRéseauQuery,
+  buildConsulterGestionnaireRéseauQuery,
 } from '../../gestionnaireRéseau';
 import {
   ModifierGestionnaireRéseauProjetCommand,
-  newModifierGestionnaireRéseauProjetCommand,
+  buildModifierGestionnaireRéseauProjetCommand,
 } from './modifierGestionnaireRéseauProjet.command';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 const MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE = Symbol(
   'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
@@ -25,7 +25,7 @@ export const registerModifierGestionnaireRéseauProjetUseCase = () => {
     identifiantProjet,
   }: ModifierGestionnaireRéseauProjetCommand['data']) => {
     const gestionnaireRéseau = await mediator.send(
-      newConsulterGestionnaireRéseauQuery({
+      buildConsulterGestionnaireRéseauQuery({
         codeEIC: identifiantGestionnaireRéseau,
       }),
     );
@@ -35,7 +35,7 @@ export const registerModifierGestionnaireRéseauProjetUseCase = () => {
     }
 
     await mediator.send(
-      newModifierGestionnaireRéseauProjetCommand({
+      buildModifierGestionnaireRéseauProjetCommand({
         identifiantProjet,
         identifiantGestionnaireRéseau,
       }),
@@ -44,6 +44,6 @@ export const registerModifierGestionnaireRéseauProjetUseCase = () => {
   mediator.register(MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE, runner);
 };
 
-export const newModifierGestionnaireRéseauProjetUseCase = newMessage(
+export const buildModifierGestionnaireRéseauProjetUseCase = getMessageBuilder(
   MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE,
 );

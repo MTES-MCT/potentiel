@@ -1,9 +1,9 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
-  newConsulterDossierRaccordementQuery,
-  newConsulterGestionnaireRéseauQuery,
-  newConsulterProjetQuery,
+  buildConsulterDossierRaccordementQuery,
+  buildConsulterGestionnaireRéseauQuery,
+  buildConsulterProjetQuery,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -67,7 +67,7 @@ v1Router.get(
       }
 
       const dossierRaccordement = await mediator.send(
-        newConsulterDossierRaccordementQuery({
+        buildConsulterDossierRaccordementQuery({
           identifiantProjet: {
             appelOffre: projet.appelOffreId,
             période: projet.periodeId,
@@ -100,13 +100,13 @@ v1Router.get(
       };
 
       const { identifiantGestionnaire } = await mediator.send(
-        newConsulterProjetQuery({
+        buildConsulterProjetQuery({
           identifiantProjet,
         }),
       );
 
       const gestionnaireRéseauActuel = await mediator.send(
-        newConsulterGestionnaireRéseauQuery({
+        buildConsulterGestionnaireRéseauQuery({
           codeEIC: identifiantGestionnaire!.codeEIC,
         }),
       );

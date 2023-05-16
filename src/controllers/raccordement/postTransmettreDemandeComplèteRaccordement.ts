@@ -5,7 +5,7 @@ import {
   PlusieursGestionnairesRéseauPourUnProjetError,
   consulterGestionnaireRéseauQueryHandlerFactory,
   formatIdentifiantProjet,
-  newTransmettreDemandeComplèteRaccordementUseCase,
+  buildTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -137,7 +137,7 @@ v1Router.post(
         });
 =======
         await mediator.send(
-          newTransmettreDemandeComplèteRaccordementUseCase({
+          buildTransmettreDemandeComplèteRaccordementUseCase({
             identifiantProjet,
             identifiantGestionnaireRéseau: { codeEIC },
             dateQualification,

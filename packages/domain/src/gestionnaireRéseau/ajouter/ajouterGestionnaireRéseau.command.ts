@@ -1,4 +1,4 @@
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import {
@@ -57,6 +57,5 @@ export const registerAjouterGestionnaireRéseauCommand = ({
   mediator.register(AJOUTER_GESTIONNAIRE_RÉSEAU, commandHandler);
 };
 
-export const newAjouterGestionnaireRéseauCommand = newMessage<AjouterGestionnaireRéseauCommand>(
-  AJOUTER_GESTIONNAIRE_RÉSEAU,
-);
+export const buildAjouterGestionnaireRéseauCommand =
+  getMessageBuilder<AjouterGestionnaireRéseauCommand>(AJOUTER_GESTIONNAIRE_RÉSEAU);

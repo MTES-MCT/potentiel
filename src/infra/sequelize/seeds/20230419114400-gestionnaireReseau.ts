@@ -1,7 +1,6 @@
-import { Unsubscribe } from '@potentiel/core-domain';
 import {
-  newAjouterGestionnaireRéseauCommand,
-  setupEventHandlers,
+  UnsetupDomain,
+  buildAjouterGestionnaireRéseauCommand,
   setupDomain,
 } from '@potentiel/domain';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
@@ -16,9 +15,9 @@ import { mediator } from 'mediateur';
 
 export default {
   up: async () => {
-    let unsubscribe: Promise<Unsubscribe[]> | undefined;
+    let unsetupDomain: UnsetupDomain | undefined;
     try {
-      setupDomain({
+      const unsetupDomain = setupDomain({
         commandPorts: {
           loadAggregate,
           publish,
@@ -27,9 +26,6 @@ export default {
           find: findProjection,
           list: listProjection,
         },
-      });
-
-      unsubscribe = setupEventHandlers({
         eventPorts: {
           create: createProjection,
           find: findProjection,
@@ -39,7 +35,7 @@ export default {
         subscribe,
       });
 
-      const ajouterGestionnaireRéseauCommand = newAjouterGestionnaireRéseauCommand({
+      const ajouterGestionnaireRéseauCommand = buildAjouterGestionnaireRéseauCommand({
         codeEIC: '12345',
         raisonSociale: 'Potentiel dev',
         aideSaisieRéférenceDossierRaccordement: {
@@ -52,9 +48,9 @@ export default {
     } catch (error) {
       console.error(error);
     } finally {
-      if (unsubscribe) {
+      if (unsetupDomain) {
         await new Promise((resolve) => setTimeout(resolve, 200));
-        await unsubscribe;
+        await unsetupDomain();
       }
     }
   },
