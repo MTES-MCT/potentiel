@@ -27,6 +27,7 @@ export const propositionTechniqueEtFinancièreModifiéeHandlerFactory: DomainEve
         ...dossierRaccordement,
         propositionTechniqueEtFinancière: {
           dateSignature: event.payload.dateSignature,
+          format: 'none',
         },
       },
     );

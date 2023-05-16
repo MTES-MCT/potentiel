@@ -3,7 +3,6 @@ import { PotentielWorld } from '../potentiel.world';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   DossierRaccordementNonRéférencéError,
-  DossierRaccordementReadModel,
   consulterDossierRaccordementQueryHandlerFactory,
   formatIdentifiantProjet,
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
@@ -46,13 +45,9 @@ Alors(
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
-    const expected: DossierRaccordementReadModel = {
-      type: 'dossier-raccordement',
-      référence: this.raccordementWorld.référenceDossierRaccordement,
-      propositionTechniqueEtFinancière: {
-        dateSignature: dateSignatureISOString,
-        format: this.raccordementWorld.fichierPropositionTechniqueEtFinancière.format,
-      },
+    const expected = {
+      dateSignature: dateSignatureISOString,
+      format: this.raccordementWorld.fichierPropositionTechniqueEtFinancière.format,
     };
 
     expect(actual.propositionTechniqueEtFinancière).to.deep.equal(expected);

@@ -40,6 +40,7 @@ Alors(
 
     expect(actual.propositionTechniqueEtFinancière).to.deep.equal({
       dateSignature: new Date(dateSignature).toISOString(),
+      format: 'none',
     });
   },
 );
