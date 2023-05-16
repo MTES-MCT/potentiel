@@ -8,6 +8,7 @@ import {
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { Readable } from 'stream';
+import { FichierPropositionTechniqueEtFinancièreTransmisEvent } from './fichierPropositionTechniqueEtFinancièreTransmis.event';
 
 type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
 
@@ -57,14 +58,15 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
       propositionTechniqueEtFinancièreTransmiseEvent,
     );
 
-    const fichierPropositionTechniqueEtFinancièreTransmisEvent = {
-      type: 'FichierPropositionTechniqueEtFinancièreTransmis',
-      payload: {
-        identifiantProjet,
-        format,
-        référenceDossierRaccordement,
-      },
-    };
+    const fichierPropositionTechniqueEtFinancièreTransmisEvent: FichierPropositionTechniqueEtFinancièreTransmisEvent =
+      {
+        type: 'FichierPropositionTechniqueEtFinancièreTransmis',
+        payload: {
+          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+          format,
+          référenceDossierRaccordement,
+        },
+      };
 
     await publish(
       createRaccordementAggregateId(identifiantProjet),

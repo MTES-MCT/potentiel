@@ -18,15 +18,6 @@ export const fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory: Dom
     );
 
     if (isSome(dossierRaccordement)) {
-      console.log('--------------', {
-        ...dossierRaccordement,
-        ...(dossierRaccordement.propositionTechniqueEtFinancière && {
-          propositionTechniqueEtFinancière: {
-            ...dossierRaccordement.propositionTechniqueEtFinancière,
-            format: event.payload.format,
-          },
-        }),
-      });
       await update<DossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
         {
