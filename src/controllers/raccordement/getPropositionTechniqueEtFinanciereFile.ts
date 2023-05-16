@@ -1,13 +1,23 @@
-import { PermissionConsulterDossierRaccordement, formatIdentifiantProjet } from '@potentiel/domain';
+import {
+  PermissionConsulterDossierRaccordement,
+  téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFactory,
+} from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { extname, join } from 'path';
-import { download, getFiles } from '@potentiel/file-storage';
 import { logger } from '@core/utils';
+import { findProjection } from '@potentiel/pg-projections';
+import { récupérerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
+import { extension } from 'mime-types';
+
+const téléchargerFichierPropositionTechniqueEtFinancière =
+  téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFactory({
+    find: findProjection,
+    récupérerFichierPropositionTechniqueEtFinancière,
+  });
 
 const schema = yup.object({
   params: yup.object({
@@ -50,26 +60,19 @@ v1Router.get(
       };
 
       try {
-        const filePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          reference,
-          `proposition-technique-et-financiere`,
-        );
+        const fichier = await téléchargerFichierPropositionTechniqueEtFinancière({
+          identifiantProjet,
+          référenceDossierRaccordement: reference,
+        });
 
-        const files = await getFiles(filePath);
+        const extensionFichier = extension(fichier.format);
 
-        if (files.length === 0) {
-          return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
-        }
-
-        const fileContent = await download(files[0]);
-        const extension = extname(files[0]);
-        response.type(extension);
+        response.type(fichier.format);
         response.setHeader(
           'Content-Disposition',
-          `attachment; filename=proposition-technique-et-financiere-${reference}${extension}`,
+          `attachment; filename=proposition-technique-et-financiere-${reference}.${extensionFichier}`,
         );
-        fileContent.pipe(response);
+        fichier.content.pipe(response);
         return response.status(200);
       } catch (error) {
         logger.error(error);
