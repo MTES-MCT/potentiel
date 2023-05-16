@@ -11,3 +11,5 @@ export * from './transmettrePropositionTechniqueEtFinancière';
 export * from './modifierDemandeComplèteRaccordement';
 export * from './modifierGestionnaireRéseauProjet';
 export * from './modifierPropositiontechniqueEtFinancière';
+export * from './consulter/récupérerFichierDemandeComplèteRaccordement';
+export * from './consulter/téléchargerFichierDemandeComplèteRaccordement.query';

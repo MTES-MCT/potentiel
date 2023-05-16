@@ -2,17 +2,20 @@ import { Readable } from 'stream';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { Find, QueryHandlerFactory, ReadModel } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import {
+  DossierRaccordementNonRéférencéError,
+  FormatFichierInexistantError,
+} from '../raccordement.errors';
 import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
-
-type TéléchargerFichierDemandeComplèteRaccordement = () => {};
+import { RécupérerFichierDemandeComplèteRaccordement } from './récupérerFichierDemandeComplèteRaccordement';
+import { extension } from 'mime-types';
 
 type TéléchargerFichierDemandeComplèteRaccordementDependencies = {
   find: Find;
-  téléchargerFichierDemandeComplèteRaccordement: TéléchargerFichierDemandeComplèteRaccordement;
+  récupérerFichierDemandeComplèteRaccordement: RécupérerFichierDemandeComplèteRaccordement;
 };
 
-type TéléchargerFichierDemandeComplèteRaccordementQuery = {
+export type TéléchargerFichierDemandeComplèteRaccordementQuery = {
   identifiantProjet: IdentifiantProjet;
   référenceDossierRaccordement: string;
 };
@@ -22,20 +25,34 @@ type TéléchargerFichierDemandeComplèteRaccordementReadModel = ReadModel<
   { format: string; content: Readable }
 >;
 
-const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
+export const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
   TéléchargerFichierDemandeComplèteRaccordementQuery,
   TéléchargerFichierDemandeComplèteRaccordementReadModel,
   TéléchargerFichierDemandeComplèteRaccordementDependencies
 > =
-  ({ find, téléchargerFichierDemandeComplèteRaccordement }) =>
+  ({ find, récupérerFichierDemandeComplèteRaccordement }) =>
   async ({ identifiantProjet, référenceDossierRaccordement }) => {
-    const result = await find<DossierRaccordementReadModel>(
+    const dossierRaccordement = await find<DossierRaccordementReadModel>(
       `dossier-raccordement#${formatIdentifiantProjet(
         identifiantProjet,
       )}#${référenceDossierRaccordement}`,
     );
-    if (isNone(result)) {
+    if (isNone(dossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
-    return {};
+
+    if (!dossierRaccordement.accuséRéception || !dossierRaccordement.accuséRéception?.format) {
+      throw new FormatFichierInexistantError();
+    }
+
+    const fichier = await récupérerFichierDemandeComplèteRaccordement({
+      identifiantProjet,
+      référenceDossierRaccordement,
+    });
+
+    return {
+      type: 'fichier-demander-complète-raccordement',
+      format: extension(dossierRaccordement.accuséRéception.format),
+      content: fichier,
+    } as Readonly<TéléchargerFichierDemandeComplèteRaccordementReadModel>;
   };

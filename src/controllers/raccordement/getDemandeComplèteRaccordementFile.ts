@@ -1,13 +1,22 @@
-import { PermissionConsulterDossierRaccordement, formatIdentifiantProjet } from '@potentiel/domain';
+import {
+  PermissionConsulterDossierRaccordement,
+  téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory,
+} from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { extname, join } from 'path';
-import { download, getFiles } from '@potentiel/file-storage';
 import { logger } from '@core/utils';
+import { findProjection } from '@potentiel/pg-projections';
+import { récupérerFichierDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
+
+const téléchargerFichierDemandeComplèteRaccordement =
+  téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory({
+    find: findProjection,
+    récupérerFichierDemandeComplèteRaccordement,
+  });
 
 const schema = yup.object({
   params: yup.object({
@@ -50,25 +59,16 @@ v1Router.get(
       };
 
       try {
-        const filePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          reference,
-          `demande-complete-raccordement`,
-        );
-        const files = await getFiles(filePath);
-
-        if (files.length === 0) {
-          return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
-        }
-
-        const fileContent = await download(files[0]);
-        const extension = extname(files[0]);
-        response.type(extension);
+        const fichier = await téléchargerFichierDemandeComplèteRaccordement({
+          identifiantProjet,
+          référenceDossierRaccordement: reference,
+        });
+        response.type(fichier.format);
         response.setHeader(
           'Content-Disposition',
-          `attachment; filename=accuse-reception-${reference}${extension}`,
+          `attachment; filename=accuse-reception-${reference}.${fichier.format}`,
         );
-        fileContent.pipe(response);
+        fichier.content.pipe(response);
         return response.status(200);
       } catch (error) {
         logger.error(error);

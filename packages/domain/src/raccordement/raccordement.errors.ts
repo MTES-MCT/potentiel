@@ -11,3 +11,9 @@ export class PlusieursGestionnairesRéseauPourUnProjetError extends Error {
     );
   }
 }
+
+export class FormatFichierInexistantError extends Error {
+  constructor() {
+    super(`Il est impossible de télécharger le fichier car son format est inexistant.`);
+  }
+}
