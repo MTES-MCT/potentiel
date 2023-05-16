@@ -1,39 +1,38 @@
-
 # Code de conduite _Contributor Covenant_
 
 ## Notre engagement
 
 En tant que membres, contributeur·trice·s et dirigeant·e·s, nous nous
 engageons à faire de la participation à notre communauté
-une expérience sans harcèlement, quel que soit l'âge, 
+une expérience sans harcèlement, quel que soit l'âge,
 la taille corporelle, le handicap visible ou invisible, l'appartenance ethnique,
-les caractéristiques sexuelles, l'identité et l'expression de genre, 
-le niveau d'expérience, l'éducation, le statut socio-économique, 
-la nationalité, l'apparence personnelle, la race, la religion, 
+les caractéristiques sexuelles, l'identité et l'expression de genre,
+le niveau d'expérience, l'éducation, le statut socio-économique,
+la nationalité, l'apparence personnelle, la race, la religion,
 ou l'identité et l'orientation sexuelle.
 
-Nous nous engageons à agir et interagir de manière à contribuer à une communauté 
+Nous nous engageons à agir et interagir de manière à contribuer à une communauté
 ouverte, accueillante, diversifiée, inclusive et saine.
 
 ## Nos critères
 
 Exemples de comportements qui contribuent à créer un environnement positif :
 
-* Faire preuve d'empathie et de bienveillance envers les autres
-* Être respectueux des opinions, points de vue et expériences divergents
-* Donner et recevoir avec grâce les critiques constructives
-* Assumer ses responsabilités et s'excuser auprès des personnes affectées par nos erreurs et apprendre de ces expériences
-* Se concentrer sur ce qui est le meilleur non pas uniquement pour nous en tant qu'individu, mais aussi pour l'ensemble de la communauté
+- Faire preuve d'empathie et de bienveillance envers les autres
+- Être respectueux des opinions, points de vue et expériences divergents
+- Donner et recevoir avec grâce les critiques constructives
+- Assumer ses responsabilités et s'excuser auprès des personnes affectées par nos erreurs et apprendre de ces expériences
+- Se concentrer sur ce qui est le meilleur non pas uniquement pour nous en tant qu'individu, mais aussi pour l'ensemble de la communauté
 
 Exemples de comportements inacceptables :
 
-* L'utilisation de langage ou d'images sexualisés et d'attentions ou d'avances sexuelles de toute nature
-* Le _trolling_, les commentaires insultants ou désobligeants et les attaques
+- L'utilisation de langage ou d'images sexualisés et d'attentions ou d'avances sexuelles de toute nature
+- Le _trolling_, les commentaires insultants ou désobligeants et les attaques
   personnelles ou d'ordre politique
-* Le harcèlement en public ou en privé
-* La publication d'informations privées d'autrui, telle qu'une
+- Le harcèlement en public ou en privé
+- La publication d'informations privées d'autrui, telle qu'une
   adresse postale ou une adresse électronique, sans leur autorisation explicite
-* Toute autre conduite qui pourrait raisonnablement être considérée comme inappropriée
+- Toute autre conduite qui pourrait raisonnablement être considérée comme inappropriée
   dans un cadre professionnel
 
 ## Responsabilités d'application
@@ -60,7 +59,7 @@ lors d'un événement en ligne ou hors-ligne.
 
 Les cas de comportements abusifs, harcelants ou tout autre comportement
 inacceptables peuvent être signalés aux dirigeant·e·s de la communauté responsables de l'application du code de conduite à
-[INSÉRER UNE ADRESSE EMAIL]. 
+[contact@potentiel.beta.gouv.fr](mailto:contact@potentiel.beta.gouv.fr).
 Toutes les plaintes seront examinées et feront l'objet d'une enquête rapide et équitable.
 
 Tou·te·s les dirigeant·e·s de la communauté sont tenu·e·s de respecter la vie privée et la sécurité des
@@ -86,7 +85,7 @@ le comportement était inapproprié. Des excuses publiques peuvent être demand�
 
 **Conséquence** : un avertissement avec des conséquences dû à la poursuite du comportement.
 Aucune interaction avec les personnes concernées, y compris l'interaction non sollicitée avec
-celles et ceux qui sont chargé·e·s de l'application de ce code de conduite, pendant une période déterminée. 
+celles et ceux qui sont chargé·e·s de l'application de ce code de conduite, pendant une période déterminée.
 Cela comprend le fait d'éviter les interactions dans les espaces communautaires ainsi que sur les canaux externes
 comme les médias sociaux. Le non-respect de ces conditions peut entraîner
 un bannissement temporaire ou permanent.
@@ -104,7 +103,7 @@ Le non-respect de ces conditions peut entraîner un bannissement permanent.
 
 ### 4. Bannissement permanent
 
-**Impact communautaire** : démontrer un schéma récurrent de non-respect des normes de la 
+**Impact communautaire** : démontrer un schéma récurrent de non-respect des normes de la
 communauté y compris un comportement inapproprié soutenu, le harcèlement d'un individu
 ainsi que l'agression ou le dénigrement de catégories d'individus.
 
@@ -119,15 +118,14 @@ disponible à
 [https://www.contributor-covenant.org/version/2/0/code_of_conduct.html][v2.0].
 
 Les Directives d'application ont été inspirées par le
-[Code of conduct enforcement ladder][Mozilla CoC] de Mozilla.
+[Code of conduct enforcement ladder][mozilla coc] de Mozilla.
 
 Pour obtenir des réponses aux questions courantes sur ce code de conduite, consultez la FAQ à
-[https://www.contributor-covenant.org/faq][FAQ]. Les traductions sont disponibles
+[https://www.contributor-covenant.org/faq][faq]. Les traductions sont disponibles
 sur [https://www.contributor-covenant.org/translations][translations].
 
 [homepage]: https://www.contributor-covenant.org
 [v2.0]: https://www.contributor-covenant.org/version/2/0/code_of_conduct.html
-[Mozilla CoC]: https://github.com/mozilla/diversity
-[FAQ]: https://www.contributor-covenant.org/faq
+[mozilla coc]: https://github.com/mozilla/diversity
+[faq]: https://www.contributor-covenant.org/faq
 [translations]: https://www.contributor-covenant.org/translations
-
