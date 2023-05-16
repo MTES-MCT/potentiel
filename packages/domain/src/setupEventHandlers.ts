@@ -14,6 +14,9 @@ import {
 } from './raccordement';
 import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './raccordement/transmettrePropositionTechniqueEtFinancière/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 
+/**
+ * @deprecated
+ */
 type Ports = {
   subscribe: Subscribe;
   eventPorts: {
@@ -24,6 +27,9 @@ type Ports = {
   };
 };
 
+/**
+ * @deprecated cette fonction va être à terme merge dans la fonction setupDomain
+ */
 export const setupEventHandlers = async ({
   subscribe,
   eventPorts,
