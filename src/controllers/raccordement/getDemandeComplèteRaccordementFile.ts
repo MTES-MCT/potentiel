@@ -11,6 +11,7 @@ import { Project } from '@infra/sequelize/projectionsNext';
 import { logger } from '@core/utils';
 import { findProjection } from '@potentiel/pg-projections';
 import { récupérerFichierDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
+import { extension } from 'mime-types';
 
 const téléchargerFichierDemandeComplèteRaccordement =
   téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory({
@@ -63,10 +64,13 @@ v1Router.get(
           identifiantProjet,
           référenceDossierRaccordement: reference,
         });
+
+        const extensionFichier = extension(fichier.format);
+
         response.type(fichier.format);
         response.setHeader(
           'Content-Disposition',
-          `attachment; filename=accuse-reception-${reference}.${fichier.format}`,
+          `attachment; filename=accuse-reception-${reference}.${extensionFichier}`,
         );
         fichier.content.pipe(response);
         return response.status(200);

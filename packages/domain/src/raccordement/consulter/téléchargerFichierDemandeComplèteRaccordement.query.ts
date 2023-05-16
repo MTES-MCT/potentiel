@@ -7,7 +7,6 @@ import {
 } from '../raccordement.errors';
 import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
 import { RécupérerFichierDemandeComplèteRaccordement } from './récupérerFichierDemandeComplèteRaccordement';
-import { extension } from 'mime-types';
 import { TéléchargerFichierDemandeComplèteRaccordementReadModel } from './fichierDemandeComplèteRaccordement.readModel';
 
 type TéléchargerFichierDemandeComplèteRaccordementDependencies = {
@@ -47,7 +46,7 @@ export const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory
 
     return {
       type: 'fichier-demander-complète-raccordement',
-      format: extension(dossierRaccordement.accuséRéception.format),
+      format: dossierRaccordement.accuséRéception.format,
       content: fichier,
     } as Readonly<TéléchargerFichierDemandeComplèteRaccordementReadModel>;
   };
