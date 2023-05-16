@@ -30,11 +30,13 @@ export default {
       });
 
       unsubscribe = setupEventHandlers({
-        create: createProjection,
-        find: findProjection,
+        eventPorts: {
+          create: createProjection,
+          find: findProjection,
+          update: updateProjection,
+          remove: removeProjection,
+        },
         subscribe,
-        update: updateProjection,
-        remove: removeProjection,
       });
 
       const ajouterGestionnaireRéseauCommand = newAjouterGestionnaireRéseauCommand({
