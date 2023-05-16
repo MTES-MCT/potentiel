@@ -17,6 +17,4 @@ export const bootstrap = async () => {
   });
   await bootstrapEventStreamer();
   await bootstrapEventConsumers();
-
-  // Third step: launch web
 };
