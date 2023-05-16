@@ -9,8 +9,13 @@ import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { Readable } from 'stream';
 import { FichierPropositionTechniqueEtFinancièreTransmisEvent } from './fichierPropositionTechniqueEtFinancièreTransmis.event';
+import { EnregistrerFichierPropositionTechniqueEtFinancière } from './enregistrerFichierPropositionTechniqueEtFinancière';
 
-type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
+type Dependencies = {
+  loadAggregate: LoadAggregate;
+  publish: Publish;
+  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;
+};
 
 type TransmettrePropositionTechniqueEtFinancièreCommand = {
   dateSignature: Date;
@@ -26,7 +31,7 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
   TransmettrePropositionTechniqueEtFinancièreCommand,
   Dependencies
 > =
-  ({ publish, loadAggregate }) =>
+  ({ publish, loadAggregate, enregistrerFichierPropositionTechniqueEtFinancière }) =>
   async ({
     dateSignature,
     référenceDossierRaccordement,
@@ -72,4 +77,11 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
       createRaccordementAggregateId(identifiantProjet),
       fichierPropositionTechniqueEtFinancièreTransmisEvent,
     );
+
+    await enregistrerFichierPropositionTechniqueEtFinancière({
+      identifiantProjet,
+      référenceDossierRaccordement,
+      format,
+      content,
+    });
   };

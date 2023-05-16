@@ -12,6 +12,7 @@ import { expect } from 'chai';
 import { join } from 'path';
 import { extension } from 'mime-types';
 import { download } from '@potentiel/file-storage';
+import { enregistrerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
 
 Quand(
   `le porteur de projet transmet une proposition technique et financière pour ce dossier de raccordement avec la date de signature au {string}`,
@@ -20,6 +21,7 @@ Quand(
       transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
         loadAggregate,
         publish,
+        enregistrerFichierPropositionTechniqueEtFinancière,
       });
 
     await transmettrePropositionTechniqueEtFinancière({
@@ -61,6 +63,7 @@ Quand(
       transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
         loadAggregate,
         publish,
+        enregistrerFichierPropositionTechniqueEtFinancière,
       });
 
     try {
@@ -86,6 +89,7 @@ Quand(
       transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
         loadAggregate,
         publish,
+        enregistrerFichierPropositionTechniqueEtFinancière,
       });
 
     try {

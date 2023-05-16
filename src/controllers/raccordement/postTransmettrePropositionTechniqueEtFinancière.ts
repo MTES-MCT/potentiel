@@ -20,11 +20,13 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
+import { enregistrerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
 
 const transmettrePropositionTechniqueEtFinancière =
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
     publish,
     loadAggregate,
+    enregistrerFichierPropositionTechniqueEtFinancière,
   });
 
 const schema = yup.object({
