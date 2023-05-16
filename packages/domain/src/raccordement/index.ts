@@ -1,4 +1,5 @@
 export * from './consulter';
+export * from './récupérerFichiers';
 export * from './lister/listerDossierRaccordement.query';
 export * from './lister/listeDossierRaccordement.readModel';
 export * from './raccordement.aggregate';

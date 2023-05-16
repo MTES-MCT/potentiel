@@ -7,20 +7,16 @@ import {
 } from '../raccordement.aggregate';
 import { DemandeComplèteRaccordementModifiéeEvent } from './DemandeComplèteRaccordementModifiée.event';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { Readable } from 'stream';
-
 import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from './remplacerAccuséRéceptionDemandeComplèteRaccordement';
-import { RenommerPropositionTechniqueEtFinancière } from './renommerPropositionTechniqueEtFinancière';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../transmettreDemandeComplèteRaccordement';
 
-type ModifierDemandeComplèteRaccordementCommand = {
+export type ModifierDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
   dateQualification: Date;
   ancienneRéférence: string;
   nouvelleRéférence: string;
   nouveauFichier: {
     format: string;
-    content: Readable;
   };
 };
 
@@ -28,19 +24,13 @@ type ModifierDemandeComplèteRaccordementDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
   remplacerAccuséRéceptionDemandeComplèteRaccordement: RemplacerAccuséRéceptionDemandeComplèteRaccordement;
-  renommerPropositionTechniqueEtFinancière: RenommerPropositionTechniqueEtFinancière;
 };
 
 export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
   ModifierDemandeComplèteRaccordementCommand,
   ModifierDemandeComplèteRaccordementDependencies
 > =
-  ({
-    publish,
-    loadAggregate,
-    remplacerAccuséRéceptionDemandeComplèteRaccordement,
-    renommerPropositionTechniqueEtFinancière,
-  }) =>
+  ({ publish, loadAggregate }) =>
   async ({
     identifiantProjet,
     dateQualification,
@@ -83,17 +73,4 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
     };
 
     await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
-
-    await remplacerAccuséRéceptionDemandeComplèteRaccordement({
-      identifiantProjet,
-      ancienneRéférence,
-      nouvelleRéférence,
-      nouveauFichier,
-    });
-
-    await renommerPropositionTechniqueEtFinancière({
-      identifiantProjet,
-      ancienneRéférence,
-      nouvelleRéférence,
-    });
   };

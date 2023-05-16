@@ -5,9 +5,9 @@ import {
   DossierRaccordementNonRéférencéError,
   FormatFichierInexistantError,
 } from '../raccordement.errors';
-import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../consulter/dossierRaccordement.readModel';
 import { RécupérerFichierPropositionTechniqueEtFinancière } from './récupérerFichierPropositionTechniqueEtFinancière';
-import { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './fichierPropositionTechniqueEtFinancière.readModel';
+import { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from '../consulter/fichierPropositionTechniqueEtFinancière.readModel';
 
 type TéléchargerFichierPropositionTechniqueEtFinancièreDependencies = {
   find: Find;
