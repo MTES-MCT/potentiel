@@ -7,7 +7,7 @@ import {
 } from '../raccordement.errors';
 import { DossierRaccordementReadModel } from '../consulter/dossierRaccordement.readModel';
 import { RécupérerFichierPropositionTechniqueEtFinancière } from './récupérerFichierPropositionTechniqueEtFinancière';
-import { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from '../consulter/fichierPropositionTechniqueEtFinancière.readModel';
+import { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './fichierPropositionTechniqueEtFinancière.readModel';
 
 type TéléchargerFichierPropositionTechniqueEtFinancièreDependencies = {
   find: Find;

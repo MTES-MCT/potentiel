@@ -7,7 +7,6 @@ import {
 } from '../raccordement.aggregate';
 import { DemandeComplèteRaccordementModifiéeEvent } from './DemandeComplèteRaccordementModifiée.event';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from './remplacerAccuséRéceptionDemandeComplèteRaccordement';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../transmettreDemandeComplèteRaccordement';
 
 export type ModifierDemandeComplèteRaccordementCommand = {
@@ -23,7 +22,6 @@ export type ModifierDemandeComplèteRaccordementCommand = {
 type ModifierDemandeComplèteRaccordementDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
-  remplacerAccuséRéceptionDemandeComplèteRaccordement: RemplacerAccuséRéceptionDemandeComplèteRaccordement;
 };
 
 export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<

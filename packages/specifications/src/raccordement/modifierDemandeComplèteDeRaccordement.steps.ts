@@ -6,6 +6,7 @@ import {
   formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
+  modifierDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
@@ -21,13 +22,7 @@ import { join } from 'path';
 Quand(
   `le porteur modifie une demande complète de raccordement avec une date de qualification au {string}, une nouvelle référence {string} et un nouveau fichier`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleRéférence: string) {
-    const modifierDemandeComplèteRaccordement =
-      modifierDemandeComplèteRaccordementCommandHandlerFactory({
-        loadAggregate,
-        publish,
-        remplacerAccuséRéceptionDemandeComplèteRaccordement,
-        renommerPropositionTechniqueEtFinancière,
-      });
+    const modifierDemandeComplèteRaccordement = getUseCase();
 
     await modifierDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -106,13 +101,7 @@ Quand(
   `un administrateur modifie la date de qualification pour un dossier de raccordement non connu`,
   async function (this: PotentielWorld) {
     try {
-      const modifierDemandeComplèteRaccordement =
-        modifierDemandeComplèteRaccordementCommandHandlerFactory({
-          loadAggregate,
-          publish,
-          remplacerAccuséRéceptionDemandeComplèteRaccordement,
-          renommerPropositionTechniqueEtFinancière,
-        });
+      const modifierDemandeComplèteRaccordement = getUseCase();
 
       await modifierDemandeComplèteRaccordement({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -128,3 +117,25 @@ Quand(
     }
   },
 );
+
+function getUseCase() {
+  const consulterDossierRaccordementQuery = consulterDossierRaccordementQueryHandlerFactory({
+    find: findProjection,
+  });
+
+  const modifierDemandeComplèteRaccordementCommand =
+    modifierDemandeComplèteRaccordementCommandHandlerFactory({
+      loadAggregate,
+      publish,
+    });
+
+  const modifierDemandeComplèteRaccordementUseCase =
+    modifierDemandeComplèteRaccordementUseCaseFactory({
+      consulterDossierRaccordementQuery,
+      modifierDemandeComplèteRaccordementCommand,
+      remplacerAccuséRéceptionDemandeComplèteRaccordement,
+      renommerPropositionTechniqueEtFinancière,
+    });
+
+  return modifierDemandeComplèteRaccordementUseCase;
+}

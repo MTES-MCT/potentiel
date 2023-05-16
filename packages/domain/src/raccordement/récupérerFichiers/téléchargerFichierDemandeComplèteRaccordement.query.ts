@@ -5,7 +5,7 @@ import {
   DossierRaccordementNonRéférencéError,
   FormatFichierInexistantError,
 } from '../raccordement.errors';
-import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../consulter/dossierRaccordement.readModel';
 import { RécupérerFichierDemandeComplèteRaccordement } from './récupérerFichierDemandeComplèteRaccordement';
 import { TéléchargerFichierDemandeComplèteRaccordementReadModel } from './fichierDemandeComplèteRaccordement.readModel';
 

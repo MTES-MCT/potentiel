@@ -27,7 +27,7 @@ type ModifierDemandeComplèteRaccordementDependencies = {
   >;
 };
 
-export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
+export const modifierDemandeComplèteRaccordementUseCaseFactory: CommandHandlerFactory<
   ModifierDemandeComplèteRaccordementUseCase,
   ModifierDemandeComplèteRaccordementDependencies
 > =
@@ -52,16 +52,16 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
       nouveauFichier,
     });
 
+    const { propositionTechniqueEtFinancière } = await consulterDossierRaccordementQuery({
+      identifiantProjet,
+      référence: ancienneRéférence,
+    });
+
     await remplacerAccuséRéceptionDemandeComplèteRaccordement({
       identifiantProjet,
       ancienneRéférence,
       nouvelleRéférence,
       nouveauFichier,
-    });
-
-    const { propositionTechniqueEtFinancière } = await consulterDossierRaccordementQuery({
-      identifiantProjet,
-      référence: ancienneRéférence,
     });
 
     if (propositionTechniqueEtFinancière) {

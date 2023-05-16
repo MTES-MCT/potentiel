@@ -45,6 +45,8 @@ Alors(
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
+    console.log('********************* ACTUAL', actual);
+
     expect(actual.propositionTechniqueEtFinancière).to.deep.equal({
       dateSignature: new Date(dateSignature).toISOString(),
       format: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière.format,

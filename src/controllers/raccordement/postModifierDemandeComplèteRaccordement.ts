@@ -2,7 +2,9 @@ import { createReadStream } from 'fs';
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
+  consulterDossierRaccordementQueryHandlerFactory,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
+  modifierDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -24,14 +26,24 @@ import {
   remplacerAccuséRéceptionDemandeComplèteRaccordement,
   renommerPropositionTechniqueEtFinancière,
 } from '@potentiel/adapter-domain';
+import { findProjection } from '@potentiel/pg-projections';
 
-const modifierDemandeComplèteRaccordement =
+const consulterDossierRaccordementQuery = consulterDossierRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
+
+const modifierDemandeComplèteRaccordementCommand =
   modifierDemandeComplèteRaccordementCommandHandlerFactory({
-    publish,
     loadAggregate,
-    remplacerAccuséRéceptionDemandeComplèteRaccordement,
-    renommerPropositionTechniqueEtFinancière,
+    publish,
   });
+
+const modifierDemandeComplèteRaccordement = modifierDemandeComplèteRaccordementUseCaseFactory({
+  consulterDossierRaccordementQuery,
+  modifierDemandeComplèteRaccordementCommand,
+  remplacerAccuséRéceptionDemandeComplèteRaccordement,
+  renommerPropositionTechniqueEtFinancière,
+});
 
 const schema = yup.object({
   params: yup.object({
