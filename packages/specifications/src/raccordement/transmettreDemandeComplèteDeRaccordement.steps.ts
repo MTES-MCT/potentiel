@@ -36,7 +36,7 @@ EtantDonné(
       },
       dateQualification,
       référenceDossierRaccordement,
-      accuséRéception: this.raccordementWorld.accuséRéception,
+      accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
   },
 );
@@ -85,7 +85,7 @@ Quand(
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-      accuséRéception: this.raccordementWorld.accuséRéception,
+      accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
   },
 );
@@ -103,7 +103,7 @@ Quand(
         },
         dateQualification: new Date(),
         référenceDossierRaccordement: 'une référence',
-        accuséRéception: this.raccordementWorld.accuséRéception,
+        accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
     } catch (e) {
       if (e instanceof GestionnaireNonRéférencéError) {
@@ -144,7 +144,7 @@ Alors(
       type: 'dossier-raccordement',
       référence: this.raccordementWorld.référenceDossierRaccordement,
       dateQualification: this.raccordementWorld.dateQualification.toISOString(),
-      accuséRéception: { format: this.raccordementWorld.accuséRéception.format },
+      accuséRéception: { format: this.raccordementWorld.fichierDemandeComplèteRaccordement.format },
     };
 
     actual.should.be.deep.equal(expected);
@@ -185,7 +185,9 @@ Alors(
     const path = join(
       formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
       this.raccordementWorld.référenceDossierRaccordement,
-      `demande-complete-raccordement.${extension(this.raccordementWorld.accuséRéception.format)}`,
+      `demande-complete-raccordement.${extension(
+        this.raccordementWorld.fichierDemandeComplèteRaccordement.format,
+      )}`,
     );
     const fichier = await download(path);
     fichier.should.be.ok;
@@ -203,7 +205,7 @@ EtantDonné(
       },
       dateQualification: new Date('2022-12-31'),
       référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
-      accuséRéception: this.raccordementWorld.accuséRéception,
+      accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
   },
 );
@@ -227,7 +229,7 @@ Quand(
         },
         dateQualification: new Date('2022-11-24'),
         référenceDossierRaccordement: 'Enieme-DCR',
-        accuséRéception: this.raccordementWorld.accuséRéception,
+        accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
     } catch (error) {
       if (error instanceof PlusieursGestionnairesRéseauPourUnProjetError) {

@@ -11,6 +11,7 @@ import { Readable } from 'stream';
 
 import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from './remplacerAccuséRéceptionDemandeComplèteRaccordement';
 import { RenommerPropositionTechniqueEtFinancière } from './renommerPropositionTechniqueEtFinancière';
+import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../transmettreDemandeComplèteRaccordement';
 
 type ModifierDemandeComplèteRaccordementCommand = {
   identifiantProjet: IdentifiantProjet;
@@ -57,7 +58,7 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const event: DemandeComplèteRaccordementModifiéeEvent = {
+    const demandeComplèteRaccordementModifiéeEvent: DemandeComplèteRaccordementModifiéeEvent = {
       type: 'DemandeComplèteRaccordementModifiée',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
@@ -67,7 +68,21 @@ export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandH
       },
     };
 
-    await publish(createRaccordementAggregateId(identifiantProjet), event);
+    await publish(
+      createRaccordementAggregateId(identifiantProjet),
+      demandeComplèteRaccordementModifiéeEvent,
+    );
+
+    const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
+      type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+      payload: {
+        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        référenceDossierRaccordement: nouvelleRéférence,
+        format: nouveauFichier.format,
+      },
+    };
+
+    await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
 
     await remplacerAccuséRéceptionDemandeComplèteRaccordement({
       identifiantProjet,

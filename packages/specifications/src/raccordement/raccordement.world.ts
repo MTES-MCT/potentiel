@@ -22,17 +22,30 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
-  #accuséRéception!: { format: string; content: Readable };
+  #fichierDemandeComplèteRaccordement!: { format: string; content: Readable };
 
-  get accuséRéception(): { format: string; content: Readable } {
-    if (!this.#accuséRéception) {
-      throw new Error('accuséRéception not initialized');
+  get fichierDemandeComplèteRaccordement(): { format: string; content: Readable } {
+    if (!this.#fichierDemandeComplèteRaccordement) {
+      throw new Error('fichierDemandeComplèteRaccordement not initialized');
     }
-    return this.#accuséRéception;
+    return this.#fichierDemandeComplèteRaccordement;
   }
 
-  set accuséRéception(value: { format: string; content: Readable }) {
-    this.#accuséRéception = value;
+  set fichierDemandeComplèteRaccordement(value: { format: string; content: Readable }) {
+    this.#fichierDemandeComplèteRaccordement = value;
+  }
+
+  #autreFichierDemandeComplèteRaccordement!: { format: string; content: Readable };
+
+  get autreFichierDemandeComplèteRaccordement(): { format: string; content: Readable } {
+    if (!this.#autreFichierDemandeComplèteRaccordement) {
+      throw new Error('autreFichierDemandeComplèteRaccordement not initialized');
+    }
+    return this.#autreFichierDemandeComplèteRaccordement;
+  }
+
+  set autreFichierDemandeComplèteRaccordement(value: { format: string; content: Readable }) {
+    this.#autreFichierDemandeComplèteRaccordement = value;
   }
 
   #fichierPropositionTechniqueEtFinancière!: { format: string; content: Readable };
@@ -86,9 +99,15 @@ export class RaccordementWorld {
       période: '1',
       numéroCRE: '23',
     };
-    this.#accuséRéception = {
+    this.#fichierDemandeComplèteRaccordement = {
       format: 'application/pdf',
-      content: Readable.from("Contenu d'un fichier", {
+      content: Readable.from("Contenu d'un fichier DCR", {
+        encoding: 'utf8',
+      }),
+    };
+    this.#autreFichierDemandeComplèteRaccordement = {
+      format: 'application/pdf',
+      content: Readable.from("Contenu d'un autre fichier DCR", {
         encoding: 'utf8',
       }),
     };
@@ -126,7 +145,7 @@ export class RaccordementWorld {
       payload: {
         identifiantProjet,
         référenceDossierRaccordement,
-        format: this.#accuséRéception.format,
+        format: this.#fichierDemandeComplèteRaccordement.format,
       },
     };
 

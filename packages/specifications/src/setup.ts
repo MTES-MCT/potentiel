@@ -32,7 +32,7 @@ BeforeAll(() => {
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
-  await sleep(100);
+  await sleep(250);
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
