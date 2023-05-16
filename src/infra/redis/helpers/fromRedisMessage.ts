@@ -19,6 +19,7 @@ import { isLegacyEvent, RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
 import { DateMiseEnServiceTransmise } from '@modules/project/events';
+import { logger } from '@core/utils';
 
 interface EventProps {
   payload: any;
@@ -55,11 +56,12 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...compatibilityEvents,
 };
 
-export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
+export const fromRedisMessage = (message: RedisMessage): DomainEvent | null => {
   const EventClass = EventClassByType[message.type];
 
   if (!EventClass) {
-    throw new Error('Event class not recognized');
+    logger.warning(`Event class not recognized`, { event: message });
+    return null;
   }
 
   const original = isLegacyEvent(message)
