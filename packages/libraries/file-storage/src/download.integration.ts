@@ -1,7 +1,8 @@
 import { Readable } from 'stream';
 import { getClient } from './getClient';
 import { upload } from './upload';
-import { FichierInexistant, download } from './download';
+import { download } from './download';
+import { FichierInexistant } from './fichierInexistant.error';
 
 describe(`download file`, () => {
   const bucketName = 'potentiel';
