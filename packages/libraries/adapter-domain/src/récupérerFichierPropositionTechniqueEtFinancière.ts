@@ -2,7 +2,7 @@ import {
   RécupérerFichierPropositionTechniqueEtFinancière,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
-import { getFiles, download } from '@potentiel/file-storage';
+import { getFiles, download, FichierInexistant } from '@potentiel/file-storage';
 import { join } from 'path';
 
 export const récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancière =
@@ -15,8 +15,7 @@ export const récupérerFichierPropositionTechniqueEtFinancière: RécupérerFic
     const files = await getFiles(filePath);
 
     if (files.length === 0) {
-      new Error();
-      // TODO : créer nouvelle erreur
+      throw new FichierInexistant();
     }
 
     const fileContent = await download(files[0]);

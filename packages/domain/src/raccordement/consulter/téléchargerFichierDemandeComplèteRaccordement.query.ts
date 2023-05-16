@@ -45,7 +45,7 @@ export const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory
     });
 
     return {
-      type: 'fichier-demander-complète-raccordement',
+      type: 'fichier-demande-complète-raccordement',
       format: dossierRaccordement.accuséRéception.format,
       content: fichier,
     } as Readonly<TéléchargerFichierDemandeComplèteRaccordementReadModel>;
