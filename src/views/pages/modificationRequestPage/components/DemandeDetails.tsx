@@ -1,21 +1,21 @@
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { format } from 'date-fns';
 import moment from 'moment';
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import ROUTES from '@routes';
 import { DownloadLink, ExternalLink, Heading2 } from '@components';
 import { afficherDate } from '@views/helpers';
 
-interface DemandeDetailsProps {
+type DemandeDetailsProps = ComponentProps<'div'> & {
   modificationRequest: ModificationRequestPageDTO;
-}
+};
 
-export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => {
+export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeDetailsProps) => {
   const { requestedBy, requestedOn, justification, attachmentFile, cahierDesCharges } =
     modificationRequest;
 
   return (
-    <div className="panel__header">
+    <div className={`${className}`}>
       <Heading2>Détail de la demande</Heading2>
       <div>
         Déposée par {requestedBy} le {afficherDate(requestedOn)}
