@@ -9,13 +9,12 @@ import fs from 'fs';
 import { parse } from 'csv-parse';
 import iconv from 'iconv-lite';
 import { executeSelect } from '@potentiel/pg-helpers';
-import { KeyValuePair } from '../../../packages/libraries/pg-projections/src/keyValuePair';
+import { KeyValuePair } from '@potentiel/pg-projections/src/keyValuePair';
 import {
   DossierRaccordementReadModel,
   IdentifiantProjet,
   transmettreDateMiseEnServiceCommandHandlerFactory,
 } from '@potentiel/domain';
-import { ReadModel } from '@potentiel/core-domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 
 const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
@@ -77,20 +76,18 @@ v1Router.post(
     }
 
     for (const { référenceDossier: référenceDossierRaccordement, dateMiseEnService } of données) {
-      const dossiers = await searchProjection<DossierRaccordementReadModel>(
-        `dossier-raccordement#%#%${référenceDossierRaccordement}%`,
-      );
+      const dossiers = await searchDossiersRaccordementParRéférence(référenceDossierRaccordement);
 
       if (dossiers.length === 1) {
-        const identifiantProjet = dossiers[0].key.split('#')[1];
-
         await transmettreDateMiseEnService({
-          identifiantProjet: parseIdentifiantProjet(identifiantProjet),
+          identifiantProjet: dossiers[0].identifiantProjet,
           référenceDossierRaccordement,
           dateMiseEnService: new Date(dateMiseEnService),
         });
       }
     }
+
+    return response.redirect(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE);
   }),
 );
 
@@ -122,30 +119,32 @@ const parseCsv = (fileStream: NodeJS.ReadableStream) => {
   });
 };
 
-export const searchProjection = async <TReadModel extends ReadModel>(
-  search: string,
-): Promise<ReadonlyArray<TReadModel & { key: string }>> => {
-  const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
-    `SELECT "key", "value" FROM "PROJECTION" where "key" like $1`,
-    search,
-  );
-
-  return result.map(
-    ({ key, value }) =>
-      ({
-        type: key.split('#')[0],
-        key,
-        ...value,
-      } as TReadModel & { key: string }),
-  );
+type DossiersRaccordementParRéférenceReadModel = DossierRaccordementReadModel & {
+  identifiantProjet: IdentifiantProjet;
 };
 
-export const parseIdentifiantProjet = (id: string): IdentifiantProjet => {
-  const parsedId = id.split('#');
-  return {
-    appelOffre: parsedId[0],
-    période: parsedId[1],
-    famille: parsedId[2],
-    numéroCRE: parsedId[3],
-  };
+export const searchDossiersRaccordementParRéférence = async (
+  référence: string,
+): Promise<ReadonlyArray<DossiersRaccordementParRéférenceReadModel>> => {
+  const result = await executeSelect<
+    KeyValuePair<DossierRaccordementReadModel['type'], DossierRaccordementReadModel>
+  >(
+    `SELECT "key", "value" FROM "PROJECTION" where "key" like $1`,
+    `dossier-raccordement#%#%${référence}%`,
+  );
+
+  return result.map(({ key, value }) => {
+    const parsedKey = key.split('#');
+    const identifiantProjet = {
+      appelOffre: parsedKey[1],
+      période: parsedKey[2],
+      famille: parsedKey[3],
+      numéroCRE: parsedKey[4],
+    };
+    return {
+      type: key.split('#')[0],
+      identifiantProjet,
+      ...value,
+    } as DossiersRaccordementParRéférenceReadModel;
+  });
 };

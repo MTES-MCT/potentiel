@@ -1,4 +1,5 @@
 export * from './getImporterDatesMiseEnServicePage';
+export * from './postImporterDatesMiseEnService';
 export * from './getListeDossierRaccordementPage';
 export * from './getTransmettreDateMiseEnService';
 export * from './getTransmettreDemandeComplèteRaccordementPage';
