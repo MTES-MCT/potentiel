@@ -15,7 +15,8 @@
     "@potentiel/core-domain": "*",
     "@potentiel/domain": "*",
     "@potentiel/pg-event-sourcing": "*",
-    "@potentiel/pg-helpers": "*"
+    "@potentiel/pg-helpers": "*",
+    "@potentiel/file-storage": "*"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^9.1.0",

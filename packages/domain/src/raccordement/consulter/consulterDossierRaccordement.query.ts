@@ -4,7 +4,7 @@ import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 
-type ConsulterDossierRaccordementQuery = {
+export type ConsulterDossierRaccordementQuery = {
   identifiantProjet: IdentifiantProjet;
   référence: string;
 };

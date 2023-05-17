@@ -8,7 +8,11 @@ import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordem
 import { dateMiseEnServiceTransmiseHandlerFactory } from './raccordement/transmettreDateMiseEnService/handlers/dateMiseEnServiceTransmise.handler';
 import { demandeComplèteRaccordementeModifiéeHandlerFactory } from './raccordement/modifierDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementModifiée.handler';
 import { gestionnaireRéseauProjetModifiéHandlerFactory } from './projet/handlers/gestionnaireRéseauProjetModifié.handler';
-import { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './raccordement';
+import {
+  accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
+  propositionTechniqueEtFinancièreModifiéeHandlerFactory,
+} from './raccordement';
+import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './raccordement/transmettrePropositionTechniqueEtFinancière/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 
 type Ports = {
   subscribe: Subscribe;
@@ -66,6 +70,20 @@ export const setupEventHandlers = async ({
     subscribe(
       'PropositionTechniqueEtFinancièreModifiée',
       propositionTechniqueEtFinancièreModifiéeHandlerFactory({
+        find,
+        update,
+      }),
+    ),
+    subscribe(
+      'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+      accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory({
+        find,
+        update,
+      }),
+    ),
+    subscribe(
+      'FichierPropositionTechniqueEtFinancièreTransmis',
+      fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory({
         find,
         update,
       }),

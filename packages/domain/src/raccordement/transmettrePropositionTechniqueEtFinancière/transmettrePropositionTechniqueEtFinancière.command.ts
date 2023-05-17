@@ -7,21 +7,37 @@ import {
 } from '../raccordement.aggregate';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { Readable } from 'stream';
+import { FichierPropositionTechniqueEtFinancièreTransmisEvent } from './fichierPropositionTechniqueEtFinancièreTransmis.event';
+import { EnregistrerFichierPropositionTechniqueEtFinancière } from './enregistrerFichierPropositionTechniqueEtFinancière';
 
-type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
+type Dependencies = {
+  loadAggregate: LoadAggregate;
+  publish: Publish;
+  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;
+};
 
 type TransmettrePropositionTechniqueEtFinancièreCommand = {
   dateSignature: Date;
   référenceDossierRaccordement: string;
   identifiantProjet: IdentifiantProjet;
+  propositionTechniqueEtFinancière: {
+    format: string;
+    content: Readable;
+  };
 };
 
 export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: CommandHandlerFactory<
   TransmettrePropositionTechniqueEtFinancièreCommand,
   Dependencies
 > =
-  ({ publish, loadAggregate }) =>
-  async ({ dateSignature, référenceDossierRaccordement, identifiantProjet }) => {
+  ({ publish, loadAggregate, enregistrerFichierPropositionTechniqueEtFinancière }) =>
+  async ({
+    dateSignature,
+    référenceDossierRaccordement,
+    identifiantProjet,
+    propositionTechniqueEtFinancière: { format, content },
+  }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
     });
@@ -32,14 +48,40 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
-      type: 'PropositionTechniqueEtFinancièreTransmise',
-      payload: {
-        dateSignature: dateSignature.toISOString(),
-        référenceDossierRaccordement,
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      },
-    };
+    const propositionTechniqueEtFinancièreTransmiseEvent: PropositionTechniqueEtFinancièreTransmiseEvent =
+      {
+        type: 'PropositionTechniqueEtFinancièreTransmise',
+        payload: {
+          dateSignature: dateSignature.toISOString(),
+          référenceDossierRaccordement,
+          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        },
+      };
 
-    await publish(createRaccordementAggregateId(identifiantProjet), event);
+    await publish(
+      createRaccordementAggregateId(identifiantProjet),
+      propositionTechniqueEtFinancièreTransmiseEvent,
+    );
+
+    const fichierPropositionTechniqueEtFinancièreTransmisEvent: FichierPropositionTechniqueEtFinancièreTransmisEvent =
+      {
+        type: 'FichierPropositionTechniqueEtFinancièreTransmis',
+        payload: {
+          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+          format,
+          référenceDossierRaccordement,
+        },
+      };
+
+    await publish(
+      createRaccordementAggregateId(identifiantProjet),
+      fichierPropositionTechniqueEtFinancièreTransmisEvent,
+    );
+
+    await enregistrerFichierPropositionTechniqueEtFinancière({
+      identifiantProjet,
+      référenceDossierRaccordement,
+      format,
+      content,
+    });
   };

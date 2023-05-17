@@ -7,7 +7,9 @@ export type DossierRaccordementReadModel = ReadModel<
     dateQualification?: string;
     propositionTechniqueEtFinancière?: {
       dateSignature: string;
+      format: string | 'none';
     };
     dateMiseEnService?: string;
+    accuséRéception?: { format: string };
   }
 >;

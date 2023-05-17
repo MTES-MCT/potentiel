@@ -1,8 +1,10 @@
+import { createReadStream } from 'fs';
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
-  formatIdentifiantProjet,
+  consulterDossierRaccordementQueryHandlerFactory,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
+  modifierDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -20,15 +22,28 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { extname, join } from 'path';
-import { createReadStream } from 'fs';
-import { deleteFile, getFiles, renameFile, upload } from '@potentiel/file-storage';
+import {
+  remplacerAccuséRéceptionDemandeComplèteRaccordement,
+  renommerPropositionTechniqueEtFinancière,
+} from '@potentiel/adapter-domain';
+import { findProjection } from '@potentiel/pg-projections';
 
-const modifierDemandeComplèteRaccordement =
+const consulterDossierRaccordementQuery = consulterDossierRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
+
+const modifierDemandeComplèteRaccordementCommand =
   modifierDemandeComplèteRaccordementCommandHandlerFactory({
-    publish,
     loadAggregate,
+    publish,
   });
+
+const modifierDemandeComplèteRaccordement = modifierDemandeComplèteRaccordementUseCaseFactory({
+  consulterDossierRaccordementQuery,
+  modifierDemandeComplèteRaccordementCommand,
+  remplacerAccuséRéceptionDemandeComplèteRaccordement,
+  renommerPropositionTechniqueEtFinancière,
+});
 
 const schema = yup.object({
   params: yup.object({
@@ -55,9 +70,15 @@ v1Router.post(
       schema,
       onError: ({ request, response }) =>
         response.redirect(
-          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(request.params.projetId), {
-            error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
-          }),
+          addQueryParams(
+            routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
+              request.params.projetId,
+              request.params.reference,
+            ),
+            {
+              error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
+            },
+          ),
         ),
     },
     async (request, response) => {
@@ -116,48 +137,13 @@ v1Router.post(
         await modifierDemandeComplèteRaccordement({
           identifiantProjet,
           dateQualification,
-          nouvelleReference,
-          referenceActuelle: reference,
+          nouvelleRéférence: nouvelleReference,
+          ancienneRéférence: reference,
+          nouveauFichier: {
+            format: file.mimetype,
+            content: createReadStream(file.path),
+          },
         });
-
-        const fileToDeletePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          reference,
-          `demande-complete-raccordement`,
-        );
-
-        const files = await getFiles(fileToDeletePath);
-
-        if (files.length > 0) {
-          await deleteFile(files[0]);
-        }
-
-        const newFilePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          nouvelleReference,
-          `demande-complete-raccordement${extname(file.originalname)}`,
-        );
-        const content = createReadStream(file.path);
-        await upload(newFilePath, content);
-
-        const fichierPTF = await getFiles(
-          join(
-            formatIdentifiantProjet(identifiantProjet),
-            reference,
-            `proposition-technique-et-financiere`,
-          ),
-        );
-
-        if (fichierPTF.length > 0) {
-          await renameFile(
-            fichierPTF[0],
-            join(
-              formatIdentifiantProjet(identifiantProjet),
-              nouvelleReference,
-              `proposition-technique-et-financiere${extname(fichierPTF[0])}`,
-            ),
-          );
-        }
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

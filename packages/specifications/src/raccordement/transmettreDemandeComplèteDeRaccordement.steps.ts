@@ -7,19 +7,25 @@ import {
   consulterDossierRaccordementQueryHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   consulterProjetQueryHandlerFactory,
+  formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
+import { download } from '@potentiel/file-storage';
+import { Readable } from 'stream';
+import { join } from 'path';
+import { extension } from 'mime-types';
+import { enregistrerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     const dateQualification = new Date(exemple['La date de qualification']);
-    const référenceDemandeRaccordement = exemple['La référence du dossier de raccordement'];
+    const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
 
     const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
@@ -29,7 +35,8 @@ EtantDonné(
         codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
       },
       dateQualification,
-      référenceDossierRaccordement: référenceDemandeRaccordement,
+      référenceDossierRaccordement,
+      accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
   },
 );
@@ -51,6 +58,12 @@ Quand(
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      accuséRéception: {
+        format: 'application/pdf',
+        content: Readable.from("Contenu d'un autre fichier", {
+          encoding: 'utf8',
+        }),
+      },
     });
   },
 );
@@ -72,6 +85,7 @@ Quand(
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
   },
 );
@@ -89,6 +103,7 @@ Quand(
         },
         dateQualification: new Date(),
         référenceDossierRaccordement: 'une référence',
+        accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
     } catch (e) {
       if (e instanceof GestionnaireNonRéférencéError) {
@@ -129,6 +144,7 @@ Alors(
       type: 'dossier-raccordement',
       référence: this.raccordementWorld.référenceDossierRaccordement,
       dateQualification: this.raccordementWorld.dateQualification.toISOString(),
+      accuséRéception: { format: this.raccordementWorld.fichierDemandeComplèteRaccordement.format },
     };
 
     actual.should.be.deep.equal(expected);
@@ -151,7 +167,7 @@ Alors(
 
 Alors(
   'le dossier est consultable dans la liste des dossiers de raccordement du projet',
-  async function async(this: PotentielWorld) {
+  async function (this: PotentielWorld) {
     const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
       find: findProjection,
     });
@@ -163,11 +179,26 @@ Alors(
   },
 );
 
+Alors(
+  `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    // TODO : utiliser query
+    const path = join(
+      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+      this.raccordementWorld.référenceDossierRaccordement,
+      `demande-complete-raccordement.${extension(
+        this.raccordementWorld.fichierDemandeComplèteRaccordement.format,
+      )}`,
+    );
+    const fichier = await download(path);
+    fichier.should.be.ok;
+  },
+);
+
 EtantDonné(
   `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
   async function (this: PotentielWorld) {
     const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
-
     await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
@@ -175,6 +206,7 @@ EtantDonné(
       },
       dateQualification: new Date('2022-12-31'),
       référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
+      accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
     });
   },
 );
@@ -198,6 +230,7 @@ Quand(
         },
         dateQualification: new Date('2022-11-24'),
         référenceDossierRaccordement: 'Enieme-DCR',
+        accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
     } catch (error) {
       if (error instanceof PlusieursGestionnairesRéseauPourUnProjetError) {
@@ -222,6 +255,7 @@ function getUseCase() {
     transmettreDemandeComplèteRaccordementUseCaseFactory({
       consulterGestionnaireRéseauQuery,
       transmettreDemandeComplèteRaccordementCommand,
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement,
     });
   return transmettreDemandeComplèteRaccordementUseCase;
 }

@@ -1,12 +1,7 @@
 import { Readable } from 'stream';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
-
-export class FichierInexistant extends Error {
-  constructor() {
-    super(`Le fichier n'existe pas`);
-  }
-}
+import { FichierInexistant } from './fichierInexistant.error';
 
 export const download = async (filePath: string) => {
   try {

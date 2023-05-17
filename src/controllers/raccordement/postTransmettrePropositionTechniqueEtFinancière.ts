@@ -1,7 +1,6 @@
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettrePropositionTechniqueEtFinancière,
-  formatIdentifiantProjet,
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -20,14 +19,14 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { extname, join } from 'path';
 import { createReadStream } from 'fs';
-import { upload } from '@potentiel/file-storage';
+import { enregistrerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
 
 const transmettrePropositionTechniqueEtFinancière =
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
     publish,
     loadAggregate,
+    enregistrerFichierPropositionTechniqueEtFinancière,
   });
 
 const schema = yup.object({
@@ -116,15 +115,11 @@ v1Router.post(
           identifiantProjet,
           référenceDossierRaccordement: reference,
           dateSignature,
+          propositionTechniqueEtFinancière: {
+            format: file.mimetype,
+            content: createReadStream(file.path),
+          },
         });
-
-        const filePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          reference,
-          `proposition-technique-et-financiere${extname(file.originalname)}`,
-        );
-        const content = createReadStream(file.path);
-        await upload(filePath, content);
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

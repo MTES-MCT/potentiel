@@ -9,7 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/core-domain": "*"
+    "@potentiel/core-domain": "*",
+    "@potentiel/adapter-domain": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

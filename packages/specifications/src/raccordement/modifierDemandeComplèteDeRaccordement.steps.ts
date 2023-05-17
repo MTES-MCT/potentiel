@@ -3,33 +3,39 @@ import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
+  formatIdentifiantProjet,
   listerDossiersRaccordementQueryHandlerFactory,
   modifierDemandeComplèteRaccordementCommandHandlerFactory,
+  modifierDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
+import {
+  remplacerAccuséRéceptionDemandeComplèteRaccordement,
+  renommerPropositionTechniqueEtFinancière,
+} from '@potentiel/adapter-domain';
+import { download } from '@potentiel/file-storage';
+import { extension } from 'mime-types';
+import { join } from 'path';
 
 Quand(
-  `le porteur modifie la date de qualification au {string} et une nouvelle référence {string}`,
-  async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
-    const modifierDemandeComplèteRaccordement =
-      modifierDemandeComplèteRaccordementCommandHandlerFactory({
-        loadAggregate,
-        publish,
-      });
+  `le porteur modifie une demande complète de raccordement avec une date de qualification au {string}, une nouvelle référence {string} et un nouveau fichier`,
+  async function (this: PotentielWorld, dateQualification: string, nouvelleRéférence: string) {
+    const modifierDemandeComplèteRaccordement = getUseCase();
 
     await modifierDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       dateQualification: new Date(dateQualification),
-      referenceActuelle: this.raccordementWorld.référenceDossierRaccordement,
-      nouvelleReference,
+      ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
+      nouvelleRéférence,
+      nouveauFichier: this.raccordementWorld.autreFichierDemandeComplèteRaccordement,
     });
   },
 );
 
 Alors(
-  `la date de qualification {string} et la référence {string} devraient être consultables dans un nouveau dossier de raccordement`,
+  `la date de qualification {string}, la référence {string} et le format du fichier devraient être consultables dans un nouveau dossier de raccordement`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
@@ -76,21 +82,33 @@ Alors(
   },
 );
 
+Alors(
+  `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement pour la nouvelle référence {string}`,
+  async function (this: PotentielWorld, nouvelleRéférence: string) {
+    const path = join(
+      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+      nouvelleRéférence,
+      `demande-complete-raccordement.${extension(
+        this.raccordementWorld.autreFichierDemandeComplèteRaccordement.format,
+      )}`,
+    );
+    const fichier = await download(path);
+    fichier.should.be.ok;
+  },
+);
+
 Quand(
   `un administrateur modifie la date de qualification pour un dossier de raccordement non connu`,
   async function (this: PotentielWorld) {
     try {
-      const modifierDemandeComplèteRaccordement =
-        modifierDemandeComplèteRaccordementCommandHandlerFactory({
-          loadAggregate,
-          publish,
-        });
+      const modifierDemandeComplèteRaccordement = getUseCase();
 
       await modifierDemandeComplèteRaccordement({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: new Date('2023-04-26'),
-        referenceActuelle: 'dossier-inconnu',
-        nouvelleReference: 'nouvelle-reference',
+        ancienneRéférence: 'dossier-inconnu',
+        nouvelleRéférence: 'nouvelle-reference',
+        nouveauFichier: this.raccordementWorld.fichierDemandeComplèteRaccordement,
       });
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
@@ -99,3 +117,25 @@ Quand(
     }
   },
 );
+
+function getUseCase() {
+  const consulterDossierRaccordementQuery = consulterDossierRaccordementQueryHandlerFactory({
+    find: findProjection,
+  });
+
+  const modifierDemandeComplèteRaccordementCommand =
+    modifierDemandeComplèteRaccordementCommandHandlerFactory({
+      loadAggregate,
+      publish,
+    });
+
+  const modifierDemandeComplèteRaccordementUseCase =
+    modifierDemandeComplèteRaccordementUseCaseFactory({
+      consulterDossierRaccordementQuery,
+      modifierDemandeComplèteRaccordementCommand,
+      remplacerAccuséRéceptionDemandeComplèteRaccordement,
+      renommerPropositionTechniqueEtFinancière,
+    });
+
+  return modifierDemandeComplèteRaccordementUseCase;
+}
