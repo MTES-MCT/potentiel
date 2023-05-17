@@ -23,21 +23,19 @@ export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
 
   return (
     <LegacyPageTemplate user={request.user}>
-      <div className="panel">
-        <div className="panel__header">
-          <Heading1>Importer des données producteurs</Heading1>
-        </div>
-
-        <form action={ROUTES.IMPORTER_LISTING_EDF} method="post" encType="multipart/form-data">
-          {success && <SuccessBox title={success as string} />}
-          {error && <ErrorBox title={error as string} />}
-          <Label htmlFor="file">Sélectionner le fichier à importer.</Label>
-          <Input type="file" name="file" id="file" />
-          <SecondaryButton className="mt-2" type="submit" name="submit" id="submit">
-            Envoyer
-          </SecondaryButton>
-        </form>
+      <div className="panel__header">
+        <Heading1>Importer des données producteurs</Heading1>
       </div>
+
+      <form action={ROUTES.IMPORTER_LISTING_EDF} method="post" encType="multipart/form-data">
+        {success && <SuccessBox title={success as string} />}
+        {error && <ErrorBox title={error as string} />}
+        <Label htmlFor="file">Sélectionner le fichier à importer.</Label>
+        <Input type="file" name="file" id="file" />
+        <SecondaryButton className="mt-2" type="submit" name="submit" id="submit">
+          Envoyer
+        </SecondaryButton>
+      </form>
     </LegacyPageTemplate>
   );
 };

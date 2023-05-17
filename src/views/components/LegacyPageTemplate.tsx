@@ -19,9 +19,8 @@ export const LegacyPageTemplate = ({
         role="main"
         id="contenu"
         className="flex flex-col px-2 py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl w-full"
-        style={{ fontFamily: 'Marianne, arial, sans-serif' }}
       >
-        {children}
+        <div className="border border-solid border-[#c9d3df] rounded-[3px] p-6">{children}</div>
       </main>
       <Footer />
     </App>

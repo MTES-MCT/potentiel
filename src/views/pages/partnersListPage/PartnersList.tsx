@@ -32,87 +32,85 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="admin-users">
-      <div className="panel">
-        <div className="panel__header">
-          <Heading1>Gérer les utilisateurs partenaires</Heading1>
-        </div>
-        <div className="panel__header">
-          <Heading2>Ajouter un utilisateur</Heading2>
-          {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />}
-          <form
-            action={ROUTES.ADMIN_INVITE_USER_ACTION}
-            method="post"
-            className="flex flex-col gap-4"
-          >
-            <FormulaireChampsObligatoireLégende className="text-right" />
-            <div>
-              <Label htmlFor="email" required>
-                Adresse email :
-              </Label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="email@exemple.com"
-                required
-                {...(validationErrors && { error: validationErrors['email']?.toString() })}
-              />
-            </div>
-            <div>
-              <Label htmlFor="role" required>
-                Sélectionnez un rôle
-              </Label>
-              <Select
-                name="role"
-                id="role"
-                required
-                {...(validationErrors && { error: validationErrors['role']?.toString() })}
-                defaultValue="default"
-              >
-                <option value="default" disabled hidden>
-                  Sélectionnez un rôle
-                </option>
-                <option value="acheteur-obligé">Acheteur obligé</option>
-                <option value="ademe">ADEME</option>
-                <option value="cre">CRE</option>
-                <option value="caisse-des-dépôts">Caisse des dépôts</option>
-              </Select>
-            </div>
-            <PrimaryButton className="m-auto" type="submit" id="submit">
-              Inviter
-            </PrimaryButton>
-          </form>
-        </div>
-
-        {users.length === 0 ? (
-          <ListeVide titre="Aucun partenaire à afficher" />
-        ) : (
-          <>
-            <Heading2>Liste des utilisateurs</Heading2>
-            <Table>
-              <thead>
-                <tr>
-                  <Th>Nom (email)</Th>
-                  <Th>Role</Th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map(({ id, fullName, email, role }) => {
-                  return (
-                    <tr key={'user_' + id} {...dataId('userList-item')}>
-                      <Td valign="top">
-                        {fullName} ({email})
-                      </Td>
-                      <Td valign="top">{role}</Td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </>
-        )}
+      <div className="panel__header">
+        <Heading1>Gérer les utilisateurs partenaires</Heading1>
       </div>
+      <div className="panel__header">
+        <Heading2>Ajouter un utilisateur</Heading2>
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
+        <form
+          action={ROUTES.ADMIN_INVITE_USER_ACTION}
+          method="post"
+          className="flex flex-col gap-4"
+        >
+          <FormulaireChampsObligatoireLégende className="text-right" />
+          <div>
+            <Label htmlFor="email" required>
+              Adresse email :
+            </Label>
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="email@exemple.com"
+              required
+              {...(validationErrors && { error: validationErrors['email']?.toString() })}
+            />
+          </div>
+          <div>
+            <Label htmlFor="role" required>
+              Sélectionnez un rôle
+            </Label>
+            <Select
+              name="role"
+              id="role"
+              required
+              {...(validationErrors && { error: validationErrors['role']?.toString() })}
+              defaultValue="default"
+            >
+              <option value="default" disabled hidden>
+                Sélectionnez un rôle
+              </option>
+              <option value="acheteur-obligé">Acheteur obligé</option>
+              <option value="ademe">ADEME</option>
+              <option value="cre">CRE</option>
+              <option value="caisse-des-dépôts">Caisse des dépôts</option>
+            </Select>
+          </div>
+          <PrimaryButton className="m-auto" type="submit" id="submit">
+            Inviter
+          </PrimaryButton>
+        </form>
+      </div>
+
+      {users.length === 0 ? (
+        <ListeVide titre="Aucun partenaire à afficher" />
+      ) : (
+        <>
+          <Heading2>Liste des utilisateurs</Heading2>
+          <Table>
+            <thead>
+              <tr>
+                <Th>Nom (email)</Th>
+                <Th>Role</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map(({ id, fullName, email, role }) => {
+                return (
+                  <tr key={'user_' + id} {...dataId('userList-item')}>
+                    <Td valign="top">
+                      {fullName} ({email})
+                    </Td>
+                    <Td valign="top">{role}</Td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </>
+      )}
     </LegacyPageTemplate>
   );
 };

@@ -20,18 +20,16 @@ export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
     redirectTitle: string;
   } = (request.query as any) || {};
 
-  const contents = (
-    <div className="panel">
+  return (
+    <LegacyPageTemplate user={request.user}>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
       <br />
       <LinkButton className="mt-4" href={redirectUrl}>
         {redirectTitle}
       </LinkButton>
-    </div>
+    </LegacyPageTemplate>
   );
-
-  return <LegacyPageTemplate user={request.user}>{contents}</LegacyPageTemplate>;
 };
 
 hydrateOnClient(SuccèsOuErreur);
