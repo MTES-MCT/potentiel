@@ -54,6 +54,7 @@ import {
   ModifierGestionnaireRéseauProjet,
   ModifierPropositionTechniqueEtFinancière,
   AucunDossierALister,
+  ImporterDatesMiseEnService,
 } from './pages';
 
 export { App } from './App';
@@ -467,4 +468,13 @@ export const AucunDossierAListerPage = (props: Parameters<typeof AucunDossierALi
     Component: AucunDossierALister,
     props,
     title: 'Aucun dossier de raccordement à lister',
+  });
+
+export const ImporterDatesMiseEnServicePage = (
+  props: Parameters<typeof ImporterDatesMiseEnService>[0],
+) =>
+  makeHtml({
+    Component: ImporterDatesMiseEnService,
+    props,
+    title: 'Importer des dates de mise en service',
   });
