@@ -13,7 +13,7 @@ export const Error = ({ errorTitle, errorMessage, request }: Props) => {
   return (
     <LegacyPageTemplate user={request.user}>
       <main role="main">
-        <section className="section section-grey pt-10">
+        <section className="py-20 bg-grey-950-base">
           <div className="container">
             <Heading2>{errorTitle}</Heading2>
             <p>{errorMessage}</p>

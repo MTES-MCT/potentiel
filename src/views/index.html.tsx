@@ -87,7 +87,7 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
           : ''}
       </head>
 
-      <body>
+      <body class="m-0">
         <svg aria-hidden="true" focusable="false" style="display:none">
           <defs>
             <symbol

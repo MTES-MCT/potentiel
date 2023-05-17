@@ -13,13 +13,13 @@ export const Statistiques = ({ mapIframeUrl, mainIframeUrl, request }: Statistiq
   return (
     <LegacyPageTemplate user={request.user}>
       <main role="main">
-        <section className="section section-color">
-          <div className="container">
-            <Heading1 className="section__title">Potentiel en chiffres</Heading1>
-            <p className="section__subtitle">Au service des porteurs de projets</p>
+        <section className="py-20 bg-blue-france-sun-base">
+          <div className="container text-center">
+            <Heading1 className="!text-white">Potentiel en chiffres</Heading1>
+            <p className="text-white">Au service des porteurs de projets</p>
           </div>
         </section>
-        <section className="section section-white" style={{ paddingTop: 0 }}>
+        <section>
           <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
           <div
             className="container"

@@ -12,7 +12,7 @@ export const AdemeStatistiques = ({ iframeUrl, request }: AdemeStatistiquesProps
   return (
     <LegacyPageTemplate user={request.user} currentPage="ademe-statistiques">
       <Heading1>Tableau de bord</Heading1>
-      <section className="section section-white" style={{ paddingTop: 0 }}>
+      <section>
         <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
         <div
           className="container"

@@ -16,7 +16,7 @@ export const AcheteurObligeStatistiques = ({
     <LegacyPageTemplate user={request.user} currentPage="acheteur-oblige-statistiques">
       <main role="main" className="panel">
         <Heading1>Tableau de bord</Heading1>
-        <section className="section section-white pt-0">
+        <section>
           <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
           <div
             className="container"

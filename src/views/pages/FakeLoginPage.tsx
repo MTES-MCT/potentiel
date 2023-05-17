@@ -13,7 +13,7 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
   return (
     <LegacyPageTemplate user={request.user}>
       <main role="main">
-        <section className="section section-grey" style={{ minHeight: 'calc(100vh - 420px)' }}>
+        <section className="min-h-[calc(100vh-420px)]">
           <div className="container">
             <form action={routes.LOGIN_ACTION} method="post" name="form">
               <h3 id="login">Je m‘identifie</h3>
