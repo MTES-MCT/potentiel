@@ -52,7 +52,7 @@ export const DemandeAnnulationAbandon = ({
             <DemandeDetails modificationRequest={modificationRequest} />
             <StatutDemandeModification statutDemande={status} className="my-4">
               <>
-                <span style={{ fontWeight: 'bold' }}>{ModificationRequestStatusTitle[status]}</span>{' '}
+                <span className="font-bold">{ModificationRequestStatusTitle[status]}</span>{' '}
                 {respondedOn && respondedBy && `par ${respondedBy} le ${afficherDate(respondedOn)}`}
                 {cancelledOn && cancelledBy && `par ${cancelledBy} le ${afficherDate(cancelledOn)}`}
                 {responseFile && status !== 'demande confirmée' && (

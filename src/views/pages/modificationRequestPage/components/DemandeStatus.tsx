@@ -50,13 +50,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
 
   return (
     <StatutDemandeModification statutDemande={status} className="my-4">
-      <span
-        style={{
-          fontWeight: 'bold',
-        }}
-      >
-        {helpers.ModificationRequestStatusTitle[status]}
-      </span>{' '}
+      <span className="font-bold">{helpers.ModificationRequestStatusTitle[status]}</span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${helpers.afficherDate(respondedOn)}`}
       {afficherBoutonAnnulerRejet && (
         <form
