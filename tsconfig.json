@@ -117,8 +117,8 @@
     {
       "path": "packages/libraries/file-storage"
     },
-        {
-      "path": "packages/libraries/adapter-domain"
+    {
+      "path": "packages/libraries/infra-adapters"
     }
   ],
 }

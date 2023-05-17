@@ -22,6 +22,9 @@
     },
     {
       "path": "../../libraries/redis-event-bus-consumer"
+    },
+    {
+      "path": "../../libraries/infra-adapters"
     }
   ]
 }

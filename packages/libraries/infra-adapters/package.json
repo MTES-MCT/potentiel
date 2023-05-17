@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel/adapter-domain",
+  "name": "@potentiel/infra-adapters",
   "version": "0.0.0",
-  "description": "Domain adapters functions",
+  "description": "Infrastructure adapters for setuping the domain",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,

@@ -2,7 +2,7 @@ import { setupDomain } from '@potentiel/domain';
 import {
   enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   enregistrerFichierPropositionTechniqueEtFinancière,
-} from '@potentiel/adapter-domain';
+} from '@potentiel/infra-adapters';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,

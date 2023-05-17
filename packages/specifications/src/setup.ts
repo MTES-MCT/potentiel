@@ -16,7 +16,7 @@ import { getClient } from '@potentiel/file-storage';
 import {
   enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   enregistrerFichierPropositionTechniqueEtFinancière,
-} from '@potentiel/adapter-domain';
+} from '@potentiel/infra-adapters';
 
 should();
 

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@potentiel/domain": "*",
+    "@potentiel/infra-adapters": "*",
     "@potentiel/pg-event-sourcing": "*",
     "@potentiel/pg-projections": "*",
     "@potentiel/redis-event-bus-client": "*",

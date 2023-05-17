@@ -1,7 +1,7 @@
 import {
   enregistrerAccuséRéceptionDemandeComplèteRaccordement,
   enregistrerFichierPropositionTechniqueEtFinancière,
-} from '@potentiel/adapter-domain';
+} from '@potentiel/infra-adapters';
 import {
   UnsetupDomain,
   buildAjouterGestionnaireRéseauCommand,
