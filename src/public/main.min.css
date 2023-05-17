@@ -144,21 +144,3 @@ form {
   margin-top: 2em;
   margin-top: var(--space-l);
 }
-.container {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-@media (min-width: 400px) {
-  .container {
-    width: 85%;
-    padding: 0;
-  }
-}
-@media (min-width: 550px) {
-  .container {
-    width: 80%;
-  }
-}

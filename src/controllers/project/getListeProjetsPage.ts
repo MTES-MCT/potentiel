@@ -5,7 +5,7 @@ import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { ListeProjetsPage } from '@views';
 import { userIs } from '@modules/users';
-import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers';
+import { errorResponse, getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers';
 import { appelOffreRepo } from '@dataAccess';
 import { listerProjets } from '@infra/sequelize/queries';
 import { PermissionListerProjets } from '@modules/project/queries/listerProjets';
@@ -69,6 +69,11 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   const appelsOffre = await appelOffreRepo.findAll();
 
   const optionsFiltresParAOs = await getOptionsFiltresParAOs({ user, appelOffreId });
+
+  return errorResponse({
+    request,
+    response,
+  });
 
   response.send(
     ListeProjetsPage({

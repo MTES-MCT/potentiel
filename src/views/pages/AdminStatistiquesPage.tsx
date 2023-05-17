@@ -15,7 +15,6 @@ export const AdminStatistiques = ({ iframeUrl, request }: AdminStatistiquesProps
       <section>
         <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
         <div
-          className="container"
           dangerouslySetInnerHTML={{
             __html: `<iframe
             src="${iframeUrl}"
@@ -25,7 +24,7 @@ export const AdminStatistiques = ({ iframeUrl, request }: AdminStatistiquesProps
             onload="iFrameResize({}, this)"
           ></iframe>`,
           }}
-        ></div>
+        />
       </section>
     </LegacyPageTemplate>
   );
