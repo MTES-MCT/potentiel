@@ -1,21 +1,29 @@
 import { Ports } from '../domain.ports';
-import { registerConsulterDossierRaccordementQuery } from './consulter/consulterDossierRaccordement.query';
-import { registerListerDossiersRaccordementQuery } from './lister/listerDossierRaccordement.query';
-import { demandeComplèteRaccordementeModifiéeHandlerFactory } from './modifierDemandeComplèteRaccordement';
-import { registerModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement/modifierDemandeComplèteRaccordement.command';
-import { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './modifierPropositiontechniqueEtFinancière';
-import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositiontechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.command';
-import { dateMiseEnServiceTransmiseHandlerFactory } from './transmettreDateMiseEnService';
-import { registerTransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService/transmettreDateMiseEnService.command';
 import {
-  accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
+  registerModifierDemandeComplèteRaccordementCommand,
+  demandeComplèteRaccordementeModifiéeHandlerFactory,
+} from './demandeCompléteRaccordement/modifier';
+import {
+  registerTransmettreDemandeComplèteRaccordementCommand,
+  registerTransmettreDemandeComplèteRaccordementUseCase,
   demandeComplèteRaccordementTransmiseHandlerFactory,
-} from './transmettreDemandeComplèteRaccordement';
-import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement/transmettreDemandeComplèteRaccordement.command';
-import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettreDemandeComplèteRaccordement/transmettreDemandeComplèteRaccordement.usecase';
-import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './transmettrePropositionTechniqueEtFinancière';
-import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './transmettrePropositionTechniqueEtFinancière/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
-import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettrePropositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.command';
+  accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
+} from './demandeCompléteRaccordement/transmettre';
+import { registerConsulterDossierRaccordementQuery } from './dossierRaccordement/consulter';
+import { registerListerDossiersRaccordementQuery } from './dossierRaccordement/lister/listerDossierRaccordement.query';
+import {
+  registerTransmettreDateMiseEnServiceCommand,
+  dateMiseEnServiceTransmiseHandlerFactory,
+} from './miseEnService/transmettre';
+import {
+  registerModifierPropositionTechniqueEtFinancièreCommand,
+  propositionTechniqueEtFinancièreModifiéeHandlerFactory,
+} from './propositionTechniqueEtFinancière/modifier';
+import {
+  registerTransmettrePropositionTechniqueEtFinancièreCommand,
+  propositionTechniqueEtFinancièreTransmiseHandlerFactory,
+} from './propositionTechniqueEtFinancière/transmettre';
+import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './propositionTechniqueEtFinancière/transmettre/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 
 export const setupRaccordement = ({ commandPorts, queryPorts, eventPorts, subscribe }: Ports) => {
   // Queries

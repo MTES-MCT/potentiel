@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import {
   PermissionConsulterDossierRaccordement,
-  buildTéléchargerFichierDemandeComplèteRaccordementQuery,
+  buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -54,7 +54,7 @@ v1Router.get(
 
       try {
         const fichier = await mediator.send(
-          buildTéléchargerFichierDemandeComplèteRaccordementQuery({
+          buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
             identifiantProjet,
             référenceDossierRaccordement: reference,
           }),

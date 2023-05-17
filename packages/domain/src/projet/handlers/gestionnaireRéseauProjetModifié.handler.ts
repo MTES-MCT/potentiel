@@ -1,7 +1,7 @@
 import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { GestionnaireRéseauProjetModifiéEvent } from '../../raccordement/modifierGestionnaireRéseauProjet/modifierGestionnaireRéseauProjet.event';
 import { ProjetReadModel } from '../projet.readModel';
+import { GestionnaireRéseauProjetModifiéEvent } from '../modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.event';
 
 export const gestionnaireRéseauProjetModifiéHandlerFactory: DomainEventHandlerFactory<
   GestionnaireRéseauProjetModifiéEvent,
