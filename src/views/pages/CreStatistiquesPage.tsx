@@ -11,9 +11,7 @@ type CreStatistiquesPageProps = {
 export const CreStatistiques = ({ iframeUrl, request }: CreStatistiquesPageProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="cre-statistiques">
-      <div className="panel__header">
-        <Heading1>Tableau de bord</Heading1>
-      </div>
+      <Heading1>Tableau de bord</Heading1>
       <section className="section section-white pt-0">
         <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js" />
         <div

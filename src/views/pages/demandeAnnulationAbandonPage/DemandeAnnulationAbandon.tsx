@@ -36,9 +36,7 @@ export const DemandeAnnulationAbandon = ({
     isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status);
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <div className="panel__header relative">
-        <Heading1>Je demande une annulation de l'abandon accordé de mon projet</Heading1>
-      </div>
+      <Heading1>Je demande une annulation de l'abandon accordé de mon projet</Heading1>
       {error && <ErrorBox title={error} />}
       {success && <SuccessBox title={success} />}
       <div className="flex flex-col gap-4">
@@ -69,10 +67,10 @@ export const DemandeAnnulationAbandon = ({
 
         <div>
           {showFormulaireAdministrateur && (
-            <div className="panel__header">
+            <>
               <Heading2>Répondre</Heading2>
               <AdminResponseForm role={user.role} modificationRequest={modificationRequest} />
-            </div>
+            </>
           )}
 
           {userIs('porteur-projet')(user) &&

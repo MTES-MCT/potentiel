@@ -44,9 +44,7 @@ export const AdminNotificationCandidats = ({
     // All projects have been notified
     return (
       <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
-        <div className="panel__header">
-          <Heading1>Notifier des candidats</Heading1>
-        </div>
+        <Heading1>Notifier des candidats</Heading1>
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
         <ListeVide titre="Tous les candidats ont été notifiés" />
@@ -68,58 +66,56 @@ export const AdminNotificationCandidats = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
-      <div className="panel__header">
-        <Heading1>Notifier les candidats</Heading1>
-        {request.user.role !== 'dgec-validateur' && (
-          <p>
-            Seules les personnes ayant délégation de signature sont habilitées à notifier un appel
-            d'offres. <br />
-            Il est néanmoins possible de consulter les attestations qui seront envoyées aux porteurs
-            de projets.
-          </p>
-        )}
-        <form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="ml-0 mb-4">
-          <div className="form__group mt-5">
-            <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
-          </div>
+      <Heading1>Notifier les candidats</Heading1>
+      {request.user.role !== 'dgec-validateur' && (
+        <p>
+          Seules les personnes ayant délégation de signature sont habilitées à notifier un appel
+          d'offres. <br />
+          Il est néanmoins possible de consulter les attestations qui seront envoyées aux porteurs
+          de projets.
+        </p>
+      )}
+      <form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="ml-0 mb-4">
+        <div className="form__group mt-5">
+          <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
+        </div>
 
-          <div className="form__group">
-            <Dropdown
-              design="link"
-              text="Filtrer"
-              isOpen={afficherFiltres}
-              changeOpenState={(state) => setAfficherFiltres(state)}
-              className="!w-full"
-            >
-              <div className="mt-4">
-                <Label htmlFor="classement">Classés/Eliminés</Label>
-                <Select
-                  id="classement"
-                  name="classement"
-                  defaultValue={classement || 'default'}
-                  onChange={(event) =>
-                    updateUrlParams({
-                      classement: event.target.value,
-                      page: null,
-                    })
-                  }
-                >
-                  <option value="default" disabled hidden>
-                    Choisir une option
-                  </option>
-                  <option value="">Tous</option>
-                  <option value="classés" selected={classement && classement === 'classés'}>
-                    Classés
-                  </option>
-                  <option value="éliminés" selected={classement && classement === 'éliminés'}>
-                    Eliminés
-                  </option>
-                </Select>
-              </div>
-            </Dropdown>
-          </div>
-        </form>
-      </div>
+        <div className="form__group">
+          <Dropdown
+            design="link"
+            text="Filtrer"
+            isOpen={afficherFiltres}
+            changeOpenState={(state) => setAfficherFiltres(state)}
+            className="!w-full"
+          >
+            <div className="mt-4">
+              <Label htmlFor="classement">Classés/Eliminés</Label>
+              <Select
+                id="classement"
+                name="classement"
+                defaultValue={classement || 'default'}
+                onChange={(event) =>
+                  updateUrlParams({
+                    classement: event.target.value,
+                    page: null,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir une option
+                </option>
+                <option value="">Tous</option>
+                <option value="classés" selected={classement && classement === 'classés'}>
+                  Classés
+                </option>
+                <option value="éliminés" selected={classement && classement === 'éliminés'}>
+                  Eliminés
+                </option>
+              </Select>
+            </div>
+          </Dropdown>
+        </div>
+      </form>
       <form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post" className="ml-0 mb-4">
         <div className="form__group">
           <Label htmlFor="appelOffreId" className="mt-4">

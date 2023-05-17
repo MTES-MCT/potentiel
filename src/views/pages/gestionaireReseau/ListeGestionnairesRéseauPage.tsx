@@ -19,9 +19,7 @@ export const ListeGestionnairesRéseau = ({
 }: ListeGestionnairesRéseauProps) => (
   <LegacyPageTemplate user={user} currentPage={'liste-gestionnaires-réseau'}>
     <div className="panel flex flex-col">
-      <div className="panel__header">
-        <Heading1>Liste des gestionnaires de réseau</Heading1>
-      </div>
+      <Heading1>Liste des gestionnaires de réseau</Heading1>
       {success && <SuccessBox title={success} className="mb-4" />}
       <LinkButton href={routes.GET_AJOUTER_GESTIONNAIRE_RESEAU} className="mb-4 self-end">
         Ajouter

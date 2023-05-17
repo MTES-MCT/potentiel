@@ -23,9 +23,7 @@ export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
 
   return (
     <LegacyPageTemplate user={request.user}>
-      <div className="panel__header">
-        <Heading1>Importer des données producteurs</Heading1>
-      </div>
+      <Heading1>Importer des données producteurs</Heading1>
 
       <form action={ROUTES.IMPORTER_LISTING_EDF} method="post" encType="multipart/form-data">
         {success && <SuccessBox title={success as string} />}

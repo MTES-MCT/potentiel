@@ -38,9 +38,7 @@ export const UploadLegacyModificationFiles = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage={'admin-upload-legacy-modification-files'}>
-      <div className="panel__header">
-        <Heading1>Importer des courriers historiques</Heading1>
-      </div>
+      <Heading1>Importer des courriers historiques</Heading1>
 
       {error && <ErrorBox title={error as string} />}
 

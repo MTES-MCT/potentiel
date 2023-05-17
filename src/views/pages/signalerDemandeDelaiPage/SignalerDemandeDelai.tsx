@@ -33,9 +33,7 @@ export const SignalerDemandeDelai = ({
 
   return (
     <LegacyPageTemplate user={user} currentPage="list-projects">
-      <div className="panel__header">
-        <Heading1>Enregistrer une demande de délai traitée hors Potentiel</Heading1>
-      </div>
+      <Heading1>Enregistrer une demande de délai traitée hors Potentiel</Heading1>
       {error && <ErrorBox title={error} />}
 
       <form

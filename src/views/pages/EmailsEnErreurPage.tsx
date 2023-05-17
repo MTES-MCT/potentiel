@@ -26,27 +26,21 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-notifications">
-      <div className="panel__header">
-        <Heading1>Emails en erreur</Heading1>
-        <p>
-          Sont listés uniquement les emails de notification qui ont un status &quot;erreur&quot;.
-        </p>
-      </div>
-      <div className="panel__header">
-        <form
-          action={ROUTES.ADMIN_NOTIFICATION_RETRY_ACTION}
-          method="POST"
-          style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
-        >
-          {!!notifications.itemCount && (
-            <PrimaryButton className="mt-3" type="submit" name="submit" id="submit">
-              Réessayer toutes les notifications en erreur
-            </PrimaryButton>
-          )}
-        </form>
-        {success && <SuccessBox title={success} />}
-        {error && <ErrorBox title={error} />}
-      </div>
+      <Heading1>Emails en erreur</Heading1>
+      <p>Sont listés uniquement les emails de notification qui ont un status &quot;erreur&quot;.</p>
+      <form
+        action={ROUTES.ADMIN_NOTIFICATION_RETRY_ACTION}
+        method="POST"
+        style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
+      >
+        {!!notifications.itemCount && (
+          <PrimaryButton className="mt-3" type="submit" name="submit" id="submit">
+            Réessayer toutes les notifications en erreur
+          </PrimaryButton>
+        )}
+      </form>
+      {success && <SuccessBox title={success} />}
+      {error && <ErrorBox title={error} />}
 
       {notifications.items.length === 0 ? (
         <ListeVide titre="Aucune notification à lister" />

@@ -31,62 +31,58 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
   const { success, error } = (request.query as any) || {};
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-dreal">
-      <div className="panel__header">
-        <Heading1>Gérer les Région</Heading1>
-      </div>
-      <div className="panel__header">
-        <Heading2>Ajouter un utilisateur Région</Heading2>
+      <Heading1>Gérer les régions</Heading1>
+      <Heading2>Ajouter un utilisateur région</Heading2>
 
-        <form
-          action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION}
-          method="post"
-          className="flex flex-col gap-4"
-        >
-          {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />}
-          <FormulaireChampsObligatoireLégende className="text-right" />
-          <input type="hidden" name="role" value="dreal" />
-          <div>
-            <Label htmlFor="email" required>
-              Adresse email :
-            </Label>
-            <Input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="email@exemple.com"
-              required
-              {...(validationErrors && { error: validationErrors['email']?.toString() })}
-            />
-          </div>
-          <div>
-            <Label htmlFor="region" required>
+      <form
+        action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION}
+        method="post"
+        className="flex flex-col gap-4"
+      >
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
+        <FormulaireChampsObligatoireLégende className="text-right" />
+        <input type="hidden" name="role" value="dreal" />
+        <div>
+          <Label htmlFor="email" required>
+            Adresse email :
+          </Label>
+          <Input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="email@exemple.com"
+            required
+            {...(validationErrors && { error: validationErrors['email']?.toString() })}
+          />
+        </div>
+        <div>
+          <Label htmlFor="region" required>
+            Sélectionnez une région
+          </Label>
+          <Select
+            name="region"
+            id="region"
+            required
+            {...(validationErrors && { error: validationErrors['region']?.toString() })}
+            defaultValue="default"
+          >
+            <option value="default" disabled hidden>
               Sélectionnez une région
-            </Label>
-            <Select
-              name="region"
-              id="region"
-              required
-              {...(validationErrors && { error: validationErrors['region']?.toString() })}
-              defaultValue="default"
-            >
-              <option value="default" disabled hidden>
-                Sélectionnez une région
-              </option>
-              {[...REGIONS]
-                .sort((a, b) => a.localeCompare(b))
-                .map((value, index) => (
-                  <option key={`${value}_${index}`} value={value}>
-                    {value}
-                  </option>
-                ))}
-            </Select>
-          </div>
-          <PrimaryButton type="submit" id="submit" className="m-auto">
-            Inviter
-          </PrimaryButton>
-        </form>
-      </div>
+            </option>
+            {[...REGIONS]
+              .sort((a, b) => a.localeCompare(b))
+              .map((value, index) => (
+                <option key={`${value}_${index}`} value={value}>
+                  {value}
+                </option>
+              ))}
+          </Select>
+        </div>
+        <PrimaryButton type="submit" id="submit" className="m-auto">
+          Inviter
+        </PrimaryButton>
+      </form>
       {users.length === 0 ? (
         <ListeVide titre="Aucun utilisateur dreal à afficher" />
       ) : (

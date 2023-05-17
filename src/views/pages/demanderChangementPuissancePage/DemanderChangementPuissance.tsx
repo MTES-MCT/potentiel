@@ -49,9 +49,7 @@ export const DemanderChangementPuissance = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <div className="panel__header">
-        <Heading1>Je signale un changement de puissance</Heading1>
-      </div>
+      <Heading1>Je signale un changement de puissance</Heading1>
       {doitChoisirCahierDesCharges ? (
         <div className="flex flex-col max-w-2xl mx-auto">
           <InfoBox

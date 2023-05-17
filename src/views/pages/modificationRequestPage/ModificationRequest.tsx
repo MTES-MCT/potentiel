@@ -53,11 +53,9 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <div className="panel__header">
-        <Heading1>
-          <ModificationRequestActionTitles action={type} />
-        </Heading1>
-      </div>
+      <Heading1>
+        <ModificationRequestActionTitles action={type} />
+      </Heading1>
       {error && <ErrorBox title={error} />}
       {success && <SuccessBox title={success} />}
 

@@ -26,9 +26,7 @@ export const AjouterGestionnaireRéseau = ({
   erreurValidation,
 }: AjouterGestionnaireRéseauProps) => (
   <LegacyPageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
-    <div className="panel__header">
-      <Heading1>Ajouter un gestionnaire de réseau</Heading1>
-    </div>
+    <Heading1>Ajouter un gestionnaire de réseau</Heading1>
     {erreur && <ErrorBox title={erreur} />}
     <form method="post" action={routes.POST_AJOUTER_GESTIONNAIRE_RESEAU}>
       <div className="flex gap-3 flex-col">

@@ -37,13 +37,11 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <div className="panel__header">
-        <Heading1>
-          <ModificationRequestActionTitles action={type} />
-        </Heading1>
-        {error && <ErrorBox title={error} />}
-        {success && <SuccessBox title={success} />}
-      </div>
+      <Heading1>
+        <ModificationRequestActionTitles action={type} />
+      </Heading1>
+      {error && <ErrorBox title={error} />}
+      {success && <SuccessBox title={success} />}
       <div className="flex flex-col gap-4">
         <div>
           <Heading2>Concernant le projet</Heading2>

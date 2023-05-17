@@ -27,9 +27,7 @@ export const AdminImporterCandidats = ({
 }: AdminImporterCandidatsProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="import-projects">
-      <div className="panel__header">
-        <Heading1>Importer des candidats</Heading1>
-      </div>
+      <Heading1>Importer des candidats</Heading1>
       <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
         {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
         {!!importErrors && (

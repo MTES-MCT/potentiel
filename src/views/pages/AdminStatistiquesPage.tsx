@@ -11,9 +11,7 @@ type AdminStatistiquesProps = {
 export const AdminStatistiques = ({ iframeUrl, request }: AdminStatistiquesProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="admin-statistiques">
-      <div className="panel__header">
-        <Heading1>Tableau de bord</Heading1>
-      </div>
+      <Heading1>Tableau de bord</Heading1>
       <section className="section section-white" style={{ paddingTop: 0 }}>
         <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
         <div

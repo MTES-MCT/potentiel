@@ -31,13 +31,11 @@ export const InvitationsCandidatsEnAttente = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-invitations">
-      <div className="panel__header">
-        <Heading1>Invitations de candidats en attente</Heading1>
-        <p>
-          Sont listées uniquement les invitations de candidats qui n‘ont pas donné lieu à une
-          inscription. Les parrainages ne sont pas inclus.
-        </p>
-      </div>
+      <Heading1>Invitations de candidats en attente</Heading1>
+      <p>
+        Sont listées uniquement les invitations de candidats qui n‘ont pas donné lieu à une
+        inscription. Les parrainages ne sont pas inclus.
+      </p>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 

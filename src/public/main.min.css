@@ -144,22 +144,6 @@ form {
   margin-top: 2em;
   margin-top: var(--space-l);
 }
-.panel__header:after {
-  content: '';
-  display: block;
-  width: calc(100% + 1.5em * 2);
-  width: calc(100% + var(--space-m) * 2);
-  position: relative;
-  left: -1.5em;
-  border-bottom: 1px solid #c9d3df;
-  border-bottom: 1px solid var(--theme-border-lighter);
-  margin: 1em 0 1.5em;
-  margin: var(--space-s) 0 var(--space-m);
-}
-.panel__header h3 {
-  display: inline-block;
-  margin: 0;
-}
 .container {
   position: relative;
   width: 100%;

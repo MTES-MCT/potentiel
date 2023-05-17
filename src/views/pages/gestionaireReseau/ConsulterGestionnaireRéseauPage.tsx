@@ -30,9 +30,7 @@ export const ConsulterGestionnaireRéseau = ({
   erreurValidation,
 }: ConsulterGestionnaireRéseauProps) => (
   <LegacyPageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
-    <div className="panel__header">
-      <Heading1>Gestionnaire de réseau ({raisonSociale})</Heading1>
-    </div>
+    <Heading1>Gestionnaire de réseau ({raisonSociale})</Heading1>
     <form method="post" action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(codeEIC)}>
       <div className="flex gap-4 flex-col">
         <FormulaireChampsObligatoireLégende className="self-end" />

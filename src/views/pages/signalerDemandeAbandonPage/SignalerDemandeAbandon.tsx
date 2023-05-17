@@ -30,9 +30,7 @@ export const SignalerDemandeAbandon = ({
   const { error } = query as any;
   return (
     <LegacyPageTemplate user={user} currentPage="list-projects">
-      <div className="panel__header">
-        <Heading1>Enregistrer une demande d'abandon traitée hors Potentiel</Heading1>
-      </div>
+      <Heading1>Enregistrer une demande d'abandon traitée hors Potentiel</Heading1>
       {error && <ErrorBox title={error} />}
       <form
         action={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_POST}

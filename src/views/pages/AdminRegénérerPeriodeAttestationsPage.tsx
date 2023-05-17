@@ -33,10 +33,7 @@ export const AdminRegénérerPeriodeAttestations = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="regenerate-certificates">
-      <div className="panel__header">
-        <Heading1>Regénérer des attestations</Heading1>
-      </div>
-
+      <Heading1>Regénérer des attestations</Heading1>
       <p>
         Cette page permet de relancer la génération d‘une attestation pour l‘intégralité des projets
         d‘une période. Cette fonction peut être utile lorsqu‘une erreur a pu être corrigée sur le

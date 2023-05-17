@@ -23,9 +23,7 @@ export const ImporterListingEnedis = ({ request }: ImporterListingEnedisProps) =
 
   return (
     <LegacyPageTemplate user={request.user}>
-      <div className="panel__header">
-        <Heading1>Importer des données Enedis</Heading1>
-      </div>
+      <Heading1>Importer des données Enedis</Heading1>
 
       <form action={ROUTES.IMPORTER_LISTING_ENEDIS} method="post" encType="multipart/form-data">
         {success && <SuccessBox title={success as string} />}

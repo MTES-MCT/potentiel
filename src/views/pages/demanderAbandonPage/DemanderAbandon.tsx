@@ -36,9 +36,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <div className="panel__header">
-        <Heading1>Je demande un abandon de mon projet</Heading1>
-      </div>
+      <Heading1>Je demande un abandon de mon projet</Heading1>
 
       {doitChoisirCahierDesCharges ? (
         <div className="flex flex-col max-w-2xl mx-auto">
