@@ -1,19 +1,14 @@
-import { DownloadLink, SecondaryButton } from '@components';
+import { DownloadLink, SecondaryButton, StatutDemandeModification } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
-import {
-  afficherDate,
-  ModificationRequestColorByStatus,
-  ModificationRequestStatusTitle,
-  ModificationRequestTitleColorByStatus,
-} from '../../../helpers';
+import * as helpers from '../../../helpers';
 
-interface DemandeStatusProps {
+type DemandeStatusProps = {
   modificationRequest: ModificationRequestPageDTO;
   role: UserRole;
-}
+};
 
 function getAdminAnulerRejetDemandeRoute({ type, id }) {
   if (!type) {
@@ -54,18 +49,9 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
     status === 'rejetée';
 
   return (
-    <div
-      className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
-      style={{ color: ModificationRequestTitleColorByStatus[status] }}
-    >
-      <span
-        style={{
-          fontWeight: 'bold',
-        }}
-      >
-        {ModificationRequestStatusTitle[status]}
-      </span>{' '}
-      {respondedOn && respondedBy && `par ${respondedBy} le ${afficherDate(respondedOn)}`}
+    <StatutDemandeModification statutDemande={status} className="my-4">
+      <span className="font-bold">{helpers.ModificationRequestStatusTitle[status]}</span>{' '}
+      {respondedOn && respondedBy && `par ${respondedBy} le ${helpers.afficherDate(respondedOn)}`}
       {afficherBoutonAnnulerRejet && (
         <form
           method="post"
@@ -82,7 +68,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
           </SecondaryButton>
         </form>
       )}
-      {cancelledOn && cancelledBy && `par ${cancelledBy} le ${afficherDate(cancelledOn)}`}
+      {cancelledOn && cancelledBy && `par ${cancelledBy} le ${helpers.afficherDate(cancelledOn)}`}
       <StatusForDelai modificationRequest={modificationRequest} />
       {responseFile && (
         <div className="mt-4">
@@ -93,7 +79,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
           </DownloadLink>
         </div>
       )}
-    </div>
+    </StatutDemandeModification>
   );
 };
 
@@ -116,7 +102,7 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
         <div>
           L‘administration vous accorde un délai{' '}
           <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date d'achèvement
-          théorique est actuellement au <b>{afficherDate(project.completionDueOn)}</b>.
+          théorique est actuellement au <b>{helpers.afficherDate(project.completionDueOn)}</b>.
         </div>
       );
     }
@@ -125,7 +111,10 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
       return (
         <div>
           L‘administration vous accorde un report de date limite d'achèvement au{' '}
-          <span className="font-bold">{afficherDate(new Date(dateAchèvementAccordée))}</span>.
+          <span className="font-bold">
+            {helpers.afficherDate(new Date(dateAchèvementAccordée))}
+          </span>
+          .
         </div>
       );
     }

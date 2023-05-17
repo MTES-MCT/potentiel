@@ -8,3 +8,4 @@ export * from './Pagination';
 export * from './RésultatSoumissionFormulaire';
 export * from './Section';
 export * from './Buttons';
+export * from './StatutDemandeModification';
