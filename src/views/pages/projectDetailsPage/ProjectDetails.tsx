@@ -59,7 +59,7 @@ export const ProjectDetails = ({
           />
         )}
 
-        {!dossiersRaccordementExistant && (
+        {!dossiersRaccordementExistant && userIs(['porteur-projet'])(user) && (
           <DisplayDCRAlertInfos dcrDueOn={project.dcrDueOn} now={now}>
             <div className="p-2">
               L'accusé de réception de la demande complète de raccordement doit être transmis dans
