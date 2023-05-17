@@ -1,3 +1,4 @@
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
@@ -9,19 +10,6 @@ import { DemandeComplèteRaccordementModifiéeEvent } from './DemandeComplèteRa
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../transmettreDemandeComplèteRaccordement';
 
-export type ModifierDemandeComplèteRaccordementCommand = {
-  identifiantProjet: IdentifiantProjet;
-  dateQualification: Date;
-  ancienneRéférence: string;
-  nouvelleRéférence: string;
-  nouveauFichier: {
-    format: string;
-  };
-};
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-
 const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
 );
@@ -31,8 +19,11 @@ type ModifierDemandeComplèteRaccordementCommand = Message<
   {
     identifiantProjet: IdentifiantProjet;
     dateQualification: Date;
-    referenceActuelle: string;
-    nouvelleReference: string;
+    ancienneRéférence: string;
+    nouvelleRéférence: string;
+    nouveauFichier: {
+      format: string;
+    };
   }
 >;
 
@@ -41,17 +32,6 @@ type ModifierDemandeComplèteRaccordementDependencies = {
   loadAggregate: LoadAggregate;
 };
 
-export const modifierDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
-  ModifierDemandeComplèteRaccordementCommand,
-  ModifierDemandeComplèteRaccordementDependencies
-> =
-  ({ publish, loadAggregate }) =>
-  async ({
-    identifiantProjet,
-    dateQualification,
-    ancienneRéférence,
-    nouvelleRéférence,
-    nouveauFichier,
 export const registerModifierDemandeComplèteRaccordementCommand = ({
   publish,
   loadAggregate,
@@ -59,8 +39,9 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
     dateQualification,
-    referenceActuelle,
-    nouvelleReference,
+    ancienneRéférence,
+    nouvelleRéférence,
+    nouveauFichier,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,

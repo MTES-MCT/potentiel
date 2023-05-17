@@ -7,10 +7,14 @@ import { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './modi
 import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositiontechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.command';
 import { dateMiseEnServiceTransmiseHandlerFactory } from './transmettreDateMiseEnService';
 import { registerTransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService/transmettreDateMiseEnService.command';
-import { demandeComplèteRaccordementTransmiseHandlerFactory } from './transmettreDemandeComplèteRaccordement';
+import {
+  accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
+  demandeComplèteRaccordementTransmiseHandlerFactory,
+} from './transmettreDemandeComplèteRaccordement';
 import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement/transmettreDemandeComplèteRaccordement.command';
 import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettreDemandeComplèteRaccordement/transmettreDemandeComplèteRaccordement.usecase';
 import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './transmettrePropositionTechniqueEtFinancière';
+import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './transmettrePropositionTechniqueEtFinancière/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettrePropositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.command';
 
 export const setupRaccordement = ({ commandPorts, queryPorts, eventPorts, subscribe }: Ports) => {
@@ -26,7 +30,7 @@ export const setupRaccordement = ({ commandPorts, queryPorts, eventPorts, subscr
   registerTransmettreDateMiseEnServiceCommand(commandPorts);
 
   // Use cases
-  registerTransmettreDemandeComplèteRaccordementUseCase();
+  registerTransmettreDemandeComplèteRaccordementUseCase(commandPorts);
 
   return [
     subscribe(
@@ -45,6 +49,14 @@ export const setupRaccordement = ({ commandPorts, queryPorts, eventPorts, subscr
     subscribe(
       'PropositionTechniqueEtFinancièreModifiée',
       propositionTechniqueEtFinancièreModifiéeHandlerFactory(eventPorts),
+    ),
+    subscribe(
+      'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+      accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory(eventPorts),
+    ),
+    subscribe(
+      'FichierPropositionTechniqueEtFinancièreTransmis',
+      fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory(eventPorts),
     ),
   ];
 };

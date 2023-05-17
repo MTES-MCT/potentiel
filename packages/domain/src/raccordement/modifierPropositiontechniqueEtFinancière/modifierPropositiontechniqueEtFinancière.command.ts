@@ -1,3 +1,4 @@
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import {
@@ -13,16 +14,6 @@ import {
   FichierPropositionTechniqueEtFinancièreTransmisEvent,
 } from '../transmettrePropositionTechniqueEtFinancière';
 
-type ModifierPropositionTechniqueEtFinancièreCommand = {
-  identifiantProjet: IdentifiantProjet;
-  dateSignature: Date;
-  référenceDossierRaccordement: string;
-  nouveauFichier: { format: string; content: Readable };
-};
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-
 const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
 );
@@ -33,6 +24,7 @@ type ModifierPropositionTechniqueEtFinancièreCommand = Message<
     identifiantProjet: IdentifiantProjet;
     dateSignature: Date;
     référenceDossierRaccordement: string;
+    nouveauFichier: { format: string; content: Readable };
   }
 >;
 
@@ -42,24 +34,16 @@ type ModifierPropositionTechniqueEtFinancièreDependencies = {
   enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;
 };
 
-export const modifierPropositionTechniqueEtFinancièreCommandHandlerFactory: CommandHandlerFactory<
-  ModifierPropositionTechniqueEtFinancièreCommand,
-  ModifierPropositionTechniqueEtFinancièreDependencies
-> =
-  ({ publish, loadAggregate, enregistrerFichierPropositionTechniqueEtFinancière }) =>
-  async ({
-    identifiantProjet,
-    référenceDossierRaccordement,
-    dateSignature,
-    nouveauFichier: { format, content },
 export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
   publish,
   loadAggregate,
+  enregistrerFichierPropositionTechniqueEtFinancière,
 }: ModifierPropositionTechniqueEtFinancièreDependencies) => {
   const handler: MessageHandler<ModifierPropositionTechniqueEtFinancièreCommand> = async ({
     identifiantProjet,
     référenceDossierRaccordement,
     dateSignature,
+    nouveauFichier: { format, content },
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,

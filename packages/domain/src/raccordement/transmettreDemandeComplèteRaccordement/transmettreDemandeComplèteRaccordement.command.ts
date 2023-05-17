@@ -1,3 +1,4 @@
+import { Message, MessageHandler, getMessageBuilder, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
   IdentifiantGestionnaireRéseau,
@@ -13,17 +14,6 @@ import { isSome } from '@potentiel/monads';
 import { PlusieursGestionnairesRéseauPourUnProjetError } from '../raccordement.errors';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 
-export type TransmettreDemandeComplèteRaccordementCommand = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
-  identifiantProjet: IdentifiantProjet;
-  dateQualification?: Date;
-  référenceDossierRaccordement: string;
-  accuséRéception: { format: string };
-};
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-
 const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
 );
@@ -35,6 +25,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
     identifiantProjet: IdentifiantProjet;
     dateQualification?: Date;
     référenceDossierRaccordement: string;
+    accuséRéception: { format: string };
   }
 >;
 

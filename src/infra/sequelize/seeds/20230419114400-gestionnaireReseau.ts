@@ -1,4 +1,8 @@
 import {
+  enregistrerAccuséRéceptionDemandeComplèteRaccordement,
+  enregistrerFichierPropositionTechniqueEtFinancière,
+} from '@potentiel/adapter-domain';
+import {
   UnsetupDomain,
   buildAjouterGestionnaireRéseauCommand,
   setupDomain,
@@ -21,6 +25,8 @@ export default {
         commandPorts: {
           loadAggregate,
           publish,
+          enregistrerAccuséRéceptionDemandeComplèteRaccordement,
+          enregistrerFichierPropositionTechniqueEtFinancière,
         },
         queryPorts: {
           find: findProjection,

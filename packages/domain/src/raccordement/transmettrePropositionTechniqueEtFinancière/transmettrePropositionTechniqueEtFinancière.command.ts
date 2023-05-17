@@ -1,3 +1,4 @@
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from './propositionTechniqueEtFinancièreTransmise.event';
@@ -11,36 +12,6 @@ import { Readable } from 'stream';
 import { FichierPropositionTechniqueEtFinancièreTransmisEvent } from './fichierPropositionTechniqueEtFinancièreTransmis.event';
 import { EnregistrerFichierPropositionTechniqueEtFinancière } from './enregistrerFichierPropositionTechniqueEtFinancière';
 
-type Dependencies = {
-  loadAggregate: LoadAggregate;
-  publish: Publish;
-  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;
-};
-
-type TransmettrePropositionTechniqueEtFinancièreCommand = {
-  dateSignature: Date;
-  référenceDossierRaccordement: string;
-  identifiantProjet: IdentifiantProjet;
-  propositionTechniqueEtFinancière: {
-    format: string;
-    content: Readable;
-  };
-};
-
-export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: CommandHandlerFactory<
-  TransmettrePropositionTechniqueEtFinancièreCommand,
-  Dependencies
-> =
-  ({ publish, loadAggregate, enregistrerFichierPropositionTechniqueEtFinancière }) =>
-  async ({
-    dateSignature,
-    référenceDossierRaccordement,
-    identifiantProjet,
-    propositionTechniqueEtFinancière: { format, content },
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { Message, MessageHandler, mediator, newMessage } from 'mediateur';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-
 const TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
 );
@@ -51,22 +22,29 @@ type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
     dateSignature: Date;
     référenceDossierRaccordement: string;
     identifiantProjet: IdentifiantProjet;
+    propositionTechniqueEtFinancière: {
+      format: string;
+      content: Readable;
+    };
   }
 >;
 
 type TransmettrePropositionTechniqueEtFinancièreDependencies = {
   loadAggregate: LoadAggregate;
   publish: Publish;
+  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;
 };
 
 export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
   publish,
   loadAggregate,
+  enregistrerFichierPropositionTechniqueEtFinancière,
 }: TransmettrePropositionTechniqueEtFinancièreDependencies) => {
   const handler: MessageHandler<TransmettrePropositionTechniqueEtFinancièreCommand> = async ({
     dateSignature,
     référenceDossierRaccordement,
     identifiantProjet,
+    propositionTechniqueEtFinancière: { format, content },
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,

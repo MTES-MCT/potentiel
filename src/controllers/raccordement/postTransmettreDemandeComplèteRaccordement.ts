@@ -3,8 +3,6 @@ import {
   GestionnaireNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
   PlusieursGestionnairesRéseauPourUnProjetError,
-  consulterGestionnaireRéseauQueryHandlerFactory,
-  formatIdentifiantProjet,
   buildTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -19,27 +17,10 @@ import {
   vérifierPermissionUtilisateur,
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { enregistrerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 
-const transmettreDemandeComplèteRaccordementCommand =
-  transmettreDemandeComplèteRaccordementCommandHandlerFactory({
-    loadAggregate,
-    publish,
-  });
-
-const transmettreDemandeComplèteRaccordement = transmettreDemandeComplèteRaccordementUseCaseFactory(
-  {
-    transmettreDemandeComplèteRaccordementCommand,
-    consulterGestionnaireRéseauQuery,
-    enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-  },
-);
-import { upload } from '@potentiel/file-storage';
-import { extname, join } from 'path';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({
@@ -124,27 +105,18 @@ v1Router.post(
       };
 
       try {
-<<<<<<< HEAD
-        await newTransmettreDemandeComplèteRaccordementUseCase({
-          identifiantProjet,
-          identifiantGestionnaireRéseau: { codeEIC },
-          dateQualification,
-          référenceDossierRaccordement,
-          accuséRéception: {
-            format: file.mimetype,
-            content: createReadStream(file.path),
-          },
-        });
-=======
         await mediator.send(
           buildTransmettreDemandeComplèteRaccordementUseCase({
             identifiantProjet,
             identifiantGestionnaireRéseau: { codeEIC },
             dateQualification,
             référenceDossierRaccordement,
+            accuséRéception: {
+              format: file.mimetype,
+              content: createReadStream(file.path),
+            },
           }),
         );
->>>>>>> 4181fa85 (♻️ Refacto subscribe avec Redis)
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

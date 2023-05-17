@@ -2,28 +2,12 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
-<<<<<<< HEAD
-  consulterDossierRaccordementQueryHandlerFactory,
   formatIdentifiantProjet,
-  createConsulterDossierRaccordementQuery,
-  createListerDossiersRaccordementQuery,
-  modifierDemandeComplèteRaccordementCommandHandlerFactory,
-  modifierDemandeComplèteRaccordementUseCaseFactory,
-  createModifierDemandeComplèteRaccordementCommand,
-  newConsulterDossierRaccordementQuery,
-  newListerDossiersRaccordementQuery,
-  newModifierDemandeComplèteRaccordementCommand,
-=======
   buildConsulterDossierRaccordementQuery,
   buildListerDossiersRaccordementQuery,
   buildModifierDemandeComplèteRaccordementCommand,
->>>>>>> c87a5c8c (♻️ Rename new to build)
 } from '@potentiel/domain';
 import { expect } from 'chai';
-import {
-  remplacerAccuséRéceptionDemandeComplèteRaccordement,
-  renommerPropositionTechniqueEtFinancière,
-} from '@potentiel/adapter-domain';
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';
@@ -32,23 +16,13 @@ import { mediator } from 'mediateur';
 Quand(
   `le porteur modifie une demande complète de raccordement avec une date de qualification au {string}, une nouvelle référence {string} et un nouveau fichier`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleRéférence: string) {
-    const modifierDemandeComplèteRaccordement = getUseCase();
-
-    await modifierDemandeComplèteRaccordement({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-      dateQualification: new Date(dateQualification),
-      ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
-      nouvelleRéférence,
-      nouveauFichier: this.raccordementWorld.autreFichierDemandeComplèteRaccordement,
-    });
-  `le porteur modifie la date de qualification au {string} et une nouvelle référence {string}`,
-  async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
     await mediator.send(
       buildModifierDemandeComplèteRaccordementCommand({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: new Date(dateQualification),
-        referenceActuelle: this.raccordementWorld.référenceDossierRaccordement,
-        nouvelleReference,
+        ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
+        nouvelleRéférence,
+        nouveauFichier: this.raccordementWorld.autreFichierDemandeComplèteRaccordement,
       }),
     );
   },
@@ -116,21 +90,13 @@ Quand(
   `un administrateur modifie la date de qualification pour un dossier de raccordement non connu`,
   async function (this: PotentielWorld) {
     try {
-      const modifierDemandeComplèteRaccordement = getUseCase();
-
-      await modifierDemandeComplèteRaccordement({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        dateQualification: new Date('2023-04-26'),
-        ancienneRéférence: 'dossier-inconnu',
-        nouvelleRéférence: 'nouvelle-reference',
-        nouveauFichier: this.raccordementWorld.fichierDemandeComplèteRaccordement,
-      });
       await mediator.send(
         buildModifierDemandeComplèteRaccordementCommand({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           dateQualification: new Date('2023-04-26'),
-          referenceActuelle: 'dossier-inconnu',
-          nouvelleReference: 'nouvelle-reference',
+          ancienneRéférence: 'dossier-inconnu',
+          nouvelleRéférence: 'nouvelle-reference',
+          nouveauFichier: this.raccordementWorld.fichierDemandeComplèteRaccordement,
         }),
       );
     } catch (error) {
@@ -140,25 +106,3 @@ Quand(
     }
   },
 );
-
-function getUseCase() {
-  const consulterDossierRaccordementQuery = consulterDossierRaccordementQueryHandlerFactory({
-    find: findProjection,
-  });
-
-  const modifierDemandeComplèteRaccordementCommand =
-    modifierDemandeComplèteRaccordementCommandHandlerFactory({
-      loadAggregate,
-      publish,
-    });
-
-  const modifierDemandeComplèteRaccordementUseCase =
-    modifierDemandeComplèteRaccordementUseCaseFactory({
-      consulterDossierRaccordementQuery,
-      modifierDemandeComplèteRaccordementCommand,
-      remplacerAccuséRéceptionDemandeComplèteRaccordement,
-      renommerPropositionTechniqueEtFinancière,
-    });
-
-  return modifierDemandeComplèteRaccordementUseCase;
-}

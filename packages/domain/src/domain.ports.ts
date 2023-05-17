@@ -8,11 +8,17 @@ import {
   Subscribe,
   Update,
 } from '@potentiel/core-domain';
+import {
+  EnregistrerAccuséRéceptionDemandeComplèteRaccordement,
+  EnregistrerFichierPropositionTechniqueEtFinancière,
+} from './raccordement';
 
 export type Ports = {
   commandPorts: {
     publish: Publish;
     loadAggregate: LoadAggregate;
+    enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;
+    enregistrerAccuséRéceptionDemandeComplèteRaccordement: EnregistrerAccuséRéceptionDemandeComplèteRaccordement;
   };
   queryPorts: {
     find: Find;

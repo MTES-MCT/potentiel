@@ -1,6 +1,7 @@
+import { mediator } from 'mediateur';
 import {
   PermissionConsulterDossierRaccordement,
-  téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFactory,
+  buildTéléchargerFichierDemandeComplèteRaccordementQuery,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -9,15 +10,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { logger } from '@core/utils';
-import { findProjection } from '@potentiel/pg-projections';
-import { récupérerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
 import { extension } from 'mime-types';
-
-const téléchargerFichierPropositionTechniqueEtFinancière =
-  téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFactory({
-    find: findProjection,
-    récupérerFichierPropositionTechniqueEtFinancière,
-  });
 
 const schema = yup.object({
   params: yup.object({
@@ -60,10 +53,12 @@ v1Router.get(
       };
 
       try {
-        const fichier = await téléchargerFichierPropositionTechniqueEtFinancière({
-          identifiantProjet,
-          référenceDossierRaccordement: reference,
-        });
+        const fichier = await mediator.send(
+          buildTéléchargerFichierDemandeComplèteRaccordementQuery({
+            identifiantProjet,
+            référenceDossierRaccordement: reference,
+          }),
+        );
 
         const extensionFichier = extension(fichier.format);
 

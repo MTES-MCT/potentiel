@@ -1,5 +1,6 @@
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
-import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import {
   DossierRaccordementNonRéférencéError,
@@ -9,23 +10,32 @@ import { DossierRaccordementReadModel } from '../consulter/dossierRaccordement.r
 import { RécupérerFichierPropositionTechniqueEtFinancière } from './récupérerFichierPropositionTechniqueEtFinancière';
 import { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './fichierPropositionTechniqueEtFinancière.readModel';
 
+const TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE = Symbol(
+  'TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE',
+);
+
 type TéléchargerFichierPropositionTechniqueEtFinancièreDependencies = {
   find: Find;
   récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancière;
 };
 
-export type TéléchargerFichierPropositionTechniqueEtFinancièreQuery = {
-  identifiantProjet: IdentifiantProjet;
-  référenceDossierRaccordement: string;
-};
+export type TéléchargerFichierPropositionTechniqueEtFinancièreQuery = Message<
+  typeof TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE,
+  {
+    identifiantProjet: IdentifiantProjet;
+    référenceDossierRaccordement: string;
+  },
+  TéléchargerFichierPropositionTechniqueEtFinancièreReadModel
+>;
 
-export const téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFactory: QueryHandlerFactory<
-  TéléchargerFichierPropositionTechniqueEtFinancièreQuery,
-  TéléchargerFichierPropositionTechniqueEtFinancièreReadModel,
-  TéléchargerFichierPropositionTechniqueEtFinancièreDependencies
-> =
-  ({ find, récupérerFichierPropositionTechniqueEtFinancière }) =>
-  async ({ identifiantProjet, référenceDossierRaccordement }) => {
+export const registerTéléchargerFichierPropositionTechniqueEtFinancièreQuery = ({
+  find,
+  récupérerFichierPropositionTechniqueEtFinancière,
+}: TéléchargerFichierPropositionTechniqueEtFinancièreDependencies) => {
+  const handler: MessageHandler<TéléchargerFichierPropositionTechniqueEtFinancièreQuery> = async ({
+    identifiantProjet,
+    référenceDossierRaccordement,
+  }) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
       `dossier-raccordement#${formatIdentifiantProjet(
         identifiantProjet,
@@ -55,3 +65,9 @@ export const téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFa
       content: fichier,
     } as Readonly<TéléchargerFichierPropositionTechniqueEtFinancièreReadModel>;
   };
+  mediator.register(TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE, handler);
+};
+
+export const buildTéléchargerFichierPropositionTechniqueEtFinancièreQuery = getMessageBuilder(
+  TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE,
+);

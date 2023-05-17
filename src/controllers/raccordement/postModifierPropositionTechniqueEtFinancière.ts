@@ -1,11 +1,7 @@
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettrePropositionTechniqueEtFinancière,
-  modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
-  createModifierPropositionTechniqueEtFinancièreCommand,
-  newModifierPropositionTechniqueEtFinancièreCommand,
   buildModifierPropositionTechniqueEtFinancièreCommand,
-  formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -23,15 +19,7 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
-import { enregistrerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
 
-const modifierPropositionTechniqueEtFinancière =
-  modifierPropositionTechniqueEtFinancièreCommandHandlerFactory({
-    publish,
-    loadAggregate,
-    enregistrerFichierPropositionTechniqueEtFinancière,
-  });
-import { deleteFile, getFiles, upload } from '@potentiel/file-storage';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({
@@ -113,20 +101,15 @@ v1Router.post(
       };
 
       try {
-        await modifierPropositionTechniqueEtFinancière({
-          identifiantProjet,
-          référenceDossierRaccordement: reference,
-          dateSignature,
-          nouveauFichier: {
-            format: file.mimetype,
-            content: createReadStream(file.path),
-          },
-        });
         await mediator.send(
           buildModifierPropositionTechniqueEtFinancièreCommand({
             identifiantProjet,
             référenceDossierRaccordement: reference,
             dateSignature,
+            nouveauFichier: {
+              format: file.mimetype,
+              content: createReadStream(file.path),
+            },
           }),
         );
 

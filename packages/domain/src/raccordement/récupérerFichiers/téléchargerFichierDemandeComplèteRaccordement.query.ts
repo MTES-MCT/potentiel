@@ -1,5 +1,6 @@
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
-import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import {
   DossierRaccordementNonRéférencéError,
@@ -9,23 +10,32 @@ import { DossierRaccordementReadModel } from '../consulter/dossierRaccordement.r
 import { RécupérerFichierDemandeComplèteRaccordement } from './récupérerFichierDemandeComplèteRaccordement';
 import { TéléchargerFichierDemandeComplèteRaccordementReadModel } from './fichierDemandeComplèteRaccordement.readModel';
 
+const TÉLÉCHARGER_FICHIER_DEMANDE_COMPLÈTE_RACCORDEMENT = Symbol(
+  'TÉLÉCHARGER_FICHIER_DEMANDE_COMPLÈTE_RACCORDEMENT',
+);
+
 type TéléchargerFichierDemandeComplèteRaccordementDependencies = {
   find: Find;
   récupérerFichierDemandeComplèteRaccordement: RécupérerFichierDemandeComplèteRaccordement;
 };
 
-export type TéléchargerFichierDemandeComplèteRaccordementQuery = {
-  identifiantProjet: IdentifiantProjet;
-  référenceDossierRaccordement: string;
-};
+export type TéléchargerFichierDemandeComplèteRaccordementQuery = Message<
+  typeof TÉLÉCHARGER_FICHIER_DEMANDE_COMPLÈTE_RACCORDEMENT,
+  {
+    identifiantProjet: IdentifiantProjet;
+    référenceDossierRaccordement: string;
+  },
+  TéléchargerFichierDemandeComplèteRaccordementReadModel
+>;
 
-export const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
-  TéléchargerFichierDemandeComplèteRaccordementQuery,
-  TéléchargerFichierDemandeComplèteRaccordementReadModel,
-  TéléchargerFichierDemandeComplèteRaccordementDependencies
-> =
-  ({ find, récupérerFichierDemandeComplèteRaccordement }) =>
-  async ({ identifiantProjet, référenceDossierRaccordement }) => {
+export const registerTéléchargerFichierDemandeComplèteRaccordementQuery = ({
+  find,
+  récupérerFichierDemandeComplèteRaccordement,
+}: TéléchargerFichierDemandeComplèteRaccordementDependencies) => {
+  const handler: MessageHandler<TéléchargerFichierDemandeComplèteRaccordementQuery> = async ({
+    identifiantProjet,
+    référenceDossierRaccordement,
+  }) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
       `dossier-raccordement#${formatIdentifiantProjet(
         identifiantProjet,
@@ -55,3 +65,10 @@ export const téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory
       content: fichier,
     } as Readonly<TéléchargerFichierDemandeComplèteRaccordementReadModel>;
   };
+  mediator.register(TÉLÉCHARGER_FICHIER_DEMANDE_COMPLÈTE_RACCORDEMENT, handler);
+};
+
+export const buildTéléchargerFichierDemandeComplèteRaccordementQuery =
+  getMessageBuilder<TéléchargerFichierDemandeComplèteRaccordementQuery>(
+    TÉLÉCHARGER_FICHIER_DEMANDE_COMPLÈTE_RACCORDEMENT,
+  );

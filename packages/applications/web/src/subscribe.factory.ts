@@ -77,7 +77,6 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
       update: updateProjection,
     }),
   );
-<<<<<<< HEAD:packages/applications/web/src/bootstrapEventConsumers.ts
   consumerRaccordement.consume(
     'AccuséRéceptionDemandeComplèteRaccordementTransmis',
     accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory({
@@ -92,8 +91,6 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
       update: updateProjection,
     }),
   );
-}
-=======
 
   let unsubscribe: Unsubscribe | undefined;
 
@@ -107,4 +104,3 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
     return unsubscribe;
   };
 };
->>>>>>> 4181fa85 (♻️ Refacto subscribe avec Redis):packages/applications/web/src/subscribe.factory.ts

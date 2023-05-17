@@ -1,14 +1,9 @@
 import { createReadStream } from 'fs';
+import { mediator } from 'mediateur';
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
-  consulterDossierRaccordementQueryHandlerFactory,
-  modifierDemandeComplèteRaccordementCommandHandlerFactory,
-  modifierDemandeComplèteRaccordementUseCaseFactory,
-  createModifierDemandeComplèteRaccordementCommand,
-  newModifierDemandeComplèteRaccordementCommand,
-  buildModifierDemandeComplèteRaccordementCommand,
-  formatIdentifiantProjet,
+  buildModifierDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -25,32 +20,6 @@ import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import {
-  remplacerAccuséRéceptionDemandeComplèteRaccordement,
-  renommerPropositionTechniqueEtFinancière,
-} from '@potentiel/adapter-domain';
-import { findProjection } from '@potentiel/pg-projections';
-
-const consulterDossierRaccordementQuery = consulterDossierRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
-
-const modifierDemandeComplèteRaccordementCommand =
-  modifierDemandeComplèteRaccordementCommandHandlerFactory({
-    loadAggregate,
-    publish,
-  });
-import { extname, join } from 'path';
-import { createReadStream } from 'fs';
-import { deleteFile, getFiles, renameFile, upload } from '@potentiel/file-storage';
-import { mediator } from 'mediateur';
-
-const modifierDemandeComplèteRaccordement = modifierDemandeComplèteRaccordementUseCaseFactory({
-  consulterDossierRaccordementQuery,
-  modifierDemandeComplèteRaccordementCommand,
-  remplacerAccuséRéceptionDemandeComplèteRaccordement,
-  renommerPropositionTechniqueEtFinancière,
-});
 
 const schema = yup.object({
   params: yup.object({
@@ -141,22 +110,16 @@ v1Router.post(
       };
 
       try {
-        await modifierDemandeComplèteRaccordement({
-          identifiantProjet,
-          dateQualification,
-          nouvelleRéférence: nouvelleReference,
-          ancienneRéférence: reference,
-          nouveauFichier: {
-            format: file.mimetype,
-            content: createReadStream(file.path),
-          },
-        });
         await mediator.send(
-          buildModifierDemandeComplèteRaccordementCommand({
+          buildModifierDemandeComplèteRaccordementUseCase({
             identifiantProjet,
             dateQualification,
             nouvelleReference,
             referenceActuelle: reference,
+            nouveauFichier: {
+              format: file.mimetype,
+              content: createReadStream(file.path),
+            },
           }),
         );
 

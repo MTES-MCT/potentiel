@@ -1,6 +1,7 @@
+import { mediator } from 'mediateur';
 import {
   PermissionConsulterDossierRaccordement,
-  téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory,
+  buildTéléchargerFichierDemandeComplèteRaccordementQuery,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -9,15 +10,8 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { logger } from '@core/utils';
-import { findProjection } from '@potentiel/pg-projections';
-import { récupérerFichierDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
-import { extension } from 'mime-types';
 
-const téléchargerFichierDemandeComplèteRaccordement =
-  téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory({
-    find: findProjection,
-    récupérerFichierDemandeComplèteRaccordement,
-  });
+import { extension } from 'mime-types';
 
 const schema = yup.object({
   params: yup.object({
@@ -60,10 +54,12 @@ v1Router.get(
       };
 
       try {
-        const fichier = await téléchargerFichierDemandeComplèteRaccordement({
-          identifiantProjet,
-          référenceDossierRaccordement: reference,
-        });
+        const fichier = await mediator.send(
+          buildTéléchargerFichierDemandeComplèteRaccordementQuery({
+            identifiantProjet,
+            référenceDossierRaccordement: reference,
+          }),
+        );
 
         const extensionFichier = extension(fichier.format);
 

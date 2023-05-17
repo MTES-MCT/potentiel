@@ -1,61 +1,61 @@
-import { CommandHandlerFactory, CommandHandler, QueryHandler } from '@potentiel/core-domain';
+import { mediator, MessageHandler, Message, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet } from '../../projet';
 import { Readable } from 'stream';
 import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from './remplacerAccuséRéceptionDemandeComplèteRaccordement';
 import { RenommerPropositionTechniqueEtFinancière } from './renommerPropositionTechniqueEtFinancière';
-import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
-import { ConsulterDossierRaccordementQuery, DossierRaccordementReadModel } from '../consulter';
+import { buildModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
+import { buildConsulterDossierRaccordementQuery } from '../consulter';
 
-type ModifierDemandeComplèteRaccordementUseCase = {
-  identifiantProjet: IdentifiantProjet;
-  dateQualification: Date;
-  ancienneRéférence: string;
-  nouvelleRéférence: string;
-  nouveauFichier: {
-    format: string;
-    content: Readable;
-  };
-};
+const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
+  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+);
+
+type ModifierDemandeComplèteRaccordementUseCase = Message<
+  typeof MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+  {
+    identifiantProjet: IdentifiantProjet;
+    dateQualification: Date;
+    ancienneRéférence: string;
+    nouvelleRéférence: string;
+    nouveauFichier: {
+      format: string;
+      content: Readable;
+    };
+  }
+>;
 
 type ModifierDemandeComplèteRaccordementDependencies = {
-  modifierDemandeComplèteRaccordementCommand: CommandHandler<ModifierDemandeComplèteRaccordementCommand>;
   remplacerAccuséRéceptionDemandeComplèteRaccordement: RemplacerAccuséRéceptionDemandeComplèteRaccordement;
   renommerPropositionTechniqueEtFinancière: RenommerPropositionTechniqueEtFinancière;
-  consulterDossierRaccordementQuery: QueryHandler<
-    ConsulterDossierRaccordementQuery,
-    DossierRaccordementReadModel
-  >;
 };
 
-export const modifierDemandeComplèteRaccordementUseCaseFactory: CommandHandlerFactory<
-  ModifierDemandeComplèteRaccordementUseCase,
-  ModifierDemandeComplèteRaccordementDependencies
-> =
-  ({
-    remplacerAccuséRéceptionDemandeComplèteRaccordement,
-    renommerPropositionTechniqueEtFinancière,
-    modifierDemandeComplèteRaccordementCommand,
-    consulterDossierRaccordementQuery,
-  }) =>
-  async ({
+export const registerDemandeComplèteRaccordementUseCase = ({
+  remplacerAccuséRéceptionDemandeComplèteRaccordement,
+  renommerPropositionTechniqueEtFinancière,
+}: ModifierDemandeComplèteRaccordementDependencies) => {
+  const runner: MessageHandler<ModifierDemandeComplèteRaccordementUseCase> = async ({
     identifiantProjet,
     dateQualification,
     ancienneRéférence,
     nouvelleRéférence,
     nouveauFichier,
   }) => {
-    await modifierDemandeComplèteRaccordementCommand({
-      identifiantProjet,
-      dateQualification,
-      ancienneRéférence,
-      nouvelleRéférence,
-      nouveauFichier,
-    });
+    await mediator.send(
+      buildModifierDemandeComplèteRaccordementCommand({
+        identifiantProjet,
+        dateQualification,
+        ancienneRéférence,
+        nouvelleRéférence,
+        nouveauFichier,
+      }),
+    );
 
-    const { propositionTechniqueEtFinancière } = await consulterDossierRaccordementQuery({
-      identifiantProjet,
-      référence: ancienneRéférence,
-    });
+    const { propositionTechniqueEtFinancière } = await mediator.send(
+      buildConsulterDossierRaccordementQuery({
+        identifiantProjet,
+        référence: ancienneRéférence,
+      }),
+    );
 
     await remplacerAccuséRéceptionDemandeComplèteRaccordement({
       identifiantProjet,
@@ -73,3 +73,10 @@ export const modifierDemandeComplèteRaccordementUseCaseFactory: CommandHandlerF
       });
     }
   };
+
+  mediator.register(MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);
+};
+
+export const buildModifierDemandeComplèteRaccordementUseCase = getMessageBuilder(
+  MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+);
