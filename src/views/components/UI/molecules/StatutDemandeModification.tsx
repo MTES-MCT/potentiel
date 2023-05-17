@@ -3,7 +3,6 @@ import React, { ComponentProps } from 'react';
 
 type StatutDemandeModificationProps = ComponentProps<'div'> & {
   statutDemande: ModificationRequestStatusDTO;
-  children: React.ReactNode;
 };
 
 export const StatutDemandeModification = ({
