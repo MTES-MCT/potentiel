@@ -10,6 +10,7 @@ import {
 } from '@components';
 import {
   ModificationRequestListItemDTO,
+  ModificationRequestStatusDTO,
   ModificationRequestTypes,
 } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
@@ -18,7 +19,7 @@ import React from 'react';
 import { PaginatedList } from '../../types';
 import {
   afficherDate,
-  ModificationRequestColorByStatus,
+  // ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
 } from '../helpers';
 
@@ -58,6 +59,24 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
         return `Voir la demande`;
       default:
         return '';
+    }
+  };
+
+  const statusClass = (statut: ModificationRequestStatusDTO) => {
+    switch (statut) {
+      case 'information validée':
+      case 'acceptée':
+        return 'bg-success-975-base border-success-425-base';
+      case 'en instruction':
+      case 'en attente de confirmation':
+      case 'demande confirmée':
+        return 'bg-warning-975-base border-warning-425-base';
+      case 'annulée':
+      case 'rejetée':
+        return 'bg-error-975-base border-error-425-base';
+      case 'envoyée':
+      default:
+        return 'bg-info-975-base border-info-425-base';
     }
   };
 
@@ -121,9 +140,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                 </Td>
                 <Td
                   valign="top"
-                  className={`notification ${
-                    status ? ModificationRequestColorByStatus[status] : ''
-                  }`}
+                  className={`!border-x-[1px] border-solid ${status ? statusClass(status) : ''}`}
                 >
                   {status ? ModificationRequestStatusTitle[status] : ''}
                 </Td>
@@ -143,9 +160,8 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                       src="/images/icons/external/more.svg"
                       height="12"
                       width="12"
-                      style={{ cursor: 'pointer' }}
                       tabIndex={0}
-                      className="list--action-trigger"
+                      className="list--action-trigger cursor-pointer"
                     />
                     <ul className="list--action-menu">
                       {requestActions(modificationRequestItem)?.map(

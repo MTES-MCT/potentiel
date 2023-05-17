@@ -51,16 +51,18 @@ const CsvValidationErrorBox: FC<CsvValidationErrorBoxProps> = ({ erreursDeValida
   };
 
   if (erreursDeValidationCsv.length === 1) {
-    return <div className="notification error">{afficherErreur(erreursDeValidationCsv[0])}</div>;
+    return <ErrorBox>{afficherErreur(erreursDeValidationCsv[0])}</ErrorBox>;
   }
 
   return (
-    <ul className="notification error">
-      {erreursDeValidationCsv.map((erreur, index) => (
-        <li key={index} className="ml-3">
-          {afficherErreur(erreur)}
-        </li>
-      ))}
-    </ul>
+    <ErrorBox>
+      <ul>
+        {erreursDeValidationCsv.map((erreur, index) => (
+          <li key={index} className="ml-3">
+            {afficherErreur(erreur)}
+          </li>
+        ))}
+      </ul>
+    </ErrorBox>
   );
 };

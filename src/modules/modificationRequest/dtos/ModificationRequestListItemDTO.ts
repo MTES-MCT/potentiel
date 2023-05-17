@@ -22,7 +22,7 @@ export type ModificationRequestStatusDTO =
 export type ModificationRequestListItemDTO = {
   id: string;
   type: ModificationRequestTypes;
-  status: string;
+  status: ModificationRequestStatusDTO;
   description: string;
 
   requestedOn: number;

@@ -12,6 +12,7 @@ import {
   Section,
   Select,
   TextArea,
+  ErrorBox,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -298,10 +299,10 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               placeholder="Renseigner une date de désignation"
               style={{ width: 'auto' }}
             />
-            <div className="notification error" style={{ display: 'none' }}>
+            <ErrorBox className="hidden">
               Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
               soit par exemple 25/05/2022 pour 25 Mai 2022.
-            </div>
+            </ErrorBox>
           </div>
         )}
 

@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import React from 'react';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import {
   PrimaryButton,
@@ -140,17 +139,12 @@ export const AdminRegénérerPeriodeAttestations = ({
             name="notificationDate"
             id="notificationDate"
             defaultValue={notificationDate}
-            {...dataId('date-field')}
             style={{ width: 'auto' }}
           />
-          <div
-            className="notification error"
-            style={{ display: 'none' }}
-            {...dataId('error-message-wrong-format')}
-          >
+          <ErrorBox className="hidden">
             Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
             soit par exemple 25/05/2022 pour 25 Mai 2022.
-          </div>
+          </ErrorBox>
         </div>
         <div className="form__group">
           <Label htmlFor="reason">

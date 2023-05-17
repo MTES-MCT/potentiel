@@ -7,7 +7,7 @@ import {
   getVolumeReserve,
 } from '@modules/demandeModification/demandeChangementDePuissance';
 
-import { InputCheckbox } from '@components';
+import { AlertBox, InputCheckbox } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest/dtos';
 
 type PuissanceFormProps = {
@@ -41,17 +41,17 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
       </div>
 
       {!CDC2022choisi && exceedsRatios && (
-        <div className="notification warning mt-3">
+        <AlertBox className="mt-3">
           La nouvelle puissance demandée est inférieure à {Math.round(ratios.min * 100)}% de la
           puissance initiale ou supérieure à {Math.round(ratios.max * 100)}%.{' '}
-        </div>
+        </AlertBox>
       )}
       {exceedsPuissanceMax && reservedVolume && (
-        <div className="notification warning mt-3">
+        <AlertBox className="mt-3">
           La nouvelle puissance demandée dépasse la puissance maximum de{' '}
           {reservedVolume.puissanceMax} {modificationRequest.project.unitePuissance} du volume
           reservé de l'appel d'offre.
-        </div>
+        </AlertBox>
       )}
 
       <div className="form__group mb-4">
