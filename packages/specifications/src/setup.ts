@@ -47,17 +47,17 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     .promise();
 
   unsetupDomain = setupDomain({
-    commandPorts: {
+    command: {
       loadAggregate,
       publish,
       enregistrerAccuséRéceptionDemandeComplèteRaccordement,
       enregistrerFichierPropositionTechniqueEtFinancière,
     },
-    queryPorts: {
+    query: {
       find: findProjection,
       list: listProjection,
     },
-    eventPorts: {
+    event: {
       create: createProjection,
       find: findProjection,
       update: updateProjection,

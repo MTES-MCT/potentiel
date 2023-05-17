@@ -1,4 +1,4 @@
-import { Ports } from '../domain.ports';
+import { DomainDependencies } from '../domain.dependencies';
 import {
   registerModifierDemandeComplèteRaccordementCommand,
   demandeComplèteRaccordementeModifiéeHandlerFactory,
@@ -25,7 +25,12 @@ import {
 } from './propositionTechniqueEtFinancière/transmettre';
 import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './propositionTechniqueEtFinancière/transmettre/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 
-export const setupRaccordement = ({ commandPorts, queryPorts, eventPorts, subscribe }: Ports) => {
+export const setupRaccordement = ({
+  command,
+  query: queryPorts,
+  event: eventPorts,
+  subscribe,
+}: DomainDependencies) => {
   // Queries
   registerConsulterDossierRaccordementQuery(queryPorts);
   registerListerDossiersRaccordementQuery(queryPorts);

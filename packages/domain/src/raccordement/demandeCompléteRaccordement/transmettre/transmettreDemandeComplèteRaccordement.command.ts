@@ -2,7 +2,7 @@ import { Message, MessageHandler, getMessageBuilder, mediator } from 'mediateur'
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRaccordementTransmise.event';
 import { isSome } from '@potentiel/monads';
-import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../transmettreAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
+import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
@@ -24,7 +24,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     identifiantProjet: IdentifiantProjet;
     dateQualification?: Date;
-    référenceDossierRaccordement: string;
+    référence: string;
     accuséRéception: { format: string };
   }
 >;
@@ -42,7 +42,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     identifiantProjet,
     dateQualification,
     identifiantGestionnaireRéseau,
-    référenceDossierRaccordement,
+    référence,
     accuséRéception,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
@@ -66,7 +66,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
         identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
           identifiantGestionnaireRéseau,
         ),
-        référenceDossierRaccordement,
+        référenceDossierRaccordement: référence,
       },
     };
 
@@ -76,7 +76,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
       type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référenceDossierRaccordement,
+        référence: référence,
         format: accuséRéception.format,
       },
     };

@@ -22,17 +22,17 @@ export default {
     let unsetupDomain: UnsetupDomain | undefined;
     try {
       const unsetupDomain = setupDomain({
-        commandPorts: {
+        command: {
           loadAggregate,
           publish,
           enregistrerAccuséRéceptionDemandeComplèteRaccordement,
           enregistrerFichierPropositionTechniqueEtFinancière,
         },
-        queryPorts: {
+        query: {
           find: findProjection,
           list: listProjection,
         },
-        eventPorts: {
+        event: {
           create: createProjection,
           find: findProjection,
           update: updateProjection,

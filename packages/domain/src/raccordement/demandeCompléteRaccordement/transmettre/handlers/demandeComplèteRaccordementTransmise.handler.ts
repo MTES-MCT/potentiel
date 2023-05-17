@@ -2,8 +2,8 @@ import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core
 import { isNone } from '@potentiel/monads';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../demandeComplèteRaccordementTransmise.event';
 import { ProjetReadModel } from '../../../../projet';
-import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter';
 import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement/lister/listeDossierRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../../../dossierRaccordement';
 
 export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHandlerFactory<
   DemandeComplèteRaccordementTransmiseEvent,

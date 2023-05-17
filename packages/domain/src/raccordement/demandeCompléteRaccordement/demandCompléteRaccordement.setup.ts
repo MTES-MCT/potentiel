@@ -1,0 +1,35 @@
+import { Subscribe } from '@potentiel/core-domain';
+import { registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery , ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
+import { registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand , EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { registerModifierDemandeComplèteRaccordementCommand , ModifierDemandeComplèteRaccordementDependencies } from './modifier/modifierDemandeComplèteRaccordement.command';
+import { registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand , SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { registerTransmettreDemandeComplèteRaccordementCommand , TransmettreDemandeComplèteRaccordementDependencies } from './transmettre/transmettreDemandeComplèteRaccordement.command';
+import { accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory , AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies } from './supprimerAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementSupprimé.handler';
+
+type QueryHandlerDependencies = ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies;
+type CommandHandlerDependencies =
+  EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies &
+    SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies &
+    TransmettreDemandeComplèteRaccordementDependencies &
+    ModifierDemandeComplèteRaccordementDependencies;
+type EventHandlerDependencies = AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies;
+
+export type DemandeComplèteRaccordementDependencies = QueryHandlerDependencies &
+  CommandHandlerDependencies &
+  EventHandlerDependencies;
+
+export const setupDemandeCompléteRaccordement = (
+  subscribe: Subscribe,
+  dependencies: DemandeComplèteRaccordementDependencies,
+) => {
+  registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery(dependencies);
+  registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
+  registerModifierDemandeComplèteRaccordementCommand(dependencies);
+  registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
+  registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
+
+  subscribe(
+    'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
+    accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory(dependencies),
+  );
+};

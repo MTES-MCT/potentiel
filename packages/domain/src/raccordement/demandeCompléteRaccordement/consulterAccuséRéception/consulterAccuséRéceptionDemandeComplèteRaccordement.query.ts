@@ -5,7 +5,7 @@ import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './accuséRéceptionDemandeComplèteRaccordement.readModel';
-import { DossierRaccordementReadModel } from '../../dossierRaccordement/consulter';
+import { DossierRaccordementReadModel } from '../../dossierRaccordement/dossierRaccordement.readModel';
 
 const CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT = Symbol(
   'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
@@ -15,7 +15,7 @@ export type RécupérerAccuséRéceptionDemandeComplèteRaccordementPort = (
   args: ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery['data'] & { format: string },
 ) => Promise<Readable>;
 
-type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies = {
+export type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   find: Find;
   récupérerAccuséRéceptionDemandeComplèteRaccordement: RécupérerAccuséRéceptionDemandeComplèteRaccordementPort;
 };

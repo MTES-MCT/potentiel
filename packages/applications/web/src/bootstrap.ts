@@ -15,17 +15,17 @@ import { subscribeFactory } from './subscribe.factory';
 
 export const bootstrap = async () => {
   setupDomain({
-    commandPorts: {
+    command: {
       loadAggregate,
       publish,
       enregistrerAccuséRéceptionDemandeComplèteRaccordement,
       enregistrerFichierPropositionTechniqueEtFinancière,
     },
-    queryPorts: {
+    query: {
       find: findProjection,
       list: listProjection,
     },
-    eventPorts: {
+    event: {
       create: createProjection,
       find: findProjection,
       remove: removeProjection,

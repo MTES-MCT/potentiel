@@ -8,26 +8,26 @@ import {
 } from '../../raccordement.aggregate';
 import { DemandeComplèteRaccordementModifiéeEvent } from './demandeComplèteRaccordementModifiée.event';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
-import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../transmettre';
+import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 
 const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
 );
 
-type ModifierDemandeComplèteRaccordementCommand = Message<
+export type ModifierDemandeComplèteRaccordementCommand = Message<
   typeof MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
   {
     identifiantProjet: IdentifiantProjet;
     dateQualification: Date;
     ancienneRéférence: string;
     nouvelleRéférence: string;
-    nouveauFichier: {
+    accuséRéception: {
       format: string;
     };
   }
 >;
 
-type ModifierDemandeComplèteRaccordementDependencies = {
+export type ModifierDemandeComplèteRaccordementDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
 };
@@ -41,7 +41,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
     dateQualification,
     ancienneRéférence,
     nouvelleRéférence,
-    nouveauFichier,
+    accuséRéception: nouveauFichier,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -72,7 +72,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référenceDossierRaccordement: nouvelleRéférence,
+        référence: nouvelleRéférence,
         format: nouveauFichier.format,
       },
     };

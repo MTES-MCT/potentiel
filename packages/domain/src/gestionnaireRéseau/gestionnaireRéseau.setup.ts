@@ -1,4 +1,4 @@
-import { Ports } from '../domain.ports';
+import { DomainDependencies } from '../domain.dependencies';
 import { gestionnaireRéseauAjoutéHandlerFactory } from './ajouter';
 import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
 import { registerConsulterGestionnaireRéseauQuery } from './consulter/consulterGestionnaireRéseau.query';
@@ -7,11 +7,11 @@ import { gestionnaireRéseauModifiéHandlerFactory } from './modifier';
 import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
 
 export const setupGestionnaireRéseau = ({
-  commandPorts,
-  queryPorts,
-  eventPorts,
+  command: commandPorts,
+  query: queryPorts,
+  event: eventPorts,
   subscribe,
-}: Ports) => {
+}: DomainDependencies) => {
   // Query
   registerConsulterGestionnaireRéseauQuery(queryPorts);
   registerListerGestionnaireRéseauQuery(queryPorts);

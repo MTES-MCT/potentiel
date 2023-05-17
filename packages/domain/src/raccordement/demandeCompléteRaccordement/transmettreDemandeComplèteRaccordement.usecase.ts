@@ -1,7 +1,10 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau';
-import { EnregistrerAccuséRéceptionDemandeComplèteRaccordement } from './transmettreAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement';
-import { Readable } from 'stream';
+import {
+  EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
+  buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
+} from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
+
 import {
   TransmettreDemandeComplèteRaccordementCommand,
   buildTransmettreDemandeComplèteRaccordementCommand,
@@ -11,30 +14,18 @@ const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
   'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
 );
 
-type TransmettreDemandeComplèteRaccordementDependencies = {
-  enregistrerAccuséRéceptionDemandeComplèteRaccordement: EnregistrerAccuséRéceptionDemandeComplèteRaccordement;
-};
-
-type TransmettreDemandeComplèteRaccordementUseCaseData =
-  TransmettreDemandeComplèteRaccordementCommand['data'] & {
-    accuséRéception: {
-      content: Readable;
-    };
-  };
-
 type TransmettreDemandeComplèteRaccordementUseCase = Message<
   typeof TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
-  TransmettreDemandeComplèteRaccordementUseCaseData
+  TransmettreDemandeComplèteRaccordementCommand['data'] &
+    EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data']
 >;
 
-export const registerTransmettreDemandeComplèteRaccordementUseCase = ({
-  enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-}: TransmettreDemandeComplèteRaccordementDependencies) => {
+export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<TransmettreDemandeComplèteRaccordementUseCase> = async ({
     dateQualification,
     identifiantGestionnaireRéseau,
     identifiantProjet,
-    référenceDossierRaccordement,
+    référence: référenceDossierRaccordement,
     accuséRéception: { format, content },
   }) => {
     const gestionnaireRéseau = await mediator.send(
@@ -48,19 +39,23 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = ({
         identifiantProjet,
         identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
         dateQualification,
-        référenceDossierRaccordement,
+        référence: référenceDossierRaccordement,
         accuséRéception: {
           format,
         },
       }),
     );
 
-    await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
-      identifiantProjet,
-      référenceDossierRaccordement,
-      format,
-      content,
-    });
+    await mediator.send(
+      buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
+        identifiantProjet,
+        référence: référenceDossierRaccordement,
+        accuséRéception: {
+          format,
+          content,
+        },
+      }),
+    );
   };
   mediator.register(TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);
 };

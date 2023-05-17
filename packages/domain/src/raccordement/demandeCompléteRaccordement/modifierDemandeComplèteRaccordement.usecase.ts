@@ -1,10 +1,13 @@
 import { mediator, MessageHandler, Message, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet } from '../../projet';
-import { Readable } from 'stream';
-import { RemplacerAccuséRéceptionDemandeComplèteRaccordement } from './modifierAccuséRéception/modifierAccuséRéceptionDemandeComplèteRaccordement.command';
-import { RenommerPropositionTechniqueEtFinancière } from '../propositionTechniqueEtFinancière/renommerPropositionTechniqueEtFinancière';
-import { buildModifierDemandeComplèteRaccordementCommand } from './modifier/modifierDemandeComplèteRaccordement.command';
-import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter';
+
+import {
+  EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
+  ModifierDemandeComplèteRaccordementCommand,
+  buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
+  buildModifierDemandeComplèteRaccordementCommand,
+  buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand,
+} from './demandCompléteRaccordement.commands';
+import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/dossierRaccordement.queries';
 
 const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
@@ -12,66 +15,52 @@ const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
 
 type ModifierDemandeComplèteRaccordementUseCase = Message<
   typeof MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
-  {
-    identifiantProjet: IdentifiantProjet;
-    dateQualification: Date;
-    ancienneRéférence: string;
-    nouvelleRéférence: string;
-    nouveauFichier: {
-      format: string;
-      content: Readable;
-    };
-  }
+  ModifierDemandeComplèteRaccordementCommand['data'] &
+    EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data']
 >;
 
-type ModifierDemandeComplèteRaccordementDependencies = {
-  remplacerAccuséRéceptionDemandeComplèteRaccordement: RemplacerAccuséRéceptionDemandeComplèteRaccordement;
-  renommerPropositionTechniqueEtFinancière: RenommerPropositionTechniqueEtFinancière;
-};
-
-export const registerDemandeComplèteRaccordementUseCase = ({
-  remplacerAccuséRéceptionDemandeComplèteRaccordement,
-  renommerPropositionTechniqueEtFinancière,
-}: ModifierDemandeComplèteRaccordementDependencies) => {
+export const registerModifierDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<ModifierDemandeComplèteRaccordementUseCase> = async ({
     identifiantProjet,
     dateQualification,
     ancienneRéférence,
     nouvelleRéférence,
-    nouveauFichier,
+    accuséRéception,
   }) => {
-    await mediator.send(
-      buildModifierDemandeComplèteRaccordementCommand({
-        identifiantProjet,
-        dateQualification,
-        ancienneRéférence,
-        nouvelleRéférence,
-        nouveauFichier,
-      }),
-    );
-
-    const { propositionTechniqueEtFinancière } = await mediator.send(
+    const dossierRaccordement = await mediator.send(
       buildConsulterDossierRaccordementQuery({
         identifiantProjet,
         référence: ancienneRéférence,
       }),
     );
 
-    await remplacerAccuséRéceptionDemandeComplèteRaccordement({
-      identifiantProjet,
-      ancienneRéférence,
-      nouvelleRéférence,
-      nouveauFichier,
-    });
-
-    if (propositionTechniqueEtFinancière) {
-      await renommerPropositionTechniqueEtFinancière({
+    await mediator.send(
+      buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand({
         identifiantProjet,
+        référence: ancienneRéférence,
+        accuséRéception: {
+          format: dossierRaccordement.accuséRéception?.format || '',
+        },
+      }),
+    );
+
+    await mediator.send(
+      buildModifierDemandeComplèteRaccordementCommand({
+        identifiantProjet,
+        dateQualification,
         ancienneRéférence,
         nouvelleRéférence,
-        formatAncienFichier: propositionTechniqueEtFinancière?.format,
-      });
-    }
+        accuséRéception,
+      }),
+    );
+
+    await mediator.send(
+      buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
+        identifiantProjet,
+        référence: nouvelleRéférence,
+        accuséRéception,
+      }),
+    );
   };
 
   mediator.register(MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);

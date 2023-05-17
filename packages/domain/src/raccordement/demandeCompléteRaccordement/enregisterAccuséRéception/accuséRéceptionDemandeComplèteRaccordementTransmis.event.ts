@@ -5,6 +5,6 @@ export type AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = DomainE
   {
     identifiantProjet: string;
     format: string;
-    référenceDossierRaccordement: string;
+    référence: string;
   }
 >;

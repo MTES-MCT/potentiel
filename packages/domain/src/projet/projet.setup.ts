@@ -1,4 +1,4 @@
-import { Ports } from '../domain.ports';
+import { DomainDependencies } from '../domain.dependencies';
 import { registerConsulterProjetQuery } from './consulter/consulterProjet.query';
 import { gestionnaireRéseauProjetModifiéHandlerFactory } from './handlers/gestionnaireRéseauProjetModifié.handler';
 import {
@@ -6,7 +6,12 @@ import {
   registerModifierGestionnaireRéseauProjetUseCase,
 } from './modifierGestionnaireRéseau';
 
-export const setupProjet = ({ commandPorts, queryPorts, eventPorts, subscribe }: Ports) => {
+export const setupProjet = ({
+  command: commandPorts,
+  query: queryPorts,
+  event: eventPorts,
+  subscribe,
+}: DomainDependencies) => {
   // Queries
   registerConsulterProjetQuery(queryPorts);
 
