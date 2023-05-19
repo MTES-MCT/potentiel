@@ -1,5 +1,4 @@
 import React from 'react';
-import { dataId } from '../../../../helpers/testId';
 import {
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
@@ -7,7 +6,7 @@ import {
   getVolumeReserve,
 } from '@modules/demandeModification/demandeChangementDePuissance';
 
-import { AlertBox, InputCheckbox } from '@components';
+import { AlertBox, RichCheckbox } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest/dtos';
 
 type PuissanceFormProps = {
@@ -32,12 +31,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
           Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
           {modificationRequest.project.unitePuissance}
         </label>
-        <input
-          type="hidden"
-          value={modificationRequest.puissance}
-          name="puissance"
-          {...dataId('modificationRequest-puissanceField')}
-        />
+        <input type="hidden" value={modificationRequest.puissance} name="puissance" />
       </div>
 
       {!CDC2022choisi && exceedsRatios && (
@@ -55,13 +49,9 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
       )}
 
       <div className="form__group mb-4">
-        <label htmlFor="statusUpdateOnly">
-          <InputCheckbox
-            name="isDecisionJustice"
-            {...dataId('modificationRequest-isDecisionJustice')}
-          />
+        <RichCheckbox id="statusUpdateOnly" name="isDecisionJustice">
           La demande de changement de puissance fait suite à une décision de justice
-        </label>
+        </RichCheckbox>
         <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
           En cochant cette case, vous n'aurez pas à joindre de courrier de réponse en cas
           d'acceptation de la demande. <br />

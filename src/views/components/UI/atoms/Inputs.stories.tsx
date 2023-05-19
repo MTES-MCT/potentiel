@@ -1,19 +1,12 @@
 import React from 'react';
 import { Input } from './Input';
-import { InputCheckbox } from './InputCheckbox';
 
 export default {
   title: 'Components/Atoms/Inputs',
-  components: { InputCheckbox, Input },
+  components: { Input },
   argTypes: {
     disabled: { control: 'boolean' },
   },
-};
-
-const InputCheckboxTemplate = (args) => <InputCheckbox {...args} />;
-export const Checkbox = InputCheckboxTemplate.bind({});
-Checkbox.args = {
-  disabled: false,
 };
 
 const InputTemplate = (args) => <Input {...args} />;

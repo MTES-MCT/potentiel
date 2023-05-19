@@ -17,7 +17,7 @@ import {
   LinkButton,
   Tile,
   PaginationPanel,
-  InputCheckbox,
+  RichCheckbox,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -137,7 +137,8 @@ export const ProjectList = ({
       <div className="p-5 flex items-center">
         {displaySelection && (
           <>
-            <InputCheckbox
+            <RichCheckbox
+              id="allProjects"
               onChange={(e) => toggleSelectAllPage(e.target.checked)}
               checked={selectedIds.length === projects.items.length}
             />
@@ -155,7 +156,8 @@ export const ProjectList = ({
               <div className="flex flex-col gap-2 mb-4">
                 <div className="flex flex-col md:flex-row gap-2">
                   {displaySelection && (
-                    <InputCheckbox
+                    <RichCheckbox
+                      id={project.id}
                       onChange={(e) => toggleSelected(project.id, e.target.checked)}
                       value={project.id}
                       checked={selectedIds.indexOf(project.id) > -1}

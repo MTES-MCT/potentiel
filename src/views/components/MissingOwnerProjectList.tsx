@@ -3,7 +3,7 @@ import {
   AlertBox,
   PrimaryButton,
   Input,
-  InputCheckbox,
+  RichCheckbox,
   Label,
   ListeVide,
   PaginationPanel,
@@ -173,8 +173,9 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
               return (
                 <tr key={`project_${project.id}`}>
                   <Td>
-                    <InputCheckbox
+                    <RichCheckbox
                       value={project.id}
+                      id={project.id}
                       checked={selectedProjectList.includes(project.id)}
                       onChange={séléctionnerUnProjet(project.id)}
                     />
@@ -203,17 +204,15 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
         <AlertBox className="my-8">
           <>
-            <Label htmlFor="swornStatement">
-              <InputCheckbox
-                name="swornStatement"
-                id="swornStatement"
-                onChange={() => setSwornStatement(!swornStatement)}
-                className="mr-1"
-              />
+            <RichCheckbox
+              name="swornStatement"
+              id="swornStatement"
+              onChange={() => setSwornStatement(!swornStatement)}
+            >
               J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
               projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
               poursuites judiciaires.
-            </Label>
+            </RichCheckbox>
             {selectedProjectList.length > 0 && swornStatement && (
               <PrimaryButton type="submit" name="submit" id="submit" className="my-4">
                 Réclamer la propriété{' '}

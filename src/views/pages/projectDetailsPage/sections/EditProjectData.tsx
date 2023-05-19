@@ -7,13 +7,13 @@ import {
   BuildingIcon,
   PrimaryButton,
   Input,
-  InputCheckbox,
   Label,
   Section,
   Select,
   TextArea,
   ErrorBox,
   RichRadio,
+  RichCheckbox,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -228,17 +228,16 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           />
         </div>
         <div className="form__group flex">
-          <InputCheckbox
+          <RichCheckbox
             id="engagementFournitureDePuissanceAlaPointe"
             name="engagementFournitureDePuissanceAlaPointe"
             defaultChecked={
               query.engagementFournitureDePuissanceAlaPointe ||
               project.engagementFournitureDePuissanceAlaPointe
             }
-          />
-          <Label htmlFor="engagementFournitureDePuissanceAlaPointe">
+          >
             Engagement de fourniture de puissance à la pointe
-          </Label>
+          </RichCheckbox>
         </div>
         <div className="form__group">
           <Label htmlFor="participatif">Financement/Investissement participatif</Label>

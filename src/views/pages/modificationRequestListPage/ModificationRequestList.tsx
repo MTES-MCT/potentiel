@@ -9,13 +9,13 @@ import {
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
-  InputCheckbox,
   LinkButton,
   Heading1,
   BarreDeRecherche,
   Label,
   Select,
   Fieldset,
+  RichCheckbox,
 } from '@components';
 import {
   hydrateOnClient,
@@ -235,15 +235,14 @@ export const ModificationRequestList = ({
 
         {userIs(['admin', 'dgec-validateur'])(request.user) && (
           <div className="flex flex-row mt-5">
-            <InputCheckbox
+            <RichCheckbox
               id="showOnlyDGEC"
               name="showOnlyDGEC"
               checked={isShowOnlyDGECChecked}
               onChange={handleShowOnlyDGEC}
-            />
-            <label htmlFor="showOnlyDGEC">
+            >
               Afficher seulement les demandes adressées à la DGEC
-            </label>
+            </RichCheckbox>
           </div>
         )}
       </form>
