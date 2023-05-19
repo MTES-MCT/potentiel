@@ -18,13 +18,7 @@ import {
   Select,
   Dropdown,
 } from '@components';
-import {
-  hydrateOnClient,
-  refreshPageWithNewSearchParamValue,
-  resetUrlParams,
-  updateUrlParams,
-} from '../../helpers';
-import { GarantiesFinancieresFilter } from './components';
+import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '@modules/project/queries';
 
 export type GarantiesFinancieresProps = {
@@ -47,7 +41,7 @@ export const GarantiesFinancieres = ({
   const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
     (request.query as any) || {};
 
-  const hasFilters = !!(appelOffreId || periodeId || familleId);
+  const hasFilters = !!(appelOffreId || periodeId || familleId || garantiesFinancieres);
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
@@ -57,10 +51,6 @@ export const GarantiesFinancieres = ({
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
-
-  const handleGarantiesFinancieresFilterOnChange = (newValue: string) => {
-    refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue);
-  };
 
   const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
@@ -166,6 +156,24 @@ export const GarantiesFinancieres = ({
                 </Select>
               </>
             )}
+            <Label htmlFor="garantiesFinancieres">Statut de la garantie financière</Label>
+            <Select
+              id="garantiesFinancieres"
+              name="garantiesFinancieres"
+              className="mt-4"
+              defaultValue=""
+              onChange={(event) =>
+                updateUrlParams({
+                  page: null,
+                  garantiesFinancieres: event.target.value,
+                })
+              }
+            >
+              <option value="">Toutes</option>
+              <option value="submitted">Déposées</option>
+              <option value="notSubmitted">Non-déposées</option>
+              <option value="pastDue">En retard</option>
+            </Select>
           </div>
         </Dropdown>
 
@@ -174,11 +182,6 @@ export const GarantiesFinancieres = ({
             Retirer tous les filtres
           </LinkButton>
         )}
-
-        <GarantiesFinancieresFilter
-          defaultValue={garantiesFinancieres}
-          onChange={handleGarantiesFinancieresFilterOnChange}
-        />
       </form>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
