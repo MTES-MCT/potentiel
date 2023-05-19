@@ -65,49 +65,6 @@
   --theme-info-bg: var(--lighter-blue);
 }
 
-// TODO : créer un composant radio
-input[type='radio'] {
-  margin: 0;
-  margin-right: 0.5em;
-  margin-right: var(--space-xs);
-}
-input[type='radio'] {
-  height: 1.25em;
-  width: 1.25em;
-  border-radius: 50%;
-  display: inline-block;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding: 0;
-}
-input[type='radio']:before {
-  content: '';
-  border-radius: 50%;
-  position: absolute;
-  top: 0.3em;
-  left: 0.35em;
-  width: 0.5em;
-  height: 0.5em;
-  transform: scale(0);
-}
-input[type='radio']:before,
-input[type='radio']:checked {
-  border-color: #0053b3;
-  border-color: var(--theme-primary);
-}
-input[type='radio']:checked {
-  background-color: #fff;
-  background-color: var(--theme-background-white);
-  opacity: 1;
-}
-input[type='radio']:checked:before {
-  background-color: #0053b3;
-  background-color: var(--theme-primary);
-  transform: scale(1);
-  transition: transform 0.2s ease-out;
-}
-
 // TODO : retravailler l'input checkbox pour gérer cette partie
 input[type='checkbox']:checked {
   opacity: 1;

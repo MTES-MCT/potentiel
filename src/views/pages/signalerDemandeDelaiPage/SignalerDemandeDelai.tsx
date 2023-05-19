@@ -9,6 +9,7 @@ import {
   ErrorBox,
   Heading1,
   TextArea,
+  RichRadio,
 } from '@components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
 import routes from '@routes';
@@ -62,45 +63,45 @@ export const SignalerDemandeDelai = ({
         <input name="projectId" value={project.id} readOnly hidden />
 
         <div>
-          <p className="m-0">
+          <legend className="m-0">
             Décision <Astérisque /> :
-          </p>
-          <div className="flex flex-col lg:flex-row gap-3 my-2">
-            <div className="flex flex-row">
-              <input
-                type="radio"
+          </legend>
+          <ul className="flex flex-col gap-3 my-2 p-0 list-none">
+            <li>
+              <RichRadio
                 id="status-accepted"
                 value="acceptée"
                 name="status"
                 onChange={(e) => e.target.checked && newDateImpactsProject(true)}
                 defaultChecked
                 required
-              />
-              <label htmlFor="status-accepted">Demande acceptée</label>
-            </div>
-            <div className="flex flex-row">
-              <input
-                type="radio"
+              >
+                Demande acceptée
+              </RichRadio>
+            </li>
+            <li>
+              <RichRadio
                 id="status-rejected"
                 value="rejetée"
                 name="status"
                 onChange={(e) => e.target.checked && newDateImpactsProject(false)}
                 required
-              />
-              <label htmlFor="status-rejected">Demande rejetée</label>
-            </div>
-            <div className="flex flex-row">
-              <input
-                type="radio"
+              >
+                Demande rejetée
+              </RichRadio>
+            </li>
+            <li>
+              <RichRadio
                 id="status-accord-principe"
                 value="accord-de-principe"
                 name="status"
                 onChange={(e) => e.target.checked && newDateImpactsProject(false)}
                 required
-              />
-              <label htmlFor="status-accord-principe">Accord de principe</label>
-            </div>
-          </div>
+              >
+                Accord de principe
+              </RichRadio>
+            </li>
+          </ul>
         </div>
 
         <div>

@@ -11,6 +11,7 @@ import {
   Label,
   FormulaireChampsObligatoireLégende,
   TextArea,
+  RichRadio,
 } from '@components';
 import routes from '@routes';
 import { ProjectDataForSignalerDemandeRecoursPage } from '@modules/project';
@@ -52,28 +53,27 @@ export const SignalerDemandeRecours = ({
         <Input name="projectId" value={project.id} readOnly hidden />
 
         <div>
-          <p className="m-0">Décision* :</p>
-          <div className="flex flex-col lg:flex-row gap-3 my-2">
-            <div className="flex flex-row">
-              <input
-                type="radio"
+          <legend className="m-0">
+            Décision <span className="text-error-425-base">*</span> :
+          </legend>
+          <ul className="flex flex-col gap-3 my-2 p-0 list-none">
+            <li>
+              <RichRadio
                 id="status-accepted"
                 value="acceptée"
                 name="status"
                 defaultChecked
                 required
-              />
-              <Label htmlFor="status-accepted" required>
+              >
                 Demande acceptée
-              </Label>
-            </div>
-            <div className="flex flex-row">
-              <input type="radio" id="status-rejected" value="rejetée" name="status" required />
-              <Label htmlFor="status-rejected" required>
+              </RichRadio>
+            </li>
+            <li>
+              <RichRadio id="status-rejected" value="rejetée" name="status" required>
                 Demande rejetée
-              </Label>
-            </div>
-          </div>
+              </RichRadio>
+            </li>
+          </ul>
         </div>
 
         <div>

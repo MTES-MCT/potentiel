@@ -11,6 +11,7 @@ import {
   Label,
   FormulaireChampsObligatoireLégende,
   TextArea,
+  RichRadio,
 } from '@components';
 import routes from '@routes';
 import { ProjectDataForSignalerDemandeAbandonPage } from '@modules/project';
@@ -55,23 +56,24 @@ export const SignalerDemandeAbandon = ({
           <p className="m-0">
             Décision <span className="text-error-425-base">*</span> :
           </p>
-          <div className="flex flex-col lg:flex-row gap-3 my-2">
-            <div className="flex flex-row">
-              <input
-                type="radio"
+          <ul className="flex flex-col lg:flex-row gap-3 my-2 p-0 list-none">
+            <li>
+              <RichRadio
                 id="status-accepted"
                 value="acceptée"
                 name="status"
                 defaultChecked
                 required
-              />
-              <Label htmlFor="status-accepted">Demande acceptée</Label>
-            </div>
-            <div className="flex flex-row">
-              <input type="radio" id="status-rejected" value="rejetée" name="status" required />
-              <Label htmlFor="status-rejected">Demande rejetée</Label>
-            </div>
-          </div>
+              >
+                Demande acceptée
+              </RichRadio>
+            </li>
+            <li>
+              <RichRadio id="status-rejected" value="rejetée" name="status" required>
+                Demande rejetée
+              </RichRadio>
+            </li>
+          </ul>
         </div>
 
         <div>

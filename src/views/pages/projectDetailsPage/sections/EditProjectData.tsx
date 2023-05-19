@@ -13,6 +13,7 @@ import {
   Select,
   TextArea,
   ErrorBox,
+  RichRadio,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -308,41 +309,41 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
 
         {!project.isLegacy && (
           <div className="form__group">
-            Attestation de désignation
-            <div className="inline-radio-option">
-              <input
-                type="radio"
-                name="attestation"
-                id="regenerate"
-                value="regenerate"
-                defaultChecked
-                onChange={handleCertificateTypeChange}
-              />
-              <Label htmlFor="regenerate">
-                Regénérer l'attestation (si les données du projet ont changé)
-              </Label>
-            </div>
-            <div className="inline-radio-option">
-              <input
-                type="radio"
-                name="attestation"
-                id="donotregenerate"
-                value="donotregenerate"
-                onChange={handleCertificateTypeChange}
-              />
-              <Label htmlFor="donotregenerate">Ne pas regénérer l'attestation</Label>
-            </div>
-            <div className="inline-radio-option">
-              <input
-                type="radio"
-                name="attestation"
-                id="custom"
-                value="custom"
-                onChange={handleCertificateTypeChange}
-              />
-              <Label htmlFor="custom">Uploader une attestation</Label>
-            </div>
-            <Input type="file" name="file" id="file" disabled={uploadIsDisabled} />
+            <legend>Attestation de désignation</legend>
+            <ul className="flex flex-col gap-3 p-0 list-none">
+              <li>
+                <RichRadio
+                  name="attestation"
+                  id="regenerate"
+                  value="regenerate"
+                  defaultChecked
+                  onChange={handleCertificateTypeChange}
+                >
+                  Regénérer l'attestation (si les données du projet ont changé)
+                </RichRadio>
+              </li>
+              <li>
+                <RichRadio
+                  name="attestation"
+                  id="donotregenerate"
+                  value="donotregenerate"
+                  onChange={handleCertificateTypeChange}
+                >
+                  Ne pas regénérer l'attestation
+                </RichRadio>
+              </li>
+              <li>
+                <RichRadio
+                  name="attestation"
+                  id="custom"
+                  value="custom"
+                  onChange={handleCertificateTypeChange}
+                >
+                  Uploader une attestation
+                  <Input type="file" name="file" id="file" disabled={uploadIsDisabled} />
+                </RichRadio>
+              </li>
+            </ul>
           </div>
         )}
         <div className="form__group">
