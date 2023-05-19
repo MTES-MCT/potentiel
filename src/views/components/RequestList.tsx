@@ -10,7 +10,6 @@ import {
 } from '@components';
 import {
   ModificationRequestListItemDTO,
-  ModificationRequestStatusDTO,
   ModificationRequestTypes,
 } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
@@ -62,7 +61,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
     }
   };
 
-  const statusClass = (statut: ModificationRequestStatusDTO) => {
+  const statusClass = (statut: string) => {
     switch (statut) {
       case 'information validée':
       case 'acceptée':
