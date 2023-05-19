@@ -3,7 +3,7 @@ import { isNone } from '@potentiel/monads';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../demandeComplèteRaccordementTransmise.event';
 import { ProjetReadModel } from '../../../../projet';
 import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement/lister/listeDossierRaccordement.readModel';
-import { DossierRaccordementReadModel } from '../../../dossierRaccordement/dossierRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
 export type DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies = {
   create: Create;
@@ -11,6 +11,9 @@ export type DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies = {
   find: Find;
 };
 
+/**
+ * @deprecated
+ */
 export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHandlerFactory<
   DemandeComplèteRaccordementTransmiseEvent,
   DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies

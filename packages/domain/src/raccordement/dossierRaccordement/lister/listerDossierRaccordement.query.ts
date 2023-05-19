@@ -14,7 +14,7 @@ export type ListerDossiersRaccordementQuery = Message<
   ListeDossiersRaccordementReadModel
 >;
 
-type ListerDossiersRaccordementQueryDependencies = {
+export type ListerDossiersRaccordementQueryDependencies = {
   find: Find;
 };
 

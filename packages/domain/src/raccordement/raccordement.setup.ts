@@ -1,61 +1,14 @@
-import { DomainDependencies } from '../domain.dependencies';
+import { setupDemandeCompléteRaccordement } from './demandeCompléteRaccordement/demandCompléteRaccordement.setup';
+import { setupDossierRaccordement } from './dossierRaccordement/dossierRaccordement.setup';
+import { setupMiseEnPlace } from './miseEnService/miseEnService.setup';
+import { setupPropostionTechniqueEtFinancière } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.setup';
+import { RaccordementDependencies } from './raccordement.dependencies';
 
-
-import {
-  registerTransmettreDemandeComplèteRaccordementCommand,
-  registerTransmettreDemandeComplèteRaccordementUseCase,
-} from './demandeCompléteRaccordement/transmettre';
-import { registerConsulterDossierRaccordementQuery } from './dossierRaccordement/consulter';
-import { registerListerDossiersRaccordementQuery } from './dossierRaccordement/lister/listerDossierRaccordement.query';
-import {
-  registerTransmettreDateMiseEnServiceCommand,
-  dateMiseEnServiceTransmiseHandlerFactory,
-} from './miseEnService/transmettre';
-import {
-  registerModifierPropositionTechniqueEtFinancièreCommand,
-  propositionTechniqueEtFinancièreModifiéeHandlerFactory,
-} from './propositionTechniqueEtFinancière/modifier';
-import {
-  registerTransmettrePropositionTechniqueEtFinancièreCommand,
-  propositionTechniqueEtFinancièreTransmiseHandlerFactory,
-} from './propositionTechniqueEtFinancière/transmettre';
-import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './propositionTechniqueEtFinancière/transmettre/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
-
-export const setupRaccordement = ({
-  command,
-  query: queryPorts,
-  event: eventPorts,
-  subscribe,
-}: DomainDependencies) => {
-  // Queries
-  registerConsulterDossierRaccordementQuery(queryPorts);
-  registerListerDossiersRaccordementQuery(queryPorts);
-
-  // Commands
-
-  registerModifierPropositionTechniqueEtFinancièreCommand(commandPorts);
-  registerTransmettrePropositionTechniqueEtFinancièreCommand(commandPorts);
-  registerTransmettreDemandeComplèteRaccordementCommand(commandPorts);
-  registerTransmettreDateMiseEnServiceCommand(commandPorts);
-
-  // Use cases
-  registerTransmettreDemandeComplèteRaccordementUseCase(commandPorts);
-
+export const setupRaccordement = (dependencies: RaccordementDependencies) => {
   return [
-    subscribe(
-      'PropositionTechniqueEtFinancièreTransmise',
-      propositionTechniqueEtFinancièreTransmiseHandlerFactory(eventPorts),
-    ),
-    subscribe('DateMiseEnServiceTransmise', dateMiseEnServiceTransmiseHandlerFactory(eventPorts)),
-
-    subscribe(
-      'PropositionTechniqueEtFinancièreModifiée',
-      propositionTechniqueEtFinancièreModifiéeHandlerFactory(eventPorts),
-    ),
-
-    subscribe(
-      'FichierPropositionTechniqueEtFinancièreTransmis',
-      fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory(eventPorts),
-    ),
+    ...setupDemandeCompléteRaccordement(dependencies),
+    ...setupDossierRaccordement(dependencies),
+    ...setupMiseEnPlace(dependencies),
+    ...setupPropostionTechniqueEtFinancière(dependencies),
   ];
 };

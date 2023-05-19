@@ -11,6 +11,9 @@ export type AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies =
   supprimerAccuséRéceptionDemandeComplèteRaccordementPort: SupprimerAccuséRéceptionDemandeComplèteRaccordementPort;
 };
 
+/**
+ * @deprecated
+ */
 export const accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory: DomainEventHandlerFactory<
   AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent,
   AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies

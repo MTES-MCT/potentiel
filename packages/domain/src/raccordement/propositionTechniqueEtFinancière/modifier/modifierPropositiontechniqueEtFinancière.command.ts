@@ -1,18 +1,18 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
-import {
-  loadRaccordementAggregateFactory,
-  createRaccordementAggregateId,
-} from '../raccordement.aggregate';
 import { PropositionTechniqueEtFinancièreModifiéeEvent } from './PropositionTechniqueEtFinancièreModifiée.event';
 import { isNone } from '@potentiel/monads';
-import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { Readable } from 'stream';
 import {
   EnregistrerFichierPropositionTechniqueEtFinancière,
   FichierPropositionTechniqueEtFinancièreTransmisEvent,
 } from '../transmettre';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
+import {
+  createRaccordementAggregateId,
+  loadRaccordementAggregateFactory,
+} from '../../raccordement.aggregate';
+import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 
 const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
@@ -28,7 +28,7 @@ type ModifierPropositionTechniqueEtFinancièreCommand = Message<
   }
 >;
 
-type ModifierPropositionTechniqueEtFinancièreDependencies = {
+export type ModifierPropositionTechniqueEtFinancièreDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
   enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;

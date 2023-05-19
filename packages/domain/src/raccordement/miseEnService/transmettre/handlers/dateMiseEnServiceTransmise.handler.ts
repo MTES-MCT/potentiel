@@ -1,14 +1,19 @@
 import { DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import { DateMiseEnServiceTransmiseEvent } from '../dateMiseEnServiceTransmise.event';
-import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter';
+import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
+export type DateMiseEnServiceTransmiseHandlerFactory = {
+  find: Find;
+  update: Update;
+};
+
+/**
+ * @deprecated
+ */
 export const dateMiseEnServiceTransmiseHandlerFactory: DomainEventHandlerFactory<
   DateMiseEnServiceTransmiseEvent,
-  {
-    find: Find;
-    update: Update;
-  }
+  DateMiseEnServiceTransmiseHandlerFactory
 > =
   ({ find, update }) =>
   async (event) => {

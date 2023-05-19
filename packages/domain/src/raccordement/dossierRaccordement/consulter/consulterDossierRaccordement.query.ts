@@ -16,7 +16,7 @@ export type ConsulterDossierRaccordementQuery = Message<
   DossierRaccordementReadModel
 >;
 
-type ConsulterDossierRaccordementDependencies = {
+export type ConsulterDossierRaccordementDependencies = {
   find: Find;
 };
 

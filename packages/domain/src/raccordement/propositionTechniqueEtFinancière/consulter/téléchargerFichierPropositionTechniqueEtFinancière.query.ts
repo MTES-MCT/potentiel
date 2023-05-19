@@ -8,13 +8,13 @@ import {
 } from '../../raccordement.errors';
 import { RécupérerFichierPropositionTechniqueEtFinancière } from './récupérerFichierPropositionTechniqueEtFinancière';
 import { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './fichierPropositionTechniqueEtFinancière.readModel';
-import { DossierRaccordementReadModel } from '../../dossierRaccordement/consulter';
+import { DossierRaccordementReadModel } from '../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
 const TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE = Symbol(
   'TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE',
 );
 
-type TéléchargerFichierPropositionTechniqueEtFinancièreDependencies = {
+export type TéléchargerFichierPropositionTechniqueEtFinancièreDependencies = {
   find: Find;
   récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancière;
 };

@@ -32,8 +32,8 @@ import {
   demandeComplèteRaccordementeModifiéeHandlerFactory,
 } from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';
 import {
-  AccuséRéceptionDemandeComplèteRaccordementTransmiseDependencies,
-  accuséRéceptionDemandeComplèteRaccordementTransmiseHandlerFactory,
+  AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies,
+  accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
 } from './enregisterAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementTransmis.handler';
 
 type QueryHandlerDependencies = ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies;
@@ -44,17 +44,18 @@ type CommandHandlerDependencies =
     TransmettreDemandeComplèteRaccordementDependencies &
     ModifierDemandeComplèteRaccordementDependencies;
 
-type EventHandlerDependencies = AccuséRéceptionDemandeComplèteRaccordementTransmiseDependencies &
+type EventHandlerDependencies = AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies &
   AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies &
   DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies &
   DemandeComplèteRaccordementeModifiéeDependencies;
 
-export type DemandeComplèteRaccordementDependencies = QueryHandlerDependencies &
+export type DemandeComplèteRaccordementDependencies = {
+  subscribe: Subscribe;
+} & QueryHandlerDependencies &
   CommandHandlerDependencies &
   EventHandlerDependencies;
 
 export const setupDemandeCompléteRaccordement = (
-  subscribe: Subscribe,
   dependencies: DemandeComplèteRaccordementDependencies,
 ) => {
   // Queries
@@ -66,7 +67,8 @@ export const setupDemandeCompléteRaccordement = (
   registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
 
-  // Event Handlers
+  // Subscribes
+  const { subscribe } = dependencies;
   const unsubscribes = [
     subscribe(
       'DemandeComplèteDeRaccordementTransmise',
@@ -82,7 +84,7 @@ export const setupDemandeCompléteRaccordement = (
     ),
     subscribe(
       'AccuséRéceptionDemandeComplèteRaccordementTransmis',
-      accuséRéceptionDemandeComplèteRaccordementTransmiseHandlerFactory(dependencies),
+      accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory(dependencies),
     ),
   ];
 

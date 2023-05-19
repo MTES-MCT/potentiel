@@ -29,7 +29,7 @@ type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   }
 >;
 
-type TransmettrePropositionTechniqueEtFinancièreDependencies = {
+export type TransmettrePropositionTechniqueEtFinancièreDependencies = {
   loadAggregate: LoadAggregate;
   publish: Publish;
   enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;

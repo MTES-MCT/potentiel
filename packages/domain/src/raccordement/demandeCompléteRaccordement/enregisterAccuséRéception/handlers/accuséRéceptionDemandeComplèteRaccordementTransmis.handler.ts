@@ -1,16 +1,19 @@
 import { DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../accuséRéceptionDemandeComplèteRaccordementTransmis.event';
-import { DossierRaccordementReadModel } from '../../../dossierRaccordement/dossierRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
-export type AccuséRéceptionDemandeComplèteRaccordementTransmiseDependencies = {
+export type AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies = {
   update: Update;
   find: Find;
 };
 
-export const accuséRéceptionDemandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHandlerFactory<
+/**
+ * @deprecated
+ */
+export const accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory: DomainEventHandlerFactory<
   AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
-  AccuséRéceptionDemandeComplèteRaccordementTransmiseDependencies
+  AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies
 > =
   ({ update, find }) =>
   async ({ payload: { format, référence: référenceDossierRaccordement, identifiantProjet } }) => {

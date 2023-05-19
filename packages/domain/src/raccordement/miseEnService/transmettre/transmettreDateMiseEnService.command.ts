@@ -1,17 +1,17 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { DateMiseEnServiceTransmiseEvent } from './dateMiseEnServiceTransmise.event';
+import { isNone } from '@potentiel/monads';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
-} from '../raccordement.aggregate';
-import { isNone } from '@potentiel/monads';
-import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+} from '../../raccordement.aggregate';
+import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 
 const TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND = Symbol('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND');
 
-type TransmettreDateMiseEnServiceCommandDependencies = {
+export type TransmettreDateMiseEnServiceCommandDependencies = {
   loadAggregate: LoadAggregate;
   publish: Publish;
 };

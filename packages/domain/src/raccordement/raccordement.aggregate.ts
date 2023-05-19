@@ -1,7 +1,7 @@
 import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../projet';
-import { DemandeComplèteRaccordementTransmiseEvent } from './demandeCompléteRaccordement/transmettre';
-import { DemandeComplèteRaccordementModifiéeEvent } from './demandeCompléteRaccordement/modifier';
+import { DemandeComplèteRaccordementTransmiseEvent } from './demandeCompléteRaccordement/transmettre/demandeComplèteRaccordementTransmise.event';
+import { DemandeComplèteRaccordementModifiéeEvent } from './demandeCompléteRaccordement/modifier/demandeComplèteRaccordementModifiée.event';
 
 type RaccordementAggregateId = `raccordement#${string}`;
 

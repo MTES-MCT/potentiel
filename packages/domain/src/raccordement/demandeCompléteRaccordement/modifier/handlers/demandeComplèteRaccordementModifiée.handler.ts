@@ -2,7 +2,7 @@ import { Create, Remove, DomainEventHandlerFactory, Find, Update } from '@potent
 import { isNone } from '@potentiel/monads';
 import { DemandeComplèteRaccordementModifiéeEvent } from '../demandeComplèteRaccordementModifiée.event';
 import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement/lister/listeDossierRaccordement.readModel';
-import { DossierRaccordementReadModel } from '../../../dossierRaccordement/dossierRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
 export type DemandeComplèteRaccordementeModifiéeDependencies = {
   find: Find;
@@ -11,6 +11,9 @@ export type DemandeComplèteRaccordementeModifiéeDependencies = {
   update: Update;
 };
 
+/**
+ * @deprecated
+ */
 export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHandlerFactory<
   DemandeComplèteRaccordementModifiéeEvent,
   DemandeComplèteRaccordementeModifiéeDependencies

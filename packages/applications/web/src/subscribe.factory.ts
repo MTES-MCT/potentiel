@@ -10,7 +10,6 @@ import {
   propositionTechniqueEtFinancièreModifiéeHandlerFactory,
   accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
 } from '@potentiel/domain';
-import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from '@potentiel/domain/src/raccordement/transmettrePropositionTechniqueEtFinancière/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
