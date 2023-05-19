@@ -1,22 +1,19 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Readable } from 'stream';
-import { Find } from '@potentiel/core-domain';
-import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
-import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './accuséRéceptionDemandeComplèteRaccordement.readModel';
-import { DossierRaccordementReadModel } from '../../dossierRaccordement/dossierRaccordement.readModel';
 
-const CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT = Symbol(
+export const CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT = Symbol(
   'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
 );
 
-export type RécupérerAccuséRéceptionDemandeComplèteRaccordementPort = (
-  args: ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery['data'] & { format: string },
-) => Promise<Readable>;
+export type RécupérerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
+  identifiantProjet: string;
+  référence: string;
+  format: string;
+}) => Promise<Readable>;
 
 export type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies = {
-  find: Find;
   récupérerAccuséRéceptionDemandeComplèteRaccordement: RécupérerAccuséRéceptionDemandeComplèteRaccordementPort;
 };
 
@@ -24,33 +21,23 @@ export type ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery = Messag
   typeof CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT,
   {
     identifiantProjet: IdentifiantProjet;
-    référenceDossierRaccordement: string;
+    référence: string;
+    format: string;
   },
   AccuséRéceptionDemandeComplèteRaccordementReadModel
 >;
 
 export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery = ({
-  find,
   récupérerAccuséRéceptionDemandeComplèteRaccordement,
 }: ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies) => {
   const handler: MessageHandler<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery> = async ({
     identifiantProjet,
-    référenceDossierRaccordement,
+    référence,
+    format,
   }) => {
-    const dossierRaccordement = await find<DossierRaccordementReadModel>(
-      `dossier-raccordement#${formatIdentifiantProjet(
-        identifiantProjet,
-      )}#${référenceDossierRaccordement}`,
-    );
-    if (isNone(dossierRaccordement)) {
-      throw new DossierRaccordementNonRéférencéError();
-    }
-
-    const { accuséRéception: { format } = { format: '' } } = dossierRaccordement;
-
     const content = await récupérerAccuséRéceptionDemandeComplèteRaccordement({
-      identifiantProjet,
-      référenceDossierRaccordement,
+      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      référence: référence,
       format,
     });
 
@@ -58,7 +45,7 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
       type: 'accusé-réception-demande-compléte-raccordement',
       format,
       content,
-    };
+    } satisfies AccuséRéceptionDemandeComplèteRaccordementReadModel;
   };
   mediator.register(CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT, handler);
 };

@@ -6,7 +6,7 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 
 const LISTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('LISTER_DOSSIER_RACCORDEMENT_QUERY');
 
-type ListerDossiersRaccordementQuery = Message<
+export type ListerDossiersRaccordementQuery = Message<
   typeof LISTER_DOSSIER_RACCORDEMENT_QUERY,
   {
     identifiantProjet: IdentifiantProjet;

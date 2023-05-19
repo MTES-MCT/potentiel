@@ -3,15 +3,17 @@ import { isNone } from '@potentiel/monads';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../demandeComplèteRaccordementTransmise.event';
 import { ProjetReadModel } from '../../../../projet';
 import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement/lister/listeDossierRaccordement.readModel';
-import { DossierRaccordementReadModel } from '../../../dossierRaccordement';
+import { DossierRaccordementReadModel } from '../../../dossierRaccordement/dossierRaccordement.readModel';
+
+export type DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies = {
+  create: Create;
+  update: Update;
+  find: Find;
+};
 
 export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHandlerFactory<
   DemandeComplèteRaccordementTransmiseEvent,
-  {
-    create: Create;
-    update: Update;
-    find: Find;
-  }
+  DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies
 > =
   ({ create, update, find }) =>
   async (event) => {

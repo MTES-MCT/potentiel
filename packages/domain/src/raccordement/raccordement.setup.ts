@@ -1,13 +1,9 @@
 import { DomainDependencies } from '../domain.dependencies';
-import {
-  registerModifierDemandeComplèteRaccordementCommand,
-  demandeComplèteRaccordementeModifiéeHandlerFactory,
-} from './demandeCompléteRaccordement/modifier';
+
+
 import {
   registerTransmettreDemandeComplèteRaccordementCommand,
   registerTransmettreDemandeComplèteRaccordementUseCase,
-  demandeComplèteRaccordementTransmiseHandlerFactory,
-  accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
 } from './demandeCompléteRaccordement/transmettre';
 import { registerConsulterDossierRaccordementQuery } from './dossierRaccordement/consulter';
 import { registerListerDossiersRaccordementQuery } from './dossierRaccordement/lister/listerDossierRaccordement.query';
@@ -36,7 +32,7 @@ export const setupRaccordement = ({
   registerListerDossiersRaccordementQuery(queryPorts);
 
   // Commands
-  registerModifierDemandeComplèteRaccordementCommand(commandPorts);
+
   registerModifierPropositionTechniqueEtFinancièreCommand(commandPorts);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(commandPorts);
   registerTransmettreDemandeComplèteRaccordementCommand(commandPorts);
@@ -47,26 +43,16 @@ export const setupRaccordement = ({
 
   return [
     subscribe(
-      'DemandeComplèteDeRaccordementTransmise',
-      demandeComplèteRaccordementTransmiseHandlerFactory(eventPorts),
-    ),
-    subscribe(
       'PropositionTechniqueEtFinancièreTransmise',
       propositionTechniqueEtFinancièreTransmiseHandlerFactory(eventPorts),
     ),
     subscribe('DateMiseEnServiceTransmise', dateMiseEnServiceTransmiseHandlerFactory(eventPorts)),
-    subscribe(
-      'DemandeComplèteRaccordementModifiée',
-      demandeComplèteRaccordementeModifiéeHandlerFactory(eventPorts),
-    ),
+
     subscribe(
       'PropositionTechniqueEtFinancièreModifiée',
       propositionTechniqueEtFinancièreModifiéeHandlerFactory(eventPorts),
     ),
-    subscribe(
-      'AccuséRéceptionDemandeComplèteRaccordementTransmis',
-      accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory(eventPorts),
-    ),
+
     subscribe(
       'FichierPropositionTechniqueEtFinancièreTransmis',
       fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory(eventPorts),

@@ -18,8 +18,6 @@ export const bootstrap = async () => {
     command: {
       loadAggregate,
       publish,
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-      enregistrerFichierPropositionTechniqueEtFinancière,
     },
     query: {
       find: findProjection,
@@ -30,6 +28,10 @@ export const bootstrap = async () => {
       find: findProjection,
       remove: removeProjection,
       update: updateProjection,
+    },
+    raccordement: {
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement,
+      enregistrerFichierPropositionTechniqueEtFinancière,
     },
     subscribe: await subscribeFactory(),
   });

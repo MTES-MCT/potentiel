@@ -1,13 +1,14 @@
 import { mediator, MessageHandler, Message, getMessageBuilder } from 'mediateur';
-
+import {
+  ModifierDemandeComplèteRaccordementCommand,
+  buildModifierDemandeComplèteRaccordementCommand,
+} from './modifier/modifierDemandeComplèteRaccordement.command';
 import {
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
-  ModifierDemandeComplèteRaccordementCommand,
   buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
-  buildModifierDemandeComplèteRaccordementCommand,
-  buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand,
-} from './demandCompléteRaccordement.commands';
-import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/dossierRaccordement.queries';
+} from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
 
 const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',

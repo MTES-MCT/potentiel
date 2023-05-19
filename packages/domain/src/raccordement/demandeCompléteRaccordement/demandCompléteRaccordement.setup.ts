@@ -1,18 +1,53 @@
 import { Subscribe } from '@potentiel/core-domain';
-import { registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery , ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
-import { registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand , EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
-import { registerModifierDemandeComplèteRaccordementCommand , ModifierDemandeComplèteRaccordementDependencies } from './modifier/modifierDemandeComplèteRaccordement.command';
-import { registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand , SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
-import { registerTransmettreDemandeComplèteRaccordementCommand , TransmettreDemandeComplèteRaccordementDependencies } from './transmettre/transmettreDemandeComplèteRaccordement.command';
-import { accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory , AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies } from './supprimerAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementSupprimé.handler';
+import {
+  registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
+  ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies,
+} from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
+import {
+  registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
+  EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies,
+} from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
+import {
+  registerModifierDemandeComplèteRaccordementCommand,
+  ModifierDemandeComplèteRaccordementDependencies,
+} from './modifier/modifierDemandeComplèteRaccordement.command';
+import {
+  registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand,
+  SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies,
+} from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
+import {
+  registerTransmettreDemandeComplèteRaccordementCommand,
+  TransmettreDemandeComplèteRaccordementDependencies,
+} from './transmettre/transmettreDemandeComplèteRaccordement.command';
+import {
+  accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory,
+  AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies,
+} from './supprimerAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementSupprimé.handler';
+import {
+  demandeComplèteRaccordementTransmiseHandlerFactory,
+  DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies,
+} from './transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
+import {
+  DemandeComplèteRaccordementeModifiéeDependencies,
+  demandeComplèteRaccordementeModifiéeHandlerFactory,
+} from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';
+import {
+  AccuséRéceptionDemandeComplèteRaccordementTransmiseDependencies,
+  accuséRéceptionDemandeComplèteRaccordementTransmiseHandlerFactory,
+} from './enregisterAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementTransmis.handler';
 
 type QueryHandlerDependencies = ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies;
+
 type CommandHandlerDependencies =
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies &
     SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies &
     TransmettreDemandeComplèteRaccordementDependencies &
     ModifierDemandeComplèteRaccordementDependencies;
-type EventHandlerDependencies = AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies;
+
+type EventHandlerDependencies = AccuséRéceptionDemandeComplèteRaccordementTransmiseDependencies &
+  AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies &
+  DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies &
+  DemandeComplèteRaccordementeModifiéeDependencies;
 
 export type DemandeComplèteRaccordementDependencies = QueryHandlerDependencies &
   CommandHandlerDependencies &
@@ -22,14 +57,34 @@ export const setupDemandeCompléteRaccordement = (
   subscribe: Subscribe,
   dependencies: DemandeComplèteRaccordementDependencies,
 ) => {
+  // Queries
   registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery(dependencies);
+
+  // Commands
   registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerModifierDemandeComplèteRaccordementCommand(dependencies);
   registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
 
-  subscribe(
-    'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
-    accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory(dependencies),
-  );
+  // Event Handlers
+  const unsubscribes = [
+    subscribe(
+      'DemandeComplèteDeRaccordementTransmise',
+      demandeComplèteRaccordementTransmiseHandlerFactory(dependencies),
+    ),
+    subscribe(
+      'DemandeComplèteRaccordementModifiée',
+      demandeComplèteRaccordementeModifiéeHandlerFactory(dependencies),
+    ),
+    subscribe(
+      'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
+      accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory(dependencies),
+    ),
+    subscribe(
+      'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+      accuséRéceptionDemandeComplèteRaccordementTransmiseHandlerFactory(dependencies),
+    ),
+  ];
+
+  return unsubscribes;
 };

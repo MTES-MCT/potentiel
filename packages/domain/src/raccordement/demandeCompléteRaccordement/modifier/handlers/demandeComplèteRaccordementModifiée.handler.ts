@@ -1,17 +1,19 @@
 import { Create, Remove, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { DemandeComplèteRaccordementModifiéeEvent } from '../demandeComplèteRaccordementModifiée.event';
-import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter';
 import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement/lister/listeDossierRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../../../dossierRaccordement/dossierRaccordement.readModel';
+
+export type DemandeComplèteRaccordementeModifiéeDependencies = {
+  find: Find;
+  create: Create;
+  remove: Remove;
+  update: Update;
+};
 
 export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHandlerFactory<
   DemandeComplèteRaccordementModifiéeEvent,
-  {
-    find: Find;
-    create: Create;
-    remove: Remove;
-    update: Update;
-  }
+  DemandeComplèteRaccordementeModifiéeDependencies
 > =
   ({ find, create, remove, update }) =>
   async (event) => {

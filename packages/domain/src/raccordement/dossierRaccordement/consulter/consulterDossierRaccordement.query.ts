@@ -5,9 +5,9 @@ import { DossierRaccordementNonRéférencéError } from '../../raccordement.erro
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
-const CONSULTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('CONSULTER_DOSSIER_RACCORDEMENT_QUERY');
+export const CONSULTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('CONSULTER_DOSSIER_RACCORDEMENT_QUERY');
 
-type ConsulterDossierRaccordementQuery = Message<
+export type ConsulterDossierRaccordementQuery = Message<
   typeof CONSULTER_DOSSIER_RACCORDEMENT_QUERY,
   {
     identifiantProjet: IdentifiantProjet;
