@@ -17,12 +17,7 @@ import {
   RichCheckbox,
   Form,
 } from '@components';
-import {
-  hydrateOnClient,
-  refreshPageWithNewSearchParamValue,
-  resetUrlParams,
-  updateUrlParams,
-} from '../../helpers';
+import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { userIs } from '@modules/users';
 
 type ModificationRequestListProps = {
@@ -39,7 +34,10 @@ export const ModificationRequestList = ({
   const handleShowOnlyDGEC = (e: ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     setIsShowOnlyDGECChecked(isChecked);
-    refreshPageWithNewSearchParamValue('showOnlyDGEC', `${isChecked ? 'on' : 'off'}`);
+    updateUrlParams({
+      showOnlyDGEC: isChecked ? 'on' : 'off',
+      page: null,
+    });
   };
 
   const {
