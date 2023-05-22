@@ -47,7 +47,6 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
 
         <title>${`${title} - Potentiel`}</title>
 
-        <link href="/main.min.css" rel="stylesheet" />
         <link href="/css/index.css" rel="stylesheet" />
 
         <meta name="theme-color" content="#000091" />
