@@ -51,7 +51,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
         dateQualification,
         ancienneRéférence,
         nouvelleRéférence,
-        accuséRéception,
       }),
     );
 
