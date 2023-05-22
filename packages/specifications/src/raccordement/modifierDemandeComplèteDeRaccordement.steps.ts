@@ -2,22 +2,19 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
-  formatIdentifiantProjet,
-  buildConsulterDossierRaccordementQuery,
-  buildListerDossiersRaccordementQuery,
-  buildModifierDemandeComplèteRaccordementCommand,
+  buildConsulterDemandeComplèteRaccordementUseCase,
+  buildConsulterDossierRaccordementUseCase,
+  buildListerDossiersRaccordementUseCase,
+  buildModifierDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
-import { download } from '@potentiel/file-storage';
-import { extension } from 'mime-types';
-import { join } from 'path';
 import { mediator } from 'mediateur';
 
 Quand(
   `le porteur modifie une demande complète de raccordement avec une date de qualification au {string}, une nouvelle référence {string} et un nouveau fichier`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleRéférence: string) {
     await mediator.send(
-      buildModifierDemandeComplèteRaccordementCommand({
+      buildModifierDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: new Date(dateQualification),
         ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
@@ -32,7 +29,7 @@ Alors(
   `la date de qualification {string}, la référence {string} et le format du fichier devraient être consultables dans un nouveau dossier de raccordement`,
   async function (this: PotentielWorld, dateQualification: string, nouvelleReference: string) {
     const actual = await mediator.send(
-      buildConsulterDossierRaccordementQuery({
+      buildConsulterDossierRaccordementUseCase({
         référence: nouvelleReference,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
@@ -47,7 +44,7 @@ Alors(
   async function (this: PotentielWorld) {
     try {
       await mediator.send(
-        buildConsulterDossierRaccordementQuery({
+        buildConsulterDossierRaccordementUseCase({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           référence: this.raccordementWorld.référenceDossierRaccordement,
         }),
@@ -62,7 +59,7 @@ Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet avec comme référence {string}`,
   async function (this: PotentielWorld, nouvelleReference: string) {
     const actual = await mediator.send(
-      buildListerDossiersRaccordementQuery({
+      buildListerDossiersRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -74,15 +71,15 @@ Alors(
 Alors(
   `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement pour la nouvelle référence {string}`,
   async function (this: PotentielWorld, nouvelleRéférence: string) {
-    const path = join(
-      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-      nouvelleRéférence,
-      `demande-complete-raccordement.${extension(
-        this.raccordementWorld.autreFichierDemandeComplèteRaccordement.format,
-      )}`,
+    const accuséRéception = await mediator.send(
+      buildConsulterDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: nouvelleRéférence,
+      }),
     );
-    const fichier = await download(path);
-    fichier.should.be.ok;
+
+    // TODO: improve assert
+    accuséRéception.should.be.ok;
   },
 );
 
@@ -91,7 +88,7 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       await mediator.send(
-        buildModifierDemandeComplèteRaccordementCommand({
+        buildModifierDemandeComplèteRaccordementUseCase({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           dateQualification: new Date('2023-04-26'),
           ancienneRéférence: 'dossier-inconnu',

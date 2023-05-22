@@ -14,9 +14,13 @@ import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
 import {
-  enregistrerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-  enregistrerFichierPropositionTechniqueEtFinancièreAdapter,
-} from '@potentiel/infra-adapters/dist/raccordement';
+  téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
+  supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
+  téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+} from '@potentiel/infra-adapters';
 
 should();
 
@@ -50,10 +54,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     command: {
       loadAggregate,
       publish,
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
-        enregistrerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-      enregistrerFichierPropositionTechniqueEtFinancière:
-        enregistrerFichierPropositionTechniqueEtFinancièreAdapter,
     },
     query: {
       find: findProjection,
@@ -61,9 +61,22 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     },
     event: {
       create: createProjection,
-      find: findProjection,
-      update: updateProjection,
       remove: removeProjection,
+      update: updateProjection,
+    },
+    raccordement: {
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
+        téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      enregistrerPropositionTechniqueEtFinancièreSignée:
+        téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
+      récupérerAccuséRéceptionDemandeComplèteRaccordement:
+        téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      récupérerPropositionTechniqueEtFinancièreSignée:
+        téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+      supprimerAccuséRéceptionDemandeComplèteRaccordement:
+        supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      supprimerPropositionTechniqueEtFinancièreSignée:
+        supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
     },
     subscribe,
   });
