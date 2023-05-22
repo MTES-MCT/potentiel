@@ -14,7 +14,7 @@ export type DemandeComplèteRaccordementeModifiéeDependencies = {
   create: Create;
   remove: Remove;
   update: Update;
-  récupérerFichierPropositionTechniqueEtFinancière: RécupérerPropositionTechniqueEtFinancièreSignéePort;
+  récupérerPropositionTechniqueEtFinancièreSignée: RécupérerPropositionTechniqueEtFinancièreSignéePort;
   enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
   supprimerPropositionTechniqueEtFinancièreSignée: SupprimerPropositionTechniqueEtFinancièreSignéePort;
 };
@@ -31,7 +31,8 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
     create,
     remove,
     update,
-    récupérerFichierPropositionTechniqueEtFinancière,
+    récupérerPropositionTechniqueEtFinancièreSignée:
+      récupérerFichierPropositionTechniqueEtFinancière,
     enregistrerPropositionTechniqueEtFinancièreSignée,
     supprimerPropositionTechniqueEtFinancièreSignée,
   }) =>

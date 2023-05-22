@@ -8,13 +8,13 @@ import {
   updateProjection,
 } from '@potentiel/pg-projections';
 import {
-  téléchargerAccuséRéceptionDemandeComplèteRaccordement,
-  téléchargerPropositionTechniqueEtFinancièreSignée,
   téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
   téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
   supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
   supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
-} from '@potentiel/infra-adapters/dist/raccordement';
+  téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+  téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+} from '@potentiel/infra-adapters';
 import { subscribeFactory } from './subscribe.factory';
 
 export const bootstrap = async () => {
@@ -38,9 +38,9 @@ export const bootstrap = async () => {
       enregistrerPropositionTechniqueEtFinancièreSignée:
         téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
-        téléchargerAccuséRéceptionDemandeComplèteRaccordement,
-      récupérerFichierPropositionTechniqueEtFinancière:
-        téléchargerPropositionTechniqueEtFinancièreSignée,
+        téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      récupérerPropositionTechniqueEtFinancièreSignée:
+        téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
       supprimerAccuséRéceptionDemandeComplèteRaccordement:
         supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
       supprimerPropositionTechniqueEtFinancièreSignée:
