@@ -1,10 +1,10 @@
 import { DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
-import { FichierPropositionTechniqueEtFinancièreTransmisEvent } from '../fichierPropositionTechniqueEtFinancièreTransmis.event';
+import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '../fichierPropositionTechniqueEtFinancièreTransmis.event';
 
 import { isSome } from '@potentiel/monads';
 import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
-export type FichierPropositionTechniqueEtFinancièreTransmisDependencies = {
+export type PropositionTechniqueEtFinancièreSignéeTransmiseDependencies = {
   find: Find;
   update: Update;
 };
@@ -12,9 +12,9 @@ export type FichierPropositionTechniqueEtFinancièreTransmisDependencies = {
 /**
  * @deprecated
  */
-export const fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory: DomainEventHandlerFactory<
-  FichierPropositionTechniqueEtFinancièreTransmisEvent,
-  FichierPropositionTechniqueEtFinancièreTransmisDependencies
+export const propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory: DomainEventHandlerFactory<
+  PropositionTechniqueEtFinancièreSignéeTransmiseEvent,
+  PropositionTechniqueEtFinancièreSignéeTransmiseDependencies
 > =
   ({ find, update }) =>
   async (event) => {

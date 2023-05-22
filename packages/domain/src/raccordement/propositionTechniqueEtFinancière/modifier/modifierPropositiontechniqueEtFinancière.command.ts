@@ -4,8 +4,8 @@ import { PropositionTechniqueEtFinancièreModifiéeEvent } from './PropositionTe
 import { isNone } from '@potentiel/monads';
 import { Readable } from 'stream';
 import {
-  EnregistrerFichierPropositionTechniqueEtFinancièrePort,
-  FichierPropositionTechniqueEtFinancièreTransmisEvent,
+  EnregistrerPropositionTechniqueEtFinancièreSignéePort,
+  PropositionTechniqueEtFinancièreSignéeTransmiseEvent,
 } from '../transmettre';
 import {
   createRaccordementAggregateId,
@@ -31,7 +31,7 @@ type ModifierPropositionTechniqueEtFinancièreCommand = Message<
 export type ModifierPropositionTechniqueEtFinancièreDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
-  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancièrePort;
+  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
 };
 
 export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
@@ -70,7 +70,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
       propositionTechniqueEtFinancièreModifiéeEvent,
     );
 
-    const fichierPropositionTechniqueEtFinancièreTransmisEvent: FichierPropositionTechniqueEtFinancièreTransmisEvent =
+    const fichierPropositionTechniqueEtFinancièreTransmisEvent: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
       {
         type: 'FichierPropositionTechniqueEtFinancièreTransmis',
         payload: {

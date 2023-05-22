@@ -19,5 +19,5 @@ const téléchargerFichierDossierRaccordementAdapter =
 
 export const téléchargerAccuséRéceptionDemandeComplèteRaccordement: RécupérerAccuséRéceptionDemandeComplèteRaccordementPort =
   téléchargerFichierDossierRaccordementAdapter('demande-complete-raccordement');
-export const téléchargerPropositionTechniqueEtFinancièreSignée: RécupérerAccuséRéceptionDemandeComplèteRaccordementPort =
+export const téléchargerPropositionTechniqueEtFinancièreSignée: RécupérerFichierPropositionTechniqueEtFinancièrePort =
   téléchargerFichierDossierRaccordementAdapter('proposition-technique-et-financiere');

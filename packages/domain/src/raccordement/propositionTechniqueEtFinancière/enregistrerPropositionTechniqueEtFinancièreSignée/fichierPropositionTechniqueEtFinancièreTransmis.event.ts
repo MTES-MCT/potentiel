@@ -1,7 +1,7 @@
 import { DomainEvent } from '@potentiel/core-domain';
 
-export type FichierPropositionTechniqueEtFinancièreTransmisEvent = DomainEvent<
-  'FichierPropositionTechniqueEtFinancièreTransmis',
+export type PropositionTechniqueEtFinancièreSignéeTransmiseEvent = DomainEvent<
+  'PropositionTechniqueEtFinancièreSignéeTransmise',
   {
     identifiantProjet: string;
     format: string;

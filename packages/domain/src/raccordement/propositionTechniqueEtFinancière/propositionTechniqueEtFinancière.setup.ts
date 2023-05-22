@@ -3,8 +3,9 @@ import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modi
 import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
 import { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';
 import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './transmettre/handlers/propositionTechniqueEtFinancièreTransmise.handler';
-import { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './transmettre/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
+import { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 import { PropostionTechniqueEtFinancièreDependencies } from './propositionTechniqueEtFinancière.dependencies';
+import { registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 
 export const setupPropostionTechniqueEtFinancière = (
   dependencies: PropostionTechniqueEtFinancièreDependencies,
@@ -13,6 +14,7 @@ export const setupPropostionTechniqueEtFinancière = (
   registerTéléchargerFichierPropositionTechniqueEtFinancièreQuery(dependencies);
 
   // Commands
+  registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand(dependencies);
   registerModifierPropositionTechniqueEtFinancièreCommand(dependencies);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(dependencies);
 
@@ -28,8 +30,8 @@ export const setupPropostionTechniqueEtFinancière = (
       propositionTechniqueEtFinancièreTransmiseHandlerFactory(dependencies),
     ),
     subscribe(
-      'FichierPropositionTechniqueEtFinancièreTransmis',
-      fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory(dependencies),
+      'PropositionTechniqueEtFinancièreSignéeTransmise',
+      propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory(dependencies),
     ),
   ];
 };

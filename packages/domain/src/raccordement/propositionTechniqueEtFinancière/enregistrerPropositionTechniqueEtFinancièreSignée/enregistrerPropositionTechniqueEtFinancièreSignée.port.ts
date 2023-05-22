@@ -1,6 +1,6 @@
 import { Readable } from 'stream';
 
-export type EnregistrerFichierPropositionTechniqueEtFinancièrePort = (args: {
+export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (args: {
   identifiantProjet: string;
   référence: string;
   format: string;

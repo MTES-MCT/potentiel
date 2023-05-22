@@ -10,5 +10,5 @@ export { buildTransmettrePropositionTechniqueEtFinancièreCommand } from './tran
 
 // EventHandlers (TODO: sera supprimé lorsque le mediateur pourra publish des messages)
 export { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';
-export { fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './transmettre/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
+export { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory as fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 export { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './transmettre/handlers/propositionTechniqueEtFinancièreTransmise.handler';

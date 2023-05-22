@@ -2,9 +2,6 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from './propositionTechniqueEtFinancièreTransmise.event';
 import { isNone } from '@potentiel/monads';
-import { Readable } from 'stream';
-import { FichierPropositionTechniqueEtFinancièreTransmisEvent } from './fichierPropositionTechniqueEtFinancièreTransmis.event';
-import { EnregistrerFichierPropositionTechniqueEtFinancièrePort } from './enregistrerFichierPropositionTechniqueEtFinancière.port';
 import {
   loadRaccordementAggregateFactory,
   createRaccordementAggregateId,
@@ -16,35 +13,28 @@ const TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
 );
 
-type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
+export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   typeof TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
   {
     dateSignature: Date;
     référenceDossierRaccordement: string;
     identifiantProjet: IdentifiantProjet;
-    propositionTechniqueEtFinancière: {
-      format: string;
-      content: Readable;
-    };
   }
 >;
 
 export type TransmettrePropositionTechniqueEtFinancièreDependencies = {
   loadAggregate: LoadAggregate;
   publish: Publish;
-  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancièrePort;
 };
 
 export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
   publish,
   loadAggregate,
-  enregistrerFichierPropositionTechniqueEtFinancière,
 }: TransmettrePropositionTechniqueEtFinancièreDependencies) => {
   const handler: MessageHandler<TransmettrePropositionTechniqueEtFinancièreCommand> = async ({
     dateSignature,
     référenceDossierRaccordement,
     identifiantProjet,
-    propositionTechniqueEtFinancière: { format, content },
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -70,28 +60,6 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
       createRaccordementAggregateId(identifiantProjet),
       propositionTechniqueEtFinancièreTransmiseEvent,
     );
-
-    const fichierPropositionTechniqueEtFinancièreTransmisEvent: FichierPropositionTechniqueEtFinancièreTransmisEvent =
-      {
-        type: 'FichierPropositionTechniqueEtFinancièreTransmis',
-        payload: {
-          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-          format,
-          référenceDossierRaccordement,
-        },
-      };
-
-    await publish(
-      createRaccordementAggregateId(identifiantProjet),
-      fichierPropositionTechniqueEtFinancièreTransmisEvent,
-    );
-
-    await enregistrerFichierPropositionTechniqueEtFinancière({
-      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      référence: référenceDossierRaccordement,
-      format,
-      content,
-    });
   };
 
   mediator.register(TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND, handler);

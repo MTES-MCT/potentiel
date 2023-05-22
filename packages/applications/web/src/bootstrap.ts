@@ -10,8 +10,8 @@ import {
 import {
   téléchargerAccuséRéceptionDemandeComplèteRaccordement,
   téléchargerPropositionTechniqueEtFinancièreSignée,
-  téléverserAccuséRéceptionDemandeComplèteRaccordement,
-  téléverserPropositionTechniqueEtFinancièreSignée,
+  téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
   supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
 } from '@potentiel/infra-adapters/dist/raccordement';
 import { subscribeFactory } from './subscribe.factory';
@@ -33,9 +33,9 @@ export const bootstrap = async () => {
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
-        téléverserAccuséRéceptionDemandeComplèteRaccordement,
-      enregistrerFichierPropositionTechniqueEtFinancière:
-        téléverserPropositionTechniqueEtFinancièreSignée,
+        téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      enregistrerPropositionTechniqueEtFinancièreSignée:
+        téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
         téléchargerAccuséRéceptionDemandeComplèteRaccordement,
       récupérerFichierPropositionTechniqueEtFinancière:

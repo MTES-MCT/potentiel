@@ -4,14 +4,19 @@ import { ModifierPropositionTechniqueEtFinancièreDependencies } from './modifie
 import { TransmettrePropositionTechniqueEtFinancièreDependencies } from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
 import { PropositionTechniqueEtFinancièreModifiéeDependencies } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';
 import { PropositionTechniqueEtFinancièreTransmiseDependencies } from './transmettre/handlers/propositionTechniqueEtFinancièreTransmise.handler';
-import { FichierPropositionTechniqueEtFinancièreTransmisDependencies } from './transmettre/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
+import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
+import { PropositionTechniqueEtFinancièreSignéeTransmiseDependencies } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 
 type QueryHandlerDependencies = TéléchargerFichierPropositionTechniqueEtFinancièreDependencies;
-type CommandHandlerDependencies = ModifierPropositionTechniqueEtFinancièreDependencies &
-  TransmettrePropositionTechniqueEtFinancièreDependencies;
+
+type CommandHandlerDependencies =
+  EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies &
+    ModifierPropositionTechniqueEtFinancièreDependencies &
+    TransmettrePropositionTechniqueEtFinancièreDependencies;
+
 type EventHandlerDependencies = PropositionTechniqueEtFinancièreModifiéeDependencies &
   PropositionTechniqueEtFinancièreTransmiseDependencies &
-  FichierPropositionTechniqueEtFinancièreTransmisDependencies;
+  PropositionTechniqueEtFinancièreSignéeTransmiseDependencies;
 
 export type PropostionTechniqueEtFinancièreDependencies = {
   subscribe: Subscribe;

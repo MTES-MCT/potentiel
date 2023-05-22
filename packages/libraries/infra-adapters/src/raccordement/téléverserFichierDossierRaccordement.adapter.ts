@@ -3,20 +3,20 @@ import { join } from 'path';
 import { extension } from 'mime-types';
 import {
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort,
-  EnregistrerFichierPropositionTechniqueEtFinancièrePort,
+  EnregistrerPropositionTechniqueEtFinancièreSignéePort,
 } from '@potentiel/domain';
 
 const téléverserFichierDossierRaccordementAdapter =
   (
     nomFichier: string,
   ): EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort &
-    EnregistrerFichierPropositionTechniqueEtFinancièrePort =>
+    EnregistrerPropositionTechniqueEtFinancièreSignéePort =>
   async ({ content, format, identifiantProjet, référence }) => {
     const path = join(identifiantProjet, référence, `${nomFichier}.${extension(format)}`);
     await upload(path, content);
   };
 
-export const téléverserAccuséRéceptionDemandeComplèteRaccordement: EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort =
+export const téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter: EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort =
   téléverserFichierDossierRaccordementAdapter('demande-complete-raccordement');
-export const téléverserPropositionTechniqueEtFinancièreSignée: EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort =
+export const téléverserPropositionTechniqueEtFinancièreSignéeAdapter: EnregistrerPropositionTechniqueEtFinancièreSignéePort =
   téléverserFichierDossierRaccordementAdapter('proposition-technique-et-financiere');
