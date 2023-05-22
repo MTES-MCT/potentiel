@@ -5,34 +5,40 @@ import {
   DossierRaccordementNonRéférencéError,
   FormatFichierInexistantError,
 } from '../../raccordement.errors';
-import { RécupérerFichierPropositionTechniqueEtFinancièrePort } from './récupérerFichierPropositionTechniqueEtFinancière.port';
-import { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './fichierPropositionTechniqueEtFinancière.readModel';
+import { PropositionTechniqueEtFinancièreSignéeReadModel } from './propositionTechniqueEtFinancièreSignée.readModel';
 import { DossierRaccordementReadModel } from '../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import { Readable } from 'stream';
 
-const TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE = Symbol(
-  'TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE',
+const CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE = Symbol(
+  'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
 );
 
-export type TéléchargerFichierPropositionTechniqueEtFinancièreDependencies = {
+export type RécupérerPropositionTechniqueEtFinancièreSignéePort = (args: {
+  identifiantProjet: string;
+  référence: string;
+  format: string;
+}) => Promise<Readable>;
+
+export type ConsulterPropositionTechniqueEtFinancièreSignéeDependencies = {
   find: Find;
-  récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancièrePort;
+  récupérerPropositionTechniqueEtFinancièreSignée: RécupérerPropositionTechniqueEtFinancièreSignéePort;
 };
 
-export type TéléchargerFichierPropositionTechniqueEtFinancièreQuery = Message<
-  typeof TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE,
+export type ConsulterPropositionTechniqueEtFinancièreSignéeQuery = Message<
+  typeof CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE,
   {
     identifiantProjet: IdentifiantProjet;
     référence: string;
   },
-  TéléchargerFichierPropositionTechniqueEtFinancièreReadModel
+  PropositionTechniqueEtFinancièreSignéeReadModel
 >;
 
-export const registerTéléchargerFichierPropositionTechniqueEtFinancièreQuery = ({
+export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
   find,
-  récupérerFichierPropositionTechniqueEtFinancière,
-}: TéléchargerFichierPropositionTechniqueEtFinancièreDependencies) => {
-  const handler: MessageHandler<TéléchargerFichierPropositionTechniqueEtFinancièreQuery> = async ({
+  récupérerPropositionTechniqueEtFinancièreSignée,
+}: ConsulterPropositionTechniqueEtFinancièreSignéeDependencies) => {
+  const handler: MessageHandler<ConsulterPropositionTechniqueEtFinancièreSignéeQuery> = async ({
     identifiantProjet,
     référence: référenceDossierRaccordement,
   }) => {
@@ -53,21 +59,21 @@ export const registerTéléchargerFichierPropositionTechniqueEtFinancièreQuery 
       throw new FormatFichierInexistantError();
     }
 
-    const fichier = await récupérerFichierPropositionTechniqueEtFinancière({
+    const fichier = await récupérerPropositionTechniqueEtFinancièreSignée({
       référence: référenceDossierRaccordement,
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       format: dossierRaccordement.propositionTechniqueEtFinancière.format,
     });
 
     return {
-      type: 'fichier-proposition-technique-et-financiere',
+      type: 'proposition-technique-et-financière-signée',
       format: dossierRaccordement.propositionTechniqueEtFinancière.format,
       content: fichier,
-    } as Readonly<TéléchargerFichierPropositionTechniqueEtFinancièreReadModel>;
+    } as Readonly<PropositionTechniqueEtFinancièreSignéeReadModel>;
   };
-  mediator.register(TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE, handler);
+  mediator.register(CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE, handler);
 };
 
-export const buildTéléchargerFichierPropositionTechniqueEtFinancièreQuery = getMessageBuilder(
-  TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE,
+export const buildConsulterPropositionTechniqueEtFinancièreSignéeQuery = getMessageBuilder(
+  CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE,
 );

@@ -2,7 +2,7 @@
 export { buildTéléchargerFichierPropositionTechniqueEtFinancièreQuery } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 
 // ReadModel
-export { PropositionTechniqueEtFinancièreSignéeReadModel as TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './consulter/fichierPropositionTechniqueEtFinancière.readModel';
+export { PropositionTechniqueEtFinancièreSignéeReadModel as TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './consulter/propositionTechniqueEtFinancièreSignée.readModel';
 
 // Commands
 export { buildModifierPropositionTechniqueEtFinancièreCommand } from './modifier/modifierPropositiontechniqueEtFinancière.command';
