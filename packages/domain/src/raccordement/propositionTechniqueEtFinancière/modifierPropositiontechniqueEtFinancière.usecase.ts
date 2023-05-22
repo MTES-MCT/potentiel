@@ -8,7 +8,7 @@ import {
   buildEnregistrerPropositionTechniqueEtFinancièreSignéeCommand,
 } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 import { buildSupprimerPropositionTechniqueEtFinancièreSignéeCommand } from './supprimerPropositionTechniqueEtFinancièreSignée/supprimerPropositionTechniqueEtFinancièreSignée.command';
-import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement';
+import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
 
 const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
