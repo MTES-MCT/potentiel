@@ -17,7 +17,6 @@ import ROUTES from '@routes';
 import React from 'react';
 import { Request } from 'express';
 import { DemandeAbandonPageDTO } from '@modules/modificationRequest';
-import { dataId } from '../../../helpers/testId';
 import * as helpers from '../../helpers';
 import { userIs } from '@modules/users';
 
@@ -98,12 +97,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               {!['en attente de confirmation', 'demande confirmée'].includes(
                 modificationRequest.status,
               ) && (
-                <PrimaryButton
-                  type="submit"
-                  name="submitConfirm"
-                  {...dataId('ask-confirmation-button')}
-                  className="mt-2"
-                >
+                <PrimaryButton type="submit" name="submitConfirm" className="mt-2">
                   Demander une confirmation au porteur de projet
                 </PrimaryButton>
               )}

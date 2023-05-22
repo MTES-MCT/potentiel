@@ -1,6 +1,5 @@
 import { Request } from 'express';
 import React from 'react';
-import { dataId } from '../../../helpers/testId';
 import ROUTES from '@routes';
 import {
   PrimaryButton,
@@ -93,16 +92,14 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
               </tr>
             </thead>
             <tbody>
-              {users.map(({ user, dreals }, index) => {
-                return (
-                  <tr key={'user_' + index} {...dataId('drealList-item')}>
-                    <Td valign="top">
-                      {user.fullName} ({user.email})
-                    </Td>
-                    <Td valign="top">{dreals.join(', ')}</Td>
-                  </tr>
-                );
-              })}
+              {users.map(({ user, dreals }, index) => (
+                <tr key={`user_${index}`}>
+                  <Td valign="top">
+                    {user.fullName} ({user.email})
+                  </Td>
+                  <Td valign="top">{dreals.join(', ')}</Td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </>

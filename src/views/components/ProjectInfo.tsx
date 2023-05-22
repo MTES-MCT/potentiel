@@ -1,5 +1,4 @@
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import routes from '@routes';
 import { Link } from '@components';
 import { afficherDate } from '../helpers/afficherDate';
@@ -49,37 +48,23 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
     <div
       className={`${className} p-4 bg-gray-100 border-solid border-l-4 border-y-0 border-r-0 border-blue-france-main-525-base`}
     >
-      <div {...dataId('modificationRequest-item-nomProjet')}>
+      <div>
         <Link href={routes.PROJECT_DETAILS(id)}>{nomProjet}</Link>
       </div>
-      <div
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-        }}
-      >
-        <span {...dataId('modificationRequest-item-nomCandidat')}>{nomCandidat}</span>
+      <div className="italic text-xs">
+        <span>{nomCandidat}</span>
         <br />
-        <span {...dataId('modificationRequest-item-communeProjet')}>{communeProjet}</span>,{' '}
-        <span {...dataId('modificationRequest-item-departementProjet')}>{departementProjet}</span>,{' '}
-        <span {...dataId('modificationRequest-item-regionProjet')}>{regionProjet}</span>
+        <span>{communeProjet}</span>, <span>{departementProjet}</span>, <span>{regionProjet}</span>
       </div>
-      <div {...dataId('modificationRequest-item-puissance')}>
+      <div>
         {puissance} {unitePuissance}
       </div>
       <p className="m-0">
-        Désigné le{' '}
-        <span {...dataId('modificationRequest-item-designationDate')}>
-          {afficherDate(notifiedOn)}
-        </span>{' '}
-        pour la période{' '}
-        <span {...dataId('modificationRequest-item-periode')}>
+        Désigné le <span>{afficherDate(notifiedOn)}</span> pour la période{' '}
+        <span>
           {appelOffreId} {periodeId}
         </span>{' '}
-        {familleId && (
-          <span {...dataId('modificationRequest-item-famille')}>famille {familleId}</span>
-        )}
+        {familleId && <span>famille {familleId}</span>}
       </p>
       {identifiantGestionnaire && (
         <div>Identifiant dossier de raccordement : {identifiantGestionnaire}</div>

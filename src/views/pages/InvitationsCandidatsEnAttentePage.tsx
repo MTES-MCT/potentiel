@@ -15,7 +15,6 @@ import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 
@@ -58,7 +57,7 @@ export const InvitationsCandidatsEnAttente = ({
             <tbody>
               {invitations.items.map((invitation) => {
                 return (
-                  <tr key={'invitation_' + invitation.email} {...dataId('invitationList-item')}>
+                  <tr key={`invitation_${invitation.email}`}>
                     <Td>
                       {invitation.email}{' '}
                       {invitation.fullName ? (
