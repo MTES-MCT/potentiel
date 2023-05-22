@@ -29,7 +29,7 @@ export const registerConsulterDemandeComplèteRaccordementUseCase = () => {
     identifiantProjet,
     référence,
   }) => {
-    const { dateQualification, accuséRéception: { format } = { format: '' } } = await mediator.send(
+    const dossierRaccordement = await mediator.send(
       buildConsulterDossierRaccordementQuery({
         identifiantProjet,
         référence,
@@ -40,13 +40,13 @@ export const registerConsulterDemandeComplèteRaccordementUseCase = () => {
       buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
         identifiantProjet,
         référence,
-        format,
+        format: dossierRaccordement.accuséRéception?.format || '',
       }),
     );
 
     return {
       ...accuséRéception,
-      dateQualification,
+      dateQualification: dossierRaccordement.dateQualification,
       référence,
     };
   };

@@ -1,5 +1,4 @@
 import { Subscribe } from '@potentiel/core-domain';
-import { TéléchargerFichierPropositionTechniqueEtFinancièreDependencies } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 import { ModifierPropositionTechniqueEtFinancièreDependencies } from './modifier/modifierPropositiontechniqueEtFinancière.command';
 import { TransmettrePropositionTechniqueEtFinancièreDependencies } from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
 import { PropositionTechniqueEtFinancièreModifiéeDependencies } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';
@@ -8,8 +7,9 @@ import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies } 
 import { PropositionTechniqueEtFinancièreSignéeTransmiseDependencies } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 import { SupprimerPropositionTechniqueEtFinancièreSignéeDependencies } from './supprimerPropositionTechniqueEtFinancièreSignée/supprimerPropositionTechniqueEtFinancièreSignée.command';
 import { PropositionTechniqueEtFinancièreSignéeSuppriméeDependencies } from './supprimerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeSupprimée.handler';
+import { ConsulterPropositionTechniqueEtFinancièreSignéeDependencies } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 
-type QueryHandlerDependencies = TéléchargerFichierPropositionTechniqueEtFinancièreDependencies;
+type QueryHandlerDependencies = ConsulterPropositionTechniqueEtFinancièreSignéeDependencies;
 
 type CommandHandlerDependencies = SupprimerPropositionTechniqueEtFinancièreSignéeDependencies &
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies &

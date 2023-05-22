@@ -19,7 +19,7 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     identifiantProjet,
   }) => {
     await mediator.send(
-      buildTransmettreDateMiseEnServiceCommand({
+      buildTransmettreDateMiseEnServiceUseCase({
         dateMiseEnService,
         identifiantProjet,
         référenceDossierRaccordement,
@@ -30,5 +30,5 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
   mediator.register(TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE, runner);
 };
 
-export const buildTransmettreDateMiseEnServiceCommand =
+export const buildTransmettreDateMiseEnServiceUseCase =
   getMessageBuilder<TransmettreDateMiseEnServiceUseCase>(TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE);

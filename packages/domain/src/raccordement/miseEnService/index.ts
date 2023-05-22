@@ -1,5 +1,5 @@
-// Commands
-export { buildTransmettreDateMiseEnServiceCommand } from './transmettre/transmettreDateMiseEnService.command';
+// Usecases
+export { buildTransmettreDateMiseEnServiceUseCase } from './transmettreDateMiseEnService.usecase';
 
 // EventHandlers (TODO: sera supprimé lorsque le mediateur pourra publish des messages)
 export { dateMiseEnServiceTransmiseHandlerFactory } from './transmettre/handlers/dateMiseEnServiceTransmise.handler';

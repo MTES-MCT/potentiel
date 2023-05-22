@@ -5,7 +5,6 @@ import {
 } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from './consulter/propositionTechniqueEtFinancièreSignée.readModel';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
-import { FormatFichierInexistantError } from '../raccordement.errors';
 
 const CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE = Symbol(
   'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
@@ -31,17 +30,9 @@ export const registerConsulterPropositionTechniqueEtFinancièreUseCase = () => {
       buildConsulterDossierRaccordementQuery({ identifiantProjet, référence }),
     );
 
-    if (
-      !dossierRaccordement.propositionTechniqueEtFinancière ||
-      !dossierRaccordement.propositionTechniqueEtFinancière.format ||
-      dossierRaccordement.propositionTechniqueEtFinancière.format === 'none'
-    ) {
-      throw new FormatFichierInexistantError();
-    }
-
     const propositionTechniqueEtFinancièreSignée = await mediator.send(
       buildConsulterPropositionTechniqueEtFinancièreSignéeQuery({
-        format: dossierRaccordement.propositionTechniqueEtFinancière.format,
+        format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
         identifiantProjet,
         référence,
       }),
@@ -49,7 +40,7 @@ export const registerConsulterPropositionTechniqueEtFinancièreUseCase = () => {
 
     return {
       ...propositionTechniqueEtFinancièreSignée,
-      dateSignature: dossierRaccordement.propositionTechniqueEtFinancière.dateSignature,
+      dateSignature: dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature || '',
     };
   };
   mediator.register(CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE, runner);

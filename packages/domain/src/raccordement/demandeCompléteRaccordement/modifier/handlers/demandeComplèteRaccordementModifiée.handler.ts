@@ -5,7 +5,7 @@ import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement
 import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 import {
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
-  RécupérerFichierPropositionTechniqueEtFinancièrePort,
+  RécupérerPropositionTechniqueEtFinancièreSignéePort,
   SupprimerPropositionTechniqueEtFinancièreSignéePort,
 } from '../../../raccordement.ports';
 
@@ -14,7 +14,7 @@ export type DemandeComplèteRaccordementeModifiéeDependencies = {
   create: Create;
   remove: Remove;
   update: Update;
-  récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancièrePort;
+  récupérerFichierPropositionTechniqueEtFinancière: RécupérerPropositionTechniqueEtFinancièreSignéePort;
   enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
   supprimerPropositionTechniqueEtFinancièreSignée: SupprimerPropositionTechniqueEtFinancièreSignéePort;
 };

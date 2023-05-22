@@ -8,6 +8,9 @@ import { demandeComplèteRaccordementTransmiseHandlerFactory } from './transmett
 import { demandeComplèteRaccordementeModifiéeHandlerFactory } from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';
 import { accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory } from './enregisterAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementTransmis.handler';
 import { DemandeComplèteRaccordementDependencies } from './demandeCompléteRaccordement.dependencies';
+import { registerConsulterDemandeComplèteRaccordementUseCase } from './consulterDemandeComplèteRaccordement.usecase';
+import { registerModifierDemandeComplèteRaccordementUseCase } from './modifierDemandeComplèteRaccordement.usecase';
+import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettreDemandeComplèteRaccordement.usecase';
 
 export const setupDemandeCompléteRaccordement = (
   dependencies: DemandeComplèteRaccordementDependencies,
@@ -20,6 +23,11 @@ export const setupDemandeCompléteRaccordement = (
   registerModifierDemandeComplèteRaccordementCommand(dependencies);
   registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
+
+  // Usecases
+  registerConsulterDemandeComplèteRaccordementUseCase();
+  registerModifierDemandeComplèteRaccordementUseCase();
+  registerTransmettreDemandeComplèteRaccordementUseCase();
 
   // Subscribes
   const { subscribe } = dependencies;

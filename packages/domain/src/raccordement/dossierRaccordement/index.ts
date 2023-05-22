@@ -1,5 +1,5 @@
-// Queries
-export {} from './consulterDossierRaccordement.usecase';
+// Usecases
+export { buildConsulterDossierRaccordementUseCase } from './consulterDossierRaccordement.usecase';
 export { buildListerDossiersRaccordementQuery } from './lister/listerDossierRaccordement.query';
 
 // ReadModel
