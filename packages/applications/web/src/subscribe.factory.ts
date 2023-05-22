@@ -20,7 +20,11 @@ import {
 } from '@potentiel/pg-projections';
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
-import {} from '@potentiel/infra-adapters';
+import {
+  supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
+  téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+  téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
+} from '@potentiel/infra-adapters';
 
 export const subscribeFactory = async (): Promise<Subscribe> => {
   const consumerGestionnaireRéseau = await consumerFactory('gestionnaireRéseauProjector');
@@ -62,10 +66,11 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
       remove: removeProjection,
       update: updateProjection,
       enregistrerPropositionTechniqueEtFinancièreSignée:
-        enregistrerPropositionTechniqueEtFinancièreSignéeAdapter,
+        téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée:
-        récupérerPropositionTechniqueEtFinancièreSignée,
-      supprimerPropositionTechniqueEtFinancièreSignée,
+        téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+      supprimerPropositionTechniqueEtFinancièreSignée:
+        supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
     }),
   );
   consumerProjet.consume(
