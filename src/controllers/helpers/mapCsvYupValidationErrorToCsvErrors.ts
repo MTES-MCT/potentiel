@@ -9,15 +9,19 @@ const getNuméroLigne = (path: string | undefined) => {
   return Number(extractLigne) + 2;
 };
 
-export const mapYupValidationErrorToCsvValidationError = (
-  error: ValidationError,
-): Map<string, string> => {
-  return error.inner.reduce((acc, err, index) => {
+type CsvError = {
+  numéroLigne?: number;
+  valeurInvalide?: string;
+  raison: string;
+};
+
+export const mapCsvYupValidationErrorToCsvErrors = (error: ValidationError): Array<CsvError> => {
+  return error.inner.reduce((csvErrors, err) => {
     const { path, params, errors } = err;
     const numéroLigne = getNuméroLigne(path);
 
     if (!errors?.length) {
-      return acc;
+      return csvErrors;
     }
 
     const valeurInvalide =
@@ -25,10 +29,13 @@ export const mapYupValidationErrorToCsvValidationError = (
 
     const [raison] = errors;
 
-    acc.set(
-      numéroLigne ? `Ligne ${numéroLigne.toString()}` : index.toString(),
-      `${valeurInvalide ? `${valeurInvalide} - ` : ''}${raison}`,
-    );
-    return acc;
-  }, new Map<string, string>());
+    return [
+      ...csvErrors,
+      {
+        numéroLigne,
+        valeurInvalide,
+        raison: raison,
+      },
+    ];
+  }, []);
 };

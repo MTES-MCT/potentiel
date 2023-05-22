@@ -1,31 +1,19 @@
 import routes from '@routes';
-import { v1Router } from '../v1Router';
+import { v1Router } from '../../v1Router';
 import { ImporterDatesMiseEnServicePage } from '@views';
-import { getApiResult } from '../helpers/apiResult';
-import { IdentifiantProjet } from '@potentiel/domain';
+import { getApiResult } from '../../helpers/apiResult';
 import { Project } from '@infra/sequelize';
-
-type Réussi = {
-  référenceDossier: string;
-  statut: 'réussi';
-  identifiantProjet: IdentifiantProjet;
-};
-type Échec = {
-  référenceDossier: string;
-  statut: 'échec';
-  raison: string;
-  identifiantsProjet: ReadonlyArray<IdentifiantProjet>;
-};
-type Résultat = Réussi | Échec;
-type ImporterDateMiseEnServiceUseCaseResult = Array<Résultat>;
-
-const isRéussi = (res: Résultat): res is Réussi => res.statut === 'réussi';
-const isÉchec = (res: Résultat): res is Échec => res.statut === 'échec';
+import {
+  ImporterDatesMiseEnServiceUseCaseResult,
+  isRéussi,
+  isÉchec,
+  Échec,
+} from './importerDatesMiseEnserviceUseCaseResult';
 
 v1Router.get(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE, async (request, response) => {
   const { user } = request;
 
-  const apiResult = getApiResult<ImporterDateMiseEnServiceUseCaseResult>(
+  const apiResult = getApiResult<ImporterDatesMiseEnServiceUseCaseResult>(
     request,
     routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
   );
@@ -40,7 +28,7 @@ v1Router.get(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE, async (request, res
     ImporterDatesMiseEnServicePage({
       user,
       résultatImport: [...importsRéussis, ...importsEnÉchecMapped],
-      formErrors: apiResult?.status === 'BAD_REQUEST' ? apiResult.errors : undefined,
+      formErrors: apiResult?.status === 'BAD_REQUEST' ? apiResult.formErrors : undefined,
     }),
   );
 });

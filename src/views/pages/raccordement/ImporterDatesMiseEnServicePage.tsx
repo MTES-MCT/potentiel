@@ -135,8 +135,8 @@ export const ImporterDatesMiseEnService = ({
           <ErrorBox
             className="mt-4"
             title={`${importsÉchoués.length} import${
-              importsÉchoués.length === 1 ? `n'a pas abouti` : `s n'ont pas aboutis`
-            }`}
+              importsÉchoués.length === 1 ? `n'a` : `s n'ont`
+            } pas abouti`}
           >
             <ul>
               {importsÉchoués.map((échec) => (

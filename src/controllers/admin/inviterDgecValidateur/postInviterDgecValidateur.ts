@@ -53,7 +53,7 @@ v1Router.post(
               route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
               status: 'BAD_REQUEST',
               message: 'Le formulaire contient des erreurs',
-              errors: Object.entries(error.errors).reduce((prev, [key, value]) => {
+              formErrors: Object.entries(error.errors).reduce((prev, [key, value]) => {
                 return {
                   ...prev,
                   [key.replace('error-', '')]: value,

@@ -1,5 +1,7 @@
 import { Request } from 'express';
 
+export type FormErrors = Record<string, string>;
+
 export type ApiResult<TResult> = {
   route: string;
 } & (
@@ -10,7 +12,7 @@ export type ApiResult<TResult> = {
   | {
       status: 'BAD_REQUEST';
       message: string;
-      errors?: Record<string, string>;
+      formErrors?: FormErrors;
     }
 );
 
@@ -28,9 +30,8 @@ export const getApiResult = <TResult>(
   request: Request,
   route: string,
 ): ApiResult<TResult> | undefined => {
-  console.info(JSON.stringify(request.session.apiResults));
-
   const apiResults = request.session.apiResults;
+
   if (apiResults) {
     const { [route]: apiResult, ...clearedApiResults } = apiResults;
 

@@ -16,7 +16,7 @@ v1Router.get(
       InviterDgecValidateurPage({
         request,
         inviationRéussi: result?.status === 'OK' ? true : undefined,
-        formErrors: result?.status === 'BAD_REQUEST' ? result.errors : undefined,
+        formErrors: result?.status === 'BAD_REQUEST' ? result.formErrors : undefined,
       }),
     );
   }),
