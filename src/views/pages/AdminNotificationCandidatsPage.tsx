@@ -13,6 +13,7 @@ import {
   SecondaryLinkButton,
   Select,
   SuccessBox,
+  Form,
 } from '@components';
 import { AppelOffre, Periode } from '@entities';
 import { ProjectListItem } from '@modules/project/queries';
@@ -75,7 +76,7 @@ export const AdminNotificationCandidats = ({
           de projets.
         </p>
       )}
-      <form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="ml-0 mb-4">
+      <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mb-4">
         <div className="form__group mt-5">
           <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
         </div>
@@ -115,12 +116,10 @@ export const AdminNotificationCandidats = ({
             </div>
           </Dropdown>
         </div>
-      </form>
-      <form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post" className="ml-0 mb-4">
-        <div className="form__group">
-          <Label htmlFor="appelOffreId" className="mt-4">
-            Appel d'offre concerné
-          </Label>
+      </Form>
+      <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
+        <div>
+          <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
           <Select
             name="appelOffreId"
             id="appelOffreId"
@@ -143,6 +142,8 @@ export const AdminNotificationCandidats = ({
               </option>
             ))}
           </Select>
+        </div>
+        <div>
           <Label htmlFor="periodeId" className="mt-4">
             Periode concernée
           </Label>
@@ -166,44 +167,43 @@ export const AdminNotificationCandidats = ({
               </option>
             ))}
           </Select>
-
-          {AOSélectionné && périodeSélectionnée && (
-            <div className="mt-4">
-              <SecondaryLinkButton
-                href={`
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-                  ...request.query,
-                  appelOffreId: AOSélectionné,
-                  periodeId: périodeSélectionnée,
-                  beforeNotification: true,
-                })}`}
-                download
-              >
-                <ExcelFileIcon className="mr-2" />
-                Télécharger la liste des lauréats (document csv)
-              </SecondaryLinkButton>
-            </div>
-          )}
         </div>
+
+        {AOSélectionné && périodeSélectionnée && (
+          <SecondaryLinkButton
+            href={`
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+              ...request.query,
+              appelOffreId: AOSélectionné,
+              periodeId: périodeSélectionnée,
+              beforeNotification: true,
+            })}`}
+            download
+          >
+            <ExcelFileIcon className="mr-2" />
+            Télécharger la liste des lauréats (document csv)
+          </SecondaryLinkButton>
+        )}
         {projetsPériodeSélectionnée.itemCount > 0 && !success && (
-          <div className="form__group">
-            <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
-            <Input
-              type="text"
-              name="notificationDate"
-              id="notificationDate"
-              defaultValue={afficherDate(new Date())}
-              className="w-auto"
-            />
+          <>
+            <div>
+              <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
+              <Input
+                type="text"
+                name="notificationDate"
+                id="notificationDate"
+                defaultValue={afficherDate(new Date())}
+              />
+            </div>
             {request.user?.role === 'dgec-validateur' && (
-              <PrimaryButton type="submit" name="submit" id="submit" className="mt-4">
+              <PrimaryButton type="submit" name="submit" id="submit">
                 Envoyer la notification aux {projetsPériodeSélectionnée.itemCount} candidats de
                 cette période
               </PrimaryButton>
             )}
-          </div>
+          </>
         )}
-      </form>
+      </Form>
 
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}

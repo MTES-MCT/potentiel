@@ -15,6 +15,7 @@ import {
   EditIcon,
   DownloadLink,
   ExternalLink,
+  Form,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
@@ -57,7 +58,7 @@ export const ModifierDemandeComplèteRaccordement = ({
       résuméProjet={résuméProjet}
     >
       <div className="flex flex-col md:flex-row gap-4">
-        <form
+        <Form
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
@@ -67,7 +68,7 @@ export const ModifierDemandeComplèteRaccordement = ({
 
           <Heading2>Modifier une demande complète de raccordement</Heading2>
 
-          <Callout className="text-sm my-4 px-3 pt-1 pb-0">
+          <Callout className="text-sm px-3 pt-1 pb-0">
             <ul className="list-none p-0">
               <li>
                 Gestionnaire de réseau : <span className="font-bold mr-2">{raisonSociale}</span>
@@ -128,30 +129,25 @@ export const ModifierDemandeComplèteRaccordement = ({
             />
           </div>
 
-          <div className="flex flex-col gap-4">
-            <div>
-              <Label htmlFor="file">
-                Accusé de réception de la demande complète de raccordement
-              </Label>
-              <Input type="file" id="file" name="file" required />
-            </div>
-
-            <div>
-              <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
-              <Input type="date" id="dateQualification" name="dateQualification" required />
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-4 m-auto">
-              <PrimaryButton type="submit">Transmettre</PrimaryButton>
-              <Link
-                href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
-                className="m-auto"
-              >
-                Retour vers le dossier de raccordement
-              </Link>
-            </div>
+          <div>
+            <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>
+            <Input type="file" id="file" name="file" required />
           </div>
-        </form>
+
+          <div>
+            <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
+            <Input type="date" id="dateQualification" name="dateQualification" required />
+          </div>
+          <div className="flex flex-col md:flex-row gap-4 m-auto">
+            <PrimaryButton type="submit">Transmettre</PrimaryButton>
+            <Link
+              href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
+              className="m-auto"
+            >
+              Retour vers le dossier de raccordement
+            </Link>
+          </div>
+        </Form>
         <InfoBox
           className="flex md:w-1/3 md:mx-auto"
           title="* Où trouver la référence du dossier de raccordement ?"

@@ -17,6 +17,7 @@ import {
   Table,
   Td,
   Th,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { REGIONS, Région } from '@modules/dreal/région';
@@ -34,11 +35,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
       <Heading1>Gérer les régions</Heading1>
       <Heading2>Ajouter un utilisateur région</Heading2>
 
-      <form
-        action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION}
-        method="post"
-        className="flex flex-col gap-4"
-      >
+      <Form action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION} method="post" className="mx-auto">
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
         <FormulaireChampsObligatoireLégende className="text-right" />
@@ -82,7 +79,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
         <PrimaryButton type="submit" id="submit" className="m-auto">
           Inviter
         </PrimaryButton>
-      </form>
+      </Form>
       {users.length === 0 ? (
         <ListeVide titre="Aucun utilisateur dreal à afficher" />
       ) : (

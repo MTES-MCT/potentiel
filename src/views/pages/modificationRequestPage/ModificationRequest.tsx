@@ -7,6 +7,7 @@ import {
   Heading1,
   Heading2,
   PrimaryButton,
+  Form,
 } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { userIs } from '@modules/users';
@@ -69,12 +70,11 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
           <DemandeDetails modificationRequest={modificationRequest} />
           <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
           {showPasserEnInstructionButton && (
-            <form
+            <Form
               method="post"
               action={ROUTES.ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION({
                 modificationRequestId: modificationRequest.id,
               })}
-              className="m-0"
             >
               <PrimaryButton
                 type="submit"
@@ -84,7 +84,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
               >
                 Passer le statut en instruction
               </PrimaryButton>
-            </form>
+            </Form>
           )}
         </div>
 

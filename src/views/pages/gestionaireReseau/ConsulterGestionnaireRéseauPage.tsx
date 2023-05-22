@@ -7,6 +7,7 @@ import {
   Label,
   Link,
   LegacyPageTemplate,
+  Form,
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '@views/helpers';
@@ -31,33 +32,35 @@ export const ConsulterGestionnaireRéseau = ({
 }: ConsulterGestionnaireRéseauProps) => (
   <LegacyPageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
     <Heading1>Gestionnaire de réseau ({raisonSociale})</Heading1>
-    <form method="post" action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(codeEIC)}>
-      <div className="flex gap-4 flex-col">
-        <FormulaireChampsObligatoireLégende className="self-end" />
-        <div>
-          <Label htmlFor="codeEIC">Code EIC</Label>
-          <Input type="text" id="codeEIC" name="codeEIC" defaultValue={codeEIC} disabled />
-        </div>
-        <div>
-          <Label htmlFor="raisonSociale" required>
-            Raison sociale
-          </Label>
-          <Input
-            type="text"
-            id="raisonSociale"
-            name="raisonSociale"
-            defaultValue={raisonSociale || ''}
-            required
-            error={erreurValidation ? erreurValidation['error-body.raisonSociale'] : undefined}
-          />
-        </div>
-        <ChampsAideALaSaisieIdentifiant format={format} légende={légende} />
+    <Form
+      method="post"
+      action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(codeEIC)}
+      className="mx-auto"
+    >
+      <FormulaireChampsObligatoireLégende className="self-end" />
+      <div>
+        <Label htmlFor="codeEIC">Code EIC</Label>
+        <Input type="text" id="codeEIC" name="codeEIC" defaultValue={codeEIC} disabled />
       </div>
-      <PrimaryButton type="submit" className="mt-4 mr-3">
-        Enregistrer
-      </PrimaryButton>
-      <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
-    </form>
+      <div>
+        <Label htmlFor="raisonSociale" required>
+          Raison sociale
+        </Label>
+        <Input
+          type="text"
+          id="raisonSociale"
+          name="raisonSociale"
+          defaultValue={raisonSociale || ''}
+          required
+          error={erreurValidation ? erreurValidation['error-body.raisonSociale'] : undefined}
+        />
+      </div>
+      <ChampsAideALaSaisieIdentifiant format={format} légende={légende} />
+      <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
+        <PrimaryButton type="submit">Enregistrer</PrimaryButton>
+        <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
+      </div>
+    </Form>
   </LegacyPageTemplate>
 );
 

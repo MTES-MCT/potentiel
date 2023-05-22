@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { dataId } from '../../../../helpers/testId';
 import toNumber from '../../../../helpers/toNumber';
 import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators';
 import {
@@ -59,19 +58,20 @@ export const ChangementPuissance = ({
 
   return (
     <>
-      <Label htmlFor="puissance-a-la-notification">
-        Puissance à la notification (en {appelOffre.unitePuissance})
-      </Label>
-      <Input
-        type="text"
-        disabled
-        value={puissanceInitiale}
-        {...dataId('modificationRequest-presentPuissanceField')}
-        name="puissance-a-la-notification"
-        id="puissance-a-la-notification"
-      />
+      <div>
+        <Label htmlFor="puissance-a-la-notification">
+          Puissance à la notification (en {appelOffre.unitePuissance})
+        </Label>
+        <Input
+          type="text"
+          disabled
+          value={puissanceInitiale}
+          name="puissance-a-la-notification"
+          id="puissance-a-la-notification"
+        />
+      </div>
       {puissance !== puissanceInitiale && (
-        <>
+        <div>
           <Label htmlFor="puissance-actuelle">
             Puissance actuelle ({appelOffre?.unitePuissance})
           </Label>
@@ -82,22 +82,23 @@ export const ChangementPuissance = ({
             name="puissance-actuelle"
             id="puissance-actuelle"
           />
-        </>
+        </div>
       )}
-      <Label className="mt-4" htmlFor="puissance">
-        Nouvelle puissance (en {appelOffre?.unitePuissance}) <Astérisque />
-      </Label>
-      <Input
-        type="text"
-        inputMode="numeric"
-        pattern="[0-9]+([\.,][0-9]+)?"
-        name="puissance"
-        id="puissance"
-        defaultValue={puissanceSaisie || ''}
-        {...dataId('modificationRequest-puissanceField')}
-        onChange={handlePuissanceOnChange}
-        required={true}
-      />
+      <div>
+        <Label htmlFor="puissance">
+          Nouvelle puissance (en {appelOffre?.unitePuissance}) <Astérisque />
+        </Label>
+        <Input
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]+([\.,][0-9]+)?"
+          name="puissance"
+          id="puissance"
+          defaultValue={puissanceSaisie || ''}
+          onChange={handlePuissanceOnChange}
+          required={true}
+        />
+      </div>
 
       {!CDC2022choisi && displayAlertHorsRatios && (
         <AlertePuissanceHorsRatios {...{ project: { appelOffre, technologie } }} />
@@ -111,8 +112,8 @@ export const ChangementPuissance = ({
         <ErrorBox title="Le format saisi n'est pas conforme, veuillez renseigner un nombre décimal." />
       )}
 
-      <div className="mt-4">
-        <Label htmlFor="justification" className="mt-4">
+      <div>
+        <Label htmlFor="justification">
           <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
           <br />
           Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
@@ -123,9 +124,10 @@ export const ChangementPuissance = ({
           name="justification"
           id="justification"
           defaultValue={justification || ''}
-          {...dataId('modificationRequest-justificationField')}
           required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
         />
+      </div>
+      <div>
         <Label
           htmlFor="candidats"
           className="mt-4"
@@ -137,7 +139,6 @@ export const ChangementPuissance = ({
         <Input
           type="file"
           name="file"
-          {...dataId('modificationRequest-fileField')}
           id="file"
           required={!CDC2022choisi && fichierEtJustificationRequis}
         />

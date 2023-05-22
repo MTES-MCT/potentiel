@@ -10,6 +10,7 @@ import {
   Heading1,
   TextArea,
   RichRadio,
+  Form,
 } from '@components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
 import routes from '@routes';
@@ -37,11 +38,11 @@ export const SignalerDemandeDelai = ({
       <Heading1>Enregistrer une demande de délai traitée hors Potentiel</Heading1>
       {error && <ErrorBox title={error} />}
 
-      <form
+      <Form
         action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST}
         method="POST"
         encType="multipart/form-data"
-        className="flex flex-col gap-5"
+        className="mx-auto"
       >
         <div>
           <FormulaireChampsObligatoireLégende className="text-right" />
@@ -152,13 +153,11 @@ export const SignalerDemandeDelai = ({
           />
         </div>
 
-        <div className="m-auto flex gap-4">
+        <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
           <PrimaryButton type="submit">Enregistrer</PrimaryButton>
-          <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
-            Annuler
-          </SecondaryLinkButton>
+          <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
         </div>
-      </form>
+      </Form>
     </LegacyPageTemplate>
   );
 };

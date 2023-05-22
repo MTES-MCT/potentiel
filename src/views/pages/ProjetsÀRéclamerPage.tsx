@@ -17,6 +17,7 @@ import {
   Select,
   SuccessBox,
   Fieldset,
+  Form,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 
@@ -80,7 +81,7 @@ export const ProjetsÀRéclamer = ({
           <img src="/images/numeroCRE_tooltip.jpg" className="mt-4 w-[700px]" />
         </Dropdown>
       </InfoBox>
-      <form
+      <Form
         action={ROUTES.USER_LIST_MISSING_OWNER_PROJECTS}
         method="GET"
         className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
@@ -97,40 +98,40 @@ export const ProjetsÀRéclamer = ({
           text="Filtrer"
           isOpen={afficherFiltres}
           changeOpenState={(state) => setAfficherFiltres(state)}
-          className="mt-8 mb-6 !w-full"
+          className="mt-8 !w-full"
         >
-          <Fieldset className="mt-4">
-            <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
-            <Select
-              id="appelOffreId"
-              name="appelOffreId"
-              defaultValue={appelOffreId || 'default'}
-              onChange={(event) =>
-                updateUrlParams({
-                  appelOffreId: event.target.value,
-                  periodeId: null,
-                  familleId: null,
-                  page: null,
-                })
-              }
-            >
-              <option value="default" disabled hidden>
-                Choisir un appel d‘offre
-              </option>
-              <option value="">Tous appels d'offres</option>
-              {appelsOffre
-                .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
-                .map((appelOffre) => (
-                  <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
-                    {appelOffre.shortTitle}
-                  </option>
-                ))}
-            </Select>
+          <Fieldset className="flex flex-col gap-4 mt-4">
+            <div>
+              <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+              <Select
+                id="appelOffreId"
+                name="appelOffreId"
+                defaultValue={appelOffreId || 'default'}
+                onChange={(event) =>
+                  updateUrlParams({
+                    appelOffreId: event.target.value,
+                    periodeId: null,
+                    familleId: null,
+                    page: null,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir un appel d‘offre
+                </option>
+                <option value="">Tous appels d'offres</option>
+                {appelsOffre
+                  .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
+                  .map((appelOffre) => (
+                    <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
+                      {appelOffre.shortTitle}
+                    </option>
+                  ))}
+              </Select>
+            </div>
             {appelOffreId && periodes && periodes.length > 0 && (
-              <>
-                <Label htmlFor="periodeId" className="mt-4">
-                  Période concernée
-                </Label>
+              <div>
+                <Label htmlFor="periodeId">Période concernée</Label>
                 <Select
                   id="periodeId"
                   name="periodeId"
@@ -152,13 +153,11 @@ export const ProjetsÀRéclamer = ({
                     </option>
                   ))}
                 </Select>
-              </>
+              </div>
             )}
             {appelOffreId && familles && familles.length > 0 && (
-              <>
-                <Label htmlFor="familleId" className="mt-4">
-                  Famille concernée
-                </Label>
+              <div>
+                <Label htmlFor="familleId">Famille concernée</Label>
                 <Select
                   id="familleId"
                   name="familleId"
@@ -180,17 +179,17 @@ export const ProjetsÀRéclamer = ({
                     </option>
                   ))}
                 </Select>
-              </>
+              </div>
             )}
           </Fieldset>
         </Dropdown>
 
         {hasFilters && (
-          <LinkButton className="mt-[10px]" href="#" onClick={resetUrlParams}>
+          <LinkButton href="#" onClick={resetUrlParams}>
             Retirer tous les filtres
           </LinkButton>
         )}
-      </form>
+      </Form>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox className="whitespace-pre-wrap">{error}</ErrorBox>}
       {projects ? (

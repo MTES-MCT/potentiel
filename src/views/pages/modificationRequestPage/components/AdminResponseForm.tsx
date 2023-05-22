@@ -1,4 +1,4 @@
-import { FormulaireChampsObligatoireLégende, PrimaryButton } from '@components';
+import { Form, FormulaireChampsObligatoireLégende, PrimaryButton } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
@@ -29,12 +29,7 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
   const { type, versionDate } = modificationRequest;
 
   return (
-    <form
-      action={getAdminRouteBasedOnType(type)}
-      method="post"
-      encType="multipart/form-data"
-      className="m-0"
-    >
+    <Form action={getAdminRouteBasedOnType(type)} method="post" encType="multipart/form-data">
       {type !== 'puissance' && <FormulaireChampsObligatoireLégende className="text-left mb-3" />}
       <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
       <input type="hidden" name="type" value={modificationRequest.type} />
@@ -57,6 +52,6 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
       >
         Rejeter la demande {ModificationRequestTitleByType[type]}
       </PrimaryButton>
-    </form>
+    </Form>
   );
 };

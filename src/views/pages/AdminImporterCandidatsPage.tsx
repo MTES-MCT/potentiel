@@ -9,6 +9,7 @@ import {
   Label,
   LegacyPageTemplate,
   SuccessBox,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../helpers';
 
@@ -28,7 +29,12 @@ export const AdminImporterCandidats = ({
   return (
     <LegacyPageTemplate user={request.user} currentPage="import-projects">
       <Heading1>Importer des candidats</Heading1>
-      <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
+      <Form
+        action={ROUTES.IMPORT_PROJECTS_ACTION}
+        method="post"
+        encType="multipart/form-data"
+        className="mx-auto"
+      >
         {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
         {!!importErrors && (
           <ErrorBox title="Le fichier n'a pas pu être importé à cause des erreurs suivantes :">
@@ -44,14 +50,14 @@ export const AdminImporterCandidats = ({
 
         {!!otherError && <ErrorBox title={otherError} className="mb-3" />}
 
-        <div className="form__group">
+        <div>
           <Label htmlFor="candidats">Fichier csv des candidats</Label>
           <Input type="file" name="candidats" id="candidats" required />
-          <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
-            Envoyer
-          </PrimaryButton>
         </div>
-      </form>
+        <PrimaryButton type="submit" name="submit" id="submit">
+          Envoyer
+        </PrimaryButton>
+      </Form>
     </LegacyPageTemplate>
   );
 };

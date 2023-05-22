@@ -17,6 +17,7 @@ import {
   Label,
   Select,
   Dropdown,
+  Form,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '@modules/project/queries';
@@ -58,7 +59,7 @@ export const GarantiesFinancieres = ({
     <LegacyPageTemplate user={request.user} currentPage="list-garanties-financieres">
       <Heading1>Garanties financières</Heading1>
 
-      <form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
+      <Form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
         <BarreDeRecherche
           placeholder="Rechercher par nom du projet"
           name="recherche"
@@ -101,7 +102,7 @@ export const GarantiesFinancieres = ({
                 ))}
             </Select>
             {appelOffreId && periodes && periodes.length > 0 && (
-              <>
+              <div>
                 <Label htmlFor="periodeId" className="mt-4">
                   Période concernée
                 </Label>
@@ -126,7 +127,7 @@ export const GarantiesFinancieres = ({
                     </option>
                   ))}
                 </Select>
-              </>
+              </div>
             )}
             {appelOffreId && familles && familles.length > 0 && (
               <>
@@ -182,7 +183,7 @@ export const GarantiesFinancieres = ({
             Retirer tous les filtres
           </LinkButton>
         )}
-      </form>
+      </Form>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
       {projects.items.length === 0 ? (

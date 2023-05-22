@@ -10,6 +10,7 @@ import {
   SecondaryButton,
   SuccessBox,
   StatutDemandeModification,
+  Form,
 } from '@components';
 import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components';
 import ROUTES from '@routes';
@@ -68,19 +69,17 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               </div>
             )}
             {status === 'en attente de confirmation' && user.role === 'porteur-projet' && (
-              <div>
-                <form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
-                  <input type="hidden" name="demandeAbandonId" value={id} />
-                  <PrimaryButton type="submit" className="mt-4">
-                    Je confirme ma demande
-                  </PrimaryButton>
-                </form>
-              </div>
+              <Form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
+                <input type="hidden" name="demandeAbandonId" value={id} />
+                <PrimaryButton type="submit" className="mt-4">
+                  Je confirme ma demande
+                </PrimaryButton>
+              </Form>
             )}
           </StatutDemandeModification>
 
           {status === 'rejetée' && userIs(['admin', 'dgec-validateur'])(user) && (
-            <form method="post" action={ROUTES.ADMIN_ANNULER_ABANDON_REJETE} className="m-0 mt-4">
+            <Form method="post" action={ROUTES.ADMIN_ANNULER_ABANDON_REJETE} className="m-0 mt-4">
               <SecondaryButton
                 type="submit"
                 value={id}
@@ -89,7 +88,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               >
                 Annuler le rejet de la demande
               </SecondaryButton>
-            </form>
+            </Form>
           )}
         </div>
         {showFormulaireAdministrateur && (
@@ -113,7 +112,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
         )}
         {userIs('porteur-projet')(user) &&
           ['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
-            <form action={ROUTES.ANNULER_DEMANDE_ABANDON_ACTION} method="post" className="m-0">
+            <Form action={ROUTES.ANNULER_DEMANDE_ABANDON_ACTION} method="post" className="m-0">
               <input type="hidden" name="modificationRequestId" value={id} />
 
               <SecondaryButton
@@ -124,7 +123,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               >
                 Annuler la demande
               </SecondaryButton>
-            </form>
+            </Form>
           )}
       </div>
     </LegacyPageTemplate>

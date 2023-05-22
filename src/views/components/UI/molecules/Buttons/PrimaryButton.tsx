@@ -12,7 +12,7 @@ export const PrimaryButton: FC<PrimaryButtonProps> = ({
 }) => (
   <Button
     className={`disabled:cursor-not-allowed disabled:bg-neutral-200 disabled:text-grey-625-base cursor-pointer
-                border-transparent bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active text-white
+                border-transparent bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active text-white mr-auto
                 ${className}`}
     confirmation={confirmation}
     {...props}

@@ -9,6 +9,7 @@ import {
   Container,
   LinkButton,
   SecondaryLinkButton,
+  Form,
 } from '@components';
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine';
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
@@ -60,7 +61,7 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
     </h1>
 
     <div className="w-full md:w-1/2 lg:w-2/5 md:p-8 lg:p-10 xl:p-14">
-      <form
+      <Form
         action={routes.POST_SIGNUP}
         method="POST"
         className="flex flex-col gap-3 p-4 mx-0 bg-white"
@@ -127,7 +128,7 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
           </PrimaryButton>
           <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
         </div>
-      </form>
+      </Form>
     </div>
   </Container>
 );

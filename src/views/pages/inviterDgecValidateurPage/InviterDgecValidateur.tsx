@@ -11,6 +11,7 @@ import {
   LegacyPageTemplate,
   RésultatSoumissionFormulaire,
   RésultatSoumissionFormulaireProps,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -30,10 +31,10 @@ export const InviterDgecValidateur = ({
       {résultatSoumissionFormulaire && (
         <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
       )}
-      <form
+      <Form
         action={routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION}
         method="post"
-        className="flex flex-col gap-4"
+        className="mx-auto"
       >
         <FormulaireChampsObligatoireLégende className="text-right" />
         <input type="hidden" name="role" value="dgec-validateur" />
@@ -52,6 +53,8 @@ export const InviterDgecValidateur = ({
                 error: résultatSoumissionFormulaire.erreursDeValidation['email'],
               })}
           />
+        </div>
+        <div>
           <Label htmlFor="fonction" required>
             Fonction :
           </Label>
@@ -69,7 +72,7 @@ export const InviterDgecValidateur = ({
         <PrimaryButton type="submit" id="submit" className="m-auto">
           Inviter
         </PrimaryButton>
-      </form>
+      </Form>
     </LegacyPageTemplate>
   );
 };

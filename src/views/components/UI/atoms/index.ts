@@ -14,3 +14,4 @@ export * from './ListeVide';
 export * from './Select';
 export * from './Fieldset';
 export * from './table';
+export * from './Form';

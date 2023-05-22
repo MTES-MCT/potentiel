@@ -3,7 +3,7 @@ import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.';
 import routes from '@routes';
 import { makeDocumentUrl } from '../helpers';
 import { AttachedFileItemProps } from '../helpers/extractAttachedFileItemProps';
-import { DownloadLink, SecondaryButton, TrashIcon } from '@components';
+import { DownloadLink, Form, SecondaryButton, TrashIcon } from '@components';
 
 export const AttachedFileItem = (props: AttachedFileItemProps) => {
   const { date, title, description, files, isOwner, attachmentId, projectId, attachedBy } = props;
@@ -30,7 +30,7 @@ export const AttachedFileItem = (props: AttachedFileItemProps) => {
           </div>
         ) : null}
         {isOwner && (
-          <form
+          <Form
             className="p-0 ml-0 mt-2"
             method="post"
             action={routes.RETIRER_FICHIER_DU_PROJET_ACTION}
@@ -44,7 +44,7 @@ export const AttachedFileItem = (props: AttachedFileItemProps) => {
               <TrashIcon className="h-4 w-4 mr-2 align-middle text-error-425-base" />
               Retirer
             </SecondaryButton>
-          </form>
+          </Form>
         )}
       </ContentArea>
     </>

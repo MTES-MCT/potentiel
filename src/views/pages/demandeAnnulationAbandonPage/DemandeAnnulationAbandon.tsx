@@ -1,6 +1,7 @@
 import {
   DownloadLink,
   ErrorBox,
+  Form,
   Heading1,
   Heading2,
   LegacyPageTemplate,
@@ -75,11 +76,7 @@ export const DemandeAnnulationAbandon = ({
 
           {userIs('porteur-projet')(user) &&
             ['envoyée', 'en-instruction', 'en attente de confirmation'].includes(status) && (
-              <form
-                action={ROUTES.POST_ANNULER_DEMANDE_ANNULATION_ABANDON}
-                method="post"
-                style={{ margin: 0 }}
-              >
+              <Form action={ROUTES.POST_ANNULER_DEMANDE_ANNULATION_ABANDON} method="post">
                 <input type="hidden" name="demandeId" value={id} />
 
                 <SecondaryButton
@@ -90,7 +87,7 @@ export const DemandeAnnulationAbandon = ({
                 >
                   Annuler la demande
                 </SecondaryButton>
-              </form>
+              </Form>
             )}
         </div>
       </div>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ModificationRequestStatusDTO } from '@modules/modificationRequest';
-import { SecondaryButton } from '@views/components';
+import { Form, SecondaryButton } from '@views/components';
 
 interface CancelButtonProps {
   status: ModificationRequestStatusDTO;
@@ -9,7 +9,7 @@ interface CancelButtonProps {
 }
 export const AnnulerDemandeDélaiBouton = ({ status, id, route }: CancelButtonProps) =>
   (['envoyée', 'en instruction'].includes(status) && (
-    <form action={route} method="post" className="m-0">
+    <Form action={route} method="post" className="m-0">
       <input type="hidden" name="modificationRequestId" value={id} />
 
       <SecondaryButton
@@ -20,6 +20,6 @@ export const AnnulerDemandeDélaiBouton = ({ status, id, route }: CancelButtonPr
       >
         Annuler la demande
       </SecondaryButton>
-    </form>
+    </Form>
   )) ||
   null;

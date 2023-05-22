@@ -12,6 +12,7 @@ import {
   FormulaireChampsObligatoireLégende,
   TextArea,
   RichRadio,
+  Form,
 } from '@components';
 import routes from '@routes';
 import { ProjectDataForSignalerDemandeRecoursPage } from '@modules/project';
@@ -33,11 +34,11 @@ export const SignalerDemandeRecours = ({
     <LegacyPageTemplate user={user} currentPage="list-projects">
       <Heading1>Enregistrer une demande de recours traitée hors Potentiel</Heading1>
       {error && <ErrorBox title={error} />}
-      <form
+      <Form
         action={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_POST}
         method="POST"
         encType="multipart/form-data"
-        className="flex flex-col gap-5"
+        className="mx-auto"
       >
         <div>
           <p className="m-0">Pour le projet</p>
@@ -104,13 +105,11 @@ export const SignalerDemandeRecours = ({
             id="notes"
           />
         </div>
-        <div className="m-auto flex gap-4">
+        <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
           <PrimaryButton type="submit">Enregistrer</PrimaryButton>
-          <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
-            Annuler
-          </SecondaryLinkButton>
+          <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
         </div>
-      </form>
+      </Form>
     </LegacyPageTemplate>
   );
 };

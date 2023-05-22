@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import React from 'react';
 import { User } from '@entities';
-import { dataId } from '../../../helpers/testId';
 import ROUTES from '@routes';
 import {
   PrimaryButton,
@@ -18,6 +17,7 @@ import {
   Table,
   Td,
   Th,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -36,7 +36,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
       <Heading2>Ajouter un utilisateur</Heading2>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
-      <form action={ROUTES.ADMIN_INVITE_USER_ACTION} method="post" className="flex flex-col gap-4">
+      <Form action={ROUTES.ADMIN_INVITE_USER_ACTION} method="post" className="mx-auto">
         <FormulaireChampsObligatoireLégende className="text-right" />
         <div>
           <Label htmlFor="email" required>
@@ -74,7 +74,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
         <PrimaryButton className="m-auto" type="submit" id="submit">
           Inviter
         </PrimaryButton>
-      </form>
+      </Form>
 
       {users.length === 0 ? (
         <ListeVide titre="Aucun partenaire à afficher" />
@@ -89,16 +89,14 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
               </tr>
             </thead>
             <tbody>
-              {users.map(({ id, fullName, email, role }) => {
-                return (
-                  <tr key={'user_' + id} {...dataId('userList-item')}>
-                    <Td valign="top">
-                      {fullName} ({email})
-                    </Td>
-                    <Td valign="top">{role}</Td>
-                  </tr>
-                );
-              })}
+              {users.map(({ id, fullName, email, role }) => (
+                <tr key={`user_${id}`}>
+                  <Td valign="top">
+                    {fullName} ({email})
+                  </Td>
+                  <Td valign="top">{role}</Td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </>

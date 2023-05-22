@@ -10,6 +10,7 @@ import {
   Table,
   Td,
   Th,
+  Form,
 } from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
@@ -153,10 +154,10 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
   return (
     <>
-      <form
+      <Form
         action={routes.USER_CLAIM_PROJECTS}
         encType="multipart/form-data"
-        className="max-w-full"
+        className="!max-w-full"
         method="post"
       >
         <Table>
@@ -202,7 +203,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
         <input type="hidden" name="projectIds" value={selectedProjectList} />
 
-        <AlertBox className="my-8">
+        <AlertBox className="my-4">
           <>
             <RichCheckbox
               name="swornStatement"
@@ -223,7 +224,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
             )}
           </>
         </AlertBox>
-      </form>
+      </Form>
 
       {!Array.isArray(projects) && (
         <PaginationPanel

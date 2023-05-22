@@ -12,6 +12,7 @@ import {
   Link,
   PageProjetTemplate,
   PlugIcon,
+  Form,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import routes from '@routes';
@@ -46,7 +47,7 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
       résuméProjet={résuméProjet}
     >
       <div className="flex flex-col md:flex-row gap-4">
-        <form
+        <Form
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
@@ -58,7 +59,7 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2 className="mb-0">Transmettre la proposition technique et financière</Heading2>
 
-          <Callout className="text-sm my-4 px-3 pt-1 pb-0">
+          <Callout className="text-sm px-3 pt-1 pb-0">
             <ul className="list-none p-0">
               <li className="my-0">
                 Référence du dossier de raccordement :{' '}
@@ -93,7 +94,7 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
               Retour vers le dossier de raccordement
             </Link>
           </div>
-        </form>
+        </Form>
 
         <InfoBox className="flex md:w-1/3 md:mx-auto" title="Concernant le dépôt">
           Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire.

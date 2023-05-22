@@ -9,6 +9,7 @@ import {
   Table,
   Td,
   Th,
+  Form,
 } from '@components';
 import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
 import ROUTES from '@routes';
@@ -78,16 +79,12 @@ export const InvitationsCandidatsEnAttente = ({
                       {invitation.invitedOn ? afficherDateAvecHeure(invitation.invitedOn) : ''}
                     </Td>
                     <Td>
-                      <form
-                        action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION}
-                        method="POST"
-                        style={{}}
-                      >
+                      <Form action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION} method="POST">
                         <input type="hidden" name="email" value={invitation.email} />
                         <SecondaryButton type="submit" name="submit" className="border-none">
                           relancer
                         </SecondaryButton>
-                      </form>
+                      </Form>
                     </Td>
                   </tr>
                 );
