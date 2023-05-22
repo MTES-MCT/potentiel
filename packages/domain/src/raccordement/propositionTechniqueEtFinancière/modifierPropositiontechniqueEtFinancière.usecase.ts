@@ -8,6 +8,7 @@ import {
   buildEnregistrerPropositionTechniqueEtFinancièreSignéeCommand,
 } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 import { buildSupprimerPropositionTechniqueEtFinancièreSignéeCommand } from './supprimerPropositionTechniqueEtFinancièreSignée/supprimerPropositionTechniqueEtFinancièreSignée.command';
+import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement';
 
 const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
@@ -26,13 +27,23 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     référenceDossierRaccordement,
     propositionTechniqueEtFinancière,
   }) => {
+    const dossierRaccordement = await mediator.send(
+      buildConsulterDossierRaccordementQuery({
+        identifiantProjet,
+        référence: référenceDossierRaccordement,
+      }),
+    );
+
     await mediator.send(
       buildSupprimerPropositionTechniqueEtFinancièreSignéeCommand({
         identifiantProjet,
         référenceDossierRaccordement,
-        propositionTechniqueEtFinancière,
+        propositionTechniqueEtFinancière: {
+          format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
+        },
       }),
     );
+
     await mediator.send(
       buildModifierPropositionTechniqueEtFinancièreCommand({
         identifiantProjet,
