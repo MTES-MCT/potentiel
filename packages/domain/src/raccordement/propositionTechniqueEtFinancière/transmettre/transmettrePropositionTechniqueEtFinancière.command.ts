@@ -4,13 +4,13 @@ import { PropositionTechniqueEtFinancièreTransmiseEvent } from './propositionTe
 import { isNone } from '@potentiel/monads';
 import { Readable } from 'stream';
 import { FichierPropositionTechniqueEtFinancièreTransmisEvent } from './fichierPropositionTechniqueEtFinancièreTransmis.event';
-import { EnregistrerFichierPropositionTechniqueEtFinancière } from './enregistrerFichierPropositionTechniqueEtFinancière';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
+import { EnregistrerFichierPropositionTechniqueEtFinancièrePort } from './enregistrerFichierPropositionTechniqueEtFinancière.port';
 import {
   loadRaccordementAggregateFactory,
   createRaccordementAggregateId,
 } from '../../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 const TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
@@ -32,7 +32,7 @@ type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
 export type TransmettrePropositionTechniqueEtFinancièreDependencies = {
   loadAggregate: LoadAggregate;
   publish: Publish;
-  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;
+  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancièrePort;
 };
 
 export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
@@ -87,8 +87,8 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
     );
 
     await enregistrerFichierPropositionTechniqueEtFinancière({
-      identifiantProjet,
-      référenceDossierRaccordement,
+      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      référence: référenceDossierRaccordement,
       format,
       content,
     });

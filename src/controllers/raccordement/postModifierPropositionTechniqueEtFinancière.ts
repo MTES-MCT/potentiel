@@ -104,7 +104,7 @@ v1Router.post(
         await mediator.send(
           buildModifierPropositionTechniqueEtFinancièreCommand({
             identifiantProjet,
-            référenceDossierRaccordement: reference,
+            référence: reference,
             dateSignature,
             nouveauFichier: {
               format: file.mimetype,

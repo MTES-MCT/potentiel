@@ -28,10 +28,15 @@ export type DomainDependencies = {
   event: {
     create: Create;
     update: Update;
-    find: Find;
     remove: Remove;
   };
-  raccordement: RaccordementDependencies;
+  raccordement: Omit<
+    RaccordementDependencies,
+    | keyof DomainDependencies['command']
+    | keyof DomainDependencies['query']
+    | keyof DomainDependencies['event']
+    | 'subscribe'
+  >;
 };
 
 export const setupDomain = ({
@@ -50,9 +55,11 @@ export const setupDomain = ({
 
   const unsubscribes = [
     ...setupGestionnaireRéseau({
-      commonDependencies,
+      ...commonDependencies,
     }),
-    ...setupProjet({}),
+    ...setupProjet({
+      ...commonDependencies,
+    }),
     ...setupRaccordement({
       ...commonDependencies,
       ...raccordement,

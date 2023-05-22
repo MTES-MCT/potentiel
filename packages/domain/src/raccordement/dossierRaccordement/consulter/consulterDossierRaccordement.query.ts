@@ -2,8 +2,8 @@ import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 export const CONSULTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('CONSULTER_DOSSIER_RACCORDEMENT_QUERY');
 

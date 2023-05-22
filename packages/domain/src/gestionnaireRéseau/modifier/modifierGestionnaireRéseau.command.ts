@@ -10,7 +10,7 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 
 const MODIFIER_GESTIONNAIRE_RÉSEAU = Symbol('MODIFIER_GESTIONNAIRE_RÉSEAU');
 
-type ModifierGestionnaireRéseauCommand = Message<
+export type ModifierGestionnaireRéseauCommand = Message<
   typeof MODIFIER_GESTIONNAIRE_RÉSEAU,
   {
     codeEIC: string;
@@ -19,7 +19,10 @@ type ModifierGestionnaireRéseauCommand = Message<
   }
 >;
 
-type ModifierGestionnaireRéseauDependencies = { publish: Publish; loadAggregate: LoadAggregate };
+export type ModifierGestionnaireRéseauDependencies = {
+  publish: Publish;
+  loadAggregate: LoadAggregate;
+};
 
 export const registerModifierGestionnaireRéseauCommand = ({
   publish,

@@ -1,9 +1,9 @@
 import { mediator, MessageHandler, Message, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet } from '../../projet';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './consulterAccuséRéception/accuséRéceptionDemandeComplèteRaccordement.readModel';
 import { buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
 import { DossierRaccordementReadModel } from '../dossierRaccordement/consulter/dossierRaccordement.readModel';
+import { IdentifiantProjet } from '../../projet/identifiantProjet';
 
 const CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
   'CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',

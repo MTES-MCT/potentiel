@@ -19,7 +19,7 @@ type AjouterGestionnaireRéseauCommand = Message<
   }
 >;
 
-type AjouterGestionnaireRéseauDependencies = {
+export type AjouterGestionnaireRéseauDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
 };

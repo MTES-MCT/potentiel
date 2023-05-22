@@ -1,4 +1,4 @@
-import { setupDemandeCompléteRaccordement } from './demandeCompléteRaccordement/demandCompléteRaccordement.setup';
+import { setupDemandeCompléteRaccordement } from './demandeCompléteRaccordement/demandeCompléteRaccordement.setup';
 import { setupDossierRaccordement } from './dossierRaccordement/dossierRaccordement.setup';
 import { setupMiseEnPlace } from './miseEnService/miseEnService.setup';
 import { setupPropostionTechniqueEtFinancière } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.setup';

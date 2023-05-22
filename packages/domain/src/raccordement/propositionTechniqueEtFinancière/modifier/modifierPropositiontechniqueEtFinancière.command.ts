@@ -4,15 +4,15 @@ import { PropositionTechniqueEtFinancièreModifiéeEvent } from './PropositionTe
 import { isNone } from '@potentiel/monads';
 import { Readable } from 'stream';
 import {
-  EnregistrerFichierPropositionTechniqueEtFinancière,
+  EnregistrerFichierPropositionTechniqueEtFinancièrePort,
   FichierPropositionTechniqueEtFinancièreTransmisEvent,
 } from '../transmettre';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
@@ -23,7 +23,7 @@ type ModifierPropositionTechniqueEtFinancièreCommand = Message<
   {
     identifiantProjet: IdentifiantProjet;
     dateSignature: Date;
-    référenceDossierRaccordement: string;
+    référence: string;
     nouveauFichier: { format: string; content: Readable };
   }
 >;
@@ -31,7 +31,7 @@ type ModifierPropositionTechniqueEtFinancièreCommand = Message<
 export type ModifierPropositionTechniqueEtFinancièreDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
-  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancière;
+  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerFichierPropositionTechniqueEtFinancièrePort;
 };
 
 export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
@@ -41,7 +41,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
 }: ModifierPropositionTechniqueEtFinancièreDependencies) => {
   const handler: MessageHandler<ModifierPropositionTechniqueEtFinancièreCommand> = async ({
     identifiantProjet,
-    référenceDossierRaccordement,
+    référence,
     dateSignature,
     nouveauFichier: { format, content },
   }) => {
@@ -51,7 +51,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
+    if (isNone(raccordement) || !raccordement.références.includes(référence)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -61,7 +61,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
         payload: {
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
           dateSignature: dateSignature.toISOString(),
-          référenceDossierRaccordement,
+          référenceDossierRaccordement: référence,
         },
       };
 
@@ -75,7 +75,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
         type: 'FichierPropositionTechniqueEtFinancièreTransmis',
         payload: {
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-          référenceDossierRaccordement,
+          référenceDossierRaccordement: référence,
           format,
         },
       };
@@ -86,8 +86,8 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
     );
 
     await enregistrerFichierPropositionTechniqueEtFinancière({
-      identifiantProjet,
-      référenceDossierRaccordement,
+      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      référence,
       format,
       content,
     });

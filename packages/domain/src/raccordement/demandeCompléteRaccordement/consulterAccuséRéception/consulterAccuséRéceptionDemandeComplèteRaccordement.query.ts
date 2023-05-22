@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Readable } from 'stream';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './accuséRéceptionDemandeComplèteRaccordement.readModel';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 export const CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT = Symbol(
   'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',

@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import {
   loadRaccordementAggregateFactory,
   createRaccordementAggregateId,
@@ -9,6 +8,7 @@ import {
 import { DemandeComplèteRaccordementModifiéeEvent } from './demandeComplèteRaccordementModifiée.event';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

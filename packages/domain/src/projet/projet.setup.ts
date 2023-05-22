@@ -1,31 +1,25 @@
-import { DomainDependencies } from '../domain.dependencies';
 import { registerConsulterProjetQuery } from './consulter/consulterProjet.query';
-import { gestionnaireRéseauProjetModifiéHandlerFactory } from './handlers/gestionnaireRéseauProjetModifié.handler';
-import {
-  registerModifierGestionnaireRéseauProjetCommand,
-  registerModifierGestionnaireRéseauProjetUseCase,
-} from './modifierGestionnaireRéseau';
+import { gestionnaireRéseauProjetModifiéHandlerFactory } from './modifierGestionnaireRéseau/handlers/gestionnaireRéseauProjetModifié.handler';
+import { registerModifierGestionnaireRéseauProjetCommand } from './modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.command';
+import { registerModifierGestionnaireRéseauProjetUseCase } from './modifierGestionnaireRéseauProjet.usecase';
+import { ProjetDependencies } from './projet.dependencies';
 
-export const setupProjet = ({
-  command: commandPorts,
-  query: queryPorts,
-  event: eventPorts,
-  subscribe,
-}: DomainDependencies) => {
+export const setupProjet = (dependencies: ProjetDependencies) => {
   // Queries
-  registerConsulterProjetQuery(queryPorts);
+  registerConsulterProjetQuery(dependencies);
 
   // Commands
-  registerModifierGestionnaireRéseauProjetCommand(commandPorts);
+  registerModifierGestionnaireRéseauProjetCommand(dependencies);
 
   // Use cases
   registerModifierGestionnaireRéseauProjetUseCase();
 
-  // Events
+  // Subscribes
+  const { subscribe } = dependencies;
   return [
     subscribe(
       'GestionnaireRéseauProjetModifié',
-      gestionnaireRéseauProjetModifiéHandlerFactory(eventPorts),
+      gestionnaireRéseauProjetModifiéHandlerFactory(dependencies),
     ),
   ];
 };

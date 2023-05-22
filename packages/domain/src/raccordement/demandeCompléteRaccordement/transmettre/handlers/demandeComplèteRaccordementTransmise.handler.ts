@@ -1,9 +1,9 @@
 import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../demandeComplèteRaccordementTransmise.event';
-import { ProjetReadModel } from '../../../../projet';
 import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement/lister/listeDossierRaccordement.readModel';
 import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
+import { ProjetReadModel } from '../../../../projet/projet.readModel';
 
 export type DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies = {
   create: Create;

@@ -1,14 +1,14 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import {
   DossierRaccordementNonRéférencéError,
   FormatFichierInexistantError,
 } from '../../raccordement.errors';
-import { RécupérerFichierPropositionTechniqueEtFinancière } from './récupérerFichierPropositionTechniqueEtFinancière';
+import { RécupérerFichierPropositionTechniqueEtFinancièrePort } from './récupérerFichierPropositionTechniqueEtFinancière.port';
 import { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './fichierPropositionTechniqueEtFinancière.readModel';
 import { DossierRaccordementReadModel } from '../../dossierRaccordement/consulter/dossierRaccordement.readModel';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 const TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE = Symbol(
   'TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE',
@@ -16,14 +16,14 @@ const TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE = Symbol(
 
 export type TéléchargerFichierPropositionTechniqueEtFinancièreDependencies = {
   find: Find;
-  récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancière;
+  récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancièrePort;
 };
 
 export type TéléchargerFichierPropositionTechniqueEtFinancièreQuery = Message<
   typeof TÉLÉCHARGER_FICHIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE,
   {
     identifiantProjet: IdentifiantProjet;
-    référenceDossierRaccordement: string;
+    référence: string;
   },
   TéléchargerFichierPropositionTechniqueEtFinancièreReadModel
 >;
@@ -34,7 +34,7 @@ export const registerTéléchargerFichierPropositionTechniqueEtFinancièreQuery 
 }: TéléchargerFichierPropositionTechniqueEtFinancièreDependencies) => {
   const handler: MessageHandler<TéléchargerFichierPropositionTechniqueEtFinancièreQuery> = async ({
     identifiantProjet,
-    référenceDossierRaccordement,
+    référence: référenceDossierRaccordement,
   }) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
       `dossier-raccordement#${formatIdentifiantProjet(
@@ -54,8 +54,8 @@ export const registerTéléchargerFichierPropositionTechniqueEtFinancièreQuery 
     }
 
     const fichier = await récupérerFichierPropositionTechniqueEtFinancière({
-      identifiantProjet,
-      référenceDossierRaccordement,
+      référence: référenceDossierRaccordement,
+      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       format: dossierRaccordement.propositionTechniqueEtFinancière.format,
     });
 

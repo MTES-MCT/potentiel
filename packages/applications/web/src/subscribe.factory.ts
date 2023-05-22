@@ -3,12 +3,13 @@ import {
   gestionnaireRéseauAjoutéHandlerFactory,
   gestionnaireRéseauModifiéHandlerFactory,
   demandeComplèteRaccordementTransmiseHandlerFactory,
-  dateMiseEnServiceTransmiseHandlerFactory,
   propositionTechniqueEtFinancièreTransmiseHandlerFactory,
   demandeComplèteRaccordementeModifiéeHandlerFactory,
-  gestionnaireRéseauProjetModifiéHandlerFactory,
   propositionTechniqueEtFinancièreModifiéeHandlerFactory,
   accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
+  fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory,
+  dateMiseEnServiceTransmiseHandlerFactory,
+  gestionnaireRéseauProjetModifiéHandlerFactory,
 } from '@potentiel/domain';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import {

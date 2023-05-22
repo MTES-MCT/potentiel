@@ -14,7 +14,7 @@ export type ConsulterGestionnaireRéseauQuery = Message<
   GestionnaireRéseauReadModel
 >;
 
-type ConsulterGestionnaireRéseauDependencies = {
+export type ConsulterGestionnaireRéseauDependencies = {
   find: Find;
 };
 

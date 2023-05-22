@@ -18,7 +18,7 @@ Quand(
     await mediator.send(
       buildModifierPropositionTechniqueEtFinancièreCommand({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
-        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        référence: this.raccordementWorld.référenceDossierRaccordement,
         dateSignature: new Date(dateSignature),
         nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
       }),
@@ -66,7 +66,7 @@ Quand(
         buildModifierPropositionTechniqueEtFinancièreCommand({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           dateSignature: new Date('2023-04-26'),
-          référenceDossierRaccordement: 'dossier-inconnu',
+          référence: 'dossier-inconnu',
           nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
         }),
       );

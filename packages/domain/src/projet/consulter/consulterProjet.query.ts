@@ -1,8 +1,8 @@
 import { Find } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '..';
 import { ProjetReadModel } from '../projet.readModel';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../identifiantProjet';
 
 const CONSULTER_PROJET = Symbol('CONSULTER_PROJET');
 
@@ -14,7 +14,7 @@ export type ConsulterProjetQuery = Message<
   ProjetReadModel
 >;
 
-type ConsulterProjetDependencies = {
+export type ConsulterProjetDependencies = {
   find: Find;
 };
 

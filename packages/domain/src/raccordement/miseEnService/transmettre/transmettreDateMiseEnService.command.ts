@@ -2,12 +2,12 @@ import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { DateMiseEnServiceTransmiseEvent } from './dateMiseEnServiceTransmise.event';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 const TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND = Symbol('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND');
 

@@ -1,6 +1,6 @@
 import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '.';
 import { GestionnaireRéseauProjetModifiéEvent } from './modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.event';
+import { IdentifiantProjet, formatIdentifiantProjet } from './identifiantProjet';
 
 type ProjetAggregateId = `projet#${string}`;
 

@@ -1,8 +1,4 @@
 import { setupDomain } from '@potentiel/domain';
-import {
-  enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-  enregistrerFichierPropositionTechniqueEtFinancière,
-} from '@potentiel/infra-adapters';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
@@ -11,6 +7,13 @@ import {
   removeProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
+import {
+  téléchargerAccuséRéceptionDemandeComplèteRaccordement,
+  téléchargerPropositionTechniqueEtFinancièreSignée,
+  téléverserAccuséRéceptionDemandeComplèteRaccordement,
+  téléverserPropositionTechniqueEtFinancièreSignée,
+  supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+} from '@potentiel/infra-adapters/dist/raccordement';
 import { subscribeFactory } from './subscribe.factory';
 
 export const bootstrap = async () => {
@@ -25,13 +28,20 @@ export const bootstrap = async () => {
     },
     event: {
       create: createProjection,
-      find: findProjection,
       remove: removeProjection,
       update: updateProjection,
     },
     raccordement: {
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-      enregistrerFichierPropositionTechniqueEtFinancière,
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
+        téléverserAccuséRéceptionDemandeComplèteRaccordement,
+      enregistrerFichierPropositionTechniqueEtFinancière:
+        téléverserPropositionTechniqueEtFinancièreSignée,
+      récupérerAccuséRéceptionDemandeComplèteRaccordement:
+        téléchargerAccuséRéceptionDemandeComplèteRaccordement,
+      récupérerFichierPropositionTechniqueEtFinancière:
+        téléchargerPropositionTechniqueEtFinancièreSignée,
+      supprimerAccuséRéceptionDemandeComplèteRaccordement:
+        supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
     },
     subscribe: await subscribeFactory(),
   });

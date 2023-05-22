@@ -3,7 +3,7 @@ import { isSome } from '@potentiel/monads';
 import { DateMiseEnServiceTransmiseEvent } from '../dateMiseEnServiceTransmise.event';
 import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
-export type DateMiseEnServiceTransmiseHandlerFactory = {
+export type DateMiseEnServiceTransmiseDependencies = {
   find: Find;
   update: Update;
 };
@@ -13,7 +13,7 @@ export type DateMiseEnServiceTransmiseHandlerFactory = {
  */
 export const dateMiseEnServiceTransmiseHandlerFactory: DomainEventHandlerFactory<
   DateMiseEnServiceTransmiseEvent,
-  DateMiseEnServiceTransmiseHandlerFactory
+  DateMiseEnServiceTransmiseDependencies
 > =
   ({ find, update }) =>
   async (event) => {

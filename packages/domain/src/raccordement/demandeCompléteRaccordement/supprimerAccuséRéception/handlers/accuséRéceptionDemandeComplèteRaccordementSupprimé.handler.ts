@@ -8,7 +8,7 @@ export type SupprimerAccuséRéceptionDemandeComplèteRaccordementPort = (args: 
 }) => Promise<void>;
 
 export type AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies = {
-  supprimerAccuséRéceptionDemandeComplèteRaccordementPort: SupprimerAccuséRéceptionDemandeComplèteRaccordementPort;
+  supprimerAccuséRéceptionDemandeComplèteRaccordement: SupprimerAccuséRéceptionDemandeComplèteRaccordementPort;
 };
 
 /**
@@ -18,9 +18,9 @@ export const accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactor
   AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent,
   AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies
 > =
-  ({ supprimerAccuséRéceptionDemandeComplèteRaccordementPort }) =>
+  ({ supprimerAccuséRéceptionDemandeComplèteRaccordement }) =>
   async ({ payload: { format, référence, identifiantProjet } }) => {
-    await supprimerAccuséRéceptionDemandeComplèteRaccordementPort({
+    await supprimerAccuséRéceptionDemandeComplèteRaccordement({
       identifiantProjet,
       référence,
       format,

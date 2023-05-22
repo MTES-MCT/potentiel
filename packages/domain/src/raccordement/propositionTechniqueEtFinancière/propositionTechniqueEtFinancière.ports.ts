@@ -1,3 +1,3 @@
-export { RenommerPropositionTechniqueEtFinancière } from './renommerPropositionTechniqueEtFinancière';
-export { RécupérerFichierPropositionTechniqueEtFinancière } from './consulter/récupérerFichierPropositionTechniqueEtFinancière';
-export { EnregistrerFichierPropositionTechniqueEtFinancière } from './transmettre/enregistrerFichierPropositionTechniqueEtFinancière';
+export { RenommerPropositionTechniqueEtFinancièrePort } from './renommerPropositionTechniqueEtFinancière.port';
+export { RécupérerFichierPropositionTechniqueEtFinancièrePort } from './consulter/récupérerFichierPropositionTechniqueEtFinancière.port';
+export { EnregistrerFichierPropositionTechniqueEtFinancièrePort } from './transmettre/enregistrerFichierPropositionTechniqueEtFinancière.port';

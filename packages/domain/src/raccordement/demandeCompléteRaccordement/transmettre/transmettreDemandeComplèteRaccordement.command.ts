@@ -4,15 +4,15 @@ import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRa
 import { isSome } from '@potentiel/monads';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 import {
-  IdentifiantGestionnaireRéseau,
-  formatIdentifiantGestionnaireRéseau,
-} from '../../../gestionnaireRéseau';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
-import {
   loadRaccordementAggregateFactory,
   createRaccordementAggregateId,
 } from '../../raccordement.aggregate';
 import { PlusieursGestionnairesRéseauPourUnProjetError } from '../../raccordement.errors';
+import {
+  IdentifiantGestionnaireRéseau,
+  formatIdentifiantGestionnaireRéseau,
+} from '../../../gestionnaireRéseau/identifiantGestionnaireRéseau';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

@@ -1,30 +1,26 @@
-import { DomainDependencies } from '../domain.dependencies';
-import { gestionnaireRéseauAjoutéHandlerFactory } from './ajouter';
 import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
+import { gestionnaireRéseauAjoutéHandlerFactory } from './ajouter/handlers/gestionnaireRéseauAjouté.handler';
 import { registerConsulterGestionnaireRéseauQuery } from './consulter/consulterGestionnaireRéseau.query';
+import { GestionnaireRéseauDependencies } from './gestionnaireRéseau.dependencies';
 import { registerListerGestionnaireRéseauQuery } from './lister/listerGestionnaireRéseau.query';
 import { gestionnaireRéseauModifiéHandlerFactory } from './modifier';
 import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
 
-export const setupGestionnaireRéseau = ({
-  command: commandPorts,
-  query: queryPorts,
-  event: eventPorts,
-  subscribe,
-}: DomainDependencies) => {
+export const setupGestionnaireRéseau = (dependencies: GestionnaireRéseauDependencies) => {
   // Query
-  registerConsulterGestionnaireRéseauQuery(queryPorts);
-  registerListerGestionnaireRéseauQuery(queryPorts);
+  registerConsulterGestionnaireRéseauQuery(dependencies);
+  registerListerGestionnaireRéseauQuery(dependencies);
 
   // Command
-  registerAjouterGestionnaireRéseauCommand(commandPorts);
-  registerModifierGestionnaireRéseauCommand(commandPorts);
+  registerAjouterGestionnaireRéseauCommand(dependencies);
+  registerModifierGestionnaireRéseauCommand(dependencies);
 
   // Use cases
 
-  // Events
+  // Subscribes
+  const { subscribe } = dependencies;
   return [
-    subscribe('GestionnaireRéseauAjouté', gestionnaireRéseauAjoutéHandlerFactory(eventPorts)),
-    subscribe('GestionnaireRéseauModifié', gestionnaireRéseauModifiéHandlerFactory(eventPorts)),
+    subscribe('GestionnaireRéseauAjouté', gestionnaireRéseauAjoutéHandlerFactory(dependencies)),
+    subscribe('GestionnaireRéseauModifié', gestionnaireRéseauModifiéHandlerFactory(dependencies)),
   ];
 };

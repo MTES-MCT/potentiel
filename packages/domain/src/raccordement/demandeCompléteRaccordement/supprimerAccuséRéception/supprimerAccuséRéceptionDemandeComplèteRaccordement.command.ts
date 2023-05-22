@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import {
   createRaccordementAggregateId,
@@ -8,6 +7,7 @@ import {
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { isNone } from '@potentiel/monads';
 import { AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent } from './accuséRéceptionDemandeComplèteRaccordementSupprimé.event';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 const SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
   'SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

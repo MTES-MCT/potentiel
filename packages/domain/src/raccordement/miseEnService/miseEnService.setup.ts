@@ -5,11 +5,11 @@ import {
 } from './transmettre/transmettreDateMiseEnService.command';
 import {
   dateMiseEnServiceTransmiseHandlerFactory,
-  DateMiseEnServiceTransmiseHandlerFactory,
+  DateMiseEnServiceTransmiseDependencies,
 } from './transmettre/handlers/dateMiseEnServiceTransmise.handler';
 
 type CommandHandlerDependencies = TransmettreDateMiseEnServiceCommandDependencies;
-type EventHandlerDependencies = DateMiseEnServiceTransmiseHandlerFactory;
+type EventHandlerDependencies = DateMiseEnServiceTransmiseDependencies;
 
 export type MiseEnServiceDependencies = { subscribe: Subscribe } & CommandHandlerDependencies &
   EventHandlerDependencies;

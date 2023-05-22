@@ -1,7 +1,7 @@
 import {
-  enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-  enregistrerFichierPropositionTechniqueEtFinancière,
-} from '@potentiel/infra-adapters';
+  enregistrerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  enregistrerFichierPropositionTechniqueEtFinancièreAdapter,
+} from '@potentiel/infra-adapters/dist/raccordement';
 import {
   UnsetupDomain,
   buildAjouterGestionnaireRéseauCommand,
@@ -25,8 +25,10 @@ export default {
         command: {
           loadAggregate,
           publish,
-          enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-          enregistrerFichierPropositionTechniqueEtFinancière,
+          enregistrerAccuséRéceptionDemandeComplèteRaccordement:
+            enregistrerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+          enregistrerFichierPropositionTechniqueEtFinancière:
+            enregistrerFichierPropositionTechniqueEtFinancièreAdapter,
         },
         query: {
           find: findProjection,

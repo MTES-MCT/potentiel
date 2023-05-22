@@ -1,11 +1,9 @@
-import {
-  GestionnaireNonRéférencéError,
-  buildConsulterGestionnaireRéseauQuery,
-} from '../../gestionnaireRéseau';
+import { buildConsulterGestionnaireRéseauQuery } from '../gestionnaireRéseau';
+import { GestionnaireNonRéférencéError } from '../gestionnaireRéseau/consulter/gestionnaireNonRéférencé.error';
 import {
   ModifierGestionnaireRéseauProjetCommand,
   buildModifierGestionnaireRéseauProjetCommand,
-} from './modifierGestionnaireRéseauProjet.command';
+} from './modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.command';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 const MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE = Symbol(

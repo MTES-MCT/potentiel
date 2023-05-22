@@ -1,15 +1,17 @@
 import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { ProjetReadModel } from '../projet.readModel';
-import { GestionnaireRéseauProjetModifiéEvent } from '../modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.event';
+import { GestionnaireRéseauProjetModifiéEvent } from '../modifierGestionnaireRéseauProjet.event';
+import { ProjetReadModel } from '../../projet.readModel';
+
+export type GestionnaireRéseauProjetModifiéDependencies = {
+  create: Create;
+  update: Update;
+  find: Find;
+};
 
 export const gestionnaireRéseauProjetModifiéHandlerFactory: DomainEventHandlerFactory<
   GestionnaireRéseauProjetModifiéEvent,
-  {
-    create: Create;
-    update: Update;
-    find: Find;
-  }
+  GestionnaireRéseauProjetModifiéDependencies
 > =
   ({ create, update, find }) =>
   async (event) => {

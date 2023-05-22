@@ -4,7 +4,7 @@ export type GestionnaireRéseauReadModelKey =
   `gestionnaire-réseau#${GestionnaireRéseauReadModel['codeEIC']}`;
 
 export type GestionnaireRéseauReadModel = ReadModel<
-  'gestionnaire-réseau' | 'gestionnaire-réseau-du-projet',
+  'gestionnaire-réseau',
   {
     codeEIC: string;
     raisonSociale: string;

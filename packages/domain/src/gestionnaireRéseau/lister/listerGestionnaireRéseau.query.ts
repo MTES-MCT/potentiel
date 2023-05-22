@@ -10,7 +10,7 @@ export type ListerGestionnaireRéseauQuery = Message<
   ReadonlyArray<GestionnaireRéseauReadModel>
 >;
 
-type ListerGestionnaireRéseauDependencies = {
+export type ListerGestionnaireRéseauDependencies = {
   list: List;
 };
 

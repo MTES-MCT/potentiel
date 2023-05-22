@@ -14,9 +14,9 @@ import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
 import {
-  enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-  enregistrerFichierPropositionTechniqueEtFinancière,
-} from '@potentiel/infra-adapters';
+  enregistrerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  enregistrerFichierPropositionTechniqueEtFinancièreAdapter,
+} from '@potentiel/infra-adapters/dist/raccordement';
 
 should();
 
@@ -50,8 +50,10 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     command: {
       loadAggregate,
       publish,
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-      enregistrerFichierPropositionTechniqueEtFinancière,
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
+        enregistrerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      enregistrerFichierPropositionTechniqueEtFinancière:
+        enregistrerFichierPropositionTechniqueEtFinancièreAdapter,
     },
     query: {
       find: findProjection,

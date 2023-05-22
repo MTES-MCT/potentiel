@@ -1,8 +1,8 @@
 import { Find } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
 import { ListeDossiersRaccordementReadModel } from './listeDossierRaccordement.readModel';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 const LISTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('LISTER_DOSSIER_RACCORDEMENT_QUERY');
 

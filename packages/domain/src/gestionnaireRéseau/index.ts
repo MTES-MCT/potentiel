@@ -1,8 +1,9 @@
-export * from './ajouter';
-export * from './modifier';
-export * from './consulter';
-export * from './lister';
-export * from './gestionnaireRéseau.aggregate';
-export * from './gestionnaireRéseau.readModel';
-export * from './gestionnaireRéseau.permissions';
-export * from './identifiantGestionnaireRéseau';
+// Usecases
+export { buildAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
+export { buildConsulterGestionnaireRéseauQuery } from './consulter/consulterGestionnaireRéseau.query';
+export { buildListerGestionnaireRéseauQuery } from './lister/listerGestionnaireRéseau.query';
+export { buildModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
+
+// EventHandlers (TODO: sera supprimé lorsque le mediateur pourra publish des messages)
+export { gestionnaireRéseauAjoutéHandlerFactory } from './ajouter/handlers/gestionnaireRéseauAjouté.handler';
+export { gestionnaireRéseauModifiéHandlerFactory } from './modifier/handlers/gestionnaireRéseauModifié.handler';
