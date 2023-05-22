@@ -2,11 +2,6 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { PropositionTechniqueEtFinancièreModifiéeEvent } from './PropositionTechniqueEtFinancièreModifiée.event';
 import { isNone } from '@potentiel/monads';
-import { Readable } from 'stream';
-import {
-  EnregistrerPropositionTechniqueEtFinancièreSignéePort,
-  PropositionTechniqueEtFinancièreSignéeTransmiseEvent,
-} from '../transmettre';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
@@ -18,32 +13,28 @@ const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
 );
 
-type ModifierPropositionTechniqueEtFinancièreCommand = Message<
+export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
   typeof MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
   {
     identifiantProjet: IdentifiantProjet;
     dateSignature: Date;
-    référence: string;
-    nouveauFichier: { format: string; content: Readable };
+    référenceDossierRaccordement: string;
   }
 >;
 
 export type ModifierPropositionTechniqueEtFinancièreDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
-  enregistrerFichierPropositionTechniqueEtFinancière: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
 };
 
 export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
   publish,
   loadAggregate,
-  enregistrerFichierPropositionTechniqueEtFinancière,
 }: ModifierPropositionTechniqueEtFinancièreDependencies) => {
   const handler: MessageHandler<ModifierPropositionTechniqueEtFinancièreCommand> = async ({
     identifiantProjet,
-    référence,
+    référenceDossierRaccordement,
     dateSignature,
-    nouveauFichier: { format, content },
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -51,7 +42,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référence)) {
+    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -61,7 +52,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
         payload: {
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
           dateSignature: dateSignature.toISOString(),
-          référenceDossierRaccordement: référence,
+          référenceDossierRaccordement: référenceDossierRaccordement,
         },
       };
 
@@ -69,28 +60,6 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
       createRaccordementAggregateId(identifiantProjet),
       propositionTechniqueEtFinancièreModifiéeEvent,
     );
-
-    const fichierPropositionTechniqueEtFinancièreTransmisEvent: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
-      {
-        type: 'FichierPropositionTechniqueEtFinancièreTransmis',
-        payload: {
-          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-          référenceDossierRaccordement: référence,
-          format,
-        },
-      };
-
-    await publish(
-      createRaccordementAggregateId(identifiantProjet),
-      fichierPropositionTechniqueEtFinancièreTransmisEvent,
-    );
-
-    await enregistrerFichierPropositionTechniqueEtFinancière({
-      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      référence,
-      format,
-      content,
-    });
   };
 
   mediator.register(MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND, handler);

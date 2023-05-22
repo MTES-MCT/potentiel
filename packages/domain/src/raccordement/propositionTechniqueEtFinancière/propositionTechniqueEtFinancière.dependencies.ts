@@ -6,15 +6,18 @@ import { PropositionTechniqueEtFinancièreModifiéeDependencies } from './modifi
 import { PropositionTechniqueEtFinancièreTransmiseDependencies } from './transmettre/handlers/propositionTechniqueEtFinancièreTransmise.handler';
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseDependencies } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
+import { SupprimerPropositionTechniqueEtFinancièreSignéeDependencies } from './supprimerPropositionTechniqueEtFinancièreSignée/supprimerPropositionTechniqueEtFinancièreSignée.command';
+import { PropositionTechniqueEtFinancièreSignéeSuppriméeDependencies } from './supprimerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeSupprimée.handler';
 
 type QueryHandlerDependencies = TéléchargerFichierPropositionTechniqueEtFinancièreDependencies;
 
-type CommandHandlerDependencies =
+type CommandHandlerDependencies = SupprimerPropositionTechniqueEtFinancièreSignéeDependencies &
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies &
-    ModifierPropositionTechniqueEtFinancièreDependencies &
-    TransmettrePropositionTechniqueEtFinancièreDependencies;
+  ModifierPropositionTechniqueEtFinancièreDependencies &
+  TransmettrePropositionTechniqueEtFinancièreDependencies;
 
-type EventHandlerDependencies = PropositionTechniqueEtFinancièreModifiéeDependencies &
+type EventHandlerDependencies = PropositionTechniqueEtFinancièreSignéeSuppriméeDependencies &
+  PropositionTechniqueEtFinancièreModifiéeDependencies &
   PropositionTechniqueEtFinancièreTransmiseDependencies &
   PropositionTechniqueEtFinancièreSignéeTransmiseDependencies;
 

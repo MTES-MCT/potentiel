@@ -1,4 +1,7 @@
-import { SupprimerAccuséRéceptionDemandeComplèteRaccordementPort } from '@potentiel/domain';
+import {
+  SupprimerAccuséRéceptionDemandeComplèteRaccordementPort,
+  SupprimerPropositionTechniqueEtFinancièreSignéePort,
+} from '@potentiel/domain';
 import { deleteFile } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';
@@ -12,5 +15,5 @@ const supprimerFichierDossierRaccordementAdapter =
 
 export const supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter: SupprimerAccuséRéceptionDemandeComplèteRaccordementPort =
   supprimerFichierDossierRaccordementAdapter('demande-complete-raccordement');
-export const supprimerPropositionTechniqueEtFinancièreSignéeAdapter =
+export const supprimerPropositionTechniqueEtFinancièreSignéeAdapter: SupprimerPropositionTechniqueEtFinancièreSignéePort =
   supprimerFichierDossierRaccordementAdapter('proposition-technique-et-financiere');

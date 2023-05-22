@@ -7,10 +7,10 @@ import {
   demandeComplèteRaccordementeModifiéeHandlerFactory,
   propositionTechniqueEtFinancièreModifiéeHandlerFactory,
   accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
-  fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory,
   dateMiseEnServiceTransmiseHandlerFactory,
   gestionnaireRéseauProjetModifiéHandlerFactory,
 } from '@potentiel/domain';
+import { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory } from '@potentiel/domain/src/raccordement/propositionTechniqueEtFinancière/enregistrerPropositionTechniqueEtFinancièreSignée/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
@@ -85,8 +85,8 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
     }),
   );
   consumerRaccordement.consume(
-    'FichierPropositionTechniqueEtFinancièreTransmis',
-    fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory({
+    'PropositionTechniqueEtFinancièreSignéeTransmise',
+    propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory({
       find: findProjection,
       update: updateProjection,
     }),

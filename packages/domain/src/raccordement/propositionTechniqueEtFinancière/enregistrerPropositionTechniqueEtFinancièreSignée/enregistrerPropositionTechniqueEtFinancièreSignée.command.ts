@@ -69,7 +69,7 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
         payload: {
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
           format,
-          référenceDossierRaccordement: référenceDossierRaccordement,
+          référenceDossierRaccordement,
         },
       };
 
