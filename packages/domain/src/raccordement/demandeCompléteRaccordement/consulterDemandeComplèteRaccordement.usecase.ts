@@ -11,7 +11,9 @@ const CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
 
 type ConsulterDemandeComplèteRaccordementUseCaseResult = Omit<
   AccuséRéceptionDemandeComplèteRaccordementReadModel &
-    Pick<DossierRaccordementReadModel, 'dateQualification' | 'référence'>,
+    Pick<DossierRaccordementReadModel, 'dateQualification'> & {
+      référenceDossierRaccordement: DossierRaccordementReadModel['référence'];
+    },
   'type'
 >;
 
@@ -19,7 +21,7 @@ type ConsulterDemandeComplèteRaccordementUseCase = Message<
   typeof CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
   {
     identifiantProjet: IdentifiantProjet;
-    référence: string;
+    référenceDossierRaccordement: string;
   },
   ConsulterDemandeComplèteRaccordementUseCaseResult
 >;
@@ -27,19 +29,19 @@ type ConsulterDemandeComplèteRaccordementUseCase = Message<
 export const registerConsulterDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<ConsulterDemandeComplèteRaccordementUseCase> = async ({
     identifiantProjet,
-    référence,
+    référenceDossierRaccordement,
   }) => {
     const dossierRaccordement = await mediator.send(
       buildConsulterDossierRaccordementQuery({
         identifiantProjet,
-        référence,
+        référence: référenceDossierRaccordement,
       }),
     );
 
     const accuséRéception = await mediator.send(
       buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
         identifiantProjet,
-        référence,
+        référenceDossierRaccordement,
         format: dossierRaccordement.accuséRéception?.format || '',
       }),
     );
@@ -47,8 +49,8 @@ export const registerConsulterDemandeComplèteRaccordementUseCase = () => {
     return {
       ...accuséRéception,
       dateQualification: dossierRaccordement.dateQualification,
-      référence,
-    };
+      référenceDossierRaccordement,
+    } satisfies ConsulterDemandeComplèteRaccordementUseCaseResult;
   };
 
   mediator.register(CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);

@@ -18,14 +18,14 @@ export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Me
   typeof ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
   {
     identifiantProjet: IdentifiantProjet;
-    référence: string;
+    référenceDossierRaccordement: string;
     accuséRéception: { format: string; content: Readable };
   }
 >;
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
   identifiantProjet: string;
-  référence: string;
+  référenceDossierRaccordement: string;
   format: string;
   content: Readable;
 }) => Promise<void>;
@@ -47,10 +47,14 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
 
   const handler: MessageHandler<
     EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand
-  > = async ({ identifiantProjet, référence, accuséRéception: { format, content } }) => {
+  > = async ({
+    identifiantProjet,
+    référenceDossierRaccordement,
+    accuséRéception: { format, content },
+  }) => {
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référence)) {
+    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -58,14 +62,14 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       content,
       format,
-      référence,
+      référenceDossierRaccordement,
     });
 
     const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
       type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référence: référence,
+        référenceDossierRaccordement,
         format,
       },
     };

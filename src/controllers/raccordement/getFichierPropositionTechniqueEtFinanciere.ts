@@ -56,7 +56,7 @@ v1Router.get(
         const demandeComplèteRaccordement = await mediator.send(
           buildConsulterDemandeComplèteRaccordementUseCase({
             identifiantProjet,
-            référence: reference,
+            référenceDossierRaccordement: reference,
           }),
         );
 

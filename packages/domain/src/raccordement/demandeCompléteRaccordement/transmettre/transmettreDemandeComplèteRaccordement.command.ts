@@ -24,7 +24,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     identifiantProjet: IdentifiantProjet;
     dateQualification?: Date;
-    référence: string;
+    référenceDossierRaccordement: string;
     accuséRéception: { format: string };
   }
 >;
@@ -42,7 +42,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     identifiantProjet,
     dateQualification,
     identifiantGestionnaireRéseau,
-    référence,
+    référenceDossierRaccordement,
     accuséRéception,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
@@ -66,7 +66,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
         identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
           identifiantGestionnaireRéseau,
         ),
-        référenceDossierRaccordement: référence,
+        référenceDossierRaccordement,
       },
     };
 
@@ -76,7 +76,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
       type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référence: référence,
+        référenceDossierRaccordement,
         format: accuséRéception.format,
       },
     };

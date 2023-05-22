@@ -3,7 +3,7 @@ import { AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent } from '../
 
 export type SupprimerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
   identifiantProjet: string;
-  référence: string;
+  référenceDossierRaccordement: string;
   format: string;
 }) => Promise<void>;
 
@@ -19,10 +19,10 @@ export const accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactor
   AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies
 > =
   ({ supprimerAccuséRéceptionDemandeComplèteRaccordement }) =>
-  async ({ payload: { format, référence, identifiantProjet } }) => {
+  async ({ payload: { format, référenceDossierRaccordement, identifiantProjet } }) => {
     await supprimerAccuséRéceptionDemandeComplèteRaccordement({
       identifiantProjet,
-      référence,
+      référenceDossierRaccordement,
       format,
     });
   };

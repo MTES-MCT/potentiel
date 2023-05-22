@@ -25,7 +25,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     dateQualification,
     identifiantGestionnaireRéseau,
     identifiantProjet,
-    référence: référenceDossierRaccordement,
+    référenceDossierRaccordement,
     accuséRéception: { format, content },
   }) => {
     const gestionnaireRéseau = await mediator.send(
@@ -39,7 +39,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
         identifiantProjet,
         identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
         dateQualification,
-        référence: référenceDossierRaccordement,
+        référenceDossierRaccordement,
         accuséRéception: {
           format,
         },
@@ -49,7 +49,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     await mediator.send(
       buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
         identifiantProjet,
-        référence: référenceDossierRaccordement,
+        référenceDossierRaccordement,
         accuséRéception: {
           format,
           content,

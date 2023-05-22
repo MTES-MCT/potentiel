@@ -16,7 +16,7 @@ export const accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory
   AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies
 > =
   ({ update, find }) =>
-  async ({ payload: { format, référence: référenceDossierRaccordement, identifiantProjet } }) => {
+  async ({ payload: { format, référenceDossierRaccordement, identifiantProjet } }) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
       `dossier-raccordement#${identifiantProjet}#${référenceDossierRaccordement}`,
     );

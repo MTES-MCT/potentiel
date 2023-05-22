@@ -17,7 +17,7 @@ export type SupprimerAccuséRéceptionDemandeComplèteRaccordementCommand = Mess
   typeof SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
   {
     identifiantProjet: IdentifiantProjet;
-    référence: string;
+    référenceDossierRaccordement: string;
     accuséRéception: { format: string };
   }
 >;
@@ -37,10 +37,10 @@ export const registerSupprimerAccuséRéceptionDemandeComplèteRaccordementComma
 
   const handler: MessageHandler<
     SupprimerAccuséRéceptionDemandeComplèteRaccordementCommand
-  > = async ({ identifiantProjet, référence, accuséRéception: { format } }) => {
+  > = async ({ identifiantProjet, référenceDossierRaccordement, accuséRéception: { format } }) => {
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référence)) {
+    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -48,7 +48,7 @@ export const registerSupprimerAccuséRéceptionDemandeComplèteRaccordementComma
       type: 'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référence: référence,
+        référenceDossierRaccordement,
         format,
       },
     };

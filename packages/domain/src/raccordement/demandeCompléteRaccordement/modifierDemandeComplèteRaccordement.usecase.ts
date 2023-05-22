@@ -38,7 +38,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     await mediator.send(
       buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand({
         identifiantProjet,
-        référence: ancienneRéférence,
+        référenceDossierRaccordement: ancienneRéférence,
         accuséRéception: {
           format: dossierRaccordement.accuséRéception?.format || '',
         },
@@ -57,7 +57,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     await mediator.send(
       buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
         identifiantProjet,
-        référence: nouvelleRéférence,
+        référenceDossierRaccordement: nouvelleRéférence,
         accuséRéception,
       }),
     );

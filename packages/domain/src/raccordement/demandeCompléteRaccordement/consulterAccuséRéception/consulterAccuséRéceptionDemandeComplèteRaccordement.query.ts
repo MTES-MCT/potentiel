@@ -9,7 +9,7 @@ export const CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT = Symbo
 
 export type RécupérerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
   identifiantProjet: string;
-  référence: string;
+  référenceDossierRaccordement: string;
   format: string;
 }) => Promise<Readable>;
 
@@ -21,7 +21,7 @@ export type ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery = Messag
   typeof CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT,
   {
     identifiantProjet: IdentifiantProjet;
-    référence: string;
+    référenceDossierRaccordement: string;
     format: string;
   },
   AccuséRéceptionDemandeComplèteRaccordementReadModel
@@ -32,12 +32,12 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
 }: ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies) => {
   const handler: MessageHandler<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery> = async ({
     identifiantProjet,
-    référence,
+    référenceDossierRaccordement,
     format,
   }) => {
     const content = await récupérerAccuséRéceptionDemandeComplèteRaccordement({
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      référence: référence,
+      référenceDossierRaccordement,
       format,
     });
 
