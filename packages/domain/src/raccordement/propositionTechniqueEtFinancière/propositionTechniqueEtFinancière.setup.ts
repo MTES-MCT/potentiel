@@ -1,4 +1,4 @@
-import { registerTéléchargerFichierPropositionTechniqueEtFinancièreQuery } from './consulter/téléchargerFichierPropositionTechniqueEtFinancière.query';
+import { registerTéléchargerFichierPropositionTechniqueEtFinancièreQuery } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifier/modifierPropositiontechniqueEtFinancière.command';
 import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
 import { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';

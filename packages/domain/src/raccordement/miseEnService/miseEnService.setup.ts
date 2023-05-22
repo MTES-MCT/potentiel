@@ -7,6 +7,7 @@ import {
   dateMiseEnServiceTransmiseHandlerFactory,
   DateMiseEnServiceTransmiseDependencies,
 } from './transmettre/handlers/dateMiseEnServiceTransmise.handler';
+import { registerTransmettreDateMiseEnServiceUseCase } from './transmettreDateMiseEnService.usecase';
 
 type CommandHandlerDependencies = TransmettreDateMiseEnServiceCommandDependencies;
 type EventHandlerDependencies = DateMiseEnServiceTransmiseDependencies;
@@ -17,6 +18,9 @@ export type MiseEnServiceDependencies = { subscribe: Subscribe } & CommandHandle
 export const setupMiseEnPlace = (dependencies: MiseEnServiceDependencies) => {
   // Commands
   registerTransmettreDateMiseEnServiceCommand(dependencies);
+
+  // Usecases
+  registerTransmettreDateMiseEnServiceUseCase();
 
   // Subscribes
   const { subscribe } = dependencies;

@@ -1,8 +1,8 @@
 // Queries
-export { buildTéléchargerFichierPropositionTechniqueEtFinancièreQuery } from './consulter/téléchargerFichierPropositionTechniqueEtFinancière.query';
+export { buildTéléchargerFichierPropositionTechniqueEtFinancièreQuery } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 
 // ReadModel
-export { TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './consulter/fichierPropositionTechniqueEtFinancière.readModel';
+export { PropositionTechniqueEtFinancièreSignéeReadModel as TéléchargerFichierPropositionTechniqueEtFinancièreReadModel } from './consulter/fichierPropositionTechniqueEtFinancière.readModel';
 
 // Commands
 export { buildModifierPropositionTechniqueEtFinancièreCommand } from './modifier/modifierPropositiontechniqueEtFinancière.command';

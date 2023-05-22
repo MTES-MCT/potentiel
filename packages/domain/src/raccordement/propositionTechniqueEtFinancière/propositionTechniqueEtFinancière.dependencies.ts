@@ -1,5 +1,5 @@
 import { Subscribe } from '@potentiel/core-domain';
-import { TéléchargerFichierPropositionTechniqueEtFinancièreDependencies } from './consulter/téléchargerFichierPropositionTechniqueEtFinancière.query';
+import { TéléchargerFichierPropositionTechniqueEtFinancièreDependencies } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 import { ModifierPropositionTechniqueEtFinancièreDependencies } from './modifier/modifierPropositiontechniqueEtFinancière.command';
 import { TransmettrePropositionTechniqueEtFinancièreDependencies } from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
 import { PropositionTechniqueEtFinancièreModifiéeDependencies } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';

@@ -12,7 +12,7 @@ export type ListerDossiersRaccordementUseCase = Message<
   ListeDossiersRaccordementReadModel
 >;
 
-export const registerListerDossiersRaccordementQuery = () => {
+export const registerListerDossiersRaccordementUseCase = () => {
   const runner: MessageHandler<ListerDossiersRaccordementUseCase> = async ({
     identifiantProjet,
   }) => {
