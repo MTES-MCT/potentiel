@@ -4,19 +4,19 @@ import { v1Router } from '../../v1Router';
 import { vérifierPermissionUtilisateur } from '../../helpers';
 import { InviterDgecValidateurPage } from '@views';
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
-import { récupérerRésultatFormulaire } from '../../helpers/formulaires';
+import { getApiResult } from 'src/controllers/helpers/apiResult';
 
 v1Router.get(
   routes.ADMIN_INVITATION_DGEC_VALIDATEUR,
   vérifierPermissionUtilisateur(PermissionInviterDgecValidateur),
   asyncHandler(async (request, response) => {
+    const result = getApiResult(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION);
+
     return response.send(
       InviterDgecValidateurPage({
         request,
-        résultatSoumissionFormulaire: récupérerRésultatFormulaire(
-          request,
-          routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
-        ),
+        inviationRéussi: result?.status === 'OK' ? true : undefined,
+        formErrors: result?.status === 'BAD_REQUEST' ? result.errors : undefined,
       }),
     );
   }),

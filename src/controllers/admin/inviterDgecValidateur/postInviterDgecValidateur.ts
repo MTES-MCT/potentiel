@@ -14,7 +14,7 @@ import {
 } from '@modules/utilisateur';
 import { logger } from '@core/utils';
 import asyncHandler from '../../helpers/asyncHandler';
-import { sauvegarderRésultatFormulaire } from '../../helpers/formulaires';
+import { setApiResult } from 'src/controllers/helpers/apiResult';
 
 const schema = yup.object({
   role: yup
@@ -41,18 +41,19 @@ v1Router.post(
       )
       .match(
         () => {
-          sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
-            type: 'succès',
-            message: "L'invitation a bien été envoyée",
+          setApiResult(request, {
+            route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
+            status: 'OK',
           });
           return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
         },
         (error: Error) => {
           if (error instanceof RequestValidationError) {
-            sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
-              type: 'échec',
-              raison: 'Le formulaire contient des erreurs',
-              erreursDeValidation: Object.entries(error.errors).reduce((prev, [key, value]) => {
+            setApiResult(request, {
+              route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
+              status: 'BAD_REQUEST',
+              message: 'Le formulaire contient des erreurs',
+              errors: Object.entries(error.errors).reduce((prev, [key, value]) => {
                 return {
                   ...prev,
                   [key.replace('error-', '')]: value,
@@ -65,16 +66,18 @@ v1Router.post(
             error instanceof InvitationUniqueParUtilisateurError ||
             error instanceof InvitationUtilisateurExistantError
           ) {
-            sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
-              type: 'échec',
-              raison: error.message,
+            setApiResult(request, {
+              route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
+              status: 'BAD_REQUEST',
+              message: error.message,
             });
             return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
           }
           logger.error(error);
-          sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
-            type: 'échec',
-            raison:
+          setApiResult(request, {
+            route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
+            status: 'BAD_REQUEST',
+            message:
               'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
           });
           return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);

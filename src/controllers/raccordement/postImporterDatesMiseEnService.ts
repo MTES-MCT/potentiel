@@ -3,7 +3,7 @@ import routes from '@routes';
 import { v1Router } from '../v1Router';
 import { upload } from '../upload';
 import * as yup from 'yup';
-import { CsvValidationError, mapYupValidationErrorToCsvValidationError } from '../helpers';
+import { mapYupValidationErrorToCsvValidationError } from '../helpers';
 import { ValidationError } from 'yup';
 import fs from 'fs';
 import { parse } from 'csv-parse';
@@ -16,6 +16,8 @@ import {
   transmettreDateMiseEnServiceCommandHandlerFactory,
 } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { setApiResult } from '../helpers/apiResult';
+import { CsvValidationError } from '../helpers/errors/CsvValidatorError';
 
 const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
   publish,
@@ -34,7 +36,7 @@ const csvDataSchema = yup
         .required('La référence du dossier de raccordement est obligatoire'),
       dateMiseEnService: yup
         .string()
-        .required()
+        .required('La date de mise en service est obligatoire')
         .matches(/^\d{2}\/\d{2}\/\d{4}$/, {
           message: `Format de date de mise en service attendu : JJ/MM/AAAA`,
           excludeEmptyString: true,
@@ -44,19 +46,14 @@ const csvDataSchema = yup
 
 const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   try {
-    const donnéesValidées = csvDataSchema.validateSync(données, { abortEarly: false });
-
-    if (!donnéesValidées) {
-      return null;
-    }
-
-    return donnéesValidées;
+    return csvDataSchema.validateSync(données, { abortEarly: false });
   } catch (error) {
-    if (error instanceof ValidationError) {
-      return mapYupValidationErrorToCsvValidationError(error);
-    }
+    const errors =
+      error instanceof ValidationError
+        ? mapYupValidationErrorToCsvValidationError(error)
+        : undefined;
 
-    throw new CsvValidationError();
+    return new CsvValidationError(errors);
   }
 };
 
@@ -72,20 +69,69 @@ v1Router.post(
     const données = validerLesDonnéesDuFichierCsv(await parseCsv(fileStream));
 
     if (!données || données instanceof CsvValidationError) {
+      setApiResult(request, {
+        route: routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
+        status: 'BAD_REQUEST',
+        message: `Le fichier CSV n'est pas valide`,
+        errors: données?.errors,
+      });
       return response.redirect(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE);
     }
 
-    for (const { référenceDossier: référenceDossierRaccordement, dateMiseEnService } of données) {
-      const dossiers = await searchDossiersRaccordementParRéférence(référenceDossierRaccordement);
+    type ImporterDateMiseEnServiceUseCaseResult = Array<
+      {
+        référenceDossier: string;
+      } & (
+        | {
+            statut: 'réussi';
+            identifiantProjet: IdentifiantProjet;
+          }
+        | {
+            statut: 'échec';
+            raison: string;
+            identifiantsProjet: ReadonlyArray<IdentifiantProjet>;
+          }
+      )
+    >;
 
-      if (dossiers.length === 1) {
-        await transmettreDateMiseEnService({
-          identifiantProjet: dossiers[0].identifiantProjet,
-          référenceDossierRaccordement,
-          dateMiseEnService: new Date(dateMiseEnService),
+    const result: ImporterDateMiseEnServiceUseCaseResult = [];
+
+    for (const { référenceDossier, dateMiseEnService } of données) {
+      const dossiers = await searchDossiersRaccordementParRéférence(référenceDossier);
+
+      if (dossiers.length !== 1) {
+        const raison = `Le dossier ${
+          dossiers.length === 0 ? `ne correspond à aucun projet` : `correspond à plusieurs projets`
+        }`;
+
+        result.push({
+          statut: 'échec',
+          référenceDossier,
+          raison,
+          identifiantsProjet: dossiers.map((d) => d.identifiantProjet),
         });
+        continue;
       }
+
+      const identifiantProjet = dossiers[0].identifiantProjet;
+      await transmettreDateMiseEnService({
+        identifiantProjet,
+        référenceDossierRaccordement: référenceDossier,
+        dateMiseEnService: new Date(dateMiseEnService),
+      });
+
+      result.push({
+        statut: 'réussi',
+        référenceDossier,
+        identifiantProjet,
+      });
     }
+
+    setApiResult(request, {
+      route: routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
+      status: 'OK',
+      result,
+    });
 
     return response.redirect(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE);
   }),
@@ -123,7 +169,7 @@ type DossiersRaccordementParRéférenceReadModel = DossierRaccordementReadModel 
   identifiantProjet: IdentifiantProjet;
 };
 
-export const searchDossiersRaccordementParRéférence = async (
+const searchDossiersRaccordementParRéférence = async (
   référence: string,
 ): Promise<ReadonlyArray<DossiersRaccordementParRéférenceReadModel>> => {
   const result = await executeSelect<

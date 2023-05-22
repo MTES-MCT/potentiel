@@ -1,22 +1,85 @@
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import { ImporterDatesMiseEnServicePage } from '@views';
+import { getApiResult } from '../helpers/apiResult';
+import { IdentifiantProjet } from '@potentiel/domain';
+import { Project } from '@infra/sequelize';
+
+type Réussi = {
+  référenceDossier: string;
+  statut: 'réussi';
+  identifiantProjet: IdentifiantProjet;
+};
+type Échec = {
+  référenceDossier: string;
+  statut: 'échec';
+  raison: string;
+  identifiantsProjet: ReadonlyArray<IdentifiantProjet>;
+};
+type Résultat = Réussi | Échec;
+type ImporterDateMiseEnServiceUseCaseResult = Array<Résultat>;
+
+const isRéussi = (res: Résultat): res is Réussi => res.statut === 'réussi';
+const isÉchec = (res: Résultat): res is Échec => res.statut === 'échec';
 
 v1Router.get(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE, async (request, response) => {
   const { user } = request;
 
-  // const référence = 'XXX-RP-2021-999999';
+  const apiResult = getApiResult<ImporterDateMiseEnServiceUseCaseResult>(
+    request,
+    routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
+  );
 
-  // const result = await executeSelect<DossierRaccordementReadModel>(
-  //   `SELECT "key", "value" FROM "PROJECTION" where "key" like $1`,
-  //   `dossier-raccordement#%#${référence}`,
-  // );
+  const résultatImport = apiResult?.status === 'OK' ? apiResult.result : undefined;
+  const importsRéussis = résultatImport?.filter(isRéussi) || [];
+  const importsEnÉchec = résultatImport?.filter(isÉchec) || [];
 
-  // console.info(result);
+  const importsEnÉchecMapped = await ajoutInfoProjetDesImportEnÉchec(importsEnÉchec);
 
   return response.send(
     ImporterDatesMiseEnServicePage({
       user,
+      résultatImport: [...importsRéussis, ...importsEnÉchecMapped],
+      formErrors: apiResult?.status === 'BAD_REQUEST' ? apiResult.errors : undefined,
     }),
   );
 });
+
+const ajoutInfoProjetDesImportEnÉchec = (importsEnÉchec: ReadonlyArray<Échec>) =>
+  Promise.all(
+    importsEnÉchec.map(async ({ référenceDossier, statut, raison, identifiantsProjet }) => {
+      const projets = await Promise.all(
+        identifiantsProjet.map(async (identifiantProjet) => {
+          const projet = await Project.findOne({
+            where: {
+              appelOffreId: identifiantProjet.appelOffre,
+              periodeId: identifiantProjet.période,
+              familleId: identifiantProjet.famille,
+              numeroCRE: identifiantProjet.numéroCRE,
+            },
+          });
+
+          return projet
+            ? {
+                id: projet.id,
+                nom: projet.nomProjet,
+              }
+            : null;
+        }),
+      );
+
+      return {
+        référenceDossier,
+        statut,
+        raison,
+        projets: projets.filter(
+          (
+            p,
+          ): p is {
+            id: string;
+            nom: string;
+          } => p !== null,
+        ),
+      };
+    }),
+  );
