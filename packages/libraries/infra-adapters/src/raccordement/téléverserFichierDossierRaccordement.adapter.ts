@@ -11,8 +11,12 @@ const téléverserFichierDossierRaccordementAdapter =
     nomFichier: string,
   ): EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort &
     EnregistrerPropositionTechniqueEtFinancièreSignéePort =>
-  async ({ content, format, identifiantProjet, référenceDossierRaccordement: référence }) => {
-    const path = join(identifiantProjet, référence, `${nomFichier}.${extension(format)}`);
+  async ({ content, format, identifiantProjet, référenceDossierRaccordement }) => {
+    const path = join(
+      identifiantProjet,
+      référenceDossierRaccordement,
+      `${nomFichier}.${extension(format)}`,
+    );
     await upload(path, content);
   };
 

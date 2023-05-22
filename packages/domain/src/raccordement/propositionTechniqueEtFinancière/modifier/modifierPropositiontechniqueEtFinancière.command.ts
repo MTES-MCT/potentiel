@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
-import { PropositionTechniqueEtFinancièreModifiéeEvent } from './PropositionTechniqueEtFinancièreModifiée.event';
+import { PropositionTechniqueEtFinancièreModifiéeEvent } from './propositionTechniqueEtFinancièreModifiée.event';
 import { isNone } from '@potentiel/monads';
 import {
   createRaccordementAggregateId,

@@ -9,8 +9,10 @@ import {
   accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
   dateMiseEnServiceTransmiseHandlerFactory,
   gestionnaireRéseauProjetModifiéHandlerFactory,
+  propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory,
+  propositionTechniqueEtFinancièreSignéeSuppriméeHandlerFactory,
+  accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory,
 } from '@potentiel/domain';
-import { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory } from '@potentiel/domain/src/raccordement/propositionTechniqueEtFinancière/enregistrerPropositionTechniqueEtFinancièreSignée/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
@@ -21,6 +23,7 @@ import {
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
 import {
+  supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
   supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
@@ -39,6 +42,7 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
     'GestionnaireRéseauModifié',
     gestionnaireRéseauModifiéHandlerFactory({ update: updateProjection }),
   );
+
   consumerRaccordement.consume(
     'DemandeComplèteDeRaccordementTransmise',
     demandeComplèteRaccordementTransmiseHandlerFactory({
@@ -47,17 +51,7 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
       update: updateProjection,
     }),
   );
-  consumerRaccordement.consume(
-    'DateMiseEnServiceTransmise',
-    dateMiseEnServiceTransmiseHandlerFactory({ find: findProjection, update: updateProjection }),
-  );
-  consumerRaccordement.consume(
-    'PropositionTechniqueEtFinancièreTransmise',
-    propositionTechniqueEtFinancièreTransmiseHandlerFactory({
-      find: findProjection,
-      update: updateProjection,
-    }),
-  );
+
   consumerRaccordement.consume(
     'DemandeComplèteRaccordementModifiée',
     demandeComplèteRaccordementeModifiéeHandlerFactory({
@@ -73,21 +67,7 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
         supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
     }),
   );
-  consumerProjet.consume(
-    'GestionnaireRéseauProjetModifié',
-    gestionnaireRéseauProjetModifiéHandlerFactory({
-      find: findProjection,
-      create: createProjection,
-      update: updateProjection,
-    }),
-  );
-  consumerRaccordement.consume(
-    'PropositionTechniqueEtFinancièreModifiée',
-    propositionTechniqueEtFinancièreModifiéeHandlerFactory({
-      find: findProjection,
-      update: updateProjection,
-    }),
-  );
+
   consumerRaccordement.consume(
     'AccuséRéceptionDemandeComplèteRaccordementTransmis',
     accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory({
@@ -95,10 +75,57 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
       update: updateProjection,
     }),
   );
+
+  consumerRaccordement.consume(
+    'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
+    accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory({
+      supprimerAccuséRéceptionDemandeComplèteRaccordement:
+        supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+    }),
+  );
+
+  consumerRaccordement.consume(
+    'DateMiseEnServiceTransmise',
+    dateMiseEnServiceTransmiseHandlerFactory({ find: findProjection, update: updateProjection }),
+  );
+
+  consumerRaccordement.consume(
+    'PropositionTechniqueEtFinancièreTransmise',
+    propositionTechniqueEtFinancièreTransmiseHandlerFactory({
+      find: findProjection,
+      update: updateProjection,
+    }),
+  );
+
+  consumerRaccordement.consume(
+    'PropositionTechniqueEtFinancièreModifiée',
+    propositionTechniqueEtFinancièreModifiéeHandlerFactory({
+      find: findProjection,
+      update: updateProjection,
+    }),
+  );
+
   consumerRaccordement.consume(
     'PropositionTechniqueEtFinancièreSignéeTransmise',
     propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory({
       find: findProjection,
+      update: updateProjection,
+    }),
+  );
+
+  consumerRaccordement.consume(
+    'PropositionTechniqueEtFinancièreSignéeSupprimée',
+    propositionTechniqueEtFinancièreSignéeSuppriméeHandlerFactory({
+      supprimerPropositionTechniqueEtFinancièreSignée:
+        supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
+    }),
+  );
+
+  consumerProjet.consume(
+    'GestionnaireRéseauProjetModifié',
+    gestionnaireRéseauProjetModifiéHandlerFactory({
+      find: findProjection,
+      create: createProjection,
       update: updateProjection,
     }),
   );

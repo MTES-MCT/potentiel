@@ -3,7 +3,7 @@ import { PropositionTechniqueEtFinancièreSignéeSuppriméeEvent } from '../prop
 
 export type SupprimerPropositionTechniqueEtFinancièreSignéePort = (args: {
   identifiantProjet: string;
-  référence: string;
+  référenceDossierRaccordement: string;
   format: string;
 }) => Promise<void>;
 
@@ -22,7 +22,7 @@ export const propositionTechniqueEtFinancièreSignéeSuppriméeHandlerFactory: D
   async ({ payload: { format, référenceDossierRaccordement, identifiantProjet } }) => {
     await supprimerPropositionTechniqueEtFinancièreSignée({
       identifiantProjet,
-      référence: référenceDossierRaccordement,
+      référenceDossierRaccordement,
       format,
     });
   };

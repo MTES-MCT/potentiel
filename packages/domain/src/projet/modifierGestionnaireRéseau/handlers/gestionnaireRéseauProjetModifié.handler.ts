@@ -9,6 +9,9 @@ export type GestionnaireRéseauProjetModifiéDependencies = {
   find: Find;
 };
 
+/**
+ * @deprecated
+ */
 export const gestionnaireRéseauProjetModifiéHandlerFactory: DomainEventHandlerFactory<
   GestionnaireRéseauProjetModifiéEvent,
   GestionnaireRéseauProjetModifiéDependencies

@@ -8,8 +8,12 @@ import { join } from 'path';
 
 const supprimerFichierDossierRaccordementAdapter =
   (nomFichier: string): SupprimerAccuséRéceptionDemandeComplèteRaccordementPort =>
-  async ({ format, identifiantProjet, référenceDossierRaccordement: référence }) => {
-    const filePath = join(identifiantProjet, référence, `${nomFichier}.${extension(format)}`);
+  async ({ format, identifiantProjet, référenceDossierRaccordement }) => {
+    const filePath = join(
+      identifiantProjet,
+      référenceDossierRaccordement,
+      `${nomFichier}.${extension(format)}`,
+    );
     await deleteFile(filePath);
   };
 

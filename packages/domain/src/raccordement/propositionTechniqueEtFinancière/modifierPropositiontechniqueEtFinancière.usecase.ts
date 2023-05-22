@@ -1,14 +1,14 @@
 import { Message, MessageHandler, getMessageBuilder, mediator } from 'mediateur';
 import {
-  ModifierPropositionTechniqueEtFinancièreCommand,
-  buildModifierPropositionTechniqueEtFinancièreCommand,
-} from './modifier';
-import {
   EnregistrerPropositionTechniqueEtFinancièreSignéeCommand,
   buildEnregistrerPropositionTechniqueEtFinancièreSignéeCommand,
 } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 import { buildSupprimerPropositionTechniqueEtFinancièreSignéeCommand } from './supprimerPropositionTechniqueEtFinancièreSignée/supprimerPropositionTechniqueEtFinancièreSignée.command';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
+import {
+  ModifierPropositionTechniqueEtFinancièreCommand,
+  buildModifierPropositionTechniqueEtFinancièreCommand,
+} from './modifier/modifierPropositiontechniqueEtFinancière.command';
 
 const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE = Symbol(
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',

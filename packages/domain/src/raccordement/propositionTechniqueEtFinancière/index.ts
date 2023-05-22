@@ -8,5 +8,6 @@ export { PropositionTechniqueEtFinancièreSignéeReadModel } from './consulter/p
 
 // EventHandlers (TODO: sera supprimé lorsque le mediateur pourra publish des messages)
 export { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';
-export { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory as fichierPropositionTechniqueEtFinancièreTransmisHandlerFactory } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/fichierPropositionTechniqueEtFinancièreTransmis.handler';
+export { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeTransmise.handler';
 export { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './transmettre/handlers/propositionTechniqueEtFinancièreTransmise.handler';
+export { propositionTechniqueEtFinancièreSignéeSuppriméeHandlerFactory } from './supprimerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeSupprimée.handler';

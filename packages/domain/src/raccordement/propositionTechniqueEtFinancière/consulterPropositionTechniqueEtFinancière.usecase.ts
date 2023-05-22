@@ -24,17 +24,20 @@ export type ConsulterPropositionTechniqueEtFinancièreUseCase = Message<
 export const registerConsulterPropositionTechniqueEtFinancièreUseCase = () => {
   const runner: MessageHandler<ConsulterPropositionTechniqueEtFinancièreUseCase> = async ({
     identifiantProjet,
-    référence,
+    référenceDossierRaccordement,
   }) => {
     const dossierRaccordement = await mediator.send(
-      buildConsulterDossierRaccordementQuery({ identifiantProjet, référence }),
+      buildConsulterDossierRaccordementQuery({
+        identifiantProjet,
+        référence: référenceDossierRaccordement,
+      }),
     );
 
     const propositionTechniqueEtFinancièreSignée = await mediator.send(
       buildConsulterPropositionTechniqueEtFinancièreSignéeQuery({
         format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
         identifiantProjet,
-        référence,
+        référenceDossierRaccordement,
       }),
     );
 

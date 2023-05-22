@@ -8,7 +8,7 @@ import {
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
-import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from './fichierPropositionTechniqueEtFinancièreTransmis.event';
+import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from './propositionTechniqueEtFinancièreSignéeTransmise.event';
 
 const ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND = Symbol(
   'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
@@ -25,7 +25,7 @@ export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message
 
 export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (args: {
   identifiantProjet: string;
-  référence: string;
+  référenceDossierRaccordement: string;
   format: string;
   content: Readable;
 }) => Promise<void>;
@@ -60,7 +60,7 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       content,
       format,
-      référence: référenceDossierRaccordement,
+      référenceDossierRaccordement,
     });
 
     const fichierPropositionTechniqueEtFinancièreTransmisEvent: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =

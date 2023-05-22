@@ -88,14 +88,14 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
       const content = await récupérerFichierPropositionTechniqueEtFinancière({
         identifiantProjet: event.payload.identifiantProjet,
         format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
-        référence: event.payload.referenceActuelle,
+        référenceDossierRaccordement: event.payload.referenceActuelle,
       });
 
       // Créer PTF avec nouvelleRéf
       enregistrerPropositionTechniqueEtFinancièreSignée({
         identifiantProjet: event.payload.identifiantProjet,
         format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
-        référence: event.payload.nouvelleReference,
+        référenceDossierRaccordement: event.payload.nouvelleReference,
         content,
       });
 
@@ -103,7 +103,7 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
       supprimerPropositionTechniqueEtFinancièreSignée({
         identifiantProjet: event.payload.identifiantProjet,
         format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
-        référence: event.payload.referenceActuelle,
+        référenceDossierRaccordement: event.payload.referenceActuelle,
       });
     }
   };

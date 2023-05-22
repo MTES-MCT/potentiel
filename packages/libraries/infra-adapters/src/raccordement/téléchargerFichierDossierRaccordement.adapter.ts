@@ -11,8 +11,12 @@ const téléchargerFichierDossierRaccordementAdapter =
     nomFichier: string,
   ): RécupérerAccuséRéceptionDemandeComplèteRaccordementPort &
     RécupérerPropositionTechniqueEtFinancièreSignéePort =>
-  async ({ identifiantProjet, référenceDossierRaccordement: référence, format }) => {
-    const filePath = join(identifiantProjet, référence, `${nomFichier}.${extension(format)}`);
+  async ({ identifiantProjet, référenceDossierRaccordement, format }) => {
+    const filePath = join(
+      identifiantProjet,
+      référenceDossierRaccordement,
+      `${nomFichier}.${extension(format)}`,
+    );
 
     return await download(filePath);
   };

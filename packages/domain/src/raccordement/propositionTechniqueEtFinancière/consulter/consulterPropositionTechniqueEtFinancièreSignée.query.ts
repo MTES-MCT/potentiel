@@ -9,7 +9,7 @@ const CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE = Symbol(
 
 export type RécupérerPropositionTechniqueEtFinancièreSignéePort = (args: {
   identifiantProjet: string;
-  référence: string;
+  référenceDossierRaccordement: string;
   format: string;
 }) => Promise<Readable>;
 
@@ -21,7 +21,7 @@ export type ConsulterPropositionTechniqueEtFinancièreSignéeQuery = Message<
   typeof CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE,
   {
     identifiantProjet: IdentifiantProjet;
-    référence: string;
+    référenceDossierRaccordement: string;
     format: string;
   },
   PropositionTechniqueEtFinancièreSignéeReadModel
@@ -32,11 +32,11 @@ export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
 }: ConsulterPropositionTechniqueEtFinancièreSignéeDependencies) => {
   const handler: MessageHandler<ConsulterPropositionTechniqueEtFinancièreSignéeQuery> = async ({
     identifiantProjet,
-    référence: référenceDossierRaccordement,
+    référenceDossierRaccordement,
     format,
   }) => {
     const content = await récupérerPropositionTechniqueEtFinancièreSignée({
-      référence: référenceDossierRaccordement,
+      référenceDossierRaccordement,
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       format,
     });
