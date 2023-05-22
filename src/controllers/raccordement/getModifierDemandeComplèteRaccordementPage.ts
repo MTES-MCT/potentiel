@@ -4,7 +4,6 @@ import {
   buildConsulterDossierRaccordementQuery,
   buildConsulterGestionnaireRéseauQuery,
   buildConsulterProjetQuery,
-  formatIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';

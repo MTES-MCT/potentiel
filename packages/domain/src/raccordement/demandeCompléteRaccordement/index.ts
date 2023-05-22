@@ -3,6 +3,9 @@ export { buildConsulterDemandeComplèteRaccordementUseCase } from './consulterDe
 export { buildModifierDemandeComplèteRaccordementUseCase } from './modifierDemandeComplèteRaccordement.usecase';
 export { buildTransmettreDemandeComplèteRaccordementUseCase } from './transmettreDemandeComplèteRaccordement.usecase';
 
+// ReadModel
+export { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './consulterAccuséRéception/accuséRéceptionDemandeComplèteRaccordement.readModel';
+
 // EventHandlers (TODO: sera supprimé lorsque le mediateur pourra publish des messages)
 export { accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory } from './enregisterAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementTransmis.handler';
 export { demandeComplèteRaccordementeModifiéeHandlerFactory } from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';

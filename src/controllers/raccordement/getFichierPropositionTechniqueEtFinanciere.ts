@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import {
   PermissionConsulterDossierRaccordement,
-  buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
+  buildConsulterDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -53,21 +53,21 @@ v1Router.get(
       };
 
       try {
-        const fichier = await mediator.send(
-          buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
+        const demandeComplèteRaccordement = await mediator.send(
+          buildConsulterDemandeComplèteRaccordementUseCase({
             identifiantProjet,
-            référenceDossierRaccordement: reference,
+            référence: reference,
           }),
         );
 
-        const extensionFichier = extension(fichier.format);
+        const extensionFichier = extension(demandeComplèteRaccordement.format);
 
-        response.type(fichier.format);
+        response.type(demandeComplèteRaccordement.format);
         response.setHeader(
           'Content-Disposition',
           `attachment; filename=proposition-technique-et-financiere-${reference}.${extensionFichier}`,
         );
-        fichier.content.pipe(response);
+        demandeComplèteRaccordement.content.pipe(response);
         return response.status(200);
       } catch (error) {
         logger.error(error);

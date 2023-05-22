@@ -1,6 +1,9 @@
 // Queries
 export { buildConsulterProjetQuery } from './consulter/consulterProjet.query';
 
+// ReadModel
+export { ProjetReadModel, RésuméProjetReadModel } from './projet.readModel';
+
 // Commands
 export { buildModifierGestionnaireRéseauProjetCommand } from './modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.command';
 

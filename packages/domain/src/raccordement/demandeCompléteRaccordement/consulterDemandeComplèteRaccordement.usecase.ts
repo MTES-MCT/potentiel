@@ -54,6 +54,7 @@ export const registerConsulterDemandeComplèteRaccordementUseCase = () => {
   mediator.register(CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);
 };
 
-export const buildConsulterDemandeComplèteRaccordementUseCase = getMessageBuilder(
-  CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
-);
+export const buildConsulterDemandeComplèteRaccordementUseCase =
+  getMessageBuilder<ConsulterDemandeComplèteRaccordementUseCase>(
+    CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+  );
