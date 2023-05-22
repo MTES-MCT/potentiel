@@ -3,12 +3,20 @@ import { isNone } from '@potentiel/monads';
 import { DemandeComplèteRaccordementModifiéeEvent } from '../demandeComplèteRaccordementModifiée.event';
 import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement/lister/listeDossierRaccordement.readModel';
 import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
+import {
+  EnregistrerPropositionTechniqueEtFinancièreSignéePort,
+  RécupérerFichierPropositionTechniqueEtFinancièrePort,
+  SupprimerPropositionTechniqueEtFinancièreSignéePort,
+} from '../../../raccordement.ports';
 
 export type DemandeComplèteRaccordementeModifiéeDependencies = {
   find: Find;
   create: Create;
   remove: Remove;
   update: Update;
+  récupérerFichierPropositionTechniqueEtFinancière: RécupérerFichierPropositionTechniqueEtFinancièrePort;
+  enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
+  supprimerPropositionTechniqueEtFinancièreSignée: SupprimerPropositionTechniqueEtFinancièreSignéePort;
 };
 
 /**
@@ -18,7 +26,15 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
   DemandeComplèteRaccordementModifiéeEvent,
   DemandeComplèteRaccordementeModifiéeDependencies
 > =
-  ({ find, create, remove, update }) =>
+  ({
+    find,
+    create,
+    remove,
+    update,
+    récupérerFichierPropositionTechniqueEtFinancière,
+    enregistrerPropositionTechniqueEtFinancièreSignée,
+    supprimerPropositionTechniqueEtFinancièreSignée,
+  }) =>
   async (event) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
       `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.referenceActuelle}`,
@@ -63,4 +79,30 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
         ],
       },
     );
+
+    // Renommer PTF
+    // TODO: ce code doit être dans une saga quand on aura le publish
+    if (event.payload.nouvelleReference !== event.payload.referenceActuelle) {
+      // Charger PTF
+      const content = await récupérerFichierPropositionTechniqueEtFinancière({
+        identifiantProjet: event.payload.identifiantProjet,
+        format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
+        référence: event.payload.referenceActuelle,
+      });
+
+      // Créer PTF avec nouvelleRéf
+      enregistrerPropositionTechniqueEtFinancièreSignée({
+        identifiantProjet: event.payload.identifiantProjet,
+        format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
+        référence: event.payload.nouvelleReference,
+        content,
+      });
+
+      // Supprimer PTF avec réf actuelle
+      supprimerPropositionTechniqueEtFinancièreSignée({
+        identifiantProjet: event.payload.identifiantProjet,
+        format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
+        référence: event.payload.referenceActuelle,
+      });
+    }
   };
