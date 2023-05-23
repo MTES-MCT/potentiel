@@ -1,7 +1,7 @@
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettreDateMiseEnService,
-  transmettreDateMiseEnServiceCommandHandlerFactory,
+  buildTransmettreDateMiseEnServiceUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -14,14 +14,9 @@ import {
   vérifierPermissionUtilisateur,
 } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
-
-const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
-  publish,
-  loadAggregate,
-});
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({
@@ -77,11 +72,13 @@ v1Router.post(
       };
 
       try {
-        await transmettreDateMiseEnService({
-          identifiantProjet,
-          référenceDossierRaccordement: reference,
-          dateMiseEnService,
-        });
+        await mediator.send(
+          buildTransmettreDateMiseEnServiceUseCase({
+            identifiantProjet,
+            référenceDossierRaccordement: reference,
+            dateMiseEnService,
+          }),
+        );
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

@@ -19,6 +19,9 @@
     },
     {
       "path": "../libraries/pg-projections"
+    },
+    {
+      "path": "../libraries/infra-adapters"
     }
   ]
 }

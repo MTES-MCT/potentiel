@@ -1,14 +1,13 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
-  ajouterGestionnaireRéseauCommandHandlerFactory,
-  consulterGestionnaireRéseauQueryHandlerFactory,
   GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauReadModel,
-  listerGestionnaireRéseauQueryHandlerFactory,
+  buildConsulterGestionnaireRéseauQuery,
+  buildAjouterGestionnaireRéseauCommand,
+  buildListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
-import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
+import { mediator } from 'mediateur';
 
 EtantDonné(
   'un gestionnaire de réseau ayant pour code EIC {string}',
@@ -26,34 +25,24 @@ Quand(
     this.gestionnaireRéseauWorld.format = example['Format'];
     this.gestionnaireRéseauWorld.légende = example['Légende'];
 
-    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
-      publish,
-      loadAggregate,
-    });
-
-    const command = {
+    const command = buildAjouterGestionnaireRéseauCommand({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
       raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
         format: this.gestionnaireRéseauWorld.format,
         légende: this.gestionnaireRéseauWorld.légende,
       },
-    };
+    });
 
-    await ajouterGestionnaireRéseau(command);
+    await mediator.send(command);
   },
 );
 
 Quand(
   'un administrateur ajoute un gestionnaire de réseau ayant le même code EIC',
   async function (this: PotentielWorld) {
-    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
-      publish,
-      loadAggregate,
-    });
-
     try {
-      await ajouterGestionnaireRéseau({
+      const command = buildAjouterGestionnaireRéseauCommand({
         codeEIC: this.gestionnaireRéseauWorld.codeEIC,
         raisonSociale: 'autre raison sociale',
         aideSaisieRéférenceDossierRaccordement: {
@@ -61,6 +50,8 @@ Quand(
           légende: 'autre légende',
         },
       });
+
+      await mediator.send(command);
     } catch (error) {
       if (error instanceof GestionnaireRéseauDéjàExistantError) {
         this.error = error;
@@ -72,10 +63,6 @@ Quand(
 Alors(
   'le gestionnaire de réseau devrait être disponible dans le référenciel des gestionnaires de réseau',
   async function (this: PotentielWorld) {
-    const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-      list: listProjection,
-    });
-
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -86,9 +73,7 @@ Alors(
       },
     };
 
-    const actual = await listerGestionnaireRéseau({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-    });
+    const actual = await mediator.send(buildListerGestionnaireRéseauQuery({}));
 
     actual.should.deep.contain(expected);
   },
@@ -97,10 +82,6 @@ Alors(
 Alors(
   `l'administrateur devrait pouvoir consulter les détails du gestionnaire de réseau`,
   async function (this: PotentielWorld) {
-    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-      find: findProjection,
-    });
-
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -111,9 +92,13 @@ Alors(
       },
     };
 
-    const actual = await consulterGestionnaireRéseau({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+    const query = buildConsulterGestionnaireRéseauQuery({
+      identifiantGestionnaireRéseau: {
+        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      },
     });
+
+    const actual = await mediator.send(query);
 
     actual.should.be.deep.equal(expected);
   },

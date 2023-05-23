@@ -1,23 +1,19 @@
 import {
   PermissionListerGestionnairesRéseau,
-  listerGestionnaireRéseauQueryHandlerFactory,
+  buildListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
-import { listProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { ListeGestionnairesRéseauPage } from '@views';
 import { vérifierPermissionUtilisateur } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
-
-const listerGestionnairesRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-  list: listProjection,
-});
+import { mediator } from 'mediateur';
 
 v1Router.get(
   routes.GET_LISTE_GESTIONNAIRES_RESEAU,
   vérifierPermissionUtilisateur(PermissionListerGestionnairesRéseau),
   asyncHandler(async (request, response) => {
-    const gestionnairesRéseau = await listerGestionnairesRéseau({});
+    const gestionnairesRéseau = await mediator.send(buildListerGestionnaireRéseauQuery({}));
     const {
       user,
       query: { success },

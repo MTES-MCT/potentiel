@@ -1,10 +1,9 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
-  consulterDossierRaccordementQueryHandlerFactory,
-  consulterGestionnaireRéseauQueryHandlerFactory,
-  consulterProjetQueryHandlerFactory,
-  formatIdentifiantProjet,
+  buildConsulterDossierRaccordementUseCase,
+  buildConsulterGestionnaireRéseauQuery,
+  buildConsulterProjetQuery,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -12,22 +11,8 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { findProjection } from '@potentiel/pg-projections';
 import { ModifierDemandeComplèteRaccordementPage } from '@views';
-import { getFiles } from '@potentiel/file-storage';
-import { join } from 'path';
-
-const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
-
-const consulterProjet = consulterProjetQueryHandlerFactory({
-  find: findProjection,
-});
-
-const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-  find: findProjection,
-});
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({
@@ -78,15 +63,17 @@ v1Router.get(
         });
       }
 
-      const dossierRaccordement = await consulterDossierRaccordement({
-        identifiantProjet: {
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        },
-        référence: reference,
-      });
+      const dossierRaccordement = await mediator.send(
+        buildConsulterDossierRaccordementUseCase({
+          identifiantProjet: {
+            appelOffre: projet.appelOffreId,
+            période: projet.periodeId,
+            famille: projet.familleId,
+            numéroCRE: projet.numeroCRE,
+          },
+          référence: reference,
+        }),
+      );
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
@@ -109,20 +96,17 @@ v1Router.get(
         famille: projet.familleId,
       };
 
-      const { identifiantGestionnaire } = await consulterProjet({
-        identifiantProjet,
-      });
-
-      const gestionnaireRéseauActuel = await consulterGestionnaireRéseau({
-        codeEIC: identifiantGestionnaire!.codeEIC,
-      });
-
-      const filePath = join(
-        formatIdentifiantProjet(identifiantProjet),
-        reference,
-        `demande-complete-raccordement`,
+      const { identifiantGestionnaire } = await mediator.send(
+        buildConsulterProjetQuery({
+          identifiantProjet,
+        }),
       );
-      const files = await getFiles(filePath);
+
+      const gestionnaireRéseauActuel = await mediator.send(
+        buildConsulterGestionnaireRéseauQuery({
+          identifiantGestionnaireRéseau: { codeEIC: identifiantGestionnaire!.codeEIC },
+        }),
+      );
 
       return response.send(
         ModifierDemandeComplèteRaccordementPage({
@@ -147,7 +131,7 @@ v1Router.get(
           dateQualificationActuelle: dossierRaccordement.dateQualification,
           error: error as string,
           gestionnaireRéseauActuel,
-          existingFile: !!(files.length > 0),
+          existingFile: !!dossierRaccordement.accuséRéception,
         }),
       );
     },

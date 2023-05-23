@@ -1,7 +1,8 @@
+import { mediator } from 'mediateur';
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettrePropositionTechniqueEtFinancière,
-  transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
+  buildTransmettrePropositionTechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -15,19 +16,10 @@ import {
   vérifierPermissionUtilisateur,
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
-import { enregistrerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
-
-const transmettrePropositionTechniqueEtFinancière =
-  transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
-    publish,
-    loadAggregate,
-    enregistrerFichierPropositionTechniqueEtFinancière,
-  });
 
 const schema = yup.object({
   params: yup.object({
@@ -111,15 +103,17 @@ v1Router.post(
       };
 
       try {
-        await transmettrePropositionTechniqueEtFinancière({
-          identifiantProjet,
-          référenceDossierRaccordement: reference,
-          dateSignature,
-          propositionTechniqueEtFinancière: {
-            format: file.mimetype,
-            content: createReadStream(file.path),
-          },
-        });
+        await mediator.send(
+          buildTransmettrePropositionTechniqueEtFinancièreUseCase({
+            identifiantProjet,
+            référenceDossierRaccordement: reference,
+            dateSignature,
+            propositionTechniqueEtFinancière: {
+              format: file.mimetype,
+              content: createReadStream(file.path),
+            },
+          }),
+        );
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

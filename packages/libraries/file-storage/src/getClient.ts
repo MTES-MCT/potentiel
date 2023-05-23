@@ -8,6 +8,10 @@ export const getClient = () => {
 
     client = new S3({
       endpoint,
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+      },
       s3ForcePathStyle: true,
     });
   }

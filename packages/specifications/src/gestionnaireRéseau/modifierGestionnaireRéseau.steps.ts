@@ -1,14 +1,13 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
-  consulterGestionnaireRéseauQueryHandlerFactory,
+  buildConsulterGestionnaireRéseauQuery,
+  buildListerGestionnaireRéseauQuery,
+  buildModifierGestionnaireRéseauCommand,
   GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
-  listerGestionnaireRéseauQueryHandlerFactory,
-  modifierGestionnaireRéseauFactory,
 } from '@potentiel/domain';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
+import { mediator } from 'mediateur';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
@@ -29,39 +28,33 @@ Quand(
     this.gestionnaireRéseauWorld.légende = example['Légende'];
     this.gestionnaireRéseauWorld.format = example['Format'];
 
-    const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
-      publish,
-      loadAggregate,
-    });
-
-    await modifierGestionnaireRéseau({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+    const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
+      identifiantGestionnaireRéseau: { codeEIC: this.gestionnaireRéseauWorld.codeEIC },
       raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
         format: this.gestionnaireRéseauWorld.format,
         légende: this.gestionnaireRéseauWorld.légende,
       },
     });
+
+    await mediator.send(modifierGestionnaireRéseauCommand);
   },
 );
 
 Quand(
   'un administrateur modifie un gestionnaire de réseau inconnu',
   async function (this: PotentielWorld) {
-    const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
-      publish,
-      loadAggregate,
-    });
-
     try {
-      await modifierGestionnaireRéseau({
-        codeEIC: 'Code EIC inconnu',
+      const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
+        identifiantGestionnaireRéseau: { codeEIC: 'Code EIC inconnu' },
         raisonSociale: 'RTE',
         aideSaisieRéférenceDossierRaccordement: {
           format: 'AAA-BBB',
           légende: 'des lettres séparées par un tiret',
         },
       });
+
+      await mediator.send(modifierGestionnaireRéseauCommand);
     } catch (error) {
       if (error instanceof GestionnaireRéseauInconnuError) {
         this.error = error;
@@ -73,10 +66,6 @@ Quand(
 Alors(
   `le gestionnaire de réseau devrait être à jour dans le référenciel des gestionnaires de réseau`,
   async function (this: PotentielWorld) {
-    const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-      list: listProjection,
-    });
-
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -87,7 +76,7 @@ Alors(
       },
     };
 
-    const actual = await listerGestionnaireRéseau({});
+    const actual = await mediator.send(buildListerGestionnaireRéseauQuery({}));
     actual.should.deep.contain(expected);
   },
 );
@@ -95,10 +84,6 @@ Alors(
 Alors(
   `l'administrateur devrait pouvoir consulter les détails à jour du gestionnaire de réseau`,
   async function (this: PotentielWorld) {
-    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-      find: findProjection,
-    });
-
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -109,9 +94,11 @@ Alors(
       },
     };
 
-    const actual = await consulterGestionnaireRéseau({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+    const query = buildConsulterGestionnaireRéseauQuery({
+      identifiantGestionnaireRéseau: { codeEIC: this.gestionnaireRéseauWorld.codeEIC },
     });
+
+    const actual = await mediator.send(query);
 
     actual.should.be.deep.equal(expected);
   },

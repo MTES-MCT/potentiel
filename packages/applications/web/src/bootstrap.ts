@@ -1,9 +1,51 @@
-import { bootstrapEventConsumers } from './bootstrapEventConsumers';
-import { bootstrapEventStreamer } from './bootstrapEventStreamer';
+import { setupDomain } from '@potentiel/domain';
+import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import {
+  createProjection,
+  findProjection,
+  listProjection,
+  removeProjection,
+  updateProjection,
+} from '@potentiel/pg-projections';
+import {
+  téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
+  supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
+  téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+  téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+} from '@potentiel/infra-adapters';
+import { subscribeFactory } from './subscribe.factory';
 
 export const bootstrap = async () => {
-  await bootstrapEventStreamer();
-  await bootstrapEventConsumers();
-
-  // Third step: launch web
+  setupDomain({
+    command: {
+      loadAggregate,
+      publish,
+    },
+    query: {
+      find: findProjection,
+      list: listProjection,
+    },
+    event: {
+      create: createProjection,
+      remove: removeProjection,
+      update: updateProjection,
+    },
+    raccordement: {
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
+        téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      enregistrerPropositionTechniqueEtFinancièreSignée:
+        téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
+      récupérerAccuséRéceptionDemandeComplèteRaccordement:
+        téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      récupérerPropositionTechniqueEtFinancièreSignée:
+        téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+      supprimerAccuséRéceptionDemandeComplèteRaccordement:
+        supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      supprimerPropositionTechniqueEtFinancièreSignée:
+        supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
+    },
+    subscribe: await subscribeFactory(),
+  });
 };

@@ -1,6 +1,7 @@
+import { mediator } from 'mediateur';
 import {
   PermissionConsulterDossierRaccordement,
-  téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFactory,
+  buildConsulterPropositionTechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -9,15 +10,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { logger } from '@core/utils';
-import { findProjection } from '@potentiel/pg-projections';
-import { récupérerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
 import { extension } from 'mime-types';
-
-const téléchargerFichierPropositionTechniqueEtFinancière =
-  téléchargerFichierPropositionTechniqueEtFinancièreQueryHandlerFactory({
-    find: findProjection,
-    récupérerFichierPropositionTechniqueEtFinancière,
-  });
 
 const schema = yup.object({
   params: yup.object({
@@ -60,19 +53,21 @@ v1Router.get(
       };
 
       try {
-        const fichier = await téléchargerFichierPropositionTechniqueEtFinancière({
-          identifiantProjet,
-          référenceDossierRaccordement: reference,
-        });
+        const propositionTechniqueEtFinancière = await mediator.send(
+          buildConsulterPropositionTechniqueEtFinancièreUseCase({
+            identifiantProjet,
+            référenceDossierRaccordement: reference,
+          }),
+        );
 
-        const extensionFichier = extension(fichier.format);
+        const extensionFichier = extension(propositionTechniqueEtFinancière.format);
 
-        response.type(fichier.format);
+        response.type(propositionTechniqueEtFinancière.format);
         response.setHeader(
           'Content-Disposition',
           `attachment; filename=proposition-technique-et-financiere-${reference}.${extensionFichier}`,
         );
-        fichier.content.pipe(response);
+        propositionTechniqueEtFinancière.content.pipe(response);
         return response.status(200);
       } catch (error) {
         logger.error(error);

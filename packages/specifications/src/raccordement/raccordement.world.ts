@@ -1,11 +1,5 @@
-import {
-  DemandeComplèteRaccordementTransmiseEvent,
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-  createRaccordementAggregateId,
-  AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
-} from '@potentiel/domain';
-import { publish } from '@potentiel/pg-event-sourcing';
+import { buildTransmettreDemandeComplèteRaccordementUseCase } from '@potentiel/domain';
+import { mediator } from 'mediateur';
 import { Readable } from 'stream';
 
 export class RaccordementWorld {
@@ -22,56 +16,42 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
-  #fichierDemandeComplèteRaccordement!: { format: string; content: Readable };
+  #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: Readable };
 
-  get fichierDemandeComplèteRaccordement(): { format: string; content: Readable } {
-    if (!this.#fichierDemandeComplèteRaccordement) {
-      throw new Error('fichierDemandeComplèteRaccordement not initialized');
+  get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: Readable } {
+    if (!this.#accuséRéceptionDemandeComplèteRaccordement) {
+      throw new Error('accuséRéceptionDemandeComplèteRaccordement not initialized');
     }
-    return this.#fichierDemandeComplèteRaccordement;
+    return this.#accuséRéceptionDemandeComplèteRaccordement;
   }
 
-  set fichierDemandeComplèteRaccordement(value: { format: string; content: Readable }) {
-    this.#fichierDemandeComplèteRaccordement = value;
+  set accuséRéceptionDemandeComplèteRaccordement(value: { format: string; content: Readable }) {
+    this.#accuséRéceptionDemandeComplèteRaccordement = value;
   }
 
-  #autreFichierDemandeComplèteRaccordement!: { format: string; content: Readable };
+  #propositionTechniqueEtFinancièreSignée!: {
+    dateSignature: Date;
+    format: string;
+    content: Readable;
+  };
 
-  get autreFichierDemandeComplèteRaccordement(): { format: string; content: Readable } {
-    if (!this.#autreFichierDemandeComplèteRaccordement) {
-      throw new Error('autreFichierDemandeComplèteRaccordement not initialized');
-    }
-    return this.#autreFichierDemandeComplèteRaccordement;
-  }
-
-  set autreFichierDemandeComplèteRaccordement(value: { format: string; content: Readable }) {
-    this.#autreFichierDemandeComplèteRaccordement = value;
-  }
-
-  #fichierPropositionTechniqueEtFinancière!: { format: string; content: Readable };
-
-  get fichierPropositionTechniqueEtFinancière(): { format: string; content: Readable } {
-    if (!this.#fichierPropositionTechniqueEtFinancière) {
+  get propositionTechniqueEtFinancièreSignée(): {
+    dateSignature: Date;
+    format: string;
+    content: Readable;
+  } {
+    if (!this.#propositionTechniqueEtFinancièreSignée) {
       throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
     }
-    return this.#fichierPropositionTechniqueEtFinancière;
+    return this.#propositionTechniqueEtFinancièreSignée;
   }
 
-  set fichierPropositionTechniqueEtFinancière(value: { format: string; content: Readable }) {
-    this.#fichierPropositionTechniqueEtFinancière = value;
-  }
-
-  #autreFichierPropositionTechniqueEtFinancière!: { format: string; content: Readable };
-
-  get autreFichierPropositionTechniqueEtFinancière(): { format: string; content: Readable } {
-    if (!this.#autreFichierPropositionTechniqueEtFinancière) {
-      throw new Error('autreFichierPropositionTechniqueEtFinancière not initialized');
-    }
-    return this.#autreFichierPropositionTechniqueEtFinancière;
-  }
-
-  set autreFichierPropositionTechniqueEtFinancière(value: { format: string; content: Readable }) {
-    this.#autreFichierPropositionTechniqueEtFinancière = value;
+  set propositionTechniqueEtFinancièreSignée(value: {
+    dateSignature: Date;
+    format: string;
+    content: Readable;
+  }) {
+    this.#propositionTechniqueEtFinancièreSignée = value;
   }
 
   #référenceDossierRaccordement!: string;
@@ -87,7 +67,11 @@ export class RaccordementWorld {
     this.#référenceDossierRaccordement = value;
   }
 
-  #identifiantProjet: IdentifiantProjet;
+  #identifiantProjet: {
+    appelOffre: string;
+    période: string;
+    numéroCRE: string;
+  };
 
   get identifiantProjet() {
     return this.#identifiantProjet;
@@ -99,27 +83,16 @@ export class RaccordementWorld {
       période: '1',
       numéroCRE: '23',
     };
-    this.#fichierDemandeComplèteRaccordement = {
+    this.accuséRéceptionDemandeComplèteRaccordement = {
       format: 'application/pdf',
       content: Readable.from("Contenu d'un fichier DCR", {
         encoding: 'utf8',
       }),
     };
-    this.#autreFichierDemandeComplèteRaccordement = {
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un autre fichier DCR", {
-        encoding: 'utf8',
-      }),
-    };
-    this.#fichierPropositionTechniqueEtFinancière = {
+    this.#propositionTechniqueEtFinancièreSignée = {
+      dateSignature: new Date(),
       format: 'application/pdf',
       content: Readable.from("Contenu d'un fichier PTF", {
-        encoding: 'utf8',
-      }),
-    };
-    this.#autreFichierPropositionTechniqueEtFinancière = {
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un autre fichier PTF", {
         encoding: 'utf8',
       }),
     };
@@ -127,31 +100,16 @@ export class RaccordementWorld {
 
   async createDemandeComplèteRaccordement(codeEIC: string) {
     const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
-    const identifiantProjet = formatIdentifiantProjet(this.identifiantProjet);
-    const event: DemandeComplèteRaccordementTransmiseEvent = {
-      type: 'DemandeComplèteDeRaccordementTransmise',
-      payload: {
-        identifiantProjet,
-        identifiantGestionnaireRéseau: codeEIC,
-        dateQualification: new Date().toISOString(),
+    await mediator.send(
+      buildTransmettreDemandeComplèteRaccordementUseCase({
         référenceDossierRaccordement,
-      },
-    };
-    await publish(createRaccordementAggregateId(this.#identifiantProjet), event);
-    this.#référenceDossierRaccordement = référenceDossierRaccordement;
-
-    const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
-      type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
-      payload: {
-        identifiantProjet,
-        référenceDossierRaccordement,
-        format: this.#fichierDemandeComplèteRaccordement.format,
-      },
-    };
-
-    await publish(
-      createRaccordementAggregateId(this.#identifiantProjet),
-      accuséRéceptionTransmisEvent,
+        accuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
+        identifiantGestionnaireRéseau: { codeEIC },
+        identifiantProjet: this.identifiantProjet,
+        dateQualification: new Date(),
+      }),
     );
+
+    this.#référenceDossierRaccordement = référenceDossierRaccordement;
   }
 }

@@ -1,10 +1,9 @@
 import { createReadStream } from 'fs';
+import { mediator } from 'mediateur';
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
-  consulterDossierRaccordementQueryHandlerFactory,
-  modifierDemandeComplèteRaccordementCommandHandlerFactory,
-  modifierDemandeComplèteRaccordementUseCaseFactory,
+  buildModifierDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -18,32 +17,9 @@ import {
   vérifierPermissionUtilisateur,
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import {
-  remplacerAccuséRéceptionDemandeComplèteRaccordement,
-  renommerPropositionTechniqueEtFinancière,
-} from '@potentiel/adapter-domain';
-import { findProjection } from '@potentiel/pg-projections';
-
-const consulterDossierRaccordementQuery = consulterDossierRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
-
-const modifierDemandeComplèteRaccordementCommand =
-  modifierDemandeComplèteRaccordementCommandHandlerFactory({
-    loadAggregate,
-    publish,
-  });
-
-const modifierDemandeComplèteRaccordement = modifierDemandeComplèteRaccordementUseCaseFactory({
-  consulterDossierRaccordementQuery,
-  modifierDemandeComplèteRaccordementCommand,
-  remplacerAccuséRéceptionDemandeComplèteRaccordement,
-  renommerPropositionTechniqueEtFinancière,
-});
 
 const schema = yup.object({
   params: yup.object({
@@ -134,16 +110,18 @@ v1Router.post(
       };
 
       try {
-        await modifierDemandeComplèteRaccordement({
-          identifiantProjet,
-          dateQualification,
-          nouvelleRéférence: nouvelleReference,
-          ancienneRéférence: reference,
-          nouveauFichier: {
-            format: file.mimetype,
-            content: createReadStream(file.path),
-          },
-        });
+        await mediator.send(
+          buildModifierDemandeComplèteRaccordementUseCase({
+            identifiantProjet,
+            dateQualification,
+            nouvelleRéférence: nouvelleReference,
+            ancienneRéférence: reference,
+            accuséRéception: {
+              format: file.mimetype,
+              content: createReadStream(file.path),
+            },
+          }),
+        );
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

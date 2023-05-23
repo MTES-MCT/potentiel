@@ -6,17 +6,12 @@ import * as yup from 'yup';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
 import {
   GestionnaireRéseauInconnuError,
-  modifierGestionnaireRéseauFactory,
   PermissionModifierGestionnaireRéseau,
+  buildModifierGestionnaireRéseauCommand,
 } from '@potentiel/domain';
-
-export const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
-  publish,
-  loadAggregate,
-});
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   body: yup.object({
@@ -46,11 +41,14 @@ v1Router.post(
         params: { codeEIC },
       } = request;
       try {
-        await modifierGestionnaireRéseau({
-          codeEIC,
+        const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
+          identifiantGestionnaireRéseau: { codeEIC },
           aideSaisieRéférenceDossierRaccordement: { format, légende },
           raisonSociale,
         });
+
+        await mediator.send(modifierGestionnaireRéseauCommand);
+
         response.redirect(
           addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
             success: 'Le gestionnaire a bien été modifié.',

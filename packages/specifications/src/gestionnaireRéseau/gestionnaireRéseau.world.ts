@@ -1,10 +1,9 @@
 import {
-  GestionnaireRéseauAjoutéEvent,
   GestionnaireRéseauReadModel,
-  createGestionnaireRéseauAggregateId,
+  buildAjouterGestionnaireRéseauCommand,
 } from '@potentiel/domain';
-import { publish } from '@potentiel/pg-event-sourcing';
 import { sleep } from '../helpers/sleep';
+import { mediator } from 'mediateur';
 
 export class GestionnaireRéseauWorld {
   #codeEIC!: string;
@@ -73,18 +72,16 @@ export class GestionnaireRéseauWorld {
   }
 
   async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {
-    const event: GestionnaireRéseauAjoutéEvent = {
-      type: 'GestionnaireRéseauAjouté',
-      payload: {
-        codeEIC,
-        raisonSociale,
-        aideSaisieRéférenceDossierRaccordement: {
-          format: '',
-          légende: '',
-        },
+    const command = buildAjouterGestionnaireRéseauCommand({
+      codeEIC,
+      raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        format: '',
+        légende: '',
       },
-    };
-    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
+    });
+
+    await mediator.send(command);
     this.codeEIC = codeEIC;
     await sleep(100);
   }

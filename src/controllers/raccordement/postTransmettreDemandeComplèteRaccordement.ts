@@ -3,11 +3,8 @@ import {
   GestionnaireNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
   PlusieursGestionnairesRéseauPourUnProjetError,
-  consulterGestionnaireRéseauQueryHandlerFactory,
-  transmettreDemandeComplèteRaccordementCommandHandlerFactory,
-  transmettreDemandeComplèteRaccordementUseCaseFactory,
+  buildTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -20,29 +17,11 @@ import {
   vérifierPermissionUtilisateur,
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { enregistrerAccuséRéceptionDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 
-const transmettreDemandeComplèteRaccordementCommand =
-  transmettreDemandeComplèteRaccordementCommandHandlerFactory({
-    loadAggregate,
-    publish,
-  });
-
-const consulterGestionnaireRéseauQuery = consulterGestionnaireRéseauQueryHandlerFactory({
-  find: findProjection,
-});
-
-const transmettreDemandeComplèteRaccordement = transmettreDemandeComplèteRaccordementUseCaseFactory(
-  {
-    transmettreDemandeComplèteRaccordementCommand,
-    consulterGestionnaireRéseauQuery,
-    enregistrerAccuséRéceptionDemandeComplèteRaccordement,
-  },
-);
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -126,16 +105,18 @@ v1Router.post(
       };
 
       try {
-        await transmettreDemandeComplèteRaccordement({
-          identifiantProjet,
-          identifiantGestionnaireRéseau: { codeEIC },
-          dateQualification,
-          référenceDossierRaccordement,
-          accuséRéception: {
-            format: file.mimetype,
-            content: createReadStream(file.path),
-          },
-        });
+        await mediator.send(
+          buildTransmettreDemandeComplèteRaccordementUseCase({
+            identifiantProjet,
+            identifiantGestionnaireRéseau: { codeEIC },
+            dateQualification,
+            référenceDossierRaccordement,
+            accuséRéception: {
+              format: file.mimetype,
+              content: createReadStream(file.path),
+            },
+          }),
+        );
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

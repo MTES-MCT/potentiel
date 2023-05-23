@@ -6,31 +6,14 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
-  consulterDossierRaccordementQueryHandlerFactory,
-  consulterGestionnaireRéseauQueryHandlerFactory,
-  consulterProjetQueryHandlerFactory,
-  formatIdentifiantProjet,
-  listerDossiersRaccordementQueryHandlerFactory,
+  buildConsulterGestionnaireRéseauQuery,
+  buildConsulterProjetQuery,
+  buildListerDossiersRaccordementUseCase,
+  buildConsulterDossierRaccordementUseCase,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { findProjection } from '@potentiel/pg-projections';
 import { ListeDossiersRaccordementPage } from '@views';
-import { join } from 'path';
-import { getFiles } from '@potentiel/file-storage';
-
-const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
-
-const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
-
-const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
-
-const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-  find: findProjection,
-});
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -85,9 +68,11 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
 
-      const { références } = await listerDossiersRaccordement({
-        identifiantProjet,
-      });
+      const { références } = await mediator.send(
+        buildListerDossiersRaccordementUseCase({
+          identifiantProjet,
+        }),
+      );
 
       if (références.length > 0) {
         const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
@@ -106,37 +91,29 @@ v1Router.get(
 
         const dossiers = await Promise.all(
           références.map(async (référence) => {
-            const fileDCRPath = join(
-              formatIdentifiantProjet(identifiantProjet),
-              référence,
-              `demande-complete-raccordement`,
+            const dossier = await mediator.send(
+              buildConsulterDossierRaccordementUseCase({ identifiantProjet, référence }),
             );
-            const DCRFiles = await getFiles(fileDCRPath);
-
-            const filePTFPath = join(
-              formatIdentifiantProjet(identifiantProjet),
-              référence,
-              `proposition-technique-et-financiere`,
-            );
-            const PTFFiles = await getFiles(filePTFPath);
-
-            const dossier = await consulterDossierRaccordement({ identifiantProjet, référence });
 
             return {
               ...dossier,
-              hasPTFFile: !!(PTFFiles.length > 0),
-              hasDCRFile: !!(DCRFiles.length > 0),
+              hasPTFFile: !!dossier.propositionTechniqueEtFinancière,
+              hasDCRFile: !!dossier.accuséRéception,
             };
           }),
         );
 
-        const { identifiantGestionnaire = { codeEIC: '' } } = await consulterProjet({
-          identifiantProjet,
-        });
+        const { identifiantGestionnaire = { codeEIC: '' } } = await mediator.send(
+          buildConsulterProjetQuery({
+            identifiantProjet,
+          }),
+        );
 
-        const gestionnaireRéseau = await consulterGestionnaireRéseau({
-          codeEIC: identifiantGestionnaire.codeEIC,
-        });
+        const gestionnaireRéseau = await mediator.send(
+          buildConsulterGestionnaireRéseauQuery({
+            identifiantGestionnaireRéseau: { codeEIC: identifiantGestionnaire.codeEIC },
+          }),
+        );
 
         return response.send(
           ListeDossiersRaccordementPage({

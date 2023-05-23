@@ -1,6 +1,7 @@
+import { mediator } from 'mediateur';
 import {
   PermissionConsulterDossierRaccordement,
-  téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory,
+  buildConsulterDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -9,15 +10,8 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { logger } from '@core/utils';
-import { findProjection } from '@potentiel/pg-projections';
-import { récupérerFichierDemandeComplèteRaccordement } from '@potentiel/adapter-domain';
-import { extension } from 'mime-types';
 
-const téléchargerFichierDemandeComplèteRaccordement =
-  téléchargerFichierDemandeComplèteRaccordementQueryHandlerFactory({
-    find: findProjection,
-    récupérerFichierDemandeComplèteRaccordement,
-  });
+import { extension } from 'mime-types';
 
 const schema = yup.object({
   params: yup.object({
@@ -60,19 +54,21 @@ v1Router.get(
       };
 
       try {
-        const fichier = await téléchargerFichierDemandeComplèteRaccordement({
-          identifiantProjet,
-          référenceDossierRaccordement: reference,
-        });
+        const demandeComplèteRaccordement = await mediator.send(
+          buildConsulterDemandeComplèteRaccordementUseCase({
+            identifiantProjet,
+            référenceDossierRaccordement: reference,
+          }),
+        );
 
-        const extensionFichier = extension(fichier.format);
+        const extensionFichier = extension(demandeComplèteRaccordement.format);
 
-        response.type(fichier.format);
+        response.type(demandeComplèteRaccordement.format);
         response.setHeader(
           'Content-Disposition',
           `attachment; filename=accuse-reception-${reference}.${extensionFichier}`,
         );
-        fichier.content.pipe(response);
+        demandeComplèteRaccordement.content.pipe(response);
         return response.status(200);
       } catch (error) {
         logger.error(error);

@@ -1,10 +1,9 @@
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
   RésuméProjetReadModel,
-  consulterProjetQueryHandlerFactory,
-  listerGestionnaireRéseauQueryHandlerFactory,
+  buildConsulterProjetQuery,
+  buildListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -12,12 +11,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettreDemandeComplèteRaccordementPage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
-
-const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-  list: listProjection,
-});
-
-const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -72,9 +66,11 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
 
-      const { identifiantGestionnaire } = await consulterProjet({ identifiantProjet });
+      const { identifiantGestionnaire } = await mediator.send(
+        buildConsulterProjetQuery({ identifiantProjet }),
+      );
 
-      const gestionnairesRéseau = await listerGestionnaireRéseau({});
+      const gestionnairesRéseau = await mediator.send(buildListerGestionnaireRéseauQuery({}));
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {

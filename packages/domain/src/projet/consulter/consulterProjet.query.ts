@@ -1,22 +1,23 @@
-import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '..';
+import { Find } from '@potentiel/core-domain';
 import { ProjetReadModel } from '../projet.readModel';
 import { isNone } from '@potentiel/monads';
+import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../identifiantProjet';
 
-export type ConsulterProjetQuery = {
-  identifiantProjet: IdentifiantProjet;
-};
+export type ConsulterProjetQuery = Message<
+  'CONSULTER_PROJET',
+  {
+    identifiantProjet: IdentifiantProjet;
+  },
+  ProjetReadModel
+>;
 
-type ConsulterProjetDependencies = {
+export type ConsulterProjetDependencies = {
   find: Find;
 };
 
-export const consulterProjetQueryHandlerFactory: QueryHandlerFactory<
-  ConsulterProjetQuery,
-  ProjetReadModel,
-  ConsulterProjetDependencies
-> = ({ find }) => {
-  return async ({ identifiantProjet }) => {
+export const registerConsulterProjetQuery = ({ find }: ConsulterProjetDependencies) => {
+  const queryHandler: MessageHandler<ConsulterProjetQuery> = async ({ identifiantProjet }) => {
     const result = await find<ProjetReadModel>(
       `projet#${formatIdentifiantProjet(identifiantProjet)}`,
     );
@@ -27,4 +28,9 @@ export const consulterProjetQueryHandlerFactory: QueryHandlerFactory<
 
     return result;
   };
+
+  mediator.register('CONSULTER_PROJET', queryHandler);
 };
+
+export const buildConsulterProjetQuery =
+  getMessageBuilder<ConsulterProjetQuery>('CONSULTER_PROJET');

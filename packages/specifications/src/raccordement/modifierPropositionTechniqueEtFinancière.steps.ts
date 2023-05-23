@@ -2,70 +2,66 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
-  consulterDossierRaccordementQueryHandlerFactory,
-  formatIdentifiantProjet,
-  modifierPropositionTechniqueEtFinancièreCommandHandlerFactory,
+  buildConsulterDossierRaccordementUseCase,
+  buildModifierPropositiontechniqueEtFinancièreUseCase,
+  buildConsulterPropositionTechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { findProjection } from '@potentiel/pg-projections';
 import { expect } from 'chai';
-import { download } from '@potentiel/file-storage';
-import { extension } from 'mime-types';
-import { join } from 'path';
-import { enregistrerFichierPropositionTechniqueEtFinancière } from '@potentiel/adapter-domain';
+import { mediator } from 'mediateur';
+import { Readable } from 'stream';
 
 Quand(
-  `le porteur modifie la proposition technique et financière avec une date de signature au {string} et un nouveau fichier`,
-  async function (this: PotentielWorld, dateSignature: string) {
-    const modifierPropositionTechniqueEtFinancière =
-      modifierPropositionTechniqueEtFinancièreCommandHandlerFactory({
-        loadAggregate,
-        publish,
-        enregistrerFichierPropositionTechniqueEtFinancière,
-      });
-
-    await modifierPropositionTechniqueEtFinancière({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-      dateSignature: new Date(dateSignature),
-      nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
-    });
-  },
-);
-
-Alors(
-  `la date de signature {string} et le format du fichier devraient être consultables dans le dossier de raccordement`,
-  async function (this: PotentielWorld, dateSignature: string) {
-    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-      find: findProjection,
-    });
-
-    const actual = await consulterDossierRaccordement({
-      référence: this.raccordementWorld.référenceDossierRaccordement,
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-    });
-
-    console.log('********************* ACTUAL', actual);
-
-    expect(actual.propositionTechniqueEtFinancière).to.deep.equal({
-      dateSignature: new Date(dateSignature).toISOString(),
-      format: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière.format,
-    });
-  },
-);
-
-Alors(
-  `le nouveau fichier devrait être enregistré et consultable pour ce dossier de raccordement`,
+  `le porteur modifie la proposition technique et financière`,
   async function (this: PotentielWorld) {
-    const path = join(
-      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-      this.raccordementWorld.référenceDossierRaccordement,
-      `proposition-technique-et-financiere.${extension(
-        this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière.format,
-      )}`,
+    const dateSignature = new Date('2023-04-26');
+    const propositionTechniqueEtFinancièreSignée = {
+      format: 'application/pdf',
+      content: Readable.from("Contenu d'un autre fichier PTF", {
+        encoding: 'utf8',
+      }),
+    };
+    await mediator.send(
+      buildModifierPropositiontechniqueEtFinancièreUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        dateSignature: new Date(dateSignature),
+        propositionTechniqueEtFinancière: propositionTechniqueEtFinancièreSignée,
+      }),
     );
-    const fichier = await download(path);
-    fichier.should.be.ok;
+
+    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+      dateSignature,
+      ...propositionTechniqueEtFinancièreSignée,
+    };
+  },
+);
+
+Alors(
+  `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const { propositionTechniqueEtFinancière } = await mediator.send(
+      buildConsulterDossierRaccordementUseCase({
+        référence: this.raccordementWorld.référenceDossierRaccordement,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
+
+    expect(propositionTechniqueEtFinancière?.dateSignature).to.be.equal(
+      this.raccordementWorld.propositionTechniqueEtFinancièreSignée.dateSignature.toISOString(),
+    );
+    expect(propositionTechniqueEtFinancière?.format).to.be.equal(
+      this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
+    );
+
+    const propositionTechniqueEtFinancièreSignée = await mediator.send(
+      buildConsulterPropositionTechniqueEtFinancièreUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      }),
+    );
+
+    // TODO improve assert
+    propositionTechniqueEtFinancièreSignée.should.be.ok;
   },
 );
 
@@ -73,19 +69,15 @@ Quand(
   `un administrateur modifie la date de signature pour un dossier de raccordement non connu`,
   async function (this: PotentielWorld) {
     try {
-      const modifierPropositionTechniqueEtFinancière =
-        modifierPropositionTechniqueEtFinancièreCommandHandlerFactory({
-          loadAggregate,
-          publish,
-          enregistrerFichierPropositionTechniqueEtFinancière,
-        });
-
-      await modifierPropositionTechniqueEtFinancière({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        dateSignature: new Date('2023-04-26'),
-        référenceDossierRaccordement: 'dossier-inconnu',
-        nouveauFichier: this.raccordementWorld.autreFichierPropositionTechniqueEtFinancière,
-      });
+      await mediator.send(
+        buildModifierPropositiontechniqueEtFinancièreUseCase({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          dateSignature: new Date('2023-04-26'),
+          référenceDossierRaccordement: 'dossier-inconnu',
+          propositionTechniqueEtFinancière:
+            this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
+        }),
+      );
     } catch (error) {
       if (error instanceof DossierRaccordementNonRéférencéError) {
         this.error = error;

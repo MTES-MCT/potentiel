@@ -6,17 +6,12 @@ import * as yup from 'yup';
 
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
-import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
 import {
-  ajouterGestionnaireRéseauCommandHandlerFactory,
   GestionnaireRéseauDéjàExistantError,
   PermissionAjouterGestionnaireRéseau,
+  buildAjouterGestionnaireRéseauCommand,
 } from '@potentiel/domain';
-
-export const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
-  publish,
-  loadAggregate,
-});
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   body: yup.object({
@@ -47,11 +42,14 @@ v1Router.post(
       const { codeEIC, format = '', légende = '', raisonSociale } = request.body;
 
       try {
-        await ajouterGestionnaireRéseau({
+        const ajouterGestionnaireRéseauCommand = buildAjouterGestionnaireRéseauCommand({
           codeEIC,
           aideSaisieRéférenceDossierRaccordement: { format, légende },
           raisonSociale,
         });
+
+        await mediator.send(ajouterGestionnaireRéseauCommand);
+
         response.redirect(
           addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
             success: 'Le gestionnaire a bien été enregistré.',

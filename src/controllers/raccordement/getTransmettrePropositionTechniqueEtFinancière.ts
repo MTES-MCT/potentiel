@@ -1,7 +1,7 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
-  consulterDossierRaccordementQueryHandlerFactory,
+  buildConsulterDossierRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -10,11 +10,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { findProjection } from '@potentiel/pg-projections';
-
-const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
+import { mediator } from 'mediateur';
 
 const schema = yup.object({
   params: yup.object({
@@ -65,15 +61,17 @@ v1Router.get(
         });
       }
 
-      const dossierRaccordement = await consulterDossierRaccordement({
-        identifiantProjet: {
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        },
-        référence: reference,
-      });
+      const dossierRaccordement = await mediator.send(
+        buildConsulterDossierRaccordementUseCase({
+          identifiantProjet: {
+            appelOffre: projet.appelOffreId,
+            période: projet.periodeId,
+            famille: projet.familleId,
+            numéroCRE: projet.numeroCRE,
+          },
+          référence: reference,
+        }),
+      );
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
