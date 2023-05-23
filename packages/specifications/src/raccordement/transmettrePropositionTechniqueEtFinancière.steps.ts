@@ -2,26 +2,23 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
-  formatIdentifiantProjet,
-  buildConsulterDossierRaccordementQuery,
-  buildTransmettrePropositionTechniqueEtFinancièreCommand,
+  buildConsulterDossierRaccordementUseCase,
+  buildConsulterPropositionTechniqueEtFinancièreUseCase,
+  buildTransmettrePropositionTechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
-import { join } from 'path';
-import { extension } from 'mime-types';
-import { download } from '@potentiel/file-storage';
 import { mediator } from 'mediateur';
 
 Quand(
   `le porteur de projet transmet une proposition technique et financière pour ce dossier de raccordement avec la date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
     await mediator.send(
-      buildTransmettrePropositionTechniqueEtFinancièreCommand({
+      buildTransmettrePropositionTechniqueEtFinancièreUseCase({
         dateSignature: new Date(dateSignature),
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         propositionTechniqueEtFinancière:
-          this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
+          this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
       }),
     );
   },
@@ -33,7 +30,7 @@ Alors(
     const dateSignatureISOString = new Date(dateSignature).toISOString();
 
     const actual = await mediator.send(
-      buildConsulterDossierRaccordementQuery({
+      buildConsulterDossierRaccordementUseCase({
         référence: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
@@ -41,7 +38,7 @@ Alors(
 
     const expected = {
       dateSignature: dateSignatureISOString,
-      format: this.raccordementWorld.fichierPropositionTechniqueEtFinancière.format,
+      format: this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
     };
 
     expect(actual.propositionTechniqueEtFinancière).to.deep.equal(expected);
@@ -53,12 +50,12 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       await mediator.send(
-        buildTransmettrePropositionTechniqueEtFinancièreCommand({
+        buildTransmettrePropositionTechniqueEtFinancièreUseCase({
           dateSignature: new Date(),
           référenceDossierRaccordement: 'dossier-inconnu',
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           propositionTechniqueEtFinancière:
-            this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
+            this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
         }),
       );
     } catch (error) {
@@ -74,12 +71,12 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       await mediator.send(
-        buildTransmettrePropositionTechniqueEtFinancièreCommand({
+        buildTransmettrePropositionTechniqueEtFinancièreUseCase({
           dateSignature: new Date(),
           référenceDossierRaccordement: 'dossier-inconnu',
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           propositionTechniqueEtFinancière:
-            this.raccordementWorld.fichierPropositionTechniqueEtFinancière,
+            this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
         }),
       );
     } catch (error) {
@@ -93,15 +90,15 @@ Quand(
 Alors(
   `le fichier  devrait être enregistré et consultable pour ce dossier de raccordement`,
   async function (this: PotentielWorld) {
-    const path = join(
-      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-      this.raccordementWorld.référenceDossierRaccordement,
-      `proposition-technique-et-financiere.${extension(
-        this.raccordementWorld.fichierPropositionTechniqueEtFinancière.format,
-      )}`,
+    const ptf = await mediator.send(
+      buildConsulterPropositionTechniqueEtFinancièreUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      }),
     );
-    const fichier = await download(path);
-    fichier.should.be.ok;
+
+    // TODO: improve assert
+    ptf.should.be.ok;
   },
 );
 //

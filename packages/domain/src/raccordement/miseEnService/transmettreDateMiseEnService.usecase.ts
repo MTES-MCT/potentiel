@@ -1,5 +1,6 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
+import { buildTransmettreDateMiseEnServiceCommand } from './transmettre/transmettreDateMiseEnService.command';
 
 type TransmettreDateMiseEnServiceUseCase = Message<
   'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
@@ -17,7 +18,7 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     identifiantProjet,
   }) => {
     await mediator.send(
-      buildTransmettreDateMiseEnServiceUseCase({
+      buildTransmettreDateMiseEnServiceCommand({
         dateMiseEnService,
         identifiantProjet,
         référenceDossierRaccordement,

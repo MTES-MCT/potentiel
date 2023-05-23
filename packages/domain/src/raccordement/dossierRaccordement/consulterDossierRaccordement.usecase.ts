@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { DossierRaccordementReadModel } from './consulter/dossierRaccordement.readModel';
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
+import { buildConsulterDossierRaccordementQuery } from './consulter/consulterDossierRaccordement.query';
 
 export type ConsulterDossierRaccordementUseCase = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_USECASE',
@@ -17,7 +18,7 @@ export const registerConsulterDossierRaccordementUseCase = () => {
     référence,
   }) => {
     return await mediator.send(
-      buildConsulterDossierRaccordementUseCase({
+      buildConsulterDossierRaccordementQuery({
         identifiantProjet,
         référence,
       }),

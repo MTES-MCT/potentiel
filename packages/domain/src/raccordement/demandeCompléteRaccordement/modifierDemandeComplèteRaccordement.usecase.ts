@@ -13,7 +13,7 @@ import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/c
 type ModifierDemandeComplèteRaccordementUseCase = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   ModifierDemandeComplèteRaccordementCommand['data'] &
-    EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data']
+    Pick<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'accuséRéception'>
 >;
 
 export const registerModifierDemandeComplèteRaccordementUseCase = () => {
@@ -62,6 +62,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
   mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
 };
 
-export const buildModifierDemandeComplèteRaccordementUseCase = getMessageBuilder(
-  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-);
+export const buildModifierDemandeComplèteRaccordementUseCase =
+  getMessageBuilder<ModifierDemandeComplèteRaccordementUseCase>(
+    'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+  );

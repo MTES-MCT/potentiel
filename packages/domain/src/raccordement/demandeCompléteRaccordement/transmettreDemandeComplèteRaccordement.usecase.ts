@@ -56,6 +56,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
   mediator.register('TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
 };
 
-export const buildTransmettreDemandeComplèteRaccordementUseCase = getMessageBuilder(
-  'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-);
+export const buildTransmettreDemandeComplèteRaccordementUseCase =
+  getMessageBuilder<TransmettreDemandeComplèteRaccordementUseCase>(
+    'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+  );

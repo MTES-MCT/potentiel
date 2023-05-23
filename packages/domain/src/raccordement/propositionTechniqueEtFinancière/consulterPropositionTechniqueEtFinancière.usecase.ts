@@ -1,10 +1,8 @@
 import { Message, MessageHandler, getMessageBuilder, mediator } from 'mediateur';
-import {
-  ConsulterPropositionTechniqueEtFinancièreSignéeQuery,
-  buildConsulterPropositionTechniqueEtFinancièreSignéeQuery,
-} from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
+import { buildConsulterPropositionTechniqueEtFinancièreSignéeQuery } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from './consulter/propositionTechniqueEtFinancièreSignée.readModel';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
+import { IdentifiantProjet } from '../../projet/identifiantProjet';
 
 type ConsulterPropositionTechniqueEtFinancièreUseCaseResult = Omit<
   PropositionTechniqueEtFinancièreSignéeReadModel & Readonly<{ dateSignature: string }>,
@@ -13,7 +11,10 @@ type ConsulterPropositionTechniqueEtFinancièreUseCaseResult = Omit<
 
 export type ConsulterPropositionTechniqueEtFinancièreUseCase = Message<
   'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
-  ConsulterPropositionTechniqueEtFinancièreSignéeQuery['data'],
+  {
+    identifiantProjet: IdentifiantProjet;
+    référenceDossierRaccordement: string;
+  },
   ConsulterPropositionTechniqueEtFinancièreUseCaseResult
 >;
 

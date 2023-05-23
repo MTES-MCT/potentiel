@@ -3,17 +3,14 @@ import {
   DossierRaccordementReadModel,
   GestionnaireNonRéférencéError,
   PlusieursGestionnairesRéseauPourUnProjetError,
-  formatIdentifiantProjet,
+  buildConsulterDemandeComplèteRaccordementUseCase,
+  buildConsulterDossierRaccordementUseCase,
   buildConsulterProjetQuery,
-  buildConsulterDossierRaccordementQuery,
-  buildListerDossiersRaccordementQuery,
+  buildListerDossiersRaccordementUseCase,
   buildTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
-import { download } from '@potentiel/file-storage';
 import { Readable } from 'stream';
-import { join } from 'path';
-import { extension } from 'mime-types';
 import { mediator } from 'mediateur';
 
 EtantDonné(
@@ -31,7 +28,7 @@ EtantDonné(
         },
         dateQualification,
         référenceDossierRaccordement,
-        accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
+        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );
   },
@@ -80,7 +77,7 @@ Quand(
         },
         dateQualification: this.raccordementWorld.dateQualification,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-        accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
+        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );
   },
@@ -98,7 +95,7 @@ Quand(
           },
           dateQualification: new Date(),
           référenceDossierRaccordement: 'une référence',
-          accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
+          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
         }),
       );
     } catch (e) {
@@ -113,7 +110,7 @@ Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
     const actual = await mediator.send(
-      buildListerDossiersRaccordementQuery({
+      buildListerDossiersRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );
@@ -126,7 +123,7 @@ Alors(
   'le projet devrait avoir un dossier de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
     const actual = await mediator.send(
-      buildConsulterDossierRaccordementQuery({
+      buildConsulterDossierRaccordementUseCase({
         référence: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
@@ -136,7 +133,9 @@ Alors(
       type: 'dossier-raccordement',
       référence: this.raccordementWorld.référenceDossierRaccordement,
       dateQualification: this.raccordementWorld.dateQualification.toISOString(),
-      accuséRéception: { format: this.raccordementWorld.fichierDemandeComplèteRaccordement.format },
+      accuséRéception: {
+        format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+      },
     };
 
     actual.should.be.deep.equal(expected);
@@ -158,31 +157,17 @@ Alors(
 );
 
 Alors(
-  'le dossier est consultable dans la liste des dossiers de raccordement du projet',
-  async function async(this: PotentielWorld) {
-    const actual = await mediator.send(
-      buildListerDossiersRaccordementQuery({
+  `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const accuséRéception = await mediator.send(
+      buildConsulterDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       }),
     );
 
-    actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
-  },
-);
-
-Alors(
-  `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement`,
-  async function (this: PotentielWorld) {
-    // TODO : utiliser query
-    const path = join(
-      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-      this.raccordementWorld.référenceDossierRaccordement,
-      `demande-complete-raccordement.${extension(
-        this.raccordementWorld.fichierDemandeComplèteRaccordement.format,
-      )}`,
-    );
-    const fichier = await download(path);
-    fichier.should.be.ok;
+    // TODO: improve assert
+    accuséRéception.should.be.ok;
   },
 );
 
@@ -197,7 +182,7 @@ EtantDonné(
         },
         dateQualification: new Date('2022-12-31'),
         référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
-        accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
+        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );
   },
@@ -221,7 +206,7 @@ Quand(
           },
           dateQualification: new Date('2022-11-24'),
           référenceDossierRaccordement: 'Enieme-DCR',
-          accuséRéception: this.raccordementWorld.fichierDemandeComplèteRaccordement,
+          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
         }),
       );
     } catch (error) {

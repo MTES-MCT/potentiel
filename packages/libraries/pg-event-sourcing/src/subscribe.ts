@@ -55,6 +55,7 @@ export const subscribe = <TDomainEvent extends DomainEvent = Event>(
 ): Unsubscribe => {
   if (!eventStreamEmitter) {
     eventStreamEmitter = new EventStreamEmitter();
+    eventStreamEmitter.setMaxListeners(50);
   }
 
   return eventStreamEmitter.subscribe(eventType, eventHandler);
