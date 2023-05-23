@@ -4,10 +4,8 @@ import { createProjetAggregateId } from '../projet.aggregate';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../identifiantProjet';
 
-const MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET = Symbol('MOIDIFIER_GESTIONNAIRE_RÉSEAU_PROJET');
-
 export type ModifierGestionnaireRéseauProjetCommand = Message<
-  typeof MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET,
+  'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',
   {
     identifiantGestionnaireRéseau: string;
     identifiantProjet: IdentifiantProjet;
@@ -34,8 +32,8 @@ export const registerModifierGestionnaireRéseauProjetCommand = ({
     await publish(createProjetAggregateId(identifiantProjet), event);
   };
 
-  mediator.register(MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET, handler);
+  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET', handler);
 };
 
 export const buildModifierGestionnaireRéseauProjetCommand =
-  getMessageBuilder<ModifierGestionnaireRéseauProjetCommand>(MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET);
+  getMessageBuilder<ModifierGestionnaireRéseauProjetCommand>('MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET');

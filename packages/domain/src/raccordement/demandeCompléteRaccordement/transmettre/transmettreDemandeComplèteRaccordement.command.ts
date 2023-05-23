@@ -14,12 +14,8 @@ import {
 } from '../../../gestionnaireRéseau/identifiantGestionnaireRéseau';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
-  'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
-);
-
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
-  typeof TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     identifiantProjet: IdentifiantProjet;
@@ -84,10 +80,10 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
   };
 
-  mediator.register(TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND, handler);
+  mediator.register('TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);
 };
 
 export const buildTransmettreDemandeComplèteRaccordementCommand =
   getMessageBuilder<TransmettreDemandeComplèteRaccordementCommand>(
-    TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+    'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   );

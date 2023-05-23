@@ -3,10 +3,6 @@ import { Readable } from 'stream';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './accuséRéceptionDemandeComplèteRaccordement.readModel';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-export const CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT = Symbol(
-  'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
-);
-
 export type RécupérerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
   identifiantProjet: string;
   référenceDossierRaccordement: string;
@@ -18,7 +14,7 @@ export type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies =
 };
 
 export type ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery = Message<
-  typeof CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT,
+  'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
@@ -47,10 +43,10 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
       content,
     } satisfies AccuséRéceptionDemandeComplèteRaccordementReadModel;
   };
-  mediator.register(CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT, handler);
+  mediator.register('CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT', handler);
 };
 
 export const buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery =
   getMessageBuilder<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>(
-    CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT,
+    'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
   );

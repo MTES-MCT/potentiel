@@ -3,10 +3,6 @@ import { PropositionTechniqueEtFinancièreSignéeReadModel } from './proposition
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 import { Readable } from 'stream';
 
-const CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE = Symbol(
-  'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
-);
-
 export type RécupérerPropositionTechniqueEtFinancièreSignéePort = (args: {
   identifiantProjet: string;
   référenceDossierRaccordement: string;
@@ -18,7 +14,7 @@ export type ConsulterPropositionTechniqueEtFinancièreSignéeDependencies = {
 };
 
 export type ConsulterPropositionTechniqueEtFinancièreSignéeQuery = Message<
-  typeof CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE,
+  'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
@@ -47,10 +43,10 @@ export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
       content,
     };
   };
-  mediator.register(CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE, handler);
+  mediator.register('CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE', handler);
 };
 
 export const buildConsulterPropositionTechniqueEtFinancièreSignéeQuery =
   getMessageBuilder<ConsulterPropositionTechniqueEtFinancièreSignéeQuery>(
-    CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE,
+    'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
   );

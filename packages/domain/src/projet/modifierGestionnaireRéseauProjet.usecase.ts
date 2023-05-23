@@ -6,14 +6,10 @@ import {
 } from './modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.command';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
-const MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE = Symbol(
-  'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
-);
-
 type ModifierGestionnaireRéseauProjetUseCaseData = ModifierGestionnaireRéseauProjetCommand['data'];
 
 type ModifierGestionnaireRéseauProjetUseCase = Message<
-  typeof MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE,
+  'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
   ModifierGestionnaireRéseauProjetUseCaseData
 >;
 
@@ -39,9 +35,9 @@ export const registerModifierGestionnaireRéseauProjetUseCase = () => {
       }),
     );
   };
-  mediator.register(MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE, runner);
+  mediator.register('MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE', runner);
 };
 
 export const buildModifierGestionnaireRéseauProjetUseCase = getMessageBuilder(
-  MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE,
+  'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
 );

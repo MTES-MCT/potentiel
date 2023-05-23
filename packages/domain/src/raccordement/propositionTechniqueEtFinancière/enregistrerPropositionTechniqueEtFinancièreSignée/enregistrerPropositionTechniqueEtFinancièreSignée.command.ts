@@ -10,12 +10,8 @@ import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from './propositionTechniqueEtFinancièreSignéeTransmise.event';
 
-const ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND = Symbol(
-  'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
-);
-
 export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message<
-  typeof ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND,
+  'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
@@ -79,10 +75,10 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
     );
   };
 
-  mediator.register(ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND, handler);
+  mediator.register('ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND', handler);
 };
 
 export const buildEnregistrerPropositionTechniqueEtFinancièreSignéeCommand =
   getMessageBuilder<EnregistrerPropositionTechniqueEtFinancièreSignéeCommand>(
-    ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND,
+    'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   );

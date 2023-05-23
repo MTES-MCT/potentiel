@@ -1,10 +1,8 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
 
-const TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE = Symbol('TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE');
-
 type TransmettreDateMiseEnServiceUseCase = Message<
-  typeof TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE,
+  'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
   {
     dateMiseEnService: Date;
     référenceDossierRaccordement: string;
@@ -27,8 +25,10 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     );
   };
 
-  mediator.register(TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE, runner);
+  mediator.register('TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE', runner);
 };
 
 export const buildTransmettreDateMiseEnServiceUseCase =
-  getMessageBuilder<TransmettreDateMiseEnServiceUseCase>(TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE);
+  getMessageBuilder<TransmettreDateMiseEnServiceUseCase>(
+    'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+  );

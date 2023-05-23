@@ -6,17 +6,13 @@ import {
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from './consulter/propositionTechniqueEtFinancièreSignée.readModel';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
 
-const CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE = Symbol(
-  'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
-);
-
 type ConsulterPropositionTechniqueEtFinancièreUseCaseResult = Omit<
   PropositionTechniqueEtFinancièreSignéeReadModel & Readonly<{ dateSignature: string }>,
   'type'
 >;
 
 export type ConsulterPropositionTechniqueEtFinancièreUseCase = Message<
-  typeof CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE,
+  'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
   ConsulterPropositionTechniqueEtFinancièreSignéeQuery['data'],
   ConsulterPropositionTechniqueEtFinancièreUseCaseResult
 >;
@@ -46,10 +42,10 @@ export const registerConsulterPropositionTechniqueEtFinancièreUseCase = () => {
       dateSignature: dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature || '',
     };
   };
-  mediator.register(CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE, runner);
+  mediator.register('CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE', runner);
 };
 
 export const buildConsulterPropositionTechniqueEtFinancièreUseCase =
   getMessageBuilder<ConsulterPropositionTechniqueEtFinancièreUseCase>(
-    CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE,
+    'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
   );

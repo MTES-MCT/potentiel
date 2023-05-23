@@ -9,12 +9,8 @@ import { isNone } from '@potentiel/monads';
 import { AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent } from './accuséRéceptionDemandeComplèteRaccordementSupprimé.event';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-const SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
-  'SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
-);
-
 export type SupprimerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
-  typeof SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  'SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
@@ -56,10 +52,10 @@ export const registerSupprimerAccuséRéceptionDemandeComplèteRaccordementComma
     await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionSupprimeEvent);
   };
 
-  mediator.register(SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND, handler);
+  mediator.register('SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);
 };
 
 export const buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand =
   getMessageBuilder<SupprimerAccuséRéceptionDemandeComplèteRaccordementCommand>(
-    SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+    'SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   );

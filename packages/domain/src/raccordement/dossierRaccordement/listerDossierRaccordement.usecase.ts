@@ -2,10 +2,8 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
 import { ListeDossiersRaccordementReadModel } from './lister/listeDossierRaccordement.readModel';
 
-const LISTER_DOSSIER_RACCORDEMENT_USECASE = Symbol('LISTER_DOSSIER_RACCORDEMENT_USECASE');
-
 export type ListerDossiersRaccordementUseCase = Message<
-  typeof LISTER_DOSSIER_RACCORDEMENT_USECASE,
+  'LISTER_DOSSIER_RACCORDEMENT_USECASE',
   {
     identifiantProjet: IdentifiantProjet;
   },
@@ -23,8 +21,8 @@ export const registerListerDossiersRaccordementUseCase = () => {
     );
   };
 
-  mediator.register(LISTER_DOSSIER_RACCORDEMENT_USECASE, runner);
+  mediator.register('LISTER_DOSSIER_RACCORDEMENT_USECASE', runner);
 };
 
 export const buildListerDossiersRaccordementUseCase =
-  getMessageBuilder<ListerDossiersRaccordementUseCase>(LISTER_DOSSIER_RACCORDEMENT_USECASE);
+  getMessageBuilder<ListerDossiersRaccordementUseCase>('LISTER_DOSSIER_RACCORDEMENT_USECASE');

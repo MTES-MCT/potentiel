@@ -5,10 +5,8 @@ import { DossierRaccordementNonRéférencéError } from '../../raccordement.erro
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-export const CONSULTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('CONSULTER_DOSSIER_RACCORDEMENT_QUERY');
-
 export type ConsulterDossierRaccordementQuery = Message<
-  typeof CONSULTER_DOSSIER_RACCORDEMENT_QUERY,
+  'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
   {
     identifiantProjet: IdentifiantProjet;
     référence: string;
@@ -36,8 +34,8 @@ export const registerConsulterDossierRaccordementQuery = ({
     return result;
   };
 
-  mediator.register(CONSULTER_DOSSIER_RACCORDEMENT_QUERY, queryHandler);
+  mediator.register('CONSULTER_DOSSIER_RACCORDEMENT_QUERY', queryHandler);
 };
 
 export const buildConsulterDossierRaccordementQuery =
-  getMessageBuilder<ConsulterDossierRaccordementQuery>(CONSULTER_DOSSIER_RACCORDEMENT_QUERY);
+  getMessageBuilder<ConsulterDossierRaccordementQuery>('CONSULTER_DOSSIER_RACCORDEMENT_QUERY');

@@ -8,10 +8,8 @@ import {
 import { GestionnaireRéseauAjoutéEvent } from './gestionnaireRéseauAjouté.event';
 import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
 
-const AJOUTER_GESTIONNAIRE_RÉSEAU = Symbol('AJOUTER_GESTIONNAIRE_RÉSEAU');
-
 type AjouterGestionnaireRéseauCommand = Message<
-  typeof AJOUTER_GESTIONNAIRE_RÉSEAU,
+  'AJOUTER_GESTIONNAIRE_RÉSEAU',
   {
     codeEIC: string;
     raisonSociale: string;
@@ -54,8 +52,8 @@ export const registerAjouterGestionnaireRéseauCommand = ({
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
   };
 
-  mediator.register(AJOUTER_GESTIONNAIRE_RÉSEAU, commandHandler);
+  mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU', commandHandler);
 };
 
 export const buildAjouterGestionnaireRéseauCommand =
-  getMessageBuilder<AjouterGestionnaireRéseauCommand>(AJOUTER_GESTIONNAIRE_RÉSEAU);
+  getMessageBuilder<AjouterGestionnaireRéseauCommand>('AJOUTER_GESTIONNAIRE_RÉSEAU');

@@ -9,12 +9,8 @@ import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 import { PropositionTechniqueEtFinancièreSignéeSuppriméeEvent } from './propositionTechniqueEtFinancièreSignéeSupprimée.event';
 
-const SUPPRIMER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND = Symbol(
-  'SUPPRIMER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
-);
-
 export type SupprimerPropositionTechniqueEtFinancièreSignéeCommand = Message<
-  typeof SUPPRIMER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND,
+  'SUPPRIMER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
@@ -58,10 +54,10 @@ export const registerSupprimerPropositionTechniqueEtFinancièreSignéeCommand = 
     await publish(createRaccordementAggregateId(identifiantProjet), event);
   };
 
-  mediator.register(SUPPRIMER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND, handler);
+  mediator.register('SUPPRIMER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND', handler);
 };
 
 export const buildSupprimerPropositionTechniqueEtFinancièreSignéeCommand =
   getMessageBuilder<SupprimerPropositionTechniqueEtFinancièreSignéeCommand>(
-    SUPPRIMER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND,
+    'SUPPRIMER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   );

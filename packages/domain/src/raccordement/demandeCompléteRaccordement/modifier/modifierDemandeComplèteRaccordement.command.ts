@@ -9,12 +9,8 @@ import { DemandeComplèteRaccordementModifiéeEvent } from './demandeComplèteRa
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
-  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
-);
-
 export type ModifierDemandeComplèteRaccordementCommand = Message<
-  typeof MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
     dateQualification: Date;
@@ -64,10 +60,10 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
     );
   };
 
-  mediator.register(MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND, handler);
+  mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);
 };
 
 export const buildModifierDemandeComplèteRaccordementCommand =
   getMessageBuilder<ModifierDemandeComplèteRaccordementCommand>(
-    MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+    'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   );

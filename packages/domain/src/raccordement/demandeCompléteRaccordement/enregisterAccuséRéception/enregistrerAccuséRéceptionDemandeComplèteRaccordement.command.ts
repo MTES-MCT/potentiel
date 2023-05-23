@@ -10,12 +10,8 @@ import { DossierRaccordementNonRéférencéError } from '../../raccordement.erro
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-const ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND = Symbol(
-  'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
-);
-
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
-  typeof ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+  'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
@@ -77,10 +73,10 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
     await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
   };
 
-  mediator.register(ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND, handler);
+  mediator.register('ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);
 };
 
 export const buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand =
   getMessageBuilder<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand>(
-    ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND,
+    'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   );

@@ -10,12 +10,8 @@ import {
 import { buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
 
-const MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
-  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-);
-
 type ModifierDemandeComplèteRaccordementUseCase = Message<
-  typeof MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   ModifierDemandeComplèteRaccordementCommand['data'] &
     EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data']
 >;
@@ -63,9 +59,9 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     );
   };
 
-  mediator.register(MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);
+  mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
 };
 
 export const buildModifierDemandeComplèteRaccordementUseCase = getMessageBuilder(
-  MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
 );

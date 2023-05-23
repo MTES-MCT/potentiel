@@ -5,10 +5,6 @@ import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/c
 import { DossierRaccordementReadModel } from '../dossierRaccordement/consulter/dossierRaccordement.readModel';
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
 
-const CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
-  'CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-);
-
 type ConsulterDemandeComplèteRaccordementUseCaseResult = Omit<
   AccuséRéceptionDemandeComplèteRaccordementReadModel &
     Pick<DossierRaccordementReadModel, 'dateQualification'> & {
@@ -18,7 +14,7 @@ type ConsulterDemandeComplèteRaccordementUseCaseResult = Omit<
 >;
 
 type ConsulterDemandeComplèteRaccordementUseCase = Message<
-  typeof CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+  'CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
@@ -53,10 +49,10 @@ export const registerConsulterDemandeComplèteRaccordementUseCase = () => {
     } satisfies ConsulterDemandeComplèteRaccordementUseCaseResult;
   };
 
-  mediator.register(CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);
+  mediator.register('CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
 };
 
 export const buildConsulterDemandeComplèteRaccordementUseCase =
   getMessageBuilder<ConsulterDemandeComplèteRaccordementUseCase>(
-    CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+    'CONSULTER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   );

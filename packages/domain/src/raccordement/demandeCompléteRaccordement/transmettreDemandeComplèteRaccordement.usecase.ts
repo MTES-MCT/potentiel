@@ -10,12 +10,8 @@ import {
   buildTransmettreDemandeComplèteRaccordementCommand,
 } from './transmettre/transmettreDemandeComplèteRaccordement.command';
 
-const TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE = Symbol(
-  'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
-);
-
 type TransmettreDemandeComplèteRaccordementUseCase = Message<
-  typeof TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+  'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   TransmettreDemandeComplèteRaccordementCommand['data'] &
     EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data']
 >;
@@ -57,9 +53,9 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
       }),
     );
   };
-  mediator.register(TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE, runner);
+  mediator.register('TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
 };
 
 export const buildTransmettreDemandeComplèteRaccordementUseCase = getMessageBuilder(
-  TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE,
+  'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
 );

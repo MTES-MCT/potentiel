@@ -4,10 +4,8 @@ import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 import { GestionnaireNonRéférencéError } from './gestionnaireNonRéférencé.error';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
-const CONSULTER_GESTIONNAIRE_RÉSEAU = Symbol('CONSULTER_GESTIONNAIRE_RÉSEAU');
-
 export type ConsulterGestionnaireRéseauQuery = Message<
-  typeof CONSULTER_GESTIONNAIRE_RÉSEAU,
+  'CONSULTER_GESTIONNAIRE_RÉSEAU',
   {
     codeEIC: string;
   },
@@ -31,8 +29,8 @@ export const registerConsulterGestionnaireRéseauQuery = ({
     return result;
   };
 
-  mediator.register(CONSULTER_GESTIONNAIRE_RÉSEAU, queryHandler);
+  mediator.register('CONSULTER_GESTIONNAIRE_RÉSEAU', queryHandler);
 };
 
 export const buildConsulterGestionnaireRéseauQuery =
-  getMessageBuilder<ConsulterGestionnaireRéseauQuery>(CONSULTER_GESTIONNAIRE_RÉSEAU);
+  getMessageBuilder<ConsulterGestionnaireRéseauQuery>('CONSULTER_GESTIONNAIRE_RÉSEAU');

@@ -9,12 +9,8 @@ import {
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-const TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND = Symbol(
-  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
-);
-
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
-  typeof TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
+  'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
   {
     dateSignature: Date;
     référenceDossierRaccordement: string;
@@ -62,10 +58,10 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
     );
   };
 
-  mediator.register(TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND, handler);
+  mediator.register('TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND', handler);
 };
 
 export const buildTransmettrePropositionTechniqueEtFinancièreCommand =
   getMessageBuilder<TransmettrePropositionTechniqueEtFinancièreCommand>(
-    TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND,
+    'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
   );

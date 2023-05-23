@@ -4,10 +4,8 @@ import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../identifiantProjet';
 
-const CONSULTER_PROJET = Symbol('CONSULTER_PROJET');
-
 export type ConsulterProjetQuery = Message<
-  typeof CONSULTER_PROJET,
+  'CONSULTER_PROJET',
   {
     identifiantProjet: IdentifiantProjet;
   },
@@ -31,7 +29,8 @@ export const registerConsulterProjetQuery = ({ find }: ConsulterProjetDependenci
     return result;
   };
 
-  mediator.register(CONSULTER_PROJET, queryHandler);
+  mediator.register('CONSULTER_PROJET', queryHandler);
 };
 
-export const buildConsulterProjetQuery = getMessageBuilder<ConsulterProjetQuery>(CONSULTER_PROJET);
+export const buildConsulterProjetQuery =
+  getMessageBuilder<ConsulterProjetQuery>('CONSULTER_PROJET');

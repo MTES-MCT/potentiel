@@ -13,10 +13,11 @@
   },
   "dependencies": {
     "@potentiel/domain": "*",
+    "@potentiel/file-storage": "*",
     "@potentiel/infra-adapters": "*",
     "@potentiel/pg-event-sourcing": "*",
     "@potentiel/pg-helpers": "*",
-    "@potentiel/file-storage": "*"
+    "mediateur": "^0.1.0-beta.20230523070921"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^9.1.0",

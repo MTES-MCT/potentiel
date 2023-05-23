@@ -10,12 +10,8 @@ import {
   buildModifierPropositionTechniqueEtFinancièreCommand,
 } from './modifier/modifierPropositiontechniqueEtFinancière.command';
 
-const MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE = Symbol(
-  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
-);
-
 export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
-  typeof MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE,
+  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
   ModifierPropositionTechniqueEtFinancièreCommand['data'] &
     EnregistrerPropositionTechniqueEtFinancièreSignéeCommand['data']
 >;
@@ -61,10 +57,10 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     );
   };
 
-  mediator.register(MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE, runner);
+  mediator.register('MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE', runner);
 };
 
 export const buildModifierPropositiontechniqueEtFinancièreUseCase =
   getMessageBuilder<ModifierPropositiontechniqueEtFinancièreUseCase>(
-    MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE,
+    'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
   );

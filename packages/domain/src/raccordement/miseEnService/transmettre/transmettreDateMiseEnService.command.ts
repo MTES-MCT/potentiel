@@ -9,15 +9,13 @@ import {
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-const TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND = Symbol('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND');
-
 export type TransmettreDateMiseEnServiceCommandDependencies = {
   loadAggregate: LoadAggregate;
   publish: Publish;
 };
 
 type TransmettreDateMiseEnServiceCommand = Message<
-  typeof TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND,
+  'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
   {
     dateMiseEnService: Date;
     référenceDossierRaccordement: string;
@@ -56,8 +54,10 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
     await publish(createRaccordementAggregateId(identifiantProjet), event);
   };
 
-  mediator.register(TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND, handler);
+  mediator.register('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND', handler);
 };
 
 export const buildTransmettreDateMiseEnServiceCommand =
-  getMessageBuilder<TransmettreDateMiseEnServiceCommand>(TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND);
+  getMessageBuilder<TransmettreDateMiseEnServiceCommand>(
+    'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
+  );

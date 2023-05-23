@@ -8,10 +8,8 @@ import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifié.
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
-const MODIFIER_GESTIONNAIRE_RÉSEAU = Symbol('MODIFIER_GESTIONNAIRE_RÉSEAU');
-
 export type ModifierGestionnaireRéseauCommand = Message<
-  typeof MODIFIER_GESTIONNAIRE_RÉSEAU,
+  'MODIFIER_GESTIONNAIRE_RÉSEAU',
   {
     codeEIC: string;
     raisonSociale: string;
@@ -54,8 +52,8 @@ export const registerModifierGestionnaireRéseauCommand = ({
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
   };
 
-  mediator.register(MODIFIER_GESTIONNAIRE_RÉSEAU, commandHandler);
+  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU', commandHandler);
 };
 
 export const buildModifierGestionnaireRéseauCommand =
-  getMessageBuilder<ModifierGestionnaireRéseauCommand>(MODIFIER_GESTIONNAIRE_RÉSEAU);
+  getMessageBuilder<ModifierGestionnaireRéseauCommand>('MODIFIER_GESTIONNAIRE_RÉSEAU');

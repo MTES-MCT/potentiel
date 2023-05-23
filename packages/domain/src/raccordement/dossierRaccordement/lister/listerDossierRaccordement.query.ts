@@ -4,10 +4,8 @@ import { ListeDossiersRaccordementReadModel } from './listeDossierRaccordement.r
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
-const LISTER_DOSSIER_RACCORDEMENT_QUERY = Symbol('LISTER_DOSSIER_RACCORDEMENT_QUERY');
-
 export type ListerDossiersRaccordementQuery = Message<
-  typeof LISTER_DOSSIER_RACCORDEMENT_QUERY,
+  'LISTER_DOSSIER_RACCORDEMENT_QUERY',
   {
     identifiantProjet: IdentifiantProjet;
   },
@@ -38,8 +36,8 @@ export const registerListerDossiersRaccordementQuery = ({
     return result;
   };
 
-  mediator.register(LISTER_DOSSIER_RACCORDEMENT_QUERY, handler);
+  mediator.register('LISTER_DOSSIER_RACCORDEMENT_QUERY', handler);
 };
 
 export const buildListerDossiersRaccordementQuery =
-  getMessageBuilder<ListerDossiersRaccordementQuery>(LISTER_DOSSIER_RACCORDEMENT_QUERY);
+  getMessageBuilder<ListerDossiersRaccordementQuery>('LISTER_DOSSIER_RACCORDEMENT_QUERY');
