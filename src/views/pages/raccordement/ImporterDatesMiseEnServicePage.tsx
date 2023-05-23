@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   PrimaryButton,
   Input,
@@ -11,6 +11,8 @@ import {
   ErrorBox,
   SuccessBox,
   Link,
+  Dialog,
+  Spinner,
 } from '@components';
 import routes from '@routes';
 import { hydrateOnClient } from '@views/helpers';
@@ -53,6 +55,8 @@ export const ImporterDatesMiseEnService = ({
   const importsÉchoués = résultatImport?.filter(isÉchec) || [];
   const csvErrors = formErrors ? Object.entries(formErrors) : [];
 
+  const [isImportInProgress, setIsImportInProgress] = useState(false);
+
   return (
     <PageTemplate user={user} currentPage="importer-dates-mise-en-service">
       <Container className="px-4 py-3 mb-4">
@@ -67,14 +71,30 @@ export const ImporterDatesMiseEnService = ({
             action={routes.POST_IMPORTER_DATES_MISE_EN_SERVICE}
             method="post"
             encType="multipart/form-data"
+            onSubmit={() => setIsImportInProgress(true)}
           >
+            <Dialog open={isImportInProgress}>
+              <h1 className="flex flex-col text-center">
+                <div className="mx-auto mb-5">
+                  <Spinner className="text-blue-france-sun-base w-12 h-12" />
+                </div>
+                Import en cours
+              </h1>
+
+              <p className="italic text-center">
+                Ce traitement peut prendre jusqu'à 2 minutes, merci de patienter.
+              </p>
+            </Dialog>
+
             <div>
               <Label htmlFor="fichier">Fichier .csv des dates de mise en service :</Label>
               <Input type="file" required name="fichier-dates-mise-en-service" id="fichier" />
             </div>
 
             <div className="flex flex-col md:flex-row mx-auto">
-              <PrimaryButton type="submit">Importer</PrimaryButton>
+              <PrimaryButton type="submit" disabled={isImportInProgress}>
+                Importer
+              </PrimaryButton>
             </div>
           </form>
 
@@ -113,9 +133,9 @@ export const ImporterDatesMiseEnService = ({
         {csvErrors.length > 0 && (
           <ErrorBox className="mt-4" title="Le fichier CSV n'est pas valide">
             <ul>
-              {Object.entries(csvErrors).map(([key, value]) => (
-                <li key={key} className="ml-3">
-                  {value}
+              {csvErrors.map(([key, value], index) => (
+                <li key={`csv-error-line-${index}`} className="ml-3">
+                  Ligne {key} : {value}
                 </li>
               ))}
             </ul>
@@ -139,16 +159,16 @@ export const ImporterDatesMiseEnService = ({
             } pas abouti`}
           >
             <ul>
-              {importsÉchoués.map((échec) => (
+              {importsÉchoués.map(({ raison, référenceDossier, projets }, index) => (
                 <>
-                  <li>
-                    {échec.raison} [<span className="font-bold">{échec.référenceDossier}</span>]
+                  <li key={`import-échoué-${index}`}>
+                    {raison} [<span className="font-bold">{référenceDossier}</span>]
                   </li>
-                  {échec.projets.length > 0 && (
+                  {projets.length > 0 && (
                     <ul>
-                      {échec.projets.map((p) => (
-                        <li>
-                          <Link href={routes.PROJECT_DETAILS(p.id)}>{p.nom}</Link>
+                      {projets.map(({ id, nom }, index) => (
+                        <li key={`projets-en-doublon-${index}`}>
+                          <Link href={routes.PROJECT_DETAILS(id)}>{nom}</Link>
                         </li>
                       ))}
                     </ul>
