@@ -9,6 +9,7 @@ import {
   isÉchec,
   Échec,
 } from './importerDatesMiseEnserviceUseCaseResult';
+import { CsvError } from '../../helpers/mapCsvYupValidationErrorToCsvErrors';
 
 v1Router.get(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE, async (request, response) => {
   const { user } = request;
@@ -28,7 +29,10 @@ v1Router.get(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE, async (request, res
     ImporterDatesMiseEnServicePage({
       user,
       résultatImport: [...importsRéussis, ...importsEnÉchecMapped],
-      formErrors: apiResult?.status === 'BAD_REQUEST' ? apiResult.formErrors : undefined,
+      csvErrors:
+        apiResult?.status === 'BAD_REQUEST' && apiResult.formErrors
+          ? (apiResult.formErrors['fichier-dates-mise-en-service'] as ReadonlyArray<CsvError>)
+          : [],
     }),
   );
 });

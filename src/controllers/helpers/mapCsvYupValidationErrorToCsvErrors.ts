@@ -9,7 +9,7 @@ const getNuméroLigne = (path: string | undefined) => {
   return Number(extractLigne) + 2;
 };
 
-type CsvError = {
+export type CsvError = {
   numéroLigne?: number;
   valeurInvalide?: string;
   raison: string;

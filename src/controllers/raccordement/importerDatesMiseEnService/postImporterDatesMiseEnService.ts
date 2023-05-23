@@ -95,13 +95,9 @@ v1Router.post(
           route: routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
           status: 'BAD_REQUEST',
           message: `Le fichier CSV n'est pas valide`,
-          formErrors: mapCsvYupValidationErrorToCsvErrors(error).reduce(
-            (formErrors, { numéroLigne, valeurInvalide, raison }, index) => ({
-              ...formErrors,
-              [numéroLigne ?? index]: `${raison}${valeurInvalide ? ` (${valeurInvalide})` : ''}`,
-            }),
-            {},
-          ),
+          formErrors: {
+            'fichier-dates-mise-en-service': mapCsvYupValidationErrorToCsvErrors(error),
+          },
         });
         return response.redirect(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE);
       }

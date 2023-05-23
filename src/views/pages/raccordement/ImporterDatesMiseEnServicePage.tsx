@@ -18,6 +18,7 @@ import routes from '@routes';
 import { hydrateOnClient } from '@views/helpers';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { IdentifiantProjet } from '@potentiel/domain';
+import { CsvError } from '../../../controllers/helpers/mapCsvYupValidationErrorToCsvErrors';
 
 type Réussi = {
   référenceDossier: string;
@@ -40,20 +41,19 @@ type ImporterDateMiseEnServiceUseCaseResult = Array<Résultat>;
 type ImporterDatesMiseEnServiceProps = {
   user: UtilisateurReadModel;
   résultatImport?: ImporterDateMiseEnServiceUseCaseResult;
-  formErrors?: Record<string, string>;
+  csvErrors: ReadonlyArray<CsvError>;
 };
 
 export const ImporterDatesMiseEnService = ({
   user,
   résultatImport,
-  formErrors,
+  csvErrors,
 }: ImporterDatesMiseEnServiceProps) => {
   const isRéussi = (res: Résultat): res is Réussi => res.statut === 'réussi';
   const isÉchec = (res: Résultat): res is Échec => res.statut === 'échec';
 
   const importsRéussis = résultatImport?.filter(isRéussi) ?? [];
   const importsÉchoués = résultatImport?.filter(isÉchec) ?? [];
-  const csvErrors = formErrors ? Object.entries(formErrors) : [];
 
   const [isImportInProgress, setIsImportInProgress] = useState(false);
 
@@ -65,7 +65,7 @@ export const ImporterDatesMiseEnService = ({
           Importer des dates de mise en service
         </Heading1>
 
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-4 justify-between">
           <form
             className="flex gap-5 flex-col max-w-none w-full md:w-2/5 mx-0 self-center"
             action={routes.POST_IMPORTER_DATES_MISE_EN_SERVICE}
@@ -98,7 +98,7 @@ export const ImporterDatesMiseEnService = ({
             </div>
           </form>
 
-          <InfoBox className="flex md:w-2/5 md:mx-auto" title="Format du fichier csv attendu">
+          <InfoBox className="flex" title="Format du fichier csv attendu">
             <table className="lg:mx-4 my-4 border-spacing-0">
               <thead>
                 <tr>
@@ -133,9 +133,10 @@ export const ImporterDatesMiseEnService = ({
         {csvErrors.length > 0 && (
           <ErrorBox className="mt-4" title="Le fichier CSV n'est pas valide">
             <ul>
-              {csvErrors.map(([key, value]) => (
-                <li key={`csv-error-line-${key}`} className="ml-3">
-                  Ligne {key} : {value}
+              {csvErrors.map(({ numéroLigne, valeurInvalide, raison }) => (
+                <li key={`csv-error-line-${numéroLigne}`} className="ml-3">
+                  Ligne {numéroLigne} : {raison}
+                  {valeurInvalide && `[${valeurInvalide}]`}
                 </li>
               ))}
             </ul>

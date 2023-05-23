@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-export type FormErrors = Record<string, string>;
+export type FormErrors = Record<string, unknown>;
 
 export type ApiResult<TResult> = {
   route: string;
