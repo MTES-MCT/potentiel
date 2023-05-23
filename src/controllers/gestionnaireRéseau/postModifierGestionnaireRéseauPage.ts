@@ -42,7 +42,7 @@ v1Router.post(
       } = request;
       try {
         const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
-          codeEIC,
+          identifiantGestionnaireRéseau: { codeEIC },
           aideSaisieRéférenceDossierRaccordement: { format, légende },
           raisonSociale,
         });

@@ -29,7 +29,7 @@ Quand(
     this.gestionnaireRéseauWorld.format = example['Format'];
 
     const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      identifiantGestionnaireRéseau: { codeEIC: this.gestionnaireRéseauWorld.codeEIC },
       raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
         format: this.gestionnaireRéseauWorld.format,
@@ -46,7 +46,7 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
-        codeEIC: 'Code EIC inconnu',
+        identifiantGestionnaireRéseau: { codeEIC: 'Code EIC inconnu' },
         raisonSociale: 'RTE',
         aideSaisieRéférenceDossierRaccordement: {
           format: 'AAA-BBB',
@@ -95,7 +95,7 @@ Alors(
     };
 
     const query = buildConsulterGestionnaireRéseauQuery({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      identifiantGestionnaireRéseau: { codeEIC: this.gestionnaireRéseauWorld.codeEIC },
     });
 
     const actual = await mediator.send(query);

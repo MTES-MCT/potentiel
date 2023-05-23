@@ -7,11 +7,15 @@ import {
 import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifié.event';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import {
+  IdentifiantGestionnaireRéseau,
+  formatIdentifiantGestionnaireRéseau,
+} from '../identifiantGestionnaireRéseau';
 
 export type ModifierGestionnaireRéseauCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU',
   {
-    codeEIC: string;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
   }
@@ -31,11 +35,13 @@ export const registerModifierGestionnaireRéseauCommand = ({
   });
 
   const commandHandler: MessageHandler<ModifierGestionnaireRéseauCommand> = async ({
-    codeEIC,
+    identifiantGestionnaireRéseau,
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
   }) => {
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
+    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(
+      formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
+    );
 
     if (isNone(gestionnaireRéseau)) {
       throw new GestionnaireRéseauInconnuError();
@@ -44,12 +50,17 @@ export const registerModifierGestionnaireRéseauCommand = ({
     const event: GestionnaireRéseauModifiéEvent = {
       type: 'GestionnaireRéseauModifié',
       payload: {
-        codeEIC,
+        codeEIC: formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
       },
     };
-    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
+    await publish(
+      createGestionnaireRéseauAggregateId(
+        formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
+      ),
+      event,
+    );
   };
 
   mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU', commandHandler);

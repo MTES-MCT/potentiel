@@ -27,7 +27,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
   }) => {
     const gestionnaireRéseau = await mediator.send(
       buildConsulterGestionnaireRéseauQuery({
-        codeEIC: identifiantGestionnaireRéseau.codeEIC,
+        identifiantGestionnaireRéseau,
       }),
     );
 

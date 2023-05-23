@@ -30,7 +30,7 @@ v1Router.get(
         query: { errors },
       } = request;
       const gestionnaireRéseau = await mediator.send(
-        buildConsulterGestionnaireRéseauQuery({ codeEIC }),
+        buildConsulterGestionnaireRéseauQuery({ identifiantGestionnaireRéseau: { codeEIC } }),
       );
 
       if (!gestionnaireRéseau) {

@@ -79,7 +79,7 @@ v1Router.post(
         await mediator.send(
           buildModifierGestionnaireRéseauProjetUseCase({
             identifiantProjet,
-            identifiantGestionnaireRéseau: codeEIC,
+            identifiantGestionnaireRéseau: { codeEIC },
           }),
         );
 

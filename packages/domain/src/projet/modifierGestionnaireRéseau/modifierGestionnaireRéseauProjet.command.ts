@@ -3,11 +3,15 @@ import { GestionnaireRéseauProjetModifiéEvent } from './modifierGestionnaireR�
 import { createProjetAggregateId } from '../projet.aggregate';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../identifiantProjet';
+import {
+  IdentifiantGestionnaireRéseau,
+  formatIdentifiantGestionnaireRéseau,
+} from '../../gestionnaireRéseau/identifiantGestionnaireRéseau';
 
 export type ModifierGestionnaireRéseauProjetCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',
   {
-    identifiantGestionnaireRéseau: string;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     identifiantProjet: IdentifiantProjet;
   }
 >;
@@ -25,7 +29,9 @@ export const registerModifierGestionnaireRéseauProjetCommand = ({
       type: 'GestionnaireRéseauProjetModifié',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        identifiantGestionnaireRéseau,
+        identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
+          identifiantGestionnaireRéseau,
+        ),
       },
     };
 

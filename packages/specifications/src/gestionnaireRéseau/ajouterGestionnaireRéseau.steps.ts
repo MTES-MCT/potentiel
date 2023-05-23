@@ -93,7 +93,9 @@ Alors(
     };
 
     const query = buildConsulterGestionnaireRéseauQuery({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      identifiantGestionnaireRéseau: {
+        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      },
     });
 
     const actual = await mediator.send(query);

@@ -16,7 +16,7 @@ Quand(
     await mediator.send(
       buildModifierGestionnaireRéseauProjetUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
-        identifiantGestionnaireRéseau: codeEIC,
+        identifiantGestionnaireRéseau: { codeEIC },
       }),
     );
   },
@@ -44,7 +44,9 @@ Quand(
       await mediator.send(
         buildModifierGestionnaireRéseauProjetUseCase({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
-          identifiantGestionnaireRéseau: 'GESTIONNAIRE-INCONNU',
+          identifiantGestionnaireRéseau: {
+            codeEIC: 'GESTIONNAIRE-INCONNU',
+          },
         }),
       );
     } catch (error) {
