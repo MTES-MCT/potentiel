@@ -4,7 +4,7 @@ import {
   DossierRaccordementNonRéférencéError,
   buildConsulterDossierRaccordementUseCase,
   buildModifierPropositiontechniqueEtFinancièreUseCase,
-  buildConsulterDemandeComplèteRaccordementUseCase,
+  buildConsulterPropositionTechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
@@ -53,15 +53,15 @@ Alors(
       this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
     );
 
-    const accuséRéceptionDemandeComplèteRaccordement = await mediator.send(
-      buildConsulterDemandeComplèteRaccordementUseCase({
+    const propositionTechniqueEtFinancièreSignée = await mediator.send(
+      buildConsulterPropositionTechniqueEtFinancièreUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       }),
     );
 
     // TODO improve assert
-    accuséRéceptionDemandeComplèteRaccordement.should.be.ok;
+    propositionTechniqueEtFinancièreSignée.should.be.ok;
   },
 );
 

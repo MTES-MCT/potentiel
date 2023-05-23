@@ -13,7 +13,7 @@ Quand(
   `le porteur modifie une demande complète de raccordement`,
   async function (this: PotentielWorld) {
     const dateQualification = new Date('2023-04-26');
-    const nouvelleRéférence = 'une nouvelle référence';
+    const nouvelleRéférence = 'une_nouvelle_référence';
     const accuséRéception = {
       format: 'application/pdf',
       content: Readable.from("Contenu d'un autre fichier DCR", {
