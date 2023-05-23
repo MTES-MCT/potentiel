@@ -202,7 +202,7 @@ Quand(
         buildTransmettreDemandeComplèteRaccordementUseCase({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           identifiantGestionnaireRéseau: {
-            codeEIC: codeEICAutreGDR,
+            codeEIC: '17X100A100A0001A',
           },
           dateQualification: new Date('2022-11-24'),
           référenceDossierRaccordement: 'Enieme-DCR',
