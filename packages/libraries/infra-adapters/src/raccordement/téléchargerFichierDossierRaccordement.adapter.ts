@@ -18,8 +18,6 @@ const téléchargerFichierDossierRaccordementAdapter =
       `${nomFichier}.${extension(format)}`,
     );
 
-    console.log(`Charger: ${filePath}`);
-
     return await download(filePath);
   };
 

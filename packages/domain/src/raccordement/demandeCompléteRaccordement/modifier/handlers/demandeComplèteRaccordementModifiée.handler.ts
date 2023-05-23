@@ -83,18 +83,22 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
 
     // Renommer PTF
     // TODO: ce code doit être dans une saga quand on aura le publish
-    if (event.payload.nouvelleReference !== event.payload.referenceActuelle) {
+
+    if (
+      dossierRaccordement.propositionTechniqueEtFinancière &&
+      event.payload.nouvelleReference !== event.payload.referenceActuelle
+    ) {
       // Charger PTF
       const content = await récupérerFichierPropositionTechniqueEtFinancière({
         identifiantProjet: event.payload.identifiantProjet,
-        format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
+        format: dossierRaccordement.propositionTechniqueEtFinancière.format,
         référenceDossierRaccordement: event.payload.referenceActuelle,
       });
 
       // Créer PTF avec nouvelleRéf
       enregistrerPropositionTechniqueEtFinancièreSignée({
         identifiantProjet: event.payload.identifiantProjet,
-        format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
+        format: dossierRaccordement.propositionTechniqueEtFinancière.format,
         référenceDossierRaccordement: event.payload.nouvelleReference,
         content,
       });
@@ -102,7 +106,7 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
       // Supprimer PTF avec réf actuelle
       supprimerPropositionTechniqueEtFinancièreSignée({
         identifiantProjet: event.payload.identifiantProjet,
-        format: dossierRaccordement.propositionTechniqueEtFinancière?.format || '',
+        format: dossierRaccordement.propositionTechniqueEtFinancière.format,
         référenceDossierRaccordement: event.payload.referenceActuelle,
       });
     }

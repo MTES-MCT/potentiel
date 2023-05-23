@@ -17,7 +17,6 @@ const téléverserFichierDossierRaccordementAdapter =
       référenceDossierRaccordement,
       `${nomFichier}.${extension(format)}`,
     );
-    console.log(`Enregistrer: ${path}`);
     await upload(path, content);
   };
 
