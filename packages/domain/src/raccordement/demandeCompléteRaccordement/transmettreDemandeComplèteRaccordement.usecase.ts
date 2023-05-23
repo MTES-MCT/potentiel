@@ -42,9 +42,6 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
         identifiantGestionnaireRéseauProjet: identifiantGestionnaire,
         dateQualification,
         référenceDossierRaccordement,
-        accuséRéception: {
-          format,
-        },
       }),
     );
 

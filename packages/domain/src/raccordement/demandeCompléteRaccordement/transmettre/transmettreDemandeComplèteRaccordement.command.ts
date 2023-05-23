@@ -1,7 +1,6 @@
 import { Message, MessageHandler, getMessageBuilder, mediator } from 'mediateur';
 import { Publish } from '@potentiel/core-domain';
 import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRaccordementTransmise.event';
-import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 import { createRaccordementAggregateId } from '../../raccordement.aggregate';
 import { PlusieursGestionnairesRéseauPourUnProjetError } from '../../raccordement.errors';
 import {
@@ -18,7 +17,6 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
     identifiantProjet: IdentifiantProjet;
     dateQualification?: Date;
     référenceDossierRaccordement: string;
-    accuséRéception: { format: string };
   }
 >;
 
@@ -35,7 +33,6 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     identifiantGestionnaireRéseau,
     référenceDossierRaccordement,
     identifiantGestionnaireRéseauProjet,
-    accuséRéception,
   }) => {
     if (
       identifiantGestionnaireRéseauProjet &&
@@ -57,17 +54,6 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     };
 
     await publish(createRaccordementAggregateId(identifiantProjet), event);
-
-    const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
-      type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
-      payload: {
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référenceDossierRaccordement,
-        format: accuséRéception.format,
-      },
-    };
-
-    await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
   };
 
   mediator.register('TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);
