@@ -3,7 +3,7 @@ import {
   RésuméProjetReadModel,
   buildConsulterDossierRaccordementUseCase,
   buildConsulterGestionnaireRéseauQuery,
-  buildConsulterProjetQuery,
+  buildConsulterProjetUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -97,7 +97,7 @@ v1Router.get(
       };
 
       const { identifiantGestionnaire } = await mediator.send(
-        buildConsulterProjetQuery({
+        buildConsulterProjetUseCase({
           identifiantProjet,
         }),
       );
