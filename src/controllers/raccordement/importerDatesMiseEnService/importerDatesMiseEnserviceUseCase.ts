@@ -78,6 +78,7 @@ const searchDossiersRaccordementParRéférence = async (
       famille: parsedKey[3],
       numéroCRE: parsedKey[4],
     };
+
     return {
       type: key.split('#')[0],
       identifiantProjet,

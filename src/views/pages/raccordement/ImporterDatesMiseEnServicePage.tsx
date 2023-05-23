@@ -51,8 +51,8 @@ export const ImporterDatesMiseEnService = ({
   const isRéussi = (res: Résultat): res is Réussi => res.statut === 'réussi';
   const isÉchec = (res: Résultat): res is Échec => res.statut === 'échec';
 
-  const importsRéussis = résultatImport?.filter(isRéussi) || [];
-  const importsÉchoués = résultatImport?.filter(isÉchec) || [];
+  const importsRéussis = résultatImport?.filter(isRéussi) ?? [];
+  const importsÉchoués = résultatImport?.filter(isÉchec) ?? [];
   const csvErrors = formErrors ? Object.entries(formErrors) : [];
 
   const [isImportInProgress, setIsImportInProgress] = useState(false);
@@ -133,8 +133,8 @@ export const ImporterDatesMiseEnService = ({
         {csvErrors.length > 0 && (
           <ErrorBox className="mt-4" title="Le fichier CSV n'est pas valide">
             <ul>
-              {csvErrors.map(([key, value], index) => (
-                <li key={`csv-error-line-${index}`} className="ml-3">
+              {csvErrors.map(([key, value]) => (
+                <li key={`csv-error-line-${key}`} className="ml-3">
                   Ligne {key} : {value}
                 </li>
               ))}
@@ -159,15 +159,15 @@ export const ImporterDatesMiseEnService = ({
             } pas abouti`}
           >
             <ul>
-              {importsÉchoués.map(({ raison, référenceDossier, projets }, index) => (
+              {importsÉchoués.map(({ raison, référenceDossier, projets }) => (
                 <>
-                  <li key={`import-échoué-${index}`}>
+                  <li key={`import-échoué-${référenceDossier}`}>
                     {raison} [<span className="font-bold">{référenceDossier}</span>]
                   </li>
                   {projets.length > 0 && (
                     <ul>
-                      {projets.map(({ id, nom }, index) => (
-                        <li key={`projets-en-doublon-${index}`}>
+                      {projets.map(({ id, nom }) => (
+                        <li key={`projets-en-doublon-${id}`}>
                           <Link href={routes.PROJECT_DETAILS(id)}>{nom}</Link>
                         </li>
                       ))}

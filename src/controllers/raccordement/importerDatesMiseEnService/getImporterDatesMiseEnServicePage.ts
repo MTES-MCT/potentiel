@@ -19,8 +19,8 @@ v1Router.get(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE, async (request, res
   );
 
   const résultatImport = apiResult?.status === 'OK' ? apiResult.result : undefined;
-  const importsRéussis = résultatImport?.filter(isRéussi) || [];
-  const importsEnÉchec = résultatImport?.filter(isÉchec) || [];
+  const importsRéussis = résultatImport?.filter(isRéussi) ?? [];
+  const importsEnÉchec = résultatImport?.filter(isÉchec) ?? [];
 
   const importsEnÉchecMapped = await ajoutInfoProjetDesImportEnÉchec(importsEnÉchec);
 

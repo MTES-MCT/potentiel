@@ -65,7 +65,7 @@ v1Router.post(
   routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
   upload.single('fichier-dates-mise-en-service'),
   asyncHandler(async (request, response) => {
-    if (!request.file || !request.file.path) {
+    if (!request?.file?.path) {
       return response.redirect(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE);
     }
 
@@ -98,7 +98,7 @@ v1Router.post(
           formErrors: mapCsvYupValidationErrorToCsvErrors(error).reduce(
             (formErrors, { numéroLigne, valeurInvalide, raison }, index) => ({
               ...formErrors,
-              [numéroLigne || index]: `${raison}${valeurInvalide ? ` (${valeurInvalide})` : ''}`,
+              [numéroLigne ?? index]: `${raison}${valeurInvalide ? ` (${valeurInvalide})` : ''}`,
             }),
             {},
           ),
