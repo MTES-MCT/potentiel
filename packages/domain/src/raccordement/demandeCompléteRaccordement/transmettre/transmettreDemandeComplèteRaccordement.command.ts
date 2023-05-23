@@ -1,12 +1,8 @@
 import { Message, MessageHandler, getMessageBuilder, mediator } from 'mediateur';
-import { LoadAggregate, Publish } from '@potentiel/core-domain';
+import { Publish } from '@potentiel/core-domain';
 import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRaccordementTransmise.event';
-import { isSome } from '@potentiel/monads';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
-import {
-  loadRaccordementAggregateFactory,
-  createRaccordementAggregateId,
-} from '../../raccordement.aggregate';
+import { createRaccordementAggregateId } from '../../raccordement.aggregate';
 import { PlusieursGestionnairesRéseauPourUnProjetError } from '../../raccordement.errors';
 import {
   IdentifiantGestionnaireRéseau,
@@ -18,6 +14,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
+    identifiantGestionnaireRéseauProjet?: IdentifiantGestionnaireRéseau;
     identifiantProjet: IdentifiantProjet;
     dateQualification?: Date;
     référenceDossierRaccordement: string;
@@ -27,29 +24,22 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
 
 export type TransmettreDemandeComplèteRaccordementDependencies = {
   publish: Publish;
-  loadAggregate: LoadAggregate;
 };
 
 export const registerTransmettreDemandeComplèteRaccordementCommand = ({
   publish,
-  loadAggregate,
 }: TransmettreDemandeComplèteRaccordementDependencies) => {
   const handler: MessageHandler<TransmettreDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
     dateQualification,
     identifiantGestionnaireRéseau,
     référenceDossierRaccordement,
+    identifiantGestionnaireRéseauProjet,
     accuséRéception,
   }) => {
-    const loadRaccordementAggregate = loadRaccordementAggregateFactory({
-      loadAggregate,
-    });
-
-    const raccordement = await loadRaccordementAggregate(identifiantProjet);
-
     if (
-      isSome(raccordement) &&
-      raccordement.gestionnaireRéseau.codeEIC !== identifiantGestionnaireRéseau.codeEIC
+      identifiantGestionnaireRéseauProjet &&
+      identifiantGestionnaireRéseau.codeEIC !== identifiantGestionnaireRéseauProjet.codeEIC
     ) {
       throw new PlusieursGestionnairesRéseauPourUnProjetError();
     }
