@@ -114,9 +114,9 @@ v1Router.post(
           buildModifierDemandeComplèteRaccordementUseCase({
             identifiantProjet,
             dateQualification,
-            nouvelleReference,
-            referenceActuelle: reference,
-            nouveauFichier: {
+            nouvelleRéférence: nouvelleReference,
+            ancienneRéférence: reference,
+            accuséRéception: {
               format: file.mimetype,
               content: createReadStream(file.path),
             },

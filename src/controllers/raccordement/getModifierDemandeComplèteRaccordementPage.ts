@@ -1,7 +1,7 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
-  buildConsulterDossierRaccordementQuery,
+  buildConsulterDossierRaccordementUseCase,
   buildConsulterGestionnaireRéseauQuery,
   buildConsulterProjetQuery,
 } from '@potentiel/domain';
@@ -12,8 +12,6 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { ModifierDemandeComplèteRaccordementPage } from '@views';
-import { getFiles } from '@potentiel/file-storage';
-import { join } from 'path';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({
@@ -66,7 +64,7 @@ v1Router.get(
       }
 
       const dossierRaccordement = await mediator.send(
-        buildConsulterDossierRaccordementQuery({
+        buildConsulterDossierRaccordementUseCase({
           identifiantProjet: {
             appelOffre: projet.appelOffreId,
             période: projet.periodeId,
@@ -110,13 +108,6 @@ v1Router.get(
         }),
       );
 
-      const filePath = join(
-        formatIdentifiantProjet(identifiantProjet),
-        reference,
-        `demande-complete-raccordement`,
-      );
-      const files = await getFiles(filePath);
-
       return response.send(
         ModifierDemandeComplèteRaccordementPage({
           user,
@@ -140,7 +131,7 @@ v1Router.get(
           dateQualificationActuelle: dossierRaccordement.dateQualification,
           error: error as string,
           gestionnaireRéseauActuel,
-          existingFile: !!(files.length > 0),
+          existingFile: !!dossierRaccordement.accuséRéception,
         }),
       );
     },

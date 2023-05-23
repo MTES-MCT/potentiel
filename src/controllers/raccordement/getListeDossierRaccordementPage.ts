@@ -7,15 +7,12 @@ import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
   buildConsulterGestionnaireRéseauQuery,
-  formatIdentifiantProjet,
-  buildConsulterDossierRaccordementQuery,
   buildConsulterProjetQuery,
-  buildListerDossiersRaccordementQuery,
+  buildListerDossiersRaccordementUseCase,
+  buildConsulterDossierRaccordementUseCase,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { ListeDossiersRaccordementPage } from '@views';
-import { join } from 'path';
-import { getFiles } from '@potentiel/file-storage';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({
@@ -72,7 +69,7 @@ v1Router.get(
       };
 
       const { références } = await mediator.send(
-        buildListerDossiersRaccordementQuery({
+        buildListerDossiersRaccordementUseCase({
           identifiantProjet,
         }),
       );
@@ -94,28 +91,14 @@ v1Router.get(
 
         const dossiers = await Promise.all(
           références.map(async (référence) => {
-            const fileDCRPath = join(
-              formatIdentifiantProjet(identifiantProjet),
-              référence,
-              `demande-complete-raccordement`,
-            );
-            const DCRFiles = await getFiles(fileDCRPath);
-
-            const filePTFPath = join(
-              formatIdentifiantProjet(identifiantProjet),
-              référence,
-              `proposition-technique-et-financiere`,
-            );
-            const PTFFiles = await getFiles(filePTFPath);
-
             const dossier = await mediator.send(
-              buildConsulterDossierRaccordementQuery({ identifiantProjet, référence }),
+              buildConsulterDossierRaccordementUseCase({ identifiantProjet, référence }),
             );
 
             return {
               ...dossier,
-              hasPTFFile: !!(PTFFiles.length > 0),
-              hasDCRFile: !!(DCRFiles.length > 0),
+              hasPTFFile: !!dossier.propositionTechniqueEtFinancière,
+              hasDCRFile: !!dossier.accuséRéception,
             };
           }),
         );

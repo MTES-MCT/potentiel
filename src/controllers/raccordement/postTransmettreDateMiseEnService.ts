@@ -1,7 +1,7 @@
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettreDateMiseEnService,
-  buildTransmettreDateMiseEnServiceCommand,
+  buildTransmettreDateMiseEnServiceUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -73,7 +73,7 @@ v1Router.post(
 
       try {
         await mediator.send(
-          buildTransmettreDateMiseEnServiceCommand({
+          buildTransmettreDateMiseEnServiceUseCase({
             identifiantProjet,
             référenceDossierRaccordement: reference,
             dateMiseEnService,

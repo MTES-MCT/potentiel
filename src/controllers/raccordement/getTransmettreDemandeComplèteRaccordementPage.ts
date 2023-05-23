@@ -113,6 +113,3 @@ v1Router.get(
     },
   ),
 );
-function createListerGestionnaireRéseau(arg0: {}): any {
-  throw new Error('Function not implemented.');
-}

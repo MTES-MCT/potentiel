@@ -1,8 +1,7 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
-  buildConsulterDossierRaccordementQuery,
-  formatIdentifiantProjet,
+  buildConsulterDossierRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -11,8 +10,6 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { ModifierPropositionTechniqueEtFinancièrePage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { join } from 'path';
-import { getFiles } from '@potentiel/file-storage';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({
@@ -71,7 +68,7 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
       const dossierRaccordement = await mediator.send(
-        buildConsulterDossierRaccordementQuery({
+        buildConsulterDossierRaccordementUseCase({
           identifiantProjet,
           référence: reference,
         }),
@@ -90,13 +87,6 @@ v1Router.get(
 
         return 'éliminé';
       };
-
-      const filePath = join(
-        formatIdentifiantProjet(identifiantProjet),
-        reference,
-        `proposition-technique-et-financiere`,
-      );
-      const files = await getFiles(filePath);
 
       return response.send(
         ModifierPropositionTechniqueEtFinancièrePage({
@@ -120,7 +110,7 @@ v1Router.get(
           reference,
           dateSignatureActuelle:
             dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature,
-          existingFile: !!(files.length > 0),
+          existingFile: !!dossierRaccordement.propositionTechniqueEtFinancière,
           error: error as string,
         }),
       );

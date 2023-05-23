@@ -1,7 +1,7 @@
 import {
   DossierRaccordementNonRéférencéError,
   PermissionTransmettrePropositionTechniqueEtFinancière,
-  buildModifierPropositionTechniqueEtFinancièreCommand,
+  buildModifierPropositiontechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -102,11 +102,11 @@ v1Router.post(
 
       try {
         await mediator.send(
-          buildModifierPropositionTechniqueEtFinancièreCommand({
+          buildModifierPropositiontechniqueEtFinancièreUseCase({
             identifiantProjet,
             référenceDossierRaccordement: reference,
             dateSignature,
-            nouveauFichier: {
+            propositionTechniqueEtFinancière: {
               format: file.mimetype,
               content: createReadStream(file.path),
             },
