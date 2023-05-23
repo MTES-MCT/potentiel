@@ -5,7 +5,7 @@ import {
   PlusieursGestionnairesRéseauPourUnProjetError,
   buildConsulterDemandeComplèteRaccordementUseCase,
   buildConsulterDossierRaccordementUseCase,
-  buildConsulterProjetQuery,
+  buildConsulterProjetUseCase,
   buildListerDossiersRaccordementUseCase,
   buildTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
@@ -145,7 +145,7 @@ Alors(
         codeEIC: '',
       },
     } = await mediator.send(
-      buildConsulterProjetQuery({
+      buildConsulterProjetUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       }),
     );

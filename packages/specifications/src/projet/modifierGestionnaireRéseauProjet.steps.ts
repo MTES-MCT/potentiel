@@ -2,7 +2,7 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   GestionnaireNonRéférencéError,
-  buildConsulterProjetQuery,
+  buildConsulterProjetUseCase,
   buildModifierGestionnaireRéseauProjetUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
@@ -15,7 +15,7 @@ Quand(
 
     await mediator.send(
       buildModifierGestionnaireRéseauProjetUseCase({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantProjet: this.projetWorld.identifiantProjet,
         identifiantGestionnaireRéseau: { codeEIC },
       }),
     );
@@ -26,8 +26,8 @@ Alors(
   `le gestionaire de réseau {string} devrait être consultable dans le projet`,
   async function (this: PotentielWorld, codeEIC: string) {
     const résultat = await mediator.send(
-      buildConsulterProjetQuery({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      buildConsulterProjetUseCase({
+        identifiantProjet: this.projetWorld.identifiantProjet,
       }),
     );
 
@@ -43,7 +43,7 @@ Quand(
     try {
       await mediator.send(
         buildModifierGestionnaireRéseauProjetUseCase({
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          identifiantProjet: this.projetWorld.identifiantProjet,
           identifiantGestionnaireRéseau: {
             codeEIC: 'GESTIONNAIRE-INCONNU',
           },
