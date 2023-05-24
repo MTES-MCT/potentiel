@@ -110,7 +110,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               <input type="hidden" name="modificationRequestId" value={id} />
 
               <SecondaryButton
-                className="border-red-marianne-425-base text-red-marianne-425-base hover:bg-red-marianne-975-base focus:bg-red-marianne-975-base"
+                className="w-fit"
                 type="submit"
                 name="submit"
                 confirmation="Êtes-vous sur de vouloir annuler cette demande ?"
