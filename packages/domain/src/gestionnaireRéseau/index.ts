@@ -1,6 +1,6 @@
 // Usecases
 export { buildAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
-export { buildConsulterGestionnaireRéseauQuery } from './consulter/consulterGestionnaireRéseau.query';
+export { buildConsulterGestionnaireRéseauUseCase } from './consulterGestionnaireRéseau.usecase';
 export { buildListerGestionnaireRéseauQuery } from './lister/listerGestionnaireRéseau.query';
 export { buildModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
 

@@ -2,7 +2,7 @@ import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@
 import {
   GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauReadModel,
-  buildConsulterGestionnaireRéseauQuery,
+  buildConsulterGestionnaireRéseauUseCase,
   buildAjouterGestionnaireRéseauCommand,
   buildListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
@@ -92,7 +92,7 @@ Alors(
       },
     };
 
-    const query = buildConsulterGestionnaireRéseauQuery({
+    const query = buildConsulterGestionnaireRéseauUseCase({
       identifiantGestionnaireRéseau: {
         codeEIC: this.gestionnaireRéseauWorld.codeEIC,
       },

@@ -9,7 +9,7 @@ import {
 } from '../identifiantGestionnaireRéseau';
 
 export type ConsulterGestionnaireRéseauQuery = Message<
-  'CONSULTER_GESTIONNAIRE_RÉSEAU',
+  'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
   },
@@ -23,7 +23,7 @@ export type ConsulterGestionnaireRéseauDependencies = {
 export const registerConsulterGestionnaireRéseauQuery = ({
   find,
 }: ConsulterGestionnaireRéseauDependencies) => {
-  const queryHandler: MessageHandler<ConsulterGestionnaireRéseauQuery> = async ({
+  const handler: MessageHandler<ConsulterGestionnaireRéseauQuery> = async ({
     identifiantGestionnaireRéseau,
   }) => {
     const result = await find<GestionnaireRéseauReadModel>(
@@ -37,8 +37,8 @@ export const registerConsulterGestionnaireRéseauQuery = ({
     return result;
   };
 
-  mediator.register('CONSULTER_GESTIONNAIRE_RÉSEAU', queryHandler);
+  mediator.register('CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY', handler);
 };
 
 export const buildConsulterGestionnaireRéseauQuery =
-  getMessageBuilder<ConsulterGestionnaireRéseauQuery>('CONSULTER_GESTIONNAIRE_RÉSEAU');
+  getMessageBuilder<ConsulterGestionnaireRéseauQuery>('CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY');

@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau';
 import {
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
   buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
@@ -10,6 +9,7 @@ import {
   buildTransmettreDemandeComplèteRaccordementCommand,
 } from './transmettre/transmettreDemandeComplèteRaccordement.command';
 import { buildConsulterProjetQuery } from '../../projet/consulter/consulterProjet.query';
+import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau/consulter/consulterGestionnaireRéseau.query';
 
 type TransmettreDemandeComplèteRaccordementUseCase = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',

@@ -6,7 +6,7 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
-  buildConsulterGestionnaireRéseauQuery,
+  buildConsulterGestionnaireRéseauUseCase,
   buildConsulterProjetUseCase,
   buildListerDossiersRaccordementUseCase,
   buildConsulterDossierRaccordementUseCase,
@@ -110,7 +110,7 @@ v1Router.get(
         );
 
         const gestionnaireRéseau = await mediator.send(
-          buildConsulterGestionnaireRéseauQuery({
+          buildConsulterGestionnaireRéseauUseCase({
             identifiantGestionnaireRéseau: { codeEIC: identifiantGestionnaire.codeEIC },
           }),
         );

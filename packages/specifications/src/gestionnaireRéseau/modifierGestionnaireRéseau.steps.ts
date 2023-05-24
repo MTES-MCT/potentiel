@@ -1,6 +1,6 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
-  buildConsulterGestionnaireRéseauQuery,
+  buildConsulterGestionnaireRéseauUseCase,
   buildListerGestionnaireRéseauQuery,
   buildModifierGestionnaireRéseauCommand,
   GestionnaireRéseauInconnuError,
@@ -94,7 +94,7 @@ Alors(
       },
     };
 
-    const query = buildConsulterGestionnaireRéseauQuery({
+    const query = buildConsulterGestionnaireRéseauUseCase({
       identifiantGestionnaireRéseau: { codeEIC: this.gestionnaireRéseauWorld.codeEIC },
     });
 
