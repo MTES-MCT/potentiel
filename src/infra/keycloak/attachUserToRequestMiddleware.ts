@@ -24,6 +24,7 @@ const makeAttachUserToRequestMiddleware =
     }
 
     const token = request.kauth?.grant?.access_token;
+
     const userEmail = token?.content?.email;
     const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role));
 
@@ -50,6 +51,7 @@ const makeAttachUserToRequestMiddleware =
         })
         .match(
           (user) => {
+            console.debug(JSON.stringify(user));
             request.user = {
               ...user,
               accountUrl: `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`,

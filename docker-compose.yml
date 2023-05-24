@@ -24,3 +24,15 @@ services:
     container_name: potentiel_s3
     ports:
       - 9444:9000
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    restart: always
+    container_name: potentiel_auth
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: start-dev --import-realm
+    volumes:
+      - ./keycloak-legacy/data:/opt/keycloak/data/import
