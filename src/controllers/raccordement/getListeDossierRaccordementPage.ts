@@ -7,7 +7,7 @@ import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
   buildConsulterGestionnaireRéseauQuery,
-  buildConsulterProjetQuery,
+  buildConsulterProjetUseCase,
   buildListerDossiersRaccordementUseCase,
   buildConsulterDossierRaccordementUseCase,
 } from '@potentiel/domain';
@@ -104,7 +104,7 @@ v1Router.get(
         );
 
         const { identifiantGestionnaire = { codeEIC: '' } } = await mediator.send(
-          buildConsulterProjetQuery({
+          buildConsulterProjetUseCase({
             identifiantProjet,
           }),
         );

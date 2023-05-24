@@ -1,7 +1,7 @@
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
   RésuméProjetReadModel,
-  buildConsulterProjetQuery,
+  buildConsulterProjetUseCase,
   buildListerGestionnaireRéseauQuery,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -67,7 +67,7 @@ v1Router.get(
       };
 
       const { identifiantGestionnaire } = await mediator.send(
-        buildConsulterProjetQuery({ identifiantProjet }),
+        buildConsulterProjetUseCase({ identifiantProjet }),
       );
 
       const gestionnairesRéseau = await mediator.send(buildListerGestionnaireRéseauQuery({}));

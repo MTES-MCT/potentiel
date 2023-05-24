@@ -1,12 +1,19 @@
 import { IWorldOptions, World } from '@cucumber/cucumber';
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world';
 import { RaccordementWorld } from './raccordement/raccordement.world';
+import { ProjetWorld } from './projet/projet.world';
 
 export class PotentielWorld extends World {
   #gestionnaireRéseauWorld!: GestionnaireRéseauWorld;
 
   get gestionnaireRéseauWorld() {
     return this.#gestionnaireRéseauWorld;
+  }
+
+  #projetWorld!: ProjetWorld;
+
+  get projetWorld() {
+    return this.#projetWorld;
   }
 
   #raccordementWorld!: RaccordementWorld;
@@ -32,6 +39,7 @@ export class PotentielWorld extends World {
     super(options);
 
     this.#gestionnaireRéseauWorld = new GestionnaireRéseauWorld();
+    this.#projetWorld = new ProjetWorld();
     this.#raccordementWorld = new RaccordementWorld();
   }
 }

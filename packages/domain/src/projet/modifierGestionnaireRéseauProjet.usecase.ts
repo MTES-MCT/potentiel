@@ -16,7 +16,7 @@ export const registerModifierGestionnaireRéseauProjetUseCase = () => {
   const runner: MessageHandler<ModifierGestionnaireRéseauProjetUseCase> = async ({
     identifiantGestionnaireRéseau,
     identifiantProjet,
-  }: ModifierGestionnaireRéseauProjetCommand['data']) => {
+  }) => {
     const gestionnaireRéseau = await mediator.send(
       buildConsulterGestionnaireRéseauQuery({
         identifiantGestionnaireRéseau,
