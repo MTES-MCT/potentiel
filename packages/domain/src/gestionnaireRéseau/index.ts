@@ -2,7 +2,7 @@
 export { buildAjouterGestionnaireRéseauUseCase } from './ajouterGestionnaireRéseau.usecase';
 export { buildConsulterGestionnaireRéseauUseCase } from './consulterGestionnaireRéseau.usecase';
 export { buildListerGestionnaireRéseauUseCase } from './listerGestionnaireRéseau.usecase';
-export { buildModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
+export { buildModifierGestionnaireRéseauUseCase } from './modifierGestionnaireRéseau.usecase';
 
 // ReadNModel
 export { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';

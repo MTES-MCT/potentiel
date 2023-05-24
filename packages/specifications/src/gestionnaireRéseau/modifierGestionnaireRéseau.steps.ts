@@ -2,7 +2,7 @@ import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@
 import {
   buildConsulterGestionnaireRéseauUseCase,
   buildListerGestionnaireRéseauUseCase,
-  buildModifierGestionnaireRéseauCommand,
+  buildModifierGestionnaireRéseauUseCase,
   GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
 } from '@potentiel/domain';
@@ -28,7 +28,7 @@ Quand(
     this.gestionnaireRéseauWorld.légende = example['Légende'];
     this.gestionnaireRéseauWorld.format = example['Format'];
 
-    const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
+    const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauUseCase({
       identifiantGestionnaireRéseau: { codeEIC: this.gestionnaireRéseauWorld.codeEIC },
       raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
@@ -45,7 +45,7 @@ Quand(
   'un administrateur modifie un gestionnaire de réseau inconnu',
   async function (this: PotentielWorld) {
     try {
-      const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
+      const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauUseCase({
         identifiantGestionnaireRéseau: { codeEIC: 'Code EIC inconnu' },
         raisonSociale: 'RTE',
         aideSaisieRéférenceDossierRaccordement: {

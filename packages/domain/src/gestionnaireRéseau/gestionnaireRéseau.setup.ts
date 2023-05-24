@@ -8,6 +8,7 @@ import { registerListerGestionnaireRéseauQuery } from './lister/listerGestionna
 import { registerListerGestionnaireRéseauUseCase } from './listerGestionnaireRéseau.usecase';
 import { gestionnaireRéseauModifiéHandlerFactory } from './modifier';
 import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
+import { registerModifierGestionnaireRéseauUseCase } from './modifierGestionnaireRéseau.usecase';
 
 export const setupGestionnaireRéseau = (dependencies: GestionnaireRéseauDependencies) => {
   // Query
@@ -22,6 +23,7 @@ export const setupGestionnaireRéseau = (dependencies: GestionnaireRéseauDepend
   registerConsulterGestionnaireRéseauUseCase();
   registerListerGestionnaireRéseauUseCase();
   registerAjouterGestionnaireRéseauUseCase();
+  registerModifierGestionnaireRéseauUseCase();
 
   // Subscribes
   const { subscribe } = dependencies;
