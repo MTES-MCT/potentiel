@@ -63,7 +63,7 @@ export const ProjetsÀRéclamer = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-missing-owner-projects">
-      <Heading1>Projets à réclamer</Heading1>
+      <Heading1 className="mb-10">Projets à réclamer</Heading1>
       <InfoBox>
         Pour ajouter un projet en attente d'affectation à votre suivi de projets (onglet "Mes
         projets"), sélectionnez-le, qu’il vous soit pré-affecté ou non.

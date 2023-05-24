@@ -41,7 +41,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <Heading1>Je signale un changement de producteur</Heading1>
+      <Heading1 className="mb-10">Je signale un changement de producteur</Heading1>
 
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire

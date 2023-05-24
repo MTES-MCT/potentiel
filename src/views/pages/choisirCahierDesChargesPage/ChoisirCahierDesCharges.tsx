@@ -18,7 +18,7 @@ type ChoisirCahierDesChargesProps = {
 export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesChargesProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
-      <Heading1>Cahier des charges</Heading1>
+      <Heading1 className="mb-10">Cahier des charges</Heading1>
       <ChoisirCahierDesChargesFormulaire
         projet={projet}
         infoBox={

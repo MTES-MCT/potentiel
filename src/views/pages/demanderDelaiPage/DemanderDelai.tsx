@@ -48,7 +48,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <Heading1>Je demande un délai supplémentaire</Heading1>
+      <Heading1 className="mb-10">Je demande un délai supplémentaire</Heading1>
 
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire

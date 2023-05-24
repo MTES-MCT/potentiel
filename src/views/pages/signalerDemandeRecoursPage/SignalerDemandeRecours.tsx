@@ -32,7 +32,9 @@ export const SignalerDemandeRecours = ({
   const { error } = query as any;
   return (
     <LegacyPageTemplate user={user} currentPage="list-projects">
-      <Heading1>Enregistrer une demande de recours traitée hors Potentiel</Heading1>
+      <Heading1 className="mb-10">
+        Enregistrer une demande de recours traitée hors Potentiel
+      </Heading1>
       {error && <ErrorBox title={error} />}
       <Form
         action={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_POST}

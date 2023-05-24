@@ -51,7 +51,7 @@ export const NewModificationRequest = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <Heading1>
+      <Heading1 className="mb-10">
         <ModificationRequestActionTitles action={action} />
       </Heading1>
       {doitChoisirCahierDesCharges ? (

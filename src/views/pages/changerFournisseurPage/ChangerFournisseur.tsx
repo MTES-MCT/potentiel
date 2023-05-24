@@ -46,7 +46,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <Heading1>Je signale un changement de fournisseur</Heading1>
+      <Heading1 className="mb-10">Je signale un changement de fournisseur</Heading1>
 
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
