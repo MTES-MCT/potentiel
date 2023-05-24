@@ -704,7 +704,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "Xo6Kosy1A3OxiCu8V49h5JiIftkJRetb",
       "redirectUris": [],
       "webOrigins": [],
       "notBefore": 0,
@@ -811,7 +811,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "nEps09IGJnv9d0GqBwxiID5zvRdvDtYy",
       "redirectUris": [
         "http://potentiel.beta.gouv.fr/*",
         "https://potentiel.beta.gouv.fr/*",
