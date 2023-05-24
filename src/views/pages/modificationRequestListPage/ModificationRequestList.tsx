@@ -14,7 +14,7 @@ import {
   BarreDeRecherche,
   Label,
   Select,
-  RichCheckbox,
+  Checkbox,
   Form,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
@@ -227,14 +227,14 @@ export const ModificationRequestList = ({
 
         {userIs(['admin', 'dgec-validateur'])(request.user) && (
           <div className="flex flex-row mt-5">
-            <RichCheckbox
+            <Checkbox
               id="showOnlyDGEC"
               name="showOnlyDGEC"
               checked={isShowOnlyDGECChecked}
               onChange={handleShowOnlyDGEC}
             >
               Afficher seulement les demandes adressées à la DGEC
-            </RichCheckbox>
+            </Checkbox>
           </div>
         )}
       </Form>

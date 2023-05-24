@@ -1,10 +1,9 @@
 import React, { ComponentProps, FC } from 'react';
-import { Label } from './Label';
-import { CheckIcon } from './icons';
+import { CheckIcon, Label } from '../atoms';
 
-type RichCheckboxProps = Omit<ComponentProps<'input'>, 'type'> & { id: string };
+type CheckboxProps = Omit<ComponentProps<'input'>, 'type'> & { id: string };
 
-export const RichCheckbox: FC<RichCheckboxProps> = ({ className = '', children, ...props }) => (
+export const Checkbox: FC<CheckboxProps> = ({ className = '', children, ...props }) => (
   <>
     <input type="checkbox" className={`hidden peer`} {...props} />
     <Label

@@ -9,3 +9,5 @@ export * from './RésultatSoumissionFormulaire';
 export * from './Section';
 export * from './Buttons';
 export * from './StatutDemandeModification';
+export * from './Radio';
+export * from './Checkbox';

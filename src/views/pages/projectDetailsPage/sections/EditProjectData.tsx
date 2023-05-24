@@ -12,8 +12,8 @@ import {
   Select,
   TextArea,
   ErrorBox,
-  RichRadio,
-  RichCheckbox,
+  Radio,
+  Checkbox,
   Form,
 } from '@components';
 import { afficherDate } from '@views/helpers';
@@ -230,7 +230,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           />
         </div>
         <div className="form__group flex">
-          <RichCheckbox
+          <Checkbox
             id="engagementFournitureDePuissanceAlaPointe"
             name="engagementFournitureDePuissanceAlaPointe"
             defaultChecked={
@@ -239,7 +239,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             }
           >
             Engagement de fourniture de puissance à la pointe
-          </RichCheckbox>
+          </Checkbox>
         </div>
         <div>
           <Label htmlFor="participatif">Financement/Investissement participatif</Label>
@@ -312,7 +312,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             <legend>Attestation de désignation</legend>
             <ul className="flex flex-col gap-3 p-0 list-none">
               <li>
-                <RichRadio
+                <Radio
                   name="attestation"
                   id="regenerate"
                   value="regenerate"
@@ -320,20 +320,20 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                   onChange={handleCertificateTypeChange}
                 >
                   Regénérer l'attestation (si les données du projet ont changé)
-                </RichRadio>
+                </Radio>
               </li>
               <li>
-                <RichRadio
+                <Radio
                   name="attestation"
                   id="donotregenerate"
                   value="donotregenerate"
                   onChange={handleCertificateTypeChange}
                 >
                   Ne pas regénérer l'attestation
-                </RichRadio>
+                </Radio>
               </li>
               <li>
-                <RichRadio
+                <Radio
                   name="attestation"
                   id="custom"
                   value="custom"
@@ -341,7 +341,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 >
                   Uploader une attestation
                   <Input type="file" name="file" id="file" disabled={uploadIsDisabled} />
-                </RichRadio>
+                </Radio>
               </li>
             </ul>
           </div>

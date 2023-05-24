@@ -1,9 +1,9 @@
 import React, { ComponentProps } from 'react';
-import { Label } from './Label';
+import { Label } from '../atoms/Label';
 
-type RichRadioProps = Omit<ComponentProps<'input'>, 'type'> & { id: string };
+type RadioProps = Omit<ComponentProps<'input'>, 'type'> & { id: string };
 
-export const RichRadio: React.FC<RichRadioProps> = ({ children, className = '', ...props }) => (
+export const Radio: React.FC<RadioProps> = ({ children, className = '', ...props }) => (
   <>
     <input
       type="radio"

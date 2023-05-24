@@ -6,7 +6,7 @@ import {
   getVolumeReserve,
 } from '@modules/demandeModification/demandeChangementDePuissance';
 
-import { AlertBox, RichCheckbox } from '@components';
+import { AlertBox, Checkbox } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest/dtos';
 
 type PuissanceFormProps = {
@@ -49,9 +49,9 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
       )}
 
       <div className="form__group mb-4">
-        <RichCheckbox id="statusUpdateOnly" name="isDecisionJustice">
+        <Checkbox id="statusUpdateOnly" name="isDecisionJustice">
           La demande de changement de puissance fait suite à une décision de justice
-        </RichCheckbox>
+        </Checkbox>
         <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
           En cochant cette case, vous n'aurez pas à joindre de courrier de réponse en cas
           d'acceptation de la demande. <br />

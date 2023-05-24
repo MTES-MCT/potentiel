@@ -5,8 +5,6 @@ export * from './Input';
 export * from './Label';
 export * from './Link';
 export * from './LinkButton';
-export * from './RichRadio';
-export * from './RichCheckbox';
 export * from './SecondaryLinkButton';
 export * from './Tile';
 export * from './icons';

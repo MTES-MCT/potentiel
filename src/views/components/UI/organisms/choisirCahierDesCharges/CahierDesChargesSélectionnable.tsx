@@ -1,6 +1,6 @@
 import React from 'react';
 import { CahierDesChargesRéférence } from '@entities';
-import { RichRadio } from '@components';
+import { Radio } from '@components';
 
 type CahierDesChargesSelectionnableProps = {
   id: CahierDesChargesRéférence;
@@ -16,7 +16,7 @@ export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionn
   onCahierDesChargesChoisi,
   children,
 }) => (
-  <RichRadio
+  <Radio
     className={`p-6 
                 border
                 border-solid   
@@ -32,5 +32,5 @@ export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionn
     onChange={() => onCahierDesChargesChoisi?.(id)}
   >
     {children}
-  </RichRadio>
+  </Radio>
 );

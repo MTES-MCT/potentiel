@@ -11,7 +11,7 @@ import {
   Label,
   FormulaireChampsObligatoireLégende,
   TextArea,
-  RichRadio,
+  Radio,
   Form,
 } from '@components';
 import routes from '@routes';
@@ -59,20 +59,14 @@ export const SignalerDemandeRecours = ({
           </legend>
           <ul className="flex flex-col gap-3 my-2 p-0 list-none">
             <li>
-              <RichRadio
-                id="status-accepted"
-                value="acceptée"
-                name="status"
-                defaultChecked
-                required
-              >
+              <Radio id="status-accepted" value="acceptée" name="status" defaultChecked required>
                 Demande acceptée
-              </RichRadio>
+              </Radio>
             </li>
             <li>
-              <RichRadio id="status-rejected" value="rejetée" name="status" required>
+              <Radio id="status-rejected" value="rejetée" name="status" required>
                 Demande rejetée
-              </RichRadio>
+              </Radio>
             </li>
           </ul>
         </div>

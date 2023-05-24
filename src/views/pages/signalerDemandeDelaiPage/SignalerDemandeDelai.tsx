@@ -9,7 +9,7 @@ import {
   ErrorBox,
   Heading1,
   TextArea,
-  RichRadio,
+  Radio,
   Form,
 } from '@components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
@@ -69,7 +69,7 @@ export const SignalerDemandeDelai = ({
           </legend>
           <ul className="flex flex-col gap-3 my-2 p-0 list-none">
             <li>
-              <RichRadio
+              <Radio
                 id="status-accepted"
                 value="acceptée"
                 name="status"
@@ -78,10 +78,10 @@ export const SignalerDemandeDelai = ({
                 required
               >
                 Demande acceptée
-              </RichRadio>
+              </Radio>
             </li>
             <li>
-              <RichRadio
+              <Radio
                 id="status-rejected"
                 value="rejetée"
                 name="status"
@@ -89,10 +89,10 @@ export const SignalerDemandeDelai = ({
                 required
               >
                 Demande rejetée
-              </RichRadio>
+              </Radio>
             </li>
             <li>
-              <RichRadio
+              <Radio
                 id="status-accord-principe"
                 value="accord-de-principe"
                 name="status"
@@ -100,7 +100,7 @@ export const SignalerDemandeDelai = ({
                 required
               >
                 Accord de principe
-              </RichRadio>
+              </Radio>
             </li>
           </ul>
         </div>
