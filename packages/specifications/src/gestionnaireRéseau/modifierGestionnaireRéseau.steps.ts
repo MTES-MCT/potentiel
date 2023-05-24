@@ -1,7 +1,7 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
   buildConsulterGestionnaireRéseauUseCase,
-  buildListerGestionnaireRéseauQuery,
+  buildListerGestionnaireRéseauUseCase,
   buildModifierGestionnaireRéseauCommand,
   GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
@@ -76,7 +76,7 @@ Alors(
       },
     };
 
-    const actual = await mediator.send(buildListerGestionnaireRéseauQuery({}));
+    const actual = await mediator.send(buildListerGestionnaireRéseauUseCase({}));
     actual.should.deep.contain(expected);
   },
 );

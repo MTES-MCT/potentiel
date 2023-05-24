@@ -1,7 +1,7 @@
 // Usecases
 export { buildAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
 export { buildConsulterGestionnaireRéseauUseCase } from './consulterGestionnaireRéseau.usecase';
-export { buildListerGestionnaireRéseauQuery } from './lister/listerGestionnaireRéseau.query';
+export { buildListerGestionnaireRéseauUseCase } from './listerGestionnaireRéseau.usecase';
 export { buildModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
 
 // ReadNModel

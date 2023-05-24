@@ -4,7 +4,7 @@ import {
   GestionnaireRéseauReadModel,
   buildConsulterGestionnaireRéseauUseCase,
   buildAjouterGestionnaireRéseauCommand,
-  buildListerGestionnaireRéseauQuery,
+  buildListerGestionnaireRéseauUseCase,
 } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
@@ -73,7 +73,7 @@ Alors(
       },
     };
 
-    const actual = await mediator.send(buildListerGestionnaireRéseauQuery({}));
+    const actual = await mediator.send(buildListerGestionnaireRéseauUseCase({}));
 
     actual.should.deep.contain(expected);
   },
