@@ -51,7 +51,6 @@ const makeAttachUserToRequestMiddleware =
         })
         .match(
           (user) => {
-            console.debug(JSON.stringify(user));
             request.user = {
               ...user,
               accountUrl: `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`,

@@ -1,5 +1,7 @@
 {
-  "realm" : "Potentiel",
+  "id": "Potentiel",
+  "realm": "Potentiel",
+  "enabled": true,
   "roles": {
     "realm": [
       {

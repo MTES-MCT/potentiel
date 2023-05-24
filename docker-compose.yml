@@ -35,4 +35,5 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=admin
     command: start-dev --import-realm
     volumes:
-      - ./keycloak-legacy/data:/opt/keycloak/data/import
+      - ./keycloak/import:/opt/keycloak/data/import
+      - ./keycloak/themes/potentiel:/opt/keycloak/themes/potentiel
