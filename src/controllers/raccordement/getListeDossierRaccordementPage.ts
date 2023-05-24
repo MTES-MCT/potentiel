@@ -146,9 +146,9 @@ v1Router.get(
         return response.redirect(
           routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId),
         );
-      } else {
-        return response.redirect(routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(projetId));
       }
+
+      return response.redirect(routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(projetId));
     },
   ),
 );
