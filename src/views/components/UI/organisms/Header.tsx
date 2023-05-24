@@ -234,7 +234,7 @@ Header.MenuItem = MenuItem;
 type MenuAccèsRapidesProps = { menuDisponible: boolean };
 const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
   <nav role="navigation" aria-label="Accès rapide" className="bg-grey-950-base">
-    <ul className="flex row list-none justify-start px-0 py-4 gap-2 xl:mx-auto xl:max-w-7xl my-0">
+    <ul className="flex row list-none justify-start px-0 py-4 gap-4 xl:mx-auto xl:max-w-7xl my-0">
       <li>
         <Link href="#contenu">Accéder au contenu</Link>
       </li>
