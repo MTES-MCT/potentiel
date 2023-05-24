@@ -67,7 +67,7 @@ export const SignalerDemandeDelai = ({
           <legend className="m-0">
             Décision <Astérisque /> :
           </legend>
-          <ul className="flex flex-col gap-3 my-2 p-0 list-none">
+          <ul className="flex flex-col lg:flex-row gap-3 my-2 p-0 list-none">
             <li>
               <Radio
                 id="status-accepted"
