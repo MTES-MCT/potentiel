@@ -1,5 +1,6 @@
 import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
 import { gestionnaireRéseauAjoutéHandlerFactory } from './ajouter/handlers/gestionnaireRéseauAjouté.handler';
+import { registerAjouterGestionnaireRéseauUseCase } from './ajouterGestionnaireRéseau.usecase';
 import { registerConsulterGestionnaireRéseauQuery } from './consulter/consulterGestionnaireRéseau.query';
 import { registerConsulterGestionnaireRéseauUseCase } from './consulterGestionnaireRéseau.usecase';
 import { GestionnaireRéseauDependencies } from './gestionnaireRéseau.dependencies';
@@ -20,6 +21,7 @@ export const setupGestionnaireRéseau = (dependencies: GestionnaireRéseauDepend
   // Use cases
   registerConsulterGestionnaireRéseauUseCase();
   registerListerGestionnaireRéseauUseCase();
+  registerAjouterGestionnaireRéseauUseCase();
 
   // Subscribes
   const { subscribe } = dependencies;

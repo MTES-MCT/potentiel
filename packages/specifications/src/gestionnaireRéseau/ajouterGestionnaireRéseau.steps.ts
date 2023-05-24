@@ -3,7 +3,7 @@ import {
   GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauReadModel,
   buildConsulterGestionnaireRéseauUseCase,
-  buildAjouterGestionnaireRéseauCommand,
+  buildAjouterGestionnaireRéseauUseCase,
   buildListerGestionnaireRéseauUseCase,
 } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
@@ -25,7 +25,7 @@ Quand(
     this.gestionnaireRéseauWorld.format = example['Format'];
     this.gestionnaireRéseauWorld.légende = example['Légende'];
 
-    const command = buildAjouterGestionnaireRéseauCommand({
+    const command = buildAjouterGestionnaireRéseauUseCase({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
       raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
@@ -42,7 +42,7 @@ Quand(
   'un administrateur ajoute un gestionnaire de réseau ayant le même code EIC',
   async function (this: PotentielWorld) {
     try {
-      const command = buildAjouterGestionnaireRéseauCommand({
+      const command = buildAjouterGestionnaireRéseauUseCase({
         codeEIC: this.gestionnaireRéseauWorld.codeEIC,
         raisonSociale: 'autre raison sociale',
         aideSaisieRéférenceDossierRaccordement: {

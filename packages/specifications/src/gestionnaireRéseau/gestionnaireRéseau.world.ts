@@ -1,6 +1,6 @@
 import {
   GestionnaireRéseauReadModel,
-  buildAjouterGestionnaireRéseauCommand,
+  buildAjouterGestionnaireRéseauUseCase,
 } from '@potentiel/domain';
 import { sleep } from '../helpers/sleep';
 import { mediator } from 'mediateur';
@@ -72,7 +72,7 @@ export class GestionnaireRéseauWorld {
   }
 
   async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {
-    const command = buildAjouterGestionnaireRéseauCommand({
+    const command = buildAjouterGestionnaireRéseauUseCase({
       codeEIC,
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {

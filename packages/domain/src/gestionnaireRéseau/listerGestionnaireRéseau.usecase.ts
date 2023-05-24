@@ -1,11 +1,17 @@
 import { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { buildListerGestionnaireRéseauQuery } from './lister/listerGestionnaireRéseau.query';
+import {
+  ListerGestionnaireRéseauQuery,
+  buildListerGestionnaireRéseauQuery,
+} from './lister/listerGestionnaireRéseau.query';
+
+type ListerGestionnaireRéseauUseCaseData = ListerGestionnaireRéseauQuery['data'];
+type ListerGestionnaireRéseauUseCaseResult = ReadonlyArray<GestionnaireRéseauReadModel>;
 
 export type ListerGestionnaireRéseauUseCase = Message<
   'LISTER_GESTIONNAIRE_RÉSEAU_USECASE',
-  {},
-  ReadonlyArray<GestionnaireRéseauReadModel>
+  ListerGestionnaireRéseauUseCaseData,
+  ListerGestionnaireRéseauUseCaseResult
 >;
 
 export const registerListerGestionnaireRéseauUseCase = () => {

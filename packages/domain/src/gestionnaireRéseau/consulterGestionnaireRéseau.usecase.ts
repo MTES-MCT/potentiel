@@ -1,14 +1,17 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { buildConsulterGestionnaireRéseauQuery } from './consulter/consulterGestionnaireRéseau.query';
+import {
+  ConsulterGestionnaireRéseauQuery,
+  buildConsulterGestionnaireRéseauQuery,
+} from './consulter/consulterGestionnaireRéseau.query';
 import { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';
-import { IdentifiantGestionnaireRéseau } from './identifiantGestionnaireRéseau';
+
+type ConsulterGestionnaireRéseauUseCaseData = ConsulterGestionnaireRéseauQuery['data'];
+type ConsulterGestionnaireRéseauUseCaseResult = GestionnaireRéseauReadModel;
 
 export type ConsulterGestionnaireRéseauUseCase = Message<
   'CONSULTER_GESTIONNAIRE_RÉSEAU_USECASE',
-  {
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
-  },
-  GestionnaireRéseauReadModel
+  ConsulterGestionnaireRéseauUseCaseData,
+  ConsulterGestionnaireRéseauUseCaseResult
 >;
 
 export const registerConsulterGestionnaireRéseauUseCase = () => {
