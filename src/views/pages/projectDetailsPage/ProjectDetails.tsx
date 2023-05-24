@@ -113,7 +113,7 @@ type CDCInfoProps = {
 
 const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: CDCInfoProps) => (
   <>
-    <Heading2 className="mb-0 text-2xl">Cahier des charges</Heading2>{' '}
+    <Heading2 className="my-0 text-2xl">Cahier des charges</Heading2>{' '}
     <div>
       Instruction selon le cahier des charges{' '}
       {cahierDesChargesActuel.type === 'initial'
