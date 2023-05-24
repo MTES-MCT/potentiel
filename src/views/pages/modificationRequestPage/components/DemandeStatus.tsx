@@ -1,4 +1,4 @@
-import { DownloadLink, SecondaryButton, StatutDemandeModification } from '@components';
+import { DownloadLink, Form, SecondaryButton, StatutDemandeModification } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
@@ -53,10 +53,10 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
       <span className="font-bold">{helpers.ModificationRequestStatusTitle[status]}</span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${helpers.afficherDate(respondedOn)}`}
       {afficherBoutonAnnulerRejet && (
-        <form
+        <Form
           method="post"
           action={getAdminAnulerRejetDemandeRoute({ type, id: modificationRequest.id })}
-          className="m-0 mt-4"
+          className="mt-4"
         >
           <SecondaryButton
             type="submit"
@@ -66,7 +66,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
           >
             Annuler le rejet de la demande
           </SecondaryButton>
-        </form>
+        </Form>
       )}
       {cancelledOn && cancelledBy && `par ${cancelledBy} le ${helpers.afficherDate(cancelledOn)}`}
       <StatusForDelai modificationRequest={modificationRequest} />

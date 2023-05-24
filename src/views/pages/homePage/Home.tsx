@@ -5,6 +5,7 @@ import routes from '@routes';
 import { Header, Footer } from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components';
+import { App } from '@views';
 
 type HomeProps = {
   request: Request;
@@ -16,7 +17,7 @@ export const Home = (props: HomeProps) => {
   } = props;
 
   return (
-    <>
+    <App>
       <Header {...{ user }}>
         {user && (
           <Header.MenuItem href={routes.REDIRECT_BASED_ON_ROLE}>
@@ -34,7 +35,7 @@ export const Home = (props: HomeProps) => {
         <Benefices />
       </main>
       <Footer />
-    </>
+    </App>
   );
 };
 

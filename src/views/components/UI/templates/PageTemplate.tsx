@@ -1,5 +1,6 @@
 import React from 'react';
 import { Footer, Header, UserNavigation } from '@components';
+import { App } from '@views';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 export const PageTemplate = ({
@@ -12,12 +13,12 @@ export const PageTemplate = ({
   currentPage?: string;
 }) => {
   return (
-    <>
+    <App>
       <Header user={user}>{user && <UserNavigation {...{ user, currentPage }} />}</Header>
       <main role="main" id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         {children}
       </main>
       <Footer />
-    </>
+    </App>
   );
 };

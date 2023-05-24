@@ -35,7 +35,7 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
           </Badge>
         )}
       </div>
-      <p className="text-sm font-medium text-gray-500 p-0 m-0">
+      <p className="text-sm font-medium text-gray-500 p-0 mt-3 mb-0">
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
       </p>
       <div className="text-sm">{project.potentielIdentifier}</div>

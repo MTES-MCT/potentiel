@@ -10,7 +10,6 @@ export * from './project';
 export * from './tableauxDeBord';
 export * from './userAccount';
 export * from './getDéclarationAccessibilitéPage';
-export * from './getLienInvitationPériméPage';
 export * from './getSuccèsPage';
 export * from './importerListingEDF';
 export * from './importerListingEnedis';

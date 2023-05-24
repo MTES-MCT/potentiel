@@ -11,26 +11,21 @@ type AdemeStatistiquesProps = {
 export const AdemeStatistiques = ({ iframeUrl, request }: AdemeStatistiquesProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="ademe-statistiques">
-      <main role="main" className="panel">
-        <div className="panel__header">
-          <Heading1>Tableau de bord</Heading1>
-        </div>
-        <section className="section section-white" style={{ paddingTop: 0 }}>
-          <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
-          <div
-            className="container"
-            dangerouslySetInnerHTML={{
-              __html: `<iframe
+      <Heading1>Tableau de bord</Heading1>
+      <section>
+        <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `<iframe
             src="${iframeUrl}"
             frameBorder="0"
             width="100%"
             allowTransparency
             onload="iFrameResize({}, this)"
           ></iframe>`,
-            }}
-          ></div>
-        </section>
-      </main>
+          }}
+        />
+      </section>
     </LegacyPageTemplate>
   );
 };

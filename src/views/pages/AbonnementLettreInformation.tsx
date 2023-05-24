@@ -8,6 +8,7 @@ import {
   Input,
   Container,
   SecondaryLinkButton,
+  Form,
 } from '../components';
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine';
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
@@ -62,7 +63,7 @@ const AbonnementLettreInformationForm = ({
     </h1>
 
     <div className="w-full md:w-1/2 lg:w-2/5 md:p-8 lg:p-10 xl:p-14">
-      <form
+      <Form
         action={routes.POST_SINSCRIRE_LETTRE_INFORMATION}
         method="POST"
         className="flex flex-col gap-3 p-4 mx-0 bg-white"
@@ -91,7 +92,7 @@ const AbonnementLettreInformationForm = ({
           />
         </div>
 
-        <div className="">
+        <div>
           En m'abonnant, j'accepte de recevoir cette lettre d'information et je comprends que je
           peux me désabonner facilement à tout moment.
         </div>
@@ -103,7 +104,7 @@ const AbonnementLettreInformationForm = ({
           </PrimaryButton>
           <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
         </div>
-      </form>
+      </Form>
     </div>
   </Container>
 );

@@ -47,7 +47,6 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
 
         <title>${`${title} - Potentiel`}</title>
 
-        <link href="/main.min.css" rel="stylesheet" />
         <link href="/css/index.css" rel="stylesheet" />
 
         <meta name="theme-color" content="#000091" />
@@ -87,7 +86,7 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
           : ''}
       </head>
 
-      <body style="min-height: 100vh; display: flex; flex-direction: column;">
+      <body class="m-0">
         <svg aria-hidden="true" focusable="false" style="display:none">
           <defs>
             <symbol

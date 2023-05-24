@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PrimaryButton, SecondaryLinkButton } from '@components';
+import { Form, PrimaryButton, SecondaryLinkButton } from '@components';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
 import routes from '@routes';
 import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
@@ -9,6 +9,7 @@ import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDi
 import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable';
 
 type ChoisirCahierDesChargesFormulaireProps = {
+  infoBox: React.ReactNode;
   projet: ProjectDataForChoisirCDCPage;
   redirectUrl?: string;
   type?:
@@ -23,18 +24,14 @@ type ChoisirCahierDesChargesFormulaireProps = {
 
 export const ChoisirCahierDesChargesFormulaire: React.FC<
   ChoisirCahierDesChargesFormulaireProps
-> = ({ projet, redirectUrl, type }) => {
-  const {
-    id: projetId,
-    appelOffre,
-    cahierDesChargesActuel,
-    identifiantGestionnaireRéseau,
-  } = projet;
+> = ({ projet, redirectUrl, type, infoBox }) => {
+  const { id: projetId, appelOffre, cahierDesChargesActuel } = projet;
   const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel);
   const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false);
 
   return (
-    <form action={routes.CHANGER_CDC} method="post" className="m-0 max-w-full">
+    <Form action={routes.CHANGER_CDC} method="post" className="mx-auto">
+      {infoBox}
       <input
         type="hidden"
         name="redirectUrl"
@@ -42,8 +39,8 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
       />
       <input type="hidden" name="projectId" value={projetId} />
       {type && <input type="hidden" name="type" value={type} />}
-      <ul className="list-none pl-0">
-        <li className="mb-5" key="cahier-des-charges-initial">
+      <ul className="list-none pl-0 m-0 flex flex-col gap-4">
+        <li key="cahier-des-charges-initial">
           <CahierDesChargesSelectionnable
             {...{
               id: 'initial',
@@ -71,7 +68,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
           const sélectionné = cdcChoisi === idCdc;
 
           return (
-            <li className="mb-5" key={`cahier-des-charges-modifié-${index}`}>
+            <li key={`cahier-des-charges-modifié-${index}`}>
               <CahierDesChargesSelectionnable
                 {...{
                   id: idCdc,
@@ -91,7 +88,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
         })}
       </ul>
 
-      <div className="flex items-center justify-center">
+      <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
         <PrimaryButton type="submit" disabled={!peutEnregistrerLeChangement}>
           Enregistrer mon changement
         </PrimaryButton>
@@ -99,6 +96,6 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
           Annuler
         </SecondaryLinkButton>
       </div>
-    </form>
+    </Form>
   );
 };

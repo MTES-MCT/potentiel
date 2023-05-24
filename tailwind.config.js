@@ -2,6 +2,9 @@ module.exports = {
   content: ['./src/views/**/*.tsx', './src/views/**/*.html'],
   darkMode: 'media', // or 'class'
   theme: {
+    fontFamily: {
+      body: ['Marianne', 'Arial', 'sans-serif'],
+    },
     extend: {
       colors: {
         'blue-france-sun': {
@@ -108,6 +111,9 @@ module.exports = {
           hover: '#c2d1ff',
           active: '#a9bfff',
         },
+        'info-975': {
+          base: '#f4f6ff',
+        },
         'success-425': {
           base: '#18753c',
           hover: '#27a959',
@@ -118,6 +124,9 @@ module.exports = {
           hover: '#46fd89',
           active: '#34eb7b',
         },
+        'success-975': {
+          base: '#dffee6',
+        },
         'error-425': {
           base: '#ce0500',
           hover: '#ff2725',
@@ -127,6 +136,9 @@ module.exports = {
           base: '#ffe9e9',
           hover: '#ffc5c5',
           active: '#ffafaf',
+        },
+        'error-975': {
+          base: '#fff4f4',
         },
         'yellow-moutarde-850': {
           base: '#fcc63a',

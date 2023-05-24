@@ -11,6 +11,7 @@ import {
   Link,
   PageProjetTemplate,
   PlugIcon,
+  Form,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import routes from '@routes';
@@ -44,16 +45,16 @@ export const TransmettreDateMiseEnService = ({
       user={user}
       résuméProjet={résuméProjet}
     >
+      <Heading2 className="mb-0">Transmettre la date de mise en service</Heading2>
       <div className="flex flex-col md:flex-row gap-4">
-        <form
-          className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
+        <Form
+          className="mx-auto mt-6"
           method="POST"
           action={routes.POST_TRANSMETTRE_DATE_MISE_EN_SERVICE(identifiantProjet, reference)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
-          <Heading2 className="mb-0">Transmettre la date de mise en service</Heading2>
 
-          <Callout className="text-sm my-4 px-3 pt-1 pb-0">
+          <Callout className="text-sm px-3 pt-1 pb-0">
             <ul className="list-none p-0">
               <li className="my-0">
                 Référence du dossier de raccordement :{' '}
@@ -84,7 +85,7 @@ export const TransmettreDateMiseEnService = ({
               Retour vers le dossier de raccordement
             </Link>
           </div>
-        </form>
+        </Form>
       </div>
     </PageProjetTemplate>
   );

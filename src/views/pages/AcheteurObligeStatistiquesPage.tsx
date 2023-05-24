@@ -15,13 +15,10 @@ export const AcheteurObligeStatistiques = ({
   return (
     <LegacyPageTemplate user={request.user} currentPage="acheteur-oblige-statistiques">
       <main role="main" className="panel">
-        <div className="panel__header">
-          <Heading1>Tableau de bord</Heading1>
-        </div>
-        <section className="section section-white pt-0">
+        <Heading1>Tableau de bord</Heading1>
+        <section>
           <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
           <div
-            className="container"
             dangerouslySetInnerHTML={{
               __html: `<iframe
             src="${iframeUrl}"
@@ -31,7 +28,7 @@ export const AcheteurObligeStatistiques = ({
             onload="iFrameResize({}, this)"
           ></iframe>`,
             }}
-          ></div>
+          />
         </section>
       </main>
     </LegacyPageTemplate>

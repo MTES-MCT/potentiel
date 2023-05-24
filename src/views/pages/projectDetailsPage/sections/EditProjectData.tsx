@@ -1,18 +1,20 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { dataId } from '../../../../helpers/testId';
 import { ProjectDataForProjectPage } from '@modules/project/queries';
 import ROUTES from '@routes';
 import {
   BuildingIcon,
   PrimaryButton,
   Input,
-  InputCheckbox,
   Label,
   Section,
   Select,
   TextArea,
+  ErrorBox,
+  Radio,
+  Checkbox,
+  Form,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -36,10 +38,11 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
 
   return (
     <Section title="Modifier le projet" icon={BuildingIcon}>
-      <form
+      <Form
         action={ROUTES.ADMIN_CORRECT_PROJECT_DATA_ACTION}
         method="post"
         encType="multipart/form-data"
+        className="mx-auto"
       >
         <input type="hidden" name="projectId" value={project.id} />
         <input
@@ -47,7 +50,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           name="projectVersionDate"
           value={new Date(project.updatedAt || 0).getTime()}
         />
-        <div className="form__group">
+        <div>
           <Label htmlFor="appelOffreAndPeriode">Période</Label>
           <Select
             id="appelOffreAndPeriode"
@@ -76,7 +79,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             }, [] as React.ReactNode[])}
           </Select>
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="familleId">Famille</Label>
           <Input
             type="text"
@@ -87,7 +90,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             disabled
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="territoireProjet">Territoire</Label>
           <Input
             type="text"
@@ -97,7 +100,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.territoireProjet || project.territoireProjet || ''}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="numeroCRE">Numéro CRE</Label>
           <Input
             type="text"
@@ -108,7 +111,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             disabled
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="nomProjet">Nom Projet</Label>
           <Input
             type="text"
@@ -118,7 +121,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.nomProjet || project.nomProjet}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="puissance">Puissance (en {project.appelOffre?.unitePuissance})</Label>
           <Input
             type="text"
@@ -130,7 +133,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.puissance || project.puissance}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="prixReference">Prix de référence</Label>
           <Input
             type="text"
@@ -154,7 +157,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.evaluationCarbone || project.evaluationCarbone}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="note">Note</Label>
           <Input
             type="text"
@@ -166,7 +169,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.note || project.note}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="nomCandidat">Nom candidat</Label>
           <Input
             type="text"
@@ -176,7 +179,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.nomCandidat || project.nomCandidat}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="nomRepresentantLegal">Nom représentant légal</Label>
           <Input
             type="text"
@@ -186,7 +189,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.nomRepresentantLegal || project.nomRepresentantLegal}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="email">Email</Label>
           <Input
             type="email"
@@ -196,7 +199,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             placeholder="Renseigner un email"
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="adresseProjet">Adresse projet (rue et numéro)</Label>
           <Input
             type="text"
@@ -206,7 +209,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.adresseProjet || project.adresseProjet}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="codePostalProjet">Code postal projet</Label>
           <Input
             type="text"
@@ -216,7 +219,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.codePostalProjet || project.codePostalProjet}
           />
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="communeProjet">Commune</Label>
           <Input
             type="text"
@@ -227,19 +230,18 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           />
         </div>
         <div className="form__group flex">
-          <InputCheckbox
+          <Checkbox
             id="engagementFournitureDePuissanceAlaPointe"
             name="engagementFournitureDePuissanceAlaPointe"
             defaultChecked={
               query.engagementFournitureDePuissanceAlaPointe ||
               project.engagementFournitureDePuissanceAlaPointe
             }
-          />
-          <Label htmlFor="engagementFournitureDePuissanceAlaPointe">
+          >
             Engagement de fourniture de puissance à la pointe
-          </Label>
+          </Checkbox>
         </div>
-        <div className="form__group">
+        <div>
           <Label htmlFor="participatif">Financement/Investissement participatif</Label>
           <Select
             id="participatif"
@@ -259,15 +261,15 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           </Select>
         </div>
         {!project.isClasse ? (
-          <>
-            <div className="form__group">
+          <div className="flex flex-col gap-4">
+            <div>
               <Label htmlFor="isClasse">Classement</Label>
               <Select id="isClasse" name="isClasse" defaultValue={0}>
                 <option value={1}>Classé</option>
                 <option value={0}>Eliminé</option>
               </Select>
             </div>
-            <div className="form__group">
+            <div>
               <Label htmlFor="motifsElimination">Motif Elimination (si éliminé)</Label>
               <Input
                 type="text"
@@ -276,9 +278,9 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 defaultValue={query.motifsElimination || project.motifsElimination}
               />
             </div>
-          </>
+          </div>
         ) : (
-          <div className="form__group">
+          <div>
             <span>
               Classement <br /> <b>Classé</b>
             </span>
@@ -286,83 +288,77 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         )}
 
         {!project.isLegacy && (
-          <div className="form__group">
+          <div>
             <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
             <Input
               type="text"
               name="notificationDate"
               id="notificationDate"
-              {...dataId('date-field')}
               defaultValue={
                 query.notificationDate ||
                 (project.notifiedOn && afficherDate(new Date(project.notifiedOn)))
               }
               placeholder="Renseigner une date de désignation"
-              style={{ width: 'auto' }}
             />
-            <div
-              className="notification error"
-              style={{ display: 'none' }}
-              {...dataId('error-message-wrong-format')}
-            >
+            <ErrorBox className="hidden">
               Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
               soit par exemple 25/05/2022 pour 25 Mai 2022.
-            </div>
+            </ErrorBox>
           </div>
         )}
 
         {!project.isLegacy && (
-          <div className="form__group">
-            Attestation de désignation
-            <div className="inline-radio-option">
-              <input
-                type="radio"
-                name="attestation"
-                id="regenerate"
-                value="regenerate"
-                defaultChecked
-                onChange={handleCertificateTypeChange}
-              />
-              <Label htmlFor="regenerate">
-                Regénérer l'attestation (si les données du projet ont changé)
-              </Label>
-            </div>
-            <div className="inline-radio-option">
-              <input
-                type="radio"
-                name="attestation"
-                id="donotregenerate"
-                value="donotregenerate"
-                onChange={handleCertificateTypeChange}
-              />
-              <Label htmlFor="donotregenerate">Ne pas regénérer l'attestation</Label>
-            </div>
-            <div className="inline-radio-option">
-              <input
-                type="radio"
-                name="attestation"
-                id="custom"
-                value="custom"
-                onChange={handleCertificateTypeChange}
-              />
-              <Label htmlFor="custom">Uploader une attestation</Label>
-            </div>
-            <Input type="file" name="file" id="file" disabled={uploadIsDisabled} />
+          <div>
+            <legend>Attestation de désignation</legend>
+            <ul className="flex flex-col gap-3 p-0 list-none">
+              <li>
+                <Radio
+                  name="attestation"
+                  id="regenerate"
+                  value="regenerate"
+                  defaultChecked
+                  onChange={handleCertificateTypeChange}
+                >
+                  Regénérer l'attestation (si les données du projet ont changé)
+                </Radio>
+              </li>
+              <li>
+                <Radio
+                  name="attestation"
+                  id="donotregenerate"
+                  value="donotregenerate"
+                  onChange={handleCertificateTypeChange}
+                >
+                  Ne pas regénérer l'attestation
+                </Radio>
+              </li>
+              <li>
+                <Radio
+                  name="attestation"
+                  id="custom"
+                  value="custom"
+                  onChange={handleCertificateTypeChange}
+                >
+                  Uploader une attestation
+                  <Input type="file" name="file" id="file" disabled={uploadIsDisabled} />
+                </Radio>
+              </li>
+            </ul>
           </div>
         )}
-        <div className="form__group">
+        <div>
           <Label htmlFor="reason">Message justificatif du changement (facultatif)</Label>
           <TextArea
             name="reason"
             id="reason"
             defaultValue={query.reason}
-            placeholder="Renseigner un message justifcatif du changement"
+            placeholder="Renseigner un message justificatif du changement"
           />
         </div>
-        <PrimaryButton className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
+        <PrimaryButton className="mt-2 mx-auto" type="submit" name="submit">
           Modifier
         </PrimaryButton>
-      </form>
+      </Form>
     </Section>
   );
 };

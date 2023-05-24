@@ -1,6 +1,5 @@
 import React, { ComponentProps, FC } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@components';
-import { dataId } from '../../../../helpers/testId';
 import { updateUrlParams } from '@views/helpers';
 
 type Props = ComponentProps<'ul'> & {
@@ -43,7 +42,6 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
           </p>
         ) : (
           <a
-            {...dataId('goToPage')}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black  hover:bg-grey-975-base focus:bg-grey-975-base`}
             title="Page précédente"
             onClick={() =>

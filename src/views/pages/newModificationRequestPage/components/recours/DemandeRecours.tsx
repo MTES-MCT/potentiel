@@ -1,5 +1,4 @@
 import React from 'react';
-import { dataId } from '../../../../../helpers/testId';
 
 import { Input, Label, TextArea } from '@components';
 
@@ -9,19 +8,18 @@ type DemandeRecoursProps = {
 
 export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
   <>
-    <Label htmlFor="justification" className="mt-4">
-      <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
-      <br />
-      Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit à
-      ce besoin de modification (contexte, facteurs extérieurs, etc)
-    </Label>
-    <TextArea
-      name="justification"
-      id="justification"
-      defaultValue={justification || ''}
-      {...dataId('modificationRequest-justificationField')}
-    />
-    <Label htmlFor="candidats">Pièce justificative (si nécessaire)</Label>
-    <Input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
+    <div>
+      <Label htmlFor="justification">
+        <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+        <br />
+        Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit
+        à ce besoin de modification (contexte, facteurs extérieurs, etc)
+      </Label>
+      <TextArea name="justification" id="justification" defaultValue={justification || ''} />
+    </div>
+    <div>
+      <Label htmlFor="candidats">Pièce justificative (si nécessaire)</Label>
+      <Input type="file" name="file" id="file" />
+    </div>
   </>
 );

@@ -11,11 +11,11 @@ import {
   UserIcon,
   Section,
   Dropdown,
+  Form,
 } from '@components';
 
 import { ProjectDataForProjectPage } from '@modules/project';
 import { userIs } from '@modules/users';
-import { dataId } from '../../../../helpers/testId';
 
 type ContactProps = {
   project: ProjectDataForProjectPage;
@@ -48,8 +48,8 @@ type ListComptesAvecAccesProps = {
 };
 const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
   <div>
-    <Heading3 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</Heading3>
-    <ul style={{ marginTop: 5, marginBottom: 5 }}>
+    <Heading3 className="mt-4 mb-1">Comptes ayant accès à ce projet</Heading3>
+    <ul className="my-1">
       {project.users.map(({ id, fullName, email }) => (
         <li key={'project_user_' + id}>
           {fullName && `${fullName} - `}
@@ -60,7 +60,7 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
                 projectId: project.id,
                 userId: id,
               })}
-              style={{ marginLeft: 5 }}
+              className="ml-1"
               confirmation={`Êtes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
             >
               retirer
@@ -86,7 +86,7 @@ const InvitationForm = ({ project }: InvitationFormProps) => {
       changeOpenState={(isOpen) => showForm(isOpen)}
       className="mt-4"
     >
-      <form
+      <Form
         action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
         method="post"
         name="form"
@@ -94,28 +94,26 @@ const InvitationForm = ({ project }: InvitationFormProps) => {
       >
         <Heading3 className="mb-1 mt-2">Gestion des accès à ce projet</Heading3>
         <input type="hidden" name="projectId" id="projectId" value={project.id} />
-        <Label htmlFor="email" required>
-          Courrier électronique de la personne habilitée à suivre ce projet
-        </Label>
-        <Input type="email" name="email" id="email" required />
-        <PrimaryButton
-          className="mt-2 mr-3"
-          type="submit"
-          name="submit"
-          id="submit"
-          {...dataId('submit-button')}
-        >
-          Accorder les droits sur ce projet
-        </PrimaryButton>
-        <Link
-          onClick={(e) => {
-            e.preventDefault();
-            showForm(false);
-          }}
-        >
-          Annuler
-        </Link>
-      </form>
+        <div>
+          <Label htmlFor="email" required>
+            Courrier électronique de la personne habilitée à suivre ce projet
+          </Label>
+          <Input type="email" name="email" id="email" required />
+        </div>
+        <div className="flex flex-col md:flex-row gap-4 mx-auto items-center">
+          <PrimaryButton className="mt-2 mr-3" type="submit" name="submit" id="submit">
+            Accorder les droits sur ce projet
+          </PrimaryButton>
+          <Link
+            onClick={(e) => {
+              e.preventDefault();
+              showForm(false);
+            }}
+          >
+            Annuler
+          </Link>
+        </div>
+      </Form>
     </Dropdown>
   );
 };

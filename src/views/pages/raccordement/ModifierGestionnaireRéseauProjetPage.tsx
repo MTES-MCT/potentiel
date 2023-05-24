@@ -12,6 +12,7 @@ import {
   PageProjetTemplate,
   PlugIcon,
   Select,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '@routes';
@@ -50,7 +51,7 @@ export const ModifierGestionnaireRéseauProjet = ({
       résuméProjet={résuméProjet}
     >
       <div className="flex flex-col md:flex-row gap-4">
-        <form
+        <Form
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(identifiantProjet)}
@@ -59,7 +60,7 @@ export const ModifierGestionnaireRéseauProjet = ({
           <Heading2 className="mb-0">Modifier le gestionnaire de réseau du projet</Heading2>
 
           {gestionnaireActuel && (
-            <Callout className="text-sm my-4 px-3 pt-1 pb-0">
+            <Callout className="text-sm px-3 pt-1 pb-0">
               <p>
                 Gestionnaire de réseau actuel:{' '}
                 <span className="font-bold">{gestionnaireActuel.raisonSociale}</span>
@@ -90,7 +91,7 @@ export const ModifierGestionnaireRéseauProjet = ({
               Retour vers le dossier de raccordement
             </Link>
           </div>
-        </form>
+        </Form>
 
         <InfoBox className="flex md:w-1/3 md:mx-auto" title="Concernant la modification">
           La modification de cette information sera appliquée sur tous les dossiers de raccordements

@@ -14,6 +14,7 @@ import {
   PrimaryButton,
   InfoBox,
   Heading2,
+  Form,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -112,7 +113,7 @@ type CDCInfoProps = {
 
 const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: CDCInfoProps) => (
   <>
-    <Heading2 className="mb-0 text-2xl">Cahier des charges</Heading2>{' '}
+    <Heading2 className="my-0 text-2xl">Cahier des charges</Heading2>{' '}
     <div>
       Instruction selon le cahier des charges{' '}
       {cahierDesChargesActuel.type === 'initial'
@@ -155,7 +156,7 @@ const AlerteAnnulationAbandonPossible = ({
               Vous avez la possibilité d'annuler l'abandon de votre projet avant le{' '}
               {alerteAnnulationAbandon.dateLimite}.
             </p>
-            <form
+            <Form
               method="post"
               action={routes.POST_DEMANDER_ANNULATION_ABANDON}
               className="m-0 p-0"
@@ -168,7 +169,7 @@ const AlerteAnnulationAbandonPossible = ({
               >
                 Demander l'annulation de l'abandon
               </PrimaryButton>
-            </form>
+            </Form>
           </>
         )}
 

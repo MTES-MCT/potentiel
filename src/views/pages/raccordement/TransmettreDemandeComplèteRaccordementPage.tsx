@@ -13,6 +13,7 @@ import {
   Select,
   Link,
   PageProjetTemplate,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
@@ -70,7 +71,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
       résuméProjet={résuméProjet}
     >
       <div className="flex flex-col md:flex-row gap-4">
-        <form
+        <Form
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
@@ -82,86 +83,73 @@ export const TransmettreDemandeComplèteRaccordement = ({
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
-          <div className="flex flex-col gap-4">
-            <div>
-              <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
-              {identifiantGestionnaire ? (
-                <>
-                  <Input
-                    type="hidden"
-                    id="codeEIC"
-                    name="codeEIC"
-                    value={identifiantGestionnaire}
-                  />
-                  <Input type="text" value={gestionnaireRéseauActuel?.raisonSociale} disabled />
-                </>
-              ) : (
-                <Select
-                  id="codeEIC"
-                  name="codeEIC"
-                  onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-                  defaultValue={'none'}
-                >
-                  <option value="none" disabled hidden>
-                    Sélectionnez votre gestionnaire de réseau
+          <div>
+            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+            {identifiantGestionnaire ? (
+              <>
+                <Input type="hidden" id="codeEIC" name="codeEIC" value={identifiantGestionnaire} />
+                <Input type="text" value={gestionnaireRéseauActuel?.raisonSociale} disabled />
+              </>
+            ) : (
+              <Select
+                id="codeEIC"
+                name="codeEIC"
+                onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
+                defaultValue={'none'}
+              >
+                <option value="none" disabled hidden>
+                  Sélectionnez votre gestionnaire de réseau
+                </option>
+                {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
+                  <option value={codeEIC} key={codeEIC}>
+                    {raisonSociale} (code EIC : {codeEIC})
                   </option>
-                  {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-                    <option value={codeEIC} key={codeEIC}>
-                      {raisonSociale} (code EIC : {codeEIC})
-                    </option>
-                  ))}
-                </Select>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="referenceDossierRaccordement">
-                Référence du dossier de raccordement du projet *
-              </Label>
-              {(format || légende) && (
-                <InfoBox className="mt-2 mb-3">
-                  {légende && <p className="m-0">Format attendu : {légende}</p>}
-                  {format && <p className="m-0 italic">Exemple : {format}</p>}
-                </InfoBox>
-              )}
-              <Input
-                type="text"
-                id="referenceDossierRaccordement"
-                name="referenceDossierRaccordement"
-                placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
-                required
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="file">
-                Accusé de réception de la demande complète de raccordement
-              </Label>
-              <Input type="file" id="file" name="file" required />
-            </div>
-
-            <div>
-              <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
-              <Input type="date" id="dateQualification" name="dateQualification" required />
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-4 m-auto">
-              <PrimaryButton type="submit">Transmettre</PrimaryButton>
-              {identifiantGestionnaire ? (
-                <Link
-                  href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
-                  className="m-auto"
-                >
-                  Retour vers le dossier de raccordement
-                </Link>
-              ) : (
-                <Link href={routes.PROJECT_DETAILS(identifiantProjet)} className="m-auto">
-                  Retour vers le projet
-                </Link>
-              )}
-            </div>
+                ))}
+              </Select>
+            )}
           </div>
-        </form>
+          <div>
+            <Label htmlFor="referenceDossierRaccordement">
+              Référence du dossier de raccordement du projet *
+            </Label>
+            {(format || légende) && (
+              <InfoBox className="mt-2 mb-3">
+                {légende && <p className="m-0">Format attendu : {légende}</p>}
+                {format && <p className="m-0 italic">Exemple : {format}</p>}
+              </InfoBox>
+            )}
+            <Input
+              type="text"
+              id="referenceDossierRaccordement"
+              name="referenceDossierRaccordement"
+              placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>
+            <Input type="file" id="file" name="file" required />
+          </div>
+          <div>
+            <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
+            <Input type="date" id="dateQualification" name="dateQualification" required />
+          </div>
+          <div className="flex flex-col md:flex-row gap-4 m-auto">
+            <PrimaryButton type="submit">Transmettre</PrimaryButton>
+            {identifiantGestionnaire ? (
+              <Link
+                href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
+                className="m-auto"
+              >
+                Retour vers le dossier de raccordement
+              </Link>
+            ) : (
+              <Link href={routes.PROJECT_DETAILS(identifiantProjet)} className="m-auto">
+                Retour vers le projet
+              </Link>
+            )}
+          </div>
+        </Form>
 
         <InfoBox
           className="flex md:w-1/3 md:mx-auto"

@@ -1,9 +1,9 @@
 import React from 'react';
-import { RichRadio } from './RichRadio';
+import { Radio } from './Radio';
 
 export default {
-  title: 'Components/Atoms/RichRadio',
-  component: RichRadio,
+  title: 'Components/Molecules/Radio',
+  component: Radio,
   argTypes: {
     children: { control: 'text' },
     checked: { control: 'boolean' },
@@ -13,20 +13,20 @@ export default {
 
 const Template = (args) => (
   <>
-    <RichRadio id="bouton-radio-riche-1" name="bouton-radio-riche" value="1" {...args} />
-    <RichRadio id="bouton-radio-riche-2" name="bouton-radio-riche" value="2" {...args}>
+    <Radio id="bouton-radio-1" name="bouton-radio" value="1" {...args} />
+    <Radio id="bouton-radio-2" name="bouton-radio" value="2" {...args}>
       <ul>
         <li>Plus de contenu</li>
         <li>Plus de contenu</li>
         <li>Plus de contenu</li>
       </ul>
-    </RichRadio>
+    </Radio>
   </>
 );
 
 export const Default = Template.bind({});
 
 Default.args = {
-  children: `Exemple de bouton radio riche`,
+  children: `Exemple de bouton radio`,
   disabled: false,
 };

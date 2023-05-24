@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProjectAppelOffre } from '@entities';
-import { dataId } from '../../../helpers/testId';
 import { Request } from 'express';
 
 import {
@@ -17,6 +16,7 @@ import {
   ErrorBox,
   Heading1,
   ProjectProps,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import { ChangementActionnaire, DemandeRecours } from './components';
@@ -51,65 +51,61 @@ export const NewModificationRequest = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <div className="panel">
-        <div className="panel__header">
-          <Heading1>
-            <ModificationRequestActionTitles action={action} />
-          </Heading1>
-        </div>
-        {doitChoisirCahierDesCharges ? (
-          <div className="flex flex-col max-w-2xl mx-auto">
-            <InfoBox
-              title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
+      <Heading1 className="mb-10">
+        <ModificationRequestActionTitles action={action} />
+      </Heading1>
+      {doitChoisirCahierDesCharges ? (
+        <ChoisirCahierDesChargesFormulaire
+          {...{
+            projet: {
+              id: project.id,
+              appelOffre,
+              cahierDesChargesActuel: 'initial',
+              identifiantGestionnaireRéseau: project.identifiantGestionnaire,
+            },
+            redirectUrl: redirectionRoute(action),
+            type: action,
+            infoBox: (
+              <InfoBox
+                title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
                   cahier des charges à appliquer"
-              className="mb-5"
-            >
-              <InfoLienGuideUtilisationCDC />
-            </InfoBox>
-            <ChoisirCahierDesChargesFormulaire
-              {...{
-                projet: {
-                  id: project.id,
-                  appelOffre,
-                  cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-                },
-                redirectUrl: redirectionRoute(action),
-                type: action,
-              }}
-            />
+                className="mb-5"
+              >
+                <InfoLienGuideUtilisationCDC />
+              </InfoBox>
+            ),
+          }}
+        />
+      ) : (
+        <Form
+          action={routes.DEMANDE_ACTION}
+          method="post"
+          encType="multipart/form-data"
+          className="mx-auto"
+        >
+          <input type="hidden" name="projectId" value={project.id} />
+          <input type="hidden" name="type" value={action} />
+
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
+          <FormulaireChampsObligatoireLégende className="text-right" />
+          <div>
+            <div className="mb-2">Concernant le projet:</div>
+            <ProjectInfo project={project} />
           </div>
-        ) : (
-          <form action={routes.DEMANDE_ACTION} method="post" encType="multipart/form-data">
-            <input type="hidden" name="projectId" value={project.id} />
-            <input type="hidden" name="type" value={action} />
+          {action === 'actionnaire' && (
+            <ChangementActionnaire {...{ project, actionnaire, justification }} />
+          )}
+          {action === 'recours' && <DemandeRecours {...{ justification }} />}
 
-            <div className="form__group">
-              {success && <SuccessBox title={success} />}
-              {error && <ErrorBox title={error} />}
-              <FormulaireChampsObligatoireLégende className="text-right" />
-              <div className="mb-2">Concernant le projet:</div>
-              <ProjectInfo project={project} className="mb-3"></ProjectInfo>
-              <div {...dataId('modificationRequest-demandesInputs')}>
-                {action === 'actionnaire' && (
-                  <ChangementActionnaire {...{ project, actionnaire, justification }} />
-                )}
-                {action === 'recours' && <DemandeRecours {...{ justification }} />}
-
-                <PrimaryButton
-                  className="mt-3 mr-1"
-                  type="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
-                >
-                  Envoyer
-                </PrimaryButton>
-                <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
-              </div>
-            </div>
-          </form>
-        )}
-      </div>
+          <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
+            <PrimaryButton type="submit" id="submit">
+              Envoyer
+            </PrimaryButton>
+            <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+          </div>
+        </Form>
+      )}
     </LegacyPageTemplate>
   );
 };

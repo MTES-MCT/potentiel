@@ -11,26 +11,21 @@ type CreStatistiquesPageProps = {
 export const CreStatistiques = ({ iframeUrl, request }: CreStatistiquesPageProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="cre-statistiques">
-      <main role="main" className="panel">
-        <div className="panel__header">
-          <Heading1>Tableau de bord</Heading1>
-        </div>
-        <section className="section section-white pt-0">
-          <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js" />
-          <div
-            className="container"
-            dangerouslySetInnerHTML={{
-              __html: `<iframe
+      <Heading1>Tableau de bord</Heading1>
+      <section>
+        <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js" />
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `<iframe
             src="${iframeUrl}"
             frameBorder="0"
             width="100%"
             allowTransparency
             onload="iFrameResize({}, this)"
           ></iframe>`,
-            }}
-          />
-        </section>
-      </main>
+          }}
+        />
+      </section>
     </LegacyPageTemplate>
   );
 };

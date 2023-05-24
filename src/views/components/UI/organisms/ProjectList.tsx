@@ -17,7 +17,7 @@ import {
   LinkButton,
   Tile,
   PaginationPanel,
-  InputCheckbox,
+  Checkbox,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -94,7 +94,7 @@ export const ProjectList = ({
 
   return (
     <>
-      <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic" aria-hidden>
+      <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic mt-4" aria-hidden>
         Légende :
         <div className="flex items-center">
           <PowerIcon
@@ -137,7 +137,8 @@ export const ProjectList = ({
       <div className="p-5 flex items-center">
         {displaySelection && (
           <>
-            <InputCheckbox
+            <Checkbox
+              id="allProjects"
               onChange={(e) => toggleSelectAllPage(e.target.checked)}
               checked={selectedIds.length === projects.items.length}
             />
@@ -155,7 +156,8 @@ export const ProjectList = ({
               <div className="flex flex-col gap-2 mb-4">
                 <div className="flex flex-col md:flex-row gap-2">
                   {displaySelection && (
-                    <InputCheckbox
+                    <Checkbox
+                      id={project.id}
                       onChange={(e) => toggleSelected(project.id, e.target.checked)}
                       value={project.id}
                       checked={selectedIds.indexOf(project.id) > -1}

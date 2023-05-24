@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import React from 'react';
 import { User } from '@entities';
-import { dataId } from '../../../helpers/testId';
 import ROUTES from '@routes';
 import {
   PrimaryButton,
@@ -15,6 +14,10 @@ import {
   ListeVide,
   Label,
   FormulaireChampsObligatoireLégende,
+  Table,
+  Td,
+  Th,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -29,92 +32,75 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="admin-users">
-      <div className="panel">
-        <div className="panel__header">
-          <Heading1>Gérer les utilisateurs partenaires</Heading1>
+      <Heading1>Gérer les utilisateurs partenaires</Heading1>
+      <Heading2>Ajouter un utilisateur</Heading2>
+      {success && <SuccessBox title={success} />}
+      {error && <ErrorBox title={error} />}
+      <Form action={ROUTES.ADMIN_INVITE_USER_ACTION} method="post" className="mx-auto">
+        <FormulaireChampsObligatoireLégende className="text-right" />
+        <div>
+          <Label htmlFor="email" required>
+            Adresse email :
+          </Label>
+          <Input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="email@exemple.com"
+            required
+            {...(validationErrors && { error: validationErrors['email']?.toString() })}
+          />
         </div>
-        <div className="panel__header">
-          <Heading2>Ajouter un utilisateur</Heading2>
-          {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />}
-          <form
-            action={ROUTES.ADMIN_INVITE_USER_ACTION}
-            method="post"
-            className="flex flex-col gap-4"
+        <div>
+          <Label htmlFor="role" required>
+            Sélectionnez un rôle
+          </Label>
+          <Select
+            name="role"
+            id="role"
+            required
+            {...(validationErrors && { error: validationErrors['role']?.toString() })}
+            defaultValue="default"
           >
-            <FormulaireChampsObligatoireLégende className="text-right" />
-            <div>
-              <Label htmlFor="email" required>
-                Adresse email :
-              </Label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="email@exemple.com"
-                required
-                {...(validationErrors && { error: validationErrors['email']?.toString() })}
-              />
-            </div>
-            <div>
-              <Label htmlFor="role" required>
-                Sélectionnez un rôle
-              </Label>
-              <Select
-                name="role"
-                id="role"
-                required
-                {...(validationErrors && { error: validationErrors['role']?.toString() })}
-                defaultValue="default"
-              >
-                <option value="default" disabled hidden>
-                  Sélectionnez un rôle
-                </option>
-                <option value="acheteur-obligé">Acheteur obligé</option>
-                <option value="ademe">ADEME</option>
-                <option value="cre">CRE</option>
-                <option value="caisse-des-dépôts">Caisse des dépôts</option>
-              </Select>
-            </div>
-            <PrimaryButton
-              className="m-auto"
-              type="submit"
-              id="submit"
-              {...dataId('submit-button')}
-            >
-              Inviter
-            </PrimaryButton>
-          </form>
+            <option value="default" disabled hidden>
+              Sélectionnez un rôle
+            </option>
+            <option value="acheteur-obligé">Acheteur obligé</option>
+            <option value="ademe">ADEME</option>
+            <option value="cre">CRE</option>
+            <option value="caisse-des-dépôts">Caisse des dépôts</option>
+          </Select>
         </div>
+        <PrimaryButton className="m-auto" type="submit" id="submit">
+          Inviter
+        </PrimaryButton>
+      </Form>
 
-        {users.length === 0 ? (
-          <ListeVide titre="Aucun partenaire à afficher" />
-        ) : (
-          <>
-            <Heading2>Liste des utilisateurs</Heading2>
-            <table className="table" {...dataId('projectList-list')}>
-              <thead>
-                <tr>
-                  <th>Nom (email)</th>
-                  <th>Role</th>
+      {users.length === 0 ? (
+        <ListeVide titre="Aucun partenaire à afficher" />
+      ) : (
+        <>
+          <Heading2>Liste des utilisateurs</Heading2>
+          <Table>
+            <thead>
+              <tr>
+                <Th>Nom (email)</Th>
+                <Th>Role</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map(({ id, fullName, email, role }) => (
+                <tr key={`user_${id}`}>
+                  <Td valign="top">
+                    {fullName} ({email})
+                  </Td>
+                  <Td valign="top">{role}</Td>
                 </tr>
-              </thead>
-              <tbody>
-                {users.map(({ id, fullName, email, role }) => {
-                  return (
-                    <tr key={'user_' + id} {...dataId('userList-item')}>
-                      <td valign="top">
-                        {fullName} ({email})
-                      </td>
-                      <td valign="top">{role}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </>
-        )}
-      </div>
+              ))}
+            </tbody>
+          </Table>
+        </>
+      )}
     </LegacyPageTemplate>
   );
 };

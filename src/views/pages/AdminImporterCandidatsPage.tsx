@@ -1,5 +1,4 @@
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import {
@@ -10,6 +9,7 @@ import {
   Label,
   LegacyPageTemplate,
   SuccessBox,
+  Form,
 } from '@components';
 import { hydrateOnClient } from '../helpers';
 
@@ -28,47 +28,36 @@ export const AdminImporterCandidats = ({
 }: AdminImporterCandidatsProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="import-projects">
-      <div className="panel">
-        <div className="panel__header">
-          <Heading1>Importer des candidats</Heading1>
+      <Heading1>Importer des candidats</Heading1>
+      <Form
+        action={ROUTES.IMPORT_PROJECTS_ACTION}
+        method="post"
+        encType="multipart/form-data"
+        className="mx-auto"
+      >
+        {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
+        {!!importErrors && (
+          <ErrorBox title="Le fichier n'a pas pu être importé à cause des erreurs suivantes :">
+            <ul>
+              {Object.entries(importErrors).map(([lineNumber, message]) => (
+                <li key={`error_line_${lineNumber}`}>
+                  Ligne <b>{lineNumber}</b>: {message}
+                </li>
+              ))}
+            </ul>
+          </ErrorBox>
+        )}
+
+        {!!otherError && <ErrorBox title={otherError} className="mb-3" />}
+
+        <div>
+          <Label htmlFor="candidats">Fichier csv des candidats</Label>
+          <Input type="file" name="candidats" id="candidats" required />
         </div>
-        <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
-          {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
-          {!!importErrors && (
-            <ErrorBox title="Le fichier n'a pas pu être importé à cause des erreurs suivantes :">
-              <ul>
-                {Object.entries(importErrors).map(([lineNumber, message]) => (
-                  <li key={`error_line_${lineNumber}`}>
-                    Ligne <b>{lineNumber}</b>: {message}
-                  </li>
-                ))}
-              </ul>
-            </ErrorBox>
-          )}
-
-          {!!otherError && <ErrorBox title={otherError} className="mb-3" />}
-
-          <div className="form__group">
-            <Label htmlFor="candidats">Fichier csv des candidats</Label>
-            <Input
-              type="file"
-              name="candidats"
-              {...dataId('candidats-field')}
-              id="candidats"
-              required
-            />
-            <PrimaryButton
-              type="submit"
-              name="submit"
-              id="submit"
-              {...dataId('submit-button')}
-              className="mt-2"
-            >
-              Envoyer
-            </PrimaryButton>
-          </div>
-        </form>
-      </div>
+        <PrimaryButton type="submit" name="submit" id="submit">
+          Envoyer
+        </PrimaryButton>
+      </Form>
     </LegacyPageTemplate>
   );
 };

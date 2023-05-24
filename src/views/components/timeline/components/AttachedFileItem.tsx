@@ -3,7 +3,7 @@ import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.';
 import routes from '@routes';
 import { makeDocumentUrl } from '../helpers';
 import { AttachedFileItemProps } from '../helpers/extractAttachedFileItemProps';
-import { DownloadLink, TrashIcon } from '@components';
+import { DownloadLink, Form, SecondaryButton, TrashIcon } from '@components';
 
 export const AttachedFileItem = (props: AttachedFileItemProps) => {
   const { date, title, description, files, isOwner, attachmentId, projectId, attachedBy } = props;
@@ -30,24 +30,21 @@ export const AttachedFileItem = (props: AttachedFileItemProps) => {
           </div>
         ) : null}
         {isOwner && (
-          <form
+          <Form
             className="p-0 ml-0 mt-2"
             method="post"
             action={routes.RETIRER_FICHIER_DU_PROJET_ACTION}
           >
             <input type="hidden" name="attachmentId" value={attachmentId} />
             <input type="hidden" name="projectId" value={projectId} />
-            <button
-              className="button-outline small warning"
-              onClick={(event) =>
-                confirm('Etes-vous sur de vouloir retirer ce(s) fichier(s) ?') ||
-                event.preventDefault()
-              }
+            <SecondaryButton
+              className="border-error-425-base text-error-425-base hover:bg-error-950-base focus:bg-error-950-base"
+              confirmation="Etes-vous sur de vouloir retirer ce(s) fichier(s) ?"
             >
-              <TrashIcon className="h-4 w-4 mr-2 align-middle" />
-              <span className="mt-2 relative top-[2px]">Retirer</span>
-            </button>
-          </form>
+              <TrashIcon className="h-4 w-4 mr-2 align-middle text-error-425-base" />
+              Retirer
+            </SecondaryButton>
+          </Form>
         )}
       </ContentArea>
     </>

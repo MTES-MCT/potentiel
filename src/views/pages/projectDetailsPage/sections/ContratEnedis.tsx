@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '@modules/project';
-import { BuildingIcon, Section } from '@components';
+import { BuildingIcon, Heading5, Section } from '@components';
 
 type ContratEnedisProps = {
   contrat: Exclude<ProjectDataForProjectPage['contratEnedis'], undefined>;
@@ -21,7 +21,7 @@ const Item = ({ title, value }: ItemProps) => {
 
   return (
     <div>
-      <h5 className="m-0">{title}</h5>
+      <Heading5 className="m-0">{title}</Heading5>
       <div className="pt-1 pb-2">{value}</div>
     </div>
   );

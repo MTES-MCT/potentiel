@@ -10,6 +10,7 @@ import {
   PaperClipIcon,
   Link,
   Label,
+  Form,
 } from '@components';
 
 type AttachFileProps = {
@@ -31,7 +32,7 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
         </SecondaryButton>
       )}
       {isFormVisible && (
-        <form
+        <Form
           action={ROUTES.ATTACHER_FICHIER_AU_PROJET_ACTION}
           method="post"
           encType="multipart/form-data"
@@ -40,24 +41,24 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           <FormulaireChampsObligatoireLégende className="text-right" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">
+            <Label htmlFor="date">
               Date d'effet
               <Astérisque />
-            </label>
+            </Label>
             <Input type="date" required id="date" name="date" />
           </div>
-          <div className="mt-2">
-            <label htmlFor="title">
+          <div>
+            <Label htmlFor="title">
               Titre
               <Astérisque />
-            </label>
+            </Label>
             <Input type="text" name="title" id="title" required />
           </div>
-          <div className="mt-2">
-            <label htmlFor="description">Description</label>
+          <div>
+            <Label htmlFor="description">Description</Label>
             <TextArea name="description" id="description" />
           </div>
-          <div className="mt-2">
+          <div>
             <Label htmlFor="file" required>
               Fichier(s) à attacher
             </Label>
@@ -69,18 +70,20 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           <div className="text-sm mt-4">
             Les fichiers attachés sont visibles de l'administration et du porteur de projet.
           </div>
-          <PrimaryButton className="mt-2 mr-2" type="submit" name="submit">
-            Envoyer
-          </PrimaryButton>
-          <Link
-            onClick={() => {
-              setFormVisible(false);
-              setFileCount(1);
-            }}
-          >
-            Annuler
-          </Link>
-        </form>
+          <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
+            <PrimaryButton className="mt-2 mr-2" type="submit" name="submit">
+              Envoyer
+            </PrimaryButton>
+            <Link
+              onClick={() => {
+                setFormVisible(false);
+                setFileCount(1);
+              }}
+            >
+              Annuler
+            </Link>
+          </div>
+        </Form>
       )}
     </div>
   );

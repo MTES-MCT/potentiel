@@ -18,6 +18,7 @@ import {
   DownloadLink,
   Dropdown,
   Link,
+  Form,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -131,7 +132,7 @@ const Formulaire = ({ projetId, garantieFinanciereEnMois, action, role }: Formul
       changeOpenState={(isOpen) => showForm(isOpen)}
       text={action === 'soumettre' ? 'Soumettre une attestation' : `Enregistrer l'attestation`}
     >
-      <form
+      <Form
         action={
           action === 'soumettre'
             ? ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId: projetId })
@@ -179,11 +180,11 @@ const Formulaire = ({ projetId, garantieFinanciereEnMois, action, role }: Formul
           <Astérisque className="text-black" />
           {getInfoDuréeGF(garantieFinanciereEnMois)}
         </p>
-        <div className="flex gap-4 flex-col md:flex-row">
+        <div className="flex gap-4 flex-col md:flex-row mx-auto">
           <PrimaryButton type="submit">Envoyer</PrimaryButton>
           <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
         </div>
-      </form>
+      </Form>
     </Dropdown>
   );
 };
@@ -280,26 +281,28 @@ const DateEchéanceFormulaire = ({
       isOpen={displayForm}
       changeOpenState={(isOpen) => showForm(isOpen)}
     >
-      <form
+      <Form
         action={ROUTES.ADD_GF_EXPIRATION_DATE({ projectId: projetId })}
         method="POST"
         className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
       >
         <FormulaireChampsObligatoireLégende className="ml-auto" />
         <input name="projectId" value={projetId} readOnly hidden />
-        <Label htmlFor="expirationDate" required>
-          Date d'échéance des garanties financières
-          <Astérisque className="text-black" />
-        </Label>
-        <Input required type="date" name="expirationDate" id="expirationDate" />
-        <p className="italic">
+        <div>
+          <Label htmlFor="expirationDate" required>
+            Date d'échéance des garanties financières
+            <Astérisque className="text-black" />
+          </Label>
+          <Input required type="date" name="expirationDate" id="expirationDate" />
+        </div>
+        <p className="italic m-0">
           <Astérisque className="text-black" /> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
         </p>
-        <div className="flex gap-4 flex-col md:flex-row">
+        <div className="mx-auto flex gap-4 flex-col md:flex-row">
           <PrimaryButton type="submit">Enregistrer</PrimaryButton>
           <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
         </div>
-      </form>
+      </Form>
     </Dropdown>
   );
 };

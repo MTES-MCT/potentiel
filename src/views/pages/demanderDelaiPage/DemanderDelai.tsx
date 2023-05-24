@@ -15,6 +15,7 @@ import {
   Heading1,
   ProjectProps,
   Label,
+  Form,
 } from '@components';
 import routes from '@routes';
 import { ProjectAppelOffre } from '@entities';
@@ -23,7 +24,6 @@ import { Request } from 'express';
 import React from 'react';
 import format from 'date-fns/format';
 
-import { dataId } from '../../../helpers/testId';
 import { hydrateOnClient } from '../../helpers';
 
 type DemanderDelaiProps = {
@@ -48,113 +48,93 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <div className="panel">
-        <div className="panel__header">
-          <Heading1>Je demande un délai supplémentaire</Heading1>
-        </div>
+      <Heading1 className="mb-10">Je demande un délai supplémentaire</Heading1>
 
-        {doitChoisirCahierDesCharges ? (
-          <div className="flex flex-col max-w-2xl mx-auto">
-            <InfoBox
-              title="Afin d'accéder au formulaire de demande de délai, vous devez d'abord changer le
+      {doitChoisirCahierDesCharges ? (
+        <ChoisirCahierDesChargesFormulaire
+          {...{
+            projet: {
+              id: project.id,
+              appelOffre,
+              cahierDesChargesActuel: 'initial',
+              identifiantGestionnaireRéseau: project.identifiantGestionnaire,
+            },
+            redirectUrl: routes.DEMANDER_DELAI(project.id),
+            type: 'delai',
+            infoBox: (
+              <InfoBox
+                title="Afin d'accéder au formulaire de demande de délai, vous devez d'abord changer le
                   cahier des charges à appliquer"
-              className="mb-5"
-            >
-              <InfoLienGuideUtilisationCDC />
-            </InfoBox>
-            <ChoisirCahierDesChargesFormulaire
-              {...{
-                projet: {
-                  id: project.id,
-                  appelOffre,
-                  cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-                },
-                redirectUrl: routes.DEMANDER_DELAI(project.id),
-                type: 'delai',
-              }}
+                className="mb-5"
+              >
+                <InfoLienGuideUtilisationCDC />
+              </InfoBox>
+            ),
+          }}
+        />
+      ) : (
+        <Form
+          action={routes.DEMANDE_DELAI_ACTION}
+          method="post"
+          encType="multipart/form-data"
+          className="mx-auto"
+        >
+          <input type="hidden" name="projectId" value={project.id} />
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error as string} />}
+
+          <FormulaireChampsObligatoireLégende className="text-right" />
+          <div>
+            <div className="mb-1">Concernant le projet:</div>
+            <ProjectInfo project={project} />
+          </div>
+          <div>
+            <Label htmlFor="dateTheoriqueAchevement">Date théorique d'achèvement</Label>
+            <Input
+              type="text"
+              disabled
+              name="dateTheoriqueAchevement"
+              defaultValue={format(project.completionDueOn, 'dd/MM/yyyy')}
             />
           </div>
-        ) : (
-          <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
-            <input type="hidden" name="projectId" value={project.id} />
-            <div className="form__group">
-              {success && <SuccessBox title={success} />}
-              {error && <ErrorBox title={error as string} />}
+          <div>
+            <Label htmlFor="dateAchevementDemandee">
+              Saisissez la date limite d'achèvement souhaitée <Astérisque />
+            </Label>
+            <Input
+              type="date"
+              name="dateAchevementDemandee"
+              id="dateAchevementDemandee"
+              min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
+              defaultValue={dateAchèvementDemandée}
+              required
+              aria-required="true"
+            />
+          </div>
+          <div>
+            <Label htmlFor="justification">
+              Veuillez nous indiquer les raisons qui motivent votre demande
+              <br />
+              <span className="italic">
+                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
+              </span>
+            </Label>
+            <TextArea name="justification" id="justification" defaultValue={justification || ''} />
+          </div>
+          <div>
+            <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
+            <Input type="file" name="file" id="file" />
+          </div>
 
-              <FormulaireChampsObligatoireLégende className="text-right" />
-              <div className="mb-1">Concernant le projet:</div>
-              <ProjectInfo project={project} className="mb-3" />
-              <div {...dataId('modificationRequest-demandesInputs')}>
-                <div className="flex flex-col gap-5">
-                  <div>
-                    <label>Date théorique d'achèvement</label>
-                    <Input
-                      type="text"
-                      disabled
-                      defaultValue={format(project.completionDueOn, 'dd / MM / yyyy')}
-                      style={{ backgroundColor: '#CECECE' }}
-                      {...dataId('modificationRequest-presentServiceDateField')}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="dateAchevementDemandee">
-                      Saisissez la date limite d'achèvement souhaitée <Astérisque />
-                    </label>
-                    <Input
-                      type="date"
-                      name="dateAchevementDemandee"
-                      id="dateAchevementDemandee"
-                      min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
-                      defaultValue={dateAchèvementDemandée}
-                      required
-                      aria-required="true"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="justification">
-                      Veuillez nous indiquer les raisons qui motivent votre demande
-                      <br />
-                      <span className="italic">
-                        Pour faciliter le traitement de votre demande, veillez à détailler les
-                        raisons ayant conduit à ce besoin de modification (contexte, facteurs
-                        extérieurs, etc.)
-                      </span>
-                    </label>
-                    <TextArea
-                      name="justification"
-                      id="justification"
-                      defaultValue={justification || ''}
-                      {...dataId('modificationRequest-justificationField')}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
-                    <Input
-                      type="file"
-                      name="file"
-                      {...dataId('modificationRequest-fileField')}
-                      id="file"
-                    />
-                  </div>
-                </div>
-
-                <PrimaryButton
-                  type="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
-                  className="mt-4 mr-2"
-                >
-                  Envoyer
-                </PrimaryButton>
-                <SecondaryLinkButton {...dataId('cancel-button')} href={routes.LISTE_PROJETS}>
-                  Annuler
-                </SecondaryLinkButton>
-              </div>
-            </div>
-          </form>
-        )}
-      </div>
+          <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
+            <PrimaryButton type="submit" id="submit">
+              Envoyer
+            </PrimaryButton>
+            <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+          </div>
+        </Form>
+      )}
     </LegacyPageTemplate>
   );
 };
