@@ -83,7 +83,7 @@ export class RaccordementWorld {
       période: '1',
       numéroCRE: '23',
     };
-    this.accuséRéceptionDemandeComplèteRaccordement = {
+    this.#accuséRéceptionDemandeComplèteRaccordement = {
       format: 'application/pdf',
       content: Readable.from("Contenu d'un fichier DCR", {
         encoding: 'utf8',
