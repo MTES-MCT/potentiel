@@ -484,23 +484,6 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
   "users": [
     {
-      "id": "8897f126-c65e-4421-b84e-af271b6a36dd",
-      "createdTimestamp": 1622482072924,
-      "username": "service-account-potentiel-admin-api",
-      "enabled": true,
-      "totp": false,
-      "emailVerified": false,
-      "serviceAccountClientId": "potentiel-admin-api",
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": ["default-roles-potentiel"],
-      "clientRoles": {
-        "realm-management": ["manage-realm", "manage-users"]
-      },
-      "notBefore": 0,
-      "groups": []
-    },
-    {
       "id": "109c65df-7c7f-4392-b93c-09e11d8aebd1",
       "createdTimestamp": 1684921663742,
       "username": "admin@test.test",
@@ -519,7 +502,7 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": ["admin"],
+      "realmRoles": ["default-roles-potentiel", "admin"],
       "notBefore": 0,
       "groups": []
     },
@@ -542,7 +525,7 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": ["porteur-projet"],
+      "realmRoles": ["default-roles-potentiel", "porteur-projet"],
       "notBefore": 0,
       "groups": []
     },
@@ -565,7 +548,7 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": ["porteur-projet"],
+      "realmRoles": ["default-roles-potentiel", "dreal"],
       "notBefore": 0,
       "groups": []
     },
@@ -588,7 +571,7 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": ["porteur-projet"],
+      "realmRoles": ["default-roles-potentiel", "ademe"],
       "notBefore": 0,
       "groups": []
     },
@@ -611,7 +594,7 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": ["porteur-projet"],
+      "realmRoles": ["default-roles-potentiel", "acheteur-obligé"],
       "notBefore": 0,
       "groups": []
     },
@@ -634,7 +617,7 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": ["porteur-projet"],
+      "realmRoles": ["default-roles-potentiel", "dgec-validateur"],
       "notBefore": 0,
       "groups": []
     },
@@ -657,7 +640,7 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": ["porteur-projet"],
+      "realmRoles": ["default-roles-potentiel", "cre"],
       "notBefore": 0,
       "groups": []
     },
@@ -680,7 +663,7 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": ["porteur-projet"],
+      "realmRoles": ["default-roles-potentiel", "caisse-des-dépôts"],
       "notBefore": 0,
       "groups": []
     }
@@ -2572,7 +2555,7 @@
       "config": {}
     }
   ],
-  "browserFlow": "browser with OTP required",
+  "browserFlow": "browser",
   "registrationFlow": "registration",
   "directGrantFlow": "direct grant",
   "resetCredentialsFlow": "reset credentials",
