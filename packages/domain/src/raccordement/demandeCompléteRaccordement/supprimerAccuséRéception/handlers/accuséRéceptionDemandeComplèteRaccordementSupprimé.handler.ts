@@ -1,14 +1,11 @@
-import { DomainEventHandlerFactory } from '@potentiel/core-domain';
+import { DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent } from '../accuséRéceptionDemandeComplèteRaccordementSupprimé.event';
-
-export type SupprimerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
-  identifiantProjet: string;
-  référenceDossierRaccordement: string;
-  format: string;
-}) => Promise<void>;
+import { DossierRaccordementReadModel } from '../../../dossierRaccordement';
+import { isNone } from '@potentiel/monads';
 
 export type AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies = {
-  supprimerAccuséRéceptionDemandeComplèteRaccordement: SupprimerAccuséRéceptionDemandeComplèteRaccordementPort;
+  update: Update;
+  find: Find;
 };
 
 /**
@@ -18,11 +15,21 @@ export const accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactor
   AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent,
   AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies
 > =
-  ({ supprimerAccuséRéceptionDemandeComplèteRaccordement }) =>
-  async ({ payload: { format, référenceDossierRaccordement, identifiantProjet } }) => {
-    await supprimerAccuséRéceptionDemandeComplèteRaccordement({
-      identifiantProjet,
-      référenceDossierRaccordement,
-      format,
-    });
+  ({ update, find }) =>
+  async ({ payload: { référenceDossierRaccordement, identifiantProjet } }) => {
+    const dossierRaccordement = await find<DossierRaccordementReadModel>(
+      `dossier-raccordement#${identifiantProjet}#${référenceDossierRaccordement}`,
+    );
+
+    if (isNone(dossierRaccordement)) {
+      // TODO : ajouter une erreur ?
+    } else {
+      await update<DossierRaccordementReadModel>(
+        `dossier-raccordement#${identifiantProjet}#${référenceDossierRaccordement}`,
+        {
+          ...dossierRaccordement,
+          accuséRéception: undefined,
+        },
+      );
+    }
   };
