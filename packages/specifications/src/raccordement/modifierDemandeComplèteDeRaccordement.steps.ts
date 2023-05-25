@@ -9,6 +9,7 @@ import {
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import { Readable } from 'stream';
+
 Quand(
   `le porteur modifie une demande complète de raccordement`,
   async function (this: PotentielWorld) {
@@ -82,5 +83,24 @@ Quand(
         this.error = error;
       }
     }
+  },
+);
+
+Quand(
+  `le porteur modifie la date de qualification d'un dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const dateQualification = new Date('2021-01-01');
+
+    await mediator.send(
+      buildModifierDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        dateQualification: new Date(dateQualification),
+        ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
+        nouvelleRéférence: this.raccordementWorld.référenceDossierRaccordement,
+        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+      }),
+    );
+
+    this.raccordementWorld.dateQualification = dateQualification;
   },
 );
