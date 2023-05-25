@@ -33,7 +33,8 @@ services:
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
+      - POTENTIEL_BASE_URL=http://localhost:3000
     command: start-dev --import-realm
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
-      # - ./keycloak/theme/potentiel:/opt/keycloak/themes/potentiel
+      - ./keycloak/theme/potentiel:/opt/keycloak/themes/potentiel
