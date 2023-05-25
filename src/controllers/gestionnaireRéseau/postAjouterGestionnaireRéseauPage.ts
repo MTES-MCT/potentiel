@@ -9,7 +9,7 @@ import { logger } from '@core/utils';
 import {
   GestionnaireRéseauDéjàExistantError,
   PermissionAjouterGestionnaireRéseau,
-  buildAjouterGestionnaireRéseauCommand,
+  buildAjouterGestionnaireRéseauUseCase,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 
@@ -42,7 +42,7 @@ v1Router.post(
       const { codeEIC, format = '', légende = '', raisonSociale } = request.body;
 
       try {
-        const ajouterGestionnaireRéseauCommand = buildAjouterGestionnaireRéseauCommand({
+        const ajouterGestionnaireRéseauCommand = buildAjouterGestionnaireRéseauUseCase({
           codeEIC,
           aideSaisieRéférenceDossierRaccordement: { format, légende },
           raisonSociale,
