@@ -1,0 +1,50 @@
+{
+  "users": [
+    {
+      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd1",
+      "createdTimestamp": 1684921663742,
+      "username": "admin@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Test",
+      "email": "admin@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["admin"],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd2",
+      "createdTimestamp": 1684921663742,
+      "username": "porteur@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Porteur",
+      "lastName": "Test",
+      "email": "porteur@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["porteur-projet"],
+      "notBefore": 0,
+      "groups": []
+    }
+  ]
+}
