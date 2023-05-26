@@ -54,6 +54,19 @@ export class RaccordementWorld {
     this.#propositionTechniqueEtFinancièreSignée = value;
   }
 
+  // #ancienneRéférenceDossierRaccordement!: string;
+
+  // get ancienneRéférenceDossierRaccordement(): string {
+  //   if (!this.#ancienneRéférenceDossierRaccordement) {
+  //     throw new Error('ancienneRéférenceDossierRaccordement not initialized');
+  //   }
+  //   return this.#ancienneRéférenceDossierRaccordement;
+  // }
+
+  // set ancienneRéférenceDossierRaccordement(value: string) {
+  //   this.#ancienneRéférenceDossierRaccordement = value;
+  // }
+
   #référenceDossierRaccordement!: string;
 
   get référenceDossierRaccordement(): string {
@@ -100,16 +113,19 @@ export class RaccordementWorld {
 
   async createDemandeComplèteRaccordement(codeEIC: string) {
     const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
+    const dateQualification = new Date();
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementUseCase({
         référenceDossierRaccordement,
         accuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
         identifiantGestionnaireRéseau: { codeEIC },
         identifiantProjet: this.identifiantProjet,
-        dateQualification: new Date(),
+        dateQualification,
       }),
     );
 
     this.#référenceDossierRaccordement = référenceDossierRaccordement;
+    // this.#ancienneRéférenceDossierRaccordement = référenceDossierRaccordement;
+    this.#dateQualification = dateQualification;
   }
 }
