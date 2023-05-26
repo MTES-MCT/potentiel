@@ -7,6 +7,7 @@ import {
   findProjection,
   listProjection,
   removeProjection,
+  searchProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
 import { should } from 'chai';
@@ -58,6 +59,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     query: {
       find: findProjection,
       list: listProjection,
+      search: searchProjection,
     },
     event: {
       create: createProjection,

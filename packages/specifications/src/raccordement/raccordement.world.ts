@@ -98,8 +98,7 @@ export class RaccordementWorld {
     };
   }
 
-  async createDemandeComplèteRaccordement(codeEIC: string) {
-    const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
+  async createDemandeComplèteRaccordement(codeEIC: string, référenceDossierRaccordement: string) {
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementUseCase({
         référenceDossierRaccordement,
