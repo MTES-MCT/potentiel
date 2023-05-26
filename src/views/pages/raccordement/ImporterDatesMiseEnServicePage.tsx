@@ -72,15 +72,15 @@ export const ImporterDatesMiseEnService = ({
             onSubmit={() => setIsImportInProgress(true)}
           >
             <Dialog open={isImportInProgress}>
-              <h1 className="flex flex-col text-center">
+              <Heading1 className="flex flex-col text-center m-0 p-0">
                 <div className="mx-auto mb-5">
                   <Spinner className="text-blue-france-sun-base w-12 h-12" />
                 </div>
                 Import en cours
-              </h1>
+              </Heading1>
 
               <p className="italic text-center">
-                Ce traitement peut prendre jusqu'à 2 minutes, merci de patienter.
+                Ce traitement peut prendre jusqu'à 2 minutes, merci de patienter 🙏
               </p>
             </Dialog>
 
@@ -159,10 +159,8 @@ export const ImporterDatesMiseEnService = ({
           >
             <ul>
               {importsÉchoués.map(({ raison, référenceDossier, projets }) => (
-                <>
-                  <li key={`import-échoué-${référenceDossier}`}>
-                    {raison} [<span className="font-bold">{référenceDossier}</span>]
-                  </li>
+                <li key={`import-échoué-${référenceDossier}`}>
+                  {raison} [<span className="font-bold">{référenceDossier}</span>]
                   {projets.length > 0 && (
                     <ul>
                       {projets.map(({ id, nom }) => (
@@ -172,7 +170,7 @@ export const ImporterDatesMiseEnService = ({
                       ))}
                     </ul>
                   )}
-                </>
+                </li>
               ))}
             </ul>
           </ErrorBox>
