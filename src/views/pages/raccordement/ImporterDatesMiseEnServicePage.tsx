@@ -17,7 +17,7 @@ import {
 import routes from '@routes';
 import { hydrateOnClient } from '@views/helpers';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel/domain/src/projet/identifiantProjet';
 import { CsvError } from '../../../controllers/helpers/mapCsvYupValidationErrorToCsvErrors';
 
 type Réussi = {

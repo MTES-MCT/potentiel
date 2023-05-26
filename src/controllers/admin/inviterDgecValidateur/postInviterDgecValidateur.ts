@@ -14,7 +14,7 @@ import {
 } from '@modules/utilisateur';
 import { logger } from '@core/utils';
 import asyncHandler from '../../helpers/asyncHandler';
-import { setApiResult } from 'src/controllers/helpers/apiResult';
+import { setApiResult } from '../../helpers/apiResult';
 
 const schema = yup.object({
   role: yup

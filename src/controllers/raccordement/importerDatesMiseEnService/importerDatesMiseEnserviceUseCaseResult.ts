@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel/domain/src/projet/identifiantProjet';
 
 export type Réussi = {
   référenceDossier: string;

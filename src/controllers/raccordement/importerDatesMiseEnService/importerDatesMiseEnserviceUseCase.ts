@@ -1,12 +1,12 @@
 import {
   DossierRaccordementReadModel,
-  IdentifiantProjet,
-  transmettreDateMiseEnServiceCommandHandlerFactory,
+  buildTransmettreDateMiseEnServiceUseCase,
 } from '@potentiel/domain';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { executeSelect } from '@potentiel/pg-helpers';
 import { KeyValuePair } from '@potentiel/pg-projections/src/keyValuePair';
 import { ImporterDatesMiseEnServiceUseCaseResult } from './importerDatesMiseEnserviceUseCaseResult';
+import { IdentifiantProjet } from '@potentiel/domain/src/projet/identifiantProjet';
+import { mediator } from 'mediateur';
 
 type ImporterDatesMiseEnServiceUseCase = (
   données: ReadonlyArray<{ référenceDossier: string; dateMiseEnService: Date }>,
@@ -15,11 +15,6 @@ type ImporterDatesMiseEnServiceUseCase = (
 export const importerDatesMiseEnServiceUseCase: ImporterDatesMiseEnServiceUseCase = async (
   données,
 ) => {
-  const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
-    publish,
-    loadAggregate,
-  });
-
   const result: ImporterDatesMiseEnServiceUseCaseResult = [];
 
   for (const { référenceDossier, dateMiseEnService } of données) {
@@ -40,11 +35,13 @@ export const importerDatesMiseEnServiceUseCase: ImporterDatesMiseEnServiceUseCas
     }
 
     const identifiantProjet = dossiers[0].identifiantProjet;
-    await transmettreDateMiseEnService({
-      identifiantProjet,
-      référenceDossierRaccordement: référenceDossier,
-      dateMiseEnService: dateMiseEnService,
-    });
+    await mediator.send(
+      buildTransmettreDateMiseEnServiceUseCase({
+        identifiantProjet,
+        référenceDossierRaccordement: référenceDossier,
+        dateMiseEnService: dateMiseEnService,
+      }),
+    );
 
     result.push({
       statut: 'réussi',

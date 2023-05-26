@@ -4,7 +4,7 @@ import { v1Router } from '../../v1Router';
 import { vérifierPermissionUtilisateur } from '../../helpers';
 import { InviterDgecValidateurPage } from '@views';
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
-import { getApiResult } from 'src/controllers/helpers/apiResult';
+import { getApiResult } from '../../helpers/apiResult';
 
 v1Router.get(
   routes.ADMIN_INVITATION_DGEC_VALIDATEUR,
