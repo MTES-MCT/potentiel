@@ -9,8 +9,12 @@ import fs from 'fs';
 import { parse } from 'csv-parse';
 import iconv from 'iconv-lite';
 import { setApiResult } from '../../helpers/apiResult';
-import { ImporterDatesMiseEnServiceUseCaseResult as ImporterDatesMiseEnServiceUseCaseResult } from './importerDatesMiseEnserviceUseCaseResult';
-import { importerDatesMiseEnServiceUseCase } from './importerDatesMiseEnserviceUseCase';
+import {
+  PlusieursDossiersCorrespondantsError,
+  buildTransmettreDateMiseEnServiceUseCase,
+} from '@potentiel/domain';
+import { mediator } from 'mediateur';
+import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServiceApiResult';
 
 const csvDataSchema = yup
   .array()
@@ -74,13 +78,31 @@ v1Router.post(
       const csvData = await parseCsv(fileStream);
       const données = csvDataSchema.validateSync(csvData, { abortEarly: false });
 
-      const result: ImporterDatesMiseEnServiceUseCaseResult =
-        await importerDatesMiseEnServiceUseCase(
-          données.map((d) => ({
-            référenceDossier: d.référenceDossier,
-            dateMiseEnService: new Date(d.dateMiseEnService),
-          })),
-        );
+      const result: ImporterDatesMiseEnServiceApiResult = [];
+
+      for (const { référenceDossier, dateMiseEnService } of données) {
+        try {
+          await mediator.send(
+            buildTransmettreDateMiseEnServiceUseCase({
+              référenceDossierRaccordement: référenceDossier,
+              dateMiseEnService: new Date(dateMiseEnService),
+            }),
+          );
+
+          result.push({
+            statut: 'réussi',
+            référenceDossier,
+          });
+        } catch (error) {
+          result.push({
+            statut: 'échec',
+            référenceDossier,
+            raison: error.message,
+            identifiantsProjet:
+              error instanceof PlusieursDossiersCorrespondantsError ? error.identifiantsProjet : [], //dossiers.map((d) => d.identifiantProjet),
+          });
+        }
+      }
 
       setApiResult(request, {
         route: routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,

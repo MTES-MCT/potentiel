@@ -17,13 +17,11 @@ import {
 import routes from '@routes';
 import { hydrateOnClient } from '@views/helpers';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { IdentifiantProjet } from '@potentiel/domain/src/projet/identifiantProjet';
 import { CsvError } from '../../../controllers/helpers/mapCsvYupValidationErrorToCsvErrors';
 
 type Réussi = {
   référenceDossier: string;
   statut: 'réussi';
-  identifiantProjet: IdentifiantProjet;
 };
 type Échec = {
   référenceDossier: string;
@@ -36,11 +34,11 @@ type Échec = {
 };
 type Résultat = Réussi | Échec;
 
-type ImporterDateMiseEnServiceUseCaseResult = Array<Résultat>;
+type RésultatImporterDatesMiseEnServiceProps = Array<Résultat>;
 
 type ImporterDatesMiseEnServiceProps = {
   user: UtilisateurReadModel;
-  résultatImport?: ImporterDateMiseEnServiceUseCaseResult;
+  résultatImport?: RésultatImporterDatesMiseEnServiceProps;
   csvErrors: ReadonlyArray<CsvError>;
 };
 

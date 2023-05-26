@@ -4,17 +4,17 @@ import { ImporterDatesMiseEnServicePage } from '@views';
 import { getApiResult } from '../../helpers/apiResult';
 import { Project } from '@infra/sequelize';
 import {
-  ImporterDatesMiseEnServiceUseCaseResult,
+  ImporterDatesMiseEnServiceApiResult,
   isRéussi,
   isÉchec,
   Échec,
-} from './importerDatesMiseEnserviceUseCaseResult';
+} from './importerDatesMiseEnServiceApiResult';
 import { CsvError } from '../../helpers/mapCsvYupValidationErrorToCsvErrors';
 
 v1Router.get(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE, async (request, response) => {
   const { user } = request;
 
-  const apiResult = getApiResult<ImporterDatesMiseEnServiceUseCaseResult>(
+  const apiResult = getApiResult<ImporterDatesMiseEnServiceApiResult>(
     request,
     routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
   );

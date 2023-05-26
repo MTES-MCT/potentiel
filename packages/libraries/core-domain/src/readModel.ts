@@ -17,10 +17,17 @@ export type ListOptions<TReadModel extends ReadModel> = {
   type: TReadModel['type'];
   orderBy?: keyof TReadModel;
 };
-
 export type List = <TReadModel extends ReadModel>(
   options: ListOptions<TReadModel>,
 ) => Promise<ReadonlyArray<TReadModel>>;
+
+export type SearchResult<TReadModel extends ReadModel> = {
+  key: string;
+  readModel: TReadModel;
+};
+export type Search = <TReadModel extends ReadModel>(
+  searchKeyExpression: string,
+) => Promise<ReadonlyArray<SearchResult<TReadModel>>>;
 
 export type Create = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}#${string}`,

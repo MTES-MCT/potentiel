@@ -5,6 +5,7 @@ import {
   LoadAggregate,
   Publish,
   Remove,
+  Search,
   Subscribe,
   Update,
 } from '@potentiel/core-domain';
@@ -24,6 +25,7 @@ export type DomainDependencies = {
   query: {
     find: Find;
     list: List;
+    search: Search;
   };
   event: {
     create: Create;

@@ -1,3 +1,5 @@
+import { IdentifiantProjet } from '../projet/identifiantProjet';
+
 export class DossierRaccordementNonRéférencéError extends Error {
   constructor() {
     super(`Le dossier de raccordement n'est pas référencé`);
@@ -15,5 +17,17 @@ export class PlusieursGestionnairesRéseauPourUnProjetError extends Error {
 export class FormatFichierInexistantError extends Error {
   constructor() {
     super(`Il est impossible de télécharger le fichier car son format est inexistant.`);
+  }
+}
+
+export class AucunDossierCorrespondantError extends Error {
+  constructor() {
+    super(`Aucun dossier ne correspond à la référence`);
+  }
+}
+
+export class PlusieursDossiersCorrespondantsError extends Error {
+  constructor(public identifiantsProjet: ReadonlyArray<IdentifiantProjet>) {
+    super(`Plusieurs dossiers correspondent à la référence`);
   }
 }

@@ -1,13 +1,18 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
 import { buildTransmettreDateMiseEnServiceCommand } from './transmettre/transmettreDateMiseEnService.command';
+import { buildRechercherDossierRaccordementQuery } from '../dossierRaccordement/rechercher/rechercherDossierRaccordement.query';
+import {
+  AucunDossierCorrespondantError,
+  PlusieursDossiersCorrespondantsError,
+} from '../raccordement.errors';
 
 type TransmettreDateMiseEnServiceUseCase = Message<
   'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
   {
     dateMiseEnService: Date;
     référenceDossierRaccordement: string;
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet?: IdentifiantProjet;
   }
 >;
 
@@ -17,11 +22,35 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     référenceDossierRaccordement,
     identifiantProjet,
   }) => {
+    if (identifiantProjet) {
+      await mediator.send(
+        buildTransmettreDateMiseEnServiceCommand({
+          dateMiseEnService,
+          identifiantProjet,
+          référenceDossierRaccordement,
+        }),
+      );
+      return;
+    }
+
+    const dossiers = await mediator.send(
+      buildRechercherDossierRaccordementQuery({
+        référence: référenceDossierRaccordement,
+      }),
+    );
+
+    if (dossiers.length === 0) {
+      throw new AucunDossierCorrespondantError();
+    }
+    if (dossiers.length > 1) {
+      throw new PlusieursDossiersCorrespondantsError(dossiers.map((d) => d.identifiantProjet));
+    }
+
     await mediator.send(
       buildTransmettreDateMiseEnServiceCommand({
-        dateMiseEnService,
-        identifiantProjet,
+        identifiantProjet: dossiers[0].identifiantProjet,
         référenceDossierRaccordement,
+        dateMiseEnService: dateMiseEnService,
       }),
     );
   };
