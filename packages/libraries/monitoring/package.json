@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@sentry/node": "^7.45.0",
+    "@sentry/node": "^7.53.1",
     "winston": "^3.8.2"
   },
   "devDependencies": {

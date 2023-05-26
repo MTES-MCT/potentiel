@@ -9,8 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
-    "@potentiel/file-storage": "*"
+    "@potentiel/file-storage": "^0.0.0",
+    "@potentiel/monads": "^0.0.0"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
