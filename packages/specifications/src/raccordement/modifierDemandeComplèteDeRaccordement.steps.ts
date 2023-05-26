@@ -13,7 +13,7 @@ import { mediator } from 'mediateur';
  * SCENARIO-01
  */
 Quand(
-  `le porteur modifie la date de qualification d'un dossier de raccordement`,
+  `le porteur modifie la date de qualification d'un dossier de raccordement sans modifier la réference du dossier ni l'accusé de réception`,
   async function (this: PotentielWorld) {
     const dateQualification = new Date('2021-01-01');
 
@@ -66,9 +66,10 @@ Alors(
  * SCENARIO-02
 
 Quand(
-  `le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente`,
+  `le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception identique`,
   async function (this: PotentielWorld) {
     const nouvelleRéférence = 'UNE-NOUVELLE-REFERENCE-DCR';
+    console.log(this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content);
     await mediator.send(
       buildModifierDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -83,22 +84,21 @@ Quand(
   },
 );
 
-Alors(
-  `l'ancien accusé de réception de la demande complète de raccordement devrait être supprimé`,
-  async function (this: PotentielWorld) {
-    const filePath = join(
-      formatIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-      this.raccordementWorld.ancienneRéférenceDossierRaccordement,
-      `demande-complete-raccordement.${extension(
-        this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
-      )}`,
-    );
+Alors(`l'accusé de réception devrait être mis à jour `, async function (this: PotentielWorld) {
+  const accuséRéception = await mediator.send(
+    buildConsulterDemandeComplèteRaccordementUseCase({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+    }),
+  );
 
-    const résultat = await download(filePath);
-
-    expect(résultat).to.throw(new FichierInexistant());
-  },
-);
+  expect(accuséRéception.format).to.be.equal(
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+  );
+  expect(accuséRéception.content).to.be.equal(
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content,
+  );
+});
  */
 
 // Quand(
