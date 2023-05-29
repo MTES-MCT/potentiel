@@ -83,18 +83,18 @@ Quand(
   },
 );
 Alors(`l'accusé de réception devrait être mis à jour`, async function (this: PotentielWorld) {
-  const accuséRéception = await mediator.send(
+  const accuséRéceptionDemandeComplèteRaccordement = await mediator.send(
     buildConsulterDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
     }),
   );
 
-  expect(accuséRéception.format).to.be.equal(
+  expect(accuséRéceptionDemandeComplèteRaccordement.format).to.be.equal(
     this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
   );
-  expect(accuséRéception.content).to.be.equal(
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content,
+  expect(accuséRéceptionDemandeComplèteRaccordement.content.toString()).to.be.equal(
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content.toString(),
   );
 });
 

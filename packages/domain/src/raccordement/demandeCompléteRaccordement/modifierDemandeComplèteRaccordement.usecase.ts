@@ -45,16 +45,19 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     );
 
     const fichiersIdentique = await streamEqual(existingFile.content, accuséRéception.content);
+
     if (nouvelleRéférence !== ancienneRéférence) {
       if (fichiersIdentique) {
-        await buildRenommerAccuséRéceptionDemandeComplèteRaccordementCommand({
-          identifiantProjet,
-          ancienneRéférenceDossierRaccordement: ancienneRéférence,
-          nouvelleRéférenceDossierRaccordement: nouvelleRéférence,
-          accuséRéception: {
-            format: accuséRéception.format,
-          },
-        });
+        await mediator.send(
+          buildRenommerAccuséRéceptionDemandeComplèteRaccordementCommand({
+            identifiantProjet,
+            ancienneRéférenceDossierRaccordement: ancienneRéférence,
+            nouvelleRéférenceDossierRaccordement: nouvelleRéférence,
+            accuséRéception: {
+              format: accuséRéception.format,
+            },
+          }),
+        );
       } else {
         await mediator.send(
           buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand({
