@@ -19,8 +19,8 @@ import { format as formatDate } from 'date-fns';
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
-import { SaisieGestionnaireRéseau } from './components/SaisieGestionnaireRéseau';
 import { SaisieRéférenceDossierRaccordement } from './components/SaisieRéférenceDossierRaccordement';
+import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 
 type ModifierDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -111,7 +111,17 @@ export const ModifierDemandeComplèteRaccordement = ({
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
-          <SaisieGestionnaireRéseau gestionnaireRéseauActuel={gestionnaireRéseauActuel} />
+          <div>
+            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+            <GestionnaireRéseauSelect
+              id="codeEIC"
+              name="codeEIC"
+              disabled
+              gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+              gestionnairesRéseau={[gestionnaireRéseauActuel]}
+            />
+          </div>
+
           <SaisieRéférenceDossierRaccordement
             format={format}
             légende={légende}

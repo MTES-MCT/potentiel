@@ -18,8 +18,8 @@ import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentie
 import routes from '@routes';
 
 import { hydrateOnClient } from '../../../helpers';
-import { SaisieGestionnaireRéseau } from './components/SaisieGestionnaireRéseau';
 import { SaisieRéférenceDossierRaccordement } from './components/SaisieRéférenceDossierRaccordement';
+import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 
 type TransmettreDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -73,14 +73,22 @@ export const TransmettreDemandeComplèteRaccordement = ({
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
-          <SaisieGestionnaireRéseau
-            gestionnaireRéseauActuel={gestionnaireRéseauActuel}
-            gestionnairesRéseau={gestionnairesRéseau}
-            onGestionnaireRéseauSelected={({ format, légende }) => {
-              setFormat(format);
-              setLégende(légende);
-            }}
-          />
+          <div>
+            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+            <GestionnaireRéseauSelect
+              id="codeEIC"
+              name="codeEIC"
+              disabled={!!gestionnaireRéseauActuel}
+              gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+              gestionnairesRéseau={gestionnairesRéseau}
+              onGestionnaireRéseauSelected={({
+                aideSaisieRéférenceDossierRaccordement: { format, légende },
+              }) => {
+                setFormat(format);
+                setLégende(légende);
+              }}
+            />
+          </div>
 
           <SaisieRéférenceDossierRaccordement format={format} légende={légende} />
 

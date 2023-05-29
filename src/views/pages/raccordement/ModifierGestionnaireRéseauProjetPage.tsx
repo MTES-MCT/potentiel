@@ -10,6 +10,7 @@ import {
   PageProjetTemplate,
   PlugIcon,
   Form,
+  Label,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '@routes';
@@ -58,7 +59,10 @@ export const ModifierGestionnaireRéseauProjet = ({
           <Heading2 className="mb-0">Modifier le gestionnaire de réseau du projet</Heading2>
 
           <div>
+            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
             <GestionnaireRéseauSelect
+              id="codeEIC"
+              name="codeEIC"
               gestionnairesRéseau={listeGestionnairesRéseau}
               gestionnaireRéseauActuel={gestionnaireActuel}
             />

@@ -1,49 +1,46 @@
 import { GestionnaireRéseauReadModel } from '@potentiel/domain';
-import { Label, Select } from '@components';
-import React from 'react';
+import { Select } from '@components';
+import React, { ComponentProps } from 'react';
+
+type GestionnaireRéseauSelectProps = ComponentProps<'select'> & {
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
+  gestionnaireRéseauActuel?: GestionnaireRéseauReadModel;
+  onGestionnaireRéseauSelected?: (gestionnaireRéseau: GestionnaireRéseauReadModel) => void;
+};
 
 export const GestionnaireRéseauSelect = ({
   gestionnairesRéseau,
   gestionnaireRéseauActuel,
   onGestionnaireRéseauSelected,
-}: {
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  gestionnaireRéseauActuel?: GestionnaireRéseauReadModel;
-  onGestionnaireRéseauSelected?: (aideSaisieRéférenceDossierRaccordement: {
-    format: string;
-    légende: string;
-  }) => void;
-}) => {
+  ...props
+}: GestionnaireRéseauSelectProps) => {
   const handleGestionnaireSéléctionné = (codeEIC: string) => {
     const gestionnaireSélectionné = gestionnairesRéseau?.find(
       (gestionnaire) => gestionnaire.codeEIC === codeEIC,
     );
 
-    if (gestionnaireSélectionné) {
-      const { aideSaisieRéférenceDossierRaccordement } = gestionnaireSélectionné;
-      onGestionnaireRéseauSelected &&
-        onGestionnaireRéseauSelected(aideSaisieRéférenceDossierRaccordement);
+    if (
+      gestionnaireSélectionné &&
+      gestionnaireSélectionné.codeEIC !== gestionnaireRéseauActuel?.codeEIC
+    ) {
+      onGestionnaireRéseauSelected && onGestionnaireRéseauSelected(gestionnaireSélectionné);
     }
   };
 
   return (
-    <>
-      <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
-      <Select
-        id="codeEIC"
-        name="codeEIC"
-        onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-        defaultValue={gestionnaireRéseauActuel?.codeEIC ?? 'none'}
-      >
-        <option value="none" disabled hidden>
-          Sélectionnez votre gestionnaire de réseau
+    <Select
+      {...props}
+      onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
+      defaultValue={gestionnaireRéseauActuel?.codeEIC ?? 'none'}
+    >
+      <option value="none" disabled hidden>
+        Sélectionnez votre gestionnaire de réseau
+      </option>
+      {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
+        <option value={codeEIC} key={codeEIC}>
+          {raisonSociale} (code EIC : {codeEIC})
         </option>
-        {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-          <option value={codeEIC} key={codeEIC}>
-            {raisonSociale} (code EIC : {codeEIC})
-          </option>
-        ))}
-      </Select>
-    </>
+      ))}
+    </Select>
   );
 };
