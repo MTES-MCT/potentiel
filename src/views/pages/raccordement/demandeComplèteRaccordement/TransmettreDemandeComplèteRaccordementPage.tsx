@@ -10,14 +10,16 @@ import {
   Input,
   Label,
   PlugIcon,
-  Select,
   Link,
   PageProjetTemplate,
   Form,
 } from '@components';
-import { hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
+
+import { hydrateOnClient } from '../../../helpers';
+import { SaisieGestionnaireRéseau } from './components/SaisieGestionnaireRéseau';
+import { SaisieRéférenceDossierRaccordement } from './components/SaisieRéférenceDossierRaccordement';
 
 type TransmettreDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -36,28 +38,16 @@ export const TransmettreDemandeComplèteRaccordement = ({
   error,
   identifiantGestionnaire,
 }: TransmettreDemandeComplèteRaccordementProps) => {
-  const gestionnaireRéseauActuel = gestionnairesRéseau?.find(
+  const gestionnaireRéseauActuel = gestionnairesRéseau.find(
     (gestionnaire) => gestionnaire.codeEIC === identifiantGestionnaire,
   );
 
   const [format, setFormat] = useState(
-    gestionnaireRéseauActuel
-      ? gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement.format
-      : '',
+    gestionnaireRéseauActuel?.aideSaisieRéférenceDossierRaccordement.format ?? '',
   );
   const [légende, setLégende] = useState(
-    gestionnaireRéseauActuel
-      ? gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement.légende
-      : '',
+    gestionnaireRéseauActuel?.aideSaisieRéférenceDossierRaccordement.légende ?? '',
   );
-
-  const handleGestionnaireSéléctionné = (codeEIC: string) => {
-    const gestionnaireSélectionné = gestionnairesRéseau?.find(
-      (gestionnaire) => gestionnaire.codeEIC === codeEIC,
-    );
-    setFormat(gestionnaireSélectionné?.aideSaisieRéférenceDossierRaccordement.format || '');
-    setLégende(gestionnaireSélectionné?.aideSaisieRéférenceDossierRaccordement.légende || '');
-  };
 
   return (
     <PageProjetTemplate
@@ -83,49 +73,17 @@ export const TransmettreDemandeComplèteRaccordement = ({
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
-          <div>
-            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
-            {identifiantGestionnaire ? (
-              <>
-                <Input type="hidden" id="codeEIC" name="codeEIC" value={identifiantGestionnaire} />
-                <Input type="text" value={gestionnaireRéseauActuel?.raisonSociale} disabled />
-              </>
-            ) : (
-              <Select
-                id="codeEIC"
-                name="codeEIC"
-                onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-                defaultValue={'none'}
-              >
-                <option value="none" disabled hidden>
-                  Sélectionnez votre gestionnaire de réseau
-                </option>
-                {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-                  <option value={codeEIC} key={codeEIC}>
-                    {raisonSociale} (code EIC : {codeEIC})
-                  </option>
-                ))}
-              </Select>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="referenceDossierRaccordement">
-              Référence du dossier de raccordement du projet *
-            </Label>
-            {(format || légende) && (
-              <InfoBox className="mt-2 mb-3">
-                {légende && <p className="m-0">Format attendu : {légende}</p>}
-                {format && <p className="m-0 italic">Exemple : {format}</p>}
-              </InfoBox>
-            )}
-            <Input
-              type="text"
-              id="referenceDossierRaccordement"
-              name="referenceDossierRaccordement"
-              placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
-              required
-            />
-          </div>
+          <SaisieGestionnaireRéseau
+            gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+            gestionnairesRéseau={gestionnairesRéseau}
+            onGestionnaireRéseauSelected={({ format, légende }) => {
+              setFormat(format);
+              setLégende(légende);
+            }}
+          />
+
+          <SaisieRéférenceDossierRaccordement format={format} légende={légende} />
+
           <div>
             <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>
             <Input type="file" id="file" name="file" required />

@@ -10,17 +10,17 @@ import {
   PlugIcon,
   Link,
   PageProjetTemplate,
-  Callout,
   InfoBox,
-  EditIcon,
-  DownloadLink,
   ExternalLink,
   Form,
+  DownloadLink,
 } from '@components';
-import { afficherDate, hydrateOnClient } from '../../helpers';
+import { format as formatDate } from 'date-fns';
+import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
-import { userIs } from '@modules/users';
+import { SaisieGestionnaireRéseau } from './components/SaisieGestionnaireRéseau';
+import { SaisieRéférenceDossierRaccordement } from './components/SaisieRéférenceDossierRaccordement';
 
 type ModifierDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -40,12 +40,13 @@ export const ModifierDemandeComplèteRaccordement = ({
   error,
   reference,
   dateQualificationActuelle,
-  gestionnaireRéseauActuel: {
-    aideSaisieRéférenceDossierRaccordement: { format, légende },
-    raisonSociale,
-  },
+  gestionnaireRéseauActuel,
   existingFile,
 }: ModifierDemandeComplèteRaccordementProps) => {
+  const {
+    aideSaisieRéférenceDossierRaccordement: { format, légende },
+  } = gestionnaireRéseauActuel;
+
   return (
     <PageProjetTemplate
       titre={
@@ -68,7 +69,7 @@ export const ModifierDemandeComplèteRaccordement = ({
 
           <Heading2>Modifier une demande complète de raccordement</Heading2>
 
-          <Callout className="text-sm px-3 pt-1 pb-0">
+          {/* <Callout className="text-sm px-3 pt-1 pb-0">
             <ul className="list-none p-0">
               <li>
                 Gestionnaire de réseau : <span className="font-bold mr-2">{raisonSociale}</span>
@@ -106,37 +107,45 @@ export const ModifierDemandeComplèteRaccordement = ({
                 </li>
               )}
             </ul>
-          </Callout>
+          </Callout> */}
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
-          <div>
-            <Label htmlFor="nouvelleReference">
-              Référence du dossier de raccordement du projet *
-            </Label>
-            {(format || légende) && (
-              <InfoBox className="mt-2 mb-3">
-                {légende && <p className="m-0">Format attendu : {légende}</p>}
-                {format && <p className="m-0 italic">Exemple : {format}</p>}
-              </InfoBox>
-            )}
-            <Input
-              type="text"
-              id="nouvelleReference"
-              name="nouvelleReference"
-              placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
-              required
-            />
-          </div>
+          <SaisieGestionnaireRéseau gestionnaireRéseauActuel={gestionnaireRéseauActuel} />
+          <SaisieRéférenceDossierRaccordement
+            format={format}
+            légende={légende}
+            référenceActuelle={reference}
+          />
 
           <div>
             <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>
             <Input type="file" id="file" name="file" required />
+            {existingFile && (
+              <DownloadLink
+                fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(
+                  identifiantProjet,
+                  reference,
+                )}
+              >
+                Accusé de réception de la demande complète de raccordement
+              </DownloadLink>
+            )}
           </div>
 
           <div>
             <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
-            <Input type="date" id="dateQualification" name="dateQualification" required />
+            <Input
+              type="date"
+              id="dateQualification"
+              name="dateQualification"
+              value={
+                dateQualificationActuelle
+                  ? formatDate(new Date(dateQualificationActuelle), 'yyyy-MM-dd')
+                  : ''
+              }
+              required
+            />
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>

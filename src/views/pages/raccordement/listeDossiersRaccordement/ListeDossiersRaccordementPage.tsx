@@ -10,7 +10,7 @@ import {
   InfoBox,
   EditIcon,
 } from '@components';
-import { hydrateOnClient } from '../../helpers';
+import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
 import { userIs } from '@modules/users';
