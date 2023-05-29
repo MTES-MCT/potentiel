@@ -21,7 +21,7 @@ export const PageProjetTemplate: FC<{
 }> = ({ user, résuméProjet, titre, children }) => (
   <PageTemplate user={user}>
     <EntêteProjet {...résuméProjet} />
-    <Container className="px-4 py-3 mb-4">
+    <Container className="px-1 md:px-4 py-3 mb-4">
       <Heading1 className="mb-6">{titre}</Heading1>
       {children}
     </Container>

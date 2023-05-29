@@ -42,7 +42,7 @@ export const Etape: FC<{
 
   return (
     <div
-      className={`flex flex-col p-5 border-2 border-solid w-full md:max-w-none md:mx-0 md:w-1/3 relative ${borderColor} ${backgroundColor}
+      className={`flex flex-col p-5 border-2 border-solid md:w-1/3 ${borderColor} ${backgroundColor}
       ${className}`}
     >
       <div className="flex flex-row items-center md:flex-col gap-3 mb-5">

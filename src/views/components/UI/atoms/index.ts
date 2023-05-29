@@ -1,5 +1,6 @@
 export * from './Badge';
 export * from './Callout';
+export * from './Dialog';
 export * from './headings';
 export * from './Dialog';
 export * from './Input';
