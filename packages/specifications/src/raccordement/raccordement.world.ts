@@ -2,6 +2,16 @@ import { buildTransmettreDemandeComplèteRaccordementUseCase } from '@potentiel/
 import { mediator } from 'mediateur';
 import { Readable } from 'stream';
 
+async function getReadableContent(readable: Readable) {
+  const chunks = [];
+
+  for await (const chunk of readable) {
+    chunks.push(chunk);
+  }
+
+  return chunks.join('');
+}
+
 export class RaccordementWorld {
   #dateQualification!: Date;
 
@@ -54,18 +64,18 @@ export class RaccordementWorld {
     this.#propositionTechniqueEtFinancièreSignée = value;
   }
 
-  // #ancienneRéférenceDossierRaccordement!: string;
+  #ancienneRéférenceDossierRaccordement!: string;
 
-  // get ancienneRéférenceDossierRaccordement(): string {
-  //   if (!this.#ancienneRéférenceDossierRaccordement) {
-  //     throw new Error('ancienneRéférenceDossierRaccordement not initialized');
-  //   }
-  //   return this.#ancienneRéférenceDossierRaccordement;
-  // }
+  get ancienneRéférenceDossierRaccordement(): string {
+    if (!this.#ancienneRéférenceDossierRaccordement) {
+      throw new Error('ancienneRéférenceDossierRaccordement not initialized');
+    }
+    return this.#ancienneRéférenceDossierRaccordement;
+  }
 
-  // set ancienneRéférenceDossierRaccordement(value: string) {
-  //   this.#ancienneRéférenceDossierRaccordement = value;
-  // }
+  set ancienneRéférenceDossierRaccordement(value: string) {
+    this.#ancienneRéférenceDossierRaccordement = value;
+  }
 
   #référenceDossierRaccordement!: string;
 
@@ -114,10 +124,16 @@ export class RaccordementWorld {
   async createDemandeComplèteRaccordement(codeEIC: string) {
     const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
     const dateQualification = new Date();
+
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementUseCase({
         référenceDossierRaccordement,
-        accuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
+        accuséRéception: {
+          format: 'application/pdf',
+          content: Readable.from("Contenu d'un fichier DCR", {
+            encoding: 'utf8',
+          }),
+        },
         identifiantGestionnaireRéseau: { codeEIC },
         identifiantProjet: this.identifiantProjet,
         dateQualification,
@@ -125,7 +141,7 @@ export class RaccordementWorld {
     );
 
     this.#référenceDossierRaccordement = référenceDossierRaccordement;
-    // this.#ancienneRéférenceDossierRaccordement = référenceDossierRaccordement;
+    this.#ancienneRéférenceDossierRaccordement = référenceDossierRaccordement;
     this.#dateQualification = dateQualification;
   }
 }

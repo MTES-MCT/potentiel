@@ -3,6 +3,7 @@ import { registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand
 import { registerModifierDemandeComplèteRaccordementCommand } from './modifier/modifierDemandeComplèteRaccordement.command';
 import { registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettre/transmettreDemandeComplèteRaccordement.command';
+import { registerRenommerAccuséRéceptionDemandeComplèteRaccordementCommand } from './renommerAccuséRéception/renommerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory } from './supprimerAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementSupprimé.handler';
 import { demandeComplèteRaccordementTransmiseHandlerFactory } from './transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
 import { demandeComplèteRaccordementeModifiéeHandlerFactory } from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';
@@ -23,6 +24,7 @@ export const setupDemandeCompléteRaccordement = (
   registerModifierDemandeComplèteRaccordementCommand(dependencies);
   registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
+  registerRenommerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
 
   // Usecases
   registerConsulterDemandeComplèteRaccordementUseCase();

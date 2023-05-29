@@ -62,7 +62,6 @@ describe(`update file`, () => {
       .promise();
 
     expect(actual).not.toBeNull();
-    expect(actual.Body).toBeDefined();
     expect(actual.Body!.toString()).toEqual(newContent);
   });
 });

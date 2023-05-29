@@ -17,6 +17,7 @@ const téléchargerFichierDossierRaccordementAdapter =
       référenceDossierRaccordement,
       `${nomFichier}.${extension(format)}`,
     );
+    console.log('******************* CE FICHIER', filePath);
 
     return await download(filePath);
   };

@@ -15,7 +15,7 @@ Fonctionnalité: Modifier une demande complète de raccordement
         Et l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
 
     # SCENARIO-02
-        @selection
+    @selection
     Scénario: Un porteur de projet modifie une demande complète de raccordement avec une référence différente du dossier de raccordement et un accusé de réception identique
         Etant donné un dossier de raccordement
         Quand le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception identique

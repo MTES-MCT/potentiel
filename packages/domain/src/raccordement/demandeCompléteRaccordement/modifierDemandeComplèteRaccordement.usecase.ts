@@ -8,7 +8,12 @@ import {
   buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
 } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { buildRenommerAccuséRéceptionDemandeComplèteRaccordementCommand } from './renommerAccuséRéception/renommerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
+
+import { buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
+
+import streamEqual from 'stream-equal';
 
 type ModifierDemandeComplèteRaccordementUseCase = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
@@ -31,15 +36,37 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       }),
     );
 
-    await mediator.send(
-      buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand({
-        identifiantProjet,
+    const existingFile = await mediator.send(
+      buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
         référenceDossierRaccordement: ancienneRéférence,
-        accuséRéception: {
-          format: dossierRaccordement.accuséRéception?.format || '',
-        },
+        identifiantProjet,
+        format: accuséRéception.format,
       }),
     );
+
+    const fichiersIdentique = await streamEqual(existingFile.content, accuséRéception.content);
+    if (nouvelleRéférence !== ancienneRéférence) {
+      if (fichiersIdentique) {
+        await buildRenommerAccuséRéceptionDemandeComplèteRaccordementCommand({
+          identifiantProjet,
+          ancienneRéférenceDossierRaccordement: ancienneRéférence,
+          nouvelleRéférenceDossierRaccordement: nouvelleRéférence,
+          accuséRéception: {
+            format: accuséRéception.format,
+          },
+        });
+      } else {
+        await mediator.send(
+          buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand({
+            identifiantProjet,
+            référenceDossierRaccordement: ancienneRéférence,
+            accuséRéception: {
+              format: dossierRaccordement.accuséRéception?.format || '',
+            },
+          }),
+        );
+      }
+    }
 
     await mediator.send(
       buildModifierDemandeComplèteRaccordementCommand({
@@ -50,13 +77,15 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       }),
     );
 
-    await mediator.send(
-      buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
-        identifiantProjet,
-        référenceDossierRaccordement: nouvelleRéférence,
-        accuséRéception,
-      }),
-    );
+    if (nouvelleRéférence !== ancienneRéférence && !fichiersIdentique) {
+      await mediator.send(
+        buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
+          identifiantProjet,
+          référenceDossierRaccordement: nouvelleRéférence,
+          accuséRéception,
+        }),
+      );
+    }
   };
 
   mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);

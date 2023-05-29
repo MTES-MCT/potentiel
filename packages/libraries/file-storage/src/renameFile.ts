@@ -11,5 +11,7 @@ export const renameFile = async (filePath: string, newFilePath: string) => {
     })
     .promise();
 
+  console.log('OBJJJJJJJJJJ');
+
   await deleteFile(filePath);
 };

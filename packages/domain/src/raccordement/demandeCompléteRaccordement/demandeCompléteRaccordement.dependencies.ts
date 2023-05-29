@@ -3,6 +3,7 @@ import { ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies } fr
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { ModifierDemandeComplèteRaccordementDependencies } from './modifier/modifierDemandeComplèteRaccordement.command';
 import { SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { RenommerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './renommerAccuséRéception/renommerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { TransmettreDemandeComplèteRaccordementDependencies } from './transmettre/transmettreDemandeComplèteRaccordement.command';
 import { AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies } from './supprimerAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementSupprimé.handler';
 import { DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies } from './transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
@@ -15,6 +16,7 @@ type CommandHandlerDependencies =
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies &
     SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies &
     TransmettreDemandeComplèteRaccordementDependencies &
+    RenommerAccuséRéceptionDemandeComplèteRaccordementDependencies &
     ModifierDemandeComplèteRaccordementDependencies;
 
 type EventHandlerDependencies = AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies &

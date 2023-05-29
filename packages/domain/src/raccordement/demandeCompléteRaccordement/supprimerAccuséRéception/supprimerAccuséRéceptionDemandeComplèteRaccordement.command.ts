@@ -1,11 +1,13 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import {
+  createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import { AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent } from './accuséRéceptionDemandeComplèteRaccordementSupprimé.event';
 
 export type SupprimerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -52,16 +54,16 @@ export const registerSupprimerAccuséRéceptionDemandeComplèteRaccordementComma
       format,
     });
 
-    // const accuséRéceptionSupprimeEvent: AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent = {
-    //   type: 'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
-    //   payload: {
-    //     identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-    //     référenceDossierRaccordement,
-    //     format,
-    //   },
-    // };
+    const accuséRéceptionSupprimeEvent: AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent = {
+      type: 'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
+      payload: {
+        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        référenceDossierRaccordement,
+        format,
+      },
+    };
 
-    // await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionSupprimeEvent);
+    await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionSupprimeEvent);
   };
 
   mediator.register('SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);

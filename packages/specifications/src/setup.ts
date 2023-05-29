@@ -20,6 +20,7 @@ import {
   supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
   téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+  renommerAccuséRéceptionDemandeComplèteRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 
 should();
@@ -75,6 +76,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
         téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
       supprimerAccuséRéceptionDemandeComplèteRaccordement:
         supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      renommerAccuséRéceptionDemandeComplèteRaccordement:
+        renommerAccuséRéceptionDemandeComplèteRaccordementAdapter,
       supprimerPropositionTechniqueEtFinancièreSignée:
         supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
     },

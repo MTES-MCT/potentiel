@@ -64,12 +64,11 @@ Alors(
 
 /**
  * SCENARIO-02
-
+ */
 Quand(
   `le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception identique`,
   async function (this: PotentielWorld) {
     const nouvelleRéférence = 'UNE-NOUVELLE-REFERENCE-DCR';
-    console.log(this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content);
     await mediator.send(
       buildModifierDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -83,8 +82,7 @@ Quand(
     this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférence;
   },
 );
-
-Alors(`l'accusé de réception devrait être mis à jour `, async function (this: PotentielWorld) {
+Alors(`l'accusé de réception devrait être mis à jour`, async function (this: PotentielWorld) {
   const accuséRéception = await mediator.send(
     buildConsulterDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -99,7 +97,6 @@ Alors(`l'accusé de réception devrait être mis à jour `, async function (this
     this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content,
   );
 });
- */
 
 // Quand(
 //   `le porteur modifie une demande complète de raccordement`,
