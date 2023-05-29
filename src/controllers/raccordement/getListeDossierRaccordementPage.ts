@@ -33,7 +33,6 @@ v1Router.get(
       const {
         user,
         params: { projetId },
-        query: { success },
       } = request;
 
       const projet = await Project.findByPk(projetId, {
@@ -137,7 +136,6 @@ v1Router.get(
             },
             gestionnaireRéseau,
             dossiers,
-            success: success as string,
           }),
         );
       }

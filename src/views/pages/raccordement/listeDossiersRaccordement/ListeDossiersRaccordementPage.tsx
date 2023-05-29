@@ -1,15 +1,7 @@
 import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import {
-  Link,
-  SuccessBox,
-  Tile,
-  PageProjetTemplate,
-  PlugIcon,
-  InfoBox,
-  EditIcon,
-} from '@components';
+import { Link, Tile, PageProjetTemplate, PlugIcon, InfoBox, EditIcon } from '@components';
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
@@ -22,7 +14,6 @@ type ListeDossiersRaccordementProps = {
   résuméProjet: RésuméProjetReadModel;
   gestionnaireRéseau: GestionnaireRéseauReadModel;
   dossiers: ReadonlyArray<Dossier>;
-  success?: string;
 };
 
 export const ListeDossiersRaccordement = ({
@@ -31,26 +22,33 @@ export const ListeDossiersRaccordement = ({
   résuméProjet,
   gestionnaireRéseau,
   dossiers,
-  success,
 }: ListeDossiersRaccordementProps) => (
   <PageProjetTemplate
     titre={
-      <>
+      <div className="flex flex-row">
         <PlugIcon className="mr-1" aria-hidden />
-        Raccordement ({gestionnaireRéseau.raisonSociale})
-      </>
+        <div>
+          <div>Raccordement</div>
+          <div className="font-normal text-sm">
+            <p className="my-2 p-0">
+              Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
+              {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
+                <Link
+                  className="ml-1"
+                  href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
+                >
+                  (<EditIcon className="mr-1" />
+                  Modifier)
+                </Link>
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
     }
     user={user}
     résuméProjet={résuméProjet}
   >
-    {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
-      <Link href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}>
-        <EditIcon className="mr-1" />
-        Modifier le gestionnaire de réseau
-      </Link>
-    )}
-    {success && <SuccessBox>{success}</SuccessBox>}
-
     <div className="my-2 md:my-4">
       {dossiers.length === 1 ? (
         <Dossier user={user} identifiantProjet={identifiantProjet} dossier={dossiers[0]} />
