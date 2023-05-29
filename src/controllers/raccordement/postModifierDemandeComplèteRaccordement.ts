@@ -27,7 +27,7 @@ const schema = yup.object({
     reference: yup.string().required(),
   }),
   body: yup.object({
-    nouvelleReference: yup.string().required(),
+    referenceDossierRaccordement: yup.string().required(),
     dateQualification: yup
       .date()
       .required(`La date de qualification est obligatoire`)
@@ -61,7 +61,7 @@ v1Router.post(
       const {
         user,
         params: { projetId, reference },
-        body: { dateQualification, nouvelleReference },
+        body: { dateQualification, referenceDossierRaccordement },
         file,
       } = request;
 
@@ -114,7 +114,7 @@ v1Router.post(
           buildModifierDemandeComplèteRaccordementUseCase({
             identifiantProjet,
             dateQualification,
-            nouvelleRéférenceDossierRaccordement: nouvelleReference,
+            nouvelleRéférenceDossierRaccordement: referenceDossierRaccordement,
             ancienneRéférenceDossierRaccordement: reference,
             nouvelAccuséRéception: {
               format: file.mimetype,

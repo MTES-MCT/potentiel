@@ -29,7 +29,7 @@ export const Select = ({
         />
         <select
           {...props}
-          className={`w-full py-2 px-4 text-base appearance-none bg-gray-100 disabled:cursor-not-allowed disabled:text-grey-625-base hover:cursor-pointer focus:cursor-pointer outline-offset-4 outline-2 outline-solid outline-outline-base border-x-0 border-t-0 border-b-2 border-solid ${
+          className={`w-full mt-2 py-2 px-4 text-base appearance-none bg-gray-100 disabled:cursor-not-allowed disabled:text-grey-625-base hover:cursor-pointer focus:cursor-pointer outline-offset-4 outline-2 outline-solid outline-outline-base border-x-0 border-t-0 border-b-2 border-solid ${
             isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'
           } rounded-none rounded-t-[4px]`}
           onChange={(e) => {

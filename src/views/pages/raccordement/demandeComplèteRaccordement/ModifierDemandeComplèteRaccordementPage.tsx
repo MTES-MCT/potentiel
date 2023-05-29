@@ -14,12 +14,12 @@ import {
   ExternalLink,
   Form,
   DownloadLink,
+  LabelDescription,
 } from '@components';
 import { format as formatDate } from 'date-fns';
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
-import { SaisieRéférenceDossierRaccordement } from './components/SaisieRéférenceDossierRaccordement';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 
 type ModifierDemandeComplèteRaccordementProps = {
@@ -60,7 +60,7 @@ export const ModifierDemandeComplèteRaccordement = ({
     >
       <div className="flex flex-col md:flex-row gap-4">
         <Form
-          className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
+          className="max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
           action={routes.POST_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT(identifiantProjet, reference)}
@@ -122,11 +122,25 @@ export const ModifierDemandeComplèteRaccordement = ({
             />
           </div>
 
-          <SaisieRéférenceDossierRaccordement
-            format={format}
-            légende={légende}
-            référenceActuelle={reference}
-          />
+          <div>
+            <Label htmlFor="referenceDossierRaccordement">
+              Référence du dossier de raccordement du projet
+              {(format || légende) && (
+                <LabelDescription>
+                  {légende && <div className="m-0">Format attendu : {légende}</div>}
+                  {format && <div className="m-0 italic">Exemple : {format}</div>}
+                </LabelDescription>
+              )}
+            </Label>
+            <Input
+              type="text"
+              id="referenceDossierRaccordement"
+              name="referenceDossierRaccordement"
+              placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
+              required
+              value={reference ?? ''}
+            />
+          </div>
 
           <div>
             <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>

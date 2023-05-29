@@ -4,6 +4,7 @@ export * from './headings';
 export * from './Dialog';
 export * from './Input';
 export * from './Label';
+export * from './LabelDescription';
 export * from './Link';
 export * from './LinkButton';
 export * from './SecondaryLinkButton';
