@@ -8,6 +8,8 @@ import {
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
+import { Readable } from 'stream';
+import { FichierInexistant } from '@potentiel/file-storage';
 
 /**
  * SCENARIO-01
@@ -82,49 +84,101 @@ Quand(
     this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférence;
   },
 );
-Alors(`l'accusé de réception devrait être mis à jour`, async function (this: PotentielWorld) {
-  const accuséRéceptionDemandeComplèteRaccordement = await mediator.send(
+
+Alors(
+  `l'accusé de réception devrait être mis à jour avec le nouveau chemin d'accès`,
+  async function (this: PotentielWorld) {
+    const fichier = await mediator.send(
+      buildConsulterDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      }),
+    );
+    expect(fichier).not.to.be.an.instanceOf(FichierInexistant);
+  },
+);
+
+/**
+ * SCENARIO-03
+ */
+Quand(
+  `le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception différent`,
+  async function (this: PotentielWorld) {
+    const nouvelleRéférence = 'UNE-NOUVELLE-REFERENCE-DCR';
+    const accuséRéception = {
+      format: 'application/pdf',
+      content: Readable.from("Nouveau contenu d'un fichier DCR", {
+        encoding: 'utf8',
+      }),
+    };
+
+    await mediator.send(
+      buildModifierDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        dateQualification: this.raccordementWorld.dateQualification,
+        ancienneRéférence: this.raccordementWorld.ancienneRéférenceDossierRaccordement,
+        nouvelleRéférence,
+        accuséRéception,
+      }),
+    );
+
+    this.raccordementWorld.ancienneRéférenceDossierRaccordement =
+      this.raccordementWorld.référenceDossierRaccordement;
+    this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférence;
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = accuséRéception;
+  },
+);
+
+Alors(`l'ancien accusé de réception devrait être supprimé`, async function (this: PotentielWorld) {
+  const fichierSupprimé = await mediator.send(
     buildConsulterDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
-      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      référenceDossierRaccordement: this.raccordementWorld.ancienneRéférenceDossierRaccordement,
     }),
   );
 
-  expect(accuséRéceptionDemandeComplèteRaccordement.format).to.be.equal(
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
-  );
-  expect(accuséRéceptionDemandeComplèteRaccordement.content.toString()).to.be.equal(
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content.toString(),
-  );
+  expect(fichierSupprimé).to.be.an.instanceOf(FichierInexistant);
 });
 
-// Quand(
-//   `le porteur modifie une demande complète de raccordement`,
-//   async function (this: PotentielWorld) {
-//     const dateQualification = new Date('2023-04-26');
-//     const nouvelleRéférence = 'une_nouvelle_référence';
-//     const accuséRéception = {
-//       format: 'application/pdf',
-//       content: Readable.from("Contenu d'un autre fichier DCR", {
-//         encoding: 'utf8',
-//       }),
-//     };
+/**
+ * SCENARIO-04
+ */
+Quand(
+  `le porteur modifie une demande complète de raccordement avec la même référence mais un accusé de réception différent`,
+  async function (this: PotentielWorld) {
+    const accuséRéception = {
+      format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+      content: Readable.from('Un nouveau contenu', {
+        encoding: 'utf-8',
+      }),
+    };
 
-//     await mediator.send(
-//       buildModifierDemandeComplèteRaccordementUseCase({
-//         identifiantProjet: this.raccordementWorld.identifiantProjet,
-//         dateQualification: new Date(dateQualification),
-//         ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
-//         nouvelleRéférence,
-//         accuséRéception,
-//       }),
-//     );
+    await mediator.send(
+      buildModifierDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        dateQualification: this.raccordementWorld.dateQualification,
+        ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
+        nouvelleRéférence: this.raccordementWorld.référenceDossierRaccordement,
+        accuséRéception,
+      }),
+    );
 
-//     this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférence;
-//     this.raccordementWorld.dateQualification = dateQualification;
-//     this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = accuséRéception;
-//   },
-// );
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = accuséRéception;
+  },
+);
+
+Alors(`l'accusé de réception devrait être mis à jour`, async function (this: PotentielWorld) {
+  const fichier = await mediator.send(
+    buildConsulterDemandeComplèteRaccordementUseCase({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+      référenceDossierRaccordement: this.raccordementWorld.ancienneRéférenceDossierRaccordement,
+    }),
+  );
+
+  expect(fichier.format).to.be.equal(
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+  );
+});
 
 // Quand(
 //   `le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente`,

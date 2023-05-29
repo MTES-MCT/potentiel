@@ -1,4 +1,11 @@
-import { Before, setWorldConstructor, BeforeStep, After, BeforeAll } from '@cucumber/cucumber';
+import {
+  Before,
+  setWorldConstructor,
+  BeforeStep,
+  After,
+  BeforeAll,
+  setDefaultTimeout,
+} from '@cucumber/cucumber';
 import { setupDomain, UnsetupDomain } from '@potentiel/domain';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
@@ -21,11 +28,14 @@ import {
   téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
   téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
   renommerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  mettreAJourAccuséRéceptionDemandeComplèteRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 
 should();
 
 setWorldConstructor(PotentielWorld);
+
+setDefaultTimeout(5000);
 
 const bucketName = 'potentiel';
 
@@ -33,7 +43,7 @@ let unsetupDomain: UnsetupDomain | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
-  await sleep(500);
+  await sleep(1000);
 });
 
 BeforeAll(async () => {
@@ -80,6 +90,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
         renommerAccuséRéceptionDemandeComplèteRaccordementAdapter,
       supprimerPropositionTechniqueEtFinancièreSignée:
         supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
+      mettreAJourAccuséRéceptionDemandeComplèteRaccordement:
+        mettreAJourAccuséRéceptionDemandeComplèteRaccordementAdapter,
     },
     subscribe,
   });

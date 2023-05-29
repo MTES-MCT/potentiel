@@ -15,18 +15,27 @@ Fonctionnalité: Modifier une demande complète de raccordement
         Et l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
 
     # SCENARIO-02
-    @selection
     Scénario: Un porteur de projet modifie une demande complète de raccordement avec une référence différente du dossier de raccordement et un accusé de réception identique
         Etant donné un dossier de raccordement
         Quand le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception identique
-        Alors l'accusé de réception devrait être mis à jour 
+        Alors l'accusé de réception devrait être mis à jour avec le nouveau chemin d'accès
         Et le dossier est consultable dans la liste des dossiers de raccordement du projet     
 
-    # Scénario: Un porteur de projet modifie une demande complète de raccordement avec la même référence du dossier de raccordement mais un accusé de réception ayant un format équivalent à l'existant mais un contenu différent
+    # SCENARIO-03 - Erreur lors de l'enregistrement du nouveau fichier (timeout)
+    # Scénario: Un porteur de projet modifie une demande complète de raccordement avec une référence différente du dossier de raccordement et un accusé de réception différent
     #     Etant donné un dossier de raccordement
-    #     Quand le porteur modifie une demande complète de raccordement avec un accusé de réception ayant un format équivalent à l'existant mais un contenu différent
-    #     Alors l'accusé de réception devrait avoir devrait avoir son contenu mis à jour et il devrait être consultable dans le dossier de raccordement
-    #     Et le dossier est consultable dans la liste des dossiers de raccordement du projet    
+    #     Quand le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception différent
+    #     Alors l'ancien accusé de réception devrait être supprimé
+    #     Et le nouvel accusé de réception devrait être ajouté 
+    #     Et le dossier est consultable dans la liste des dossiers de raccordement du projet     
+
+    # SCENARIO-04 - Erreur lors de la transformation du readable en string (timeout)
+    @selection
+    Scénario: Un porteur de projet modifie une demande complète de raccordement avec la même référence du dossier de raccordement mais un accusé de réception différent
+        Etant donné un dossier de raccordement
+        Quand le porteur modifie une demande complète de raccordement avec la même référence mais un accusé de réception différent
+        Alors l'accusé de réception devrait être mis à jour 
+        Et le dossier est consultable dans la liste des dossiers de raccordement du projet    
 
     # Scénario: Un porteur de projet modifie une demande complète de raccordement avec la même référence du dossier de raccordement mais un accusé de réception ayant un format différent
     #     Etant donné un dossier de raccordement

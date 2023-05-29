@@ -15,6 +15,7 @@ import {
   téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
   renommerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  mettreAJourAccuséRéceptionDemandeComplèteRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 import { subscribeFactory } from './subscribe.factory';
 
@@ -48,6 +49,8 @@ export const bootstrap = async () => {
         renommerAccuséRéceptionDemandeComplèteRaccordementAdapter,
       supprimerPropositionTechniqueEtFinancièreSignée:
         supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
+      mettreAJourAccuséRéceptionDemandeComplèteRaccordement:
+        mettreAJourAccuséRéceptionDemandeComplèteRaccordementAdapter,
     },
     subscribe: await subscribeFactory(),
   });

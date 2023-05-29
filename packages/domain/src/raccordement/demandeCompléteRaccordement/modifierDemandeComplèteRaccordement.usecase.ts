@@ -14,6 +14,7 @@ import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/c
 import { buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 
 import streamEqual from 'stream-equal';
+import { buildMettreAJourAccuséRéceptionDemandeComplèteRaccordementCommand } from './mettreAJourAccuséRéception/mettreAJourAccuséRéceptionDemandeComplèteRaccordement.command';
 
 type ModifierDemandeComplèteRaccordementUseCase = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
@@ -43,10 +44,22 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
         format: accuséRéception.format,
       }),
     );
-
+    const référencesEgales = nouvelleRéférence === ancienneRéférence;
     const fichiersIdentique = await streamEqual(existingFile.content, accuséRéception.content);
 
-    if (nouvelleRéférence !== ancienneRéférence) {
+    if (référencesEgales) {
+      if (!fichiersIdentique) {
+        await mediator.send(
+          buildMettreAJourAccuséRéceptionDemandeComplèteRaccordementCommand({
+            identifiantProjet,
+            référenceDossierRaccordement: nouvelleRéférence,
+            accuséRéception,
+          }),
+        );
+      }
+    }
+
+    if (!référencesEgales) {
       if (fichiersIdentique) {
         await mediator.send(
           buildRenommerAccuséRéceptionDemandeComplèteRaccordementCommand({
@@ -80,7 +93,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       }),
     );
 
-    if (nouvelleRéférence !== ancienneRéférence && !fichiersIdentique) {
+    if (!référencesEgales && !fichiersIdentique)
       await mediator.send(
         buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
           identifiantProjet,
@@ -88,7 +101,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
           accuséRéception,
         }),
       );
-    }
   };
 
   mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);

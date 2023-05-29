@@ -9,7 +9,7 @@ import { AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies } fr
 import { DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies } from './transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
 import { DemandeComplèteRaccordementeModifiéeDependencies } from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies } from './enregisterAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementTransmis.handler';
-
+import { MettreAJourAccuséRéceptionDemandeComplèteRaccordementDependencies } from './mettreAJourAccuséRéception/mettreAJourAccuséRéceptionDemandeComplèteRaccordement.command';
 type QueryHandlerDependencies = ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies;
 
 type CommandHandlerDependencies =
@@ -17,7 +17,8 @@ type CommandHandlerDependencies =
     SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies &
     TransmettreDemandeComplèteRaccordementDependencies &
     RenommerAccuséRéceptionDemandeComplèteRaccordementDependencies &
-    ModifierDemandeComplèteRaccordementDependencies;
+    ModifierDemandeComplèteRaccordementDependencies &
+    MettreAJourAccuséRéceptionDemandeComplèteRaccordementDependencies;
 
 type EventHandlerDependencies = AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies &
   AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies &

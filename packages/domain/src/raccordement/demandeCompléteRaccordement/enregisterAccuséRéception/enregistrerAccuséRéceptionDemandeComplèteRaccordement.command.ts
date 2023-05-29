@@ -49,7 +49,6 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
     accuséRéception: { format, content },
   }) => {
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
-
     if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
