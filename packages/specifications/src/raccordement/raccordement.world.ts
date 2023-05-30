@@ -128,12 +128,7 @@ export class RaccordementWorld {
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementUseCase({
         référenceDossierRaccordement,
-        accuséRéception: {
-          format: 'application/pdf',
-          content: Readable.from("Contenu d'un fichier DCR", {
-            encoding: 'utf8',
-          }),
-        },
+        accuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
         identifiantGestionnaireRéseau: { codeEIC },
         identifiantProjet: this.identifiantProjet,
         dateQualification,

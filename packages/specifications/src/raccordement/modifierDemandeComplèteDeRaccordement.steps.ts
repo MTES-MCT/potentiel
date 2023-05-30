@@ -3,19 +3,19 @@ import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
   buildConsulterDemandeComplèteRaccordementUseCase,
-  buildConsulterDossierRaccordementUseCase,
   buildModifierDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import { Readable } from 'stream';
+import streamEqual from 'stream-equal';
 import { FichierInexistant } from '@potentiel/file-storage';
 
 /**
  * SCENARIO-01
  */
 Quand(
-  `le porteur modifie la date de qualification d'un dossier de raccordement sans modifier la réference du dossier ni l'accusé de réception`,
+  `le porteur modifie la date de qualification d'un dossier de raccordement`,
   async function (this: PotentielWorld) {
     const dateQualification = new Date('2021-01-01');
 
@@ -36,31 +36,22 @@ Quand(
 Alors(
   `l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement`,
   async function (this: PotentielWorld) {
-    const { dateQualification, accuséRéception } = await mediator.send(
-      buildConsulterDossierRaccordementUseCase({
-        référence: this.raccordementWorld.référenceDossierRaccordement,
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-      }),
-    );
-
-    expect(dateQualification).to.be.equal(this.raccordementWorld.dateQualification.toISOString());
-    expect(accuséRéception?.format).to.be.equal(
-      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
-    );
-
-    const accuséRéceptionDemandeComplèteRaccordement = await mediator.send(
+    const demandeComplèteRaccordement = await mediator.send(
       buildConsulterDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       }),
     );
 
-    expect(accuséRéceptionDemandeComplèteRaccordement.format).to.be.equal(
+    const fichiersIdentique = await streamEqual(
+      demandeComplèteRaccordement.content,
+      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content,
+    );
+
+    expect(demandeComplèteRaccordement.format).to.be.equal(
       this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
     );
-    expect(accuséRéceptionDemandeComplèteRaccordement.content.toString()).to.be.equal(
-      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content.toString(),
-    );
+    expect(fichiersIdentique).to.be.true;
   },
 );
 

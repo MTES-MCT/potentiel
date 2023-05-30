@@ -1,57 +1,45 @@
 #Language: fr-FR
 Fonctionnalité: Modifier une demande complète de raccordement
-
-    # Scénario: Un porteur de projet modifie une demande complète de raccordement
-    #     Etant donné un dossier de raccordement
-    #     Quand le porteur modifie une demande complète de raccordement
-    #     Alors l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
-    #     Et le dossier est consultable dans la liste des dossiers de raccordement du projet 
     
     # SCENARIO-01
-    Scénario: Un porteur de projet modifie une demande complète de raccordement sans modifier la réference du dossier ni l'accusé de réception
-        Etant donné un dossier de raccordement
-        Quand le porteur modifie la date de qualification d'un dossier de raccordement sans modifier la réference du dossier ni l'accusé de réception
-        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet  
-        Et l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
-
-    # SCENARIO-02
-    Scénario: Un porteur de projet modifie une demande complète de raccordement avec une référence différente du dossier de raccordement et un accusé de réception identique
-        Etant donné un dossier de raccordement
-        Quand le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception identique
-        Alors l'accusé de réception devrait être mis à jour avec le nouveau chemin d'accès
-        Et le dossier est consultable dans la liste des dossiers de raccordement du projet     
-
-    # SCENARIO-03 - Erreur lors de l'enregistrement du nouveau fichier (timeout)
-    # Scénario: Un porteur de projet modifie une demande complète de raccordement avec une référence différente du dossier de raccordement et un accusé de réception différent
-    #     Etant donné un dossier de raccordement
-    #     Quand le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception différent
-    #     Alors l'ancien accusé de réception devrait être supprimé
-    #     Et le nouvel accusé de réception devrait être ajouté 
-    #     Et le dossier est consultable dans la liste des dossiers de raccordement du projet     
-
-    # SCENARIO-04 - Erreur lors de la transformation du readable en string (timeout)
     @selection
-    Scénario: Un porteur de projet modifie une demande complète de raccordement avec la même référence du dossier de raccordement mais un accusé de réception différent
+    Scénario: Un porteur de projet modifie la date de qualification d'une demande complète de raccordement
         Etant donné un dossier de raccordement
-        Quand le porteur modifie une demande complète de raccordement avec la même référence mais un accusé de réception différent
-        Alors l'accusé de réception devrait être mis à jour 
-        Et le dossier est consultable dans la liste des dossiers de raccordement du projet    
+        Quand le porteur modifie la date de qualification d'un dossier de raccordement
+        Alors l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
+        Et le dossier est consultable dans la liste des dossiers de raccordement du projet  
 
-    # Scénario: Un porteur de projet modifie une demande complète de raccordement avec la même référence du dossier de raccordement mais un accusé de réception ayant un format différent
+    # SCENARIO-02 - Erreur lors de l'enregistrement du nouveau fichier (timeout)
+    Scénario: Un porteur de projet modifie une demande complète de raccordement
+        Etant donné un dossier de raccordement
+        Quand le porteur modifie une demande complète de raccordement
+        Alors l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
+        Et le dossier est consultable dans la liste des dossiers de raccordement du projet
+
+    # SCENARIO-03 
+    Scénario: Un porteur de projet modifie une demande complète de raccordement ayant une proposition technique et financière
+        Etant donné un dossier de raccordement ayant une proposition technique et financière
+        Quand le porteur modifie une demande complète de raccordement
+        Alors l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
+        Et le dossier est consultable dans la liste des dossiers de raccordement du projet
+        Et la proposition technique et financière devrait être consultable dans le dossier de raccordement         
+
+    # SCENARIO-04 -> Si besoin, faire dans la partie adapter (infra) avec un test d'intégration
+    # Scénario: Un porteur de projet modifie une demande complète de raccordement avec une référence différente du dossier de raccordement et un accusé de réception identique
     #     Etant donné un dossier de raccordement
-    #     Quand le porteur modifie une demande complète de raccordement avec un accusé de réception ayant un format différent de celui existant
-    #     Alors l'ancien accusé de réception de la demande complète de raccordement devrait être supprimé
-    #     Et le nouveau accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
-    #     Et le dossier est consultable dans la liste des dossiers de raccordement du projet          
+    #     Quand le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception identique
+    #     Alors l'accusé de réception devrait être mis à jour avec le nouveau chemin d'accès
+    #     Et le dossier est consultable dans la liste des dossiers de raccordement du projet     
+  
+
+    # SCENARIO-05 ->  Si besoin, faire dans la partie adapter (infra) avec un test d'intégration
+    # Scénario: Un porteur de projet modifie une demande complète de raccordement avec la même référence du dossier de raccordement mais un accusé de réception différent
+    #     Etant donné un dossier de raccordement
+    #     Quand le porteur modifie une demande complète de raccordement avec la même référence mais un accusé de réception différent
+    #     Alors l'accusé de réception devrait être mis à jour 
+    #     Et le dossier est consultable dans la liste des dossiers de raccordement du projet    
         
-    # SCENARIO-05
+    # SCENARIO-06
     Scénario: Impossible de modifier la date de qualification pour un dossier de raccordement non connu
         Quand un administrateur modifie la date de qualification pour un dossier de raccordement non connu
-        Alors un administrateur devrait être informé que "Le dossier de raccordement n'est pas référencé" 
-
-    # @selection
-    # Scénario: Un porteur de projet modifie une demande complète de raccordement sans modifier la réference du dossier
-    #     Etant donné un dossier de raccordement
-    #     Quand le porteur modifie la date de qualification d'un dossier de raccordement 
-    #     Alors l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
-    #     Et le dossier est consultable dans la liste des dossiers de raccordement du projet       
+        Alors un administrateur devrait être informé que "Le dossier de raccordement n'est pas référencé"       
