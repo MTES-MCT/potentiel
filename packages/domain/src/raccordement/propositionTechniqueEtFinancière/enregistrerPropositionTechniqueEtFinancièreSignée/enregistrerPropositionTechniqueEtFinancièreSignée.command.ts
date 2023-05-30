@@ -1,12 +1,7 @@
 import { Readable } from 'stream';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { Publish, LoadAggregate } from '@potentiel/core-domain';
-import {
-  createRaccordementAggregateId,
-  loadRaccordementAggregateFactory,
-} from '../../raccordement.aggregate';
-import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
-import { isNone } from '@potentiel/monads';
+import { Publish } from '@potentiel/core-domain';
+import { createRaccordementAggregateId } from '../../raccordement.aggregate';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from './propositionTechniqueEtFinancièreSignéeTransmise.event';
 
@@ -43,31 +38,19 @@ export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   publish: Publish;
-  loadAggregate: LoadAggregate;
   enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
 };
 
 export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand = ({
   publish,
-  loadAggregate,
   enregistrerPropositionTechniqueEtFinancièreSignée,
 }: EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies) => {
-  const loadRaccordementAggregate = loadRaccordementAggregateFactory({
-    loadAggregate,
-  });
-
   const handler: MessageHandler<EnregistrerPropositionTechniqueEtFinancièreSignéeCommand> = async ({
     identifiantProjet,
     référenceDossierRaccordement,
     anciennePropositionTechniqueEtFinancière,
     nouvellePropositionTechniqueEtFinancière,
   }) => {
-    const raccordement = await loadRaccordementAggregate(identifiantProjet);
-
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
-      throw new DossierRaccordementNonRéférencéError();
-    }
-
     if (anciennePropositionTechniqueEtFinancière) {
       await enregistrerPropositionTechniqueEtFinancièreSignée({
         opération: 'modification',

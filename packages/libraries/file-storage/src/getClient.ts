@@ -13,7 +13,6 @@ export const getClient = () => {
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
       },
       s3ForcePathStyle: true,
-      logger: console,
     });
   }
 
