@@ -1,4 +1,7 @@
-import { buildTransmettreDemandeComplèteRaccordementUseCase } from '@potentiel/domain';
+import {
+  buildTransmettreDemandeComplèteRaccordementUseCase,
+  buildTransmettrePropositionTechniqueEtFinancièreUseCase,
+} from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { Readable } from 'stream';
 
@@ -112,13 +115,6 @@ export class RaccordementWorld {
         encoding: 'utf8',
       }),
     };
-    this.#propositionTechniqueEtFinancièreSignée = {
-      dateSignature: new Date(),
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un fichier PTF", {
-        encoding: 'utf8',
-      }),
-    };
   }
 
   async createDemandeComplèteRaccordement(codeEIC: string) {
@@ -138,5 +134,29 @@ export class RaccordementWorld {
     this.#référenceDossierRaccordement = référenceDossierRaccordement;
     this.#ancienneRéférenceDossierRaccordement = référenceDossierRaccordement;
     this.#dateQualification = dateQualification;
+  }
+
+  async createPropositionTechniqueEtFinancière() {
+    const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
+    const dateSignature = new Date();
+    const ptf = {
+      dateSignature: new Date(),
+      format: 'application/pdf',
+      content: Readable.from("Contenu d'un fichier PTF", {
+        encoding: 'utf8',
+      }),
+    };
+
+    await mediator.send(
+      buildTransmettrePropositionTechniqueEtFinancièreUseCase({
+        référenceDossierRaccordement,
+        nouvellePropositionTechniqueEtFinancière: ptf,
+        identifiantProjet: this.identifiantProjet,
+        dateSignature,
+      }),
+    );
+
+    this.#référenceDossierRaccordement = référenceDossierRaccordement;
+    this.propositionTechniqueEtFinancièreSignée = ptf;
   }
 }

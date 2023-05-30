@@ -3,7 +3,6 @@ import {
   DossierRaccordementReadModel,
   GestionnaireNonRéférencéError,
   PlusieursGestionnairesRéseauPourUnProjetError,
-  buildConsulterDemandeComplèteRaccordementUseCase,
   buildConsulterDossierRaccordementUseCase,
   buildConsulterProjetUseCase,
   buildListerDossiersRaccordementUseCase,
@@ -153,21 +152,6 @@ Alors(
     identifiantGestionnaire.should.be.deep.equal({
       codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
     });
-  },
-);
-
-Alors(
-  `l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement`,
-  async function (this: PotentielWorld) {
-    const accuséRéception = await mediator.send(
-      buildConsulterDemandeComplèteRaccordementUseCase({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-      }),
-    );
-
-    // TODO: improve assert
-    accuséRéception.should.be.ok;
   },
 );
 

@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "pretest": "tsc",
-    "test": "cucumber-js --tags @selection",
+    "test": "cucumber-js",
     "pretest:ci": "tsc",
     "test:ci": "mkdir test-results && cucumber-js --profile ci"
   },

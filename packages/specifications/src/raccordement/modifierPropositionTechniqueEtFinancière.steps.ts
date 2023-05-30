@@ -1,12 +1,9 @@
-import { When as Quand, Then as Alors } from '@cucumber/cucumber';
+import { When as Quand } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DossierRaccordementNonRéférencéError,
-  buildConsulterDossierRaccordementUseCase,
   buildModifierPropositiontechniqueEtFinancièreUseCase,
-  buildConsulterPropositionTechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
-import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import { Readable } from 'stream';
 
@@ -33,35 +30,6 @@ Quand(
       dateSignature,
       ...propositionTechniqueEtFinancièreSignée,
     };
-  },
-);
-
-Alors(
-  `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement`,
-  async function (this: PotentielWorld) {
-    const { propositionTechniqueEtFinancière } = await mediator.send(
-      buildConsulterDossierRaccordementUseCase({
-        référence: this.raccordementWorld.référenceDossierRaccordement,
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-      }),
-    );
-
-    expect(propositionTechniqueEtFinancière?.dateSignature).to.be.equal(
-      this.raccordementWorld.propositionTechniqueEtFinancièreSignée.dateSignature.toISOString(),
-    );
-    expect(propositionTechniqueEtFinancière?.format).to.be.equal(
-      this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
-    );
-
-    const propositionTechniqueEtFinancièreSignée = await mediator.send(
-      buildConsulterPropositionTechniqueEtFinancièreUseCase({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-      }),
-    );
-
-    // TODO improve assert
-    propositionTechniqueEtFinancièreSignée.should.be.ok;
   },
 );
 

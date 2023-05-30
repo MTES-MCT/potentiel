@@ -3,6 +3,8 @@ import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 import {
   buildConsulterDemandeComplèteRaccordementUseCase,
+  buildConsulterDossierRaccordementUseCase,
+  buildConsulterPropositionTechniqueEtFinancièreUseCase,
   buildListerDossiersRaccordementUseCase,
 } from '@potentiel/domain';
 import { expect } from 'chai';
@@ -13,6 +15,17 @@ EtantDonné(`un dossier de raccordement`, async function (this: PotentielWorld) 
     this.gestionnaireRéseauWorld.enedis.codeEIC,
   );
 });
+
+EtantDonné(
+  `un dossier de raccordement avec une proposition technique et financière`,
+  async function (this: PotentielWorld) {
+    await this.raccordementWorld.createDemandeComplèteRaccordement(
+      this.gestionnaireRéseauWorld.enedis.codeEIC,
+    );
+
+    await this.raccordementWorld.createPropositionTechniqueEtFinancière();
+  },
+);
 
 Alors(
   `l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement`,
@@ -40,5 +53,34 @@ Alors(
     );
 
     actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
+  },
+);
+
+Alors(
+  `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const { propositionTechniqueEtFinancière } = await mediator.send(
+      buildConsulterDossierRaccordementUseCase({
+        référence: this.raccordementWorld.référenceDossierRaccordement,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      }),
+    );
+
+    expect(propositionTechniqueEtFinancière?.dateSignature).to.be.equal(
+      this.raccordementWorld.propositionTechniqueEtFinancièreSignée.dateSignature.toISOString(),
+    );
+    expect(propositionTechniqueEtFinancière?.format).to.be.equal(
+      this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
+    );
+
+    const propositionTechniqueEtFinancièreSignée = await mediator.send(
+      buildConsulterPropositionTechniqueEtFinancièreUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      }),
+    );
+
+    // TODO improve assert
+    propositionTechniqueEtFinancièreSignée.should.be.ok;
   },
 );
