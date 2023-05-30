@@ -17,7 +17,7 @@ Quand(
         dateSignature: new Date(dateSignature),
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         identifiantProjet: this.raccordementWorld.identifiantProjet,
-        propositionTechniqueEtFinancière:
+        nouvellePropositionTechniqueEtFinancière:
           this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
       }),
     );
@@ -54,7 +54,7 @@ Quand(
           dateSignature: new Date(),
           référenceDossierRaccordement: 'dossier-inconnu',
           identifiantProjet: this.raccordementWorld.identifiantProjet,
-          propositionTechniqueEtFinancière:
+          nouvellePropositionTechniqueEtFinancière:
             this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
         }),
       );
@@ -75,7 +75,7 @@ Quand(
           dateSignature: new Date(),
           référenceDossierRaccordement: 'dossier-inconnu',
           identifiantProjet: this.raccordementWorld.identifiantProjet,
-          propositionTechniqueEtFinancière:
+          nouvellePropositionTechniqueEtFinancière:
             this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
         }),
       );

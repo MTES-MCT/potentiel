@@ -25,7 +25,7 @@ Quand(
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         dateSignature: new Date(dateSignature),
-        propositionTechniqueEtFinancière: propositionTechniqueEtFinancièreSignée,
+        nouvellePropositionTechniqueEtFinancière: propositionTechniqueEtFinancièreSignée,
       }),
     );
 
@@ -74,7 +74,7 @@ Quand(
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           dateSignature: new Date('2023-04-26'),
           référenceDossierRaccordement: 'dossier-inconnu',
-          propositionTechniqueEtFinancière:
+          nouvellePropositionTechniqueEtFinancière:
             this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
         }),
       );

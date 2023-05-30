@@ -128,7 +128,7 @@ export class RaccordementWorld {
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementUseCase({
         référenceDossierRaccordement,
-        accuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
+        nouvelAccuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
         identifiantGestionnaireRéseau: { codeEIC },
         identifiantProjet: this.identifiantProjet,
         dateQualification,

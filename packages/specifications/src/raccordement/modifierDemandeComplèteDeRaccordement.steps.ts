@@ -23,9 +23,9 @@ Quand(
       buildModifierDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: new Date(dateQualification),
-        ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
-        nouvelleRéférence: this.raccordementWorld.référenceDossierRaccordement,
-        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        ancienneRéférenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );
 
@@ -36,6 +36,10 @@ Quand(
 Alors(
   `l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement`,
   async function (this: PotentielWorld) {
+    console.log(
+      this.raccordementWorld.identifiantProjet,
+      this.raccordementWorld.référenceDossierRaccordement,
+    );
     const demandeComplèteRaccordement = await mediator.send(
       buildConsulterDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
@@ -63,18 +67,19 @@ Alors(
 Quand(
   `le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception identique`,
   async function (this: PotentielWorld) {
-    const nouvelleRéférence = 'UNE-NOUVELLE-REFERENCE-DCR';
+    const nouvelleRéférenceDossierRaccordement = 'UNE-NOUVELLE-REFERENCE-DCR';
     await mediator.send(
       buildModifierDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: this.raccordementWorld.dateQualification,
-        ancienneRéférence: this.raccordementWorld.ancienneRéférenceDossierRaccordement,
-        nouvelleRéférence,
-        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        ancienneRéférenceDossierRaccordement:
+          this.raccordementWorld.ancienneRéférenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement,
+        nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );
 
-    this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférence;
+    this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférenceDossierRaccordement;
   },
 );
 
@@ -97,8 +102,8 @@ Alors(
 Quand(
   `le porteur modifie une demande complète de raccordement avec une référence du dossier de raccordement différente et un accusé de réception différent`,
   async function (this: PotentielWorld) {
-    const nouvelleRéférence = 'UNE-NOUVELLE-REFERENCE-DCR';
-    const accuséRéception = {
+    const nouvelleRéférenceDossierRaccordement = 'UNE-NOUVELLE-REFERENCE-DCR';
+    const nouvelAccuséRéception = {
       format: 'application/pdf',
       content: Readable.from("Nouveau contenu d'un fichier DCR", {
         encoding: 'utf8',
@@ -109,16 +114,17 @@ Quand(
       buildModifierDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: this.raccordementWorld.dateQualification,
-        ancienneRéférence: this.raccordementWorld.ancienneRéférenceDossierRaccordement,
-        nouvelleRéférence,
-        accuséRéception,
+        ancienneRéférenceDossierRaccordement:
+          this.raccordementWorld.ancienneRéférenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement,
+        nouvelAccuséRéception,
       }),
     );
 
     this.raccordementWorld.ancienneRéférenceDossierRaccordement =
       this.raccordementWorld.référenceDossierRaccordement;
-    this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférence;
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = accuséRéception;
+    this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférenceDossierRaccordement;
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = nouvelAccuséRéception;
   },
 );
 
@@ -139,7 +145,7 @@ Alors(`l'ancien accusé de réception devrait être supprimé`, async function (
 Quand(
   `le porteur modifie une demande complète de raccordement avec la même référence mais un accusé de réception différent`,
   async function (this: PotentielWorld) {
-    const accuséRéception = {
+    const nouvelAccuséRéception = {
       format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
       content: Readable.from('Un nouveau contenu', {
         encoding: 'utf-8',
@@ -150,13 +156,13 @@ Quand(
       buildModifierDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         dateQualification: this.raccordementWorld.dateQualification,
-        ancienneRéférence: this.raccordementWorld.référenceDossierRaccordement,
-        nouvelleRéférence: this.raccordementWorld.référenceDossierRaccordement,
-        accuséRéception,
+        ancienneRéférenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        nouvelAccuséRéception,
       }),
     );
 
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = accuséRéception;
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = nouvelAccuséRéception;
   },
 );
 
@@ -227,9 +233,9 @@ Quand(
         buildModifierDemandeComplèteRaccordementUseCase({
           identifiantProjet: this.raccordementWorld.identifiantProjet,
           dateQualification: new Date('2023-04-26'),
-          ancienneRéférence: 'dossier-inconnu',
-          nouvelleRéférence: 'nouvelle-reference',
-          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+          ancienneRéférenceDossierRaccordement: 'dossier-inconnu',
+          nouvelleRéférenceDossierRaccordement: 'nouvelle-reference',
+          nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
         }),
       );
     } catch (error) {

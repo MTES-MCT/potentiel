@@ -28,7 +28,7 @@ EtantDonné(
         },
         dateQualification,
         référenceDossierRaccordement,
-        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );
   },
@@ -50,7 +50,7 @@ Quand(
         },
         dateQualification: this.raccordementWorld.dateQualification,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-        accuséRéception: {
+        nouvelAccuséRéception: {
           format: 'application/pdf',
           content: Readable.from("Contenu d'un autre fichier", {
             encoding: 'utf8',
@@ -77,7 +77,7 @@ Quand(
         },
         dateQualification: this.raccordementWorld.dateQualification,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );
   },
@@ -95,7 +95,7 @@ Quand(
           },
           dateQualification: new Date(),
           référenceDossierRaccordement: 'une référence',
-          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+          nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
         }),
       );
     } catch (e) {
@@ -182,7 +182,7 @@ EtantDonné(
         },
         dateQualification: new Date('2022-12-31'),
         référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
-        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );
   },
@@ -206,7 +206,7 @@ Quand(
           },
           dateQualification: new Date('2022-11-24'),
           référenceDossierRaccordement: 'Enieme-DCR',
-          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+          nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
         }),
       );
     } catch (error) {
