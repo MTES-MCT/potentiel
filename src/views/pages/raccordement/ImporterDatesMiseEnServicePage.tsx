@@ -10,7 +10,6 @@ import {
   ImportIcon,
   ErrorBox,
   SuccessBox,
-  Link,
   Dialog,
   Spinner,
 } from '@components';
@@ -27,10 +26,6 @@ type Échec = {
   référenceDossier: string;
   statut: 'échec';
   raison: string;
-  projets: ReadonlyArray<{
-    id: string;
-    nom: string;
-  }>;
 };
 type Résultat = Réussi | Échec;
 
@@ -154,22 +149,13 @@ export const ImporterDatesMiseEnService = ({
           <ErrorBox
             className="mt-4"
             title={`${importsÉchoués.length} import${
-              importsÉchoués.length === 1 ? `n'a` : `s n'ont`
+              importsÉchoués.length === 1 ? ` n'a` : `s n'ont`
             } pas abouti`}
           >
             <ul>
-              {importsÉchoués.map(({ raison, référenceDossier, projets }) => (
+              {importsÉchoués.map(({ raison, référenceDossier }) => (
                 <li key={`import-échoué-${référenceDossier}`}>
                   {raison} [<span className="font-bold">{référenceDossier}</span>]
-                  {projets.length > 0 && (
-                    <ul>
-                      {projets.map(({ id, nom }) => (
-                        <li key={`projets-en-doublon-${id}`}>
-                          <Link href={routes.PROJECT_DETAILS(id)}>{nom}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                 </li>
               ))}
             </ul>

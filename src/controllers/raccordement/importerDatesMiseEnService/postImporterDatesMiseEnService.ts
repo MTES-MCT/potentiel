@@ -9,10 +9,7 @@ import fs from 'fs';
 import { parse } from 'csv-parse';
 import iconv from 'iconv-lite';
 import { setApiResult } from '../../helpers/apiResult';
-import {
-  PlusieursDossiersCorrespondantsError,
-  buildTransmettreDateMiseEnServiceUseCase,
-} from '@potentiel/domain';
+import { buildTransmettreDateMiseEnServiceUseCase } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServiceApiResult';
 
@@ -98,8 +95,6 @@ v1Router.post(
             statut: 'échec',
             référenceDossier,
             raison: error.message,
-            identifiantsProjet:
-              error instanceof PlusieursDossiersCorrespondantsError ? error.identifiantsProjet : [], //dossiers.map((d) => d.identifiantProjet),
           });
         }
       }

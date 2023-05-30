@@ -1,5 +1,3 @@
-import { IdentifiantProjet } from '../projet/identifiantProjet';
-
 export class DossierRaccordementNonRéférencéError extends Error {
   constructor() {
     super(`Le dossier de raccordement n'est pas référencé`);
@@ -23,11 +21,5 @@ export class FormatFichierInexistantError extends Error {
 export class AucunDossierCorrespondantError extends Error {
   constructor() {
     super(`Aucun dossier ne correspond à la référence`);
-  }
-}
-
-export class PlusieursDossiersCorrespondantsError extends Error {
-  constructor(public identifiantsProjet: ReadonlyArray<IdentifiantProjet>) {
-    super(`Plusieurs dossiers correspondent à la référence`);
   }
 }
