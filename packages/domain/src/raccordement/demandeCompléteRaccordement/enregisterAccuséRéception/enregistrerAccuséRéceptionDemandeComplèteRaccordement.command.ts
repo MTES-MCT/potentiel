@@ -1,71 +1,85 @@
 import { Readable } from 'stream';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { Publish, LoadAggregate } from '@potentiel/core-domain';
+import { Publish } from '@potentiel/core-domain';
 import {
   createRaccordementAggregateId,
-  loadRaccordementAggregateFactory,
 } from '../../raccordement.aggregate';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './accuséRéceptionDemandeComplèteRaccordementTransmis.event';
-import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
-import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
-    référenceDossierRaccordement: string;
-    accuséRéception: { format: string; content: Readable };
+    nouvelleRéférenceDossierRaccordement: string;
+    nouvelAccuséRéception: { format: string; content: Readable };
+    ancienneRéférenceDossierRaccordement?: string;
+    ancienAccuséRéception?: { format: string; content: Readable };
   }
 >;
 
-export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
-  identifiantProjet: string;
-  référenceDossierRaccordement: string;
-  format: string;
-  content: Readable;
-}) => Promise<void>;
+export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort = (
+  args:
+    | {
+        operation: 'creation';
+        identifiantProjet: string;
+        référenceDossierRaccordement: string;
+        accuséRéception: {
+          format: string;
+          content: Readable;
+        };
+      }
+    | {
+        operation: 'modification';
+        ancienneRéférenceDossierRaccordement: string;
+        nouvelleRéférenceDossierRaccordement: string;
+        ancienAccuséRéception: { format: string; content: Readable };
+        nouvelAccuséRéception: { format: string; content: Readable };
+      },
+) => Promise<void>;
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   publish: Publish;
-  loadAggregate: LoadAggregate;
   enregistrerAccuséRéceptionDemandeComplèteRaccordement: EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort;
 };
 
 export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = ({
   publish,
-  loadAggregate,
   enregistrerAccuséRéceptionDemandeComplèteRaccordement,
 }: EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies) => {
-  const loadRaccordementAggregate = loadRaccordementAggregateFactory({
-    loadAggregate,
-  });
-
   const handler: MessageHandler<
     EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand
   > = async ({
     identifiantProjet,
-    référenceDossierRaccordement,
-    accuséRéception: { format, content },
+    ancienneRéférenceDossierRaccordement,
+    nouvelleRéférenceDossierRaccordement,
+    ancienAccuséRéception,
+    nouvelAccuséRéception,
   }) => {
-    const raccordement = await loadRaccordementAggregate(identifiantProjet);
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
-      throw new DossierRaccordementNonRéférencéError();
+    if (ancienAccuséRéception && ancienneRéférenceDossierRaccordement) {
+      await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
+        operation: 'modification',
+        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        ancienneRéférenceDossierRaccordement,
+        ancienAccuséRéception,
+        nouvelAccuséRéception,
+        nouvelleRéférenceDossierRaccordement,
+      });
+    } else {
+      await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
+        operation: 'creation',
+        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        référenceDossierRaccordement,
+        accuséRéception: nouvelAccuséRéception,
+      });
     }
-
-    await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
-      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      content,
-      format,
-      référenceDossierRaccordement,
-    });
 
     const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
       type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référenceDossierRaccordement,
-        format,
+        référenceDossierRaccordement: nouvelleRéférenceDossierRaccordement,
+        format: nouvelAccuséRéception.format,
       },
     };
 
