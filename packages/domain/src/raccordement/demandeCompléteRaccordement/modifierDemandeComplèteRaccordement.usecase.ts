@@ -44,21 +44,21 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     );
 
     await mediator.send(
+      buildModifierDemandeComplèteRaccordementCommand({
+        identifiantProjet,
+        dateQualification,
+        ancienneRéférenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement,
+      }),
+    );
+
+    await mediator.send(
       buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
         identifiantProjet,
         ancienneRéférenceDossierRaccordement,
         nouvelleRéférenceDossierRaccordement,
         ancienAccuséRéception,
         nouvelAccuséRéception,
-      }),
-    );
-
-    await mediator.send(
-      buildModifierDemandeComplèteRaccordementCommand({
-        identifiantProjet,
-        dateQualification,
-        ancienneRéférenceDossierRaccordement,
-        nouvelleRéférenceDossierRaccordement,
       }),
     );
   };

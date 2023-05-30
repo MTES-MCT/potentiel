@@ -62,8 +62,6 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
         téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée:
         téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
-      supprimerPropositionTechniqueEtFinancièreSignée:
-        supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
     }),
   );
 

@@ -6,7 +6,6 @@ import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consu
 import {
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
   RécupérerPropositionTechniqueEtFinancièreSignéePort,
-  SupprimerPropositionTechniqueEtFinancièreSignéePort,
 } from '../../../raccordement.ports';
 
 export type DemandeComplèteRaccordementeModifiéeDependencies = {
@@ -16,7 +15,6 @@ export type DemandeComplèteRaccordementeModifiéeDependencies = {
   update: Update;
   récupérerPropositionTechniqueEtFinancièreSignée: RécupérerPropositionTechniqueEtFinancièreSignéePort;
   enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
-  supprimerPropositionTechniqueEtFinancièreSignée: SupprimerPropositionTechniqueEtFinancièreSignéePort;
 };
 
 /**
@@ -34,7 +32,6 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
     récupérerPropositionTechniqueEtFinancièreSignée:
       récupérerFichierPropositionTechniqueEtFinancière,
     enregistrerPropositionTechniqueEtFinancièreSignée,
-    supprimerPropositionTechniqueEtFinancièreSignée,
   }) =>
   async (event) => {
     const dossierRaccordement = await find<DossierRaccordementReadModel>(
@@ -95,17 +92,18 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
 
         // Créer PTF avec nouvelleRéf
         enregistrerPropositionTechniqueEtFinancièreSignée({
+          opération: 'modification',
           identifiantProjet: event.payload.identifiantProjet,
-          format: dossierRaccordement.propositionTechniqueEtFinancière.format,
-          référenceDossierRaccordement: event.payload.nouvelleReference,
-          content,
-        });
-
-        // Supprimer PTF avec réf actuelle
-        supprimerPropositionTechniqueEtFinancièreSignée({
-          identifiantProjet: event.payload.identifiantProjet,
-          format: dossierRaccordement.propositionTechniqueEtFinancière.format,
-          référenceDossierRaccordement: event.payload.referenceActuelle,
+          ancienFichier: {
+            format: dossierRaccordement.propositionTechniqueEtFinancière.format,
+            content,
+          },
+          nouveauFichier: {
+            format: dossierRaccordement.propositionTechniqueEtFinancière.format,
+            content,
+          },
+          ancienneRéférenceDossierRaccordement: event.payload.referenceActuelle,
+          nouvelleRéférenceDossierRaccordement: event.payload.nouvelleReference,
         });
       }
     }

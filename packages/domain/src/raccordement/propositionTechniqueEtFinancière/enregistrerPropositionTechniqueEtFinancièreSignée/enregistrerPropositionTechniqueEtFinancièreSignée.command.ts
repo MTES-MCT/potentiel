@@ -15,16 +15,31 @@ export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
-    propositionTechniqueEtFinancière: { format: string; content: Readable };
+    anciennePropositionTechniqueEtFinancière?: { format: string; content: Readable };
+    nouvellePropositionTechniqueEtFinancière: { format: string; content: Readable };
   }
 >;
 
-export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (args: {
-  identifiantProjet: string;
-  référenceDossierRaccordement: string;
-  format: string;
-  content: Readable;
-}) => Promise<void>;
+export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (
+  args:
+    | {
+        opération: 'création';
+        identifiantProjet: string;
+        référenceDossierRaccordement: string;
+        nouveauFichier: {
+          format: string;
+          content: Readable;
+        };
+      }
+    | {
+        opération: 'modification';
+        identifiantProjet: string;
+        ancienneRéférenceDossierRaccordement: string;
+        nouvelleRéférenceDossierRaccordement: string;
+        ancienFichier: { format: string; content: Readable };
+        nouveauFichier: { format: string; content: Readable };
+      },
+) => Promise<void>;
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   publish: Publish;
@@ -44,7 +59,8 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
   const handler: MessageHandler<EnregistrerPropositionTechniqueEtFinancièreSignéeCommand> = async ({
     identifiantProjet,
     référenceDossierRaccordement,
-    propositionTechniqueEtFinancière: { format, content },
+    anciennePropositionTechniqueEtFinancière,
+    nouvellePropositionTechniqueEtFinancière,
   }) => {
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
@@ -52,19 +68,30 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    await enregistrerPropositionTechniqueEtFinancièreSignée({
-      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      content,
-      format,
-      référenceDossierRaccordement,
-    });
+    if (anciennePropositionTechniqueEtFinancière) {
+      await enregistrerPropositionTechniqueEtFinancièreSignée({
+        opération: 'modification',
+        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        ancienFichier: anciennePropositionTechniqueEtFinancière,
+        nouveauFichier: nouvellePropositionTechniqueEtFinancière,
+        ancienneRéférenceDossierRaccordement: référenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement: référenceDossierRaccordement,
+      });
+    } else {
+      await enregistrerPropositionTechniqueEtFinancièreSignée({
+        opération: 'création',
+        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        nouveauFichier: nouvellePropositionTechniqueEtFinancière,
+        référenceDossierRaccordement,
+      });
+    }
 
     const fichierPropositionTechniqueEtFinancièreTransmisEvent: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
       {
         type: 'PropositionTechniqueEtFinancièreSignéeTransmise',
         payload: {
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-          format,
+          format: nouvellePropositionTechniqueEtFinancière.format,
           référenceDossierRaccordement,
         },
       };

@@ -27,8 +27,6 @@ import {
   supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
   téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
-  renommerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-  mettreAJourAccuséRéceptionDemandeComplèteRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 
 should();
@@ -86,12 +84,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
         téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
       supprimerAccuséRéceptionDemandeComplèteRaccordement:
         supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-      renommerAccuséRéceptionDemandeComplèteRaccordement:
-        renommerAccuséRéceptionDemandeComplèteRaccordementAdapter,
       supprimerPropositionTechniqueEtFinancièreSignée:
         supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
-      mettreAJourAccuséRéceptionDemandeComplèteRaccordement:
-        mettreAJourAccuséRéceptionDemandeComplèteRaccordementAdapter,
     },
     subscribe,
   });

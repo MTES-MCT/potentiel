@@ -1,9 +1,14 @@
 import { Readable } from 'stream';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { Publish } from '@potentiel/core-domain';
-import { createRaccordementAggregateId } from '../../raccordement.aggregate';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
+import {
+  createRaccordementAggregateId,
+  loadRaccordementAggregateFactory,
+} from '../../raccordement.aggregate';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import { isNone } from '@potentiel/monads';
+import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -39,13 +44,19 @@ export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort = (
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   publish: Publish;
+  loadAggregate: LoadAggregate;
   enregistrerAccuséRéceptionDemandeComplèteRaccordement: EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort;
 };
 
 export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = ({
   publish,
+  loadAggregate,
   enregistrerAccuséRéceptionDemandeComplèteRaccordement,
 }: EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies) => {
+  const loadRaccordementAggregate = loadRaccordementAggregateFactory({
+    loadAggregate,
+  });
+
   const handler: MessageHandler<
     EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand
   > = async ({
@@ -56,6 +67,14 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
     nouvelAccuséRéception,
   }) => {
     if (ancienAccuséRéception && ancienneRéférenceDossierRaccordement) {
+      const raccordement = await loadRaccordementAggregate(identifiantProjet);
+
+      if (
+        isNone(raccordement) ||
+        !raccordement.références.includes(ancienneRéférenceDossierRaccordement)
+      ) {
+        throw new DossierRaccordementNonRéférencéError();
+      }
       await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
         opération: 'modification',
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
