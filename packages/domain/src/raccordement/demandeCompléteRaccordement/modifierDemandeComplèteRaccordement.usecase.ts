@@ -24,17 +24,20 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<ModifierDemandeComplèteRaccordementUseCase> = async ({
     identifiantProjet,
     dateQualification,
-    ancienneRéférence,
-    nouvelleRéférence,
+    ancienneRéférenceDossierRaccordement,
+    nouvelleRéférenceDossierRaccordement,
     nouvelAccuséRéception,
   }) => {
     const dossierRaccordement = await mediator.send(
-      buildConsulterDossierRaccordementQuery({ identifiantProjet, référence: ancienneRéférence }),
+      buildConsulterDossierRaccordementQuery({
+        identifiantProjet,
+        référence: ancienneRéférenceDossierRaccordement,
+      }),
     );
 
     const ancienAccuséRéception = await mediator.send(
       buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
-        référenceDossierRaccordement: ancienneRéférence,
+        référenceDossierRaccordement: ancienneRéférenceDossierRaccordement,
         identifiantProjet,
         format: dossierRaccordement.accuséRéception?.format || '',
       }),
@@ -43,8 +46,8 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     await mediator.send(
       buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
         identifiantProjet,
-        ancienneRéférence,
-        nouvelleRéférence,
+        ancienneRéférenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement,
         ancienAccuséRéception,
         nouvelAccuséRéception,
       }),
@@ -54,8 +57,8 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       buildModifierDemandeComplèteRaccordementCommand({
         identifiantProjet,
         dateQualification,
-        ancienneRéférence,
-        nouvelleRéférence,
+        ancienneRéférenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement,
       }),
     );
   };

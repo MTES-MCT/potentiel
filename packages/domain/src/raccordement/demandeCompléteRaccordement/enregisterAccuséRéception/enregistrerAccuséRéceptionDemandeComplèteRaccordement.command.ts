@@ -1,9 +1,7 @@
 import { Readable } from 'stream';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish } from '@potentiel/core-domain';
-import {
-  createRaccordementAggregateId,
-} from '../../raccordement.aggregate';
+import { createRaccordementAggregateId } from '../../raccordement.aggregate';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 
@@ -21,20 +19,21 @@ export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Me
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort = (
   args:
     | {
-        operation: 'creation';
+        opération: 'création';
         identifiantProjet: string;
         référenceDossierRaccordement: string;
-        accuséRéception: {
+        nouveauFichier: {
           format: string;
           content: Readable;
         };
       }
     | {
-        operation: 'modification';
+        opération: 'modification';
+        identifiantProjet: string;
         ancienneRéférenceDossierRaccordement: string;
         nouvelleRéférenceDossierRaccordement: string;
-        ancienAccuséRéception: { format: string; content: Readable };
-        nouvelAccuséRéception: { format: string; content: Readable };
+        ancienFichier: { format: string; content: Readable };
+        nouveauFichier: { format: string; content: Readable };
       },
 ) => Promise<void>;
 
@@ -58,19 +57,19 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
   }) => {
     if (ancienAccuséRéception && ancienneRéférenceDossierRaccordement) {
       await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
-        operation: 'modification',
+        opération: 'modification',
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         ancienneRéférenceDossierRaccordement,
-        ancienAccuséRéception,
-        nouvelAccuséRéception,
+        ancienFichier: ancienAccuséRéception,
+        nouveauFichier: nouvelAccuséRéception,
         nouvelleRéférenceDossierRaccordement,
       });
     } else {
       await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
-        operation: 'creation',
+        opération: 'création',
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référenceDossierRaccordement,
-        accuséRéception: nouvelAccuséRéception,
+        référenceDossierRaccordement: nouvelleRéférenceDossierRaccordement,
+        nouveauFichier: nouvelAccuséRéception,
       });
     }
 
