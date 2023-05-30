@@ -48,6 +48,8 @@ Alors(
       this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content,
     );
 
+    console.log('test', fichiersIdentique);
+
     expect(demandeComplèteRaccordement.format).to.be.equal(
       this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
     );

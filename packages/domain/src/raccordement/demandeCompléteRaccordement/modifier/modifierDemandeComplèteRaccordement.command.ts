@@ -40,6 +40,8 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
+    console.log('agrégat raccordement', raccordement);
+
     if (isNone(raccordement) || !raccordement.références.includes(ancienneRéférence)) {
       throw new DossierRaccordementNonRéférencéError();
     }
