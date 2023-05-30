@@ -7,7 +7,7 @@ import {
   Input,
   Label,
   Link,
-  LegacyPageTemplate,
+  PageTemplate,
   Form,
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
@@ -26,7 +26,11 @@ export const AjouterGestionnaireRéseau = ({
   erreur,
   erreurValidation,
 }: AjouterGestionnaireRéseauProps) => (
-  <LegacyPageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
+  <PageTemplate
+    user={utilisateur}
+    currentPage={'liste-gestionnaires-réseau'}
+    contentHeader={<div className="text-3xl">Outils</div>}
+  >
     <Heading1>Ajouter un gestionnaire de réseau</Heading1>
     {erreur && <ErrorBox title={erreur} />}
     <Form method="post" action={routes.POST_AJOUTER_GESTIONNAIRE_RESEAU} className="mx-auto">
@@ -61,7 +65,7 @@ export const AjouterGestionnaireRéseau = ({
         <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </div>
     </Form>
-  </LegacyPageTemplate>
+  </PageTemplate>
 );
 
 hydrateOnClient(AjouterGestionnaireRéseau);

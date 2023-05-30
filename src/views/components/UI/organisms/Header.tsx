@@ -13,6 +13,7 @@ import {
   CloseIcon,
   Checkbox,
   Label,
+  Container,
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -68,30 +69,29 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   return (
     <>
       <header
+        className="py-2 lg:py-0 text-lg"
         style={{
           fontFamily: 'Marianne, arial, sans-serif',
           boxShadow: '0 8px 8px 0 rgb(0 0 0 / 10%)',
         }}
       >
-        <div className="p-2 lg:p-0 text-lg">
-          {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
-          <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
-            <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
-              <LogoAndTitle />
-              <div className={`flex flex-row ml-auto ${children && 'mr-4'}`}>
-                <QuickAccess {...{ user }} />
-              </div>
-            </section>
-          </div>
-
-          {children && (
-            <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 lg:mt-5">
-              <section className="flex flex-col xl:mx-auto xl:max-w-7xl">
-                <MainMenu>{children}</MainMenu>
-              </section>
+        {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
+        <Container>
+          <section className="flex flex-row pb-1 lg:py-4 items-center">
+            <LogoAndTitle />
+            <div className={`flex flex-row ml-auto ${children && 'mr-6'}`}>
+              <QuickAccess {...{ user }} />
             </div>
-          )}
-        </div>
+          </section>
+        </Container>
+
+        {children && (
+          <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 lg:mt-5">
+            <Container>
+              <MainMenu>{children}</MainMenu>
+            </Container>
+          </div>
+        )}
       </header>
     </>
   );
@@ -198,7 +198,7 @@ const MainMenu = ({ children }: MainMenuProps) => (
       id="menu-principal"
       className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0"
     >
-      <ul className="flex flex-col list-none px-2 lg:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
+      <ul className="flex flex-col list-none px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
         {children}
       </ul>
     </nav>
@@ -212,7 +212,7 @@ type MenuItemProps = {
 };
 const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
   <li
-    className={`flex items-center py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
+    className={`flex items-center py-2 lg:p-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 hover:bg-grey-1000-hover ${
       isCurrent && 'font-medium lg:border-l-0 lg:border-b-2 lg:border-b-blue-france-sun-base'
     }`}
   >
@@ -234,19 +234,21 @@ Header.MenuItem = MenuItem;
 type MenuAccèsRapidesProps = { menuDisponible: boolean };
 const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
   <nav role="navigation" aria-label="Accès rapide" className="bg-grey-950-base">
-    <ul className="flex row list-none justify-start px-0 py-4 gap-4 xl:mx-auto xl:max-w-7xl my-0">
-      <li>
-        <Link href="#contenu">Accéder au contenu</Link>
-      </li>
-      {menuDisponible && (
+    <Container>
+      <ul className="flex row list-none justify-start px-0 py-4 gap-4 my-0">
         <li>
-          <Link href="#menu-principal">Accéder au menu</Link>
+          <Link href="#contenu">Accéder au contenu</Link>
         </li>
-      )}
-      <li>
-        <Link href="#pied-de-page">Accéder au pied de page</Link>
-      </li>
-    </ul>
+        {menuDisponible && (
+          <li>
+            <Link href="#menu-principal">Accéder au menu</Link>
+          </li>
+        )}
+        <li>
+          <Link href="#pied-de-page">Accéder au pied de page</Link>
+        </li>
+      </ul>
+    </Container>
   </nav>
 );
 
