@@ -38,22 +38,27 @@ Quand(
   async function (this: PotentielWorld) {
     const nouvelledateSignature = new Date('2023-04-01');
 
-    const fichierPTFActuel = {
-      format: this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
-      content: this.raccordementWorld.propositionTechniqueEtFinancièreSignée.content,
-    };
     await mediator.send(
       buildModifierPropositiontechniqueEtFinancièreUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         dateSignature: new Date(nouvelledateSignature),
-        nouvellePropositionTechniqueEtFinancière: fichierPTFActuel,
+        nouvellePropositionTechniqueEtFinancière: {
+          format: 'application/pdf',
+          content: Readable.from("Contenu d'un fichier PTF", {
+            encoding: 'utf8',
+          }),
+        },
       }),
     );
 
     this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+      ...this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
       dateSignature: nouvelledateSignature,
-      ...fichierPTFActuel,
+      format: 'application/pdf',
+      content: Readable.from("Contenu d'un fichier PTF", {
+        encoding: 'utf8',
+      }),
     };
   },
 );

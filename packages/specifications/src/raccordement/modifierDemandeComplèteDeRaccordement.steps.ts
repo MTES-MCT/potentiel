@@ -22,7 +22,12 @@ Quand(
         dateQualification: new Date(dateQualification),
         ancienneRéférenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         nouvelleRéférenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-        nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        nouvelAccuséRéception: {
+          format: 'application/pdf',
+          content: Readable.from("Contenu d'un fichier DCR", {
+            encoding: 'utf8',
+          }),
+        },
       }),
     );
 

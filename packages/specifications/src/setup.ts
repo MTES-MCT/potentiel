@@ -41,7 +41,7 @@ let unsetupDomain: UnsetupDomain | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
-  await sleep(500);
+  await sleep(1000);
 });
 
 BeforeAll(async () => {
