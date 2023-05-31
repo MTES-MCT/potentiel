@@ -16,7 +16,7 @@ Quand(
   `le porteur modifie la date de qualification d'un dossier de raccordement`,
   async function (this: PotentielWorld) {
     const dateQualification = new Date('2021-01-01');
-
+    console.log('coucou 2');
     await mediator.send(
       buildModifierDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,

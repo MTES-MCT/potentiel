@@ -8,7 +8,7 @@
   "scripts": {
     "pretest": "tsc",
     "test": "cucumber-js",
-    "test:selection": "cucumber-js --tags @selection",
+    "test:selection": "npm run pretest && cucumber-js --tags @selection",
     "pretest:ci": "tsc",
     "test:ci": "mkdir test-results && cucumber-js --profile ci"
   },
