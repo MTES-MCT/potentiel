@@ -1,5 +1,4 @@
 import { ValidationError } from 'yup';
-import { CsvValidationError } from './errors';
 
 const getNuméroLigne = (path: string | undefined) => {
   const extractLigne = path?.replace(/\D/g, '');
@@ -10,13 +9,19 @@ const getNuméroLigne = (path: string | undefined) => {
   return Number(extractLigne) + 2;
 };
 
-export const mapYupValidationErrorToCsvValidationError = (error: ValidationError) => {
-  const validationErreurs = error.inner.reduce((acc, err) => {
+export type CsvError = {
+  numéroLigne?: number;
+  valeurInvalide?: string;
+  raison: string;
+};
+
+export const mapCsvYupValidationErrorToCsvErrors = (error: ValidationError): Array<CsvError> => {
+  return error.inner.reduce((csvErrors, err) => {
     const { path, params, errors } = err;
     const numéroLigne = getNuméroLigne(path);
 
     if (!errors?.length) {
-      return [...acc];
+      return csvErrors;
     }
 
     const valeurInvalide =
@@ -25,14 +30,12 @@ export const mapYupValidationErrorToCsvValidationError = (error: ValidationError
     const [raison] = errors;
 
     return [
-      ...acc,
+      ...csvErrors,
       {
-        ...(numéroLigne && { numéroLigne }),
-        ...(valeurInvalide && { valeurInvalide: valeurInvalide.toString() }),
-        raison,
+        numéroLigne,
+        valeurInvalide,
+        raison: raison,
       },
     ];
   }, []);
-
-  return new CsvValidationError(validationErreurs);
 };

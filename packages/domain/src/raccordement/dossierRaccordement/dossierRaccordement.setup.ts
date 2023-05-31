@@ -3,11 +3,13 @@ import { registerConsulterDossierRaccordementUseCase } from './consulterDossierR
 import { DossierRaccordementDependencies } from './dossierRaccordement.dependencies';
 import { registerListerDossiersRaccordementQuery } from './lister/listerDossierRaccordement.query';
 import { registerListerDossiersRaccordementUseCase } from './listerDossierRaccordement.usecase';
+import { registerRechercherDossierRaccordementQuery } from './rechercher/rechercherDossierRaccordement.query';
 
 export const setupDossierRaccordement = (dependencies: DossierRaccordementDependencies) => {
   // Queries
   registerConsulterDossierRaccordementQuery(dependencies);
   registerListerDossiersRaccordementQuery(dependencies);
+  registerRechercherDossierRaccordementQuery(dependencies);
 
   // Usecases
   registerConsulterDossierRaccordementUseCase();

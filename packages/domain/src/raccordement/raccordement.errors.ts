@@ -17,3 +17,9 @@ export class FormatFichierInexistantError extends Error {
     super(`Il est impossible de télécharger le fichier car son format est inexistant.`);
   }
 }
+
+export class AucunDossierCorrespondantError extends Error {
+  constructor() {
+    super(`Aucun dossier ne correspond à la référence`);
+  }
+}

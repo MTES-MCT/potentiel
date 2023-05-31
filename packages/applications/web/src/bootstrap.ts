@@ -5,6 +5,7 @@ import {
   findProjection,
   listProjection,
   removeProjection,
+  searchProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
 import {
@@ -26,6 +27,7 @@ export const bootstrap = async () => {
     query: {
       find: findProjection,
       list: listProjection,
+      search: searchProjection,
     },
     event: {
       create: createProjection,

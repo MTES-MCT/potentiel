@@ -1,15 +1,13 @@
 import { ValidationError } from 'yup';
-import { mapYupValidationErrorToCsvValidationError } from './mapYupValidationErrorToCsvValidationError';
+import { mapCsvYupValidationErrorToCsvErrors } from './mapCsvYupValidationErrorToCsvErrors';
 
-describe(`mapper une ValidationError yup vers une erreur de type CsvValidationError`, () => {
+describe(`récupérer les erreurs ligne par ligne depuis une ValidationError yup pour un fichier CSV`, () => {
   describe(`Cas d'une ValidationError ne contenant pas de sous erreurs (inner)`, () => {
     it(`Lorsqu'on mappe une ValidationError sans sous-erreurs
-        Alors on devrait récupérer une CsvValidationError sans détails d'erreurs ([])
+        Alors on ne devrait récupérer aucune erreur
     `, () => {
-      const csvValidationError1 = mapYupValidationErrorToCsvValidationError(
-        new ValidationError(''),
-      );
-      expect(csvValidationError1.détails).toHaveLength(0);
+      const actual1 = mapCsvYupValidationErrorToCsvErrors(new ValidationError(''));
+      expect(actual1).toEqual([]);
 
       const erreur = {
         value: 'erreurValue',
@@ -18,17 +16,15 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         message: 'message',
         inner: [],
       } as ValidationError;
-      const csvValidationError2 = mapYupValidationErrorToCsvValidationError(
-        new ValidationError(erreur),
-      );
+      const actual2 = mapCsvYupValidationErrorToCsvErrors(new ValidationError(erreur));
 
-      expect(csvValidationError2.détails).toHaveLength(0);
+      expect(actual2).toEqual([]);
     });
   });
 
   describe(`Cas d'une ValidationError contenant deux sous-erreurs dont l'une ne dispose pas de path`, () => {
     it(`Lorsqu'on mappe une ValidationError content deux sous-erreurs dont l'une ne dispose pas de path
-        Alors on devrait récupérer une CsvValidation contenant deux entrées dont l'une ne dispose pas de numéroLigne`, () => {
+        Alors on devrait récupérer deux erreurs dont l'une ne dispose pas de numéroLigne`, () => {
       const erreur = {
         inner: [
           {
@@ -47,9 +43,9 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         ],
       } as ValidationError;
 
-      const csvValidationErreur = mapYupValidationErrorToCsvValidationError(erreur);
+      const actual = mapCsvYupValidationErrorToCsvErrors(erreur);
 
-      expect(csvValidationErreur.détails).toStrictEqual([
+      expect(actual).toEqual([
         {
           numéroLigne: 2,
           valeurInvalide: 'originalValue1',
@@ -65,7 +61,7 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
 
   describe(`Cas d'une ValidationError contenant deux sous-erreurs dont l'une ne dispose pas de originalValue`, () => {
     it(`Lorsqu'on mappe une ValidationError contenant deux sous-erreurs dont l'une ne dispose pas de originalValue
-        Alors on devrait récupérer une CsvValidation contenant deux entrées dans validationErreurs dont une a une erreur qui précise que le champ est manquant`, () => {
+        Alors on devrait récupérer une deux erreurs dont une a une erreur qui précise que le champ est manquant`, () => {
       const erreur = {
         inner: [
           {
@@ -82,9 +78,9 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         ],
       } as ValidationError;
 
-      const csvValidationErreur = mapYupValidationErrorToCsvValidationError(erreur);
+      const actual = mapCsvYupValidationErrorToCsvErrors(erreur);
 
-      expect(csvValidationErreur.détails).toStrictEqual([
+      expect(actual).toEqual([
         {
           numéroLigne: 2,
           valeurInvalide: 'originalValue1',
@@ -99,8 +95,8 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
   });
 
   describe(`Cas d'une ValidationError contenant deux sous-erreurs dont l'une dispose d'une originalValue ayant un type autre que string`, () => {
-    it(`Lorsqu'on mappe une ValidationError content deux sous-erreurs  dont l'une dispose d'une originalValue ayant un type autre que string
-        Alors on devrait récupérer une CsvValidation contenant une seule entrée entrée dans validationErreurs`, () => {
+    it(`Lorsqu'on mappe une ValidationError content deux sous-erreurs dont l'une dispose d'une originalValue ayant un type autre que string
+        Alors on devrait récupérer une seule erreur`, () => {
       const erreur = {
         inner: [
           {
@@ -120,9 +116,9 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         ],
       } as ValidationError;
 
-      const csvValidationErreur = mapYupValidationErrorToCsvValidationError(erreur);
+      const actual = mapCsvYupValidationErrorToCsvErrors(erreur);
 
-      expect(csvValidationErreur.détails).toStrictEqual([
+      expect(actual).toEqual([
         {
           numéroLigne: 2,
           valeurInvalide: 'originalValue1',
@@ -138,7 +134,7 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
 
   describe(`Cas d'une ValidationError contenant deux sous-erreurs dont l'une ne dispose pas d'erreur retournée par yup`, () => {
     it(`Lorsqu'on mappe une ValidationError content deux sous-erreurs dont l'une ne dispose pas d'erreur retournée par yup
-        Alors on devrait récupérer une CsvValidation contenant une seule entrée dans validationErreurs`, () => {
+        Alors on devrait récupérer une seule erreur`, () => {
       const erreur = {
         inner: [
           {
@@ -154,9 +150,9 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         ],
       } as ValidationError;
 
-      const csvValidationErreur = mapYupValidationErrorToCsvValidationError(erreur);
+      const actual = mapCsvYupValidationErrorToCsvErrors(erreur);
 
-      expect(csvValidationErreur.détails).toStrictEqual([
+      expect(actual).toEqual([
         {
           numéroLigne: 2,
           valeurInvalide: 'originalValue1',
