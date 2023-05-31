@@ -16,7 +16,6 @@ Fonctionnalité: Modifier une demande complète de raccordement
         Et le dossier est consultable dans la liste des dossiers de raccordement du projet
 
     # SCENARIO-03 
-    @selection
     Scénario: Un porteur de projet modifie une demande complète de raccordement ayant une proposition technique et financière
         Etant donné un dossier de raccordement avec une proposition technique et financière
         Quand le porteur modifie une demande complète de raccordement

@@ -7,7 +7,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
         Alors le projet devrait avoir un dossier de raccordement pour ce gestionnaire de réseau
         Et le dossier est consultable dans la liste des dossiers de raccordement du projet
-        Et l'accusé de réception devrait être enregistré et consultable pour ce dossier de raccordement
+        Et l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
 
     Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement pour son projet
         Etant donné un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :
