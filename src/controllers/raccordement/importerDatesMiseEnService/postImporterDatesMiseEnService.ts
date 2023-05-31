@@ -3,13 +3,16 @@ import routes from '@routes';
 import { v1Router } from '../../v1Router';
 import { upload } from '../../upload';
 import * as yup from 'yup';
-import { mapCsvYupValidationErrorToCsvErrors } from '../../helpers';
+import { mapCsvYupValidationErrorToCsvErrors, vérifierPermissionUtilisateur } from '../../helpers';
 import { ValidationError } from 'yup';
 import fs from 'fs';
 import { parse } from 'csv-parse';
 import iconv from 'iconv-lite';
 import { setApiResult } from '../../helpers/apiResult';
-import { buildTransmettreDateMiseEnServiceUseCase } from '@potentiel/domain';
+import {
+  PermissionTransmettreDateMiseEnService,
+  buildTransmettreDateMiseEnServiceUseCase,
+} from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServiceApiResult';
 
@@ -64,6 +67,7 @@ const parseCsv = (fileStream: NodeJS.ReadableStream) => {
 
 v1Router.post(
   routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
+  vérifierPermissionUtilisateur(PermissionTransmettreDateMiseEnService),
   upload.single('fichier-dates-mise-en-service'),
   asyncHandler(async (request, response) => {
     if (!request?.file?.path) {
