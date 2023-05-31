@@ -82,7 +82,7 @@ v1Router.post(
           await mediator.send(
             buildTransmettreDateMiseEnServiceUseCase({
               référenceDossierRaccordement: référenceDossier,
-              dateMiseEnService: new Date(dateMiseEnService),
+              dateMiseEnService: new Date(dateMiseEnService.split('/').reverse().join('-')),
             }),
           );
 
