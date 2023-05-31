@@ -8,7 +8,6 @@ import {
   TransmettreDemandeComplèteRaccordementCommand,
   buildTransmettreDemandeComplèteRaccordementCommand,
 } from './transmettre/transmettreDemandeComplèteRaccordement.command';
-import { buildConsulterProjetQuery } from '../../projet/consulter/consulterProjet.query';
 import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau/consulter/consulterGestionnaireRéseau.query';
 
 type TransmettreDemandeComplèteRaccordementUseCase = Message<
@@ -31,15 +30,10 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
       }),
     );
 
-    const { identifiantGestionnaire } = await mediator.send(
-      buildConsulterProjetQuery({ identifiantProjet }),
-    );
-
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementCommand({
         identifiantProjet,
         identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
-        identifiantGestionnaireRéseauProjet: identifiantGestionnaire,
         dateQualification,
         référenceDossierRaccordement,
       }),

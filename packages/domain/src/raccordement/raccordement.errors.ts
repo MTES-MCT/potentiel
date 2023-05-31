@@ -12,9 +12,9 @@ export class PlusieursGestionnairesRéseauPourUnProjetError extends Error {
   }
 }
 
-export class FormatFichierInexistantError extends Error {
+export class RéférenceDéjàExistantePourLeProjetError extends Error {
   constructor() {
-    super(`Il est impossible de télécharger le fichier car son format est inexistant.`);
+    super(`Il impossible d'avoir plusieurs dossiers avec la même référence pour un projet`);
   }
 }
 
