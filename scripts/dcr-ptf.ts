@@ -1,6 +1,11 @@
 import { executeSelect } from '@potentiel/pg-helpers';
-import { DossierRaccordementReadModel } from '@potentiel/domain';
+import {
+  DossierRaccordementReadModel,
+  accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
+  propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory,
+} from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
+import { findProjection, updateProjection } from '@potentiel/pg-projections';
 import { S3 } from 'aws-sdk';
 import { extname, join } from 'path';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '@potentiel/domain/dist/raccordement/demandeCompléteRaccordement/enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
@@ -28,6 +33,16 @@ export const getFiles = async (pattern: string): Promise<string[]> => {
 
   return files.Contents.map((file) => file.Key || undefined).filter((file) => file) as string[];
 };
+
+const acDCREventHandler = accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory({
+  find: findProjection,
+  update: updateProjection,
+});
+
+const ptfSignéeEventHandler = propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory({
+  find: findProjection,
+  update: updateProjection,
+});
 
 (async () => {
   const warningOrError: Array<
@@ -94,6 +109,9 @@ export const getFiles = async (pattern: string): Promise<string[]> => {
 
         await publish(aggregateId, event);
         console.log(`ℹ️ 🔌 AccuséRéceptionDemandeComplèteRaccordementTransmisEvent sent`);
+
+        await acDCREventHandler(event);
+        console.log(`ℹ️ 📁 Dossier Raccordement projection updated`);
       }
 
       if (ptfFiles.length > 0) {
@@ -120,6 +138,8 @@ export const getFiles = async (pattern: string): Promise<string[]> => {
         await publish(aggregateId, event);
 
         console.log(`ℹ️ 📜 PropositionTechniqueEtFinancièreSignéeTransmiseEvent sent`);
+        await ptfSignéeEventHandler(event);
+        console.log(`ℹ️ 📁 Dossier Raccordement projection updated`);
         console.log(`✅ Done !`);
       }
     } catch (error) {
