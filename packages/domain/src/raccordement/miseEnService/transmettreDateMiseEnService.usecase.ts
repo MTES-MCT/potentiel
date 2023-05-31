@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
 import { buildTransmettreDateMiseEnServiceCommand } from './transmettre/transmettreDateMiseEnService.command';
 import { buildRechercherDossierRaccordementQuery } from '../dossierRaccordement/rechercher/rechercherDossierRaccordement.query';
-import { AucunDossierCorrespondantError } from '../raccordement.errors';
+import { AucunDossierRaccordementCorrespondantError } from '../raccordement.errors';
 
 type TransmettreDateMiseEnServiceUseCase = Message<
   'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
@@ -37,7 +37,7 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     );
 
     if (dossiers.length === 0) {
-      throw new AucunDossierCorrespondantError();
+      throw new AucunDossierRaccordementCorrespondantError();
     }
 
     for (const dossier of dossiers) {

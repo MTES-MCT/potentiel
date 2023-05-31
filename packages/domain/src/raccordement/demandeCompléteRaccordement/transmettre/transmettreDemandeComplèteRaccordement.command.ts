@@ -7,7 +7,7 @@ import {
 } from '../../raccordement.aggregate';
 import {
   PlusieursGestionnairesRéseauPourUnProjetError,
-  RéférenceDéjàExistantePourLeProjetError,
+  RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
 } from '../../raccordement.errors';
 import {
   IdentifiantGestionnaireRéseau,
@@ -52,7 +52,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     }
 
     if (isSome(raccordement) && raccordement.références.includes(référenceDossierRaccordement)) {
-      throw new RéférenceDéjàExistantePourLeProjetError();
+      throw new RéférenceDossierRaccordementDéjàExistantPourLeProjetError();
     }
 
     const event: DemandeComplèteRaccordementTransmiseEvent = {

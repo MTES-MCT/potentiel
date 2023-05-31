@@ -12,14 +12,16 @@ export class PlusieursGestionnairesRéseauPourUnProjetError extends Error {
   }
 }
 
-export class RéférenceDéjàExistantePourLeProjetError extends Error {
+export class RéférenceDossierRaccordementDéjàExistantPourLeProjetError extends Error {
   constructor() {
-    super(`Il impossible d'avoir plusieurs dossiers avec la même référence pour un projet`);
+    super(
+      `Il impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet`,
+    );
   }
 }
 
-export class AucunDossierCorrespondantError extends Error {
+export class AucunDossierRaccordementCorrespondantError extends Error {
   constructor() {
-    super(`Aucun dossier ne correspond à la référence`);
+    super(`Aucun dossier de raccordement ne correspond à la référence`);
   }
 }

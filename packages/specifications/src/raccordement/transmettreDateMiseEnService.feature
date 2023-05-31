@@ -23,4 +23,4 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
 
     Scénario: Impossible de transmettre une date de mise en service avec seulement une référence ne correspondant à aucun dossier
         Quand un administrateur transmet une date de mise en service avec seulement une référence ne correspondant à aucun dossier
-        Alors un administrateur devrait être informé que "Aucun dossier ne correspond à la référence"
+        Alors un administrateur devrait être informé que "Aucun dossier de raccordement ne correspond à la référence"
