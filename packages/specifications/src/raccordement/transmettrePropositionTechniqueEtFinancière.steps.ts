@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import { mediator } from 'mediateur';
 
 Quand(
-  `le porteur de projet transmet une proposition technique et financière pour ce dossier de raccordement avec la date de signature au {string}`,
+  `le porteur de projet transmet une proposition technique et financière`,
   async function (this: PotentielWorld) {
     const dateSignature = new Date('2021-04-28');
     await mediator.send(
