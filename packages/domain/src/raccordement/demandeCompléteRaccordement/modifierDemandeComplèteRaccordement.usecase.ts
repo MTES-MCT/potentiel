@@ -28,18 +28,11 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     nouvelleRéférenceDossierRaccordement,
     nouvelAccuséRéception,
   }) => {
+    let ancienAccuséRéception = undefined;
     const dossierRaccordement = await mediator.send(
       buildConsulterDossierRaccordementQuery({
         identifiantProjet,
         référence: ancienneRéférenceDossierRaccordement,
-      }),
-    );
-
-    const ancienAccuséRéception = await mediator.send(
-      buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
-        référenceDossierRaccordement: ancienneRéférenceDossierRaccordement,
-        identifiantProjet,
-        format: dossierRaccordement.accuséRéception?.format || '',
       }),
     );
 
@@ -51,6 +44,16 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
         nouvelleRéférenceDossierRaccordement,
       }),
     );
+
+    if (dossierRaccordement.accuséRéception) {
+      ancienAccuséRéception = await mediator.send(
+        buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
+          référenceDossierRaccordement: ancienneRéférenceDossierRaccordement,
+          identifiantProjet,
+          format: dossierRaccordement.accuséRéception?.format || '',
+        }),
+      );
+    }
 
     await mediator.send(
       buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
