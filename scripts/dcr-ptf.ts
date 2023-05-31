@@ -9,14 +9,13 @@ import { createRaccordementAggregateId } from '@potentiel/domain/dist/raccordeme
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '@potentiel/domain/dist/raccordement/propositionTechniqueEtFinancière/enregistrerPropositionTechniqueEtFinancièreSignée/propositionTechniqueEtFinancièreSignéeTransmise.event';
 import { lookup } from 'mime-types';
 
-process.env.EVENT_STORE_CONNECTION_STRING =
-  'postgres://potadmindb:localpwd@localhost:5432/potentiel';
+process.env.EVENT_STORE_CONNECTION_STRING = '';
 
-const bucketName = 'potentiel';
+const bucketName = '';
 const client = new S3({
-  endpoint: 'http://localhost:9444/s3',
-  accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
-  secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+  endpoint: '',
+  accessKeyId: '',
+  secretAccessKey: '',
   s3ForcePathStyle: true,
 });
 
