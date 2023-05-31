@@ -2,6 +2,7 @@
 Fonctionnalité: Modifier une demande complète de raccordement
     
     # SCENARIO-01 - Erreur lors de l'enregistrement du nouveau fichier (timeout) - fonctionne en local
+    @selection
     Scénario: Un porteur de projet modifie la date de qualification d'une demande complète de raccordement
         Etant donné un dossier de raccordement
         Quand le porteur modifie la date de qualification d'un dossier de raccordement
