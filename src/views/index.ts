@@ -53,6 +53,7 @@ import {
   ModifierDemandeComplèteRaccordement,
   ModifierGestionnaireRéseauProjet,
   ModifierPropositionTechniqueEtFinancière,
+  AucunDossierALister,
 } from './pages';
 
 export { App } from './App';
@@ -459,4 +460,11 @@ export const ModifierPropositionTechniqueEtFinancièrePage = (
     Component: ModifierPropositionTechniqueEtFinancière,
     props,
     title: 'Modifier une proposition technique et financière',
+  });
+
+export const AucunDossierAListerPage = (props: Parameters<typeof AucunDossierALister>[0]) =>
+  makeHtml({
+    Component: AucunDossierALister,
+    props,
+    title: 'Aucun dossier de raccordement à lister',
   });

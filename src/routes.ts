@@ -496,5 +496,9 @@ class routes {
       reference || ':reference'
     }/modifier-proposition-technique-et-financiere`;
   };
+
+  static GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE = (projetId?: string) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/aucun-dossier-renseigne.html`;
+  };
 }
 export default routes;
