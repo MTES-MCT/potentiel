@@ -15,7 +15,7 @@ Fonctionnalité: Modifier une demande complète de raccordement
         Alors l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement
         Et le dossier est consultable dans la liste des dossiers de raccordement du projet
 
-    # SCENARIO-03 
+    # SCENARIO-03
     Scénario: Un porteur de projet modifie une demande complète de raccordement ayant une proposition technique et financière
         Etant donné un dossier de raccordement avec une proposition technique et financière
         Quand le porteur modifie une demande complète de raccordement
