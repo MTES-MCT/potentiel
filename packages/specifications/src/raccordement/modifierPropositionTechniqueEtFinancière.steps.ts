@@ -34,6 +34,31 @@ Quand(
 );
 
 Quand(
+  `le porteur modifie la date de signature de la proposition technique et financière`,
+  async function (this: PotentielWorld) {
+    const nouvelledateSignature = new Date('2023-04-01');
+
+    const fichierPTFActuel = {
+      format: this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
+      content: this.raccordementWorld.propositionTechniqueEtFinancièreSignée.content,
+    };
+    await mediator.send(
+      buildModifierPropositiontechniqueEtFinancièreUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        dateSignature: new Date(nouvelledateSignature),
+        nouvellePropositionTechniqueEtFinancière: fichierPTFActuel,
+      }),
+    );
+
+    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+      dateSignature: nouvelledateSignature,
+      ...fichierPTFActuel,
+    };
+  },
+);
+
+Quand(
   `un administrateur modifie la date de signature pour un dossier de raccordement non connu`,
   async function (this: PotentielWorld) {
     try {
