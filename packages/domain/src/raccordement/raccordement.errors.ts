@@ -12,14 +12,16 @@ export class PlusieursGestionnairesRéseauPourUnProjetError extends Error {
   }
 }
 
-export class FormatFichierInexistantError extends Error {
+export class RéférenceDossierRaccordementDéjàExistantPourLeProjetError extends Error {
   constructor() {
-    super(`Il est impossible de télécharger le fichier car son format est inexistant.`);
+    super(
+      `Il impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet`,
+    );
   }
 }
 
-export class AucunDossierCorrespondantError extends Error {
+export class AucunDossierRaccordementCorrespondantError extends Error {
   constructor() {
-    super(`Aucun dossier ne correspond à la référence`);
+    super(`Aucun dossier de raccordement ne correspond à la référence`);
   }
 }

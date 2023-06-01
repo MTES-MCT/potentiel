@@ -14,13 +14,14 @@ import { createRaccordementAggregateId } from '@potentiel/domain/dist/raccordeme
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '@potentiel/domain/dist/raccordement/propositionTechniqueEtFinancière/enregistrerPropositionTechniqueEtFinancièreSignée/propositionTechniqueEtFinancièreSignéeTransmise.event';
 import { lookup } from 'mime-types';
 
-process.env.EVENT_STORE_CONNECTION_STRING = '';
+process.env.EVENT_STORE_CONNECTION_STRING =
+  'postgres://potadmindb:localpwd@localhost:5432/potentiel';
 
-const bucketName = '';
+const bucketName = 'potentiel';
 const client = new S3({
-  endpoint: '',
-  accessKeyId: '',
-  secretAccessKey: '',
+  endpoint: 'http://localhost:9444/s3',
+  accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+  secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
   s3ForcePathStyle: true,
 });
 
@@ -57,10 +58,15 @@ const ptfSignéeEventHandler = propositionTechniqueEtFinancièreSignéeTransmise
     WHERE "key" LIKE 'dossier-raccordement#%'
   `);
 
-  for (const { key } of dossiers) {
+  const total = dossiers.length;
+
+  console.log(`ℹ️ Nb dossiers: ${total}`);
+
+  for (const dossier of dossiers) {
     try {
       console.log('---------------------------------------------');
-      console.log(`ℹ️ Start processing: ${key}`);
+      const { key } = dossier;
+      console.log(`ℹ️ ${dossiers.indexOf(dossier) + 1}/${total} Start processing: ${key}`);
       const [, appelOffre, période, famille, numéroCRE, référenceDossierRaccordement] =
         key.split('#');
       const identifiantProjet = { appelOffre, période, famille, numéroCRE };
@@ -69,79 +75,95 @@ const ptfSignéeEventHandler = propositionTechniqueEtFinancièreSignéeTransmise
       const aggregateId = createRaccordementAggregateId(identifiantProjet);
       console.log(`ℹ️ Aggregate id: ${aggregateId}`);
 
-      const dcrPath = join(
-        identifiantProjetFormaté,
-        référenceDossierRaccordement,
-        'demande-complete-raccordement',
-      );
-      console.log(`ℹ️ dcrPath: ${dcrPath}`);
-      const pftPath = join(
-        identifiantProjetFormaté,
-        référenceDossierRaccordement,
-        'proposition-technique-et-financiere',
-      );
-      console.log(`ℹ️ pftPath: ${pftPath}`);
+      if (!dossier.value.accuséRéception?.format) {
+        console.log(`⏩🔌 Updating DCR format`);
+        const dcrPath = join(
+          identifiantProjetFormaté,
+          référenceDossierRaccordement,
+          'demande-complete-raccordement',
+        );
+        console.log(`ℹ️ dcrPath: ${dcrPath}`);
+        const dcrFiles = await getFiles(dcrPath);
 
-      const dcrFiles = await getFiles(dcrPath);
-      const ptfFiles = await getFiles(pftPath);
+        if (dcrFiles.length > 0) {
+          if (dcrFiles.length > 1) {
+            console.log(`⚠️ Multiple DRC found`);
+            warningOrError.push({
+              type: 'warning',
+              messages: ['Multiple DCR', ...dcrFiles],
+            });
+          }
 
-      if (dcrFiles.length > 0) {
-        if (dcrFiles.length > 1) {
-          console.log(`⚠️ Multiple DRC found`);
-          warningOrError.push({
-            type: 'warning',
-            messages: ['Multiple DCR', ...dcrFiles],
-          });
+          const dcrFile = dcrFiles[0];
+          console.log(`ℹ️ DCR File: ${dcrFile}`);
+          const mimeType = lookup(extname(dcrFile));
+          console.log(`ℹ️ Mime-type: ${mimeType}`);
+          const event: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
+            type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+            payload: {
+              identifiantProjet: identifiantProjetFormaté,
+              référenceDossierRaccordement,
+              format: mimeType ? mimeType : 'unknown',
+            },
+          };
+
+          await publish(aggregateId, event);
+          console.log(`⏩✅ 🔌 AccuséRéceptionDemandeComplèteRaccordementTransmisEvent sent`);
+
+          await acDCREventHandler(event);
+          console.log(`⏩✅ 📁 Dossier Raccordement projection updated`);
+        } else {
+          console.log(`ℹ️ No DCR file`);
         }
-
-        const dcrFile = dcrFiles[0];
-        console.log(`ℹ️ DCR File: ${dcrFile}`);
-        const mimeType = lookup(extname(dcrFile));
-        console.log(`Mime-type: ${mimeType}`);
-        const event: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
-          type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
-          payload: {
-            identifiantProjet: identifiantProjetFormaté,
-            référenceDossierRaccordement,
-            format: mimeType ? mimeType : 'unknown',
-          },
-        };
-
-        await publish(aggregateId, event);
-        console.log(`ℹ️ 🔌 AccuséRéceptionDemandeComplèteRaccordementTransmisEvent sent`);
-
-        await acDCREventHandler(event);
-        console.log(`ℹ️ 📁 Dossier Raccordement projection updated`);
+      } else {
+        console.log(`ℹ️ DCR format already updated`);
       }
 
-      if (ptfFiles.length > 0) {
-        if (ptfFiles.length > 1) {
-          console.log(`⚠️ Multiple PTF found`);
-          warningOrError.push({
-            type: 'warning',
-            messages: ['Multiple PTF', ...ptfFiles],
-          });
+      if (!dossier.value.propositionTechniqueEtFinancière?.format) {
+        console.log(`⏩📜 Updating PTF format`);
+        const pftPath = join(
+          identifiantProjetFormaté,
+          référenceDossierRaccordement,
+          'proposition-technique-et-financiere',
+        );
+        console.log(`ℹ️ pftPath: ${pftPath}`);
+
+        const ptfFiles = await getFiles(pftPath);
+
+        if (ptfFiles.length > 0) {
+          if (ptfFiles.length > 1) {
+            console.log(`⚠️ Multiple PTF found`);
+            warningOrError.push({
+              type: 'warning',
+              messages: ['Multiple PTF', ...ptfFiles],
+            });
+          }
+          const ptfFile = ptfFiles[0];
+          console.log(`ℹ️ PTF File: ${ptfFile}`);
+          const mimeType = lookup(extname(ptfFile));
+          console.log(`ℹ️ Mime-type: ${mimeType}`);
+          const event: PropositionTechniqueEtFinancièreSignéeTransmiseEvent = {
+            type: 'PropositionTechniqueEtFinancièreSignéeTransmise',
+            payload: {
+              identifiantProjet: identifiantProjetFormaté,
+              référenceDossierRaccordement,
+              format: mimeType ? mimeType : 'unknown',
+            },
+          };
+
+          await publish(aggregateId, event);
+
+          console.log(`⏩✅ 📜 PropositionTechniqueEtFinancièreSignéeTransmiseEvent sent`);
+          await ptfSignéeEventHandler(event);
+          console.log(`⏩✅ 📁 Dossier Raccordement projection updated`);
+        } else {
+          console.log(`ℹ️ No PTF file`);
         }
-        const ptfFile = ptfFiles[0];
-        console.log(`ℹ️ PTF File: ${ptfFile}`);
-        const mimeType = lookup(extname(ptfFile));
-        console.log(`Mime-type: ${mimeType}`);
-        const event: PropositionTechniqueEtFinancièreSignéeTransmiseEvent = {
-          type: 'PropositionTechniqueEtFinancièreSignéeTransmise',
-          payload: {
-            identifiantProjet: identifiantProjetFormaté,
-            référenceDossierRaccordement,
-            format: mimeType ? mimeType : 'unknown',
-          },
-        };
-
-        await publish(aggregateId, event);
-
-        console.log(`ℹ️ 📜 PropositionTechniqueEtFinancièreSignéeTransmiseEvent sent`);
-        await ptfSignéeEventHandler(event);
-        console.log(`ℹ️ 📁 Dossier Raccordement projection updated`);
-        console.log(`✅ Done !`);
+      } else {
+        console.log(`ℹ️ PTF format already updated`);
       }
+
+      console.log(`✅ Done !`);
     } catch (error) {
       console.log(`❌ error: ${error.message}`);
       warningOrError.push({

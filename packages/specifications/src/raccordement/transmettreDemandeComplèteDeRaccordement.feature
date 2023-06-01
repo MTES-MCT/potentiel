@@ -18,6 +18,15 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | La référence du dossier de raccordement | NOP-RP-2022-000034 |
         Alors le projet devrait avoir 2 dossiers de raccordement pour ce gestionnaire de réseau
 
+    Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement ayant la même référence
+        Etant donné un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :
+            | La date de qualification                   | 2022-10-28         |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033 |
+        Quand le porteur du projet transmet une autre demande complète de raccordement auprès du même gestionnaire de réseau avec :
+            | La date de qualification                   | 2022-10-28         |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033 |
+        Alors le porteur devrait être informé que "Il impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet"
+
      Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un autre gestionnaire de réseau
         Etant donné un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau
         Quand le porteur du projet transmet une demande complète de raccordement auprès d'un autre gestionnaire de réseau
