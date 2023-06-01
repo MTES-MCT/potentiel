@@ -7,7 +7,7 @@ export type RécupérerPropositionTechniqueEtFinancièreSignéePort = (args: {
   identifiantProjet: string;
   référenceDossierRaccordement: string;
   format: string;
-}) => Promise<Readable>;
+}) => Promise<Readable | undefined>;
 
 export type ConsulterPropositionTechniqueEtFinancièreSignéeDependencies = {
   récupérerPropositionTechniqueEtFinancièreSignée: RécupérerPropositionTechniqueEtFinancièreSignéePort;
@@ -20,7 +20,7 @@ export type ConsulterPropositionTechniqueEtFinancièreSignéeQuery = Message<
     référenceDossierRaccordement: string;
     format: string;
   },
-  PropositionTechniqueEtFinancièreSignéeReadModel
+  PropositionTechniqueEtFinancièreSignéeReadModel | undefined
 >;
 
 export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
@@ -37,11 +37,15 @@ export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
       format,
     });
 
+    if (!content) {
+      return undefined;
+    }
+
     return {
       type: 'proposition-technique-et-financière-signée',
       format,
-      content,
-    };
+      content: content || undefined,
+    } satisfies PropositionTechniqueEtFinancièreSignéeReadModel;
   };
   mediator.register('CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE', handler);
 };

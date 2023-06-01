@@ -11,14 +11,17 @@ import {
 export type TransmettrePropositionTechniqueEtFinancièreUseCase = Message<
   'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
   TransmettrePropositionTechniqueEtFinancièreCommand['data'] &
-    EnregistrerPropositionTechniqueEtFinancièreSignéeCommand['data']
+    Pick<
+      EnregistrerPropositionTechniqueEtFinancièreSignéeCommand['data'],
+      'nouvellePropositionTechniqueEtFinancière'
+    >
 >;
 
 export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () => {
   const runner: MessageHandler<TransmettrePropositionTechniqueEtFinancièreUseCase> = async ({
     dateSignature,
     identifiantProjet,
-    propositionTechniqueEtFinancière,
+    nouvellePropositionTechniqueEtFinancière,
     référenceDossierRaccordement,
   }) => {
     await mediator.send(
@@ -32,7 +35,7 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
     await mediator.send(
       buildEnregistrerPropositionTechniqueEtFinancièreSignéeCommand({
         identifiantProjet,
-        propositionTechniqueEtFinancière,
+        nouvellePropositionTechniqueEtFinancière,
         référenceDossierRaccordement,
       }),
     );

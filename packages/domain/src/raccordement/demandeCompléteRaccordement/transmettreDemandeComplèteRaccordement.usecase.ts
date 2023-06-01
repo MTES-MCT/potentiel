@@ -13,7 +13,10 @@ import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRésea
 type TransmettreDemandeComplèteRaccordementUseCase = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   TransmettreDemandeComplèteRaccordementCommand['data'] &
-    EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data']
+    Pick<
+      EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'],
+      'nouvelAccuséRéception'
+    >
 >;
 
 export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
@@ -22,7 +25,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     identifiantGestionnaireRéseau,
     identifiantProjet,
     référenceDossierRaccordement,
-    accuséRéception: { format, content },
+    nouvelAccuséRéception: { format, content },
   }) => {
     const gestionnaireRéseau = await mediator.send(
       buildConsulterGestionnaireRéseauQuery({
@@ -42,8 +45,8 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     await mediator.send(
       buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
         identifiantProjet,
-        référenceDossierRaccordement,
-        accuséRéception: {
+        nouvelleRéférenceDossierRaccordement: référenceDossierRaccordement,
+        nouvelAccuséRéception: {
           format,
           content,
         },

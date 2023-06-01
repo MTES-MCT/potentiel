@@ -23,7 +23,6 @@ import {
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
 import {
-  supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
   supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
@@ -63,8 +62,6 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
         téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée:
         téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
-      supprimerPropositionTechniqueEtFinancièreSignée:
-        supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
     }),
   );
 
@@ -79,8 +76,8 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
   consumerRaccordement.consume(
     'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
     accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory({
-      supprimerAccuséRéceptionDemandeComplèteRaccordement:
-        supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+      find: findProjection,
+      update: updateProjection,
     }),
   );
 

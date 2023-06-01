@@ -3,41 +3,33 @@ import {
   ModifierDemandeComplèteRaccordementCommand,
   buildModifierDemandeComplèteRaccordementCommand,
 } from './modifier/modifierDemandeComplèteRaccordement.command';
-import {
-  EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
-  buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
-} from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
-import { buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
+
+import { buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
+import {
+  ModifierAccuséRéceptionDemandeComplèteRaccordementCommand,
+  buildModifierAccuséRéceptionDemandeComplèteRaccordementCommand,
+} from './modifierAccuséRécéption/modifierAccuséRéceptionDemandeComplèteRaccordement.command';
 
 type ModifierDemandeComplèteRaccordementUseCase = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   ModifierDemandeComplèteRaccordementCommand['data'] &
-    Pick<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'accuséRéception'>
+    Pick<ModifierAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'nouvelAccuséRéception'>
 >;
 
 export const registerModifierDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<ModifierDemandeComplèteRaccordementUseCase> = async ({
     identifiantProjet,
     dateQualification,
-    ancienneRéférence,
-    nouvelleRéférence,
-    accuséRéception,
+    ancienneRéférenceDossierRaccordement,
+    nouvelleRéférenceDossierRaccordement,
+    nouvelAccuséRéception,
   }) => {
     const dossierRaccordement = await mediator.send(
       buildConsulterDossierRaccordementQuery({
         identifiantProjet,
-        référence: ancienneRéférence,
-      }),
-    );
-
-    await mediator.send(
-      buildSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand({
-        identifiantProjet,
-        référenceDossierRaccordement: ancienneRéférence,
-        accuséRéception: {
-          format: dossierRaccordement.accuséRéception?.format || '',
-        },
+        référence: ancienneRéférenceDossierRaccordement,
       }),
     );
 
@@ -45,16 +37,37 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       buildModifierDemandeComplèteRaccordementCommand({
         identifiantProjet,
         dateQualification,
-        ancienneRéférence,
-        nouvelleRéférence,
+        ancienneRéférenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement,
       }),
     );
 
-    await mediator.send(
-      buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
+    const ancienAccuséRéception = await mediator.send(
+      buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
+        référenceDossierRaccordement: ancienneRéférenceDossierRaccordement,
         identifiantProjet,
-        référenceDossierRaccordement: nouvelleRéférence,
-        accuséRéception,
+        format: dossierRaccordement.accuséRéception?.format || '',
+      }),
+    );
+
+    if (!ancienAccuséRéception) {
+      await mediator.send(
+        buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
+          identifiantProjet,
+          nouvelleRéférenceDossierRaccordement,
+          nouvelAccuséRéception,
+        }),
+      );
+      return;
+    }
+
+    await mediator.send(
+      buildModifierAccuséRéceptionDemandeComplèteRaccordementCommand({
+        identifiantProjet,
+        ancienneRéférenceDossierRaccordement,
+        nouvelleRéférenceDossierRaccordement,
+        ancienAccuséRéception,
+        nouvelAccuséRéception,
       }),
     );
   };

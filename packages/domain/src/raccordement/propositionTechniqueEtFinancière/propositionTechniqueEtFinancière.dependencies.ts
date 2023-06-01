@@ -3,16 +3,18 @@ import { ModifierPropositionTechniqueEtFinancièreDependencies } from './modifie
 import { TransmettrePropositionTechniqueEtFinancièreDependencies } from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
 import { PropositionTechniqueEtFinancièreModifiéeDependencies } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';
 import { PropositionTechniqueEtFinancièreTransmiseDependencies } from './transmettre/handlers/propositionTechniqueEtFinancièreTransmise.handler';
-import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
+import { EnregistrerPropositionTechniqueEtFinancièreSignéeDependencies } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseDependencies } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeTransmise.handler';
 import { SupprimerPropositionTechniqueEtFinancièreSignéeDependencies } from './supprimerPropositionTechniqueEtFinancièreSignée/supprimerPropositionTechniqueEtFinancièreSignée.command';
 import { PropositionTechniqueEtFinancièreSignéeSuppriméeDependencies } from './supprimerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeSupprimée.handler';
 import { ConsulterPropositionTechniqueEtFinancièreSignéeDependencies } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
+import { ModifierPropositionTechniqueEtFinancièreSignéeDependencies } from './modifierPropositionTechniqueEtFinancièreSignée/modifierPropositionTechniqueEtFinancièreSignée.command';
 
 type QueryHandlerDependencies = ConsulterPropositionTechniqueEtFinancièreSignéeDependencies;
 
 type CommandHandlerDependencies = SupprimerPropositionTechniqueEtFinancièreSignéeDependencies &
-  EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies &
+  EnregistrerPropositionTechniqueEtFinancièreSignéeDependencies &
+  ModifierPropositionTechniqueEtFinancièreSignéeDependencies &
   ModifierPropositionTechniqueEtFinancièreDependencies &
   TransmettrePropositionTechniqueEtFinancièreDependencies;
 

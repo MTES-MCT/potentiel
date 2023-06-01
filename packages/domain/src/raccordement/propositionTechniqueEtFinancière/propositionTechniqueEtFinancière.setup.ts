@@ -10,6 +10,7 @@ import { registerSupprimerPropositionTechniqueEtFinancièreSignéeCommand } from
 import { registerConsulterPropositionTechniqueEtFinancièreUseCase } from './consulterPropositionTechniqueEtFinancière.usecase';
 import { registerModifierPropositiontechniqueEtFinancièreUseCase } from './modifierPropositiontechniqueEtFinancière.usecase';
 import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettrePropositionTechniqueEtFinancière.usecase';
+import { registerModifierPropositionTechniqueEtFinancièreSignéeCommand } from './modifierPropositionTechniqueEtFinancièreSignée/modifierPropositionTechniqueEtFinancièreSignée.command';
 
 export const setupPropostionTechniqueEtFinancière = (
   dependencies: PropostionTechniqueEtFinancièreDependencies,
@@ -19,6 +20,7 @@ export const setupPropostionTechniqueEtFinancière = (
 
   // Commands
   registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand(dependencies);
+  registerModifierPropositionTechniqueEtFinancièreSignéeCommand(dependencies);
   registerModifierPropositionTechniqueEtFinancièreCommand(dependencies);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(dependencies);
   registerSupprimerPropositionTechniqueEtFinancièreSignéeCommand(dependencies);

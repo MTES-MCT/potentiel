@@ -2,3 +2,4 @@ export { RenommerPropositionTechniqueEtFinancièrePort } from './renommerProposi
 export { RécupérerPropositionTechniqueEtFinancièreSignéePort } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 export { EnregistrerPropositionTechniqueEtFinancièreSignéePort } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 export { SupprimerPropositionTechniqueEtFinancièreSignéePort } from './supprimerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeSupprimée.handler';
+export { ModifierPropositionTechniqueEtFinancièreSignéePort } from './modifierPropositionTechniqueEtFinancièreSignée/modifierPropositionTechniqueEtFinancièreSignée.command';

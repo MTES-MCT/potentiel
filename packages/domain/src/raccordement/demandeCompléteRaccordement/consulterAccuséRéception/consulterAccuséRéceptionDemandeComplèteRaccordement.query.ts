@@ -7,7 +7,7 @@ export type RécupérerAccuséRéceptionDemandeComplèteRaccordementPort = (args
   identifiantProjet: string;
   référenceDossierRaccordement: string;
   format: string;
-}) => Promise<Readable>;
+}) => Promise<Readable | undefined>;
 
 export type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   récupérerAccuséRéceptionDemandeComplèteRaccordement: RécupérerAccuséRéceptionDemandeComplèteRaccordementPort;
@@ -20,7 +20,7 @@ export type ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery = Messag
     référenceDossierRaccordement: string;
     format: string;
   },
-  AccuséRéceptionDemandeComplèteRaccordementReadModel
+  AccuséRéceptionDemandeComplèteRaccordementReadModel | undefined
 >;
 
 export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery = ({
@@ -36,6 +36,10 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
       référenceDossierRaccordement,
       format,
     });
+
+    if (!content) {
+      return undefined;
+    }
 
     return {
       type: 'accusé-réception-demande-compléte-raccordement',

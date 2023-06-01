@@ -112,7 +112,7 @@ v1Router.post(
             identifiantGestionnaireRéseau: { codeEIC },
             dateQualification,
             référenceDossierRaccordement,
-            accuséRéception: {
+            nouvelAccuséRéception: {
               format: file.mimetype,
               content: createReadStream(file.path),
             },

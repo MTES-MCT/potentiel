@@ -14,8 +14,8 @@ export type ModifierDemandeComplèteRaccordementCommand = Message<
   {
     identifiantProjet: IdentifiantProjet;
     dateQualification: Date;
-    ancienneRéférence: string;
-    nouvelleRéférence: string;
+    ancienneRéférenceDossierRaccordement: string;
+    nouvelleRéférenceDossierRaccordement: string;
   }
 >;
 
@@ -31,8 +31,8 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
     dateQualification,
-    ancienneRéférence,
-    nouvelleRéférence,
+    ancienneRéférenceDossierRaccordement,
+    nouvelleRéférenceDossierRaccordement,
   }) => {
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
@@ -40,7 +40,10 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(ancienneRéférence)) {
+    if (
+      isNone(raccordement) ||
+      !raccordement.références.includes(ancienneRéférenceDossierRaccordement)
+    ) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -49,8 +52,8 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         dateQualification: dateQualification.toISOString(),
-        referenceActuelle: ancienneRéférence,
-        nouvelleReference: nouvelleRéférence,
+        referenceActuelle: ancienneRéférenceDossierRaccordement,
+        nouvelleReference: nouvelleRéférenceDossierRaccordement,
       },
     };
 

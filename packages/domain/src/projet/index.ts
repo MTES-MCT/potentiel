@@ -7,3 +7,6 @@ export { buildModifierGestionnaireRéseauProjetUseCase } from './modifierGestion
 
 // EventHandlers (TODO: sera supprimé lorsque le mediateur pourra publish des messages)
 export { gestionnaireRéseauProjetModifiéHandlerFactory } from './modifierGestionnaireRéseau/handlers/gestionnaireRéseauProjetModifié.handler';
+
+// helpers
+export { formatIdentifiantProjet } from './identifiantProjet';

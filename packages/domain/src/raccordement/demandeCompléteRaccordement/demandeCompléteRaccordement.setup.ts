@@ -11,6 +11,7 @@ import { DemandeComplèteRaccordementDependencies } from './demandeCompléteRacc
 import { registerConsulterDemandeComplèteRaccordementUseCase } from './consulterDemandeComplèteRaccordement.usecase';
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifierDemandeComplèteRaccordement.usecase';
 import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettreDemandeComplèteRaccordement.usecase';
+import { registerModifierAccuséRéceptionDemandeComplèteRaccordementCommand } from './modifierAccuséRécéption/modifierAccuséRéceptionDemandeComplèteRaccordement.command';
 
 export const setupDemandeCompléteRaccordement = (
   dependencies: DemandeComplèteRaccordementDependencies,
@@ -20,6 +21,7 @@ export const setupDemandeCompléteRaccordement = (
 
   // Commands
   registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
+  registerModifierAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerModifierDemandeComplèteRaccordementCommand(dependencies);
   registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerTransmettreDemandeComplèteRaccordementCommand(dependencies);

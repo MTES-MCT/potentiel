@@ -1,12 +1,7 @@
 import { Readable } from 'stream';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { Publish, LoadAggregate } from '@potentiel/core-domain';
-import {
-  createRaccordementAggregateId,
-  loadRaccordementAggregateFactory,
-} from '../../raccordement.aggregate';
-import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
-import { isNone } from '@potentiel/monads';
+import { Publish } from '@potentiel/core-domain';
+import { createRaccordementAggregateId } from '../../raccordement.aggregate';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from './propositionTechniqueEtFinancièreSignéeTransmise.event';
 
@@ -15,47 +10,39 @@ export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
-    propositionTechniqueEtFinancière: { format: string; content: Readable };
+    anciennePropositionTechniqueEtFinancière?: { format: string; content: Readable };
+    nouvellePropositionTechniqueEtFinancière: { format: string; content: Readable };
   }
 >;
 
 export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (args: {
+  opération: 'création';
   identifiantProjet: string;
   référenceDossierRaccordement: string;
-  format: string;
-  content: Readable;
+  nouveauFichier: {
+    format: string;
+    content: Readable;
+  };
 }) => Promise<void>;
 
-export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies = {
+export type EnregistrerPropositionTechniqueEtFinancièreSignéeDependencies = {
   publish: Publish;
-  loadAggregate: LoadAggregate;
   enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
 };
 
 export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand = ({
   publish,
-  loadAggregate,
   enregistrerPropositionTechniqueEtFinancièreSignée,
-}: EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies) => {
-  const loadRaccordementAggregate = loadRaccordementAggregateFactory({
-    loadAggregate,
-  });
-
+}: EnregistrerPropositionTechniqueEtFinancièreSignéeDependencies) => {
   const handler: MessageHandler<EnregistrerPropositionTechniqueEtFinancièreSignéeCommand> = async ({
     identifiantProjet,
     référenceDossierRaccordement,
-    propositionTechniqueEtFinancière: { format, content },
+    nouvellePropositionTechniqueEtFinancière,
   }) => {
-    const raccordement = await loadRaccordementAggregate(identifiantProjet);
-
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
-      throw new DossierRaccordementNonRéférencéError();
-    }
-
     await enregistrerPropositionTechniqueEtFinancièreSignée({
+      opération: 'création',
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      content,
-      format,
+      nouveauFichier: nouvellePropositionTechniqueEtFinancière,
       référenceDossierRaccordement,
     });
 
@@ -64,7 +51,7 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
         type: 'PropositionTechniqueEtFinancièreSignéeTransmise',
         payload: {
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-          format,
+          format: nouvellePropositionTechniqueEtFinancière.format,
           référenceDossierRaccordement,
         },
       };

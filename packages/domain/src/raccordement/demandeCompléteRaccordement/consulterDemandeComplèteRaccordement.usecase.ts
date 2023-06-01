@@ -5,6 +5,8 @@ import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/c
 import { DossierRaccordementReadModel } from '../dossierRaccordement/consulter/dossierRaccordement.readModel';
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
 
+import { FichierInexistant } from '@potentiel/file-storage';
+
 type ConsulterDemandeComplèteRaccordementUseCaseResult = Omit<
   AccuséRéceptionDemandeComplèteRaccordementReadModel &
     Pick<DossierRaccordementReadModel, 'dateQualification'> & {
@@ -41,6 +43,10 @@ export const registerConsulterDemandeComplèteRaccordementUseCase = () => {
         format: dossierRaccordement.accuséRéception?.format || '',
       }),
     );
+
+    if (!accuséRéception) {
+      throw new FichierInexistant();
+    }
 
     return {
       ...accuséRéception,

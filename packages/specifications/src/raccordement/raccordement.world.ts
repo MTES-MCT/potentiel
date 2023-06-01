@@ -1,4 +1,7 @@
-import { buildTransmettreDemandeComplèteRaccordementUseCase } from '@potentiel/domain';
+import {
+  buildTransmettreDemandeComplèteRaccordementUseCase,
+  buildTransmettrePropositionTechniqueEtFinancièreUseCase,
+} from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { Readable } from 'stream';
 
@@ -54,6 +57,19 @@ export class RaccordementWorld {
     this.#propositionTechniqueEtFinancièreSignée = value;
   }
 
+  #ancienneRéférenceDossierRaccordement!: string;
+
+  get ancienneRéférenceDossierRaccordement(): string {
+    if (!this.#ancienneRéférenceDossierRaccordement) {
+      throw new Error('ancienneRéférenceDossierRaccordement not initialized');
+    }
+    return this.#ancienneRéférenceDossierRaccordement;
+  }
+
+  set ancienneRéférenceDossierRaccordement(value: string) {
+    this.#ancienneRéférenceDossierRaccordement = value;
+  }
+
   #référenceDossierRaccordement!: string;
 
   get référenceDossierRaccordement(): string {
@@ -83,14 +99,14 @@ export class RaccordementWorld {
       période: '1',
       numéroCRE: '23',
     };
-    this.accuséRéceptionDemandeComplèteRaccordement = {
+    this.#accuséRéceptionDemandeComplèteRaccordement = {
       format: 'application/pdf',
       content: Readable.from("Contenu d'un fichier DCR", {
         encoding: 'utf8',
       }),
     };
     this.#propositionTechniqueEtFinancièreSignée = {
-      dateSignature: new Date(),
+      dateSignature: new Date('2023-01-01'),
       format: 'application/pdf',
       content: Readable.from("Contenu d'un fichier PTF", {
         encoding: 'utf8',
@@ -99,13 +115,34 @@ export class RaccordementWorld {
   }
 
   async createDemandeComplèteRaccordement(codeEIC: string, référenceDossierRaccordement: string) {
+    const dateQualification = new Date();
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementUseCase({
         référenceDossierRaccordement,
-        accuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
+        nouvelAccuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
         identifiantGestionnaireRéseau: { codeEIC },
         identifiantProjet: this.identifiantProjet,
-        dateQualification: new Date(),
+        dateQualification,
+      }),
+    );
+
+    this.#référenceDossierRaccordement = référenceDossierRaccordement;
+    this.#ancienneRéférenceDossierRaccordement = référenceDossierRaccordement;
+    this.#dateQualification = dateQualification;
+  }
+
+  async createPropositionTechniqueEtFinancière() {
+    const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
+
+    await mediator.send(
+      buildTransmettrePropositionTechniqueEtFinancièreUseCase({
+        référenceDossierRaccordement,
+        nouvellePropositionTechniqueEtFinancière: {
+          format: this.propositionTechniqueEtFinancièreSignée.format,
+          content: this.propositionTechniqueEtFinancièreSignée.content,
+        },
+        identifiantProjet: this.identifiantProjet,
+        dateSignature: this.propositionTechniqueEtFinancièreSignée.dateSignature,
       }),
     );
 

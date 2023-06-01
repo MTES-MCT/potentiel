@@ -6,8 +6,8 @@ import {
 } from '../../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { isNone } from '@potentiel/monads';
-import { AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent } from './accuséRéceptionDemandeComplèteRaccordementSupprimé.event';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import { AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent } from './accuséRéceptionDemandeComplèteRaccordementSupprimé.event';
 
 export type SupprimerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'SUPPRIMER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -18,14 +18,22 @@ export type SupprimerAccuséRéceptionDemandeComplèteRaccordementCommand = Mess
   }
 >;
 
+export type SupprimerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
+  identifiantProjet: string;
+  référenceDossierRaccordement: string;
+  format: string;
+}) => Promise<void>;
+
 export type SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   loadAggregate: LoadAggregate;
   publish: Publish;
+  supprimerAccuséRéceptionDemandeComplèteRaccordement: SupprimerAccuséRéceptionDemandeComplèteRaccordementPort;
 };
 
 export const registerSupprimerAccuséRéceptionDemandeComplèteRaccordementCommand = ({
   loadAggregate,
   publish,
+  supprimerAccuséRéceptionDemandeComplèteRaccordement,
 }: SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies) => {
   const loadRaccordementAggregate = loadRaccordementAggregateFactory({
     loadAggregate,
@@ -39,6 +47,12 @@ export const registerSupprimerAccuséRéceptionDemandeComplèteRaccordementComma
     if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
+
+    await supprimerAccuséRéceptionDemandeComplèteRaccordement({
+      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      référenceDossierRaccordement,
+      format,
+    });
 
     const accuséRéceptionSupprimeEvent: AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent = {
       type: 'AccuséRéceptionDemandeComplèteRaccordementSupprimé',

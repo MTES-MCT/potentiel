@@ -108,7 +108,7 @@ v1Router.post(
             identifiantProjet,
             référenceDossierRaccordement: reference,
             dateSignature,
-            propositionTechniqueEtFinancière: {
+            nouvellePropositionTechniqueEtFinancière: {
               format: file.mimetype,
               content: createReadStream(file.path),
             },
