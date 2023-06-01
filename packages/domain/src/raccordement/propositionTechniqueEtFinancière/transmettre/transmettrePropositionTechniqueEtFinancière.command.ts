@@ -7,7 +7,10 @@ import {
   createRaccordementAggregateId,
 } from '../../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import {
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '../../../projet/valueType/identifiantProjet';
 
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',

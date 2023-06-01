@@ -3,7 +3,10 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 import { Publish } from '@potentiel/core-domain';
 import { createRaccordementAggregateId } from '../../raccordement.aggregate';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './accuséRéceptionDemandeComplèteRaccordementTransmis.event';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import {
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '../../../projet/valueType/identifiantProjet';
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

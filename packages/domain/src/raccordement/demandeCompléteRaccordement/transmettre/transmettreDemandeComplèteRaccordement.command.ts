@@ -13,7 +13,10 @@ import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
 } from '../../../gestionnaireRéseau/valueType/identifiantGestionnaireRéseau';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import {
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '../../../projet/valueType/identifiantProjet';
 import { isSome } from '@potentiel/monads';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<

@@ -1,7 +1,10 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Readable } from 'stream';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './accuséRéceptionDemandeComplèteRaccordement.readModel';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import {
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '../../../projet/valueType/identifiantProjet';
 
 export type RécupérerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
   identifiantProjet: string;

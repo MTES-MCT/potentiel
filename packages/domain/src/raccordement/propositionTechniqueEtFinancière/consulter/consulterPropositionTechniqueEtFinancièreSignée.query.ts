@@ -1,6 +1,9 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from './propositionTechniqueEtFinancièreSignée.readModel';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import {
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '../../../projet/valueType/identifiantProjet';
 import { Readable } from 'stream';
 
 export type RécupérerPropositionTechniqueEtFinancièreSignéePort = (args: {

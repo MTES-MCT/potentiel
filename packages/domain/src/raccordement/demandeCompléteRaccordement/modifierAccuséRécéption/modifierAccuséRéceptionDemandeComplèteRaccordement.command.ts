@@ -5,7 +5,10 @@ import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../../raccordement.aggregate';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import {
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '../../../projet/valueType/identifiantProjet';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';

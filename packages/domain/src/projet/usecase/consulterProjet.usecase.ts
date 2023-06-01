@@ -1,6 +1,9 @@
-import { ConsulterProjetQuery, buildConsulterProjetQuery } from './consulter/consulterProjet.query';
+import {
+  ConsulterProjetQuery,
+  buildConsulterProjetQuery,
+} from '../query/consulter/consulterProjet.query';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { ProjetReadModel } from './projet.readModel';
+import { ProjetReadModel } from '../query/consulter/projet.readModel';
 
 export type ConsulterProjetUseCase = Message<
   'CONSULTER_PROJET_USE_CASE',

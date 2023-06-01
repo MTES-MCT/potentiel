@@ -2,7 +2,7 @@ import { Search } from '@potentiel/core-domain';
 import { RésultatRechercheDossierRaccordementReadModel } from './résultatRechercheDossierRaccordement.readModel';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { DossierRaccordementReadModel } from '../consulter/dossierRaccordement.readModel';
-import { IdentifiantProjet } from '../../../projet/identifiantProjet';
+import { IdentifiantProjet } from '../../../projet/valueType/identifiantProjet';
 
 export type RechercherDossierRaccordementQuery = Message<
   'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
