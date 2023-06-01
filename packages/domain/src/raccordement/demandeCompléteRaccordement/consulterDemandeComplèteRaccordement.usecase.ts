@@ -3,7 +3,7 @@ import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './consul
 import { buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
 import { DossierRaccordementReadModel } from '../dossierRaccordement/consulter/dossierRaccordement.readModel';
-import { IdentifiantProjet } from '../../projet/identifiantProjet';
+import { IdentifiantProjet } from '../../projet/valueType/identifiantProjet';
 
 import { FichierInexistant } from '@potentiel/file-storage';
 

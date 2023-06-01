@@ -6,7 +6,10 @@ import {
 } from '../../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import {
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '../../../projet/valueType/identifiantProjet';
 import { AccuséRéceptionDemandeComplèteRaccordementSuppriméEvent } from './accuséRéceptionDemandeComplèteRaccordementSupprimé.event';
 
 export type SupprimerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<

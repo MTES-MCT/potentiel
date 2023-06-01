@@ -1,12 +1,12 @@
 import { Publish } from '@potentiel/core-domain';
 import { GestionnaireRéseauProjetModifiéEvent } from './modifierGestionnaireRéseauProjet.event';
-import { createProjetAggregateId } from '../projet.aggregate';
+import { createProjetAggregateId } from '../../aggregate/projet.aggregate';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../valueType/identifiantProjet';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../../gestionnaireRéseau/valueType/identifiantGestionnaireRéseau';
+} from '../../../gestionnaireRéseau/valueType/identifiantGestionnaireRéseau';
 
 export type ModifierGestionnaireRéseauProjetCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',

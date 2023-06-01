@@ -7,7 +7,10 @@ import {
 } from '../../raccordement.aggregate';
 import { DemandeComplèteRaccordementModifiéeEvent } from './demandeComplèteRaccordementModifiée.event';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import {
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '../../../projet/valueType/identifiantProjet';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

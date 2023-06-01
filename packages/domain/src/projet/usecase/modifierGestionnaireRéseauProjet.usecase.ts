@@ -1,8 +1,8 @@
-import { buildConsulterGestionnaireRéseauQuery } from '../gestionnaireRéseau/query/consulter/consulterGestionnaireRéseau.query';
+import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau/query/consulter/consulterGestionnaireRéseau.query';
 import {
   ModifierGestionnaireRéseauProjetCommand,
   buildModifierGestionnaireRéseauProjetCommand,
-} from './modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.command';
+} from '../command/modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.command';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 type ModifierGestionnaireRéseauProjetUseCaseData = ModifierGestionnaireRéseauProjetCommand['data'];

@@ -1,7 +1,7 @@
 import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauProjetModifiéEvent } from '../modifierGestionnaireRéseauProjet.event';
-import { ProjetReadModel } from '../../projet.readModel';
+import { ProjetReadModel } from '../../../query/consulter/projet.readModel';
 
 export type GestionnaireRéseauProjetModifiéDependencies = {
   create: Create;

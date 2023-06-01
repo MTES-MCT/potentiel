@@ -17,8 +17,3 @@ export const PermissionTransmettrePropositionTechniqueEtFinancière = {
   nom: 'transmettre-proposition-technique-et-financière',
   description: 'Transmettre une proposition technique et financière',
 };
-
-export const PermissionModifierGestionnaireRéseauProjet = {
-  nom: 'modifier-gestionnaire-réseau-projet',
-  description: 'Modifier le gestionnaire de réseau du projet',
-};

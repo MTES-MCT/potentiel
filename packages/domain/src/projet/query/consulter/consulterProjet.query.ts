@@ -1,8 +1,8 @@
 import { Find } from '@potentiel/core-domain';
-import { ProjetReadModel } from '../projet.readModel';
+import { ProjetReadModel } from "./projet.readModel";
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../valueType/identifiantProjet';
 
 export type ConsulterProjetQuery = Message<
   'CONSULTER_PROJET',
