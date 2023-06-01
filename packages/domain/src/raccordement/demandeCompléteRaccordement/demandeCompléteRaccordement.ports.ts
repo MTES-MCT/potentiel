@@ -1,4 +1,3 @@
 export { RécupérerAccuséRéceptionDemandeComplèteRaccordementPort } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 export { EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
-export { SupprimerAccuséRéceptionDemandeComplèteRaccordementPort } from './supprimerAccuséRéception/supprimerAccuséRéceptionDemandeComplèteRaccordement.command';
 export { ModifierAccuséRéceptionDemandeComplèteRaccordementPort } from './modifierAccuséRécéption/modifierAccuséRéceptionDemandeComplèteRaccordement.command';

@@ -9,5 +9,4 @@ export { AccuséRéceptionDemandeComplèteRaccordementReadModel } from './consul
 // EventHandlers (TODO: sera supprimé lorsque le mediateur pourra publish des messages)
 export { accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory } from './enregisterAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementTransmis.handler';
 export { demandeComplèteRaccordementeModifiéeHandlerFactory } from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';
-export { accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory } from './supprimerAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementSupprimé.handler';
 export { demandeComplèteRaccordementTransmiseHandlerFactory } from './transmettre/handlers/demandeComplèteRaccordementTransmise.handler';

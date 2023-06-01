@@ -24,8 +24,6 @@ import { getClient } from '@potentiel/file-storage';
 import {
   téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
   téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
-  supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-  supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
   téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
 } from '@potentiel/infra-adapters';
@@ -84,10 +82,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
         téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée:
         téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
-      supprimerAccuséRéceptionDemandeComplèteRaccordement:
-        supprimerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-      supprimerPropositionTechniqueEtFinancièreSignée:
-        supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
     },
     subscribe,
   });

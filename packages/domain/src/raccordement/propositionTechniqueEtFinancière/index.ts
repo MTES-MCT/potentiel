@@ -10,4 +10,3 @@ export { PropositionTechniqueEtFinancièreSignéeReadModel } from './consulter/p
 export { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';
 export { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeTransmise.handler';
 export { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './transmettre/handlers/propositionTechniqueEtFinancièreTransmise.handler';
-export { propositionTechniqueEtFinancièreSignéeSuppriméeHandlerFactory } from './supprimerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeSupprimée.handler';
