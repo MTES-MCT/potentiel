@@ -1,19 +1,25 @@
 import { Message, MessageHandler, getMessageBuilder, mediator } from 'mediateur';
-import { Publish } from '@potentiel/core-domain';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRaccordementTransmise.event';
-import { createRaccordementAggregateId } from '../../raccordement.aggregate';
-import { PlusieursGestionnairesRéseauPourUnProjetError } from '../../raccordement.errors';
+import {
+  createRaccordementAggregateId,
+  loadRaccordementAggregateFactory,
+} from '../../raccordement.aggregate';
+import {
+  PlusieursGestionnairesRéseauPourUnProjetError,
+  RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
+} from '../../raccordement.errors';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
 } from '../../../gestionnaireRéseau/identifiantGestionnaireRéseau';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
+import { isSome } from '@potentiel/monads';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
-    identifiantGestionnaireRéseauProjet?: IdentifiantGestionnaireRéseau;
     identifiantProjet: IdentifiantProjet;
     dateQualification?: Date;
     référenceDossierRaccordement: string;
@@ -21,24 +27,32 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
 >;
 
 export type TransmettreDemandeComplèteRaccordementDependencies = {
+  loadAggregate: LoadAggregate;
   publish: Publish;
 };
 
 export const registerTransmettreDemandeComplèteRaccordementCommand = ({
   publish,
+  loadAggregate,
 }: TransmettreDemandeComplèteRaccordementDependencies) => {
+  const loadRaccordement = loadRaccordementAggregateFactory({ loadAggregate });
   const handler: MessageHandler<TransmettreDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
     dateQualification,
     identifiantGestionnaireRéseau,
     référenceDossierRaccordement,
-    identifiantGestionnaireRéseauProjet,
   }) => {
+    const raccordement = await loadRaccordement(identifiantProjet);
+
     if (
-      identifiantGestionnaireRéseauProjet &&
-      identifiantGestionnaireRéseau.codeEIC !== identifiantGestionnaireRéseauProjet.codeEIC
+      isSome(raccordement) &&
+      raccordement.gestionnaireRéseau.codeEIC !== identifiantGestionnaireRéseau.codeEIC
     ) {
       throw new PlusieursGestionnairesRéseauPourUnProjetError();
+    }
+
+    if (isSome(raccordement) && raccordement.références.includes(référenceDossierRaccordement)) {
+      throw new RéférenceDossierRaccordementDéjàExistantPourLeProjetError();
     }
 
     const event: DemandeComplèteRaccordementTransmiseEvent = {

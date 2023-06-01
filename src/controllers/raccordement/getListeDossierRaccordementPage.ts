@@ -6,7 +6,7 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   PermissionConsulterDossierRaccordement,
   RésuméProjetReadModel,
-  buildConsulterGestionnaireRéseauQuery,
+  buildConsulterGestionnaireRéseauUseCase,
   buildConsulterProjetUseCase,
   buildListerDossiersRaccordementUseCase,
   buildConsulterDossierRaccordementUseCase,
@@ -14,6 +14,7 @@ import {
 import { Project } from '@infra/sequelize/projectionsNext';
 import { ListeDossiersRaccordementPage } from '@views';
 import { mediator } from 'mediateur';
+import { userIs } from '@modules/users';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -110,7 +111,7 @@ v1Router.get(
         );
 
         const gestionnaireRéseau = await mediator.send(
-          buildConsulterGestionnaireRéseauQuery({
+          buildConsulterGestionnaireRéseauUseCase({
             identifiantGestionnaireRéseau: { codeEIC: identifiantGestionnaire.codeEIC },
           }),
         );
@@ -141,7 +142,13 @@ v1Router.get(
         );
       }
 
-      return response.redirect(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId));
+      if (userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user)) {
+        return response.redirect(
+          routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId),
+        );
+      }
+
+      return response.redirect(routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(projetId));
     },
   ),
 );

@@ -118,7 +118,7 @@ export const Dossier: FC<{
             </Link>
           )}
         </div>
-      ) : (
+      ) : userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ? (
         <Link
           className="mt-4 text-center"
           href={routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
@@ -128,6 +128,8 @@ export const Dossier: FC<{
         >
           Transmettre
         </Link>
+      ) : (
+        <p>La proposition technique et financière n'a pas été transmise</p>
       )}
     </Etape>
     <Separateur />
@@ -148,7 +150,7 @@ export const Dossier: FC<{
             </Link>
           )}
         </div>
-      ) : userIs(['admin'])(user) ? (
+      ) : userIs(['admin', 'dgec-validateur'])(user) ? (
         <Link
           className="mt-4 text-center"
           href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(identifiantProjet, référence)}

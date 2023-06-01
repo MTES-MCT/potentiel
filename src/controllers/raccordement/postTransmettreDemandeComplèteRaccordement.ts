@@ -3,6 +3,7 @@ import {
   GestionnaireNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
   PlusieursGestionnairesRéseauPourUnProjetError,
+  RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
   buildTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -128,6 +129,7 @@ v1Router.post(
       } catch (error) {
         if (
           error instanceof PlusieursGestionnairesRéseauPourUnProjetError ||
+          error instanceof RéférenceDossierRaccordementDéjàExistantPourLeProjetError ||
           error instanceof GestionnaireNonRéférencéError
         ) {
           return response.redirect(

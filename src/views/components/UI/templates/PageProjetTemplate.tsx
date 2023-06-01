@@ -39,7 +39,7 @@ const EntêteProjet: FC<RésuméProjetReadModel> = ({
   localité,
 }) => (
   <section className="bg-blue-france-sun-base text-white py-6 mb-3">
-    <Container className="xl:mx-auto xl:max-w-7xl w-full">
+    <Container>
       <div className="w-full py-3 lg:flex justify-between gap-2 px-4">
         <div className="mb-3">
           <div className="flex justify-start items-center">

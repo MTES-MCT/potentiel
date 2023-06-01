@@ -13,14 +13,17 @@ import { Readable } from 'stream';
 EtantDonné(`un dossier de raccordement`, async function (this: PotentielWorld) {
   await this.raccordementWorld.createDemandeComplèteRaccordement(
     this.gestionnaireRéseauWorld.enedis.codeEIC,
+    'UNE-REFERENCE-DCR',
   );
 });
 
 EtantDonné(
   `un dossier de raccordement avec une proposition technique et financière`,
   async function (this: PotentielWorld) {
+    const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
     await this.raccordementWorld.createDemandeComplèteRaccordement(
       this.gestionnaireRéseauWorld.enedis.codeEIC,
+      référenceDossierRaccordement,
     );
 
     await this.raccordementWorld.createPropositionTechniqueEtFinancière();

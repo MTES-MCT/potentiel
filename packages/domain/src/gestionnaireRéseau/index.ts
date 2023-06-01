@@ -1,8 +1,8 @@
 // Usecases
-export { buildAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
-export { buildConsulterGestionnaireRéseauQuery } from './consulter/consulterGestionnaireRéseau.query';
-export { buildListerGestionnaireRéseauQuery } from './lister/listerGestionnaireRéseau.query';
-export { buildModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
+export { buildAjouterGestionnaireRéseauUseCase } from './ajouterGestionnaireRéseau.usecase';
+export { buildConsulterGestionnaireRéseauUseCase } from './consulterGestionnaireRéseau.usecase';
+export { buildListerGestionnaireRéseauUseCase } from './listerGestionnaireRéseau.usecase';
+export { buildModifierGestionnaireRéseauUseCase } from './modifierGestionnaireRéseau.usecase';
 
 // ReadNModel
 export { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';

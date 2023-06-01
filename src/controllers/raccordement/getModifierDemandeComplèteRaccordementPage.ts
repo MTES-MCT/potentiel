@@ -2,7 +2,7 @@ import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RésuméProjetReadModel,
   buildConsulterDossierRaccordementUseCase,
-  buildConsulterGestionnaireRéseauQuery,
+  buildConsulterGestionnaireRéseauUseCase,
   buildConsulterProjetUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -103,7 +103,7 @@ v1Router.get(
       );
 
       const gestionnaireRéseauActuel = await mediator.send(
-        buildConsulterGestionnaireRéseauQuery({
+        buildConsulterGestionnaireRéseauUseCase({
           identifiantGestionnaireRéseau: { codeEIC: identifiantGestionnaire!.codeEIC },
         }),
       );

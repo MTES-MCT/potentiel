@@ -53,6 +53,8 @@ import {
   ModifierDemandeComplèteRaccordement,
   ModifierGestionnaireRéseauProjet,
   ModifierPropositionTechniqueEtFinancière,
+  AucunDossierALister,
+  ImporterDatesMiseEnService,
 } from './pages';
 
 export { App } from './App';
@@ -459,4 +461,20 @@ export const ModifierPropositionTechniqueEtFinancièrePage = (
     Component: ModifierPropositionTechniqueEtFinancière,
     props,
     title: 'Modifier une proposition technique et financière',
+  });
+
+export const AucunDossierAListerPage = (props: Parameters<typeof AucunDossierALister>[0]) =>
+  makeHtml({
+    Component: AucunDossierALister,
+    props,
+    title: 'Aucun dossier de raccordement à lister',
+  });
+
+export const ImporterDatesMiseEnServicePage = (
+  props: Parameters<typeof ImporterDatesMiseEnService>[0],
+) =>
+  makeHtml({
+    Component: ImporterDatesMiseEnService,
+    props,
+    title: 'Importer des dates de mise en service',
   });

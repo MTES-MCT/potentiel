@@ -1,6 +1,7 @@
 export * from './Badge';
 export * from './Callout';
 export * from './headings';
+export * from './Dialog';
 export * from './Input';
 export * from './Label';
 export * from './Link';
@@ -13,3 +14,4 @@ export * from './Select';
 export * from './Fieldset';
 export * from './table';
 export * from './Form';
+export * from './Spinner';

@@ -3,7 +3,7 @@ import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 
 export type ListerGestionnaireRéseauQuery = Message<
-  'LISTER_GESTIONNAIRE_RÉSEAU',
+  'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
   {},
   ReadonlyArray<GestionnaireRéseauReadModel>
 >;
@@ -17,9 +17,9 @@ export const registerListerGestionnaireRéseauQuery = ({
 }: ListerGestionnaireRéseauDependencies) => {
   const commandHandler: MessageHandler<ListerGestionnaireRéseauQuery> = async () =>
     list<GestionnaireRéseauReadModel>({ type: 'gestionnaire-réseau', orderBy: 'raisonSociale' });
-  mediator.register('LISTER_GESTIONNAIRE_RÉSEAU', commandHandler);
+  mediator.register('LISTER_GESTIONNAIRE_RÉSEAU_QUERY', commandHandler);
 };
 
 export const buildListerGestionnaireRéseauQuery = getMessageBuilder<ListerGestionnaireRéseauQuery>(
-  'LISTER_GESTIONNAIRE_RÉSEAU',
+  'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
 );

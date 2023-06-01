@@ -84,6 +84,12 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Courriers historiques
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE}
+        {...(currentPage === 'importer-dates-mise-en-service' && { isCurrent: true })}
+      >
+        Dates de mise en service
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Désignation'}>
       <DropdownMenu.DropdownItem

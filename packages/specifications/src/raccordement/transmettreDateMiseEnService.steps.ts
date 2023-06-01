@@ -21,6 +21,18 @@ Quand(
   },
 );
 
+Quand(
+  `un administrateur transmet la date de mise en service {string} avec seulement la référence du dossier de raccordement`,
+  async function (this: PotentielWorld, dateMiseEnService: string) {
+    await mediator.send(
+      buildTransmettreDateMiseEnServiceUseCase({
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        dateMiseEnService: new Date(dateMiseEnService),
+      }),
+    );
+  },
+);
+
 Alors(
   `la date de mise en service {string} devrait être consultable dans le dossier de raccordement`,
   async function (this: PotentielWorld, dateMiseEnService: string) {
@@ -50,6 +62,38 @@ Quand(
       if (error instanceof DossierRaccordementNonRéférencéError) {
         this.error = error;
       }
+    }
+  },
+);
+
+Quand(
+  `un administrateur transmet une date de mise en service avec seulement une référence ne correspondant à aucun dossier`,
+  async function (this: PotentielWorld) {
+    try {
+      await mediator.send(
+        buildTransmettreDateMiseEnServiceUseCase({
+          référenceDossierRaccordement: 'dossier-inconnu',
+          dateMiseEnService: new Date('2023-03-15'),
+        }),
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `un administrateur transmet une date de mise en service avec seulement cette référence`,
+  async function (this: PotentielWorld) {
+    try {
+      await mediator.send(
+        buildTransmettreDateMiseEnServiceUseCase({
+          référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+          dateMiseEnService: new Date('2023-03-15'),
+        }),
+      );
+    } catch (error) {
+      this.error = error as Error;
     }
   },
 );

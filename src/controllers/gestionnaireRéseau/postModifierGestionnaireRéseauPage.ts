@@ -9,7 +9,7 @@ import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   GestionnaireRéseauInconnuError,
   PermissionModifierGestionnaireRéseau,
-  buildModifierGestionnaireRéseauCommand,
+  buildModifierGestionnaireRéseauUseCase,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 
@@ -41,7 +41,7 @@ v1Router.post(
         params: { codeEIC },
       } = request;
       try {
-        const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauCommand({
+        const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauUseCase({
           identifiantGestionnaireRéseau: { codeEIC },
           aideSaisieRéférenceDossierRaccordement: { format, légende },
           raisonSociale,

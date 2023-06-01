@@ -9,32 +9,32 @@ import {
   Input,
   Label,
   LegacyPageTemplate,
-  RésultatSoumissionFormulaire,
-  RésultatSoumissionFormulaireProps,
+  SuccessBox,
   Form,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
 type InviterDgecValidateurProps = {
   request: Request;
-  résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire'];
+  inviationRéussi?: true;
+  formErrors?: Record<string, string>;
 };
 
 export const InviterDgecValidateur = ({
   request,
-  résultatSoumissionFormulaire,
+  inviationRéussi,
+  formErrors = {},
 }: InviterDgecValidateurProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="inviter-dgec-validateur">
       <Heading1>Gérer les DGEC-VALIDATEUR</Heading1>
       <Heading2>Ajouter un utilisateur DGEC-VALIDATEUR</Heading2>
-      {résultatSoumissionFormulaire && (
-        <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
-      )}
+      {inviationRéussi && <SuccessBox title="L'invitation a bien été envoyée" />}
+
       <Form
         action={routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION}
         method="post"
-        className="mx-auto"
+        className="flex flex-col gap-4"
       >
         <FormulaireChampsObligatoireLégende className="text-right" />
         <input type="hidden" name="role" value="dgec-validateur" />
@@ -48,13 +48,8 @@ export const InviterDgecValidateur = ({
             id="email"
             required
             className="mb-2"
-            {...(résultatSoumissionFormulaire?.type === 'échec' &&
-              résultatSoumissionFormulaire.erreursDeValidation && {
-                error: résultatSoumissionFormulaire.erreursDeValidation['email'],
-              })}
+            error={formErrors['email']}
           />
-        </div>
-        <div>
           <Label htmlFor="fonction" required>
             Fonction :
           </Label>
@@ -63,10 +58,7 @@ export const InviterDgecValidateur = ({
             name="fonction"
             id="fonction"
             required
-            {...(résultatSoumissionFormulaire?.type === 'échec' &&
-              résultatSoumissionFormulaire.erreursDeValidation && {
-                error: résultatSoumissionFormulaire.erreursDeValidation['fonction'],
-              })}
+            error={formErrors['fonction']}
           />
         </div>
         <PrimaryButton type="submit" id="submit" className="m-auto">

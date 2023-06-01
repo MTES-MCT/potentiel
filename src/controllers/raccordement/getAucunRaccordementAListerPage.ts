@@ -1,25 +1,19 @@
-import {
-  PermissionModifierGestionnaireRéseauProjet,
-  RésuméProjetReadModel,
-  buildConsulterProjetUseCase,
-  buildListerGestionnaireRéseauUseCase,
-} from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { ModifierGestionnaireRéseauProjetPage } from '@views';
+import { PermissionConsulterDossierRaccordement, RésuméProjetReadModel } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { mediator } from 'mediateur';
+import { AucunDossierAListerPage } from '@views';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
 });
 
 v1Router.get(
-  routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(),
-  vérifierPermissionUtilisateur(PermissionModifierGestionnaireRéseauProjet),
+  routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(),
+  vérifierPermissionUtilisateur(PermissionConsulterDossierRaccordement),
   safeAsyncHandler(
     {
       schema,
@@ -30,7 +24,7 @@ v1Router.get(
       const {
         user,
         params: { projetId },
-        query: { error },
+        query: { success },
       } = request;
 
       const projet = await Project.findByPk(projetId, {
@@ -59,21 +53,6 @@ v1Router.get(
         });
       }
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        période: projet.periodeId,
-        famille: projet.familleId,
-        numéroCRE: projet.numeroCRE,
-      };
-
-      const { identifiantGestionnaire } = await mediator.send(
-        buildConsulterProjetUseCase({ identifiantProjet }),
-      );
-
-      const listeGestionnairesRéseau = await mediator.send(
-        buildListerGestionnaireRéseauUseCase({}),
-      );
-
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
           return 'non-notifié';
@@ -88,12 +67,10 @@ v1Router.get(
         return 'éliminé';
       };
 
-      return response.send(
-        ModifierGestionnaireRéseauProjetPage({
-          identifiantGestionnaireActuel: identifiantGestionnaire!.codeEIC,
+      response.send(
+        AucunDossierAListerPage({
           user,
-          listeGestionnairesRéseau,
-          identifiantProjet: projet.id,
+          identifiantProjet: projetId,
           résuméProjet: {
             type: 'résumé-projet',
             identifiantProjet: projet.id,
@@ -109,7 +86,6 @@ v1Router.get(
               région: projet.regionProjet,
             },
           },
-          error: error as string,
         }),
       );
     },
