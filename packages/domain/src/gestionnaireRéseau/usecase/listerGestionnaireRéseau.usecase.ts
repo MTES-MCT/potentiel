@@ -1,9 +1,9 @@
-import { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';
+import { GestionnaireRéseauReadModel } from '../query/gestionnaireRéseau.readModel';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import {
   ListerGestionnaireRéseauQuery,
   buildListerGestionnaireRéseauQuery,
-} from './lister/listerGestionnaireRéseau.query';
+} from '../query/lister/listerGestionnaireRéseau.query';
 
 type ListerGestionnaireRéseauUseCaseData = ListerGestionnaireRéseauQuery['data'];
 type ListerGestionnaireRéseauUseCaseResult = ReadonlyArray<GestionnaireRéseauReadModel>;

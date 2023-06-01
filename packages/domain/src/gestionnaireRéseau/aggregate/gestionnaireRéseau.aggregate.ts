@@ -1,6 +1,6 @@
 import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { GestionnaireRéseauAjoutéEvent } from './ajouter/gestionnaireRéseauAjouté.event';
-import { GestionnaireRéseauModifiéEvent } from './modifier/gestionnaireRéseauModifié.event';
+import { GestionnaireRéseauAjoutéEvent } from '../command/ajouter/gestionnaireRéseauAjouté.event';
+import { GestionnaireRéseauModifiéEvent } from '../command/modifier/gestionnaireRéseauModifié.event';
 
 type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
 
@@ -14,7 +14,9 @@ type GestionnaireRéseauState = {
   aideSaisieRéférenceDossierRaccordement?: { format: string; légende: string };
 };
 
-type GestionnaireRéseauEvent = GestionnaireRéseauModifiéEvent | GestionnaireRéseauAjoutéEvent;
+export type GestionnaireRéseauEvent =
+  | GestionnaireRéseauModifiéEvent
+  | GestionnaireRéseauAjoutéEvent;
 
 const defaultAggregateState: GestionnaireRéseauState = {
   raisonSociale: '',

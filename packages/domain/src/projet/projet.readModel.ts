@@ -1,5 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain';
-import { IdentifiantGestionnaireRéseau } from '../gestionnaireRéseau/identifiantGestionnaireRéseau';
+import { IdentifiantGestionnaireRéseau } from '../gestionnaireRéseau/valueType/identifiantGestionnaireRéseau';
 
 export type ProjetReadModel = ReadModel<
   'projet',

@@ -3,14 +3,14 @@ import { isNone } from '@potentiel/monads';
 import {
   createGestionnaireRéseauAggregateId,
   loadGestionnaireRéseauAggregateFactory,
-} from '../gestionnaireRéseau.aggregate';
+} from '../../aggregate/gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifié.event';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../identifiantGestionnaireRéseau';
+} from '../../valueType/identifiantGestionnaireRéseau';
 
 export type ModifierGestionnaireRéseauCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU',

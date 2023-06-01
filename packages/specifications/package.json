@@ -13,6 +13,7 @@
     "test:ci": "mkdir test-results && cucumber-js --profile ci"
   },
   "dependencies": {
+    "@potentiel/core-domain": "*",
     "@potentiel/domain": "*",
     "@potentiel/file-storage": "*",
     "@potentiel/infra-adapters": "*",

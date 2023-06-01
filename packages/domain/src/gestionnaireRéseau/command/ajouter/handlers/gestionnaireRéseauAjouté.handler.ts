@@ -1,6 +1,6 @@
 import { Create, DomainEventHandlerFactory } from '@potentiel/core-domain';
-import { GestionnaireRéseauReadModel } from '../../gestionnaireRéseau.readModel';
 import { GestionnaireRéseauAjoutéEvent } from '../gestionnaireRéseauAjouté.event';
+import { GestionnaireRéseauReadModel } from '../../../query/gestionnaireRéseau.readModel';
 
 export type GestionnaireRéseauAjoutéHandlerDependencies = {
   create: Create;

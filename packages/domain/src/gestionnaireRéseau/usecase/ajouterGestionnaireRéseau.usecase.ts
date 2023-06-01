@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 import {
   AjouterGestionnaireRéseauCommand,
   buildAjouterGestionnaireRéseauCommand,
-} from './ajouter/ajouterGestionnaireRéseau.command';
+} from '../command/ajouter/ajouterGestionnaireRéseau.command';
 
 type AjouterGestionnaireRéseauUseCaseData = AjouterGestionnaireRéseauCommand['data'];
 

@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 import {
   ConsulterGestionnaireRéseauQuery,
   buildConsulterGestionnaireRéseauQuery,
-} from './consulter/consulterGestionnaireRéseau.query';
-import { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';
+} from '../query/consulter/consulterGestionnaireRéseau.query';
+import { GestionnaireRéseauReadModel } from '../query/gestionnaireRéseau.readModel';
 
 type ConsulterGestionnaireRéseauUseCaseData = ConsulterGestionnaireRéseauQuery['data'];
 type ConsulterGestionnaireRéseauUseCaseResult = GestionnaireRéseauReadModel;

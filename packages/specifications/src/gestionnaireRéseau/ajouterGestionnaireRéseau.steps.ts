@@ -1,6 +1,5 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
-  GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauReadModel,
   buildConsulterGestionnaireRéseauUseCase,
   buildAjouterGestionnaireRéseauUseCase,
@@ -53,9 +52,7 @@ Quand(
 
       await mediator.send(command);
     } catch (error) {
-      if (error instanceof GestionnaireRéseauDéjàExistantError) {
-        this.error = error;
-      }
+      this.error = error as Error;
     }
   },
 );

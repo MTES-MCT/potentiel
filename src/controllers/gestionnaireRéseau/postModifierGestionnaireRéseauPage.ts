@@ -7,11 +7,11 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
-  GestionnaireRéseauInconnuError,
   PermissionModifierGestionnaireRéseau,
   buildModifierGestionnaireRéseauUseCase,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
+import { NotFoundError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   body: yup.object({
@@ -55,7 +55,7 @@ v1Router.post(
           }),
         );
       } catch (error) {
-        if (error instanceof GestionnaireRéseauInconnuError) {
+        if (error instanceof NotFoundError) {
           return response.redirect(
             addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
               error: error.message,

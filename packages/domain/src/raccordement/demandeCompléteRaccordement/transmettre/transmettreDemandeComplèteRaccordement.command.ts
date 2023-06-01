@@ -12,7 +12,7 @@ import {
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../../../gestionnaireRéseau/identifiantGestionnaireRéseau';
+} from '../../../gestionnaireRéseau/valueType/identifiantGestionnaireRéseau';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/identifiantProjet';
 import { isSome } from '@potentiel/monads';
 
