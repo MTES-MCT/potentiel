@@ -2,6 +2,7 @@ export * from './aggregateId';
 export * from './aggregate';
 export * from './aggregateStateFactory';
 export * from './loadAggregate';
+export * from './domainError';
 export * from './domainEvent';
 export * from './domainEventHandler';
 export * from './publish';
