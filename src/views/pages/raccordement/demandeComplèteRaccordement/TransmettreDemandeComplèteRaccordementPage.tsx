@@ -48,6 +48,9 @@ export const TransmettreDemandeComplèteRaccordement = ({
   const [légende, setLégende] = useState(
     gestionnaireRéseauActuel?.aideSaisieRéférenceDossierRaccordement.légende ?? '',
   );
+  const [expressionReguliere, setExpressionReguliere] = useState(
+    gestionnaireRéseauActuel?.expressionReguliere ?? '',
+  );
 
   return (
     <PageProjetTemplate
@@ -107,7 +110,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
               name="referenceDossierRaccordement"
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
               required
-              pattern="[a-zA-Z]{3}-RP-2[0-9]{3}-[\d]{6}"
+              // pattern={expressionReguliere}
             />
           </div>
 

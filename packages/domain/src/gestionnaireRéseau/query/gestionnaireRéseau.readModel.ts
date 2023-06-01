@@ -12,5 +12,6 @@ export type GestionnaireRéseauReadModel = ReadModel<
       format: string;
       légende: string;
     };
+    expressionReguliere?: string;
   }
 >;

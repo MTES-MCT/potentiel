@@ -45,6 +45,7 @@ export const ModifierDemandeComplèteRaccordement = ({
 }: ModifierDemandeComplèteRaccordementProps) => {
   const {
     aideSaisieRéférenceDossierRaccordement: { format, légende },
+    expressionReguliere,
   } = gestionnaireRéseauActuel;
 
   return (
@@ -139,6 +140,7 @@ export const ModifierDemandeComplèteRaccordement = ({
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
               required
               value={reference ?? ''}
+              pattern={expressionReguliere}
             />
           </div>
 

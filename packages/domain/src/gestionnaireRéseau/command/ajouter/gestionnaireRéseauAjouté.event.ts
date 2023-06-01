@@ -6,5 +6,6 @@ export type GestionnaireRéseauAjoutéEvent = DomainEvent<
     raisonSociale: string;
     codeEIC: string;
     aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
+    expressionReguliere?: string;
   }
 >;

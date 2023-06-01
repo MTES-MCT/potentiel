@@ -1,63 +1,72 @@
 import routes from '@routes';
+import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
-import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
-  PermissionModifierGestionnaireRéseau,
-  buildModifierGestionnaireRéseauUseCase,
+  PermissionAjouterGestionnaireRéseau,
+  buildAjouterGestionnaireRéseauUseCase,
 } from '@potentiel/domain';
+import { InvalidOperationError } from '@potentiel/core-domain';
 import { mediator } from 'mediateur';
-import { NotFoundError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   body: yup.object({
+    codeEIC: yup.string().required('Le code EIC est obligatoire'),
     raisonSociale: yup.string().required('La raison sociale est obligatoire'),
     format: yup.string().optional(),
     légende: yup.string().optional(),
+    expressionReguliere: yup.string().optional(),
   }),
 });
 
 v1Router.post(
-  routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(),
-  vérifierPermissionUtilisateur(PermissionModifierGestionnaireRéseau),
+  routes.POST_AJOUTER_GESTIONNAIRE_RESEAU,
+  vérifierPermissionUtilisateur(PermissionAjouterGestionnaireRéseau),
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response, errors }) =>
+      onError: ({ request, response, error, errors }) => {
         response.redirect(
-          addQueryParams(routes.GET_DETAIL_GESTIONNAIRE_RESEAU(request.params.codeEIC), {
+          addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
             ...request.body,
+            error,
             errors: JSON.stringify(errors),
           }),
-        ),
+        );
+      },
     },
     async (request, response) => {
       const {
-        body: { format = '', légende = '', raisonSociale },
-        params: { codeEIC },
-      } = request;
+        codeEIC,
+        format = '',
+        légende = '',
+        raisonSociale,
+        expressionReguliere,
+      } = request.body;
+
       try {
-        const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauUseCase({
-          identifiantGestionnaireRéseau: { codeEIC },
+        const ajouterGestionnaireRéseauCommand = buildAjouterGestionnaireRéseauUseCase({
+          codeEIC,
           aideSaisieRéférenceDossierRaccordement: { format, légende },
           raisonSociale,
+          expressionReguliere,
         });
 
-        await mediator.send(modifierGestionnaireRéseauCommand);
+        await mediator.send(ajouterGestionnaireRéseauCommand);
 
         response.redirect(
           addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
-            success: 'Le gestionnaire a bien été modifié.',
+            success: 'Le gestionnaire a bien été enregistré.',
           }),
         );
       } catch (error) {
-        if (error instanceof NotFoundError) {
+        if (error instanceof InvalidOperationError) {
           return response.redirect(
-            addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
+            addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
               error: error.message,
             }),
           );

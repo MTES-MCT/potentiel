@@ -33,6 +33,15 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
       }),
     );
 
+    if (gestionnaireRéseau.expressionReguliere) {
+      const isRefValid = new RegExp(gestionnaireRéseau.expressionReguliere).test(
+        référenceDossierRaccordement,
+      );
+      if (!isRefValid) {
+        throw new Error('Format non valide de la référence du dossier de raccordement');
+      }
+    }
+
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementCommand({
         identifiantProjet,
