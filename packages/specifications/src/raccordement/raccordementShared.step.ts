@@ -83,7 +83,9 @@ Alors(
       }),
     );
 
-    // TODO improve assert
-    propositionTechniqueEtFinancièreSignée.should.be.ok;
+    expect(propositionTechniqueEtFinancièreSignée.format).to.be.equal(
+      this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
+    );
+    expect(propositionTechniqueEtFinancièreSignée.content).to.be.instanceof(Readable);
   },
 );
