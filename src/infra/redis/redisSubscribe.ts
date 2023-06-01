@@ -10,7 +10,6 @@ type MakeRedisSubscribeDeps = {
 };
 
 const skipEvents: Array<DomainEvents['type']> = [
-  'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
   'AccuséRéceptionDemandeComplèteRaccordementTransmis',
   'DateMiseEnServiceTransmise',
   'DemandeComplèteDeRaccordementTransmise',
@@ -19,7 +18,6 @@ const skipEvents: Array<DomainEvents['type']> = [
   'GestionnaireRéseauModifié',
   'GestionnaireRéseauProjetModifié',
   'PropositionTechniqueEtFinancièreModifiée',
-  'PropositionTechniqueEtFinancièreSignéeSupprimée',
   'PropositionTechniqueEtFinancièreSignéeTransmise',
   'PropositionTechniqueEtFinancièreTransmise',
 ];

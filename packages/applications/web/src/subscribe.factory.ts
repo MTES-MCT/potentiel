@@ -10,8 +10,6 @@ import {
   dateMiseEnServiceTransmiseHandlerFactory,
   gestionnaireRéseauProjetModifiéHandlerFactory,
   propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory,
-  propositionTechniqueEtFinancièreSignéeSuppriméeHandlerFactory,
-  accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory,
 } from '@potentiel/domain';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import {
@@ -23,7 +21,6 @@ import {
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
 import {
-  supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
   téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
 } from '@potentiel/infra-adapters';
@@ -74,14 +71,6 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
   );
 
   consumerRaccordement.consume(
-    'AccuséRéceptionDemandeComplèteRaccordementSupprimé',
-    accuséRéceptionDemandeComplèteRaccordementSuppriméHandlerFactory({
-      find: findProjection,
-      update: updateProjection,
-    }),
-  );
-
-  consumerRaccordement.consume(
     'DateMiseEnServiceTransmise',
     dateMiseEnServiceTransmiseHandlerFactory({ find: findProjection, update: updateProjection }),
   );
@@ -107,14 +96,6 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
     propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory({
       find: findProjection,
       update: updateProjection,
-    }),
-  );
-
-  consumerRaccordement.consume(
-    'PropositionTechniqueEtFinancièreSignéeSupprimée',
-    propositionTechniqueEtFinancièreSignéeSuppriméeHandlerFactory({
-      supprimerPropositionTechniqueEtFinancièreSignée:
-        supprimerPropositionTechniqueEtFinancièreSignéeAdapter,
     }),
   );
 
