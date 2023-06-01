@@ -3,7 +3,6 @@ import {
   buildConsulterGestionnaireRéseauUseCase,
   buildListerGestionnaireRéseauUseCase,
   buildModifierGestionnaireRéseauUseCase,
-  GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
 } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
@@ -56,9 +55,7 @@ Quand(
 
       await mediator.send(modifierGestionnaireRéseauCommand);
     } catch (error) {
-      if (error instanceof GestionnaireRéseauInconnuError) {
-        this.error = error;
-      }
+      this.error = error as Error;
     }
   },
 );

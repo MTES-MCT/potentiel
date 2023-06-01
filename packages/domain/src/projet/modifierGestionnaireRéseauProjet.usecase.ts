@@ -1,4 +1,4 @@
-import { buildConsulterGestionnaireRéseauQuery } from '../gestionnaireRéseau/consulter/consulterGestionnaireRéseau.query';
+import { buildConsulterGestionnaireRéseauQuery } from '../gestionnaireRéseau/query/consulter/consulterGestionnaireRéseau.query';
 import {
   ModifierGestionnaireRéseauProjetCommand,
   buildModifierGestionnaireRéseauProjetCommand,

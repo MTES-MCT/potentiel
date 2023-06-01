@@ -1,7 +1,6 @@
 import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
-  GestionnaireNonRéférencéError,
   buildConsulterProjetUseCase,
   buildModifierGestionnaireRéseauProjetUseCase,
 } from '@potentiel/domain';
@@ -50,9 +49,7 @@ Quand(
         }),
       );
     } catch (error) {
-      if (error instanceof GestionnaireNonRéférencéError) {
-        this.error = error;
-      }
+      this.error = error as Error;
     }
   },
 );

@@ -1,5 +1,4 @@
 import {
-  GestionnaireNonRéférencéError,
   PermissionModifierGestionnaireRéseauProjet,
   buildModifierGestionnaireRéseauProjetUseCase,
 } from '@potentiel/domain';
@@ -17,6 +16,7 @@ import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { mediator } from 'mediateur';
+import { NotFoundError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -91,7 +91,7 @@ v1Router.post(
           }),
         );
       } catch (error) {
-        if (error instanceof GestionnaireNonRéférencéError) {
+        if (error instanceof NotFoundError) {
           return response.redirect(
             addQueryParams(routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(projetId), {
               error: error.message,

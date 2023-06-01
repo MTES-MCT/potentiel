@@ -7,10 +7,10 @@ import * as yup from 'yup';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import {
-  GestionnaireRéseauDéjàExistantError,
   PermissionAjouterGestionnaireRéseau,
   buildAjouterGestionnaireRéseauUseCase,
 } from '@potentiel/domain';
+import { InvalidOperationError } from '@potentiel/core-domain';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({
@@ -56,7 +56,7 @@ v1Router.post(
           }),
         );
       } catch (error) {
-        if (error instanceof GestionnaireRéseauDéjàExistantError) {
+        if (error instanceof InvalidOperationError) {
           return response.redirect(
             addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
               error: error.message,

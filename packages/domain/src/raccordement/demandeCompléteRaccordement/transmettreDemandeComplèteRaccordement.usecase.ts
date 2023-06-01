@@ -8,7 +8,7 @@ import {
   TransmettreDemandeComplèteRaccordementCommand,
   buildTransmettreDemandeComplèteRaccordementCommand,
 } from './transmettre/transmettreDemandeComplèteRaccordement.command';
-import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau/consulter/consulterGestionnaireRéseau.query';
+import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau/query/consulter/consulterGestionnaireRéseau.query';
 
 type TransmettreDemandeComplèteRaccordementUseCase = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',

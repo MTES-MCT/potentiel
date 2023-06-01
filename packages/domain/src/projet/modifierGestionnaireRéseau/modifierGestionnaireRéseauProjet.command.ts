@@ -6,7 +6,7 @@ import { IdentifiantProjet, formatIdentifiantProjet } from '../identifiantProjet
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../../gestionnaireRéseau/identifiantGestionnaireRéseau';
+} from '../../gestionnaireRéseau/valueType/identifiantGestionnaireRéseau';
 
 export type ModifierGestionnaireRéseauProjetCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',

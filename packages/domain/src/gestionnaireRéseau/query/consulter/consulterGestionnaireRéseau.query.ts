@@ -6,7 +6,7 @@ import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur'
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../identifiantGestionnaireRéseau';
+} from '../../valueType/identifiantGestionnaireRéseau';
 
 export type ConsulterGestionnaireRéseauQuery = Message<
   'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',

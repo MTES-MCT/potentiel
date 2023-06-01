@@ -1,5 +1,5 @@
-import { GestionnaireRéseauAjoutéEvent } from './gestionnaireRéseau/ajouter/gestionnaireRéseauAjouté.event';
-import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseau/modifier/gestionnaireRéseauModifié.event';
+import { GestionnaireRéseauEvent } from './gestionnaireRéseau/aggregate/gestionnaireRéseau.aggregate';
+
 import { GestionnaireRéseauProjetModifiéEvent } from './projet/modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.event';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './raccordement/demandeCompléteRaccordement/enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 import { DemandeComplèteRaccordementModifiéeEvent } from './raccordement/demandeCompléteRaccordement/modifier/demandeComplèteRaccordementModifiée.event';
@@ -12,8 +12,7 @@ import { PropositionTechniqueEtFinancièreSignéeSuppriméeEvent } from './racco
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from './raccordement/propositionTechniqueEtFinancière/transmettre/propositionTechniqueEtFinancièreTransmise.event';
 
 export type DomainEvents =
-  | GestionnaireRéseauAjoutéEvent
-  | GestionnaireRéseauModifiéEvent
+  | GestionnaireRéseauEvent
   | GestionnaireRéseauProjetModifiéEvent
   | AccuséRéceptionDemandeComplèteRaccordementTransmisEvent
   | DemandeComplèteRaccordementModifiéeEvent

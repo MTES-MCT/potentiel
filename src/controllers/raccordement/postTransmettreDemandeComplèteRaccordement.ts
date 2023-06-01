@@ -1,6 +1,5 @@
 import { createReadStream } from 'fs';
 import {
-  GestionnaireNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
   PlusieursGestionnairesRéseauPourUnProjetError,
   RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
@@ -23,6 +22,7 @@ import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 
 import { mediator } from 'mediateur';
+import { NotFoundError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -130,7 +130,7 @@ v1Router.post(
         if (
           error instanceof PlusieursGestionnairesRéseauPourUnProjetError ||
           error instanceof RéférenceDossierRaccordementDéjàExistantPourLeProjetError ||
-          error instanceof GestionnaireNonRéférencéError
+          error instanceof NotFoundError
         ) {
           return response.redirect(
             addQueryParams(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId), {
