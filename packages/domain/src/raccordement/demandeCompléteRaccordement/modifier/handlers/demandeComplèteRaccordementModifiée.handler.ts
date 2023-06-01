@@ -7,6 +7,7 @@ import {
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
   RécupérerPropositionTechniqueEtFinancièreSignéePort,
 } from '../../../raccordement.ports';
+import { ModifierPropositionTechniqueEtFinancièreSignéePort } from '../../../propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancièreSignée/modifierPropositionTechniqueEtFinancièreSignée.command';
 
 export type DemandeComplèteRaccordementeModifiéeDependencies = {
   find: Find;
@@ -14,7 +15,8 @@ export type DemandeComplèteRaccordementeModifiéeDependencies = {
   remove: Remove;
   update: Update;
   récupérerPropositionTechniqueEtFinancièreSignée: RécupérerPropositionTechniqueEtFinancièreSignéePort;
-  enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
+  enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort &
+    ModifierPropositionTechniqueEtFinancièreSignéePort;
 };
 
 /**
@@ -90,21 +92,23 @@ export const demandeComplèteRaccordementeModifiéeHandlerFactory: DomainEventHa
           référenceDossierRaccordement: event.payload.referenceActuelle,
         });
 
-        // Créer PTF avec nouvelleRéf
-        enregistrerPropositionTechniqueEtFinancièreSignée({
-          opération: 'modification',
-          identifiantProjet: event.payload.identifiantProjet,
-          ancienFichier: {
-            format: dossierRaccordement.propositionTechniqueEtFinancière.format,
-            content,
-          },
-          nouveauFichier: {
-            format: dossierRaccordement.propositionTechniqueEtFinancière.format,
-            content,
-          },
-          ancienneRéférenceDossierRaccordement: event.payload.referenceActuelle,
-          nouvelleRéférenceDossierRaccordement: event.payload.nouvelleReference,
-        });
+        if (content) {
+          // Créer PTF avec nouvelleRéf
+          enregistrerPropositionTechniqueEtFinancièreSignée({
+            opération: 'déplacement-fichier',
+            identifiantProjet: event.payload.identifiantProjet,
+            ancienFichier: {
+              format: dossierRaccordement.propositionTechniqueEtFinancière.format,
+              content,
+            },
+            nouveauFichier: {
+              format: dossierRaccordement.propositionTechniqueEtFinancière.format,
+              content,
+            },
+            ancienneRéférenceDossierRaccordement: event.payload.referenceActuelle,
+            nouvelleRéférenceDossierRaccordement: event.payload.nouvelleReference,
+          });
+        }
       }
     }
   };

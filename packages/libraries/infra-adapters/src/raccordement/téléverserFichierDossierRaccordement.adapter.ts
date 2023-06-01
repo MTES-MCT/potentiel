@@ -4,10 +4,18 @@ import { extension } from 'mime-types';
 import {
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort,
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
+  ModifierAccuséRéceptionDemandeComplèteRaccordementPort,
+  ModifierPropositionTechniqueEtFinancièreSignéePort,
 } from '@potentiel/domain';
 
+type TéléverserFichierDossierRaccordementAdapter =
+  EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort &
+    EnregistrerPropositionTechniqueEtFinancièreSignéePort &
+    ModifierAccuséRéceptionDemandeComplèteRaccordementPort &
+    ModifierPropositionTechniqueEtFinancièreSignéePort;
+
 const téléverserFichierDossierRaccordementAdapter =
-  (nomFichier: string): EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort =>
+  (nomFichier: string): TéléverserFichierDossierRaccordementAdapter =>
   async (params) => {
     if (params.opération === 'création') {
       const {
@@ -22,37 +30,34 @@ const téléverserFichierDossierRaccordementAdapter =
         `${nomFichier}.${extension(format)}`,
       );
       await upload(path, content);
+      return;
     }
 
+    const oldPath = join(
+      params.identifiantProjet,
+      params.ancienneRéférenceDossierRaccordement,
+      `${nomFichier}.${extension(params.ancienFichier.format)}`,
+    );
+
     if (params.opération === 'modification') {
-      const {
-        identifiantProjet,
-        ancienneRéférenceDossierRaccordement,
-        nouvelleRéférenceDossierRaccordement,
-        ancienFichier,
-        nouveauFichier,
-      } = params;
+      await upload(oldPath, params.nouveauFichier.content);
+    }
 
-      const filetoDeletePath = join(
-        identifiantProjet,
-        ancienneRéférenceDossierRaccordement,
-        `${nomFichier}.${extension(ancienFichier.format)}`,
+    if (params.opération === 'déplacement-fichier') {
+      const newPath = join(
+        params.identifiantProjet,
+        params.nouvelleRéférenceDossierRaccordement,
+        `${nomFichier}.${extension(params.nouveauFichier.format)}`,
       );
-
-      const fileToAddPath = join(
-        identifiantProjet,
-        nouvelleRéférenceDossierRaccordement,
-        `${nomFichier}.${extension(nouveauFichier.format)}`,
-      );
-
-      await upload(filetoDeletePath, nouveauFichier.content);
-      if (filetoDeletePath !== fileToAddPath) {
-        await renameFile(filetoDeletePath, fileToAddPath);
-      }
+      await upload(oldPath, params.nouveauFichier.content);
+      await renameFile(oldPath, newPath);
     }
   };
 
-export const téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter: EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort =
+export const téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter: EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort &
+  ModifierAccuséRéceptionDemandeComplèteRaccordementPort =
   téléverserFichierDossierRaccordementAdapter('demande-complete-raccordement');
-export const téléverserPropositionTechniqueEtFinancièreSignéeAdapter: EnregistrerPropositionTechniqueEtFinancièreSignéePort =
-  téléverserFichierDossierRaccordementAdapter('proposition-technique-et-financiere');
+export const téléverserPropositionTechniqueEtFinancièreSignéeAdapter: EnregistrerPropositionTechniqueEtFinancièreSignéePort &
+  ModifierPropositionTechniqueEtFinancièreSignéePort = téléverserFichierDossierRaccordementAdapter(
+  'proposition-technique-et-financiere',
+);

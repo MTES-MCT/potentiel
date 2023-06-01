@@ -8,10 +8,12 @@ import { AccuséRéceptionDemandeComplèteRaccordementSuppriméDependencies } fr
 import { DemandeComplèteRaccordementTransmiseHandlerFactoryDependencies } from './transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
 import { DemandeComplèteRaccordementeModifiéeDependencies } from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisDependencies } from './enregisterAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementTransmis.handler';
+import { ModifierAccuséRéceptionDemandeComplèteRaccordementDependencies } from './modifierAccuséRécéption/modifierAccuséRéceptionDemandeComplèteRaccordement.command';
 type QueryHandlerDependencies = ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies;
 
 type CommandHandlerDependencies =
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies &
+    ModifierAccuséRéceptionDemandeComplèteRaccordementDependencies &
     SupprimerAccuséRéceptionDemandeComplèteRaccordementDependencies &
     TransmettreDemandeComplèteRaccordementDependencies &
     ModifierDemandeComplèteRaccordementDependencies;

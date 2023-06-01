@@ -3,21 +3,19 @@ import {
   ModifierDemandeComplèteRaccordementCommand,
   buildModifierDemandeComplèteRaccordementCommand,
 } from './modifier/modifierDemandeComplèteRaccordement.command';
-import {
-  EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
-  buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand,
-} from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
 
 import { buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
+import {
+  ModifierAccuséRéceptionDemandeComplèteRaccordementCommand,
+  buildModifierAccuséRéceptionDemandeComplèteRaccordementCommand,
+} from './modifierAccuséRécéption/modifierAccuséRéceptionDemandeComplèteRaccordement.command';
 
 type ModifierDemandeComplèteRaccordementUseCase = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   ModifierDemandeComplèteRaccordementCommand['data'] &
-    Pick<
-      EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'],
-      'nouvelAccuséRéception'
-    >
+    Pick<ModifierAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'nouvelAccuséRéception'>
 >;
 
 export const registerModifierDemandeComplèteRaccordementUseCase = () => {
@@ -28,7 +26,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     nouvelleRéférenceDossierRaccordement,
     nouvelAccuséRéception,
   }) => {
-    let ancienAccuséRéception = undefined;
     const dossierRaccordement = await mediator.send(
       buildConsulterDossierRaccordementQuery({
         identifiantProjet,
@@ -45,18 +42,27 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       }),
     );
 
-    if (dossierRaccordement.accuséRéception) {
-      ancienAccuséRéception = await mediator.send(
-        buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
-          référenceDossierRaccordement: ancienneRéférenceDossierRaccordement,
+    const ancienAccuséRéception = await mediator.send(
+      buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
+        référenceDossierRaccordement: ancienneRéférenceDossierRaccordement,
+        identifiantProjet,
+        format: dossierRaccordement.accuséRéception?.format || '',
+      }),
+    );
+
+    if (!ancienAccuséRéception) {
+      await mediator.send(
+        buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
           identifiantProjet,
-          format: dossierRaccordement.accuséRéception?.format || '',
+          nouvelleRéférenceDossierRaccordement,
+          nouvelAccuséRéception,
         }),
       );
+      return;
     }
 
     await mediator.send(
-      buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
+      buildModifierAccuséRéceptionDemandeComplèteRaccordementCommand({
         identifiantProjet,
         ancienneRéférenceDossierRaccordement,
         nouvelleRéférenceDossierRaccordement,

@@ -3,6 +3,7 @@ import { buildConsulterPropositionTechniqueEtFinancièreSignéeQuery } from './c
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from './consulter/propositionTechniqueEtFinancièreSignée.readModel';
 import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
 import { IdentifiantProjet } from '../../projet/identifiantProjet';
+import { FichierInexistant } from '@potentiel/file-storage';
 
 type ConsulterPropositionTechniqueEtFinancièreUseCaseResult = Omit<
   PropositionTechniqueEtFinancièreSignéeReadModel & Readonly<{ dateSignature: string }>,
@@ -37,6 +38,10 @@ export const registerConsulterPropositionTechniqueEtFinancièreUseCase = () => {
         référenceDossierRaccordement,
       }),
     );
+
+    if (!propositionTechniqueEtFinancièreSignée) {
+      throw new FichierInexistant();
+    }
 
     return {
       ...propositionTechniqueEtFinancièreSignée,

@@ -18,7 +18,11 @@ const téléchargerFichierDossierRaccordementAdapter =
       `${nomFichier}.${extension(format)}`,
     );
 
-    return await download(filePath);
+    try {
+      return await download(filePath);
+    } catch (error) {
+      return undefined;
+    }
   };
 
 export const téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter: RécupérerAccuséRéceptionDemandeComplèteRaccordementPort =

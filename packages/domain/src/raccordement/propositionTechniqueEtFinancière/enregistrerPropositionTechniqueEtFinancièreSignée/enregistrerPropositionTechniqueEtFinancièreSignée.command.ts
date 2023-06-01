@@ -15,28 +15,17 @@ export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message
   }
 >;
 
-export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (
-  args:
-    | {
-        opération: 'création';
-        identifiantProjet: string;
-        référenceDossierRaccordement: string;
-        nouveauFichier: {
-          format: string;
-          content: Readable;
-        };
-      }
-    | {
-        opération: 'modification';
-        identifiantProjet: string;
-        ancienneRéférenceDossierRaccordement: string;
-        nouvelleRéférenceDossierRaccordement: string;
-        ancienFichier: { format: string; content: Readable };
-        nouveauFichier: { format: string; content: Readable };
-      },
-) => Promise<void>;
+export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (args: {
+  opération: 'création';
+  identifiantProjet: string;
+  référenceDossierRaccordement: string;
+  nouveauFichier: {
+    format: string;
+    content: Readable;
+  };
+}) => Promise<void>;
 
-export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies = {
+export type EnregistrerPropositionTechniqueEtFinancièreSignéeDependencies = {
   publish: Publish;
   enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
 };
@@ -44,30 +33,18 @@ export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies
 export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand = ({
   publish,
   enregistrerPropositionTechniqueEtFinancièreSignée,
-}: EnregistrerAccuséRéceptionDemandeComplèteRaccordementDependencies) => {
+}: EnregistrerPropositionTechniqueEtFinancièreSignéeDependencies) => {
   const handler: MessageHandler<EnregistrerPropositionTechniqueEtFinancièreSignéeCommand> = async ({
     identifiantProjet,
     référenceDossierRaccordement,
-    anciennePropositionTechniqueEtFinancière,
     nouvellePropositionTechniqueEtFinancière,
   }) => {
-    if (anciennePropositionTechniqueEtFinancière) {
-      await enregistrerPropositionTechniqueEtFinancièreSignée({
-        opération: 'modification',
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        ancienFichier: anciennePropositionTechniqueEtFinancière,
-        nouveauFichier: nouvellePropositionTechniqueEtFinancière,
-        ancienneRéférenceDossierRaccordement: référenceDossierRaccordement,
-        nouvelleRéférenceDossierRaccordement: référenceDossierRaccordement,
-      });
-    } else {
-      await enregistrerPropositionTechniqueEtFinancièreSignée({
-        opération: 'création',
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        nouveauFichier: nouvellePropositionTechniqueEtFinancière,
-        référenceDossierRaccordement,
-      });
-    }
+    await enregistrerPropositionTechniqueEtFinancièreSignée({
+      opération: 'création',
+      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      nouveauFichier: nouvellePropositionTechniqueEtFinancière,
+      référenceDossierRaccordement,
+    });
 
     const fichierPropositionTechniqueEtFinancièreTransmisEvent: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
       {
