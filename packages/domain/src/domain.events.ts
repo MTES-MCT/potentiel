@@ -18,3 +18,5 @@ export type DomainEvents =
   | PropositionTechniqueEtFinancièreSignéeTransmiseEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent;
+
+export { GestionnaireRéseauEvent };
