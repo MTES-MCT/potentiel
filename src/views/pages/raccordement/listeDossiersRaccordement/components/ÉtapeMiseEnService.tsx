@@ -25,7 +25,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
     titre="Mise en service"
   >
     {dateMiseEnService ? (
-      <div className="flex items-center">
+      <div className="flex items-center text-sm">
         <div>
           <CalendarIcon className="mr-1" title="date de mise en service" />
           {afficherDate(new Date(dateMiseEnService))}
@@ -33,7 +33,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
         {showEditLink && (
           <Link
             href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(identifiantProjet, référence)}
-            className="absolute top-2 right-2 text-sm"
+            className="absolute top-2 right-2"
           >
             <EditIcon aria-hidden className="mr-1" />
             Modifier
