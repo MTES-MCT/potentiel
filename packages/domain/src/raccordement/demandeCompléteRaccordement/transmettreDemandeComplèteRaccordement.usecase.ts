@@ -38,7 +38,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
         référenceDossierRaccordement,
       );
       if (!isRefValid) {
-        throw new Error('Format non valide de la référence du dossier de raccordement');
+        throw new Error(`Le format de la référence du dossier de raccordement est invalide`);
       }
     }
 

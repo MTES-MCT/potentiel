@@ -89,6 +89,27 @@ Quand(
 );
 
 Quand(
+  `le porteur du projet transmet une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau`,
+  async function (this: PotentielWorld) {
+    try {
+      await mediator.send(
+        buildTransmettreDemandeComplèteRaccordementUseCase({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          identifiantGestionnaireRéseau: {
+            codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
+          },
+          dateQualification: new Date(),
+          référenceDossierRaccordement: 'une référence avec un format invalide',
+          nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        }),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé`,
   async function (this: PotentielWorld) {
     try {
@@ -169,7 +190,7 @@ EtantDonné(
           codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
         },
         dateQualification: new Date('2022-12-31'),
-        référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
+        référenceDossierRaccordement: 'XXX-RP-2021-999999',
         nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
       }),
     );

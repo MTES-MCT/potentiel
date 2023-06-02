@@ -13,7 +13,7 @@ import { Readable } from 'stream';
 EtantDonné(`un dossier de raccordement`, async function (this: PotentielWorld) {
   await this.raccordementWorld.createDemandeComplèteRaccordement(
     this.gestionnaireRéseauWorld.enedis.codeEIC,
-    'UNE-REFERENCE-DCR',
+    'XXX-RP-2021-999999',
   );
 });
 

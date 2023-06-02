@@ -66,7 +66,7 @@ export const AjouterGestionnaireRéseau = ({
 
       <div>
         <Label htmlFor="expressionReguliere">Expression régulière</Label>
-        <LabelDescription>{'Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[d]{6}'}</LabelDescription>
+        <LabelDescription>{'Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}'}</LabelDescription>
         <Input
           type="text"
           error={erreurValidation ? erreurValidation['error-body.expressionReguliere'] : undefined}

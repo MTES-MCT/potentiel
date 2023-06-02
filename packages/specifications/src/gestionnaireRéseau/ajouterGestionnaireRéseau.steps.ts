@@ -23,6 +23,7 @@ Quand(
     this.gestionnaireRéseauWorld.raisonSociale = example['Raison sociale'];
     this.gestionnaireRéseauWorld.format = example['Format'];
     this.gestionnaireRéseauWorld.légende = example['Légende'];
+    this.gestionnaireRéseauWorld.expressionReguliere = example['Expression régulière'];
 
     const command = buildAjouterGestionnaireRéseauUseCase({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -31,6 +32,7 @@ Quand(
         format: this.gestionnaireRéseauWorld.format,
         légende: this.gestionnaireRéseauWorld.légende,
       },
+      expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
     });
 
     await mediator.send(command);
@@ -68,6 +70,7 @@ Alors(
         légende: this.gestionnaireRéseauWorld.légende,
         format: this.gestionnaireRéseauWorld.format,
       },
+      expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
     };
 
     const actual = await mediator.send(buildListerGestionnaireRéseauUseCase({}));
@@ -87,6 +90,7 @@ Alors(
         légende: this.gestionnaireRéseauWorld.légende,
         format: this.gestionnaireRéseauWorld.format,
       },
+      expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
     };
 
     const query = buildConsulterGestionnaireRéseauUseCase({
