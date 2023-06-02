@@ -22,7 +22,7 @@ const csvDataSchema = yup
   .min(1, 'Le fichier ne doit pas être vide')
   .of(
     yup.object({
-      référenceDossier: yup
+      referenceDossier: yup
         .string()
         .ensure()
         .required('La référence du dossier de raccordement est obligatoire'),
@@ -81,23 +81,23 @@ v1Router.post(
 
       const result: ImporterDatesMiseEnServiceApiResult = [];
 
-      for (const { référenceDossier, dateMiseEnService } of données) {
+      for (const { referenceDossier, dateMiseEnService } of données) {
         try {
           await mediator.send(
             buildTransmettreDateMiseEnServiceUseCase({
-              référenceDossierRaccordement: référenceDossier,
+              référenceDossierRaccordement: referenceDossier,
               dateMiseEnService: new Date(dateMiseEnService.split('/').reverse().join('-')),
             }),
           );
 
           result.push({
             statut: 'réussi',
-            référenceDossier,
+            référenceDossier: referenceDossier,
           });
         } catch (error) {
           result.push({
             statut: 'échec',
-            référenceDossier,
+            référenceDossier: referenceDossier,
             raison: error.message,
           });
         }

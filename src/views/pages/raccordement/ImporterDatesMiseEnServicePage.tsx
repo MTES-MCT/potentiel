@@ -111,7 +111,7 @@ export const ImporterDatesMiseEnService = ({
               </thead>
               <tbody className="bg-grey-950-base">
                 <tr className="odd:bg-grey-975-base">
-                  <td className="text-left p-4">référenceDossier</td>
+                  <td className="text-left p-4">referenceDossier</td>
                   <td className="text-left p-4">chaîne de caractères</td>
                 </tr>
                 <tr className="odd:bg-grey-975-base">
