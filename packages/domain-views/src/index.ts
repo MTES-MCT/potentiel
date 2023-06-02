@@ -1,4 +1,5 @@
 import { setupGestionnaireRéseau } from './gestionnaireRéseau';
+import { setupProjet } from './projet';
 import { Create, Find, List, Remove, Search, Update } from './readModel';
 import { Subscribe } from './subscribe';
 
@@ -13,11 +14,8 @@ type DomainViewsDependencies = {
 };
 
 export const setupDomain = (dependencies: DomainViewsDependencies): (() => Promise<void>) => {
-  const unsubscribes = [
-    ...setupGestionnaireRéseau({
-      ...dependencies,
-    }),
-  ];
+  const unsubscribes = [...setupGestionnaireRéseau(dependencies), ...setupProjet(dependencies)];
+
   return async () => {
     for (const unsubscribe of unsubscribes) {
       await unsubscribe();
@@ -31,5 +29,7 @@ export {
   ListerGestionnaireRéseauQuery,
   GestionnaireRéseauReadModel,
 } from './gestionnaireRéseau';
+
+export { ConsulterProjetQuery, ProjetQuery, ProjetReadModel } from './projet';
 
 export * from './permissions';

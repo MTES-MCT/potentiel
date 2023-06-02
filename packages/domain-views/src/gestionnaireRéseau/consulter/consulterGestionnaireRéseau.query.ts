@@ -1,6 +1,9 @@
 import { Find, NotFoundError } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
+import {
+  GestionnaireRéseauReadModel,
+  GestionnaireRéseauReadModelKey,
+} from '../gestionnaireRéseau.readModel';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 export type ConsulterGestionnaireRéseauQuery = Message<
@@ -19,7 +22,8 @@ export const registerConsulterGestionnaireRéseauQuery = ({
   find,
 }: ConsulterGestionnaireRéseauDependencies) => {
   const handler: MessageHandler<ConsulterGestionnaireRéseauQuery> = async ({ codeEIC }) => {
-    const result = await find<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${codeEIC}`);
+    const key: GestionnaireRéseauReadModelKey = `gestionnaire-réseau#${codeEIC}`;
+    const result = await find<GestionnaireRéseauReadModel>(key);
 
     if (isNone(result)) {
       throw new NotFoundError(`Le gestionnaire de réseau n'est pas référencé`);
