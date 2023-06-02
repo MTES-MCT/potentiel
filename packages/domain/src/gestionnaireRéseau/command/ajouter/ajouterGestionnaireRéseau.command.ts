@@ -13,8 +13,11 @@ export type AjouterGestionnaireRéseauCommand = Message<
   {
     codeEIC: string;
     raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
-    expressionReguliere?: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
   }
 >;
 
@@ -35,7 +38,6 @@ export const registerAjouterGestionnaireRéseauCommand = ({
     aideSaisieRéférenceDossierRaccordement,
     codeEIC,
     raisonSociale,
-    expressionReguliere,
   }) => {
     const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
@@ -49,7 +51,6 @@ export const registerAjouterGestionnaireRéseauCommand = ({
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
-        expressionReguliere,
       },
     };
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);

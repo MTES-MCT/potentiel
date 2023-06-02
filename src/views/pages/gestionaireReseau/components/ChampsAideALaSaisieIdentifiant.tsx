@@ -14,6 +14,7 @@ export const ChampsAideALaSaisieIdentifiant = ({
       <LabelDescription>Exemple : XXX-RP-AAAA-999999</LabelDescription>
       <Input type="text" id="format" name="format" defaultValue={format || ''} />
     </div>
+
     <div>
       <Label htmlFor="légende">Aide à la saisie de l'identifiant du dossier de raccordement</Label>
       <LabelDescription>

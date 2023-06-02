@@ -11,7 +11,7 @@ export type GestionnaireRéseauReadModel = ReadModel<
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
       légende: string;
+      expressionReguliere: string;
     };
-    expressionReguliere?: string;
   }
 >;

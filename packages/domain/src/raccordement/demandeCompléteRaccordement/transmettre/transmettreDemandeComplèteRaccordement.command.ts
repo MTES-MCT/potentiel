@@ -68,10 +68,11 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
       throw new RéférenceDossierRaccordementDéjàExistantPourLeProjetError();
     }
 
-    if (gestionnaireRéseau.expressionReguliere) {
-      const isRefValid = new RegExp(gestionnaireRéseau.expressionReguliere).test(
-        référenceDossierRaccordement,
-      );
+    const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseau;
+    if (aideSaisieRéférenceDossierRaccordement?.expressionReguliere) {
+      const isRefValid = new RegExp(
+        aideSaisieRéférenceDossierRaccordement?.expressionReguliere,
+      ).test(référenceDossierRaccordement);
       if (!isRefValid) {
         throw new FormatRéférenceDossierRaccordementInvalideError();
       }

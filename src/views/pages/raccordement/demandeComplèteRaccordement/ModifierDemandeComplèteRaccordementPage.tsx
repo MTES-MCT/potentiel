@@ -44,8 +44,7 @@ export const ModifierDemandeComplèteRaccordement = ({
   existingFile,
 }: ModifierDemandeComplèteRaccordementProps) => {
   const {
-    aideSaisieRéférenceDossierRaccordement: { format, légende },
-    expressionReguliere,
+    aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   } = gestionnaireRéseauActuel;
 
   return (
@@ -69,46 +68,6 @@ export const ModifierDemandeComplèteRaccordement = ({
           {error && <ErrorBox>{error}</ErrorBox>}
 
           <Heading2>Modifier une demande complète de raccordement</Heading2>
-
-          {/* <Callout className="text-sm px-3 pt-1 pb-0">
-            <ul className="list-none p-0">
-              <li>
-                Gestionnaire de réseau : <span className="font-bold mr-2">{raisonSociale}</span>
-                {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
-                  <Link
-                    href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
-                  >
-                    <EditIcon className="mr-1" />
-                    Modifier le gestionnaire
-                  </Link>
-                )}
-              </li>
-              <li className="my-0">
-                Référence du dossier de raccordement :{' '}
-                <span className="font-bold">{reference}</span>
-              </li>
-              {dateQualificationActuelle && (
-                <li className="my-0">
-                  Date de qualification de la demande complète de raccordement :{' '}
-                  <span className="font-bold">
-                    {afficherDate(new Date(dateQualificationActuelle))}
-                  </span>
-                </li>
-              )}
-              {existingFile && (
-                <li>
-                  <DownloadLink
-                    fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(
-                      identifiantProjet,
-                      reference,
-                    )}
-                  >
-                    Accusé de réception de la demande complète de raccordement
-                  </DownloadLink>
-                </li>
-              )}
-            </ul>
-          </Callout> */}
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
@@ -139,8 +98,8 @@ export const ModifierDemandeComplèteRaccordement = ({
               name="referenceDossierRaccordement"
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
               required
-              value={reference ?? ''}
-              pattern={expressionReguliere}
+              defaultValue={reference ?? ''}
+              pattern={expressionReguliere || undefined}
             />
           </div>
 
@@ -165,7 +124,7 @@ export const ModifierDemandeComplèteRaccordement = ({
               type="date"
               id="dateQualification"
               name="dateQualification"
-              value={
+              defaultValue={
                 dateQualificationActuelle
                   ? formatDate(new Date(dateQualificationActuelle), 'yyyy-MM-dd')
                   : ''

@@ -16,14 +16,12 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
     identifiantGestionnaireRéseau,
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
-    expressionReguliere,
   }) => {
     return mediator.send(
       buildModifierGestionnaireRéseauCommand({
         identifiantGestionnaireRéseau,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
-        expressionReguliere,
       }),
     );
   };

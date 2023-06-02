@@ -27,8 +27,7 @@ export const ModifierGestionnaireRéseau = ({
   gestionnaireRéseau: {
     raisonSociale,
     codeEIC,
-    aideSaisieRéférenceDossierRaccordement: { format, légende },
-    expressionReguliere = '',
+    aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   },
   erreurValidation,
 }: ModifierGestionnaireRéseauProps) => (

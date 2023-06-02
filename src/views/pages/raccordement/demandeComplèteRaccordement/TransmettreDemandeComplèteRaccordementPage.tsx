@@ -49,7 +49,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
     gestionnaireRéseauActuel?.aideSaisieRéférenceDossierRaccordement.légende ?? '',
   );
   const [expressionReguliere, setExpressionReguliere] = useState(
-    gestionnaireRéseauActuel?.expressionReguliere ?? '',
+    gestionnaireRéseauActuel?.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
   );
 
   return (
@@ -85,10 +85,11 @@ export const TransmettreDemandeComplèteRaccordement = ({
               gestionnaireRéseauActuel={gestionnaireRéseauActuel}
               gestionnairesRéseau={gestionnairesRéseau}
               onGestionnaireRéseauSelected={({
-                aideSaisieRéférenceDossierRaccordement: { format, légende },
+                aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
               }) => {
                 setFormat(format);
                 setLégende(légende);
+                setExpressionReguliere(expressionReguliere);
               }}
             />
           </div>
@@ -110,7 +111,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
               name="referenceDossierRaccordement"
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
               required
-              // pattern={expressionReguliere}
+              pattern={expressionReguliere || undefined}
             />
           </div>
 

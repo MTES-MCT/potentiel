@@ -64,10 +64,11 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       throw new GestionnaireNonRéférencéError(raccordement.gestionnaireRéseau.codeEIC);
     }
 
-    if (gestionnaireRéseau.expressionReguliere) {
-      const isRefValid = new RegExp(gestionnaireRéseau.expressionReguliere).test(
-        nouvelleRéférenceDossierRaccordement,
-      );
+    const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseau;
+    if (aideSaisieRéférenceDossierRaccordement?.expressionReguliere) {
+      const isRefValid = new RegExp(
+        aideSaisieRéférenceDossierRaccordement?.expressionReguliere,
+      ).test(nouvelleRéférenceDossierRaccordement);
       if (!isRefValid) {
         throw new FormatRéférenceDossierRaccordementInvalideError();
       }

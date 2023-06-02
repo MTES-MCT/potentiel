@@ -16,14 +16,12 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
     aideSaisieRéférenceDossierRaccordement,
     codeEIC,
     raisonSociale,
-    expressionReguliere,
   }) => {
     await mediator.send(
       buildAjouterGestionnaireRéseauCommand({
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
-        expressionReguliere,
       }),
     );
   };

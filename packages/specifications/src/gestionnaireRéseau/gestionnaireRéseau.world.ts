@@ -75,21 +75,21 @@ export class GestionnaireRéseauWorld {
       aideSaisieRéférenceDossierRaccordement: {
         format: '',
         légende: '',
+        expressionReguliere: `[a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}`,
       },
-      expressionReguliere: `[a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}`,
     };
 
     await this.createGestionnaireRéseau(
       this.#enedis.codeEIC,
       this.#enedis.raisonSociale,
-      this.#enedis.expressionReguliere,
+      this.#enedis.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
     );
   }
 
   async createGestionnaireRéseau(
     codeEIC: string,
     raisonSociale: string,
-    expressionReguliere?: string,
+    expressionReguliere: string = '.',
   ) {
     const command = buildAjouterGestionnaireRéseauUseCase({
       codeEIC,
@@ -97,8 +97,8 @@ export class GestionnaireRéseauWorld {
       aideSaisieRéférenceDossierRaccordement: {
         format: '',
         légende: '',
+        expressionReguliere,
       },
-      expressionReguliere,
     });
 
     await mediator.send(command);

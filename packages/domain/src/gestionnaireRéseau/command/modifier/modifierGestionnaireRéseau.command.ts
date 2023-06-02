@@ -17,8 +17,11 @@ export type ModifierGestionnaireRéseauCommand = Message<
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
-    expressionReguliere?: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
   }
 >;
 
@@ -39,7 +42,6 @@ export const registerModifierGestionnaireRéseauCommand = ({
     identifiantGestionnaireRéseau,
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
-    expressionReguliere,
   }) => {
     const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(
       formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
@@ -55,7 +57,6 @@ export const registerModifierGestionnaireRéseauCommand = ({
         codeEIC: formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
-        expressionReguliere,
       },
     };
     await publish(

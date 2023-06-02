@@ -45,15 +45,14 @@ v1Router.post(
         format = '',
         légende = '',
         raisonSociale,
-        expressionReguliere,
+        expressionReguliere = '',
       } = request.body;
 
       try {
         const ajouterGestionnaireRéseauCommand = buildAjouterGestionnaireRéseauUseCase({
           codeEIC,
-          aideSaisieRéférenceDossierRaccordement: { format, légende },
+          aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
           raisonSociale,
-          expressionReguliere,
         });
 
         await mediator.send(ajouterGestionnaireRéseauCommand);

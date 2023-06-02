@@ -31,8 +31,8 @@ Quand(
       aideSaisieRéférenceDossierRaccordement: {
         format: this.gestionnaireRéseauWorld.format,
         légende: this.gestionnaireRéseauWorld.légende,
+        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
       },
-      expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
     });
 
     await mediator.send(command);
@@ -49,6 +49,7 @@ Quand(
         aideSaisieRéférenceDossierRaccordement: {
           format: 'autre format',
           légende: 'autre légende',
+          expressionReguliere: '.',
         },
       });
 
@@ -69,8 +70,8 @@ Alors(
       aideSaisieRéférenceDossierRaccordement: {
         légende: this.gestionnaireRéseauWorld.légende,
         format: this.gestionnaireRéseauWorld.format,
+        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
       },
-      expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
     };
 
     const actual = await mediator.send(buildListerGestionnaireRéseauUseCase({}));
@@ -89,8 +90,8 @@ Alors(
       aideSaisieRéférenceDossierRaccordement: {
         légende: this.gestionnaireRéseauWorld.légende,
         format: this.gestionnaireRéseauWorld.format,
+        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
       },
-      expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
     };
 
     const query = buildConsulterGestionnaireRéseauUseCase({

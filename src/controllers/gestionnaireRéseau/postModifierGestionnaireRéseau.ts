@@ -38,15 +38,14 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: { format = '', légende = '', raisonSociale, expressionReguliere },
+        body: { format = '', légende = '', raisonSociale, expressionReguliere = '' },
         params: { codeEIC },
       } = request;
       try {
         const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauUseCase({
           identifiantGestionnaireRéseau: { codeEIC },
-          aideSaisieRéférenceDossierRaccordement: { format, légende },
+          aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
           raisonSociale,
-          expressionReguliere,
         });
 
         await mediator.send(modifierGestionnaireRéseauCommand);
