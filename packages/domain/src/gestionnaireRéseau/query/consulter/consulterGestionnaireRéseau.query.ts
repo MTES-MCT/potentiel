@@ -31,7 +31,7 @@ export const registerConsulterGestionnaireRéseauQuery = ({
     );
 
     if (isNone(result)) {
-      throw new GestionnaireNonRéférencéError();
+      throw new GestionnaireNonRéférencéError(identifiantGestionnaireRéseau.codeEIC);
     }
 
     return result;

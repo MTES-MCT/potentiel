@@ -1,5 +1,5 @@
 import { GestionnaireRéseauReadModel } from '@potentiel/domain';
-import { Select } from '@components';
+import { Input, Select } from '@components';
 import React, { ComponentProps } from 'react';
 
 type GestionnaireRéseauSelectProps = ComponentProps<'select'> & {
@@ -28,19 +28,24 @@ export const GestionnaireRéseauSelect = ({
   };
 
   return (
-    <Select
-      {...props}
-      onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-      defaultValue={gestionnaireRéseauActuel?.codeEIC ?? 'none'}
-    >
-      <option value="none" disabled hidden>
-        Sélectionnez votre gestionnaire de réseau
-      </option>
-      {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-        <option value={codeEIC} key={codeEIC}>
-          {raisonSociale} (code EIC : {codeEIC})
+    <>
+      <Select
+        {...props}
+        onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
+        defaultValue={gestionnaireRéseauActuel?.codeEIC ?? 'none'}
+      >
+        <option value="none" disabled hidden>
+          Sélectionnez votre gestionnaire de réseau
         </option>
-      ))}
-    </Select>
+        {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
+          <option value={codeEIC} key={codeEIC}>
+            {raisonSociale} (code EIC : {codeEIC})
+          </option>
+        ))}
+      </Select>
+      {props.disabled && (
+        <Input name={props.name} hidden value={gestionnaireRéseauActuel?.codeEIC} />
+      )}
+    </>
   );
 };

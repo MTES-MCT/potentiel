@@ -61,7 +61,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
     );
 
     if (isNone(gestionnaireRéseau)) {
-      throw new GestionnaireNonRéférencéError();
+      throw new GestionnaireNonRéférencéError(raccordement.gestionnaireRéseau.codeEIC);
     }
 
     if (gestionnaireRéseau.expressionReguliere) {

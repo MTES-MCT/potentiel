@@ -1,8 +1,6 @@
 import { createReadStream } from 'fs';
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
-  PlusieursGestionnairesRéseauPourUnProjetError,
-  RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
   buildTransmettreDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -22,7 +20,7 @@ import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 
 import { mediator } from 'mediateur';
-import { NotFoundError } from '@potentiel/core-domain';
+import { DomainError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -127,11 +125,7 @@ v1Router.post(
           }),
         );
       } catch (error) {
-        if (
-          error instanceof PlusieursGestionnairesRéseauPourUnProjetError ||
-          error instanceof RéférenceDossierRaccordementDéjàExistantPourLeProjetError ||
-          error instanceof NotFoundError
-        ) {
+        if (error instanceof DomainError) {
           return response.redirect(
             addQueryParams(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId), {
               error: error.message,

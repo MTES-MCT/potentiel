@@ -1,7 +1,6 @@
 import { createReadStream } from 'fs';
 import { mediator } from 'mediateur';
 import {
-  DossierRaccordementNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
   buildModifierDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
@@ -20,6 +19,7 @@ import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
+import { DomainError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   params: yup.object({
@@ -131,7 +131,7 @@ v1Router.post(
           }),
         );
       } catch (error) {
-        if (error instanceof DossierRaccordementNonRéférencéError) {
+        if (error instanceof DomainError) {
           return response.redirect(
             addQueryParams(
               routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId, reference),

@@ -1,5 +1,7 @@
-export class GestionnaireNonRéférencéError extends Error {
-  constructor() {
-    super(`Le gestionnaire de réseau n'est pas référencé`);
+import { NotFoundError } from '@potentiel/core-domain';
+
+export class GestionnaireNonRéférencéError extends NotFoundError {
+  constructor(codeEIC: string) {
+    super(`Le gestionnaire de réseau n'est pas référencé`, { codeEIC });
   }
 }

@@ -54,7 +54,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     const raccordement = await loadRaccordement(identifiantProjet);
 
     if (isNone(gestionnaireRéseau)) {
-      throw new GestionnaireNonRéférencéError();
+      throw new GestionnaireNonRéférencéError(identifiantGestionnaireRéseau.codeEIC);
     }
 
     if (
