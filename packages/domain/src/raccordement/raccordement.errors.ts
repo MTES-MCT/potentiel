@@ -25,3 +25,9 @@ export class AucunDossierRaccordementCorrespondantError extends Error {
     super(`Aucun dossier de raccordement ne correspond à la référence`);
   }
 }
+
+export class FormatRéférenceDossierRaccordementInvalideError extends Error {
+  constructor() {
+    super(`Le format de la référence du dossier de raccordement est invalide`);
+  }
+}

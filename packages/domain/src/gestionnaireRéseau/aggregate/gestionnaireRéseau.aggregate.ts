@@ -12,6 +12,7 @@ type GestionnaireRéseauState = {
   codeEIC: string;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement?: { format: string; légende: string };
+  expressionReguliere?: string;
 };
 
 export type GestionnaireRéseauEvent =
