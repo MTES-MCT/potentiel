@@ -35,13 +35,46 @@ Quand(
   },
 );
 
+Quand(
+  `le porteur modifie une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau`,
+  async function (this: PotentielWorld) {
+    const nouvelleRéférenceDossierRaccordement = 'INVALID-REFERENCE';
+    const dateQualification = new Date('2023-01-01');
+    const nouvelAccuséRéception = {
+      format: 'text/plain',
+      content: Readable.from("Contenu d'un nouveau fichier", {
+        encoding: 'utf-8',
+      }),
+    };
+
+    try {
+      await mediator.send(
+        buildModifierDemandeComplèteRaccordementUseCase({
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          dateQualification,
+          ancienneRéférenceDossierRaccordement:
+            this.raccordementWorld.ancienneRéférenceDossierRaccordement,
+          nouvelleRéférenceDossierRaccordement,
+          nouvelAccuséRéception,
+        }),
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+
+    this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférenceDossierRaccordement;
+    this.raccordementWorld.dateQualification = dateQualification;
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = nouvelAccuséRéception;
+  },
+);
+
 /**
  * SCENARIO-02
  */
 Quand(
   `le porteur modifie une demande complète de raccordement`,
   async function (this: PotentielWorld) {
-    const nouvelleRéférenceDossierRaccordement = 'UNE-NOUVELLE-REFERENCE-DCR';
+    const nouvelleRéférenceDossierRaccordement = 'XXX-RP-2022-999999';
     const dateQualification = new Date('2023-01-01');
     const nouvelAccuséRéception = {
       format: 'text/plain',

@@ -20,10 +20,9 @@ EtantDonné(`un dossier de raccordement`, async function (this: PotentielWorld) 
 EtantDonné(
   `un dossier de raccordement avec une proposition technique et financière`,
   async function (this: PotentielWorld) {
-    const référenceDossierRaccordement = 'XXX-RP-2021-999999';
     await this.raccordementWorld.createDemandeComplèteRaccordement(
       this.gestionnaireRéseauWorld.enedis.codeEIC,
-      référenceDossierRaccordement,
+      'XXX-RP-2021-999999',
     );
 
     await this.raccordementWorld.createPropositionTechniqueEtFinancière();

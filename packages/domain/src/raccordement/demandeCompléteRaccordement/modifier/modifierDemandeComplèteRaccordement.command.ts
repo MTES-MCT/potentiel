@@ -6,11 +6,16 @@ import {
   createRaccordementAggregateId,
 } from '../../raccordement.aggregate';
 import { DemandeComplèteRaccordementModifiéeEvent } from './demandeComplèteRaccordementModifiée.event';
-import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
+import {
+  DossierRaccordementNonRéférencéError,
+  FormatRéférenceDossierRaccordementInvalideError,
+} from '../../raccordement.errors';
 import {
   IdentifiantProjet,
   formatIdentifiantProjet,
 } from '../../../projet/valueType/identifiantProjet';
+import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/aggregate/gestionnaireRéseau.aggregate';
+import { GestionnaireNonRéférencéError } from '../../../gestionnaireRéseau/query/consulter/gestionnaireNonRéférencé.error';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -31,23 +36,41 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
   publish,
   loadAggregate,
 }: ModifierDemandeComplèteRaccordementDependencies) => {
+  const loadGestionnaireRéseau = loadGestionnaireRéseauAggregateFactory({ loadAggregate });
+  const loadRaccordement = loadRaccordementAggregateFactory({
+    loadAggregate,
+  });
+
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
     dateQualification,
     ancienneRéférenceDossierRaccordement,
     nouvelleRéférenceDossierRaccordement,
   }) => {
-    const loadRaccordementAggregate = loadRaccordementAggregateFactory({
-      loadAggregate,
-    });
-
-    const raccordement = await loadRaccordementAggregate(identifiantProjet);
+    const raccordement = await loadRaccordement(identifiantProjet);
 
     if (
       isNone(raccordement) ||
       !raccordement.références.includes(ancienneRéférenceDossierRaccordement)
     ) {
       throw new DossierRaccordementNonRéférencéError();
+    }
+
+    const gestionnaireRéseau = await loadGestionnaireRéseau(
+      raccordement.gestionnaireRéseau.codeEIC,
+    );
+
+    if (isNone(gestionnaireRéseau)) {
+      throw new GestionnaireNonRéférencéError();
+    }
+
+    if (gestionnaireRéseau.expressionReguliere) {
+      const isRefValid = new RegExp(gestionnaireRéseau.expressionReguliere).test(
+        nouvelleRéférenceDossierRaccordement,
+      );
+      if (!isRefValid) {
+        throw new FormatRéférenceDossierRaccordementInvalideError();
+      }
     }
 
     const demandeComplèteRaccordementModifiéeEvent: DemandeComplèteRaccordementModifiéeEvent = {
