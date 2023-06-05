@@ -40,19 +40,20 @@ export const registerModifierGestionnaireRéseauProjetCommand = ({
     identifiantProjet,
     identifiantGestionnaireRéseau,
   }) => {
-    const projet = await loadProjet(identifiantProjet);
+    const [projet, gestionnaireRéseau] = await Promise.all([
+      loadProjet(identifiantProjet),
+      loadGestionnaireRéseauAggregate(identifiantGestionnaireRéseau),
+    ]);
 
     if (isNone(projet)) {
       throw new ProjetInconnuError();
     }
 
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(identifiantGestionnaireRéseau);
-
     if (isNone(gestionnaireRéseau)) {
       throw new GestionnaireRéseauInconnuError();
     }
 
-    const gestionnaireRéseauProjet = await projet.gestionnaireRéseau();
+    const gestionnaireRéseauProjet = await projet.getGestionnaireRéseau();
 
     if (isNone(gestionnaireRéseauProjet) || !gestionnaireRéseauProjet.equals(gestionnaireRéseau)) {
       const event: GestionnaireRéseauProjetModifiéEvent = {

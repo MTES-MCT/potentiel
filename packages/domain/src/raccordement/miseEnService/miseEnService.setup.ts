@@ -6,7 +6,7 @@ import {
 import {
   dateMiseEnServiceTransmiseHandlerFactory,
   DateMiseEnServiceTransmiseDependencies,
-} from './transmettre/handlers/dateMiseEnServiceTransmise.handler';
+} from '../../../../domain-views/src/raccordement/handlers/dateMiseEnServiceTransmise.handler';
 import { registerTransmettreDateMiseEnServiceUseCase } from './transmettreDateMiseEnService.usecase';
 
 type CommandHandlerDependencies = TransmettreDateMiseEnServiceCommandDependencies;

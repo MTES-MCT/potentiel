@@ -5,7 +5,13 @@
     "rootDir": "src"
   },
   "include": [
-    "src"
+    "src",
+    "../domain-views/src/raccordement/handlers/demandeComplèteRaccordementModifiée.handler.ts",
+    "../domain-views/src/raccordement/handlers/demandeComplèteRaccordementTransmise.handler.ts",
+    "../domain-views/src/raccordement/handlers/dateMiseEnServiceTransmise.handler.ts",
+    "../domain-views/src/raccordement/handlers/propositionTechniqueEtFinancièreSignéeTransmise.handler.ts",
+    "../domain-views/src/raccordement/handlers/propositiontechniqueEtFinancièreModifiée.handler.ts",
+    "../domain-views/src/raccordement/handlers/propositionTechniqueEtFinancièreTransmise.handler.ts"
   ],
   "references": [
     {

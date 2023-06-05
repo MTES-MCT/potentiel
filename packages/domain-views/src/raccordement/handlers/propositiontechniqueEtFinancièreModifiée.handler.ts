@@ -1,6 +1,6 @@
 import { DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { PropositionTechniqueEtFinancièreModifiéeEvent } from '../propositionTechniqueEtFinancièreModifiée.event';
+import { PropositionTechniqueEtFinancièreModifiéeEvent } from '../../../../domain/src/raccordement/propositionTechniqueEtFinancière/modifier/propositionTechniqueEtFinancièreModifiée.event';
 import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
 export type PropositionTechniqueEtFinancièreModifiéeDependencies = {

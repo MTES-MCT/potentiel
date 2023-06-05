@@ -2,8 +2,8 @@ import { registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } f
 import { registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { registerModifierDemandeComplèteRaccordementCommand } from './modifier/modifierDemandeComplèteRaccordement.command';
 import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettre/transmettreDemandeComplèteRaccordement.command';
-import { demandeComplèteRaccordementTransmiseHandlerFactory } from './transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
-import { demandeComplèteRaccordementeModifiéeHandlerFactory } from './modifier/handlers/demandeComplèteRaccordementModifiée.handler';
+import { demandeComplèteRaccordementTransmiseHandlerFactory } from '../../../../domain-views/src/raccordement/handlers/demandeComplèteRaccordementTransmise.handler';
+import { demandeComplèteRaccordementeModifiéeHandlerFactory } from '../../../../domain-views/src/raccordement/handlers/demandeComplèteRaccordementModifiée.handler';
 import { accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory } from './enregisterAccuséRéception/handlers/accuséRéceptionDemandeComplèteRaccordementTransmis.handler';
 import { DemandeComplèteRaccordementDependencies } from './demandeCompléteRaccordement.dependencies';
 import { registerConsulterDemandeComplèteRaccordementUseCase } from './consulterDemandeComplèteRaccordement.usecase';

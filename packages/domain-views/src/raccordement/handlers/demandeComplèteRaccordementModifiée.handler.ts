@@ -1,13 +1,13 @@
 import { Create, Remove, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { DemandeComplèteRaccordementModifiéeEvent } from '../demandeComplèteRaccordementModifiée.event';
-import { ListeDossiersRaccordementReadModel } from '../../../dossierRaccordement/lister/listeDossierRaccordement.readModel';
-import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
+import { DemandeComplèteRaccordementModifiéeEvent } from '../../../../domain/src/raccordement/demandeCompléteRaccordement/modifier/demandeComplèteRaccordementModifiée.event';
+import { ListeDossiersRaccordementReadModel } from '../../../../domain/src/raccordement/dossierRaccordement/lister/listeDossierRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../../../../domain/src/raccordement/dossierRaccordement/consulter/dossierRaccordement.readModel';
 import {
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
   RécupérerPropositionTechniqueEtFinancièreSignéePort,
-} from '../../../raccordement.ports';
-import { ModifierPropositionTechniqueEtFinancièreSignéePort } from '../../../propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancièreSignée/modifierPropositionTechniqueEtFinancièreSignée.command';
+} from '../../../../domain/src/raccordement/raccordement.ports';
+import { ModifierPropositionTechniqueEtFinancièreSignéePort } from '../../../../domain/src/raccordement/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancièreSignée/modifierPropositionTechniqueEtFinancièreSignée.command';
 
 export type DemandeComplèteRaccordementeModifiéeDependencies = {
   find: Find;

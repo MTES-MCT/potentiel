@@ -18,10 +18,10 @@ export const createProjetAggregateId = (
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
-export type Projet = { gestionnaireRéseau(): Promise<Option<GestionnaireRéseau>> };
+export type Projet = { getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>> };
 
 const defaultAggregate: Projet = {
-  gestionnaireRéseau: async () => Promise.resolve(none),
+  getGestionnaireRéseau: async () => Promise.resolve(none),
 };
 
 const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, loadAggregate) => {
@@ -30,7 +30,7 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
       case 'GestionnaireRéseauProjetModifié':
         return {
           ...aggregate,
-          gestionnaireRéseau: async () => {
+          getGestionnaireRéseau: async () => {
             const loadGestionnaireRéseau = loadGestionnaireRéseauAggregateFactory({
               loadAggregate,
             });

@@ -1,8 +1,8 @@
 import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifier/modifierPropositiontechniqueEtFinancière.command';
 import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
-import { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from './modifier/handlers/propositiontechniqueEtFinancièreModifiée.handler';
-import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './transmettre/handlers/propositionTechniqueEtFinancièreTransmise.handler';
-import { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory } from './enregistrerPropositionTechniqueEtFinancièreSignée/handlers/propositionTechniqueEtFinancièreSignéeTransmise.handler';
+import { propositionTechniqueEtFinancièreModifiéeHandlerFactory } from '../../../../domain-views/src/raccordement/handlers/propositiontechniqueEtFinancièreModifiée.handler';
+import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from '../../../../domain-views/src/raccordement/handlers/propositionTechniqueEtFinancièreTransmise.handler';
+import { propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory } from '../../../../domain-views/src/raccordement/handlers/propositionTechniqueEtFinancièreSignéeTransmise.handler';
 import { PropostionTechniqueEtFinancièreDependencies } from './propositionTechniqueEtFinancière.dependencies';
 import { registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand } from './enregistrerPropositionTechniqueEtFinancièreSignée/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 import { registerConsulterPropositionTechniqueEtFinancièreSignéeQuery } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
