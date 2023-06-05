@@ -26,7 +26,7 @@ export const registerRechercherDossierRaccordementQuery = ({
       `dossier-raccordement#%#%${référence}%`,
     );
 
-    return result.map(({ key }) => {
+    return result.map(({ key, readModel }) => {
       const parsedKey = key.split('#');
 
       const identifiantProjet: IdentifiantProjet = {
@@ -39,6 +39,7 @@ export const registerRechercherDossierRaccordementQuery = ({
       return {
         type: 'résultat-recherche-dossier-raccordement',
         identifiantProjet,
+        référenceDossier: readModel.référence,
       };
     });
   };

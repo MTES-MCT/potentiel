@@ -18,6 +18,16 @@ EtantDonné(`un dossier de raccordement`, async function (this: PotentielWorld) 
 });
 
 EtantDonné(
+  `un dossier de raccordement avec la référence {string}`,
+  async function (this: PotentielWorld, référenceDossierRaccordement: string) {
+    await this.raccordementWorld.createDemandeComplèteRaccordement(
+      this.gestionnaireRéseauWorld.enedis.codeEIC,
+      référenceDossierRaccordement,
+    );
+  },
+);
+
+EtantDonné(
   `un dossier de raccordement avec une proposition technique et financière`,
   async function (this: PotentielWorld) {
     await this.raccordementWorld.createDemandeComplèteRaccordement(

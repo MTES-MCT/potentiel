@@ -44,7 +44,7 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
       await mediator.send(
         buildTransmettreDateMiseEnServiceCommand({
           identifiantProjet: dossier.identifiantProjet,
-          référenceDossierRaccordement,
+          référenceDossierRaccordement: dossier.référenceDossier,
           dateMiseEnService: dateMiseEnService,
         }),
       );

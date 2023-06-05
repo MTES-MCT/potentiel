@@ -22,11 +22,15 @@ Quand(
 );
 
 Quand(
-  `un administrateur transmet la date de mise en service {string} avec seulement la référence du dossier de raccordement`,
-  async function (this: PotentielWorld, dateMiseEnService: string) {
+  `un administrateur transmet la date de mise en service {string} avec seulement la référence du dossier de raccordement {string}`,
+  async function (
+    this: PotentielWorld,
+    dateMiseEnService: string,
+    référenceDossierRaccordement: string,
+  ) {
     await mediator.send(
       buildTransmettreDateMiseEnServiceUseCase({
-        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        référenceDossierRaccordement,
         dateMiseEnService: new Date(dateMiseEnService),
       }),
     );

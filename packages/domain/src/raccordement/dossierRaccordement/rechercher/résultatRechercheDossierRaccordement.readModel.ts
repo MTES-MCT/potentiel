@@ -5,5 +5,6 @@ export type RésultatRechercheDossierRaccordementReadModel = ReadModel<
   'résultat-recherche-dossier-raccordement',
   {
     identifiantProjet: IdentifiantProjet;
+    référenceDossier: string;
   }
 >;
