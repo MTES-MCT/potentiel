@@ -12,7 +12,7 @@ import {
 } from '../../raccordement.errors';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/projet.valueType';
 import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
-import { GestionnaireNonRéférencéError } from '../../../gestionnaireRéseau/query/consulter/gestionnaireNonRéférencé.error';
+import { GestionnaireRéseauInconnuError } from '../../../gestionnaireRéseau/modifier/gestionnaireRéseauInconnu.error';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -53,12 +53,12 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const gestionnaireRéseau = await loadGestionnaireRéseau(
-      raccordement.gestionnaireRéseau.codeEIC,
-    );
+    const gestionnaireRéseau = await loadGestionnaireRéseau({
+      codeEIC: raccordement.gestionnaireRéseau.codeEIC,
+    });
 
     if (isNone(gestionnaireRéseau)) {
-      throw new GestionnaireNonRéférencéError(raccordement.gestionnaireRéseau.codeEIC);
+      throw new GestionnaireRéseauInconnuError();
     }
 
     const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseau;

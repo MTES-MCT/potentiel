@@ -12,12 +12,12 @@ import {
 } from '../../raccordement.errors';
 import { isNone, isSome } from '@potentiel/monads';
 import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
-import { GestionnaireNonRéférencéError } from '../../../gestionnaireRéseau/query/consulter/gestionnaireNonRéférencé.error';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
 } from '../../../gestionnaireRéseau/gestionnaireRéseau.valueType';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/projet.valueType';
+import { GestionnaireRéseauInconnuError } from '../../../gestionnaireRéseau/modifier/gestionnaireRéseauInconnu.error';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -47,11 +47,11 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     identifiantGestionnaireRéseau,
     référenceDossierRaccordement,
   }) => {
-    const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau.codeEIC);
+    const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau);
     const raccordement = await loadRaccordement(identifiantProjet);
 
     if (isNone(gestionnaireRéseau)) {
-      throw new GestionnaireNonRéférencéError(identifiantGestionnaireRéseau.codeEIC);
+      throw new GestionnaireRéseauInconnuError();
     }
 
     if (

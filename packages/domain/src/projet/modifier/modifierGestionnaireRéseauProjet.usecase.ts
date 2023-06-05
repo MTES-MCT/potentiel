@@ -1,13 +1,10 @@
-import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau/query/consulter/consulterGestionnaireRéseau.query';
-import {
-  ModifierGestionnaireRéseauProjetCommand,
-  buildModifierGestionnaireRéseauProjetCommand,
-} from '../command/modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.command';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { ModifierGestionnaireRéseauProjetCommand } from './modifierGestionnaireRéseauProjet.command';
+import { ProjetCommand } from '../projet.command';
 
 type ModifierGestionnaireRéseauProjetUseCaseData = ModifierGestionnaireRéseauProjetCommand['data'];
 
-type ModifierGestionnaireRéseauProjetUseCase = Message<
+export type ModifierGestionnaireRéseauProjetUseCase = Message<
   'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
   ModifierGestionnaireRéseauProjetUseCaseData
 >;
@@ -17,25 +14,13 @@ export const registerModifierGestionnaireRéseauProjetUseCase = () => {
     identifiantGestionnaireRéseau,
     identifiantProjet,
   }) => {
-    const gestionnaireRéseau = await mediator.send(
-      buildConsulterGestionnaireRéseauQuery({
-        identifiantGestionnaireRéseau,
-      }),
-    );
-
-    await mediator.send(
-      buildModifierGestionnaireRéseauProjetCommand({
+    await mediator.send<ProjetCommand>({
+      type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',
+      data: {
         identifiantProjet,
-        identifiantGestionnaireRéseau: {
-          codeEIC: gestionnaireRéseau.codeEIC,
-        },
-      }),
-    );
+        identifiantGestionnaireRéseau,
+      },
+    });
   };
   mediator.register('MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE', runner);
 };
-
-export const buildModifierGestionnaireRéseauProjetUseCase =
-  getMessageBuilder<ModifierGestionnaireRéseauProjetUseCase>(
-    'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
-  );

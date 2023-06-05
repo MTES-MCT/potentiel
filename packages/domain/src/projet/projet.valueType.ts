@@ -10,6 +10,6 @@ export const formatIdentifiantProjet = ({
   période,
   famille = '',
   numéroCRE,
-}: IdentifiantProjet): `${string}#${string}#${string}#${string}` => {
+}: IdentifiantProjet): string => {
   return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
 };

@@ -1,4 +1,4 @@
-import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
+import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { DemandeComplèteRaccordementTransmiseEvent } from './demandeCompléteRaccordement/transmettre/demandeComplèteRaccordementTransmise.event';
 import { DemandeComplèteRaccordementModifiéeEvent } from './demandeCompléteRaccordement/modifier/demandeComplèteRaccordementModifiée.event';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../projet/projet.valueType';
@@ -24,10 +24,9 @@ type RaccordementEvent =
   | DemandeComplèteRaccordementTransmiseEvent
   | DemandeComplèteRaccordementModifiéeEvent;
 
-const raccordementAggregateStateFactory: AggregateStateFactory<
-  RaccordementState,
-  RaccordementEvent
-> = (events) => {
+const raccordementAggregateStateFactory: AggregateFactory<RaccordementState, RaccordementEvent> = (
+  events,
+) => {
   return events.reduce((aggregate, event) => {
     switch (event.type) {
       case 'DemandeComplèteDeRaccordementTransmise':

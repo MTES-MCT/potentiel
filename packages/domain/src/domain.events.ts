@@ -1,5 +1,5 @@
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.event';
-import { ProjetEvent } from './projet/projet.aggregate';
+import { ProjetEvent } from './projet/projet.event';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './raccordement/demandeCompléteRaccordement/enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 import { DemandeComplèteRaccordementModifiéeEvent } from './raccordement/demandeCompléteRaccordement/modifier/demandeComplèteRaccordementModifiée.event';
 import { DemandeComplèteRaccordementTransmiseEvent } from './raccordement/demandeCompléteRaccordement/transmettre/demandeComplèteRaccordementTransmise.event';

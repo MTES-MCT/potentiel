@@ -1,13 +1,18 @@
-import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
+import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
+import {
+  IdentifiantGestionnaireRéseau,
+  formatIdentifiantGestionnaireRéseau,
+} from './gestionnaireRéseau.valueType';
 
 type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
 
 export const createGestionnaireRéseauAggregateId = (
-  codeEIC: string,
-): GestionnaireRéseauAggregateId => `gestionnaire-réseau#${codeEIC}`;
+  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau,
+): GestionnaireRéseauAggregateId =>
+  `gestionnaire-réseau#${formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)}`;
 
-type GestionnaireRéseauState = {
+export type GestionnaireRéseau = {
   codeEIC: string;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement?: {
@@ -15,15 +20,19 @@ type GestionnaireRéseauState = {
     légende: string;
     expressionReguliere: string;
   };
+  equals: (gestionnaireRéseau: GestionnaireRéseau) => boolean;
 };
 
-const defaultAggregateState: GestionnaireRéseauState = {
+const defaultAggregateState: GestionnaireRéseau = {
   raisonSociale: '',
   codeEIC: '',
+  equals({ codeEIC }: GestionnaireRéseau) {
+    return this.codeEIC === codeEIC;
+  },
 };
 
-const gestionnaireRéseauAggregateStateFactory: AggregateStateFactory<
-  GestionnaireRéseauState,
+const gestionnaireRéseauAggregateFactory: AggregateFactory<
+  GestionnaireRéseau,
   GestionnaireRéseauEvent
 > = (events) => {
   return events.reduce((aggregate, event) => {
@@ -43,10 +52,10 @@ type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 export const loadGestionnaireRéseauAggregateFactory = ({
   loadAggregate,
 }: LoadAggregateFactoryDependencies) => {
-  return async (codeEIC: string) => {
-    return loadAggregate<GestionnaireRéseauState, GestionnaireRéseauEvent>(
-      createGestionnaireRéseauAggregateId(codeEIC),
-      gestionnaireRéseauAggregateStateFactory,
+  return async (identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau) => {
+    return loadAggregate<GestionnaireRéseau, GestionnaireRéseauEvent>(
+      createGestionnaireRéseauAggregateId(identifiantGestionnaireRéseau),
+      gestionnaireRéseauAggregateFactory,
     );
   };
 };

@@ -43,9 +43,7 @@ export const registerModifierGestionnaireRéseauCommand = ({
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
   }) => {
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(
-      formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
-    );
+    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(identifiantGestionnaireRéseau);
 
     if (isNone(gestionnaireRéseau)) {
       throw new GestionnaireRéseauInconnuError();
@@ -59,12 +57,7 @@ export const registerModifierGestionnaireRéseauCommand = ({
         aideSaisieRéférenceDossierRaccordement,
       },
     };
-    await publish(
-      createGestionnaireRéseauAggregateId(
-        formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
-      ),
-      event,
-    );
+    await publish(createGestionnaireRéseauAggregateId(identifiantGestionnaireRéseau), event);
   };
 
   mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU', commandHandler);

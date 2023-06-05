@@ -1,6 +1,12 @@
-import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
+import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
+import {
+  GestionnaireRéseau,
+  loadGestionnaireRéseauAggregateFactory,
+} from '../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { IdentifiantProjet, formatIdentifiantProjet } from './projet.valueType';
 import { ProjetEvent } from './projet.event';
+import { Option, none } from '@potentiel/monads';
+import { parseIdentifiantGestionnaireRéseau } from '../domain.valueType';
 
 type ProjetAggregateId = `projet#${string}`;
 
@@ -12,31 +18,38 @@ export const createProjetAggregateId = (
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
-type ProjetState = { gestionnaireRéseau: { codeEIC: string } };
+export type Projet = { gestionnaireRéseau(): Promise<Option<GestionnaireRéseau>> };
 
-const defaultAggregateState: ProjetState = {
-  gestionnaireRéseau: { codeEIC: '' },
+const defaultAggregate: Projet = {
+  gestionnaireRéseau: async () => Promise.resolve(none),
 };
 
-const projetAggregateStateFactory: AggregateStateFactory<ProjetState, ProjetEvent> = (events) => {
+const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, loadAggregate) => {
   return events.reduce((aggregate, event) => {
     switch (event.type) {
       case 'GestionnaireRéseauProjetModifié':
         return {
           ...aggregate,
-          gestionnaireRéseau: { codeEIC: event.payload.identifiantGestionnaireRéseau },
+          gestionnaireRéseau: async () => {
+            const loadGestionnaireRéseau = loadGestionnaireRéseauAggregateFactory({
+              loadAggregate,
+            });
+            return loadGestionnaireRéseau(
+              parseIdentifiantGestionnaireRéseau(event.payload.identifiantGestionnaireRéseau),
+            );
+          },
         };
       default:
         return { ...aggregate };
     }
-  }, defaultAggregateState);
+  }, defaultAggregate);
 };
 
 export const loadProjetAggregateFactory = ({ loadAggregate }: LoadAggregateFactoryDependencies) => {
   return async (identifiantProjet: IdentifiantProjet) => {
-    return loadAggregate<ProjetState, ProjetEvent>(
+    return loadAggregate<Projet, ProjetEvent>(
       createProjetAggregateId(identifiantProjet),
-      projetAggregateStateFactory,
+      projetAggregateFactory,
     );
   };
 };

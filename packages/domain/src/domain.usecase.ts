@@ -1,1 +1,2 @@
-export * from './gestionnaireRéseau/gestionnaireRéseau.valueType';
+export * from './gestionnaireRéseau/gestionnaireRéseau.usecase';
+export * from './projet/projet.usecase';

@@ -39,7 +39,7 @@ export const registerAjouterGestionnaireRéseauCommand = ({
     codeEIC,
     raisonSociale,
   }) => {
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
+    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate({ codeEIC });
 
     if (isSome(gestionnaireRéseau)) {
       throw new GestionnaireRéseauDéjàExistantError();
@@ -53,7 +53,7 @@ export const registerAjouterGestionnaireRéseauCommand = ({
         aideSaisieRéférenceDossierRaccordement,
       },
     };
-    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
+    await publish(createGestionnaireRéseauAggregateId({ codeEIC }), event);
   };
 
   mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND', commandHandler);

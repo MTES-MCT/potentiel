@@ -1,6 +1,3 @@
-import { AjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase';
-import { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
+import { ModifierGestionnaireRéseauProjetUseCase } from './modifier/modifierGestionnaireRéseauProjet.usecase';
 
-export type GestionnaireRéseauUseCase =
-  | AjouterGestionnaireRéseauUseCase
-  | ModifierGestionnaireRéseauUseCase;
+export type ProjetUseCase = ModifierGestionnaireRéseauProjetUseCase;
