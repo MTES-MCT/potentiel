@@ -42,7 +42,7 @@
     <div class="fr-mb-3w">* ${msg("requiredFields")}</div>
 
     <ol>
-        <li>
+        <#--  <li>
             <p>${msg("totpStep1")}</p>
 
             <ul>
@@ -50,7 +50,7 @@
                     <li>${app}</li>
                 </#list>
             </ul>
-        </li>
+        </li>  -->
 
         <#if mode?? && mode = "manual">
             <li>
