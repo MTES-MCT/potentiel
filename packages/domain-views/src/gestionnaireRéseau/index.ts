@@ -1,5 +1,3 @@
-// Queries
-
 import { mediator } from 'mediateur';
 import { Subscribe } from '../subscribe';
 import {
