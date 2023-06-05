@@ -42,15 +42,15 @@
     <div class="fr-mb-3w">* ${msg("requiredFields")}</div>
 
     <ol>
-        <#--  <li>
+        <li>
             <p>${msg("totpStep1")}</p>
 
-            <ul>
-                <#list totp.policy.supportedApplications as app>
-                    <li>${app}</li>
-                </#list>
+            <ul id="kc-totp-supported-apps">
+              <li>FreeOTP</li>
+              <li>Google authenticator</li>
+              <li>Microsoft authenticator</li>
             </ul>
-        </li>  -->
+        </li>
 
         <#if mode?? && mode = "manual">
             <li>
