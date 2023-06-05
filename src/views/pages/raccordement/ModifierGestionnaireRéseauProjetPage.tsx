@@ -3,20 +3,19 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
-  Callout,
   ErrorBox,
   Heading2,
   InfoBox,
-  Label,
   Link,
   PageProjetTemplate,
   PlugIcon,
-  Select,
   Form,
+  Label,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '@routes';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauSelect } from './components/GestionnaireRéseauSelect';
 
 type ModifierGestionnaireRéseauProjetProps = {
   user: UtilisateurReadModel;
@@ -59,31 +58,18 @@ export const ModifierGestionnaireRéseauProjet = ({
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2 className="mb-0">Modifier le gestionnaire de réseau du projet</Heading2>
 
-          {gestionnaireActuel && (
-            <Callout className="text-sm px-3 pt-1 pb-0">
-              <p>
-                Gestionnaire de réseau actuel:{' '}
-                <span className="font-bold">{gestionnaireActuel.raisonSociale}</span>
-              </p>
-            </Callout>
-          )}
-
           <div>
             <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
-            <Select id="codeEIC" name="codeEIC" defaultValue={'none'}>
-              <option value="none" disabled hidden>
-                Sélectionnez votre gestionnaire de réseau
-              </option>
-              {listeGestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-                <option value={codeEIC} key={codeEIC}>
-                  {raisonSociale} (code EIC : {codeEIC})
-                </option>
-              ))}
-            </Select>
+            <GestionnaireRéseauSelect
+              id="codeEIC"
+              name="codeEIC"
+              gestionnairesRéseau={listeGestionnairesRéseau}
+              gestionnaireRéseauActuel={gestionnaireActuel}
+            />
           </div>
 
           <div className="flex flex-col md:flex-row gap-4 m-auto">
-            <PrimaryButton type="submit">Transmettre</PrimaryButton>
+            <PrimaryButton type="submit">Modifier</PrimaryButton>
             <Link
               href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
               className="m-auto"

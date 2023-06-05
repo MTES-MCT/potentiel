@@ -2,28 +2,24 @@ import React, { ComponentProps, useState } from 'react';
 import { ArrowDownIcon, ErrorIcon } from '@components';
 
 type SelectProps = ComponentProps<'select'> & {
-  name: string;
-  id: string;
   error?: string;
-  children: React.ReactNode;
 };
 
 export const Select = ({
   className = '',
   error = '',
   onChange,
-  name,
-  id,
-  required,
   children,
-  disabled,
   ...props
 }: SelectProps) => {
+  const { id, disabled } = props;
+
   const [valueHasChanged, valueChanged] = useState(false);
   const isOnError = error !== '' && !valueHasChanged;
+
   return (
     <>
-      <div className="relative">
+      <div className={`relative ${className}`}>
         <ArrowDownIcon
           aria-hidden
           className={`absolute z-[1] right-2 pointer-events-none w-6 h-6 ${
@@ -32,18 +28,14 @@ export const Select = ({
           style={{ top: '50%', transform: 'translateY(-50%)' }}
         />
         <select
-          disabled={disabled}
-          name={name}
-          id={id}
-          className={`w-full py-2 px-4 text-base appearance-none bg-gray-100 disabled:cursor-not-allowed disabled:text-grey-625-base hover:cursor-pointer focus:cursor-pointer outline-offset-4 outline-2 outline-solid outline-outline-base border-x-0 border-t-0 border-b-2 border-solid ${
+          {...props}
+          className={`w-full mt-2 py-2 pr-8 px-4 text-base appearance-none bg-gray-100 disabled:cursor-not-allowed disabled:text-grey-625-base hover:cursor-pointer focus:cursor-pointer outline-offset-4 outline-2 outline-solid outline-outline-base border-x-0 border-t-0 border-b-2 border-solid ${
             isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'
-          } rounded-none rounded-t-[4px] ${className}`}
-          required={required}
+          } rounded-none rounded-t-[4px]`}
           onChange={(e) => {
             valueChanged(true);
             onChange && onChange(e);
           }}
-          {...props}
         >
           {children}
         </select>

@@ -23,6 +23,7 @@ Quand(
     this.gestionnaireRéseauWorld.raisonSociale = example['Raison sociale'];
     this.gestionnaireRéseauWorld.format = example['Format'];
     this.gestionnaireRéseauWorld.légende = example['Légende'];
+    this.gestionnaireRéseauWorld.expressionReguliere = example['Expression régulière'];
 
     const command = buildAjouterGestionnaireRéseauUseCase({
       codeEIC: this.gestionnaireRéseauWorld.codeEIC,
@@ -30,6 +31,7 @@ Quand(
       aideSaisieRéférenceDossierRaccordement: {
         format: this.gestionnaireRéseauWorld.format,
         légende: this.gestionnaireRéseauWorld.légende,
+        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
       },
     });
 
@@ -47,6 +49,7 @@ Quand(
         aideSaisieRéférenceDossierRaccordement: {
           format: 'autre format',
           légende: 'autre légende',
+          expressionReguliere: '.',
         },
       });
 
@@ -67,6 +70,7 @@ Alors(
       aideSaisieRéférenceDossierRaccordement: {
         légende: this.gestionnaireRéseauWorld.légende,
         format: this.gestionnaireRéseauWorld.format,
+        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
       },
     };
 
@@ -86,6 +90,7 @@ Alors(
       aideSaisieRéférenceDossierRaccordement: {
         légende: this.gestionnaireRéseauWorld.légende,
         format: this.gestionnaireRéseauWorld.format,
+        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
       },
     };
 

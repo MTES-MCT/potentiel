@@ -132,7 +132,7 @@ export class RaccordementWorld {
   }
 
   async createPropositionTechniqueEtFinancière() {
-    const référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
+    const référenceDossierRaccordement = 'XXX-RP-2021-999999';
 
     await mediator.send(
       buildTransmettrePropositionTechniqueEtFinancièreUseCase({

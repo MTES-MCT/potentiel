@@ -17,7 +17,11 @@ export type ModifierGestionnaireRéseauCommand = Message<
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
   }
 >;
 

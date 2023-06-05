@@ -46,6 +46,16 @@ export class GestionnaireRéseauWorld {
     this.#format = value;
   }
 
+  #expressionReguliere!: string;
+
+  get expressionReguliere() {
+    return this.#expressionReguliere || '';
+  }
+
+  set expressionReguliere(value: string) {
+    this.#expressionReguliere = value;
+  }
+
   #enedis!: GestionnaireRéseauReadModel;
 
   get enedis() {
@@ -65,19 +75,29 @@ export class GestionnaireRéseauWorld {
       aideSaisieRéférenceDossierRaccordement: {
         format: '',
         légende: '',
+        expressionReguliere: `[a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}`,
       },
     };
 
-    await this.createGestionnaireRéseau(this.#enedis.codeEIC, this.#enedis.raisonSociale);
+    await this.createGestionnaireRéseau(
+      this.#enedis.codeEIC,
+      this.#enedis.raisonSociale,
+      this.#enedis.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+    );
   }
 
-  async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {
+  async createGestionnaireRéseau(
+    codeEIC: string,
+    raisonSociale: string,
+    expressionReguliere: string = '.',
+  ) {
     const command = buildAjouterGestionnaireRéseauUseCase({
       codeEIC,
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
         format: '',
         légende: '',
+        expressionReguliere,
       },
     });
 

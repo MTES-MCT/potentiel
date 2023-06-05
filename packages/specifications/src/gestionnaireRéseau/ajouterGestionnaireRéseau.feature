@@ -3,10 +3,11 @@ Fonctionnalité: Ajouter un gestionnaire de réseau
 
     Scénario: Un administrateur ajoute un gestionnaire de réseau
         Quand un administrateur ajoute un gestionnaire de réseau
-        | Code EIC       | 17X0000009352859                    |
-        | Raison sociale | Arc Energies Maurienne              |
-        | Format         | XXX                                 | 
-        | Légende        | Trois lettres                       |
+            | Code EIC             | 17X0000009352859                    |
+            | Raison sociale       | Arc Energies Maurienne              |
+            | Format               | XXX                                 |
+            | Légende              | Trois lettres                       |
+            | Expression régulière | [a-zA-Z]{3}                         |
         Alors le gestionnaire de réseau devrait être disponible dans le référenciel des gestionnaires de réseau
         Et l'administrateur devrait pouvoir consulter les détails du gestionnaire de réseau
 

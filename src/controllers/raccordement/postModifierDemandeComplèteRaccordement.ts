@@ -1,7 +1,6 @@
 import { createReadStream } from 'fs';
 import { mediator } from 'mediateur';
 import {
-  DossierRaccordementNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
   buildModifierDemandeComplèteRaccordementUseCase,
 } from '@potentiel/domain';
@@ -20,6 +19,7 @@ import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
+import { DomainError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   params: yup.object({
@@ -27,7 +27,7 @@ const schema = yup.object({
     reference: yup.string().required(),
   }),
   body: yup.object({
-    nouvelleReference: yup.string().required(),
+    referenceDossierRaccordement: yup.string().required(),
     dateQualification: yup
       .date()
       .required(`La date de qualification est obligatoire`)
@@ -61,7 +61,7 @@ v1Router.post(
       const {
         user,
         params: { projetId, reference },
-        body: { dateQualification, nouvelleReference },
+        body: { dateQualification, referenceDossierRaccordement },
         file,
       } = request;
 
@@ -114,7 +114,7 @@ v1Router.post(
           buildModifierDemandeComplèteRaccordementUseCase({
             identifiantProjet,
             dateQualification,
-            nouvelleRéférenceDossierRaccordement: nouvelleReference,
+            nouvelleRéférenceDossierRaccordement: referenceDossierRaccordement,
             ancienneRéférenceDossierRaccordement: reference,
             nouvelAccuséRéception: {
               format: file.mimetype,
@@ -131,7 +131,7 @@ v1Router.post(
           }),
         );
       } catch (error) {
-        if (error instanceof DossierRaccordementNonRéférencéError) {
+        if (error instanceof DomainError) {
           return response.redirect(
             addQueryParams(
               routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId, reference),

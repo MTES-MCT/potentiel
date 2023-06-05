@@ -44,7 +44,7 @@ import {
   AcheteurObligeStatistiques,
   CreStatistiques,
   ListeGestionnairesRéseau,
-  ConsulterGestionnaireRéseau,
+  ModifierGestionnaireRéseau,
   AjouterGestionnaireRéseau,
   TransmettreDemandeComplèteRaccordement,
   ListeDossiersRaccordement,
@@ -383,10 +383,10 @@ export const ListeGestionnairesRéseauPage = (
   });
 
 export const ConsulterGestionnairesRéseauPage = (
-  props: Parameters<typeof ConsulterGestionnaireRéseau>[0],
+  props: Parameters<typeof ModifierGestionnaireRéseau>[0],
 ) =>
   makeHtml({
-    Component: ConsulterGestionnaireRéseau,
+    Component: ModifierGestionnaireRéseau,
     props,
     title: 'Détail du gestionnaire de réseau',
   });

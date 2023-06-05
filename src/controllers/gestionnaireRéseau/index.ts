@@ -1,5 +1,5 @@
 export * from './getAjouterGestionnaireRéseauPage';
 export * from './getGestionnaireRéseauPage';
 export * from './getListeGestionnairesRéseauPage';
-export * from './postAjouterGestionnaireRéseauPage';
-export * from './postModifierGestionnaireRéseauPage';
+export * from './postAjouterGestionnaireRéseau';
+export * from './postModifierGestionnaireRéseau';

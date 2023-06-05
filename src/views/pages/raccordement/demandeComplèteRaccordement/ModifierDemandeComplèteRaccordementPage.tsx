@@ -10,17 +10,17 @@ import {
   PlugIcon,
   Link,
   PageProjetTemplate,
-  Callout,
   InfoBox,
-  EditIcon,
-  DownloadLink,
   ExternalLink,
   Form,
+  DownloadLink,
+  LabelDescription,
 } from '@components';
-import { afficherDate, hydrateOnClient } from '../../helpers';
+import { format as formatDate } from 'date-fns';
+import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
 import routes from '@routes';
-import { userIs } from '@modules/users';
+import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 
 type ModifierDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -40,12 +40,13 @@ export const ModifierDemandeComplèteRaccordement = ({
   error,
   reference,
   dateQualificationActuelle,
-  gestionnaireRéseauActuel: {
-    aideSaisieRéférenceDossierRaccordement: { format, légende },
-    raisonSociale,
-  },
+  gestionnaireRéseauActuel,
   existingFile,
 }: ModifierDemandeComplèteRaccordementProps) => {
+  const {
+    aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+  } = gestionnaireRéseauActuel;
+
   return (
     <PageProjetTemplate
       titre={
@@ -59,7 +60,7 @@ export const ModifierDemandeComplèteRaccordement = ({
     >
       <div className="flex flex-col md:flex-row gap-4">
         <Form
-          className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
+          className="max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
           action={routes.POST_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT(identifiantProjet, reference)}
@@ -68,75 +69,68 @@ export const ModifierDemandeComplèteRaccordement = ({
 
           <Heading2>Modifier une demande complète de raccordement</Heading2>
 
-          <Callout className="text-sm px-3 pt-1 pb-0">
-            <ul className="list-none p-0">
-              <li>
-                Gestionnaire de réseau : <span className="font-bold mr-2">{raisonSociale}</span>
-                {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
-                  <Link
-                    href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
-                  >
-                    <EditIcon className="mr-1" />
-                    Modifier le gestionnaire
-                  </Link>
-                )}
-              </li>
-              <li className="my-0">
-                Référence du dossier de raccordement :{' '}
-                <span className="font-bold">{reference}</span>
-              </li>
-              {dateQualificationActuelle && (
-                <li className="my-0">
-                  Date de qualification de la demande complète de raccordement :{' '}
-                  <span className="font-bold">
-                    {afficherDate(new Date(dateQualificationActuelle))}
-                  </span>
-                </li>
-              )}
-              {existingFile && (
-                <li>
-                  <DownloadLink
-                    fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(
-                      identifiantProjet,
-                      reference,
-                    )}
-                  >
-                    Accusé de réception de la demande complète de raccordement
-                  </DownloadLink>
-                </li>
-              )}
-            </ul>
-          </Callout>
-
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
           <div>
-            <Label htmlFor="nouvelleReference">
-              Référence du dossier de raccordement du projet *
+            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+            <GestionnaireRéseauSelect
+              id="codeEIC"
+              name="codeEIC"
+              disabled
+              gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+              gestionnairesRéseau={[gestionnaireRéseauActuel]}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="referenceDossierRaccordement">
+              Référence du dossier de raccordement du projet
+              {(format || légende) && (
+                <LabelDescription>
+                  {légende && <div className="m-0">Format attendu : {légende}</div>}
+                  {format && <div className="m-0 italic">Exemple : {format}</div>}
+                </LabelDescription>
+              )}
             </Label>
-            {(format || légende) && (
-              <InfoBox className="mt-2 mb-3">
-                {légende && <p className="m-0">Format attendu : {légende}</p>}
-                {format && <p className="m-0 italic">Exemple : {format}</p>}
-              </InfoBox>
-            )}
             <Input
               type="text"
-              id="nouvelleReference"
-              name="nouvelleReference"
+              id="referenceDossierRaccordement"
+              name="referenceDossierRaccordement"
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
               required
+              defaultValue={reference ?? ''}
+              pattern={expressionReguliere || undefined}
             />
           </div>
 
           <div>
             <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>
             <Input type="file" id="file" name="file" required />
+            {existingFile && (
+              <DownloadLink
+                fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(
+                  identifiantProjet,
+                  reference,
+                )}
+              >
+                Accusé de réception de la demande complète de raccordement
+              </DownloadLink>
+            )}
           </div>
 
           <div>
             <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
-            <Input type="date" id="dateQualification" name="dateQualification" required />
+            <Input
+              type="date"
+              id="dateQualification"
+              name="dateQualification"
+              defaultValue={
+                dateQualificationActuelle
+                  ? formatDate(new Date(dateQualificationActuelle), 'yyyy-MM-dd')
+                  : ''
+              }
+              required
+            />
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>

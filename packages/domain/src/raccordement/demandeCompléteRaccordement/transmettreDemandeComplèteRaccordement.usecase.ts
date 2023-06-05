@@ -8,7 +8,6 @@ import {
   TransmettreDemandeComplèteRaccordementCommand,
   buildTransmettreDemandeComplèteRaccordementCommand,
 } from './transmettre/transmettreDemandeComplèteRaccordement.command';
-import { buildConsulterGestionnaireRéseauQuery } from '../../gestionnaireRéseau/query/consulter/consulterGestionnaireRéseau.query';
 
 type TransmettreDemandeComplèteRaccordementUseCase = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
@@ -27,16 +26,10 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     référenceDossierRaccordement,
     nouvelAccuséRéception: { format, content },
   }) => {
-    const gestionnaireRéseau = await mediator.send(
-      buildConsulterGestionnaireRéseauQuery({
-        identifiantGestionnaireRéseau,
-      }),
-    );
-
     await mediator.send(
       buildTransmettreDemandeComplèteRaccordementCommand({
         identifiantProjet,
-        identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
+        identifiantGestionnaireRéseau,
         dateQualification,
         référenceDossierRaccordement,
       }),
