@@ -5,15 +5,15 @@
         ${msg("loginTotpTitle")}
     <#elseif section = "form">
         <ol id="kc-totp-settings">
-            <li>
+             <li>
                 <p>${msg("loginTotpStep1")}</p>
 
                 <ul id="kc-totp-supported-apps">
-                    <#list totp.policy.supportedApplications as app>
-                        <li>${app}</li>
-                    </#list>
+                    <li>FreeOTP</li>
+                    <li>Google authenticator</li>
+                    <li>Microsoft authenticator</li>
                 </ul>
-            </li>
+            </li> 
 
             <#if mode?? && mode = "manual">
                 <li>
