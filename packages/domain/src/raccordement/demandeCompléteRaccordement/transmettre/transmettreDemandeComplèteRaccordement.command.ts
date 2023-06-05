@@ -11,12 +11,12 @@ import {
   RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
 } from '../../raccordement.errors';
 import { isNone, isSome } from '@potentiel/monads';
-import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/aggregate/gestionnaireRéseau.aggregate';
+import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { GestionnaireNonRéférencéError } from '../../../gestionnaireRéseau/query/consulter/gestionnaireNonRéférencé.error';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../../../gestionnaireRéseau/valueType/identifiantGestionnaireRéseau';
+} from '../../../gestionnaireRéseau/gestionnaireRéseau.valueType';
 import {
   IdentifiantProjet,
   formatIdentifiantProjet,

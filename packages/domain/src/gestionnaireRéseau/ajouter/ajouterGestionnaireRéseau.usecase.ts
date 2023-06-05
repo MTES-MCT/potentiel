@@ -1,8 +1,6 @@
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import {
-  AjouterGestionnaireRéseauCommand,
-  buildAjouterGestionnaireRéseauCommand,
-} from '../command/ajouter/ajouterGestionnaireRéseau.command';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { GestionnaireRéseauUseCase } from '../gestionnaireRéseau.command';
+import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.command';
 
 type AjouterGestionnaireRéseauUseCaseData = AjouterGestionnaireRéseauCommand['data'];
 
@@ -17,17 +15,15 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
     codeEIC,
     raisonSociale,
   }) => {
-    await mediator.send(
-      buildAjouterGestionnaireRéseauCommand({
+    await mediator.send<GestionnaireRéseauUseCase>({
+      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+      data: {
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
-      }),
-    );
+      },
+    });
   };
 
   mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE', handler);
 };
-
-export const buildAjouterGestionnaireRéseauUseCase =
-  getMessageBuilder<AjouterGestionnaireRéseauUseCase>('AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE');

@@ -15,7 +15,7 @@ import {
   ListerGestionnaireRéseauQuery,
   registerListerGestionnaireRéseauQuery,
 } from './lister/listerGestionnaireRéseau.query';
-import { GestionnaireRéseauEvent } from '@potentiel/domain/dist/gestionnaireRéseau/aggregate/gestionnaireRéseau.aggregate';
+import { GestionnaireRéseauEvent } from '@potentiel/domain/dist/gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';
 
 // Queries

@@ -1,4 +1,4 @@
-import { GestionnaireRéseauEvent } from '@potentiel/domain/dist/gestionnaireRéseau/aggregate/gestionnaireRéseau.aggregate';
+import { GestionnaireRéseauEvent } from '@potentiel/domain/dist/gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';
 import { Create, Update } from '../readModel';
 import { Message, MessageHandler, mediator } from 'mediateur';

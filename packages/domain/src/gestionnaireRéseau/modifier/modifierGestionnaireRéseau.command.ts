@@ -1,16 +1,16 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
+import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifié.event';
+import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import {
   createGestionnaireRéseauAggregateId,
   loadGestionnaireRéseauAggregateFactory,
-} from '../../aggregate/gestionnaireRéseau.aggregate';
-import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifié.event';
-import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+} from '../gestionnaireRéseau.aggregate';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../../valueType/identifiantGestionnaireRéseau';
+} from '../gestionnaireRéseau.valueType';
 
 export type ModifierGestionnaireRéseauCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU',
@@ -69,6 +69,3 @@ export const registerModifierGestionnaireRéseauCommand = ({
 
   mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU', commandHandler);
 };
-
-export const buildModifierGestionnaireRéseauCommand =
-  getMessageBuilder<ModifierGestionnaireRéseauCommand>('MODIFIER_GESTIONNAIRE_RÉSEAU');

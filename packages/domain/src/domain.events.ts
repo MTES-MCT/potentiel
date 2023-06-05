@@ -1,4 +1,4 @@
-import { GestionnaireRéseauEvent } from './gestionnaireRéseau/aggregate/gestionnaireRéseau.aggregate';
+import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { ProjetEvent } from './projet/aggregate/projet.aggregate';
 import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from './raccordement/demandeCompléteRaccordement/enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
 import { DemandeComplèteRaccordementModifiéeEvent } from './raccordement/demandeCompléteRaccordement/modifier/demandeComplèteRaccordementModifiée.event';

@@ -1,6 +1,5 @@
 import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { GestionnaireRéseauAjoutéEvent } from '../command/ajouter/gestionnaireRéseauAjouté.event';
-import { GestionnaireRéseauModifiéEvent } from '../command/modifier/gestionnaireRéseauModifié.event';
+import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
 
 type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
 
@@ -17,10 +16,6 @@ type GestionnaireRéseauState = {
     expressionReguliere: string;
   };
 };
-
-export type GestionnaireRéseauEvent =
-  | GestionnaireRéseauModifiéEvent
-  | GestionnaireRéseauAjoutéEvent;
 
 const defaultAggregateState: GestionnaireRéseauState = {
   raisonSociale: '',

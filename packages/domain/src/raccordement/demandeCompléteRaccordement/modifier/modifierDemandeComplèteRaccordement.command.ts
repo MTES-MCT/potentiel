@@ -14,7 +14,7 @@ import {
   IdentifiantProjet,
   formatIdentifiantProjet,
 } from '../../../projet/valueType/identifiantProjet';
-import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/aggregate/gestionnaireRéseau.aggregate';
+import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { GestionnaireNonRéférencéError } from '../../../gestionnaireRéseau/query/consulter/gestionnaireNonRéférencé.error';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
