@@ -1,12 +1,12 @@
 import { Publish } from '@potentiel/core-domain';
 import { GestionnaireRéseauProjetModifiéEvent } from './modifierGestionnaireRéseauProjet.event';
-import { createProjetAggregateId } from '../../aggregate/projet.aggregate';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../valueType/identifiantProjet';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../../../gestionnaireRéseau/gestionnaireRéseau.valueType';
+} from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../projet.valueType';
+import { createProjetAggregateId } from '../projet.aggregate';
 
 export type ModifierGestionnaireRéseauProjetCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',
@@ -40,6 +40,3 @@ export const registerModifierGestionnaireRéseauProjetCommand = ({
 
   mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET', handler);
 };
-
-export const buildModifierGestionnaireRéseauProjetCommand =
-  getMessageBuilder<ModifierGestionnaireRéseauProjetCommand>('MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET');

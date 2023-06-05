@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet } from '../../projet/valueType/identifiantProjet';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import { buildTransmettreDateMiseEnServiceCommand } from './transmettre/transmettreDateMiseEnService.command';
 import { buildRechercherDossierRaccordementQuery } from '../dossierRaccordement/rechercher/rechercherDossierRaccordement.query';
 import { AucunDossierRaccordementCorrespondantError } from '../raccordement.errors';

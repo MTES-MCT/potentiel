@@ -5,7 +5,7 @@ import { DossierRaccordementReadModel } from '../raccordement.readModel';
 import {
   IdentifiantProjet,
   formatIdentifiantProjet,
-} from '@potentiel/domain/dist/projet/valueType/identifiantProjet';
+} from '@potentiel/domain/dist/projet/identifiantProjet';
 
 export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',

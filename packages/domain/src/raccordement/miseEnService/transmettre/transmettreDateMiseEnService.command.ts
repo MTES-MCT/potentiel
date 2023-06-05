@@ -7,10 +7,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
-import {
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-} from '../../../projet/valueType/identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/projet.valueType';
 
 export type TransmettreDateMiseEnServiceCommandDependencies = {
   loadAggregate: LoadAggregate;

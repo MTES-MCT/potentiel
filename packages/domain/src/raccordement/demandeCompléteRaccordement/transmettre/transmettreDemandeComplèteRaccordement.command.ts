@@ -17,10 +17,7 @@ import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
 } from '../../../gestionnaireRéseau/gestionnaireRéseau.valueType';
-import {
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-} from '../../../projet/valueType/identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/projet.valueType';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

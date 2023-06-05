@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { ProjetEvent } from '@potentiel/domain/dist/projet/aggregate/projet.aggregate';
+import { ProjetEvent } from '@potentiel/domain/dist/projet/projet.aggregate';
 import { ConsulterGestionnaireRéseauDependencies } from '../gestionnaireRéseau/consulter/consulterGestionnaireRéseau.query';
 import { Subscribe } from '../subscribe';
 import {

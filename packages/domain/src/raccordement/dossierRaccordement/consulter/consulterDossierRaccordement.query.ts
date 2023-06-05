@@ -3,10 +3,7 @@ import { isNone } from '@potentiel/monads';
 import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
 import { DossierRaccordementNonRéférencéError } from '../../raccordement.errors';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import {
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-} from '../../../projet/valueType/identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/projet.valueType';
 
 export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',

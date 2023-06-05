@@ -1,10 +1,10 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find, NotFoundError } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import {
   GestionnaireRéseauReadModel,
   GestionnaireRéseauReadModelKey,
 } from '../gestionnaireRéseau.readModel';
-import { Message, MessageHandler, mediator } from 'mediateur';
 
 export type ConsulterGestionnaireRéseauQuery = Message<
   'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',

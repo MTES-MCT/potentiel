@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { IdentifiantProjet } from '../../projet/valueType/identifiantProjet';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import { ListeDossiersRaccordementReadModel } from './lister/listeDossierRaccordement.readModel';
 import { buildListerDossiersRaccordementQuery } from './lister/listerDossierRaccordement.query';
 

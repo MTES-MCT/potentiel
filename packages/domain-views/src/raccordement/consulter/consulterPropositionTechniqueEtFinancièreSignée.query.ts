@@ -1,7 +1,7 @@
 import {
   IdentifiantProjet,
   formatIdentifiantProjet,
-} from '@potentiel/domain/dist/projet/valueType/identifiantProjet';
+} from '@potentiel/domain/dist/projet/identifiantProjet';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Readable } from 'stream';
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from '../raccordement.readModel';

@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { DossierRaccordementReadModel } from './consulter/dossierRaccordement.readModel';
-import { IdentifiantProjet } from '../../projet/valueType/identifiantProjet';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import { buildConsulterDossierRaccordementQuery } from './consulter/consulterDossierRaccordement.query';
 
 export type ConsulterDossierRaccordementUseCase = Message<

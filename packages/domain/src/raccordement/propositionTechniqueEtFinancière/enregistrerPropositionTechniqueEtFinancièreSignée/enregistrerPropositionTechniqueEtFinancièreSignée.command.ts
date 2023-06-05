@@ -2,10 +2,7 @@ import { Readable } from 'stream';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Publish } from '@potentiel/core-domain';
 import { createRaccordementAggregateId } from '../../raccordement.aggregate';
-import {
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-} from '../../../projet/valueType/identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/projet.valueType';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from './propositionTechniqueEtFinancièreSignéeTransmise.event';
 
 export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message<

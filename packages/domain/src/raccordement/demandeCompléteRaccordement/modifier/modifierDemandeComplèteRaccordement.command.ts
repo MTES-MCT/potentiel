@@ -10,10 +10,7 @@ import {
   DossierRaccordementNonRéférencéError,
   FormatRéférenceDossierRaccordementInvalideError,
 } from '../../raccordement.errors';
-import {
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-} from '../../../projet/valueType/identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet/projet.valueType';
 import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { GestionnaireNonRéférencéError } from '../../../gestionnaireRéseau/query/consulter/gestionnaireNonRéférencé.error';
 
