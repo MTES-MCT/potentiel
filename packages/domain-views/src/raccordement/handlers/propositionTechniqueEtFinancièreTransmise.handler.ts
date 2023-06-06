@@ -1,5 +1,5 @@
 import { DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
-import { PropositionTechniqueEtFinancièreTransmiseEvent } from '../../../../domain/src/raccordement/propositionTechniqueEtFinancière/transmettre/propositionTechniqueEtFinancièreTransmise.event';
+import { PropositionTechniqueEtFinancièreTransmiseEvent } from '../../../../domain/src/raccordement/transmettre/propositionTechniqueEtFinancièreTransmise.event';
 
 import { isSome } from '@potentiel/monads';
 import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';

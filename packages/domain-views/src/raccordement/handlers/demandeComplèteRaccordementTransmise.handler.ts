@@ -1,6 +1,6 @@
 import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { DemandeComplèteRaccordementTransmiseEvent } from '../../../../domain/src/raccordement/demandeCompléteRaccordement/transmettre/demandeComplèteRaccordementTransmise.event';
+import { DemandeComplèteRaccordementTransmiseEvent } from '../../../../domain/src/raccordement/transmettre/demandeComplèteRaccordementTransmise.event';
 import { ListeDossiersRaccordementReadModel } from '../../../../domain/src/raccordement/dossierRaccordement/lister/listeDossierRaccordement.readModel';
 import { DossierRaccordementReadModel } from '../../../../domain/src/raccordement/dossierRaccordement/consulter/dossierRaccordement.readModel';
 import { ProjetReadModel } from '../../../../projet/query/consulter/projet.readModel';

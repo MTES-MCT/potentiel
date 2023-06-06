@@ -1,13 +1,13 @@
 import { Create, Remove, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { DemandeComplèteRaccordementModifiéeEvent } from '../../../../domain/src/raccordement/demandeCompléteRaccordement/modifier/demandeComplèteRaccordementModifiée.event';
+import { DemandeComplèteRaccordementModifiéeEvent } from '../../../../domain/src/raccordement/modifier/demandeComplèteRaccordementModifiée.event';
 import { ListeDossiersRaccordementReadModel } from '../../../../domain/src/raccordement/dossierRaccordement/lister/listeDossierRaccordement.readModel';
 import { DossierRaccordementReadModel } from '../../../../domain/src/raccordement/dossierRaccordement/consulter/dossierRaccordement.readModel';
 import {
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
   RécupérerPropositionTechniqueEtFinancièreSignéePort,
 } from '../../../../domain/src/raccordement/raccordement.ports';
-import { ModifierPropositionTechniqueEtFinancièreSignéePort } from '../../../../domain/src/raccordement/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancièreSignée/modifierPropositionTechniqueEtFinancièreSignée.command';
+import { ModifierPropositionTechniqueEtFinancièreSignéePort } from '../../../../domain/src/raccordement/modifier/modifierPropositionTechniqueEtFinancièreSignée.command';
 
 export type DemandeComplèteRaccordementeModifiéeDependencies = {
   find: Find;

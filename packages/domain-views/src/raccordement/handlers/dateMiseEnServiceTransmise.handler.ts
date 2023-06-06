@@ -1,6 +1,6 @@
 import { DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
-import { DateMiseEnServiceTransmiseEvent } from '../../../../domain/src/raccordement/miseEnService/transmettre/dateMiseEnServiceTransmise.event';
+import { DateMiseEnServiceTransmiseEvent } from '../../../../domain/src/raccordement/transmettre/dateMiseEnServiceTransmise.event';
 import { DossierRaccordementReadModel } from '../../../dossierRaccordement/consulter/dossierRaccordement.readModel';
 
 export type DateMiseEnServiceTransmiseDependencies = {

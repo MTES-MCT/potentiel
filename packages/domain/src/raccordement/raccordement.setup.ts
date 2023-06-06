@@ -1,14 +1,53 @@
-import { setupDemandeCompléteRaccordement } from './demandeCompléteRaccordement/demandeCompléteRaccordement.setup';
-import { setupDossierRaccordement } from './dossierRaccordement/dossierRaccordement.setup';
-import { setupMiseEnPlace } from './miseEnService/miseEnService.setup';
-import { setupPropostionTechniqueEtFinancière } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.setup';
-import { RaccordementDependencies } from './raccordement.dependencies';
+import {
+  ModifierAccuséRéceptionDemandeComplèteRaccordementDependencies,
+  registerModifierAccuséRéceptionDemandeComplèteRaccordementCommand,
+} from './modifier/modifierAccuséRéceptionDemandeComplèteRaccordement.command';
+import {
+  ModifierDemandeComplèteRaccordementDependencies,
+  registerModifierDemandeComplèteRaccordementCommand,
+} from './modifier/modifierDemandeComplèteRaccordement.command';
+import {
+  ModifierPropositionTechniqueEtFinancièreDependencies,
+  registerModifierPropositionTechniqueEtFinancièreCommand,
+} from './modifier/modifierPropositiontechniqueEtFinancière.command';
+import {
+  TransmettreDateMiseEnServiceCommandDependencies,
+  registerTransmettreDateMiseEnServiceCommand,
+} from './transmettre/transmettreDateMiseEnService.command';
+import {
+  TransmettreDemandeComplèteRaccordementDependencies,
+  registerTransmettreDemandeComplèteRaccordementCommand,
+} from './transmettre/transmettreDemandeComplèteRaccordement.command';
+import {
+  TransmettrePropositionTechniqueEtFinancièreDependencies,
+  registerTransmettrePropositionTechniqueEtFinancièreCommand,
+} from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
+import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/modifierDemandeComplèteRaccordement.usecase';
+import { registerModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/modifierPropositiontechniqueEtFinancière.usecase';
+import { registerTransmettreDateMiseEnServiceUseCase } from './transmettre/transmettreDateMiseEnService.usecase';
+import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettre/transmettreDemandeComplèteRaccordement.usecase';
+import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/transmettrePropositionTechniqueEtFinancière.usecase';
+
+export type RaccordementDependencies = ModifierDemandeComplèteRaccordementDependencies &
+  ModifierAccuséRéceptionDemandeComplèteRaccordementDependencies &
+  ModifierPropositionTechniqueEtFinancièreDependencies &
+  TransmettreDateMiseEnServiceCommandDependencies &
+  TransmettreDemandeComplèteRaccordementDependencies &
+  TransmettrePropositionTechniqueEtFinancièreDependencies;
 
 export const setupRaccordement = (dependencies: RaccordementDependencies) => {
-  return [
-    ...setupDemandeCompléteRaccordement(dependencies),
-    ...setupDossierRaccordement(dependencies),
-    ...setupMiseEnPlace(dependencies),
-    ...setupPropostionTechniqueEtFinancière(dependencies),
-  ];
+  // Commands
+  registerModifierAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
+  registerModifierDemandeComplèteRaccordementCommand(dependencies);
+  registerModifierPropositionTechniqueEtFinancièreCommand(dependencies);
+  registerTransmettreDateMiseEnServiceCommand(dependencies);
+  registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
+  registerTransmettrePropositionTechniqueEtFinancièreCommand(dependencies);
+
+  // Usecases
+  registerModifierDemandeComplèteRaccordementUseCase();
+  registerModifierPropositiontechniqueEtFinancièreUseCase();
+  registerTransmettreDateMiseEnServiceUseCase();
+  registerTransmettreDemandeComplèteRaccordementUseCase();
+  registerTransmettrePropositionTechniqueEtFinancièreUseCase();
 };

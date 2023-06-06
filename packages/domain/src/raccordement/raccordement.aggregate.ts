@@ -1,7 +1,6 @@
 import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { DemandeComplèteRaccordementTransmiseEvent } from './demandeCompléteRaccordement/transmettre/demandeComplèteRaccordementTransmise.event';
-import { DemandeComplèteRaccordementModifiéeEvent } from './demandeCompléteRaccordement/modifier/demandeComplèteRaccordementModifiée.event';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../projet/projet.valueType';
+import { RaccordementEvent } from './raccordement.event';
 
 type RaccordementAggregateId = `raccordement#${string}`;
 
@@ -19,10 +18,6 @@ const defaultAggregateState: RaccordementState = {
   gestionnaireRéseau: { codeEIC: '' },
   références: [],
 };
-
-type RaccordementEvent =
-  | DemandeComplèteRaccordementTransmiseEvent
-  | DemandeComplèteRaccordementModifiéeEvent;
 
 const raccordementAggregateStateFactory: AggregateFactory<RaccordementState, RaccordementEvent> = (
   events,

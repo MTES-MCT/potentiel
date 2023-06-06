@@ -1,10 +1,7 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { setupGestionnaireRéseau } from './gestionnaireRéseau/gestionnaireRéseau.setup';
 import { setupProjet } from './projet/projet.setup';
-import { setupRaccordement } from './raccordement/raccordement.setup';
-import { RaccordementDependencies } from './raccordement/raccordement.dependencies';
-
-export type UnsetupDomain = () => Promise<void>;
+import { RaccordementDependencies, setupRaccordement } from './raccordement/raccordement.setup';
 
 export type DomainDependencies = {
   common: {
@@ -14,24 +11,11 @@ export type DomainDependencies = {
   raccordement: Omit<RaccordementDependencies, keyof DomainDependencies['common']>;
 };
 
-export const setupDomain = ({ common, raccordement }: DomainDependencies): UnsetupDomain => {
-  setupGestionnaireRéseau({
+export const setupDomain = ({ common, raccordement }: DomainDependencies) => {
+  setupGestionnaireRéseau(common);
+  setupProjet(common);
+  setupRaccordement({
     ...common,
+    ...raccordement,
   });
-
-  setupProjet({
-    ...common,
-  });
-
-  const unsubscribes = [
-    ...setupRaccordement({
-      ...commonDependencies,
-      ...raccordement,
-    }),
-  ];
-  return async () => {
-    for (const unsubscribe of unsubscribes) {
-      await unsubscribe();
-    }
-  };
 };
