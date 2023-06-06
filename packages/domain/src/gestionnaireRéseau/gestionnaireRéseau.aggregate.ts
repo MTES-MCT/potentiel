@@ -4,6 +4,7 @@ import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
 } from './gestionnaireRéseau.valueType';
+import { RéférenceDossierRaccordement } from '../raccordement/raccordement.valueType';
 
 type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
 
@@ -14,7 +15,9 @@ export const createGestionnaireRéseauAggregateId = (
 
 export type GestionnaireRéseau = {
   codeEIC: string;
-  validerRéférenceDossierRaccordement: (référence: string) => boolean;
+  validerRéférenceDossierRaccordement: (
+    référenceDossierRaccordement: RéférenceDossierRaccordement,
+  ) => boolean;
   estÉgaleÀ: (gestionnaireRéseau: GestionnaireRéseau) => boolean;
 };
 
@@ -23,7 +26,7 @@ const defaultAggregateState: GestionnaireRéseau = {
   estÉgaleÀ({ codeEIC }: GestionnaireRéseau) {
     return this.codeEIC === codeEIC;
   },
-  validerRéférenceDossierRaccordement(référence: string) {
+  validerRéférenceDossierRaccordement({ référence }) {
     return true;
   },
 };
@@ -46,16 +49,15 @@ const gestionnaireRéseauAggregateFactory: AggregateFactory<
       switch (type) {
         case 'GestionnaireRéseauAjouté':
         case 'GestionnaireRéseauModifié':
-          const validerRéférenceDossierRaccordement = (référence: string) => {
-            if (!expressionReguliere) {
-              return true;
-            }
-            return new RegExp(expressionReguliere).test(référence);
-          };
           return {
             ...aggregate,
             codeEIC,
-            validerRéférenceDossierRaccordement,
+            validerRéférenceDossierRaccordement({ référence }) {
+              if (!expressionReguliere) {
+                return true;
+              }
+              return new RegExp(expressionReguliere).test(référence);
+            },
           };
         default:
           // TODO: ajouter log event non connu

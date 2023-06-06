@@ -18,7 +18,7 @@ export type PropositionTechniqueEtFinancièreSignéeTransmiseEvent = DomainEvent
   }
 >;
 
-export type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
+export type DemandeComplèteRaccordementModifiéeEventV0 = DomainEvent<
   'DemandeComplèteRaccordementModifiée',
   {
     identifiantProjet: string;
@@ -28,12 +28,21 @@ export type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
   }
 >;
 
-export type RéférenceDossierRaccordementModifiéeEvent = DomainEvent<
-  'DemandeComplèteRaccordementModifiée',
+//v1
+export type DemandeComplèteRaccordementModifiéeEventV1 = DomainEvent<
+  'DemandeComplèteRaccordementModifiée-V1',
   {
     identifiantProjet: string;
-    referenceActuelle: string;
-    nouvelleReference: string;
+    dateQualification: string;
+  }
+>;
+
+export type RéférenceDossierRacordementModifiéeEventV1 = DomainEvent<
+  'RéférenceDossierRacordementModifiée-V1',
+  {
+    identifiantProjet: string;
+    référenceDossierRaccordementActuelle: string;
+    nouvelleRéférenceDossierRaccordement: string;
   }
 >;
 
@@ -77,7 +86,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
 export type RaccordementEvent =
   | AccuséRéceptionDemandeComplèteRaccordementTransmisEvent
   | DemandeComplèteRaccordementTransmiseEvent
-  | DemandeComplèteRaccordementModifiéeEvent
+  | DemandeComplèteRaccordementModifiéeEventV0
   | PropositionTechniqueEtFinancièreTransmiseEvent
   | PropositionTechniqueEtFinancièreSignéeTransmiseEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent

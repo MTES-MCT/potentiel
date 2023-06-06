@@ -10,13 +10,13 @@ import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '../racco
 import { EnregistrerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { DossierRaccordement } from '../raccordement.valueType';
+import { DossierRaccordement, RéférenceDossierRaccordement } from '../raccordement.valueType';
 
 export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message<
   'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RéférenceDossierRaccordement;
     propositionTechniqueEtFinancièreSignée: { format: string; content: Readable };
   }
 >;
@@ -47,28 +47,30 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const dossier = raccordement.dossiers.get(référenceDossierRaccordement) as DossierRaccordement;
+    const dossier = raccordement.dossiers.get(
+      référenceDossierRaccordement.formatter(),
+    ) as DossierRaccordement;
 
     await enregistrerPropositionTechniqueEtFinancièreSignée({
       type: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       propositionTechniqueEtFinancièreSignée,
-      référenceDossierRaccordement,
+      référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
     });
 
-    const propositionTechniqueEtFinancièreSignéeTransmiseEvent: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
+    const propositionTechniqueEtFinancièreSignéeTransmise: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
       {
         type: 'PropositionTechniqueEtFinancièreSignéeTransmise',
         payload: {
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
           format: propositionTechniqueEtFinancièreSignée.format,
-          référenceDossierRaccordement,
+          référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         },
       };
 
     await publish(
       createRaccordementAggregateId(identifiantProjet),
-      propositionTechniqueEtFinancièreSignéeTransmiseEvent,
+      propositionTechniqueEtFinancièreSignéeTransmise,
     );
   };
 

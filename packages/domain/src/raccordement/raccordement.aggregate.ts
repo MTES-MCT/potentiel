@@ -4,7 +4,7 @@ import { IdentifiantProjet, formatIdentifiantProjet } from '../projet/projet.val
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
   DateMiseEnServiceTransmiseEvent,
-  DemandeComplèteRaccordementModifiéeEvent,
+  DemandeComplèteRaccordementModifiéeEventV0,
   DemandeComplèteRaccordementTransmiseEvent,
   PropositionTechniqueEtFinancièreModifiéeEvent,
   PropositionTechniqueEtFinancièreSignéeTransmiseEvent,
@@ -16,7 +16,11 @@ import {
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { parseIdentifiantGestionnaireRéseau } from '../domain.valueType';
-import { DossierRaccordement } from './raccordement.valueType';
+import {
+  DossierRaccordement,
+  RéférenceDossierRaccordement,
+  convertirEnRéférenceDossierRaccordement,
+} from './raccordement.valueType';
 import { DossierRaccordementNonRéférencéError } from './raccordement.errors';
 
 type RaccordementAggregateId = `raccordement#${string}`;
@@ -32,13 +36,13 @@ type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 type Raccordement = {
   getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>>;
   dossiers: Map<string, DossierRaccordement>;
-  contientLeDossier: (référence: string) => boolean;
+  contientLeDossier: (référenceDossierRaccordement: RéférenceDossierRaccordement) => boolean;
 };
 
 const defaultAggregateState: Raccordement = {
   getGestionnaireRéseau: async () => Promise.resolve(none),
   dossiers: new Map(),
-  contientLeDossier(référence) {
+  contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
 };
@@ -98,7 +102,7 @@ const ajouterDossier = (
       dateSignature: none,
       format: none,
     },
-    référence: référenceDossierRaccordement,
+    référence: convertirEnRéférenceDossierRaccordement(référenceDossierRaccordement),
   });
 
   return {
@@ -118,12 +122,12 @@ const modifierDemandeComplèteRaccordement = (
   aggregate: Raccordement,
   {
     payload: { dateQualification, referenceActuelle, nouvelleReference },
-  }: DemandeComplèteRaccordementModifiéeEvent,
+  }: DemandeComplèteRaccordementModifiéeEventV0,
 ): Raccordement => {
   const dossier = récupérerDossier(aggregate, referenceActuelle);
 
   dossier.demandeComplèteRaccordement.dateQualification = new Date(dateQualification);
-  dossier.référence = nouvelleReference;
+  dossier.référence = convertirEnRéférenceDossierRaccordement(nouvelleReference);
 
   return aggregate;
 };

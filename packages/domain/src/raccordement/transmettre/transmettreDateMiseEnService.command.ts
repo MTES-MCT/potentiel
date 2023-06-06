@@ -8,6 +8,7 @@ import {
 } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { DateMiseEnServiceTransmiseEvent } from '../raccordement.event';
+import { RéférenceDossierRaccordement } from '../raccordement.valueType';
 
 export type TransmettreDateMiseEnServiceCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -18,7 +19,7 @@ export type TransmettreDateMiseEnServiceCommand = Message<
   'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
   {
     dateMiseEnService: Date;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RéférenceDossierRaccordement;
     identifiantProjet: IdentifiantProjet;
   }
 >;
@@ -41,16 +42,16 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const event: DateMiseEnServiceTransmiseEvent = {
+    const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
       type: 'DateMiseEnServiceTransmise',
       payload: {
         dateMiseEnService: dateMiseEnService.toISOString(),
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référenceDossierRaccordement,
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       },
     };
 
-    await publish(createRaccordementAggregateId(identifiantProjet), event);
+    await publish(createRaccordementAggregateId(identifiantProjet), dateMiseEnServiceTransmise);
   };
 
   mediator.register('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND', handler);

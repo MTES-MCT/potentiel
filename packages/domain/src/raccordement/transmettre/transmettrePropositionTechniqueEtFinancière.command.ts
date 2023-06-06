@@ -8,12 +8,13 @@ import {
 } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from '../raccordement.event';
+import { RéférenceDossierRaccordement } from '../raccordement.valueType';
 
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
   {
     dateSignature: Date;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RéférenceDossierRaccordement;
     identifiantProjet: IdentifiantProjet;
   }
 >;
@@ -41,19 +42,19 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const propositionTechniqueEtFinancièreTransmiseEvent: PropositionTechniqueEtFinancièreTransmiseEvent =
+    const propositionTechniqueEtFinancièreTransmise: PropositionTechniqueEtFinancièreTransmiseEvent =
       {
         type: 'PropositionTechniqueEtFinancièreTransmise',
         payload: {
           dateSignature: dateSignature.toISOString(),
-          référenceDossierRaccordement,
+          référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         },
       };
 
     await publish(
       createRaccordementAggregateId(identifiantProjet),
-      propositionTechniqueEtFinancièreTransmiseEvent,
+      propositionTechniqueEtFinancièreTransmise,
     );
   };
 

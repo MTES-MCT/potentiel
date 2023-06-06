@@ -10,13 +10,13 @@ import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../r
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort } from '../raccordement.ports';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { DossierRaccordement } from '../raccordement.valueType';
+import { DossierRaccordement, RéférenceDossierRaccordement } from '../raccordement.valueType';
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RéférenceDossierRaccordement;
     accuséRéception: { format: string; content: Readable };
   }
 >;
@@ -45,25 +45,27 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const dossier = raccordement.dossiers.get(référenceDossierRaccordement) as DossierRaccordement;
+    const dossier = raccordement.dossiers.get(
+      référenceDossierRaccordement.formatter(),
+    ) as DossierRaccordement;
 
     await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
       type: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      référenceDossierRaccordement,
+      référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       accuséRéception,
     });
 
-    const accuséRéceptionTransmisEvent: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
+    const accuséRéceptionTransmis: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
       type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-        référenceDossierRaccordement,
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         format: accuséRéception.format,
       },
     };
 
-    await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmisEvent);
+    await publish(createRaccordementAggregateId(identifiantProjet), accuséRéceptionTransmis);
   };
 
   mediator.register('ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);

@@ -18,6 +18,7 @@ import {
 } from '../raccordement.errors';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement.event';
+import { RéférenceDossierRaccordement } from '../raccordement.valueType';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -25,7 +26,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     identifiantProjet: IdentifiantProjet;
     dateQualification?: Date;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RéférenceDossierRaccordement;
   }
 >;
 
@@ -74,7 +75,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
       }
     }
 
-    const event: DemandeComplèteRaccordementTransmiseEvent = {
+    const demandeComplèteRaccordementTransmise: DemandeComplèteRaccordementTransmiseEvent = {
       type: 'DemandeComplèteDeRaccordementTransmise',
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
@@ -82,11 +83,14 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
         identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
           identifiantGestionnaireRéseau,
         ),
-        référenceDossierRaccordement,
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       },
     };
 
-    await publish(createRaccordementAggregateId(identifiantProjet), event);
+    await publish(
+      createRaccordementAggregateId(identifiantProjet),
+      demandeComplèteRaccordementTransmise,
+    );
   };
 
   mediator.register('TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);
