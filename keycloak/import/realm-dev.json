@@ -138,6 +138,13 @@
             "uma_authorization"
           ],
           "client": {
+            "realm-management": [
+              "query-users",
+              "manage-realm",
+              "view-users",
+              "query-realms",
+              "manage-users"
+            ],
             "account": [
               "manage-account",
               "view-profile"
@@ -1010,7 +1017,12 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "access": {
+        "view": true,
+        "configure": true,
+        "manage": true
+      }
     },
     {
       "id": "bc2d7804-bc8f-4796-968b-ac2b339e0c62",
