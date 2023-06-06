@@ -1,6 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRaccordementTransmise.event';
 import { isNone, isSome } from '@potentiel/monads';
 import {
   IdentifiantGestionnaireRéseau,
@@ -12,12 +11,13 @@ import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/modifier/gestionnaireRéseauInconnu.error';
 import {
   FormatRéférenceDossierRaccordementInvalideError,
   PlusieursGestionnairesRéseauPourUnProjetError,
   RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
 } from '../raccordement.errors';
+import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
+import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement.event';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

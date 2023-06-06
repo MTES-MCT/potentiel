@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Publish } from '@potentiel/core-domain';
 import { createRaccordementAggregateId } from '../raccordement.aggregate';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
-import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '../enregistrer/propositionTechniqueEtFinancièreSignéeTransmise.event';
+import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '../raccordement.event';
 
 export type ModifierPropositionTechniqueEtFinancièreSignéeCommand = Message<
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',

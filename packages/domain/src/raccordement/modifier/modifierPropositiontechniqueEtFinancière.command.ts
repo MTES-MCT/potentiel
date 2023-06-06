@@ -1,6 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
-import { PropositionTechniqueEtFinancièreModifiéeEvent } from './propositionTechniqueEtFinancièreModifiée.event';
 import { isNone } from '@potentiel/monads';
 import {
   createRaccordementAggregateId,
@@ -8,6 +7,7 @@ import {
 } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
+import { PropositionTechniqueEtFinancièreModifiéeEvent } from '../raccordement.event';
 
 export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',

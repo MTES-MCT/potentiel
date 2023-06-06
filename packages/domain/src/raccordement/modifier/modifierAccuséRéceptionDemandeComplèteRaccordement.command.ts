@@ -8,7 +8,7 @@ import {
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../enregistrer/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
+import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../raccordement.event';
 
 export type ModifierAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'MODIFIER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
-import { GestionnaireRéseauAjoutéEvent } from './gestionnaireRéseauAjouté.event';
-import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
 import {
   createGestionnaireRéseauAggregateId,
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau.aggregate';
+import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseau.error';
+import { GestionnaireRéseauAjoutéEvent } from '../gestionnaireRéseau.event';
 
 export type AjouterGestionnaireRéseauCommand = Message<
   'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',

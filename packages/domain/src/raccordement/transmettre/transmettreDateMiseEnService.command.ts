@@ -1,5 +1,4 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { DateMiseEnServiceTransmiseEvent } from './dateMiseEnServiceTransmise.event';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
@@ -8,6 +7,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { DateMiseEnServiceTransmiseEvent } from '../raccordement.event';
 
 export type TransmettreDateMiseEnServiceCommandDependencies = {
   loadAggregate: LoadAggregate;
