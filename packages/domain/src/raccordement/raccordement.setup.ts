@@ -1,8 +1,4 @@
 import {
-  ModifierAccuséRéceptionDemandeComplèteRaccordementDependencies,
-  registerModifierAccuséRéceptionDemandeComplèteRaccordementCommand,
-} from './modifier/modifierAccuséRéceptionDemandeComplèteRaccordement.command';
-import {
   ModifierDemandeComplèteRaccordementDependencies,
   registerModifierDemandeComplèteRaccordementCommand,
 } from './modifier/modifierDemandeComplèteRaccordement.command';
@@ -29,7 +25,6 @@ import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transm
 import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/transmettrePropositionTechniqueEtFinancière.usecase';
 
 export type RaccordementDependencies = ModifierDemandeComplèteRaccordementDependencies &
-  ModifierAccuséRéceptionDemandeComplèteRaccordementDependencies &
   ModifierPropositionTechniqueEtFinancièreDependencies &
   TransmettreDateMiseEnServiceCommandDependencies &
   TransmettreDemandeComplèteRaccordementDependencies &
@@ -37,7 +32,6 @@ export type RaccordementDependencies = ModifierDemandeComplèteRaccordementDepen
 
 export const setupRaccordement = (dependencies: RaccordementDependencies) => {
   // Commands
-  registerModifierAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerModifierDemandeComplèteRaccordementCommand(dependencies);
   registerModifierPropositionTechniqueEtFinancièreCommand(dependencies);
   registerTransmettreDateMiseEnServiceCommand(dependencies);

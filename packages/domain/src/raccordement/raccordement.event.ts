@@ -28,6 +28,15 @@ export type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
   }
 >;
 
+export type RéférenceDossierRaccordementModifiéeEvent = DomainEvent<
+  'DemandeComplèteRaccordementModifiée',
+  {
+    identifiantProjet: string;
+    referenceActuelle: string;
+    nouvelleReference: string;
+  }
+>;
+
 export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée',
   {
