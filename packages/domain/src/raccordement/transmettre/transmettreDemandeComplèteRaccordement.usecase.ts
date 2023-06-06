@@ -1,4 +1,4 @@
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { RaccordementCommand } from '../raccordement.command';
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from '../enregistrer/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
@@ -6,10 +6,7 @@ import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from 
 export type TransmettreDemandeComplèteRaccordementUseCase = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   TransmettreDemandeComplèteRaccordementCommand['data'] &
-    Pick<
-      EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'],
-      'nouvelAccuséRéception'
-    >
+    Pick<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'accuséRéception'>
 >;
 
 export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
@@ -18,7 +15,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     identifiantGestionnaireRéseau,
     identifiantProjet,
     référenceDossierRaccordement,
-    nouvelAccuséRéception: { format, content },
+    accuséRéception: { format, content },
   }) => {
     await mediator.send<RaccordementCommand>({
       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -34,8 +31,8 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
       type: 'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
       data: {
         identifiantProjet,
-        nouvelleRéférenceDossierRaccordement: référenceDossierRaccordement,
-        nouvelAccuséRéception: {
+        référenceDossierRaccordement,
+        accuséRéception: {
           format,
           content,
         },
@@ -45,8 +42,3 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
 
   mediator.register('TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
 };
-
-export const buildTransmettreDemandeComplèteRaccordementUseCase =
-  getMessageBuilder<TransmettreDemandeComplèteRaccordementUseCase>(
-    'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-  );

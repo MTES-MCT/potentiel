@@ -27,18 +27,17 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
   loadAggregate,
   publish,
 }: TransmettreDateMiseEnServiceCommandDependencies) => {
+  const loadRaccordementAggregate = loadRaccordementAggregateFactory({
+    loadAggregate,
+  });
   const handler: MessageHandler<TransmettreDateMiseEnServiceCommand> = async ({
     dateMiseEnService,
     référenceDossierRaccordement,
     identifiantProjet,
   }) => {
-    const loadRaccordementAggregate = loadRaccordementAggregateFactory({
-      loadAggregate,
-    });
-
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
+    if (isNone(raccordement) || !raccordement.contientLeDossier(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 

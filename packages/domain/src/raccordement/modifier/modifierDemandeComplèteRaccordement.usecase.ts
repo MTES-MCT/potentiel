@@ -1,21 +1,12 @@
-import { mediator, MessageHandler, Message, getMessageBuilder } from 'mediateur';
-import {
-  ModifierDemandeComplèteRaccordementCommand,
-  buildModifierDemandeComplèteRaccordementCommand,
-} from './modifier/modifierDemandeComplèteRaccordement.command';
-import { buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from './enregisterAccuséRéception/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
-
-import { buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from './consulterAccuséRéception/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
-import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
-import {
-  ModifierAccuséRéceptionDemandeComplèteRaccordementCommand,
-  buildModifierAccuséRéceptionDemandeComplèteRaccordementCommand,
-} from "./modifierAccuséRéceptionDemandeComplèteRaccordement.command";
+import { mediator, MessageHandler, Message } from 'mediateur';
+import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
+import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from '../enregistrer/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { RaccordementCommand } from '../raccordement.command';
 
 export type ModifierDemandeComplèteRaccordementUseCase = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
   ModifierDemandeComplèteRaccordementCommand['data'] &
-    Pick<ModifierAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'nouvelAccuséRéception'>
+    Pick<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'accuséRéception'>
 >;
 
 export const registerModifierDemandeComplèteRaccordementUseCase = () => {
@@ -24,58 +15,27 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     dateQualification,
     ancienneRéférenceDossierRaccordement,
     nouvelleRéférenceDossierRaccordement,
-    nouvelAccuséRéception,
+    accuséRéception,
   }) => {
-    const dossierRaccordement = await mediator.send(
-      buildConsulterDossierRaccordementQuery({
-        identifiantProjet,
-        référence: ancienneRéférenceDossierRaccordement,
-      }),
-    );
-
-    await mediator.send(
-      buildModifierDemandeComplèteRaccordementCommand({
+    await mediator.send<RaccordementCommand>({
+      type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+      data: {
         identifiantProjet,
         dateQualification,
         ancienneRéférenceDossierRaccordement,
         nouvelleRéférenceDossierRaccordement,
-      }),
-    );
+      },
+    });
 
-    const ancienAccuséRéception = await mediator.send(
-      buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery({
-        référenceDossierRaccordement: ancienneRéférenceDossierRaccordement,
+    await mediator.send<RaccordementCommand>({
+      type: 'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+      data: {
         identifiantProjet,
-        format: dossierRaccordement.accuséRéception?.format || '',
-      }),
-    );
-
-    if (!ancienAccuséRéception) {
-      await mediator.send(
-        buildEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand({
-          identifiantProjet,
-          nouvelleRéférenceDossierRaccordement,
-          nouvelAccuséRéception,
-        }),
-      );
-      return;
-    }
-
-    await mediator.send(
-      buildModifierAccuséRéceptionDemandeComplèteRaccordementCommand({
-        identifiantProjet,
-        ancienneRéférenceDossierRaccordement,
-        nouvelleRéférenceDossierRaccordement,
-        ancienAccuséRéception,
-        nouvelAccuséRéception,
-      }),
-    );
+        accuséRéception,
+        référenceDossierRaccordement: nouvelleRéférenceDossierRaccordement,
+      },
+    });
   };
 
   mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
 };
-
-export const buildModifierDemandeComplèteRaccordementUseCase =
-  getMessageBuilder<ModifierDemandeComplèteRaccordementUseCase>(
-    'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-  );

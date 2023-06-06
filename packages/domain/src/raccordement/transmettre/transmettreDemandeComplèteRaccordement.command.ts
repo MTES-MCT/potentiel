@@ -48,30 +48,29 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     référenceDossierRaccordement,
   }) => {
     const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau);
-    const raccordement = await loadRaccordement(identifiantProjet);
 
     if (isNone(gestionnaireRéseau)) {
       throw new GestionnaireRéseauInconnuError();
     }
 
-    if (
-      isSome(raccordement) &&
-      raccordement.gestionnaireRéseau.codeEIC !== identifiantGestionnaireRéseau.codeEIC
-    ) {
-      throw new PlusieursGestionnairesRéseauPourUnProjetError();
+    if (!gestionnaireRéseau.validerRéférenceDossierRaccordement(référenceDossierRaccordement)) {
+      throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
-    if (isSome(raccordement) && raccordement.références.includes(référenceDossierRaccordement)) {
-      throw new RéférenceDossierRaccordementDéjàExistantPourLeProjetError();
-    }
+    const raccordement = await loadRaccordement(identifiantProjet);
 
-    const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseau;
-    if (aideSaisieRéférenceDossierRaccordement?.expressionReguliere) {
-      const isRefValid = new RegExp(
-        aideSaisieRéférenceDossierRaccordement?.expressionReguliere,
-      ).test(référenceDossierRaccordement);
-      if (!isRefValid) {
-        throw new FormatRéférenceDossierRaccordementInvalideError();
+    if (isSome(raccordement)) {
+      const gestionnaireRéseauActuel = await raccordement.getGestionnaireRéseau();
+
+      if (
+        isSome(gestionnaireRéseauActuel) &&
+        !gestionnaireRéseauActuel.estÉgaleÀ(gestionnaireRéseau)
+      ) {
+        throw new PlusieursGestionnairesRéseauPourUnProjetError();
+      }
+
+      if (raccordement.contientLeDossier(référenceDossierRaccordement)) {
+        throw new RéférenceDossierRaccordementDéjàExistantPourLeProjetError();
       }
     }
 

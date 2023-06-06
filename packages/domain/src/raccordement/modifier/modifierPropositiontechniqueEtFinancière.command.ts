@@ -38,7 +38,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
+    if (isNone(raccordement) || !raccordement.contientLeDossier(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 

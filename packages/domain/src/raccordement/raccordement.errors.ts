@@ -26,12 +26,6 @@ export class RéférenceDossierRaccordementDéjàExistantPourLeProjetError exten
   }
 }
 
-export class AucunDossierRaccordementCorrespondantError extends NotFoundError {
-  constructor() {
-    super(`Aucun dossier de raccordement ne correspond à la référence`);
-  }
-}
-
 export class FormatRéférenceDossierRaccordementInvalideError extends InvalidOperationError {
   constructor() {
     super(`Le format de la référence du dossier de raccordement est invalide`);

@@ -66,8 +66,10 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
 >;
 
 export type RaccordementEvent =
+  | AccuséRéceptionDemandeComplèteRaccordementTransmisEvent
   | DemandeComplèteRaccordementTransmiseEvent
   | DemandeComplèteRaccordementModifiéeEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent
+  | PropositionTechniqueEtFinancièreSignéeTransmiseEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent
   | DateMiseEnServiceTransmiseEvent;

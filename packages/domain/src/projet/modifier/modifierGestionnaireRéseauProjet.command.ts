@@ -1,7 +1,5 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { ProjetInconnuError } from './projetInconnu.error';
-import { GestionnaireRéseauProjetModifiéEvent } from './modifierGestionnaireRéseauProjet.event';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
@@ -10,7 +8,9 @@ import { IdentifiantProjet, formatIdentifiantProjet } from '../projet.valueType'
 import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
 import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { isNone } from '@potentiel/monads';
-import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/modifier/gestionnaireRéseauInconnu.error';
+import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
+import { ProjetInconnuError } from '../projet.error';
+import { GestionnaireRéseauProjetModifiéEvent } from '../projet.event';
 
 export type ModifierGestionnaireRéseauProjetCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',
@@ -55,7 +55,10 @@ export const registerModifierGestionnaireRéseauProjetCommand = ({
 
     const gestionnaireRéseauProjet = await projet.getGestionnaireRéseau();
 
-    if (isNone(gestionnaireRéseauProjet) || !gestionnaireRéseauProjet.equals(gestionnaireRéseau)) {
+    if (
+      isNone(gestionnaireRéseauProjet) ||
+      !gestionnaireRéseauProjet.estÉgaleÀ(gestionnaireRéseau)
+    ) {
       const event: GestionnaireRéseauProjetModifiéEvent = {
         type: 'GestionnaireRéseauProjetModifié',
         payload: {

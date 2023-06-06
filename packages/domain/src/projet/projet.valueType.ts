@@ -13,3 +13,14 @@ export const formatIdentifiantProjet = ({
 }: IdentifiantProjet): string => {
   return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
 };
+
+export const parseIdentifiantProjet = (identifiantProjet: string): IdentifiantProjet => {
+  const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
+
+  return {
+    appelOffre,
+    période,
+    famille,
+    numéroCRE,
+  };
+};

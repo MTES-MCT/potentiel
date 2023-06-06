@@ -27,18 +27,17 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
   publish,
   loadAggregate,
 }: TransmettrePropositionTechniqueEtFinancièreDependencies) => {
+  const loadRaccordementAggregate = loadRaccordementAggregateFactory({
+    loadAggregate,
+  });
   const handler: MessageHandler<TransmettrePropositionTechniqueEtFinancièreCommand> = async ({
     dateSignature,
     référenceDossierRaccordement,
     identifiantProjet,
   }) => {
-    const loadRaccordementAggregate = loadRaccordementAggregateFactory({
-      loadAggregate,
-    });
-
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
+    if (isNone(raccordement) || !raccordement.contientLeDossier(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 

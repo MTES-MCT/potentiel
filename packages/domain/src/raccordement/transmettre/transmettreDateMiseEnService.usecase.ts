@@ -1,6 +1,5 @@
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet } from '../../projet/projet.valueType';
-import { AucunDossierRaccordementCorrespondantError } from '../raccordement.errors';
 import { RaccordementCommand } from '../raccordement.command';
 
 export type TransmettreDateMiseEnServiceUseCase = Message<
@@ -8,7 +7,7 @@ export type TransmettreDateMiseEnServiceUseCase = Message<
   {
     dateMiseEnService: Date;
     référenceDossierRaccordement: string;
-    identifiantProjet?: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjet;
   }
 >;
 
@@ -18,42 +17,15 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     référenceDossierRaccordement,
     identifiantProjet,
   }) => {
-    if (identifiantProjet) {
-      await mediator.send<RaccordementCommand>({
-        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
-        data: {
-          dateMiseEnService,
-          identifiantProjet,
-          référenceDossierRaccordement,
-        },
-      });
-    }
-
-    const dossiers = await mediator.send(
-      buildRechercherDossierRaccordementQuery({
-        référence: référenceDossierRaccordement,
-      }),
-    );
-
-    if (dossiers.length === 0) {
-      throw new AucunDossierRaccordementCorrespondantError();
-    }
-
-    for (const dossier of dossiers) {
-      await mediator.send(
-        buildTransmettreDateMiseEnServiceCommand({
-          identifiantProjet: dossier.identifiantProjet,
-          référenceDossierRaccordement,
-          dateMiseEnService: dateMiseEnService,
-        }),
-      );
-    }
+    await mediator.send<RaccordementCommand>({
+      type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
+      data: {
+        dateMiseEnService,
+        identifiantProjet,
+        référenceDossierRaccordement,
+      },
+    });
   };
 
   mediator.register('TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE', runner);
 };
-
-export const buildTransmettreDateMiseEnServiceUseCase =
-  getMessageBuilder<TransmettreDateMiseEnServiceUseCase>(
-    'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-  );

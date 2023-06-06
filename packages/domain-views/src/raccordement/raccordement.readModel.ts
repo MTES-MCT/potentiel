@@ -1,5 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain';
-import { IdentifiantProjet } from '@potentiel/domain/dist/projet/identifiantProjet';
+import { IdentifiantProjet } from '@potentiel/domain';
 import { Readable } from 'stream';
 
 export type DossierRaccordementReadModel = ReadModel<

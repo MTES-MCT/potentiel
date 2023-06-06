@@ -14,20 +14,17 @@ export const createGestionnaireRéseauAggregateId = (
 
 export type GestionnaireRéseau = {
   codeEIC: string;
-  raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement?: {
-    format: string;
-    légende: string;
-    expressionReguliere: string;
-  };
-  equals: (gestionnaireRéseau: GestionnaireRéseau) => boolean;
+  validerRéférenceDossierRaccordement: (référence: string) => boolean;
+  estÉgaleÀ: (gestionnaireRéseau: GestionnaireRéseau) => boolean;
 };
 
 const defaultAggregateState: GestionnaireRéseau = {
-  raisonSociale: '',
   codeEIC: '',
-  equals({ codeEIC }: GestionnaireRéseau) {
+  estÉgaleÀ({ codeEIC }: GestionnaireRéseau) {
     return this.codeEIC === codeEIC;
+  },
+  validerRéférenceDossierRaccordement(référence: string) {
+    return true;
   },
 };
 
@@ -35,16 +32,38 @@ const gestionnaireRéseauAggregateFactory: AggregateFactory<
   GestionnaireRéseau,
   GestionnaireRéseauEvent
 > = (events) => {
-  return events.reduce((aggregate, event) => {
-    switch (event.type) {
-      case 'GestionnaireRéseauAjouté':
-      case 'GestionnaireRéseauModifié':
-        return { ...aggregate, ...event.payload };
-      default:
-        // TODO: ajouter log event non connu
-        return { ...aggregate };
-    }
-  }, defaultAggregateState);
+  return events.reduce(
+    (
+      aggregate,
+      {
+        type,
+        payload: {
+          codeEIC,
+          aideSaisieRéférenceDossierRaccordement: { expressionReguliere },
+        },
+      },
+    ) => {
+      switch (type) {
+        case 'GestionnaireRéseauAjouté':
+        case 'GestionnaireRéseauModifié':
+          const validerRéférenceDossierRaccordement = (référence: string) => {
+            if (!expressionReguliere) {
+              return true;
+            }
+            return new RegExp(expressionReguliere).test(référence);
+          };
+          return {
+            ...aggregate,
+            codeEIC,
+            validerRéférenceDossierRaccordement,
+          };
+        default:
+          // TODO: ajouter log event non connu
+          return { ...aggregate };
+      }
+    },
+    defaultAggregateState,
+  );
 };
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };

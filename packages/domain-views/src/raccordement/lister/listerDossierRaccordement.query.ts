@@ -1,8 +1,5 @@
 import { Find } from '@potentiel/core-domain';
-import {
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-} from '@potentiel/domain/dist/projet/identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { ListeDossiersRaccordementReadModel } from '../raccordement.readModel';

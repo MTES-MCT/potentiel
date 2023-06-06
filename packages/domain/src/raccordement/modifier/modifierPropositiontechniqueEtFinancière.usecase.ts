@@ -1,22 +1,14 @@
-import { Message, MessageHandler, getMessageBuilder, mediator } from 'mediateur';
-import { buildConsulterDossierRaccordementQuery } from '../dossierRaccordement/consulter/consulterDossierRaccordement.query';
-import {
-  ModifierPropositionTechniqueEtFinancièreCommand,
-  buildModifierPropositionTechniqueEtFinancièreCommand,
-} from './modifier/modifierPropositiontechniqueEtFinancière.command';
-import { buildConsulterPropositionTechniqueEtFinancièreSignéeQuery } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
-import {
-  ModifierPropositionTechniqueEtFinancièreSignéeCommand,
-  buildModifierPropositionTechniqueEtFinancièreSignéeCommand,
-} from './modifierPropositionTechniqueEtFinancièreSignée/modifierPropositionTechniqueEtFinancièreSignée.command';
-import { FichierInexistant } from '@potentiel/file-storage';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { EnregistrerPropositionTechniqueEtFinancièreSignéeCommand } from '../enregistrer/enregistrerPropositionTechniqueEtFinancièreSignée.command';
+import { ModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositiontechniqueEtFinancière.command';
+import { RaccordementCommand } from '../raccordement.command';
 
 export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
   ModifierPropositionTechniqueEtFinancièreCommand['data'] &
     Pick<
-      ModifierPropositionTechniqueEtFinancièreSignéeCommand['data'],
-      'nouvellePropositionTechniqueEtFinancière'
+      EnregistrerPropositionTechniqueEtFinancièreSignéeCommand['data'],
+      'propositionTechniqueEtFinancièreSignée'
     >
 >;
 
@@ -25,49 +17,26 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     identifiantProjet,
     dateSignature,
     référenceDossierRaccordement,
-    nouvellePropositionTechniqueEtFinancière,
+    propositionTechniqueEtFinancièreSignée,
   }) => {
-    const dossierRaccordement = await mediator.send(
-      buildConsulterDossierRaccordementQuery({
-        identifiantProjet,
-        référence: référenceDossierRaccordement,
-      }),
-    );
-
-    await mediator.send(
-      buildModifierPropositionTechniqueEtFinancièreCommand({
+    await mediator.send<RaccordementCommand>({
+      type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+      data: {
         identifiantProjet,
         dateSignature,
         référenceDossierRaccordement,
-      }),
-    );
+      },
+    });
 
-    const anciennePropositionTechniqueEtFinancière = await mediator.send(
-      buildConsulterPropositionTechniqueEtFinancièreSignéeQuery({
-        référenceDossierRaccordement,
+    await mediator.send<RaccordementCommand>({
+      type: 'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
+      data: {
         identifiantProjet,
-        format: dossierRaccordement.accuséRéception?.format || '',
-      }),
-    );
-
-    if (!anciennePropositionTechniqueEtFinancière) {
-      throw new FichierInexistant();
-    }
-
-    await mediator.send(
-      buildModifierPropositionTechniqueEtFinancièreSignéeCommand({
-        identifiantProjet,
+        propositionTechniqueEtFinancièreSignée,
         référenceDossierRaccordement,
-        anciennePropositionTechniqueEtFinancière,
-        nouvellePropositionTechniqueEtFinancière,
-      }),
-    );
+      },
+    });
   };
 
   mediator.register('MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE', runner);
 };
-
-export const buildModifierPropositiontechniqueEtFinancièreUseCase =
-  getMessageBuilder<ModifierPropositiontechniqueEtFinancièreUseCase>(
-    'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
-  );

@@ -2,10 +2,7 @@ import { Find, NotFoundError } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { DossierRaccordementReadModel } from '../raccordement.readModel';
-import {
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-} from '@potentiel/domain/dist/projet/identifiantProjet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '@potentiel/domain';
 
 export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',

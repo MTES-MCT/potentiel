@@ -1,64 +1,74 @@
 import { Readable } from 'stream';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Publish } from '@potentiel/core-domain';
-import { createRaccordementAggregateId } from '../raccordement.aggregate';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
+import {
+  createRaccordementAggregateId,
+  loadRaccordementAggregateFactory,
+} from '../raccordement.aggregate';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '../raccordement.event';
+import { EnregistrerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
+import { isNone } from '@potentiel/monads';
+import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { DossierRaccordement } from '../raccordement.valueType';
 
 export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message<
   'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: string;
-    anciennePropositionTechniqueEtFinancière?: { format: string; content: Readable };
-    nouvellePropositionTechniqueEtFinancière: { format: string; content: Readable };
+    propositionTechniqueEtFinancièreSignée: { format: string; content: Readable };
   }
 >;
 
-export type EnregistrerPropositionTechniqueEtFinancièreSignéePort = (args: {
-  opération: 'création';
-  identifiantProjet: string;
-  référenceDossierRaccordement: string;
-  nouveauFichier: {
-    format: string;
-    content: Readable;
-  };
-}) => Promise<void>;
-
 export type EnregistrerPropositionTechniqueEtFinancièreSignéeDependencies = {
   publish: Publish;
+  loadAggregate: LoadAggregate;
   enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
 };
 
 export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand = ({
   publish,
+  loadAggregate,
   enregistrerPropositionTechniqueEtFinancièreSignée,
 }: EnregistrerPropositionTechniqueEtFinancièreSignéeDependencies) => {
+  const loadRaccordement = loadRaccordementAggregateFactory({
+    loadAggregate,
+  });
+
   const handler: MessageHandler<EnregistrerPropositionTechniqueEtFinancièreSignéeCommand> = async ({
     identifiantProjet,
     référenceDossierRaccordement,
-    nouvellePropositionTechniqueEtFinancière,
+    propositionTechniqueEtFinancièreSignée,
   }) => {
+    const raccordement = await loadRaccordement(identifiantProjet);
+
+    if (isNone(raccordement) || !raccordement.contientLeDossier(référenceDossierRaccordement)) {
+      throw new DossierRaccordementNonRéférencéError();
+    }
+
+    const dossier = raccordement.dossiers.get(référenceDossierRaccordement) as DossierRaccordement;
+
     await enregistrerPropositionTechniqueEtFinancièreSignée({
-      opération: 'création',
+      type: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
       identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-      nouveauFichier: nouvellePropositionTechniqueEtFinancière,
+      propositionTechniqueEtFinancièreSignée,
       référenceDossierRaccordement,
     });
 
-    const fichierPropositionTechniqueEtFinancièreTransmisEvent: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
+    const propositionTechniqueEtFinancièreSignéeTransmiseEvent: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
       {
         type: 'PropositionTechniqueEtFinancièreSignéeTransmise',
         payload: {
           identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-          format: nouvellePropositionTechniqueEtFinancière.format,
+          format: propositionTechniqueEtFinancièreSignée.format,
           référenceDossierRaccordement,
         },
       };
 
     await publish(
       createRaccordementAggregateId(identifiantProjet),
-      fichierPropositionTechniqueEtFinancièreTransmisEvent,
+      propositionTechniqueEtFinancièreSignéeTransmiseEvent,
     );
   };
 

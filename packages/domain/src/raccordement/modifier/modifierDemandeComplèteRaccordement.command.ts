@@ -48,27 +48,21 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
 
     if (
       isNone(raccordement) ||
-      !raccordement.références.includes(ancienneRéférenceDossierRaccordement)
+      !raccordement.contientLeDossier(ancienneRéférenceDossierRaccordement)
     ) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const gestionnaireRéseau = await loadGestionnaireRéseau({
-      codeEIC: raccordement.gestionnaireRéseau.codeEIC,
-    });
+    const gestionnaireRéseau = await raccordement.getGestionnaireRéseau();
 
     if (isNone(gestionnaireRéseau)) {
       throw new GestionnaireRéseauInconnuError();
     }
 
-    const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseau;
-    if (aideSaisieRéférenceDossierRaccordement?.expressionReguliere) {
-      const isRefValid = new RegExp(
-        aideSaisieRéférenceDossierRaccordement?.expressionReguliere,
-      ).test(nouvelleRéférenceDossierRaccordement);
-      if (!isRefValid) {
-        throw new FormatRéférenceDossierRaccordementInvalideError();
-      }
+    if (
+      !gestionnaireRéseau.validerRéférenceDossierRaccordement(nouvelleRéférenceDossierRaccordement)
+    ) {
+      throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
     const demandeComplèteRaccordementModifiéeEvent: DemandeComplèteRaccordementModifiéeEvent = {

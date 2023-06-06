@@ -4,7 +4,7 @@ import {
   DossierRaccordementReadModel,
   RésultatRechercheDossierRaccordementReadModel,
 } from '../raccordement.readModel';
-import { IdentifiantProjet } from '@potentiel/domain/dist/projet/identifiantProjet';
+import { IdentifiantProjet } from '@potentiel/domain';
 
 export type RechercherDossierRaccordementQuery = Message<
   'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
