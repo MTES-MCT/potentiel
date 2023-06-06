@@ -46,9 +46,9 @@
             <p>${msg("totpStep1")}</p>
 
             <ul id="kc-totp-supported-apps">
-              <li>FreeOTP</li>
-              <li>Google authenticator</li>
-              <li>Microsoft authenticator</li>
+                <#list totp.supportedApplications as app>
+                    <li>${msg(app)}</li>
+                </#list>
             </ul>
         </li>
 
