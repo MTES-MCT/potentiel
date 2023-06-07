@@ -1,13 +1,7 @@
 import { IdentifiantProjet } from '@potentiel/domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { Readable } from 'stream';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from '../raccordement.readModel';
-
-export type RécupérerAccuséRéceptionDemandeComplèteRaccordementPort = (args: {
-  identifiantProjet: string;
-  référenceDossierRaccordement: string;
-  format: string;
-}) => Promise<Readable | undefined>;
+import { RécupérerAccuséRéceptionDemandeComplèteRaccordementPort } from '../raccordement.ports';
 
 export type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   récupérerAccuséRéceptionDemandeComplèteRaccordement: RécupérerAccuséRéceptionDemandeComplèteRaccordementPort;
@@ -32,6 +26,7 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
     format,
   }) => {
     const content = await récupérerAccuséRéceptionDemandeComplèteRaccordement({
+      type: 'demande-complete-raccordement',
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossierRaccordement,
       format,

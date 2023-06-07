@@ -88,6 +88,9 @@
       "path": "packages/domain"
     },
     {
+      "path": "packages/domain-views"
+    },
+    {
       "path": "packages/specifications"
     },
     {

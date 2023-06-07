@@ -1,13 +1,7 @@
 import { IdentifiantProjet } from '@potentiel/domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { Readable } from 'stream';
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from '../raccordement.readModel';
-
-export type RécupérerPropositionTechniqueEtFinancièreSignéePort = (args: {
-  identifiantProjet: string;
-  référenceDossierRaccordement: string;
-  format: string;
-}) => Promise<Readable | undefined>;
+import { RécupérerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
 
 export type ConsulterPropositionTechniqueEtFinancièreSignéeDependencies = {
   récupérerPropositionTechniqueEtFinancièreSignée: RécupérerPropositionTechniqueEtFinancièreSignéePort;
@@ -32,6 +26,7 @@ export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
     format,
   }) => {
     const content = await récupérerPropositionTechniqueEtFinancièreSignée({
+      type: 'proposition-technique-et-financiere',
       référenceDossierRaccordement,
       identifiantProjet: identifiantProjet.formatter(),
       format,

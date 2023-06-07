@@ -1,10 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import {
-  EnregistrerPropositionTechniqueEtFinancièreSignéePort,
-  RaccordementEvent,
-} from '@potentiel/domain';
+import { RaccordementEvent } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
-import { RécupérerPropositionTechniqueEtFinancièreSignéePort } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 import {
   DossierRaccordementReadModel,
   ListeDossiersRaccordementReadModel,
@@ -21,8 +17,6 @@ export type RaccordementProjectorDependencies = {
   update: Update;
   create: Create;
   remove: Remove;
-  récupérerPropositionTechniqueEtFinancièreSignée: RécupérerPropositionTechniqueEtFinancièreSignéePort;
-  enregistrerPropositionTechniqueEtFinancièreSignée: EnregistrerPropositionTechniqueEtFinancièreSignéePort;
 };
 
 export const registerRaccordementProjector = ({

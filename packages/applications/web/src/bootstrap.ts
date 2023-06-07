@@ -1,47 +1,20 @@
 import { setupDomain } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import {
-  createProjection,
-  findProjection,
-  listProjection,
-  removeProjection,
-  searchProjection,
-  updateProjection,
-} from '@potentiel/pg-projections';
-import {
-  téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
-  téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
-  téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
-  téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-} from '@potentiel/infra-adapters';
+import { téléverserFichierDossierRaccordementAdapter } from '@potentiel/infra-adapters';
 import { subscribeFactory } from './subscribe.factory';
 
 export const bootstrap = async () => {
   setupDomain({
-    command: {
+    common: {
       loadAggregate,
       publish,
-    },
-    query: {
-      find: findProjection,
-      list: listProjection,
-      search: searchProjection,
-    },
-    event: {
-      create: createProjection,
-      remove: removeProjection,
-      update: updateProjection,
+      subscribe: await subscribeFactory(),
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
-        téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+        téléverserFichierDossierRaccordementAdapter,
       enregistrerPropositionTechniqueEtFinancièreSignée:
-        téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
-      récupérerAccuséRéceptionDemandeComplèteRaccordement:
-        téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-      récupérerPropositionTechniqueEtFinancièreSignée:
-        téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+        téléverserFichierDossierRaccordementAdapter,
     },
-    subscribe: await subscribeFactory(),
   });
 };
