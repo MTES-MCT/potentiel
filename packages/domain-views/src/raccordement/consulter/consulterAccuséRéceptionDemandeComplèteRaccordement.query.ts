@@ -1,4 +1,4 @@
-import { IdentifiantProjet, formatIdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel/domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Readable } from 'stream';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from '../raccordement.readModel';
@@ -32,7 +32,7 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
     format,
   }) => {
     const content = await récupérerAccuséRéceptionDemandeComplèteRaccordement({
-      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      identifiantProjet: identifiantProjet.formatter(),
       référenceDossierRaccordement,
       format,
     });

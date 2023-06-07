@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel/core-domain';
+import { DomainEvent } from './domainEvent';
 
 export type Unsubscribe = () => Promise<void>;
 

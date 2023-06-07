@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ProjetEvent } from '@potentiel/domain';
-import { Create, Find, Update } from '../readModel';
 import { isNone } from '@potentiel/monads';
 import { ProjetReadModel, ProjetReadModelKey } from './projet.readModel';
+import { Create, Update, Find } from '../domainViews.port';
 
 export type ExecuteProjetProjector = Message<'EXECUTE_PROJET_PROJECTOR', ProjetEvent>;
 

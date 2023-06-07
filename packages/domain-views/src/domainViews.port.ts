@@ -1,13 +1,5 @@
+import { ReadModel } from '@potentiel/core-domain';
 import { Option } from '@potentiel/monads';
-
-export type ReadModel<
-  TType extends string = string,
-  TData extends Record<string, unknown> = {},
-> = Readonly<
-  TData & {
-    type: TType;
-  }
->;
 
 export type Find = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}#${string}`,
@@ -25,6 +17,7 @@ export type SearchResult<TReadModel extends ReadModel> = {
   key: string;
   readModel: TReadModel;
 };
+
 export type Search = <TReadModel extends ReadModel>(
   searchKeyExpression: string,
 ) => Promise<ReadonlyArray<SearchResult<TReadModel>>>;

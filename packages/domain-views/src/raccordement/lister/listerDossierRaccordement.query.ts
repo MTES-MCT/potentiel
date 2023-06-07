@@ -1,8 +1,8 @@
-import { Find } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { ListeDossiersRaccordementReadModel } from '../raccordement.readModel';
+import { Find } from '../../domainViews.port';
 
 export type ListerDossiersRaccordementQuery = Message<
   'LISTER_DOSSIER_RACCORDEMENT_QUERY',
@@ -23,7 +23,7 @@ export const registerListerDossiersRaccordementQuery = ({
     identifiantProjet,
   }) => {
     const result = await find<ListeDossiersRaccordementReadModel>(
-      `liste-dossiers-raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
+      `liste-dossiers-raccordement#${identifiantProjet.formatter()}`,
     );
 
     if (isNone(result)) {

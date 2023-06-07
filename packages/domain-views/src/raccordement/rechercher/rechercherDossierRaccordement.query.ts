@@ -1,15 +1,18 @@
-import { Search } from '@potentiel/core-domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import {
   DossierRaccordementReadModel,
   RésultatRechercheDossierRaccordementReadModel,
 } from '../raccordement.readModel';
-import { IdentifiantProjet } from '@potentiel/domain';
+import {
+  RéférenceDossierRaccordement,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
+import { Search } from '../../domainViews.port';
 
 export type RechercherDossierRaccordementQuery = Message<
   'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
   {
-    référence: string;
+    référence: RéférenceDossierRaccordement;
   },
   ReadonlyArray<RésultatRechercheDossierRaccordementReadModel>
 >;
@@ -29,14 +32,7 @@ export const registerRechercherDossierRaccordementQuery = ({
     );
 
     return result.map(({ key }) => {
-      const [appelOffre, période, famille, numéroCRE] = key.split('#');
-
-      const identifiantProjet: IdentifiantProjet = {
-        appelOffre,
-        période,
-        famille,
-        numéroCRE,
-      };
+      const identifiantProjet = convertirEnIdentifiantProjet(key);
 
       return {
         type: 'résultat-recherche-dossier-raccordement',

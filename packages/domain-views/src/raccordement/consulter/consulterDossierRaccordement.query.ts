@@ -1,14 +1,15 @@
-import { Find, NotFoundError } from '@potentiel/core-domain';
+import { NotFoundError } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { DossierRaccordementReadModel } from '../raccordement.readModel';
-import { IdentifiantProjet, formatIdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet, RéférenceDossierRaccordement } from '@potentiel/domain';
+import { Find } from '../../domainViews.port';
 
 export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
   {
     identifiantProjet: IdentifiantProjet;
-    référence: string;
+    référenceDossierRaccordement: RéférenceDossierRaccordement;
   },
   DossierRaccordementReadModel
 >;
@@ -22,10 +23,10 @@ export const registerConsulterDossierRaccordementQuery = ({
 }: ConsulterDossierRaccordementDependencies) => {
   const queryHandler: MessageHandler<ConsulterDossierRaccordementQuery> = async ({
     identifiantProjet,
-    référence,
+    référenceDossierRaccordement: référence,
   }) => {
     const result = await find<DossierRaccordementReadModel>(
-      `dossier-raccordement#${formatIdentifiantProjet(identifiantProjet)}#${référence}`,
+      `dossier-raccordement#${identifiantProjet.formatter()}#${référence.formatter()}`,
     );
 
     if (isNone(result)) {

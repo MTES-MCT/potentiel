@@ -1,4 +1,4 @@
-import { IdentifiantProjet, formatIdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel/domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { Readable } from 'stream';
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from '../raccordement.readModel';
@@ -33,7 +33,7 @@ export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
   }) => {
     const content = await récupérerPropositionTechniqueEtFinancièreSignée({
       référenceDossierRaccordement,
-      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      identifiantProjet: identifiantProjet.formatter(),
       format,
     });
 
