@@ -1,15 +1,15 @@
-import { Update, Find, Create, Remove } from '@potentiel/core-domain';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import {
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
   RaccordementEvent,
 } from '@potentiel/domain';
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { isNone } from '@potentiel/monads';
 import { RécupérerPropositionTechniqueEtFinancièreSignéePort } from './consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
 import {
   DossierRaccordementReadModel,
   ListeDossiersRaccordementReadModel,
 } from './raccordement.readModel';
-import { isNone } from '@potentiel/monads';
+import { Create, Find, Remove, Update } from '../common.port';
 
 export type ExecuteRaccordementProjector = Message<
   'EXECUTE_RACCORDEMENT_PROJECTOR',
