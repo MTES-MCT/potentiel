@@ -37,4 +37,4 @@ services:
     command: start-dev --import-realm
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
-      - ./keycloak/theme/base:/opt/keycloak/themes/potentiel
+      - ./keycloak/theme/potentiel:/opt/keycloak/themes/potentiel

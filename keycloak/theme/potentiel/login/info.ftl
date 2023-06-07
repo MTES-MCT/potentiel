@@ -8,16 +8,16 @@
         </#if>
     <#elseif section = "form">
     <div id="kc-info-message">
-        <h3>Bienvenue sur Potentiel !</h3>
-        <p class="instruction">${message.summary}<#if requiredActions??><#list requiredActions>: <ul><#items as reqActionItem><li>${msg("requiredAction.${reqActionItem}")}</li><#sep></#items></ul></#list><#else></#if></p>
-        <#if pageRedirectUri?has_content>
-            <a  class="button" href="${pageRedirectUri}">Poursuivre sur Potentiel</a>
-        <#elseif actionUri?has_content>
-            <a class="button" href="${actionUri}">Poursuivre sur Potentiel</a>
-        <#elseif (client.baseUrl)?has_content>
-            <a href="${client.baseUrl}">Poursuivre sur Potentiel</a>
+        <p class="instruction">${message.summary}<#if requiredActions??><#list requiredActions>: <b><#items as reqActionItem>${kcSanitize(msg("requiredAction.${reqActionItem}"))?no_esc}<#sep>, </#items></b></#list><#else></#if></p>
+        <#if skipLink??>
         <#else>
-            <a class="button" href="${properties.potentielUrl}/go-to-user-dashboard">Poursuivre sur Potentiel</a>
+            <#if pageRedirectUri?has_content>
+                <p><a href="${pageRedirectUri}">${kcSanitize(msg("backToApplication"))?no_esc}</a></p>
+            <#elseif actionUri?has_content>
+                <p><a href="${actionUri}">${kcSanitize(msg("proceedWithAction"))?no_esc}</a></p>
+            <#elseif (client.baseUrl)?has_content>
+                <p><a href="${client.baseUrl}">${kcSanitize(msg("backToApplication"))?no_esc}</a></p>
+            </#if>
         </#if>
     </div>
     </#if>

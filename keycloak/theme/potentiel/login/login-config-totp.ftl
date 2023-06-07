@@ -5,7 +5,7 @@
         ${msg("loginTotpTitle")}
     <#elseif section = "form">
         <ol id="kc-totp-settings">
-             <li>
+            <li>
                 <p>${msg("loginTotpStep1")}</p>
 
                 <ul id="kc-totp-supported-apps">
@@ -13,7 +13,7 @@
                         <li>${msg(app)}</li>
                     </#list>
                 </ul>
-            </li> 
+            </li>
 
             <#if mode?? && mode = "manual">
                 <li>
@@ -52,7 +52,7 @@
         <form action="${url.loginAction}" class="${properties.kcFormClass!}" id="kc-totp-settings-form" method="post">
             <div class="${properties.kcFormGroupClass!}">
                 <div class="${properties.kcInputWrapperClass!}">
-                    <label for="totp" class="control-label">${msg("authenticatorCode")} *</label>
+                    <label for="totp" class="control-label">${msg("authenticatorCode")}</label> <span class="required">*</span>
                 </div>
                 <div class="${properties.kcInputWrapperClass!}">
                     <input type="text" id="totp" name="totp" autocomplete="off" class="${properties.kcInputClass!}"

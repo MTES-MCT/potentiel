@@ -129,6 +129,7 @@ cypress/videos
 src/public/css/index.css
 src/public/css/dsfr.css
 src/public/css/fonts.css
+keycloak/theme/potentiel/common/css/tailwind.css
 
 # Generated js files
 src/public/js
