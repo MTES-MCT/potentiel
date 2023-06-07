@@ -18,6 +18,9 @@ export type PropositionTechniqueEtFinancièreSignéeTransmiseEvent = DomainEvent
   }
 >;
 
+/**
+ * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEventV1 et RéférenceDossierRacordementModifiéeEventV1 à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
 export type DemandeComplèteRaccordementModifiéeEventV0 = DomainEvent<
   'DemandeComplèteRaccordementModifiée',
   {
@@ -33,6 +36,7 @@ export type DemandeComplèteRaccordementModifiéeEventV1 = DomainEvent<
   'DemandeComplèteRaccordementModifiée-V1',
   {
     identifiantProjet: string;
+    référenceDossierRaccordement: string;
     dateQualification: string;
   }
 >;
@@ -87,6 +91,8 @@ export type RaccordementEvent =
   | AccuséRéceptionDemandeComplèteRaccordementTransmisEvent
   | DemandeComplèteRaccordementTransmiseEvent
   | DemandeComplèteRaccordementModifiéeEventV0
+  | DemandeComplèteRaccordementModifiéeEventV1
+  | RéférenceDossierRacordementModifiéeEventV1
   | PropositionTechniqueEtFinancièreTransmiseEvent
   | PropositionTechniqueEtFinancièreSignéeTransmiseEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent

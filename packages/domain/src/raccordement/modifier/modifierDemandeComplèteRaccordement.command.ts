@@ -71,6 +71,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       type: 'DemandeComplèteRaccordementModifiée-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
+        référenceDossierRaccordement: référenceDossierRaccordementActuelle.formatter(),
         dateQualification: dateQualification.toISOString(),
       },
     };
