@@ -1,10 +1,11 @@
 import { Readable } from 'stream';
+import { download } from './download';
 import { getClient } from './getClient';
 import { upload } from './upload';
-import { getBucketName } from './getBucketName';
-import { renameFile } from './renameFile';
+import { deleteFile } from './delete';
+import { FichierInexistant } from './fichierInexistant.error';
 
-describe(`rename file`, () => {
+describe(`upload file`, () => {
   const bucketName = 'potentiel';
   beforeAll(() => {
     process.env.S3_ENDPOINT = 'http://localhost:9443/s3';
@@ -44,24 +45,16 @@ describe(`rename file`, () => {
 
   it(`
     Etant donné un endpoint et un bucket
-    Quand un fichier est renommé
-    Alors il devrait être récupérable depuis le bucket
-    Et l'ancien fichier devrait être supprimé`, async () => {
+    Quand un fichier est supprimé
+    Alors il devrait ne devrait plus être récupérable depuis le bucket`, async () => {
     const filePath = 'path/to/file.pdf';
-    const newFilePath = 'path/to/file2.pdf';
-    const content = "Contenu d'un fichier";
-    const file = Readable.from("Contenu d'un fichier", {
+    const content = Readable.from("Contenu d'un fichier", {
       encoding: 'utf8',
     });
-    await upload(filePath, file);
 
-    await renameFile(filePath, newFilePath);
+    await upload(filePath, content);
+    await deleteFile(filePath);
 
-    const actual = await getClient()
-      .getObject({ Bucket: getBucketName(), Key: newFilePath })
-      .promise();
-
-    expect(actual).not.toBeNull();
-    expect(actual.Body!.toString()).toEqual(content);
+    await expect(download(filePath)).rejects.toBeInstanceOf(FichierInexistant);
   });
 });

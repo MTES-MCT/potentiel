@@ -1,10 +1,9 @@
 import { Readable } from 'stream';
 import { getClient } from './getClient';
 import { upload } from './upload';
-import { updateFile } from './updateFile';
-import { getBucketName } from './getBucketName';
+import { getFiles } from './getFiles';
 
-describe(`update file`, () => {
+describe(`get files`, () => {
   const bucketName = 'potentiel';
   beforeAll(() => {
     process.env.S3_ENDPOINT = 'http://localhost:9443/s3';
@@ -44,24 +43,24 @@ describe(`update file`, () => {
 
   it(`
     Etant donné un endpoint et un bucket
-    Quand un fichier est modifié
-    Alors il devrait être récupérable depuis le bucket
-    Et son contenu a bien été modifé avec le nouveau contenu`, async () => {
-    const filePath = 'path/to/file.pdf';
+    Quand un fichier est téléversé
+    Alors sa clés d'accès ne devraient être récupérable depuis le bucket`, async () => {
+    const pattern = 'path/to';
+    const filePath = `${pattern}/file.pdf`;
     const content = Readable.from("Contenu d'un fichier", {
       encoding: 'utf8',
     });
-    const newContent = "Contenu d'un fichier mis à jour";
-
     await upload(filePath, content);
 
-    await updateFile(filePath, newContent);
+    await expect(getFiles(pattern)).resolves.toEqual([filePath]);
+  });
 
-    const actual = await getClient()
-      .getObject({ Bucket: getBucketName(), Key: filePath })
-      .promise();
+  it(`
+    Etant donné un endpoint et un bucket
+    Quand aucun fichier n'est téléversés
+    Alors aucune clés d'accès ne devtait être récupérable depuis le bucket`, async () => {
+    const pattern = 'path/to';
 
-    expect(actual).not.toBeNull();
-    expect(actual.Body!.toString()).toEqual(newContent);
+    await expect(getFiles(pattern)).resolves.toEqual([]);
   });
 });

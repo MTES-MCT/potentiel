@@ -13,7 +13,6 @@ import {
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
 import {
   DemandeComplèteRaccordementModifiéeEventV1,
-  RéférenceDossierRacordementModifiéeEventV1,
 } from '../raccordement.event';
 import { RéférenceDossierRaccordement } from '../raccordement.valueType';
 
@@ -22,8 +21,7 @@ export type ModifierDemandeComplèteRaccordementCommand = Message<
   {
     identifiantProjet: IdentifiantProjet;
     dateQualification: Date;
-    référenceDossierRaccordementActuelle: RéférenceDossierRaccordement;
-    nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement;
+    référenceDossierRaccordement: RéférenceDossierRaccordement;
   }
 >;
 
@@ -43,15 +41,11 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
     dateQualification,
-    référenceDossierRaccordementActuelle,
-    nouvelleRéférenceDossierRaccordement,
+    référenceDossierRaccordement,
   }) => {
     const raccordement = await loadRaccordement(identifiantProjet);
 
-    if (
-      isNone(raccordement) ||
-      !raccordement.contientLeDossier(référenceDossierRaccordementActuelle)
-    ) {
+    if (isNone(raccordement) || !raccordement.contientLeDossier(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
@@ -61,9 +55,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       throw new GestionnaireRéseauInconnuError();
     }
 
-    if (
-      !gestionnaireRéseau.validerRéférenceDossierRaccordement(nouvelleRéférenceDossierRaccordement)
-    ) {
+    if (!gestionnaireRéseau.validerRéférenceDossierRaccordement(référenceDossierRaccordement)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
@@ -71,7 +63,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       type: 'DemandeComplèteRaccordementModifiée-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
-        référenceDossierRaccordement: référenceDossierRaccordementActuelle.formatter(),
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         dateQualification: dateQualification.toISOString(),
       },
     };
@@ -80,22 +72,6 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       createRaccordementAggregateId(identifiantProjet),
       demandeComplèteRaccordementModifiée,
     );
-
-    if (!référenceDossierRaccordementActuelle.estÉgaleÀ(nouvelleRéférenceDossierRaccordement)) {
-      const référenceDossierRacordementModifiée: RéférenceDossierRacordementModifiéeEventV1 = {
-        type: 'RéférenceDossierRacordementModifiée-V1',
-        payload: {
-          identifiantProjet: identifiantProjet.formatter(),
-          nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement.formatter(),
-          référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle.formatter(),
-        },
-      };
-
-      await publish(
-        createRaccordementAggregateId(identifiantProjet),
-        référenceDossierRacordementModifiée,
-      );
-    }
   };
 
   mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);

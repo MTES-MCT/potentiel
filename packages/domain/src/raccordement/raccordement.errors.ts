@@ -31,3 +31,9 @@ export class FormatRéférenceDossierRaccordementInvalideError extends InvalidOp
     super(`Le format de la référence du dossier de raccordement est invalide`);
   }
 }
+
+export class RéférencesDossierRaccordementIdentiquesError extends InvalidOperationError {
+  constructor() {
+    super(`Les références du dossier de raccordement sont identiques`);
+  }
+}

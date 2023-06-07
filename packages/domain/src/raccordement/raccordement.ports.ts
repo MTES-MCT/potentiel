@@ -2,21 +2,24 @@ import { Readable } from 'stream';
 
 type EnregistrerAccuséRéceptionDemandeComplèteRaccordementOptions =
   | {
-      type: 'création';
+      opération: 'création';
+      type: 'demande-complete-raccordement';
       identifiantProjet: string;
       référenceDossierRaccordement: string;
       accuséRéception: { format: string; content: Readable };
     }
   | {
-      type: 'modification';
+      opération: 'modification';
+      type: 'demande-complete-raccordement';
       identifiantProjet: string;
       référenceDossierRaccordement: string;
       accuséRéception: { format: string; content: Readable };
     }
   | {
-      type: 'déplacement';
+      opération: 'déplacement';
+      type: 'demande-complete-raccordement';
       identifiantProjet: string;
-      ancienneRéférenceDossierRaccordement: string;
+      référenceDossierRaccordementActuelle: string;
       nouvelleRéférenceDossierRaccordement: string;
     };
 
@@ -26,21 +29,24 @@ export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort = (
 
 type EnregistrerPropositionTechniqueEtFinancièreSignéeOptions =
   | {
-      type: 'création';
+      opération: 'création';
+      type: 'proposition-technique-et-financiere';
       identifiantProjet: string;
       référenceDossierRaccordement: string;
       propositionTechniqueEtFinancièreSignée: { format: string; content: Readable };
     }
   | {
-      type: 'modification';
+      opération: 'modification';
+      type: 'proposition-technique-et-financiere';
       identifiantProjet: string;
       référenceDossierRaccordement: string;
       propositionTechniqueEtFinancièreSignée: { format: string; content: Readable };
     }
   | {
-      type: 'déplacement';
+      opération: 'déplacement';
+      type: 'proposition-technique-et-financiere';
       identifiantProjet: string;
-      ancienneRéférenceDossierRaccordement: string;
+      référenceDossierRaccordementActuelle: string;
       nouvelleRéférenceDossierRaccordement: string;
     };
 

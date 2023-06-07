@@ -16,26 +16,24 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<ModifierDemandeComplèteRaccordementUseCase> = async ({
     identifiantProjet,
     dateQualification,
-    référenceDossierRaccordementActuelle: ancienneRéférenceDossierRaccordement,
-    nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement,
+    référenceDossierRaccordement,
     accuséRéception,
   }) => {
-    await mediator.send<RaccordementCommand>({
-      type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
-      data: {
-        identifiantProjet,
-        dateQualification,
-        référenceDossierRaccordementActuelle: ancienneRéférenceDossierRaccordement,
-        nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement,
-      },
-    });
-
     await mediator.send<RaccordementCommand>({
       type: 'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
       data: {
         identifiantProjet,
         accuséRéception,
-        référenceDossierRaccordement: nouvelleRéférenceDossierRaccordement,
+        référenceDossierRaccordement,
+      },
+    });
+
+    await mediator.send<RaccordementCommand>({
+      type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+      data: {
+        identifiantProjet,
+        dateQualification,
+        référenceDossierRaccordement,
       },
     });
   };

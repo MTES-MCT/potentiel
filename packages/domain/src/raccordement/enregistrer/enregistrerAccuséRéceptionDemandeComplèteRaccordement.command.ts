@@ -53,7 +53,8 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
     ) as DossierRaccordement;
 
     await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
-      type: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
+      opération: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
+      type: 'demande-complete-raccordement',
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       accuséRéception,

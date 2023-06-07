@@ -23,19 +23,19 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     propositionTechniqueEtFinancièreSignée,
   }) => {
     await mediator.send<RaccordementCommand>({
-      type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+      type: 'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
       data: {
         identifiantProjet,
-        dateSignature,
+        propositionTechniqueEtFinancièreSignée,
         référenceDossierRaccordement,
       },
     });
 
     await mediator.send<RaccordementCommand>({
-      type: 'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
+      type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
       data: {
         identifiantProjet,
-        propositionTechniqueEtFinancièreSignée,
+        dateSignature,
         référenceDossierRaccordement,
       },
     });

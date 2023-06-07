@@ -1,4 +1,4 @@
-import { deleteFile } from './deleteFile';
+import { deleteFile } from './delete';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 

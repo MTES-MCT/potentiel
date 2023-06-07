@@ -1,7 +1,7 @@
 import {
   RécupérerAccuséRéceptionDemandeComplèteRaccordementPort,
   RécupérerPropositionTechniqueEtFinancièreSignéePort,
-} from '@potentiel/domain';
+} from '@potentiel/domain-views';
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';

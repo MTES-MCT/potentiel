@@ -23,9 +23,15 @@ import { registerModifierPropositiontechniqueEtFinancièreUseCase } from './modi
 import { registerTransmettreDateMiseEnServiceUseCase } from './transmettre/transmettreDateMiseEnService.usecase';
 import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettre/transmettreDemandeComplèteRaccordement.usecase';
 import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/transmettrePropositionTechniqueEtFinancière.usecase';
+import {
+  ModifierRéférenceDossierRaccordementDependencies,
+  registerModifierRéférenceDossierRaccordementCommand,
+} from './modifier/modifierRéférenceDossierRaccordement.command';
+import { registerModifierRéférenceDossierRaccordementUseCase } from './modifier/modifierRéférenceDossierRaccordement.usecase';
 
 export type RaccordementDependencies = ModifierDemandeComplèteRaccordementDependencies &
   ModifierPropositionTechniqueEtFinancièreDependencies &
+  ModifierRéférenceDossierRaccordementDependencies &
   TransmettreDateMiseEnServiceCommandDependencies &
   TransmettreDemandeComplèteRaccordementDependencies &
   TransmettrePropositionTechniqueEtFinancièreDependencies;
@@ -34,6 +40,7 @@ export const setupRaccordement = (dependencies: RaccordementDependencies) => {
   // Commands
   registerModifierDemandeComplèteRaccordementCommand(dependencies);
   registerModifierPropositionTechniqueEtFinancièreCommand(dependencies);
+  registerModifierRéférenceDossierRaccordementCommand(dependencies);
   registerTransmettreDateMiseEnServiceCommand(dependencies);
   registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(dependencies);
@@ -41,6 +48,7 @@ export const setupRaccordement = (dependencies: RaccordementDependencies) => {
   // Usecases
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierPropositiontechniqueEtFinancièreUseCase();
+  registerModifierRéférenceDossierRaccordementUseCase();
   registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();

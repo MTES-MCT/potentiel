@@ -55,7 +55,8 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
     ) as DossierRaccordement;
 
     await enregistrerPropositionTechniqueEtFinancièreSignée({
-      type: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
+      opération: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
+      type: 'proposition-technique-et-financiere',
       identifiantProjet: identifiantProjet.formatter(),
       propositionTechniqueEtFinancièreSignée,
       référenceDossierRaccordement: référenceDossierRaccordement.formatter(),

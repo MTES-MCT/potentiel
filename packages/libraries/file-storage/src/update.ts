@@ -1,7 +1,8 @@
+import { Readable } from 'stream';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 
-export const updateFile = async (filePath: string, content: string) => {
+export const updateFile = async (filePath: string, content: Readable) => {
   await getClient()
     .putObject({
       Bucket: getBucketName(),
