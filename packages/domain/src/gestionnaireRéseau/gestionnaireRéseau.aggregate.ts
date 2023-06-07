@@ -1,9 +1,6 @@
 import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
-import {
-  IdentifiantGestionnaireRéseau,
-  formatIdentifiantGestionnaireRéseau,
-} from './gestionnaireRéseau.valueType';
+import { IdentifiantGestionnaireRéseau } from './gestionnaireRéseau.valueType';
 import { RéférenceDossierRaccordement } from '../raccordement/raccordement.valueType';
 
 type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
@@ -11,7 +8,7 @@ type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
 export const createGestionnaireRéseauAggregateId = (
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau,
 ): GestionnaireRéseauAggregateId =>
-  `gestionnaire-réseau#${formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)}`;
+  `gestionnaire-réseau#${identifiantGestionnaireRéseau.formatter()}`;
 
 export type GestionnaireRéseau = {
   codeEIC: string;

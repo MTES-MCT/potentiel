@@ -5,10 +5,7 @@ import {
   createGestionnaireRéseauAggregateId,
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau.aggregate';
-import {
-  IdentifiantGestionnaireRéseau,
-  formatIdentifiantGestionnaireRéseau,
-} from '../gestionnaireRéseau.valueType';
+import { IdentifiantGestionnaireRéseau } from '../gestionnaireRéseau.valueType';
 import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseau.error';
 import { GestionnaireRéseauModifiéEvent } from '../gestionnaireRéseau.event';
 
@@ -52,7 +49,7 @@ export const registerModifierGestionnaireRéseauCommand = ({
     const event: GestionnaireRéseauModifiéEvent = {
       type: 'GestionnaireRéseauModifié',
       payload: {
-        codeEIC: formatIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
+        codeEIC: identifiantGestionnaireRéseau.formatter(),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
       },

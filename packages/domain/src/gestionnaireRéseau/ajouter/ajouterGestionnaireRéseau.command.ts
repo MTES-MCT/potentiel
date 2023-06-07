@@ -7,11 +7,12 @@ import {
 } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseau.error';
 import { GestionnaireRéseauAjoutéEvent } from '../gestionnaireRéseau.event';
+import { IdentifiantGestionnaireRéseau } from '../gestionnaireRéseau.valueType';
 
 export type AjouterGestionnaireRéseauCommand = Message<
   'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
   {
-    codeEIC: string;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
@@ -36,10 +37,10 @@ export const registerAjouterGestionnaireRéseauCommand = ({
 
   const commandHandler: MessageHandler<AjouterGestionnaireRéseauCommand> = async ({
     aideSaisieRéférenceDossierRaccordement,
-    codeEIC,
+    identifiantGestionnaireRéseau,
     raisonSociale,
   }) => {
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate({ codeEIC });
+    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(identifiantGestionnaireRéseau);
 
     if (isSome(gestionnaireRéseau)) {
       throw new GestionnaireRéseauDéjàExistantError();
@@ -48,12 +49,12 @@ export const registerAjouterGestionnaireRéseauCommand = ({
     const event: GestionnaireRéseauAjoutéEvent = {
       type: 'GestionnaireRéseauAjouté',
       payload: {
-        codeEIC,
+        codeEIC: identifiantGestionnaireRéseau.formatter(),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
       },
     };
-    await publish(createGestionnaireRéseauAggregateId({ codeEIC }), event);
+    await publish(createGestionnaireRéseauAggregateId(identifiantGestionnaireRéseau), event);
   };
 
   mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND', commandHandler);

@@ -1,10 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone, isSome } from '@potentiel/monads';
-import {
-  IdentifiantGestionnaireRéseau,
-  formatIdentifiantGestionnaireRéseau,
-} from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
 import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import {
@@ -80,9 +77,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
       payload: {
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
         dateQualification: dateQualification?.toISOString(),
-        identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
-          identifiantGestionnaireRéseau,
-        ),
+        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       },
     };

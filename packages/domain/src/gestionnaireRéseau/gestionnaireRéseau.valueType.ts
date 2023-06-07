@@ -1,12 +1,14 @@
-export const formatIdentifiantGestionnaireRéseau = ({ codeEIC }: IdentifiantGestionnaireRéseau) =>
-  codeEIC;
+export type IdentifiantGestionnaireRéseau = {
+  codeEIC: string;
+  formatter: () => string;
+};
 
-export const parseIdentifiantGestionnaireRéseau = (
+// TODO: valider la valeur avant de la convertir en ValueType
+export const convertirEnIdentifiantGestionnaireRéseau = (
   identifiantGestionnaireRéseau: string,
 ): IdentifiantGestionnaireRéseau => ({
   codeEIC: identifiantGestionnaireRéseau,
+  formatter() {
+    return this.codeEIC;
+  },
 });
-
-export type IdentifiantGestionnaireRéseau = {
-  codeEIC: string;
-};

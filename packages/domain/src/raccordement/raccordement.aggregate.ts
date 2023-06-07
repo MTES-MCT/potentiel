@@ -15,7 +15,7 @@ import {
   GestionnaireRéseau,
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau/gestionnaireRéseau.aggregate';
-import { parseIdentifiantGestionnaireRéseau } from '../domain.valueType';
+import { convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
 import {
   DossierRaccordement,
   RéférenceDossierRaccordement,
@@ -112,7 +112,7 @@ const ajouterDossier = (
         loadAggregate,
       });
       return loadGestionnaireRéseau(
-        parseIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
+        convertirEnIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
       );
     },
   };

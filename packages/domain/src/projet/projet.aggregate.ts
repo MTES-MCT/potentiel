@@ -6,7 +6,7 @@ import {
 import { IdentifiantProjet, formatIdentifiantProjet } from './projet.valueType';
 import { ProjetEvent } from './projet.event';
 import { Option, none } from '@potentiel/monads';
-import { parseIdentifiantGestionnaireRéseau } from '../domain.valueType';
+import { convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
 
 type ProjetAggregateId = `projet#${string}`;
 
@@ -35,7 +35,7 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
               loadAggregate,
             });
             return loadGestionnaireRéseau(
-              parseIdentifiantGestionnaireRéseau(event.payload.identifiantGestionnaireRéseau),
+              convertirEnIdentifiantGestionnaireRéseau(event.payload.identifiantGestionnaireRéseau),
             );
           },
         };

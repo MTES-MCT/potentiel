@@ -12,13 +12,13 @@ export type AjouterGestionnaireRéseauUseCase = Message<
 export const registerAjouterGestionnaireRéseauUseCase = () => {
   const handler: MessageHandler<AjouterGestionnaireRéseauUseCase> = async ({
     aideSaisieRéférenceDossierRaccordement,
-    codeEIC,
+    identifiantGestionnaireRéseau,
     raisonSociale,
   }) => {
     await mediator.send<GestionnaireRéseauUseCase>({
       type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
       data: {
-        codeEIC,
+        identifiantGestionnaireRéseau,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
       },
