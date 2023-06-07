@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
+import { Subscribe } from '@potentiel/core-domain';
 import { GestionnaireRéseauEvent } from '@potentiel/domain';
-import { Subscribe } from '../subscribe';
 import {
   ConsulterGestionnaireRéseauDependencies,
   registerConsulterGestionnaireRéseauQuery,
@@ -22,7 +22,7 @@ type GestionnaireRéseauDependencies = {
   ListerGestionnaireRéseauDependencies &
   GestionnaireRéseauProjectorDependencies;
 
-export const setupGestionnaireRéseau = (dependencies: GestionnaireRéseauDependencies) => {
+export const setupGestionnaireRéseauViews = (dependencies: GestionnaireRéseauDependencies) => {
   // Query
   registerConsulterGestionnaireRéseauQuery(dependencies);
   registerListerGestionnaireRéseauQuery(dependencies);

@@ -44,4 +44,7 @@ export const setupRaccordement = (dependencies: RaccordementDependencies) => {
   registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
+
+  // Sagas
+  return [];
 };

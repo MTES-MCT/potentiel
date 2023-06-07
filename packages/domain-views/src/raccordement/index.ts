@@ -44,7 +44,7 @@ type RaccordementDependencies = {
   subscribe: Subscribe;
 } & RaccordementQueryDependencies;
 
-export const setupRaccordement = (dependencies: RaccordementDependencies) => {
+export const setupRaccordementViews = (dependencies: RaccordementDependencies) => {
   // Queries
   registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery(dependencies);
   registerConsulterDossierRaccordementQuery(dependencies);

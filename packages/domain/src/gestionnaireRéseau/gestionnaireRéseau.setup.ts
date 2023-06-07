@@ -20,4 +20,7 @@ export const setupGestionnaireRéseau = (dependencies: GestionnaireRéseauDepend
   // Use cases
   registerAjouterGestionnaireRéseauUseCase();
   registerModifierGestionnaireRéseauUseCase();
+
+  // Sagas
+  return [];
 };

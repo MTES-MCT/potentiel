@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { ProjetEvent } from '@potentiel/domain/dist/projet/projet.aggregate';
+import { ProjetEvent } from '@potentiel/domain';
 import { Create, Find, Update } from '../readModel';
 import { isNone } from '@potentiel/monads';
 import { ProjetReadModel, ProjetReadModelKey } from './projet.readModel';

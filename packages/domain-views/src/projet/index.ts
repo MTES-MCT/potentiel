@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
-import { ProjetEvent } from '@potentiel/domain/dist/projet/projet.aggregate';
+import { Subscribe } from '@potentiel/core-domain';
+import { ProjetEvent } from '@potentiel/domain';
 import { ConsulterGestionnaireRéseauDependencies } from '../gestionnaireRéseau/consulter/consulterGestionnaireRéseau.query';
-import { Subscribe } from '../subscribe';
 import {
   ConsulterProjetQuery,
   registerConsulterProjetQuery,
@@ -20,7 +20,7 @@ type ProjetQuery = ConsulterProjetQuery;
 type ProjetDependencies = { subscribe: Subscribe } & ConsulterGestionnaireRéseauDependencies &
   ProjetProjectorDependencies;
 
-const setupProjet = (dependencies: ProjetDependencies) => {
+const setupProjetViews = (dependencies: ProjetDependencies) => {
   // Queries
   registerConsulterProjetQuery(dependencies);
 
@@ -39,4 +39,4 @@ const setupProjet = (dependencies: ProjetDependencies) => {
   ];
 };
 
-export { ProjetReadModel, ProjetQuery, ConsulterProjetQuery, setupProjet };
+export { ProjetReadModel, ProjetQuery, ConsulterProjetQuery, setupProjetViews as setupProjet };

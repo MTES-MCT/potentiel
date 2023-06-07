@@ -1,7 +1,7 @@
+import { Subscribe } from '@potentiel/core-domain';
 import { setupGestionnaireRéseau } from './gestionnaireRéseau';
 import { setupProjet } from './projet';
 import { Create, Find, List, Remove, Search, Update } from './readModel';
-import { Subscribe } from './subscribe';
 
 type DomainViewsDependencies = {
   subscribe: Subscribe;
@@ -13,7 +13,9 @@ type DomainViewsDependencies = {
   update: Update;
 };
 
-export const setupDomain = (dependencies: DomainViewsDependencies): (() => Promise<void>) => {
+type UnsetupDomainViews = () => Promise<void>;
+
+export const setupDomainViews = (dependencies: DomainViewsDependencies): UnsetupDomainViews => {
   const unsubscribes = [...setupGestionnaireRéseau(dependencies), ...setupProjet(dependencies)];
 
   return async () => {

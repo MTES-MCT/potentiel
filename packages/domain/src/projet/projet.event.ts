@@ -8,4 +8,14 @@ export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
   }
 >;
 
-export type ProjetEvent = GestionnaireRéseauProjetModifiéEvent;
+export type GestionnaireRéseauProjetAjoutéEvent = DomainEvent<
+  'GestionnaireRéseauProjetAjouté',
+  {
+    identifiantProjet: string;
+    identifiantGestionnaireRéseau: string;
+  }
+>;
+
+export type ProjetEvent =
+  | GestionnaireRéseauProjetModifiéEvent
+  | GestionnaireRéseauProjetAjoutéEvent;
