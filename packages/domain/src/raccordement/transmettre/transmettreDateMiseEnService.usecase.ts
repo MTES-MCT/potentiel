@@ -1,14 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantProjet } from '../../projet/projet.valueType';
 import { RaccordementCommand } from '../raccordement.command';
+import { TransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService.command';
+
+type TransmettreDateMiseEnServiceUseCaseData = TransmettreDateMiseEnServiceCommand['data'];
 
 export type TransmettreDateMiseEnServiceUseCase = Message<
   'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-  {
-    dateMiseEnService: Date;
-    référenceDossierRaccordement: string;
-    identifiantProjet: IdentifiantProjet;
-  }
+  TransmettreDateMiseEnServiceUseCaseData
 >;
 
 export const registerTransmettreDateMiseEnServiceUseCase = () => {

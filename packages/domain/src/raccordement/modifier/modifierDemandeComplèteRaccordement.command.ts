@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
@@ -70,7 +70,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
     const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEventV1 = {
       type: 'DemandeComplèteRaccordementModifiée-V1',
       payload: {
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        identifiantProjet: identifiantProjet.formatter(),
         dateQualification: dateQualification.toISOString(),
       },
     };
@@ -84,7 +84,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       const référenceDossierRacordementModifiée: RéférenceDossierRacordementModifiéeEventV1 = {
         type: 'RéférenceDossierRacordementModifiée-V1',
         payload: {
-          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+          identifiantProjet: identifiantProjet.formatter(),
           nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement.formatter(),
           référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle.formatter(),
         },

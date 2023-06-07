@@ -3,13 +3,16 @@ import { EnregistrerPropositionTechniqueEtFinancièreSignéeCommand } from '../e
 import { ModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositiontechniqueEtFinancière.command';
 import { RaccordementCommand } from '../raccordement.command';
 
-export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
-  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+type ModifierPropositiontechniqueEtFinancièreUseCaseData =
   ModifierPropositionTechniqueEtFinancièreCommand['data'] &
     Pick<
       EnregistrerPropositionTechniqueEtFinancièreSignéeCommand['data'],
       'propositionTechniqueEtFinancièreSignée'
-    >
+    >;
+
+export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
+  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+  ModifierPropositiontechniqueEtFinancièreUseCaseData
 >;
 
 export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {

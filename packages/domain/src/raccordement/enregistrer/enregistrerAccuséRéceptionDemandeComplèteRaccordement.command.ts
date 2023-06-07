@@ -1,7 +1,6 @@
-import { Readable } from 'stream';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
@@ -10,14 +9,18 @@ import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../r
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort } from '../raccordement.ports';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { DossierRaccordement, RéférenceDossierRaccordement } from '../raccordement.valueType';
+import {
+  AccuséRéceptionDemandeComplèteRaccordement,
+  DossierRaccordement,
+  RéférenceDossierRaccordement,
+} from '../raccordement.valueType';
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
-    accuséRéception: { format: string; content: Readable };
+    accuséRéception: AccuséRéceptionDemandeComplèteRaccordement;
   }
 >;
 
@@ -51,7 +54,7 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
 
     await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
       type: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
-      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      identifiantProjet: identifiantProjet.formatter(),
       référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       accuséRéception,
     });
@@ -59,7 +62,7 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
     const accuséRéceptionTransmis: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
       type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
       payload: {
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        identifiantProjet: identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         format: accuséRéception.format,
       },

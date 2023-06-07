@@ -3,18 +3,10 @@ export type IdentifiantProjet = {
   période: string;
   famille?: string;
   numéroCRE: string;
+  formatter: () => string;
 };
 
-export const formatIdentifiantProjet = ({
-  appelOffre,
-  période,
-  famille = '',
-  numéroCRE,
-}: IdentifiantProjet): string => {
-  return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
-};
-
-export const parseIdentifiantProjet = (identifiantProjet: string): IdentifiantProjet => {
+export const convertirEnIdentifiantProjet = (identifiantProjet: string): IdentifiantProjet => {
   const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
 
   return {
@@ -22,5 +14,8 @@ export const parseIdentifiantProjet = (identifiantProjet: string): IdentifiantPr
     période,
     famille,
     numéroCRE,
+    formatter() {
+      return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
+    },
   };
 };

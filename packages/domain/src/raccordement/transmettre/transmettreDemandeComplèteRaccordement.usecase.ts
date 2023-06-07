@@ -3,10 +3,13 @@ import { RaccordementCommand } from '../raccordement.command';
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from '../enregistrer/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
 
+type TransmettreDemandeComplèteRaccordementUseCaseData =
+  TransmettreDemandeComplèteRaccordementCommand['data'] &
+    Pick<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'accuséRéception'>;
+
 export type TransmettreDemandeComplèteRaccordementUseCase = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-  TransmettreDemandeComplèteRaccordementCommand['data'] &
-    Pick<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'accuséRéception'>
+  TransmettreDemandeComplèteRaccordementUseCaseData
 >;
 
 export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {

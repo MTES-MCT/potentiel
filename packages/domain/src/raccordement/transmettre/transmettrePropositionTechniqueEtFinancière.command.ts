@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
@@ -48,7 +48,7 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
         payload: {
           dateSignature: dateSignature.toISOString(),
           référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
-          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+          identifiantProjet: identifiantProjet.formatter(),
         },
       };
 

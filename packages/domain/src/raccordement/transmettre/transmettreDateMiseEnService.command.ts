@@ -1,7 +1,7 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
@@ -46,7 +46,7 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
       type: 'DateMiseEnServiceTransmise',
       payload: {
         dateMiseEnService: dateMiseEnService.toISOString(),
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        identifiantProjet: identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       },
     };

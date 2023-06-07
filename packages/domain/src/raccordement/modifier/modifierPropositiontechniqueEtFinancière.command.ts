@@ -6,7 +6,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import { PropositionTechniqueEtFinancièreModifiéeEvent } from '../raccordement.event';
 import { RéférenceDossierRaccordement } from '../raccordement.valueType';
 
@@ -47,7 +47,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
       {
         type: 'PropositionTechniqueEtFinancièreModifiée',
         payload: {
-          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+          identifiantProjet: identifiantProjet.formatter(),
           dateSignature: dateSignature.toISOString(),
           référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         },

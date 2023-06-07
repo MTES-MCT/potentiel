@@ -1,6 +1,6 @@
 import { Option, none } from '@potentiel/monads';
 import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../projet/projet.valueType';
+import { IdentifiantProjet } from '../projet/projet.valueType';
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
   DateMiseEnServiceTransmiseEvent,
@@ -28,7 +28,7 @@ type RaccordementAggregateId = `raccordement#${string}`;
 export const createRaccordementAggregateId = (
   identifiantProjet: IdentifiantProjet,
 ): RaccordementAggregateId => {
-  return `raccordement#${formatIdentifiantProjet(identifiantProjet)}`;
+  return `raccordement#${identifiantProjet.formatter()}`;
 };
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };

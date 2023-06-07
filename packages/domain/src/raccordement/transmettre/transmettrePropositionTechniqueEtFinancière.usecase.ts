@@ -3,13 +3,16 @@ import { TransmettrePropositionTechniqueEtFinancièreCommand } from './transmett
 import { EnregistrerPropositionTechniqueEtFinancièreSignéeCommand } from '../enregistrer/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 import { RaccordementCommand } from '../raccordement.command';
 
-export type TransmettrePropositionTechniqueEtFinancièreUseCase = Message<
-  'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+type TransmettrePropositionTechniqueEtFinancièreUseCaseData =
   TransmettrePropositionTechniqueEtFinancièreCommand['data'] &
     Pick<
       EnregistrerPropositionTechniqueEtFinancièreSignéeCommand['data'],
       'propositionTechniqueEtFinancièreSignée'
-    >
+    >;
+
+export type TransmettrePropositionTechniqueEtFinancièreUseCase = Message<
+  'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+  TransmettrePropositionTechniqueEtFinancièreUseCaseData
 >;
 
 export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () => {

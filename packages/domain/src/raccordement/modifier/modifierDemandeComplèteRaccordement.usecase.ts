@@ -3,10 +3,13 @@ import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeCo
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from '../enregistrer/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
 import { RaccordementCommand } from '../raccordement.command';
 
+type ModifierDemandeComplèteRaccordementUseCaseData =
+  ModifierDemandeComplèteRaccordementCommand['data'] &
+    Pick<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'accuséRéception'>;
+
 export type ModifierDemandeComplèteRaccordementUseCase = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-  ModifierDemandeComplèteRaccordementCommand['data'] &
-    Pick<EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand['data'], 'accuséRéception'>
+  ModifierDemandeComplèteRaccordementUseCaseData
 >;
 
 export const registerModifierDemandeComplèteRaccordementUseCase = () => {

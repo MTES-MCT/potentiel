@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import {
   createRaccordementAggregateId,
@@ -75,7 +75,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     const demandeComplèteRaccordementTransmise: DemandeComplèteRaccordementTransmiseEvent = {
       type: 'DemandeComplèteDeRaccordementTransmise',
       payload: {
-        identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+        identifiantProjet: identifiantProjet.formatter(),
         dateQualification: dateQualification?.toISOString(),
         identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),

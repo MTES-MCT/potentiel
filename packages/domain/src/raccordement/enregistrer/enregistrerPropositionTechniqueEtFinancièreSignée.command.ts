@@ -1,23 +1,26 @@
-import { Readable } from 'stream';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjet } from '../../projet/projet.valueType';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '../raccordement.event';
 import { EnregistrerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { DossierRaccordement, RéférenceDossierRaccordement } from '../raccordement.valueType';
+import {
+  DossierRaccordement,
+  PropositionTechniqueEtFinancièreSignée,
+  RéférenceDossierRaccordement,
+} from '../raccordement.valueType';
 
 export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message<
   'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   {
     identifiantProjet: IdentifiantProjet;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
-    propositionTechniqueEtFinancièreSignée: { format: string; content: Readable };
+    propositionTechniqueEtFinancièreSignée: PropositionTechniqueEtFinancièreSignée;
   }
 >;
 
@@ -53,7 +56,7 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
 
     await enregistrerPropositionTechniqueEtFinancièreSignée({
       type: isNone(dossier.demandeComplèteRaccordement.format) ? 'création' : 'modification',
-      identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+      identifiantProjet: identifiantProjet.formatter(),
       propositionTechniqueEtFinancièreSignée,
       référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
     });
@@ -62,7 +65,7 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
       {
         type: 'PropositionTechniqueEtFinancièreSignéeTransmise',
         payload: {
-          identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+          identifiantProjet: identifiantProjet.formatter(),
           format: propositionTechniqueEtFinancièreSignée.format,
           référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         },
