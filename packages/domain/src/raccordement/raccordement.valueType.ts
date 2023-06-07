@@ -1,10 +1,12 @@
 import { Option } from '@potentiel/monads';
 import { Readable } from 'stream';
 
+export type RawRéférenceDossierRaccordement = string;
+
 export type RéférenceDossierRaccordement = {
   référence: string;
   estÉgaleÀ: (référenceDossierRaccordement: RéférenceDossierRaccordement) => boolean;
-  formatter: () => string;
+  formatter: () => RawRéférenceDossierRaccordement;
 };
 
 // TODO: valider la valeur avant de la convertir en ValueType

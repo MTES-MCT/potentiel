@@ -1,6 +1,8 @@
+export type RawIdentifiantGestionnaireRéseau = string;
+
 export type IdentifiantGestionnaireRéseau = {
   codeEIC: string;
-  formatter: () => string;
+  formatter: () => RawIdentifiantGestionnaireRéseau;
 };
 
 // TODO: valider la valeur avant de la convertir en ValueType
