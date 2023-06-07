@@ -5,9 +5,9 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import {
+  ConsulterGestionnaireRéseauQuery,
   PermissionConsulterGestionnaireRéseau,
-  buildConsulterGestionnaireRéseauUseCase,
-} from '@potentiel/domain';
+} from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({
@@ -29,9 +29,12 @@ v1Router.get(
         params: { codeEIC },
         query: { errors },
       } = request;
-      const gestionnaireRéseau = await mediator.send(
-        buildConsulterGestionnaireRéseauUseCase({ identifiantGestionnaireRéseau: { codeEIC } }),
-      );
+      const gestionnaireRéseau = await mediator.send<ConsulterGestionnaireRéseauQuery>({
+        type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        data: {
+          codeEIC,
+        },
+      });
 
       if (!gestionnaireRéseau) {
         return notFoundResponse({ request, response, ressourceTitle: 'Gestionnaire réseau' });
