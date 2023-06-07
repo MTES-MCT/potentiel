@@ -1,4 +1,4 @@
-import { List } from '../../domainViews.port';
+import { List } from '../../common.port';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 import { Message, MessageHandler, mediator } from 'mediateur';
 

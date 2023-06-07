@@ -2,7 +2,7 @@ import { IdentifiantProjet } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { ListeDossiersRaccordementReadModel } from '../raccordement.readModel';
-import { Find } from '../../domainViews.port';
+import { Find } from '../../common.port';
 
 export type ListerDossiersRaccordementQuery = Message<
   'LISTER_DOSSIER_RACCORDEMENT_QUERY',

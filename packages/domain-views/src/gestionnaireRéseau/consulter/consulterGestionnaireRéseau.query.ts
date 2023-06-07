@@ -5,7 +5,7 @@ import {
   GestionnaireRéseauReadModel,
   GestionnaireRéseauReadModelKey,
 } from '../gestionnaireRéseau.readModel';
-import { Find } from '../../domainViews.port';
+import { Find } from '../../common.port';
 
 export type ConsulterGestionnaireRéseauQuery = Message<
   'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',

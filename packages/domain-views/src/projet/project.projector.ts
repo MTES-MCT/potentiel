@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { ProjetEvent } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import { ProjetReadModel, ProjetReadModelKey } from './projet.readModel';
-import { Create, Update, Find } from '../domainViews.port';
+import { Create, Update, Find } from '../common.port';
 
 export type ExecuteProjetProjector = Message<'EXECUTE_PROJET_PROJECTOR', ProjetEvent>;
 
@@ -14,11 +14,18 @@ export type ProjetProjectorDependencies = {
 
 export const registerProjetProjector = ({ create, update, find }: ProjetProjectorDependencies) => {
   const handler: MessageHandler<ExecuteProjetProjector> = async (event) => {
+    const key: ProjetReadModelKey = `projet#${
+      event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
+    }`;
     switch (event.type) {
+      case 'GestionnaireRéseauProjetAjouté':
+        await create<ProjetReadModel>(key, {
+          identifiantGestionnaire: {
+            codeEIC: event.payload.identifiantGestionnaireRéseau,
+          },
+        });
+        break;
       case 'GestionnaireRéseauProjetModifié':
-        const key: ProjetReadModelKey = `projet#${
-          event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
-        }`;
         const projet = await find<ProjetReadModel>(key);
 
         if (isNone(projet)) {
