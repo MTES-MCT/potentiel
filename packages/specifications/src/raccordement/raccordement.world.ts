@@ -1,7 +1,9 @@
 import {
+  IdentifiantProjet,
   buildTransmettreDemandeComplèteRaccordementUseCase,
   buildTransmettrePropositionTechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
+import { none } from '@potentiel/monads';
 import { mediator } from 'mediateur';
 import { Readable } from 'stream';
 
@@ -83,11 +85,7 @@ export class RaccordementWorld {
     this.#référenceDossierRaccordement = value;
   }
 
-  #identifiantProjet: {
-    appelOffre: string;
-    période: string;
-    numéroCRE: string;
-  };
+  #identifiantProjet: IdentifiantProjet;
 
   get identifiantProjet() {
     return this.#identifiantProjet;
@@ -97,6 +95,7 @@ export class RaccordementWorld {
     this.#identifiantProjet = {
       appelOffre: 'PPE2 - Eolien',
       période: '1',
+      famille: none,
       numéroCRE: '23',
     };
     this.#accuséRéceptionDemandeComplèteRaccordement = {

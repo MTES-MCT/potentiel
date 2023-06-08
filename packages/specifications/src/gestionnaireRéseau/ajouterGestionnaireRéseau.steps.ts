@@ -1,8 +1,5 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import {
-  GestionnaireRéseauUseCase,
-  convertirEnIdentifiantGestionnaireRéseau,
-} from '@potentiel/domain';
+import { DomainUseCase, convertirEnIdentifiantGestionnaireRéseau } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 import {
@@ -28,7 +25,7 @@ Quand(
     this.gestionnaireRéseauWorld.légende = example['Légende'];
     this.gestionnaireRéseauWorld.expressionReguliere = example['Expression régulière'];
 
-    await mediator.send<GestionnaireRéseauUseCase>({
+    await mediator.send<DomainUseCase>({
       type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
       data: {
         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
@@ -49,7 +46,7 @@ Quand(
   'un administrateur ajoute un gestionnaire de réseau ayant le même code EIC',
   async function (this: PotentielWorld) {
     try {
-      await mediator.send<GestionnaireRéseauUseCase>({
+      await mediator.send<DomainUseCase>({
         type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
         data: {
           identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(

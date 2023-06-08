@@ -7,6 +7,8 @@ import {
 } from '../raccordement.readModel';
 import {
   IdentifiantProjet,
+  RawIdentifiantProjet,
+  RawRéférenceDossierRaccordement,
   RéférenceDossierRaccordement,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
@@ -18,8 +20,8 @@ import { Find } from '../../common.port';
 export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
   {
-    identifiantProjet: IdentifiantProjet;
-    référenceDossierRaccordement: RéférenceDossierRaccordement;
+    identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement | RéférenceDossierRaccordement;
   },
   DossierRaccordementReadModel
 >;

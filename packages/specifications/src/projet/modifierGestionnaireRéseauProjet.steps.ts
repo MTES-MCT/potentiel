@@ -1,7 +1,7 @@
 import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
-  ProjetUseCase,
+  DomainUseCase,
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
@@ -14,7 +14,7 @@ Quand(
   async function (this: PotentielWorld, codeEIC: string) {
     await this.gestionnaireRéseauWorld.createGestionnaireRéseau(codeEIC, 'uneRaisonSociale');
 
-    await mediator.send<ProjetUseCase>({
+    await mediator.send<DomainUseCase>({
       type: 'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
       data: {
         identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
@@ -44,7 +44,7 @@ Quand(
   `le porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé`,
   async function (this: PotentielWorld) {
     try {
-      await mediator.send<ProjetUseCase>({
+      await mediator.send<DomainUseCase>({
         type: 'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
         data: {
           identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
