@@ -1,5 +1,6 @@
 import {
   IdentifiantProjet,
+  PropositionTechniqueEtFinancièreSignée,
   buildTransmettreDemandeComplèteRaccordementUseCase,
   buildTransmettrePropositionTechniqueEtFinancièreUseCase,
 } from '@potentiel/domain';
@@ -21,6 +22,19 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
+  #dateSignature!: Date;
+
+  get dateSignature(): Date {
+    if (!this.#dateSignature) {
+      throw new Error('dateSignature not initialized');
+    }
+    return this.#dateSignature;
+  }
+
+  set dateSignature(value: Date) {
+    this.#dateSignature = value;
+  }
+
   #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: Readable };
 
   get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: Readable } {
@@ -34,28 +48,16 @@ export class RaccordementWorld {
     this.#accuséRéceptionDemandeComplèteRaccordement = value;
   }
 
-  #propositionTechniqueEtFinancièreSignée!: {
-    dateSignature: Date;
-    format: string;
-    content: Readable;
-  };
+  #propositionTechniqueEtFinancièreSignée!: PropositionTechniqueEtFinancièreSignée;
 
-  get propositionTechniqueEtFinancièreSignée(): {
-    dateSignature: Date;
-    format: string;
-    content: Readable;
-  } {
+  get propositionTechniqueEtFinancièreSignée(): PropositionTechniqueEtFinancièreSignée {
     if (!this.#propositionTechniqueEtFinancièreSignée) {
       throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
     }
     return this.#propositionTechniqueEtFinancièreSignée;
   }
 
-  set propositionTechniqueEtFinancièreSignée(value: {
-    dateSignature: Date;
-    format: string;
-    content: Readable;
-  }) {
+  set propositionTechniqueEtFinancièreSignée(value: PropositionTechniqueEtFinancièreSignée) {
     this.#propositionTechniqueEtFinancièreSignée = value;
   }
 

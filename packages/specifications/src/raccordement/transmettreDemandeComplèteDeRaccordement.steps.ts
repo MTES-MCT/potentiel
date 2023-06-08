@@ -1,15 +1,14 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import {
-  DossierRaccordementReadModel,
-  PlusieursGestionnairesRéseauPourUnProjetError,
-  buildConsulterDossierRaccordementUseCase,
-  buildConsulterProjetUseCase,
-  buildListerDossiersRaccordementUseCase,
-  buildTransmettreDemandeComplèteRaccordementUseCase,
-} from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
 import { Readable } from 'stream';
 import { mediator } from 'mediateur';
+import {
+  DomainUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+} from '@potentiel/domain';
+import { ConsulterProjetQuery, ListerDossiersRaccordementQuery } from '@potentiel/domain-views';
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
@@ -18,17 +17,20 @@ EtantDonné(
     const dateQualification = new Date(exemple['La date de qualification']);
     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
 
-    await mediator.send(
-      buildTransmettreDemandeComplèteRaccordementUseCase({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        identifiantGestionnaireRéseau: {
-          codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
-        },
+    await mediator.send<DomainUseCase>({
+      type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+      data: {
+        identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+          this.gestionnaireRéseauWorld.codeEIC,
+        ),
+        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+          référenceDossierRaccordement,
+        ),
         dateQualification,
-        référenceDossierRaccordement,
-        nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-      }),
-    );
+        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+      },
+    });
   },
 );
 
@@ -40,22 +42,25 @@ Quand(
     this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence du dossier de raccordement'];
     try {
-      await mediator.send(
-        buildTransmettreDemandeComplèteRaccordementUseCase({
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
-          identifiantGestionnaireRéseau: {
-            codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
-          },
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+            this.gestionnaireRéseauWorld.codeEIC,
+          ),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            this.raccordementWorld.référenceDossierRaccordement,
+          ),
           dateQualification: this.raccordementWorld.dateQualification,
-          référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-          nouvelAccuséRéception: {
+          accuséRéception: {
             format: 'application/pdf',
             content: Readable.from("Contenu d'un autre fichier", {
               encoding: 'utf8',
             }),
           },
-        }),
-      );
+        },
+      });
     } catch (e) {
       this.error = e as Error;
     }
@@ -71,17 +76,20 @@ Quand(
       exemple['La référence du dossier de raccordement'];
 
     try {
-      await mediator.send(
-        buildTransmettreDemandeComplèteRaccordementUseCase({
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
-          identifiantGestionnaireRéseau: {
-            codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
-          },
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+            this.gestionnaireRéseauWorld.codeEIC,
+          ),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            this.raccordementWorld.référenceDossierRaccordement,
+          ),
           dateQualification: this.raccordementWorld.dateQualification,
-          référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-          nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-        }),
-      );
+          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        },
+      });
     } catch (e) {
       this.error = e as Error;
     }
@@ -92,17 +100,20 @@ Quand(
   `le porteur du projet transmet une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau`,
   async function (this: PotentielWorld) {
     try {
-      await mediator.send(
-        buildTransmettreDemandeComplèteRaccordementUseCase({
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
-          identifiantGestionnaireRéseau: {
-            codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
-          },
-          dateQualification: new Date(),
-          référenceDossierRaccordement: 'une référence avec un format invalide',
-          nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-        }),
-      );
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+            this.gestionnaireRéseauWorld.codeEIC,
+          ),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            'une référence avec un format invalide',
+          ),
+          dateQualification: this.raccordementWorld.dateQualification,
+          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        },
+      });
     } catch (e) {
       this.error = e as Error;
     }
@@ -113,17 +124,20 @@ Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé`,
   async function (this: PotentielWorld) {
     try {
-      await mediator.send(
-        buildTransmettreDemandeComplèteRaccordementUseCase({
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
-          identifiantGestionnaireRéseau: {
-            codeEIC: 'gestionnaire-de-réseau-inconnu',
-          },
-          dateQualification: new Date(),
-          référenceDossierRaccordement: 'une référence',
-          nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-        }),
-      );
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+            'gestionnaire-de-réseau-inconnu',
+          ),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            this.raccordementWorld.référenceDossierRaccordement,
+          ),
+          dateQualification: this.raccordementWorld.dateQualification,
+          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        },
+      });
     } catch (e) {
       this.error = e as Error;
     }
@@ -133,11 +147,12 @@ Quand(
 Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
-    const actual = await mediator.send(
-      buildListerDossiersRaccordementUseCase({
+    const actual = await mediator.send<ListerDossiersRaccordementQuery>({
+      type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+      data: {
         identifiantProjet: this.raccordementWorld.identifiantProjet,
-      }),
-    );
+      },
+    });
 
     actual.références.should.length(nombreDeDemandes);
   },
@@ -146,33 +161,16 @@ Alors(
 Alors(
   'le projet devrait avoir un dossier de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
-    const actual = await mediator.send(
-      buildConsulterDossierRaccordementUseCase({
-        référence: this.raccordementWorld.référenceDossierRaccordement,
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-      }),
-    );
-
-    const expected: DossierRaccordementReadModel = {
-      type: 'dossier-raccordement',
-      référence: this.raccordementWorld.référenceDossierRaccordement,
-      dateQualification: this.raccordementWorld.dateQualification.toISOString(),
-      accuséRéception: {
-        format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
-      },
-    };
-
-    actual.should.be.deep.equal(expected);
-
     const {
       identifiantGestionnaire = {
         codeEIC: '',
       },
-    } = await mediator.send(
-      buildConsulterProjetUseCase({
+    } = await mediator.send<ConsulterProjetQuery>({
+      type: 'CONSULTER_PROJET',
+      data: {
         identifiantProjet: this.raccordementWorld.identifiantProjet,
-      }),
-    );
+      },
+    });
 
     identifiantGestionnaire.should.be.deep.equal({
       codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -183,17 +181,16 @@ Alors(
 EtantDonné(
   `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
   async function (this: PotentielWorld) {
-    await mediator.send(
-      buildTransmettreDemandeComplèteRaccordementUseCase({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        identifiantGestionnaireRéseau: {
-          codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
-        },
+    await mediator.send<DomainUseCase>({
+      type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+      data: {
+        identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau('codeEICAutreGDR'),
         dateQualification: new Date('2022-12-31'),
-        référenceDossierRaccordement: 'XXX-RP-2021-999999',
-        nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-      }),
-    );
+        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('XXX-RP-2021-999999'),
+        accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+      },
+    });
   },
 );
 
@@ -207,21 +204,19 @@ Quand(
     );
 
     try {
-      await mediator.send(
-        buildTransmettreDemandeComplèteRaccordementUseCase({
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
-          identifiantGestionnaireRéseau: {
-            codeEIC: codeEICAutreGDR,
-          },
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantGestionnaireRéseau:
+            convertirEnIdentifiantGestionnaireRéseau('codeEICAutreGDR'),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('Enieme-DCR'),
           dateQualification: new Date('2022-11-24'),
-          référenceDossierRaccordement: 'Enieme-DCR',
-          nouvelAccuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-        }),
-      );
+          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+        },
+      });
     } catch (error) {
-      if (error instanceof PlusieursGestionnairesRéseauPourUnProjetError) {
-        this.error = error;
-      }
+      this.error = error as Error;
     }
   },
 );

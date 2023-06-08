@@ -1,42 +1,46 @@
 import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
-  DossierRaccordementNonRéférencéError,
-  buildConsulterPropositionTechniqueEtFinancièreUseCase,
-  buildTransmettrePropositionTechniqueEtFinancièreUseCase,
+  DomainUseCase,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
-import { expect } from 'chai';
 import { mediator } from 'mediateur';
+import { ConsulterPropositionTechniqueEtFinancièreSignéeQuery } from '@potentiel/domain-views';
 
 Quand(
   `le porteur de projet transmet une proposition technique et financière`,
   async function (this: PotentielWorld) {
     const dateSignature = new Date('2021-04-28');
-    await mediator.send(
-      buildTransmettrePropositionTechniqueEtFinancièreUseCase({
+    await mediator.send<DomainUseCase>({
+      type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+      data: {
         dateSignature,
-        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-        nouvellePropositionTechniqueEtFinancière:
+        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+          this.raccordementWorld.référenceDossierRaccordement,
+        ),
+        identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+        propositionTechniqueEtFinancièreSignée:
           this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
-      }),
-    );
+      },
+    });
 
-    this.raccordementWorld.propositionTechniqueEtFinancièreSignée.dateSignature = dateSignature;
+    this.raccordementWorld.dateSignature = dateSignature;
   },
 );
 
 Alors(
   `la proposition technique et financière signée devrait être consultable dans le raccordement`,
   async function (this: PotentielWorld) {
-    const ptf = await mediator.send(
-      buildConsulterPropositionTechniqueEtFinancièreUseCase({
+    const ptf = await mediator.send<ConsulterPropositionTechniqueEtFinancièreSignéeQuery>({
+      type: 'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
+      data: {
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-      }),
-    );
+      },
+    });
 
-    expect(ptf).to.be.deep.equal(this.raccordementWorld.propositionTechniqueEtFinancièreSignée);
+    ptf.should.to.be.deep.equal(this.raccordementWorld.propositionTechniqueEtFinancièreSignée);
   },
 );
 
@@ -44,19 +48,18 @@ Quand(
   `un administrateur transmet une proposition technique et financière pour un projet n'ayant aucun dossier de raccordement`,
   async function (this: PotentielWorld) {
     try {
-      await mediator.send(
-        buildTransmettrePropositionTechniqueEtFinancièreUseCase({
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+        data: {
           dateSignature: new Date(),
-          référenceDossierRaccordement: 'dossier-inconnu',
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
-          nouvellePropositionTechniqueEtFinancière:
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('dossier-inconnu'),
+          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          propositionTechniqueEtFinancièreSignée:
             this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
-        }),
-      );
+        },
+      });
     } catch (error) {
-      if (error instanceof DossierRaccordementNonRéférencéError) {
-        this.error = error;
-      }
+      this.error = error as Error;
     }
   },
 );
@@ -65,19 +68,18 @@ Quand(
   `un administrateur transmet une proposition technique et financière pour un dossier de raccordement non référencé`,
   async function (this: PotentielWorld) {
     try {
-      await mediator.send(
-        buildTransmettrePropositionTechniqueEtFinancièreUseCase({
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+        data: {
           dateSignature: new Date(),
-          référenceDossierRaccordement: 'dossier-inconnu',
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
-          nouvellePropositionTechniqueEtFinancière:
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('dossier-inconnu'),
+          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          propositionTechniqueEtFinancièreSignée:
             this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
-        }),
-      );
+        },
+      });
     } catch (error) {
-      if (error instanceof DossierRaccordementNonRéférencéError) {
-        this.error = error;
-      }
+      this.error = error as Error;
     }
   },
 );
