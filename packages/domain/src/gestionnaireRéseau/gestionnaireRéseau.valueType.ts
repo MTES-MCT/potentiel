@@ -7,10 +7,15 @@ export type IdentifiantGestionnaireRéseau = {
 
 // TODO: valider la valeur avant de la convertir en ValueType
 export const convertirEnIdentifiantGestionnaireRéseau = (
-  identifiantGestionnaireRéseau: string,
-): IdentifiantGestionnaireRéseau => ({
-  codeEIC: identifiantGestionnaireRéseau,
-  formatter() {
-    return this.codeEIC;
-  },
-});
+  identifiantGestionnaireRéseau: string | Omit<IdentifiantGestionnaireRéseau, 'formatter'>,
+): IdentifiantGestionnaireRéseau => {
+  return {
+    codeEIC:
+      typeof identifiantGestionnaireRéseau === 'string'
+        ? identifiantGestionnaireRéseau
+        : identifiantGestionnaireRéseau.codeEIC,
+    formatter() {
+      return this.codeEIC;
+    },
+  };
+};

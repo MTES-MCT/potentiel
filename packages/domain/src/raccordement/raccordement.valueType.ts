@@ -11,16 +11,23 @@ export type RéférenceDossierRaccordement = {
 
 // TODO: valider la valeur avant de la convertir en ValueType
 export const convertirEnRéférenceDossierRaccordement = (
-  valeur: string,
-): RéférenceDossierRaccordement => ({
-  référence: valeur,
-  estÉgaleÀ({ référence }: RéférenceDossierRaccordement) {
-    return this.référence === référence;
-  },
-  formatter() {
-    return this.référence;
-  },
-});
+  référenceDossierRaccordement:
+    | string
+    | Omit<RéférenceDossierRaccordement, 'formatter' | 'estÉgaleÀ'>,
+): RéférenceDossierRaccordement => {
+  return {
+    référence:
+      typeof référenceDossierRaccordement === 'string'
+        ? référenceDossierRaccordement
+        : référenceDossierRaccordement.référence,
+    estÉgaleÀ({ référence }: RéférenceDossierRaccordement) {
+      return this.référence === référence;
+    },
+    formatter() {
+      return this.référence;
+    },
+  };
+};
 
 export type DossierRaccordement = {
   référence: RéférenceDossierRaccordement;
