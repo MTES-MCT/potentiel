@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { IdentifiantGestionnaireRéseauValueType } from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
-import { IdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import {
   createRaccordementAggregateId,
@@ -21,7 +21,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType;
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     dateQualification?: Date;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
   }

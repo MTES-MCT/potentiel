@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjetValueType } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { ListeDossiersRaccordementReadModel } from '../raccordement.readModel';
@@ -7,7 +7,7 @@ import { Find } from '../../common.port';
 export type ListerDossiersRaccordementQuery = Message<
   'LISTER_DOSSIER_RACCORDEMENT_QUERY',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
   },
   ListeDossiersRaccordementReadModel
 >;

@@ -6,14 +6,14 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { IdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { PropositionTechniqueEtFinancièreModifiéeEvent } from '../raccordement.event';
 import { RéférenceDossierRaccordement } from '../raccordement.valueType';
 
 export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     dateSignature: Date;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
   }

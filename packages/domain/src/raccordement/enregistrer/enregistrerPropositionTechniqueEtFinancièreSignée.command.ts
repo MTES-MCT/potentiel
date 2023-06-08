@@ -4,7 +4,7 @@ import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { IdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '../raccordement.event';
 import { EnregistrerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
 import { isNone } from '@potentiel/monads';
@@ -18,7 +18,7 @@ import {
 export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message<
   'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
     propositionTechniqueEtFinancièreSignée: PropositionTechniqueEtFinancièreSignée;
   }

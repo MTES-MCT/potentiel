@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Publish, LoadAggregate } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
@@ -11,15 +11,13 @@ import {
   FormatRéférenceDossierRaccordementInvalideError,
 } from '../raccordement.errors';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
-import {
-  DemandeComplèteRaccordementModifiéeEventV1,
-} from '../raccordement.event';
+import { DemandeComplèteRaccordementModifiéeEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordement } from '../raccordement.valueType';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     dateQualification: Date;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
   }

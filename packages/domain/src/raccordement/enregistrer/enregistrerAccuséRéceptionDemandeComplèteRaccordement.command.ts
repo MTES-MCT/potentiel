@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { IdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
@@ -18,7 +18,7 @@ import {
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
     accuséRéception: AccuséRéceptionDemandeComplèteRaccordement;
   }

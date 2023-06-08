@@ -7,12 +7,15 @@ export type IdentifiantProjet = {
   période: string;
   famille: Option<string>;
   numéroCRE: string;
+};
+
+export type IdentifiantProjetValueType = IdentifiantProjet & {
   formatter: () => RawIdentifiantProjet;
 };
 
 export const convertirEnIdentifiantProjet = (
-  identifiantProjet: string | Omit<IdentifiantProjet, 'formatter'>,
-): IdentifiantProjet => {
+  identifiantProjet: string | IdentifiantProjet,
+): IdentifiantProjetValueType => {
   if (typeof identifiantProjet === 'string') {
     const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
 

@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantProjet, RéférenceDossierRaccordement } from '../../domain.valueType';
+import { IdentifiantProjetValueType, RéférenceDossierRaccordement } from '../../domain.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
   createRaccordementAggregateId,
@@ -19,7 +19,7 @@ import {
 export type ModifierRéférenceDossierRaccordementCommand = Message<
   'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     référenceDossierRaccordementActuelle: RéférenceDossierRaccordement;
     nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement;
   }

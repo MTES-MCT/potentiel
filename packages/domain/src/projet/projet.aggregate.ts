@@ -3,7 +3,7 @@ import {
   GestionnaireRéseau,
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau/gestionnaireRéseau.aggregate';
-import { IdentifiantProjet } from './projet.valueType';
+import { IdentifiantProjetValueType } from './projet.valueType';
 import { ProjetEvent } from './projet.event';
 import { Option, none } from '@potentiel/monads';
 import { convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
@@ -11,7 +11,7 @@ import { convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
 type ProjetAggregateId = `projet#${string}`;
 
 export const createProjetAggregateId = (
-  identifiantProjet: IdentifiantProjet,
+  identifiantProjet: IdentifiantProjetValueType,
 ): ProjetAggregateId => {
   return `projet#${identifiantProjet.formatter()}`;
 };
@@ -46,7 +46,7 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
 };
 
 export const loadProjetAggregateFactory = ({ loadAggregate }: LoadAggregateFactoryDependencies) => {
-  return async (identifiantProjet: IdentifiantProjet) => {
+  return async (identifiantProjet: IdentifiantProjetValueType) => {
     return loadAggregate<Projet, ProjetEvent>(
       createProjetAggregateId(identifiantProjet),
       projetAggregateFactory,

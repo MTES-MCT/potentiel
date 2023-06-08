@@ -1,7 +1,7 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantGestionnaireRéseauValueType } from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
-import { IdentifiantProjet } from '../projet.valueType';
+import { IdentifiantProjetValueType } from '../projet.valueType';
 import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
 import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { isNone } from '@potentiel/monads';
@@ -13,7 +13,7 @@ export type ModifierGestionnaireRéseauProjetCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType;
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
   }
 >;
 

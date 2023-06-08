@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet } from '../../projet/projet.valueType';
+import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
@@ -15,7 +15,7 @@ export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   {
     dateSignature: Date;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
   }
 >;
 

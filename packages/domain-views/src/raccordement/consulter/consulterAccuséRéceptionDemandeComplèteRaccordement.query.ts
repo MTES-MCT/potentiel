@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjetValueType } from '@potentiel/domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from '../raccordement.readModel';
 import { RécupérerAccuséRéceptionDemandeComplèteRaccordementPort } from '../raccordement.ports';
@@ -10,7 +10,7 @@ export type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies =
 export type ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery = Message<
   'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     référenceDossierRaccordement: string;
     format: string;
   },

@@ -2,13 +2,13 @@ import { NotFoundError } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { DossierRaccordementReadModel } from '../raccordement.readModel';
-import { IdentifiantProjet, RéférenceDossierRaccordement } from '@potentiel/domain';
+import { IdentifiantProjetValueType, RéférenceDossierRaccordement } from '@potentiel/domain';
 import { Find } from '../../common.port';
 
 export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement;
   },
   DossierRaccordementReadModel

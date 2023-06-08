@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjetValueType } from '@potentiel/domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from '../raccordement.readModel';
 import { RécupérerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
@@ -10,7 +10,7 @@ export type ConsulterPropositionTechniqueEtFinancièreSignéeDependencies = {
 export type ConsulterPropositionTechniqueEtFinancièreSignéeQuery = Message<
   'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
     référenceDossierRaccordement: string;
     format: string;
   },

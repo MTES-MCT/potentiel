@@ -1,5 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain';
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjetValueType } from '@potentiel/domain';
 import { Readable } from 'stream';
 
 export type DossierRaccordementReadModel = ReadModel<
@@ -26,7 +26,7 @@ export type ListeDossiersRaccordementReadModel = ReadModel<
 export type RésultatRechercheDossierRaccordementReadModel = ReadModel<
   'résultat-recherche-dossier-raccordement',
   {
-    identifiantProjet: IdentifiantProjet;
+    identifiantProjet: IdentifiantProjetValueType;
   }
 >;
 
