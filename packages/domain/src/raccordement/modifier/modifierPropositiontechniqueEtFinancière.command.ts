@@ -8,14 +8,14 @@ import {
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { PropositionTechniqueEtFinancièreModifiéeEvent } from '../raccordement.event';
-import { RéférenceDossierRaccordement } from '../raccordement.valueType';
+import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 
 export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
     dateSignature: Date;
-    référenceDossierRaccordement: RéférenceDossierRaccordement;
+    référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
   }
 >;
 

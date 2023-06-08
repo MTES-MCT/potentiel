@@ -5,6 +5,9 @@ export type RawRéférenceDossierRaccordement = string;
 
 export type RéférenceDossierRaccordement = {
   référence: string;
+};
+
+export type RéférenceDossierRaccordementValueType = RéférenceDossierRaccordement & {
   estÉgaleÀ: (référenceDossierRaccordement: RéférenceDossierRaccordement) => boolean;
   formatter: () => RawRéférenceDossierRaccordement;
 };
@@ -13,8 +16,8 @@ export type RéférenceDossierRaccordement = {
 export const convertirEnRéférenceDossierRaccordement = (
   référenceDossierRaccordement:
     | string
-    | Omit<RéférenceDossierRaccordement, 'formatter' | 'estÉgaleÀ'>,
-): RéférenceDossierRaccordement => {
+    | Omit<RéférenceDossierRaccordementValueType, 'formatter' | 'estÉgaleÀ'>,
+): RéférenceDossierRaccordementValueType => {
   return {
     référence:
       typeof référenceDossierRaccordement === 'string'
@@ -30,7 +33,7 @@ export const convertirEnRéférenceDossierRaccordement = (
 };
 
 export type DossierRaccordement = {
-  référence: RéférenceDossierRaccordement;
+  référence: RéférenceDossierRaccordementValueType;
   demandeComplèteRaccordement: {
     dateQualification: Option<Date>;
     format: Option<string>;

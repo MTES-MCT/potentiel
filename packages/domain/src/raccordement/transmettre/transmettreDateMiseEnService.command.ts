@@ -8,7 +8,7 @@ import {
 } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { DateMiseEnServiceTransmiseEvent } from '../raccordement.event';
-import { RéférenceDossierRaccordement } from '../raccordement.valueType';
+import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 
 export type TransmettreDateMiseEnServiceCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -19,7 +19,7 @@ export type TransmettreDateMiseEnServiceCommand = Message<
   'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
   {
     dateMiseEnService: Date;
-    référenceDossierRaccordement: RéférenceDossierRaccordement;
+    référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
     identifiantProjet: IdentifiantProjetValueType;
   }
 >;

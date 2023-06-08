@@ -12,14 +12,14 @@ import { DossierRaccordementNonRéférencéError } from '../raccordement.errors'
 import {
   AccuséRéceptionDemandeComplèteRaccordement,
   DossierRaccordement,
-  RéférenceDossierRaccordement,
+  RéférenceDossierRaccordementValueType,
 } from '../raccordement.valueType';
 
 export type EnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand = Message<
   'ENREGISTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement;
+    référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
     accuséRéception: AccuséRéceptionDemandeComplèteRaccordement;
   }
 >;

@@ -18,7 +18,7 @@ import {
 import { convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
 import {
   DossierRaccordement,
-  RéférenceDossierRaccordement,
+  RéférenceDossierRaccordementValueType,
   convertirEnRéférenceDossierRaccordement,
 } from './raccordement.valueType';
 import { DossierRaccordementNonRéférencéError } from './raccordement.errors';
@@ -36,7 +36,9 @@ type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 type Raccordement = {
   getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>>;
   dossiers: Map<string, DossierRaccordement>;
-  contientLeDossier: (référenceDossierRaccordement: RéférenceDossierRaccordement) => boolean;
+  contientLeDossier: (
+    référenceDossierRaccordement: RéférenceDossierRaccordementValueType,
+  ) => boolean;
 };
 
 const defaultAggregateState: Raccordement = {

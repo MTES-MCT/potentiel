@@ -12,14 +12,14 @@ import {
 } from '../raccordement.errors';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
 import { DemandeComplèteRaccordementModifiéeEventV1 } from '../raccordement.event';
-import { RéférenceDossierRaccordement } from '../raccordement.valueType';
+import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
     dateQualification: Date;
-    référenceDossierRaccordement: RéférenceDossierRaccordement;
+    référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
   }
 >;
 

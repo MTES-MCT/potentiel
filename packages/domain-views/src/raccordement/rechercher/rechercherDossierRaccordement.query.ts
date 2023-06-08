@@ -3,13 +3,16 @@ import {
   DossierRaccordementReadModel,
   RésultatRechercheDossierRaccordementReadModel,
 } from '../raccordement.readModel';
-import { RéférenceDossierRaccordement, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import {
+  RéférenceDossierRaccordementValueType,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
 import { Search } from '../../common.port';
 
 export type RechercherDossierRaccordementQuery = Message<
   'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
   {
-    référence: RéférenceDossierRaccordement;
+    référence: RéférenceDossierRaccordementValueType;
   },
   ReadonlyArray<RésultatRechercheDossierRaccordementReadModel>
 >;

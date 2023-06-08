@@ -12,14 +12,14 @@ import { DossierRaccordementNonRéférencéError } from '../raccordement.errors'
 import {
   DossierRaccordement,
   PropositionTechniqueEtFinancièreSignée,
-  RéférenceDossierRaccordement,
+  RéférenceDossierRaccordementValueType,
 } from '../raccordement.valueType';
 
 export type EnregistrerPropositionTechniqueEtFinancièreSignéeCommand = Message<
   'ENREGISTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement;
+    référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
     propositionTechniqueEtFinancièreSignée: PropositionTechniqueEtFinancièreSignée;
   }
 >;

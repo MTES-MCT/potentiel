@@ -8,13 +8,13 @@ import {
 } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from '../raccordement.event';
-import { RéférenceDossierRaccordement } from '../raccordement.valueType';
+import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
   {
     dateSignature: Date;
-    référenceDossierRaccordement: RéférenceDossierRaccordement;
+    référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
     identifiantProjet: IdentifiantProjetValueType;
   }
 >;

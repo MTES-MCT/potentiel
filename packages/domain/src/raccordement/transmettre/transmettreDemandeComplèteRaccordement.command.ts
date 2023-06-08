@@ -15,7 +15,7 @@ import {
 } from '../raccordement.errors';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement.event';
-import { RéférenceDossierRaccordement } from '../raccordement.valueType';
+import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
@@ -23,7 +23,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType;
     identifiantProjet: IdentifiantProjetValueType;
     dateQualification?: Date;
-    référenceDossierRaccordement: RéférenceDossierRaccordement;
+    référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
   }
 >;
 
