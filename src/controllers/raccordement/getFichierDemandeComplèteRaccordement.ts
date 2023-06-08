@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import {
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
+  estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
 import {
   ConsulterDossierRaccordementQuery,
@@ -39,6 +40,10 @@ v1Router.get(
         params: { identifiantProjet, reference },
       } = request;
 
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
       try {
         const demandeComplèteRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
           type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
@@ -66,7 +71,7 @@ v1Router.get(
           'Content-Disposition',
           `attachment; filename=accuse-reception-${reference}.${extensionFichier}`,
         );
-        demandeComplèteRaccordement.accuséRéception..pipe(response);
+        demandeComplèteRaccordement.accuséRéception.content.pipe(response);
         return response.status(200);
       } catch (error) {
         logger.error(error);

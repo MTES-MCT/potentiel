@@ -1,9 +1,3 @@
-import {
-  PermissionTransmettreDemandeComplèteRaccordement,
-  RésuméProjetReadModel,
-  buildConsulterProjetUseCase,
-  buildListerGestionnaireRéseauUseCase,
-} from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -12,9 +6,20 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettreDemandeComplèteRaccordementPage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
+import {
+  PermissionTransmettreDemandeComplèteRaccordement,
+  convertirEnIdentifiantProjet,
+  estUnRawIdentifiantProjet,
+} from '@potentiel/domain';
+import {
+  ConsulterProjetQuery,
+  ListerGestionnaireRéseauQuery,
+  RésuméProjetReadModel,
+} from '@potentiel/domain-views';
+import { isSome } from '@potentiel/monads';
 
 const schema = yup.object({
-  params: yup.object({ projetId: yup.string().uuid().required() }),
+  params: yup.object({ identifiantProjet: yup.string().uuid().required() }),
 });
 
 v1Router.get(
@@ -29,11 +34,23 @@ v1Router.get(
     async (request, response) => {
       const {
         user,
-        params: { projetId },
+        params: { identifiantProjet },
         query: { error },
       } = request;
 
-      const projet = await Project.findByPk(projetId, {
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
+      const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+
+      const projet = await Project.findOne({
+        where: {
+          appelOffreId: identifiantProjetValueType.appelOffre,
+          periodeId: identifiantProjetValueType.période,
+          familleId: isSome(identifiantProjetValueType.famille) ?? undefined,
+          numeroCRE: identifiantProjetValueType.numéroCRE,
+        },
         attributes: [
           'id',
           'nomProjet',
@@ -59,18 +76,18 @@ v1Router.get(
         });
       }
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        période: projet.periodeId,
-        famille: projet.familleId,
-        numéroCRE: projet.numeroCRE,
-      };
+      const { identifiantGestionnaire = { codeEIC: '' } } =
+        await mediator.send<ConsulterProjetQuery>({
+          type: 'CONSULTER_PROJET',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+          },
+        });
 
-      const { identifiantGestionnaire } = await mediator.send(
-        buildConsulterProjetUseCase({ identifiantProjet }),
-      );
-
-      const gestionnairesRéseau = await mediator.send(buildListerGestionnaireRéseauUseCase({}));
+      const gestionnairesRéseau = await mediator.send<ListerGestionnaireRéseauQuery>({
+        type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        data: {},
+      });
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {

@@ -1,7 +1,8 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
-  RésuméProjetReadModel,
-  buildConsulterDossierRaccordementUseCase,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+  estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -11,10 +12,12 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
+import { isNone, isSome } from '@potentiel/monads';
+import { ConsulterDossierRaccordementQuery, RésuméProjetReadModel } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
-    projetId: yup.string().uuid().required(),
+    identifiantProjet: yup.string().uuid().required(),
     reference: yup.string().required(),
   }),
 });
@@ -31,11 +34,23 @@ v1Router.get(
     async (request, response) => {
       const {
         user,
-        params: { projetId, reference },
+        params: { identifiantProjet, reference },
         query: { error },
       } = request;
 
-      const projet = await Project.findByPk(projetId, {
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
+      const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+
+      const projet = await Project.findOne({
+        where: {
+          appelOffreId: identifiantProjetValueType.appelOffre,
+          periodeId: identifiantProjetValueType.période,
+          familleId: isSome(identifiantProjetValueType.famille) ?? undefined,
+          numeroCRE: identifiantProjetValueType.numéroCRE,
+        },
         attributes: [
           'id',
           'nomProjet',
@@ -61,17 +76,24 @@ v1Router.get(
         });
       }
 
-      const dossierRaccordement = await mediator.send(
-        buildConsulterDossierRaccordementUseCase({
-          identifiantProjet: {
-            appelOffre: projet.appelOffreId,
-            période: projet.periodeId,
-            famille: projet.familleId,
-            numéroCRE: projet.numeroCRE,
-          },
-          référence: reference,
-        }),
-      );
+      const dossierRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
+        type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+        data: {
+          identifiantProjet: identifiantProjetValueType,
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
+        },
+      });
+
+      if (
+        isNone(dossierRaccordement) ||
+        !dossierRaccordement.propositionTechniqueEtFinancière?.format
+      ) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Proposition technique et financière signée',
+        });
+      }
 
       const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
         if (!projet.notifiedOn) {
