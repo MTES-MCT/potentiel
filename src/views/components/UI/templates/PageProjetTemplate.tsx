@@ -1,9 +1,8 @@
 import React, { FC, ReactNode } from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } from '@components';
-import { RésuméProjetReadModel } from '@potentiel/domain';
-import routes from '@routes';
+import { Badge, BadgeType, Heading1, KeyIcon, MapPinIcon, PageTemplate } from '@components';
+import { RésuméProjetReadModel } from '@potentiel/domain-views';
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
@@ -17,7 +16,6 @@ export const PageProjetTemplate: FC<{
 );
 
 const EntêteProjet: FC<RésuméProjetReadModel> = ({
-  identifiantProjet,
   appelOffre,
   période,
   famille,
@@ -29,13 +27,14 @@ const EntêteProjet: FC<RésuméProjetReadModel> = ({
   <div className="w-full py-3 lg:flex justify-between gap-2">
     <div className="mb-3">
       <div className="flex justify-start items-center">
-        <Link
+        {/* TODO: Tant que nous travaillerons avec des UUID côté détails du projet nous ne pourrons pas avoir de lien ici 
+          <Link
           href={routes.PROJECT_DETAILS(identifiantProjet)}
           className="no-underline text-3xl font-bold text-white"
           style={{ color: 'white', textDecoration: 'none' }}
-        >
-          {nom}
-        </Link>
+        > */}
+        <div className="text-3xl font-bold !text-white">{nom}</div>
+        {/* </Link> */}
         <StatutProjet statut={statut} />
       </div>
       <div className="text-xs italic">

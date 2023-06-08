@@ -1,6 +1,5 @@
-import { NotFoundError } from '@potentiel/core-domain';
-import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { Option } from '@potentiel/monads';
 import {
   DossierRaccordementReadModel,
   DossierRaccordementReadModelKey,
@@ -23,7 +22,7 @@ export type ConsulterDossierRaccordementQuery = Message<
     identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
     référenceDossierRaccordement: RawRéférenceDossierRaccordement | RéférenceDossierRaccordement;
   },
-  DossierRaccordementReadModel
+  Option<DossierRaccordementReadModel>
 >;
 
 export type ConsulterDossierRaccordementDependencies = {
@@ -47,10 +46,6 @@ export const registerConsulterDossierRaccordementQuery = ({
       : référenceDossierRaccordement;
     const key: DossierRaccordementReadModelKey = `dossier-raccordement#${rawIdentifiantProjet}#${rawRéférenceDossierRaccordement}`;
     const result = await find<DossierRaccordementReadModel>(key);
-
-    if (isNone(result)) {
-      throw new NotFoundError(`Le dossier de raccordement n'est pas référencé`);
-    }
 
     return result;
   };

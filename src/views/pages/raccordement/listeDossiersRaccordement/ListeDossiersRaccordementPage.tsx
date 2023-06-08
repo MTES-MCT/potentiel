@@ -3,14 +3,15 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Link, Tile, PageProjetTemplate, PlugIcon, InfoBox, EditIcon } from '@components';
 import { hydrateOnClient } from '../../../helpers';
-import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
+import { RawIdentifiantProjet } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
 import { userIs } from '@modules/users';
 import { Dossier } from './components/Dossier';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
-  identifiantProjet: string;
+  identifiantProjet: RawIdentifiantProjet;
   résuméProjet: RésuméProjetReadModel;
   gestionnaireRéseau: GestionnaireRéseauReadModel;
   dossiers: ReadonlyArray<Dossier>;

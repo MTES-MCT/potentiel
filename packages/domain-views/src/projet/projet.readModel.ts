@@ -15,7 +15,7 @@ type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 export type RésuméProjetReadModel = ReadModel<
   'résumé-projet',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
     appelOffre: string;
     période: string;
     famille: string;
