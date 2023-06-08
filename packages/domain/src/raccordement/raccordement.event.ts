@@ -1,20 +1,23 @@
 import { DomainEvent } from '@potentiel/core-domain';
+import { RawIdentifiantProjet } from '../projet/projet.valueType';
+import { RawRéférenceDossierRaccordement } from './raccordement.valueType';
+import { RawIdentifiantGestionnaireRéseau } from '../domain.valueType';
 
 export type AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = DomainEvent<
   'AccuséRéceptionDemandeComplèteRaccordementTransmis',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
     format: string;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
   }
 >;
 
 export type PropositionTechniqueEtFinancièreSignéeTransmiseEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreSignéeTransmise',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
     format: string;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
   }
 >;
 
@@ -24,10 +27,10 @@ export type PropositionTechniqueEtFinancièreSignéeTransmiseEvent = DomainEvent
 export type DemandeComplèteRaccordementModifiéeEventV0 = DomainEvent<
   'DemandeComplèteRaccordementModifiée',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
     dateQualification: string;
-    referenceActuelle: string;
-    nouvelleReference: string;
+    referenceActuelle: RawRéférenceDossierRaccordement;
+    nouvelleReference: RawRéférenceDossierRaccordement;
   }
 >;
 
@@ -35,8 +38,8 @@ export type DemandeComplèteRaccordementModifiéeEventV0 = DomainEvent<
 export type DemandeComplèteRaccordementModifiéeEventV1 = DomainEvent<
   'DemandeComplèteRaccordementModifiée-V1',
   {
-    identifiantProjet: string;
-    référenceDossierRaccordement: string;
+    identifiantProjet: RawIdentifiantProjet;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
     dateQualification: string;
   }
 >;
@@ -44,18 +47,18 @@ export type DemandeComplèteRaccordementModifiéeEventV1 = DomainEvent<
 export type RéférenceDossierRacordementModifiéeEventV1 = DomainEvent<
   'RéférenceDossierRacordementModifiée-V1',
   {
-    identifiantProjet: string;
-    référenceDossierRaccordementActuelle: string;
-    nouvelleRéférenceDossierRaccordement: string;
+    identifiantProjet: RawIdentifiantProjet;
+    référenceDossierRaccordementActuelle: RawRéférenceDossierRaccordement;
+    nouvelleRéférenceDossierRaccordement: RawRéférenceDossierRaccordement;
   }
 >;
 
 export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
     dateSignature: string;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
   }
 >;
 
@@ -63,18 +66,18 @@ export type DateMiseEnServiceTransmiseEvent = DomainEvent<
   'DateMiseEnServiceTransmise',
   {
     dateMiseEnService: string;
-    référenceDossierRaccordement: string;
-    identifiantProjet: string;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
+    identifiantProjet: RawIdentifiantProjet;
   }
 >;
 
 export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
   'DemandeComplèteDeRaccordementTransmise',
   {
-    identifiantProjet: string;
-    identifiantGestionnaireRéseau: string;
+    identifiantProjet: RawIdentifiantProjet;
+    identifiantGestionnaireRéseau: RawIdentifiantGestionnaireRéseau;
     dateQualification?: string;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
   }
 >;
 
@@ -82,8 +85,8 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise',
   {
     dateSignature: string;
-    référenceDossierRaccordement: string;
-    identifiantProjet: string;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
+    identifiantProjet: RawIdentifiantProjet;
   }
 >;
 

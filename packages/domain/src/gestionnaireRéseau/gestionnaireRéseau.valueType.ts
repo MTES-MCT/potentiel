@@ -12,17 +12,20 @@ export type IdentifiantGestionnaireRéseauValueType = IdentifiantGestionnaireRé
 export const convertirEnIdentifiantGestionnaireRéseau = (
   identifiantGestionnaireRéseau: string | IdentifiantGestionnaireRéseau,
 ): IdentifiantGestionnaireRéseauValueType => {
+  const codeEIC = estUnIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
+    ? identifiantGestionnaireRéseau.codeEIC
+    : identifiantGestionnaireRéseau;
+
   return {
-    codeEIC:
-      typeof identifiantGestionnaireRéseau === 'string'
-        ? identifiantGestionnaireRéseau
-        : identifiantGestionnaireRéseau.codeEIC,
+    codeEIC,
     formatter() {
       return this.codeEIC;
     },
   };
 };
 
-// export const estUnIdentifiantGestionnaireRéseau = (value: any): value is IdentifiantGestionnaireRéseau => {
-//   return value.codeEIC && typeof value.codeEIC === 'string';
-// }
+export const estUnIdentifiantGestionnaireRéseau = (
+  value: any,
+): value is IdentifiantGestionnaireRéseau => {
+  return typeof value.codeEIC === 'string';
+};

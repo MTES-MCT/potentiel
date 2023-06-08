@@ -14,31 +14,37 @@ export type IdentifiantProjetValueType = IdentifiantProjet & {
 };
 
 export const convertirEnIdentifiantProjet = (
-  identifiantProjet: string | IdentifiantProjet,
+  identifiantProjet: RawIdentifiantProjet | IdentifiantProjet,
 ): IdentifiantProjetValueType => {
-  if (typeof identifiantProjet === 'string') {
-    const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
+  // TODO: ajout validation
+  return {
+    ...(estUnIdentifiantProjet(identifiantProjet)
+      ? identifiantProjet
+      : convertirRawIdentifiantProjet(identifiantProjet)),
+    formatter() {
+      return `${this.appelOffre}#${this.période}#${isNone(this.famille) ? '' : this.famille}#${
+        this.numéroCRE
+      }`;
+    },
+  };
+};
 
-    return {
-      appelOffre,
-      période,
-      famille: !famille ? none : famille,
-      numéroCRE,
-      formatter() {
-        return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
-      },
-    };
-  }
-
-  const { appelOffre, famille, numéroCRE, période } = identifiantProjet;
+const convertirRawIdentifiantProjet = (rawIdentifiant: RawIdentifiantProjet): IdentifiantProjet => {
+  const [appelOffre, période, famille, numéroCRE] = rawIdentifiant.split('#');
 
   return {
     appelOffre,
-    famille,
-    numéroCRE,
     période,
-    formatter() {
-      return `${appelOffre}#${période}#${isNone(famille) ? '' : famille}#${numéroCRE}`;
-    },
+    famille: !famille ? none : famille,
+    numéroCRE,
   };
+};
+
+export const estUnIdentifiantProjet = (value: any): value is IdentifiantProjet => {
+  return (
+    typeof value.appelOffre === 'string' &&
+    typeof value.numéroCRE === 'string' &&
+    typeof value.période === 'string' &&
+    (value.famille === none || typeof value.famille === 'string')
+  );
 };
