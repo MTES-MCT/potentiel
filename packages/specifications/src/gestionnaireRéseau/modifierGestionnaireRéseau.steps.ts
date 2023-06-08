@@ -1,12 +1,15 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import {
-  buildConsulterGestionnaireRéseauUseCase,
-  buildListerGestionnaireRéseauUseCase,
-  buildModifierGestionnaireRéseauUseCase,
-  GestionnaireRéseauReadModel,
-} from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
+import {
+  GestionnaireRéseauUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
+} from '@potentiel/domain';
+import {
+  ConsulterGestionnaireRéseauQuery,
+  GestionnaireRéseauReadModel,
+  ListerGestionnaireRéseauQuery,
+} from '@potentiel/domain-views';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
@@ -28,17 +31,20 @@ Quand(
     this.gestionnaireRéseauWorld.format = example['Format'];
     this.gestionnaireRéseauWorld.expressionReguliere = example['Expression régulière'];
 
-    const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauUseCase({
-      identifiantGestionnaireRéseau: { codeEIC: this.gestionnaireRéseauWorld.codeEIC },
-      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        format: this.gestionnaireRéseauWorld.format,
-        légende: this.gestionnaireRéseauWorld.légende,
-        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
+    await mediator.send<GestionnaireRéseauUseCase>({
+      type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+      data: {
+        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+          this.gestionnaireRéseauWorld.codeEIC,
+        ),
+        raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: this.gestionnaireRéseauWorld.format,
+          légende: this.gestionnaireRéseauWorld.légende,
+          expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
+        },
       },
     });
-
-    await mediator.send(modifierGestionnaireRéseauCommand);
   },
 );
 
@@ -46,17 +52,19 @@ Quand(
   'un administrateur modifie un gestionnaire de réseau inconnu',
   async function (this: PotentielWorld) {
     try {
-      const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauUseCase({
-        identifiantGestionnaireRéseau: { codeEIC: 'Code EIC inconnu' },
-        raisonSociale: 'RTE',
-        aideSaisieRéférenceDossierRaccordement: {
-          format: 'AAA-BBB',
-          légende: 'des lettres séparées par un tiret',
-          expressionReguliere: '.',
+      await mediator.send<GestionnaireRéseauUseCase>({
+        type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+        data: {
+          identifiantGestionnaireRéseau:
+            convertirEnIdentifiantGestionnaireRéseau('Code EIC inconnu'),
+          raisonSociale: 'RTE',
+          aideSaisieRéférenceDossierRaccordement: {
+            format: 'AAA-BBB',
+            légende: 'des lettres séparées par un tiret',
+            expressionReguliere: '.',
+          },
         },
       });
-
-      await mediator.send(modifierGestionnaireRéseauCommand);
     } catch (error) {
       this.error = error as Error;
     }
@@ -77,7 +85,11 @@ Alors(
       },
     };
 
-    const actual = await mediator.send(buildListerGestionnaireRéseauUseCase({}));
+    const actual = await mediator.send<ListerGestionnaireRéseauQuery>({
+      type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      data: {},
+    });
+
     actual.should.deep.contain(expected);
   },
 );
@@ -96,11 +108,12 @@ Alors(
       },
     };
 
-    const query = buildConsulterGestionnaireRéseauUseCase({
-      identifiantGestionnaireRéseau: { codeEIC: this.gestionnaireRéseauWorld.codeEIC },
+    const actual = await mediator.send<ConsulterGestionnaireRéseauQuery>({
+      type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      data: {
+        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      },
     });
-
-    const actual = await mediator.send(query);
 
     actual.should.be.deep.equal(expected);
   },

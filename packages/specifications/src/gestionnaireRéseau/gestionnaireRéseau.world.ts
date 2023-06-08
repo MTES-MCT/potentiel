@@ -1,9 +1,10 @@
-import {
-  GestionnaireRéseauReadModel,
-  buildAjouterGestionnaireRéseauUseCase,
-} from '@potentiel/domain';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 import { sleep } from '../helpers/sleep';
 import { mediator } from 'mediateur';
+import {
+  GestionnaireRéseauUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
+} from '@potentiel/domain';
 
 export class GestionnaireRéseauWorld {
   #codeEIC!: string;
@@ -91,17 +92,18 @@ export class GestionnaireRéseauWorld {
     raisonSociale: string,
     expressionReguliere: string = '.',
   ) {
-    const command = buildAjouterGestionnaireRéseauUseCase({
-      codeEIC,
-      raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        format: '',
-        légende: '',
-        expressionReguliere,
+    await mediator.send<GestionnaireRéseauUseCase>({
+      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+      data: {
+        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: '',
+          légende: '',
+          expressionReguliere,
+        },
       },
     });
-
-    await mediator.send(command);
     this.codeEIC = codeEIC;
     await sleep(100);
   }

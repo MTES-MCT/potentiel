@@ -15,6 +15,7 @@
   "dependencies": {
     "@potentiel/core-domain": "*",
     "@potentiel/domain": "*",
+    "@potentiel/domain-views": "*",
     "@potentiel/file-storage": "*",
     "@potentiel/infra-adapters": "*",
     "@potentiel/pg-event-sourcing": "*",
