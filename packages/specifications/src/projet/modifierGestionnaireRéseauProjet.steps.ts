@@ -1,8 +1,9 @@
 import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
-  buildConsulterProjetUseCase,
-  buildModifierGestionnaireRéseauProjetUseCase,
+  ProjetUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
+  convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
@@ -12,12 +13,13 @@ Quand(
   async function (this: PotentielWorld, codeEIC: string) {
     await this.gestionnaireRéseauWorld.createGestionnaireRéseau(codeEIC, 'uneRaisonSociale');
 
-    await mediator.send(
-      buildModifierGestionnaireRéseauProjetUseCase({
-        identifiantProjet: this.projetWorld.identifiantProjet,
-        identifiantGestionnaireRéseau: { codeEIC },
-      }),
-    );
+    await mediator.send<ProjetUseCase>({
+      type: 'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
+      data: {
+        identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
+        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
+      },
+    });
   },
 );
 

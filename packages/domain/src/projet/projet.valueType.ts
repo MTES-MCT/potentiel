@@ -1,23 +1,41 @@
+import { Option, isNone, none } from '@potentiel/monads';
+
 export type RawIdentifiantProjet = `${string}#${string}#${string}#${string}`;
 
 export type IdentifiantProjet = {
   appelOffre: string;
   période: string;
-  famille?: string;
+  famille: Option<string>;
   numéroCRE: string;
   formatter: () => RawIdentifiantProjet;
 };
 
-export const convertirEnIdentifiantProjet = (identifiantProjet: string): IdentifiantProjet => {
-  const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
+export const convertirEnIdentifiantProjet = (
+  identifiantProjet: string | Omit<IdentifiantProjet, 'formatter'>,
+): IdentifiantProjet => {
+  if (typeof identifiantProjet === 'string') {
+    const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
+
+    return {
+      appelOffre,
+      période,
+      famille: !famille ? none : famille,
+      numéroCRE,
+      formatter() {
+        return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
+      },
+    };
+  }
+
+  const { appelOffre, famille, numéroCRE, période } = identifiantProjet;
 
   return {
     appelOffre,
-    période,
     famille,
     numéroCRE,
+    période,
     formatter() {
-      return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
+      return `${appelOffre}#${période}#${isNone(famille) ? '' : famille}#${numéroCRE}`;
     },
   };
 };
