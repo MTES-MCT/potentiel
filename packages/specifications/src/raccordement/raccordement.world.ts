@@ -1,8 +1,10 @@
 import {
   IdentifiantProjet,
   PropositionTechniqueEtFinancièreSignée,
-  buildTransmettreDemandeComplèteRaccordementUseCase,
-  buildTransmettrePropositionTechniqueEtFinancièreUseCase,
+  DomainUseCase,
+  convertirEnRéférenceDossierRaccordement,
+  convertirEnIdentifiantProjet,
+  convertirEnIdentifiantGestionnaireRéseau,
 } from '@potentiel/domain';
 import { none } from '@potentiel/monads';
 import { mediator } from 'mediateur';
@@ -106,26 +108,29 @@ export class RaccordementWorld {
         encoding: 'utf8',
       }),
     };
-    this.#propositionTechniqueEtFinancièreSignée = {
-      dateSignature: new Date('2023-01-01'),
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un fichier PTF", {
-        encoding: 'utf8',
-      }),
-    };
+    (this.#dateSignature = new Date('2023-01-01')),
+      (this.#propositionTechniqueEtFinancièreSignée = {
+        format: 'application/pdf',
+        content: Readable.from("Contenu d'un fichier PTF", {
+          encoding: 'utf8',
+        }),
+      });
   }
 
   async createDemandeComplèteRaccordement(codeEIC: string, référenceDossierRaccordement: string) {
     const dateQualification = new Date();
-    await mediator.send(
-      buildTransmettreDemandeComplèteRaccordementUseCase({
-        référenceDossierRaccordement,
-        nouvelAccuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
-        identifiantGestionnaireRéseau: { codeEIC },
-        identifiantProjet: this.identifiantProjet,
+    await mediator.send<DomainUseCase>({
+      type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+      data: {
+        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+          référenceDossierRaccordement,
+        ),
+        accuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
+        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
+        identifiantProjet: convertirEnIdentifiantProjet(this.identifiantProjet),
         dateQualification,
-      }),
-    );
+      },
+    });
 
     this.#référenceDossierRaccordement = référenceDossierRaccordement;
     this.#ancienneRéférenceDossierRaccordement = référenceDossierRaccordement;
@@ -135,17 +140,20 @@ export class RaccordementWorld {
   async createPropositionTechniqueEtFinancière() {
     const référenceDossierRaccordement = 'XXX-RP-2021-999999';
 
-    await mediator.send(
-      buildTransmettrePropositionTechniqueEtFinancièreUseCase({
-        référenceDossierRaccordement,
-        nouvellePropositionTechniqueEtFinancière: {
+    await mediator.send<DomainUseCase>({
+      type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+      data: {
+        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+          référenceDossierRaccordement,
+        ),
+        propositionTechniqueEtFinancièreSignée: {
           format: this.propositionTechniqueEtFinancièreSignée.format,
           content: this.propositionTechniqueEtFinancièreSignée.content,
         },
-        identifiantProjet: this.identifiantProjet,
-        dateSignature: this.propositionTechniqueEtFinancièreSignée.dateSignature,
-      }),
-    );
+        identifiantProjet: convertirEnIdentifiantProjet(this.identifiantProjet),
+        dateSignature: this.dateSignature,
+      },
+    });
 
     this.#référenceDossierRaccordement = référenceDossierRaccordement;
   }

@@ -12,7 +12,7 @@ export type DomainDependencies = {
   raccordement: Omit<RaccordementDependencies, keyof DomainDependencies['common']>;
 };
 
-type UnsetupDomain = () => Promise<void>;
+export type UnsetupDomain = () => Promise<void>;
 
 export const setupDomain = ({ common, raccordement }: DomainDependencies): UnsetupDomain => {
   const unsubscribes = [

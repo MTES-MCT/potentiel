@@ -1,6 +1,6 @@
-import { AjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase';
-import { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
+import { AjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
+import { ModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
 
-export type GestionnaireRéseauUseCase =
-  | AjouterGestionnaireRéseauUseCase
-  | ModifierGestionnaireRéseauUseCase;
+export type GestionnaireRéseauCommand =
+  | AjouterGestionnaireRéseauCommand
+  | ModifierGestionnaireRéseauCommand;

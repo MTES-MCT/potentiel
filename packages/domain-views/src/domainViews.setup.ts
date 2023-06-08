@@ -20,7 +20,7 @@ type DomainViewsDependencies = {
   raccordement: Omit<RaccordementDependencies, keyof DomainViewsDependencies['common']>;
 };
 
-type UnsetupDomainViews = () => Promise<void>;
+export type UnsetupDomainViews = () => Promise<void>;
 
 export const setupDomainViews = ({
   common,

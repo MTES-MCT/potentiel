@@ -1,10 +1,7 @@
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 import { sleep } from '../helpers/sleep';
 import { mediator } from 'mediateur';
-import {
-  GestionnaireRéseauUseCase,
-  convertirEnIdentifiantGestionnaireRéseau,
-} from '@potentiel/domain';
+import { DomainUseCase, convertirEnIdentifiantGestionnaireRéseau } from '@potentiel/domain';
 
 export class GestionnaireRéseauWorld {
   #codeEIC!: string;
@@ -92,7 +89,7 @@ export class GestionnaireRéseauWorld {
     raisonSociale: string,
     expressionReguliere: string = '.',
   ) {
-    await mediator.send<GestionnaireRéseauUseCase>({
+    await mediator.send<DomainUseCase>({
       type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
       data: {
         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
