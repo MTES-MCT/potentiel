@@ -111,7 +111,7 @@ Alors(
     const actual = await mediator.send<ConsulterGestionnaireRéseauQuery>({
       type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
       data: {
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+        identifiantGestionnaireRéseau: this.gestionnaireRéseauWorld.codeEIC,
       },
     });
 

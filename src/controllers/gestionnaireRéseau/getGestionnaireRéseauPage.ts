@@ -32,7 +32,7 @@ v1Router.get(
       const gestionnaireRéseau = await mediator.send<ConsulterGestionnaireRéseauQuery>({
         type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
         data: {
-          codeEIC,
+          identifiantGestionnaireRéseau: codeEIC,
         },
       });
 

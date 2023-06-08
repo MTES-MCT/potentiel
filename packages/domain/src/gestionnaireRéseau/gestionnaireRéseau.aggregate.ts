@@ -1,12 +1,14 @@
 import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
-import { IdentifiantGestionnaireRéseau } from './gestionnaireRéseau.valueType';
+import {
+  IdentifiantGestionnaireRéseauValueType,
+} from './gestionnaireRéseau.valueType';
 import { RéférenceDossierRaccordement } from '../raccordement/raccordement.valueType';
 
 type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
 
 export const createGestionnaireRéseauAggregateId = (
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau,
+  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType,
 ): GestionnaireRéseauAggregateId =>
   `gestionnaire-réseau#${identifiantGestionnaireRéseau.formatter()}`;
 
@@ -70,7 +72,7 @@ type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 export const loadGestionnaireRéseauAggregateFactory = ({
   loadAggregate,
 }: LoadAggregateFactoryDependencies) => {
-  return async (identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau) => {
+  return async (identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType) => {
     return loadAggregate<GestionnaireRéseau, GestionnaireRéseauEvent>(
       createGestionnaireRéseauAggregateId(identifiantGestionnaireRéseau),
       gestionnaireRéseauAggregateFactory,

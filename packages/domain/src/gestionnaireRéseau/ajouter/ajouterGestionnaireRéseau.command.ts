@@ -7,12 +7,12 @@ import {
 } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseau.error';
 import { GestionnaireRéseauAjoutéEvent } from '../gestionnaireRéseau.event';
-import { IdentifiantGestionnaireRéseau } from '../gestionnaireRéseau.valueType';
+import { IdentifiantGestionnaireRéseauValueType } from '../gestionnaireRéseau.valueType';
 
 export type AjouterGestionnaireRéseauCommand = Message<
   'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
   {
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: {
       format: string;

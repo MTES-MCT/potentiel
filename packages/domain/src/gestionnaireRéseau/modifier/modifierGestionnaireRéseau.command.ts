@@ -5,14 +5,14 @@ import {
   createGestionnaireRéseauAggregateId,
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau.aggregate';
-import { IdentifiantGestionnaireRéseau } from '../gestionnaireRéseau.valueType';
+import { IdentifiantGestionnaireRéseauValueType } from '../gestionnaireRéseau.valueType';
 import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseau.error';
 import { GestionnaireRéseauModifiéEvent } from '../gestionnaireRéseau.event';
 
 export type ModifierGestionnaireRéseauCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU',
   {
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
