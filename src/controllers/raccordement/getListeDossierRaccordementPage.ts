@@ -19,11 +19,14 @@ import {
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
+  estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 
 const schema = yup.object({
-  params: yup.object({ identifiantProjet: yup.string().required() }),
+  params: yup.object({
+    identifiantProjet: yup.string().required(),
+  }),
 });
 
 v1Router.get(
@@ -40,6 +43,10 @@ v1Router.get(
         user,
         params: { identifiantProjet },
       } = request;
+
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
@@ -160,11 +167,11 @@ v1Router.get(
 
       if (userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user)) {
         return response.redirect(
-          routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId),
+          routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet),
         );
       }
 
-      return response.redirect(routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(projetId));
+      return response.redirect(routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(identifiantProjet));
     },
   ),
 );

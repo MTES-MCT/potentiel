@@ -48,3 +48,14 @@ export const estUnIdentifiantProjet = (value: any): value is IdentifiantProjet =
     (value.famille === none || typeof value.famille === 'string')
   );
 };
+
+export const estUnRawIdentifiantProjet = (value: string): value is RawIdentifiantProjet => {
+  const [appelOffre, période, famille, numéroCRE] = value.split('#');
+
+  return (
+    typeof appelOffre === 'string' &&
+    typeof numéroCRE === 'string' &&
+    typeof période === 'string' &&
+    typeof famille === 'string'
+  );
+};
