@@ -6,6 +6,16 @@
         <div>
           <#if realm.password>
             <form id="kc-form-login" class="${properties.kcFormClass!}" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
+              <#if realm.registrationAllowed && !registrationDisabled??>
+                <div id="kc-registration-container" class="mb-8">
+                  <div id="kc-registration">
+                    <span>
+                      ${msg("noAccount")}
+                      <a tabindex="6" href="${properties.potentielUrl}/signup.html">Je crée mon compte Potentiel</a>
+                    </span>
+                  </div>
+                </div>
+              </#if>
               <#if message?has_content>
                 <#if message.type=='error'>
                   <div class="${properties.kcAlertClass!} ${properties.kcAlertErrorClass!}">
@@ -67,16 +77,6 @@
                   <a tabindex="5" href="${url.loginResetCredentialsUrl}">Mot de passe oublié</a>
                 </#if>
               </div>
-              <#if realm.password && realm.registrationAllowed && !registrationDisabled??>
-                <div id="kc-registration-container" class="my-8">
-                  <div id="kc-registration">
-                    <span>
-                      ${msg("noAccount")}
-                      <a tabindex="6" href="${properties.potentielUrl}/signup.html">Je crée mon compte Potentiel</a>
-                    </span>
-                  </div>
-                </div>
-              </#if>
             </form>
           </#if>
         </div>

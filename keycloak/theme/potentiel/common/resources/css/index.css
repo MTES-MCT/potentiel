@@ -1,16 +1,5 @@
-/*TAILWIND LIKE CLASSES
-
-xl:mx-auto 
-xl:max-w-7xl
-flex-row 
-px-2 
-pb-1 
-lg:p-4 
-items-center
-text-black
-bg-none
-lg:mb-1
-
+/*
+A AJouter
 */
 
 /*
@@ -26,9 +15,30 @@ a[href]:hover {
   -webkit-mask-image: url('../icons/system/external-link-line.svg') !important;
 }
 
+.fr-alert--error:before,
+.fr-error-text:before {
+  -webkit-mask-image: url('../icons/system/fr--error-fill.svg');
+  mask-image: url('../icons/system/fr--error-fill.svg');
+}
+
+.fr-alert--warning:before {
+  -webkit-mask-image: url('../icons/system/fr--warning-fill.svg');
+  mask-image: url('../icons/system/fr--warning-fill.svg');
+}
+
+.fr-alert--success:before {
+  -webkit-mask-image: url('../icons/system/fr--success-fill.svg');
+  mask-image: url('../icons/system/fr--success-fill.svg');
+}
+
 /*
 * CUSTOM
 */
+
+/* Text */
+.text-black {
+  color: black;
+}
 
 /* Sizing */
 .max-w-xl {
@@ -73,6 +83,22 @@ a[href]:hover {
   margin-top: 2rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -88,6 +114,15 @@ a[href]:hover {
   margin-bottom: 2rem;
 }
 
+.pb-1 {
+  padding-bottom: 0.25rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .px-5 {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
@@ -97,6 +132,24 @@ a[href]:hover {
   .lg\:px-0 {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .lg\:p-4 {
+    padding: 1rem;
+  }
+
+  .lg\:mb-1 {
+    margin-bottom: 0.25rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .xl\:max-w-7xl {
+    max-width: 80rem;
   }
 }
 
