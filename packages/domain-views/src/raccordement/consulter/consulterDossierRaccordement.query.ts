@@ -1,18 +1,25 @@
 import { NotFoundError } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { DossierRaccordementReadModel } from '../raccordement.readModel';
 import {
-  IdentifiantProjetValueType,
-  RéférenceDossierRaccordementValueType,
+  DossierRaccordementReadModel,
+  DossierRaccordementReadModelKey,
+} from '../raccordement.readModel';
+import {
+  IdentifiantProjet,
+  RéférenceDossierRaccordement,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+  estUnIdentifiantProjet,
+  estUneRéférenceDossierRaccordement,
 } from '@potentiel/domain';
 import { Find } from '../../common.port';
 
 export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
+    identifiantProjet: IdentifiantProjet;
+    référenceDossierRaccordement: RéférenceDossierRaccordement;
   },
   DossierRaccordementReadModel
 >;
@@ -26,11 +33,18 @@ export const registerConsulterDossierRaccordementQuery = ({
 }: ConsulterDossierRaccordementDependencies) => {
   const queryHandler: MessageHandler<ConsulterDossierRaccordementQuery> = async ({
     identifiantProjet,
-    référenceDossierRaccordement: référence,
+    référenceDossierRaccordement,
   }) => {
-    const result = await find<DossierRaccordementReadModel>(
-      `dossier-raccordement#${identifiantProjet.formatter()}#${référence.formatter()}`,
-    );
+    const rawIdentifiantProjet = estUnIdentifiantProjet(identifiantProjet)
+      ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
+      : identifiantProjet;
+    const rawRéférenceDossierRaccordement = estUneRéférenceDossierRaccordement(
+      référenceDossierRaccordement,
+    )
+      ? convertirEnRéférenceDossierRaccordement(référenceDossierRaccordement).formatter()
+      : référenceDossierRaccordement;
+    const key: DossierRaccordementReadModelKey = `dossier-raccordement#${rawIdentifiantProjet}#${rawRéférenceDossierRaccordement}`;
+    const result = await find<DossierRaccordementReadModel>(key);
 
     if (isNone(result)) {
       throw new NotFoundError(`Le dossier de raccordement n'est pas référencé`);

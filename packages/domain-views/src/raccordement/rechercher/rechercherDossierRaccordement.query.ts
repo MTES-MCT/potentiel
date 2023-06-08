@@ -4,6 +4,7 @@ import {
   RésultatRechercheDossierRaccordementReadModel,
 } from '../raccordement.readModel';
 import {
+  RawIdentifiantProjet,
   RéférenceDossierRaccordementValueType,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
@@ -32,7 +33,7 @@ export const registerRechercherDossierRaccordementQuery = ({
     );
 
     return result.map(({ key }) => {
-      const identifiantProjet = convertirEnIdentifiantProjet(key);
+      const identifiantProjet = convertirEnIdentifiantProjet(key as RawIdentifiantProjet);
 
       return {
         type: 'résultat-recherche-dossier-raccordement',

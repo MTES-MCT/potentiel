@@ -3,12 +3,14 @@ import { NotFoundError } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import {
   GestionnaireRéseauReadModel,
+  GestionnaireRéseauReadModelKey,
 } from '../gestionnaireRéseau.readModel';
 import { Find } from '../../common.port';
 import {
   IdentifiantGestionnaireRéseau,
   RawIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantGestionnaireRéseau,
+  estUnIdentifiantGestionnaireRéseau,
 } from '@potentiel/domain';
 
 export type ConsulterGestionnaireRéseauQuery = Message<
@@ -29,12 +31,13 @@ export const registerConsulterGestionnaireRéseauQuery = ({
   const handler: MessageHandler<ConsulterGestionnaireRéseauQuery> = async ({
     identifiantGestionnaireRéseau,
   }) => {
-    const identifiantFormatté = convertirEnIdentifiantGestionnaireRéseau(
+    const rawIdentifiantGestionnaireRéseau = estUnIdentifiantGestionnaireRéseau(
       identifiantGestionnaireRéseau,
-    ).formatter();
-    const result = await find<GestionnaireRéseauReadModel>(
-      `gestionnaire-réseau#${identifiantFormatté}`,
-    );
+    )
+      ? convertirEnIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau).formatter()
+      : identifiantGestionnaireRéseau;
+    const key: GestionnaireRéseauReadModelKey = `gestionnaire-réseau#${rawIdentifiantGestionnaireRéseau}`;
+    const result = await find<GestionnaireRéseauReadModel>(key);
 
     if (isNone(result)) {
       throw new NotFoundError(`Le gestionnaire de réseau n'est pas référencé`);

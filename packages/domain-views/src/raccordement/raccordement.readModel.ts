@@ -1,6 +1,13 @@
 import { ReadModel } from '@potentiel/core-domain';
-import { IdentifiantProjetValueType } from '@potentiel/domain';
+import {
+  IdentifiantProjetValueType,
+  RawIdentifiantProjet,
+  RawRéférenceDossierRaccordement,
+} from '@potentiel/domain';
 import { Readable } from 'stream';
+
+export type DossierRaccordementReadModelKey =
+  `dossier-raccordement#${RawIdentifiantProjet}#${RawRéférenceDossierRaccordement}`;
 
 export type DossierRaccordementReadModel = ReadModel<
   'dossier-raccordement',

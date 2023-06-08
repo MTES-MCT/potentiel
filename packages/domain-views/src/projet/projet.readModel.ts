@@ -1,6 +1,7 @@
 import { ReadModel } from '@potentiel/core-domain';
+import { RawIdentifiantProjet } from '@potentiel/domain';
 
-export type ProjetReadModelKey = `projet#${string}#${string}#${string}#${string}`;
+export type ProjetReadModelKey = `projet#${RawIdentifiantProjet}`;
 
 export type ProjetReadModel = ReadModel<
   'projet',

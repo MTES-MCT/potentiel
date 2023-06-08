@@ -6,6 +6,7 @@ import {
   IdentifiantProjet,
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
+  estUnIdentifiantProjet,
 } from '@potentiel/domain';
 
 export type ConsulterProjetQuery = Message<
@@ -22,8 +23,10 @@ export type ConsulterProjetDependencies = {
 
 export const registerConsulterProjetQuery = ({ find }: ConsulterProjetDependencies) => {
   const queryHandler: MessageHandler<ConsulterProjetQuery> = async ({ identifiantProjet }) => {
-    const identifiantProjetFormatté = convertirEnIdentifiantProjet(identifiantProjet).formatter();
-    const key: ProjetReadModelKey = `projet#${identifiantProjetFormatté}`;
+    const rawIdentifiantProjet = estUnIdentifiantProjet(identifiantProjet)
+      ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
+      : identifiantProjet;
+    const key: ProjetReadModelKey = `projet#${rawIdentifiantProjet}`;
     const result = await find<ProjetReadModel>(key);
 
     if (isNone(result)) {

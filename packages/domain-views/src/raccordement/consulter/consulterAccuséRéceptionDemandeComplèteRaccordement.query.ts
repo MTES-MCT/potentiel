@@ -1,4 +1,13 @@
-import { IdentifiantProjetValueType } from '@potentiel/domain';
+import {
+  IdentifiantProjet,
+  RawIdentifiantProjet,
+  RawRéférenceDossierRaccordement,
+  RéférenceDossierRaccordement,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+  estUnIdentifiantProjet,
+  estUneRéférenceDossierRaccordement,
+} from '@potentiel/domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { AccuséRéceptionDemandeComplèteRaccordementReadModel } from '../raccordement.readModel';
 import { RécupérerAccuséRéceptionDemandeComplèteRaccordementPort } from '../raccordement.ports';
@@ -10,8 +19,8 @@ export type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies =
 export type ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery = Message<
   'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    référenceDossierRaccordement: string;
+    identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement | RéférenceDossierRaccordement;
     format: string;
   },
   AccuséRéceptionDemandeComplèteRaccordementReadModel | undefined
@@ -25,10 +34,18 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
     référenceDossierRaccordement,
     format,
   }) => {
+    const rawIdentifiantProjet = estUnIdentifiantProjet(identifiantProjet)
+      ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
+      : identifiantProjet;
+    const rawRéférenceDossierRaccordement = estUneRéférenceDossierRaccordement(
+      référenceDossierRaccordement,
+    )
+      ? convertirEnRéférenceDossierRaccordement(référenceDossierRaccordement).formatter()
+      : référenceDossierRaccordement;
     const content = await récupérerAccuséRéceptionDemandeComplèteRaccordement({
       type: 'demande-complete-raccordement',
-      identifiantProjet: identifiantProjet.formatter(),
-      référenceDossierRaccordement,
+      identifiantProjet: rawIdentifiantProjet,
+      référenceDossierRaccordement: rawRéférenceDossierRaccordement,
       format,
     });
 

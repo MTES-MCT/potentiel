@@ -1,4 +1,13 @@
-import { IdentifiantProjetValueType } from '@potentiel/domain';
+import {
+  IdentifiantProjet,
+  RawIdentifiantProjet,
+  RawRéférenceDossierRaccordement,
+  RéférenceDossierRaccordement,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+  estUnIdentifiantProjet,
+  estUneRéférenceDossierRaccordement,
+} from '@potentiel/domain';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { PropositionTechniqueEtFinancièreSignéeReadModel } from '../raccordement.readModel';
 import { RécupérerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
@@ -10,8 +19,8 @@ export type ConsulterPropositionTechniqueEtFinancièreSignéeDependencies = {
 export type ConsulterPropositionTechniqueEtFinancièreSignéeQuery = Message<
   'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    référenceDossierRaccordement: string;
+    identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement | RéférenceDossierRaccordement;
     format: string;
   },
   PropositionTechniqueEtFinancièreSignéeReadModel | undefined
@@ -25,10 +34,19 @@ export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
     référenceDossierRaccordement,
     format,
   }) => {
+    const rawIdentifiantProjet = estUnIdentifiantProjet(identifiantProjet)
+      ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
+      : identifiantProjet;
+    const rawRéférenceDossierRaccordement = estUneRéférenceDossierRaccordement(
+      référenceDossierRaccordement,
+    )
+      ? convertirEnRéférenceDossierRaccordement(référenceDossierRaccordement).formatter()
+      : référenceDossierRaccordement;
+
     const content = await récupérerPropositionTechniqueEtFinancièreSignée({
       type: 'proposition-technique-et-financiere',
-      référenceDossierRaccordement,
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantProjet: rawIdentifiantProjet,
+      référenceDossierRaccordement: rawRéférenceDossierRaccordement,
       format,
     });
 

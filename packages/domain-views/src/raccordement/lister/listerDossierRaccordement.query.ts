@@ -1,4 +1,9 @@
-import { IdentifiantProjetValueType } from '@potentiel/domain';
+import {
+  IdentifiantProjet,
+  RawIdentifiantProjet,
+  convertirEnIdentifiantProjet,
+  estUnIdentifiantProjet,
+} from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
 import { ListeDossiersRaccordementReadModel } from '../raccordement.readModel';
@@ -7,7 +12,7 @@ import { Find } from '../../common.port';
 export type ListerDossiersRaccordementQuery = Message<
   'LISTER_DOSSIER_RACCORDEMENT_QUERY',
   {
-    identifiantProjet: IdentifiantProjetValueType;
+    identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
   },
   ListeDossiersRaccordementReadModel
 >;
@@ -23,7 +28,11 @@ export const registerListerDossiersRaccordementQuery = ({
     identifiantProjet,
   }) => {
     const result = await find<ListeDossiersRaccordementReadModel>(
-      `liste-dossiers-raccordement#${identifiantProjet.formatter()}`,
+      `liste-dossiers-raccordement#${
+        estUnIdentifiantProjet(identifiantProjet)
+          ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
+          : identifiantProjet
+      }`,
     );
 
     if (isNone(result)) {
