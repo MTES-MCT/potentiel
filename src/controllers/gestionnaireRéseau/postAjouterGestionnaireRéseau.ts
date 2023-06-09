@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import {
-  GestionnaireRéseauUseCase,
+  DomainUseCase,
   PermissionAjouterGestionnaireRéseau,
   convertirEnIdentifiantGestionnaireRéseau,
 } from '@potentiel/domain';
@@ -50,7 +50,7 @@ v1Router.post(
       } = request.body;
 
       try {
-        await mediator.send<GestionnaireRéseauUseCase>({
+        await mediator.send<DomainUseCase>({
           type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
           data: {
             identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),

@@ -7,7 +7,7 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
-  GestionnaireRéseauUseCase,
+  DomainUseCase,
   PermissionModifierGestionnaireRéseau,
   convertirEnIdentifiantGestionnaireRéseau,
 } from '@potentiel/domain';
@@ -43,7 +43,7 @@ v1Router.post(
         params: { codeEIC },
       } = request;
       try {
-        await mediator.send<GestionnaireRéseauUseCase>({
+        await mediator.send<DomainUseCase>({
           type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
           data: {
             identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
