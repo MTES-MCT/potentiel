@@ -1,0 +1,41 @@
+a[href]:hover {
+  background: none;
+}
+
+.fr-enlarge-link:hover {
+  background-color: white;
+}
+
+[target='_blank']:after {
+  mask-image: url('../icons/system/external-link-line.svg') !important;
+  -webkit-mask-image: url('../icons/system/external-link-line.svg') !important;
+}
+
+.fr-alert--error:before,
+.fr-error-text:before {
+  -webkit-mask-image: url('../icons/system/fr--error-fill.svg');
+  mask-image: url('../icons/system/fr--error-fill.svg');
+}
+
+.fr-alert--warning:before {
+  -webkit-mask-image: url('../icons/system/fr--warning-fill.svg');
+  mask-image: url('../icons/system/fr--warning-fill.svg');
+}
+
+.fr-alert--success:before {
+  -webkit-mask-image: url('../icons/system/fr--success-fill.svg');
+  mask-image: url('../icons/system/fr--success-fill.svg');
+}
+
+.fr-header__navbar .fr-btn--menu:after,
+.fr-header__navbar .fr-btn--menu:before {
+  -webkit-mask-image: url('../icons/system/menu-fill.svg');
+  mask-image: url('../icons/system/menu-fill.svg');
+}
+
+.fr-btn--close::before,
+.fr-btn--close::after,
+.fr-link--close::after {
+  -webkit-mask-image: url('../icons/system/close-line.svg');
+  mask-image: url('../icons/system/close-line.svg');
+}

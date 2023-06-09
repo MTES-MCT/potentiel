@@ -12,16 +12,8 @@
               <link href="${url.resourcesCommonPath}/${style}" rel="stylesheet" />
           </#list>
       </#if>
-      <#if properties.styles?has_content>
-          <#list properties.styles?split(' ') as style>
-              <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
-          </#list>
-      </#if>
-      <#if properties.scriptsCommon?has_content>
-          <#list properties.scriptsCommon?split(' ') as script>
-              <script src="${url.resourcesCommonPath}/${script}" type="text/javascript"></script>
-          </#list>
-      </#if>
+      <script src="${url.resourcesCommonPath}/js/dsfr.module.min.js" type="module" defer></script>
+      <script src="${url.resourcesCommonPath}/js/dsfr.nomodule.min.js" type="text/javascript" defer></script>
       <meta name="theme-color" content="#000091" />
       <link rel="apple-touch-icon" href="${url.resourcesCommonPath}/favicon/apple-touch-icon.png" />
       <link rel="icon" href="${url.resourcesCommonPath}/favicon/favicon.svg" type="image/svg+xml" />
@@ -29,7 +21,6 @@
       <link rel="manifest" href="${url.resourcesCommonPath}/favicon/manifest.webmanifest" crossorigin="use-credentials" />
     </head>
     <body class="min-h-screen flex flex-col">
-      <#--  USE THIS ONE  -->
       <header role="banner" class="fr-header">
         <div class="fr-header__body">
           <div class="fr-container">
@@ -60,6 +51,17 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="fr-header__menu fr-modal" id="modal-499" aria-labelledby="button-500">
+          <div class="fr-container">
+              <button class="fr-btn--close fr-btn" aria-controls="modal-499" title="Fermer">
+                  Fermer
+              </button>
+              <div class="fr-header__menu-links">
+              </div>
+              <nav class="fr-nav" id="navigation-494" role="navigation" aria-label="Menu principal">
+              </nav>
           </div>
         </div>
       </header>

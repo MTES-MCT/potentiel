@@ -3,35 +3,6 @@ A AJouter
 */
 
 /*
-* SURCHARGE DSFR
-*/
-.fr-enlarge-link:hover,
-a[href]:hover {
-  background: none;
-}
-
-[target='_blank']:after {
-  mask-image: url('../icons/system/external-link-line.svg') !important;
-  -webkit-mask-image: url('../icons/system/external-link-line.svg') !important;
-}
-
-.fr-alert--error:before,
-.fr-error-text:before {
-  -webkit-mask-image: url('../icons/system/fr--error-fill.svg');
-  mask-image: url('../icons/system/fr--error-fill.svg');
-}
-
-.fr-alert--warning:before {
-  -webkit-mask-image: url('../icons/system/fr--warning-fill.svg');
-  mask-image: url('../icons/system/fr--warning-fill.svg');
-}
-
-.fr-alert--success:before {
-  -webkit-mask-image: url('../icons/system/fr--success-fill.svg');
-  mask-image: url('../icons/system/fr--success-fill.svg');
-}
-
-/*
 * CUSTOM
 */
 
