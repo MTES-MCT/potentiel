@@ -17,27 +17,27 @@ import {
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import routes from '@routes';
-import { RésuméProjetReadModel } from '@potentiel/domain';
+import { ConsulterProjetReadModel } from '@potentiel/domain-views';
 
 type ModifierPropositionTechniqueEtFinancièreProps = {
   user: UtilisateurReadModel;
-  résuméProjet: RésuméProjetReadModel;
+  projet: ConsulterProjetReadModel;
   reference: string;
   error?: string;
-  identifiantProjet: string;
   dateSignatureActuelle?: string;
   existingFile: boolean;
 };
 
 export const ModifierPropositionTechniqueEtFinancière = ({
   user,
-  résuméProjet,
+  projet,
   reference,
   error,
-  identifiantProjet,
   dateSignatureActuelle,
   existingFile,
 }: ModifierPropositionTechniqueEtFinancièreProps) => {
+  const { identifiantProjet } = projet;
+
   return (
     <PageProjetTemplate
       titre={
@@ -47,7 +47,7 @@ export const ModifierPropositionTechniqueEtFinancière = ({
         </>
       }
       user={user}
-      résuméProjet={résuméProjet}
+      résuméProjet={projet}
     >
       <div className="flex flex-col md:flex-row gap-4">
         <Form

@@ -1,6 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { NotFoundError } from '@potentiel/core-domain';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import {
   GestionnaireRéseauReadModel,
   GestionnaireRéseauReadModelKey,
@@ -18,7 +17,7 @@ export type ConsulterGestionnaireRéseauQuery = Message<
   {
     identifiantGestionnaireRéseau: RawIdentifiantGestionnaireRéseau | IdentifiantGestionnaireRéseau;
   },
-  GestionnaireRéseauReadModel
+  Option<GestionnaireRéseauReadModel>
 >;
 
 export type ConsulterGestionnaireRéseauDependencies = {
@@ -38,10 +37,6 @@ export const registerConsulterGestionnaireRéseauQuery = ({
       : identifiantGestionnaireRéseau;
     const key: GestionnaireRéseauReadModelKey = `gestionnaire-réseau#${rawIdentifiantGestionnaireRéseau}`;
     const result = await find<GestionnaireRéseauReadModel>(key);
-
-    if (isNone(result)) {
-      throw new NotFoundError(`Le gestionnaire de réseau n'est pas référencé`);
-    }
 
     return result;
   };

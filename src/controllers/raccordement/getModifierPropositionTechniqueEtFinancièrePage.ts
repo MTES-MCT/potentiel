@@ -9,13 +9,13 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { ModifierDemandeComplèteRaccordementPage } from '@views';
+import { ModifierPropositionTechniqueEtFinancièrePage } from '@views';
 import { mediator } from 'mediateur';
 import { isNone, none } from '@potentiel/monads';
 import {
+  ConsulterProjetQuery,
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauQuery,
-  ConsulterProjetQuery,
 } from '@potentiel/domain-views';
 
 const schema = yup.object({
@@ -26,7 +26,7 @@ const schema = yup.object({
 });
 
 v1Router.get(
-  routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(),
+  routes.GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(),
   vérifierPermissionUtilisateur(PermissionTransmettrePropositionTechniqueEtFinancière),
   safeAsyncHandler(
     {
@@ -96,14 +96,14 @@ v1Router.get(
       }
 
       return response.send(
-        ModifierDemandeComplèteRaccordementPage({
+        ModifierPropositionTechniqueEtFinancièrePage({
           user,
           projet,
           reference,
-          dateQualificationActuelle: dossierRaccordement.dateQualification,
+          dateSignatureActuelle:
+            dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature,
+          existingFile: !!dossierRaccordement.propositionTechniqueEtFinancière,
           error: error as string,
-          gestionnaireRéseauActuel,
-          existingFile: !!dossierRaccordement.accuséRéception,
         }),
       );
     },

@@ -1,5 +1,5 @@
 import {
-  PermissionTransmettrePropositionTechniqueEtFinancière,
+  PermissionTransmettreDateMiseEnService,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
@@ -9,25 +9,25 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { ModifierDemandeComplèteRaccordementPage } from '@views';
+import { TransmettreDateMiseEnServicePage } from '@views';
 import { mediator } from 'mediateur';
 import { isNone, none } from '@potentiel/monads';
 import {
+  ConsulterProjetQuery,
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauQuery,
-  ConsulterProjetQuery,
 } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
-    identifiantProjet: yup.string().required(),
+    projetId: yup.string().uuid().required(),
     reference: yup.string().required(),
   }),
 });
 
 v1Router.get(
-  routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(),
-  vérifierPermissionUtilisateur(PermissionTransmettrePropositionTechniqueEtFinancière),
+  routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(),
+  vérifierPermissionUtilisateur(PermissionTransmettreDateMiseEnService),
   safeAsyncHandler(
     {
       schema,
@@ -96,14 +96,12 @@ v1Router.get(
       }
 
       return response.send(
-        ModifierDemandeComplèteRaccordementPage({
+        TransmettreDateMiseEnServicePage({
           user,
           projet,
           reference,
-          dateQualificationActuelle: dossierRaccordement.dateQualification,
+          dateMiseEnServiceActuelle: dossierRaccordement?.dateMiseEnService,
           error: error as string,
-          gestionnaireRéseauActuel,
-          existingFile: !!dossierRaccordement.accuséRéception,
         }),
       );
     },

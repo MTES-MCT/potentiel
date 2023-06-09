@@ -9,19 +9,16 @@ import {
   ConsulterProjetQuery,
   ListerDossiersRaccordementQuery,
   PermissionConsulterDossierRaccordement,
-  RésuméProjetReadModel,
 } from '@potentiel/domain-views';
-import { Project } from '@infra/sequelize/projectionsNext';
 import { ListeDossiersRaccordementPage } from '@views';
 import { mediator } from 'mediateur';
 import { userIs } from '@modules/users';
 import {
-  convertirEnIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
-import { isNone, isSome } from '@potentiel/monads';
+import { isNone, none } from '@potentiel/monads';
 
 const schema = yup.object({
   params: yup.object({
@@ -50,36 +47,32 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await Project.findOne({
-        where: {
-          appelOffreId: identifiantProjetValueType.appelOffre,
-          periodeId: identifiantProjetValueType.période,
-          familleId: isSome(identifiantProjetValueType.famille) ?? undefined,
-          numeroCRE: identifiantProjetValueType.numéroCRE,
+      const projet = await mediator.send<ConsulterProjetQuery>({
+        type: 'CONSULTER_PROJET',
+        data: {
+          identifiantProjet: identifiantProjetValueType,
         },
-        attributes: [
-          'id',
-          'nomProjet',
-          'nomCandidat',
-          'communeProjet',
-          'regionProjet',
-          'departementProjet',
-          'periodeId',
-          'familleId',
-          'appelOffreId',
-          'numeroCRE',
-          'notifiedOn',
-          'abandonedOn',
-          'classe',
-        ],
       });
 
-      if (!projet) {
+      if (isNone(projet)) {
         return notFoundResponse({
           request,
           response,
           ressourceTitle: 'Projet',
         });
+      }
+
+      const gestionnaireRéseau = projet.identifiantGestionnaire
+        ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
+            type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+            data: {
+              identifiantGestionnaireRéseau: projet.identifiantGestionnaire,
+            },
+          })
+        : none;
+
+      if (isNone(gestionnaireRéseau)) {
+        return response.redirect(routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(identifiantProjet));
       }
 
       const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
@@ -88,20 +81,6 @@ v1Router.get(
       });
 
       if (références.length > 0) {
-        const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
-          if (!projet.notifiedOn) {
-            return 'non-notifié';
-          }
-          if (projet.abandonedOn !== 0) {
-            return 'abandonné';
-          }
-          if (projet.classe === 'Classé') {
-            return 'classé';
-          }
-
-          return 'éliminé';
-        };
-
         const dossiers = await Promise.all(
           références.map(async (référence) => {
             const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
@@ -124,41 +103,10 @@ v1Router.get(
           }),
         );
 
-        const { identifiantGestionnaire = { codeEIC: '' } } =
-          await mediator.send<ConsulterProjetQuery>({
-            type: 'CONSULTER_PROJET',
-            data: {
-              identifiantProjet: identifiantProjetValueType,
-            },
-          });
-
-        const gestionnaireRéseau = await mediator.send<ConsulterGestionnaireRéseauQuery>({
-          type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
-          data: {
-            identifiantGestionnaireRéseau:
-              convertirEnIdentifiantGestionnaireRéseau(identifiantGestionnaire),
-          },
-        });
-
         return response.send(
           ListeDossiersRaccordementPage({
             user,
-            identifiantProjet: identifiantProjetValueType.formatter(),
-            résuméProjet: {
-              type: 'résumé-projet',
-              identifiantProjet: identifiantProjetValueType.formatter(),
-              appelOffre: projet.appelOffreId,
-              période: projet.periodeId,
-              famille: projet.familleId,
-              numéroCRE: projet.numeroCRE,
-              statut: getStatutProjet(),
-              nom: projet.nomProjet,
-              localité: {
-                commune: projet.communeProjet,
-                département: projet.departementProjet,
-                région: projet.regionProjet,
-              },
-            },
+            projet,
             gestionnaireRéseau,
             dossiers,
           }),

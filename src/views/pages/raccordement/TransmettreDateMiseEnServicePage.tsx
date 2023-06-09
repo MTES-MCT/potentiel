@@ -15,12 +15,11 @@ import {
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import routes from '@routes';
-import { RésuméProjetReadModel } from '@potentiel/domain';
+import { ConsulterProjetReadModel } from '@potentiel/domain-views';
 
 type TransmettreDateMiseEnServiceProps = {
-  identifiantProjet: string;
   user: UtilisateurReadModel;
-  résuméProjet: RésuméProjetReadModel;
+  projet: ConsulterProjetReadModel;
   reference: string;
   error?: string;
   dateMiseEnServiceActuelle?: string;
@@ -30,10 +29,11 @@ export const TransmettreDateMiseEnService = ({
   user,
   reference,
   error,
-  résuméProjet,
-  identifiantProjet,
+  projet,
   dateMiseEnServiceActuelle,
 }: TransmettreDateMiseEnServiceProps) => {
+  const { identifiantProjet } = projet;
+
   return (
     <PageProjetTemplate
       titre={
@@ -43,7 +43,7 @@ export const TransmettreDateMiseEnService = ({
         </>
       }
       user={user}
-      résuméProjet={résuméProjet}
+      résuméProjet={projet}
     >
       <Heading2 className="mb-0">Transmettre la date de mise en service</Heading2>
       <div className="flex flex-col md:flex-row gap-4">

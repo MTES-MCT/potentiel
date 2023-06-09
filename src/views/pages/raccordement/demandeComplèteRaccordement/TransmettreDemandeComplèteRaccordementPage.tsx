@@ -15,31 +15,29 @@ import {
   Form,
   LabelDescription,
 } from '@components';
-import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel, ProjetReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
 
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 
 type TransmettreDemandeComplèteRaccordementProps = {
-  identifiantProjet: string;
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  résuméProjet: RésuméProjetReadModel;
+  projet: ProjetReadModel;
   error?: string;
-  identifiantGestionnaire?: string;
 };
 
 export const TransmettreDemandeComplèteRaccordement = ({
   user,
   gestionnairesRéseau,
-  identifiantProjet,
-  résuméProjet,
+  projet,
   error,
-  identifiantGestionnaire,
 }: TransmettreDemandeComplèteRaccordementProps) => {
+  const { identifiantProjet } = projet;
+
   const gestionnaireRéseauActuel = gestionnairesRéseau.find(
-    (gestionnaire) => gestionnaire.codeEIC === identifiantGestionnaire,
+    (gestionnaire) => gestionnaire.codeEIC === projet.identifiantGestionnaire?.codeEIC,
   );
 
   const [format, setFormat] = useState(
@@ -61,7 +59,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
         </>
       }
       user={user}
-      résuméProjet={résuméProjet}
+      résuméProjet={projet}
     >
       <div className="flex flex-col md:flex-row gap-4">
         <Form
@@ -125,7 +123,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>
-            {identifiantGestionnaire ? (
+            {projet.identifiantGestionnaire ? (
               <Link
                 href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
                 className="m-auto"

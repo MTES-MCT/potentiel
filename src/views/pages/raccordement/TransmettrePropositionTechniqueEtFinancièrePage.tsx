@@ -16,25 +16,25 @@ import {
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import routes from '@routes';
-import { RésuméProjetReadModel } from '@potentiel/domain';
+import { ConsulterProjetReadModel } from '@potentiel/domain-views';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {
   user: UtilisateurReadModel;
-  résuméProjet: RésuméProjetReadModel;
+  projet: ConsulterProjetReadModel;
   reference: string;
   error?: string;
-  identifiantProjet: string;
   dateSignatureActuelle?: string;
 };
 
 export const TransmettrePropositionTechniqueEtFinancière = ({
   user,
-  résuméProjet,
+  projet,
   reference,
   error,
-  identifiantProjet,
   dateSignatureActuelle,
 }: TransmettrePropositionTechniqueEtFinancièreProps) => {
+  const { identifiantProjet } = projet;
+
   return (
     <PageProjetTemplate
       titre={
@@ -44,7 +44,7 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
         </>
       }
       user={user}
-      résuméProjet={résuméProjet}
+      résuméProjet={projet}
     >
       <div className="flex flex-col md:flex-row gap-4">
         <Form

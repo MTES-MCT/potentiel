@@ -18,14 +18,13 @@ import {
 } from '@components';
 import { format as formatDate } from 'date-fns';
 import { hydrateOnClient } from '../../../helpers';
-import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 
 type ModifierDemandeComplèteRaccordementProps = {
-  identifiantProjet: string;
   user: UtilisateurReadModel;
-  résuméProjet: RésuméProjetReadModel;
+  projet: ConsulterProjetReadModel;
   error?: string;
   reference: string;
   dateQualificationActuelle?: string;
@@ -35,14 +34,14 @@ type ModifierDemandeComplèteRaccordementProps = {
 
 export const ModifierDemandeComplèteRaccordement = ({
   user,
-  identifiantProjet,
-  résuméProjet,
+  projet,
   error,
   reference,
   dateQualificationActuelle,
   gestionnaireRéseauActuel,
   existingFile,
 }: ModifierDemandeComplèteRaccordementProps) => {
+  const { identifiantProjet } = projet;
   const {
     aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   } = gestionnaireRéseauActuel;
@@ -56,7 +55,7 @@ export const ModifierDemandeComplèteRaccordement = ({
         </>
       }
       user={user}
-      résuméProjet={résuméProjet}
+      résuméProjet={projet}
     >
       <div className="flex flex-col md:flex-row gap-4">
         <Form

@@ -14,28 +14,25 @@ import {
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '@routes';
-import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
 import { GestionnaireRéseauSelect } from './components/GestionnaireRéseauSelect';
 
 type ModifierGestionnaireRéseauProjetProps = {
   user: UtilisateurReadModel;
-  résuméProjet: RésuméProjetReadModel;
+  projet: ConsulterProjetReadModel;
   error?: string;
-  identifiantProjet: string;
-  identifiantGestionnaireActuel: string;
   listeGestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 
 export const ModifierGestionnaireRéseauProjet = ({
   user,
-  résuméProjet,
+  projet,
   error,
-  identifiantProjet,
-  identifiantGestionnaireActuel,
   listeGestionnairesRéseau,
 }: ModifierGestionnaireRéseauProjetProps) => {
+  const { identifiantProjet, identifiantGestionnaire } = projet;
   const gestionnaireActuel = listeGestionnairesRéseau.find(
-    (gestionnaire) => gestionnaire.codeEIC === identifiantGestionnaireActuel,
+    (gestionnaire) => gestionnaire.codeEIC === identifiantGestionnaire?.codeEIC,
   );
 
   return (
@@ -47,7 +44,7 @@ export const ModifierGestionnaireRéseauProjet = ({
         </>
       }
       user={user}
-      résuméProjet={résuméProjet}
+      résuméProjet={projet}
     >
       <div className="flex flex-col md:flex-row gap-4">
         <Form

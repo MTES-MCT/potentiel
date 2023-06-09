@@ -3,20 +3,15 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { PageProjetTemplate, PlugIcon, ListeVide, Link } from '@components';
 import { hydrateOnClient } from '../../helpers';
-import { RésuméProjetReadModel } from '@potentiel/domain';
+import { ConsulterProjetReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
 
 type AucunDossierAListerProps = {
   user: UtilisateurReadModel;
-  identifiantProjet: string;
-  résuméProjet: RésuméProjetReadModel;
+  projet: ConsulterProjetReadModel;
 };
 
-export const AucunDossierALister = ({
-  user,
-  résuméProjet,
-  identifiantProjet,
-}: AucunDossierAListerProps) => (
+export const AucunDossierALister = ({ user, projet }: AucunDossierAListerProps) => (
   <PageProjetTemplate
     titre={
       <>
@@ -25,12 +20,14 @@ export const AucunDossierALister = ({
       </>
     }
     user={user}
-    résuméProjet={résuméProjet}
+    résuméProjet={projet}
   >
     <ListeVide titre="Aucun dossier à lister" />
 
     <div className="mt-4">
-      <Link href={routes.PROJECT_DETAILS(identifiantProjet)}>Retour vers le détail du projet</Link>
+      <Link href={routes.PROJECT_DETAILS(projet.identifiantProjet)}>
+        Retour vers le détail du projet
+      </Link>
     </div>
   </PageProjetTemplate>
 );

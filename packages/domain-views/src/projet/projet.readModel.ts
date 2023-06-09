@@ -10,22 +10,4 @@ export type ProjetReadModel = ReadModel<
   }
 >;
 
-type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
-
-export type RésuméProjetReadModel = ReadModel<
-  'résumé-projet',
-  {
-    identifiantProjet: RawIdentifiantProjet;
-    appelOffre: string;
-    période: string;
-    famille: string;
-    numéroCRE: string;
-    statut: StatutProjet;
-    nom: string;
-    localité: {
-      commune: string;
-      département: string;
-      région: string;
-    };
-  }
->;
+export { ConsulterProjetReadModel } from './consulter/consulterProjet.query';

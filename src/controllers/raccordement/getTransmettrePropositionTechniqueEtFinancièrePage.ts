@@ -10,10 +10,13 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from '@views';
-import { Project } from '@infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
-import { isNone, isSome } from '@potentiel/monads';
-import { ConsulterDossierRaccordementQuery, RésuméProjetReadModel } from '@potentiel/domain-views';
+import { isNone, none } from '@potentiel/monads';
+import {
+  ConsulterDossierRaccordementQuery,
+  ConsulterGestionnaireRéseauQuery,
+  ConsulterProjetQuery,
+} from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
@@ -44,35 +47,35 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await Project.findOne({
-        where: {
-          appelOffreId: identifiantProjetValueType.appelOffre,
-          periodeId: identifiantProjetValueType.période,
-          familleId: isSome(identifiantProjetValueType.famille) ?? undefined,
-          numeroCRE: identifiantProjetValueType.numéroCRE,
+      const projet = await mediator.send<ConsulterProjetQuery>({
+        type: 'CONSULTER_PROJET',
+        data: {
+          identifiantProjet: identifiantProjetValueType,
         },
-        attributes: [
-          'id',
-          'nomProjet',
-          'nomCandidat',
-          'communeProjet',
-          'regionProjet',
-          'departementProjet',
-          'periodeId',
-          'familleId',
-          'appelOffreId',
-          'numeroCRE',
-          'notifiedOn',
-          'abandonedOn',
-          'classe',
-        ],
       });
 
-      if (!projet) {
+      if (isNone(projet)) {
         return notFoundResponse({
           request,
           response,
           ressourceTitle: 'Projet',
+        });
+      }
+
+      const gestionnaireRéseauActuel = projet.identifiantGestionnaire
+        ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
+            type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+            data: {
+              identifiantGestionnaireRéseau: projet.identifiantGestionnaire,
+            },
+          })
+        : none;
+
+      if (isNone(gestionnaireRéseauActuel)) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Gestionnaire de réseau',
         });
       }
 
@@ -84,50 +87,18 @@ v1Router.get(
         },
       });
 
-      if (
-        isNone(dossierRaccordement) ||
-        !dossierRaccordement.propositionTechniqueEtFinancière?.format
-      ) {
+      if (isNone(dossierRaccordement)) {
         return notFoundResponse({
           request,
           response,
-          ressourceTitle: 'Proposition technique et financière signée',
+          ressourceTitle: 'Dossier de raccordement',
         });
       }
-
-      const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
-        if (!projet.notifiedOn) {
-          return 'non-notifié';
-        }
-        if (projet.abandonedOn !== 0) {
-          return 'abandonné';
-        }
-        if (projet.classe === 'Classé') {
-          return 'classé';
-        }
-
-        return 'éliminé';
-      };
 
       return response.send(
         TransmettrePropositionTechniqueEtFinancièrePage({
           user,
-          identifiantProjet: projet.id,
-          résuméProjet: {
-            type: 'résumé-projet',
-            identifiantProjet: projet.id,
-            appelOffre: projet.appelOffreId,
-            période: projet.periodeId,
-            famille: projet.familleId,
-            numéroCRE: projet.numeroCRE,
-            statut: getStatutProjet(),
-            nom: projet.nomProjet,
-            localité: {
-              commune: projet.communeProjet,
-              département: projet.departementProjet,
-              région: projet.regionProjet,
-            },
-          },
+          projet,
           reference,
           dateSignatureActuelle:
             dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature,
