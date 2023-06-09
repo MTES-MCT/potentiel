@@ -3,9 +3,10 @@ import routes from '@routes';
 import { TagIcon, CalendarIcon, DownloadLink, EditIcon, Link } from '@components';
 import { afficherDate } from '@views/helpers';
 import { Etape } from './Etape';
+import { RawIdentifiantProjet } from '@potentiel/domain';
 
 type ÉtapeDemandeComplèteRaccordementProps = {
-  identifiantProjet: string;
+  identifiantProjet: RawIdentifiantProjet;
   dateQualification: string | undefined;
   référence: string;
   hasDCRFile: boolean;

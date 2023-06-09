@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 import {
   DomainUseCase,
   PermissionTransmettrePropositionTechniqueEtFinancière,
+  RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
@@ -47,12 +48,18 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) =>
-        response.redirect(
-          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(request.params.projetId), {
-            error: `Une erreur est survenue lors de l'envoi de la date de signature de la proposition technique et financière, merci de vérifier les informations communiquées.`,
-          }),
-        ),
+      onError: ({ request, response }) => {
+        return response.redirect(
+          addQueryParams(
+            routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+              request.params.identifiantProjet as RawIdentifiantProjet,
+            ),
+            {
+              error: `Une erreur est survenue lors de l'envoi de la date de signature de la proposition technique et financière, merci de vérifier les informations communiquées.`,
+            },
+          ),
+        );
+      },
     },
     async (request, response) => {
       const {
@@ -62,6 +69,9 @@ v1Router.post(
         user,
       } = request;
 
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
       if (!file) {
         return response.redirect(
           addQueryParams(
@@ -71,10 +81,6 @@ v1Router.post(
             },
           ),
         );
-      }
-
-      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
-        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);

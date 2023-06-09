@@ -4,9 +4,16 @@ import { Timeline, CalendarIcon, Section, Link, InfoBox } from '@components';
 import { userIs } from '@modules/users';
 import { ProjectEventListDTO } from '@modules/frise';
 import routes from '@routes';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 
 type EtapesProjetProps = {
-  project: { id: string };
+  project: {
+    id: string;
+    appelOffreId: string;
+    periodeId: string;
+    familleId: string;
+    numeroCRE: string;
+  };
   user: Request['user'];
   projectEventList: ProjectEventListDTO;
 };
@@ -27,7 +34,18 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
     ) && (
       <InfoBox>
         Les données de raccordement du projet sont dorénavant consultables et modifiables sur{' '}
-        <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>cette page dédiée.</Link>
+        <Link
+          href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+            convertirEnIdentifiantProjet({
+              appelOffre: project.appelOffreId,
+              période: project.periodeId,
+              famille: project.familleId,
+              numéroCRE: project.numeroCRE,
+            }).formatter(),
+          )}
+        >
+          cette page dédiée.
+        </Link>
       </InfoBox>
     )}
     {/* on teste si cette fonctionnalité est utlisée

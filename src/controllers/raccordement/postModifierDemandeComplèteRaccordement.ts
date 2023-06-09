@@ -6,6 +6,7 @@ import {
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
   DomainUseCase,
+  RawIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -52,7 +53,7 @@ v1Router.post(
         response.redirect(
           addQueryParams(
             routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
-              request.params.projetId,
+              request.params.identifiantProjet as RawIdentifiantProjet,
               request.params.reference,
             ),
             {

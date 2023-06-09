@@ -1,6 +1,7 @@
 import {
   DomainUseCase,
   PermissionTransmettreDateMiseEnService,
+  RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
@@ -43,9 +44,14 @@ v1Router.post(
       schema,
       onError: ({ request, response }) =>
         response.redirect(
-          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(request.params.projetId), {
-            error: `Une erreur est survenue lors de la date de mise en service, merci de vérifier les informations communiquées.`,
-          }),
+          addQueryParams(
+            routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+              request.params.identifiantProjet as RawIdentifiantProjet,
+            ),
+            {
+              error: `Une erreur est survenue lors de la date de mise en service, merci de vérifier les informations communiquées.`,
+            },
+          ),
         ),
     },
     async (request, response) => {

@@ -67,6 +67,10 @@ v1Router.post(
         file,
       } = request;
 
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
       if (!file) {
         return response.redirect(
           addQueryParams(
@@ -76,10 +80,6 @@ v1Router.post(
             },
           ),
         );
-      }
-
-      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
-        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);

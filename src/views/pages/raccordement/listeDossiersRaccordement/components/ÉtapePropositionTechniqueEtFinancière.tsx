@@ -6,9 +6,10 @@ import { CalendarIcon, DownloadLink, EditIcon, Link } from '@components';
 import { afficherDate } from '@views/helpers';
 
 import { Etape } from './Etape';
+import { RawIdentifiantProjet } from '@potentiel/domain';
 
 type ÉtapePropositionTechniqueEtFinancièreProps = {
-  identifiantProjet: string;
+  identifiantProjet: RawIdentifiantProjet;
   référence: string;
   propositionTechniqueEtFinancière: DossierRaccordementReadModel['propositionTechniqueEtFinancière'];
   hasPTFFile: boolean;

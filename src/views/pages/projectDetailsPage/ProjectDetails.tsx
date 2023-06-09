@@ -29,6 +29,7 @@ import {
 } from './sections';
 import { ProjectHeader } from './components';
 import routes from '@routes';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 
 type ProjectDetailsProps = {
   request: Request;
@@ -66,7 +67,16 @@ export const ProjectDetails = ({
               L'accusé de réception de la demande complète de raccordement doit être transmis dans
               Potentiel avant le {afficherDate(project.dcrDueOn)}.
               <br />
-              <Link href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(project.id)}>
+              <Link
+                href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
+                  convertirEnIdentifiantProjet({
+                    appelOffre: project.appelOffreId,
+                    période: project.periodeId,
+                    famille: project.familleId,
+                    numéroCRE: project.numeroCRE,
+                  }).formatter(),
+                )}
+              >
                 Transmettre une demande complète de raccordement (accusé de réception)
               </Link>
             </div>
