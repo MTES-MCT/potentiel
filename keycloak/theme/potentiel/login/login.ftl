@@ -7,7 +7,7 @@
           <#if realm.password>
             <form id="kc-form-login" class="${properties.kcFormClass!}" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
               <#if realm.registrationAllowed && !registrationDisabled??>
-                <div id="kc-registration-container" class="mb-8">
+                <div id="kc-registration-container" class="fr-mb-8v">
                   <div id="kc-registration">
                     <span>
                       ${msg("noAccount")}
@@ -21,7 +21,7 @@
                   <div class="${properties.kcAlertClass!} ${properties.kcAlertErrorClass!}">
                     ${kcSanitize(message.summary)?no_esc}
                   </div>
-                  <div class="${properties.kcAlertClass!} ${properties.kcAlertWarningClass!} my-4">Pour des raisons de sécurité, les mots de passes ont été remis à zéro le 7 octobre. Si vous n'avez pas mis à jour votre mot de passe depuis cette date, merci d'utiliser le lien "Mot de passe oublié".</div>
+                  <div class="${properties.kcAlertClass!} ${properties.kcAlertWarningClass!} fr-my-4v">Pour des raisons de sécurité, les mots de passes ont été remis à zéro le 7 octobre. Si vous n'avez pas mis à jour votre mot de passe depuis cette date, merci d'utiliser le lien "Mot de passe oublié".</div>
                   <#elseif message.type=='warning'>
                     <div class="${properties.kcAlertClass!} ${properties.kcAlertWarningClass!}">
                       ${kcSanitize(message.summary)?no_esc}
@@ -70,9 +70,9 @@
                   </#if>
                 </div>
               </div>
-              <div class="${properties.kcFormGroupClass!} flex items-center gap-6 mt-8">
+              <div class="${properties.kcFormGroupClass!} fr-grid-row fr-grid-row--bottom fr-mt-8v">
                 <input type="hidden" id="id-hidden-input" name="credentialId" <#if auth.selectedCredential?has_content>value="${auth.selectedCredential}"</#if>/>
-                <button tabindex="4" class="${properties.kcButtonClass!}" name="login" id="kc-login" type="submit">Je m'identifie</button>
+                <button tabindex="4" class="${properties.kcButtonClass!} fr-mr-4v" name="login" id="kc-login" type="submit">Je m'identifie</button>
                 <#if realm.resetPasswordAllowed>
                   <a tabindex="5" href="${url.loginResetCredentialsUrl}">Mot de passe oublié</a>
                 </#if>

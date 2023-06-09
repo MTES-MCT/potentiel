@@ -20,7 +20,7 @@
       <link rel="shortcut icon" href="${url.resourcesCommonPath}/favicon/favicon.ico" type="image/x-icon" />
       <link rel="manifest" href="${url.resourcesCommonPath}/favicon/manifest.webmanifest" crossorigin="use-credentials" />
     </head>
-    <body class="min-h-screen flex flex-col">
+    <body class="min-h-screen">
       <header role="banner" class="fr-header">
         <div class="fr-header__body">
           <div class="fr-container">
@@ -66,12 +66,9 @@
         </div>
       </header>
       <main role="main">
-        <section class="section section-grey">
-          <div class="container">
-            <#-- <#nested "header"> -->
-              <#nested "form">
-                <#nested "info">
-          </div>
+        <section class="fr-py-20v">
+          <#nested "form">
+          <#nested "info">
         </section>
       </main>
       <div class="only-dsfr mt-auto">

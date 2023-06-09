@@ -7,7 +7,7 @@
         <div class="${properties.kcFormGroupClass!}">
             <a href="${url.loginUrl}">${kcSanitize(msg("backToLogin"))?no_esc}</a>
 
-            <p class="mt-8">Entrez votre courrier électronique; un email va vous être envoyé vous permettant de créer un nouveau mot de passe.</p>
+            <p class="fr-mt-8v">Entrez votre courrier électronique; un email va vous être envoyé vous permettant de créer un nouveau mot de passe.</p>
             <div class="${properties.kcFormGroupClass!} <#if messagesPerField.existsError('username')>fr-input-group--error</#if>">
               <label for="username" class="${properties.kcLabelClass!}">Courrier électronique</label>
               <#if auth?has_content && auth.showUsername()>
@@ -16,7 +16,7 @@
                 <input type="email" id="username" name="username" class="${properties.kcInputClass!}" autofocus aria-invalid="<#if messagesPerField.existsError('username')>true</#if>"/>
               </#if>
               <#if messagesPerField.existsError('username')>
-                <p  id="input-error-username" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+                <p id="input-error-username" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
                   Veuillez entrer votre courrier électronique
                 </p>
               </#if>
