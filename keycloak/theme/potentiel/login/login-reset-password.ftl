@@ -24,7 +24,7 @@
         </div>
         <div class="${properties.kcFormGroupClass!} ${properties.kcFormSettingClass!}">
             <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doSubmit")}"/>
+                <input class="${properties.kcButtonClass!}" type="submit" value="${msg("doSubmit")}"/>
             </div>
         </div>
     </form>

@@ -72,7 +72,7 @@
               </div>
               <div class="${properties.kcFormGroupClass!} flex items-center gap-6 mt-8">
                 <input type="hidden" id="id-hidden-input" name="credentialId" <#if auth.selectedCredential?has_content>value="${auth.selectedCredential}"</#if>/>
-                <button tabindex="4" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!} fr-btn" name="login" id="kc-login" type="submit">Je m'identifie</button>
+                <button tabindex="4" class="${properties.kcButtonClass!}" name="login" id="kc-login" type="submit">Je m'identifie</button>
                 <#if realm.resetPasswordAllowed>
                   <a tabindex="5" href="${url.loginResetCredentialsUrl}">Mot de passe oublié</a>
                 </#if>

@@ -62,6 +62,10 @@ A AJouter
   margin-top: 2rem;
 }
 
+.mb-0 {
+  margin-bottom: 0;
+}
+
 .mb-4 {
   margin-bottom: 1rem;
 }

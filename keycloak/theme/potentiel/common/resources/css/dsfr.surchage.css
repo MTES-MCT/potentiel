@@ -27,6 +27,11 @@ a[href]:hover {
   mask-image: url('../icons/system/fr--success-fill.svg');
 }
 
+.fr-alert--info:before {
+  -webkit-mask-image: url('../icons/system/fr--info-fill.svg');
+  mask-image: url('../icons/system/fr--info-fill.svg');
+}
+
 .fr-header__navbar .fr-btn--menu:after,
 .fr-header__navbar .fr-btn--menu:before {
   -webkit-mask-image: url('../icons/system/menu-fill.svg');
