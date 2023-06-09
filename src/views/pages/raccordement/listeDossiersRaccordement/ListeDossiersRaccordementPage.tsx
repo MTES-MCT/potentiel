@@ -3,7 +3,11 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Link, Tile, PageProjetTemplate, PlugIcon, InfoBox, EditIcon } from '@components';
 import { hydrateOnClient } from '../../../helpers';
-import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
+import {
+  GestionnaireRéseauReadModel,
+  ConsulterProjetReadModel,
+  DossierRaccordementReadModel,
+} from '@potentiel/domain-views';
 import routes from '@routes';
 import { userIs } from '@modules/users';
 import { Dossier } from './components/Dossier';
@@ -12,7 +16,7 @@ type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
   projet: ConsulterProjetReadModel;
   gestionnaireRéseau: GestionnaireRéseauReadModel;
-  dossiers: ReadonlyArray<Dossier>;
+  dossiers: ReadonlyArray<DossierRaccordementReadModel>;
 };
 
 export const ListeDossiersRaccordement = ({

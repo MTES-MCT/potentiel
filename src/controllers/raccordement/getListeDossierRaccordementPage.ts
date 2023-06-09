@@ -7,6 +7,7 @@ import {
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauQuery,
   ConsulterProjetQuery,
+  DossierRaccordementReadModel,
   ListerDossiersRaccordementQuery,
   PermissionConsulterDossierRaccordement,
 } from '@potentiel/domain-views';
@@ -18,7 +19,7 @@ import {
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
-import { isNone, none } from '@potentiel/monads';
+import { isNone, isSome, none } from '@potentiel/monads';
 
 const schema = yup.object({
   params: yup.object({
@@ -81,27 +82,21 @@ v1Router.get(
       });
 
       if (références.length > 0) {
-        const dossiers = await Promise.all(
-          références.map(async (référence) => {
-            const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
-              type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
-              data: {
-                identifiantProjet: identifiantProjetValueType,
-                référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(référence),
-              },
-            });
+        const dossiers: Array<DossierRaccordementReadModel> = (
+          await Promise.all(
+            références.map(async (référence) => {
+              const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
+                type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+                data: {
+                  identifiantProjet: identifiantProjetValueType,
+                  référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(référence),
+                },
+              });
 
-            if (isNone(dossier)) {
-              return null;
-            }
-
-            return {
-              ...dossier,
-              hasPTFFile: !!dossier.propositionTechniqueEtFinancière?.format,
-              hasDCRFile: !!dossier.accuséRéception?.format,
-            };
-          }),
-        );
+              return dossier;
+            }),
+          )
+        ).filter(isSome);
 
         return response.send(
           ListeDossiersRaccordementPage({

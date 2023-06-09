@@ -15,7 +15,7 @@ import {
   Form,
   LabelDescription,
 } from '@components';
-import { GestionnaireRéseauReadModel, ProjetReadModel } from '@potentiel/domain-views';
+import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
 
 import { hydrateOnClient } from '../../../helpers';
@@ -24,7 +24,7 @@ import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSele
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  projet: ProjetReadModel;
+  projet: ConsulterProjetReadModel;
   error?: string;
 };
 

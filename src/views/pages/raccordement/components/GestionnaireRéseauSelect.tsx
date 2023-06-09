@@ -1,4 +1,4 @@
-import { GestionnaireRéseauReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 import { Input, Select } from '@components';
 import React, { ComponentProps } from 'react';
 

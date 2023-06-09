@@ -12,7 +12,7 @@ import {
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '@views/helpers';
-import { GestionnaireRéseauReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
 import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisieIdentifiant';
 

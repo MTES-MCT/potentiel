@@ -14,6 +14,7 @@ import routes from '@routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '@modules/project';
 import { mediator } from 'mediateur';
+import { ListerDossiersRaccordementQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().uuid().required() }),
@@ -60,9 +61,10 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
 
-      const { références } = await mediator.send<>(
-        buildListerDossiersRaccordementUseCase({ identifiantProjet }),
-      );
+      const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
+        type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+        data: { identifiantProjet },
+      });
       const dossiersRaccordementExistant = références.length > 0;
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });

@@ -2,11 +2,11 @@ import React, { FC, ReactNode } from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Badge, BadgeType, Heading1, KeyIcon, MapPinIcon, PageTemplate } from '@components';
-import { RésuméProjetReadModel } from '@potentiel/domain-views';
+import { ConsulterProjetReadModel } from '@potentiel/domain-views';
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
-  résuméProjet: RésuméProjetReadModel;
+  résuméProjet: ConsulterProjetReadModel;
   titre: ReactNode;
 }> = ({ user, résuméProjet, titre, children }) => (
   <PageTemplate user={user} contentHeader={<EntêteProjet {...résuméProjet} />}>
@@ -15,7 +15,7 @@ export const PageProjetTemplate: FC<{
   </PageTemplate>
 );
 
-const EntêteProjet: FC<RésuméProjetReadModel> = ({
+const EntêteProjet: FC<ConsulterProjetReadModel> = ({
   appelOffre,
   période,
   famille,

@@ -1,7 +1,7 @@
 import routes from '@routes';
 import { Link, Tile } from '@views/components';
 import React, { FC } from 'react';
-import { GestionnaireRéseauReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 
 type ListeProps = {
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;

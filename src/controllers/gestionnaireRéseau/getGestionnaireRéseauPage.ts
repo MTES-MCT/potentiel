@@ -9,6 +9,7 @@ import {
   PermissionConsulterGestionnaireRéseau,
 } from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
+import { isNone } from '@potentiel/monads';
 
 const schema = yup.object({
   params: yup.object({ codeEIC: yup.string().required() }),
@@ -36,7 +37,7 @@ v1Router.get(
         },
       });
 
-      if (!gestionnaireRéseau) {
+      if (isNone(gestionnaireRéseau)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Gestionnaire réseau' });
       }
 

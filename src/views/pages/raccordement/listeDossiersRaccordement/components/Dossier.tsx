@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { DossierRaccordementReadModel } from '@potentiel/domain';
+import { DossierRaccordementReadModel } from '@potentiel/domain-views';
 import { userIs } from '@modules/users';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -9,25 +9,19 @@ import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRacc
 import { ÉtapePropositionTechniqueEtFinancière } from './ÉtapePropositionTechniqueEtFinancière';
 import { ÉtapeMiseEnService } from './ÉtapeMiseEnService';
 
-export type Dossier = DossierRaccordementReadModel & {
-  hasPTFFile: boolean;
-  hasDCRFile: boolean;
-};
-
 export const Dossier: FC<{
   user: UtilisateurReadModel;
   identifiantProjet: string;
-  dossier: Dossier;
+  dossier: DossierRaccordementReadModel;
 }> = ({
   user,
   identifiantProjet,
   dossier: {
     référence,
     dateQualification,
+    accuséRéception,
     propositionTechniqueEtFinancière,
     dateMiseEnService,
-    hasDCRFile,
-    hasPTFFile,
   },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
@@ -35,7 +29,7 @@ export const Dossier: FC<{
       identifiantProjet={identifiantProjet}
       dateQualification={dateQualification}
       référence={référence}
-      hasDCRFile={hasDCRFile}
+      hasDCRFile={!!accuséRéception?.format}
       showEditLink={userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user)}
     />
 
@@ -45,7 +39,7 @@ export const Dossier: FC<{
       identifiantProjet={identifiantProjet}
       référence={référence}
       propositionTechniqueEtFinancière={propositionTechniqueEtFinancière}
-      hasPTFFile={hasPTFFile}
+      hasPTFFile={!!propositionTechniqueEtFinancière?.format}
       showEditLink={userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user)}
     />
 
