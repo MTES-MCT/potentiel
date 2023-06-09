@@ -133,7 +133,7 @@ v1Router.post(
           await mediator.send<DomainUseCase>({
             type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
             data: {
-              identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+              identifiantProjet: identifiantProjetValueType,
               nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordementValueType,
               référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle,
             },
@@ -143,7 +143,7 @@ v1Router.post(
         await mediator.send<DomainUseCase>({
           type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
           data: {
-            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+            identifiantProjet: identifiantProjetValueType,
             référenceDossierRaccordement: nouvelleRéférenceDossierRaccordementValueType,
             dateQualification,
             accuséRéception: {
