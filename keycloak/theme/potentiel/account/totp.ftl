@@ -3,40 +3,31 @@
   <h2 id="top">${msg("authenticatorTitle")}</h2>
 
   <#if totp.enabled>
-    <table class="table table-bordered table-striped">
-      <thead>
-        <#if totp.otpCredentials?size gt 1>
-          <tr>
-              <th colspan="4">${msg("configureAuthenticators")}</th>
-          </tr>
-        <#else>
-          <tr>
-              <th colspan="3">${msg("configureAuthenticators")}</th>
-          </tr>
-        </#if>
-      </thead>
-      <tbody>
-        <#list totp.otpCredentials as credential>
-          <tr>
-            <td class="provider">${msg("mobile")}</td>
-            <#if totp.otpCredentials?size gt 1>
-              <td class="provider">${credential.id}</td>
-            </#if>
-            <td class="provider">${credential.userLabel!}</td>
-            <td class="action">
-              <form action="${url.totpUrl}" method="post" class="form-inline">
-                  <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
-                  <input type="hidden" id="submitAction" name="submitAction" value="Delete">
-                  <input type="hidden" id="credentialId" name="credentialId" value="${credential.id}">
-                  <button id="remove-mobile" class="btn btn-default">
-                      <i class="pficon pficon-delete"></i>
-                  </button>
+    <ul class="fr-m-0 fr-p-0" style="list-style: none;">
+      <#list totp.otpCredentials as credential>
+        <li>
+          <div class="fr-tile fr-tile--horizontal">
+            <div class="fr-tile__body">
+              <p>
+                <#if totp.otpCredentials?size gt 1>
+                  <span>${credential.id}. </span>
+                </#if>
+                Validation en deux étapes activée sur téléphone mobile 
+                <#if credential.userLabel?has_content>
+                  <b>${credential.userLabel}</b>
+                </#if>
+              </p>
+              <form action="${url.totpUrl}" method="post" class="fr-mt-4v">
+                <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
+                <input type="hidden" id="submitAction" name="submitAction" value="Delete">
+                <input type="hidden" id="credentialId" name="credentialId" value="${credential.id}">
+                <button id="remove-mobile" class="fr-btn">Supprimer</button>
               </form>
-            </td>
-          </tr>
-        </#list>
-      </tbody>
-    </table>
+            </div>
+          </div>
+        </li>
+      </#list>
+    </ul>
   <#else>
     <ol>
       <li>
