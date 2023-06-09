@@ -10,11 +10,13 @@ import { parse } from 'csv-parse';
 import iconv from 'iconv-lite';
 import { setApiResult } from '../../helpers/apiResult';
 import {
+  DomainUseCase,
   PermissionTransmettreDateMiseEnService,
-  buildTransmettreDateMiseEnServiceUseCase,
+  convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServiceApiResult';
+import { RechercherDossierRaccordementQuery } from '@potentiel/domain-views';
 
 const csvDataSchema = yup
   .array()
@@ -82,24 +84,36 @@ v1Router.post(
       const result: ImporterDatesMiseEnServiceApiResult = [];
 
       for (const { referenceDossier, dateMiseEnService } of données) {
-        try {
-          await mediator.send(
-            buildTransmettreDateMiseEnServiceUseCase({
-              référenceDossierRaccordement: referenceDossier,
-              dateMiseEnService: new Date(dateMiseEnService.split('/').reverse().join('-')),
-            }),
-          );
+        const dossiers = await mediator.send<RechercherDossierRaccordementQuery>({
+          type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
+          data: {
+            référence: convertirEnRéférenceDossierRaccordement(referenceDossier),
+          },
+        });
 
-          result.push({
-            statut: 'réussi',
-            référenceDossier: referenceDossier,
-          });
-        } catch (error) {
-          result.push({
-            statut: 'échec',
-            référenceDossier: referenceDossier,
-            raison: error.message,
-          });
+        for (const { identifiantProjet } of dossiers) {
+          try {
+            await mediator.send<DomainUseCase>({
+              type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+              data: {
+                identifiantProjet,
+                référenceDossierRaccordement:
+                  convertirEnRéférenceDossierRaccordement(referenceDossier),
+                dateMiseEnService: new Date(dateMiseEnService.split('/').reverse().join('-')),
+              },
+            });
+
+            result.push({
+              statut: 'réussi',
+              référenceDossier: referenceDossier,
+            });
+          } catch (error) {
+            result.push({
+              statut: 'échec',
+              référenceDossier: referenceDossier,
+              raison: error.message,
+            });
+          }
         }
       }
 
