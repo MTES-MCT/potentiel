@@ -1,5 +1,3 @@
-//@ts-ignore
-import { Project } from '../../../../../src/infra/sequelize/projectionsNext';
 import {
   IdentifiantProjet,
   RawIdentifiantProjet,
@@ -37,12 +35,18 @@ export type ConsulterProjetQuery = Message<
 
 export type ConsulterProjetDependencies = {
   find: Find;
+  legacy: {
+    projectModel: any;
+  };
 };
 
-export const registerConsulterProjetQuery = ({ find }: ConsulterProjetDependencies) => {
+export const registerConsulterProjetQuery = ({
+  find,
+  legacy: { projectModel },
+}: ConsulterProjetDependencies) => {
   const queryHandler: MessageHandler<ConsulterProjetQuery> = async ({ identifiantProjet }) => {
     const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
-    const projetLegacy = await Project.findOne({
+    const projetLegacy = await projectModel.findOne({
       where: {
         appelOffreId: identifiantProjetValueType.appelOffre,
         periodeId: identifiantProjetValueType.période,
@@ -98,7 +102,7 @@ export const registerConsulterProjetQuery = ({ find }: ConsulterProjetDependenci
   mediator.register('CONSULTER_PROJET', queryHandler);
 };
 
-const getStatutProjet = (projet: Project): ConsulterProjetReadModel['statut'] => {
+const getStatutProjet = (projet: any): ConsulterProjetReadModel['statut'] => {
   if (!projet.notifiedOn) {
     return 'non-notifié';
   }

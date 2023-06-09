@@ -16,6 +16,9 @@ type DomainViewsDependencies = {
     create: Create;
     remove: Remove;
     update: Update;
+    legacy: {
+      projectModel: unknown;
+    };
   };
   raccordement: Omit<RaccordementDependencies, keyof DomainViewsDependencies['common']>;
 };

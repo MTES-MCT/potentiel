@@ -50,7 +50,7 @@ const EntêteProjet: FC<ConsulterProjetReadModel> = ({
   </div>
 );
 
-const getBadgeType = (statut: RésuméProjetReadModel['statut']): BadgeType => {
+const getBadgeType = (statut: ConsulterProjetReadModel['statut']): BadgeType => {
   switch (statut) {
     case 'abandonné':
       return 'warning';
@@ -64,7 +64,7 @@ const getBadgeType = (statut: RésuméProjetReadModel['statut']): BadgeType => {
 };
 
 const StatutProjet: FC<{
-  statut: RésuméProjetReadModel['statut'];
+  statut: ConsulterProjetReadModel['statut'];
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
     {statut}

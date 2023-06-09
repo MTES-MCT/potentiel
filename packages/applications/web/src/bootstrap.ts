@@ -15,7 +15,7 @@ import {
 import { subscribeFactory } from './subscribe.factory';
 import { setupDomainViews } from '@potentiel/domain-views';
 
-export const bootstrap = async () => {
+export const bootstrap = async (legacy: { projectModel: unknown }) => {
   const subscribe = await subscribeFactory();
 
   setupDomain({
@@ -41,6 +41,7 @@ export const bootstrap = async () => {
       search: searchProjection,
       subscribe,
       update: updateProjection,
+      legacy,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
