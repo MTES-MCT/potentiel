@@ -85,7 +85,7 @@
                 </li>
                 </#if>
                 <li class="fr-nav__item">
-                  <a class="fr-nav__link <#if active=='totp'></#if>" href="${url.totpUrl}" target="_self" <#if active=='totp'>aria-current="page"</#if>>${msg("authenticator")}</a>
+                  <a class="fr-nav__link <#if active=='totp'></#if>" href="${url.totpUrl}#top" target="_self" <#if active=='totp'>aria-current="page"</#if>>${msg("authenticator")}</a>
                 </li>
               </ul>
             </nav>

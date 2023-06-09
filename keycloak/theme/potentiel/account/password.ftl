@@ -17,7 +17,7 @@
             </div>
           </#if>
         </#if>
-      <p class="italic fr-mb-2v">${msg("allFieldsRequired")}</span>
+      <p class="italic fr-mb-2v">${msg("allFieldsRequired")}</p>
       <input type="text" id="username" name="username" value="${(account.username!'')}" autocomplete="username" readonly="readonly" style="display:none;">
       <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
 
@@ -39,7 +39,7 @@
       </div>
 
       <div class="${properties.kcFormGroupClass!}">
-          <div id="kc-form-buttons" class="col-md-offset-2 col-md-10 submit">
+          <div id="kc-form-buttons" class="submit">
               <div class="">
                   <button type="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" name="submitAction" value="Save">${msg("doSave")}</button>
               </div>
