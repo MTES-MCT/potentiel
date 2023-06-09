@@ -2,15 +2,8 @@ import { mediator } from 'mediateur';
 import { extension } from 'mime-types';
 import * as yup from 'yup';
 
-import {
-  convertirEnIdentifiantProjet,
-  convertirEnRéférenceDossierRaccordement,
-  estUnRawIdentifiantProjet,
-} from '@potentiel/domain';
-import {
-  ConsulterDossierRaccordementQuery,
-  PermissionConsulterDossierRaccordement,
-} from '@potentiel/domain-views';
+import { estUnRawIdentifiantProjet } from '@potentiel/domain';
+import { PermissionConsulterDossierRaccordement } from '@potentiel/domain-views';
 import routes from '@routes';
 import { logger } from '@core/utils';
 
@@ -18,6 +11,7 @@ import { v1Router } from '../v1Router';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { isNone } from '@potentiel/monads';
+import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from 'packages/domain-views/src/raccordement/consulter/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 
 const schema = yup.object({
   params: yup.object({
@@ -45,18 +39,16 @@ v1Router.get(
       }
 
       try {
-        const demandeComplèteRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
-          type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
-          data: {
-            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
-            référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
-          },
-        });
+        const accuséRéception =
+          await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
+            type: 'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
+            data: {
+              identifiantProjet: identifiantProjet,
+              référenceDossierRaccordement: reference,
+            },
+          });
 
-        if (
-          isNone(demandeComplèteRaccordement) ||
-          !demandeComplèteRaccordement.accuséRéception?.format
-        ) {
+        if (isNone(accuséRéception)) {
           return notFoundResponse({
             request,
             response,
@@ -64,17 +56,19 @@ v1Router.get(
           });
         }
 
-        const extensionFichier = extension(demandeComplèteRaccordement.accuséRéception.format);
+        const extensionFichier = extension(accuséRéception.format);
 
-        response.type(demandeComplèteRaccordement.accuséRéception.format);
+        response.type(accuséRéception.format);
         response.setHeader(
           'Content-Disposition',
           `attachment; filename=accuse-reception-${reference}.${extensionFichier}`,
         );
-        demandeComplèteRaccordement.accuséRéception.content.pipe(response);
+        accuséRéception.content.pipe(response);
+
         return response.status(200);
       } catch (error) {
         logger.error(error);
+        return response.status(404);
       }
     },
   ),
