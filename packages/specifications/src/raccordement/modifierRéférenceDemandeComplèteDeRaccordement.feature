@@ -1,6 +1,7 @@
 #Language: fr-FR
 Fonctionnalité: Modifier la référence d'une demande complète de raccordement
 
+@selection
     Scénario: Modifier la référence d'une demande complète de raccordement
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                      | 2022-10-28                                                                                            |
@@ -11,6 +12,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
 
+@selection
     Scénario: Modifier la référence d'une demande complète de raccordement ayant une PTF
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                      | 2022-10-28                                                                                            |

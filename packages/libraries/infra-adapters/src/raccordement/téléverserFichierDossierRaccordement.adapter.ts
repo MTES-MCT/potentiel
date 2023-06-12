@@ -43,10 +43,14 @@ export const téléverserFichierDossierRaccordementAdapter: TéléverserFichierD
 
       const filesToMove = await getFiles(pattern);
 
-      for (const fileToMove of filesToMove) {
-        const newPath = `${pattern}.${extname(fileToMove)}`;
+      const newPath = join(
+        options.identifiantProjet,
+        options.nouvelleRéférenceDossierRaccordement,
+        `${options.type}`,
+      );
 
-        await renameFile(fileToMove, newPath);
+      for (const fileToMove of filesToMove) {
+        await renameFile(fileToMove, `${newPath}${extname(fileToMove)}`);
       }
     }
   };

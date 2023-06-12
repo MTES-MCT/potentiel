@@ -5,7 +5,7 @@ import { ProjetCommand } from '../projet.command';
 type ModifierGestionnaireRéseauProjetUseCaseData = ModifierGestionnaireRéseauProjetCommand['data'];
 
 export type ModifierGestionnaireRéseauProjetUseCase = Message<
-  'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
+  'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET_USE_CASE',
   ModifierGestionnaireRéseauProjetUseCaseData
 >;
 
@@ -22,5 +22,5 @@ export const registerModifierGestionnaireRéseauProjetUseCase = () => {
       },
     });
   };
-  mediator.register('MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE', runner);
+  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET_USE_CASE', runner);
 };
