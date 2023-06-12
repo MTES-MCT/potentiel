@@ -7,7 +7,7 @@
         ${message.summary}
         </#if>
     <#elseif section = "form">
-    <div id="kc-info-message">
+    <div id="kc-info-message" class="${properties.kcFormClass!}">
         <p class="instruction">${message.summary}<#if requiredActions??><#list requiredActions>: <b><#items as reqActionItem>${kcSanitize(msg("requiredAction.${reqActionItem}"))?no_esc}<#sep>, </#items></b></#list><#else></#if></p>
         <#if skipLink??>
         <#else>
