@@ -150,7 +150,10 @@ export const registerRaccordementProjector = ({
 
           await create<DossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.nouvelleRéférenceDossierRaccordement}`,
-            dossierRaccordement,
+            {
+              ...dossierRaccordement,
+              référence: event.payload.nouvelleRéférenceDossierRaccordement,
+            },
           );
 
           const dossiers = await find<ListeDossiersRaccordementReadModel>(

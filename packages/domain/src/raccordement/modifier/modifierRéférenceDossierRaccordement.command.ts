@@ -11,6 +11,7 @@ import {
 import { isNone } from '@potentiel/monads';
 import {
   DossierRaccordementNonRéférencéError,
+  FormatRéférenceDossierRaccordementInvalideError,
   RéférencesDossierRaccordementIdentiquesError,
 } from '../raccordement.errors';
 import { RéférenceDossierRacordementModifiéeEventV1 } from '../raccordement.event';
@@ -18,6 +19,7 @@ import {
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort,
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
 } from '../raccordement.ports';
+import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
 
 export type ModifierRéférenceDossierRaccordementCommand = Message<
   'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND',
@@ -62,6 +64,19 @@ export const registerModifierRéférenceDossierRaccordementCommand = ({
     ) {
       throw new DossierRaccordementNonRéférencéError();
     }
+
+    const gestionnaireRéseau = await raccordement.getGestionnaireRéseau();
+
+    if (isNone(gestionnaireRéseau)) {
+      throw new GestionnaireRéseauInconnuError();
+    }
+
+    if (
+      !gestionnaireRéseau.validerRéférenceDossierRaccordement(nouvelleRéférenceDossierRaccordement)
+    ) {
+      throw new FormatRéférenceDossierRaccordementInvalideError();
+    }
+
     await Promise.all([
       enregistrerAccuséRéceptionDemandeComplèteRaccordement({
         opération: 'déplacement',
