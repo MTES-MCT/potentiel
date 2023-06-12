@@ -22,7 +22,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
             référenceDossierRaccordement,
           ),
@@ -44,7 +44,7 @@ Alors(
       type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantProjet: this.projetWorld.identifiantProjet,
       },
     });
 
@@ -59,7 +59,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('dossier-inconnu'),
           dateMiseEnService: new Date('2023-03-15'),
         },
@@ -77,7 +77,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('dossier-inconnu'),
           dateMiseEnService: new Date('2023-03-15'),
         },

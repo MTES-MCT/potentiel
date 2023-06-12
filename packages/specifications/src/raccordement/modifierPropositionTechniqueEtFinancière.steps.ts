@@ -24,7 +24,7 @@ EtantDonné(
     await mediator.send<DomainUseCase>({
       type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
       data: {
-        identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+        identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
           référenceDossierRaccordement,
         ),
@@ -32,6 +32,12 @@ EtantDonné(
         propositionTechniqueEtFinancièreSignée,
       },
     });
+
+    this.raccordementWorld.dateSignature = dateSignature;
+    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+      format,
+      content,
+    };
   },
 );
 
@@ -56,7 +62,7 @@ Quand(
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
             référenceDossierRaccordement,
           ),
-          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
           propositionTechniqueEtFinancièreSignée,
         },
       });

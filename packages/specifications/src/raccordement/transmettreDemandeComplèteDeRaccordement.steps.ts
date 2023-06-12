@@ -37,7 +37,7 @@ EtantDonné(
     await mediator.send<DomainUseCase>({
       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
       data: {
-        identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+        identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
           référenceDossierRaccordement,
@@ -46,6 +46,13 @@ EtantDonné(
         accuséRéception,
       },
     });
+
+    this.raccordementWorld.dateQualification = dateQualification;
+    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
+      format,
+      content,
+    };
   },
 );
 
@@ -69,7 +76,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
           identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
             référenceDossierRaccordement,
@@ -102,7 +109,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
           identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
             this.gestionnaireRéseauWorld.codeEIC,
           ),
@@ -130,7 +137,7 @@ Alors(
     const actual = await mediator.send<ListerDossiersRaccordementQuery>({
       type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantProjet: this.projetWorld.identifiantProjet,
       },
     });
 
@@ -144,7 +151,7 @@ Alors(
     const actualDossierRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
       type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantProjet: this.projetWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       },
     });
@@ -164,7 +171,7 @@ Alors(
       await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
         type: 'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
         data: {
-          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          identifiantProjet: this.projetWorld.identifiantProjet,
           référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         },
       });
@@ -195,7 +202,7 @@ Alors(
     const actual = await mediator.send<ListerDossiersRaccordementQuery>({
       type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantProjet: this.projetWorld.identifiantProjet,
       },
     });
 

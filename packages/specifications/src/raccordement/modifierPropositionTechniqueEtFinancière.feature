@@ -1,7 +1,6 @@
 #Language: fr-FR
 Fonctionnalité: Modifier une proposition technique et financière
 
-@selection
     Scénario: Un porteur de projet modifie une proposition technique et financière
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                      | 2022-10-28                                                                                            |

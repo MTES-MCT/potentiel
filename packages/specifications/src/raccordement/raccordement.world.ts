@@ -1,8 +1,3 @@
-import {
-  IdentifiantProjet,
-} from '@potentiel/domain';
-import { none } from '@potentiel/monads';
-
 export class RaccordementWorld {
   #dateQualification!: Date;
 
@@ -93,20 +88,5 @@ export class RaccordementWorld {
 
   set référenceDossierRaccordement(value: string) {
     this.#référenceDossierRaccordement = value;
-  }
-
-  #identifiantProjet: IdentifiantProjet;
-
-  get identifiantProjet() {
-    return this.#identifiantProjet;
-  }
-
-  constructor() {
-    this.#identifiantProjet = {
-      appelOffre: 'PPE2 - Eolien',
-      période: '1',
-      famille: none,
-      numéroCRE: '23',
-    };
   }
 }

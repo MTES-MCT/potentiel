@@ -25,7 +25,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
             référenceDossierRaccordement,
           ),
