@@ -37,16 +37,16 @@ export class RaccordementWorld {
     this.#dateSignature = value;
   }
 
-  #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: Readable };
+  #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: string };
 
-  get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: Readable } {
+  get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: string } {
     if (!this.#accuséRéceptionDemandeComplèteRaccordement) {
       throw new Error('accuséRéceptionDemandeComplèteRaccordement not initialized');
     }
     return this.#accuséRéceptionDemandeComplèteRaccordement;
   }
 
-  set accuséRéceptionDemandeComplèteRaccordement(value: { format: string; content: Readable }) {
+  set accuséRéceptionDemandeComplèteRaccordement(value: { format: string; content: string }) {
     this.#accuséRéceptionDemandeComplèteRaccordement = value;
   }
 
@@ -102,12 +102,6 @@ export class RaccordementWorld {
       famille: none,
       numéroCRE: '23',
     };
-    this.#accuséRéceptionDemandeComplèteRaccordement = {
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un fichier DCR", {
-        encoding: 'utf8',
-      }),
-    };
     (this.#dateSignature = new Date('2023-01-01')),
       (this.#propositionTechniqueEtFinancièreSignée = {
         format: 'application/pdf',
@@ -125,7 +119,12 @@ export class RaccordementWorld {
         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
           référenceDossierRaccordement,
         ),
-        accuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
+        accuséRéception: {
+          format: this.accuséRéceptionDemandeComplèteRaccordement.format,
+          content: Readable.from([this.accuséRéceptionDemandeComplèteRaccordement], {
+            encoding: 'utf-8',
+          }),
+        },
         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
         identifiantProjet: convertirEnIdentifiantProjet(this.identifiantProjet),
         dateQualification,

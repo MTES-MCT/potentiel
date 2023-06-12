@@ -15,4 +15,4 @@ Fonctionnalité: Modifier un gestionnaire de réseau
 
     Scénario: Un administrateur modifie un gestionnaire de réseau inconnu
         Quand un administrateur modifie un gestionnaire de réseau inconnu
-        Alors l'administrateur devrait être informé que "Le gestionnaire de réseau n'existe pas"
+        Alors l'administrateur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"

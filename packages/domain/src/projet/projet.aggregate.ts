@@ -27,6 +27,7 @@ const defaultAggregate: Projet = {
 const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, loadAggregate) => {
   return events.reduce((aggregate, event) => {
     switch (event.type) {
+      case 'GestionnaireRéseauProjetAjouté':
       case 'GestionnaireRéseauProjetModifié':
         return {
           ...aggregate,

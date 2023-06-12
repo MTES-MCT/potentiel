@@ -46,6 +46,15 @@ export const registerAjouterGestionnaireRéseauProjetCommand = ({
       throw new GestionnaireRéseauInconnuError();
     }
 
+    if (isSome(projet)) {
+      console.log(projet.aggregateId);
+      const gdr = await projet.getGestionnaireRéseau();
+
+      if (isSome(gdr)) {
+        console.log(gdr.codeEIC);
+      }
+    }
+
     if (isSome(projet) && isSome(await projet.getGestionnaireRéseau())) {
       throw new GestionnaireRéseauProjetDéjàAjoutéErreur();
     }
@@ -54,7 +63,7 @@ export const registerAjouterGestionnaireRéseauProjetCommand = ({
       type: 'GestionnaireRéseauProjetAjouté',
       payload: {
         identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-        identifiantProjet: identifiantGestionnaireRéseau.formatter(),
+        identifiantProjet: identifiantProjet.formatter(),
       },
     };
 

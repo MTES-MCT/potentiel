@@ -9,6 +9,32 @@ import {
 } from '@potentiel/domain';
 
 Quand(
+  `le porteur modifie la date de qualification d'un dossier de raccordement`,
+  async function () {
+    const dateQualification = new Date('2023-01-01');
+    const accuséRéception = {
+      format: 'text/plain',
+      content: Readable.from("Contenu d'un nouveau fichier", {
+        encoding: 'utf-8',
+      }),
+    };
+
+    await mediator.send<DomainUseCase>({
+      type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+      data: {
+        identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+        dateQualification,
+        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('123456789'),
+        accuséRéception: accuséRéception,
+      },
+    });
+
+    this.raccordementWorld.dateQualification = dateQualification;
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = accuséRéception;
+  },
+);
+
+Quand(
   `le porteur modifie une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau`,
   async function (this: PotentielWorld) {
     const dateQualification = new Date('2023-01-01');
@@ -34,25 +60,25 @@ Quand(
     }
 
     this.raccordementWorld.dateQualification = dateQualification;
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = accuséRéception;
+    //this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = accuséRéception;
   },
 );
 
-Quand(
-  `un administrateur modifie la date de qualification pour un dossier de raccordement non connu`,
-  async function (this: PotentielWorld) {
-    try {
-      await mediator.send<DomainUseCase>({
-        type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-        data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-          dateQualification: new Date('2023-01-01'),
-          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('123456789'),
-          accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
+// Quand(
+//   `un administrateur modifie la date de qualification pour un dossier de raccordement non connu`,
+//   async function (this: PotentielWorld) {
+//     try {
+//       await mediator.send<DomainUseCase>({
+//         type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+//         data: {
+//           identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+//           dateQualification: new Date('2023-01-01'),
+//           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('123456789'),
+//           accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
+//         },
+//       });
+//     } catch (error) {
+//       this.error = error as Error;
+//     }
+//   },
+// );

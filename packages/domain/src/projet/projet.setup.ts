@@ -1,5 +1,4 @@
 import { Subscribe } from '@potentiel/core-domain';
-import { registerAjouterGestionnaireRéseauCommand } from '../gestionnaireRéseau/ajouter/ajouterGestionnaireRéseau.command';
 import {
   ModifierGestionnaireRéseauProjetDependencies,
   registerModifierGestionnaireRéseauProjetCommand,
@@ -7,7 +6,11 @@ import {
 import { registerModifierGestionnaireRéseauProjetUseCase } from './modifier/modifierGestionnaireRéseauProjet.usecase';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement/raccordement.event';
 import { mediator } from 'mediateur';
-import { ExecuterAjouterGestionnaireRéseauProjetSaga } from './ajouter/ajouterGestionnaireRéseau.saga';
+import {
+  ExecuterAjouterGestionnaireRéseauProjetSaga,
+  registerExecuterAjouterGestionnaireRéseauProjetSaga,
+} from './ajouter/ajouterGestionnaireRéseau.saga';
+import { registerAjouterGestionnaireRéseauProjetCommand } from './ajouter/ajouterGestionnaireRéseauProjet.command';
 
 export type ProjetDependencies = {
   subscribe: Subscribe;
@@ -16,10 +19,13 @@ export type ProjetDependencies = {
 export const setupProjet = (dependencies: ProjetDependencies) => {
   // Commands
   registerModifierGestionnaireRéseauProjetCommand(dependencies);
-  registerAjouterGestionnaireRéseauCommand(dependencies);
+  registerAjouterGestionnaireRéseauProjetCommand(dependencies);
 
   // Use cases
   registerModifierGestionnaireRéseauProjetUseCase();
+
+  // Sagas
+  registerExecuterAjouterGestionnaireRéseauProjetSaga();
 
   // Sagas
   const { subscribe } = dependencies;
@@ -29,12 +35,14 @@ export const setupProjet = (dependencies: ProjetDependencies) => {
       ['DemandeComplèteDeRaccordementTransmise'],
       async (event: DemandeComplèteRaccordementTransmiseEvent) => {
         try {
+          console.log('Execute saga');
           await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
             type: 'EXECUTER_AJOUTER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
             data: event,
           });
         } catch (error) {
           // TODO: log error ici
+          console.log(error);
         }
       },
     ),

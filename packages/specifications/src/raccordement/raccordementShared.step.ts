@@ -3,19 +3,16 @@ import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 import { expect } from 'chai';
 import { Readable } from 'stream';
-import {
-  ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
-} from '@potentiel/domain-views/src/raccordement/consulter/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
+import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from '@potentiel/domain-views/src/raccordement/consulter/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 import { isNone } from '@potentiel/monads';
 import {
-  AccuséRéceptionDemandeComplèteRaccordementReadModel,
   ConsulterDossierRaccordementQuery,
+  DossierRaccordementReadModel,
   ListerDossiersRaccordementQuery,
   PropositionTechniqueEtFinancièreSignéeReadModel,
 } from '@potentiel/domain-views';
-import {
-  ConsulterPropositionTechniqueEtFinancièreSignéeQuery,
-} from '@potentiel/domain-views/src/raccordement/consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
+import { ConsulterPropositionTechniqueEtFinancièreSignéeQuery } from '@potentiel/domain-views/src/raccordement/consulter/consulterPropositionTechniqueEtFinancièreSignée.query';
+import { convertReadableToString } from '../helpers/convertReadableToString';
 
 EtantDonné(`un dossier de raccordement`, async function (this: PotentielWorld) {
   await this.raccordementWorld.createDemandeComplèteRaccordement(
@@ -37,9 +34,28 @@ EtantDonné(
 );
 
 Alors(
-  `l'accusé de réception de la demande complète de raccordement devrait être consultable dans le dossier de raccordement`,
+  `la demande complète de raccordement devrait être consultable dans le dossier de raccordement`,
   async function (this: PotentielWorld) {
-    const demandeComplèteRaccordement =
+    const actualDossierRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
+      type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+      data: {
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      },
+    });
+
+    const expectedDossierRaccordement: DossierRaccordementReadModel = {
+      dateQualification: this.raccordementWorld.dateQualification.toISOString(),
+      accuséRéception: {
+        format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+      },
+      référence: this.raccordementWorld.référenceDossierRaccordement,
+      type: 'dossier-raccordement',
+    };
+
+    actualDossierRaccordement.should.be.deep.equal(expectedDossierRaccordement);
+
+    const accuséRéception =
       await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
         type: 'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
         data: {
@@ -48,16 +64,23 @@ Alors(
         },
       });
 
-    isNone(demandeComplèteRaccordement).should.equal(false);
+    if (isNone(accuséRéception)) {
+      throw new Error('Demande de raccordement non trouvée');
+    }
 
-    (
-      demandeComplèteRaccordement as AccuséRéceptionDemandeComplèteRaccordementReadModel
-    ).format.should.to.be.equal(
-      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
-    );
-    (
-      demandeComplèteRaccordement as AccuséRéceptionDemandeComplèteRaccordementReadModel
-    ).content.should.be.instanceof(Readable);
+    const actualFormat = accuséRéception.format;
+    const expectedFormat = this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format;
+
+    actualFormat.should.be.equal(expectedFormat);
+
+    const actualContent = await convertReadableToString(accuséRéception.content);
+    const expectedContent =
+      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content;
+
+    console.log(`Actual: `, actualContent);
+    console.log(`Expected: `, expectedContent);
+
+    actualContent.should.be.equal(expectedContent);
   },
 );
 

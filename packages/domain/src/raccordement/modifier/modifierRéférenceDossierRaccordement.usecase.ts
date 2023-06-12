@@ -5,13 +5,13 @@ import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéfér
 type ModifierRéférenceDossierRaccordementUseCaseData =
   ModifierRéférenceDossierRaccordementCommand['data'];
 
-export type ModifierDemandeComplèteRaccordementUseCase = Message<
-  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+export type ModifierRéférenceDossierRaccordementUseCase = Message<
+  'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
   ModifierRéférenceDossierRaccordementUseCaseData
 >;
 
 export const registerModifierRéférenceDossierRaccordementUseCase = () => {
-  const runner: MessageHandler<ModifierDemandeComplèteRaccordementUseCase> = async ({
+  const runner: MessageHandler<ModifierRéférenceDossierRaccordementUseCase> = async ({
     identifiantProjet,
     nouvelleRéférenceDossierRaccordement,
     référenceDossierRaccordementActuelle,
@@ -26,5 +26,5 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
+  mediator.register('MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE', runner);
 };

@@ -8,6 +8,6 @@ export class GestionnaireRéseauDéjàExistantError extends InvalidOperationErro
 
 export class GestionnaireRéseauInconnuError extends NotFoundError {
   constructor() {
-    super(`Le gestionnaire de réseau n'existe pas`);
+    super(`Le gestionnaire de réseau n'est pas référencé`);
   }
 }

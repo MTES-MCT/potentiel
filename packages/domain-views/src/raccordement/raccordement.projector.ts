@@ -27,6 +27,7 @@ export const registerRaccordementProjector = ({
 }: RaccordementProjectorDependencies) => {
   const handler: MessageHandler<ExecuteRaccordementProjector> = async (event) => {
     if (event.type === 'DemandeComplèteDeRaccordementTransmise') {
+      console.log('transmission:', event.payload.référenceDossierRaccordement);
       await create<DossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
         {

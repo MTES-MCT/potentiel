@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { DomainUseCase, convertirEnIdentifiantGestionnaireRéseau } from '@potentiel/domain';
 
 export class GestionnaireRéseauWorld {
+  #gestionnairesRéseauCréés: Map<string, string> = new Map();
   #codeEIC!: string;
 
   get codeEIC() {
@@ -77,6 +78,8 @@ export class GestionnaireRéseauWorld {
       },
     };
 
+    this.#gestionnairesRéseauCréés.set('Inconnu', 'CodeEICInconnu');
+
     await this.createGestionnaireRéseau(
       this.#enedis.codeEIC,
       this.#enedis.raisonSociale,
@@ -102,6 +105,17 @@ export class GestionnaireRéseauWorld {
       },
     });
     this.codeEIC = codeEIC;
+    this.#gestionnairesRéseauCréés.set(raisonSociale, codeEIC);
     await sleep(100);
+  }
+
+  rechercherCodeEIC(raisonSociale: string) {
+    const codeEIC = this.#gestionnairesRéseauCréés.get(raisonSociale);
+
+    if (!codeEIC) {
+      throw new Error(`Aucun CodeEIC correspondant à ${raisonSociale}`);
+    }
+
+    return codeEIC;
   }
 }

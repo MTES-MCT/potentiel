@@ -28,6 +28,8 @@ import {
   registerModifierRéférenceDossierRaccordementCommand,
 } from './modifier/modifierRéférenceDossierRaccordement.command';
 import { registerModifierRéférenceDossierRaccordementUseCase } from './modifier/modifierRéférenceDossierRaccordement.usecase';
+import { registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand } from './enregistrer/enregistrerAccuséRéceptionDemandeComplèteRaccordement.command';
+import { registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand } from './enregistrer/enregistrerPropositionTechniqueEtFinancièreSignée.command';
 
 export type RaccordementDependencies = ModifierDemandeComplèteRaccordementDependencies &
   ModifierPropositionTechniqueEtFinancièreDependencies &
@@ -44,6 +46,8 @@ export const setupRaccordement = (dependencies: RaccordementDependencies) => {
   registerTransmettreDateMiseEnServiceCommand(dependencies);
   registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(dependencies);
+  registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
+  registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand(dependencies);
 
   // Usecases
   registerModifierDemandeComplèteRaccordementUseCase();
