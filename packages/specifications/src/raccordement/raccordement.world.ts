@@ -1,14 +1,7 @@
 import {
   IdentifiantProjet,
-  PropositionTechniqueEtFinancièreSignée,
-  DomainUseCase,
-  convertirEnRéférenceDossierRaccordement,
-  convertirEnIdentifiantProjet,
-  convertirEnIdentifiantGestionnaireRéseau,
 } from '@potentiel/domain';
 import { none } from '@potentiel/monads';
-import { mediator } from 'mediateur';
-import { Readable } from 'stream';
 
 export class RaccordementWorld {
   #dateQualification!: Date;
@@ -37,6 +30,19 @@ export class RaccordementWorld {
     this.#dateSignature = value;
   }
 
+  #dateMiseEnService!: Date;
+
+  get dateMiseEnService(): Date {
+    if (!this.#dateMiseEnService) {
+      throw new Error('dateMiseEnService not initialized');
+    }
+    return this.#dateMiseEnService;
+  }
+
+  set dateMiseEnService(value: Date) {
+    this.#dateMiseEnService = value;
+  }
+
   #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: string };
 
   get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: string } {
@@ -50,16 +56,16 @@ export class RaccordementWorld {
     this.#accuséRéceptionDemandeComplèteRaccordement = value;
   }
 
-  #propositionTechniqueEtFinancièreSignée!: PropositionTechniqueEtFinancièreSignée;
+  #propositionTechniqueEtFinancièreSignée!: { format: string; content: string };
 
-  get propositionTechniqueEtFinancièreSignée(): PropositionTechniqueEtFinancièreSignée {
+  get propositionTechniqueEtFinancièreSignée(): { format: string; content: string } {
     if (!this.#propositionTechniqueEtFinancièreSignée) {
       throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
     }
     return this.#propositionTechniqueEtFinancièreSignée;
   }
 
-  set propositionTechniqueEtFinancièreSignée(value: PropositionTechniqueEtFinancièreSignée) {
+  set propositionTechniqueEtFinancièreSignée(value: { format: string; content: string }) {
     this.#propositionTechniqueEtFinancièreSignée = value;
   }
 
@@ -102,58 +108,5 @@ export class RaccordementWorld {
       famille: none,
       numéroCRE: '23',
     };
-    (this.#dateSignature = new Date('2023-01-01')),
-      (this.#propositionTechniqueEtFinancièreSignée = {
-        format: 'application/pdf',
-        content: Readable.from("Contenu d'un fichier PTF", {
-          encoding: 'utf8',
-        }),
-      });
-  }
-
-  async createDemandeComplèteRaccordement(codeEIC: string, référenceDossierRaccordement: string) {
-    const dateQualification = new Date();
-    await mediator.send<DomainUseCase>({
-      type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-      data: {
-        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-          référenceDossierRaccordement,
-        ),
-        accuséRéception: {
-          format: this.accuséRéceptionDemandeComplèteRaccordement.format,
-          content: Readable.from([this.accuséRéceptionDemandeComplèteRaccordement], {
-            encoding: 'utf-8',
-          }),
-        },
-        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-        identifiantProjet: convertirEnIdentifiantProjet(this.identifiantProjet),
-        dateQualification,
-      },
-    });
-
-    this.#référenceDossierRaccordement = référenceDossierRaccordement;
-    this.#ancienneRéférenceDossierRaccordement = référenceDossierRaccordement;
-    this.#dateQualification = dateQualification;
-  }
-
-  async createPropositionTechniqueEtFinancière() {
-    const référenceDossierRaccordement = 'XXX-RP-2021-999999';
-
-    await mediator.send<DomainUseCase>({
-      type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
-      data: {
-        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-          référenceDossierRaccordement,
-        ),
-        propositionTechniqueEtFinancièreSignée: {
-          format: this.propositionTechniqueEtFinancièreSignée.format,
-          content: this.propositionTechniqueEtFinancièreSignée.content,
-        },
-        identifiantProjet: convertirEnIdentifiantProjet(this.identifiantProjet),
-        dateSignature: this.dateSignature,
-      },
-    });
-
-    this.#référenceDossierRaccordement = référenceDossierRaccordement;
   }
 }

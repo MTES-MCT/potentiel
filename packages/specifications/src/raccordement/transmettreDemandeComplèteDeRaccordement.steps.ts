@@ -8,8 +8,15 @@ import {
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
-import { ListerDossiersRaccordementQuery } from '@potentiel/domain-views';
+import {
+  ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
+  ConsulterDossierRaccordementQuery,
+  DossierRaccordementReadModel,
+  ListerDossiersRaccordementQuery,
+} from '@potentiel/domain-views';
 import { convertStringToReadable } from '../helpers/convertStringToReadable';
+import { isNone } from '@potentiel/monads';
+import { convertReadableToString } from '../helpers/convertReadableToString';
 
 EtantDonné(
   'un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau {string} avec :',
@@ -117,54 +124,6 @@ Quand(
   },
 );
 
-// Quand(
-//   `le porteur du projet transmet une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau`,
-//   async function (this: PotentielWorld) {
-//     try {
-//       await mediator.send<DomainUseCase>({
-//         type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-//         data: {
-//           identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-//           identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
-//             this.gestionnaireRéseauWorld.codeEIC,
-//           ),
-//           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-//             'une référence avec un format invalide',
-//           ),
-//           dateQualification: this.raccordementWorld.dateQualification,
-//           accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-//         },
-//       });
-//     } catch (e) {
-//       this.error = e as Error;
-//     }
-//   },
-// );
-
-// Quand(
-//   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé`,
-//   async function (this: PotentielWorld) {
-//     try {
-//       await mediator.send<DomainUseCase>({
-//         type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-//         data: {
-//           identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-//           identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
-//             'gestionnaire-de-réseau-inconnu',
-//           ),
-//           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-//             this.raccordementWorld.référenceDossierRaccordement,
-//           ),
-//           dateQualification: this.raccordementWorld.dateQualification,
-//           accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-//         },
-//       });
-//     } catch (e) {
-//       this.error = e as Error;
-//     }
-//   },
-// );
-
 Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
@@ -179,45 +138,67 @@ Alors(
   },
 );
 
-// EtantDonné(
-//   `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
-//   async function (this: PotentielWorld) {
-//     await mediator.send<DomainUseCase>({
-//       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-//       data: {
-//         identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-//         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau('codeEICAutreGDR'),
-//         dateQualification: new Date('2022-12-31'),
-//         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('XXX-RP-2021-999999'),
-//         accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-//       },
-//     });
-//   },
-// );
+Alors(
+  `la demande complète de raccordement devrait être consultable dans le dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const actualDossierRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
+      type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+      data: {
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+      },
+    });
 
-// Quand(
-//   `le porteur du projet transmet une demande complète de raccordement auprès d'un autre gestionnaire de réseau`,
-//   async function (this: PotentielWorld) {
-//     const codeEICAutreGDR = 'UN-AUTRE-GDR';
-//     await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
-//       codeEICAutreGDR,
-//       'Un autre gestionnaire',
-//     );
+    const expectedDossierRaccordement: DossierRaccordementReadModel = {
+      dateQualification: this.raccordementWorld.dateQualification.toISOString(),
+      accuséRéception: {
+        format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+      },
+      référence: this.raccordementWorld.référenceDossierRaccordement,
+      type: 'dossier-raccordement',
+    };
 
-//     try {
-//       await mediator.send<DomainUseCase>({
-//         type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-//         data: {
-//           identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-//           identifiantGestionnaireRéseau:
-//             convertirEnIdentifiantGestionnaireRéseau('codeEICAutreGDR'),
-//           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('Enieme-DCR'),
-//           dateQualification: new Date('2022-11-24'),
-//           accuséRéception: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement,
-//         },
-//       });
-//     } catch (error) {
-//       this.error = error as Error;
-//     }
-//   },
-// );
+    actualDossierRaccordement.should.be.deep.equal(expectedDossierRaccordement);
+
+    const accuséRéception =
+      await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
+        type: 'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
+        data: {
+          identifiantProjet: this.raccordementWorld.identifiantProjet,
+          référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+        },
+      });
+
+    if (isNone(accuséRéception)) {
+      throw new Error('Demande complète de raccordement non trouvée');
+    }
+
+    const actualFormat = accuséRéception.format;
+    const expectedFormat = this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format;
+
+    actualFormat.should.be.equal(expectedFormat);
+
+    const actualContent = await convertReadableToString(accuséRéception.content);
+    const expectedContent =
+      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content;
+
+    console.log(`Actual: `, actualContent);
+    console.log(`Expected: `, expectedContent);
+
+    actualContent.should.be.equal(expectedContent);
+  },
+);
+
+Alors(
+  `le dossier est consultable dans la liste des dossiers de raccordement du projet`,
+  async function (this: PotentielWorld) {
+    const actual = await mediator.send<ListerDossiersRaccordementQuery>({
+      type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+      data: {
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      },
+    });
+
+    actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
+  },
+);

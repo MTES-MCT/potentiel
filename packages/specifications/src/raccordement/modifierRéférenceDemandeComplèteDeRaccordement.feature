@@ -1,7 +1,6 @@
 #Language: fr-FR
 Fonctionnalité: Modifier la référence d'une demande complète de raccordement
 
-    @notImplmented
     Scénario: Impossible de modifier une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                      | 2022-10-28                                                                                            |

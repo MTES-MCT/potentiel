@@ -10,18 +10,30 @@ import { mediator } from 'mediateur';
 import { ConsulterDossierRaccordementQuery } from '@potentiel/domain-views';
 
 Quand(
-  `un administrateur transmet la date de mise en service {string} pour ce dossier de raccordement`,
-  async function (this: PotentielWorld, dateMiseEnService: string) {
-    await mediator.send<DomainUseCase>({
-      type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-      data: {
-        identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-          this.raccordementWorld.référenceDossierRaccordement,
-        ),
-        dateMiseEnService: new Date(dateMiseEnService),
-      },
-    });
+  `un administrateur transmet la date de mise en service {string} pour le dossier de raccordement ayant pour référence {string}`,
+  async function (
+    this: PotentielWorld,
+    dateMiseEnService: string,
+    référenceDossierRaccordement: string,
+  ) {
+    const dateMiseEnServiceDate = new Date(dateMiseEnService);
+
+    try {
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            référenceDossierRaccordement,
+          ),
+          dateMiseEnService: dateMiseEnServiceDate,
+        },
+      });
+      this.raccordementWorld.dateMiseEnService = dateMiseEnServiceDate;
+      this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 

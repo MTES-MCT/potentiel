@@ -27,7 +27,6 @@ export const registerRaccordementProjector = ({
 }: RaccordementProjectorDependencies) => {
   const handler: MessageHandler<ExecuteRaccordementProjector> = async (event) => {
     if (event.type === 'DemandeComplèteDeRaccordementTransmise') {
-      console.log('transmission:', event.payload.référenceDossierRaccordement);
       await create<DossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
         {
@@ -182,7 +181,7 @@ export const registerRaccordementProjector = ({
               ...dossierRaccordement,
               propositionTechniqueEtFinancière: {
                 dateSignature: event.payload.dateSignature,
-                format: 'none',
+                format: dossierRaccordement.propositionTechniqueEtFinancière!.format,
               },
             },
           );

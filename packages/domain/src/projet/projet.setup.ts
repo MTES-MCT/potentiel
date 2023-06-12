@@ -35,13 +35,11 @@ export const setupProjet = (dependencies: ProjetDependencies) => {
       ['DemandeComplèteDeRaccordementTransmise'],
       async (event: DemandeComplèteRaccordementTransmiseEvent) => {
         try {
-          console.log('Execute saga');
           await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
             type: 'EXECUTER_AJOUTER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
             data: event,
           });
         } catch (error) {
-          // TODO: log error ici
           console.log(error);
         }
       },

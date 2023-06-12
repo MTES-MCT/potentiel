@@ -1,7 +1,6 @@
 #Language: fr-FR
 Fonctionnalité: Déclarer le gestionnaire de réseau d'un projet
 
-    @working
     Scénario: Le gestionnaire de réseau est déclaré pour le projet lorsque la première demande de raccordement est transmise
         Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                      | 2022-10-28                                                                                            |

@@ -1,95 +1,74 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { DataTable, Given as EtantDonné, When as Quand } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
-
 import { mediator } from 'mediateur';
-import { Readable } from 'stream';
 import {
   DomainUseCase,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
+import { convertStringToReadable } from '../helpers/convertStringToReadable';
 
-Quand(
-  `le porteur modifie la proposition technique et financière`,
-  async function (this: PotentielWorld) {
-    const dateSignature = new Date('2023-04-26');
+EtantDonné(
+  'une propositon technique et financière pour le dossier de raccordement ayant pour référence {string} avec :',
+  async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
+    const exemple = table.rowsHash();
+    const dateSignature = new Date(exemple['La date de signature']);
+    const format = exemple[`Le format de la proposition technique et financière`];
+    const content = exemple[`Le contenu de proposition technique et financière`];
+
     const propositionTechniqueEtFinancièreSignée = {
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un autre fichier PTF", {
-        encoding: 'utf8',
-      }),
+      format,
+      content: convertStringToReadable(content),
     };
 
     await mediator.send<DomainUseCase>({
-      type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+      type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
       data: {
         identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-          this.raccordementWorld.référenceDossierRaccordement,
+          référenceDossierRaccordement,
         ),
         dateSignature,
-        propositionTechniqueEtFinancièreSignée: propositionTechniqueEtFinancièreSignée,
+        propositionTechniqueEtFinancièreSignée,
       },
     });
-
-    this.raccordementWorld.dateSignature = dateSignature;
   },
 );
 
 Quand(
-  `le porteur modifie la date de signature de la proposition technique et financière`,
-  async function (this: PotentielWorld) {
-    const nouvelledateSignature = new Date('2023-04-01');
+  `le porteur modifie la proposition technique et financière pour le dossier de raccordement ayant pour référence {string} avec :`,
+  async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
+    const exemple = table.rowsHash();
+    const dateSignature = new Date(exemple['La date de signature']);
+    const format = exemple[`Le format de la proposition technique et financière`];
+    const content = exemple[`Le contenu de proposition technique et financière`];
 
-    await mediator.send<DomainUseCase>({
-      type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
-      data: {
-        identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-          this.raccordementWorld.référenceDossierRaccordement,
-        ),
-        dateSignature: new Date(nouvelledateSignature),
-        propositionTechniqueEtFinancièreSignée: {
-          format: 'application/pdf',
-          content: Readable.from("Contenu d'un fichier PTF", {
-            encoding: 'utf8',
-          }),
-        },
-      },
-    });
-
-    this.raccordementWorld.dateSignature = nouvelledateSignature;
-
-    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
-      ...this.raccordementWorld.propositionTechniqueEtFinancièreSignée,
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un fichier PTF", {
-        encoding: 'utf8',
-      }),
+    const propositionTechniqueEtFinancièreSignée = {
+      format,
+      content: convertStringToReadable(content),
     };
-  },
-);
 
-Quand(
-  `un administrateur modifie la date de signature pour un dossier de raccordement non connu`,
-  async function (this: PotentielWorld) {
     try {
       await mediator.send<DomainUseCase>({
         type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
         data: {
+          dateSignature,
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            référenceDossierRaccordement,
+          ),
           identifiantProjet: convertirEnIdentifiantProjet(this.raccordementWorld.identifiantProjet),
-          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('dossier-inconnu'),
-          dateSignature: new Date('2023-04-26'),
-          propositionTechniqueEtFinancièreSignée: {
-            format: 'application/pdf',
-            content: Readable.from("Contenu d'un fichier PTF", {
-              encoding: 'utf8',
-            }),
-          },
+          propositionTechniqueEtFinancièreSignée,
         },
       });
-    } catch (error) {
-      this.error = error as Error;
+
+      this.raccordementWorld.dateSignature = dateSignature;
+      this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+      this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+        format,
+        content,
+      };
+    } catch (e) {
+      this.error = e as Error;
     }
   },
 );
