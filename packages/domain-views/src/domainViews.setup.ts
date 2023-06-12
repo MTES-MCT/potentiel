@@ -6,6 +6,7 @@ import {
   RaccordementDependencies,
   setupRaccordementViews,
 } from './raccordement/raccordement.setup';
+import { LegacyProjectRepository } from './legacy.dependencies';
 
 type DomainViewsDependencies = {
   common: {
@@ -17,7 +18,7 @@ type DomainViewsDependencies = {
     remove: Remove;
     update: Update;
     legacy: {
-      projectModel: unknown;
+      projectRepository: LegacyProjectRepository;
     };
   };
   raccordement: Omit<RaccordementDependencies, keyof DomainViewsDependencies['common']>;

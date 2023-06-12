@@ -27,6 +27,7 @@ import {
 } from '@potentiel/infra-adapters';
 import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
 import { clear } from 'mediateur';
+import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
 
 should();
 
@@ -84,6 +85,9 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       search: searchProjection,
       subscribe,
       update: updateProjection,
+      legacy: {
+        projectRepository: legacyProjectRepository,
+      },
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:

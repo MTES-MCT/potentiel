@@ -20,7 +20,7 @@ const FILE_SIZE_LIMIT_MB = 50;
 
 export async function makeServer(port: number, sessionSecret: string) {
   try {
-    await bootstrap({ projectModel: Project });
+    await bootstrap({ projectRepository: Project });
     const app = express();
 
     // Always first middleware

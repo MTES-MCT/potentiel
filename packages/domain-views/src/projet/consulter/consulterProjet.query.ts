@@ -9,6 +9,7 @@ import { ProjetReadModel, ProjetReadModelKey } from '../projet.readModel';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '../../common.port';
 import { Option, isSome, none } from '@potentiel/monads';
+import { LegacyProject, LegacyProjectRepository } from '../..';
 
 export type ConsulterProjetReadModel = ProjetReadModel & {
   identifiantProjet: RawIdentifiantProjet;
@@ -36,17 +37,17 @@ export type ConsulterProjetQuery = Message<
 export type ConsulterProjetDependencies = {
   find: Find;
   legacy: {
-    projectModel: any;
+    projectRepository: LegacyProjectRepository;
   };
 };
 
 export const registerConsulterProjetQuery = ({
   find,
-  legacy: { projectModel },
+  legacy: { projectRepository },
 }: ConsulterProjetDependencies) => {
   const queryHandler: MessageHandler<ConsulterProjetQuery> = async ({ identifiantProjet }) => {
     const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
-    const projetLegacy = await projectModel.findOne({
+    const projetLegacy = await projectRepository.findOne({
       where: {
         appelOffreId: identifiantProjetValueType.appelOffre,
         periodeId: identifiantProjetValueType.période,
@@ -104,7 +105,7 @@ export const registerConsulterProjetQuery = ({
   mediator.register('CONSULTER_PROJET', queryHandler);
 };
 
-const getStatutProjet = (projet: any): ConsulterProjetReadModel['statut'] => {
+const getStatutProjet = (projet: LegacyProject): ConsulterProjetReadModel['statut'] => {
   if (!projet.notifiedOn) {
     return 'non-notifié';
   }

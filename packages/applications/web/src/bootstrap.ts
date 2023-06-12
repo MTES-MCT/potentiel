@@ -13,9 +13,9 @@ import {
   téléchargerFichierDossierRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 import { subscribeFactory } from './subscribe.factory';
-import { setupDomainViews } from '@potentiel/domain-views';
+import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 
-export const bootstrap = async (legacy: { projectModel: unknown }) => {
+export const bootstrap = async (legacy: { projectRepository: LegacyProjectRepository }) => {
   const subscribe = await subscribeFactory();
 
   setupDomain({
