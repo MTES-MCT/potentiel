@@ -7,4 +7,4 @@ Fonctionnalité: Déclarer le gestionnaire de réseau d'un projet
             | La référence du dossier de raccordement       | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception            | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception           | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Alors le gestionaire de réseau '17X100A100A0001A' devrait être consultable dans le projet
+        Alors le gestionaire de réseau 'Enedis' devrait être consultable dans le projet
