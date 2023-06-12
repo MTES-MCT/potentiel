@@ -14,7 +14,7 @@ import { ConsulterProjetQuery, ListerGestionnaireRéseauQuery } from '@potentiel
 import { isNone } from '@potentiel/monads';
 
 const schema = yup.object({
-  params: yup.object({ identifiantProjet: yup.string().uuid().required() }),
+  params: yup.object({ identifiantProjet: yup.string().required() }),
 });
 
 v1Router.get(

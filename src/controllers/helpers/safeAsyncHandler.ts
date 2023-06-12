@@ -37,6 +37,9 @@ export default function safeAsyncHandler<Schema extends BaseSchema>(
       const validatedRequest = Object.assign(request, validatedData);
       await handler(validatedRequest, response, next);
     } catch (error) {
+      console.error(`SAFE ASYNC HANDLER ERROR :`);
+      console.error(JSON.stringify(error));
+
       if (onError) {
         const errors = error.inner?.reduce(
           (errors, { path, message }) => ({ ...errors, [`error-${path}`]: message }),

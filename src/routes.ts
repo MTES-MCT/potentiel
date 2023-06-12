@@ -76,10 +76,10 @@ class routes {
   static ACHETEUR_OBLIGE_STATISTIQUES = '/acheteur-oblige/statistiques.html';
   static GET_CRE_STATISTIQUES = '/cre/statistiques.html';
 
-  static PROJECT_DETAILS = (projectId?: Project['id']) => {
+  static PROJECT_DETAILS = (projectId?: Project['id'] | RawIdentifiantProjet) => {
     const route = '/projet/:projectId/details.html';
     if (projectId) {
-      return route.replace(':projectId', projectId);
+      return route.replace(':projectId', encodeURIComponent(projectId));
     } else return route;
   };
 
@@ -391,7 +391,7 @@ class routes {
   static GET_LISTE_DOSSIERS_RACCORDEMENT = (identifiantProjet?: RawIdentifiantProjet) => {
     const route = '/projet/:identifiantProjet/raccordements';
     if (identifiantProjet) {
-      return route.replace(':identifiantProjet', encodeURI(identifiantProjet));
+      return route.replace(':identifiantProjet', encodeURIComponent(identifiantProjet));
     } else {
       return route;
     }
@@ -402,7 +402,7 @@ class routes {
   ) => {
     const route = '/projet/:identifiantProjet/transmettre-demande-complete-raccordement';
     if (identifiantProjet) {
-      return route.replace(':identifiantProjet', encodeURI(identifiantProjet));
+      return route.replace(':identifiantProjet', encodeURIComponent(identifiantProjet));
     } else {
       return route;
     }
@@ -413,7 +413,7 @@ class routes {
   ) => {
     const route = '/projet/:identifiantProjet/transmettre-demande-complete-raccordement.html';
     if (identifiantProjet) {
-      return route.replace(':identifiantProjet', encodeURI(identifiantProjet));
+      return route.replace(':identifiantProjet', encodeURIComponent(identifiantProjet));
     } else {
       return route;
     }
@@ -424,9 +424,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/transmettre-date-mise-en-service.html`;
   };
 
@@ -435,9 +435,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/transmettre-date-mise-en-service`;
   };
 
@@ -446,9 +446,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/transmettre-proposition-technique-et-financiere.html`;
   };
 
@@ -457,9 +457,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/transmettre-proposition-technique-et-financiere`;
   };
 
@@ -468,9 +468,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/telecharger-accuse-reception`;
   };
 
@@ -479,9 +479,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/telecharger-proposition-technique-et-financiere`;
   };
 
@@ -490,9 +490,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/modifier-demande-complete-raccordement.html`;
   };
 
@@ -501,9 +501,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/modifier-demande-complete-raccordement`;
   };
 
@@ -511,13 +511,13 @@ class routes {
     identifiantProjet?: RawIdentifiantProjet,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/modifier-gestionnaire-reseau.html`;
   };
 
   static POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (identifiantProjet?: RawIdentifiantProjet) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/modifier-gestionnaire-reseau`;
   };
 
@@ -526,9 +526,9 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/modifier-proposition-technique-et-financiere.html`;
   };
 
@@ -537,15 +537,15 @@ class routes {
     reference?: string,
   ) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/${
-      reference ? encodeURI(reference) : ':reference'
+      reference ? encodeURIComponent(reference) : ':reference'
     }/modifier-proposition-technique-et-financiere`;
   };
 
   static GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE = (identifiantProjet?: RawIdentifiantProjet) => {
     return `/projet/${
-      identifiantProjet ? encodeURI(identifiantProjet) : ':identifiantProjet'
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/raccordements/aucun-dossier-renseigne.html`;
   };
   static GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE = `/admin/importer-dates-mise-en-service.html`;

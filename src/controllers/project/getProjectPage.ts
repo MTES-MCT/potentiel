@@ -15,9 +15,16 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '@modules/project';
 import { mediator } from 'mediateur';
 import { ListerDossiersRaccordementQuery } from '@potentiel/domain-views';
+import {
+  RawIdentifiantProjet,
+  convertirEnIdentifiantProjet,
+  estUnRawIdentifiantProjet,
+} from '@potentiel/domain';
+import { Project } from '@infra/sequelize';
+import { isSome } from '@potentiel/monads';
 
 const schema = yup.object({
-  params: yup.object({ projectId: yup.string().uuid().required() }),
+  params: yup.object({ projectId: yup.string().required() }),
 });
 
 v1Router.get(
@@ -30,8 +37,18 @@ v1Router.get(
         notFoundResponse({ request, response, ressourceTitle: 'Projet' }),
     },
     async (request, response) => {
-      const { projectId } = request.params;
       const { user } = request;
+
+      if (estUnRawIdentifiantProjet(request.params.projectId)) {
+        const projectId = await getIdentifiantLegacyProjet(request.params.projectId);
+        return response.redirect(routes.PROJECT_DETAILS(projectId));
+      }
+
+      const projectId = request.params.projectId;
+
+      if (!projectId) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
 
       const userHasRightsToProject = await shouldUserAccessProject.check({
         user,
@@ -98,3 +115,20 @@ v1Router.get(
     },
   ),
 );
+
+const getIdentifiantLegacyProjet = async (identifiantProjet: RawIdentifiantProjet) => {
+  const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+  const projetLegacy = await Project.findOne({
+    where: {
+      appelOffreId: identifiantProjetValueType.appelOffre,
+      periodeId: identifiantProjetValueType.période,
+      familleId: isSome(identifiantProjetValueType.famille)
+        ? identifiantProjetValueType.famille
+        : '',
+      numeroCRE: identifiantProjetValueType.numéroCRE,
+    },
+    attributes: ['id'],
+  });
+
+  return projetLegacy?.id;
+};
