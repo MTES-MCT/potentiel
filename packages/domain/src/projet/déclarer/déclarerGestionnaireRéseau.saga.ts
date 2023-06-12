@@ -7,7 +7,7 @@ import {
 } from '../../domain.valueType';
 
 export type ExecuterAjouterGestionnaireRéseauProjetSaga = Message<
-  'EXECUTER_AJOUTER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
+  'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
   DemandeComplèteRaccordementTransmiseEvent
 >;
 
@@ -16,7 +16,7 @@ export const registerExecuterAjouterGestionnaireRéseauProjetSaga = () => {
     payload: { identifiantGestionnaireRéseau, identifiantProjet },
   }) => {
     await mediator.send<ProjetCommand>({
-      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_PROJET',
+      type: 'DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET',
       data: {
         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
           identifiantGestionnaireRéseau,
@@ -26,5 +26,5 @@ export const registerExecuterAjouterGestionnaireRéseauProjetSaga = () => {
     });
   };
 
-  mediator.register('EXECUTER_AJOUTER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA', handler);
+  mediator.register('EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA', handler);
 };

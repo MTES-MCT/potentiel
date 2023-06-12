@@ -1,6 +1,6 @@
-import { AjouterGestionnaireRéseauProjetCommand } from './ajouter/ajouterGestionnaireRéseauProjet.command';
+import { DéclarerGestionnaireRéseauProjetCommand } from './déclarer/déclarerGestionnaireRéseauProjet.command';
 import { ModifierGestionnaireRéseauProjetCommand } from './modifier/modifierGestionnaireRéseauProjet.command';
 
 export type ProjetCommand =
-  | AjouterGestionnaireRéseauProjetCommand
+  | DéclarerGestionnaireRéseauProjetCommand
   | ModifierGestionnaireRéseauProjetCommand;

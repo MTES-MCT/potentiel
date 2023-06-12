@@ -6,26 +6,26 @@ import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.a
 import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { isNone, isSome } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
-import { GestionnaireRéseauProjetDéjàAjoutéErreur } from '../projet.error';
-import { GestionnaireRéseauProjetAjoutéEvent } from '../projet.event';
+import { GestionnaireRéseauProjetDéjàDéclaréErreur } from '../projet.error';
+import { GestionnaireRéseauProjetDéclaréEvent } from '../projet.event';
 
-export type AjouterGestionnaireRéseauProjetCommand = Message<
-  'AJOUTER_GESTIONNAIRE_RÉSEAU_PROJET',
+export type DéclarerGestionnaireRéseauProjetCommand = Message<
+  'DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType;
     identifiantProjet: IdentifiantProjetValueType;
   }
 >;
 
-export type AjouterGestionnaireRéseauProjetDependencies = {
+export type DéclarerGestionnaireRéseauProjetDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
 };
 
-export const registerAjouterGestionnaireRéseauProjetCommand = ({
+export const registerDéclarerGestionnaireRéseauProjetCommand = ({
   publish,
   loadAggregate,
-}: AjouterGestionnaireRéseauProjetDependencies) => {
+}: DéclarerGestionnaireRéseauProjetDependencies) => {
   const loadProjet = loadProjetAggregateFactory({
     loadAggregate,
   });
@@ -33,7 +33,7 @@ export const registerAjouterGestionnaireRéseauProjetCommand = ({
   const loadGestionnaireRéseau = loadGestionnaireRéseauAggregateFactory({
     loadAggregate,
   });
-  const handler: MessageHandler<AjouterGestionnaireRéseauProjetCommand> = async ({
+  const handler: MessageHandler<DéclarerGestionnaireRéseauProjetCommand> = async ({
     identifiantProjet,
     identifiantGestionnaireRéseau,
   }) => {
@@ -56,11 +56,11 @@ export const registerAjouterGestionnaireRéseauProjetCommand = ({
     }
 
     if (isSome(projet) && isSome(await projet.getGestionnaireRéseau())) {
-      throw new GestionnaireRéseauProjetDéjàAjoutéErreur();
+      throw new GestionnaireRéseauProjetDéjàDéclaréErreur();
     }
 
-    const event: GestionnaireRéseauProjetAjoutéEvent = {
-      type: 'GestionnaireRéseauProjetAjouté',
+    const event: GestionnaireRéseauProjetDéclaréEvent = {
+      type: 'GestionnaireRéseauProjetDéclaré',
       payload: {
         identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
         identifiantProjet: identifiantProjet.formatter(),
@@ -70,5 +70,5 @@ export const registerAjouterGestionnaireRéseauProjetCommand = ({
     await publish(createProjetAggregateId(identifiantProjet), event);
   };
 
-  mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU_PROJET', handler);
+  mediator.register('DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET', handler);
 };

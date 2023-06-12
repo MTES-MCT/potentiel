@@ -6,8 +6,8 @@ export class ProjetInconnuError extends NotFoundError {
   }
 }
 
-export class GestionnaireRéseauProjetDéjàAjoutéErreur extends InvalidOperationError {
+export class GestionnaireRéseauProjetDéjàDéclaréErreur extends InvalidOperationError {
   constructor() {
-    super(`Un gestionnaire de réseau a déjà été ajouté au projet`);
+    super(`Un gestionnaire de réseau a déjà été déclaré pour ce projet`);
   }
 }

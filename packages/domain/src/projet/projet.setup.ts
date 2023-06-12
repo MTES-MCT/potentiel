@@ -9,8 +9,8 @@ import { mediator } from 'mediateur';
 import {
   ExecuterAjouterGestionnaireRéseauProjetSaga,
   registerExecuterAjouterGestionnaireRéseauProjetSaga,
-} from './ajouter/ajouterGestionnaireRéseau.saga';
-import { registerAjouterGestionnaireRéseauProjetCommand } from './ajouter/ajouterGestionnaireRéseauProjet.command';
+} from './déclarer/déclarerGestionnaireRéseau.saga';
+import { registerDéclarerGestionnaireRéseauProjetCommand } from './déclarer/déclarerGestionnaireRéseauProjet.command';
 
 export type ProjetDependencies = {
   subscribe: Subscribe;
@@ -19,7 +19,7 @@ export type ProjetDependencies = {
 export const setupProjet = (dependencies: ProjetDependencies) => {
   // Commands
   registerModifierGestionnaireRéseauProjetCommand(dependencies);
-  registerAjouterGestionnaireRéseauProjetCommand(dependencies);
+  registerDéclarerGestionnaireRéseauProjetCommand(dependencies);
 
   // Use cases
   registerModifierGestionnaireRéseauProjetUseCase();
@@ -36,7 +36,7 @@ export const setupProjet = (dependencies: ProjetDependencies) => {
       async (event: DemandeComplèteRaccordementTransmiseEvent) => {
         try {
           await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
-            type: 'EXECUTER_AJOUTER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
+            type: 'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
             data: event,
           });
         } catch (error) {

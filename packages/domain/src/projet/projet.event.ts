@@ -8,8 +8,8 @@ export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
   }
 >;
 
-export type GestionnaireRéseauProjetAjoutéEvent = DomainEvent<
-  'GestionnaireRéseauProjetAjouté',
+export type GestionnaireRéseauProjetDéclaréEvent = DomainEvent<
+  'GestionnaireRéseauProjetDéclaré',
   {
     identifiantProjet: string;
     identifiantGestionnaireRéseau: string;
@@ -18,4 +18,4 @@ export type GestionnaireRéseauProjetAjoutéEvent = DomainEvent<
 
 export type ProjetEvent =
   | GestionnaireRéseauProjetModifiéEvent
-  | GestionnaireRéseauProjetAjoutéEvent;
+  | GestionnaireRéseauProjetDéclaréEvent;

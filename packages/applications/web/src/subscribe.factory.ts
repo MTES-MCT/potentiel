@@ -5,14 +5,9 @@ import {
   ExecuteProjetProjector,
   ExecuteRaccordementProjector,
 } from '@potentiel/domain-views';
-import {
-  GestionnaireRéseauEvent,
-} from '@potentiel/domain/src/gestionnaireRéseau/gestionnaireRéseau.event';
-import {
-  ProjetEvent,
-} from '@potentiel/domain/src/projet/projet.event';
+import { GestionnaireRéseauEvent } from '@potentiel/domain/src/gestionnaireRéseau/gestionnaireRéseau.event';
+import { ProjetEvent } from '@potentiel/domain/src/projet/projet.event';
 import { subscribe } from '@potentiel/pg-event-sourcing';
-
 
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
@@ -38,7 +33,7 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
 
   const consumerProjet = await consumerFactory('projetProjector');
 
-  consumerProjet.consume('GestionnaireRéseauProjetAjouté', (event: ProjetEvent) =>
+  consumerProjet.consume('GestionnaireRéseauProjetDéclaré', (event: ProjetEvent) =>
     mediator.send<ExecuteProjetProjector>({
       type: 'EXECUTE_PROJET_PROJECTOR',
       data: event,

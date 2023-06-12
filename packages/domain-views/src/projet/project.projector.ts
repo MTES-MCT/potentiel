@@ -18,7 +18,7 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
       event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
     }`;
     switch (event.type) {
-      case 'GestionnaireRéseauProjetAjouté':
+      case 'GestionnaireRéseauProjetDéclaré':
         await create<ProjetReadModel>(key, {
           identifiantGestionnaire: {
             codeEIC: event.payload.identifiantGestionnaireRéseau,
