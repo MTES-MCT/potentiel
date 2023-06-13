@@ -46,15 +46,6 @@ export const registerDéclarerGestionnaireRéseauProjetCommand = ({
       throw new GestionnaireRéseauInconnuError();
     }
 
-    if (isSome(projet)) {
-      console.log(projet.aggregateId);
-      const gdr = await projet.getGestionnaireRéseau();
-
-      if (isSome(gdr)) {
-        console.log(gdr.codeEIC);
-      }
-    }
-
     if (isSome(projet) && isSome(await projet.getGestionnaireRéseau())) {
       throw new GestionnaireRéseauProjetDéjàDéclaréErreur();
     }

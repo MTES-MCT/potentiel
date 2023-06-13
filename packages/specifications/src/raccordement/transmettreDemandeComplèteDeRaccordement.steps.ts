@@ -189,9 +189,6 @@ Alors(
     const expectedContent =
       this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content;
 
-    console.log(`Actual: `, actualContent);
-    console.log(`Expected: `, expectedContent);
-
     actualContent.should.be.equal(expectedContent);
   },
 );
