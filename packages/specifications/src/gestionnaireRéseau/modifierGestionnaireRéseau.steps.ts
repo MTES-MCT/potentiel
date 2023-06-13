@@ -10,6 +10,7 @@ import {
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
+
   this.gestionnaireRéseauWorld.codeEIC = exemple['Code EIC'];
   this.gestionnaireRéseauWorld.raisonSociale = exemple['Raison sociale'];
 
@@ -23,6 +24,7 @@ Quand(
   'un administrateur modifie les données du gestionnaire de réseau',
   async function (this: PotentielWorld, table: DataTable) {
     const example = table.rowsHash();
+
     this.gestionnaireRéseauWorld.raisonSociale = example['Raison sociale'];
     this.gestionnaireRéseauWorld.légende = example['Légende'];
     this.gestionnaireRéseauWorld.format = example['Format'];

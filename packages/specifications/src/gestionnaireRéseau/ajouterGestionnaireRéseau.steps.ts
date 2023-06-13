@@ -19,6 +19,7 @@ Quand(
   'un administrateur ajoute un gestionnaire de réseau',
   async function (this: PotentielWorld, table: DataTable) {
     const example = table.rowsHash();
+
     this.gestionnaireRéseauWorld.codeEIC = example['Code EIC'];
     this.gestionnaireRéseauWorld.raisonSociale = example['Raison sociale'];
     this.gestionnaireRéseauWorld.format = example['Format'];

@@ -56,13 +56,21 @@ Alors(
 Quand(
   `un administrateur transmet une date de mise en service pour un projet n'ayant aucun dossier de raccordement`,
   async function (this: PotentielWorld) {
+    const référenceDossierRaccordement = 'dossier-inconnu';
+    const dateMiseEnService = new Date('2023-03-15');
+
+    this.raccordementWorld.dateMiseEnService = dateMiseEnService;
+    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+
     try {
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
         data: {
           identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
-          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('dossier-inconnu'),
-          dateMiseEnService: new Date('2023-03-15'),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            référenceDossierRaccordement,
+          ),
+          dateMiseEnService,
         },
       });
     } catch (error) {
@@ -74,13 +82,20 @@ Quand(
 Quand(
   `un administrateur transmet une date de mise en service pour un dossier de raccordement non référencé`,
   async function (this: PotentielWorld) {
+    const référenceDossierRaccordement = 'dossier-inconnu';
+    const dateMiseEnService = new Date('2023-03-15');
+
+    this.raccordementWorld.dateMiseEnService = dateMiseEnService;
+    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
     try {
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
         data: {
           identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
-          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement('dossier-inconnu'),
-          dateMiseEnService: new Date('2023-03-15'),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            référenceDossierRaccordement,
+          ),
+          dateMiseEnService,
         },
       });
     } catch (error) {
