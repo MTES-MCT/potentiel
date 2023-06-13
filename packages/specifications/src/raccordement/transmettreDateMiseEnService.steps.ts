@@ -8,6 +8,7 @@ import {
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import { ConsulterDossierRaccordementQuery } from '@potentiel/domain-views';
+import { isNone } from '@potentiel/monads';
 
 Quand(
   `un administrateur transmet la date de mise en service {string} pour le dossier de raccordement ayant pour référence {string}`,
@@ -48,6 +49,10 @@ Alors(
         identifiantProjet: this.projetWorld.identifiantProjet,
       },
     });
+
+    if (isNone(actual)) {
+      throw new Error('Dossier de raccordement non trouvé');
+    }
 
     expect(actual.dateMiseEnService).to.equal(new Date(dateMiseEnService).toISOString());
   },

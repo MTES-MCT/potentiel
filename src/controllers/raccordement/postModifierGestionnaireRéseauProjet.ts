@@ -88,7 +88,7 @@ v1Router.post(
 
       try {
         await mediator.send<DomainUseCase>({
-          type: 'MODIFIER_GESTIONNAIRE_RESEAU_PROJET_USE_CASE',
+          type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET_USE_CASE',
           data: {
             identifiantProjet: identifiantProjetValueType,
             identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(

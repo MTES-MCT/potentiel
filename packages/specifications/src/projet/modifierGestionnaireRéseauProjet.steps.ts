@@ -8,6 +8,7 @@ import {
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import { ConsulterProjetQuery } from '@potentiel/domain-views';
+import { isNone } from '@potentiel/monads';
 
 Quand(
   `le porteur modifie le gestionnaire de réseau de son projet avec un gestionnaire ayant le code EIC {string}`,
@@ -36,6 +37,10 @@ Alors(
         identifiantProjet: this.projetWorld.identifiantProjet,
       },
     });
+
+    if (isNone(résultat)) {
+      throw new Error('Projet non trouvé');
+    }
 
     expect(résultat.identifiantGestionnaire).to.deep.equal({
       codeEIC,

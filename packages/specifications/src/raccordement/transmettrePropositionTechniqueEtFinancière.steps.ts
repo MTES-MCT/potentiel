@@ -64,6 +64,10 @@ Alors(
       },
     });
 
+    if (isNone(dossierRaccordement)) {
+      throw new Error('Dossier de raccordement non trouvé');
+    }
+
     const actualPtf = dossierRaccordement.propositionTechniqueEtFinancière || {};
 
     const expectedPtf: DossierRaccordementReadModel['propositionTechniqueEtFinancière'] = {
