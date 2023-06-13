@@ -49,7 +49,7 @@ Il existe deux environnements pour keycloak :
 
 ## Déploiement
 
-Le projet potentiel suit la stratégie de branche de release : [Release Flow](http://releaseflow.org/)
+Le projet potentiel suit la stratégie de branche de release : [Release Flow](http://releaseflow.org/).
 Les différentes étapes du workflow déclenchent des déploiements automatiquement depuis les workflows github configurés.
 
 Pour plus de détail vous pouvez consulter les diagrammes [release flow](./docs/ci/release-flow.drawio.svg) et [workflows](./docs/ci/workflows.drawio.svg).
