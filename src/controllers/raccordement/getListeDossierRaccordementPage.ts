@@ -72,40 +72,39 @@ v1Router.get(
           })
         : none;
 
-      if (isNone(gestionnaireRéseau)) {
-        return response.redirect(routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(identifiantProjet));
-      }
+      if (isSome(gestionnaireRéseau)) {
+        const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
+          type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+          data: { identifiantProjet: identifiantProjetValueType },
+        });
 
-      const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
-        type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
-        data: { identifiantProjet: identifiantProjetValueType },
-      });
+        if (références.length > 0) {
+          const dossiers: Array<DossierRaccordementReadModel> = (
+            await Promise.all(
+              références.map(async (référence) => {
+                const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
+                  type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+                  data: {
+                    identifiantProjet: identifiantProjetValueType,
+                    référenceDossierRaccordement:
+                      convertirEnRéférenceDossierRaccordement(référence),
+                  },
+                });
 
-      if (références.length > 0) {
-        const dossiers: Array<DossierRaccordementReadModel> = (
-          await Promise.all(
-            références.map(async (référence) => {
-              const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
-                type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
-                data: {
-                  identifiantProjet: identifiantProjetValueType,
-                  référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(référence),
-                },
-              });
+                return dossier;
+              }),
+            )
+          ).filter(isSome);
 
-              return dossier;
+          return response.send(
+            ListeDossiersRaccordementPage({
+              user,
+              projet,
+              gestionnaireRéseau,
+              dossiers,
             }),
-          )
-        ).filter(isSome);
-
-        return response.send(
-          ListeDossiersRaccordementPage({
-            user,
-            projet,
-            gestionnaireRéseau,
-            dossiers,
-          }),
-        );
+          );
+        }
       }
 
       if (userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user)) {

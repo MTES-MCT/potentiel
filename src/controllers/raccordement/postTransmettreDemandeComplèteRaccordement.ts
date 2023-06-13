@@ -30,7 +30,7 @@ import { isSome } from '@potentiel/monads';
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),
   body: yup.object({
-    identifiantGestionnaireRéseau: yup.string().required(),
+    identifiantGestionnaireReseau: yup.string().required(),
     referenceDossierRaccordement: yup.string().required(),
     dateQualification: yup
       .date()
@@ -60,7 +60,7 @@ v1Router.post(
         user,
         params: { identifiantProjet },
         body: {
-          identifiantGestionnaireRéseau,
+          identifiantGestionnaireReseau,
           dateQualification,
           referenceDossierRaccordement: référenceDossierRaccordement,
         },
@@ -88,7 +88,9 @@ v1Router.post(
         where: {
           appelOffreId: identifiantProjetValueType.appelOffre,
           periodeId: identifiantProjetValueType.période,
-          familleId: isSome(identifiantProjetValueType.famille) ?? undefined,
+          familleId: isSome(identifiantProjetValueType.famille)
+            ? identifiantProjetValueType.famille
+            : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
         attributes: ['id'],
@@ -122,7 +124,7 @@ v1Router.post(
           data: {
             identifiantProjet: identifiantProjetValueType,
             identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
-              identifiantGestionnaireRéseau,
+              identifiantGestionnaireReseau,
             ),
             référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
               référenceDossierRaccordement,

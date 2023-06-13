@@ -56,10 +56,10 @@ export const ModifierGestionnaireRéseauProjet = ({
           <Heading2 className="mb-0">Modifier le gestionnaire de réseau du projet</Heading2>
 
           <div>
-            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+            <Label htmlFor="identifiantGestionnaireRéseau">Gestionnaire de réseau</Label>
             <GestionnaireRéseauSelect
-              id="codeEIC"
-              name="codeEIC"
+              id="identifiantGestionnaireRéseau"
+              name="identifiantGestionnaireRéseau"
               gestionnairesRéseau={listeGestionnairesRéseau}
               gestionnaireRéseauActuel={gestionnaireActuel}
             />

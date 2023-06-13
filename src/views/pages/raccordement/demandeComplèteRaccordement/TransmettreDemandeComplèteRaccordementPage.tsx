@@ -75,10 +75,10 @@ export const TransmettreDemandeComplèteRaccordement = ({
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
           <div>
-            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+            <Label htmlFor="identifiantGestionnaireReseau">Gestionnaire de réseau</Label>
             <GestionnaireRéseauSelect
-              id="codeEIC"
-              name="codeEIC"
+              id="identifiantGestionnaireReseau"
+              name="identifiantGestionnaireReseau"
               disabled={!!gestionnaireRéseauActuel}
               gestionnaireRéseauActuel={gestionnaireRéseauActuel}
               gestionnairesRéseau={gestionnairesRéseau}

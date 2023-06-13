@@ -56,7 +56,9 @@ v1Router.post(
         where: {
           appelOffreId: identifiantProjetValueType.appelOffre,
           periodeId: identifiantProjetValueType.période,
-          familleId: isSome(identifiantProjetValueType.famille) ?? undefined,
+          familleId: isSome(identifiantProjetValueType.famille)
+            ? identifiantProjetValueType.famille
+            : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
         attributes: ['id'],
