@@ -1,6 +1,6 @@
 import { NotFoundError } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import {
   DossierRaccordementReadModel,
   DossierRaccordementReadModelKey,
@@ -57,6 +57,3 @@ export const registerConsulterDossierRaccordementQuery = ({
 
   mediator.register('CONSULTER_DOSSIER_RACCORDEMENT_QUERY', queryHandler);
 };
-
-export const buildConsulterDossierRaccordementQuery =
-  getMessageBuilder<ConsulterDossierRaccordementQuery>('CONSULTER_DOSSIER_RACCORDEMENT_QUERY');

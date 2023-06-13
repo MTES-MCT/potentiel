@@ -26,6 +26,7 @@ import {
   téléverserFichierDossierRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
+import { clear } from 'mediateur';
 
 should();
 
@@ -57,6 +58,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       Bucket: bucketName,
     })
     .promise();
+
+  clear();
 
   unsetupDomain = setupDomain({
     common: {

@@ -5,7 +5,7 @@ import {
   estUnIdentifiantProjet,
 } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { ListeDossiersRaccordementReadModel } from '../raccordement.readModel';
 import { Find } from '../../common.port';
 
@@ -47,6 +47,3 @@ export const registerListerDossiersRaccordementQuery = ({
 
   mediator.register('LISTER_DOSSIER_RACCORDEMENT_QUERY', handler);
 };
-
-export const buildListerDossiersRaccordementQuery =
-  getMessageBuilder<ListerDossiersRaccordementQuery>('LISTER_DOSSIER_RACCORDEMENT_QUERY');

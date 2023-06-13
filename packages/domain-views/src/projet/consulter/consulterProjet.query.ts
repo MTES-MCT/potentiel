@@ -1,6 +1,6 @@
 import { ProjetReadModel, ProjetReadModelKey } from '../projet.readModel';
 import { isNone } from '@potentiel/monads';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '../../common.port';
 import {
   IdentifiantProjet,
@@ -38,6 +38,3 @@ export const registerConsulterProjetQuery = ({ find }: ConsulterProjetDependenci
 
   mediator.register('CONSULTER_PROJET', queryHandler);
 };
-
-export const buildConsulterProjetQuery =
-  getMessageBuilder<ConsulterProjetQuery>('CONSULTER_PROJET');

@@ -8,7 +8,7 @@ import {
   estUnIdentifiantProjet,
   estUneRéférenceDossierRaccordement,
 } from '@potentiel/domain';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone, none } from '@potentiel/monads';
 import {
   DossierRaccordementReadModelKey,
@@ -80,8 +80,3 @@ export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
   };
   mediator.register('CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE', handler);
 };
-
-export const buildConsulterPropositionTechniqueEtFinancièreSignéeQuery =
-  getMessageBuilder<ConsulterPropositionTechniqueEtFinancièreSignéeQuery>(
-    'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
-  );

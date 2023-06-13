@@ -1,4 +1,4 @@
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import {
   DossierRaccordementReadModel,
   RésultatRechercheDossierRaccordementReadModel,
@@ -44,6 +44,3 @@ export const registerRechercherDossierRaccordementQuery = ({
 
   mediator.register('RECHERCHER_DOSSIER_RACCORDEMENT_QUERY', queryHandler);
 };
-
-export const buildRechercherDossierRaccordementQuery =
-  getMessageBuilder<RechercherDossierRaccordementQuery>('RECHERCHER_DOSSIER_RACCORDEMENT_QUERY');

@@ -8,8 +8,8 @@ import {
   estUnIdentifiantProjet,
   estUneRéférenceDossierRaccordement,
 } from '@potentiel/domain';
-import { Message, MessageHandler, mediator, getMessageBuilder } from 'mediateur';
-import { Option , isNone, none } from '@potentiel/monads';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { Option, isNone, none } from '@potentiel/monads';
 import {
   DossierRaccordementReadModel,
   DossierRaccordementReadModelKey,
@@ -80,8 +80,3 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
   };
   mediator.register('CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT', handler);
 };
-
-export const buildConsulterAccuséRéceptionDemandeComplèteRaccordementQuery =
-  getMessageBuilder<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>(
-    'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
-  );
