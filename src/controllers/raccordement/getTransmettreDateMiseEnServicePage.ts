@@ -20,7 +20,7 @@ import {
 
 const schema = yup.object({
   params: yup.object({
-    projetId: yup.string().required(),
+    identifiantProjet: yup.string().required(),
     reference: yup.string().required(),
   }),
 });

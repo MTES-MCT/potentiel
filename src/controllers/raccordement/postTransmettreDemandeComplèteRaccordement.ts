@@ -50,7 +50,7 @@ v1Router.post(
       schema,
       onError: ({ request, response }) =>
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(request.params.projetId), {
+          addQueryParams(routes.PROJECT_DETAILS(request.params.identifiantProjet), {
             error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
           }),
         ),

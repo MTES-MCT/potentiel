@@ -34,14 +34,10 @@ export const setupProjet = (dependencies: ProjetDependencies) => {
     subscribe<DemandeComplèteRaccordementTransmiseEvent>(
       ['DemandeComplèteDeRaccordementTransmise'],
       async (event: DemandeComplèteRaccordementTransmiseEvent) => {
-        try {
-          await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
-            type: 'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
-            data: event,
-          });
-        } catch (error) {
-          console.log(error);
-        }
+        await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
+          type: 'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
+          data: event,
+        });
       },
     ),
   ];

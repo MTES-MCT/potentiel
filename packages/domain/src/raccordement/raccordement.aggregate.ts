@@ -5,11 +5,13 @@ import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
   DateMiseEnServiceTransmiseEvent,
   DemandeComplèteRaccordementModifiéeEventV0,
+  DemandeComplèteRaccordementModifiéeEventV1,
   DemandeComplèteRaccordementTransmiseEvent,
   PropositionTechniqueEtFinancièreModifiéeEvent,
   PropositionTechniqueEtFinancièreSignéeTransmiseEvent,
   PropositionTechniqueEtFinancièreTransmiseEvent,
   RaccordementEvent,
+  RéférenceDossierRacordementModifiéeEventV1,
 } from './raccordement.event';
 import {
   GestionnaireRéseau,
@@ -68,6 +70,10 @@ const raccordementAggregateFactory: AggregateFactory<Raccordement, RaccordementE
         return modifierDateSignaturePropositionTechniqueEtFinancière(aggregate, event);
       case 'DemandeComplèteRaccordementModifiée':
         return modifierDemandeComplèteRaccordement(aggregate, event);
+      case 'DemandeComplèteRaccordementModifiée-V1':
+        return modifierDemandeComplèteRaccordementV1(aggregate, event);
+      case 'RéférenceDossierRacordementModifiée-V1':
+        return modifierRéférenceDossierRacordement(aggregate, event);
       default:
         return { ...aggregate };
     }
@@ -131,6 +137,23 @@ const modifierDemandeComplèteRaccordement = (
   dossier.demandeComplèteRaccordement.dateQualification = new Date(dateQualification);
   dossier.référence = convertirEnRéférenceDossierRaccordement(nouvelleReference);
 
+  aggregate.dossiers.delete(referenceActuelle);
+  aggregate.dossiers.set(nouvelleReference, dossier);
+
+  return aggregate;
+};
+
+const modifierDemandeComplèteRaccordementV1 = (
+  aggregate: Raccordement,
+  {
+    payload: { dateQualification, référenceDossierRaccordement },
+  }: DemandeComplèteRaccordementModifiéeEventV1,
+): Raccordement => {
+  const dossier = récupérerDossier(aggregate, référenceDossierRaccordement);
+
+  dossier.demandeComplèteRaccordement.dateQualification = new Date(dateQualification);
+  dossier.référence = convertirEnRéférenceDossierRaccordement(référenceDossierRaccordement);
+
   return aggregate;
 };
 
@@ -180,6 +203,21 @@ const modifierDateSignaturePropositionTechniqueEtFinancière = (
   const dossier = récupérerDossier(aggregate, référenceDossierRaccordement);
 
   dossier.propositionTechniqueEtFinancière.dateSignature = new Date(dateSignature);
+
+  return aggregate;
+};
+
+const modifierRéférenceDossierRacordement = (
+  aggregate: Raccordement,
+  {
+    payload: { nouvelleRéférenceDossierRaccordement, référenceDossierRaccordementActuelle },
+  }: RéférenceDossierRacordementModifiéeEventV1,
+): Raccordement => {
+  const dossier = récupérerDossier(aggregate, référenceDossierRaccordementActuelle);
+  dossier.référence = convertirEnRéférenceDossierRaccordement(nouvelleRéférenceDossierRaccordement);
+
+  aggregate.dossiers.delete(référenceDossierRaccordementActuelle);
+  aggregate.dossiers.set(nouvelleRéférenceDossierRaccordement, dossier);
 
   return aggregate;
 };

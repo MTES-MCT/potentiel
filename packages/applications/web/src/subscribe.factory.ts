@@ -6,7 +6,9 @@ import {
   ExecuteRaccordementProjector,
 } from '@potentiel/domain-views';
 import { GestionnaireRéseauEvent } from '@potentiel/domain/src/gestionnaireRéseau/gestionnaireRéseau.event';
+import { ExecuterAjouterGestionnaireRéseauProjetSaga } from '@potentiel/domain/src/projet/déclarer/déclarerGestionnaireRéseau.saga';
 import { ProjetEvent } from '@potentiel/domain/src/projet/projet.event';
+import { DemandeComplèteRaccordementTransmiseEvent } from '@potentiel/domain/src/raccordement/raccordement.event';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
@@ -45,6 +47,15 @@ export const subscribeFactory = async (): Promise<Subscribe> => {
       type: 'EXECUTE_PROJET_PROJECTOR',
       data: event,
     }),
+  );
+
+  consumerProjet.consume(
+    'DemandeComplèteDeRaccordementTransmise',
+    (event: DemandeComplèteRaccordementTransmiseEvent) =>
+      mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
+        type: 'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
+        data: event,
+      }),
   );
 
   const consumerRaccordement = await consumerFactory('raccordementProjector');

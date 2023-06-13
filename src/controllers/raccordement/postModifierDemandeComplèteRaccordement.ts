@@ -32,7 +32,7 @@ const schema = yup.object({
     reference: yup.string().required(),
   }),
   body: yup.object({
-    nouvelleReferenceDossierRaccordement: yup.string().required(),
+    referenceDossierRaccordement: yup.string().required(),
     dateQualification: yup
       .date()
       .required(`La date de qualification est obligatoire`)
@@ -66,7 +66,7 @@ v1Router.post(
       const {
         user,
         params: { identifiantProjet, reference },
-        body: { dateQualification, nouvelleReferenceDossierRaccordement },
+        body: { dateQualification, referenceDossierRaccordement },
         file,
       } = request;
 
@@ -124,7 +124,7 @@ v1Router.post(
       // TODO: Avoir 2 use case exécutés dans un controller n'est pas normal il faut avoir un controller dédié pour cette action
       try {
         const nouvelleRéférenceDossierRaccordementValueType =
-          convertirEnRéférenceDossierRaccordement(nouvelleReferenceDossierRaccordement);
+          convertirEnRéférenceDossierRaccordement(referenceDossierRaccordement);
 
         const référenceDossierRaccordementActuelle =
           convertirEnRéférenceDossierRaccordement(reference);
@@ -167,7 +167,10 @@ v1Router.post(
         if (error instanceof DomainError) {
           return response.redirect(
             addQueryParams(
-              routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet, reference),
+              routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
+                identifiantProjet,
+                referenceDossierRaccordement,
+              ),
               {
                 error: error.message,
               },
