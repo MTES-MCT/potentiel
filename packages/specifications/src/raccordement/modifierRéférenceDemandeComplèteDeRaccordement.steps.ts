@@ -14,6 +14,8 @@ Quand(
     référenceDossierRaccordementActuelle: string,
     nouvelleRéférenceDossierRaccordement: string,
   ) {
+    this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférenceDossierRaccordement;
+
     try {
       await mediator.send<DomainUseCase>({
         type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
@@ -27,8 +29,6 @@ Quand(
           ),
         },
       });
-
-      this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférenceDossierRaccordement;
     } catch (e) {
       this.error = e as Error;
     }

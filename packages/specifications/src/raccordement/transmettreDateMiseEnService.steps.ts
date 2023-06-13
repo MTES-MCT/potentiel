@@ -18,6 +18,9 @@ Quand(
   ) {
     const dateMiseEnServiceDate = new Date(dateMiseEnService);
 
+    this.raccordementWorld.dateMiseEnService = dateMiseEnServiceDate;
+    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+
     try {
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
@@ -29,8 +32,6 @@ Quand(
           dateMiseEnService: dateMiseEnServiceDate,
         },
       });
-      this.raccordementWorld.dateMiseEnService = dateMiseEnServiceDate;
-      this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
     } catch (e) {
       this.error = e as Error;
     }

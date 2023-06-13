@@ -28,6 +28,13 @@ Quand(
       content: convertStringToReadable(content),
     };
 
+    this.raccordementWorld.dateSignature = dateSignature;
+    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+      format,
+      content,
+    };
+
     try {
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
@@ -40,13 +47,6 @@ Quand(
           propositionTechniqueEtFinancièreSignée,
         },
       });
-
-      this.raccordementWorld.dateSignature = dateSignature;
-      this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-      this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
-        format,
-        content,
-      };
     } catch (e) {
       this.error = e as Error;
     }

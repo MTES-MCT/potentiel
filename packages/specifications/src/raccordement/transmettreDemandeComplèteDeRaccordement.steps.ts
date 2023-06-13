@@ -34,6 +34,13 @@ EtantDonné(
 
     const codeEIC = this.gestionnaireRéseauWorld.rechercherCodeEIC(raisonSociale);
 
+    this.raccordementWorld.dateQualification = dateQualification;
+    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
+      format,
+      content,
+    };
+
     await mediator.send<DomainUseCase>({
       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
       data: {
@@ -46,13 +53,6 @@ EtantDonné(
         accuséRéception,
       },
     });
-
-    this.raccordementWorld.dateQualification = dateQualification;
-    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-      format,
-      content,
-    };
   },
 );
 
@@ -72,6 +72,13 @@ Quand(
 
     const codeEIC = this.gestionnaireRéseauWorld.rechercherCodeEIC(raisonSociale);
 
+    this.raccordementWorld.dateQualification = dateQualification;
+    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
+      format,
+      content,
+    };
+
     try {
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
@@ -85,13 +92,6 @@ Quand(
           accuséRéception,
         },
       });
-
-      this.raccordementWorld.dateQualification = dateQualification;
-      this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-        format,
-        content,
-      };
     } catch (e) {
       this.error = e as Error;
     }
