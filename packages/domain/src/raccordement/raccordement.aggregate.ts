@@ -1,6 +1,9 @@
-import { Option, none } from '@potentiel/monads';
+import { Option, isSome, none } from '@potentiel/monads';
 import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { IdentifiantProjetValueType } from '../projet/projet.valueType';
+import {
+  IdentifiantProjetValueType,
+  convertirEnIdentifiantProjet,
+} from '../projet/projet.valueType';
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
   DateMiseEnServiceTransmiseEvent,
@@ -13,17 +16,14 @@ import {
   RaccordementEvent,
   RéférenceDossierRacordementModifiéeEventV1,
 } from './raccordement.event';
-import {
-  GestionnaireRéseau,
-  loadGestionnaireRéseauAggregateFactory,
-} from '../gestionnaireRéseau/gestionnaireRéseau.aggregate';
-import { convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
+import { GestionnaireRéseau } from '../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import {
   DossierRaccordement,
   RéférenceDossierRaccordementValueType,
   convertirEnRéférenceDossierRaccordement,
 } from './raccordement.valueType';
 import { DossierRaccordementNonRéférencéError } from './raccordement.errors';
+import { Projet, loadProjetAggregateFactory } from '../projet/projet.aggregate';
 
 type RaccordementAggregateId = `raccordement#${string}`;
 
@@ -36,6 +36,7 @@ export const createRaccordementAggregateId = (
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
 type Raccordement = {
+  getProjet(): Promise<Option<Projet>>;
   getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>>;
   dossiers: Map<string, DossierRaccordement>;
   contientLeDossier: (
@@ -44,6 +45,7 @@ type Raccordement = {
 };
 
 const defaultAggregateState: Raccordement = {
+  getProjet: async () => Promise.resolve(none),
   getGestionnaireRéseau: async () => Promise.resolve(none),
   dossiers: new Map(),
   contientLeDossier({ référence }) {
@@ -94,7 +96,7 @@ export const loadRaccordementAggregateFactory = ({
 const ajouterDossier = (
   aggregate: Raccordement,
   {
-    payload: { identifiantGestionnaireRéseau, référenceDossierRaccordement, dateQualification },
+    payload: { identifiantProjet, référenceDossierRaccordement, dateQualification },
   }: DemandeComplèteRaccordementTransmiseEvent,
   loadAggregate: LoadAggregate,
 ): Raccordement => {
@@ -115,13 +117,19 @@ const ajouterDossier = (
 
   return {
     ...aggregate,
-    getGestionnaireRéseau: async () => {
-      const loadGestionnaireRéseau = loadGestionnaireRéseauAggregateFactory({
+    getProjet: async function () {
+      const loadProjet = loadProjetAggregateFactory({
         loadAggregate,
       });
-      return loadGestionnaireRéseau(
-        convertirEnIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau),
-      );
+      return loadProjet(convertirEnIdentifiantProjet(identifiantProjet));
+    },
+    getGestionnaireRéseau: async function () {
+      const projet = await this.getProjet();
+
+      if (isSome(projet)) {
+        return await projet.getGestionnaireRéseau();
+      }
+      return none;
     },
   };
 };

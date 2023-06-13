@@ -4,9 +4,8 @@ import { IdentifiantGestionnaireRéseauValueType } from '../../gestionnaireRése
 import { IdentifiantProjetValueType } from '../projet.valueType';
 import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
 import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
-import { isNone, isSome } from '@potentiel/monads';
+import { isNone, isSome, none } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
-import { GestionnaireRéseauProjetDéjàDéclaréErreur } from '../projet.error';
 import { GestionnaireRéseauProjetDéclaréEvent } from '../projet.event';
 
 export type DéclarerGestionnaireRéseauProjetCommand = Message<
@@ -46,19 +45,26 @@ export const registerDéclarerGestionnaireRéseauProjetCommand = ({
       throw new GestionnaireRéseauInconnuError();
     }
 
-    if (isSome(projet) && isSome(await projet.getGestionnaireRéseau())) {
-      throw new GestionnaireRéseauProjetDéjàDéclaréErreur();
+    const gestionnaireRéseauProjet = isSome(projet) ? await projet.getGestionnaireRéseau() : none;
+
+    if (isNone(gestionnaireRéseauProjet)) {
+      const event: GestionnaireRéseauProjetDéclaréEvent = {
+        type: 'GestionnaireRéseauProjetDéclaré',
+        payload: {
+          identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      };
+
+      await publish(createProjetAggregateId(identifiantProjet), event);
+    } else {
+      if (!gestionnaireRéseauProjet.estÉgaleÀ(gestionnaireRéseau)) {
+        // TODO: Ce cas doit être moinitoré. Il est fonctionnellement impossible, mais technique déclenchable.
+        console.log(
+          `WARNING: La déclaration est invalide. Le projet dispose déjà d'un gestionnaire de réseau et cette déclaration correspond à un gestionnaire de réseau différent`,
+        );
+      }
     }
-
-    const event: GestionnaireRéseauProjetDéclaréEvent = {
-      type: 'GestionnaireRéseauProjetDéclaré',
-      payload: {
-        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    };
-
-    await publish(createProjetAggregateId(identifiantProjet), event);
   };
 
   mediator.register('DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET', handler);

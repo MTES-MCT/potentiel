@@ -47,11 +47,11 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand le porteur modifie la demande complète de raccordement "OUE-RP-2022-000033" avec la référence "UneRéférenceAvecUnFormatInvalidePourEnedis"
         Alors le porteur devrait être informé que "Le format de la référence du dossier de raccordement est invalide"
 
-    Scénario: Impossible de modifier une proposition technique et financière pour un projet sans dossier de raccordement
+    Scénario: Impossible de modifier la référence pour un projet sans dossier de raccordement
         Quand le porteur modifie la demande complète de raccordement "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034"
         Alors un administrateur devrait être informé que "Le dossier de raccordement n'est pas référencé" 
 
-    Scénario: Impossible de modifier une proposition technique et financière pour un dossier de raccordement non référencé
+    Scénario: Impossible de modifier la référence pour un dossier de raccordement non référencé
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                      | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement       | OUE-RP-2022-000033                                                                                    |
