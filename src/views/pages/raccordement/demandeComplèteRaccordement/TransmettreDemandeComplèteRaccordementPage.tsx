@@ -9,37 +9,35 @@ import {
   InfoBox,
   Input,
   Label,
-  PlugIcon,
   Link,
   PageProjetTemplate,
   Form,
   LabelDescription,
 } from '@components';
-import { GestionnaireRéseauReadModel, RésuméProjetReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
 
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
+import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettreDemandeComplèteRaccordementProps = {
-  identifiantProjet: string;
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  résuméProjet: RésuméProjetReadModel;
+  projet: ConsulterProjetReadModel;
   error?: string;
-  identifiantGestionnaire?: string;
 };
 
 export const TransmettreDemandeComplèteRaccordement = ({
   user,
   gestionnairesRéseau,
-  identifiantProjet,
-  résuméProjet,
+  projet,
   error,
-  identifiantGestionnaire,
 }: TransmettreDemandeComplèteRaccordementProps) => {
+  const { identifiantProjet } = projet;
+
   const gestionnaireRéseauActuel = gestionnairesRéseau.find(
-    (gestionnaire) => gestionnaire.codeEIC === identifiantGestionnaire,
+    (gestionnaire) => gestionnaire.codeEIC === projet.identifiantGestionnaire?.codeEIC,
   );
 
   const [format, setFormat] = useState(
@@ -53,16 +51,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
   );
 
   return (
-    <PageProjetTemplate
-      titre={
-        <>
-          <PlugIcon className="mr-1" />
-          Raccordement
-        </>
-      }
-      user={user}
-      résuméProjet={résuméProjet}
-    >
+    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
       <div className="flex flex-col md:flex-row gap-4">
         <Form
           className="max-w-none w-full md:w-1/2 mx-0"
@@ -77,10 +66,10 @@ export const TransmettreDemandeComplèteRaccordement = ({
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
           <div>
-            <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+            <Label htmlFor="identifiantGestionnaireReseau">Gestionnaire de réseau</Label>
             <GestionnaireRéseauSelect
-              id="codeEIC"
-              name="codeEIC"
+              id="identifiantGestionnaireReseau"
+              name="identifiantGestionnaireReseau"
               disabled={!!gestionnaireRéseauActuel}
               gestionnaireRéseauActuel={gestionnaireRéseauActuel}
               gestionnairesRéseau={gestionnairesRéseau}
@@ -125,7 +114,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>
-            {identifiantGestionnaire ? (
+            {projet.identifiantGestionnaire ? (
               <Link
                 href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
                 className="m-auto"

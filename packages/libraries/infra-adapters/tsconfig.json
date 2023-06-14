@@ -7,8 +7,15 @@
   "references": [
     {
       "path": "../monads"
-    }, 
-    {"path": "../file-storage"},
-    {"path": "../../domain"}
+    },
+    {
+      "path": "../file-storage"
+    },
+    {
+      "path": "../../domain"
+    },
+    {
+      "path": "../../domain-views"
+    }
   ]
 }

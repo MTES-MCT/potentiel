@@ -7,8 +7,9 @@ import * as yup from 'yup';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import {
+  DomainUseCase,
   PermissionAjouterGestionnaireRéseau,
-  buildAjouterGestionnaireRéseauUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
 } from '@potentiel/domain';
 import { InvalidOperationError } from '@potentiel/core-domain';
 import { mediator } from 'mediateur';
@@ -49,13 +50,14 @@ v1Router.post(
       } = request.body;
 
       try {
-        const ajouterGestionnaireRéseauCommand = buildAjouterGestionnaireRéseauUseCase({
-          codeEIC,
-          aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-          raisonSociale,
+        await mediator.send<DomainUseCase>({
+          type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+          data: {
+            identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
+            aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+            raisonSociale,
+          },
         });
-
-        await mediator.send(ajouterGestionnaireRéseauCommand);
 
         response.redirect(
           addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {

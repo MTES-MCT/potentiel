@@ -1,6 +1,6 @@
 export * from './aggregateId';
 export * from './aggregate';
-export * from './aggregateStateFactory';
+export * from './aggregateFactory';
 export * from './loadAggregate';
 export * from './domainError';
 export * from './domainEvent';

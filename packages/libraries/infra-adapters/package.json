@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@potentiel/monads": "*",
+    "@potentiel/domain": "*",
+    "@potentiel/domain-views": "*",
     "@potentiel/file-storage": "*"
   },
   "devDependencies": {

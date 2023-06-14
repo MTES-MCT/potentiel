@@ -6,7 +6,7 @@ import {
   BeforeAll,
   setDefaultTimeout,
 } from '@cucumber/cucumber';
-import { setupDomain, UnsetupDomain } from '@potentiel/domain';
+import { UnsetupDomain, setupDomain } from '@potentiel/domain';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import {
@@ -22,11 +22,12 @@ import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
 import {
-  téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
-  téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
-  téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-  téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+  téléchargerFichierDossierRaccordementAdapter,
+  téléverserFichierDossierRaccordementAdapter,
 } from '@potentiel/infra-adapters';
+import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
+import { clear } from 'mediateur';
+import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
 
 should();
 
@@ -37,10 +38,11 @@ setDefaultTimeout(5000);
 const bucketName = 'potentiel';
 
 let unsetupDomain: UnsetupDomain | undefined;
+let unsetupDomainViews: UnsetupDomainViews | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
-  await sleep(1000);
+  await sleep(200);
 });
 
 BeforeAll(async () => {
@@ -58,32 +60,40 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     })
     .promise();
 
+  clear();
+
   unsetupDomain = setupDomain({
-    command: {
+    common: {
       loadAggregate,
       publish,
-    },
-    query: {
-      find: findProjection,
-      list: listProjection,
-      search: searchProjection,
-    },
-    event: {
-      create: createProjection,
-      remove: removeProjection,
-      update: updateProjection,
+      subscribe,
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
-        téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+        téléverserFichierDossierRaccordementAdapter,
       enregistrerPropositionTechniqueEtFinancièreSignée:
-        téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
-      récupérerAccuséRéceptionDemandeComplèteRaccordement:
-        téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-      récupérerPropositionTechniqueEtFinancièreSignée:
-        téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+        téléverserFichierDossierRaccordementAdapter,
     },
-    subscribe,
+  });
+
+  unsetupDomainViews = setupDomainViews({
+    common: {
+      create: createProjection,
+      find: findProjection,
+      list: listProjection,
+      remove: removeProjection,
+      search: searchProjection,
+      subscribe,
+      update: updateProjection,
+      legacy: {
+        projectRepository: legacyProjectRepository,
+      },
+    },
+    raccordement: {
+      récupérerAccuséRéceptionDemandeComplèteRaccordement:
+        téléchargerFichierDossierRaccordementAdapter,
+      récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
+    },
   });
 
   await this.gestionnaireRéseauWorld.createEnedis();
@@ -103,4 +113,9 @@ After(async () => {
     await unsetupDomain();
   }
   unsetupDomain = undefined;
+
+  if (unsetupDomainViews) {
+    await unsetupDomainViews();
+  }
+  unsetupDomainViews = undefined;
 });

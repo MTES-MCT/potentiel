@@ -4,7 +4,7 @@ import { hydrateOnClient } from '@views/helpers';
 import React from 'react';
 import { Liste } from './components/Liste';
 import routes from '@routes';
-import { GestionnaireRéseauReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 
 type ListeGestionnairesRéseauProps = {
   user: UtilisateurReadModel;

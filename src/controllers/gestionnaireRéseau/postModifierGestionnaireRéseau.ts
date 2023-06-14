@@ -7,8 +7,9 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
+  DomainUseCase,
   PermissionModifierGestionnaireRéseau,
-  buildModifierGestionnaireRéseauUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { NotFoundError } from '@potentiel/core-domain';
@@ -42,13 +43,14 @@ v1Router.post(
         params: { codeEIC },
       } = request;
       try {
-        const modifierGestionnaireRéseauCommand = buildModifierGestionnaireRéseauUseCase({
-          identifiantGestionnaireRéseau: { codeEIC },
-          aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-          raisonSociale,
+        await mediator.send<DomainUseCase>({
+          type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+          data: {
+            identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
+            aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+            raisonSociale,
+          },
         });
-
-        await mediator.send(modifierGestionnaireRéseauCommand);
 
         response.redirect(
           addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {

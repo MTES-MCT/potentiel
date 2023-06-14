@@ -5,9 +5,10 @@ import { CalendarIcon, EditIcon, Link } from '@components';
 import { afficherDate } from '@views/helpers';
 
 import { Etape } from './Etape';
+import { RawIdentifiantProjet } from '@potentiel/domain';
 
 type ÉtapeMiseEnServiceProps = {
-  identifiantProjet: string;
+  identifiantProjet: RawIdentifiantProjet;
   référence: string;
   dateMiseEnService: string | undefined;
   showEditLink: boolean;

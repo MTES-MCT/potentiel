@@ -9,39 +9,44 @@ import {
   updateProjection,
 } from '@potentiel/pg-projections';
 import {
-  téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
-  téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
-  téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
-  téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
+  téléverserFichierDossierRaccordementAdapter,
+  téléchargerFichierDossierRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 import { subscribeFactory } from './subscribe.factory';
+import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 
-export const bootstrap = async () => {
+export const bootstrap = async (legacy: { projectRepository: LegacyProjectRepository }) => {
+  const subscribe = await subscribeFactory();
+
   setupDomain({
-    command: {
+    common: {
       loadAggregate,
       publish,
-    },
-    query: {
-      find: findProjection,
-      list: listProjection,
-      search: searchProjection,
-    },
-    event: {
-      create: createProjection,
-      remove: removeProjection,
-      update: updateProjection,
+      subscribe,
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
-        téléverserAccuséRéceptionDemandeComplèteRaccordementAdapter,
+        téléverserFichierDossierRaccordementAdapter,
       enregistrerPropositionTechniqueEtFinancièreSignée:
-        téléverserPropositionTechniqueEtFinancièreSignéeAdapter,
-      récupérerAccuséRéceptionDemandeComplèteRaccordement:
-        téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter,
-      récupérerPropositionTechniqueEtFinancièreSignée:
-        téléchargerPropositionTechniqueEtFinancièreSignéeAdapter,
+        téléverserFichierDossierRaccordementAdapter,
     },
-    subscribe: await subscribeFactory(),
+  });
+
+  setupDomainViews({
+    common: {
+      create: createProjection,
+      find: findProjection,
+      list: listProjection,
+      remove: removeProjection,
+      search: searchProjection,
+      subscribe,
+      update: updateProjection,
+      legacy,
+    },
+    raccordement: {
+      récupérerAccuséRéceptionDemandeComplèteRaccordement:
+        téléchargerFichierDossierRaccordementAdapter,
+      récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
+    },
   });
 };

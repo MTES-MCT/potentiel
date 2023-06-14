@@ -15,11 +15,12 @@
   "dependencies": {
     "@potentiel/core-domain": "*",
     "@potentiel/domain": "*",
+    "@potentiel/domain-views": "*",
     "@potentiel/file-storage": "*",
     "@potentiel/infra-adapters": "*",
     "@potentiel/pg-event-sourcing": "*",
     "@potentiel/pg-helpers": "*",
-    "mediateur": "^0.1.0-beta.20230523070921"
+    "mediateur": "^0.1.0-beta.20230613080529"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^9.1.0",

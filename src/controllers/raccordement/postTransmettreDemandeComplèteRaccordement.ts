@@ -1,7 +1,11 @@
 import { createReadStream } from 'fs';
 import {
+  DomainUseCase,
   PermissionTransmettreDemandeComplèteRaccordement,
-  buildTransmettreDemandeComplèteRaccordementUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+  estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -21,11 +25,12 @@ import { upload as uploadMiddleware } from '../upload';
 
 import { mediator } from 'mediateur';
 import { DomainError } from '@potentiel/core-domain';
+import { isSome } from '@potentiel/monads';
 
 const schema = yup.object({
-  params: yup.object({ projetId: yup.string().uuid().required() }),
+  params: yup.object({ identifiantProjet: yup.string().required() }),
   body: yup.object({
-    codeEIC: yup.string().required(),
+    identifiantGestionnaireReseau: yup.string().required(),
     referenceDossierRaccordement: yup.string().required(),
     dateQualification: yup
       .date()
@@ -45,7 +50,7 @@ v1Router.post(
       schema,
       onError: ({ request, response }) =>
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(request.params.projetId), {
+          addQueryParams(routes.PROJECT_DETAILS(request.params.identifiantProjet), {
             error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
           }),
         ),
@@ -53,25 +58,42 @@ v1Router.post(
     async (request, response) => {
       const {
         user,
-        params: { projetId },
+        params: { identifiantProjet },
         body: {
-          codeEIC,
+          identifiantGestionnaireReseau,
           dateQualification,
           referenceDossierRaccordement: référenceDossierRaccordement,
         },
         file,
       } = request;
 
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
       if (!file) {
         return response.redirect(
-          addQueryParams(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId), {
-            error: `Vous devez joindre l'accusé de réception de la demande complète de raccordement`,
-          }),
+          addQueryParams(
+            routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet),
+            {
+              error: `Vous devez joindre l'accusé de réception de la demande complète de raccordement`,
+            },
+          ),
         );
       }
 
-      const projet = await Project.findByPk(projetId, {
-        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
+      const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+
+      const projet = await Project.findOne({
+        where: {
+          appelOffreId: identifiantProjetValueType.appelOffre,
+          periodeId: identifiantProjetValueType.période,
+          familleId: isSome(identifiantProjetValueType.famille)
+            ? identifiantProjetValueType.famille
+            : '',
+          numeroCRE: identifiantProjetValueType.numéroCRE,
+        },
+        attributes: ['id'],
       });
 
       if (!projet) {
@@ -84,7 +106,7 @@ v1Router.post(
 
       if (user.role === 'porteur-projet') {
         const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
-          where: { projectId: projetId, userId: user.id },
+          where: { projectId: projet.id, userId: user.id },
         }));
 
         if (!porteurAAccèsAuProjet) {
@@ -96,40 +118,41 @@ v1Router.post(
         }
       }
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        période: projet.periodeId,
-        famille: projet.familleId,
-        numéroCRE: projet.numeroCRE,
-      };
-
       try {
-        await mediator.send(
-          buildTransmettreDemandeComplèteRaccordementUseCase({
-            identifiantProjet,
-            identifiantGestionnaireRéseau: { codeEIC },
+        await mediator.send<DomainUseCase>({
+          type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+            identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+              identifiantGestionnaireReseau,
+            ),
+            référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+              référenceDossierRaccordement,
+            ),
             dateQualification,
-            référenceDossierRaccordement,
-            nouvelAccuséRéception: {
+            accuséRéception: {
               format: file.mimetype,
               content: createReadStream(file.path),
             },
-          }),
-        );
+          },
+        });
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: 'La demande complète de raccordement a bien été enregistrée',
-            redirectUrl: routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId),
+            redirectUrl: routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet),
             redirectTitle: 'Retourner sur la page raccordement',
           }),
         );
       } catch (error) {
         if (error instanceof DomainError) {
           return response.redirect(
-            addQueryParams(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId), {
-              error: error.message,
-            }),
+            addQueryParams(
+              routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet),
+              {
+                error: error.message,
+              },
+            ),
           );
         }
 

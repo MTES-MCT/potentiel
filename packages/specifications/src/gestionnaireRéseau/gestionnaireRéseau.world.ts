@@ -1,11 +1,10 @@
-import {
-  GestionnaireRéseauReadModel,
-  buildAjouterGestionnaireRéseauUseCase,
-} from '@potentiel/domain';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 import { sleep } from '../helpers/sleep';
 import { mediator } from 'mediateur';
+import { DomainUseCase, convertirEnIdentifiantGestionnaireRéseau } from '@potentiel/domain';
 
 export class GestionnaireRéseauWorld {
+  #gestionnairesRéseauCréés: Map<string, string> = new Map();
   #codeEIC!: string;
 
   get codeEIC() {
@@ -79,6 +78,8 @@ export class GestionnaireRéseauWorld {
       },
     };
 
+    this.#gestionnairesRéseauCréés.set('Inconnu', 'CodeEICInconnu');
+
     await this.createGestionnaireRéseau(
       this.#enedis.codeEIC,
       this.#enedis.raisonSociale,
@@ -91,18 +92,30 @@ export class GestionnaireRéseauWorld {
     raisonSociale: string,
     expressionReguliere: string = '.',
   ) {
-    const command = buildAjouterGestionnaireRéseauUseCase({
-      codeEIC,
-      raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        format: '',
-        légende: '',
-        expressionReguliere,
+    await mediator.send<DomainUseCase>({
+      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+      data: {
+        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: '',
+          légende: '',
+          expressionReguliere,
+        },
       },
     });
-
-    await mediator.send(command);
     this.codeEIC = codeEIC;
+    this.#gestionnairesRéseauCréés.set(raisonSociale, codeEIC);
     await sleep(100);
+  }
+
+  rechercherCodeEIC(raisonSociale: string) {
+    const codeEIC = this.#gestionnairesRéseauCréés.get(raisonSociale);
+
+    if (!codeEIC) {
+      throw new Error(`Aucun CodeEIC correspondant à ${raisonSociale}`);
+    }
+
+    return codeEIC;
   }
 }

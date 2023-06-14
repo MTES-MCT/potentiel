@@ -1,44 +1,44 @@
 import { Subscribe } from '@potentiel/core-domain';
 import {
-  GestionnaireRéseauProjetModifiéDependencies,
-  gestionnaireRéseauProjetModifiéHandlerFactory,
-} from './command/modifierGestionnaireRéseau/handlers/gestionnaireRéseauProjetModifié.handler';
-import {
   ModifierGestionnaireRéseauProjetDependencies,
   registerModifierGestionnaireRéseauProjetCommand,
-} from './command/modifierGestionnaireRéseau/modifierGestionnaireRéseauProjet.command';
+} from './modifier/modifierGestionnaireRéseauProjet.command';
+import { registerModifierGestionnaireRéseauProjetUseCase } from './modifier/modifierGestionnaireRéseauProjet.usecase';
+import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement/raccordement.event';
+import { mediator } from 'mediateur';
 import {
-  ConsulterProjetDependencies,
-  registerConsulterProjetQuery,
-} from './query/consulter/consulterProjet.query';
-import { registerConsulterProjetUseCase } from './usecase/consulterProjet.usecase';
-import { registerModifierGestionnaireRéseauProjetUseCase } from './usecase/modifierGestionnaireRéseauProjet.usecase';
+  ExecuterAjouterGestionnaireRéseauProjetSaga,
+  registerExecuterAjouterGestionnaireRéseauProjetSaga,
+} from './déclarer/déclarerGestionnaireRéseau.saga';
+import { registerDéclarerGestionnaireRéseauProjetCommand } from './déclarer/déclarerGestionnaireRéseauProjet.command';
 
-type QueryDependencies = ConsulterProjetDependencies;
-type CommandDependencies = ModifierGestionnaireRéseauProjetDependencies;
-type EventDependencies = GestionnaireRéseauProjetModifiéDependencies;
-
-export type ProjetDependencies = { subscribe: Subscribe } & QueryDependencies &
-  CommandDependencies &
-  EventDependencies;
+export type ProjetDependencies = {
+  subscribe: Subscribe;
+} & ModifierGestionnaireRéseauProjetDependencies;
 
 export const setupProjet = (dependencies: ProjetDependencies) => {
-  // Queries
-  registerConsulterProjetQuery(dependencies);
-
   // Commands
   registerModifierGestionnaireRéseauProjetCommand(dependencies);
+  registerDéclarerGestionnaireRéseauProjetCommand(dependencies);
 
   // Use cases
-  registerConsulterProjetUseCase();
   registerModifierGestionnaireRéseauProjetUseCase();
 
-  // Subscribes
+  // Sagas
+  registerExecuterAjouterGestionnaireRéseauProjetSaga();
+
+  // Sagas
   const { subscribe } = dependencies;
+
   return [
-    subscribe(
-      'GestionnaireRéseauProjetModifié',
-      gestionnaireRéseauProjetModifiéHandlerFactory(dependencies),
+    subscribe<DemandeComplèteRaccordementTransmiseEvent>(
+      ['DemandeComplèteDeRaccordementTransmise'],
+      async (event: DemandeComplèteRaccordementTransmiseEvent) => {
+        await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
+          type: 'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
+          data: event,
+        });
+      },
     ),
   ];
 };

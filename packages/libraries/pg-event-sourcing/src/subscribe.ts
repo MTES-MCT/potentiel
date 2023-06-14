@@ -16,7 +16,7 @@ class EventStreamEmitter extends EventEmitter {
   }
 
   subscribe<TDomainEvent extends DomainEvent>(
-    eventType: TDomainEvent['type'] | 'all',
+    eventType: TDomainEvent['type'] | ReadonlyArray<TDomainEvent['type']> | 'all',
     eventHandler: DomainEventHandler<TDomainEvent>,
   ): Unsubscribe {
     if (!this.#isListening) {
@@ -27,7 +27,10 @@ class EventStreamEmitter extends EventEmitter {
     const listener = async (payload: string) => {
       const event = JSON.parse(payload) as TDomainEvent;
       if (isEvent(event)) {
-        if (eventType === 'all' || event.type === eventType) {
+        if (
+          eventType === 'all' ||
+          (Array.isArray(eventType) ? eventType.includes(event.type) : event.type === eventType)
+        ) {
           await eventHandler(event);
         }
       } else {
@@ -50,7 +53,7 @@ class EventStreamEmitter extends EventEmitter {
 let eventStreamEmitter: EventStreamEmitter;
 
 export const subscribe = <TDomainEvent extends DomainEvent = Event>(
-  eventType: TDomainEvent['type'] | 'all',
+  eventType: TDomainEvent['type'] | ReadonlyArray<TDomainEvent['type']> | 'all',
   eventHandler: DomainEventHandler<TDomainEvent>,
 ): Unsubscribe => {
   if (!eventStreamEmitter) {

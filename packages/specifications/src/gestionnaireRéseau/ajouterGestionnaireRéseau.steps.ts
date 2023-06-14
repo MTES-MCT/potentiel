@@ -1,12 +1,12 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import {
-  GestionnaireRéseauReadModel,
-  buildConsulterGestionnaireRéseauUseCase,
-  buildAjouterGestionnaireRéseauUseCase,
-  buildListerGestionnaireRéseauUseCase,
-} from '@potentiel/domain';
+import { DomainUseCase, convertirEnIdentifiantGestionnaireRéseau } from '@potentiel/domain';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
+import {
+  ConsulterGestionnaireRéseauQuery,
+  GestionnaireRéseauQuery,
+  GestionnaireRéseauReadModel,
+} from '@potentiel/domain-views';
 
 EtantDonné(
   'un gestionnaire de réseau ayant pour code EIC {string}',
@@ -19,23 +19,27 @@ Quand(
   'un administrateur ajoute un gestionnaire de réseau',
   async function (this: PotentielWorld, table: DataTable) {
     const example = table.rowsHash();
+
     this.gestionnaireRéseauWorld.codeEIC = example['Code EIC'];
     this.gestionnaireRéseauWorld.raisonSociale = example['Raison sociale'];
     this.gestionnaireRéseauWorld.format = example['Format'];
     this.gestionnaireRéseauWorld.légende = example['Légende'];
     this.gestionnaireRéseauWorld.expressionReguliere = example['Expression régulière'];
 
-    const command = buildAjouterGestionnaireRéseauUseCase({
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        format: this.gestionnaireRéseauWorld.format,
-        légende: this.gestionnaireRéseauWorld.légende,
-        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
+    await mediator.send<DomainUseCase>({
+      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+      data: {
+        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+          this.gestionnaireRéseauWorld.codeEIC,
+        ),
+        raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: this.gestionnaireRéseauWorld.format,
+          légende: this.gestionnaireRéseauWorld.légende,
+          expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
+        },
       },
     });
-
-    await mediator.send(command);
   },
 );
 
@@ -43,17 +47,20 @@ Quand(
   'un administrateur ajoute un gestionnaire de réseau ayant le même code EIC',
   async function (this: PotentielWorld) {
     try {
-      const command = buildAjouterGestionnaireRéseauUseCase({
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-        raisonSociale: 'autre raison sociale',
-        aideSaisieRéférenceDossierRaccordement: {
-          format: 'autre format',
-          légende: 'autre légende',
-          expressionReguliere: '.',
+      await mediator.send<DomainUseCase>({
+        type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+        data: {
+          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+            this.gestionnaireRéseauWorld.codeEIC,
+          ),
+          raisonSociale: 'autre raison sociale',
+          aideSaisieRéférenceDossierRaccordement: {
+            format: 'autre format',
+            légende: 'autre légende',
+            expressionReguliere: '.',
+          },
         },
       });
-
-      await mediator.send(command);
     } catch (error) {
       this.error = error as Error;
     }
@@ -74,7 +81,10 @@ Alors(
       },
     };
 
-    const actual = await mediator.send(buildListerGestionnaireRéseauUseCase({}));
+    const actual = await mediator.send<GestionnaireRéseauQuery>({
+      type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      data: {},
+    });
 
     actual.should.deep.contain(expected);
   },
@@ -94,13 +104,12 @@ Alors(
       },
     };
 
-    const query = buildConsulterGestionnaireRéseauUseCase({
-      identifiantGestionnaireRéseau: {
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+    const actual = await mediator.send<ConsulterGestionnaireRéseauQuery>({
+      type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      data: {
+        identifiantGestionnaireRéseau: this.gestionnaireRéseauWorld.codeEIC,
       },
     });
-
-    const actual = await mediator.send(query);
 
     actual.should.be.deep.equal(expected);
   },

@@ -1,18 +1,13 @@
-import {
-  AggregateId,
-  AggregateStateFactory,
-  DomainEvent,
-  LoadAggregate,
-} from '@potentiel/core-domain';
+import { AggregateId, AggregateFactory, DomainEvent, LoadAggregate } from '@potentiel/core-domain';
 import { none } from '@potentiel/monads';
 import { loadFromStream } from './loadFromStream';
 
 export const loadAggregate: LoadAggregate = async <
-  TAggregateState,
+  TAggregate extends Record<string, unknown>,
   TDomainEvent extends DomainEvent,
 >(
   aggregateId: AggregateId,
-  aggregateFactory: AggregateStateFactory<TAggregateState, TDomainEvent>,
+  aggregateFactory: AggregateFactory<TAggregate, TDomainEvent>,
 ) => {
   const events = await loadFromStream(aggregateId);
 
@@ -26,7 +21,7 @@ export const loadAggregate: LoadAggregate = async <
   );
 
   return {
-    ...aggregateFactory(domainEvents),
+    ...aggregateFactory(domainEvents, loadAggregate),
     aggregateId,
     version,
   };

@@ -1,10 +1,13 @@
 import { Option } from '@potentiel/monads';
 import { Aggregate } from './aggregate';
-import { AggregateStateFactory } from './aggregateStateFactory';
+import { AggregateFactory } from './aggregateFactory';
 import { AggregateId } from './aggregateId';
 import { DomainEvent } from './domainEvent';
 
-export type LoadAggregate = <TAggregateState, TDomainEvent extends DomainEvent>(
+export type LoadAggregate = <
+  TAggregate extends Record<string, unknown>,
+  TDomainEvent extends DomainEvent,
+>(
   aggregateId: AggregateId,
-  aggregateStateFactory: AggregateStateFactory<TAggregateState, TDomainEvent>,
-) => Promise<Option<Aggregate & TAggregateState>>;
+  aggregateStateFactory: AggregateFactory<TAggregate, TDomainEvent>,
+) => Promise<Option<Aggregate & TAggregate>>;

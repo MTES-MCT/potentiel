@@ -1,20 +1,21 @@
 import { mediator } from 'mediateur';
 import {
+  ConsulterPropositionTechniqueEtFinancièreSignéeQuery,
   PermissionConsulterDossierRaccordement,
-  buildConsulterPropositionTechniqueEtFinancièreUseCase,
-} from '@potentiel/domain';
+} from '@potentiel/domain-views';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
 import { logger } from '@core/utils';
 import { extension } from 'mime-types';
+import { estUnRawIdentifiantProjet } from '@potentiel/domain';
+import { isNone } from '@potentiel/monads';
 
 const schema = yup.object({
   params: yup.object({
-    projetId: yup.string().uuid().required(),
+    identifiantProjet: yup.string().required(),
     reference: yup.string().required(),
   }),
 });
@@ -30,47 +31,43 @@ v1Router.get(
     },
     async (request, response) => {
       const {
-        params: { projetId, reference },
+        params: { identifiantProjet, reference },
       } = request;
 
-      const projet = await Project.findByPk(projetId, {
-        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
-      });
-
-      if (!projet) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Projet',
-        });
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        période: projet.periodeId,
-        famille: projet.familleId,
-        numéroCRE: projet.numeroCRE,
-      };
-
       try {
-        const propositionTechniqueEtFinancière = await mediator.send(
-          buildConsulterPropositionTechniqueEtFinancièreUseCase({
-            identifiantProjet,
-            référenceDossierRaccordement: reference,
-          }),
-        );
+        const propositionTechniqueEtFinancièreSignée =
+          await mediator.send<ConsulterPropositionTechniqueEtFinancièreSignéeQuery>({
+            type: 'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
+            data: {
+              identifiantProjet,
+              référenceDossierRaccordement: reference,
+            },
+          });
 
-        const extensionFichier = extension(propositionTechniqueEtFinancière.format);
+        if (isNone(propositionTechniqueEtFinancièreSignée)) {
+          return notFoundResponse({
+            request,
+            response,
+            ressourceTitle: 'Accusé de réception de la demande complète de raccordement',
+          });
+        }
 
-        response.type(propositionTechniqueEtFinancière.format);
+        const extensionFichier = extension(propositionTechniqueEtFinancièreSignée.format);
+
+        response.type(propositionTechniqueEtFinancièreSignée.format);
         response.setHeader(
           'Content-Disposition',
           `attachment; filename=proposition-technique-et-financiere-${reference}.${extensionFichier}`,
         );
-        propositionTechniqueEtFinancière.content.pipe(response);
+        propositionTechniqueEtFinancièreSignée.content.pipe(response);
         return response.status(200);
       } catch (error) {
         logger.error(error);
+        return response.status(404);
       }
     },
   ),

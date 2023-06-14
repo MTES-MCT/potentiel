@@ -1,10 +1,3 @@
-import {
-  buildTransmettreDemandeComplèteRaccordementUseCase,
-  buildTransmettrePropositionTechniqueEtFinancièreUseCase,
-} from '@potentiel/domain';
-import { mediator } from 'mediateur';
-import { Readable } from 'stream';
-
 export class RaccordementWorld {
   #dateQualification!: Date;
 
@@ -19,55 +12,56 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
-  #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: Readable };
+  #dateSignature!: Date;
 
-  get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: Readable } {
+  get dateSignature(): Date {
+    if (!this.#dateSignature) {
+      throw new Error('dateSignature not initialized');
+    }
+    return this.#dateSignature;
+  }
+
+  set dateSignature(value: Date) {
+    this.#dateSignature = value;
+  }
+
+  #dateMiseEnService!: Date;
+
+  get dateMiseEnService(): Date {
+    if (!this.#dateMiseEnService) {
+      throw new Error('dateMiseEnService not initialized');
+    }
+    return this.#dateMiseEnService;
+  }
+
+  set dateMiseEnService(value: Date) {
+    this.#dateMiseEnService = value;
+  }
+
+  #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: string };
+
+  get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: string } {
     if (!this.#accuséRéceptionDemandeComplèteRaccordement) {
       throw new Error('accuséRéceptionDemandeComplèteRaccordement not initialized');
     }
     return this.#accuséRéceptionDemandeComplèteRaccordement;
   }
 
-  set accuséRéceptionDemandeComplèteRaccordement(value: { format: string; content: Readable }) {
+  set accuséRéceptionDemandeComplèteRaccordement(value: { format: string; content: string }) {
     this.#accuséRéceptionDemandeComplèteRaccordement = value;
   }
 
-  #propositionTechniqueEtFinancièreSignée!: {
-    dateSignature: Date;
-    format: string;
-    content: Readable;
-  };
+  #propositionTechniqueEtFinancièreSignée!: { format: string; content: string };
 
-  get propositionTechniqueEtFinancièreSignée(): {
-    dateSignature: Date;
-    format: string;
-    content: Readable;
-  } {
+  get propositionTechniqueEtFinancièreSignée(): { format: string; content: string } {
     if (!this.#propositionTechniqueEtFinancièreSignée) {
       throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
     }
     return this.#propositionTechniqueEtFinancièreSignée;
   }
 
-  set propositionTechniqueEtFinancièreSignée(value: {
-    dateSignature: Date;
-    format: string;
-    content: Readable;
-  }) {
+  set propositionTechniqueEtFinancièreSignée(value: { format: string; content: string }) {
     this.#propositionTechniqueEtFinancièreSignée = value;
-  }
-
-  #ancienneRéférenceDossierRaccordement!: string;
-
-  get ancienneRéférenceDossierRaccordement(): string {
-    if (!this.#ancienneRéférenceDossierRaccordement) {
-      throw new Error('ancienneRéférenceDossierRaccordement not initialized');
-    }
-    return this.#ancienneRéférenceDossierRaccordement;
-  }
-
-  set ancienneRéférenceDossierRaccordement(value: string) {
-    this.#ancienneRéférenceDossierRaccordement = value;
   }
 
   #référenceDossierRaccordement!: string;
@@ -81,71 +75,5 @@ export class RaccordementWorld {
 
   set référenceDossierRaccordement(value: string) {
     this.#référenceDossierRaccordement = value;
-  }
-
-  #identifiantProjet: {
-    appelOffre: string;
-    période: string;
-    numéroCRE: string;
-  };
-
-  get identifiantProjet() {
-    return this.#identifiantProjet;
-  }
-
-  constructor() {
-    this.#identifiantProjet = {
-      appelOffre: 'PPE2 - Eolien',
-      période: '1',
-      numéroCRE: '23',
-    };
-    this.#accuséRéceptionDemandeComplèteRaccordement = {
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un fichier DCR", {
-        encoding: 'utf8',
-      }),
-    };
-    this.#propositionTechniqueEtFinancièreSignée = {
-      dateSignature: new Date('2023-01-01'),
-      format: 'application/pdf',
-      content: Readable.from("Contenu d'un fichier PTF", {
-        encoding: 'utf8',
-      }),
-    };
-  }
-
-  async createDemandeComplèteRaccordement(codeEIC: string, référenceDossierRaccordement: string) {
-    const dateQualification = new Date();
-    await mediator.send(
-      buildTransmettreDemandeComplèteRaccordementUseCase({
-        référenceDossierRaccordement,
-        nouvelAccuséRéception: this.accuséRéceptionDemandeComplèteRaccordement,
-        identifiantGestionnaireRéseau: { codeEIC },
-        identifiantProjet: this.identifiantProjet,
-        dateQualification,
-      }),
-    );
-
-    this.#référenceDossierRaccordement = référenceDossierRaccordement;
-    this.#ancienneRéférenceDossierRaccordement = référenceDossierRaccordement;
-    this.#dateQualification = dateQualification;
-  }
-
-  async createPropositionTechniqueEtFinancière() {
-    const référenceDossierRaccordement = 'XXX-RP-2021-999999';
-
-    await mediator.send(
-      buildTransmettrePropositionTechniqueEtFinancièreUseCase({
-        référenceDossierRaccordement,
-        nouvellePropositionTechniqueEtFinancière: {
-          format: this.propositionTechniqueEtFinancièreSignée.format,
-          content: this.propositionTechniqueEtFinancièreSignée.content,
-        },
-        identifiantProjet: this.identifiantProjet,
-        dateSignature: this.propositionTechniqueEtFinancièreSignée.dateSignature,
-      }),
-    );
-
-    this.#référenceDossierRaccordement = référenceDossierRaccordement;
   }
 }

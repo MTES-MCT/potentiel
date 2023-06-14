@@ -1,7 +1,10 @@
 import {
-  DossierRaccordementNonRéférencéError,
+  DomainUseCase,
   PermissionTransmettreDateMiseEnService,
-  buildTransmettreDateMiseEnServiceUseCase,
+  RawIdentifiantProjet,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+  estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -13,14 +16,14 @@ import {
   notFoundResponse,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
 import { mediator } from 'mediateur';
+import { DomainError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   params: yup.object({
-    projetId: yup.string().uuid().required(),
+    identifiantProjet: yup.string().required(),
     reference: yup.string().required(),
   }),
   body: yup.object({
@@ -41,58 +44,54 @@ v1Router.post(
       schema,
       onError: ({ request, response }) =>
         response.redirect(
-          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(request.params.projetId), {
-            error: `Une erreur est survenue lors de la date de mise en service, merci de vérifier les informations communiquées.`,
-          }),
+          addQueryParams(
+            routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+              request.params.identifiantProjet as RawIdentifiantProjet,
+            ),
+            {
+              error: `Une erreur est survenue lors de la date de mise en service, merci de vérifier les informations communiquées.`,
+            },
+          ),
         ),
     },
     async (request, response) => {
       const {
-        params: { projetId, reference },
+        params: { identifiantProjet, reference },
         body: { dateMiseEnService },
       } = request;
 
-      const projet = await Project.findByPk(projetId, {
-        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
-      });
-
-      if (!projet) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Projet',
-        });
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        période: projet.periodeId,
-        famille: projet.familleId,
-        numéroCRE: projet.numeroCRE,
-      };
+      const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
       try {
-        await mediator.send(
-          buildTransmettreDateMiseEnServiceUseCase({
-            identifiantProjet,
-            référenceDossierRaccordement: reference,
+        await mediator.send<DomainUseCase>({
+          type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+            référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
             dateMiseEnService,
-          }),
-        );
+          },
+        });
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: 'La date de mise en service a bien été enregistrée',
-            redirectUrl: routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId),
+            redirectUrl: routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet),
             redirectTitle: 'Retourner sur la page raccordement',
           }),
         );
       } catch (error) {
-        if (error instanceof DossierRaccordementNonRéférencéError) {
+        if (error instanceof DomainError) {
           return response.redirect(
-            addQueryParams(routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId, reference), {
-              error: error.message,
-            }),
+            addQueryParams(
+              routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(identifiantProjet, reference),
+              {
+                error: error.message,
+              },
+            ),
           );
         }
 

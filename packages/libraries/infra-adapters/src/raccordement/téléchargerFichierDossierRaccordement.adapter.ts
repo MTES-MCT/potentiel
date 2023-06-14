@@ -1,31 +1,31 @@
 import {
   RécupérerAccuséRéceptionDemandeComplèteRaccordementPort,
   RécupérerPropositionTechniqueEtFinancièreSignéePort,
-} from '@potentiel/domain';
+} from '@potentiel/domain-views';
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';
 
-const téléchargerFichierDossierRaccordementAdapter =
-  (
-    nomFichier: string,
-  ): RécupérerAccuséRéceptionDemandeComplèteRaccordementPort &
-    RécupérerPropositionTechniqueEtFinancièreSignéePort =>
-  async ({ identifiantProjet, référenceDossierRaccordement, format }) => {
-    const filePath = join(
-      identifiantProjet,
-      référenceDossierRaccordement,
-      `${nomFichier}.${extension(format)}`,
-    );
+type TéléchargerFichierDossierRaccordementAdapter =
+  RécupérerAccuséRéceptionDemandeComplèteRaccordementPort &
+    RécupérerPropositionTechniqueEtFinancièreSignéePort;
 
-    try {
-      return await download(filePath);
-    } catch (error) {
-      return undefined;
-    }
-  };
+export const téléchargerFichierDossierRaccordementAdapter: TéléchargerFichierDossierRaccordementAdapter &
+  RécupérerPropositionTechniqueEtFinancièreSignéePort = async ({
+  identifiantProjet,
+  référenceDossierRaccordement,
+  format,
+  type,
+}) => {
+  const filePath = join(
+    identifiantProjet,
+    référenceDossierRaccordement,
+    `${type}.${extension(format)}`,
+  );
 
-export const téléchargerAccuséRéceptionDemandeComplèteRaccordementAdapter: RécupérerAccuséRéceptionDemandeComplèteRaccordementPort =
-  téléchargerFichierDossierRaccordementAdapter('demande-complete-raccordement');
-export const téléchargerPropositionTechniqueEtFinancièreSignéeAdapter: RécupérerPropositionTechniqueEtFinancièreSignéePort =
-  téléchargerFichierDossierRaccordementAdapter('proposition-technique-et-financiere');
+  try {
+    return await download(filePath);
+  } catch (error) {
+    return undefined;
+  }
+};

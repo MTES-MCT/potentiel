@@ -1,22 +1,26 @@
 import {
   PermissionTransmettrePropositionTechniqueEtFinancière,
-  RésuméProjetReadModel,
-  buildConsulterDossierRaccordementUseCase,
-  buildConsulterGestionnaireRéseauUseCase,
-  buildConsulterProjetUseCase,
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+  estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
 import { ModifierDemandeComplèteRaccordementPage } from '@views';
 import { mediator } from 'mediateur';
+import { isNone, none } from '@potentiel/monads';
+import {
+  ConsulterDossierRaccordementQuery,
+  ConsulterGestionnaireRéseauQuery,
+  ConsulterProjetQuery,
+} from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
-    projetId: yup.string().uuid().required(),
+    identifiantProjet: yup.string().required(),
     reference: yup.string().required(),
   }),
 });
@@ -33,29 +37,24 @@ v1Router.get(
     async (request, response) => {
       const {
         user,
-        params: { projetId, reference },
+        params: { identifiantProjet, reference },
         query: { error },
       } = request;
 
-      const projet = await Project.findByPk(projetId, {
-        attributes: [
-          'id',
-          'nomProjet',
-          'nomCandidat',
-          'communeProjet',
-          'regionProjet',
-          'departementProjet',
-          'periodeId',
-          'familleId',
-          'appelOffreId',
-          'numeroCRE',
-          'notifiedOn',
-          'abandonedOn',
-          'classe',
-        ],
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
+      const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+
+      const projet = await mediator.send<ConsulterProjetQuery>({
+        type: 'CONSULTER_PROJET',
+        data: {
+          identifiantProjet: identifiantProjetValueType,
+        },
       });
 
-      if (!projet) {
+      if (isNone(projet)) {
         return notFoundResponse({
           request,
           response,
@@ -63,75 +62,46 @@ v1Router.get(
         });
       }
 
-      const dossierRaccordement = await mediator.send(
-        buildConsulterDossierRaccordementUseCase({
-          identifiantProjet: {
-            appelOffre: projet.appelOffreId,
-            période: projet.periodeId,
-            famille: projet.familleId,
-            numéroCRE: projet.numeroCRE,
-          },
-          référence: reference,
-        }),
-      );
+      const dossierRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
+        type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+        data: {
+          identifiantProjet: identifiantProjetValueType,
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
+        },
+      });
 
-      const getStatutProjet = (): RésuméProjetReadModel['statut'] => {
-        if (!projet.notifiedOn) {
-          return 'non-notifié';
-        }
-        if (projet.abandonedOn !== 0) {
-          return 'abandonné';
-        }
-        if (projet.classe === 'Classé') {
-          return 'classé';
-        }
+      if (isNone(dossierRaccordement)) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Dossier de raccordement',
+        });
+      }
 
-        return 'éliminé';
-      };
+      const gestionnaireRéseauActuel = projet.identifiantGestionnaire
+        ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
+            type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+            data: {
+              identifiantGestionnaireRéseau: projet.identifiantGestionnaire,
+            },
+          })
+        : none;
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        numéroCRE: projet.numeroCRE,
-        période: projet.periodeId,
-        famille: projet.familleId,
-      };
-
-      const { identifiantGestionnaire } = await mediator.send(
-        buildConsulterProjetUseCase({
-          identifiantProjet,
-        }),
-      );
-
-      const gestionnaireRéseauActuel = await mediator.send(
-        buildConsulterGestionnaireRéseauUseCase({
-          identifiantGestionnaireRéseau: { codeEIC: identifiantGestionnaire!.codeEIC },
-        }),
-      );
+      if (isNone(gestionnaireRéseauActuel)) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Gestionnaire de réseau',
+        });
+      }
 
       return response.send(
         ModifierDemandeComplèteRaccordementPage({
           user,
-          identifiantProjet: projet.id,
-          résuméProjet: {
-            type: 'résumé-projet',
-            identifiantProjet: projet.id,
-            appelOffre: projet.appelOffreId,
-            période: projet.periodeId,
-            famille: projet.familleId,
-            numéroCRE: projet.numeroCRE,
-            statut: getStatutProjet(),
-            nom: projet.nomProjet,
-            localité: {
-              commune: projet.communeProjet,
-              département: projet.departementProjet,
-              région: projet.regionProjet,
-            },
-          },
-          reference,
-          dateQualificationActuelle: dossierRaccordement.dateQualification,
+          projet,
+          dossierRaccordement,
           error: error as string,
           gestionnaireRéseauActuel,
-          existingFile: !!dossierRaccordement.accuséRéception,
         }),
       );
     },

@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel/domain-views",
+  "version": "0.0.0",
+  "description": "Potentiel Domain views",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel/monads": "*",
+    "@potentiel/core-domain": "*",
+    "mediateur": "^0.1.0-beta.20230523070921"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

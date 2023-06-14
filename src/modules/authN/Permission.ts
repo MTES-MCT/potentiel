@@ -14,16 +14,18 @@ import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest';
 import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats';
 import {
-  PermissionListerGestionnairesRéseau,
-  PermissionConsulterGestionnaireRéseau,
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
   PermissionTransmettreDemandeComplèteRaccordement,
-  PermissionConsulterDossierRaccordement,
   PermissionTransmettreDateMiseEnService,
   PermissionTransmettrePropositionTechniqueEtFinancière,
   PermissionModifierGestionnaireRéseauProjet,
 } from '@potentiel/domain';
+import {
+  PermissionListerGestionnairesRéseau,
+  PermissionConsulterGestionnaireRéseau,
+  PermissionConsulterDossierRaccordement,
+} from '@potentiel/domain-views';
 
 export type Permission = {
   nom: string;

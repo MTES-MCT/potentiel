@@ -1,4 +1,4 @@
-import { DomainEvent, AggregateStateFactory } from '@potentiel/core-domain';
+import { DomainEvent, AggregateFactory } from '@potentiel/core-domain';
 import { none } from '@potentiel/monads';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { loadAggregate } from './loadAggregate';
@@ -84,7 +84,7 @@ describe(`loadAggregate`, () => {
     type Event2 = DomainEvent<'event-2', { secondePropriété: string }>;
     type FakeAggregateEvent = Event1 | Event2;
 
-    const aggregateStateFactory: AggregateStateFactory<FakeAggregateState, FakeAggregateEvent> = (
+    const aggregateStateFactory: AggregateFactory<FakeAggregateState, FakeAggregateEvent> = (
       events,
     ) =>
       events.reduce((state, event) => {

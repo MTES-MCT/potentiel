@@ -1,21 +1,21 @@
 import { mediator } from 'mediateur';
-import {
-  PermissionConsulterDossierRaccordement,
-  buildConsulterDemandeComplèteRaccordementUseCase,
-} from '@potentiel/domain';
-import routes from '@routes';
-import { v1Router } from '../v1Router';
+import { extension } from 'mime-types';
 import * as yup from 'yup';
-import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+
+import { estUnRawIdentifiantProjet } from '@potentiel/domain';
+import { PermissionConsulterDossierRaccordement } from '@potentiel/domain-views';
+import routes from '@routes';
 import { logger } from '@core/utils';
 
-import { extension } from 'mime-types';
+import { v1Router } from '../v1Router';
+import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
+import { isNone } from '@potentiel/monads';
+import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from 'packages/domain-views/src/raccordement/consulter/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
 
 const schema = yup.object({
   params: yup.object({
-    projetId: yup.string().uuid().required(),
+    identifiantProjet: yup.string().required(),
     reference: yup.string().required(),
   }),
 });
@@ -31,47 +31,44 @@ v1Router.get(
     },
     async (request, response) => {
       const {
-        params: { projetId, reference },
+        params: { identifiantProjet, reference },
       } = request;
 
-      const projet = await Project.findByPk(projetId, {
-        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
-      });
-
-      if (!projet) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Projet',
-        });
+      if (!estUnRawIdentifiantProjet(identifiantProjet)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        période: projet.periodeId,
-        famille: projet.familleId,
-        numéroCRE: projet.numeroCRE,
-      };
-
       try {
-        const demandeComplèteRaccordement = await mediator.send(
-          buildConsulterDemandeComplèteRaccordementUseCase({
-            identifiantProjet,
-            référenceDossierRaccordement: reference,
-          }),
-        );
+        const accuséRéception =
+          await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
+            type: 'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
+            data: {
+              identifiantProjet: identifiantProjet,
+              référenceDossierRaccordement: reference,
+            },
+          });
 
-        const extensionFichier = extension(demandeComplèteRaccordement.format);
+        if (isNone(accuséRéception)) {
+          return notFoundResponse({
+            request,
+            response,
+            ressourceTitle: 'Accusé de réception de la demande complète de raccordement',
+          });
+        }
 
-        response.type(demandeComplèteRaccordement.format);
+        const extensionFichier = extension(accuséRéception.format);
+
+        response.type(accuséRéception.format);
         response.setHeader(
           'Content-Disposition',
           `attachment; filename=accuse-reception-${reference}.${extensionFichier}`,
         );
-        demandeComplèteRaccordement.content.pipe(response);
+        accuséRéception.content.pipe(response);
+
         return response.status(200);
       } catch (error) {
         logger.error(error);
+        return response.status(404);
       }
     },
   ),

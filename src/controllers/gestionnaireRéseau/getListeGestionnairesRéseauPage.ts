@@ -1,7 +1,7 @@
 import {
   PermissionListerGestionnairesRéseau,
-  buildListerGestionnaireRéseauUseCase,
-} from '@potentiel/domain';
+  ListerGestionnaireRéseauQuery,
+} from '@potentiel/domain-views';
 import routes from '@routes';
 import { ListeGestionnairesRéseauPage } from '@views';
 import { vérifierPermissionUtilisateur } from '../helpers';
@@ -13,7 +13,10 @@ v1Router.get(
   routes.GET_LISTE_GESTIONNAIRES_RESEAU,
   vérifierPermissionUtilisateur(PermissionListerGestionnairesRéseau),
   asyncHandler(async (request, response) => {
-    const gestionnairesRéseau = await mediator.send(buildListerGestionnaireRéseauUseCase({}));
+    const gestionnairesRéseau = await mediator.send<ListerGestionnaireRéseauQuery>({
+      type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      data: {},
+    });
     const {
       user,
       query: { success },
