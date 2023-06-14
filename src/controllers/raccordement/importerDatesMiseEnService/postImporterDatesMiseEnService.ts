@@ -12,6 +12,7 @@ import { setApiResult } from '../../helpers/apiResult';
 import {
   DomainUseCase,
   PermissionTransmettreDateMiseEnService,
+  convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
@@ -91,14 +92,15 @@ v1Router.post(
           },
         });
 
-        for (const { identifiantProjet } of dossiers) {
+        for (const { identifiantProjet, référenceDossierRaccordement } of dossiers) {
           try {
             await mediator.send<DomainUseCase>({
               type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
               data: {
-                identifiantProjet,
-                référenceDossierRaccordement:
-                  convertirEnRéférenceDossierRaccordement(referenceDossier),
+                identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+                référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+                  référenceDossierRaccordement,
+                ),
                 dateMiseEnService: new Date(dateMiseEnService.split('/').reverse().join('-')),
               },
             });

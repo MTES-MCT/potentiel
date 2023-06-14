@@ -32,12 +32,13 @@ export const registerRechercherDossierRaccordementQuery = ({
       `dossier-raccordement#%#%${référence}%`,
     );
 
-    return result.map(({ key }) => {
+    return result.map(({ key, readModel }) => {
       const identifiantProjet = convertirEnIdentifiantProjet(key as RawIdentifiantProjet);
 
       return {
         type: 'résultat-recherche-dossier-raccordement',
-        identifiantProjet,
+        identifiantProjet: identifiantProjet.formatter(),
+        référenceDossierRaccordement: readModel.référence,
       };
     });
   };
