@@ -5,7 +5,7 @@ import {
 } from '../raccordement.readModel';
 import {
   RawIdentifiantProjet,
-  RéférenceDossierRaccordementValueType,
+  RawRéférenceDossierRaccordement,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 import { Search } from '../../common.port';
@@ -13,7 +13,7 @@ import { Search } from '../../common.port';
 export type RechercherDossierRaccordementQuery = Message<
   'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
   {
-    référence: RéférenceDossierRaccordementValueType;
+    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
   },
   ReadonlyArray<RésultatRechercheDossierRaccordementReadModel>
 >;
@@ -26,14 +26,20 @@ export const registerRechercherDossierRaccordementQuery = ({
   search,
 }: RechercherDossierRaccordementDependencies) => {
   const queryHandler: MessageHandler<RechercherDossierRaccordementQuery> = async ({
-    référence,
+    référenceDossierRaccordement,
   }) => {
     const result = await search<DossierRaccordementReadModel>(
-      `dossier-raccordement#%#%${référence}%`,
+      `dossier-raccordement#%#%${référenceDossierRaccordement}%`,
     );
 
     return result.map(({ key, readModel }) => {
-      const identifiantProjet = convertirEnIdentifiantProjet(key as RawIdentifiantProjet);
+      const référenceDossierRaccordement = readModel.référence;
+
+      const identifiantProjet = convertirEnIdentifiantProjet(
+        key
+          .replace('dossier-raccordement#', '')
+          .replace(`#${référenceDossierRaccordement}`, '') as RawIdentifiantProjet,
+      );
 
       return {
         type: 'résultat-recherche-dossier-raccordement',

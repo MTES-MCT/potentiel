@@ -88,9 +88,19 @@ v1Router.post(
         const dossiers = await mediator.send<RechercherDossierRaccordementQuery>({
           type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
           data: {
-            référence: convertirEnRéférenceDossierRaccordement(referenceDossier),
+            référenceDossierRaccordement: referenceDossier,
           },
         });
+
+        if (dossiers.length === 0) {
+          result.push({
+            statut: 'échec',
+            référenceDossier: referenceDossier,
+            raison: 'Aucun dossier correspondant',
+          });
+
+          continue;
+        }
 
         for (const { identifiantProjet, référenceDossierRaccordement } of dossiers) {
           try {
