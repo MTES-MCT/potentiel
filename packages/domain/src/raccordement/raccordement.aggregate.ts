@@ -44,14 +44,14 @@ type Raccordement = {
   ) => boolean;
 };
 
-const defaultAggregateState: Raccordement = {
+const getDefaultAggregate = (): Raccordement => ({
   getProjet: async () => Promise.resolve(none),
   getGestionnaireRéseau: async () => Promise.resolve(none),
   dossiers: new Map(),
-  contientLeDossier({ référence }) {
+  contientLeDossier: function ({ référence }) {
     return this.dossiers.has(référence);
   },
-};
+});
 
 const raccordementAggregateFactory: AggregateFactory<Raccordement, RaccordementEvent> = (
   events,
@@ -79,7 +79,7 @@ const raccordementAggregateFactory: AggregateFactory<Raccordement, RaccordementE
       default:
         return { ...aggregate };
     }
-  }, defaultAggregateState);
+  }, getDefaultAggregate());
 };
 
 export const loadRaccordementAggregateFactory = ({

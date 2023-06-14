@@ -64,19 +64,6 @@ export class RaccordementWorld {
     this.#propositionTechniqueEtFinancièreSignée = value;
   }
 
-  #ancienneRéférenceDossierRaccordement!: string;
-
-  get ancienneRéférenceDossierRaccordement(): string {
-    if (!this.#ancienneRéférenceDossierRaccordement) {
-      throw new Error('ancienneRéférenceDossierRaccordement not initialized');
-    }
-    return this.#ancienneRéférenceDossierRaccordement;
-  }
-
-  set ancienneRéférenceDossierRaccordement(value: string) {
-    this.#ancienneRéférenceDossierRaccordement = value;
-  }
-
   #référenceDossierRaccordement!: string;
 
   get référenceDossierRaccordement(): string {

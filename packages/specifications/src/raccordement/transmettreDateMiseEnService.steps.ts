@@ -34,6 +34,7 @@ Quand(
         },
       });
     } catch (e) {
+      console.log(e);
       this.error = e as Error;
     }
   },
@@ -55,56 +56,5 @@ Alors(
     }
 
     expect(actual.dateMiseEnService).to.equal(new Date(dateMiseEnService).toISOString());
-  },
-);
-
-Quand(
-  `un administrateur transmet une date de mise en service pour un projet n'ayant aucun dossier de raccordement`,
-  async function (this: PotentielWorld) {
-    const référenceDossierRaccordement = 'dossier-inconnu';
-    const dateMiseEnService = new Date('2023-03-15');
-
-    this.raccordementWorld.dateMiseEnService = dateMiseEnService;
-    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-
-    try {
-      await mediator.send<DomainUseCase>({
-        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-        data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
-          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-            référenceDossierRaccordement,
-          ),
-          dateMiseEnService,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  `un administrateur transmet une date de mise en service pour un dossier de raccordement non référencé`,
-  async function (this: PotentielWorld) {
-    const référenceDossierRaccordement = 'dossier-inconnu';
-    const dateMiseEnService = new Date('2023-03-15');
-
-    this.raccordementWorld.dateMiseEnService = dateMiseEnService;
-    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-    try {
-      await mediator.send<DomainUseCase>({
-        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-        data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
-          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-            référenceDossierRaccordement,
-          ),
-          dateMiseEnService,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
   },
 );
