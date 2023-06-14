@@ -28,9 +28,11 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
         {project.departementProjet}, {project.regionProjet}
       </p>
     </div>
-    {['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
+    {project.isClasse &&
+    !project.isAbandoned &&
+    ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
       role,
-    ) && (
+    ) ? (
       <div className="mb-3">
         <Heading3 className="mb-0">Raccordement au réseau</Heading3>
         <Link
@@ -46,6 +48,6 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
           Mettre à jour ou consulter les données de raccordement
         </Link>
       </div>
-    )}
+    ) : null}
   </Section>
 );

@@ -13,6 +13,8 @@ type EtapesProjetProps = {
     periodeId: string;
     familleId: string;
     numeroCRE: string;
+    isClasse: boolean;
+    isAbandoned: boolean;
   };
   user: Request['user'];
   projectEventList: ProjectEventListDTO;
@@ -29,9 +31,11 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
         projectEventList,
       }}
     />
-    {userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'])(
+    {project.isClasse &&
+    !project.isAbandoned &&
+    userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'])(
       user,
-    ) && (
+    ) ? (
       <InfoBox>
         Les données de raccordement du projet sont dorénavant consultables et modifiables sur{' '}
         <Link
@@ -47,7 +51,7 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
           cette page dédiée.
         </Link>
       </InfoBox>
-    )}
+    ) : null}
     {/* on teste si cette fonctionnalité est utlisée
      {userIs(['admin', 'dgec-validateur', 'dreal'])(user) && <AttachFile projectId={project.id} />} */}
   </Section>
