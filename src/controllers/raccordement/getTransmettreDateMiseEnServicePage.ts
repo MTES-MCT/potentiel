@@ -99,8 +99,7 @@ v1Router.get(
         TransmettreDateMiseEnServicePage({
           user,
           projet,
-          reference,
-          dateMiseEnServiceActuelle: dossierRaccordement?.dateMiseEnService,
+          dossierRaccordement,
           error: error as string,
         }),
       );

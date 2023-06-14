@@ -9,7 +9,6 @@ import {
   InfoBox,
   Input,
   Label,
-  PlugIcon,
   Link,
   PageProjetTemplate,
   Form,
@@ -20,6 +19,7 @@ import routes from '@routes';
 
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
+import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
@@ -51,16 +51,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
   );
 
   return (
-    <PageProjetTemplate
-      titre={
-        <>
-          <PlugIcon className="mr-1" />
-          Raccordement
-        </>
-      }
-      user={user}
-      résuméProjet={projet}
-    >
+    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
       <div className="flex flex-col md:flex-row gap-4">
         <Form
           className="max-w-none w-full md:w-1/2 mx-0"

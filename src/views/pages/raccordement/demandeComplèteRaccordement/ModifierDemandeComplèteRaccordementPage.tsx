@@ -7,7 +7,6 @@ import {
   Heading2,
   Input,
   Label,
-  PlugIcon,
   Link,
   PageProjetTemplate,
   InfoBox,
@@ -16,30 +15,30 @@ import {
   DownloadLink,
   LabelDescription,
 } from '@components';
-import { format as formatDate } from 'date-fns';
-import { hydrateOnClient } from '../../../helpers';
-import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
+import { formatDateForInput, hydrateOnClient } from '../../../helpers';
+import {
+  GestionnaireRéseauReadModel,
+  ConsulterProjetReadModel,
+  DossierRaccordementReadModel,
+} from '@potentiel/domain-views';
 import routes from '@routes';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
+import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type ModifierDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   projet: ConsulterProjetReadModel;
+  dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
-  reference: string;
-  dateQualificationActuelle?: string;
   gestionnaireRéseauActuel: GestionnaireRéseauReadModel;
-  existingFile: boolean;
 };
 
 export const ModifierDemandeComplèteRaccordement = ({
   user,
   projet,
   error,
-  reference,
-  dateQualificationActuelle,
+  dossierRaccordement: { référence, dateQualification, accuséRéception },
   gestionnaireRéseauActuel,
-  existingFile,
 }: ModifierDemandeComplèteRaccordementProps) => {
   const { identifiantProjet } = projet;
   const {
@@ -47,22 +46,13 @@ export const ModifierDemandeComplèteRaccordement = ({
   } = gestionnaireRéseauActuel;
 
   return (
-    <PageProjetTemplate
-      titre={
-        <>
-          <PlugIcon className="mr-1" />
-          Raccordement
-        </>
-      }
-      user={user}
-      résuméProjet={projet}
-    >
+    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
       <div className="flex flex-col md:flex-row gap-4">
         <Form
           className="max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
-          action={routes.POST_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT(identifiantProjet, reference)}
+          action={routes.POST_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT(identifiantProjet, référence)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
 
@@ -97,7 +87,7 @@ export const ModifierDemandeComplèteRaccordement = ({
               name="referenceDossierRaccordement"
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
               required
-              defaultValue={reference ?? ''}
+              defaultValue={référence ?? ''}
               pattern={expressionReguliere || undefined}
             />
           </div>
@@ -105,11 +95,11 @@ export const ModifierDemandeComplèteRaccordement = ({
           <div>
             <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>
             <Input type="file" id="file" name="file" required />
-            {existingFile && (
+            {accuséRéception?.format && (
               <DownloadLink
                 fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(
                   identifiantProjet,
-                  reference,
+                  référence,
                 )}
               >
                 Accusé de réception de la demande complète de raccordement
@@ -123,16 +113,12 @@ export const ModifierDemandeComplèteRaccordement = ({
               type="date"
               id="dateQualification"
               name="dateQualification"
-              defaultValue={
-                dateQualificationActuelle
-                  ? formatDate(new Date(dateQualificationActuelle), 'yyyy-MM-dd')
-                  : ''
-              }
+              defaultValue={dateQualification && formatDateForInput(dateQualification)}
               required
             />
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
-            <PrimaryButton type="submit">Transmettre</PrimaryButton>
+            <PrimaryButton type="submit">Modifier</PrimaryButton>
             <Link
               href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
               className="m-auto"

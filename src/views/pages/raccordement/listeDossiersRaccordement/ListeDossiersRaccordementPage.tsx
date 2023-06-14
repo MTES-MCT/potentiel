@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Link, Tile, PageProjetTemplate, PlugIcon, InfoBox, EditIcon } from '@components';
+import { Link, Tile, PageProjetTemplate, InfoBox, EditIcon } from '@components';
 import { hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
@@ -11,6 +11,7 @@ import {
 import routes from '@routes';
 import { userIs } from '@modules/users';
 import { Dossier } from './components/Dossier';
+import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
@@ -30,26 +31,20 @@ export const ListeDossiersRaccordement = ({
   return (
     <PageProjetTemplate
       titre={
-        <div className="flex flex-row">
-          <PlugIcon className="mr-1" aria-hidden />
-          <div>
-            <div>Raccordement</div>
-            <div className="font-normal text-sm">
-              <p className="my-2 p-0">
-                Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
-                {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
-                  <Link
-                    className="ml-1"
-                    href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
-                  >
-                    (<EditIcon className="mr-1" />
-                    Modifier)
-                  </Link>
-                )}
-              </p>
-            </div>
-          </div>
-        </div>
+        <TitrePageRaccordement>
+          <p className="my-2 p-0">
+            Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
+            {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
+              <Link
+                className="ml-1"
+                href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
+              >
+                (<EditIcon className="mr-1" />
+                Modifier)
+              </Link>
+            )}
+          </p>
+        </TitrePageRaccordement>
       }
       user={user}
       résuméProjet={projet}

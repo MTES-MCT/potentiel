@@ -3,8 +3,6 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
-  Callout,
-  DownloadLink,
   ErrorBox,
   Heading2,
   InfoBox,
@@ -12,39 +10,34 @@ import {
   Label,
   Link,
   PageProjetTemplate,
-  PlugIcon,
   Form,
 } from '@components';
-import { afficherDate, hydrateOnClient } from '../../helpers';
+import { hydrateOnClient } from '../../../helpers';
 import routes from '@routes';
-import { ConsulterProjetReadModel } from '@potentiel/domain-views';
+import { ConsulterProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
-type ModifierPropositionTechniqueEtFinancièreProps = {
+type TransmettrePropositionTechniqueEtFinancièreProps = {
   user: UtilisateurReadModel;
   projet: ConsulterProjetReadModel;
-  reference: string;
+  dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
-  dateSignatureActuelle?: string;
-  existingFile: boolean;
 };
 
-export const ModifierPropositionTechniqueEtFinancière = ({
+export const TransmettrePropositionTechniqueEtFinancière = ({
   user,
   projet,
-  reference,
+  dossierRaccordement: { référence },
   error,
-  dateSignatureActuelle,
-  existingFile,
-}: ModifierPropositionTechniqueEtFinancièreProps) => {
+}: TransmettrePropositionTechniqueEtFinancièreProps) => {
   const { identifiantProjet } = projet;
 
   return (
     <PageProjetTemplate
       titre={
-        <>
-          <PlugIcon className="mr-1" />
-          Raccordement
-        </>
+        <TitrePageRaccordement>
+          <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
+        </TitrePageRaccordement>
       }
       user={user}
       résuméProjet={projet}
@@ -54,40 +47,13 @@ export const ModifierPropositionTechniqueEtFinancière = ({
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
           encType="multipart/form-data"
-          action={routes.POST_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE(
+          action={routes.POST_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE(
             identifiantProjet,
-            reference,
+            référence,
           )}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
-          <Heading2 className="mb-0">Modifier la proposition technique et financière</Heading2>
-
-          <Callout className="text-sm px-3 pt-1 pb-0">
-            <ul className="list-none p-0">
-              <li className="my-0">
-                Référence du dossier de raccordement :{' '}
-                <span className="font-bold">{reference}</span>
-              </li>
-              {dateSignatureActuelle && (
-                <li className="my-0">
-                  Date de signature de la proposition technique et financière actuelle :{' '}
-                  <span className="font-bold">{afficherDate(new Date(dateSignatureActuelle))}</span>
-                </li>
-              )}
-              {existingFile && (
-                <li>
-                  <DownloadLink
-                    fileUrl={routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
-                      identifiantProjet,
-                      reference,
-                    )}
-                  >
-                    Proposition technique et financière actuelle
-                  </DownloadLink>
-                </li>
-              )}
-            </ul>
-          </Callout>
+          <Heading2 className="mb-0">Transmettre la proposition technique et financière</Heading2>
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
@@ -118,4 +84,4 @@ export const ModifierPropositionTechniqueEtFinancière = ({
     </PageProjetTemplate>
   );
 };
-hydrateOnClient(ModifierPropositionTechniqueEtFinancière);
+hydrateOnClient(TransmettrePropositionTechniqueEtFinancière);

@@ -3,44 +3,40 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
-  Callout,
   ErrorBox,
   Heading2,
   Input,
   Label,
   Link,
   PageProjetTemplate,
-  PlugIcon,
   Form,
 } from '@components';
-import { afficherDate, hydrateOnClient } from '../../helpers';
+import { formatDateForInput, hydrateOnClient } from '../../../helpers';
 import routes from '@routes';
-import { ConsulterProjetReadModel } from '@potentiel/domain-views';
+import { ConsulterProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettreDateMiseEnServiceProps = {
   user: UtilisateurReadModel;
   projet: ConsulterProjetReadModel;
-  reference: string;
+  dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
-  dateMiseEnServiceActuelle?: string;
 };
 
 export const TransmettreDateMiseEnService = ({
   user,
-  reference,
+  dossierRaccordement: { référence, dateMiseEnService },
   error,
   projet,
-  dateMiseEnServiceActuelle,
 }: TransmettreDateMiseEnServiceProps) => {
   const { identifiantProjet } = projet;
 
   return (
     <PageProjetTemplate
       titre={
-        <>
-          <PlugIcon className="mr-1" />
-          Raccordement
-        </>
+        <TitrePageRaccordement>
+          <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
+        </TitrePageRaccordement>
       }
       user={user}
       résuméProjet={projet}
@@ -50,30 +46,19 @@ export const TransmettreDateMiseEnService = ({
         <Form
           className="mx-auto mt-6"
           method="POST"
-          action={routes.POST_TRANSMETTRE_DATE_MISE_EN_SERVICE(identifiantProjet, reference)}
+          action={routes.POST_TRANSMETTRE_DATE_MISE_EN_SERVICE(identifiantProjet, référence)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
 
-          <Callout className="text-sm px-3 pt-1 pb-0">
-            <ul className="list-none p-0">
-              <li className="my-0">
-                Référence du dossier de raccordement :{' '}
-                <span className="font-bold">{reference}</span>
-              </li>
-              {dateMiseEnServiceActuelle && (
-                <li className="my-0">
-                  Date de mise en service actuelle :{' '}
-                  <span className="font-bold">
-                    {afficherDate(new Date(dateMiseEnServiceActuelle))}
-                  </span>
-                </li>
-              )}
-            </ul>
-          </Callout>
-
           <div>
             <Label htmlFor="dateMiseEnService">Date de mise en service (champ obligatoire)</Label>
-            <Input type="date" id="dateMiseEnService" name="dateMiseEnService" required />
+            <Input
+              type="date"
+              id="dateMiseEnService"
+              name="dateMiseEnService"
+              defaultValue={dateMiseEnService && formatDateForInput(dateMiseEnService)}
+              required
+            />
           </div>
 
           <div className="flex flex-col md:flex-row gap-4 m-auto">

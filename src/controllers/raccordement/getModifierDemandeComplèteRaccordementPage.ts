@@ -99,11 +99,9 @@ v1Router.get(
         ModifierDemandeComplèteRaccordementPage({
           user,
           projet,
-          reference,
-          dateQualificationActuelle: dossierRaccordement.dateQualification,
+          dossierRaccordement,
           error: error as string,
           gestionnaireRéseauActuel,
-          existingFile: !!dossierRaccordement.accuséRéception,
         }),
       );
     },

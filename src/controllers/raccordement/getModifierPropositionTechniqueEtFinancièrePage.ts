@@ -99,10 +99,7 @@ v1Router.get(
         ModifierPropositionTechniqueEtFinancièrePage({
           user,
           projet,
-          reference,
-          dateSignatureActuelle:
-            dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature,
-          existingFile: !!dossierRaccordement.propositionTechniqueEtFinancière,
+          dossierRaccordement,
           error: error as string,
         }),
       );

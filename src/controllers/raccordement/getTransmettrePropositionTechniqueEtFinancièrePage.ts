@@ -99,9 +99,7 @@ v1Router.get(
         TransmettrePropositionTechniqueEtFinancièrePage({
           user,
           projet,
-          reference,
-          dateSignatureActuelle:
-            dossierRaccordement.propositionTechniqueEtFinancière?.dateSignature,
+          dossierRaccordement,
           error: error as string,
         }),
       );
