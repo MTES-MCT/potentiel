@@ -20,9 +20,9 @@ type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
 export type Projet = { getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>> };
 
-const defaultAggregate: Projet = {
+const getDefaultAggregate = (): Projet => ({
   getGestionnaireRéseau: async () => Promise.resolve(none),
-};
+});
 
 const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, loadAggregate) => {
   return events.reduce((aggregate, event) => {
@@ -43,7 +43,7 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
       default:
         return { ...aggregate };
     }
-  }, defaultAggregate);
+  }, getDefaultAggregate());
 };
 
 export const loadProjetAggregateFactory = ({ loadAggregate }: LoadAggregateFactoryDependencies) => {

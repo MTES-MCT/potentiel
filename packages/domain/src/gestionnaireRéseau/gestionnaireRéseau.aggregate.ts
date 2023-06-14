@@ -18,7 +18,7 @@ export type GestionnaireRéseau = {
   estÉgaleÀ: (gestionnaireRéseau: GestionnaireRéseau) => boolean;
 };
 
-const defaultAggregateState: GestionnaireRéseau = {
+const getDefaultAggregate = (): GestionnaireRéseau => ({
   codeEIC: '',
   estÉgaleÀ({ codeEIC }: GestionnaireRéseau) {
     return this.codeEIC === codeEIC;
@@ -26,7 +26,7 @@ const defaultAggregateState: GestionnaireRéseau = {
   validerRéférenceDossierRaccordement({ référence }) {
     return true;
   },
-};
+});
 
 const gestionnaireRéseauAggregateFactory: AggregateFactory<
   GestionnaireRéseau,
@@ -61,7 +61,7 @@ const gestionnaireRéseauAggregateFactory: AggregateFactory<
           return { ...aggregate };
       }
     },
-    defaultAggregateState,
+    getDefaultAggregate(),
   );
 };
 

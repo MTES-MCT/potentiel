@@ -42,7 +42,7 @@ let unsetupDomainViews: UnsetupDomainViews | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
-  await sleep(1000);
+  await sleep(200);
 });
 
 BeforeAll(async () => {
