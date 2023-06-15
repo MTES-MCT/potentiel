@@ -24,7 +24,6 @@ import {
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
 } from '@modules/demandeModification/demandeChangementDePuissance';
-import { makeImportEdfData } from '@modules/edf';
 import { makeLoadFileForUser } from '@modules/file';
 import {
   makeAcceptModificationRequest,
@@ -57,13 +56,9 @@ import {
 import { makeClaimProject } from '@modules/projectClaim';
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users';
 import { buildCertificate } from '@views/certificates';
-import { makeParseEdfCsv } from '@infra/parseEdfCsv';
-import { makeImportEnedisData } from '@modules/enedis';
 import { resendInvitationEmail } from './credentials.config';
 import { eventStore } from './eventStore.config';
 import {
-  getEDFSearchIndex,
-  getEnedisSearchIndex,
   getFileProject,
   getLegacyModificationByFilename,
   getProjectAppelOffreId,
@@ -297,18 +292,6 @@ export const signalerDemandeRecours = makeSignalerDemandeRecours({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   hasDemandeDeMêmeTypeOuverte,
-});
-
-export const importEdfData = makeImportEdfData({
-  publish: publishToEventStore,
-  parseCsvFile: makeParseEdfCsv({ fileRepo }),
-  getSearchIndex: getEDFSearchIndex,
-});
-
-export const importEnedisData = makeImportEnedisData({
-  publish: eventStore.publish.bind(eventStore),
-  parseCsvFile: makeParseEdfCsv({ fileRepo }),
-  getSearchIndex: getEnedisSearchIndex,
 });
 
 export const demanderDélai = makeDemanderDélai({

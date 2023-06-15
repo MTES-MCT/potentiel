@@ -156,8 +156,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           completionDueOn,
           updatedAt,
           potentielIdentifier,
-          contratEDF,
-          contratEnedis,
           dcrDueOn,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
@@ -200,8 +198,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
               fullName,
             })),
           updatedAt,
-          contratEDF,
-          contratEnedis,
           cahierDesChargesActuel,
           ...(userIs([
             'admin',

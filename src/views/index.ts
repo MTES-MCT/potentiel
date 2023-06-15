@@ -8,8 +8,6 @@ import {
   Error,
   GarantiesFinancieres,
   Home,
-  ImporterListingEDF,
-  ImporterListingEnedis,
   ModificationRequest,
   ModificationRequestList,
   NewModificationRequest,
@@ -261,20 +259,6 @@ export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
     Component: PartnersList,
     props,
     title: 'Partenaires',
-  });
-
-export const ImporterListingEDFPage = (props: Parameters<typeof ImporterListingEDF>[0]) =>
-  makeHtml({
-    Component: ImporterListingEDF,
-    props,
-    title: 'Importer listing EDF',
-  });
-
-export const ImporterListingEnedisPage = (props: Parameters<typeof ImporterListingEnedis>[0]) =>
-  makeHtml({
-    Component: ImporterListingEnedis,
-    props,
-    title: 'Importer listing Enedis',
   });
 
 export const AbonnementLettreInformationPage = (

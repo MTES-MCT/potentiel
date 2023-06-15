@@ -165,14 +165,6 @@ export const initializeProjectModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      contratEDF: {
-        type: DataTypes.JSON,
-        allowNull: true,
-      },
-      contratEnedis: {
-        type: DataTypes.JSON,
-        allowNull: true,
-      },
       soumisAuxGF: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

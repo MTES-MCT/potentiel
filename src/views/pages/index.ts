@@ -32,8 +32,6 @@ export * from './DéclarationAccessibilitéPage';
 export * from './EmailsEnErreurPage';
 export * from './Error';
 export * from './FakeLoginPage';
-export * from './ImporterListingEDFPage';
-export * from './ImporterListingEnedisPage';
 export * from './InvitationsCandidatsEnAttentePage';
 export * from './LienInvitationPériméPage';
 export * from './ListeProjetsPage';
