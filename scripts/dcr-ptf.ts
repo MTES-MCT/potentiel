@@ -1,27 +1,34 @@
 import { executeSelect } from '@potentiel/pg-helpers';
 import {
   DossierRaccordementReadModel,
-  accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory,
-  propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory,
-} from '@potentiel/domain';
+  ExecuteRaccordementProjector,
+  registerRaccordementProjector,
+} from '@potentiel/domain-views';
 import { publish } from '@potentiel/pg-event-sourcing';
-import { findProjection, updateProjection } from '@potentiel/pg-projections';
+import {
+  createProjection,
+  findProjection,
+  removeProjection,
+  updateProjection,
+} from '@potentiel/pg-projections';
 import { S3 } from 'aws-sdk';
 import { extname, join } from 'path';
-import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '@potentiel/domain/dist/raccordement/demandeCompléteRaccordement/enregisterAccuséRéception/accuséRéceptionDemandeComplèteRaccordementTransmis.event';
-import { formatIdentifiantProjet } from '@potentiel/domain/dist/projet/identifiantProjet';
 import { createRaccordementAggregateId } from '@potentiel/domain/dist/raccordement/raccordement.aggregate';
-import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '@potentiel/domain/dist/raccordement/propositionTechniqueEtFinancière/enregistrerPropositionTechniqueEtFinancièreSignée/propositionTechniqueEtFinancièreSignéeTransmise.event';
 import { lookup } from 'mime-types';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain';
+import {
+  AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
+  PropositionTechniqueEtFinancièreSignéeTransmiseEvent,
+} from '@potentiel/domain/dist/raccordement/raccordement.event';
+import { mediator } from 'mediateur';
 
-process.env.EVENT_STORE_CONNECTION_STRING =
-  'postgres://potadmindb:localpwd@localhost:5432/potentiel';
+process.env.EVENT_STORE_CONNECTION_STRING = '';
 
-const bucketName = 'potentiel';
+const bucketName = '';
 const client = new S3({
-  endpoint: 'http://localhost:9444/s3',
-  accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
-  secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+  endpoint: '',
+  accessKeyId: '',
+  secretAccessKey: '',
   s3ForcePathStyle: true,
 });
 
@@ -35,12 +42,9 @@ export const getFiles = async (pattern: string): Promise<string[]> => {
   return files.Contents.map((file) => file.Key || undefined).filter((file) => file) as string[];
 };
 
-const acDCREventHandler = accuséRéceptionDemandeComplèteRaccordementTransmisHandlerFactory({
-  find: findProjection,
-  update: updateProjection,
-});
-
-const ptfSignéeEventHandler = propositionTechniqueEtFinancièreSignéeTransmiseHandlerFactory({
+registerRaccordementProjector({
+  create: createProjection,
+  remove: removeProjection,
   find: findProjection,
   update: updateProjection,
 });
@@ -70,9 +74,10 @@ const ptfSignéeEventHandler = propositionTechniqueEtFinancièreSignéeTransmise
       const [, appelOffre, période, famille, numéroCRE, référenceDossierRaccordement] =
         key.split('#');
       const identifiantProjet = { appelOffre, période, famille, numéroCRE };
-      const identifiantProjetFormaté = formatIdentifiantProjet(identifiantProjet);
+      const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+      const identifiantProjetFormaté = identifiantProjetValueType.formatter();
       console.log(`ℹ️ Identifiant Projet: ${identifiantProjetFormaté}`);
-      const aggregateId = createRaccordementAggregateId(identifiantProjet);
+      const aggregateId = createRaccordementAggregateId(identifiantProjetValueType);
       console.log(`ℹ️ Aggregate id: ${aggregateId}`);
 
       if (!dossier.value.accuséRéception?.format) {
@@ -110,7 +115,11 @@ const ptfSignéeEventHandler = propositionTechniqueEtFinancièreSignéeTransmise
           await publish(aggregateId, event);
           console.log(`⏩✅ 🔌 AccuséRéceptionDemandeComplèteRaccordementTransmisEvent sent`);
 
-          await acDCREventHandler(event);
+          await mediator.send<ExecuteRaccordementProjector>({
+            type: 'EXECUTE_RACCORDEMENT_PROJECTOR',
+            data: event,
+          });
+
           console.log(`⏩✅ 📁 Dossier Raccordement projection updated`);
         } else {
           console.log(`ℹ️ No DCR file`);
@@ -154,7 +163,10 @@ const ptfSignéeEventHandler = propositionTechniqueEtFinancièreSignéeTransmise
           await publish(aggregateId, event);
 
           console.log(`⏩✅ 📜 PropositionTechniqueEtFinancièreSignéeTransmiseEvent sent`);
-          await ptfSignéeEventHandler(event);
+          await mediator.send<ExecuteRaccordementProjector>({
+            type: 'EXECUTE_RACCORDEMENT_PROJECTOR',
+            data: event,
+          });
           console.log(`⏩✅ 📁 Dossier Raccordement projection updated`);
         } else {
           console.log(`ℹ️ No PTF file`);
