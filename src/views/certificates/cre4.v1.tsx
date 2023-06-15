@@ -470,6 +470,10 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
               >
                 {validateur.fonction}
               </Text>
+              <Text style={{ fontSize: 9, marginTop: 10, textAlign: 'left', fontStyle: 'italic' }}>
+                Validé électroniquement par la plateforme https://potentiel.beta.gouv.fr et conforme
+                à l'article L.212-2 du code des relations entre le public et l'administration.
+              </Text>
             </View>
           </View>
 
