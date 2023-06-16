@@ -129,16 +129,25 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
         </Form>
 
-        <InfoBox
-          className="flex md:w-1/3 md:mx-auto"
-          title="Où trouver la référence du dossier de raccordement ?"
-        >
-          Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre demande
-          complète de raccordement (
-          <ExternalLink href="https://docs.potentiel.beta.gouv.fr/gerer-mes-projets-et-documents/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
-            Voir un exemple
-          </ExternalLink>
-          )
+        <InfoBox className="flex md:w-1/3 md:mx-auto">
+          <p>
+            <span className="font-bold">Quel document transmettre ?</span>
+            <br />
+            Votre gestionnaire de réseau vous retourne un{' '}
+            <span className="italic">accusé de réception</span> lorsque votre demande de
+            raccordement est jugée complète. Cet accusé de réception est à transmettre dans
+            Potentiel dans les deux mois suivant la notification de désignation du projet.
+          </p>
+          <p>
+            <span className="font-bold">Où trouver la référence de mon dossier ?</span>
+            <br />
+            Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre
+            demande complète de raccordement (
+            <ExternalLink href="https://docs.potentiel.beta.gouv.fr/gerer-mes-projets-et-documents/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
+              Voir un exemple
+            </ExternalLink>
+            )
+          </p>
         </InfoBox>
       </div>
     </PageProjetTemplate>
