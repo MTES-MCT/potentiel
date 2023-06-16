@@ -112,20 +112,6 @@ const fakeProjectData = {
 
   users: [],
   invitations: [],
-
-  contratEDF: {
-    numero: 'ABCDEFG',
-    type: 'FV16BCR',
-    dateEffet: '1/1/20',
-    dateSignature: '3/23/21',
-    dateMiseEnService: '3/1/22',
-    duree: 7303,
-    statut: 'SIGNE',
-  },
-
-  contratEnedis: {
-    numero: 'ENEDIS12345',
-  },
 } as unknown as ProjectDataForProjectPage;
 
 export const forAdminsLaureat = () => (

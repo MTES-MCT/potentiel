@@ -1,6 +1,4 @@
 export * from './candidateNotification';
-export * from './edf';
-export * from './enedis';
 export * from './file';
 export * from './frise';
 export * from './modificationRequest';

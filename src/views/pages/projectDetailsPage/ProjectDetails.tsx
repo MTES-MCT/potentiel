@@ -24,8 +24,6 @@ import {
   Contact,
   MaterielsEtTechnologies,
   ResultatsAppelOffreInnovation,
-  ContratEDF,
-  ContratEnedis,
 } from './sections';
 import { ProjectHeader } from './components';
 import routes from '@routes';
@@ -104,12 +102,6 @@ export const ProjectDetails = ({
         </div>
         {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
           <EditProjectData project={project} request={request} />
-        )}
-        {['admin', 'dgec-validateur'].includes(user.role) && !!project.contratEDF && (
-          <ContratEDF contrat={project.contratEDF} />
-        )}
-        {['admin', 'dgec-validateur'].includes(user.role) && !!project.contratEnedis && (
-          <ContratEnedis contrat={project.contratEnedis} />
         )}
       </main>
     </LegacyPageTemplate>

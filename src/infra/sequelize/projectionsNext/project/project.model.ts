@@ -6,8 +6,6 @@ import {
   NonAttribute,
 } from 'sequelize';
 import { Technologie } from '@entities';
-import { ContratEDF } from '@modules/edf';
-import { ContratEnedis } from '@modules/enedis';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { User } from '../users/users.model';
 import { File } from '../file/file.model';
@@ -51,8 +49,6 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   potentielIdentifier: string;
   technologie?: Technologie;
   actionnariat: 'financement-collectif' | 'gouvernance-partagee' | '';
-  contratEDF?: ContratEDF;
-  contratEnedis?: ContratEnedis;
   dateMiseEnService?: Date;
   dateFileAttente?: Date;
   soumisAuxGF: boolean;

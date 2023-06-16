@@ -11,8 +11,6 @@ export * from './tableauxDeBord';
 export * from './userAccount';
 export * from './getDéclarationAccessibilitéPage';
 export * from './getSuccèsPage';
-export * from './importerListingEDF';
-export * from './importerListingEnedis';
 export * from './upload';
 export * from './v1Router';
 export * from './raccordement';
