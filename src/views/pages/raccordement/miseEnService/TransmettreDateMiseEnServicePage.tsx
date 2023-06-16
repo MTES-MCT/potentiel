@@ -57,6 +57,7 @@ export const TransmettreDateMiseEnService = ({
               id="dateMiseEnService"
               name="dateMiseEnService"
               defaultValue={dateMiseEnService && formatDateForInput(dateMiseEnService)}
+              max={new Date().toISOString().split('T').shift()}
               required
             />
           </div>

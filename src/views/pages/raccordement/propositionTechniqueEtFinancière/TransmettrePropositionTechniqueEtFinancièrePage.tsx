@@ -63,7 +63,13 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
           </div>
           <div>
             <Label htmlFor="dateSignature">Date de signature</Label>
-            <Input type="date" id="dateSignature" name="dateSignature" required />
+            <Input
+              type="date"
+              id="dateSignature"
+              name="dateSignature"
+              max={new Date().toISOString().split('T').shift()}
+              required
+            />
           </div>
 
           <div className="flex flex-col md:flex-row gap-4 m-auto">

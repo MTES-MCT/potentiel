@@ -114,6 +114,7 @@ export const ModifierDemandeComplèteRaccordement = ({
               id="dateQualification"
               name="dateQualification"
               defaultValue={dateQualification && formatDateForInput(dateQualification)}
+              max={new Date().toISOString().split('T').shift()}
               required
             />
           </div>

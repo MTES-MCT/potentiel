@@ -110,7 +110,13 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
           <div>
             <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
-            <Input type="date" id="dateQualification" name="dateQualification" required />
+            <Input
+              type="date"
+              id="dateQualification"
+              name="dateQualification"
+              max={new Date().toISOString().split('T').shift()}
+              required
+            />
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>
