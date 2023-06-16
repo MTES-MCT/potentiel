@@ -6,7 +6,7 @@ export const renameFile = async (filePath: string, newFilePath: string) => {
   await getClient()
     .copyObject({
       Bucket: getBucketName(),
-      CopySource: `/${getBucketName()}/${filePath}`,
+      CopySource: encodeURI(`/${getBucketName()}/${filePath}`),
       Key: newFilePath,
     })
     .promise();
