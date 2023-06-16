@@ -29,12 +29,16 @@ import { ProjectHeader } from './components';
 import routes from '@routes';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 
+export type AlerteRaccordement =
+  | 'référenceDossierManquantePourDélaiCDC2022'
+  | 'demandeComplèteRaccordementManquante';
+
 type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
   now: number;
-  dossiersRaccordementExistant: boolean;
+  alertesRaccordement?: AlerteRaccordement[];
 };
 
 export const ProjectDetails = ({
@@ -42,7 +46,7 @@ export const ProjectDetails = ({
   project,
   projectEventList,
   now,
-  dossiersRaccordementExistant,
+  alertesRaccordement,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -59,26 +63,18 @@ export const ProjectDetails = ({
           />
         )}
 
-        {!dossiersRaccordementExistant && userIs(['porteur-projet'])(user) && (
-          <DisplayDCRAlertInfos dcrDueOn={project.dcrDueOn} now={now}>
-            <div className="p-2">
-              L'accusé de réception de la demande complète de raccordement doit être transmis dans
-              Potentiel avant le {afficherDate(project.dcrDueOn)}.
-              <br />
-              <Link
-                href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
-                  convertirEnIdentifiantProjet({
-                    appelOffre: project.appelOffreId,
-                    période: project.periodeId,
-                    famille: project.familleId,
-                    numéroCRE: project.numeroCRE,
-                  }).formatter(),
-                )}
-              >
-                Transmettre une demande complète de raccordement (accusé de réception)
-              </Link>
-            </div>
-          </DisplayDCRAlertInfos>
+        {alertesRaccordement && (
+          <AlerteBoxRaccordement
+            dcrDueOn={project.dcrDueOn}
+            now={now}
+            alertes={alertesRaccordement}
+            identifiantProjet={convertirEnIdentifiantProjet({
+              appelOffre: project.appelOffreId,
+              période: project.periodeId,
+              famille: project.familleId,
+              numéroCRE: project.numeroCRE,
+            }).formatter()}
+          />
         )}
 
         <Callout>
@@ -197,10 +193,33 @@ const AlerteAnnulationAbandonPossible = ({
   </>
 );
 
-const DisplayDCRAlertInfos: FC<{
+const AlerteBoxRaccordement: FC<{
   dcrDueOn: ProjectDataForProjectPage['dcrDueOn'];
   now: number;
-}> = ({ dcrDueOn, now, children }) =>
-  now > dcrDueOn ? <ErrorBox>{children}</ErrorBox> : <AlertBox>{children}</AlertBox>;
+  alertes: AlerteRaccordement[];
+  identifiantProjet: `${string}#${string}#${string}#${string}`;
+}> = ({ dcrDueOn, now, alertes, identifiantProjet }) => (
+  <AlertBox title="Données de raccordement à compléter">
+    {alertes.includes('référenceDossierManquantePourDélaiCDC2022') && (
+      <p>
+        Afin de nous permettre de vérifier si le délai relatif au cahier des charges du 30/08/2022
+        concerne le projet pour l'appliquer le cas échéant, nous vous invitons à renseigner une
+        référence de dossier de raccordement et à vous assurer que le gestionnaire de réseau indiqué{' '}
+        <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}>sur cette page</Link>{' '}
+        est correct.
+      </p>
+    )}
+    {alertes.includes('demandeComplèteRaccordementManquante') && (
+      <p>
+        L'accusé de réception de la demande complète de raccordement doit être transmis dans
+        Potentiel avant le {afficherDate(dcrDueOn)}.{' '}
+        {now > dcrDueOn && <span>Vous êtes donc en retard sur ce délai.</span>}
+      </p>
+    )}
+    <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}>
+      Mettre à jour les données de raccordement de mon projet
+    </Link>
+  </AlertBox>
+);
 
 hydrateOnClient(ProjectDetails);

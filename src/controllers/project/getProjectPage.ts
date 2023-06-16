@@ -14,14 +14,20 @@ import routes from '@routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '@modules/project';
 import { mediator } from 'mediateur';
-import { ListerDossiersRaccordementQuery } from '@potentiel/domain-views';
 import {
+  ConsulterDossierRaccordementQuery,
+  ListerDossiersRaccordementQuery,
+} from '@potentiel/domain-views';
+import {
+  IdentifiantProjet,
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize';
-import { isSome } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
+import { AlerteRaccordement } from '@views/pages/projectDetailsPage';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -71,18 +77,20 @@ v1Router.get(
 
       const projet = rawProjet.value;
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        période: projet.periodeId,
-        famille: projet.familleId,
-        numéroCRE: projet.numeroCRE,
-      };
-
-      const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
-        type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
-        data: { identifiantProjet },
+      const alertesRaccordement = await getAlertesRaccordement({
+        userRole: user.role,
+        identifiantProjet: {
+          appelOffre: projet.appelOffreId,
+          période: projet.periodeId,
+          famille: projet.familleId,
+          numéroCRE: projet.numeroCRE,
+        },
+        CDC2022Choisi:
+          projet.cahierDesChargesActuel.type === 'modifié' &&
+          projet.cahierDesChargesActuel.paruLe === '30/08/2022',
       });
-      const dossiersRaccordementExistant = références.length > 0;
+
+      console.table(alertesRaccordement);
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
@@ -109,7 +117,7 @@ v1Router.get(
           project: projet,
           projectEventList: rawProjectEventList.value,
           now: new Date().getTime(),
-          dossiersRaccordementExistant,
+          alertesRaccordement,
         }),
       );
     },
@@ -131,4 +139,44 @@ const getIdentifiantLegacyProjet = async (identifiantProjet: RawIdentifiantProje
   });
 
   return projetLegacy?.id;
+};
+
+const getAlertesRaccordement = async ({
+  identifiantProjet,
+  CDC2022Choisi,
+  userRole,
+}: {
+  identifiantProjet: IdentifiantProjet;
+  CDC2022Choisi: boolean;
+  userRole: UtilisateurReadModel['role'];
+}) => {
+  if (userRole !== 'porteur-projet') {
+    return;
+  }
+
+  let alertes: Array<AlerteRaccordement> = [];
+
+  const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
+    type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+    data: { identifiantProjet },
+  });
+
+  if (CDC2022Choisi && (références.length === 0 || références[0] === 'Référence non transmise')) {
+    alertes.push('référenceDossierManquantePourDélaiCDC2022');
+  }
+
+  if (références.length === 0) {
+    alertes.push('demandeComplèteRaccordementManquante');
+  } else {
+    const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
+      type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+      data: { identifiantProjet, référenceDossierRaccordement: références[0] },
+    });
+
+    if (isNone(dossier) || (isSome(dossier) && !dossier.accuséRéception)) {
+      alertes.push('demandeComplèteRaccordementManquante');
+    }
+  }
+
+  return alertes.length > 0 ? alertes : undefined;
 };

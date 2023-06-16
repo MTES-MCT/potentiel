@@ -125,7 +125,6 @@ export const forAdminsLaureat = () => (
     }
     projectEventList={projectEventList}
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
   />
 );
 
@@ -140,7 +139,6 @@ export const forAdminsElimine = () => (
     }
     projectEventList={projectEventList}
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
   />
 );
 
@@ -156,7 +154,6 @@ export const forAdminsNonNotifié = () => (
     }
     projectEventList={projectEventList}
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
   />
 );
 
@@ -172,7 +169,6 @@ export const forAdminsAbandonné = () => (
     }
     projectEventList={projectEventList}
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
   />
 );
 
@@ -180,7 +176,6 @@ export const forPorteurProjet = () => (
   <ProjectDetails
     projectEventList={projectEventList}
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -193,11 +188,27 @@ export const forPorteurProjet = () => (
   />
 );
 
+export const forPorteurProjetWithRaccordementAlert = () => (
+  <ProjectDetails
+    projectEventList={projectEventList}
+    now={new Date().getTime()}
+    request={makeFakeRequest({
+      user: makeFakeUser({ role: 'porteur-projet' }),
+    })}
+    project={
+      {
+        ...fakeProjectData,
+        isClasse: true,
+      } as ProjectDataForProjectPage
+    }
+    alertesRaccordement={['demandeComplèteRaccordementManquante']}
+  />
+);
+
 export const forPorteurProjetElimine = () => (
   <ProjectDetails
     projectEventList={projectEventList}
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -223,14 +234,12 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
     }
     projectEventList={projectEventList}
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
   />
 );
 
 export const forPorteurProjetWithSuccess = () => (
   <ProjectDetails
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
       query: { success: 'Une invitation a bien été envoyée' },
@@ -253,14 +262,12 @@ export const forDrealGFPassDue = () => (
     }
     projectEventList={projectEventList}
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
   />
 );
 
 export const forDrealGFStillDue = () => (
   <ProjectDetails
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'dreal' }),
     })}
@@ -285,7 +292,6 @@ if (appelOffreInnovation) {
 export const forAOInnovation = () => (
   <ProjectDetails
     now={new Date().getTime()}
-    dossiersRaccordementExistant={false}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
