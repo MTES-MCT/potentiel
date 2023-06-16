@@ -1,4 +1,4 @@
-import { deleteFile, getFiles, renameFile, upload } from '@potentiel/file-storage';
+import { deleteFile, download, getFiles, upload } from '@potentiel/file-storage';
 import { extname, join } from 'path';
 import { extension } from 'mime-types';
 import {
@@ -50,7 +50,10 @@ export const téléverserFichierDossierRaccordementAdapter: TéléverserFichierD
       );
 
       for (const fileToMove of filesToMove) {
-        await renameFile(fileToMove, `${newPath}${extname(fileToMove)}`);
+        const newFilePath = `${newPath}${extname(fileToMove)}`;
+        const content = await download(fileToMove);
+        await upload(newFilePath, content);
+        await deleteFile(fileToMove);
       }
     }
   };
