@@ -203,7 +203,7 @@ const AlerteBoxRaccordement: FC<{
     {alertes.includes('référenceDossierManquantePourDélaiCDC2022') && (
       <p>
         Afin de nous permettre de vérifier si le délai relatif au cahier des charges du 30/08/2022
-        s'applique au projet, et l'appliquer le cas échéant, nous vous invitons à renseigner une
+        concerne le projet pour l'appliquer le cas échéant, nous vous invitons à renseigner une
         référence de dossier de raccordement et à vous assurer que le gestionnaire de réseau indiqué{' '}
         <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}>sur cette page</Link>{' '}
         est correct.
