@@ -9,6 +9,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import {
+  DateDansLeFuturError,
   FormatRéférenceDossierRaccordementInvalideError,
   PlusieursGestionnairesRéseauPourUnProjetError,
   RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
@@ -16,13 +17,14 @@ import {
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
+import { DateTimeValueType } from '../../common.valueType';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType;
     identifiantProjet: IdentifiantProjetValueType;
-    dateQualification?: Date;
+    dateQualification: DateTimeValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
   }
 >;
@@ -45,6 +47,10 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
     identifiantGestionnaireRéseau,
     référenceDossierRaccordement,
   }) => {
+    if (dateQualification.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
     const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau);
 
     if (isNone(gestionnaireRéseau)) {
@@ -76,7 +82,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
       type: 'DemandeComplèteDeRaccordementTransmise',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
-        dateQualification: dateQualification?.toISOString(),
+        dateQualification: dateQualification.formatter(),
         identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       },

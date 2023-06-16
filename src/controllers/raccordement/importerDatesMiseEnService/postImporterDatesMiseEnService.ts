@@ -12,6 +12,7 @@ import { setApiResult } from '../../helpers/apiResult';
 import {
   DomainUseCase,
   PermissionTransmettreDateMiseEnService,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
@@ -111,7 +112,9 @@ v1Router.post(
                 référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
                   référenceDossierRaccordement,
                 ),
-                dateMiseEnService: new Date(dateMiseEnService.split('/').reverse().join('-')),
+                dateMiseEnService: convertirEnDateTime(
+                  dateMiseEnService.split('/').reverse().join('-'),
+                ),
               },
             });
 

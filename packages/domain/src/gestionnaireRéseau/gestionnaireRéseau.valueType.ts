@@ -5,7 +5,7 @@ export type IdentifiantGestionnaireRéseau = {
 };
 
 export type IdentifiantGestionnaireRéseauValueType = IdentifiantGestionnaireRéseau & {
-  formatter: () => RawIdentifiantGestionnaireRéseau;
+  formatter(): RawIdentifiantGestionnaireRéseau;
 };
 
 // TODO: valider la valeur avant de la convertir en ValueType

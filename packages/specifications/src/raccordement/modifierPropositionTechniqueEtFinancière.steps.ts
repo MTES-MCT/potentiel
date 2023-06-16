@@ -3,6 +3,7 @@ import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 import {
   DomainUseCase,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
@@ -12,7 +13,7 @@ EtantDonné(
   'une propositon technique et financière pour le dossier de raccordement ayant pour référence {string} avec :',
   async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const dateSignature = new Date(exemple['La date de signature']);
+    const dateSignature = convertirEnDateTime(exemple['La date de signature']);
     const format = exemple[`Le format de la proposition technique et financière`];
     const content = exemple[`Le contenu de proposition technique et financière`];
 
@@ -45,7 +46,7 @@ Quand(
   `le porteur modifie la proposition technique et financière pour le dossier de raccordement ayant pour référence {string} avec :`,
   async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const dateSignature = new Date(exemple['La date de signature']);
+    const dateSignature = convertirEnDateTime(exemple['La date de signature']);
     const format = exemple[`Le format de la proposition technique et financière`];
     const content = exemple[`Le contenu de proposition technique et financière`];
 

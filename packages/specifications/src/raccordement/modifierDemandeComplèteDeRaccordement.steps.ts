@@ -3,6 +3,7 @@ import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 import {
   DomainUseCase,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
@@ -12,7 +13,7 @@ Quand(
   `le porteur modifie la demande complète de raccordement ayant pour référence {string} avec :`,
   async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const dateQualification = new Date(exemple['La date de qualification']);
+    const dateQualification = convertirEnDateTime(exemple['La date de qualification']);
     const format = exemple[`Le format de l'accusé de réception`];
     const content = exemple[`Le contenu de l'accusé de réception`];
 

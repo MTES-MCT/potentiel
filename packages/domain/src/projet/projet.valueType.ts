@@ -10,7 +10,7 @@ export type IdentifiantProjet = {
 };
 
 export type IdentifiantProjetValueType = IdentifiantProjet & {
-  formatter: () => RawIdentifiantProjet;
+  formatter(): RawIdentifiantProjet;
 };
 
 export const convertirEnIdentifiantProjet = (

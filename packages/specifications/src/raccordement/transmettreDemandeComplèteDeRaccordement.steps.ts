@@ -4,6 +4,7 @@ import { Readable } from 'stream';
 import { mediator } from 'mediateur';
 import {
   DomainUseCase,
+  convertirEnDateTime,
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
@@ -22,7 +23,7 @@ EtantDonné(
   'un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau {string} avec :',
   async function (this: PotentielWorld, raisonSociale, table: DataTable) {
     const exemple = table.rowsHash();
-    const dateQualification = new Date(exemple['La date de qualification']);
+    const dateQualification = convertirEnDateTime(exemple['La date de qualification']);
     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
     const format = exemple[`Le format de l'accusé de réception`];
     const content = exemple[`Le contenu de l'accusé de réception`];
@@ -60,7 +61,7 @@ Quand(
   `le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} avec :`,
   async function (this: PotentielWorld, raisonSociale: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const dateQualification = new Date(exemple['La date de qualification']);
+    const dateQualification = convertirEnDateTime(exemple['La date de qualification']);
     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
     const format = exemple[`Le format de l'accusé de réception`];
     const content = exemple[`Le contenu de l'accusé de réception`];
@@ -102,7 +103,9 @@ Quand(
   `le porteur du projet transmet une autre demande complète de raccordement auprès du même gestionnaire de réseau avec :`,
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
-    this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
+    this.raccordementWorld.dateQualification = convertirEnDateTime(
+      exemple['La date de qualification'],
+    );
     this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence du dossier de raccordement'];
     try {
@@ -157,7 +160,7 @@ Alors(
     });
 
     const expectedDossierRaccordement: DossierRaccordementReadModel = {
-      dateQualification: this.raccordementWorld.dateQualification.toISOString(),
+      dateQualification: this.raccordementWorld.dateQualification.formatter(),
       accuséRéception: {
         format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
       },

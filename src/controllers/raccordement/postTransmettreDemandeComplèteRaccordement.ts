@@ -2,6 +2,7 @@ import { createReadStream } from 'fs';
 import {
   DomainUseCase,
   PermissionTransmettreDemandeComplèteRaccordement,
+  convertirEnDateTime,
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
@@ -129,7 +130,7 @@ v1Router.post(
             référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
               référenceDossierRaccordement,
             ),
-            dateQualification,
+            dateQualification: convertirEnDateTime(dateQualification),
             accuséRéception: {
               format: file.mimetype,
               content: createReadStream(file.path),

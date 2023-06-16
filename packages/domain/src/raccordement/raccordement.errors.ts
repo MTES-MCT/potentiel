@@ -37,3 +37,9 @@ export class RéférencesDossierRaccordementIdentiquesError extends InvalidOpera
     super(`Les références du dossier de raccordement sont identiques`);
   }
 }
+
+export class DateDansLeFuturError extends InvalidOperationError {
+  constructor() {
+    super(`La date ne peux pas être une date future`);
+  }
+}

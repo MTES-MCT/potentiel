@@ -5,16 +5,17 @@ import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { DateDansLeFuturError, DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { PropositionTechniqueEtFinancièreModifiéeEvent } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
+import { DateTimeValueType } from '../../common.valueType';
 
 export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
   'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
-    dateSignature: Date;
+    dateSignature: DateTimeValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
   }
 >;
@@ -33,6 +34,10 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
     référenceDossierRaccordement,
     dateSignature,
   }) => {
+    if (dateSignature.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
     const loadRaccordementAggregate = loadRaccordementAggregateFactory({
       loadAggregate,
     });
@@ -48,7 +53,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
         type: 'PropositionTechniqueEtFinancièreModifiée',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
-          dateSignature: dateSignature.toISOString(),
+          dateSignature: dateSignature.formatter(),
           référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         },
       };
