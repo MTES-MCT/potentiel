@@ -18,6 +18,7 @@ const Footer = () => {
               <a
                 href="/"
                 title="Retour à l’accueil"
+                aria-label="Retour à l’accueil"
                 className="no-underline hover:no-underline visited:no-underline outline-0"
               >
                 <div className="lg:mb-1 logo-before" />
