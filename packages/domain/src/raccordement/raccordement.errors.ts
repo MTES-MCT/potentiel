@@ -40,6 +40,6 @@ export class RéférencesDossierRaccordementIdentiquesError extends InvalidOpera
 
 export class DateDansLeFuturError extends InvalidOperationError {
   constructor() {
-    super(`La date ne peux pas être une date future`);
+    super(`La date ne peut pas être une date future`);
   }
 }

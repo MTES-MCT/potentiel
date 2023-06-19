@@ -74,4 +74,4 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | La référence du dossier de raccordement       | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception            | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception           | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Alors le porteur devrait être informé que "La date ne peux pas être une date future"  
+        Alors le porteur devrait être informé que "La date ne peut pas être une date future"  

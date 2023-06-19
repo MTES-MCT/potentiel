@@ -42,4 +42,4 @@ Fonctionnalité: Transmettre une proposition technique et financière
             | La date de signature                                  | 2999-12-31                                                                                                        |
             | Le format de la proposition technique et financière   | application/pdf                                                                                                   |
             | Le contenu de proposition technique et financière     | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
-        Alors le porteur devrait être informé que "La date ne peux pas être une date future"
+        Alors le porteur devrait être informé que "La date ne peut pas être une date future"
