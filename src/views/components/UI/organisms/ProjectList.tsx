@@ -248,7 +248,12 @@ export const ProjectList = ({
                       }}
                     />
                   )}
-                  <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Voir</LinkButton>
+                  <LinkButton
+                    href={routes.PROJECT_DETAILS(project.id)}
+                    aria-label={`voir le projet ${project.nomProjet}`}
+                  >
+                    Voir
+                  </LinkButton>
                 </div>
               </div>
             </Tile>
