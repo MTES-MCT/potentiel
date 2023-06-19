@@ -19,10 +19,10 @@ const Details = (props: ModificationReceivedItemProps) => {
   const { modificationType, detailsUrl } = props;
   const libelleTypeDemande: { [key in ModificationReceivedItemProps['modificationType']]: string } =
     {
-      producteur: 'Changement de producteur',
-      actionnaire: 'Modification de l’actionnariat',
-      fournisseur: 'Changement de fournisseur(s) ou de produit',
-      puissance: 'Modification de la puissance installée',
+      producteur: 'changement de producteur',
+      actionnaire: 'modification de l’actionnariat',
+      fournisseur: 'changement de fournisseur(s) ou de produit',
+      puissance: 'modification de la puissance installée',
     };
 
   return (
@@ -48,7 +48,14 @@ const Details = (props: ModificationReceivedItemProps) => {
           ))}
         </ul>
       )}
-      {detailsUrl && <Link href={detailsUrl}>Voir la demande</Link>}
+      {detailsUrl && (
+        <Link
+          href={detailsUrl}
+          aria-label={`Voir le détail de la modification de type "${libelleTypeDemande[modificationType]}"`}
+        >
+          Voir la demande
+        </Link>
+      )}
     </>
   );
 };

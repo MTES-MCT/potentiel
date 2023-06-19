@@ -47,7 +47,10 @@ const Rejected = ({ date, attachment, notes }: RejectedProps) => (
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <DownloadLink fileUrl={makeDocumentUrl(attachment.id, attachment.name)}>
+        <DownloadLink
+          fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
+          aria-label={`Télécharger le courrier de réponse de la demande de délai rejetée`}
+        >
           Voir le courrier de réponse
         </DownloadLink>
       )}
@@ -67,7 +70,10 @@ const AccordPrincipe = ({ date, attachment, notes }: AccordPrincipeProps) => (
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <DownloadLink fileUrl={makeDocumentUrl(attachment.id, attachment.name)}>
+        <DownloadLink
+          fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
+          aria-label={`Télécharger le courrier de réponse de la demande de délai en "accord de principe"`}
+        >
           Voir le courrier de réponse
         </DownloadLink>
       )}
@@ -101,7 +107,10 @@ const Accepted = ({
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <DownloadLink fileUrl={makeDocumentUrl(attachment.id, attachment.name)}>
+        <DownloadLink
+          fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
+          aria-label={`Télécharger le courrier de réponse de la demande de délai accordée`}
+        >
           Voir le courrier de réponse
         </DownloadLink>
       )}

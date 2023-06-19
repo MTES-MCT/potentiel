@@ -39,7 +39,16 @@ export const DemandeAnnulationAbandonItem = (props: DemandeAnnulationAbandonItem
         </div>
         <>
           <ItemTitle title={titre} />
-          <p className="p-0 m-0">{demandeUrl && <Link href={demandeUrl}>Voir la demande</Link>}</p>
+          <p className="p-0 m-0">
+            {demandeUrl && (
+              <Link
+                href={demandeUrl}
+                aria-label={`Voir le détail de la demande d'annulation d'abandon en statut "${statut}"`}
+              >
+                Voir la demande
+              </Link>
+            )}
+          </p>
         </>
       </ContentArea>
     </>

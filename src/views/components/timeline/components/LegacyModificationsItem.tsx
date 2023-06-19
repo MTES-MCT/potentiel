@@ -35,7 +35,10 @@ const LegacyModificationContainer = (
         {children}
         {courrier && (
           <div>
-            <DownloadLink fileUrl={makeDocumentUrl(courrier.id, courrier.name)}>
+            <DownloadLink
+              fileUrl={makeDocumentUrl(courrier.id, courrier.name)}
+              aria-label={`Télécharger le courrier de la demande de type "${props.modificationType}"`}
+            >
               Télécharger le courrier
             </DownloadLink>
           </div>
