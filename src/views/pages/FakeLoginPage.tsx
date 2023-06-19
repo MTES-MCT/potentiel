@@ -29,6 +29,7 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
             className="hidden lg:block self-center w-full p-4 lg:w-1/2 object-scale-down"
             src="/images/home/enr-illustration.png"
             aria-hidden
+            alt=""
           />
         </section>
       </main>
