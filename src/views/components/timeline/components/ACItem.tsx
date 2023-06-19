@@ -17,6 +17,8 @@ export const ACItem = ({ date, covidDelay, délaiCDC2022Appliqué }: ACItemProps
             Ce projet bénéficie d'une prolongation de délai d'achèvement ou de mise en service
             compte tenu de la crise liée au coronavirus (covid-19) (
             <Link
+              aria-label={`Voir les critères d'attribution de la prolongation de délai d'achèvement ou de mise en service
+            compte tenu de la crise liée au coronavirus (covid-19)`}
               href="https://www.ecologie.gouv.fr/sites/default/files/2004%20-%20SR%20-%20Note%20EDF%20OA%20D%C3%A9finition%20des%20d%C3%A9lais%20COVID%202019_v5.pdf"
               download
             >
