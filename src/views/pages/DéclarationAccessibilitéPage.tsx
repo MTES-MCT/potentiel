@@ -10,7 +10,7 @@ type DéclarationAccessibilitéProps = {
 export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilitéProps) => {
   return (
     <LegacyPageTemplate user={request.user}>
-      <main role="main">
+      <>
         <Heading1>Déclaration d’accessibilité</Heading1>
         <p>Établie le 15 décembre 2022.</p>
         <p>
@@ -65,7 +65,7 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
             </li>
           </ul>
         </p>
-      </main>
+      </>
     </LegacyPageTemplate>
   );
 };

@@ -56,7 +56,7 @@ export const ProjectDetails = ({
       <ProjectHeader {...{ project, user }} />
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
-      <main className="flex flex-col gap-3 mt-5">
+      <div className="flex flex-col gap-3 mt-5">
         {project.alerteAnnulationAbandon && userIs('porteur-projet')(user) && (
           <AlerteAnnulationAbandonPossible
             {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
@@ -99,7 +99,7 @@ export const ProjectDetails = ({
         {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
           <EditProjectData project={project} request={request} />
         )}
-      </main>
+      </div>
     </LegacyPageTemplate>
   );
 };

@@ -30,7 +30,7 @@ export const AbonnementLettreInformation = ({
   <>
     <Header {...{ user }} />
 
-    <main style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+    <div style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
       <section className="bg-blue-france-sun-base pb-0.5">
         {success ? (
           <AbonnementLettreInformationSuccessful />
@@ -38,7 +38,7 @@ export const AbonnementLettreInformation = ({
           <AbonnementLettreInformationForm {...{ user, error, validationErrors }} />
         )}
       </section>
-    </main>
+    </div>
 
     <Footer />
   </>
