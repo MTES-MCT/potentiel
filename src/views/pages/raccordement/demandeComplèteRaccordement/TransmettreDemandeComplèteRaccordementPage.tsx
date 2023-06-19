@@ -136,7 +136,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
             Votre gestionnaire de réseau vous retourne un{' '}
             <span className="italic">accusé de réception</span> lorsque votre demande de
             raccordement est jugée complète. Cet accusé de réception est à transmettre dans
-            Potentiel dans les deux mois suivant la notification de désignation du projet.
+            Potentiel afin de faciliter l'instruction de votre dossier.
           </p>
           <p>
             <span className="font-bold">Où trouver la référence de mon dossier ?</span>
