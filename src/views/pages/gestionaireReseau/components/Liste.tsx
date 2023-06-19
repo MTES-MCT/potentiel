@@ -12,7 +12,12 @@ export const Liste: FC<ListeProps> = ({ gestionnairesRéseau }) => (
       <li key={`gestionnaire-reseau-${codeEIC}`} className="m-0 mb-3 p-0">
         <Tile className="flex justify-between">
           <div className="font-bold">{raisonSociale}</div>
-          <Link href={routes.GET_DETAIL_GESTIONNAIRE_RESEAU(codeEIC)}>Voir</Link>
+          <Link
+            href={routes.GET_DETAIL_GESTIONNAIRE_RESEAU(codeEIC)}
+            aria-label={`Voir les détails pour ${raisonSociale}`}
+          >
+            Voir
+          </Link>
         </Tile>
       </li>
     ))}
