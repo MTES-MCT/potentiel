@@ -53,6 +53,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
         <DownloadLink
           className="flex items-center"
           fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(identifiantProjet, référence)}
+          aria-label={`Télécharger l'accusé de réception pour le dossier ${référence}`}
         >
           Télécharger l'accusé de réception
         </DownloadLink>
@@ -65,6 +66,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
             référence,
           )}
           className="absolute top-2 right-2"
+          aria-label={`Modifier la demande de raccordement ${référence}`}
         >
           <EditIcon aria-hidden className="mr-1" />
           Modifier

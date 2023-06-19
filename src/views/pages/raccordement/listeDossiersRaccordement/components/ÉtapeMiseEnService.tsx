@@ -35,6 +35,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
           <Link
             href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(identifiantProjet, référence)}
             className="absolute top-2 right-2"
+            aria-label={`Modifier la date de mise en service pour le dossier ${référence}`}
           >
             <EditIcon aria-hidden className="mr-1" />
             Modifier
@@ -45,6 +46,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
       <Link
         className="mt-4 text-center"
         href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(identifiantProjet, référence)}
+        aria-label={`Transmettre la date de mise en service pour le dossier ${référence}`}
       >
         Transmettre
       </Link>

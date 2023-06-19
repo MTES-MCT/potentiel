@@ -38,6 +38,7 @@ export const ListeDossiersRaccordement = ({
               <Link
                 className="ml-1"
                 href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
+                aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
               >
                 (<EditIcon className="mr-1" />
                 Modifier)
