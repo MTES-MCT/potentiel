@@ -67,3 +67,11 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | Le format de l'accusé de réception            | application/pdf                                                                                                     |
             | Le contenu de l'accusé de réception           | Accusé de réception ayant pour référence UneRéférenceAvecUnFormatInvalide et la date de qualification au 2022-10-28 |
         Alors le porteur devrait être informé que "Le format de la référence du dossier de raccordement est invalide"
+
+    Scénario: Impossible de transmettre une demande complète de raccordement avec une date de qualification dans le futur
+        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                      | 2999-12-31                                                                                            |
+            | La référence du dossier de raccordement       | OUE-RP-2022-000033                                                                                    |
+            | Le format de l'accusé de réception            | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception           | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Alors le porteur devrait être informé que "La date ne peut pas être une date future"  

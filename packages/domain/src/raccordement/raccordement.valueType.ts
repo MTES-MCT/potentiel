@@ -8,8 +8,8 @@ export type RéférenceDossierRaccordement = {
 };
 
 export type RéférenceDossierRaccordementValueType = RéférenceDossierRaccordement & {
-  estÉgaleÀ: (référenceDossierRaccordement: RéférenceDossierRaccordement) => boolean;
-  formatter: () => RawRéférenceDossierRaccordement;
+  estÉgaleÀ(référenceDossierRaccordement: RéférenceDossierRaccordement): boolean;
+  formatter(): RawRéférenceDossierRaccordement;
 };
 
 // TODO: valider la valeur avant de la convertir en ValueType

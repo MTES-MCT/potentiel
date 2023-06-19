@@ -7,18 +7,20 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import {
+  DateDansLeFuturError,
   DossierRaccordementNonRéférencéError,
   FormatRéférenceDossierRaccordementInvalideError,
 } from '../raccordement.errors';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
 import { DemandeComplèteRaccordementModifiéeEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
+import { DateTimeValueType } from '../../common.valueType';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
-    dateQualification: Date;
+    dateQualification: DateTimeValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
   }
 >;
@@ -41,6 +43,10 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
     dateQualification,
     référenceDossierRaccordement,
   }) => {
+    if (dateQualification.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
     const raccordement = await loadRaccordement(identifiantProjet);
 
     if (isNone(raccordement) || !raccordement.contientLeDossier(référenceDossierRaccordement)) {
@@ -62,7 +68,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
-        dateQualification: dateQualification.toISOString(),
+        dateQualification: dateQualification.formatter(),
       },
     };
 

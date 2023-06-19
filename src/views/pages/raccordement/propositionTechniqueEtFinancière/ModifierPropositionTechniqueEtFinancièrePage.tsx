@@ -82,6 +82,7 @@ export const ModifierPropositionTechniqueEtFinancière = ({
                 propositionTechniqueEtFinancière?.dateSignature &&
                 formatDateForInput(propositionTechniqueEtFinancière?.dateSignature)
               }
+              max={new Date().toISOString().split('T').shift()}
               required
             />
           </div>

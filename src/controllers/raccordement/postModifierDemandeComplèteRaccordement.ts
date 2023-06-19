@@ -7,6 +7,7 @@ import {
   estUnRawIdentifiantProjet,
   DomainUseCase,
   RawIdentifiantProjet,
+  convertirEnDateTime,
 } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -148,7 +149,7 @@ v1Router.post(
           data: {
             identifiantProjet: identifiantProjetValueType,
             référenceDossierRaccordement: nouvelleRéférenceDossierRaccordementValueType,
-            dateQualification,
+            dateQualification: convertirEnDateTime(dateQualification),
             accuséRéception: {
               format: file.mimetype,
               content: createReadStream(file.path),

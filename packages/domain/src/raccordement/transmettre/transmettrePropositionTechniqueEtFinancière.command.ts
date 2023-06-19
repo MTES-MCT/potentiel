@@ -6,14 +6,15 @@ import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { DateDansLeFuturError, DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
+import { DateTimeValueType } from '../../common.valueType';
 
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
   {
-    dateSignature: Date;
+    dateSignature: DateTimeValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
     identifiantProjet: IdentifiantProjetValueType;
   }
@@ -36,6 +37,10 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
     référenceDossierRaccordement,
     identifiantProjet,
   }) => {
+    if (dateSignature.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
     if (isNone(raccordement) || !raccordement.contientLeDossier(référenceDossierRaccordement)) {
@@ -46,7 +51,7 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
       {
         type: 'PropositionTechniqueEtFinancièreTransmise',
         payload: {
-          dateSignature: dateSignature.toISOString(),
+          dateSignature: dateSignature.formatter(),
           référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
           identifiantProjet: identifiantProjet.formatter(),
         },

@@ -49,7 +49,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
 
     Scénario: Impossible de modifier la référence pour un projet sans dossier de raccordement
         Quand le porteur modifie la demande complète de raccordement "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034"
-        Alors un administrateur devrait être informé que "Le dossier de raccordement n'est pas référencé" 
+        Alors le porteur devrait être informé que "Le dossier de raccordement n'est pas référencé" 
 
     Scénario: Impossible de modifier la référence pour un dossier de raccordement non référencé
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
@@ -58,4 +58,4 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | Le format de l'accusé de réception            | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception           | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Quand le porteur modifie la demande complète de raccordement "OUE-RP-2022-000034" avec la référence "OUE-RP-2022-000035"
-        Alors un administrateur devrait être informé que "Le dossier de raccordement n'est pas référencé" 
+        Alors le porteur devrait être informé que "Le dossier de raccordement n'est pas référencé" 

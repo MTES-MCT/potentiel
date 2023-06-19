@@ -1,40 +1,42 @@
-export class RaccordementWorld {
-  #dateQualification!: Date;
+import { DateTimeValueType } from '@potentiel/domain';
 
-  get dateQualification(): Date {
+export class RaccordementWorld {
+  #dateQualification!: DateTimeValueType;
+
+  get dateQualification(): DateTimeValueType {
     if (!this.#dateQualification) {
       throw new Error('dateQualification not initialized');
     }
     return this.#dateQualification;
   }
 
-  set dateQualification(value: Date) {
+  set dateQualification(value: DateTimeValueType) {
     this.#dateQualification = value;
   }
 
-  #dateSignature!: Date;
+  #dateSignature!: DateTimeValueType;
 
-  get dateSignature(): Date {
+  get dateSignature(): DateTimeValueType {
     if (!this.#dateSignature) {
       throw new Error('dateSignature not initialized');
     }
     return this.#dateSignature;
   }
 
-  set dateSignature(value: Date) {
+  set dateSignature(value: DateTimeValueType) {
     this.#dateSignature = value;
   }
 
-  #dateMiseEnService!: Date;
+  #dateMiseEnService!: DateTimeValueType;
 
-  get dateMiseEnService(): Date {
+  get dateMiseEnService(): DateTimeValueType {
     if (!this.#dateMiseEnService) {
       throw new Error('dateMiseEnService not initialized');
     }
     return this.#dateMiseEnService;
   }
 
-  set dateMiseEnService(value: Date) {
+  set dateMiseEnService(value: DateTimeValueType) {
     this.#dateMiseEnService = value;
   }
 

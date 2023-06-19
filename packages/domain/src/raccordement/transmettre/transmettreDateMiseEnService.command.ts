@@ -6,9 +6,10 @@ import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
+import { DateDansLeFuturError, DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { DateMiseEnServiceTransmiseEvent } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
+import { DateTimeValueType } from '../../common.valueType';
 
 export type TransmettreDateMiseEnServiceCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -18,7 +19,7 @@ export type TransmettreDateMiseEnServiceCommandDependencies = {
 export type TransmettreDateMiseEnServiceCommand = Message<
   'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
   {
-    dateMiseEnService: Date;
+    dateMiseEnService: DateTimeValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
     identifiantProjet: IdentifiantProjetValueType;
   }
@@ -36,6 +37,10 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
     référenceDossierRaccordement,
     identifiantProjet,
   }) => {
+    if (dateMiseEnService.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
     if (isNone(raccordement) || !raccordement.contientLeDossier(référenceDossierRaccordement)) {
@@ -45,7 +50,7 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
     const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
       type: 'DateMiseEnServiceTransmise',
       payload: {
-        dateMiseEnService: dateMiseEnService.toISOString(),
+        dateMiseEnService: dateMiseEnService.formatter(),
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       },

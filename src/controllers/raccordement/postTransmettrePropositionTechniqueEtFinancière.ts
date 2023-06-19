@@ -3,6 +3,7 @@ import {
   DomainUseCase,
   PermissionTransmettrePropositionTechniqueEtFinancière,
   RawIdentifiantProjet,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
@@ -125,7 +126,7 @@ v1Router.post(
           data: {
             identifiantProjet: identifiantProjetValueType,
             référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
-            dateSignature,
+            dateSignature: convertirEnDateTime(dateSignature),
             propositionTechniqueEtFinancièreSignée: {
               format: file.mimetype,
               content: createReadStream(file.path),

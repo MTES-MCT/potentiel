@@ -2,6 +2,7 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DomainUseCase,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
@@ -11,15 +12,15 @@ import { ConsulterDossierRaccordementQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 
 Quand(
-  `un administrateur transmet la date de mise en service {string} pour le dossier de raccordement ayant pour référence {string}`,
+  `le porteur transmet la date de mise en service {string} pour le dossier de raccordement ayant pour référence {string}`,
   async function (
     this: PotentielWorld,
     dateMiseEnService: string,
     référenceDossierRaccordement: string,
   ) {
-    const dateMiseEnServiceDate = new Date(dateMiseEnService);
+    const dateMiseEnServiceValueType = convertirEnDateTime(dateMiseEnService);
 
-    this.raccordementWorld.dateMiseEnService = dateMiseEnServiceDate;
+    this.raccordementWorld.dateMiseEnService = dateMiseEnServiceValueType;
     this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
 
     try {
@@ -30,7 +31,7 @@ Quand(
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
             référenceDossierRaccordement,
           ),
-          dateMiseEnService: dateMiseEnServiceDate,
+          dateMiseEnService: dateMiseEnServiceValueType,
         },
       });
     } catch (e) {

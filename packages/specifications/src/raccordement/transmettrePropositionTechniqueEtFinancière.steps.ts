@@ -2,6 +2,7 @@ import { When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DomainUseCase,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
@@ -19,7 +20,7 @@ Quand(
   `le porteur de projet transmet une proposition technique et financière pour le dossier de raccordement ayant pour référence {string} avec :`,
   async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const dateSignature = new Date(exemple['La date de signature']);
+    const dateSignature = convertirEnDateTime(exemple['La date de signature']);
     const format = exemple[`Le format de la proposition technique et financière`];
     const content = exemple[`Le contenu de proposition technique et financière`];
 
@@ -71,7 +72,7 @@ Alors(
     const actualPtf = dossierRaccordement.propositionTechniqueEtFinancière || {};
 
     const expectedPtf: DossierRaccordementReadModel['propositionTechniqueEtFinancière'] = {
-      dateSignature: this.raccordementWorld.dateSignature.toISOString(),
+      dateSignature: this.raccordementWorld.dateSignature.formatter(),
       format: this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
     };
 

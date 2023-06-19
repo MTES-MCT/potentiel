@@ -2,6 +2,7 @@ import {
   DomainUseCase,
   PermissionTransmettreDateMiseEnService,
   RawIdentifiantProjet,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
@@ -72,7 +73,7 @@ v1Router.post(
           data: {
             identifiantProjet: identifiantProjetValueType,
             référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
-            dateMiseEnService,
+            dateMiseEnService: convertirEnDateTime(dateMiseEnService),
           },
         });
 
