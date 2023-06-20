@@ -29,6 +29,16 @@ services:
     ports:
       - 9000:9000
       - 9090:9090
+  create_bucket:
+    image: minio/mc
+    depends_on:
+      - s3
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://s3:9000 minioadmin minioadmin;
+      /usr/bin/mc mb myminio/potentiel;
+      exit 0;
+      "
   auth:
     image: quay.io/keycloak/keycloak
     restart: always
