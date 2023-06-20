@@ -14,7 +14,7 @@ export const AcheteurObligeStatistiques = ({
 }: AcheteurObligeStatistiquesProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="acheteur-oblige-statistiques">
-      <main role="main" className="panel">
+      <div className="panel">
         <Heading1>Tableau de bord</Heading1>
         <section>
           <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
@@ -30,7 +30,7 @@ export const AcheteurObligeStatistiques = ({
             }}
           />
         </section>
-      </main>
+      </div>
     </LegacyPageTemplate>
   );
 };
