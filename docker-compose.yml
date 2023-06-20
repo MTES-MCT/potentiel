@@ -8,14 +8,14 @@ services:
       - POSTGRES_PASSWORD=localpwd
       - POSTGRES_DB=potentiel
     restart: always
-    container_name: potentiel_db_dev
+    container_name: potentiel_db
     ports:
       - 5432:5432
   eventBus:
     image: redis:alpine
     command: redis-server --requirepass localpwd
     restart: always
-    container_name: potentiel_eventBus_dev
+    container_name: potentiel_eventBus
     ports:
       - 6379:6379
   s3:
@@ -24,3 +24,17 @@ services:
     container_name: potentiel_s3
     ports:
       - 9444:9000
+  auth:
+    image: quay.io/keycloak/keycloak
+    restart: always
+    container_name: potentiel_auth
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - POTENTIEL_BASE_URL=http://localhost:3000
+    command: start-dev --import-realm
+    volumes:
+      - ./keycloak/import:/opt/keycloak/data/import
+      - ./keycloak/potentiel-keycloak/theme/potentiel:/opt/keycloak/themes/potentiel
