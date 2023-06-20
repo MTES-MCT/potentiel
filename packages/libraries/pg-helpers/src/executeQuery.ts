@@ -1,4 +1,4 @@
-import { useClient } from './useClient';
+import { usePoolClient } from './usePoolClient';
 
 export const executeQuery = (query: string, ...values: unknown[]) =>
-  useClient((client) => client.query(query, values));
+  usePoolClient((client) => client.query(query, values));
