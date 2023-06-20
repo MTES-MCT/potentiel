@@ -301,7 +301,7 @@ const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: bool
             <DownloadLink
               className="flex text-sm items-center"
               fileUrl={routes.DOWNLOAD_PROJECT_FILE(gf.fichier.id, gf.fichier.filename)}
-              intituléLien={`Télécharger les garanties financières du projet ${
+              aria-label={`Télécharger les garanties financières du projet ${
                 project.nomProjet
               } déposées le ${afficherDate(new Date(gf.dateEnvoi))}`}
             >
@@ -319,7 +319,7 @@ const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: bool
             id: project.id,
             nomProjet: project.nomProjet,
           })}
-          intituléLien={`Télécharger un modèle de mise en demeure pour le projet ${project.nomProjet}`}
+          aria-label={`Télécharger un modèle de mise en demeure pour le projet ${project.nomProjet}`}
         >
           Télécharger le modèle de mise de demeure
         </DownloadLink>
