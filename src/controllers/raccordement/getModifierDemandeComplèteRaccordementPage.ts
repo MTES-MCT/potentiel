@@ -17,6 +17,7 @@ import {
   ConsulterGestionnaireRéseauQuery,
   ConsulterProjetQuery,
 } from '@potentiel/domain-views';
+import { getProjectAppelOffre } from '@config';
 
 const schema = yup.object({
   params: yup.object({
@@ -55,6 +56,20 @@ v1Router.get(
       });
 
       if (isNone(projet)) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
+      const appelOffre = getProjectAppelOffre({
+        appelOffreId: projet.appelOffre,
+        periodeId: projet.période,
+        familleId: projet.famille,
+      });
+
+      if (!appelOffre) {
         return notFoundResponse({
           request,
           response,
@@ -102,6 +117,7 @@ v1Router.get(
           dossierRaccordement,
           error: error as string,
           gestionnaireRéseauActuel,
+          delaiDemandeDeRaccordementEnMois: appelOffre.periode.delaiDcrEnMois,
         }),
       );
     },

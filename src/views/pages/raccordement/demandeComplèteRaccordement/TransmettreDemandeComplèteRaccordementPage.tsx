@@ -4,9 +4,7 @@ import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/Utilisate
 import {
   PrimaryButton,
   ErrorBox,
-  ExternalLink,
   Heading2,
-  InfoBox,
   Input,
   Label,
   Link,
@@ -20,11 +18,16 @@ import routes from '@routes';
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
+import {
+  InfoBoxFormulaireDCR,
+  InfoBoxFormulaireDCRProps,
+} from '../components/InfoBoxFormulaireDCR';
 
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
   projet: ConsulterProjetReadModel;
+  delaiDemandeDeRaccordementEnMois: InfoBoxFormulaireDCRProps['delaiDemandeDeRaccordementEnMois'];
   error?: string;
 };
 
@@ -33,6 +36,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
   gestionnairesRéseau,
   projet,
   error,
+  delaiDemandeDeRaccordementEnMois,
 }: TransmettreDemandeComplèteRaccordementProps) => {
   const { identifiantProjet } = projet;
 
@@ -85,7 +89,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
 
           <div>
             <Label htmlFor="referenceDossierRaccordement">
-              Référence du dossier de raccordement du projet
+              Référence du dossier de raccordement du projet *
               {(format || légende) && (
                 <LabelDescription>
                   {légende && <div className="m-0">Format attendu : {légende}</div>}
@@ -105,7 +109,9 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
 
           <div>
-            <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>
+            <Label htmlFor="file">
+              Accusé de réception de la demande complète de raccordement **
+            </Label>
             <Input type="file" id="file" name="file" required />
           </div>
           <div>
@@ -135,17 +141,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
         </Form>
 
-        <InfoBox
-          className="flex md:w-1/3 md:mx-auto"
-          title="Où trouver la référence du dossier de raccordement ?"
-        >
-          Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre demande
-          complète de raccordement (
-          <ExternalLink href="https://docs.potentiel.beta.gouv.fr/gerer-mes-projets-et-documents/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
-            Voir un exemple
-          </ExternalLink>
-          )
-        </InfoBox>
+        <InfoBoxFormulaireDCR delaiDemandeDeRaccordementEnMois={delaiDemandeDeRaccordementEnMois} />
       </div>
     </PageProjetTemplate>
   );
