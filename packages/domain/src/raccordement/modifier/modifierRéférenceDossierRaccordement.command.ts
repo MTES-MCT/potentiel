@@ -77,22 +77,21 @@ export const registerModifierRéférenceDossierRaccordementCommand = ({
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
-    await Promise.all([
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement({
-        opération: 'déplacement',
-        type: 'demande-complete-raccordement',
-        identifiantProjet: identifiantProjet.formatter(),
-        référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle.formatter(),
-        nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement.formatter(),
-      }),
-      enregistrerPropositionTechniqueEtFinancièreSignée({
-        opération: 'déplacement',
-        type: 'proposition-technique-et-financiere',
-        identifiantProjet: identifiantProjet.formatter(),
-        référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle.formatter(),
-        nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement.formatter(),
-      }),
-    ]);
+    await enregistrerAccuséRéceptionDemandeComplèteRaccordement({
+      opération: 'déplacement',
+      type: 'demande-complete-raccordement',
+      identifiantProjet: identifiantProjet.formatter(),
+      référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle.formatter(),
+      nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement.formatter(),
+    });
+
+    await enregistrerPropositionTechniqueEtFinancièreSignée({
+      opération: 'déplacement',
+      type: 'proposition-technique-et-financiere',
+      identifiantProjet: identifiantProjet.formatter(),
+      référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle.formatter(),
+      nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement.formatter(),
+    });
 
     const référenceDossierRacordementModifiée: RéférenceDossierRacordementModifiéeEventV1 = {
       type: 'RéférenceDossierRacordementModifiée-V1',
