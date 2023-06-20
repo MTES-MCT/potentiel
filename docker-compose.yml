@@ -19,11 +19,16 @@ services:
     ports:
       - 6379:6379
   s3:
-    image: scireum/s3-ninja
+    image: quay.io/minio/minio
+    command: server /data --console-address ":9090"
     restart: always
     container_name: potentiel_s3
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
     ports:
-      - 9444:9000
+      - 9000:9000
+      - 9090:9090
   auth:
     image: quay.io/keycloak/keycloak
     restart: always
