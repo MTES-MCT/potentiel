@@ -76,7 +76,12 @@ const Rejected = (props: RejectedProps) => {
         <ItemDate date={date} />
         <Details {...props} />
         {responseUrl && (
-          <DownloadLink fileUrl={responseUrl}>Voir le courrier de réponse</DownloadLink>
+          <DownloadLink
+            fileUrl={responseUrl}
+            aria-label={`Voir le courrier de réponse de la demande de type "${props.modificationType}" en statut "rejetée"`}
+          >
+            Voir le courrier de réponse
+          </DownloadLink>
         )}
       </ContentArea>
     </>
@@ -96,7 +101,12 @@ const Accepted = (props: AcceptedProps) => {
         <ItemDate date={date} />
         <Details {...props} />
         {responseUrl && (
-          <DownloadLink fileUrl={responseUrl}>Voir le courrier de réponse</DownloadLink>
+          <DownloadLink
+            fileUrl={responseUrl}
+            aria-label={`Voir le courrier de réponse de la demande de type "${props.modificationType}" en statut "accordée"`}
+          >
+            Voir le courrier de réponse
+          </DownloadLink>
         )}
       </ContentArea>
     </>
@@ -137,9 +147,9 @@ const Details = (
 
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
-      delai: `Délai supplémentaire`,
-      recours: `Recours`,
-      puissance: `Changement de puissance installée`,
+      delai: `délai supplémentaire`,
+      recours: `recours`,
+      puissance: `changement de puissance installée`,
     };
 
   const libelleStatus: { [key in ModificationRequestItemProps['status']]: string } = {
@@ -174,7 +184,14 @@ const Details = (
           Puissance demandée : {props.puissance} {props.unitePuissance}
         </p>
       )}
-      {showDemandeButton() && <Link href={detailsUrl}>Voir la demande</Link>}
+      {showDemandeButton() && (
+        <Link
+          href={detailsUrl}
+          aria-label={`Voir le détail de la demande de ${libelleTypeDemande[modificationType]} en statut "${libelleStatus[status]}"`}
+        >
+          Voir la demande
+        </Link>
+      )}
     </>
   );
 };

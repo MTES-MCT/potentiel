@@ -35,27 +35,27 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
     return <ListeVide titre="Aucune demande n’a été trouvée" />;
   }
 
-  const buttonTitleByType = (type: ModificationRequestTypes) => {
+  const intituléLien = (type: ModificationRequestTypes) => {
     switch (type) {
       case 'abandon':
-        return `Voir la demande d'abandon`;
+        return `la demande d'abandon`;
 
       case 'annulation abandon':
-        return `Voir la demande d'annulation d'abandon`;
+        return `la demande d'annulation d'abandon`;
       case 'delai':
-        return `Voir la demande de délai supplémentaire`;
+        return `la demande de délai supplémentaire`;
       case 'fournisseur':
-        return `Voir la demande de changement de fournisseur`;
+        return `la demande de changement de fournisseur`;
       case 'actionnaire':
-        return `Voir la demande de changement d'actionnaire`;
+        return `la demande de changement d'actionnaire`;
       case 'producteur':
-        return `Voir la demande de changement de producteur`;
+        return `la demande de changement de producteur`;
       case 'puissance':
-        return `Voir la demande de changement de puissance`;
+        return `la demande de changement de puissance`;
       case 'recours':
-        return `Voir la demande de recours`;
+        return `la demande de recours`;
       case 'autre':
-        return `Voir la demande`;
+        return `la demande`;
       default:
         return '';
     }
@@ -112,9 +112,14 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                     <span>{project.communeProjet}</span>, <span>{project.departementProjet}</span>,{' '}
                     <span>{project.regionProjet}</span>
                     <div>
-                      Déposé par{' '}
-                      <Link href={`mailto:${requestedBy.email}`}>{requestedBy.fullName}</Link> le{' '}
-                      {afficherDate(requestedOn)}
+                      Déposé par {requestedBy.fullName}{' '}
+                      <Link
+                        href={`mailto:${requestedBy.email}`}
+                        aria-label={`Envoyer un email au porteur du projet ${project.nomProjet}`}
+                      >
+                        (envoyer un email)
+                      </Link>{' '}
+                      le {afficherDate(requestedOn)}
                     </div>
                   </div>
                 </Td>
@@ -130,6 +135,9 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                           modificationRequest.attachmentFile.id,
                           modificationRequest.attachmentFile.filename,
                         )}
+                        aria-label={`Télécharger la pièce-jointe de ${intituléLien(
+                          modificationRequest.type,
+                        )} pour le projet ${project.nomProjet}`}
                         download={true}
                       >
                         Télécharger la pièce-jointe
@@ -146,9 +154,9 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                 <Td>
                   <LinkButton
                     href={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}
-                    title={`${buttonTitleByType(modificationRequest.type)} pour le projet ${
-                      project.nomProjet
-                    }`}
+                    aria-label={`Voir le détail de ${intituléLien(
+                      modificationRequest.type,
+                    )} pour le projet ${project.nomProjet}`}
                   >
                     Voir
                   </LinkButton>

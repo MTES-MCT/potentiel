@@ -25,7 +25,10 @@ export const DemandeRecoursSignaledItem = ({
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <DownloadLink fileUrl={makeDocumentUrl(attachment.id, attachment.name)}>
+        <DownloadLink
+          fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
+          aria-label={`Télécharger le courrier de réponse de la demande de recours en statut "${status}"`}
+        >
           Voir le courrier de réponse
         </DownloadLink>
       )}

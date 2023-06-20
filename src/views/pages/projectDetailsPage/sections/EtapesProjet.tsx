@@ -47,6 +47,7 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
               numéroCRE: project.numeroCRE,
             }).formatter(),
           )}
+          aria-label="Accéder aux données de raccordement"
         >
           cette page dédiée.
         </Link>

@@ -50,7 +50,12 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
             {demandeUrl && (
               <>
                 <br />
-                <Link href={demandeUrl}>Voir la demande</Link>
+                <Link
+                  href={demandeUrl}
+                  aria-label={`Voir le détail de la demande de délai en statut "${statut}"`}
+                >
+                  Voir la demande
+                </Link>
               </>
             )}
           </p>

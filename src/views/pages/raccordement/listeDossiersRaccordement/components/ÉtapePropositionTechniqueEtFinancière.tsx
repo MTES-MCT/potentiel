@@ -47,6 +47,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
                 identifiantProjet,
                 référence,
               )}
+              aria-label={`Télécharger la proposition technique et financière pour le dossier ${référence}`}
             >
               Télécharger
             </DownloadLink>
@@ -59,6 +60,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
               référence,
             )}
             className="absolute top-2 right-2"
+            aria-label={`Modifier la proposition technique et financière pour le dossier ${référence}`}
           >
             <EditIcon aria-hidden className="mr-1" />
             Modifier
@@ -72,6 +74,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
           identifiantProjet,
           référence,
         )}
+        aria-label={`Transmettre la proposition technique et financière pour le dossier ${référence}`}
       >
         Transmettre
       </Link>

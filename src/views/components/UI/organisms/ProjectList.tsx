@@ -248,7 +248,12 @@ export const ProjectList = ({
                       }}
                     />
                   )}
-                  <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Voir</LinkButton>
+                  <LinkButton
+                    href={routes.PROJECT_DETAILS(project.id)}
+                    aria-label={`voir le projet ${project.nomProjet}`}
+                  >
+                    Voir
+                  </LinkButton>
                 </div>
               </div>
             </Tile>
@@ -296,6 +301,9 @@ const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: bool
             <DownloadLink
               className="flex text-sm items-center"
               fileUrl={routes.DOWNLOAD_PROJECT_FILE(gf.fichier.id, gf.fichier.filename)}
+              aria-label={`Télécharger les garanties financières du projet ${
+                project.nomProjet
+              } déposées le ${afficherDate(new Date(gf.dateEnvoi))}`}
             >
               Déposées le <br />
               {afficherDate(new Date(gf.dateEnvoi))}
@@ -311,6 +319,7 @@ const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: bool
             id: project.id,
             nomProjet: project.nomProjet,
           })}
+          aria-label={`Télécharger un modèle de mise en demeure pour le projet ${project.nomProjet}`}
         >
           Télécharger le modèle de mise de demeure
         </DownloadLink>
