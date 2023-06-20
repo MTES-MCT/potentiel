@@ -1,24 +1,17 @@
-import { DomainEvent, DomainEventHandler, Unsubscribe } from '@potentiel/core-domain';
-import { executeQuery } from '@potentiel/pg-helpers';
+import { DomainEvent, DomainEventHandler } from '@potentiel/core-domain';
+import { getConnectionString } from '@potentiel/pg-helpers';
 import { Event } from './event';
 import { subscribe } from './subscribe';
 import waitForExpect from 'wait-for-expect';
+import { Client } from 'pg';
 
 describe(`subscribe`, () => {
-  let unsubscribe: Unsubscribe;
-
-  beforeAll(() => {
-    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
-  });
-
-  beforeEach(() => executeQuery(`DELETE FROM "EVENT_STREAM"`));
-
-  afterEach(() => unsubscribe());
-
   it(`Étant donnée un DomainEventHandler à l'écoute d'un type d'événement
       Lorsqu'on emet un évènement
       Alors le DomainEventHandle est éxècuté
       Et il reçoit l'évènement en paramêtre`, async () => {
+    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+
     const eventType = 'event-1';
     const streamId = 'string#string';
     const version = 1;
@@ -29,10 +22,13 @@ describe(`subscribe`, () => {
 
     // Arrange
     const domainEventHandler: DomainEventHandler<Event> = jest.fn(() => Promise.resolve());
-    unsubscribe = await subscribe(eventType, domainEventHandler);
+    const unsubscribe = subscribe(eventType, domainEventHandler);
 
-    // Act
-    await executeQuery(
+    const client = new Client(getConnectionString());
+    await client.connect();
+    await client.query(`DELETE FROM "EVENT_STREAM"`);
+
+    await client.query(
       `INSERT 
        INTO "EVENT_STREAM" (
         "streamId", 
@@ -48,12 +44,11 @@ describe(`subscribe`, () => {
           $4,
           $5
           )`,
-      streamId,
-      createdAt,
-      eventType,
-      version,
-      payload,
+      [streamId, createdAt, eventType, version, payload],
     );
+
+    await client.end();
+    await unsubscribe();
 
     await waitForExpect(() => {
       // Assert
@@ -66,3 +61,7 @@ describe(`subscribe`, () => {
     });
   });
 });
+
+export const sleep = async (ms: number) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};
