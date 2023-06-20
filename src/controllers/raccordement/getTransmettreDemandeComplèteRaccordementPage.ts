@@ -12,6 +12,7 @@ import {
 } from '@potentiel/domain';
 import { ConsulterProjetQuery, ListerGestionnaireRéseauQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
+import { getProjectAppelOffre } from '@config';
 
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),
@@ -59,12 +60,27 @@ v1Router.get(
         data: {},
       });
 
+      const appelOffre = getProjectAppelOffre({
+        appelOffreId: projet.appelOffre,
+        periodeId: projet.période,
+        familleId: projet.famille,
+      });
+
+      if (!appelOffre) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
       return response.send(
         TransmettreDemandeComplèteRaccordementPage({
           user,
           gestionnairesRéseau,
           projet,
           error: error as string,
+          delaiDemandeDeRaccordementEnMois: appelOffre.periode.delaiDcrEnMois,
         }),
       );
     },
