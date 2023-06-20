@@ -18,6 +18,7 @@ export const PropositionDeValeur = () => (
           className="flex object-scale-down w-full md:w-1/2"
           src="/images/home/proposition_valeur.png"
           aria-hidden
+          alt=""
         />
       </div>
       <p className="text-lg md:text-base lg:text-xl font-medium md:font-semibold md:text-center md:m-0 md:mt-10 md:mb-0 lg:px-16 lg:leading-loose">
