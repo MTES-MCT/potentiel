@@ -67,7 +67,7 @@ export const setupRaccordementViews = (dependencies: RaccordementDependencies) =
         'RéférenceDossierRacordementModifiée-V1',
       ],
       async (event: RaccordementEvent) => {
-        await mediator.send<ExecuteRaccordementProjector>({
+        await mediator.publish<ExecuteRaccordementProjector>({
           type: 'EXECUTE_RACCORDEMENT_PROJECTOR',
           data: event,
         });

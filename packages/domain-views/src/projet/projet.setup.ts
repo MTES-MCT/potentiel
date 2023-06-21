@@ -28,7 +28,7 @@ export const setupProjetViews = (dependencies: ProjetDependencies) => {
     subscribe<ProjetEvent>(
       ['GestionnaireRéseauProjetDéclaré', 'GestionnaireRéseauProjetModifié'],
       async (event: ProjetEvent) => {
-        await mediator.send<ExecuteProjetProjector>({
+        await mediator.publish<ExecuteProjetProjector>({
           type: 'EXECUTE_PROJET_PROJECTOR',
           data: event,
         });

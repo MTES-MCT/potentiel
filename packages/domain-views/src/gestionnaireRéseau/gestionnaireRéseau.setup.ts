@@ -36,7 +36,7 @@ export const setupGestionnaireRéseauViews = (dependencies: GestionnaireRéseauD
     subscribe<GestionnaireRéseauEvent>(
       ['GestionnaireRéseauAjouté', 'GestionnaireRéseauModifié'],
       async (event: GestionnaireRéseauEvent) => {
-        await mediator.send<ExecuteGestionnaireRéseauProjector>({
+        await mediator.publish<ExecuteGestionnaireRéseauProjector>({
           type: 'EXECUTE_GESTIONNAIRE_RÉSEAU_PROJECTOR',
           data: event,
         });
