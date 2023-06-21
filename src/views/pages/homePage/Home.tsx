@@ -29,7 +29,7 @@ export const Home = (props: HomeProps) => {
         )}
       </Header>
 
-      <main id="contenu" role="main" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+      <main id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         <PropositionDeValeur />
         <InscriptionConnexion {...{ user }} />
         <Benefices />

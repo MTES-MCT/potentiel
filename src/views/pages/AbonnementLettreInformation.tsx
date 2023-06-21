@@ -30,7 +30,7 @@ export const AbonnementLettreInformation = ({
   <>
     <Header {...{ user }} />
 
-    <main role="main" id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+    <main id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
       <section className="bg-blue-france-sun-base pb-0.5">
         {success ? (
           <AbonnementLettreInformationSuccessful />
