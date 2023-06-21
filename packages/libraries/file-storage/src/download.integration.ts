@@ -7,10 +7,10 @@ import { FichierInexistant } from './fichierInexistant.error';
 describe(`download file`, () => {
   const bucketName = 'potentiel';
   beforeAll(() => {
-    process.env.S3_ENDPOINT = 'http://localhost:9443/s3';
+    process.env.S3_ENDPOINT = 'http://localhost:9001';
     process.env.S3_BUCKET = bucketName;
-    process.env.AWS_ACCESS_KEY_ID = 'AKIAIOSFODNN7EXAMPLE';
-    process.env.AWS_SECRET_ACCESS_KEY = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY';
+    process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
+    process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
   });
 
   beforeEach(async () => {
@@ -28,6 +28,17 @@ describe(`download file`, () => {
     };
 
     if (await isBucketExists()) {
+      const objectsToDelete = await getClient().listObjects({ Bucket: bucketName }).promise();
+
+      if (objectsToDelete.Contents?.length) {
+        await getClient()
+          .deleteObjects({
+            Bucket: bucketName,
+            Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key! })) },
+          })
+          .promise();
+      }
+
       await getClient()
         .deleteBucket({
           Bucket: bucketName,

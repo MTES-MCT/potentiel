@@ -12,6 +12,7 @@ module.exports = {
   testMatch: ['**/*.spec.(ts|js)'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   testEnvironment: 'node',
+  setupFiles: ['./jest.integration.env.ts'],
   setupFilesAfterEnv: ['./jest.unit.setup.ts'],
   moduleNameMapper: {
     '^@modules/(.*)$': '<rootDir>/src/modules/$1/index.ts',
@@ -29,4 +30,4 @@ module.exports = {
     '^@routes$': '<rootDir>/src/routes.ts',
     '^@components$': '<rootDir>/src/views/components/index.ts',
   },
-}
+};
