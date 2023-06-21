@@ -78,12 +78,12 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
       >
         {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
         <Container>
-          <section className="flex flex-row pb-1 lg:py-4 items-center">
+          <div className="flex flex-row pb-1 lg:py-4 items-center">
             <LogoAndTitle />
             <div className={`flex flex-row ml-auto ${children && 'mr-6'}`}>
               <QuickAccess {...{ user }} />
             </div>
-          </section>
+          </div>
         </Container>
 
         {children && (
