@@ -65,11 +65,6 @@ const porteurProjetActions = (project: {
   actions.push(
     ...[
       {
-        title: 'Télécharger le récapitulatif',
-        link: '#',
-        disabled: true,
-      },
-      {
         title: 'Demander un délai',
         link: ROUTES.DEMANDER_DELAI(project.id),
       },
