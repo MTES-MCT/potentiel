@@ -11,7 +11,7 @@ import {
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone, none } from '@potentiel/monads';
 import {
-  DossierRaccordementReadModel,
+  LegacyDossierRaccordementReadModel,
   DossierRaccordementReadModelKey,
   AccuséRéceptionDemandeComplèteRaccordementReadModel,
 } from '../raccordement.readModel';
@@ -51,7 +51,7 @@ export const registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery
 
     const key: DossierRaccordementReadModelKey = `dossier-raccordement#${rawIdentifiantProjet}#${rawRéférenceDossierRaccordement}`;
 
-    const dossierRaccordement = await find<DossierRaccordementReadModel>(key);
+    const dossierRaccordement = await find<LegacyDossierRaccordementReadModel>(key);
 
     if (
       isNone(dossierRaccordement) ||

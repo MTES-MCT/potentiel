@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { RaccordementEvent } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import {
-  DossierRaccordementReadModel,
+  LegacyDossierRaccordementReadModel,
   ListeDossiersRaccordementReadModel,
 } from './raccordement.readModel';
 import { Create, Find, Remove, Update } from '../common.port';
@@ -27,7 +27,7 @@ export const registerRaccordementProjector = ({
 }: RaccordementProjectorDependencies) => {
   const handler: MessageHandler<ExecuteRaccordementProjector> = async (event) => {
     if (event.type === 'DemandeComplèteDeRaccordementTransmise') {
-      await create<DossierRaccordementReadModel>(
+      await create<LegacyDossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
         {
           dateQualification: event.payload.dateQualification,
@@ -66,7 +66,7 @@ export const registerRaccordementProjector = ({
           ? event.payload.référenceDossierRaccordementActuelle
           : event.payload.référenceDossierRaccordement;
 
-      const dossierRaccordement = await find<DossierRaccordementReadModel>(
+      const dossierRaccordement = await find<LegacyDossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.identifiantProjet}#${référence}`,
       );
 
@@ -77,7 +77,7 @@ export const registerRaccordementProjector = ({
 
       switch (event.type) {
         case 'AccuséRéceptionDemandeComplèteRaccordementTransmis':
-          await update<DossierRaccordementReadModel>(
+          await update<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${référence}`,
             {
               ...dossierRaccordement,
@@ -88,7 +88,7 @@ export const registerRaccordementProjector = ({
           );
           break;
         case 'DateMiseEnServiceTransmise':
-          await update<DossierRaccordementReadModel>(
+          await update<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
@@ -97,11 +97,11 @@ export const registerRaccordementProjector = ({
           );
           break;
         case 'DemandeComplèteRaccordementModifiée':
-          await remove<DossierRaccordementReadModel>(
+          await remove<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.referenceActuelle}`,
           );
 
-          await create<DossierRaccordementReadModel>(
+          await create<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.nouvelleReference}`,
             {
               ...dossierRaccordement,
@@ -135,7 +135,7 @@ export const registerRaccordementProjector = ({
           }
           break;
         case 'DemandeComplèteRaccordementModifiée-V1':
-          await update<DossierRaccordementReadModel>(
+          await update<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${référence}`,
             {
               ...dossierRaccordement,
@@ -144,11 +144,11 @@ export const registerRaccordementProjector = ({
           );
           break;
         case 'RéférenceDossierRacordementModifiée-V1':
-          await remove<DossierRaccordementReadModel>(
+          await remove<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordementActuelle}`,
           );
 
-          await create<DossierRaccordementReadModel>(
+          await create<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.nouvelleRéférenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
@@ -178,7 +178,7 @@ export const registerRaccordementProjector = ({
           );
           break;
         case 'PropositionTechniqueEtFinancièreModifiée':
-          await update<DossierRaccordementReadModel>(
+          await update<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
@@ -190,7 +190,7 @@ export const registerRaccordementProjector = ({
           );
           break;
         case 'PropositionTechniqueEtFinancièreSignéeTransmise':
-          await update<DossierRaccordementReadModel>(
+          await update<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
@@ -204,7 +204,7 @@ export const registerRaccordementProjector = ({
           );
           break;
         case 'PropositionTechniqueEtFinancièreTransmise':
-          await update<DossierRaccordementReadModel>(
+          await update<LegacyDossierRaccordementReadModel>(
             `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
             {
               ...dossierRaccordement,

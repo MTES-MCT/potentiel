@@ -5,7 +5,7 @@ import { Readable } from 'stream';
 export type DossierRaccordementReadModelKey =
   `dossier-raccordement#${RawIdentifiantProjet}#${RawRéférenceDossierRaccordement}`;
 
-export type DossierRaccordementReadModel = ReadModel<
+export type LegacyDossierRaccordementReadModel = ReadModel<
   'dossier-raccordement',
   {
     référence: string;
@@ -16,6 +16,24 @@ export type DossierRaccordementReadModel = ReadModel<
     };
     dateMiseEnService?: string;
     accuséRéception?: { format: string };
+  }
+>;
+
+export type DossierRaccordementReadModel = ReadModel<
+  'dossier-raccordement',
+  {
+    référence: string;
+    demandeComplèteRaccordement: {
+      dateQualification?: string;
+      accuséRéception?: { format: string };
+    };
+    propositionTechniqueEtFinancière?: {
+      dateSignature: string;
+      propositionTechniqueEtFinancièreSignée: { format: string };
+    };
+    miseEnService?: {
+      dateMiseEnService: string;
+    };
   }
 >;
 

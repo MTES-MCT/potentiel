@@ -173,7 +173,10 @@ const getAlertesRaccordement = async ({
       data: { identifiantProjet, référenceDossierRaccordement: références[0] },
     });
 
-    if (isNone(dossier) || (isSome(dossier) && !dossier.accuséRéception)) {
+    if (
+      isNone(dossier) ||
+      (isSome(dossier) && !dossier.demandeComplèteRaccordement.accuséRéception)
+    ) {
       alertes.push('demandeComplèteRaccordementManquante');
     }
   }

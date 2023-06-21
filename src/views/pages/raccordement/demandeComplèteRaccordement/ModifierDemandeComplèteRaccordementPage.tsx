@@ -40,7 +40,10 @@ export const ModifierDemandeComplèteRaccordement = ({
   user,
   projet,
   error,
-  dossierRaccordement: { référence, dateQualification, accuséRéception },
+  dossierRaccordement: {
+    référence,
+    demandeComplèteRaccordement: { dateQualification, accuséRéception },
+  },
   gestionnaireRéseauActuel,
   delaiDemandeDeRaccordementEnMois,
 }: ModifierDemandeComplèteRaccordementProps) => {

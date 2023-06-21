@@ -19,10 +19,13 @@ export const Dossier: FC<{
   identifiantProjet,
   dossier: {
     référence,
-    dateQualification,
-    accuséRéception,
+    demandeComplèteRaccordement: {
+      dateQualification,
+
+      accuséRéception,
+    },
     propositionTechniqueEtFinancière,
-    dateMiseEnService,
+    miseEnService,
   },
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
@@ -40,7 +43,7 @@ export const Dossier: FC<{
       identifiantProjet={identifiantProjet}
       référence={référence}
       propositionTechniqueEtFinancière={propositionTechniqueEtFinancière}
-      hasPTFFile={!!propositionTechniqueEtFinancière?.format}
+      hasPTFFile={!!propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.format}
       showEditLink={userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user)}
     />
 
@@ -49,7 +52,7 @@ export const Dossier: FC<{
     <ÉtapeMiseEnService
       identifiantProjet={identifiantProjet}
       référence={référence}
-      dateMiseEnService={dateMiseEnService}
+      dateMiseEnService={miseEnService?.dateMiseEnService}
       showEditLink={userIs(['admin', 'dgec-validateur'])(user)}
     />
   </div>

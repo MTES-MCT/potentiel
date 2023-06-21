@@ -12,7 +12,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone, none } from '@potentiel/monads';
 import {
   DossierRaccordementReadModelKey,
-  DossierRaccordementReadModel,
+  LegacyDossierRaccordementReadModel,
   PropositionTechniqueEtFinancièreSignéeReadModel,
 } from '../raccordement.readModel';
 import { RécupérerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
@@ -51,7 +51,7 @@ export const registerConsulterPropositionTechniqueEtFinancièreSignéeQuery = ({
 
     const key: DossierRaccordementReadModelKey = `dossier-raccordement#${rawIdentifiantProjet}#${rawRéférenceDossierRaccordement}`;
 
-    const dossierRaccordement = await find<DossierRaccordementReadModel>(key);
+    const dossierRaccordement = await find<LegacyDossierRaccordementReadModel>(key);
 
     if (
       isNone(dossierRaccordement) ||
