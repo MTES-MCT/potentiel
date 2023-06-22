@@ -72,7 +72,6 @@ import {
   ProjectGFUploaded,
   ProjectGFWithdrawn,
   ProjectImported,
-  ProjectImportedPayload,
   ProjectNotificationDateSet,
   ProjectNotified,
   ProjectProducteurUpdated,
@@ -83,6 +82,8 @@ import {
   GarantiesFinancièresValidées,
   GarantiesFinancièresInvalidées,
   AbandonProjetAnnulé,
+  GarantiesFinancièresDataImported,
+  ProjectRawDataImportedPayload,
 } from './events';
 import { toProjectDataForCertificate } from './mappers';
 
@@ -94,7 +95,7 @@ export interface Project extends EventStoreAggregate {
   abandonLegacy: (abandonnedOn: number) => Result<null, never>;
   import: (args: {
     appelOffre: ProjectAppelOffre;
-    data: ProjectImportedPayload['data'];
+    data: ProjectRawDataImportedPayload['data'];
     importId: string;
   }) => Result<null, IllegalProjectStateError | EntityNotFoundError>;
   correctData: (
@@ -434,7 +435,14 @@ export const makeProject = (args: {
       return ok(null);
     },
     import: function ({ appelOffre, data, importId }) {
-      const { appelOffreId, periodeId, familleId, numeroCRE } = data;
+      const {
+        appelOffreId,
+        periodeId,
+        familleId,
+        numeroCRE,
+        garantiesFinancièresDateEchéance,
+        garantiesFinancièresType,
+      } = data;
 
       const id = projectId.toString();
 
@@ -461,6 +469,19 @@ export const makeProject = (args: {
             },
           }),
         );
+
+        if (garantiesFinancièresType) {
+          _publishEvent(
+            new GarantiesFinancièresDataImported({
+              payload: {
+                projectId: id,
+                type: garantiesFinancièresType,
+                dateEchéance: garantiesFinancièresDateEchéance,
+              },
+            }),
+          );
+        }
+
         if (data.notifiedOn) {
           try {
             isStrictlyPositiveNumber(data.notifiedOn);

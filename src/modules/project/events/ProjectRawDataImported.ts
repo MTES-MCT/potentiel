@@ -32,6 +32,8 @@ export interface ProjectRawDataImportedPayload {
     details: any;
     technologie: Technologie;
     actionnariat?: string;
+    garantiesFinancièresType?: string;
+    garantiesFinancièresDateEchéance?: string;
   };
 }
 export class ProjectRawDataImported
