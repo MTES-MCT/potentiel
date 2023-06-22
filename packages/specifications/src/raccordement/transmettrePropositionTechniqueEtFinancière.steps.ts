@@ -1,4 +1,5 @@
 import { When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
+import { expect } from 'chai';
 import { PotentielWorld } from '../potentiel.world';
 import {
   DomainUseCase,
@@ -69,14 +70,16 @@ Alors(
       throw new Error('Dossier de raccordement non trouvé');
     }
 
-    const actualPtf = dossierRaccordement.propositionTechniqueEtFinancière || {};
+    const actualPtf = dossierRaccordement.propositionTechniqueEtFinancière;
 
     const expectedPtf: DossierRaccordementReadModel['propositionTechniqueEtFinancière'] = {
       dateSignature: this.raccordementWorld.dateSignature.formatter(),
-      format: this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
+      propositionTechniqueEtFinancièreSignée: {
+        format: this.raccordementWorld.propositionTechniqueEtFinancièreSignée.format,
+      },
     };
 
-    actualPtf.should.be.deep.equal(expectedPtf);
+    expect(actualPtf).to.be.deep.equal(expectedPtf);
 
     const propositionTechniqueEtFinancièreSignée =
       await mediator.send<ConsulterPropositionTechniqueEtFinancièreSignéeQuery>({

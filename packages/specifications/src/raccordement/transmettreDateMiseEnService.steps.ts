@@ -56,6 +56,12 @@ Alors(
       throw new Error('Dossier de raccordement non trouvé');
     }
 
-    expect(actual.dateMiseEnService).to.equal(new Date(dateMiseEnService).toISOString());
+    if (isNone(actual.miseEnService)) {
+      throw new Error('Date mise en service non trouvé');
+    }
+
+    expect(actual.miseEnService?.dateMiseEnService).to.equal(
+      new Date(dateMiseEnService).toISOString(),
+    );
   },
 );

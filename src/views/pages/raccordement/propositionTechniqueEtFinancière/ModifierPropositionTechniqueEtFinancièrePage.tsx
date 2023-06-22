@@ -61,7 +61,7 @@ export const ModifierPropositionTechniqueEtFinancière = ({
           <div>
             <Label htmlFor="file">Proposition technique et financière signée</Label>
             <Input type="file" id="file" name="file" required />
-            {propositionTechniqueEtFinancière?.format && (
+            {propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée?.format && (
               <DownloadLink
                 fileUrl={routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
                   identifiantProjet,

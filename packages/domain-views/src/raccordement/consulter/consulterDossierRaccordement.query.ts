@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Option } from '@potentiel/monads';
+import { Option, isNone, none } from '@potentiel/monads';
 import {
+  LegacyDossierRaccordementReadModel,
   DossierRaccordementReadModel,
   DossierRaccordementReadModelKey,
 } from '../raccordement.readModel';
@@ -45,9 +46,42 @@ export const registerConsulterDossierRaccordementQuery = ({
       ? convertirEnRéférenceDossierRaccordement(référenceDossierRaccordement).formatter()
       : référenceDossierRaccordement;
     const key: DossierRaccordementReadModelKey = `dossier-raccordement#${rawIdentifiantProjet}#${rawRéférenceDossierRaccordement}`;
-    const result = await find<DossierRaccordementReadModel>(key);
+    const result = await find<LegacyDossierRaccordementReadModel>(key);
 
-    return result;
+    if (isNone(result)) {
+      return none;
+    }
+
+    const {
+      référence,
+      accuséRéception,
+      dateMiseEnService,
+      dateQualification,
+      propositionTechniqueEtFinancière,
+      type,
+    } = result;
+
+    const dossier: DossierRaccordementReadModel = {
+      type,
+      référence,
+      demandeComplèteRaccordement: {
+        dateQualification,
+        accuséRéception,
+      },
+      ...(dateMiseEnService ? { miseEnService: { dateMiseEnService } } : {}),
+      ...(propositionTechniqueEtFinancière
+        ? {
+            propositionTechniqueEtFinancière: {
+              dateSignature: propositionTechniqueEtFinancière.dateSignature,
+              propositionTechniqueEtFinancièreSignée: {
+                format: propositionTechniqueEtFinancière.format,
+              },
+            },
+          }
+        : {}),
+    };
+
+    return dossier;
   };
 
   mediator.register('CONSULTER_DOSSIER_RACCORDEMENT_QUERY', queryHandler);

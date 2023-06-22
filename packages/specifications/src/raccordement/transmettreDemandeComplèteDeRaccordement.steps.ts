@@ -160,9 +160,11 @@ Alors(
     });
 
     const expectedDossierRaccordement: DossierRaccordementReadModel = {
-      dateQualification: this.raccordementWorld.dateQualification.formatter(),
-      accuséRéception: {
-        format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+      demandeComplèteRaccordement: {
+        dateQualification: this.raccordementWorld.dateQualification.formatter(),
+        accuséRéception: {
+          format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+        },
       },
       référence: this.raccordementWorld.référenceDossierRaccordement,
       type: 'dossier-raccordement',

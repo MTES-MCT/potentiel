@@ -25,7 +25,7 @@ type TransmettreDateMiseEnServiceProps = {
 
 export const TransmettreDateMiseEnService = ({
   user,
-  dossierRaccordement: { référence, dateMiseEnService },
+  dossierRaccordement: { référence, miseEnService },
   error,
   projet,
 }: TransmettreDateMiseEnServiceProps) => {
@@ -56,7 +56,7 @@ export const TransmettreDateMiseEnService = ({
               type="date"
               id="dateMiseEnService"
               name="dateMiseEnService"
-              defaultValue={dateMiseEnService && formatDateForInput(dateMiseEnService)}
+              defaultValue={miseEnService && formatDateForInput(miseEnService.dateMiseEnService)}
               max={new Date().toISOString().split('T').shift()}
               required
             />
