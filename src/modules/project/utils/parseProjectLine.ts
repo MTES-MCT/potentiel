@@ -1,6 +1,8 @@
 import * as yup from 'yup';
 import moment from 'moment-timezone';
 import getDepartementRegionFromCodePostal from '../../../helpers/getDepartementRegionFromCodePostal';
+import { parse, isValid } from 'date-fns';
+
 moment.tz.setDefault('Europe/Paris');
 
 const appelOffreId = (line: any) => line["Appel d'offres"];
@@ -36,6 +38,7 @@ const mappedColumns = [
   'Financement collectif (Oui/Non)',
   'Gouvernance partagée (Oui/Non)',
   "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
+  "Date d'échéance au format (AA/MM/JJJJ)",
 ];
 
 const prepareNumber = (str) => str && str.replace(/,/g, '.');
@@ -184,6 +187,16 @@ const columnMapper = {
       : typeGF === '3'
       ? 'Consignation'
       : 'valeur incorrecte';
+  },
+  garantiesFinancièresDateEchéance: (line: any) => {
+    const dateEchéance = line["Date d'échéance au format (AA/MM/JJJJ)"];
+    const parsedDate = parse(dateEchéance, 'dd/MM/yyyy', new Date());
+
+    if (isValid(parsedDate)) {
+      return parsedDate.toDateString();
+    }
+
+    return;
   },
 } as const;
 
@@ -348,6 +361,7 @@ const projectSchema = yup.object().shape({
       ],
       `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3`,
     ),
+  garantiesFinancièresDateEchéance: yup.string().nullable(),
 });
 
 const appendInfo = (obj, key, value) => {
@@ -396,12 +410,35 @@ export const parseProjectLine = (line) => {
       throw new yup.ValidationError('Le Code Postal ne correspond à aucun département');
     }
 
+    if (
+      rawProjectData.garantiesFinancièresType ===
+        `Garantie financière avec date d'échéance et à renouveler` &&
+      !rawProjectData.garantiesFinancièresDateEchéance
+    ) {
+      throw new yup.ValidationError(
+        `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+      );
+    }
+
+    if (
+      rawProjectData.garantiesFinancièresType !==
+        `Garantie financière avec date d'échéance et à renouveler` &&
+      rawProjectData.garantiesFinancièresDateEchéance
+    ) {
+      throw new yup.ValidationError(
+        `Ce type de garanties financières n'accepte pas de date d'échéance`,
+      );
+    }
+
     return {
       ...rawProjectData,
       codePostalProjet,
       departementProjet,
       regionProjet,
       puissanceInitiale: rawProjectData.puissance,
+      garantiesFinancièresType: rawProjectData.garantiesFinancièresType || undefined,
+      garantiesFinancièresDateEchéance:
+        rawProjectData.garantiesFinancièresDateEchéance || undefined,
       details: Object.entries(line)
         .filter(([key, value]) => !mappedColumns.includes(key) && !!value)
         .reduce((details, [key, value]) => ({ ...details, [key]: value }), {}),

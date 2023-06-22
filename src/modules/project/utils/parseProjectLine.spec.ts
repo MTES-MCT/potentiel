@@ -642,8 +642,8 @@ describe('parseProjectLine', () => {
     });
   });
 
-  describe(`when the column "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" exists`, () => {
-    it(`should parse that "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" column`, () => {
+  describe(`when there are GF datas`, () => {
+    it(`should parse the "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" column`, () => {
       expect(
         parseProjectLine({
           ...fakeLine,
@@ -659,6 +659,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
             '2',
+          "Date d'échéance au format (AA/MM/JJJJ)": '01/01/2021',
         }),
       ).toMatchObject({
         garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
@@ -696,7 +697,71 @@ describe('parseProjectLine', () => {
         parseProjectLine({
           ...fakeLine,
         }).garantiesFinancièresType,
-      ).toBe(null);
+      ).toBe(undefined);
+    });
+
+    describe(`when the GF type is "Garantie financière avec date d'échéance et à renouveler"`, () => {
+      it(`the expiration date should be saved`, () => {
+        expect(
+          parseProjectLine({
+            ...fakeLine,
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              '2',
+            "Date d'échéance au format (AA/MM/JJJJ)": '24/01/2034',
+          }),
+        ).toMatchObject({
+          garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
+          garantiesFinancièresDateEchéance: new Date('2034-01-24').toDateString(),
+        });
+      });
+
+      it(`if the expiration date has wrong format an error should be thrown`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              '2',
+            "Date d'échéance au format (AA/MM/JJJJ)": 'coucou',
+          }),
+        ).toThrowError(
+          `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+        );
+      });
+
+      it(`if the expiration date is missing an error should be thrown`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              '2',
+            "Date d'échéance au format (AA/MM/JJJJ)": null,
+          }),
+        ).toThrowError(
+          `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+        );
+      });
+    });
+
+    it(`when the GF is not "Garantie financière avec date d'échéance et à renouveler"
+      if there is an expiration date, 
+      then an error should be thrown`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          "Date d'échéance au format (AA/MM/JJJJ)": '13/02/2021',
+          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+            '3',
+        }),
+      ).toThrowError(`Ce type de garanties financières n'accepte pas de date d'échéance`);
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          "Date d'échéance au format (AA/MM/JJJJ)": '13/02/2021',
+          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+            '1',
+        }),
+      ).toThrowError(`Ce type de garanties financières n'accepte pas de date d'échéance`);
     });
   });
 });
