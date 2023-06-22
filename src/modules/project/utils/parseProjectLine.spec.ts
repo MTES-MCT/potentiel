@@ -641,4 +641,62 @@ describe('parseProjectLine', () => {
       ).toThrowError('Le champ Evaluation carbone doit contenir un nombre');
     });
   });
+
+  describe(`when the column "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" exists`, () => {
+    it(`should parse that "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" column`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+            '1',
+        }),
+      ).toMatchObject({
+        garantiesFinancièresType: `Garantie financière jusqu'à 6 mois après la date d'achèvement`,
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+            '2',
+        }),
+      ).toMatchObject({
+        garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+            '3',
+        }),
+      ).toMatchObject({ garantiesFinancièresType: `Consignation` });
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+            'bad value',
+        }),
+      ).toThrowError(
+        `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3`,
+      );
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+            '',
+        }),
+      ).toThrowError(
+        `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3`,
+      );
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+        }).garantiesFinancièresType,
+      ).toBe(null);
+    });
+  });
 });
