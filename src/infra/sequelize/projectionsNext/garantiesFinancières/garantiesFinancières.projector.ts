@@ -1,7 +1,7 @@
 import {
   DateEchéanceGFAjoutée,
   EtapeGFSupprimée,
-  GarantiesFinancièresDataImported,
+  TypeGarantiesFinancièresEtDateEchéanceTransmis,
   GarantiesFinancièresInvalidées,
   GarantiesFinancièresValidées,
   ProjectAbandoned,
@@ -31,7 +31,7 @@ import { onProjectGFUploaded } from './handlers/onProjectGFUploaded';
 import { onProjectGFWithdrawn } from './handlers/onProjectGFWithdrawn';
 import { onProjectNotified } from './handlers/onProjectNotified';
 import { onProjectReimported } from './handlers/onProjectReimported';
-import { onGarantiesFinancièresDataImported } from './handlers/onGarantiesFinancièresDataImported';
+import { onTypeGarantiesFinancièresEtDateEchéanceTransmis } from './handlers/onTypeGarantiesFinancièresEtDateEchéanceTransmis';
 
 let garantiesFinancièresProjector: Projector | null;
 
@@ -59,5 +59,8 @@ const initializeEventHandlers = (projector: Projector) => {
   projector.on(ProjectGFWithdrawn, onProjectGFWithdrawn);
   projector.on(ProjectNotified, onProjectNotified);
   projector.on(ProjectReimported, onProjectReimported);
-  projector.on(GarantiesFinancièresDataImported, onGarantiesFinancièresDataImported);
+  projector.on(
+    TypeGarantiesFinancièresEtDateEchéanceTransmis,
+    onTypeGarantiesFinancièresEtDateEchéanceTransmis,
+  );
 };

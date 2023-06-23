@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
-import { GarantiesFinancièresDataImported } from '@modules/project';
-import { onGarantiesFinancièresDataImported } from './onGarantiesFinancièresDataImported';
+import { TypeGarantiesFinancièresEtDateEchéanceTransmis } from '@modules/project';
+import { onTypeGarantiesFinancièresEtDateEchéanceTransmis } from './onTypeGarantiesFinancièresEtDateEchéanceTransmis';
 
-describe(`handler onGarantiesFinancièresDataImported pour la projection garantiesFinancières`, () => {
+describe(`handler onTypeGarantiesFinancièresEtDateEchéanceTransmis pour la projection garantiesFinancières`, () => {
   beforeEach(async () => {
     await resetDatabase();
   });
@@ -13,9 +13,9 @@ describe(`handler onGarantiesFinancièresDataImported pour la projection garanti
   const dateEchéance = new Date('2030-01-01').toISOString();
 
   it(`
-    Lorsqu'un événement GarantiesFinancièresDataImported émis
+    Lorsqu'un événement TypeGarantiesFinancièresEtDateEchéanceTransmis émis
     Alors une entrée est ajoutée dans la table GarantiesFinancières`, async () => {
-    const évènement = new GarantiesFinancièresDataImported({
+    const évènement = new TypeGarantiesFinancièresEtDateEchéanceTransmis({
       payload: {
         projectId: projetId,
         type: "Garantie financière avec date d'échéance et à renouveler",
@@ -27,7 +27,7 @@ describe(`handler onGarantiesFinancièresDataImported pour la projection garanti
       },
     });
 
-    await onGarantiesFinancièresDataImported(évènement);
+    await onTypeGarantiesFinancièresEtDateEchéanceTransmis(évènement);
 
     const garantiesFinancières = await GarantiesFinancières.findOne({ where: { projetId } });
 
@@ -41,7 +41,7 @@ describe(`handler onGarantiesFinancièresDataImported pour la projection garanti
 
   it(`
     Etant donné des garanties financières "en attente"
-    Lorsqu'un événement GarantiesFinancièresDataImported émis
+    Lorsqu'un événement TypeGarantiesFinancièresEtDateEchéanceTransmis émis
     Alors l'entrée dans la projection est mise à jour`, async () => {
     const dateEnvoi = new Date('2020-01-01');
     const id = new UniqueEntityID().toString();
@@ -58,7 +58,7 @@ describe(`handler onGarantiesFinancièresDataImported pour la projection garanti
       envoyéesPar,
     });
 
-    const évènement = new GarantiesFinancièresDataImported({
+    const évènement = new TypeGarantiesFinancièresEtDateEchéanceTransmis({
       payload: {
         projectId: projetId,
         type: "Garantie financière avec date d'échéance et à renouveler",
@@ -70,7 +70,7 @@ describe(`handler onGarantiesFinancièresDataImported pour la projection garanti
       },
     });
 
-    await onGarantiesFinancièresDataImported(évènement);
+    await onTypeGarantiesFinancièresEtDateEchéanceTransmis(évènement);
 
     const garantiesFinancières = await GarantiesFinancières.findOne({ where: { projetId, id } });
 

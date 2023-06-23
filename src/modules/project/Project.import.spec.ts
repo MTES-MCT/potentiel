@@ -3,7 +3,7 @@ import { UnwrapForTest } from '@core/utils';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import {
-  GarantiesFinancièresDataImported,
+  TypeGarantiesFinancièresEtDateEchéanceTransmis,
   LegacyProjectSourced,
   ProjectActionnaireUpdated,
   ProjectCertificateObsolete,
@@ -83,7 +83,7 @@ describe('Project.import({ data, importId })', () => {
       });
     });
 
-    it('when there is a garanties financières type it should trigger GarantiesFinancièresDataImported', () => {
+    it('when there is a garanties financières type it should trigger TypeGarantiesFinancièresEtDateEchéanceTransmis', () => {
       project.import({
         appelOffre,
         data: {
@@ -95,8 +95,8 @@ describe('Project.import({ data, importId })', () => {
       });
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === GarantiesFinancièresDataImported.type,
-      ) as GarantiesFinancièresDataImported | undefined;
+        (item) => item.type === TypeGarantiesFinancièresEtDateEchéanceTransmis.type,
+      ) as TypeGarantiesFinancièresEtDateEchéanceTransmis | undefined;
 
       expect(targetEvent).toBeDefined();
       if (!targetEvent) return;

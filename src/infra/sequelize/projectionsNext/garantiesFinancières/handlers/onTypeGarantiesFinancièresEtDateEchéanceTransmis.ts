@@ -1,12 +1,12 @@
 import { UniqueEntityID } from '@core/domain';
 import { logger } from '@core/utils';
-import { GarantiesFinancièresDataImported } from '@modules/project';
+import { TypeGarantiesFinancièresEtDateEchéanceTransmis } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import { EventHandler } from '../../eventHandler';
 
-export const onGarantiesFinancièresDataImported: EventHandler<
-  GarantiesFinancièresDataImported
+export const onTypeGarantiesFinancièresEtDateEchéanceTransmis: EventHandler<
+  TypeGarantiesFinancièresEtDateEchéanceTransmis
 > = async (évènement, transaction) => {
   const {
     payload: { projectId: projetId, type, dateEchéance },
@@ -32,7 +32,7 @@ export const onGarantiesFinancièresDataImported: EventHandler<
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
-        `Erreur lors du traitement de l'évènement GarantiesFinancièresDataImported`,
+        `Erreur lors du traitement de l'évènement TypeGarantiesFinancièresEtDateEchéanceTransmis`,
         {
           évènement,
           nomProjection: 'GarantiesFinancières',

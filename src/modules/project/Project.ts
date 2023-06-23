@@ -82,7 +82,7 @@ import {
   GarantiesFinancièresValidées,
   GarantiesFinancièresInvalidées,
   AbandonProjetAnnulé,
-  GarantiesFinancièresDataImported,
+  TypeGarantiesFinancièresEtDateEchéanceTransmis,
   ProjectRawDataImportedPayload,
 } from './events';
 import { toProjectDataForCertificate } from './mappers';
@@ -472,7 +472,7 @@ export const makeProject = (args: {
 
         if (garantiesFinancièresType) {
           _publishEvent(
-            new GarantiesFinancièresDataImported({
+            new TypeGarantiesFinancièresEtDateEchéanceTransmis({
               payload: {
                 projectId: id,
                 type: garantiesFinancièresType,

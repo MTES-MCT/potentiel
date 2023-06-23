@@ -6,12 +6,13 @@ type Payload = {
   dateEchéance?: string;
 };
 
-export class GarantiesFinancièresDataImported
+export class TypeGarantiesFinancièresEtDateEchéanceTransmis
   extends BaseDomainEvent<Payload>
   implements DomainEvent
 {
-  public static type: 'GarantiesFinancièresDataImported' = 'GarantiesFinancièresDataImported';
-  public type = GarantiesFinancièresDataImported.type;
+  public static type: 'TypeGarantiesFinancièresEtDateEchéanceTransmis' =
+    'TypeGarantiesFinancièresEtDateEchéanceTransmis';
+  public type = TypeGarantiesFinancièresEtDateEchéanceTransmis.type;
   currentVersion = 1;
 
   aggregateIdFromPayload(payload: Payload) {
