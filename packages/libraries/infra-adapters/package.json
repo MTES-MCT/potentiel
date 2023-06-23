@@ -14,7 +14,6 @@
     "@potentiel/domain-views": "*",
     "@potentiel/file-storage": "*",
     "@potentiel/monitoring": "*",
-    "@potentiel/pg-event-sourcing": "*",
     "@potentiel/redis-event-bus-consumer": "*"
   },
   "devDependencies": {

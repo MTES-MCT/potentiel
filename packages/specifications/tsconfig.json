@@ -6,9 +6,6 @@
   },
   "references": [
     {
-      "path": "../applications/web"
-    },
-    {
       "path": "../domain"
     },
     {

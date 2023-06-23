@@ -8,4 +8,5 @@ export type Consumer = {
     handler: RedisEventHandler<TEvent>,
   ) => void;
   remove: <TEvent extends RedisEvent>(type: TEvent['type']) => void;
+  kill: () => void;
 };

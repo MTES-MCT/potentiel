@@ -2,15 +2,18 @@ import { Redis } from 'ioredis';
 import { getRedis } from './getRedis';
 import { Consumer } from './consumer';
 import { RedisEventHandler, RedisEvent } from './redisEvent';
+import { getLogger } from '@potentiel/monitoring';
 
 export const createConsumer = async (name: string): Promise<Consumer> => {
+  const logger = getLogger();
+  let isConsuming = false;
   const streamName = process.env.REDIS_EVENT_BUS_STREAM_NAME || '';
 
   const redis = await getRedis();
   const groupName = await createConsumerGroup(redis, streamName, name);
 
   const handlers: Map<Event['type'], RedisEventHandler> = new Map();
-  const consumerRedisClient = redis.duplicate();
+  let consumerRedisClient: Redis;
 
   const listenForMessage = async () => {
     const message = await getNextMessageToHandle(consumerRedisClient, streamName, groupName, name);
@@ -23,30 +26,40 @@ export const createConsumer = async (name: string): Promise<Consumer> => {
         try {
           await handler(JSON.parse(eventPayload));
         } catch (error) {
-          // TODO log
-
+          logger.error(error as Error);
           await consumerRedisClient.xadd(`${name}-DLQ`, '*', messageValue);
         }
       }
 
       const [messageId] = message;
       await consumerRedisClient.xack(streamName, groupName, messageId);
-
-      listenForMessage();
+      if (isConsuming) {
+        listenForMessage();
+      } else {
+        consumerRedisClient.disconnect();
+      }
     }
   };
 
-  listenForMessage();
-
   const consume = <TEvent extends RedisEvent>(
-    type: TEvent['type'],
+    eventType: TEvent['type'],
     handler: RedisEventHandler<TEvent>,
   ) => {
-    handlers.set(type, handler as RedisEventHandler);
+    if (!isConsuming) {
+      isConsuming = true;
+      consumerRedisClient = redis.duplicate();
+      listenForMessage();
+    }
+    handlers.set(eventType, handler as RedisEventHandler);
   };
 
-  const remove = <TEvent extends RedisEvent>(type: TEvent['type']) => {
-    handlers.delete(type);
+  const remove = <TEvent extends RedisEvent>(eventType: TEvent['type']) => {
+    handlers.delete(eventType);
+  };
+
+  const kill = () => {
+    isConsuming = false;
+    handlers.clear();
   };
 
   return {
@@ -54,6 +67,7 @@ export const createConsumer = async (name: string): Promise<Consumer> => {
     getName: () => name,
     getSize: () => handlers.size,
     remove,
+    kill,
   };
 };
 

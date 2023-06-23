@@ -5,8 +5,8 @@ import {
   After,
   BeforeAll,
   setDefaultTimeout,
+  AfterAll,
 } from '@cucumber/cucumber';
-import { bootstrap, UnsetupApp } from '@potentiel/web';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
@@ -14,6 +14,22 @@ import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
 import { clear } from 'mediateur';
 import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
+import { disconnectRedis } from '@potentiel/redis-event-bus-consumer';
+import { UnsetupDomain, setupDomain } from '@potentiel/domain';
+import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
+import {
+  téléverserFichierDossierRaccordementAdapter,
+  téléchargerFichierDossierRaccordementAdapter,
+} from '@potentiel/infra-adapters';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import {
+  createProjection,
+  findProjection,
+  listProjection,
+  removeProjection,
+  searchProjection,
+  updateProjection,
+} from '@potentiel/pg-projections';
 
 should();
 
@@ -23,7 +39,8 @@ setDefaultTimeout(5000);
 
 const bucketName = 'potentiel';
 
-let unsetupApp: UnsetupApp | undefined;
+let unsetupDomain: UnsetupDomain | undefined;
+let unsetupDomainViews: UnsetupDomainViews | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
@@ -36,8 +53,6 @@ BeforeAll(async () => {
   process.env.S3_BUCKET = bucketName;
   process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
-  process.env.REDIS_EVENT_BUS_STREAM_NAME = 'potentiel-eventbus-local';
-  process.env.REDIS_URL = 'redis://localhost:6380';
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
@@ -49,8 +64,38 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetupApp = await bootstrap({
-    projectRepository: legacyProjectRepository,
+  unsetupDomain = await setupDomain({
+    common: {
+      loadAggregate,
+      publish,
+      subscribe,
+    },
+    raccordement: {
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
+        téléverserFichierDossierRaccordementAdapter,
+      enregistrerPropositionTechniqueEtFinancièreSignée:
+        téléverserFichierDossierRaccordementAdapter,
+    },
+  });
+
+  unsetupDomainViews = await setupDomainViews({
+    common: {
+      create: createProjection,
+      find: findProjection,
+      list: listProjection,
+      remove: removeProjection,
+      search: searchProjection,
+      subscribe,
+      update: updateProjection,
+      legacy: {
+        projectRepository: legacyProjectRepository,
+      },
+    },
+    raccordement: {
+      récupérerAccuséRéceptionDemandeComplèteRaccordement:
+        téléchargerFichierDossierRaccordementAdapter,
+      récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
+    },
   });
 });
 
@@ -75,8 +120,17 @@ After(async () => {
     })
     .promise();
 
-  if (unsetupApp) {
-    await unsetupApp();
+  if (unsetupDomain) {
+    await unsetupDomain();
   }
-  unsetupApp = undefined;
+  unsetupDomain = undefined;
+
+  if (unsetupDomainViews) {
+    await unsetupDomainViews();
+  }
+  unsetupDomainViews = undefined;
+});
+
+AfterAll(() => {
+  disconnectRedis();
 });

@@ -15,6 +15,7 @@ import {
 } from '@potentiel/infra-adapters';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
+import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 
 export type UnsetupApp = () => Promise<void>;
 
@@ -61,5 +62,6 @@ export const bootstrap = async (legacy: {
     await unsetupDomain();
     await unsetupDomainViews();
     await unsubscribePublishAll();
+    consumerPool.kill();
   };
 };
