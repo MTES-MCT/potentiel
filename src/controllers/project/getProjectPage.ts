@@ -90,8 +90,6 @@ v1Router.get(
           projet.cahierDesChargesActuel.paruLe === '30/08/2022',
       });
 
-      console.table(alertesRaccordement);
-
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
       if (rawProjectEventList.isErr()) {
