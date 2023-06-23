@@ -96,7 +96,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     },
   });
 
-  await this.gestionnaireRéseauWorld.createEnedis();
+  await this.gestionnaireRéseauWorld.ajouterEnedis();
 });
 
 After(async () => {

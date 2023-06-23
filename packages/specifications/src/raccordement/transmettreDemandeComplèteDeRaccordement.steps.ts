@@ -1,6 +1,5 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
-import { Readable } from 'stream';
 import { mediator } from 'mediateur';
 import {
   DomainUseCase,
@@ -33,7 +32,8 @@ EtantDonné(
       content: convertStringToReadable(content),
     };
 
-    const codeEIC = this.gestionnaireRéseauWorld.rechercherCodeEIC(raisonSociale);
+    const { codeEIC } =
+      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
 
     this.raccordementWorld.dateQualification = dateQualification;
     this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
@@ -71,7 +71,10 @@ Quand(
       content: convertStringToReadable(content),
     };
 
-    const codeEIC = this.gestionnaireRéseauWorld.rechercherCodeEIC(raisonSociale);
+    const codeEIC =
+      raisonSociale === 'Inconnu'
+        ? 'Code EIC inconnu'
+        : this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale).codeEIC;
 
     this.raccordementWorld.dateQualification = dateQualification;
     this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
@@ -91,41 +94,6 @@ Quand(
           ),
           dateQualification,
           accuséRéception,
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
-  },
-);
-
-Quand(
-  `le porteur du projet transmet une autre demande complète de raccordement auprès du même gestionnaire de réseau avec :`,
-  async function (this: PotentielWorld, table: DataTable) {
-    const exemple = table.rowsHash();
-    this.raccordementWorld.dateQualification = convertirEnDateTime(
-      exemple['La date de qualification'],
-    );
-    this.raccordementWorld.référenceDossierRaccordement =
-      exemple['La référence du dossier de raccordement'];
-    try {
-      await mediator.send<DomainUseCase>({
-        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-        data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
-          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
-            this.gestionnaireRéseauWorld.codeEIC,
-          ),
-          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-            this.raccordementWorld.référenceDossierRaccordement,
-          ),
-          dateQualification: this.raccordementWorld.dateQualification,
-          accuséRéception: {
-            format: 'application/pdf',
-            content: Readable.from("Contenu d'un autre fichier", {
-              encoding: 'utf8',
-            }),
-          },
         },
       });
     } catch (e) {

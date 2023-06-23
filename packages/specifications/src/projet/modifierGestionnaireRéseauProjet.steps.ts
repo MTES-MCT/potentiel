@@ -30,7 +30,9 @@ Quand(
 Alors(
   `le gestionaire de réseau {string} devrait être consultable dans le projet`,
   async function (this: PotentielWorld, raisonSociale: string) {
-    const codeEIC = this.gestionnaireRéseauWorld.rechercherCodeEIC(raisonSociale);
+    const { codeEIC } =
+      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
+
     const résultat = await mediator.send<ConsulterProjetQuery>({
       type: 'CONSULTER_PROJET',
       data: {

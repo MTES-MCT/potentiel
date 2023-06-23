@@ -1,64 +1,34 @@
-import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import { DomainUseCase, convertirEnIdentifiantGestionnaireRéseau } from '@potentiel/domain';
-import { PotentielWorld } from '../potentiel.world';
-import { mediator } from 'mediateur';
 import {
-  ConsulterGestionnaireRéseauQuery,
-  GestionnaireRéseauQuery,
-  GestionnaireRéseauReadModel,
-} from '@potentiel/domain-views';
+  Given as EtantDonné,
+  When as Quand,
+  Then as Alors,
+  DataTable,
+  defineParameterType,
+} from '@cucumber/cucumber';
+import { PotentielWorld } from '../potentiel.world';
 
-EtantDonné(
-  'un gestionnaire de réseau ayant pour code EIC {string}',
-  async function (this: PotentielWorld, codeEIC: string) {
-    await this.gestionnaireRéseauWorld.createGestionnaireRéseau(codeEIC, 'Une raison sociale');
-  },
-);
+EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
+  const exemple = table.rowsHash();
+
+  await this.gestionnaireRéseauWorld.ajouterGestionnaireRéseau({
+    codeEIC: exemple['Code EIC'],
+    raisonSociale: exemple['Raison sociale'],
+  });
+});
 
 Quand(
-  'un administrateur ajoute un gestionnaire de réseau',
+  'un administrateur ajoute un gestionnaire de réseau( avec le même code EIC)',
   async function (this: PotentielWorld, table: DataTable) {
     const example = table.rowsHash();
 
-    this.gestionnaireRéseauWorld.codeEIC = example['Code EIC'];
-    this.gestionnaireRéseauWorld.raisonSociale = example['Raison sociale'];
-    this.gestionnaireRéseauWorld.format = example['Format'];
-    this.gestionnaireRéseauWorld.légende = example['Légende'];
-    this.gestionnaireRéseauWorld.expressionReguliere = example['Expression régulière'];
-
-    await mediator.send<DomainUseCase>({
-      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
-      data: {
-        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
-          this.gestionnaireRéseauWorld.codeEIC,
-        ),
-        raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-        aideSaisieRéférenceDossierRaccordement: {
-          format: this.gestionnaireRéseauWorld.format,
-          légende: this.gestionnaireRéseauWorld.légende,
-          expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
-        },
-      },
-    });
-  },
-);
-
-Quand(
-  'un administrateur ajoute un gestionnaire de réseau ayant le même code EIC',
-  async function (this: PotentielWorld) {
     try {
-      await mediator.send<DomainUseCase>({
-        type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
-        data: {
-          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
-            this.gestionnaireRéseauWorld.codeEIC,
-          ),
-          raisonSociale: 'autre raison sociale',
-          aideSaisieRéférenceDossierRaccordement: {
-            format: 'autre format',
-            légende: 'autre légende',
-            expressionReguliere: '.',
-          },
+      await this.gestionnaireRéseauWorld.ajouterGestionnaireRéseau({
+        codeEIC: example['Code EIC'],
+        raisonSociale: example['Raison sociale'],
+        aideSaisieRéférenceDossierRaccordement: {
+          format: example['Format'],
+          légende: example['Légende'],
+          expressionReguliere: example['Expression régulière'],
         },
       });
     } catch (error) {
@@ -68,49 +38,39 @@ Quand(
 );
 
 Alors(
-  'le gestionnaire de réseau devrait être disponible dans le référenciel des gestionnaires de réseau',
-  async function (this: PotentielWorld) {
-    const expected: GestionnaireRéseauReadModel = {
-      type: 'gestionnaire-réseau',
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        légende: this.gestionnaireRéseauWorld.légende,
-        format: this.gestionnaireRéseauWorld.format,
-        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
-      },
-    };
-
-    const actual = await mediator.send<GestionnaireRéseauQuery>({
-      type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
-      data: {},
-    });
-
-    actual.should.deep.contain(expected);
+  'le gestionnaire de réseau {string} devrait être disponible dans le référenciel des gestionnaires de réseau',
+  async function (this: PotentielWorld, raisonSocialeGestionnaireRéseau: string) {
+    await this.gestionnaireRéseauWorld.devraitÊtreDisponibleDansRéférentiel(
+      raisonSocialeGestionnaireRéseau,
+    );
   },
 );
 
 Alors(
-  `l'administrateur devrait pouvoir consulter les détails du gestionnaire de réseau`,
-  async function (this: PotentielWorld) {
-    const expected: GestionnaireRéseauReadModel = {
-      type: 'gestionnaire-réseau',
-      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        légende: this.gestionnaireRéseauWorld.légende,
-        format: this.gestionnaireRéseauWorld.format,
-        expressionReguliere: this.gestionnaireRéseauWorld.expressionReguliere,
-      },
-    };
+  `les détails du gestionnaire de réseau {string} devrait être consultable`,
+  async function (this: PotentielWorld, raisonSocialeGestionnaireRéseau: string) {
+    await this.gestionnaireRéseauWorld.devraitÊtreConsultable(raisonSocialeGestionnaireRéseau);
+  },
+);
 
-    const actual = await mediator.send<ConsulterGestionnaireRéseauQuery>({
-      type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
-      data: {
-        identifiantGestionnaireRéseau: this.gestionnaireRéseauWorld.codeEIC,
-      },
-    });
+defineParameterType({
+  name: 'valide-invalide',
+  regexp: /valide|invalide/,
+  transformer: (s) => s as 'valide' | 'invalide',
+});
 
-    actual.should.be.deep.equal(expected);
+Alors(
+  `pour le gestionnaire de réseau {string} la référence de dossier {string} devrait être {valide-invalide}`,
+  async function (
+    this: PotentielWorld,
+    raisonSocialeGestionnaireRéseau: string,
+    référenceÀValider: string,
+    résultat: 'valide' | 'invalide',
+  ) {
+    await this.gestionnaireRéseauWorld.devraitÊtreUnRéférenceValideOuInvalide(
+      raisonSocialeGestionnaireRéseau,
+      référenceÀValider,
+      résultat,
+    );
   },
 );

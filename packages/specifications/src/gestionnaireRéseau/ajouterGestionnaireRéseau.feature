@@ -1,17 +1,29 @@
 #Language: fr-FR
+@selection
 Fonctionnalité: Ajouter un gestionnaire de réseau
 
-    Scénario: Un administrateur ajoute un gestionnaire de réseau
+    Scénario: Ajouter un gestionnaire de réseau
         Quand un administrateur ajoute un gestionnaire de réseau
-            | Code EIC             | 17X0000009352859                    |
-            | Raison sociale       | Arc Energies Maurienne              |
-            | Format               | XXX                                 |
-            | Légende              | Trois lettres                       |
-            | Expression régulière | [a-zA-Z]{3}                         |
-        Alors le gestionnaire de réseau devrait être disponible dans le référenciel des gestionnaires de réseau
-        Et l'administrateur devrait pouvoir consulter les détails du gestionnaire de réseau
+            | Code EIC       | 17X0000009352859       |
+            | Raison sociale | Arc Energies Maurienne |
+            | Format         | XXX                    |
+            | Légende        | Trois lettres          |
+        Alors le gestionnaire de réseau "Arc Energies Maurienne" devrait être disponible dans le référenciel des gestionnaires de réseau
+        Et les détails du gestionnaire de réseau "Arc Energies Maurienne" devrait être consultable
 
-    Scénario: Un administrateur ajoute un gestionnaire de réseau déjà existant
-        Etant donné un gestionnaire de réseau ayant pour code EIC "17X100A100A0001B"
-        Quand un administrateur ajoute un gestionnaire de réseau ayant le même code EIC
+    Scénario: Ajouter un gestionnaire de réseau avec une règle de saisie de référence de dossier
+        Quand un administrateur ajoute un gestionnaire de réseau
+            | Code EIC             | 17X0000009352859       |
+            | Raison sociale       | Arc Energies Maurienne |
+            | Expression régulière | [a-zA-Z]{3}            |
+        Alors pour le gestionnaire de réseau "Arc Energies Maurienne" la référence de dossier "ABC" devrait être valide
+        Mais pour le gestionnaire de réseau "Arc Energies Maurienne" la référence de dossier "123" devrait être invalide
+
+    Scénario: Impossible d'ajouter 2 gestionnaires de réseau avec un code EIC identique
+        Etant donné un gestionnaire de réseau
+            | Code EIC       | 17X100A100A0001B       |
+            | Raison sociale | Arc Energies Maurienne |
+        Quand un administrateur ajoute un gestionnaire de réseau avec le même code EIC
+            | Code EIC       | 17X100A100A0001B        |
+            | Raison sociale | Un nouveau gestionnaire |
         Alors l'administrateur devrait être informé que "Le gestionnaire de réseau existe déjà"
