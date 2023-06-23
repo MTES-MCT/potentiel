@@ -18,29 +18,17 @@ export const onGarantiesFinancièresDataImported: EventHandler<
   });
 
   try {
-    if (entréeExistante) {
-      await GarantiesFinancières.update(
-        {
-          ...entréeExistante,
-          soumisesALaCandidature: true,
-          type,
-          ...(dateEchéance && { dateEchéance: new Date(dateEchéance) }),
-        },
-        { where: { id: entréeExistante.id }, transaction },
-      );
-    } else {
-      await GarantiesFinancières.create(
-        {
-          id: new UniqueEntityID().toString(),
-          projetId,
-          statut: 'en attente',
-          soumisesALaCandidature: true,
-          type,
-          ...(dateEchéance && { dateEchéance: new Date(dateEchéance) }),
-        },
-        { transaction },
-      );
-    }
+    await GarantiesFinancières.upsert(
+      {
+        id: entréeExistante ? entréeExistante.id : new UniqueEntityID().toString(),
+        projetId,
+        statut: entréeExistante ? entréeExistante.statut : 'en attente',
+        soumisesALaCandidature: true,
+        type,
+        ...(dateEchéance && { dateEchéance: new Date(dateEchéance) }),
+      },
+      { transaction },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
