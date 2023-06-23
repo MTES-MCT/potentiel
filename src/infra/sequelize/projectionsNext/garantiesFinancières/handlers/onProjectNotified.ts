@@ -12,12 +12,12 @@ export const onProjectNotified: EventHandler<ProjectNotified> = async (évèneme
     payload: { projectId: projetId, appelOffreId, periodeId, familleId },
   } = évènement;
 
-  const entréeExistance = await GarantiesFinancières.findOne({
+  const entréeExistante = await GarantiesFinancières.findOne({
     where: { projetId },
     transaction,
   });
 
-  if (entréeExistance) {
+  if (entréeExistante) {
     return;
   }
 
@@ -49,11 +49,6 @@ export const onProjectNotified: EventHandler<ProjectNotified> = async (évèneme
   const soumisesALaCandidature =
     appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
     appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature';
-
-  await GarantiesFinancières.destroy({
-    where: { projetId },
-    transaction,
-  });
 
   try {
     await GarantiesFinancières.create(

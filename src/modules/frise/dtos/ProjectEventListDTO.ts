@@ -129,18 +129,18 @@ export type GarantiesFinancièresDTO = {
   type: 'garanties-financières';
   date: number;
   variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'caisse-des-dépôts' | 'cre';
+  typeGarantiesFinancières?: string;
+  dateEchéance?: number;
 } & (
   | { statut: 'en attente' | 'en retard' }
   | {
       statut: 'à traiter';
       envoyéesPar: 'porteur-projet' | 'dreal' | 'admin';
-      dateEchéance?: number;
       url: string;
     }
   | {
       statut: 'validé';
       envoyéesPar: 'porteur-projet' | 'dreal' | 'admin';
-      dateEchéance?: number;
       url: string;
       retraitDépôtPossible?: true;
     }

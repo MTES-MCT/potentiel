@@ -43,6 +43,10 @@ export const initializeGarantiesFinancièresModel = (sequelize: Sequelize) => {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      type: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       dateEchéance: {
         type: DataTypes.DATE,
         allowNull: true,

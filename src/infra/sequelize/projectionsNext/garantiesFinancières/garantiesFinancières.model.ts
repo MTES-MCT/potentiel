@@ -16,6 +16,7 @@ export class GarantiesFinancières extends Model<
   dateEnvoi: Date | null;
   envoyéesPar: string | null;
   dateConstitution: Date | null;
+  type: string | null;
   dateEchéance: Date | null;
   validéesPar: string | null;
   validéesLe: Date | null;

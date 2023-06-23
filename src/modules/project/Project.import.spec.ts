@@ -3,6 +3,7 @@ import { UnwrapForTest } from '@core/utils';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import {
+  TypeGarantiesFinancièresEtDateEchéanceTransmis,
   LegacyProjectSourced,
   ProjectActionnaireUpdated,
   ProjectCertificateObsolete,
@@ -79,6 +80,31 @@ describe('Project.import({ data, importId })', () => {
         periodeId,
         familleId,
         numeroCRE,
+      });
+    });
+
+    it('when there is a garanties financières type it should trigger TypeGarantiesFinancièresEtDateEchéanceTransmis', () => {
+      project.import({
+        appelOffre,
+        data: {
+          ...fakeProject,
+          garantiesFinancièresType: "Garantie financière avec date d'échéance et à renouveler",
+          garantiesFinancièresDateEchéance: new Date('2021-01-01').toISOString(),
+        },
+        importId,
+      });
+
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === TypeGarantiesFinancièresEtDateEchéanceTransmis.type,
+      ) as TypeGarantiesFinancièresEtDateEchéanceTransmis | undefined;
+
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
+
+      expect(targetEvent.payload).toEqual({
+        projectId: projectId.toString(),
+        type: "Garantie financière avec date d'échéance et à renouveler",
+        dateEchéance: new Date('2021-01-01').toISOString(),
       });
     });
 

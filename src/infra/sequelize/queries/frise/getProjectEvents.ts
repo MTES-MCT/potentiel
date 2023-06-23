@@ -32,6 +32,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
             'dateEchéance',
             'validéesPar',
             'dateLimiteEnvoi',
+            'type',
           ],
           include: [
             {

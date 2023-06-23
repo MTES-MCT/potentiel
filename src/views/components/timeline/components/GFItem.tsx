@@ -63,6 +63,8 @@ const EnAttente = ({
   date: dateLimiteEnvoi,
   statut,
   variant,
+  typeGarantiesFinancières,
+  dateEchéance,
   project: { nomProjet, id: projectId, garantieFinanciereEnMois },
 }: GFEnAttenteProps) => {
   const utilisateurEstPorteur = variant === 'porteur-projet';
@@ -85,7 +87,15 @@ const EnAttente = ({
         </div>
         <ItemTitle title={'Garanties financières'} />
         <div>
-          <div className="flex">
+          <div className="flex flex-col">
+            {typeGarantiesFinancières && (
+              <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
+            )}
+            {dateEchéance && (
+              <p className="mt-0 mb-0">
+                Date d'échéance des garanties financières : {afficherDate(dateEchéance)}
+              </p>
+            )}
             <p className="mt-0 mb-0">
               Attestation de constitution de garanties financières en attente
             </p>
@@ -96,6 +106,7 @@ const EnAttente = ({
               garantieFinanciereEnMois={garantieFinanciereEnMois}
               action={utilisateurEstPorteur && dateLimiteEnvoi !== 0 ? 'soumettre' : 'enregistrer'}
               role={variant}
+              dateEchéance={dateEchéance}
             />
           )}
           {utilisateurEstAdmin && statut === 'en retard' && (
@@ -121,8 +132,15 @@ type FormulaireProps = {
   garantieFinanciereEnMois?: number;
   action: 'soumettre' | 'enregistrer';
   role: typeof rolesAutorisés[number];
+  dateEchéance: number | undefined;
 };
-const Formulaire = ({ projetId, garantieFinanciereEnMois, action, role }: FormulaireProps) => {
+const Formulaire = ({
+  projetId,
+  garantieFinanciereEnMois,
+  action,
+  role,
+  dateEchéance,
+}: FormulaireProps) => {
   const [displayForm, showForm] = useState(false);
 
   return (
@@ -168,7 +186,13 @@ const Formulaire = ({ projetId, garantieFinanciereEnMois, action, role }: Formul
             Date d'échéance des garanties
             <Astérisque className="text-black" />
           </Label>
-          <Input type="date" name="expirationDate" id="expirationDate" required />
+          <Input
+            type="date"
+            name="expirationDate"
+            id="expirationDate"
+            required
+            defaultValue={dateEchéance && format(new Date(dateEchéance), 'yyyy-MM-dd')}
+          />
         </div>
         <div>
           <Label required htmlFor="file">
@@ -196,6 +220,7 @@ const ATraiter = ({
   variant,
   project,
   dateEchéance,
+  typeGarantiesFinancières,
 }: ATraiterProps) => {
   const utilisateurPeutAnnulerDépôt = ['porteur-projet', 'caisse-des-dépôts'].includes(variant);
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
@@ -214,6 +239,9 @@ const ATraiter = ({
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
+        {typeGarantiesFinancières && (
+          <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
+        )}
         <DateEchéance
           dateEchéance={dateEchéance}
           projetId={project.id}
@@ -329,6 +357,7 @@ const Validé = ({
   variant,
   envoyéesPar,
   retraitDépôtPossible,
+  typeGarantiesFinancières,
   project,
 }: ValidéProps) => {
   const utilisateurEstPorteur = variant === 'porteur-projet';
@@ -346,6 +375,9 @@ const Validé = ({
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
+        {typeGarantiesFinancières && (
+          <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
+        )}
         <DateEchéance
           dateEchéance={dateEchéance}
           projetId={project.id}
