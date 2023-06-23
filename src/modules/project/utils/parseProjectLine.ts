@@ -172,7 +172,7 @@ const columnMapper = {
         "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
       )
     ) {
-      return null;
+      return;
     }
 
     const typeGF =
@@ -351,17 +351,16 @@ const projectSchema = yup.object().shape({
   }),
   garantiesFinancièresType: yup
     .mixed()
-    .nullable()
+    .optional()
     .oneOf(
       [
         "Garantie financière jusqu'à 6 mois après la date d'achèvement",
         "Garantie financière avec date d'échéance et à renouveler",
         'Consignation',
-        null,
       ],
       `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3`,
     ),
-  garantiesFinancièresDateEchéance: yup.string().nullable(),
+  garantiesFinancièresDateEchéance: yup.string().optional(),
 });
 
 const appendInfo = (obj, key, value) => {
@@ -436,9 +435,8 @@ export const parseProjectLine = (line) => {
       departementProjet,
       regionProjet,
       puissanceInitiale: rawProjectData.puissance,
-      garantiesFinancièresType: rawProjectData.garantiesFinancièresType || undefined,
-      garantiesFinancièresDateEchéance:
-        rawProjectData.garantiesFinancièresDateEchéance || undefined,
+      garantiesFinancièresType: rawProjectData.garantiesFinancièresType,
+      garantiesFinancièresDateEchéance: rawProjectData.garantiesFinancièresDateEchéance,
       details: Object.entries(line)
         .filter(([key, value]) => !mappedColumns.includes(key) && !!value)
         .reduce((details, [key, value]) => ({ ...details, [key]: value }), {}),
