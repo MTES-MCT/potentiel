@@ -19,10 +19,10 @@ export async function modifierGestionnaireRéseau(
     },
   });
 
-  //   this.gestionnairesRéseauFixtures.set(raisonSociale, {
-  //     codeEIC,
-  //     raisonSociale,
-  //     aideSaisieRéférenceDossierRaccordement,
-  //   });
+  this.gestionnairesRéseauFixtures.set(raisonSociale, {
+    codeEIC,
+    raisonSociale,
+    aideSaisieRéférenceDossierRaccordement,
+  });
   await sleep(100);
 }
