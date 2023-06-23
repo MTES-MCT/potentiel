@@ -9,6 +9,7 @@ type GarantiesFinancièresDonnéesPourDTO = {
   dateLimiteEnvoi: Date | null;
   dateConstitution: Date | null;
   dateEchéance: Date | null;
+  type: string | null;
   validéesPar: string | null;
   fichier?: { filename: string; id: string };
   envoyéesParRef?: { role: 'admin' | 'dreal' | 'porteur-projet' };
@@ -33,6 +34,7 @@ export const getGarantiesFinancièresDTO = async ({
     statut,
     dateConstitution,
     dateEchéance,
+    type,
     validéesPar,
     dateLimiteEnvoi,
     fichier,
@@ -42,6 +44,7 @@ export const getGarantiesFinancièresDTO = async ({
   if (statut === 'à traiter' || statut === 'validé') {
     return {
       type: 'garanties-financières',
+      ...(type && { typeGarantiesFinancières: type }),
       date: dateConstitution!.getTime(),
       statut,
       url: fichier! && routes.DOWNLOAD_PROJECT_FILE(fichier.id, fichier.filename),
@@ -56,6 +59,8 @@ export const getGarantiesFinancièresDTO = async ({
     const dateLimiteDépassée = (dateLimiteEnvoi && dateLimiteEnvoi <= new Date()) || false;
     return {
       type: 'garanties-financières',
+      ...(type && { typeGarantiesFinancières: type }),
+      ...(dateEchéance && { dateEchéance: dateEchéance.getTime() }),
       date: dateLimiteEnvoi?.getTime() || 0,
       statut: dateLimiteDépassée ? 'en retard' : 'en attente',
       variant: user.role,
