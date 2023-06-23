@@ -12,6 +12,12 @@
       "path": "../file-storage"
     },
     {
+      "path": "../monitoring"
+    },
+    {
+      "path": "../redis-event-bus-consumer"
+    },
+    {
       "path": "../../domain"
     },
     {

@@ -1,5 +1,5 @@
 import { setupDomain } from '@potentiel/domain';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -9,20 +9,23 @@ import {
   updateProjection,
 } from '@potentiel/pg-projections';
 import {
+  consumerSubscribe,
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
 } from '@potentiel/infra-adapters';
-import { subscribeFactory } from './subscribe.factory';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
+import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 
-export const bootstrap = async (legacy: { projectRepository: LegacyProjectRepository }) => {
-  const subscribe = await subscribeFactory();
+export type UnsetupApp = () => Promise<void>;
 
-  setupDomain({
+export const bootstrap = async (legacy: {
+  projectRepository: LegacyProjectRepository;
+}): Promise<UnsetupApp> => {
+  const unsetupDomain = await setupDomain({
     common: {
       loadAggregate,
       publish,
-      subscribe,
+      subscribe: consumerSubscribe,
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
@@ -32,14 +35,14 @@ export const bootstrap = async (legacy: { projectRepository: LegacyProjectReposi
     },
   });
 
-  setupDomainViews({
+  const unsetupDomainViews = await setupDomainViews({
     common: {
       create: createProjection,
       find: findProjection,
       list: listProjection,
       remove: removeProjection,
       search: searchProjection,
-      subscribe,
+      subscribe: consumerSubscribe,
       update: updateProjection,
       legacy,
     },
@@ -49,4 +52,14 @@ export const bootstrap = async (legacy: { projectRepository: LegacyProjectReposi
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
     },
   });
+
+  const unsubscribePublishAll = await subscribe('all', async (event) => {
+    await publishToEventBus(event.type, event);
+  });
+
+  return async () => {
+    await unsetupDomain();
+    await unsetupDomainViews();
+    await unsubscribePublishAll();
+  };
 };

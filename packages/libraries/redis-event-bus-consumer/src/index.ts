@@ -1,1 +1,3 @@
-export { Event, consumerFactory } from './consumer.factory';
+export { Consumer } from './consumer';
+export { consumerPool } from './consumerPool';
+export { RedisEvent, RedisEventHandler } from './redisEvent';

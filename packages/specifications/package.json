@@ -13,6 +13,7 @@
     "test:ci": "mkdir test-results && cucumber-js --profile ci"
   },
   "dependencies": {
+    "@potentiel/web": "*",
     "@potentiel/core-domain": "*",
     "@potentiel/domain": "*",
     "@potentiel/domain-views": "*",
@@ -20,6 +21,7 @@
     "@potentiel/infra-adapters": "*",
     "@potentiel/pg-event-sourcing": "*",
     "@potentiel/pg-helpers": "*",
+    "@potentiel/redis-event-bus-client": "*",
     "mediateur": "^0.1.0-beta.20230613080529"
   },
   "devDependencies": {

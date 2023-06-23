@@ -6,26 +6,12 @@ import {
   BeforeAll,
   setDefaultTimeout,
 } from '@cucumber/cucumber';
-import { UnsetupDomain, setupDomain } from '@potentiel/domain';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import { bootstrap, UnsetupApp } from '@potentiel/web';
 import { executeQuery } from '@potentiel/pg-helpers';
-import {
-  createProjection,
-  findProjection,
-  listProjection,
-  removeProjection,
-  searchProjection,
-  updateProjection,
-} from '@potentiel/pg-projections';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
-import {
-  téléchargerFichierDossierRaccordementAdapter,
-  téléverserFichierDossierRaccordementAdapter,
-} from '@potentiel/infra-adapters';
-import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
 import { clear } from 'mediateur';
 import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
 
@@ -37,8 +23,7 @@ setDefaultTimeout(5000);
 
 const bucketName = 'potentiel';
 
-let unsetupDomain: UnsetupDomain | undefined;
-let unsetupDomainViews: UnsetupDomainViews | undefined;
+let unsetupApp: UnsetupApp | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
@@ -51,6 +36,8 @@ BeforeAll(async () => {
   process.env.S3_BUCKET = bucketName;
   process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
+  process.env.REDIS_EVENT_BUS_STREAM_NAME = 'potentiel-eventbus-local';
+  process.env.REDIS_URL = 'redis://localhost:6380';
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
@@ -62,38 +49,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetupDomain = setupDomain({
-    common: {
-      loadAggregate,
-      publish,
-      subscribe,
-    },
-    raccordement: {
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
-        téléverserFichierDossierRaccordementAdapter,
-      enregistrerPropositionTechniqueEtFinancièreSignée:
-        téléverserFichierDossierRaccordementAdapter,
-    },
-  });
-
-  unsetupDomainViews = setupDomainViews({
-    common: {
-      create: createProjection,
-      find: findProjection,
-      list: listProjection,
-      remove: removeProjection,
-      search: searchProjection,
-      subscribe,
-      update: updateProjection,
-      legacy: {
-        projectRepository: legacyProjectRepository,
-      },
-    },
-    raccordement: {
-      récupérerAccuséRéceptionDemandeComplèteRaccordement:
-        téléchargerFichierDossierRaccordementAdapter,
-      récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
-    },
+  unsetupApp = await bootstrap({
+    projectRepository: legacyProjectRepository,
   });
 });
 
@@ -118,13 +75,8 @@ After(async () => {
     })
     .promise();
 
-  if (unsetupDomain) {
-    await unsetupDomain();
+  if (unsetupApp) {
+    await unsetupApp();
   }
-  unsetupDomain = undefined;
-
-  if (unsetupDomainViews) {
-    await unsetupDomainViews();
-  }
-  unsetupDomainViews = undefined;
+  unsetupApp = undefined;
 });

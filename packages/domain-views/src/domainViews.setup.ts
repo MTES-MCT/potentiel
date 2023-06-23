@@ -26,24 +26,24 @@ type DomainViewsDependencies = {
 
 export type UnsetupDomainViews = () => Promise<void>;
 
-export const setupDomainViews = ({
+export const setupDomainViews = async ({
   common,
   raccordement,
-}: DomainViewsDependencies): UnsetupDomainViews => {
-  const unsubscribes = [
-    ...setupGestionnaireRéseauViews({
-      ...common,
-    }),
-    ...setupProjetViews({
-      ...common,
-    }),
-    ...setupRaccordementViews({
-      ...common,
-      ...raccordement,
-    }),
-  ];
+}: DomainViewsDependencies): Promise<UnsetupDomainViews> => {
+  const unsubscribeGestionnaireRéseauViews = await setupGestionnaireRéseauViews(common);
+  const unsubscribeProjetViews = await setupProjetViews(common);
+  const unsubscribeRaccordement = await setupRaccordementViews({
+    ...common,
+    ...raccordement,
+  });
 
   return async () => {
+    const unsubscribes = [
+      ...unsubscribeGestionnaireRéseauViews,
+      ...unsubscribeProjetViews,
+      ...unsubscribeRaccordement,
+    ];
+
     for (const unsubscribe of unsubscribes) {
       await unsubscribe();
     }

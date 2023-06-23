@@ -6,6 +6,9 @@
   },
   "references": [
     {
+      "path": "../applications/web"
+    },
+    {
       "path": "../domain"
     },
     {
@@ -22,6 +25,9 @@
     },
     {
       "path": "../libraries/infra-adapters"
+    },
+    {
+      "path": "../libraries/redis-event-bus-client"
     }
   ]
 }
