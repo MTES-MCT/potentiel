@@ -1,5 +1,4 @@
 #Language: fr-FR
-@selection
 Fonctionnalité: Ajouter un gestionnaire de réseau
 
     Scénario: Ajouter un gestionnaire de réseau

@@ -35,7 +35,6 @@ Quand(
         },
       });
     } catch (e) {
-      console.log(e);
       this.error = e as Error;
     }
   },

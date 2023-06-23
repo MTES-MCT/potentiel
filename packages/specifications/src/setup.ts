@@ -95,8 +95,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
     },
   });
-
-  await this.gestionnaireRéseauWorld.ajouterEnedis();
 });
 
 After(async () => {
