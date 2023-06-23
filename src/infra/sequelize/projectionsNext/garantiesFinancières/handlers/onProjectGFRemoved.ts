@@ -30,20 +30,16 @@ export const onProjectGFRemoved: EventHandler<ProjectGFRemoved> = async (
     return;
   }
 
-  await GarantiesFinancières.destroy({ where: { projetId }, transaction });
-
   try {
-    await GarantiesFinancières.create(
+    await GarantiesFinancières.update(
       {
-        id: entréeExistante.id,
-        projetId,
-        soumisesALaCandidature: entréeExistante.soumisesALaCandidature,
-        ...(entréeExistante.dateLimiteEnvoi && {
-          dateLimiteEnvoi: entréeExistante.dateLimiteEnvoi,
-        }),
+        fichierId: null,
+        dateEnvoi: null,
+        envoyéesPar: null,
+        dateConstitution: null,
         statut: 'en attente',
       },
-      { transaction },
+      { where: { projetId, id: entréeExistante.id }, transaction },
     );
   } catch (error) {
     logger.error(

@@ -56,6 +56,9 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
       soumisesALaCandidature: false,
       statut: 'en attente',
       dateLimiteEnvoi,
+      envoyéesPar: null,
+      dateEnvoi: null,
+      dateConstitution: null,
     });
   });
 });

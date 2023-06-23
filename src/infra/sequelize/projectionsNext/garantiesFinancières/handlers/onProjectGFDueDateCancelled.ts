@@ -30,15 +30,12 @@ export const onProjectGFDueDateCancelled: EventHandler<ProjectGFDueDateCancelled
     return;
   }
 
-  await GarantiesFinancières.destroy({ where: { projetId }, transaction });
-
   try {
-    await GarantiesFinancières.create(
+    await GarantiesFinancières.update(
       {
-        ...entréeExistante.dataValues,
         dateLimiteEnvoi: null,
       },
-      { transaction },
+      { where: { projetId }, transaction },
     );
   } catch (error) {
     logger.error(
