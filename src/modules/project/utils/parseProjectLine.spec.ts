@@ -108,7 +108,9 @@ describe('parseProjectLine', () => {
         'N°, voie, lieu-dit 1': '',
         'N°, voie, lieu-dit 2': '',
       }),
-    ).toThrowError(`L'adresse du projet est manquante`);
+    ).toThrowError(
+      `L'adresse du projet est manquante : vous devez compléter au moins l'une des colonnes "N°, voie, lieu-dit"`,
+    );
   });
 
   it('should parse the "Technologie\n(dispositif de production)" column', () => {
@@ -603,7 +605,9 @@ describe('parseProjectLine', () => {
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             '0',
         }),
-      ).toThrowError('Le champ Evaluation Carbone doit contenir un nombre strictement positif');
+      ).toThrowError(
+        'Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" doit contenir un nombre strictement positif ou N/A',
+      );
 
       expect(() =>
         parseProjectLine({
@@ -611,7 +615,9 @@ describe('parseProjectLine', () => {
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             '-10',
         }),
-      ).toThrowError('Le champ Evaluation Carbone doit contenir un nombre strictement positif');
+      ).toThrowError(
+        'Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" doit contenir un nombre strictement positif ou N/A',
+      );
     });
 
     it('should throw an error if ecs is not a number', () => {
@@ -621,7 +627,9 @@ describe('parseProjectLine', () => {
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             'abcd',
         }),
-      ).toThrowError('Le champ Evaluation carbone doit contenir un nombre');
+      ).toThrowError(
+        'Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" doit contenir un nombre strictement positif ou N/A',
+      );
 
       expect(() =>
         parseProjectLine({
@@ -629,7 +637,9 @@ describe('parseProjectLine', () => {
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             '',
         }),
-      ).toThrowError('Le champ Evaluation carbone doit contenir un nombre');
+      ).toThrowError(
+        'Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" doit contenir un nombre strictement positif ou N/A',
+      );
 
       expect(() =>
         parseProjectLine({
@@ -638,7 +648,9 @@ describe('parseProjectLine', () => {
             undefined,
           'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': undefined,
         }),
-      ).toThrowError('Le champ Evaluation carbone doit contenir un nombre');
+      ).toThrowError(
+        'Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" doit contenir un nombre strictement positif ou N/A',
+      );
     });
   });
 
