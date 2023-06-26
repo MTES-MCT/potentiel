@@ -1328,6 +1328,11 @@ export const makeProject = (args: {
       case DateEchéanceGFAjoutée.type:
         props.GFExpirationDate = event.payload.expirationDate;
         break;
+      case TypeGarantiesFinancièresEtDateEchéanceTransmis.type:
+        if (event.payload.dateEchéance) {
+          props.GFExpirationDate = event.payload.dateEchéance;
+        }
+        break;
       case IdentifiantPotentielPPE2Batiment2Corrigé.type:
         props.potentielIdentifier = event.payload.nouvelIdentifiant;
         break;
