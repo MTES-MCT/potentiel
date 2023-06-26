@@ -41,6 +41,7 @@ import {
   ProjectNotEligibleForCertificateError,
   ChangementProducteurImpossiblePourEolienError,
   SuppressionGFValidéeImpossibleError,
+  GFImpossibleASoumettreError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
@@ -834,6 +835,9 @@ export const makeProject = (args: {
     submitGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
+      }
+      if (!props.isClasse || props.abandonedOn > 0) {
+        return err(new GFImpossibleASoumettreError());
       }
       if (props.hasCurrentGf) {
         return err(new GFCertificateHasAlreadyBeenSentError());

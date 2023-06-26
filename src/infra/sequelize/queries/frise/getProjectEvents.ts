@@ -62,7 +62,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         familleId,
         details,
         garantiesFinancières,
-        raccordement,
       } = rawProject.get();
       const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe;
       const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
