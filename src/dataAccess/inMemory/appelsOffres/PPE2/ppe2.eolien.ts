@@ -101,6 +101,17 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
+    {
+      id: '4',
+      title: 'quatrième',
+      certificateTemplate: 'ppe2.v2',
+      noteThreshold: 13.8,
+      cahierDesCharges: {
+        référence: '2023/S 063-187148',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+    },
   ],
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
