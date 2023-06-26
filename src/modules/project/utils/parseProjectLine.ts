@@ -240,7 +240,11 @@ const projectSchema = yup.object().shape({
     .string()
     .email(`L'adresse email n'est pas valide`)
     .required(`L'adresse email est manquante`),
-  adresseProjet: yup.string().required(`L'adresse du projet est manquante`),
+  adresseProjet: yup
+    .string()
+    .required(
+      `L'adresse du projet est manquante : vous devez compléter au moins l'une des colonnes "N°, voie, lieu-dit"`,
+    ),
   codePostalProjet: yup.array().of(
     yup
       .string()
@@ -323,8 +327,13 @@ const projectSchema = yup.object().shape({
   }),
   evaluationCarbone: yup
     .number()
-    .typeError('Le champ Evaluation carbone doit contenir un nombre')
-    .min(0, 'Le champ Evaluation Carbone doit contenir un nombre strictement positif')
+    .typeError(
+      'Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" doit contenir un nombre strictement positif ou N/A',
+    )
+    .min(
+      0,
+      'Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" doit contenir un nombre strictement positif ou N/A',
+    )
     .required(),
   technologie: yup
     .mixed()
