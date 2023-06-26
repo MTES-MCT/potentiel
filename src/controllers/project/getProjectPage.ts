@@ -114,7 +114,6 @@ v1Router.get(
           request,
           project: projet,
           projectEventList: rawProjectEventList.value,
-          now: new Date().getTime(),
           alertesRaccordement,
         }),
       );

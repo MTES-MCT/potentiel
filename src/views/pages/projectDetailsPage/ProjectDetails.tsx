@@ -37,7 +37,6 @@ type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
-  now: number;
   alertesRaccordement?: AlerteRaccordement[];
 };
 
@@ -45,7 +44,6 @@ export const ProjectDetails = ({
   request,
   project,
   projectEventList,
-  now,
   alertesRaccordement,
 }: ProjectDetailsProps) => {
   const { user } = request;
@@ -66,7 +64,6 @@ export const ProjectDetails = ({
         {alertesRaccordement && (
           <AlerteBoxRaccordement
             dcrDueOn={project.dcrDueOn}
-            now={now}
             alertes={alertesRaccordement}
             identifiantProjet={convertirEnIdentifiantProjet({
               appelOffre: project.appelOffreId,
@@ -195,10 +192,9 @@ const AlerteAnnulationAbandonPossible = ({
 
 const AlerteBoxRaccordement: FC<{
   dcrDueOn: ProjectDataForProjectPage['dcrDueOn'];
-  now: number;
   alertes: AlerteRaccordement[];
   identifiantProjet: `${string}#${string}#${string}#${string}`;
-}> = ({ dcrDueOn, now, alertes, identifiantProjet }) => (
+}> = ({ dcrDueOn, alertes, identifiantProjet }) => (
   <AlertBox title="Données de raccordement à compléter">
     {alertes.includes('référenceDossierManquantePourDélaiCDC2022') && (
       <p>
@@ -211,9 +207,12 @@ const AlerteBoxRaccordement: FC<{
     )}
     {alertes.includes('demandeComplèteRaccordementManquante') && (
       <p>
-        L'accusé de réception de la demande complète de raccordement doit être transmis dans
-        Potentiel avant le {afficherDate(dcrDueOn)}.{' '}
-        {now > dcrDueOn && <span>Vous êtes donc en retard sur ce délai.</span>}
+        Vous devez déposer une demande de raccordement avant le {afficherDate(dcrDueOn)} auprès de
+        votre gestionnaire de réseau.
+        <br />
+        L'accusé de réception de cette demande transmis sur Potentiel facilitera vos démarches
+        administratives avec les différents acteurs connectés à Potentiel (DGEC, DREAL,
+        Cocontractant, etc.).
       </p>
     )}
     <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}>
