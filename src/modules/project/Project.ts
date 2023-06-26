@@ -41,6 +41,7 @@ import {
   ProjectNotEligibleForCertificateError,
   ChangementProducteurImpossiblePourEolienError,
   SuppressionGFValidéeImpossibleError,
+  GFImpossibleASoumettreError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
@@ -835,6 +836,9 @@ export const makeProject = (args: {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
+      if (!props.isClasse || props.abandonedOn > 0) {
+        return err(new GFImpossibleASoumettreError());
+      }
       if (props.hasCurrentGf) {
         return err(new GFCertificateHasAlreadyBeenSentError());
       }
@@ -1323,6 +1327,11 @@ export const makeProject = (args: {
         break;
       case DateEchéanceGFAjoutée.type:
         props.GFExpirationDate = event.payload.expirationDate;
+        break;
+      case TypeGarantiesFinancièresEtDateEchéanceTransmis.type:
+        if (event.payload.dateEchéance) {
+          props.GFExpirationDate = event.payload.dateEchéance;
+        }
         break;
       case IdentifiantPotentielPPE2Batiment2Corrigé.type:
         props.potentielIdentifier = event.payload.nouvelIdentifiant;

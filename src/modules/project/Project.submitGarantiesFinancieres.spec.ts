@@ -2,11 +2,12 @@ import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { UnwrapForTest } from '@core/utils';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
-import { ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events';
+import { ProjectAbandoned, ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events';
 import { makeProject } from './Project';
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 import {
   GFCertificateHasAlreadyBeenSentError,
+  GFImpossibleASoumettreError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
 } from './errors';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
@@ -54,6 +55,67 @@ describe('Project.submitGarantiesFinancieres()', () => {
     });
   });
   describe('when the project has been notified', () => {
+    describe(`when the project is "Eliminé"`, () => {
+      it('should retourn an error', () => {
+        const appelOffreId = 'Fessenheim';
+        const periodeId = '2';
+        const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Eliminé' });
+        const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
+
+        const fakeHistory: DomainEvent[] = [
+          new ProjectImported({
+            payload: {
+              projectId: projectId.toString(),
+              periodeId,
+              appelOffreId,
+              familleId,
+              numeroCRE,
+              importId: '',
+              data: fakeProject,
+              potentielIdentifier,
+            },
+            original: {
+              occurredAt: new Date(123),
+              version: 1,
+            },
+          }),
+          new ProjectNotified({
+            payload: {
+              projectId: projectId.toString(),
+              periodeId,
+              appelOffreId,
+              familleId,
+              candidateEmail: 'test@test.com',
+              candidateName: '',
+              notifiedOn: 123,
+            },
+            original: {
+              occurredAt: new Date(456),
+              version: 1,
+            },
+          }),
+        ];
+
+        const project = UnwrapForTest(
+          makeProject({
+            projectId,
+            history: fakeHistory,
+            getProjectAppelOffre,
+            buildProjectIdentifier: () => '',
+          }),
+        );
+
+        const gfDate = new Date('2022-02-21');
+        const fileId = 'file-id';
+        const expirationDate = new Date('2025-01-01');
+
+        const res = project.submitGarantiesFinancieres(gfDate, fileId, fakeUser, expirationDate);
+
+        expect(res.isErr()).toEqual(true);
+        if (res.isOk()) return;
+        expect(res.error).toBeInstanceOf(GFImpossibleASoumettreError);
+      });
+    });
     describe('when project GF has to be submitted on Potentiel after application to AO (CRE4)', () => {
       const appelOffreId = 'Fessenheim';
       const periodeId = '2';
@@ -126,6 +188,40 @@ describe('Project.submitGarantiesFinancieres()', () => {
           expect(res.isErr()).toEqual(true);
           if (res.isOk()) return;
           expect(res.error).toBeInstanceOf(GFCertificateHasAlreadyBeenSentError);
+        });
+      });
+      describe('when the project is abandoned', () => {
+        it('should return an error', () => {
+          const project = UnwrapForTest(
+            makeProject({
+              projectId,
+              history: [
+                ...fakeHistory,
+                new ProjectAbandoned({
+                  payload: {
+                    projectId: projectId.toString(),
+                    abandonAcceptedBy: 'id',
+                  },
+                  original: {
+                    occurredAt: new Date(123),
+                    version: 1,
+                  },
+                }),
+              ],
+              getProjectAppelOffre,
+              buildProjectIdentifier: () => '',
+            }),
+          );
+
+          const gfDate = new Date('2022-02-21');
+          const fileId = 'file-id';
+          const expirationDate = new Date('2025-01-01');
+
+          const res = project.submitGarantiesFinancieres(gfDate, fileId, fakeUser, expirationDate);
+
+          expect(res.isErr()).toEqual(true);
+          if (res.isOk()) return;
+          expect(res.error).toBeInstanceOf(GFImpossibleASoumettreError);
         });
       });
       describe('when GF has not been submitted on Potentiel yet', () => {

@@ -49,15 +49,12 @@ export const onProjectClasseGranted: EventHandler<ProjectClasseGranted> = async 
     appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
     appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature';
 
-  await GarantiesFinancières.destroy({
-    where: { projetId },
-    transaction,
-  });
+  const entréeExistante = await GarantiesFinancières.findOne({ where: { projetId }, transaction });
 
   try {
-    await GarantiesFinancières.create(
+    await GarantiesFinancières.upsert(
       {
-        id: new UniqueEntityID().toString(),
+        id: entréeExistante ? entréeExistante.id : new UniqueEntityID().toString(),
         projetId,
         statut: 'en attente',
         soumisesALaCandidature,

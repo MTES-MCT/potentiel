@@ -37,7 +37,7 @@ export const GFItem = (props: ComponentProps) => {
   switch (statut) {
     case 'en attente':
     case 'en retard':
-      return <EnAttente {...{ ...props, statut, project }} />;
+      return project.status === 'Classé' ? <EnAttente {...{ ...props, statut, project }} /> : <></>;
     case 'à traiter':
       return <ATraiter {...{ ...props, statut, project }} />;
     case 'validé':
@@ -235,7 +235,9 @@ const ATraiter = ({
             <ItemDate date={dateConstitution} />
           </div>
           <div className="align-middle mb-1">
-            <InfoItem message={utilisateurEstAdmin ? 'à traiter' : 'validation en attente'} />
+            {project.status === 'Classé' && (
+              <InfoItem message={utilisateurEstAdmin ? 'à traiter' : 'validation en attente'} />
+            )}
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />

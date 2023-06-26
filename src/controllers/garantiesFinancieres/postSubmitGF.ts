@@ -18,6 +18,7 @@ import { v1Router } from '../v1Router';
 import {
   CertificateFileIsMissingError,
   GFCertificateHasAlreadyBeenSentError,
+  GFImpossibleASoumettreError,
 } from '../../modules/project';
 import { format } from 'date-fns';
 import * as yup from 'yup';
@@ -86,20 +87,14 @@ v1Router.post(
             );
           }
 
-          if (error instanceof CertificateFileIsMissingError) {
+          if (
+            error instanceof CertificateFileIsMissingError ||
+            error instanceof GFCertificateHasAlreadyBeenSentError ||
+            error instanceof GFImpossibleASoumettreError
+          ) {
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
-                error:
-                  "L'attestation de constitution des garanties financières n'a pas pu être envoyée. Vous devez joindre un fichier.",
-              }),
-            );
-          }
-
-          if (error instanceof GFCertificateHasAlreadyBeenSentError) {
-            return response.redirect(
-              addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
-                error:
-                  "Il semblerait qu'il y ait déjà une garantie financière en cours de validité sur ce projet.",
+                error: error.message,
               }),
             );
           }

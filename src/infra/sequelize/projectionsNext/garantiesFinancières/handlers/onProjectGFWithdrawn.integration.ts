@@ -53,8 +53,13 @@ describe(`handler onProjectGFWithdrawn pour la projection garantiesFinancières`
     expect(GF).toMatchObject({
       id,
       projetId,
-      soumisesALaCandidature: true,
       statut: 'en attente',
+      soumisesALaCandidature: true,
+      envoyéesPar: null,
+      dateEchéance: dateExpiration,
+      dateEnvoi: null,
+      dateConstitution: null,
+      fichierId: null,
       dateLimiteEnvoi,
     });
   });
