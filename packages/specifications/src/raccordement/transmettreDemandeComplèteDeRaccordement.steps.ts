@@ -1,4 +1,4 @@
-import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
+import { Given as EtantDonné, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 import {
@@ -54,51 +54,6 @@ EtantDonné(
         accuséRéception,
       },
     });
-  },
-);
-
-Quand(
-  `le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} avec :`,
-  async function (this: PotentielWorld, raisonSociale: string, table: DataTable) {
-    const exemple = table.rowsHash();
-    const dateQualification = convertirEnDateTime(exemple['La date de qualification']);
-    const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
-    const format = exemple[`Le format de l'accusé de réception`];
-    const content = exemple[`Le contenu de l'accusé de réception`];
-
-    const accuséRéception = {
-      format,
-      content: convertStringToReadable(content),
-    };
-
-    const codeEIC =
-      raisonSociale === 'Inconnu'
-        ? 'Code EIC inconnu'
-        : this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale).codeEIC;
-
-    this.raccordementWorld.dateQualification = dateQualification;
-    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-      format,
-      content,
-    };
-
-    try {
-      await mediator.send<DomainUseCase>({
-        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-        data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
-          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-            référenceDossierRaccordement,
-          ),
-          dateQualification,
-          accuséRéception,
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
   },
 );
 
