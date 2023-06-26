@@ -11,7 +11,7 @@ Fonctionnalité: Modifier un gestionnaire de réseau
             | Légende        | Trois lettres    |
             | Format         | XXX              |
         Alors le gestionnaire de réseau "RTE" devrait être à jour dans le référenciel des gestionnaires de réseau
-        Et les détails à jour du gestionnaire de réseau "RTE" devrait être consultable
+        Et les détails à jour du gestionnaire de réseau "RTE" devraient être consultables
 
     Scénario: Modifier la règle de saisie de référence de dossier d'un gestionnaire de réseau
         Etant donné un gestionnaire de réseau

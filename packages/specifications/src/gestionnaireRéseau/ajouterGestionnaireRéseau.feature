@@ -8,7 +8,7 @@ Fonctionnalité: Ajouter un gestionnaire de réseau
             | Format         | XXX                    |
             | Légende        | Trois lettres          |
         Alors le gestionnaire de réseau "Arc Energies Maurienne" devrait être disponible dans le référenciel des gestionnaires de réseau
-        Et les détails du gestionnaire de réseau "Arc Energies Maurienne" devrait être consultable
+        Et les détails du gestionnaire de réseau "Arc Energies Maurienne" devraient être consultables
 
     Scénario: Ajouter un gestionnaire de réseau avec une règle de saisie de référence de dossier
         Quand un administrateur ajoute un gestionnaire de réseau

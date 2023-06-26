@@ -42,7 +42,7 @@ Alors(
 );
 
 Alors(
-  `les détails( à jour) du gestionnaire de réseau {string} devrait être consultable`,
+  `les détails( à jour) du gestionnaire de réseau {string} devraient être consultables`,
   async function (this: PotentielWorld, raisonSocialeGestionnaireRéseau: string) {
     const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialeGestionnaireRéseau,
