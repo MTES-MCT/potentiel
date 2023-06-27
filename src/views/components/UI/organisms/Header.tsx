@@ -173,7 +173,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base"
         target="_blank"
         rel="noopener"
-        href="https://docs.potentiel.beta.gouv.fr"
+        href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/sommaire-du-guide-dutilisation"
       >
         <QuestionIcon className="lg:hidden text-blue-france-sun-base" />
         <span className="hidden lg:flex lg:items-center mx-1 text-blue-france-sun-base">
