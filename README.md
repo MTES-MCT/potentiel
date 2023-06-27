@@ -13,15 +13,22 @@ Si vous souhaitez proposer une amélioration à Potentiel merci de suivre le [gu
 
 ## Système d'authentification avec Keycloak
 
-Keycloak est un service open source d'identité et de gestion d'accès.
+Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mise en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre)
 
+### Utilisation en local
+
+En local, lorsque la commande `npm run dev-db` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de keycloak](https://quay.io/repository/keycloak/keycloak). 
+
+Lors du montage de l'image, on va importer le fichier [realm-dev.json](./keycloak/import/realm-dev.json) qui va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs tests.
+
+Keycloak fonctionnant avec un système de thème, nous en avons crée un personnalisé qui se base sur les recommandations du DSFR. Le code source est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak). Afin que le thème puisse fonctionner avec notre image docker, nous avons besoin de binder (dans le fichier [docker-compose](./docker-compose.yml)) le thème à utiliser. Pour se faire, nous avons mis en place un système de submodule git dans le dossier `keycloak/potentiel-keycloak` qui va venir pointer sur le repo dédié.
+
+[Lien de ressource vers les sous-modules git](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+
+### Utilisation en production
+
+Pour la production et staging, keycloak est hébergé sur une application scalingo, qui utilise également le repo du thème custom.
 Il existe deux environnements pour keycloak :
-
-- Une version "legacy" est situé dans ce repo; cet environnement est utilisé à des fins de tests en local uniquement
-- Une version de production utilisé pour les environnements **staging** et **production** est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak)
-
-Pour en savoir plus sur l'utilisation en local, veuillez vous rendre sur la page [`docs/KEYCLOAK.md`](/docs/KEYCLOAK.md)
-Pour en savoir plus sur l'utilisation en production, veuillez vous rendre sur le repo [potentiel-keycloak](https://github.com/MTES-MCT/potentiel-keycloak)
 
 ## Environnements
 
