@@ -38,7 +38,7 @@ const mappedColumns = [
   'Financement collectif (Oui/Non)',
   'Gouvernance partagée (Oui/Non)',
   "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
-  "Date d'échéance au format (AA/MM/JJJJ)",
+  "Date d'échéance au format JJ/MM/AAAA",
 ];
 
 const prepareNumber = (str) => str && str.replace(/,/g, '.');
@@ -180,16 +180,32 @@ const columnMapper = {
         "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation"
       ];
 
-    return typeGF === '1'
-      ? "Garantie financière jusqu'à 6 mois après la date d'achèvement"
-      : typeGF === '2'
-      ? "Garantie financière avec date d'échéance et à renouveler"
-      : typeGF === '3'
-      ? 'Consignation'
-      : 'valeur incorrecte';
+    const statutProjet = line['Classé ?'];
+
+    if (statutProjet === 'Classé') {
+      return typeGF === '1'
+        ? "Garantie financière jusqu'à 6 mois après la date d'achèvement"
+        : typeGF === '2'
+        ? "Garantie financière avec date d'échéance et à renouveler"
+        : typeGF === '3'
+        ? 'Consignation'
+        : 'valeur incorrecte';
+    }
+
+    if (statutProjet === 'Eliminé') {
+      return typeGF === '1'
+        ? "Garantie financière jusqu'à 6 mois après la date d'achèvement"
+        : typeGF === '2'
+        ? "Garantie financière avec date d'échéance et à renouveler"
+        : typeGF === '3'
+        ? 'Consignation'
+        : typeGF === 'N/A'
+        ? undefined
+        : 'valeur incorrecte';
+    }
   },
   garantiesFinancièresDateEchéance: (line: any) => {
-    const dateEchéance = line["Date d'échéance au format (AA/MM/JJJJ)"];
+    const dateEchéance = line["Date d'échéance au format JJ/MM/AAAA"];
     const parsedDate = parse(dateEchéance, 'dd/MM/yyyy', new Date());
 
     if (isValid(parsedDate)) {
@@ -360,14 +376,13 @@ const projectSchema = yup.object().shape({
   }),
   garantiesFinancièresType: yup
     .mixed()
-    .optional()
     .oneOf(
       [
         "Garantie financière jusqu'à 6 mois après la date d'achèvement",
         "Garantie financière avec date d'échéance et à renouveler",
         'Consignation',
       ],
-      `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3`,
+      `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3. La valeur N/A est acceptée pour les projets éliminés.`,
     ),
   garantiesFinancièresDateEchéance: yup.string().optional(),
 });

@@ -671,7 +671,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
             '2',
-          "Date d'échéance au format (AA/MM/JJJJ)": '01/01/2021',
+          "Date d'échéance au format JJ/MM/AAAA": '01/01/2021',
         }),
       ).toMatchObject({
         garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
@@ -685,31 +685,80 @@ describe('parseProjectLine', () => {
         }),
       ).toMatchObject({ garantiesFinancièresType: `Consignation` });
 
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
-            'bad value',
-        }),
-      ).toThrowError(
-        `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3`,
-      );
-
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
-            '',
-        }),
-      ).toThrowError(
-        `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3`,
-      );
-
       expect(
         parseProjectLine({
           ...fakeLine,
         }).garantiesFinancièresType,
       ).toBe(undefined);
+    });
+
+    describe(`when the project is Classé`, () => {
+      it(`should return an error if the GF type is not 1, 2 or 3`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            'Classé ?': 'Classé',
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              'bad value',
+          }),
+        ).toThrowError(
+          `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3. La valeur N/A est acceptée pour les projets éliminés.`,
+        );
+      });
+
+      it(`should return an error if GF type is missing`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            'Classé ?': 'Classé',
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              '',
+          }),
+        ).toThrowError(
+          `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3. La valeur N/A est acceptée pour les projets éliminés.`,
+        );
+      });
+    });
+
+    describe(`when the project is Eliminé`, () => {
+      it(`should return an error if the GF type is not 1, 2, 3 or N/A`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            'Classé ?': 'Eliminé',
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              'bad value',
+          }),
+        ).toThrowError(
+          `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3. La valeur N/A est acceptée pour les projets éliminés.`,
+        );
+      });
+
+      it(`should return an error if GF type is missing`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            'Classé ?': 'Eliminé',
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              '',
+          }),
+        ).toThrowError(
+          `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3. La valeur N/A est acceptée pour les projets éliminés.`,
+        );
+      });
+
+      it(`should accept the value "N/A" for GF type`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            'Classé ?': 'Eliminé',
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              'N/A',
+          }),
+        ).not.toThrowError(
+          `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3. La valeur N/A est acceptée pour les projets éliminés.`,
+        );
+      });
     });
 
     describe(`when the GF type is "Garantie financière avec date d'échéance et à renouveler"`, () => {
@@ -719,7 +768,7 @@ describe('parseProjectLine', () => {
             ...fakeLine,
             "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
               '2',
-            "Date d'échéance au format (AA/MM/JJJJ)": '24/01/2034',
+            "Date d'échéance au format JJ/MM/AAAA": '24/01/2034',
           }),
         ).toMatchObject({
           garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
@@ -733,7 +782,7 @@ describe('parseProjectLine', () => {
             ...fakeLine,
             "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
               '2',
-            "Date d'échéance au format (AA/MM/JJJJ)": 'coucou',
+            "Date d'échéance au format JJ/MM/AAAA": 'coucou',
           }),
         ).toThrowError(
           `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
@@ -746,7 +795,7 @@ describe('parseProjectLine', () => {
             ...fakeLine,
             "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
               '2',
-            "Date d'échéance au format (AA/MM/JJJJ)": null,
+            "Date d'échéance au format JJ/MM/AAAA": null,
           }),
         ).toThrowError(
           `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
@@ -754,26 +803,28 @@ describe('parseProjectLine', () => {
       });
     });
 
-    it(`when the GF is not "Garantie financière avec date d'échéance et à renouveler"
-      if there is an expiration date, 
-      then an error should be thrown`, () => {
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          "Date d'échéance au format (AA/MM/JJJJ)": '13/02/2021',
-          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
-            '3',
-        }),
-      ).toThrowError(`Ce type de garanties financières n'accepte pas de date d'échéance`);
+    describe(`when the GF type is not "Garantie financière avec date d'échéance et à renouveler"`, () => {
+      it(`For type 1 if there is an expiration date, then an error should be thrown`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            "Date d'échéance au format JJ/MM/AAAA": '13/02/2021',
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              '1',
+          }),
+        ).toThrowError(`Ce type de garanties financières n'accepte pas de date d'échéance`);
+      });
 
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          "Date d'échéance au format (AA/MM/JJJJ)": '13/02/2021',
-          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
-            '1',
-        }),
-      ).toThrowError(`Ce type de garanties financières n'accepte pas de date d'échéance`);
+      it(`For type 3 if there is an expiration date, then an error should be thrown`, () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            "Date d'échéance au format JJ/MM/AAAA": '13/02/2021',
+            "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+              '3',
+          }),
+        ).toThrowError(`Ce type de garanties financières n'accepte pas de date d'échéance`);
+      });
     });
   });
 });
