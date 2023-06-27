@@ -7,8 +7,8 @@ import { sleep } from '../../helpers/sleep';
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
 
-  const codeEIC = exemple['Code EIC'];
   const raisonSociale = exemple['Raison sociale'] ?? 'Une raison sociale';
+  const codeEIC = exemple['Code EIC'] ?? raisonSociale.toUpperCase();
   const aideSaisieRéférenceDossierRaccordement = {
     format: exemple['Format'],
     légende: exemple['Légende'],
@@ -39,7 +39,7 @@ EtantDonné(
     const aideSaisieRéférenceDossierRaccordement = {
       format: '',
       légende: '',
-      expressionReguliere: '.',
+      expressionReguliere: '(.*)',
     };
 
     await mediator.send<DomainUseCase>({

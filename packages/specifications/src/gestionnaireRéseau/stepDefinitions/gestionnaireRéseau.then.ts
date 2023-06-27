@@ -1,9 +1,7 @@
-import { expect } from 'chai';
 import { Then as Alors, defineParameterType } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import {
   convertirEnIdentifiantGestionnaireRéseau,
-  convertirEnRéférenceDossierRaccordement,
   loadGestionnaireRéseauAggregateFactory,
 } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
@@ -71,32 +69,21 @@ defineParameterType({
 });
 
 Alors(
-  `pour le gestionnaire de réseau {string} la référence de dossier {string} devrait être {valide-invalide}`,
+  `la référence de dossier {string} devrait être {valide-invalide}`,
   async function (
     this: PotentielWorld,
-    raisonSocialeGestionnaireRéseau: string,
     référenceÀValider: string,
     résultat: 'valide' | 'invalide',
   ) {
-    const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
-      raisonSocialeGestionnaireRéseau,
-    );
+    const actual = this.gestionnaireRéseauWorld.résultatsValidation.get(référenceÀValider);
 
-    // Assert aggregate
-    const actualAggregate = await loadGestionnaireRéseauAggregate(gestionnaireRéseau.codeEIC);
-    const actual = actualAggregate.validerRéférenceDossierRaccordement(
-      convertirEnRéférenceDossierRaccordement(référenceÀValider),
-    );
+    if (actual === undefined) {
+      throw new Error(
+        `Aucun résultat de validation disponible pour la référence ${référenceÀValider}`,
+      );
+    }
+
     actual.should.equal(résultat === 'valide' ? true : false);
-
-    // Assert read model
-    const actualReadModel = await getConsulterReadModel(gestionnaireRéseau.codeEIC);
-
-    expect(
-      new RegExp(actualReadModel.aideSaisieRéférenceDossierRaccordement?.expressionReguliere!).test(
-        référenceÀValider,
-      ),
-    ).to.equal(résultat === 'valide' ? true : false);
   },
 );
 

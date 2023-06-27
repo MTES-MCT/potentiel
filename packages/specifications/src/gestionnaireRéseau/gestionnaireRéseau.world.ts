@@ -14,6 +14,11 @@ export class GestionnaireRéseauWorld {
     return this.#gestionnairesRéseauFixtures;
   }
 
+  #résultatsValidation: Map<string, boolean> = new Map();
+  get résultatsValidation() {
+    return this.#résultatsValidation;
+  }
+
   constructor() {}
 
   rechercherGestionnaireRéseauFixture(raisonSociale: string): GestionnaireRéseau {
