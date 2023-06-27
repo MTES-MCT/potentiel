@@ -94,7 +94,7 @@ const Footer = () => {
               <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
                 <a
                   className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
-                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+                  href="https://docs.potentiel.beta.gouv.fr/"
                 >
                   Guide d'utilisation
                 </a>
