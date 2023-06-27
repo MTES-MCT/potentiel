@@ -1,4 +1,4 @@
-import { Then as Alors } from '@cucumber/cucumber';
+import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 
@@ -11,6 +11,33 @@ import {
 import { isNone } from '@potentiel/monads';
 
 import { convertReadableToString } from '../helpers/convertReadableToString';
+import {
+  DomainUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
+
+// TODO: À supprimer lors de la reorg des step definitions et assertion sur les agrégat
+Quand(
+  `le porteur modifie le gestionnaire de réseau de son projet avec le gestionnaire {string}`,
+  async function (this: PotentielWorld, raisonSocialeGestionnaireRéseau: string) {
+    const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+      raisonSocialeGestionnaireRéseau,
+    );
+
+    try {
+      await mediator.send<DomainUseCase>({
+        type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
+          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
 
 Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',

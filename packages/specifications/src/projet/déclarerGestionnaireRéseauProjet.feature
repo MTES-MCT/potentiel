@@ -6,4 +6,4 @@ Fonctionnalité: Déclarer le gestionnaire de réseau d'un projet
 
     Scénario: Le gestionnaire de réseau est déclaré pour le projet lorsque la première demande de raccordement est transmise
         Quand un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" pour le projet "Du boulodrome de Marseille"
-        Alors le projet "Du boulodrome de Marseille" devrait avoir comme gestionaire de réseau "Enedis"
+        Alors le projet "Du boulodrome de Marseille" devrait avoir comme gestionnaire de réseau "Enedis"
