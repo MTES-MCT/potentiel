@@ -53,7 +53,7 @@ const gestionnaireRéseauAggregateFactory: AggregateFactory<
               if (!expressionReguliere) {
                 return true;
               }
-              return new RegExp(expressionReguliere).test(référence);
+              return new RegExp(`^${expressionReguliere}$`).test(référence);
             },
           };
         default:
