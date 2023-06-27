@@ -6,11 +6,13 @@ import {
   convertirEnIdentifiantProjet,
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnRéférenceDossierRaccordement,
+  IdentifiantProjet,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { convertStringToReadable } from '../../helpers/convertStringToReadable';
 
 type DemandeComplèteRaccordement = {
+  identifiantProjet: IdentifiantProjet;
   raisonSociale: string;
   dateQualification: string | Date;
   référenceDossierRaccordement: string;
@@ -18,7 +20,10 @@ type DemandeComplèteRaccordement = {
   content: string;
 };
 
-const demandeComplèteRaccordementParDéfaut: Omit<DemandeComplèteRaccordement, 'raisonSociale'> = {
+const demandeComplèteRaccordementParDéfaut: Omit<
+  DemandeComplèteRaccordement,
+  'raisonSociale' | 'identifiantProjet'
+> = {
   dateQualification: new Date(),
   référenceDossierRaccordement: 'REF_DOSSIER',
   format: 'application/pdf',
@@ -26,10 +31,13 @@ const demandeComplèteRaccordementParDéfaut: Omit<DemandeComplèteRaccordement,
 };
 
 Quand(
-  `le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau {string}`,
-  async function (this: PotentielWorld, raisonSociale: string) {
+  `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string}`,
+  async function (this: PotentielWorld, raisonSociale: string, nomProjet: string) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
     await transmettreDemandeComplèteRaccordement(this, {
       ...demandeComplèteRaccordementParDéfaut,
+      identifiantProjet,
       raisonSociale,
     });
   },
@@ -45,6 +53,7 @@ Quand(
     const content = exemple[`Le contenu de l'accusé de réception`];
 
     await transmettreDemandeComplèteRaccordement(this, {
+      identifiantProjet: this.projetWorld.identifiantProjet,
       raisonSociale,
       dateQualification,
       référenceDossierRaccordement,
@@ -57,6 +66,7 @@ Quand(
 const transmettreDemandeComplèteRaccordement = async (
   world: PotentielWorld,
   {
+    identifiantProjet,
     raisonSociale,
     dateQualification,
     référenceDossierRaccordement,
@@ -90,7 +100,7 @@ const transmettreDemandeComplèteRaccordement = async (
     await mediator.send<DomainUseCase>({
       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
       data: {
-        identifiantProjet: convertirEnIdentifiantProjet(world.projetWorld.identifiantProjet),
+        identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
           référenceDossierRaccordement,

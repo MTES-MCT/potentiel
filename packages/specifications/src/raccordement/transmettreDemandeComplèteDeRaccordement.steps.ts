@@ -1,61 +1,16 @@
-import { Given as EtantDonné, Then as Alors, DataTable } from '@cucumber/cucumber';
+import { Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
-import {
-  DomainUseCase,
-  convertirEnDateTime,
-  convertirEnIdentifiantGestionnaireRéseau,
-  convertirEnIdentifiantProjet,
-  convertirEnRéférenceDossierRaccordement,
-} from '@potentiel/domain';
+
 import {
   ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
   ConsulterDossierRaccordementQuery,
   DossierRaccordementReadModel,
   ListerDossiersRaccordementQuery,
 } from '@potentiel/domain-views';
-import { convertStringToReadable } from '../helpers/convertStringToReadable';
 import { isNone } from '@potentiel/monads';
+
 import { convertReadableToString } from '../helpers/convertReadableToString';
-
-EtantDonné(
-  'un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau {string} avec :',
-  async function (this: PotentielWorld, raisonSociale, table: DataTable) {
-    const exemple = table.rowsHash();
-    const dateQualification = convertirEnDateTime(exemple['La date de qualification']);
-    const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
-    const format = exemple[`Le format de l'accusé de réception`];
-    const content = exemple[`Le contenu de l'accusé de réception`];
-
-    const accuséRéception = {
-      format,
-      content: convertStringToReadable(content),
-    };
-
-    const { codeEIC } =
-      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
-
-    this.raccordementWorld.dateQualification = dateQualification;
-    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-      format,
-      content,
-    };
-
-    await mediator.send<DomainUseCase>({
-      type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-      data: {
-        identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
-        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-          référenceDossierRaccordement,
-        ),
-        dateQualification,
-        accuséRéception,
-      },
-    });
-  },
-);
 
 Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
