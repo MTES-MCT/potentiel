@@ -228,6 +228,7 @@ export interface Project extends EventStoreAggregate {
   readonly dateFileAttente?: Date;
   readonly délaiCDC2022appliqué: boolean;
   readonly GFValidées: boolean;
+  readonly hasCurrentGf: boolean;
   readonly dcrDueOn?: Date;
   readonly notifiedOn: number;
 }
@@ -1134,6 +1135,9 @@ export const makeProject = (args: {
     },
     get GFValidées() {
       return props.GFValidées;
+    },
+    get hasCurrentGf() {
+      return props.hasCurrentGf;
     },
     get notifiedOn() {
       return props.notifiedOn;
