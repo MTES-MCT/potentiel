@@ -671,7 +671,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
             '2',
-          "Date d'échéance au format (AA/MM/JJJJ)": '01/01/2021',
+          "Date d'échéance au format JJ/MM/AAAA": '01/01/2021',
         }),
       ).toMatchObject({
         garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
@@ -719,7 +719,7 @@ describe('parseProjectLine', () => {
             ...fakeLine,
             "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
               '2',
-            "Date d'échéance au format (AA/MM/JJJJ)": '24/01/2034',
+            "Date d'échéance au format JJ/MM/AAAA": '24/01/2034',
           }),
         ).toMatchObject({
           garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
@@ -733,7 +733,7 @@ describe('parseProjectLine', () => {
             ...fakeLine,
             "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
               '2',
-            "Date d'échéance au format (AA/MM/JJJJ)": 'coucou',
+            "Date d'échéance au format JJ/MM/AAAA": 'coucou',
           }),
         ).toThrowError(
           `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
@@ -746,7 +746,7 @@ describe('parseProjectLine', () => {
             ...fakeLine,
             "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
               '2',
-            "Date d'échéance au format (AA/MM/JJJJ)": null,
+            "Date d'échéance au format JJ/MM/AAAA": null,
           }),
         ).toThrowError(
           `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
@@ -760,7 +760,7 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          "Date d'échéance au format (AA/MM/JJJJ)": '13/02/2021',
+          "Date d'échéance au format JJ/MM/AAAA": '13/02/2021',
           "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
             '3',
         }),
@@ -769,7 +769,7 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          "Date d'échéance au format (AA/MM/JJJJ)": '13/02/2021',
+          "Date d'échéance au format JJ/MM/AAAA": '13/02/2021',
           "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
             '1',
         }),

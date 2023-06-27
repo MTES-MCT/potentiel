@@ -38,7 +38,7 @@ const mappedColumns = [
   'Financement collectif (Oui/Non)',
   'Gouvernance partagée (Oui/Non)',
   "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
-  "Date d'échéance au format (AA/MM/JJJJ)",
+  "Date d'échéance au format JJ/MM/AAAA",
 ];
 
 const prepareNumber = (str) => str && str.replace(/,/g, '.');
@@ -189,7 +189,7 @@ const columnMapper = {
       : 'valeur incorrecte';
   },
   garantiesFinancièresDateEchéance: (line: any) => {
-    const dateEchéance = line["Date d'échéance au format (AA/MM/JJJJ)"];
+    const dateEchéance = line["Date d'échéance au format JJ/MM/AAAA"];
     const parsedDate = parse(dateEchéance, 'dd/MM/yyyy', new Date());
 
     if (isValid(parsedDate)) {

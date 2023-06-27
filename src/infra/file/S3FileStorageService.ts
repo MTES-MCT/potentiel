@@ -41,7 +41,7 @@ export const makeS3FileStorageService = (args: {
   bucket: string;
 }): FileStorageService => {
   const { accessKeyId, secretAccessKey, endpoint, bucket } = args;
-  const _client = new AWS.S3({ endpoint, accessKeyId, secretAccessKey });
+  const _client = new AWS.S3({ endpoint, accessKeyId, secretAccessKey, s3ForcePathStyle: true });
 
   return {
     upload({ contents, path: filePath }) {
