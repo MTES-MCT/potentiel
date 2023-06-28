@@ -27,6 +27,7 @@ import {
 import { Project } from '@infra/sequelize';
 import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '@views/pages/projectDetailsPage';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -76,21 +77,22 @@ v1Router.get(
 
       const projet = rawProjet.value;
 
-      let alertesRaccordement: Array<AlerteRaccordement> | undefined = undefined;
-
-      if (projet.isClasse && user.role === 'porteur-projet') {
-        alertesRaccordement = await getAlertesRaccordement({
-          identifiantProjet: {
-            appelOffre: projet.appelOffreId,
-            période: projet.periodeId,
-            famille: projet.familleId,
-            numéroCRE: projet.numeroCRE,
-          },
-          CDC2022Choisi:
-            projet.cahierDesChargesActuel.type === 'modifié' &&
-            projet.cahierDesChargesActuel.paruLe === '30/08/2022',
-        });
-      }
+      const alertesRaccordement = await getAlertesRaccordement({
+        userRole: user.role,
+        identifiantProjet: {
+          appelOffre: projet.appelOffreId,
+          période: projet.periodeId,
+          famille: projet.familleId,
+          numéroCRE: projet.numeroCRE,
+        },
+        CDC2022Choisi:
+          projet.cahierDesChargesActuel.type === 'modifié' &&
+          projet.cahierDesChargesActuel.paruLe === '30/08/2022',
+        projet: {
+          isClasse: projet.isClasse,
+          isAbandonned: projet.isAbandoned,
+        },
+      });
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
@@ -141,12 +143,23 @@ const getIdentifiantLegacyProjet = async (identifiantProjet: RawIdentifiantProje
 };
 
 const getAlertesRaccordement = async ({
+  userRole,
   identifiantProjet,
   CDC2022Choisi,
+  projet,
 }: {
+  userRole: UtilisateurReadModel['role'];
   identifiantProjet: IdentifiantProjet;
   CDC2022Choisi: boolean;
+  projet: {
+    isClasse: boolean;
+    isAbandonned: boolean;
+  };
 }) => {
+  if (userRole !== 'porteur-projet' || !projet.isClasse || projet.isAbandonned) {
+    return;
+  }
+
   let alertes: Array<AlerteRaccordement> = [];
 
   const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
