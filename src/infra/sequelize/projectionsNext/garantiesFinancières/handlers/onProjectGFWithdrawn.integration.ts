@@ -29,10 +29,10 @@ describe(`handler onProjectGFWithdrawn pour la projection garantiesFinancières`
     },
   });
 
-  it(`Etant donné un projet existant dans la projection garantiesFinancières,
-    Lorsqu'un événement ProjectGFWithdrawn est émis pour ce projet,
-    alors la ligne devrait être mise à jour avec le statut 'en attente' 
-    et les données du fichier envoyé devraient être retirées`, async () => {
+  it(`Etant donné un projet avec des garanties financières validées
+    Lorsqu'un événement ProjectGFWithdrawn est émis pour ce projet
+    Alors les garanties financières devraient être "en attente" 
+    Et les données des anciennes garanties financières devraient être retirées`, async () => {
     await GarantiesFinancières.create({
       id,
       projetId,
@@ -42,6 +42,8 @@ describe(`handler onProjectGFWithdrawn pour la projection garantiesFinancières`
       dateEchéance: dateExpiration,
       dateEnvoi: occurredAt,
       dateConstitution: gfDate,
+      validéesLe: occurredAt,
+      validéesPar: new UniqueEntityID().toString(),
       fichierId,
       dateLimiteEnvoi,
     });
@@ -60,6 +62,8 @@ describe(`handler onProjectGFWithdrawn pour la projection garantiesFinancières`
       dateEnvoi: null,
       dateConstitution: null,
       fichierId: null,
+      validéesLe: null,
+      validéesPar: null,
       dateLimiteEnvoi,
     });
   });

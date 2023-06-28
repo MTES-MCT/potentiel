@@ -29,19 +29,21 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
     },
   });
 
-  it(`Etant donné un projet existant dans la projection garantiesFinancières,
-    Lorsqu'un événement ProjectGFRemoved est émis pour ce projet,
-    alors la ligne devrait être mise à jour avec le statut 'en attente' 
-    et les données du fichier envoyé devraient être retirées`, async () => {
+  it(`Etant donné un projet avec des garanties financières validées
+    Lorsqu'un événement ProjectGFRemoved est émis pour ce projet
+    Alors les garanties financières devraient être "en attente" 
+    Et les données des anciennes garanties financières devraient être retirées`, async () => {
     await GarantiesFinancières.create({
       id,
       projetId,
-      statut: 'à traiter',
+      statut: 'validé',
       soumisesALaCandidature: false,
       envoyéesPar,
       dateEchéance: dateExpiration,
       dateEnvoi: occurredAt,
       dateConstitution: gfDate,
+      validéesLe: occurredAt,
+      validéesPar: new UniqueEntityID().toString(),
       fichierId,
       dateLimiteEnvoi,
     });
@@ -59,6 +61,8 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
       envoyéesPar: null,
       dateEnvoi: null,
       dateConstitution: null,
+      validéesLe: null,
+      validéesPar: null,
     });
   });
 });
