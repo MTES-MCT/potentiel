@@ -88,6 +88,10 @@ v1Router.get(
         CDC2022Choisi:
           projet.cahierDesChargesActuel.type === 'modifié' &&
           projet.cahierDesChargesActuel.paruLe === '30/08/2022',
+        projet: {
+          isClasse: projet.isClasse,
+          isAbandonned: projet.isAbandoned,
+        },
       });
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
@@ -139,15 +143,20 @@ const getIdentifiantLegacyProjet = async (identifiantProjet: RawIdentifiantProje
 };
 
 const getAlertesRaccordement = async ({
+  userRole,
   identifiantProjet,
   CDC2022Choisi,
-  userRole,
+  projet,
 }: {
+  userRole: UtilisateurReadModel['role'];
   identifiantProjet: IdentifiantProjet;
   CDC2022Choisi: boolean;
-  userRole: UtilisateurReadModel['role'];
+  projet: {
+    isClasse: boolean;
+    isAbandonned: boolean;
+  };
 }) => {
-  if (userRole !== 'porteur-projet') {
+  if (userRole !== 'porteur-projet' || !projet.isClasse || projet.isAbandonned) {
     return;
   }
 
