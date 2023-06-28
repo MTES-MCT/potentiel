@@ -13,12 +13,14 @@ import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 import {
   NoGFCertificateToDeleteError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
+  SuppressionGFATraiterImpossibleError,
   SuppressionGFValidéeImpossibleError,
 } from './errors';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeUser from '../../__tests__/fixtures/user';
 import { makeUser } from '@entities';
+import { USER_ROLES } from '@modules/users';
 
 const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
@@ -123,8 +125,9 @@ describe('Project.removeGarantiesFinancieres()', () => {
           expect(res.error).toBeInstanceOf(NoGFCertificateToDeleteError);
         });
       });
-      describe(`when user is 'porteur-projet' and the GF is validated`, () => {
-        it('should return a SuppressionGFValidéeImpossibleError', () => {
+      describe(`when the GF are validated`, () => {
+        it(`if the user is porteur 
+            it should return a SuppressionGFValidéeImpossibleError'`, () => {
           const porteur = OldUnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
           const project = UnwrapForTest(
             makeProject({
@@ -164,8 +167,45 @@ describe('Project.removeGarantiesFinancieres()', () => {
           expect(res.error).toBeInstanceOf(SuppressionGFValidéeImpossibleError);
         });
       });
+      describe(`when the GF are not validated`, () => {
+        for (const role of USER_ROLES.filter((role) =>
+          ['admin', 'dreal', 'dgec-validateur', 'cre'].includes(role),
+        )) {
+          it(`if user is ${role} 
+              it should return a SuppressionGFATraiterImpossibleError`, () => {
+            const user = OldUnwrapForTest(makeUser(makeFakeUser({ role })));
+            const project = UnwrapForTest(
+              makeProject({
+                projectId,
+                history: [
+                  ...fakeHistory,
+                  new ProjectGFSubmitted({
+                    payload: {
+                      projectId: projectId.toString(),
+                      submittedBy: 'user-id',
+                      fileId: 'id',
+                      gfDate: new Date('2022-01-01'),
+                    },
+                    original: {
+                      occurredAt: new Date(123),
+                      version: 1,
+                    },
+                  }),
+                ],
+                getProjectAppelOffre,
+                buildProjectIdentifier: () => '',
+              }),
+            );
+            const res = project.removeGarantiesFinancieres(user);
+            expect(res.isErr()).toEqual(true);
+            if (res.isOk()) return;
+            expect(res.error).toBeInstanceOf(SuppressionGFATraiterImpossibleError);
+          });
+        }
+      });
       describe('when a GF has been submitted on Potentiel', () => {
         it('should emit a ProjectGFRemoved event', () => {
+          const porteur = OldUnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
           const project = UnwrapForTest(
             makeProject({
               projectId,
@@ -188,7 +228,7 @@ describe('Project.removeGarantiesFinancieres()', () => {
               buildProjectIdentifier: () => '',
             }),
           );
-          project.removeGarantiesFinancieres(fakeUser);
+          project.removeGarantiesFinancieres(porteur);
 
           expect(project.pendingEvents).toHaveLength(1);
 
@@ -197,7 +237,7 @@ describe('Project.removeGarantiesFinancieres()', () => {
 
           expect(targetEvent.type).toEqual(ProjectGFRemoved.type);
           expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-          expect(targetEvent.payload.removedBy).toEqual(fakeUser.id);
+          expect(targetEvent.payload.removedBy).toEqual(porteur.id);
         });
       });
     });

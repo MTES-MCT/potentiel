@@ -42,6 +42,7 @@ import {
   ChangementProducteurImpossiblePourEolienError,
   SuppressionGFValidéeImpossibleError,
   GFImpossibleASoumettreError,
+  SuppressionGFATraiterImpossibleError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
@@ -884,6 +885,9 @@ export const makeProject = (args: {
       }
       if (props.GFValidées && removedBy.role === 'porteur-projet') {
         return err(new SuppressionGFValidéeImpossibleError());
+      }
+      if (!props.GFValidées && !['porteur-projet', 'caisse-des-dépôts'].includes(removedBy.role)) {
+        return err(new SuppressionGFATraiterImpossibleError());
       }
       _publishEvent(
         new ProjectGFRemoved({
