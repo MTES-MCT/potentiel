@@ -37,6 +37,8 @@ export const onProjectGFRemoved: EventHandler<ProjectGFRemoved> = async (
         dateEnvoi: null,
         envoyéesPar: null,
         dateConstitution: null,
+        validéesLe: null,
+        validéesPar: null,
         statut: 'en attente',
       },
       { where: { projetId, id: entréeExistante.id }, transaction },
