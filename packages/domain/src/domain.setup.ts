@@ -14,17 +14,22 @@ export type DomainDependencies = {
 
 export type UnsetupDomain = () => Promise<void>;
 
-export const setupDomain = ({ common, raccordement }: DomainDependencies): UnsetupDomain => {
-  const unsubscribes = [
-    ...setupGestionnaireRéseau(common),
-    ...setupProjet(common),
-    ...setupRaccordement({
-      ...common,
-      ...raccordement,
-    }),
-  ];
+export const setupDomain = async ({
+  common,
+  raccordement,
+}: DomainDependencies): Promise<UnsetupDomain> => {
+  setupRaccordement({
+    ...common,
+    ...raccordement,
+  });
+
+  setupGestionnaireRéseau(common);
+
+  const unsubscribeProjet = await setupProjet(common);
 
   return async () => {
+    const unsubscribes = [...unsubscribeProjet];
+
     for (const unsubscribe of unsubscribes) {
       await unsubscribe();
     }

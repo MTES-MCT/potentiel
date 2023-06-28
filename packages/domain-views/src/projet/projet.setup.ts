@@ -15,7 +15,7 @@ import {
 type ProjetDependencies = { subscribe: Subscribe } & ConsulterProjetDependencies &
   ProjetProjectorDependencies;
 
-export const setupProjetViews = (dependencies: ProjetDependencies) => {
+export const setupProjetViews = async (dependencies: ProjetDependencies) => {
   // Queries
   registerConsulterProjetQuery(dependencies);
 
@@ -25,7 +25,7 @@ export const setupProjetViews = (dependencies: ProjetDependencies) => {
   // Subscribes
   const { subscribe } = dependencies;
   return [
-    subscribe<ProjetEvent>(
+    await subscribe<ProjetEvent>(
       ['GestionnaireRéseauProjetDéclaré', 'GestionnaireRéseauProjetModifié'],
       async (event: ProjetEvent) => {
         await mediator.publish<ExecuteProjetProjector>({

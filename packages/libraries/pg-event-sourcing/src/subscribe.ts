@@ -52,16 +52,16 @@ class EventStreamEmitter extends EventEmitter {
 
 let eventStreamEmitter: EventStreamEmitter;
 
-export const subscribe = <TDomainEvent extends DomainEvent = Event>(
+export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   eventType: TDomainEvent['type'] | ReadonlyArray<TDomainEvent['type']> | 'all',
   eventHandler: DomainEventHandler<TDomainEvent>,
-): Unsubscribe => {
+): Promise<Unsubscribe> => {
   if (!eventStreamEmitter) {
     eventStreamEmitter = new EventStreamEmitter();
     eventStreamEmitter.setMaxListeners(50);
   }
 
-  return eventStreamEmitter.subscribe(eventType, eventHandler);
+  return Promise.resolve(eventStreamEmitter.subscribe(eventType, eventHandler));
 };
 
 export const listenToNewEvent = (eventEmitter: EventEmitter) => {

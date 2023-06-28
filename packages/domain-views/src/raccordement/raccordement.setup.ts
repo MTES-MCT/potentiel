@@ -39,7 +39,7 @@ export type RaccordementDependencies = {
   subscribe: Subscribe;
 } & RaccordementQueryDependencies;
 
-export const setupRaccordementViews = (dependencies: RaccordementDependencies) => {
+export const setupRaccordementViews = async (dependencies: RaccordementDependencies) => {
   // Queries
   registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery(dependencies);
   registerConsulterDossierRaccordementQuery(dependencies);
@@ -54,7 +54,7 @@ export const setupRaccordementViews = (dependencies: RaccordementDependencies) =
   const { subscribe } = dependencies;
 
   return [
-    subscribe<RaccordementEvent>(
+    await subscribe<RaccordementEvent>(
       [
         'AccuséRéceptionDemandeComplèteRaccordementTransmis',
         'DateMiseEnServiceTransmise',

@@ -5,10 +5,23 @@ import {
   After,
   BeforeAll,
   setDefaultTimeout,
+  AfterAll,
 } from '@cucumber/cucumber';
-import { UnsetupDomain, setupDomain } from '@potentiel/domain';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
+import { should } from 'chai';
+import { PotentielWorld } from './potentiel.world';
+import { sleep } from './helpers/sleep';
+import { getClient } from '@potentiel/file-storage';
+import { clear } from 'mediateur';
+import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
+import { disconnectRedis } from '@potentiel/redis-event-bus-consumer';
+import { UnsetupDomain, setupDomain } from '@potentiel/domain';
+import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
+import {
+  téléverserFichierDossierRaccordementAdapter,
+  téléchargerFichierDossierRaccordementAdapter,
+} from '@potentiel/infra-adapters';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -17,17 +30,6 @@ import {
   searchProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
-import { should } from 'chai';
-import { PotentielWorld } from './potentiel.world';
-import { sleep } from './helpers/sleep';
-import { getClient } from '@potentiel/file-storage';
-import {
-  téléchargerFichierDossierRaccordementAdapter,
-  téléverserFichierDossierRaccordementAdapter,
-} from '@potentiel/infra-adapters';
-import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
-import { clear } from 'mediateur';
-import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
 
 should();
 
@@ -62,7 +64,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetupDomain = setupDomain({
+  unsetupDomain = await setupDomain({
     common: {
       loadAggregate,
       publish,
@@ -76,7 +78,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     },
   });
 
-  unsetupDomainViews = setupDomainViews({
+  unsetupDomainViews = await setupDomainViews({
     common: {
       create: createProjection,
       find: findProjection,
@@ -127,4 +129,8 @@ After(async () => {
     await unsetupDomainViews();
   }
   unsetupDomainViews = undefined;
+});
+
+AfterAll(() => {
+  disconnectRedis();
 });

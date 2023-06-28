@@ -22,7 +22,7 @@ describe(`subscribe`, () => {
 
     // Arrange
     const domainEventHandler: DomainEventHandler<Event> = jest.fn(() => Promise.resolve());
-    const unsubscribe = subscribe(eventType, domainEventHandler);
+    const unsubscribe = await subscribe(eventType, domainEventHandler);
 
     const client = new Client(getConnectionString());
     await client.connect();

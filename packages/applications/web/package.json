@@ -13,8 +13,7 @@
     "@potentiel/infra-adapters": "*",
     "@potentiel/pg-event-sourcing": "*",
     "@potentiel/pg-projections": "*",
-    "@potentiel/redis-event-bus-client": "*",
-    "@potentiel/redis-event-bus-consumer": "*"
+    "@potentiel/redis-event-bus-client": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

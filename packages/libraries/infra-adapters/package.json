@@ -12,7 +12,9 @@
     "@potentiel/monads": "*",
     "@potentiel/domain": "*",
     "@potentiel/domain-views": "*",
-    "@potentiel/file-storage": "*"
+    "@potentiel/file-storage": "*",
+    "@potentiel/monitoring": "*",
+    "@potentiel/redis-event-bus-consumer": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

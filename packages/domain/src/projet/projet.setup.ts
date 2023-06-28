@@ -16,7 +16,7 @@ export type ProjetDependencies = {
   subscribe: Subscribe;
 } & ModifierGestionnaireRéseauProjetDependencies;
 
-export const setupProjet = (dependencies: ProjetDependencies) => {
+export const setupProjet = async (dependencies: ProjetDependencies) => {
   // Commands
   registerModifierGestionnaireRéseauProjetCommand(dependencies);
   registerDéclarerGestionnaireRéseauProjetCommand(dependencies);
@@ -31,7 +31,7 @@ export const setupProjet = (dependencies: ProjetDependencies) => {
   const { subscribe } = dependencies;
 
   return [
-    subscribe<DemandeComplèteRaccordementTransmiseEvent>(
+    await subscribe<DemandeComplèteRaccordementTransmiseEvent>(
       ['DemandeComplèteDeRaccordementTransmise'],
       async (event: DemandeComplèteRaccordementTransmiseEvent) => {
         await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({

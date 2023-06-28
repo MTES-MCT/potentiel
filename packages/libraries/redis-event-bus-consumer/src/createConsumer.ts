@@ -1,26 +1,19 @@
 import { Redis } from 'ioredis';
 import { getRedis } from './getRedis';
+import { Consumer } from './consumer';
+import { RedisEventHandler, RedisEvent } from './redisEvent';
+import { getLogger } from '@potentiel/monitoring';
 
-export type Event<TType extends string = string, TPayload extends Record<string, unknown> = {}> = {
-  type: TType;
-  payload: TPayload;
-};
-
-type EventHandler<TEvent extends Event = Event> = (event: TEvent) => Promise<void>;
-
-export type Consumer = {
-  name: string;
-  consume: <TEvent extends Event>(type: TEvent['type'], handler: EventHandler<TEvent>) => void;
-};
-
-export const consumerFactory = async (name: string): Promise<Consumer> => {
+export const createConsumer = async (name: string): Promise<Consumer> => {
+  const logger = getLogger();
+  let isConsuming = false;
   const streamName = process.env.REDIS_EVENT_BUS_STREAM_NAME || '';
 
   const redis = await getRedis();
   const groupName = await createConsumerGroup(redis, streamName, name);
 
-  const handlers: Map<Event['type'], EventHandler> = new Map();
-  const consumerRedisClient = redis.duplicate();
+  const handlers: Map<Event['type'], RedisEventHandler> = new Map();
+  let consumerRedisClient: Redis;
 
   const listenForMessage = async () => {
     const message = await getNextMessageToHandle(consumerRedisClient, streamName, groupName, name);
@@ -33,26 +26,49 @@ export const consumerFactory = async (name: string): Promise<Consumer> => {
         try {
           await handler(JSON.parse(eventPayload));
         } catch (error) {
-          // TODO log
-
+          logger.error(error as Error);
           await consumerRedisClient.xadd(`${name}-DLQ`, '*', messageValue);
         }
       }
 
       const [messageId] = message;
       await consumerRedisClient.xack(streamName, groupName, messageId);
-
-      listenForMessage();
+      if (isConsuming) {
+        listenForMessage();
+      } else {
+        consumerRedisClient.disconnect();
+      }
     }
   };
 
-  listenForMessage();
-
-  const consume = <TEvent extends Event>(type: TEvent['type'], handler: EventHandler<TEvent>) => {
-    handlers.set(type, handler as EventHandler);
+  const consume = <TEvent extends RedisEvent>(
+    eventType: TEvent['type'],
+    handler: RedisEventHandler<TEvent>,
+  ) => {
+    if (!isConsuming) {
+      isConsuming = true;
+      consumerRedisClient = redis.duplicate();
+      listenForMessage();
+    }
+    handlers.set(eventType, handler as RedisEventHandler);
   };
 
-  return { name, consume };
+  const remove = <TEvent extends RedisEvent>(eventType: TEvent['type']) => {
+    handlers.delete(eventType);
+  };
+
+  const kill = () => {
+    isConsuming = false;
+    handlers.clear();
+  };
+
+  return {
+    consume,
+    getName: () => name,
+    getSize: () => handlers.size,
+    remove,
+    kill,
+  };
 };
 
 const createConsumerGroup = async (redis: Redis, streamName: string, consumerName: string) => {

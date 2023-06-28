@@ -22,7 +22,9 @@ type GestionnaireRéseauDependencies = {
   ListerGestionnaireRéseauDependencies &
   GestionnaireRéseauProjectorDependencies;
 
-export const setupGestionnaireRéseauViews = (dependencies: GestionnaireRéseauDependencies) => {
+export const setupGestionnaireRéseauViews = async (
+  dependencies: GestionnaireRéseauDependencies,
+) => {
   // Query
   registerConsulterGestionnaireRéseauQuery(dependencies);
   registerListerGestionnaireRéseauQuery(dependencies);
@@ -33,7 +35,7 @@ export const setupGestionnaireRéseauViews = (dependencies: GestionnaireRéseauD
   // Subscribes
   const { subscribe } = dependencies;
   return [
-    subscribe<GestionnaireRéseauEvent>(
+    await subscribe<GestionnaireRéseauEvent>(
       ['GestionnaireRéseauAjouté', 'GestionnaireRéseauModifié'],
       async (event: GestionnaireRéseauEvent) => {
         await mediator.publish<ExecuteGestionnaireRéseauProjector>({
