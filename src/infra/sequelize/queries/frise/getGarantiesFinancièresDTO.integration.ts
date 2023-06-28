@@ -13,7 +13,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
 
   beforeEach(async () => await resetDatabase());
 
-  describe(`Ne rien retourner si l'utlisateur n'a pas les droits`, () => {
+  describe(`Rôles utilisateurs n'ayant pas les droits sur les garanties financières`, () => {
     for (const role of USER_ROLES.filter(
       (role) =>
         ![
@@ -25,9 +25,9 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           'cre',
         ].includes(role),
     )) {
-      it(`Etant donné un projet soumis à garanties financières,
-  si l'utlisateur a le rôle ${role},
-  alors il n'a pas accès aux données`, async () => {
+      it(`Etant donné un projet soumis à garanties financières
+          Si l'utlisateur a le rôle ${role},
+          Alors il n'a pas accès aux données`, async () => {
         const garantiesFinancières = {
           statut: 'en attente',
           soumisesALaCandidature: false,
@@ -49,13 +49,12 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
     }
   });
 
-  describe(`Si le rôle a le droit de visualiser les GF`, () => {
+  describe(`Rôles utilisateurs ayant les droits sur les garanties financières`, () => {
     const utilisateurAutorisé = { role: 'admin' } as User;
     describe(`Retourner les données de GF en retard`, () => {
-      it(`Etant donné un projet soumis à garanties financières,
-  et dont les GF sont en attente avec une date limite d'envoi dépassée,
-  alors la requête devrait retourner un GarantiesFinancièresDTO 
-  avec un statut 'en retard'`, async () => {
+      it(`Etant donné un projet soumis à garanties financières
+          Et dont les GF sont en attente avec une date limite d'envoi dépassée
+          Alors un GarantiesFinancièresDTO devrait être retourné avec un statut 'en retard'`, async () => {
         const dateLimiteDépassée = new Date('2021-01-01');
         const garantiesFinancières = {
           statut: 'en attente',
@@ -83,10 +82,9 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
     });
 
     describe(`Retourner les données de GF en attente`, () => {
-      it(`Etant donné un projet soumis à garanties financières,
-  et dont les GF sont en attente,
-  alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
-  avec un statut 'en attente'`, async () => {
+      it(`Etant donné un projet soumis à garanties financières
+          Et dont les GF sont en attente
+          Alors un GarantiesFinancièresDTO devrait être retourné avec la statut 'en attente'`, async () => {
         const garantiesFinancières = {
           statut: 'en attente',
           soumisesALaCandidature: false,
@@ -145,10 +143,9 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
     });
 
     describe(`Retourner les données de GF à traiter`, () => {
-      it(`Etant donné un projet soumis à garanties financières,
-  et dont les GF ne sont 'à traiter',
-  alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
-  avec un statut 'à traiter' et les données des GF soumises`, async () => {
+      it(`Etant donné un projet soumis à garanties financières
+          Et dont les GF ne sont 'à traiter'
+          Alors un GarantiesFinancièresDTO devrait être retourné avec un statut 'à traiter' et les données des GF soumises`, async () => {
         const garantiesFinancières = {
           statut: 'à traiter',
           soumisesALaCandidature: false,
@@ -180,45 +177,50 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
     });
 
     describe(`Retourner les données de GF validées`, () => {
-      it(`Etant donné un projet soumis à garanties financières,
-  et dont les GF sont validées par un utilisateur dans Potentiel,
-  alors la requête getGFItemProps devrait retourner les données des GF 
-  sous forme d'un GarantiesFinancièresDTO avec un statut 'validé'`, async () => {
-        const garantiesFinancières = {
-          statut: 'validé',
-          soumisesALaCandidature: false,
-          dateLimiteEnvoi,
-          envoyéesPar,
-          dateConstitution,
-          dateEchéance,
-          validéesPar: new UniqueEntityID().toString(),
-          fichier: { id: fichierId, filename: 'nom-fichier' },
-          envoyéesParRef: { role: 'admin' as 'admin' },
-          type: null,
-        } as const;
+      for (const role of USER_ROLES.filter((role) =>
+        ['admin', 'dreal', 'dgec-validateur', 'cre', 'caisse-des-dépôts'].includes(role),
+      )) {
+        it(`Etant donné un projet soumis à garanties financières
+          Et dont les GF sont validées
+          Si l'utilisateur est ${role}
+          Alors un GarantiesFinancièresDTO devrait être retourné avec un statut 'validé' et retraitDépôtPossible à "true"`, async () => {
+          const user = { role } as User;
+          const garantiesFinancières = {
+            statut: 'validé',
+            soumisesALaCandidature: false,
+            dateLimiteEnvoi,
+            envoyéesPar,
+            dateConstitution,
+            dateEchéance,
+            validéesPar: null,
+            fichier: { id: fichierId, filename: 'nom-fichier' },
+            envoyéesParRef: { role: 'admin' as 'admin' },
+            type: null,
+          } as const;
 
-        const résultat = await getGarantiesFinancièresDTO({
-          garantiesFinancières,
-          user: utilisateurAutorisé,
+          const résultat = await getGarantiesFinancièresDTO({
+            garantiesFinancières,
+            user,
+          });
+
+          expect(résultat).toEqual({
+            type: 'garanties-financières',
+            statut: 'validé',
+            date: dateConstitution.getTime(),
+            variant: role,
+            url: expect.anything(),
+            envoyéesPar: 'admin',
+            dateEchéance: dateEchéance.getTime(),
+            retraitDépôtPossible: true,
+          });
         });
+      }
 
-        expect(résultat).toEqual({
-          type: 'garanties-financières',
-          statut: 'validé',
-          date: dateConstitution.getTime(),
-          variant: 'admin',
-          url: expect.anything(),
-          envoyéesPar: 'admin',
-          dateEchéance: dateEchéance.getTime(),
-        });
-      });
-    });
-
-    describe(`Retourner les données de GF validées et supprimables`, () => {
-      it(`Etant donné un projet soumis à garanties financières,
-  et dont les GF sont validées à la candidature et non dans Potentiel,
-  alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
-  avec un statut 'validé'et retraitDépôtPossible à "true"`, async () => {
+      it(`Etant donné un projet soumis à garanties financières
+          Et dont les GF sont validées
+          Si l'utilisateur est porteur de projet
+          Alors un GarantiesFinancièresDTO devrait être retourné avec un statut 'validé' sans 'retraitDépôtPossible'`, async () => {
+        const user = { role: 'porteur-projet' } as User;
         const garantiesFinancières = {
           statut: 'validé',
           soumisesALaCandidature: false,
@@ -234,18 +236,17 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
-          user: utilisateurAutorisé,
+          user,
         });
 
         expect(résultat).toEqual({
           type: 'garanties-financières',
           statut: 'validé',
           date: dateConstitution.getTime(),
-          variant: 'admin',
+          variant: 'porteur-projet',
           url: expect.anything(),
           envoyéesPar: 'admin',
           dateEchéance: dateEchéance.getTime(),
-          retraitDépôtPossible: true,
         });
       });
     });
