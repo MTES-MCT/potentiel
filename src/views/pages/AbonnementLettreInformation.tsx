@@ -9,7 +9,7 @@ import {
   Container,
   SecondaryLinkButton,
   Form,
-} from '../components';
+} from '@components';
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine';
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
 import { hydrateOnClient } from '../helpers';
@@ -40,7 +40,7 @@ export const AbonnementLettreInformation = ({
       </section>
     </main>
 
-    <Footer />
+    <Footer user={user} />
   </>
 );
 

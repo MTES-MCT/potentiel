@@ -22,7 +22,7 @@ export const LegacyPageTemplate = ({
       >
         <div className="border border-solid border-[#c9d3df] rounded-[3px] p-6">{children}</div>
       </main>
-      <Footer />
+      <Footer user={user} />
     </App>
   );
 };
