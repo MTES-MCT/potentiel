@@ -34,7 +34,7 @@ export const Home = (props: HomeProps) => {
         <InscriptionConnexion {...{ user }} />
         <Benefices />
       </main>
-      <Footer />
+      <Footer user={user} />
     </App>
   );
 };

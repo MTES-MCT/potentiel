@@ -21,7 +21,7 @@ export const PageTemplate = ({ user, children, currentPage, contentHeader }: Pag
 
         <Container className="py-3 mb-4">{children}</Container>
       </main>
-      <Footer />
+      <Footer user={user} />
     </App>
   );
 };
