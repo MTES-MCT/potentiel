@@ -134,12 +134,7 @@ export type GarantiesFinancièresDTO = {
 } & (
   | { statut: 'en attente' | 'en retard' }
   | {
-      statut: 'à traiter';
-      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin';
-      url: string;
-    }
-  | {
-      statut: 'validé';
+      statut: 'validé' | 'à traiter';
       envoyéesPar: 'porteur-projet' | 'dreal' | 'admin';
       url: string;
       retraitDépôtPossible?: true;

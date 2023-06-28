@@ -143,37 +143,88 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
     });
 
     describe(`Retourner les données de GF à traiter`, () => {
-      it(`Etant donné un projet soumis à garanties financières
-          Et dont les GF ne sont 'à traiter'
-          Alors un GarantiesFinancièresDTO devrait être retourné avec un statut 'à traiter' et les données des GF soumises`, async () => {
-        const garantiesFinancières = {
-          statut: 'à traiter',
-          soumisesALaCandidature: false,
-          dateLimiteEnvoi,
-          envoyéesPar,
-          dateConstitution,
-          dateEchéance,
-          validéesPar: null,
-          fichier: { id: fichierId, filename: 'nom-fichier' },
-          envoyéesParRef: { role: 'porteur-projet' as 'porteur-projet' },
-          type: null,
-        } as const;
+      for (const role of USER_ROLES.filter((role) =>
+        ['porteur-projet', 'caisse-des-dépôts'].includes(role),
+      )) {
+        it(`Etant donné un projet soumis à garanties financières
+            Et dont les GF ne sont 'à traiter'
+            Si l'utilisateur est ${role}
+            Alors un GarantiesFinancièresDTO devrait être retourné avec : 
+              - un statut 'à traiter' 
+              - retrait de dépôt possible
+              - et les données des GF soumises`, async () => {
+          const user = { role } as User;
+          const garantiesFinancières = {
+            statut: 'à traiter',
+            soumisesALaCandidature: false,
+            dateLimiteEnvoi,
+            envoyéesPar,
+            dateConstitution,
+            dateEchéance,
+            validéesPar: null,
+            fichier: { id: fichierId, filename: 'nom-fichier' },
+            envoyéesParRef: { role: 'porteur-projet' as 'porteur-projet' },
+            type: null,
+          } as const;
 
-        const résultat = await getGarantiesFinancièresDTO({
-          garantiesFinancières,
-          user: utilisateurAutorisé,
-        });
+          const résultat = await getGarantiesFinancièresDTO({
+            garantiesFinancières,
+            user,
+          });
 
-        expect(résultat).toEqual({
-          type: 'garanties-financières',
-          statut: 'à traiter',
-          date: dateConstitution.getTime(),
-          variant: 'admin',
-          url: expect.anything(),
-          envoyéesPar: 'porteur-projet',
-          dateEchéance: dateEchéance.getTime(),
+          expect(résultat).toEqual({
+            type: 'garanties-financières',
+            statut: 'à traiter',
+            date: dateConstitution.getTime(),
+            variant: role,
+            url: expect.anything(),
+            envoyéesPar: 'porteur-projet',
+            dateEchéance: dateEchéance.getTime(),
+            retraitDépôtPossible: true,
+          });
         });
-      });
+      }
+
+      for (const role of USER_ROLES.filter((role) =>
+        ['admin', 'dreal', 'cre', 'dgec-validateur'].includes(role),
+      )) {
+        it(`Etant donné un projet soumis à garanties financières
+            Et dont les GF ne sont 'à traiter'
+            Si l'utilisateur est ${role}
+            Alors un GarantiesFinancièresDTO devrait être retourné avec : 
+              - un statut 'à traiter' 
+              - SANS retrait de dépôt possible
+              - et les données des GF soumises`, async () => {
+          const user = { role } as User;
+          const garantiesFinancières = {
+            statut: 'à traiter',
+            soumisesALaCandidature: false,
+            dateLimiteEnvoi,
+            envoyéesPar,
+            dateConstitution,
+            dateEchéance,
+            validéesPar: null,
+            fichier: { id: fichierId, filename: 'nom-fichier' },
+            envoyéesParRef: { role: 'porteur-projet' as 'porteur-projet' },
+            type: null,
+          } as const;
+
+          const résultat = await getGarantiesFinancièresDTO({
+            garantiesFinancières,
+            user,
+          });
+
+          expect(résultat).toEqual({
+            type: 'garanties-financières',
+            statut: 'à traiter',
+            date: dateConstitution.getTime(),
+            variant: role,
+            url: expect.anything(),
+            envoyéesPar: 'porteur-projet',
+            dateEchéance: dateEchéance.getTime(),
+          });
+        });
+      }
     });
 
     describe(`Retourner les données de GF validées`, () => {

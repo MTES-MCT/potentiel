@@ -221,8 +221,8 @@ const ATraiter = ({
   project,
   dateEchéance,
   typeGarantiesFinancières,
+  retraitDépôtPossible,
 }: ATraiterProps) => {
-  const utilisateurPeutAnnulerDépôt = ['porteur-projet', 'caisse-des-dépôts'].includes(variant);
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
   const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
 
@@ -259,7 +259,7 @@ const ATraiter = ({
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {utilisateurPeutAnnulerDépôt && <AnnulerDépôt projetId={project.id} />}
+        {retraitDépôtPossible && <AnnulerDépôt projetId={project.id} />}
       </ContentArea>
     </>
   );

@@ -55,6 +55,10 @@ export const getGarantiesFinancièresDTO = async ({
         ['admin', 'dreal', 'dgec-validateur', 'cre', 'caisse-des-dépôts'].includes(user.role) && {
           retraitDépôtPossible: true,
         }),
+      ...(statut === 'à traiter' &&
+        ['porteur-projet', 'caisse-des-dépôts'].includes(user.role) && {
+          retraitDépôtPossible: true,
+        }),
     };
   }
 
