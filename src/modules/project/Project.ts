@@ -882,7 +882,7 @@ export const makeProject = (args: {
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToDeleteError());
       }
-      if (props.GFValidées) {
+      if (props.GFValidées && removedBy.role === 'porteur-projet') {
         return err(new SuppressionGFValidéeImpossibleError());
       }
       _publishEvent(
@@ -901,6 +901,9 @@ export const makeProject = (args: {
       }
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToDeleteError());
+      }
+      if (props.GFValidées && removedBy.role === 'porteur-projet') {
+        return err(new SuppressionGFValidéeImpossibleError());
       }
       _publishEvent(
         new ProjectGFWithdrawn({
@@ -1303,12 +1306,19 @@ export const makeProject = (args: {
 
         break;
       case ProjectGFSubmitted.type:
-      case ProjectGFUploaded.type:
         props.hasCurrentGf = true;
         if (event.payload.expirationDate) {
           props.GFExpirationDate = event.payload.expirationDate;
         }
         break;
+      case ProjectGFUploaded.type:
+        props.hasCurrentGf = true;
+        if (event.payload.expirationDate) {
+          props.GFExpirationDate = event.payload.expirationDate;
+        }
+        props.GFValidées = true;
+        break;
+
       case ProjectGFRemoved.type:
       case ProjectGFWithdrawn.type:
         props.hasCurrentGf = false;
