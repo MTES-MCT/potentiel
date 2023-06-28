@@ -16,12 +16,27 @@ import {
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerPool } from '@potentiel/redis-event-bus-consumer';
+import { Message, mediator } from 'mediateur';
+import { getLogger } from '@potentiel/monitoring';
+import { randomUUID } from 'crypto';
 
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (legacy: {
   projectRepository: LegacyProjectRepository;
 }): Promise<UnsetupApp> => {
+  mediator.use<Message>({
+    middlewares: [
+      async (message, next) => {
+        const correlationId = randomUUID();
+        getLogger().info('Executing message', { message: JSON.stringify(message), correlationId });
+        const result = await next();
+        getLogger().info('Message executed', { result: JSON.stringify(result), correlationId });
+        return result;
+      },
+    ],
+  });
+
   const unsetupDomain = await setupDomain({
     common: {
       loadAggregate,
