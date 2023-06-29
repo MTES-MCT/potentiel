@@ -77,7 +77,7 @@
     "@json2csv/plainjs": "^6.1.2",
     "@keycloak/keycloak-admin-client": "^18.0.2",
     "@react-icons/all-files": "^4.1.0",
-    "@react-pdf/renderer": "^3.0.2",
+    "@react-pdf/renderer": "^3.1.11",
     "@sentry/node": "^7.28.1",
     "@types/mime-types": "^2.1.1",
     "aws-sdk": "^2.1393.0",
