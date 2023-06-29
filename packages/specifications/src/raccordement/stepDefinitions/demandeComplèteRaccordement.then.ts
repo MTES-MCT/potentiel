@@ -7,6 +7,12 @@ import {
   ListerDossiersRaccordementQuery,
 } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
+import {
+  convertirEnIdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+  loadRaccordementAggregateFactory,
+} from '@potentiel/domain';
+import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableToString } from '../../helpers/convertReadableToString';
 
@@ -15,6 +21,20 @@ Alors(
   async function (this: PotentielWorld, référenceDossierRaccordement: string, nomProjet: string) {
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
+    // Assert on aggregate
+    const actualRaccordementAggregate = await loadRaccordementAggregateFactory({ loadAggregate })(
+      convertirEnIdentifiantProjet(identifiantProjet),
+    );
+
+    if (isNone(actualRaccordementAggregate)) {
+      throw new Error(`L'agrégat raccordement n'existe pas !`);
+    }
+
+    actualRaccordementAggregate.contientLeDossier(
+      convertirEnRéférenceDossierRaccordement(référenceDossierRaccordement),
+    ).should.be.true;
+
+    // Assert on read model
     const actual = await mediator.send<ListerDossiersRaccordementQuery>({
       type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
@@ -31,6 +51,27 @@ Alors(
   async function (this: PotentielWorld, référenceDossierRaccordement: string, nomProjet: string) {
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
+    // Assert on aggregate
+    const actualRaccordementAggregate = await loadRaccordementAggregateFactory({ loadAggregate })(
+      convertirEnIdentifiantProjet(identifiantProjet),
+    );
+
+    if (isNone(actualRaccordementAggregate)) {
+      throw new Error(`L'agrégat raccordement n'existe pas !`);
+    }
+
+    const actualDemandeComplèteRaccordement = actualRaccordementAggregate.dossiers.get(
+      référenceDossierRaccordement,
+    )?.demandeComplèteRaccordement;
+    if (!actualDemandeComplèteRaccordement) {
+      throw new Error(`La demande complète de raccordement est introuvable !`);
+    }
+    actualDemandeComplèteRaccordement.should.deep.equal({
+      dateQualification: this.raccordementWorld.dateQualification.date,
+      format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+    });
+
+    // Assert on read model
     const actualDossierRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
       type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
@@ -83,6 +124,18 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, nombreDeDemandes: number) {
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
+    // Assert on aggregate
+    const actualRaccordementAggregate = await loadRaccordementAggregateFactory({ loadAggregate })(
+      convertirEnIdentifiantProjet(identifiantProjet),
+    );
+
+    if (isNone(actualRaccordementAggregate)) {
+      throw new Error(`L'agrégat raccordement n'existe pas !`);
+    }
+
+    actualRaccordementAggregate.dossiers.should.length(nombreDeDemandes);
+
+    // Assert on read model
     const actual = await mediator.send<ListerDossiersRaccordementQuery>({
       type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
