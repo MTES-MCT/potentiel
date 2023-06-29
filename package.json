@@ -80,7 +80,7 @@
     "@react-pdf/renderer": "^3.0.2",
     "@sentry/node": "^7.28.1",
     "@types/mime-types": "^2.1.1",
-    "aws-sdk": "^2.1354.0",
+    "aws-sdk": "^2.1393.0",
     "chalk": "^5.2.0",
     "concat-stream": "^2.0.0",
     "connect-ensure-login": "^0.1.1",
