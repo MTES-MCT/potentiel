@@ -72,7 +72,7 @@
   },
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "dependencies": {
-    "@headlessui/react": "^1.7.7",
+    "@headlessui/react": "^1.7.15",
     "@hqoss/monads": "^0.5.0",
     "@json2csv/plainjs": "^6.1.2",
     "@keycloak/keycloak-admin-client": "^18.0.2",
