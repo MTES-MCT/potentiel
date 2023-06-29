@@ -44,21 +44,63 @@ Quand(
 );
 
 Quand(
-  `le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} avec :`,
-  async function (this: PotentielWorld, raisonSociale: string, table: DataTable) {
+  `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string} avec( la même référence) :`,
+  async function (
+    this: PotentielWorld,
+    raisonSociale: string,
+    nomProjet: string,
+    table: DataTable,
+  ) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
     const exemple = table.rowsHash();
-    const dateQualification = exemple['La date de qualification'];
+
+    const dateQualification =
+      exemple['La date de qualification'] ?? demandeComplèteRaccordementParDéfaut.dateQualification;
     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
     const format = exemple[`Le format de l'accusé de réception`];
     const content = exemple[`Le contenu de l'accusé de réception`];
 
     await transmettreDemandeComplèteRaccordement(this, {
-      identifiantProjet: this.projetWorld.identifiantProjet,
+      identifiantProjet,
       raisonSociale,
       dateQualification,
       référenceDossierRaccordement,
       format,
       content,
+    });
+  },
+);
+
+Quand(
+  `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string} avec une date dans le futur`,
+  async function (this: PotentielWorld, raisonSociale: string, nomProjet: string) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const aujourdhui = new Date();
+    const dateFutur = new Date(
+      aujourdhui.getFullYear() + 1,
+      aujourdhui.getMonth(),
+      aujourdhui.getDay(),
+    );
+
+    await transmettreDemandeComplèteRaccordement(this, {
+      ...demandeComplèteRaccordementParDéfaut,
+      identifiantProjet,
+      raisonSociale,
+      dateQualification: dateFutur,
+    });
+  },
+);
+
+Quand(
+  `un porteur transmet une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+    await transmettreDemandeComplèteRaccordement(this, {
+      ...demandeComplèteRaccordementParDéfaut,
+      identifiantProjet,
+      raisonSociale: 'GESTIONNAIRE_NON_RÉFÉRENCÉ',
     });
   },
 );
@@ -85,8 +127,8 @@ const transmettreDemandeComplèteRaccordement = async (
   };
 
   const codeEIC =
-    raisonSociale === 'Inconnu'
-      ? 'Code EIC inconnu'
+    raisonSociale === 'GESTIONNAIRE_NON_RÉFÉRENCÉ'
+      ? raisonSociale
       : world.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale).codeEIC;
 
   world.raccordementWorld.dateQualification = dateQualificationValueType;

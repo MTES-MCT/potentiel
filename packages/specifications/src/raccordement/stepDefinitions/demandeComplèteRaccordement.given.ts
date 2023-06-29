@@ -75,10 +75,20 @@ EtantDonné(
 );
 
 EtantDonné(
-  'un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau {string} avec :',
-  async function (this: PotentielWorld, raisonSociale, table: DataTable) {
+  'une demande complète de raccordement transmise auprès du gestionnaire de réseau {string} pour le projet {string} avec :',
+  async function (
+    this: PotentielWorld,
+    raisonSociale: string,
+    nomProjet: string,
+    table: DataTable,
+  ) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
     const exemple = table.rowsHash();
-    const dateQualification = convertirEnDateTime(exemple['La date de qualification']);
+    const dateQualification = convertirEnDateTime(
+      exemple['La date de qualification'] ?? demandeComplèteRaccordementParDéfaut.dateQualification,
+    );
+
     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
     const format = exemple[`Le format de l'accusé de réception`];
     const content = exemple[`Le contenu de l'accusé de réception`];
@@ -101,7 +111,7 @@ EtantDonné(
     await mediator.send<DomainUseCase>({
       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
       data: {
-        identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
+        identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
           référenceDossierRaccordement,
