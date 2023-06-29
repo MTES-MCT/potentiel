@@ -94,10 +94,10 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
             <tbody>
               {users.map(({ user, dreals }, index) => (
                 <tr key={`user_${index}`}>
-                  <Td valign="top">
+                  <Td className="align-top">
                     {user.fullName} ({user.email})
                   </Td>
-                  <Td valign="top">{dreals.join(', ')}</Td>
+                  <Td className="align-top">{dreals.join(', ')}</Td>
                 </tr>
               ))}
             </tbody>

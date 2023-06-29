@@ -70,7 +70,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                     <Td>
                       {notification.createdAt ? afficherDateAvecHeure(notification.createdAt) : ''}
                     </Td>
-                    <Td valign="top" className="relative">
+                    <Td className="align-top relative">
                       {notification.error && (
                         <ErrorBox title="Echec de l‘envoi">
                           <div className="italic leading-normal text-xs">{notification.error}</div>

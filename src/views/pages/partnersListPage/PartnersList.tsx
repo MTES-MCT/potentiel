@@ -91,10 +91,10 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
             <tbody>
               {users.map(({ id, fullName, email, role }) => (
                 <tr key={`user_${id}`}>
-                  <Td valign="top">
+                  <Td className="align-top">
                     {fullName} ({email})
                   </Td>
-                  <Td valign="top">{role}</Td>
+                  <Td className="align-top">{role}</Td>
                 </tr>
               ))}
             </tbody>

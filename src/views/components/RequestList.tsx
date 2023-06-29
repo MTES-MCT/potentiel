@@ -98,7 +98,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
               modificationRequestItem;
             return (
               <tr key={`modificationRequest_${modificationRequest.id}`}>
-                <Td valign="top">
+                <Td className="align-top">
                   <div className="italic leading-normal text-xs">
                     {project.appelOffreId} Période {project.periodeId}
                   </div>
@@ -106,7 +106,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                     {project.familleId?.length ? `famille ${project.familleId}` : null}
                   </div>
                 </Td>
-                <Td valign="top">
+                <Td className="align-top">
                   <div>{project.nomProjet}</div>
                   <div className="italic leading-normal text-xs">
                     <span>{project.communeProjet}</span>, <span>{project.departementProjet}</span>,{' '}
@@ -123,7 +123,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                     </div>
                   </div>
                 </Td>
-                <Td valign="top">
+                <Td className="align-top">
                   <ModificationRequestActionTitles action={modificationRequest.type} />
                   <div className="italic leading-none text-xs">
                     {modificationRequest.description}
@@ -146,8 +146,9 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                   </div>
                 </Td>
                 <Td
-                  valign="top"
-                  className={`!border-x-[1px] border-solid ${status ? statusClass(status) : ''}`}
+                  className={`align-top !border-x-[1px] border-solid ${
+                    status ? statusClass(status) : ''
+                  }`}
                 >
                   {status ? ModificationRequestStatusTitle[status] : ''}
                 </Td>

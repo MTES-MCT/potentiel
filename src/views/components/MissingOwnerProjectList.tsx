@@ -31,7 +31,7 @@ type ColumnRenderer = (props: { project: Project; email: User['email'] }) => Rea
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
   Projet: ({ project }) => (
-    <Td valign="top" className="missingOwnerProjectList-projet-column">
+    <Td className="align-top missingOwnerProjectList-projet-column">
       <div>{project.nomProjet}</div>
       <div className="italic text-xs">
         <div>{project.departementProjet}</div>
@@ -43,7 +43,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     </Td>
   ),
   Candidat: ({ project }) => (
-    <Td valign="top" className="projectList-candidat-column">
+    <Td className="align-top projectList-candidat-column">
       <div>{project.nomCandidat}</div>
       <div className="italic text-xs">
         <span>{project.nomRepresentantLegal}</span> <span>{project.email}</span>
@@ -51,24 +51,24 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     </Td>
   ),
   Puissance: ({ project }) => (
-    <Td valign="top" className="projectList-puissance-column">
+    <Td className="align-top projectList-puissance-column">
       <span>{project.puissance}</span>{' '}
       <span className="italic text-xs">{project.appelOffre?.unitePuissance}</span>
     </Td>
   ),
   Region: ({ project }) => (
-    <Td valign="top" className="projectList-puissance-column">
+    <Td className="align-top projectList-puissance-column">
       <span>{project.regionProjet}</span>{' '}
     </Td>
   ),
   'Projet pre-affecte': ({ project, email }) => (
-    <Td valign="top" className="projectList-projet-pre-affecte-column">
+    <Td className="align-top projectList-projet-pre-affecte-column">
       <span>{project.email === email ? 'Oui' : 'Non'}</span>
     </Td>
   ),
   'N° CRE': ({ project, email }) =>
     email !== project.email ? (
-      <Td valign="top" className="projectList-numero-cre-column">
+      <Td className="align-top projectList-numero-cre-column">
         <Label htmlFor={`numeroCRE|${project.id}`} className="mb-1">
           Renseigner le numéro CRE
         </Label>
@@ -85,7 +85,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     ),
   Prix: ({ project, email }) =>
     email !== project.email ? (
-      <Td valign="top" className="projectList-prix-column">
+      <Td className="align-top projectList-prix-column">
         <Label htmlFor={`prix|${project.id}`} className="mb-1">
           Renseigner le prix (€/MWh)
         </Label>
@@ -103,7 +103,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     ),
   'Attestation de designation': ({ project, email }) =>
     email !== project.email ? (
-      <Td valign="top" className="projectList-attestation-designation-column">
+      <Td className="align-top projectList-attestation-designation-column">
         <Label htmlFor={`attestation-designation|${project.id}`} className="mb-1">
           Ajouter l'attestation de désignation
         </Label>
