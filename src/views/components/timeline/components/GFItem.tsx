@@ -411,9 +411,7 @@ const Validé = ({
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {retraitDépôtPossible && (
-          <RetirerDocument projetId={project.id} envoyéesPar={envoyéesPar} />
-        )}
+        {retraitDépôtPossible && <RetirerDocument projetId={project.id} />}
         {envoyéesPar === 'dreal' && (
           <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
         )}
@@ -427,9 +425,8 @@ const Validé = ({
 
 type RetirerDocumentProps = {
   projetId: string;
-  envoyéesPar?: 'porteur-projet' | 'dreal' | 'admin';
 };
-const RetirerDocument = ({ projetId, envoyéesPar }: RetirerDocumentProps) => (
+const RetirerDocument = ({ projetId }: RetirerDocumentProps) => (
   <p className="p-0 m-0">
     <Link
       href={ROUTES.WITHDRAW_GARANTIES_FINANCIERES({
