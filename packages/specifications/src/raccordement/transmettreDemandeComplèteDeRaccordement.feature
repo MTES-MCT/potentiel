@@ -25,6 +25,22 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-28 |
         Alors le projet devrait avoir 2 dossiers de raccordement pour ce gestionnaire de réseau
 
+    Scénario: Un porteur de projet peut transmettre une demande compléte de raccordemnent pour son nouveau gestionnaire de projet
+        Etant donné le gestionnaire de réseau "Arc Energies Maurienne"
+        Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Quand le porteur modifie le gestionnaire de réseau de son projet avec le gestionnaire "Arc Energies Maurienne"
+        Et le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Arc Energies Maurienne" avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000034                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-28 |
+        Alors le projet devrait avoir 2 dossiers de raccordement pour ce gestionnaire de réseau
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
+
     Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement ayant la même référence
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |

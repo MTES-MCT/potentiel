@@ -1,7 +1,26 @@
 import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { none } from '@potentiel/monads';
 
+type ProjetFixture = {
+  nom: string;
+  identifiantProjet: IdentifiantProjet;
+};
+
 export class ProjetWorld {
+  #projetFixtures: Map<string, ProjetFixture> = new Map();
+  get projetFixtures() {
+    return this.#projetFixtures;
+  }
+  rechercherProjetFixture(nomProjet: string): ProjetFixture {
+    const projet = this.#projetFixtures.get(nomProjet);
+
+    if (!projet) {
+      throw new Error(`Aucun projet correspondant à ${nomProjet} dans les jeux de données`);
+    }
+
+    return projet;
+  }
+
   #identifiantProjet: IdentifiantProjet;
 
   get identifiantProjet() {

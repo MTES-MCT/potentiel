@@ -23,7 +23,7 @@ const getDefaultAggregate = (): GestionnaireRéseau => ({
   estÉgaleÀ({ codeEIC }: GestionnaireRéseau) {
     return this.codeEIC === codeEIC;
   },
-  validerRéférenceDossierRaccordement({ référence }) {
+  validerRéférenceDossierRaccordement({}) {
     return true;
   },
 });
