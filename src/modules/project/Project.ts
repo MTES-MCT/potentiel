@@ -42,6 +42,7 @@ import {
   ChangementProducteurImpossiblePourEolienError,
   SuppressionGFValidéeImpossibleError,
   GFImpossibleASoumettreError,
+  SuppressionGFATraiterImpossibleError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
@@ -882,8 +883,11 @@ export const makeProject = (args: {
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToDeleteError());
       }
-      if (props.GFValidées) {
+      if (props.GFValidées && removedBy.role === 'porteur-projet') {
         return err(new SuppressionGFValidéeImpossibleError());
+      }
+      if (!props.GFValidées && !['porteur-projet', 'caisse-des-dépôts'].includes(removedBy.role)) {
+        return err(new SuppressionGFATraiterImpossibleError());
       }
       _publishEvent(
         new ProjectGFRemoved({
@@ -901,6 +905,9 @@ export const makeProject = (args: {
       }
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToDeleteError());
+      }
+      if (props.GFValidées && removedBy.role === 'porteur-projet') {
+        return err(new SuppressionGFValidéeImpossibleError());
       }
       _publishEvent(
         new ProjectGFWithdrawn({
@@ -1303,12 +1310,19 @@ export const makeProject = (args: {
 
         break;
       case ProjectGFSubmitted.type:
-      case ProjectGFUploaded.type:
         props.hasCurrentGf = true;
         if (event.payload.expirationDate) {
           props.GFExpirationDate = event.payload.expirationDate;
         }
         break;
+      case ProjectGFUploaded.type:
+        props.hasCurrentGf = true;
+        if (event.payload.expirationDate) {
+          props.GFExpirationDate = event.payload.expirationDate;
+        }
+        props.GFValidées = true;
+        break;
+
       case ProjectGFRemoved.type:
       case ProjectGFWithdrawn.type:
         props.hasCurrentGf = false;

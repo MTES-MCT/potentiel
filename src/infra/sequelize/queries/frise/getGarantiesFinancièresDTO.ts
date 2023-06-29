@@ -51,7 +51,14 @@ export const getGarantiesFinancièresDTO = async ({
       ...(dateEchéance && { dateEchéance: dateEchéance.getTime() }),
       envoyéesPar: envoyéesParRef! && envoyéesParRef.role,
       variant: user.role,
-      ...(statut === 'validé' && validéesPar === null && { retraitDépôtPossible: true }),
+      ...(statut === 'validé' &&
+        ['admin', 'dreal', 'dgec-validateur', 'cre', 'caisse-des-dépôts'].includes(user.role) && {
+          retraitDépôtPossible: true,
+        }),
+      ...(statut === 'à traiter' &&
+        ['porteur-projet', 'caisse-des-dépôts'].includes(user.role) && {
+          retraitDépôtPossible: true,
+        }),
     };
   }
 

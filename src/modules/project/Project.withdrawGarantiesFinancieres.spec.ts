@@ -4,7 +4,11 @@ import { appelsOffreStatic } from '@dataAccess/inMemory';
 import { ProjectGFUploaded, ProjectGFWithdrawn, ProjectImported, ProjectNotified } from './events';
 import { makeProject } from './Project';
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { NoGFCertificateToDeleteError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
+import {
+  NoGFCertificateToDeleteError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+  SuppressionGFValidéeImpossibleError,
+} from './errors';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeUser from '../../__tests__/fixtures/user';
@@ -113,6 +117,39 @@ describe('Project.withdrawGarantiesFinancieres()', () => {
           expect(res.error).toBeInstanceOf(NoGFCertificateToDeleteError);
         });
       });
+
+      describe(`when user is 'porteur-projet' and the GF is uploaded (and validated)`, () => {
+        it('should return a SuppressionGFValidéeImpossibleError', () => {
+          const porteur = OldUnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
+          const project = UnwrapForTest(
+            makeProject({
+              projectId,
+              history: [
+                ...fakeHistory,
+                new ProjectGFUploaded({
+                  payload: {
+                    projectId: projectId.toString(),
+                    submittedBy: 'user-id',
+                    fileId: 'id',
+                    gfDate: new Date('2022-01-01'),
+                  },
+                  original: {
+                    occurredAt: new Date(123),
+                    version: 1,
+                  },
+                }),
+              ],
+              getProjectAppelOffre,
+              buildProjectIdentifier: () => '',
+            }),
+          );
+          const res = project.removeGarantiesFinancieres(porteur);
+          expect(res.isErr()).toEqual(true);
+          if (res.isOk()) return;
+          expect(res.error).toBeInstanceOf(SuppressionGFValidéeImpossibleError);
+        });
+      });
+
       describe('when the GF certificate has been uploaded on Potentiel', () => {
         it('should emit a ProjectGFWithdrawn event', () => {
           const project = UnwrapForTest(

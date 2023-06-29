@@ -221,8 +221,8 @@ const ATraiter = ({
   project,
   dateEchéance,
   typeGarantiesFinancières,
+  retraitDépôtPossible,
 }: ATraiterProps) => {
-  const utilisateurPeutAnnulerDépôt = ['porteur-projet', 'caisse-des-dépôts'].includes(variant);
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
   const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
 
@@ -259,7 +259,7 @@ const ATraiter = ({
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {utilisateurPeutAnnulerDépôt && <AnnulerDépôt projetId={project.id} />}
+        {retraitDépôtPossible && <AnnulerDépôt projetId={project.id} />}
       </ContentArea>
     </>
   );
@@ -362,9 +362,6 @@ const Validé = ({
   typeGarantiesFinancières,
   project,
 }: ValidéProps) => {
-  const utilisateurEstPorteur = variant === 'porteur-projet';
-  const utilisateurEstCaisseDesDépôts = variant === 'caisse-des-dépôts';
-  const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
   const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
 
   return (
@@ -398,12 +395,9 @@ const Validé = ({
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {retraitDépôtPossible &&
-          ((utilisateurEstPorteur && envoyéesPar === 'porteur-projet') ||
-            utilisateurEstAdmin ||
-            utilisateurEstCaisseDesDépôts) && (
-            <RetirerDocument projetId={project.id} envoyéesPar={envoyéesPar} />
-          )}
+        {retraitDépôtPossible && (
+          <RetirerDocument projetId={project.id} envoyéesPar={envoyéesPar} />
+        )}
         {envoyéesPar === 'dreal' && (
           <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
         )}
