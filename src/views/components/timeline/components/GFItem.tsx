@@ -439,8 +439,5 @@ const RetirerDocument = ({ projetId, envoyéesPar }: RetirerDocumentProps) => (
     >
       Retirer le document de Potentiel
     </Link>
-    {envoyéesPar === 'porteur-projet' && (
-      <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
-    )}
   </p>
 );
