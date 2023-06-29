@@ -84,7 +84,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
     describe(`Retourner les données de GF en attente`, () => {
       it(`Etant donné un projet soumis à garanties financières
           Et dont les GF sont en attente
-          Alors un GarantiesFinancièresDTO devrait être retourné avec la statut 'en attente'`, async () => {
+          Alors un GarantiesFinancièresDTO devrait être retourné avec un statut 'en attente'`, async () => {
         const garantiesFinancières = {
           statut: 'en attente',
           soumisesALaCandidature: false,
