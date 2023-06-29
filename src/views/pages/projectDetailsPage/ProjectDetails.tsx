@@ -116,7 +116,8 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
         : `${
             cahierDesChargesActuel.alternatif ? 'alternatif' : ''
           } modifié rétroactivement et publié le ${cahierDesChargesActuel.paruLe}`}{' '}
-      (<ExternalLink href={cahierDesChargesActuel.url}>voir le cahier des charges</ExternalLink>)
+      (<ExternalLink href={cahierDesChargesActuel.url}>voir le cahier des charges</ExternalLink>
+      )
       <br />
       {userIs('porteur-projet')(user) && (
         <Link className="flex mt-4" href={`/projet/${projectId}/choisir-cahier-des-charges.html`}>

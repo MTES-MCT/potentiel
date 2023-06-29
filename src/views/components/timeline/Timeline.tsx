@@ -165,7 +165,7 @@ export const Timeline = ({
 
   return (
     <aside aria-label="Progress">
-      <ol role="list" className="pl-0 overflow-hidden list-none">
+      <ol className="pl-0 overflow-hidden list-none">
         {timelineItems.map((component, groupIndex) => (
           <TimelineItem
             key={`project-timeline-item-${groupIndex}`}
