@@ -60,7 +60,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           statut: 'en attente',
           soumisesALaCandidature: false,
           dateLimiteEnvoi: dateLimiteDépassée,
-          envoyéesPar: new UniqueEntityID().toString(),
+          envoyéesPar: null,
           dateConstitution: null,
           dateEchéance: null,
           validéesPar: null,
@@ -77,69 +77,148 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           statut: 'en retard',
           date: dateLimiteDépassée.getTime(),
           variant: 'admin',
+          actionPossible: 'enregistrer',
         });
       });
     });
 
     describe(`Retourner les données de GF en attente`, () => {
+      // role porteur
       it(`Etant donné un projet soumis à garanties financières
-          Et dont les GF sont en attente
-          Alors un GarantiesFinancièresDTO devrait être retourné avec un statut 'en attente'`, async () => {
+          Et dont les GF non soumises à la candidature sont 'en attente'
+          Si le l'utilisateur a le rôle 'porteur-projet'
+          Alors un GarantiesFinancièresDTO devrait être retourné avec : 
+          - un statut 'en attente'
+          - la propriété 'soumissionDeNouvellesGarantiesFinancièresAutorisé'`, async () => {
+        const user = { role: 'porteur-projet' } as User;
         const garantiesFinancières = {
           statut: 'en attente',
           soumisesALaCandidature: false,
           dateLimiteEnvoi,
-          envoyéesPar: new UniqueEntityID().toString(),
+          envoyéesPar: null,
           dateConstitution: null,
-          dateEchéance: null,
           validéesPar: null,
+          dateEchéance: null,
           type: null,
         } as const;
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
-          user: utilisateurAutorisé,
+          user,
         });
 
         expect(résultat).toEqual({
           type: 'garanties-financières',
           statut: 'en attente',
           date: dateLimiteEnvoi.getTime(),
-          variant: 'admin',
+          variant: user.role,
+          actionPossible: 'soumettre',
         });
       });
 
-      it(`Etant donné un projet soumis à garanties financières,
-  et dont les GF sont en attente,
-  et pour lesquelles le type de la date d'échéance sont connus,
-  alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
-  avec un statut 'en attente'`, async () => {
-        const dateEchéance = new Date('2025-01-01');
+      it(`Etant donné un projet soumis à garanties financières
+          Et dont les GF soumises à la candidature sont 'en attente'
+          Si le l'utilisateur a le rôle 'porteur-projet'
+          Alors un GarantiesFinancièresDTO devrait être retourné : 
+          - avec un statut 'en attente'
+          - sans la propriété 'soumissionDeNouvellesGarantiesFinancièresAutorisé'`, async () => {
+        const user = { role: 'porteur-projet' } as User;
         const garantiesFinancières = {
           statut: 'en attente',
-          soumisesALaCandidature: false,
+          soumisesALaCandidature: true,
           dateLimiteEnvoi,
-          envoyéesPar: new UniqueEntityID().toString(),
+          envoyéesPar: null,
           dateConstitution: null,
           validéesPar: null,
-          type: "Garantie financière avec date d'échéance et à renouveler",
-          dateEchéance,
+          dateEchéance: null,
+          type: 'Consignation',
         } as const;
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
-          user: utilisateurAutorisé,
+          user,
         });
 
         expect(résultat).toEqual({
           type: 'garanties-financières',
           statut: 'en attente',
           date: dateLimiteEnvoi.getTime(),
-          variant: 'admin',
-          typeGarantiesFinancières: "Garantie financière avec date d'échéance et à renouveler",
-          dateEchéance: dateEchéance.getTime(),
+          variant: user.role,
+          typeGarantiesFinancières: 'Consignation',
         });
       });
+
+      // autres rôles
+      for (const role of USER_ROLES.filter((role) =>
+        ['admin', 'dreal', 'dgec-validateur', 'caisse-des-dépôts', 'cre'].includes(role),
+      )) {
+        const user = { role } as User;
+
+        it(`Etant donné un projet soumis à garanties financières
+          Et dont les GF non soumises à la candidature sont en attente
+          Si le l'utilisateur a le rôle ${role}
+          Alors un GarantiesFinancièresDTO devrait être retourné avec :
+          - un statut 'en attente'
+          - la propriété 'enregistrementDeGarantiesFinancièresAutorisé'`, async () => {
+          const garantiesFinancières = {
+            statut: 'en attente',
+            soumisesALaCandidature: false,
+            dateLimiteEnvoi,
+            envoyéesPar: null,
+            dateConstitution: null,
+            validéesPar: null,
+            type: null,
+            dateEchéance: null,
+          } as const;
+
+          const résultat = await getGarantiesFinancièresDTO({
+            garantiesFinancières,
+            user,
+          });
+
+          expect(résultat).toEqual({
+            type: 'garanties-financières',
+            statut: 'en attente',
+            date: dateLimiteEnvoi.getTime(),
+            variant: user.role,
+            actionPossible: 'enregistrer',
+          });
+        });
+
+        it(`Etant donné un projet soumis à garanties financières
+          Et dont les GF non soumises à la candidature sont en attente
+          Si le l'utilisateur a le rôle ${role}
+          Alors un GarantiesFinancièresDTO devrait être retourné avec :
+          - un statut 'en attente'
+          - la propriété 'enregistrementDeGarantiesFinancièresAutorisé'`, async () => {
+          const dateEchéance = new Date('2025-01-01');
+          const garantiesFinancières = {
+            statut: 'en attente',
+            soumisesALaCandidature: true,
+            dateLimiteEnvoi: null,
+            envoyéesPar: null,
+            dateConstitution: null,
+            validéesPar: null,
+            type: "Garantie financière avec date d'échéance et à renouveler",
+            dateEchéance,
+          } as const;
+
+          const résultat = await getGarantiesFinancièresDTO({
+            garantiesFinancières,
+            user,
+          });
+
+          expect(résultat).toEqual({
+            type: 'garanties-financières',
+            statut: 'en attente',
+            date: 0,
+            variant: user.role,
+            typeGarantiesFinancières: "Garantie financière avec date d'échéance et à renouveler",
+            dateEchéance: dateEchéance.getTime(),
+            actionPossible: 'enregistrer',
+          });
+        });
+      }
     });
 
     describe(`Retourner les données de GF à traiter`, () => {

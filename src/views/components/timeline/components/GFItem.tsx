@@ -45,7 +45,14 @@ export const GFItem = (props: ComponentProps) => {
   }
 };
 
-const rolesAutorisés = ['porteur-projet', 'dreal', 'admin', 'caisse-des-dépôts'] as const;
+const rolesAutorisés = [
+  'porteur-projet',
+  'dreal',
+  'admin',
+  'caisse-des-dépôts',
+  'cre',
+  'dgec-validateur',
+] as const;
 const utilisateurPeutModifierLesGF = (role: UserRole): role is typeof rolesAutorisés[number] => {
   return (rolesAutorisés as readonly string[]).includes(role);
 };
@@ -65,12 +72,11 @@ const EnAttente = ({
   variant,
   typeGarantiesFinancières,
   dateEchéance,
+  actionPossible,
   project: { nomProjet, id: projectId, garantieFinanciereEnMois },
 }: GFEnAttenteProps) => {
-  const utilisateurEstPorteur = variant === 'porteur-projet';
-  const afficherAlerteRetard = statut === 'en retard' && utilisateurEstPorteur;
+  const afficherAlerteRetard = statut === 'en retard' && variant === 'porteur-projet';
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
-  const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
   return (
     <>
       {afficherAlerteRetard ? <WarningIcon /> : <CurrentIcon />}
@@ -100,11 +106,11 @@ const EnAttente = ({
               Attestation de constitution de garanties financières en attente
             </p>
           </div>
-          {modificationAutorisée && (
+          {actionPossible && (
             <Formulaire
               projetId={projectId}
               garantieFinanciereEnMois={garantieFinanciereEnMois}
-              action={utilisateurEstPorteur && dateLimiteEnvoi !== 0 ? 'soumettre' : 'enregistrer'}
+              action={actionPossible}
               role={variant}
               dateEchéance={dateEchéance}
             />
@@ -148,7 +154,11 @@ const Formulaire = ({
       design="link"
       isOpen={displayForm}
       changeOpenState={(isOpen) => showForm(isOpen)}
-      text={action === 'soumettre' ? 'Soumettre une attestation' : `Enregistrer l'attestation`}
+      text={
+        action === 'soumettre'
+          ? 'Soumettre une attestation de garanties financières'
+          : `Enregistrer une attestation de garanties financières`
+      }
     >
       <Form
         action={
@@ -161,10 +171,16 @@ const Formulaire = ({
         className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
       >
         <FormulaireChampsObligatoireLégende className="ml-auto" />
-        {action === 'enregistrer' && role === 'porteur-projet' && (
-          <p className="m-0">
-            Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet d'une
-            nouvelle validation dans Potentiel.
+        {action === 'enregistrer' && (
+          <p className="m-0 italic">
+            L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
+            concernée. Les garanties financières doivent déjà avoir été validée (soit à la
+            candidature, soit par la DREAL).
+          </p>
+        )}
+        {action === 'soumettre' && (
+          <p className="m-0 italic">
+            L'attestation que vous enregistrez sera soumise à validation par la DREAL concernée.
           </p>
         )}
         <input type="hidden" name="type" id="type" value="garanties-financieres" />
