@@ -78,7 +78,11 @@ export const ProjetsÀRéclamer = ({
           isOpen={displayHelp}
           className="mt-2"
         >
-          <img src="/images/numeroCRE_tooltip.jpg" className="mt-4 w-[700px]" />
+          <img
+            alt="Capture d'un exemple d'attestation de désignation indiquant où trouver le numéro CRE dans les référence du document."
+            src="/images/numeroCRE_tooltip.jpg"
+            className="mt-4 w-[700px]"
+          />
         </Dropdown>
       </InfoBox>
       <Form
