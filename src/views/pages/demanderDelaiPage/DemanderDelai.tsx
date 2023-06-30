@@ -16,6 +16,7 @@ import {
   ProjectProps,
   Label,
   Form,
+  Callout,
 } from '@components';
 import routes from '@routes';
 import { ProjectAppelOffre } from '@entities';
@@ -88,43 +89,43 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
             <div className="mb-1">Concernant le projet:</div>
             <ProjectInfo project={project} />
           </div>
-          <div>
-            <Label htmlFor="dateTheoriqueAchevement">Date théorique d'achèvement</Label>
-            <Input
-              type="text"
-              disabled
-              name="dateTheoriqueAchevement"
-              defaultValue={format(project.completionDueOn, 'dd/MM/yyyy')}
-            />
-          </div>
-          <div>
-            <Label htmlFor="dateAchevementDemandee">
-              Saisissez la date limite d'achèvement souhaitée <Astérisque />
-            </Label>
-            <Input
-              type="date"
-              name="dateAchevementDemandee"
-              id="dateAchevementDemandee"
-              min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
-              defaultValue={dateAchèvementDemandée}
-              required
-              aria-required="true"
-            />
-          </div>
-          <div>
-            <Label htmlFor="justification">
-              Veuillez nous indiquer les raisons qui motivent votre demande
-              <br />
-              <span className="italic">
-                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
-              </span>
-            </Label>
-            <TextArea name="justification" id="justification" defaultValue={justification || ''} />
-          </div>
-          <div>
-            <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
-            <Input type="file" name="file" id="file" />
+          <Callout>
+            Date théorique d'achèvement actuelle : {format(project.completionDueOn, 'dd/MM/yyyy')}
+          </Callout>
+          <div className="flex flex-col gap-8">
+            <div>
+              <Label htmlFor="dateAchevementDemandee">
+                Saisissez la date limite d'achèvement souhaitée <Astérisque />
+              </Label>
+              <Input
+                type="date"
+                name="dateAchevementDemandee"
+                id="dateAchevementDemandee"
+                min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
+                defaultValue={dateAchèvementDemandée}
+                required
+                aria-required="true"
+              />
+            </div>
+            <div>
+              <Label htmlFor="justification">
+                Veuillez nous indiquer les raisons qui motivent votre demande
+                <br />
+                <span className="italic">
+                  Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                  ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
+                </span>
+              </Label>
+              <TextArea
+                name="justification"
+                id="justification"
+                defaultValue={justification || ''}
+              />
+            </div>
+            <div>
+              <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
+              <Input type="file" name="file" id="file" />
+            </div>
           </div>
 
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
