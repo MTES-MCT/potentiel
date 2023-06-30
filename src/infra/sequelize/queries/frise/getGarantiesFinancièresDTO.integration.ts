@@ -121,7 +121,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           Si l'utilisateur a le rôle 'porteur-projet'
           Alors un GarantiesFinancièresDTO devrait être retourné : 
           - avec un statut 'en attente'
-          - sans d'action possible 'soumettre'`, async () => {
+          - sans action possible`, async () => {
         const user = { role: 'porteur-projet' } as User;
         const garantiesFinancières = {
           statut: 'en attente',
