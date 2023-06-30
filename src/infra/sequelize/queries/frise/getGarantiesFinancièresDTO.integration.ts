@@ -118,7 +118,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
 
       it(`Etant donné un projet soumis à garanties financières
           Et dont les GF soumises à la candidature sont 'en attente'
-          Si le l'utilisateur a le rôle 'porteur-projet'
+          Si l'utilisateur a le rôle 'porteur-projet'
           Alors un GarantiesFinancièresDTO devrait être retourné : 
           - avec un statut 'en attente'
           - sans d'action possible 'soumettre'`, async () => {
