@@ -89,7 +89,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           Si le l'utilisateur a le rôle 'porteur-projet'
           Alors un GarantiesFinancièresDTO devrait être retourné avec : 
           - un statut 'en attente'
-          - la propriété 'soumissionDeNouvellesGarantiesFinancièresAutorisé'`, async () => {
+          - l'action possible 'soumettre'`, async () => {
         const user = { role: 'porteur-projet' } as User;
         const garantiesFinancières = {
           statut: 'en attente',
@@ -121,7 +121,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           Si le l'utilisateur a le rôle 'porteur-projet'
           Alors un GarantiesFinancièresDTO devrait être retourné : 
           - avec un statut 'en attente'
-          - sans la propriété 'soumissionDeNouvellesGarantiesFinancièresAutorisé'`, async () => {
+          - sans d'action possible 'soumettre'`, async () => {
         const user = { role: 'porteur-projet' } as User;
         const garantiesFinancières = {
           statut: 'en attente',
@@ -159,7 +159,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           Si le l'utilisateur a le rôle ${role}
           Alors un GarantiesFinancièresDTO devrait être retourné avec :
           - un statut 'en attente'
-          - la propriété 'enregistrementDeGarantiesFinancièresAutorisé'`, async () => {
+          - l'action possible 'enregistrer'`, async () => {
           const garantiesFinancières = {
             statut: 'en attente',
             soumisesALaCandidature: false,
@@ -190,7 +190,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           Si le l'utilisateur a le rôle ${role}
           Alors un GarantiesFinancièresDTO devrait être retourné avec :
           - un statut 'en attente'
-          - la propriété 'enregistrementDeGarantiesFinancièresAutorisé'`, async () => {
+          - l'action possible 'enregistrer'`, async () => {
           const dateEchéance = new Date('2025-01-01');
           const garantiesFinancières = {
             statut: 'en attente',
