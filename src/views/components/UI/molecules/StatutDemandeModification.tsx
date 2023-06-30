@@ -31,11 +31,11 @@ export const StatutDemandeModification = ({
   const couleur = getColor(statutDemande);
 
   return (
-    <section
+    <div
       className={`m-0 p-4 border border-solid border-${couleur} rounded-[3px] text-${couleur} ${className}`}
       {...props}
     >
       {children}
-    </section>
+    </div>
   );
 };
