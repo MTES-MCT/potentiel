@@ -132,7 +132,10 @@ export type GarantiesFinancièresDTO = {
   typeGarantiesFinancières?: string;
   dateEchéance?: number;
 } & (
-  | { statut: 'en attente' | 'en retard' }
+  | {
+      statut: 'en attente' | 'en retard';
+      actionPossible?: 'enregistrer' | 'soumettre';
+    }
   | {
       statut: 'validé' | 'à traiter';
       envoyéesPar: 'porteur-projet' | 'dreal' | 'admin';

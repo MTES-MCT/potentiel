@@ -53,7 +53,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterProjet,
         PermissionAnnulerGF,
         PermissionAjouterDateExpirationGF,
-        PermissionUploaderGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionTransmettreDemandeComplèteRaccordement,
@@ -113,12 +112,19 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierGestionnaireRéseauProjet,
       ];
     case 'acheteur-obligé':
+      return [
+        PermissionListerProjets,
+        PermissionConsulterProjet,
+        PermissionExporterProjets,
+        PermissionConsulterDossierRaccordement,
+      ];
     case 'cre':
       return [
         PermissionListerProjets,
         PermissionConsulterProjet,
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
+        PermissionUploaderGF,
       ];
     case 'ademe':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];

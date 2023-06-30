@@ -10,7 +10,7 @@ type GarantiesFinancièresDonnéesPourDTO = {
   dateConstitution: Date | null;
   dateEchéance: Date | null;
   type: string | null;
-  validéesPar: string | null;
+  soumisesALaCandidature: boolean;
   fichier?: { filename: string; id: string };
   envoyéesParRef?: { role: 'admin' | 'dreal' | 'porteur-projet' };
 };
@@ -35,10 +35,10 @@ export const getGarantiesFinancièresDTO = async ({
     dateConstitution,
     dateEchéance,
     type,
-    validéesPar,
     dateLimiteEnvoi,
     fichier,
     envoyéesParRef,
+    soumisesALaCandidature,
   } = garantiesFinancières;
 
   if (statut === 'à traiter' || statut === 'validé') {
@@ -64,6 +64,19 @@ export const getGarantiesFinancièresDTO = async ({
 
   if (statut === 'en attente') {
     const dateLimiteDépassée = (dateLimiteEnvoi && dateLimiteEnvoi <= new Date()) || false;
+
+    if (user.role === 'porteur-projet') {
+      return {
+        type: 'garanties-financières',
+        ...(type && { typeGarantiesFinancières: type }),
+        ...(dateEchéance && { dateEchéance: dateEchéance.getTime() }),
+        date: dateLimiteEnvoi?.getTime() || 0,
+        statut: dateLimiteDépassée ? 'en retard' : 'en attente',
+        variant: user.role,
+        ...(!soumisesALaCandidature && { actionPossible: 'soumettre' }),
+      };
+    }
+
     return {
       type: 'garanties-financières',
       ...(type && { typeGarantiesFinancières: type }),
@@ -71,6 +84,7 @@ export const getGarantiesFinancièresDTO = async ({
       date: dateLimiteEnvoi?.getTime() || 0,
       statut: dateLimiteDépassée ? 'en retard' : 'en attente',
       variant: user.role,
+      actionPossible: 'enregistrer',
     };
   }
 };
