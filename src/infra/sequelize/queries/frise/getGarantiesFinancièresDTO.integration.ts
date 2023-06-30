@@ -187,7 +187,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
 
         it(`Etant donné un projet soumis à garanties financières
           Et dont les GF non soumises à la candidature sont en attente
-          Si le l'utilisateur a le rôle ${role}
+          Si l'utilisateur a le rôle ${role}
           Alors un GarantiesFinancièresDTO devrait être retourné avec :
           - un statut 'en attente'
           - l'action possible 'enregistrer'`, async () => {
