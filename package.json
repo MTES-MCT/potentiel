@@ -89,7 +89,7 @@
     "csv-parse": "^5.3.3",
     "date-fns": "^2.29.3",
     "docxtemplater": "^3.37.9",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "express-session": "^1.17.3",
