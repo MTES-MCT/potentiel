@@ -75,8 +75,24 @@ jobs:
           default_prerelease_bump: false
           custom_tag: ${{ env.APPLICATION_VERSION }}
           tag_prefix: ''
-      - uses: actions/checkout@v3
       - name: Deploy to Production
+        run: |
+          curl -O https://cli-dl.scalingo.com/install && bash install
+          scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
+          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy ${{ github.ref_name }}
+
+deploy-demo:
+    needs: deploy-production
+    runs-on: ubuntu-latest
+    environment: demo
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+      - run: npm ci
+      - name: Deploy to Demo
         run: |
           curl -O https://cli-dl.scalingo.com/install && bash install
           scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
