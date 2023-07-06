@@ -1,0 +1,8 @@
+{
+  "jobs": [
+    {
+      "command": "0 0 * * * ./scripts/s3-backup.sh",
+      "size": "M"
+    }
+  ]
+}
