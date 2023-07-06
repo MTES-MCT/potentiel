@@ -16,19 +16,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
   
-  build-packages:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build:packages
-
-  build-legacy:
+  build:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
@@ -42,7 +30,7 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-  test-specifications:
+  specifications:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
@@ -54,12 +42,9 @@ jobs:
           node-version: 18.x
           cache: 'npm'
       - run: npm ci
-      - run: npm run build:packages
-      - run: npm run launch-test-db
-      - run: npm run migrate
-      - run: npm run test:ci:packages
+      - run: npm run specs
 
-  test-int-legacy:
+  test-legacy:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
@@ -72,23 +57,4 @@ jobs:
           node-version: 18.x
           cache: 'npm'
       - run: npm ci
-      - run: npm run build:packages
-      - run: npm run launch-test-db
-      - run: npm run migrate
-      - run: npm run test-int
-
-  test-legacy:
-    runs-on: ubuntu-latest
-    env:
-      NODE_ENV: test
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build:packages
-      - run: npm run test
-
+      - run: npm run test:legacy
