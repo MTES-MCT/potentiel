@@ -84,7 +84,7 @@
     "json2csv": "^5.0.7",
     "jsonwebtoken": "^9.0.0",
     "keycloak-connect": "^21.1.1",
-    "mediateur": "^0.1.0-beta.20230703140857",
+    "mediateur": "^0.1.0",
     "mime-types": "^2.1.35",
     "minisearch": "^5.1.0",
     "mkdirp": "^1.0.4",

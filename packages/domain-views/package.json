@@ -9,9 +9,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
     "@potentiel/core-domain": "*",
-    "mediateur": "^0.1.0-beta.20230523070921"
+    "@potentiel/monads": "*",
+    "mediateur": "^0.1.0"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
