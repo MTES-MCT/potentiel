@@ -40,16 +40,11 @@ describe('porteurProjetActions', () => {
       });
     });
     describe('when project is "classé"', () => {
-      it('should return an action array with the following actions: "Télécharger le récapitulatif", "Demander un délai", "Changer de producteur", "Changer de fournisseur", "Changer d\'actionnaire", "Changer de puissance", "Demander un abandon"', () => {
+      it('should return an action array with the following actions: "Demander un délai", "Changer de producteur", "Changer de fournisseur", "Changer d\'actionnaire", "Changer de puissance", "Demander un abandon"', () => {
         const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'batiment' } });
         const result = porteurProjetActions(fakeProject);
-        expect(result).toHaveLength(7);
+        expect(result).toHaveLength(6);
         expect(result).toEqual([
-          {
-            title: 'Télécharger le récapitulatif',
-            link: '#',
-            disabled: true,
-          },
           {
             title: 'Demander un délai',
             link: ROUTES.DEMANDER_DELAI(fakeProject.id),
@@ -87,7 +82,7 @@ describe('porteurProjetActions', () => {
             },
           });
           const result = porteurProjetActions(fakeProject);
-          expect(result).toHaveLength(8);
+          expect(result).toHaveLength(7);
           expect(result[0]).toMatchObject({
             title: 'Télécharger mon attestation',
             link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
@@ -104,13 +99,8 @@ describe('porteurProjetActions', () => {
         it('should not return "changement de producteur" action', () => {
           const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'eolien' } });
           const result = porteurProjetActions(fakeProject);
-          expect(result).toHaveLength(6);
+          expect(result).toHaveLength(5);
           expect(result).toEqual([
-            {
-              title: 'Télécharger le récapitulatif',
-              link: '#',
-              disabled: true,
-            },
             {
               title: 'Demander un délai',
               link: ROUTES.DEMANDER_DELAI(fakeProject.id),
