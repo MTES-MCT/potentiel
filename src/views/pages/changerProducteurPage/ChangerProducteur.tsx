@@ -96,10 +96,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                       projet."
             />
           )}
-          <div>
-            <Label htmlFor="ancienProducteur">Ancien producteur</Label>
-            <Input type="text" disabled defaultValue={project.nomCandidat} id="ancienProducteur" />
-          </div>
+          <p>Ancien producteur : {project.nomCandidat}</p>
           <div>
             <Label htmlFor="producteur">
               Nouveau producteur <Astérisque />
@@ -113,7 +110,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
             />
           </div>
           <div>
-            <Label htmlFor="candidats">Statuts mis à jour</Label>
+            <Label htmlFor="file">Joindre les statuts mis à jour</Label>
             <Input type="file" name="file" id="file" {...(isEolien && { disabled: true })} />
           </div>
           <div>
