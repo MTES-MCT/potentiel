@@ -78,7 +78,9 @@ export const ProjectDetails = ({
           <CDCInfo {...{ project, user }} />
         </Callout>
         <div className="flex flex-col lg:flex-row gap-3">
-          {projectEventList && <EtapesProjet {...{ project, user, projectEventList }} />}
+          {!!projectEventList?.events.length && (
+            <EtapesProjet {...{ project, user, projectEventList }} />
+          )}
           <div className={`flex flex-col flex-grow gap-3`}>
             <InfoGenerales {...{ project, role: user.role }} />
             <Contact {...{ user, project }} />
