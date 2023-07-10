@@ -89,10 +89,14 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
             <div key={champ}>
               <Heading2 className="mt-4 mb-1">{CORRESPONDANCE_CHAMPS_FOURNISSEURS[champ]}</Heading2>
               {project.details?.[champ] && <p>Ancien fournisseur : {project.details?.[champ]}</p>}
-              <Label htmlFor={champ.replace(' ', '_')} className="mt-2">
+              <Label htmlFor={champ.replace(/ /g, '_').replace(/\n/g, '')} className="mt-2">
                 {champ}
               </Label>
-              <Input type="text" name={champ.replace(/\n/g, '\\n')} id={champ.replace(' ', '_')} />
+              <Input
+                type="text"
+                name={champ.replace(/\n/g, '\\n')}
+                id={champ.replace(/ /g, '_').replace(/\n/g, '')}
+              />
             </div>
           ))}
           {project.evaluationCarbone > 0 && (
