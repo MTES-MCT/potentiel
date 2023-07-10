@@ -90,13 +90,13 @@ export const TransmettreDemandeComplèteRaccordement = ({
           <div>
             <Label htmlFor="referenceDossierRaccordement">
               Référence du dossier de raccordement du projet *
-              {(format || légende) && (
-                <LabelDescription>
-                  {légende && <div className="m-0">Format attendu : {légende}</div>}
-                  {format && <div className="m-0 italic">Exemple : {format}</div>}
-                </LabelDescription>
-              )}
             </Label>
+            {(format || légende) && (
+              <LabelDescription>
+                {légende && <div className="m-0">Format attendu : {légende}</div>}
+                {format && <div className="m-0 italic">Exemple : {format}</div>}
+              </LabelDescription>
+            )}
             <Input
               className="uppercase"
               type="text"

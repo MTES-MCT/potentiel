@@ -29,28 +29,21 @@ export const ListeDossiersRaccordement = ({
   const { identifiantProjet } = projet;
 
   return (
-    <PageProjetTemplate
-      titre={
-        <TitrePageRaccordement>
-          <p className="my-2 p-0">
-            Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
-            {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
-              <Link
-                className="ml-1"
-                href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
-                aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
-              >
-                (<EditIcon className="mr-1" />
-                Modifier)
-              </Link>
-            )}
-          </p>
-        </TitrePageRaccordement>
-      }
-      user={user}
-      résuméProjet={projet}
-    >
+    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
       <div className="my-2 md:my-4">
+        <p className="mt-2 mb-4 p-0">
+          Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
+          {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
+            <Link
+              className="ml-1"
+              href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
+              aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
+            >
+              (<EditIcon className="mr-1" />
+              Modifier)
+            </Link>
+          )}
+        </p>
         {dossiers.length === 1 ? (
           <Dossier user={user} identifiantProjet={identifiantProjet} dossier={dossiers[0]} />
         ) : (
