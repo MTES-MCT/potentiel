@@ -31,8 +31,8 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
   const { success, error } = (request.query as any) || {};
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-dreal">
-      <Heading1>Gérer les régions</Heading1>
-      <Heading2>Ajouter un utilisateur région</Heading2>
+      <Heading1>Gérer les utilisateurs DREAL</Heading1>
+      <Heading2>Ajouter un utilisateur</Heading2>
 
       <Form action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION} method="post" className="mx-auto">
         {success && <SuccessBox title={success} />}
@@ -61,11 +61,9 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
             id="region"
             required
             {...(validationErrors && { error: validationErrors['region']?.toString() })}
-            defaultValue="default"
+            defaultValue=""
           >
-            <option value="default" disabled hidden>
-              Sélectionnez une région
-            </option>
+            <option value="">Sélectionnez une région</option>
             {[...REGIONS]
               .sort((a, b) => a.localeCompare(b))
               .map((value, index) => (
