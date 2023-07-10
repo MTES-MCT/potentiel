@@ -1,6 +1,7 @@
 # Premiers pas dans le projet Potentiel
 
 ## Table des matières
+
 - [Mise en place du projet](#mise-en-place-du-projet)
 - [Configurer un environnement local](#configurer-un-environnement-local)
 - [Lancer l'application en local](#lancer-application-en-local)
@@ -9,6 +10,7 @@
 ## <a id="mise-en-place-du-projet"></a> Mise en place du projet
 
 Pour installer et lancer le projet vous aurez besoin de :
+
 - <a href="https://github.com/nvm-sh/nvm#installing-and-updating" target="_blank">NVM</a>
 - <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
 
@@ -59,31 +61,15 @@ Pour installer et lancer le projet vous aurez besoin de :
 
 ## <a id="lancer-application-en-local"></a> Lancer l'application en local
 
-1. Démarrer la base de données via le script npm *dev-db* :
-   ```bash
-   npm run dev-db
-   ```
-
-2. Créer la structure de la base de données en utilisant le script npm *migrate* :
-   ```bash
-   npm run migrate
-   ```
-
-3. Ajouter des données par défaut en utilisant le script npm *seed* :
+1. Démarrer la base de données et lancer l'application en mode "watch" (redémarrage à chaque changement de fichier)
 
    ```bash
-   npm run seed
+   npm start:dev
    ```
 
-4. Lancer l'application en mode "watch" (redémarrage à chaque changement de fichier)
+2. Se rendre sur [localhost:3000](http://localhost:3000)
 
-   ```bash
-   npm run watch
-   ```
-
-5. Se rendre sur [localhost:3000](http://localhost:3000)
-
-6. Se connecter à l'un des comptes suivants (pas de mot de passe nécessaire):
+3. Se connecter à l'un des comptes suivants (mot de passe : `test`):
    - admin@test.test
    - dreal@test.test
    - porteur@test.test
@@ -93,58 +79,40 @@ Pour installer et lancer le projet vous aurez besoin de :
    - cre@test.test
    - caissedesdepots@test.test
 
+Pour stoper la base de données :
+
+```bash
+npm stop:dev
+```
+
 ## <a id="lancer-les-tests"></a>Lancer les tests
 
 ### Specifications
 
-1. Démarrer la base de données de test via le script npm *test-db* :
+Lancer tous les tests :
 
-   ```shell
-   npm run test-db
-   ```
-
-2. Lancer ensuite la commande :
-
-   ```shell
-   npm run test:packages
-   ```
+```shell
+npm run specs
+```
 
 ### Autres tests unitaires et d'intégration
 
 Ces tests sont considéré comme étant du code `legacy`. Pour chaque nouveau développement implémenter les tests dans le package `specifications`
 
-1. Préparer une base de données de test (lance un conteneur docker)
+- Lancer tous les tests
 
-   ```shell
-   npm run test-db
-   ```
+  ```shell
+  npm run test:legacy
+  ```
 
-   _NB: Ceci est uniquement nécessaire pour les tests d'intégration et les tests end-to-end._
+- Lancer tous les tests, en relançant à chaque changement
 
-2. Lancer les tests unitaires
+  ```shell
+  npm run test:legacy -- --watch
+  ```
 
-   ```shell
-   # Tous, une fois
-   npm run test
+- Lancer un seul test, en relançant à chaque changement
 
-   # Tous, en relançant à chaque changement
-   npm run test -- --watch
-
-   # Un seul test, en relançant à chaque changement
-   npm run test -- --watch src/modules/AppelOffre.spec.ts
-   ```
-
-3. Lancer les tests d'intégration
-
-   ```shell
-   # Tous, une fois
-   npm run test-int
-
-   # Tous, en relançant à chaque changement
-   npm run test-int -- --watch
-
-   # Un seul test, en relançant à chaque changement
-   npm run test-int -- --watch src/modules/AppelOffre.spec.ts
-   ```
-
-   _NB: Si le schéma de base de données a changé, il faut relancer `npm run test-db`._
+  ```shell
+  npm run test:legacy -- --watch src/modules/AppelOffre.spec.ts
+  ```
