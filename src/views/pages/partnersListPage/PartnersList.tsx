@@ -60,11 +60,9 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
             id="role"
             required
             {...(validationErrors && { error: validationErrors['role']?.toString() })}
-            defaultValue="default"
+            defaultValue=""
           >
-            <option value="default" disabled hidden>
-              Sélectionnez un rôle
-            </option>
+            <option value="">Sélectionnez un rôle</option>
             <option value="acheteur-obligé">Acheteur obligé</option>
             <option value="ademe">ADEME</option>
             <option value="cre">CRE</option>
