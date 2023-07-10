@@ -28,19 +28,19 @@ echo "Syncing bucket..."
 
 echo "Bucket successfully synced..."
 
-echo "Syncing legacy bucket..."
+# echo "Syncing legacy bucket..."
 
-if [ -z $LEGACY_S3_ACCESS_KEY_ID ] || [ -z $LEGACY_S3_SECRET_ACCESS_KEY ] || [ -z $LEGACY_S3_ENDPOINT ] || [ -z $LEGACY_S3_BUCKET ] || [ -z $LEGACY_S3_BACKUP_BUCKET ]
-then
-    echo "An environment variable is missing !!"
-    exit 1
-fi
+# if [ -z $LEGACY_S3_ACCESS_KEY_ID ] || [ -z $LEGACY_S3_SECRET_ACCESS_KEY ] || [ -z $LEGACY_S3_ENDPOINT ] || [ -z $LEGACY_S3_BUCKET ] || [ -z $LEGACY_S3_BACKUP_BUCKET ]
+# then
+#     echo "An environment variable is missing !!"
+#     exit 1
+# fi
 
 
-./aws configure set aws_access_key_id $LEGACY_S3_ACCESS_KEY_ID
-./aws configure set aws_secret_access_key $LEGACY_S3_SECRET_ACCESS_KEY
-./aws s3 sync s3://$LEGACY_S3_BUCKET s3://$LEGACY_S3_BACKUP_BUCKET --endpoint-url $LEGACY_S3_ENDPOINT
+# ./aws configure set aws_access_key_id $LEGACY_S3_ACCESS_KEY_ID
+# ./aws configure set aws_secret_access_key $LEGACY_S3_SECRET_ACCESS_KEY
+# ./aws s3 sync s3://$LEGACY_S3_BUCKET s3://$LEGACY_S3_BACKUP_BUCKET --endpoint-url $LEGACY_S3_ENDPOINT
 
-echo "Legacy bucket successfully synced..."
+# echo "Legacy bucket successfully synced..."
 
 exit 0
