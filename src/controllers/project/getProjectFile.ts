@@ -11,7 +11,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 
 v1Router.get(
   routes.DOWNLOAD_PROJECT_FILE(),
-  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'cre']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'cre', 'acheteur-obligé']),
   asyncHandler(async (request, response) => {
     const { fileId } = request.params;
     const { user } = request;
