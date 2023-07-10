@@ -1,6 +1,11 @@
 import { AnnulationAbandonAccordée } from '@modules/demandeModification';
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { AbandonProjetAnnulé, Project, ProjectGFDueDateSet } from '@modules/project';
+import {
+  AbandonProjetAnnulé,
+  Project,
+  ProjectGFDueDateSet,
+  ProjectGFRemoved,
+} from '@modules/project';
 import add from 'date-fns/add';
 import { okAsync } from 'neverthrow';
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
@@ -19,7 +24,15 @@ export const makeOnAnnulationAbandonAccordée =
   ({ payload: { projetId } }: Evènement) =>
     projectRepo.transaction(
       new UniqueEntityID(projetId),
-      ({ completionDueOn, dcrDueOn, notifiedOn, appelOffreId, periodeId, familleId }) =>
+      ({
+        completionDueOn,
+        dcrDueOn,
+        notifiedOn,
+        appelOffreId,
+        periodeId,
+        familleId,
+        hasCurrentGf,
+      }) =>
         publishToEventStore(
           new AbandonProjetAnnulé({
             payload: {
@@ -39,6 +52,16 @@ export const makeOnAnnulationAbandonAccordée =
 
           if (!appelOffreProjet.isSoumisAuxGF) {
             return okAsync(null);
+          }
+
+          if (hasCurrentGf) {
+            publishToEventStore(
+              new ProjectGFRemoved({
+                payload: {
+                  projectId: projetId,
+                },
+              }),
+            );
           }
 
           return publishToEventStore(

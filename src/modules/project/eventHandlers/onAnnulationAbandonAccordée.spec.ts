@@ -17,10 +17,6 @@ describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
   const dcrDueOn = new Date().getTime();
   const notifiedOn = new Date('2020-01-01').getTime();
 
-  const projectRepo = fakeTransactionalRepo(
-    makeFakeProject({ id: projetId, completionDueOn, dcrDueOn, notifiedOn }),
-  );
-
   const événemement = new AnnulationAbandonAccordée({
     payload: {
       demandeId: new UniqueEntityID().toString(),
@@ -32,8 +28,12 @@ describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
   it(`Etant donné un projet soumis à garanties financières, 
         lorsqu'un événement AnnulationAbandonAccordée est émis pour ce projet, 
         alors l'abandon du projet devrait être annulé, 
+        les anciennes garanties financières devraient être retirées du projet, 
         et le projet devrait être en attente de nouvelles garanties financières`, async () => {
     const getProjectAppelOffre = jest.fn(() => ({ isSoumisAuxGF: true } as ProjectAppelOffre));
+    const projectRepo = fakeTransactionalRepo(
+      makeFakeProject({ id: projetId, completionDueOn, dcrDueOn, notifiedOn, hasCurrentGf: true }),
+    );
     const onAnnulationAbandonAccordée = makeOnAnnulationAbandonAccordée({
       projectRepo,
       publishToEventStore,
@@ -42,7 +42,7 @@ describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
 
     await onAnnulationAbandonAccordée(événemement);
 
-    expect(publishToEventStore).toHaveBeenCalledTimes(2);
+    expect(publishToEventStore).toHaveBeenCalledTimes(3);
 
     expect(publishToEventStore).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -51,6 +51,15 @@ describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
           projetId,
           dateAchèvement: new Date(completionDueOn),
           dateLimiteEnvoiDcr: dcrDueOn,
+        },
+      }),
+    );
+
+    expect(publishToEventStore).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'ProjectGFRemoved',
+        payload: {
+          projectId: projetId,
         },
       }),
     );
@@ -71,6 +80,9 @@ describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
         alors l'abandon du projet devrait être annulé, 
         et le projet ne devrait pas être en attente de nouvelles garanties financières`, async () => {
     const getProjectAppelOffre = jest.fn(() => ({ isSoumisAuxGF: false } as ProjectAppelOffre));
+    const projectRepo = fakeTransactionalRepo(
+      makeFakeProject({ id: projetId, completionDueOn, dcrDueOn, notifiedOn }),
+    );
     const onAnnulationAbandonAccordée = makeOnAnnulationAbandonAccordée({
       projectRepo,
       publishToEventStore,
