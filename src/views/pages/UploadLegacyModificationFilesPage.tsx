@@ -76,7 +76,7 @@ export const UploadLegacyModificationFiles = ({
             <b>Attention</b>: seuls les fichiers mentionnés dans un colonne 'Nom courrier [N]'
             pourront être associés.
           </div>
-          <Input type="file" multiple name="files" />
+          <Input type="file" multiple name="files" id="files" />
           <div className="text-sm mt-2">
             Vous pouvez attacher jusqu'à 50Mo de fichiers à la fois
           </div>
