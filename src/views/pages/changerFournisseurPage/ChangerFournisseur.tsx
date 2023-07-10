@@ -102,26 +102,15 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
           {project.evaluationCarbone > 0 && (
             <div>
               <Heading2 className="mt-4 mb-1">évaluation carbone</Heading2>
-              <Label htmlFor='evaluation-carbone-initiale"'>
-                Évaluation carbone initiale (kg eq CO2/kWc)
-              </Label>
-              <Input
-                type="number"
-                disabled
-                defaultValue={project.evaluationCarboneDeRéférence}
-                name="evaluation-carbone-initiale"
-                id="evaluation-carbone-initiale"
-              />
-              <Label htmlFor="evaluation-carbone-actuelle">
-                Évaluation carbone actuelle (kg eq CO2/kWc)
-              </Label>
-              <Input
-                type="number"
-                disabled
-                defaultValue={project.evaluationCarbone}
-                name="evaluation-carbone-actuelle"
-                id="evaluation-carbone-actuelle"
-              />
+              {project.evaluationCarboneDeRéférence && (
+                <p>
+                  Évaluation carbone initiale (kg eq CO2/kWc) :{' '}
+                  {project.evaluationCarboneDeRéférence}
+                </p>
+              )}
+              {project.evaluationCarbone && (
+                <p>Évaluation carbone actuelle (kg eq CO2/kWc) : {project.evaluationCarbone}</p>
+              )}
               <Label htmlFor="evaluationCarbone">Nouvelle évaluation carbone (kg eq CO2/kWc)</Label>
               <Input
                 onChange={(e) => setEvaluationCarbone(parseFloat(e.target.value))}
@@ -141,7 +130,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
             </div>
           )}
           <div>
-            <Label htmlFor="candidats">Pièce-jointe</Label>
+            <Label htmlFor="file">Pièce-jointe</Label>
             <Input type="file" name="file" id="file" />
           </div>
           <div>
