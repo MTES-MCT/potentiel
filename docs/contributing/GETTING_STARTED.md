@@ -97,7 +97,7 @@ npm run specs
 
 ### Autres tests unitaires et d'intégration
 
-Ces tests sont considéré comme étant du code `legacy`. Pour chaque nouveau développement implémenter les tests dans le package `specifications`
+Ces tests sont considérés comme étant du code `legacy`. Pour chaque nouveau développement, implémentez les tests dans le package `specifications`.
 
 - Lancer tous les tests
 
