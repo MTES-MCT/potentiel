@@ -171,9 +171,10 @@ export const AdminNotificationCandidats = ({
             Télécharger la liste des lauréats (document csv)
           </SecondaryLinkButton>
         )}
-        {projetsPériodeSélectionnée.itemCount > 0 && !success && (
-          <>
-            <div>
+        {projetsPériodeSélectionnée.itemCount > 0 &&
+          !success &&
+          request.user?.role === 'dgec-validateur' && (
+            <div className="mt-4">
               <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
               <Input
                 type="text"
@@ -181,15 +182,12 @@ export const AdminNotificationCandidats = ({
                 id="notificationDate"
                 defaultValue={afficherDate(new Date())}
               />
-            </div>
-            {request.user?.role === 'dgec-validateur' && (
-              <PrimaryButton type="submit" name="submit" id="submit">
+              <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
                 Envoyer la notification aux {projetsPériodeSélectionnée.itemCount} candidats de
                 cette période
               </PrimaryButton>
-            )}
-          </>
-        )}
+            </div>
+          )}
       </Form>
 
       {success && <SuccessBox title={success} />}
