@@ -18,7 +18,7 @@ export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
       <TextArea name="justification" id="justification" defaultValue={justification || ''} />
     </div>
     <div>
-      <Label htmlFor="candidats">Pièce justificative (si nécessaire)</Label>
+      <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
       <Input type="file" name="file" id="file" />
     </div>
   </>
