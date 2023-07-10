@@ -30,7 +30,7 @@ echo "Bucket successfully synced..."
 
 echo "Syncing legacy bucket..."
 
-if [ -z $LEGACY_AWS_ACCESS_KEY_ID ] || [ -z $LEGACY_AWS_SECRET_ACCESS_KEY ] || [ -z $LEGACY_S3_ENDPOINT ] || [ -z $LEGACY_S3_BUCKET ] || [ -z $LEGACY_S3_BACKUP_BUCKET ]
+if [ -z $LEGACY_S3_ACCESS_KEY_ID ] || [ -z $LEGACY_S3_SECRET_ACCESS_KEY ] || [ -z $LEGACY_S3_ENDPOINT ] || [ -z $LEGACY_S3_BUCKET ] || [ -z $LEGACY_S3_BACKUP_BUCKET ]
 then
     echo "An environment variable is missing !!"
     exit 1
