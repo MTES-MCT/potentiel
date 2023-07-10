@@ -106,7 +106,7 @@
     "runtypes": "^6.6.0",
     "sanitize-filename": "^1.6.3",
     "sequelize": "^6.32.0",
-    "sequelize-cli": "^6.5.2",
+    "sequelize-cli": "^6.6.1",
     "tailwindcss": "^3.2.4",
     "util": "^0.12.5",
     "utility-types": "^3.10.0",
