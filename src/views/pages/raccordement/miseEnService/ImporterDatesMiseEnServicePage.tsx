@@ -69,12 +69,12 @@ export const ImporterDatesMiseEnService = ({
           onSubmit={() => setIsImportInProgress(true)}
         >
           <Dialog open={isImportInProgress}>
-            <Heading1 className="flex flex-col text-center m-0 p-0">
+            <div className="flex flex-col text-center m-0 p-0">
               <div className="mx-auto mb-5">
                 <Spinner className="text-blue-france-sun-base w-12 h-12" />
               </div>
               Import en cours
-            </Heading1>
+            </div>
 
             <p className="italic text-center">
               Ce traitement peut prendre jusqu'à 2 minutes, merci de patienter 🙏
