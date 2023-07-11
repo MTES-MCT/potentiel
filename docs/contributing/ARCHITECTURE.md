@@ -39,3 +39,13 @@ Une fois publié, l'évènement est propagé par pg_notify via le déclencheur `
 Cette fonction permet de mettre en place une projection des données. La responsabilité des projecteurs dans le projet est de créer des projections en lecture seule qui seront utilisées directement par l'application ainsi que le Frontend. L'ensemble de ces projections sont stockées dans la table `PROJECTION`. Les projections sont stockés sous la forme d'un key/value pair.
 
 ![EventStream-Projection](diagrams/event-stream-projection.drawio.svg)
+
+## Mediator et CQRS
+
+Le projet utilise le pattern Mediator via la bibliothèque `mediateur`. Ce pattern permet d'établir une communication entre deux éléments d'un logiciel sans avoir de couplage. Pour cela, l'appelant passera pas un médiateur qui sera capable de localiser et d'envoyer un message aux destinataires concernés. Ce pattern est utilie pour le découpage et la mise à l'échelle du code. Il permet aussi de mettre en place facilement le principe de responsabilité (cf : [SOLID](https://en.wikipedia.org/wiki/SOLID)). Il est aussi utile pour mettre en place d'autre pattern, comme CQRS (Command & Query Responsability Sepration).
+
+Le pattern CQRS définit qu'une application peut être découpé en deux partie, l'une dédié à l'écriture (appelée `Command`), l'autre à la lecture (appelée `Query`). Chaque partie dispose de besoins spécifiques :
+- Query : Facilité de requêtage, performance, ...
+- Command : Execution de la logique, intégrité, validation, ...
+
+CQRS et Event Sourcing vont souvent de pair car la séparation qu'impose le premier correspond à l'organisation du deuxième (Query/Projection + Command/Event).
