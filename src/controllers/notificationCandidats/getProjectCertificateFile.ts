@@ -16,7 +16,7 @@ import { Project } from '../../infra/sequelize/projectionsNext';
 
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),
-  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'cre']),
   asyncHandler(async (request, response) => {
     const { projectId, fileId } = request.params;
     const { user } = request;
