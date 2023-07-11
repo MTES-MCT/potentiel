@@ -36,10 +36,10 @@ const schema = yup.object({
   body: yup.object({
     dateSignature: yup
       .date()
-      .required(`La date de signature est obligatoire`)
+      .required(`La date de signature est obligatoire.`)
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date de signature n'est pas valide`),
+      .typeError(`La date de signature n'est pas valide.`),
   }),
 });
 
@@ -50,14 +50,17 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) =>
+      onError: ({ request, response, error }) =>
         response.redirect(
           addQueryParams(
-            routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+            routes.GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
               request.params.identifiantProjet as RawIdentifiantProjet,
+              request.params.reference,
             ),
             {
-              error: `Une erreur est survenue lors de la mise à jour de la date de signature de la proposition technique et financière, merci de vérifier les informations communiquées.`,
+              error: `Votre proposition technique et financière n'a pas pu être mise à jour dans Potentiel. ${error.errors.join(
+                ' ',
+              )}`,
             },
           ),
         ),

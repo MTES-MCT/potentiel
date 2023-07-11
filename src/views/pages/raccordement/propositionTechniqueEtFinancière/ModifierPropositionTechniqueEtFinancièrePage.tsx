@@ -46,10 +46,11 @@ export const ModifierPropositionTechniqueEtFinancière = ({
             référence,
           )}
         >
-          {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2 className="mb-0">Modifier la proposition technique et financière</Heading2>
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+
+          {error && <ErrorBox>{error}</ErrorBox>}
 
           <div>
             <Label htmlFor="file">Proposition technique et financière signée</Label>
