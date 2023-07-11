@@ -2,11 +2,11 @@
 
 Dans cette documentation, vous trouverez les éléments clés concernant l'architecture du projet **Potentiel**.
 
-Actuellement le projet est divisé en deux parties:
+Actuellement, le projet est divisé en deux parties :
 - **Legacy** : code source est contenu dans le répertoire `src`.
 - **Nouveau socle** : code source est contenu dans le répertoire `packages`.
 
-La partie `Legacy` correspond au MVP qui a été mise en place et qui fait actuellement vivre le projet au quotidien. Cette partie est en cours de migration dans un nouveau socle ayant un design plus simple et plus éfficace. Il permet une meilleur maintenance et évolutivé du code, ainsi qu'un testabilité accrue via la mise en place du `Behavior Driven Development`. Dans la suite de cette documentation, le focus sera mis sur l'architecture du nouveau socle.
+La partie `Legacy` correspond au MVP qui a été mise en place et qui fait vivre le projet au quotidien. Cette partie est en cours de migration dans un nouveau socle ayant un design plus simple et plus efficace. Il permet une meilleur maintenance et évolutivé du code, ainsi qu'une testabilité accrue via la mise en place du `Behavior Driven Development`. Dans la suite de cette documentation, le focus sera mis sur l'architecture du nouveau socle.
 
 Il se base principalement sur deux patterns (qui seront abordés plus en détail dans la suite de cette documentation) :
 - Event Sourcing
@@ -18,24 +18,24 @@ La mise en place des fonctionnalités dans le nouveau socle suis l'approche DDD 
 
 Le design pattern Event Sourcing est au centre de l'architecture. Une définition du pattern est disponible [ici](https://fr.wikipedia.org/wiki/Architecture_orient%C3%A9e_%C3%A9v%C3%A9nements).
 
-Le pattern permet de capturer chaques changements d'état sous la forme d'un évènement et le persister dans un Event Store. Dans l'application le rôle de l'Event Store est porté par la base de données Postgres, et les évènements sont stockés dans l'ordre dans une timeline appellé **EventStream** :
+Le pattern permet de capturer chaque changement d'état sous la forme d'un évènement et le persister dans un Event Store. Dans l'application le rôle de l'Event Store est porté par la base de données Postgres et les évènements sont stockés dans l'ordre via une timeline appellé **EventStream** :
 
 ![EventStream](diagrams/event-stream.drawio.svg)
 
-Pour générer de nouveaux évènements, il est nécessaire de matérialiser un état sous la forme d'un aggrégat. Pour se faire, il faut charger l'ensemble des évènements liés à l'identifiant d'un aggrégat (celui-ci est souvent l'identifiant naturel d'une entitié métier, par exemple un Gestionnaire de Réseau est identifié par son CodeEIC). Une fois l'ensemble des évènements chargé, il faut les réduire afin d'extirper le dernier état de l'aggrégat pour ensuite éxecuter un comportement qui énéttera de nouveau évènement.
+Pour générer de nouveaux évènements, il est nécessaire de matérialiser un état sous la forme d'un agrégat. Pour ce faire, il faut charger l'ensemble des évènements liés à l'identifiant d'un agrégat (ce dernier est souvent l'identifiant naturel d'une entité métier, par exemple un Gestionnaire de Réseau est identifié par son CodeEIC). Une fois l'ensemble des évènements chargés, il faut les réduire afin d'extirper le dernier état de l'agrégat pour ensuite exécuter un comportement qui émettera de nouveaux évènements.
 
 ![EventStream-Projection](diagrams/event-stream-load.drawio.svg)
 
-Chaque évènement emit doit être publié dans l'Event Store de maniére ordonné et en gérant la concurrence. Dans Potentiel, l'ordre est garanti par la date de création (nom de la propriété : `createdAt`) et la version de l'aggrégat métier via lequel l'évènement a été crée (nom de la propriété : `version`). Ces deux propriétés sont gérés automatiquement dans la fonction `publish` du package **pg-event-sourcing** ([publish.ts](../../packages/libraries/pg-event-sourcing//src//publish.ts)). Les évènements sont stockés dans la table `EVENT_STREAM`.
+Chaque évènement émit doit être publié dans l'Event Store de manière ordonné et en gérant la concurrence. Dans Potentiel, l'ordre est garanti par la date de création (nom de la propriété : `createdAt`) et la version de l'aggrégat métier via lequel l'évènement a été créé (nom de la propriété : `version`). Ces deux propriétés sont gérés automatiquement dans la fonction `publish` du package **pg-event-sourcing** ([publish.ts](../../packages/libraries/pg-event-sourcing//src//publish.ts)). Les évènements sont stockés dans la table `EVENT_STREAM`.
 
-> ⚠️ La version actuelle de bibliothèque ne gére pas la concurrence lors de la publication. Actuellement le projet n'a pas suffisament de trafic pour justifier de mettre en place la concurrence actuellement. Ce comportement sera ajouté par la suite.
+> ⚠️ La version actuelle de bibliothèque ne gère pas la concurrence lors de la publication. Actuellement, le projet n'a pas suffisamment de trafic pour justifier de mettre en place la concurrence. Ce comportement sera ajouté par la suite si besoin.
 
-Les évènements contenus dans l'Event Store sont immutable et ne peuvent donc être ni supprimés, ni modifiées. L'immuabilité est géré dans Postgres sur la table `EVENT_STREAM` par les régles `PREVENT_DELETE_ON_EVENT_STREAM` et `PREVENT_UPDATE_ON_EVENT_STREAM`.
+Les évènements contenus dans l'Event Store sont immuables et ne peuvent donc être ni supprimés, ni modifiées. L'immuabilité est gérée dans Postgres sur la table `EVENT_STREAM` par les régles `PREVENT_DELETE_ON_EVENT_STREAM` et `PREVENT_UPDATE_ON_EVENT_STREAM`.
 
 Une fois publié, l'évènement est propagé par pg_notify via le déclencheur `notify_new_event` La fonction `subscribe` du package **pg-event-sourcing** permet de récupérer l'évènement propagé dans le chanel `new_event` ([subscribe.ts](../../packages/libraries/pg-event-sourcing/src/subscribe.ts)).
 
 ![EventStream-Subscribe](diagrams/event-stream-subscribe.drawio.svg)
 
-Cette fonction permet de mettre en place une projection des données. La responsabilité des projecteurs dans le projet est de créer des projections en lecture seule qui seront utilisé directement par l'application ainsi que le Frontend. L'ensemble de ces projections sont stockés dans la table `PROJECTION`. Les données des projections sont stockés en key/value pair.
+Cette fonction permet de mettre en place une projection des données. La responsabilité des projecteurs dans le projet est de créer des projections en lecture seule qui seront utilisées directement par l'application ainsi que le Frontend. L'ensemble de ces projections sont stockées dans la table `PROJECTION`. Les projections sont stockés sous la forme d'un key/value pair.
 
 ![EventStream-Projection](diagrams/event-stream-projection.drawio.svg)
