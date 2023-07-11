@@ -33,13 +33,15 @@ const schema = yup.object({
     reference: yup.string().required(),
   }),
   body: yup.object({
-    referenceDossierRaccordement: yup.string().required(),
+    referenceDossierRaccordement: yup
+      .string()
+      .required(`La référence du dossier de raccordement est obligatoire.`),
     dateQualification: yup
       .date()
-      .required(`La date de qualification est obligatoire`)
+      .required(`La date de qualification est obligatoire.`)
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date de qualification n'est pas valide`),
+      .typeError(`La date de qualification n'est pas valide.`),
   }),
 });
 
@@ -50,7 +52,7 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) =>
+      onError: ({ request, response, error }) =>
         response.redirect(
           addQueryParams(
             routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
@@ -58,7 +60,9 @@ v1Router.post(
               request.params.reference,
             ),
             {
-              error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
+              error: `Votre dossier de raccordement n'a pas pu être mise à jour dans Potentiel. ${error.errors.join(
+                ' ',
+              )}`,
             },
           ),
         ),
