@@ -31,11 +31,15 @@ import { isSome } from '@potentiel/monads';
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),
   body: yup.object({
-    identifiantGestionnaireReseau: yup.string().required(),
-    referenceDossierRaccordement: yup.string().required(),
+    identifiantGestionnaireReseau: yup
+      .string()
+      .required(`Le gestionnaire de réseau est obligatoire.`),
+    referenceDossierRaccordement: yup
+      .string()
+      .required(`La référence du dossier de raccordement est obligatoire.`),
     dateQualification: yup
       .date()
-      .required(`La date de qualification est obligatoire`)
+      .required(`La date de qualification est obligatoire.`)
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
       .typeError(`La date de qualification n'est pas valide`),
@@ -49,12 +53,23 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) =>
+      onError: ({ request, response, error }) => {
+        const identifiant = request.params.identifiantProjet;
+        if (estUnRawIdentifiantProjet(identifiant)) {
+          return response.redirect(
+            addQueryParams(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiant), {
+              error: `Votre dossier de raccordement n'a pas pu être transmis. ${error.errors.join(
+                ' ',
+              )}`,
+            }),
+          );
+        }
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(request.params.identifiantProjet), {
+          addQueryParams(routes.PROJECT_DETAILS(identifiant), {
             error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
           }),
-        ),
+        );
+      },
     },
     async (request, response) => {
       const {

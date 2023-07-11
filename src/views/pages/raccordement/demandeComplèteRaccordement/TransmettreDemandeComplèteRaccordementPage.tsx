@@ -63,17 +63,18 @@ export const TransmettreDemandeComplèteRaccordement = ({
           encType="multipart/form-data"
           action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(identifiantProjet)}
         >
-          {error && <ErrorBox>{error}</ErrorBox>}
-
           <Heading2>Transmettre une demande complète de raccordement</Heading2>
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+
+          {error && <ErrorBox>{error}</ErrorBox>}
 
           <div>
             <Label htmlFor="identifiantGestionnaireReseau">Gestionnaire de réseau</Label>
             <GestionnaireRéseauSelect
               id="identifiantGestionnaireReseau"
               name="identifiantGestionnaireReseau"
+              required
               disabled={!!gestionnaireRéseauActuel}
               gestionnaireRéseauActuel={gestionnaireRéseauActuel}
               gestionnairesRéseau={gestionnairesRéseau}
