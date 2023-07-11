@@ -30,10 +30,10 @@ const schema = yup.object({
   body: yup.object({
     dateMiseEnService: yup
       .date()
-      .required(`La date de mise en service est obligatoire`)
+      .required(`La date de mise en service est obligatoire.`)
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date de mise en service n'est pas valide`),
+      .typeError(`La date de mise en service n'est pas valide.`),
   }),
 });
 
@@ -43,14 +43,17 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) =>
+      onError: ({ request, response, error }) =>
         response.redirect(
           addQueryParams(
-            routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+            routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(
               request.params.identifiantProjet as RawIdentifiantProjet,
+              request.params.reference,
             ),
             {
-              error: `Une erreur est survenue lors de la date de mise en service, merci de vérifier les informations communiquées.`,
+              error: `La date de mise en service n'a pas pu être transmise. ${error.errors.join(
+                ' ',
+              )}`,
             },
           ),
         ),
