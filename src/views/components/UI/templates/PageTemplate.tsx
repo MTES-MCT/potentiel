@@ -14,10 +14,10 @@ export const PageTemplate = ({ user, children, currentPage, contentHeader }: Pag
   return (
     <App>
       <Header user={user}>{user && <UserNavigation {...{ user, currentPage }} />}</Header>
-      <main role="main" id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
-        <section className="bg-blue-france-sun-base text-white py-6 mb-3">
+      <main id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+        <div className="bg-blue-france-sun-base text-white py-6 mb-3">
           <Container>{contentHeader}</Container>
-        </section>
+        </div>
 
         <Container className="py-3 mb-4">{children}</Container>
       </main>

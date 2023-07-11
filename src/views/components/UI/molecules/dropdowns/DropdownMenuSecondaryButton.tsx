@@ -44,6 +44,7 @@ export const DropdownMenuSecondaryButton: React.FC<DropdownMenuSecondaryButtonPr
 
   return (
     <div
+      role="menu"
       ref={ref}
       className={`flex flex-col relative cursor-pointer ${className}`}
       aria-expanded={visible}
@@ -90,6 +91,7 @@ type DropdownItemProps = {
 
 const DropdownItem = ({ children, href, isCurrent, download, disabled }: DropdownItemProps) => (
   <li
+    role="menuitem"
     style={{ borderBottomWidth: 1 }}
     className={`flex items-center hover:bg-grey-1000-hover border-0 border-b-1 last:border-b-0 border-grey-925-base border-solid ${
       isCurrent && ' font-medium'

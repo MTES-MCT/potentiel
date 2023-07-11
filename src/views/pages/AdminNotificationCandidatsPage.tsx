@@ -1,7 +1,6 @@
 import {
   BarreDeRecherche,
   PrimaryButton,
-  Dropdown,
   ErrorBox,
   ExcelFileIcon,
   Heading1,
@@ -20,7 +19,7 @@ import { ProjectListItem } from '@modules/project/queries';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import querystring from 'querystring';
-import React, { useState } from 'react';
+import React from 'react';
 import { PaginatedList } from '../../types';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
 
@@ -61,10 +60,6 @@ export const AdminNotificationCandidats = ({
     listePériodes,
   } = données;
 
-  const hasFilters = !!(classement && classement !== '');
-
-  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
       <Heading1>Notifier les candidats</Heading1>
@@ -82,39 +77,31 @@ export const AdminNotificationCandidats = ({
         </div>
 
         <div className="form__group">
-          <Dropdown
-            design="link"
-            text="Filtrer"
-            isOpen={afficherFiltres}
-            changeOpenState={(state) => setAfficherFiltres(state)}
-            className="!w-full"
-          >
-            <div className="mt-4">
-              <Label htmlFor="classement">Classés/Eliminés</Label>
-              <Select
-                id="classement"
-                name="classement"
-                defaultValue={classement || 'default'}
-                onChange={(event) =>
-                  updateUrlParams({
-                    classement: event.target.value,
-                    page: null,
-                  })
-                }
-              >
-                <option value="default" disabled hidden>
-                  Choisir une option
-                </option>
-                <option value="">Tous</option>
-                <option value="classés" selected={classement && classement === 'classés'}>
-                  Classés
-                </option>
-                <option value="éliminés" selected={classement && classement === 'éliminés'}>
-                  Eliminés
-                </option>
-              </Select>
-            </div>
-          </Dropdown>
+          <div className="mt-4">
+            <Label htmlFor="classement">Classés/Eliminés</Label>
+            <Select
+              id="classement"
+              name="classement"
+              defaultValue={classement || 'default'}
+              onChange={(event) =>
+                updateUrlParams({
+                  classement: event.target.value,
+                  page: null,
+                })
+              }
+            >
+              <option value="default" disabled hidden>
+                Choisir une option
+              </option>
+              <option value="">Tous</option>
+              <option value="classés" selected={classement && classement === 'classés'}>
+                Classés
+              </option>
+              <option value="éliminés" selected={classement && classement === 'éliminés'}>
+                Eliminés
+              </option>
+            </Select>
+          </div>
         </div>
       </Form>
       <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
@@ -184,9 +171,10 @@ export const AdminNotificationCandidats = ({
             Télécharger la liste des lauréats (document csv)
           </SecondaryLinkButton>
         )}
-        {projetsPériodeSélectionnée.itemCount > 0 && !success && (
-          <>
-            <div>
+        {projetsPériodeSélectionnée.itemCount > 0 &&
+          !success &&
+          request.user?.role === 'dgec-validateur' && (
+            <div className="mt-4">
               <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
               <Input
                 type="text"
@@ -194,15 +182,12 @@ export const AdminNotificationCandidats = ({
                 id="notificationDate"
                 defaultValue={afficherDate(new Date())}
               />
-            </div>
-            {request.user?.role === 'dgec-validateur' && (
-              <PrimaryButton type="submit" name="submit" id="submit">
+              <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
                 Envoyer la notification aux {projetsPériodeSélectionnée.itemCount} candidats de
                 cette période
               </PrimaryButton>
-            )}
-          </>
-        )}
+            </div>
+          )}
       </Form>
 
       {success && <SuccessBox title={success} />}

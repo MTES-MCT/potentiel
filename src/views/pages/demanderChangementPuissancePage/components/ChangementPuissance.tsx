@@ -90,7 +90,6 @@ export const ChangementPuissance = ({
         </Label>
         <Input
           type="text"
-          inputMode="numeric"
           pattern="[0-9]+([\.,][0-9]+)?"
           name="puissance"
           id="puissance"
@@ -129,7 +128,7 @@ export const ChangementPuissance = ({
       </div>
       <div>
         <Label
-          htmlFor="candidats"
+          htmlFor="file"
           className="mt-4"
           required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
         >

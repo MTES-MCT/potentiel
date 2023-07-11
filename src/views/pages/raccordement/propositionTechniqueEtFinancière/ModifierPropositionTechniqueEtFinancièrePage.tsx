@@ -34,15 +34,8 @@ export const ModifierPropositionTechniqueEtFinancière = ({
   const { identifiantProjet } = projet;
 
   return (
-    <PageProjetTemplate
-      titre={
-        <TitrePageRaccordement>
-          <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
-        </TitrePageRaccordement>
-      }
-      user={user}
-      résuméProjet={projet}
-    >
+    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
+      <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
       <div className="flex flex-col md:flex-row gap-4">
         <Form
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"

@@ -44,7 +44,7 @@ export function PaginationPanel({
           <div className="m-2">
             Page <strong>{page + 1}</strong> sur <strong>{nombreDePage}</strong>
           </div>
-          <nav role="navigation" aria-label="Pagination">
+          <nav aria-label="Pagination">
             <Pagination nombreDePage={nombreDePage} page={page} />
           </nav>
         </>

@@ -13,18 +13,7 @@ export const ChangementActionnaire = ({
   justification,
 }: ChangementActionnaireProps) => (
   <>
-    {project.actionnaire && (
-      <div>
-        <Label htmlFor="ancien-actionnaire">Ancien actionnaire</Label>
-        <Input
-          type="text"
-          disabled
-          defaultValue={project.actionnaire}
-          name="ancien-actionnaire"
-          id="ancien-actionnaire"
-        />
-      </div>
-    )}
+    {project.actionnaire && <p>Ancien actionnaire : {project.actionnaire}</p>}
     <div>
       <Label htmlFor="actionnaire" className="mt-4" required>
         Nouvel actionnaire
@@ -38,7 +27,7 @@ export const ChangementActionnaire = ({
       />
     </div>
     <div>
-      <Label htmlFor="candidats">Statuts mis à jour</Label>
+      <Label htmlFor="file">Joindre les statuts mis à jour</Label>
       <Input type="file" name="file" id="file" />
     </div>
     <div>

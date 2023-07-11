@@ -78,7 +78,9 @@ export const ProjectDetails = ({
           <CDCInfo {...{ project, user }} />
         </Callout>
         <div className="flex flex-col lg:flex-row gap-3">
-          {projectEventList && <EtapesProjet {...{ project, user, projectEventList }} />}
+          {!!projectEventList?.events.length && (
+            <EtapesProjet {...{ project, user, projectEventList }} />
+          )}
           <div className={`flex flex-col flex-grow gap-3`}>
             <InfoGenerales {...{ project, role: user.role }} />
             <Contact {...{ user, project }} />
@@ -116,7 +118,8 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
         : `${
             cahierDesChargesActuel.alternatif ? 'alternatif' : ''
           } modifié rétroactivement et publié le ${cahierDesChargesActuel.paruLe}`}{' '}
-      (<ExternalLink href={cahierDesChargesActuel.url}>voir le cahier des charges</ExternalLink>)
+      (<ExternalLink href={cahierDesChargesActuel.url}>voir le cahier des charges</ExternalLink>
+      )
       <br />
       {userIs('porteur-projet')(user) && (
         <Link className="flex mt-4" href={`/projet/${projectId}/choisir-cahier-des-charges.html`}>

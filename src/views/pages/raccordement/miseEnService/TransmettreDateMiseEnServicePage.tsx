@@ -32,16 +32,10 @@ export const TransmettreDateMiseEnService = ({
   const { identifiantProjet } = projet;
 
   return (
-    <PageProjetTemplate
-      titre={
-        <TitrePageRaccordement>
-          <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
-        </TitrePageRaccordement>
-      }
-      user={user}
-      résuméProjet={projet}
-    >
+    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
+      <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
       <Heading2 className="mb-0">Transmettre la date de mise en service</Heading2>
+
       <div className="flex flex-col md:flex-row gap-4">
         <Form
           className="mx-auto mt-6"
