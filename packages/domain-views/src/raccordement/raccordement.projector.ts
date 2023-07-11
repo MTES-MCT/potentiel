@@ -27,13 +27,19 @@ export const registerRaccordementProjector = ({
 }: RaccordementProjectorDependencies) => {
   const handler: MessageHandler<ExecuteRaccordementProjector> = async (event) => {
     if (event.type === 'DemandeComplèteDeRaccordementTransmise') {
-      await create<LegacyDossierRaccordementReadModel>(
+      const dossierRaccordement = await find<LegacyDossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
-        {
-          dateQualification: event.payload.dateQualification,
-          référence: event.payload.référenceDossierRaccordement,
-        },
       );
+
+      if (isNone(dossierRaccordement)) {
+        await create<LegacyDossierRaccordementReadModel>(
+          `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+          {
+            dateQualification: event.payload.dateQualification,
+            référence: event.payload.référenceDossierRaccordement,
+          },
+        );
+      }
 
       const listeDossierRaccordement = await find<ListeDossiersRaccordementReadModel>(
         `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
@@ -52,8 +58,10 @@ export const registerRaccordementProjector = ({
           {
             ...listeDossierRaccordement,
             références: [
-              ...listeDossierRaccordement.références,
-              event.payload.référenceDossierRaccordement,
+              ...new Set([
+                ...listeDossierRaccordement.références,
+                event.payload.référenceDossierRaccordement,
+              ]),
             ],
           },
         );
@@ -125,10 +133,12 @@ export const registerRaccordementProjector = ({
               {
                 ...listeDossierRaccordement,
                 références: [
-                  ...listeDossierRaccordement.références.filter(
-                    (référence) => référence !== event.payload.referenceActuelle,
-                  ),
-                  event.payload.nouvelleReference,
+                  ...new Set([
+                    ...listeDossierRaccordement.références.filter(
+                      (référence) => référence !== event.payload.referenceActuelle,
+                    ),
+                    event.payload.nouvelleReference,
+                  ]),
                 ],
               },
             );
@@ -169,10 +179,12 @@ export const registerRaccordementProjector = ({
             {
               ...dossiers,
               références: [
-                ...dossiers.références.filter(
-                  (référence) => référence !== event.payload.référenceDossierRaccordementActuelle,
-                ),
-                event.payload.nouvelleRéférenceDossierRaccordement,
+                ...new Set([
+                  ...dossiers.références.filter(
+                    (référence) => référence !== event.payload.référenceDossierRaccordementActuelle,
+                  ),
+                  event.payload.nouvelleRéférenceDossierRaccordement,
+                ]),
               ],
             },
           );
