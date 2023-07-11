@@ -1,15 +1,15 @@
-import { randomUUID } from 'crypto';
 import { createConsumer } from './createConsumer';
 import { Consumer } from './consumer';
 import { getLogger } from '@potentiel/monitoring';
 
 let consumers: Array<Consumer> = [];
-
+let index = 0;
 const getConsumer = async () => {
   let consumer = consumers.find((c) => c.getSize() < getPoolMaxSize());
 
   if (!consumer) {
-    consumer = await createConsumer(randomUUID());
+    index = index + 1;
+    consumer = await createConsumer(`consumer-${index}`);
     consumers.push(consumer);
     getLogger().info('New consumer created', { name: consumer.getName() });
   }
