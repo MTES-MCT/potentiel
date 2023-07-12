@@ -24,71 +24,78 @@ import {
   const filesToUpdate = productionFiles.filter(
     (pf) => !!stagingFiles.find((sf) => pf.key === sf.key && pf.eTag !== sf.eTag),
   );
-  console.info(`💡 ${filesToDelete} files will be deleted on Staging`);
-  console.info(`💡 ${filesToUpdate} files will be uploaded on Staging`);
-  console.info(`💡 ${filesToDelete} files will be updated on Staging`);
+  console.info(`💡 ${filesToDelete.length} files will be deleted on Staging`);
+  console.info(`💡 ${filesToUpdate.length} files will be uploaded on Staging`);
+  console.info(`💡 ${filesToDelete.length} files will be updated on Staging`);
 
   if (filesToDelete.length) {
-    console.info(`💡 Deleting files...`);
+    console.info(`💡 Deleting ${filesToDelete.length} files...`);
+
+    await Promise.all(
+      filesToDelete.map(async ({ key }) => {
+        try {
+          console.info(`🗑️ Deleting ${key}`);
+          await deleteStagingFile(key);
+        } catch (error) {
+          errorsCount++;
+          appendFileSync(
+            './s3-sync.log',
+            `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
+            {
+              encoding: 'utf-8',
+            },
+          );
+        }
+      }),
+    );
   }
-  await Promise.all(
-    filesToDelete.map(async ({ key }) => {
-      try {
-        await deleteStagingFile(key);
-      } catch (error) {
-        errorsCount++;
-        appendFileSync(
-          './s3-sync.log',
-          `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
-          {
-            encoding: 'utf-8',
-          },
-        );
-      }
-    }),
-  );
 
   if (filesToUpload.length) {
-    console.info(`💡 Uploading files...`);
+    console.info(`💡 Uploading ${filesToUpload.length} files...`);
+
+    await Promise.all(
+      filesToUpload.map(async ({ key }) => {
+        try {
+          console.info(`📥 Downloading ${key}`);
+          const fileContent = await downloadProductionFile(key);
+          console.info(`🚚 Uploading ${key}`);
+          await uploadStagingFile(key, fileContent);
+        } catch (error) {
+          errorsCount++;
+          appendFileSync(
+            './s3-sync.log',
+            `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
+            {
+              encoding: 'utf-8',
+            },
+          );
+        }
+      }),
+    );
   }
-  await Promise.all(
-    filesToUpload.map(async ({ key }) => {
-      try {
-        const fileContent = await downloadProductionFile(key);
-        await uploadStagingFile(key, fileContent);
-      } catch (error) {
-        errorsCount++;
-        appendFileSync(
-          './s3-sync.log',
-          `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
-          {
-            encoding: 'utf-8',
-          },
-        );
-      }
-    }),
-  );
 
   if (filesToUpdate.length) {
-    console.info(`💡 Updating files...`);
+    console.info(`💡 Updating ${filesToUpdate.length} files...`);
+    await Promise.all(
+      filesToUpdate.map(async ({ key }) => {
+        try {
+          console.info(`📥 Downloading ${key}`);
+          const fileContent = await downloadProductionFile(key);
+          console.info(`🚛 Updating ${key}`);
+          await updateStagingFile(key, fileContent);
+        } catch (error) {
+          errorsCount++;
+          appendFileSync(
+            './s3-sync.log',
+            `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
+            {
+              encoding: 'utf-8',
+            },
+          );
+        }
+      }),
+    );
   }
-  await Promise.all(
-    filesToUpdate.map(async ({ key }) => {
-      try {
-        const fileContent = await downloadProductionFile(key);
-        await updateStagingFile(key, fileContent);
-      } catch (error) {
-        errorsCount++;
-        appendFileSync(
-          './s3-sync.log',
-          `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
-          {
-            encoding: 'utf-8',
-          },
-        );
-      }
-    }),
-  );
 
   if (errorsCount === 0) {
     console.log('✅✅✅✅✅✅✅✅✅ All good !');
