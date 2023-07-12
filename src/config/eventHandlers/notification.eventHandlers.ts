@@ -31,7 +31,6 @@ import {
 import { sendNotification } from '../emails.config';
 import { eventStore } from '../eventStore.config';
 import {
-  getInfoForModificationRequested,
   getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
   récupérerDonnéesPorteursParProjetQueryHandler,
@@ -64,9 +63,8 @@ eventStore.subscribe(
   ModificationRequested.type,
   handleModificationRequested({
     sendNotification,
-    getInfoForModificationRequested,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
-    findProjectById: oldProjectRepo.findById,
+    getModificationRequestInfoForStatusNotification,
   }),
 );
 
