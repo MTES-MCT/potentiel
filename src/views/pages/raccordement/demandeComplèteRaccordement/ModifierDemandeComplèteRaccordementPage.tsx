@@ -61,11 +61,11 @@ export const ModifierDemandeComplèteRaccordement = ({
           encType="multipart/form-data"
           action={routes.POST_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT(identifiantProjet, référence)}
         >
-          {error && <ErrorBox>{error}</ErrorBox>}
-
           <Heading2>Modifier une demande complète de raccordement</Heading2>
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+
+          {error && <ErrorBox>{error}</ErrorBox>}
 
           <div>
             <Label htmlFor="identifiantGestionnaireRéseau">Gestionnaire de réseau</Label>

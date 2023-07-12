@@ -32,11 +32,9 @@ export const GestionnaireRéseauSelect = ({
       <Select
         {...props}
         onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
-        defaultValue={gestionnaireRéseauActuel?.codeEIC ?? 'none'}
+        defaultValue={gestionnaireRéseauActuel?.codeEIC ?? ''}
       >
-        <option value="none" disabled hidden>
-          Sélectionnez votre gestionnaire de réseau
-        </option>
+        <option value="">Sélectionnez votre gestionnaire de réseau</option>
         {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
           <option value={codeEIC} key={codeEIC}>
             {raisonSociale} (code EIC : {codeEIC})
