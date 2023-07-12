@@ -8,9 +8,45 @@ const stagingClient = new S3({
   s3ForcePathStyle: true,
 });
 
-export const getStagingObject = (key: string) => {
+type S3File = {
+  key: string;
+  lastModified: Date;
+  eTag: string;
+};
+
+export const getAllStagingFiles = async (): Promise<S3File[]> => {
+  const allFiles: Array<S3File> = [];
+  let isTruncated = true;
+  let marker = '';
+
+  while (isTruncated) {
+    const files = await stagingClient
+      .listObjects({ Bucket: stagingBucketName, Marker: marker })
+      .promise();
+
+    if (!files.Contents || files.Contents.length === 0 || !files.Contents[0].Key) {
+      continue;
+    }
+
+    allFiles.push(
+      ...files.Contents.map(
+        (file) => ({ key: file.Key, lastModified: file.LastModified, eTag: file.ETag } as S3File),
+      ),
+    );
+
+    isTruncated = files.IsTruncated ?? false;
+
+    if (files.IsTruncated) {
+      marker = files.Contents?.pop()?.Key ?? '';
+    }
+  }
+
+  return allFiles;
+};
+
+export const getStagingObject = async (key: string) => {
   try {
-    return stagingClient
+    return await stagingClient
       .headObject({
         Bucket: stagingBucketName,
         Key: key,
@@ -20,27 +56,27 @@ export const getStagingObject = (key: string) => {
     if (error.code === 'NotFound') {
       return undefined;
     }
-    console.log(`❌ getStagingObject error: ${error}`);
-    throw error;
+    const message = `❌ getStagingObject ${key} - error: ${error}`;
+    throw new Error(message);
   }
 };
 
-export const updateStagingFile = (key: string, body: S3.Body | undefined) => {
+export const updateStagingFile = async (key: string, body: S3.Body | undefined) => {
   try {
-    return stagingClient.putObject({
+    return await stagingClient.putObject({
       Bucket: stagingBucketName,
       Key: key,
       Body: body,
     });
   } catch (error) {
-    console.log(`❌ updateStagingFile error: ${error}`);
-    throw error;
+    const message = `❌ updateStagingFile ${key} - error: ${error}`;
+    throw new Error(message);
   }
 };
 
-export const uploadStagingFile = (key: string, body: S3.Body | undefined) => {
+export const uploadStagingFile = async (key: string, body: S3.Body | undefined) => {
   try {
-    return stagingClient
+    return await stagingClient
       .upload({
         Bucket: stagingBucketName,
         Key: key,
@@ -48,7 +84,21 @@ export const uploadStagingFile = (key: string, body: S3.Body | undefined) => {
       })
       .promise();
   } catch (error) {
-    console.log(`❌ uploadStagingFile error: ${error}`);
-    throw error;
+    const message = `❌ uploadStagingFile ${key} - error: ${error}`;
+    throw new Error(message);
+  }
+};
+
+export const deleteStagingFile = async (key: string) => {
+  try {
+    return await stagingClient
+      .deleteObject({
+        Bucket: stagingBucketName,
+        Key: key,
+      })
+      .promise();
+  } catch (error) {
+    const message = `❌ deleteStagingFile ${key} - error: ${error}`;
+    throw new Error(message);
   }
 };

@@ -11,6 +11,7 @@ const productionClient = new S3({
 type S3File = {
   key: string;
   lastModified: Date;
+  eTag: string;
 };
 
 export const getAllProductionFiles = async (): Promise<S3File[]> => {
@@ -29,7 +30,7 @@ export const getAllProductionFiles = async (): Promise<S3File[]> => {
 
     allFiles.push(
       ...files.Contents.map(
-        (file) => ({ key: file.Key, lastModified: file.LastModified } as S3File),
+        (file) => ({ key: file.Key, lastModified: file.LastModified, eTag: file.ETag } as S3File),
       ),
     );
 
@@ -51,7 +52,7 @@ export const downloadProductionFile = async (key: string) => {
 
     return result.Body;
   } catch (error) {
-    console.log(`❌ downloadProductionFile error: ${error}`);
-    throw error;
+    const message = `❌ downloadProductionFile ${key} - error: ${error}`;
+    throw new Error(message);
   }
 };

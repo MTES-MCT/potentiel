@@ -1,74 +1,98 @@
+import { appendFileSync } from 'fs';
 import { downloadProductionFile, getAllProductionFiles } from './s3ProductionClient';
-import { getStagingObject, updateStagingFile, uploadStagingFile } from './s3StagingClient';
+import {
+  deleteStagingFile,
+  getAllStagingFiles,
+  updateStagingFile,
+  uploadStagingFile,
+} from './s3StagingClient';
 
 (async () => {
-  const warningOrError: Array<
-    { type: 'error'; error: Error } | { type: 'warning'; messages: string[] }
-  > = [];
+  let errorsCount = 0;
 
   console.info(`📥 Getting all production files to sync with staging...`);
   const productionFiles = await getAllProductionFiles();
-  console.info(`💡 ${productionFiles.length} files to sync with staging !`);
+  console.info(`💡 ${productionFiles.length} files on production`);
 
-  let fileSyncedCount = 0;
-  for (const { key, lastModified } of productionFiles) {
-    fileSyncedCount++;
+  console.info(`📥 Getting all staging files to sync with staging...`);
+  const stagingFiles = await getAllStagingFiles();
+  console.info(`💡 ${stagingFiles.length} files on staging`);
 
-    console.info(`💡 Syncing file ${fileSyncedCount}/${productionFiles.length}`);
-    try {
-      const stagingFile = await getStagingObject(key);
+  console.info(`Analizing files synchronisation...`);
+  const filesToDelete = stagingFiles.filter((sf) => productionFiles.includes(sf));
+  const filesToUpload = productionFiles.filter((pf) => stagingFiles.includes(pf));
+  const filesToUpdate = productionFiles.filter(
+    (pf) => !!stagingFiles.find((sf) => pf.key === sf.key && pf.eTag !== sf.eTag),
+  );
+  console.info(`💡 ${filesToDelete} files will be deleted on Staging`);
+  console.info(`💡 ${filesToUpdate} files will be uploaded on Staging`);
+  console.info(`💡 ${filesToDelete} files will be updated on Staging`);
 
-      if (stagingFile) {
-        if (
-          stagingFile.LastModified &&
-          stagingFile.LastModified.getTime() < lastModified.getTime()
-        ) {
-          console.info(`💡 Staging file ${key} exists but is obsolete`);
-
-          console.info(`📥 Downloading file ${key} ...`);
-          const fileContent = await downloadProductionFile(key);
-
-          console.info(`📨 Updating file ${key} on staging`);
-          await updateStagingFile(key, fileContent);
-          console.info(`✅ File ${key} updated on staging`);
-        }
-
-        continue;
+  if (filesToDelete.length) {
+    console.info(`💡 Deleting files...`);
+  }
+  await Promise.all(
+    filesToDelete.map(async ({ key }) => {
+      try {
+        await deleteStagingFile(key);
+      } catch (error) {
+        errorsCount++;
+        appendFileSync(
+          './s3-sync.log',
+          `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
+          {
+            encoding: 'utf-8',
+          },
+        );
       }
+    }),
+  );
 
-      console.info(`💡 Staging file ${key} does not exist`);
-
-      console.info(`📥 Downloading file ${key} ...`);
-      const fileContent = await downloadProductionFile(key);
-
-      console.info(`📨 Uploading file ${key} on staging`);
-      await uploadStagingFile(key, fileContent);
-      console.info(`✅ File ${key} uploaded on staging`);
-    } catch (error) {
-      //   console.log(`❌ error: ${error}`);
-      warningOrError.push({
-        type: 'error',
-        error,
-      });
-    }
+  if (filesToUpload.length) {
+    console.info(`💡 Uploading files...`);
   }
+  await Promise.all(
+    filesToUpload.map(async ({ key }) => {
+      try {
+        const fileContent = await downloadProductionFile(key);
+        await uploadStagingFile(key, fileContent);
+      } catch (error) {
+        errorsCount++;
+        appendFileSync(
+          './s3-sync.log',
+          `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
+          {
+            encoding: 'utf-8',
+          },
+        );
+      }
+    }),
+  );
 
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>');
-  console.log('Report');
+  if (filesToUpdate.length) {
+    console.info(`💡 Updating files...`);
+  }
+  await Promise.all(
+    filesToUpdate.map(async ({ key }) => {
+      try {
+        const fileContent = await downloadProductionFile(key);
+        await updateStagingFile(key, fileContent);
+      } catch (error) {
+        errorsCount++;
+        appendFileSync(
+          './s3-sync.log',
+          `${new Date().toISOString()} - ${JSON.stringify(error)}\n`,
+          {
+            encoding: 'utf-8',
+          },
+        );
+      }
+    }),
+  );
 
-  if (!warningOrError.length) {
+  if (errorsCount === 0) {
     console.log('✅✅✅✅✅✅✅✅✅ All good !');
-  }
-
-  for (const wOe of warningOrError) {
-    if (wOe.type === 'error') {
-      console.log('❌ Error');
-      console.error(wOe.error);
-      console.log('');
-    } else {
-      console.log('⚠️ Warning');
-      wOe.messages.forEach((m) => console.log(m));
-      console.log('');
-    }
+  } else {
+    console.log(`${errorsCount} errors occured during sync, see ./s3-sync.log`);
   }
 })();
