@@ -71,7 +71,7 @@
     "connect-session-sequelize": "^7.1.5",
     "cookie-parser": "^1.4.6",
     "csv-parse": "^5.4.0",
-    "date-fns": "^2.29.3",
+    "date-fns": "^2.30.0",
     "docxtemplater": "^3.37.9",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
