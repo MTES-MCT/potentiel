@@ -5,7 +5,7 @@ import { makeOnAbandonAccordé } from '.';
 describe(`Notifier lorsqu'un abandon est accordé`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est accordé
-          Alors les deux porteurs ayant accès au projet devrait être notifié`, async () => {
+          Alors les deux porteurs ayant accès au projet devraient être notifiés`, async () => {
       const notifierPorteurChangementStatutDemande = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
