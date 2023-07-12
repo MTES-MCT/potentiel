@@ -49,3 +49,9 @@ Le pattern CQRS définit qu'une application peut être découpé en deux partie,
 - Command : Execution de la logique, intégrité, validation, ...
 
 CQRS et Event Sourcing vont souvent de pair car la séparation qu'impose le premier correspond à l'organisation du deuxième (Query/Projection + Command/Event).
+
+## Architecture
+
+Voici l'architecture générale actuelle du projet avec Event Sourcing & CQRS :
+
+![Architecture](diagrams/architecture.drawio.svg)
