@@ -17,11 +17,10 @@ import {
 } from '@modules/notification';
 import { sendNotification } from '../../emails.config';
 import {
-  getInfoForModificationRequested,
   getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
 } from '../../queries.config';
-import { oldProjectRepo, oldUserRepo } from '../../repos.config';
+import { oldUserRepo } from '../../repos.config';
 
 if (!process.env.DGEC_EMAIL) {
   console.error('ERROR: DGEC_EMAIL is not set');
@@ -32,9 +31,8 @@ notificationEventSubscriber(
   DélaiDemandé,
   makeOnDélaiDemandé({
     sendNotification,
-    getInfoForModificationRequested,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
-    findProjectById: oldProjectRepo.findById,
+    getModificationRequestInfoForStatusNotification,
   }),
 );
 notificationEventSubscriber(
