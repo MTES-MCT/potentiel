@@ -14,7 +14,12 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           {
             model: Project,
             as: 'project',
-            attributes: ['nomProjet', 'departementProjet', 'regionProjet'],
+            attributes: [
+              'nomProjet',
+              'departementProjet',
+              'regionProjet',
+              'evaluationCarboneDeRéférence',
+            ],
           },
         ],
       }),
@@ -26,7 +31,7 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
       const {
         type,
         projectId,
-        project: { nomProjet, departementProjet, regionProjet },
+        project: { nomProjet, departementProjet, regionProjet, evaluationCarboneDeRéférence },
       } = modificationRequestRaw;
 
       return wrapInfra(
@@ -47,6 +52,7 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           nomProjet,
           departementProjet,
           regionProjet,
+          evaluationCarboneDeRéférence,
           porteursProjet: porteursProjets.map(({ user: { id, email, fullName } }) => ({
             id,
             email,

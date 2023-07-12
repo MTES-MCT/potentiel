@@ -99,8 +99,7 @@ eventStore.subscribe(
   handleModificationReceived({
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
-    findUserById: oldUserRepo.findById,
-    findProjectById: oldProjectRepo.findById,
+    getModificationRequestInfoForStatusNotification,
   }),
 );
 

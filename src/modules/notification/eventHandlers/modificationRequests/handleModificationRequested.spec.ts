@@ -5,6 +5,7 @@ import {
 } from '@modules/modificationRequest';
 import routes from '@routes';
 import { handleModificationRequested } from './handleModificationRequested';
+import { User } from '@entities';
 
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {
   it(`Etant donné un projet sous l'autorité DGEC
@@ -24,6 +25,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
           type: 'puissance',
+          evaluationCarboneDeRéférence: 1,
         });
 
     await handleModificationRequested({
@@ -99,6 +101,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
           type: 'puissance',
+          evaluationCarboneDeRéférence: 1,
         });
 
     const findUsersForDreal = (region: string) =>

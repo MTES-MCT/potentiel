@@ -4,4 +4,5 @@ export interface ModificationRequestInfoForStatusNotificationDTO {
   regionProjet: string;
   nomProjet: string;
   type: string;
+  evaluationCarboneDeRéférence: number;
 }
