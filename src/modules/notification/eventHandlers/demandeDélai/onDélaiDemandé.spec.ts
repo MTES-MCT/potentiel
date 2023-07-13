@@ -3,6 +3,7 @@ import { DélaiDemandé } from '@modules/demandeModification';
 import { makeOnDélaiDemandé } from './onDélaiDemandé';
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
 import routes from '@routes';
+import { User } from '@entities';
 
 describe(`Notifier lorsqu'un délai est demandé`, () => {
   it(`Etant donné un projet sous l'autorité DGEC
@@ -22,6 +23,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
           type: 'type',
+          evaluationCarboneDeRéférence: 100,
         });
 
     const onDélaiDemandé = makeOnDélaiDemandé({
@@ -98,6 +100,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
           type: 'type',
+          evaluationCarboneDeRéférence: 100,
         });
 
     const findUsersForDreal = (region: string) =>

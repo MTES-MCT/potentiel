@@ -27,6 +27,7 @@ describe(`Notifier lorsqu'un abandon est rejeté`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onAbandonRejeté = makeOnAbandonRejeté({

@@ -27,6 +27,7 @@ describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onConfirmationAbandonDemandée = makeOnConfirmationAbandonDemandée({

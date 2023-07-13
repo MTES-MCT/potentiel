@@ -122,4 +122,5 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   soumisAuxGF: false,
   GFValidées: false,
   notifiedOn: new Date('2020-01-01').getTime(),
+  hasCurrentGf: false,
 });

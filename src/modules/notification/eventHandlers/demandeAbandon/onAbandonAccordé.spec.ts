@@ -27,6 +27,7 @@ describe(`Notifier lorsqu'un abandon est accordé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onAbandonAccordé = makeOnAbandonAccordé({

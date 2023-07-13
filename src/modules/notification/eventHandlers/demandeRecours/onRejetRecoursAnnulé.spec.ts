@@ -27,6 +27,7 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de recours`, () =
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'recours',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onRejetDemandeDélaiAnnulé = makeOnRejetRecoursAnnulé({

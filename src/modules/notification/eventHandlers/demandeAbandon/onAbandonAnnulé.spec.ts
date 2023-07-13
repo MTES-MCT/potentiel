@@ -17,6 +17,7 @@ describe('Handler onAbandonAnnulé', () => {
         regionProjet: '',
         nomProjet: 'nomProjet',
         type: 'abandon',
+        evaluationCarboneDeRéférence: 100,
       })) as GetModificationRequestInfoForStatusNotification);
 
     const sendNotification = jest.fn(async (args: NotificationArgs) => null);

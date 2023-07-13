@@ -27,6 +27,7 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () =>
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onRejetDemandeDélaiAnnulé = makeOnRejetDélaiAnnulé({

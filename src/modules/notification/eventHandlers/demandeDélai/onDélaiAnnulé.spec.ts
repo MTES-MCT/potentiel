@@ -28,6 +28,7 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onDélaiAnnulé = makeOnDélaiAnnulé({
@@ -91,6 +92,7 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onDélaiAnnulé = makeOnDélaiAnnulé({
@@ -143,6 +145,7 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
           regionProjet: 'regionA / regionB',
           departementProjet: 'departement',
           type: 'delai',
+          evaluationCarboneDeRéférence: 100,
         });
       const findUsersForDreal = (region: string) =>
         Promise.resolve(

@@ -29,6 +29,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       regionProjet: 'region',
       departementProjet: 'departement',
       type: 'recours',
+      evaluationCarboneDeRéférence: 100,
     }),
   ) as GetModificationRequestInfoForStatusNotification;
 

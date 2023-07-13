@@ -27,6 +27,7 @@ describe(`Notifier lorsqu'un délai est accordé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onDélaiEnInstruction = makeOnDélaiEnInstruction({
