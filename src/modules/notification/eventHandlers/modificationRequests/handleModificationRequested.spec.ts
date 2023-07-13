@@ -1,6 +1,6 @@
 import { okAsync } from '@core/utils';
 import {
-  GetModificationRequestInfoForStatusNotification,
+  GetProjectInfoForModificationRequestedNotification,
   ModificationRequested,
 } from '@modules/modificationRequest';
 import routes from '@routes';
@@ -14,7 +14,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       Alors tous les porteurs ayant accès au projet devraient être notifiés
       Et aucun autre acteur ne devrait être notifié`, async () => {
     const sendNotification = jest.fn();
-    const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+    const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
         okAsync({
           porteursProjet: [
@@ -24,12 +24,11 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
-          type: 'puissance',
         });
 
     await handleModificationRequested({
       sendNotification,
-      getModificationRequestInfoForStatusNotification,
+      getProjectInfoForModificationRequestedNotification,
       findUsersForDreal: jest.fn(),
     })(
       new ModificationRequested({
@@ -90,7 +89,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       Quand une demande de modification est déposée par un porteur
       Alors tous les agents des deux régions du projet devraient être notifiés`, async () => {
     const sendNotification = jest.fn();
-    const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+    const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
         okAsync({
           porteursProjet: [
@@ -99,7 +98,6 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
-          type: 'puissance',
         });
 
     const findUsersForDreal = (region: string) =>
@@ -114,7 +112,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
 
     await handleModificationRequested({
       sendNotification,
-      getModificationRequestInfoForStatusNotification,
+      getProjectInfoForModificationRequestedNotification,
       findUsersForDreal,
     })(
       new ModificationRequested({

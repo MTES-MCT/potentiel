@@ -3,7 +3,7 @@ import { logger } from '@core/utils';
 import { UserRepo } from '@dataAccess';
 import routes from '@routes';
 import {
-  GetModificationRequestInfoForStatusNotification,
+  GetProjectInfoForModificationRequestedNotification,
   ModificationRequested,
 } from '../../../modificationRequest';
 
@@ -11,12 +11,12 @@ export const handleModificationRequested =
   (deps: {
     sendNotification: NotificationService['sendNotification'];
     findUsersForDreal: UserRepo['findUsersForDreal'];
-    getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+    getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification;
   }) =>
   async (event: ModificationRequested) => {
     const { modificationRequestId, projectId, type, authority } = event.payload;
 
-    await deps.getModificationRequestInfoForStatusNotification(modificationRequestId).match(
+    await deps.getProjectInfoForModificationRequestedNotification(projectId).match(
       async ({ nomProjet, porteursProjet, departementProjet, regionProjet }) => {
         await Promise.all(
           porteursProjet.map(({ email, fullName, id }) =>
