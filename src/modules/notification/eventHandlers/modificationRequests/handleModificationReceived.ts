@@ -66,7 +66,6 @@ export const handleModificationReceived =
                 notificationPayload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`;
               }
             }
-
             deps.sendNotification(notificationPayload);
           }),
         );
@@ -77,6 +76,9 @@ export const handleModificationReceived =
           regions.map(async (region) => {
             const drealUsers = await deps.findUsersForDreal(region);
 
+            if (!drealUsers) {
+              return;
+            }
             await Promise.all(
               drealUsers.map((drealUser) =>
                 deps.sendNotification({

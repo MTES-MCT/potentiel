@@ -10,7 +10,6 @@ import { handleModificationReceived } from './handleModificationReceived';
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {
   const modificationRequestId = 'id-demande';
   const projetId = 'id-projet';
-
   describe(`Cas général`, () => {
     it(`Etant donné un projet sous l'autorité DREAL
       Et ayant plusieurs porteurs rattachés
@@ -18,6 +17,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       Alors tous les porteurs ayant accès au projet devraient être notifiés
       Et tous les agents des DREALs rattachées au projet devraient être notifiés`, async () => {
       const sendNotification = jest.fn();
+
       const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
         () =>
           okAsync({
@@ -169,80 +169,101 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
     });
   });
 
-  // describe(`Lorsque la modification est de type "fournisseur"`, () => {
-  //   const sendNotification = jest.fn();
-  //   const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
-  //     () =>
-  //       okAsync({
-  //         porteursProjet: [
-  //           { email: 'porteur1@test.test', fullName: 'Porteur de Projet 1', id: 'id-user-1' },
-  //         ],
-  //         nomProjet: 'nom-du-projet',
-  //         departementProjet: 'département-du-projet',
-  //         regionProjet: 'région-du-projet',
-  //         type: 'fournisseur',
-  //         evaluationCarboneDeRéférence: 100,
-  //       });
+  describe(`Lorsque la modification est de type "fournisseur"`, () => {
+    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieure à la tolérance
+        Alors une section alerte ne devrait pas être ajoutée à la notification`, async () => {
+      const sendNotification = jest.fn();
 
-  //   const findUsersForDreal = jest.fn();
+      const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+        () =>
+          okAsync({
+            porteursProjet: [
+              { email: 'porteur1@test.test', fullName: 'Porteur de Projet 1', id: 'id-user-1' },
+            ],
+            nomProjet: 'nom-du-projet',
+            departementProjet: 'département-du-projet',
+            regionProjet: 'région-du-projet',
+            type: 'fournisseur',
+            evaluationCarboneDeRéférence: 100,
+          });
 
-  //   it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieure à la tolérance
-  //       Alors une section alerte ne devrait pas être ajoutée à la notification`, async () => {
-  //     await handleModificationReceived({
-  //       sendNotification,
-  //       getModificationRequestInfoForStatusNotification,
-  //       findUsersForDreal,
-  //     })(
-  //       new ModificationReceived({
-  //         payload: {
-  //           type: 'fournisseur',
-  //           modificationRequestId,
-  //           projectId: projetId,
-  //           requestedBy: 'id-user-1',
-  //           justification: 'justification',
-  //           fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
-  //           evaluationCarbone: 124,
-  //           authority: 'dreal',
-  //         },
-  //       }),
-  //     );
+      await handleModificationReceived({
+        sendNotification,
+        getModificationRequestInfoForStatusNotification,
+        findUsersForDreal: jest.fn(),
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'fournisseur',
+            modificationRequestId,
+            projectId: projetId,
+            requestedBy: 'id-user-1',
+            justification: 'justification',
+            fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
+            evaluationCarbone: 124,
+            authority: 'dreal',
+          },
+        }),
+      );
 
-  //     expect(sendNotification).toHaveBeenCalledTimes(1);
+      expect(sendNotification).toHaveBeenCalledTimes(1);
 
-  //     const [notification] = sendNotification.mock.calls.map((call) => call[0]);
+      const [notification] = sendNotification.mock.calls.map((call) => call[0]);
 
-  //     if (notification.type !== 'pp-modification-received') return;
-  //     expect(notification.variables.demande_action_pp).toBeUndefined();
-  //   });
-  //   it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieur à la tolérance
-  //       Alors une section alerte devrait être ajoutée à la notification`, async () => {
-  //     await handleModificationReceived({
-  //       sendNotification,
-  //       getModificationRequestInfoForStatusNotification,
-  //       findUsersForDreal,
-  //     })(
-  //       new ModificationReceived({
-  //         payload: {
-  //           type: 'fournisseur',
-  //           modificationRequestId,
-  //           projectId: projetId,
-  //           requestedBy: 'id-user-1',
-  //           justification: 'justification',
-  //           fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
-  //           evaluationCarbone: 125,
-  //           authority: 'dreal',
-  //         },
-  //       }),
-  //     );
+      if (notification.type !== 'pp-modification-received') return;
+      expect(notification.variables.demande_action_pp).toBeUndefined();
+    });
 
-  //     expect(sendNotification).toHaveBeenCalledTimes(1);
+    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieur à la tolérance
+        Alors une section alerte devrait être ajoutée à la notification`, async () => {
+      const sendNotification = jest.fn();
 
-  //     const [notification] = sendNotification.mock.calls.map((call) => call[0]);
+      const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+        () =>
+          okAsync({
+            porteursProjet: [
+              {
+                email: 'porteur1@test.test',
+                fullName: 'Porteur de Projet 1',
+                id: 'id-user-1',
+              },
+            ],
+            nomProjet: 'nom-du-projet',
+            departementProjet: 'département-du-projet',
+            regionProjet: 'région-du-projet',
+            type: 'fournisseur',
+            evaluationCarboneDeRéférence: 100,
+          });
 
-  //     if (notification.type !== 'pp-modification-received') return;
-  //     expect(notification.variables.demande_action_pp).toEqual(
-  //       `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`,
-  //     );
-  //   });
-  // });
+      await handleModificationReceived({
+        sendNotification,
+        getModificationRequestInfoForStatusNotification,
+        findUsersForDreal: jest.fn(),
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'fournisseur',
+            modificationRequestId,
+            projectId: projetId,
+            requestedBy: 'id-user-1',
+            justification: 'justification',
+            fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
+            evaluationCarbone: 125,
+            authority: 'dreal',
+          },
+        }),
+      );
+
+      expect(sendNotification).toHaveBeenCalledTimes(1);
+
+      const [notification] = sendNotification.mock.calls.map((call) => call[0]);
+
+      console.log('notification', notification);
+
+      if (notification.type !== 'pp-modification-received') return;
+      expect(notification.variables.demande_action_pp).toEqual(
+        `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`,
+      );
+    });
+  });
 });
