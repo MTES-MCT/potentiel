@@ -19,6 +19,7 @@ import { sendNotification } from '../../emails.config';
 import {
   getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
+  getProjectInfoForModificationRequestedNotification,
 } from '../../queries.config';
 import { oldUserRepo } from '../../repos.config';
 
@@ -32,7 +33,7 @@ notificationEventSubscriber(
   makeOnDélaiDemandé({
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
-    getModificationRequestInfoForStatusNotification,
+    getProjectInfoForModificationRequestedNotification,
   }),
 );
 notificationEventSubscriber(

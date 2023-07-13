@@ -1,23 +1,26 @@
 import { logger } from '@core/utils';
 import { AbandonDemandé } from '@modules/demandeModification';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries';
+import { GetProjectInfoForModificationRequestedNotification } from '@modules/modificationRequest/queries';
 
 import { NotifierPorteurChangementStatutDemande } from '../..';
 
 type OnAbandonDemandé = (evenement: AbandonDemandé) => Promise<void>;
 
 type MakeOnAbandonDemandé = (dépendances: {
-  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+  getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification;
   notifierPorteurChangementStatutDemande: NotifierPorteurChangementStatutDemande;
 }) => OnAbandonDemandé;
 
 export const makeOnAbandonDemandé: MakeOnAbandonDemandé =
-  ({ notifierPorteurChangementStatutDemande, getModificationRequestInfoForStatusNotification }) =>
+  ({
+    notifierPorteurChangementStatutDemande,
+    getProjectInfoForModificationRequestedNotification,
+  }) =>
   async ({ payload }: AbandonDemandé) => {
-    const { demandeAbandonId } = payload;
+    const { demandeAbandonId, projetId } = payload;
 
-    await getModificationRequestInfoForStatusNotification(demandeAbandonId).match(
-      async ({ porteursProjet, nomProjet, type }) => {
+    await getProjectInfoForModificationRequestedNotification(projetId).match(
+      async ({ porteursProjet, nomProjet }) => {
         if (!porteursProjet || !porteursProjet.length) {
           // no registered user for this projet, no one to warn
           return;
@@ -29,7 +32,7 @@ export const makeOnAbandonDemandé: MakeOnAbandonDemandé =
               email,
               fullName,
               porteurId: id,
-              typeDemande: type,
+              typeDemande: 'abandon',
               nomProjet,
               modificationRequestId: demandeAbandonId,
               status: 'envoyée',

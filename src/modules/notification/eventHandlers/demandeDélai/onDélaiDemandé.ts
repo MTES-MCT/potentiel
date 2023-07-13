@@ -3,20 +3,20 @@ import { UserRepo } from '@dataAccess';
 import { DélaiDemandé } from '@modules/demandeModification';
 import routes from '@routes';
 import { NotificationService } from '../..';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries';
+import { GetProjectInfoForModificationRequestedNotification } from '@modules/modificationRequest/queries';
 
 type OnDélaiDemandé = (evenement: DélaiDemandé) => Promise<void>;
 
 type MakeOnDélaiDemandé = (dépendances: {
   sendNotification: NotificationService['sendNotification'];
   findUsersForDreal: UserRepo['findUsersForDreal'];
-  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+  getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification;
 }) => OnDélaiDemandé;
 
 export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
-  ({ sendNotification, getModificationRequestInfoForStatusNotification, findUsersForDreal }) =>
+  ({ sendNotification, getProjectInfoForModificationRequestedNotification, findUsersForDreal }) =>
   async ({ payload: { demandeDélaiId, autorité, projetId } }) => {
-    await getModificationRequestInfoForStatusNotification(demandeDélaiId).match(
+    await getProjectInfoForModificationRequestedNotification(projetId).match(
       async ({ nomProjet, porteursProjet, departementProjet, regionProjet }) => {
         await Promise.all(
           porteursProjet.map(({ email, fullName, id }) =>

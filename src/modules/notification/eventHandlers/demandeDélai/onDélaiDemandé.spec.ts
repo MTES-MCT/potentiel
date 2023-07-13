@@ -1,7 +1,7 @@
 import { okAsync } from '@core/utils';
 import { DélaiDemandé } from '@modules/demandeModification';
 import { makeOnDélaiDemandé } from './onDélaiDemandé';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { GetProjectInfoForModificationRequestedNotification } from '@modules/modificationRequest';
 import routes from '@routes';
 import { User } from '@entities';
 
@@ -12,7 +12,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
       Alors tous les porteurs ayant accès au projet devraient être notifiés
       Et aucun autre acteur ne devrait être notifié`, async () => {
     const sendNotification = jest.fn();
-    const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+    const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
         okAsync({
           porteursProjet: [
@@ -22,12 +22,11 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
-          type: 'type',
         });
 
     const onDélaiDemandé = makeOnDélaiDemandé({
       sendNotification,
-      getModificationRequestInfoForStatusNotification,
+      getProjectInfoForModificationRequestedNotification,
       findUsersForDreal: jest.fn(),
     });
 
@@ -89,7 +88,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
       Quand un délai est demandé
       Alors tous les agents des deux régions du projet devraient être notifiés`, async () => {
     const sendNotification = jest.fn();
-    const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+    const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
         okAsync({
           porteursProjet: [
@@ -98,7 +97,6 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
-          type: 'type',
         });
 
     const findUsersForDreal = (region: string) =>
@@ -113,7 +111,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
 
     const onDélaiDemandé = makeOnDélaiDemandé({
       sendNotification,
-      getModificationRequestInfoForStatusNotification,
+      getProjectInfoForModificationRequestedNotification,
       findUsersForDreal,
     });
 
