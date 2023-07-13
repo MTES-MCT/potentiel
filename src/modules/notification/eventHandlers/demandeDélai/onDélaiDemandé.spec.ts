@@ -23,7 +23,6 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
           type: 'type',
-          evaluationCarboneDeRéférence: 100,
         });
 
     const onDélaiDemandé = makeOnDélaiDemandé({
@@ -100,7 +99,6 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
           type: 'type',
-          evaluationCarboneDeRéférence: 100,
         });
 
     const findUsersForDreal = (region: string) =>

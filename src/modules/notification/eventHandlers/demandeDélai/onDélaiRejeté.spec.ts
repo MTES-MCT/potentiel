@@ -27,7 +27,6 @@ describe(`Notifier lorsqu'un délai est rejeté`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
-          evaluationCarboneDeRéférence: 100,
         });
 
       const onDélaiRejeté = makeOnDélaiRejeté({

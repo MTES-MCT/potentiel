@@ -63,7 +63,6 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
       departementProjet: 'departement',
       regionProjet: 'region',
       type: 'recours',
-      evaluationCarboneDeRéférence: 4.4,
       porteursProjet: expect.arrayContaining([
         {
           id: userId,

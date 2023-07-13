@@ -27,7 +27,6 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de changement de 
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'puissance',
-          evaluationCarboneDeRéférence: 100,
         });
 
       const onRejetDemandeChangementDePuissanceAnnulé = makeOnRejetChangementDePuissanceAnnulé({

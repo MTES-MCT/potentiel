@@ -24,7 +24,6 @@ describe('notification.handleModificationRequestCancelled', () => {
         regionProjet: '',
         nomProjet: 'nomProjet',
         type: 'recours',
-        evaluationCarboneDeRéférence: 100,
       })) as GetModificationRequestInfoForStatusNotification);
 
     const sendNotification = jest.fn(async (args: NotificationArgs) => null);
@@ -78,7 +77,6 @@ describe('notification.handleModificationRequestCancelled', () => {
         regionProjet: 'regionA / regionB',
         nomProjet: 'nomProjet',
         type: 'recours',
-        evaluationCarboneDeRéférence: 100,
       })) as GetModificationRequestInfoForStatusNotification);
 
     const sendNotification = jest.fn(async (args: NotificationArgs) => null);

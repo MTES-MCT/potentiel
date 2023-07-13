@@ -26,7 +26,6 @@ describe(`Notifier lorsqu'une annulation d'abandon est rejetée`, () => {
         regionProjet: 'region',
         departementProjet: 'departement',
         type: 'annulation abandon',
-        evaluationCarboneDeRéférence: 100,
       });
 
     const onAnnulationAbandonRejetée = makeOnAnnulationAbandonRejetée({
