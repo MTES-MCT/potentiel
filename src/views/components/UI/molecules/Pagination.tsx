@@ -7,6 +7,21 @@ type Props = ComponentProps<'ul'> & {
   page: number;
 };
 
+const handleKeyDown = ({
+  event,
+  page,
+}: {
+  event: React.KeyboardEvent<HTMLElement>;
+  page: number;
+}) => {
+  if (event.key === ' ' || event.key === 'Enter') {
+    event.preventDefault();
+    updateUrlParams({
+      page: page.toString(),
+    });
+  }
+};
+
 export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...props }) => {
   const pageNumbers = [0, 1];
 
@@ -42,6 +57,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
           </p>
         ) : (
           <a
+            tabIndex={0}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black  hover:bg-grey-975-base focus:bg-grey-975-base`}
             title="Page précédente"
             onClick={() =>
@@ -49,6 +65,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
                 page: (page - 1).toString(),
               })
             }
+            onKeyDown={(event) => handleKeyDown({ event, page: page - 1 })}
           >
             <ChevronLeftIcon className="mr-2" />
             <span className="hidden md:block">Précédent</span>
@@ -67,17 +84,22 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
             className={`mx-1 ${pageNumber >= nombreDePage ? 'disabled' : ''}`}
           >
             <a
-              className={`bg-white py-1 px-3 inline-flex items-center no-underline text-center ${
+              className={`py-1 px-3 inline-flex items-center no-underline text-center ${
                 pageNumber === page
                   ? 'bg-blue-france-sun-base text-white cursor-default hover:text-white focus:text-white'
                   : 'cursor-pointer text-black hover:bg-grey-975-base focus:bg-hrey-975-base hover:text-black focus:text-black'
               }`}
-              {...(pageNumber === page && { 'aria-current': 'page' })}
-              onClick={() =>
-                updateUrlParams({
-                  page: pageNumber.toString(),
-                })
-              }
+              {...(pageNumber === page
+                ? { 'aria-current': 'page' }
+                : { 'aria-label': `Aller à la page ${pageNumber + 1}`, tabIndex: 0 })}
+              onClick={() => {
+                if (pageNumber !== page) {
+                  updateUrlParams({
+                    page: pageNumber.toString(),
+                  });
+                }
+              }}
+              onKeyDown={(event) => handleKeyDown({ event, page: pageNumber })}
             >
               {pageNumber + 1}
             </a>
@@ -96,6 +118,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
           </p>
         ) : (
           <a
+            tabIndex={0}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black hover:bg-grey-975-base focus:bg-grey-975-base`}
             title="Page suivante"
             onClick={() =>
@@ -103,6 +126,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
                 page: (page + 1).toString(),
               })
             }
+            onKeyDown={(event) => handleKeyDown({ event, page: page + 1 })}
           >
             <span className="hidden md:block">Suivant</span>
             <ChevronRightIcon className="ml-2" />

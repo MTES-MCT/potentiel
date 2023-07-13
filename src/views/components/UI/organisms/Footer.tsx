@@ -23,7 +23,7 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
               href="/"
               title="Retour à l’accueil"
               aria-label="Retour à l’accueil"
-              className="no-underline hover:no-underline visited:no-underline outline-0"
+              className="no-underline hover:no-underline visited:no-underline"
             >
               <div className="lg:mb-1 logo-before" />
               <div className="m-0 font-bold tracking-tighter text-black uppercase text-[17px] md:text-[21px] leading-5">
