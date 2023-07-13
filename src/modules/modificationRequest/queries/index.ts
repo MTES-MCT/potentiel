@@ -9,3 +9,4 @@ export * from './GetModificationRequestStatus';
 export * from './GetProjectAppelOffreId';
 export * from './HasGarantiesFinancières';
 export * from './IsProjectParticipatif';
+export * from './GetProjectInfoForModificationReceivedNotification';

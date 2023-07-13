@@ -12,3 +12,4 @@ export * from './getProjectAppelOffreId';
 export * from './getPuissanceProjet';
 export * from './hasGarantiesFinancières';
 export * from './isProjectParticipatif';
+export * from './getProjectInfoForModificationReceivedNotification';

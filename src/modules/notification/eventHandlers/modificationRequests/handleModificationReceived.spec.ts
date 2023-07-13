@@ -1,6 +1,6 @@
 import { okAsync } from '@core/utils';
 import {
-  GetModificationRequestInfoForStatusNotification,
+  GetProjectInfoForModificationReceivedNotification,
   ModificationReceived,
 } from '@modules/modificationRequest';
 import routes from '@routes';
@@ -18,7 +18,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       Et tous les agents des DREALs rattachées au projet devraient être notifiés`, async () => {
       const sendNotification = jest.fn();
 
-      const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+      const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
         () =>
           okAsync({
             porteursProjet: [
@@ -28,7 +28,6 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
             nomProjet: 'nom-du-projet',
             departementProjet: 'département-du-projet',
             regionProjet: 'regionA / regionB',
-            type: 'puissance',
             evaluationCarboneDeRéférence: 1,
           });
 
@@ -44,7 +43,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
 
       await handleModificationReceived({
         sendNotification,
-        getModificationRequestInfoForStatusNotification,
+        getProjectInfoForModificationReceivedNotification,
         findUsersForDreal,
       })(
         new ModificationReceived({
@@ -174,7 +173,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
         Alors une section alerte ne devrait pas être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn();
 
-      const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+      const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
         () =>
           okAsync({
             porteursProjet: [
@@ -183,13 +182,12 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
             nomProjet: 'nom-du-projet',
             departementProjet: 'département-du-projet',
             regionProjet: 'région-du-projet',
-            type: 'fournisseur',
             evaluationCarboneDeRéférence: 100,
           });
 
       await handleModificationReceived({
         sendNotification,
-        getModificationRequestInfoForStatusNotification,
+        getProjectInfoForModificationReceivedNotification,
         findUsersForDreal: jest.fn(),
       })(
         new ModificationReceived({
@@ -218,7 +216,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
         Alors une section alerte devrait être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn();
 
-      const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+      const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
         () =>
           okAsync({
             porteursProjet: [
@@ -231,13 +229,12 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
             nomProjet: 'nom-du-projet',
             departementProjet: 'département-du-projet',
             regionProjet: 'région-du-projet',
-            type: 'fournisseur',
             evaluationCarboneDeRéférence: 100,
           });
 
       await handleModificationReceived({
         sendNotification,
-        getModificationRequestInfoForStatusNotification,
+        getProjectInfoForModificationReceivedNotification,
         findUsersForDreal: jest.fn(),
       })(
         new ModificationReceived({
@@ -257,8 +254,6 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       expect(sendNotification).toHaveBeenCalledTimes(1);
 
       const [notification] = sendNotification.mock.calls.map((call) => call[0]);
-
-      console.log('notification', notification);
 
       if (notification.type !== 'pp-modification-received') return;
       expect(notification.variables.demande_action_pp).toEqual(

@@ -33,6 +33,7 @@ import { eventStore } from '../eventStore.config';
 import {
   getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
+  getProjectInfoForModificationReceivedNotification,
   récupérerDonnéesPorteursParProjetQueryHandler,
 } from '../queries.config';
 import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config';
@@ -99,7 +100,7 @@ eventStore.subscribe(
   handleModificationReceived({
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
-    getModificationRequestInfoForStatusNotification,
+    getProjectInfoForModificationReceivedNotification,
   }),
 );
 
