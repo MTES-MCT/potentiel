@@ -16,7 +16,7 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
         fontFamily: 'Marianne, arial, sans-serif',
       }}
     >
-      <div className="w-full px-4 mx-auto lg:px-6 lg:max-w-[78rem]">
+      <div className="px-4 mx-auto lg:px-6 lg:max-w-[78rem]">
         <div className="flex flex-row flex-wrap items-center mb-4 md:mb-6">
           <div className="flex flex-row items-center basis-full md:p-4 md:-m-[1rem] md:mr-0 md:basis-auto basis">
             <a
