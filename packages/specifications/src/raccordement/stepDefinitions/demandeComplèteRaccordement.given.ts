@@ -65,14 +65,11 @@ EtantDonné(
       },
     });
 
-    this.raccordementWorld.dossierRaccordementFixtures.set(référenceDossierRaccordement, {
-      référenceDossierRaccordement,
-      demandeComplèteRaccordement: {
-        dateQualification: dateQualification.date,
-        accuséRéceptionDemandeComplèteRaccordement: {
-          format,
-          content,
-        },
+    this.raccordementWorld.demandeComplèteRaccordementFixtures.set(référenceDossierRaccordement, {
+      dateQualification: dateQualification.date,
+      accuséRéceptionDemandeComplèteRaccordement: {
+        format,
+        content,
       },
     });
   },
@@ -118,14 +115,11 @@ EtantDonné(
       },
     });
 
-    this.raccordementWorld.dossierRaccordementFixtures.set(référenceDossierRaccordement, {
-      référenceDossierRaccordement,
-      demandeComplèteRaccordement: {
-        dateQualification: dateQualification.date,
-        accuséRéceptionDemandeComplèteRaccordement: {
-          format,
-          content,
-        },
+    this.raccordementWorld.demandeComplèteRaccordementFixtures.set(référenceDossierRaccordement, {
+      dateQualification: dateQualification.date,
+      accuséRéceptionDemandeComplèteRaccordement: {
+        format,
+        content,
       },
     });
   },

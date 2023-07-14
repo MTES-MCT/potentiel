@@ -1,23 +1,32 @@
 import { DateTimeValueType } from '@potentiel/domain';
 
-type DossierRaccordementFixture = {
-  référenceDossierRaccordement: string;
-  demandeComplèteRaccordement: {
-    dateQualification: Date;
-    accuséRéceptionDemandeComplèteRaccordement: {
-      format: string;
-      content: string;
-    };
+type DemandeComplèteRaccordementFixture = {
+  dateQualification: Date;
+  accuséRéceptionDemandeComplèteRaccordement: {
+    format: string;
+    content: string;
+  };
+};
+type PropositionTechniqueEtFinancièreFixture = {
+  dateSignature: Date;
+  propositionTechniqueEtFinancièreSignée: {
+    format: string;
+    content: string;
   };
 };
 
 export class RaccordementWorld {
-  #dossierRaccordementFixtures: Map<string, DossierRaccordementFixture> = new Map();
-  get dossierRaccordementFixtures() {
-    return this.#dossierRaccordementFixtures;
+  #demandeComplèteRaccordementFixtures: Map<string, DemandeComplèteRaccordementFixture> = new Map();
+  get demandeComplèteRaccordementFixtures() {
+    return this.#demandeComplèteRaccordementFixtures;
   }
-  #dateQualification!: DateTimeValueType;
+  #propositionTechniqueEtFinancièreFixtures: Map<string, PropositionTechniqueEtFinancièreFixture> =
+    new Map();
+  get propositionTechniqueEtFinancièreFixtures() {
+    return this.#propositionTechniqueEtFinancièreFixtures;
+  }
 
+  #dateQualification!: DateTimeValueType;
   get dateQualification(): DateTimeValueType {
     if (!this.#dateQualification) {
       throw new Error('dateQualification not initialized');
@@ -30,7 +39,6 @@ export class RaccordementWorld {
   }
 
   #dateSignature!: DateTimeValueType;
-
   get dateSignature(): DateTimeValueType {
     if (!this.#dateSignature) {
       throw new Error('dateSignature not initialized');
@@ -43,7 +51,6 @@ export class RaccordementWorld {
   }
 
   #dateMiseEnService!: DateTimeValueType;
-
   get dateMiseEnService(): DateTimeValueType {
     if (!this.#dateMiseEnService) {
       throw new Error('dateMiseEnService not initialized');
@@ -56,7 +63,6 @@ export class RaccordementWorld {
   }
 
   #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: string };
-
   get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: string } {
     if (!this.#accuséRéceptionDemandeComplèteRaccordement) {
       throw new Error('accuséRéceptionDemandeComplèteRaccordement not initialized');

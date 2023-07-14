@@ -73,14 +73,11 @@ Quand(
       this.error = e as Error;
     }
 
-    this.raccordementWorld.dossierRaccordementFixtures.set(référenceDossierRaccordement, {
-      référenceDossierRaccordement,
-      demandeComplèteRaccordement: {
-        dateQualification: new Date(dateQualification),
-        accuséRéceptionDemandeComplèteRaccordement: {
-          format,
-          content,
-        },
+    this.raccordementWorld.demandeComplèteRaccordementFixtures.set(référenceDossierRaccordement, {
+      dateQualification: new Date(dateQualification),
+      accuséRéceptionDemandeComplèteRaccordement: {
+        format,
+        content,
       },
     });
   },
@@ -150,14 +147,11 @@ Quand(
         },
       });
 
-      this.raccordementWorld.dossierRaccordementFixtures.set(référenceDossierRaccordement, {
-        référenceDossierRaccordement,
-        demandeComplèteRaccordement: {
-          dateQualification: new Date(dateQualification),
-          accuséRéceptionDemandeComplèteRaccordement: {
-            format,
-            content,
-          },
+      this.raccordementWorld.demandeComplèteRaccordementFixtures.set(référenceDossierRaccordement, {
+        dateQualification: new Date(dateQualification),
+        accuséRéceptionDemandeComplèteRaccordement: {
+          format,
+          content,
         },
       });
     } catch (e) {

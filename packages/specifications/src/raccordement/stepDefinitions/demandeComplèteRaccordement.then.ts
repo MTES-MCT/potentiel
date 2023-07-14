@@ -51,18 +51,13 @@ Alors(
   `la demande complète de raccordement devrait être (consultable)(à jour) dans le dossier de raccordement {string} du projet {string}`,
   async function (this: PotentielWorld, référenceDossierRaccordement: string, nomProjet: string) {
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
-    const dossierRaccordementFixture = this.raccordementWorld.dossierRaccordementFixtures.get(
-      référenceDossierRaccordement,
-    );
-    if (!dossierRaccordementFixture) {
+    const ddemandeComplèteRaccordementFixture =
+      this.raccordementWorld.demandeComplèteRaccordementFixtures.get(référenceDossierRaccordement);
+    if (!ddemandeComplèteRaccordementFixture) {
       throw new Error('Dossier de raccordement non trouvé dans les jeux de test !');
     }
-    const {
-      demandeComplèteRaccordement: {
-        dateQualification,
-        accuséRéceptionDemandeComplèteRaccordement,
-      },
-    } = dossierRaccordementFixture;
+    const { dateQualification, accuséRéceptionDemandeComplèteRaccordement } =
+      ddemandeComplèteRaccordementFixture;
 
     // Assert on aggregate
     const actualRaccordementAggregate = await loadRaccordementAggregateFactory({ loadAggregate })(
