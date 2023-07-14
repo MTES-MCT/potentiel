@@ -47,9 +47,22 @@ Alors(
 );
 
 Alors(
-  `la demande complète de raccordement devrait être consultable dans le dossier de raccordement {string} du projet {string}`,
+  // `la demande complète de raccordement devrait être à jour dans le dossier de raccordement {string} du projet {string}`
+  `la demande complète de raccordement devrait être (consultable)(à jour) dans le dossier de raccordement {string} du projet {string}`,
   async function (this: PotentielWorld, référenceDossierRaccordement: string, nomProjet: string) {
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const dossierRaccordementFixture = this.raccordementWorld.dossierRaccordementFixtures.get(
+      référenceDossierRaccordement,
+    );
+    if (!dossierRaccordementFixture) {
+      throw new Error('Dossier de raccordement non trouvé dans les jeux de test !');
+    }
+    const {
+      demandeComplèteRaccordement: {
+        dateQualification,
+        accuséRéceptionDemandeComplèteRaccordement,
+      },
+    } = dossierRaccordementFixture;
 
     // Assert on aggregate
     const actualRaccordementAggregate = await loadRaccordementAggregateFactory({ loadAggregate })(
@@ -67,8 +80,8 @@ Alors(
       throw new Error(`La demande complète de raccordement est introuvable !`);
     }
     actualDemandeComplèteRaccordement.should.deep.equal({
-      dateQualification: this.raccordementWorld.dateQualification.date,
-      format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+      dateQualification,
+      format: accuséRéceptionDemandeComplèteRaccordement.format,
     });
 
     // Assert on read model
@@ -82,12 +95,12 @@ Alors(
 
     const expectedDossierRaccordement: DossierRaccordementReadModel = {
       demandeComplèteRaccordement: {
-        dateQualification: this.raccordementWorld.dateQualification.formatter(),
+        dateQualification: dateQualification.toISOString(),
         accuséRéception: {
-          format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
+          format: accuséRéceptionDemandeComplèteRaccordement.format,
         },
       },
-      référence: this.raccordementWorld.référenceDossierRaccordement,
+      référence: référenceDossierRaccordement,
       type: 'dossier-raccordement',
     };
 
@@ -107,13 +120,12 @@ Alors(
     }
 
     const actualFormat = accuséRéception.format;
-    const expectedFormat = this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format;
+    const expectedFormat = accuséRéceptionDemandeComplèteRaccordement.format;
 
     actualFormat.should.be.equal(expectedFormat);
 
     const actualContent = await convertReadableToString(accuséRéception.content);
-    const expectedContent =
-      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content;
+    const expectedContent = accuséRéceptionDemandeComplèteRaccordement.content;
 
     actualContent.should.be.equal(expectedContent);
   },

@@ -1,6 +1,21 @@
 import { DateTimeValueType } from '@potentiel/domain';
 
+type DossierRaccordementFixture = {
+  référenceDossierRaccordement: string;
+  demandeComplèteRaccordement: {
+    dateQualification: Date;
+    accuséRéceptionDemandeComplèteRaccordement: {
+      format: string;
+      content: string;
+    };
+  };
+};
+
 export class RaccordementWorld {
+  #dossierRaccordementFixtures: Map<string, DossierRaccordementFixture> = new Map();
+  get dossierRaccordementFixtures() {
+    return this.#dossierRaccordementFixtures;
+  }
   #dateQualification!: DateTimeValueType;
 
   get dateQualification(): DateTimeValueType {

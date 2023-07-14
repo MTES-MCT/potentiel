@@ -52,13 +52,6 @@ EtantDonné(
       content: convertStringToReadable(content),
     };
 
-    this.raccordementWorld.dateQualification = dateQualification;
-    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-      format,
-      content,
-    };
-
     await mediator.send<DomainUseCase>({
       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
       data: {
@@ -69,6 +62,17 @@ EtantDonné(
         ),
         dateQualification,
         accuséRéception,
+      },
+    });
+
+    this.raccordementWorld.dossierRaccordementFixtures.set(référenceDossierRaccordement, {
+      référenceDossierRaccordement,
+      demandeComplèteRaccordement: {
+        dateQualification: dateQualification.date,
+        accuséRéceptionDemandeComplèteRaccordement: {
+          format,
+          content,
+        },
       },
     });
   },
@@ -101,13 +105,6 @@ EtantDonné(
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
 
-    this.raccordementWorld.dateQualification = dateQualification;
-    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-      format,
-      content,
-    };
-
     await mediator.send<DomainUseCase>({
       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
       data: {
@@ -118,6 +115,17 @@ EtantDonné(
         ),
         dateQualification,
         accuséRéception,
+      },
+    });
+
+    this.raccordementWorld.dossierRaccordementFixtures.set(référenceDossierRaccordement, {
+      référenceDossierRaccordement,
+      demandeComplèteRaccordement: {
+        dateQualification: dateQualification.date,
+        accuséRéceptionDemandeComplèteRaccordement: {
+          format,
+          content,
+        },
       },
     });
   },

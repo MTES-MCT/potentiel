@@ -31,20 +31,7 @@ const demandeComplèteRaccordementParDéfaut: Omit<
 };
 
 Quand(
-  `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string}`,
-  async function (this: PotentielWorld, raisonSociale: string, nomProjet: string) {
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
-
-    await transmettreDemandeComplèteRaccordement(this, {
-      ...demandeComplèteRaccordementParDéfaut,
-      identifiantProjet,
-      raisonSociale,
-    });
-  },
-);
-
-Quand(
-  `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string} avec( la même référence) :`,
+  `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string} avec( la même référence)( une date dans le futur) :`,
   async function (
     this: PotentielWorld,
     raisonSociale: string,
@@ -57,37 +44,44 @@ Quand(
 
     const dateQualification =
       exemple['La date de qualification'] ?? demandeComplèteRaccordementParDéfaut.dateQualification;
-    const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
+    const référenceDossierRaccordement =
+      exemple['La référence du dossier de raccordement'] ??
+      demandeComplèteRaccordementParDéfaut.référenceDossierRaccordement;
     const format = exemple[`Le format de l'accusé de réception`];
     const content = exemple[`Le contenu de l'accusé de réception`];
 
-    await transmettreDemandeComplèteRaccordement(this, {
-      identifiantProjet,
-      raisonSociale,
-      dateQualification,
+    const codeEIC =
+      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale).codeEIC;
+
+    try {
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            référenceDossierRaccordement,
+          ),
+          dateQualification: convertirEnDateTime(dateQualification),
+          accuséRéception: {
+            format,
+            content: convertStringToReadable(content),
+          },
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+
+    this.raccordementWorld.dossierRaccordementFixtures.set(référenceDossierRaccordement, {
       référenceDossierRaccordement,
-      format,
-      content,
-    });
-  },
-);
-
-Quand(
-  `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string} avec une date dans le futur`,
-  async function (this: PotentielWorld, raisonSociale: string, nomProjet: string) {
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
-    const aujourdhui = new Date();
-    const dateFutur = new Date(
-      aujourdhui.getFullYear() + 1,
-      aujourdhui.getMonth(),
-      aujourdhui.getDay(),
-    );
-
-    await transmettreDemandeComplèteRaccordement(this, {
-      ...demandeComplèteRaccordementParDéfaut,
-      identifiantProjet,
-      raisonSociale,
-      dateQualification: dateFutur,
+      demandeComplèteRaccordement: {
+        dateQualification: new Date(dateQualification),
+        accuséRéceptionDemandeComplèteRaccordement: {
+          format,
+          content,
+        },
+      },
     });
   },
 );
@@ -96,62 +90,78 @@ Quand(
   `un porteur transmet une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé pour le projet {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const { référenceDossierRaccordement, dateQualification, format, content } =
+      demandeComplèteRaccordementParDéfaut;
 
-    await transmettreDemandeComplèteRaccordement(this, {
-      ...demandeComplèteRaccordementParDéfaut,
-      identifiantProjet,
-      raisonSociale: 'GESTIONNAIRE_NON_RÉFÉRENCÉ',
-    });
+    try {
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(
+            'GESTIONNAIRE_NON_RÉFÉRENCÉ',
+          ),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            référenceDossierRaccordement,
+          ),
+          dateQualification: convertirEnDateTime(dateQualification),
+          accuséRéception: {
+            format,
+            content: convertStringToReadable(content),
+          },
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
-const transmettreDemandeComplèteRaccordement = async (
-  world: PotentielWorld,
-  {
-    identifiantProjet,
-    raisonSociale,
-    dateQualification,
-    référenceDossierRaccordement,
-    content,
-    format,
-  }: DemandeComplèteRaccordement,
-) => {
-  const dateQualificationValueType = convertirEnDateTime(dateQualification);
-  const accuséRéceptionContent =
-    content ??
-    `Accusé de réception ayant pour référence ${référenceDossierRaccordement} et la date de qualification au ${dateQualificationValueType.formatter()}`;
+Quand(
+  `un porteur modifie la demande complète de raccordement {string} du projet {string} avec( une date dans le futur) :`,
+  async function (
+    this: PotentielWorld,
+    référenceDossierRaccordement: string,
+    nomProjet: string,
+    table: DataTable,
+  ) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-  const accuséRéception = {
-    format,
-    content: convertStringToReadable(accuséRéceptionContent),
-  };
+    const exemple = table.rowsHash();
 
-  const codeEIC =
-    raisonSociale === 'GESTIONNAIRE_NON_RÉFÉRENCÉ'
-      ? raisonSociale
-      : world.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale).codeEIC;
+    const dateQualification =
+      exemple['La date de qualification'] ?? demandeComplèteRaccordementParDéfaut.dateQualification;
+    const format = exemple[`Le format de l'accusé de réception`];
+    const content = exemple[`Le contenu de l'accusé de réception`];
 
-  world.raccordementWorld.dateQualification = dateQualificationValueType;
-  world.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-  world.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-    format,
-    content: accuséRéceptionContent,
-  };
+    try {
+      await mediator.send<DomainUseCase>({
+        type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            référenceDossierRaccordement,
+          ),
+          dateQualification: convertirEnDateTime(dateQualification),
+          accuséRéception: {
+            format,
+            content: convertStringToReadable(content),
+          },
+        },
+      });
 
-  try {
-    await mediator.send<DomainUseCase>({
-      type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-      data: {
-        identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
-        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-        référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-          référenceDossierRaccordement,
-        ),
-        dateQualification: dateQualificationValueType,
-        accuséRéception,
-      },
-    });
-  } catch (e) {
-    world.error = e as Error;
-  }
-};
+      this.raccordementWorld.dossierRaccordementFixtures.set(référenceDossierRaccordement, {
+        référenceDossierRaccordement,
+        demandeComplèteRaccordement: {
+          dateQualification: new Date(dateQualification),
+          accuséRéceptionDemandeComplèteRaccordement: {
+            format,
+            content,
+          },
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
