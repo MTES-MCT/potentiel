@@ -1,5 +1,5 @@
 #Language: fr-FR
-@selection
+@select
 Fonctionnalité: Transmettre une demande complète de raccordement
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"

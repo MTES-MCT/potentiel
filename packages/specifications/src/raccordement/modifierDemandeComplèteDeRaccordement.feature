@@ -2,19 +2,20 @@
 Fonctionnalité: Modifier une demande complète de raccordement
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
+        Et le projet "Du boulodrome de Marseille"
 
+    @select
     Scénario: Un porteur de projet modifie une demande complète de raccordement
-        Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
+        Etant donné une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" pour le projet "Du boulodrome de Marseille" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Quand le porteur modifie la demande complète de raccordement ayant pour référence "OUE-RP-2022-000033" avec :
+        Quand un porteur modifie la demande complète de raccordement "OUE-RP-2022-000033" du projet "Du boulodrome de Marseille" avec :
             | La date de qualification            | 2022-10-29                                                                                                      |
             | Le format de l'accusé de réception  | text/plain                                                                                                      |
             | Le contenu de l'accusé de réception | Une autre accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-29 |
-        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet
-        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
+        Alors la demande complète de raccordement devrait être à jour dans le dossier de raccordement "OUE-RP-2022-000033" du projet "Du boulodrome de Marseille"
 
     Scénario: Impossible de modifier une demande complète de raccordement pour un projet sans dossier de raccordement
         Quand le porteur modifie la demande complète de raccordement ayant pour référence "OUE-RP-2022-000033" avec :
