@@ -1,6 +1,6 @@
 # Contribuer à Potentiel
 
-👋 Bienvenue sur le guide de contribution du projet **Potentiel**. Avant tout, nous tenons à vous remercier pour le temps que vous allez consacré à l'amélioration du projet 🙏
+👋 Bienvenue sur le guide de contribution du projet **Potentiel**. Avant tout, nous tenons à vous remercier pour le temps que vous allez consacrer à l'amélioration du projet 🙏
 
 ## Table des matières
 - [Developer's Certificate of Origin 1.1](#developer-certificate)
