@@ -67,6 +67,8 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 
 ## <a id="environnements"></a> Environnements
 
+Liste des environnements sur Scalingo :
+
 **Démo**
 - https://demo.potentiel.incubateur.net
 - Déployé automatiquement à chaque mise en production
