@@ -1,6 +1,6 @@
 export * from './GetModificationRequestDateForResponseTemplate';
 export * from './GetModificationRequestDetails';
-export * from './GetDataForAbandonConfirméNotification';
+export * from './GetDataForStatutDemandeAbandonModifiéNotification';
 export * from './GetModificationRequestInfoForStatusNotification';
 export * from './GetModificationRequestListForAdmin';
 export * from './GetModificationRequestListForPorteur';

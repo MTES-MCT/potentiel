@@ -20,7 +20,7 @@ import {
 import { sendNotification } from '../../emails.config';
 import {
   getModificationRequestInfoForStatusNotification,
-  getDataForAbandonConfirméNotification,
+  getDataForStatutDemandeAbandonModifiéNotification,
   getProjectInfoForModificationRequestedNotification,
 } from '../../queries.config';
 import { notifierPorteurChangementStatutDemande } from '@config/useCases.config';
@@ -50,7 +50,7 @@ notificationEventSubscriber(
   AbandonAnnulé,
   makeOnAbandonAnnulé({
     sendNotification,
-    getModificationRequestInfo: getModificationRequestInfoForStatusNotification,
+    getDataForStatutDemandeAbandonModifiéNotification,
     dgecEmail: process.env.DGEC_EMAIL,
   }),
 );
@@ -77,7 +77,7 @@ notificationEventSubscriber(
   AbandonConfirmé,
   makeOnAbandonConfirmé({
     sendNotification,
-    getDataForAbandonConfirméNotification,
+    getDataForStatutDemandeAbandonModifiéNotification,
     dgecEmail: process.env.DGEC_EMAIL,
   }),
 );

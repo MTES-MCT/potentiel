@@ -1,46 +1,59 @@
 import { NotificationService } from '../..';
-import { logger, ResultAsync, wrapInfra } from '@core/utils';
+import { logger } from '@core/utils';
 import routes from '@routes';
-import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest';
-import { InfraNotAvailableError } from '../../../shared';
+import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest';
 import { AbandonAnnulé } from '@modules/demandeModification';
 
 export const makeOnAbandonAnnulé =
   (deps: {
     sendNotification: NotificationService['sendNotification'];
-    getModificationRequestInfo: GetModificationRequestInfoForStatusNotification;
+    getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification;
     dgecEmail: string;
   }) =>
-  async (event: AbandonAnnulé) => {
-    const { sendNotification, getModificationRequestInfo, dgecEmail } = deps;
+  async ({ payload: { demandeAbandonId } }: AbandonAnnulé) => {
+    const { sendNotification, getDataForStatutDemandeAbandonModifiéNotification, dgecEmail } = deps;
+    return getDataForStatutDemandeAbandonModifiéNotification(demandeAbandonId).match(
+      async ({ nomProjet, chargeAffaire, appelOffreId, périodeId, départementProjet }) => {
+        await sendNotification({
+          type: 'modification-request-cancelled',
+          message: {
+            email: dgecEmail,
+            name: 'DGEC',
+            subject: `Demande d'abandon annulée pour le projet ${nomProjet.toLowerCase()} (${appelOffreId} ${périodeId})`,
+          },
+          context: {
+            modificationRequestId: demandeAbandonId,
+          },
+          variables: {
+            nom_projet: nomProjet,
+            type_demande: 'abandon',
+            departement_projet: départementProjet,
+            modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeAbandonId),
+          },
+        });
 
-    const { demandeAbandonId } = event.payload;
-
-    const res = await getModificationRequestInfo(demandeAbandonId).andThen(
-      ({ nomProjet, departementProjet, type }): ResultAsync<null, InfraNotAvailableError> => {
-        return wrapInfra(
-          sendNotification({
+        if (chargeAffaire) {
+          await sendNotification({
             type: 'modification-request-cancelled',
             message: {
-              email: dgecEmail,
-              name: 'DGEC',
-              subject: `Annulation d'une demande de type abandon dans le département ${departementProjet}`,
+              email: chargeAffaire.email,
+              name: chargeAffaire.fullName,
+              subject: `Demande d'abandon annulée pour le projet ${nomProjet.toLowerCase()} (${appelOffreId} ${périodeId})`,
             },
             context: {
               modificationRequestId: demandeAbandonId,
             },
             variables: {
               nom_projet: nomProjet,
-              type_demande: type,
-              departement_projet: departementProjet,
+              type_demande: 'abandon',
+              departement_projet: départementProjet,
               modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeAbandonId),
             },
-          }),
-        );
+          });
+        }
+      },
+      (error: Error) => {
+        logger.error(error);
       },
     );
-
-    if (res.isErr()) {
-      logger.error(res.error);
-    }
   };

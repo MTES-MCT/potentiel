@@ -1,11 +1,11 @@
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import { getDataForAbandonConfirméNotification } from './getDataForAbandonConfirméNotification';
+import { getDataForStatutDemandeAbandonModifiéNotification } from './getDataForStatutDemandeAbandonModifiéNotification';
 import { ModificationRequest, Project, User } from '@infra/sequelize/projectionsNext';
 
-describe('Sequelize getDataForAbandonConfirméNotification', () => {
-  it('should return a complete DataForAbandonConfirméNotificationDTO', async () => {
+describe('Sequelize getDataForStatutDemandeAbandonModifiéNotification', () => {
+  it('should return a complete DataForStatutDemandeAbandonModifiéNotification DTO', async () => {
     const projectId = new UniqueEntityID().toString();
     const modificationRequestId = new UniqueEntityID().toString();
     const userId = new UniqueEntityID().toString();
@@ -32,7 +32,9 @@ describe('Sequelize getDataForAbandonConfirméNotification', () => {
       confirmationRequestedBy: adminId,
       authority: 'dgec',
     });
-    const result = await getDataForAbandonConfirméNotification(modificationRequestId.toString());
+    const result = await getDataForStatutDemandeAbandonModifiéNotification(
+      modificationRequestId.toString(),
+    );
 
     expect(result.isOk()).toBe(true);
     if (result.isErr()) return;
@@ -43,6 +45,7 @@ describe('Sequelize getDataForAbandonConfirméNotification', () => {
       nomProjet: 'nomProjet',
       appelOffreId: project.appelOffreId,
       périodeId: project.periodeId,
+      départementProjet: project.departementProjet,
       chargeAffaire: {
         id: adminId,
         fullName: 'admin1',

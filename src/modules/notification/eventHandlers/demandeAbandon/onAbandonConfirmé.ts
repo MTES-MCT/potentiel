@@ -1,17 +1,17 @@
 import { NotificationService } from '../..';
 import { logger } from '@core/utils';
 import routes from '@routes';
-import { GetDataForAbandonConfirméNotification } from '../../../modificationRequest/queries';
+import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest/queries';
 import { AbandonConfirmé } from '@modules/demandeModification';
 
 export const makeOnAbandonConfirmé =
   (deps: {
     sendNotification: NotificationService['sendNotification'];
-    getDataForAbandonConfirméNotification: GetDataForAbandonConfirméNotification;
+    getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification;
     dgecEmail: string;
   }) =>
   async ({ payload: { demandeAbandonId } }: AbandonConfirmé) => {
-    await deps.getDataForAbandonConfirméNotification(demandeAbandonId).match(
+    await deps.getDataForStatutDemandeAbandonModifiéNotification(demandeAbandonId).match(
       async ({ chargeAffaire, nomProjet, appelOffreId, périodeId }) => {
         if (chargeAffaire) {
           const { email, fullName, id } = chargeAffaire;

@@ -4,7 +4,7 @@ import { UniqueEntityID } from '@core/domain';
 import { makeUser } from '@entities';
 import { UnwrapForTest } from '../../../../types';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import { GetDataForAbandonConfirméNotification } from '../../../modificationRequest';
+import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest';
 import { makeOnAbandonConfirmé } from './onAbandonConfirmé';
 import { AbandonConfirmé, AbandonConfirméPayload } from '@modules/demandeModification';
 
@@ -21,19 +21,20 @@ describe(`Handler onAbandonConfirmé`, () => {
 
     const sendNotification = jest.fn(async (args: NotificationArgs) => null);
 
-    const getDataForAbandonConfirméNotification: GetDataForAbandonConfirméNotification = jest.fn(
-      () =>
+    const getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification =
+      jest.fn(() =>
         okAsync({
           chargeAffaire: { email: 'admin@test.test', fullName: 'admin1', id: chargeAffaire.id },
           nomProjet: 'nomProjet',
           appelOffreId: 'Eolien',
           périodeId: '1',
+          départementProjet: 'departement',
         }),
-    );
+      );
 
     await makeOnAbandonConfirmé({
       sendNotification,
-      getDataForAbandonConfirméNotification,
+      getDataForStatutDemandeAbandonModifiéNotification,
       dgecEmail: 'dgec@test.test',
     })(
       new AbandonConfirmé({
@@ -41,7 +42,9 @@ describe(`Handler onAbandonConfirmé`, () => {
       }),
     );
 
-    expect(getDataForAbandonConfirméNotification).toHaveBeenCalledWith(demandeAbandonId);
+    expect(getDataForStatutDemandeAbandonModifiéNotification).toHaveBeenCalledWith(
+      demandeAbandonId,
+    );
 
     expect(sendNotification).toHaveBeenCalledTimes(2);
 
