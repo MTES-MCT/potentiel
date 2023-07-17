@@ -3,4 +3,6 @@ export type ProjectInfoForModificationRequestedNotificationDTO = {
   departementProjet: string;
   regionProjet: string;
   nomProjet: string;
+  appelOffreId: string;
+  périodeId: string;
 };

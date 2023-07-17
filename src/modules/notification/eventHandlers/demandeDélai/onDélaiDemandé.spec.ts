@@ -22,6 +22,8 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
+          appelOffreId: 'AO',
+          périodeId: 'la-période',
         });
 
     const onDélaiDemandé = makeOnDélaiDemandé({
@@ -90,6 +92,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         message: expect.objectContaining({
           email: 'dgec@test.test',
           name: 'DGEC',
+          subject: `Potentiel - Nouvelle demande de type délai pour un projet AO période la-période`,
         }),
         context: expect.objectContaining({
           modificationRequestId: 'la-demande',

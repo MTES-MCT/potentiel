@@ -23,7 +23,14 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
   }) =>
   async ({ payload: { demandeDélaiId, autorité, projetId } }) => {
     await getProjectInfoForModificationRequestedNotification(projetId).match(
-      async ({ nomProjet, porteursProjet, departementProjet, regionProjet }) => {
+      async ({
+        nomProjet,
+        porteursProjet,
+        departementProjet,
+        regionProjet,
+        appelOffreId,
+        périodeId,
+      }) => {
         await Promise.all(
           porteursProjet.map(({ email, fullName, id }) =>
             sendNotification({
@@ -86,7 +93,7 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
             message: {
               email: dgecEmail,
               name: 'DGEC',
-              subject: `Potentiel - Nouvelle demande de type délai dans votre département ${departementProjet}`,
+              subject: `Potentiel - Nouvelle demande de type délai pour un projet ${appelOffreId} période ${périodeId}`,
             },
             context: {
               modificationRequestId: demandeDélaiId,
