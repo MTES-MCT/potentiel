@@ -12,7 +12,7 @@
 
 Actuellement le projet est en cours de refonte pour passer en organisation en workspaces.
 
-La partie dans le répertoire `src` correspond au code source qui doit être migrer dans des `packages`. Donc toute modification dans cette partie doit être faite seulement pour corriger des corrections de bugs bloquants ou de sécurité.
+La partie dans le répertoire `src` correspond au code source qui doit être migrer dans des `packages`. Donc toute modification dans cette partie doit être faite seulement pour des corrections de bugs bloquants ou de sécurité.
 
 Toute nouvelle fonctionnalité doit être implémenter sous forme de paquets situés dans le répertoire `packages`.
 
