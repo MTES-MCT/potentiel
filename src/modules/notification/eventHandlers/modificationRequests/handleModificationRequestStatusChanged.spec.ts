@@ -22,15 +22,19 @@ describe('notification.handleModificationRequestStatusChanged', () => {
   );
 
   const sendNotification = jest.fn(async (args: NotificationArgs) => null);
-  const getModificationRequestInfoForStatusNotification = jest.fn((modificationRequestId) =>
-    okAsync({
-      porteursProjet: projectUsers.map(({ email, fullName, id }) => ({ email, fullName, id })),
-      nomProjet: 'nomProjet',
-      regionProjet: 'region',
-      departementProjet: 'departement',
-      type: 'recours',
-    }),
-  ) as GetModificationRequestInfoForStatusNotification;
+  const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+    jest.fn((modificationRequestId) =>
+      okAsync({
+        porteursProjet: projectUsers.map(({ email, fullName, id }) => ({ email, fullName, id })),
+        nomProjet: 'nomProjet',
+        regionProjet: 'region',
+        departementProjet: 'departement',
+        type: 'recours',
+        autorité: 'dreal',
+        appelOffreId: 'Sol',
+        périodeId: '1',
+      }),
+    );
 
   describe('in all cases', () => {
     it('should call sendNotification for each user that has rights to this project', async () => {

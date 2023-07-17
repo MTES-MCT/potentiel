@@ -1,33 +1,38 @@
 import { okAsync } from '@core/utils';
 import { AbandonRejeté } from '@modules/demandeModification';
 import { makeOnAbandonRejeté } from '.';
+import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
 
 describe(`Notifier lorsqu'un abandon est rejeté`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est rejeté
           Alors les deux porteurs ayant accès au projet devraient être notifiés`, async () => {
       const notifierPorteurChangementStatutDemande = jest.fn();
-      const getModificationRequestInfoForStatusNotification = () =>
-        okAsync({
-          porteursProjet: [
-            {
-              role: 'porteur-projet',
-              id: 'porteur-1',
-              email: 'porteur1@test.test',
-              fullName: 'Porteur de projet 1',
-            },
-            {
-              role: 'porteur-projet',
-              id: 'porteur-2',
-              email: 'porteur2@test.test',
-              fullName: 'Porteur de projet 2',
-            },
-          ],
-          nomProjet: 'nom-du-projet',
-          regionProjet: 'region',
-          departementProjet: 'departement',
-          type: 'abandon',
-        });
+      const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+        () =>
+          okAsync({
+            porteursProjet: [
+              {
+                role: 'porteur-projet',
+                id: 'porteur-1',
+                email: 'porteur1@test.test',
+                fullName: 'Porteur de projet 1',
+              },
+              {
+                role: 'porteur-projet',
+                id: 'porteur-2',
+                email: 'porteur2@test.test',
+                fullName: 'Porteur de projet 2',
+              },
+            ],
+            nomProjet: 'nom-du-projet',
+            regionProjet: 'region',
+            departementProjet: 'departement',
+            type: 'abandon',
+            autorité: 'dgec',
+            appelOffreId: 'Sol',
+            périodeId: '1',
+          });
 
       const onAbandonRejeté = makeOnAbandonRejeté({
         notifierPorteurChangementStatutDemande,

@@ -17,14 +17,19 @@ describe('notification.handleModificationRequestCancelled', () => {
     const getModificationRequestRecipient = jest.fn((() =>
       okAsync('dgec')) as GetModificationRequestRecipient);
 
-    const getModificationRequestInfo = jest.fn((() =>
-      okAsync({
-        porteursProjet: [],
-        departementProjet: 'departement',
-        regionProjet: '',
-        nomProjet: 'nomProjet',
-        type: 'recours',
-      })) as GetModificationRequestInfoForStatusNotification);
+    const getModificationRequestInfo: GetModificationRequestInfoForStatusNotification = jest.fn(
+      () =>
+        okAsync({
+          porteursProjet: [],
+          departementProjet: 'departement',
+          regionProjet: '',
+          nomProjet: 'nomProjet',
+          type: 'recours',
+          autorité: 'dgec',
+          appelOffreId: 'Sol',
+          périodeId: '1',
+        }),
+    );
 
     const sendNotification = jest.fn(async (args: NotificationArgs) => null);
 
@@ -70,14 +75,19 @@ describe('notification.handleModificationRequestCancelled', () => {
     const getModificationRequestRecipient = jest.fn((() =>
       okAsync('dreal')) as GetModificationRequestRecipient);
 
-    const getModificationRequestInfo = jest.fn((() =>
-      okAsync({
-        porteursProjet: [],
-        departementProjet: 'departement',
-        regionProjet: 'regionA / regionB',
-        nomProjet: 'nomProjet',
-        type: 'recours',
-      })) as GetModificationRequestInfoForStatusNotification);
+    const getModificationRequestInfo: GetModificationRequestInfoForStatusNotification = jest.fn(
+      () =>
+        okAsync({
+          porteursProjet: [],
+          departementProjet: 'departement',
+          regionProjet: 'regionA / regionB',
+          nomProjet: 'nomProjet',
+          type: 'recours',
+          autorité: 'dreal',
+          appelOffreId: 'Sol',
+          périodeId: '1',
+        }),
+    );
 
     const sendNotification = jest.fn(async (args: NotificationArgs) => null);
 

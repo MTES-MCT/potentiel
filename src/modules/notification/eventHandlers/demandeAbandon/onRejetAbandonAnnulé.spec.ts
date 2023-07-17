@@ -1,33 +1,38 @@
 import { okAsync } from '@core/utils';
 import { RejetAbandonAnnulé } from '@modules/demandeModification';
 import { makeOnRejetAbandonAnnulé } from './onRejetAbandonAnnulé';
+import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
 
 describe(`Notifier lors de l'annulation du rejet d'une demande d'abandon`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`Quand un rejet de demande d'abandon est annulé
         alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
       const notifierPorteurChangementStatutDemande = jest.fn();
-      const getModificationRequestInfoForStatusNotification = () =>
-        okAsync({
-          porteursProjet: [
-            {
-              role: 'porteur-projet',
-              id: 'porteur-1',
-              email: 'porteur1@test.test',
-              fullName: 'Porteur de projet 1',
-            },
-            {
-              role: 'porteur-projet',
-              id: 'porteur-2',
-              email: 'porteur2@test.test',
-              fullName: 'Porteur de projet 2',
-            },
-          ],
-          nomProjet: 'nom-du-projet',
-          regionProjet: 'region',
-          departementProjet: 'departement',
-          type: 'abandon',
-        });
+      const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+        () =>
+          okAsync({
+            porteursProjet: [
+              {
+                role: 'porteur-projet',
+                id: 'porteur-1',
+                email: 'porteur1@test.test',
+                fullName: 'Porteur de projet 1',
+              },
+              {
+                role: 'porteur-projet',
+                id: 'porteur-2',
+                email: 'porteur2@test.test',
+                fullName: 'Porteur de projet 2',
+              },
+            ],
+            nomProjet: 'nom-du-projet',
+            regionProjet: 'region',
+            departementProjet: 'departement',
+            type: 'abandon',
+            autorité: 'dgec',
+            appelOffreId: 'Sol',
+            périodeId: '1',
+          });
 
       const onRejetDemandeAbandonAnnulé = makeOnRejetAbandonAnnulé({
         notifierPorteurChangementStatutDemande,
