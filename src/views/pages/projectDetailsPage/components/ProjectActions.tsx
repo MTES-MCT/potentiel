@@ -73,7 +73,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
         <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
           <span>Demander un délai</span>
         </DropdownMenuSecondaryButton.DropdownItem>
-        {project.appelOffre.type !== 'eolien' && (
+        {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
           <DropdownMenuSecondaryButton.DropdownItem
             href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
           >

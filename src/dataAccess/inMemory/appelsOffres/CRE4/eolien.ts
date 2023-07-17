@@ -43,6 +43,7 @@ const eolien: AppelOffre = {
       max: 1.1,
     },
   },
+  changementProducteurPossibleAvantAchèvement: false,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3 et 6.6',

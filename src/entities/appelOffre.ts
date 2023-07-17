@@ -76,6 +76,7 @@ export type AppelOffre = {
   familles: Famille[];
   renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;
+  changementProducteurPossibleAvantAchèvement: boolean;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
   doitPouvoirChoisirCDCInitial?: true;

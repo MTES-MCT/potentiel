@@ -35,6 +35,7 @@ export const autoconsommationZNI2017: AppelOffre = {
       max: 1,
     },
   },
+  changementProducteurPossibleAvantAchèvement: true,
   choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

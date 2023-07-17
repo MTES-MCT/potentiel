@@ -5,7 +5,12 @@ import makeFakeProject from '../../../__tests__/fixtures/project';
 describe('porteurProjetActions', () => {
   describe('when project is abandoned', () => {
     it('should return an empty action array', () => {
-      const fakeProject = makeFakeProject({ isAbandoned: true, appelOffre: { type: 'batiment' } });
+      const fakeProject = makeFakeProject({
+        isAbandoned: true,
+        appelOffre: {
+          appelOffre: { changementProducteurPossibleAvantAchèvement: true },
+        },
+      });
       const result = porteurProjetActions(fakeProject);
       expect(result).toEqual([]);
     });
@@ -15,7 +20,7 @@ describe('porteurProjetActions', () => {
       it('should return certificate link and "recours" link', () => {
         const fakeProject = makeFakeProject({
           isClasse: false,
-          appelOffre: { type: 'batiment' },
+          appelOffre: { changementProducteurPossibleAvantAchèvement: true },
           certificateFile: {
             id: '1',
             filename: 'file-name',
@@ -41,7 +46,10 @@ describe('porteurProjetActions', () => {
     });
     describe('when project is "classé"', () => {
       it('should return an action array with the following actions: "Demander un délai", "Changer de producteur", "Changer de fournisseur", "Changer d\'actionnaire", "Changer de puissance", "Demander un abandon"', () => {
-        const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'batiment' } });
+        const fakeProject = makeFakeProject({
+          isClasse: true,
+          appelOffre: { changementProducteurPossibleAvantAchèvement: true },
+        });
         const result = porteurProjetActions(fakeProject);
         expect(result).toHaveLength(6);
         expect(result).toEqual([
@@ -75,7 +83,7 @@ describe('porteurProjetActions', () => {
         it('should return also a link to get this file', () => {
           const fakeProject = makeFakeProject({
             isClasse: true,
-            appelOffre: { type: 'batiment' },
+            appelOffre: { changementProducteurPossibleAvantAchèvement: true },
             certificateFile: {
               id: '1',
               filename: 'file-name',
@@ -95,9 +103,12 @@ describe('porteurProjetActions', () => {
           });
         });
       });
-      describe('when the AO is eolien', () => {
+      describe('when the AO cannot change producteur before achevement', () => {
         it('should not return "changement de producteur" action', () => {
-          const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'eolien' } });
+          const fakeProject = makeFakeProject({
+            isClasse: true,
+            appelOffre: { changementProducteurPossibleAvantAchèvement: false },
+          });
           const result = porteurProjetActions(fakeProject);
           expect(result).toHaveLength(5);
           expect(result).toEqual([
