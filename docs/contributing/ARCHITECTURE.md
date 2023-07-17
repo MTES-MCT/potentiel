@@ -44,7 +44,7 @@ Cette fonction permet de mettre en place une projection des données. La respons
 
 Le projet utilise le pattern Mediator via la bibliothèque `mediateur`. Ce pattern permet d'établir une communication entre deux éléments d'un logiciel sans avoir de couplage. Pour cela, l'appelant passera pas un médiateur qui sera capable de localiser et d'envoyer un message aux destinataires concernés. Ce pattern est utilisé pour le découpage et la mise à l'échelle du code. Il permet aussi de mettre en place facilement le principe de responsabilité (cf : [SOLID](https://en.wikipedia.org/wiki/SOLID)). Il est aussi utile pour mettre en place d'autre pattern, comme CQRS (Command & Query Responsability Sepration).
 
-Le pattern CQRS définit qu'une application peut être découpé en deux partie, l'une dédié à l'écriture (appelée `Command`), l'autre à la lecture (appelée `Query`). Chaque partie dispose de besoins spécifiques :
+Le pattern CQRS définit qu'une application peut être découpé en deux partie, l'une dédiée à l'écriture (appelée `Command`), l'autre à la lecture (appelée `Query`). Chaque partie dispose de besoins spécifiques :
 - Query : Facilité de requêtage, performance, ...
 - Command : Execution de la logique, intégrité, validation, ...
 
