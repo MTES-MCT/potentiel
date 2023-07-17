@@ -26,7 +26,7 @@ En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) es
 
 Lors du montage de l'image, le fichier [realm-dev.json](./keycloak/import/realm-dev.json) est importé et va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs de tests.
 
-Keycloak fonctionnant avec un système de thème, l'application Potentiel utilise un personnalisé qui se base sur les recommandations du DSFR. Le code source est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak). Afin que le thème puisse fonctionner avec notre image docker, vous devrez binder (dans le fichier [docker-compose](./docker-compose.yml)) le thème à utiliser. Pour se faire, n système de submodule git a été mis en place dans le dossier `keycloak/potentiel-keycloak`.
+Keycloak fonctionnant avec un système de thème, l'application Potentiel utilise un personnalisé qui se base sur les recommandations du DSFR. Le code source est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak). Afin que le thème puisse fonctionner avec notre image docker, vous devrez binder (dans le fichier [docker-compose](./docker-compose.yml)) le thème à utiliser. Pour se faire, un système de submodule git a été mis en place dans le dossier `keycloak/potentiel-keycloak`.
 
 [Lien de ressource vers les sous-modules git](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 
