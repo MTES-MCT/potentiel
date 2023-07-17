@@ -26,7 +26,7 @@ Pour générer de nouveaux évènements, il est nécessaire de matérialiser un 
 
 ![EventStream-Projection](diagrams/event-stream-load.drawio.svg)
 
-Chaque évènement émit doit être publié dans l'Event Store de manière ordonné et en gérant la concurrence. Dans Potentiel, l'ordre est garanti par la date de création (nom de la propriété : `createdAt`) et la version de l'aggrégat métier via lequel l'évènement a été créé (nom de la propriété : `version`). Ces deux propriétés sont gérés automatiquement dans la fonction `publish` du package **pg-event-sourcing** ([publish.ts](../../packages/libraries/pg-event-sourcing//src//publish.ts)). Les évènements sont stockés dans la table `EVENT_STREAM`.
+Chaque évènement émit doit être publié dans l'Event Store de manière ordonné et en gérant la concurrence. Dans Potentiel, l'ordre est garanti par la date de création (nom de la propriété : `createdAt`) et la version de l'aggrégat métier via lequel l'évènement a été créé (nom de la propriété : `version`). Ces deux propriétés sont gérés automatiquement dans la fonction `publish` du package **pg-event-sourcing** ([publish.ts](../../packages/libraries/pg-event-sourcing/src/publish.ts)). Les évènements sont stockés dans la table `EVENT_STREAM`.
 
 > ⚠️ La version actuelle de bibliothèque ne gère pas la concurrence lors de la publication. Actuellement, le projet n'a pas suffisamment de trafic pour justifier de mettre en place la concurrence. Ce comportement sera ajouté par la suite si besoin.
 
