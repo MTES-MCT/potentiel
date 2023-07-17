@@ -99,7 +99,7 @@ describe(`Notifier lorsqu'un abandon est demandé`, () => {
         variables: expect.objectContaining({
           nom_projet: 'nom-du-projet',
           modification_request_url: '/demande/la-demande/details.html',
-          type_demande: `d'abandon`,
+          type_demande: `abandon`,
           departement_projet: 'département-du-projet',
         }),
       }),

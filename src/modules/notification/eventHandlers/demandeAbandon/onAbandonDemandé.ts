@@ -62,7 +62,7 @@ export const makeOnAbandonDemandé: MakeOnAbandonDemandé =
           variables: {
             nom_projet: nomProjet,
             departement_projet: departementProjet,
-            type_demande: `d'abandon`,
+            type_demande: `abandon`,
             modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeAbandonId),
           },
         });

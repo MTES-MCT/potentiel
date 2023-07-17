@@ -46,7 +46,7 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
               },
               variables: {
                 nom_projet: nomProjet,
-                type_demande: 'delai',
+                type_demande: 'délai',
                 status: 'envoyée',
                 modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                 document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
@@ -79,7 +79,7 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
                     variables: {
                       nom_projet: nomProjet,
                       departement_projet: departementProjet,
-                      type_demande: 'de délai',
+                      type_demande: 'délai',
                       modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                     },
                   }),
@@ -104,7 +104,7 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
             variables: {
               nom_projet: nomProjet,
               departement_projet: departementProjet,
-              type_demande: 'de délai',
+              type_demande: 'délai',
               modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
             },
           });
