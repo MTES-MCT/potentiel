@@ -36,13 +36,13 @@
     "migrate": "sequelize-cli db:migrate",
     "migrate:undo": "npm run build:migrations && sequelize-cli db:migrate:undo",
     "seed": "npm run build:migrations && sequelize-cli db:seed:all",
-    "start:dev": "docker compose up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run migrate && npm run seed && npm run build:packages && concurrently \"ts-node-dev --transpile-only -r tsconfig-paths/register src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\" \"watch 'npm run build:packages' ./packages/**/src/\"",
-    "stop:dev": "docker compose down --remove-orphans",
+    "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run migrate && npm run seed && npm run build:packages && concurrently \"ts-node-dev --transpile-only -r tsconfig-paths/register src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\" \"watch 'npm run build:packages' ./packages/**/src/\"",
+    "stop:dev": "docker compose  --profile app down --remove-orphans",
     "start": "npm run migrate && node ./dist/src/index.js",
-    "specs": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose down --remove-orphans && docker compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && npm run specs --workspaces --if-present --",
+    "specs": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && npm run specs --workspaces --if-present --",
     "specs:select": "npm run specs -- --tags @select",
     "version": "ts-node .github/getPatchVersion.ts",
-    "test:legacy": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose down --remove-orphans && docker compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && NODE_ENV=test jest --config=jest.config.js --detectOpenHandles",
+    "test:legacy": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && NODE_ENV=test jest --config=jest.config.js --detectOpenHandles",
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\""
   },
   "repository": {
