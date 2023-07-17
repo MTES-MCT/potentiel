@@ -4,4 +4,7 @@ export type ModificationRequestInfoForStatusNotificationDTO = {
   regionProjet: string;
   nomProjet: string;
   type: string;
+  autorité: 'dgec' | 'dreal';
+  appelOffreId: string;
+  périodeId: string;
 };
