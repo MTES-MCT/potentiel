@@ -36,7 +36,7 @@ Une fois publié, l'évènement est propagé par pg_notify via le déclencheur `
 
 ![EventStream-Subscribe](diagrams/event-stream-subscribe.drawio.svg)
 
-Cette fonction permet de mettre en place une projection des données. La responsabilité des projecteurs dans le projet est de créer des projections en lecture seule qui seront utilisées directement par l'application ainsi que le Frontend. L'ensemble de ces projections sont stockées dans la table `PROJECTION`. Les projections sont stockés sous la forme d'un key/value pair.
+Cette fonction permet de mettre en place une projection des données. La responsabilité des projecteurs dans le projet est de créer et mettre à jour les projections afin qu'elle puisse être consultées en lecture seule par l'application. L'ensemble de ces projections sont stockées dans la table `PROJECTION`. Les projections sont stockés sous la forme d'un key/value pair.
 
 ![EventStream-Projection](diagrams/event-stream-projection.drawio.svg)
 
