@@ -50,7 +50,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 - **build:migrations** : Compile les fichiers de migration et de seed
 - **build-storybook** : Compile Storybook
 - **prepare** : Met en place Husky pour la bonne éxécution des Hooks via lint-staged
-- **lint** : Recherche de fix des problémes de code via ESLint
+- **lint** : Recherche de fix des problèmes de code via ESLint
 - **format** : Formattage du code via Prettier
 - **migrate** : Execute les migrations de base de données
 - **migrate:undo** : Annule la derniére migration de base de données éxécutée
