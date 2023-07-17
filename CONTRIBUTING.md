@@ -1,13 +1,12 @@
 # Contribuer à Potentiel
 
-👋 Bienvenue sur le guide de contribution du projet **Potentiel**. Avant tout, nous tenons à vous remercier pour le temps que vous allez consacré à l'amélioration du projet 🙏
+👋 Bienvenue sur le guide de contribution du projet **Potentiel**. Avant tout, nous tenons à vous remercier pour le temps que vous allez consacrer à l'amélioration du projet 🙏
 
 ## Table des matières
 - [Developer's Certificate of Origin 1.1](#developer-certificate)
 - [Premiers pas dans le projet Potentiel](#premiers-pas)
-- [Flow de développement](#flow-développement)
 - [Architecture](#architecture)
-- [Guide du développeur](#guide-developpeur)
+- [Flow de développement](#flow-développement)
 
 ## <a id="developer-certificate"></a> Developer's Certificate of Origin 1.1
 
@@ -23,16 +22,20 @@
 
 ## <a id="premiers-pas"></a> Premiers pas dans le projet Potentiel
 - [Mise en place du projet](./docs/contributing/GETTING_STARTED.md#mise-en-place-du-projet)
+- [Keycloack](./docs/contributing/GETTING_STARTED.md#keycloak)
 - [Configurer un environnement local](./docs/contributing/GETTING_STARTED.md#configurer-un-environnement-local)
 - [Lancer l'application en local](./docs/contributing/GETTING_STARTED.md#lancer-application-en-local)
 - [Lancer les tests](./docs/contributing/GETTING_STARTED.md#lancer-les-tests)
+- [Metabase](./docs/contributing//GETTING_STARTED.md#metabase)
+- [Restaurer un dump de la base de données](./docs/contributing/GETTING_STARTED.md#restaurer-dump-db)
 
 ## <a id="architecture"></a> Architecture
 - [Patterns d'architecture](./docs/contributing/ARCHITECTURE.md#patterns-darchitecture)
 
 ## <a id="flow-développement"></a> Flow de développement
 - [Organisation du code source](./docs/contributing/DEVELOPMENT_FLOW.md#organisation-du-code-source)
+- [Scripts NPM](./docs/contributing/DEVELOPMENT_FLOW.md#scripts-npm)
+- [Environnements](./docs/contributing/DEVELOPMENT_FLOW.md#environnements)
+- [Déploiement](./docs/contributing/DEVELOPMENT_FLOW.md#deploy)
 - [Apporter des changements](./docs/contributing/DEVELOPMENT_FLOW.md#apporter-des-changements)
 - [Approche/Méthode](./docs/contributing/DEVELOPMENT_FLOW.md#approche-methode)
-
-## <a id="guide-developpeur"></a> Guide du développeur
