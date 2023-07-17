@@ -94,7 +94,7 @@ Pour plus de détail vous pouvez consulter les diagrammes [release flow](./docs/
 
 3. Une fois les changements terminés localement ouvrir une PR et demander la revue à au moins 1 autre développeur de l'équipe (idéalement 2).
 
-4. Une fois que la PR est approuvée et que les changements demandés ont été apportés, la PR peut être merger .
+4. Une fois que la PR est approuvée et que les changements demandés ont été apportés, la PR peut être mergée.
 
 Note : l'équipe utilise `gitmoji` pour les commits, donc merci de bien sélectionner l'emoji correspondant pour chaque commit avec un message clair en français. Cela facilite grandement la revue du code.
 
