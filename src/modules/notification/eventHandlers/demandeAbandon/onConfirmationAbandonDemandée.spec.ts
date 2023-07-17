@@ -5,7 +5,7 @@ import { makeOnConfirmationAbandonDemandée } from '.';
 describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est en attente de confirmation
-          Alors les deux porteurs ayant accès au projet devrait être notifié`, async () => {
+          Alors les deux porteurs ayant accès au projet devraient être notifiés`, async () => {
       const notifierPorteurChangementStatutDemande = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
@@ -27,6 +27,7 @@ describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
+          evaluationCarboneDeRéférence: 100,
         });
 
       const onConfirmationAbandonDemandée = makeOnConfirmationAbandonDemandée({
