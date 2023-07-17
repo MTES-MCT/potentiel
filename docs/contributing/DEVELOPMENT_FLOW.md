@@ -57,7 +57,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 - **seed** : Ajoute les données de base pour le lancement de l'application en local
 - **start:dev** : Lance les services locaux nécessaire au fonctionnement de l'app (Postgres, S3, Keycloack), éxecute les migrations de base de données, compile l'ensemble du projet et le lance en mode watch
 - **stop:dev** : Coupe les services locaux nécessaire au fonctionnement de l'app
-- **start** : Lancement de l'application en mode production. Execute les migrations de base de données, compile l'ensemble du projet et le lance.
+- **start** : Lancement de l'application en mode production. Exécute les migrations de base de données, compile l'ensemble du projet et le lance.
 - **specs** : Execute les tests de `specifications`. Lance les services locaux nécessaire à l'éxecution des tests, éxecute les migrations de base de données, compile l'ensemble du projet et éxecute les scénarios Gherkin
 - **specs:select** : Similaire à **specs**, mais ne lance que les scénarios Gherkin taggés avec **@select**
 - **version** : Calcul le numéro de version de l'application.
