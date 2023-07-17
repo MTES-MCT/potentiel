@@ -11,8 +11,10 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
   it(`Etant donné un projet sous l'autorité DGEC
       Et ayant plusieurs porteurs rattachés
       Lorsque l'un des porteurs dépose une demande de modification
+      Et que l'autorité compétente pour la demande est la DGEC
       Alors tous les porteurs ayant accès au projet devraient être notifiés
-      Et aucun autre acteur ne devrait être notifié`, async () => {
+      Et une notification devrait être envoyée à l'email générique de la DGEC`, async () => {
+    const typeDemande = 'puissance';
     const sendNotification = jest.fn();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
@@ -24,12 +26,15 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
+          appelOffreId: 'Eolien',
+          périodeId: '1',
         });
 
     await handleModificationRequested({
       sendNotification,
       getProjectInfoForModificationRequestedNotification,
       findUsersForDreal: jest.fn(),
+      dgecEmail: 'dgec@test.test',
     })(
       new ModificationRequested({
         payload: {
@@ -37,13 +42,13 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           projectId: 'le-projet',
           requestedBy: 'id-user-1',
           authority: 'dgec',
-          type: 'puissance',
+          type: typeDemande,
           puissance: 1,
         },
       }),
     );
 
-    expect(sendNotification).toHaveBeenCalledTimes(2);
+    expect(sendNotification).toHaveBeenCalledTimes(3);
     expect(sendNotification).toHaveBeenCalledWith(
       expect.objectContaining({
         type: 'modification-request-status-update',
@@ -58,7 +63,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
         variables: expect.objectContaining({
           status: 'envoyée',
           nom_projet: 'nom-du-projet',
-          type_demande: 'puissance',
+          type_demande: typeDemande,
           document_absent: '',
         }),
       }),
@@ -78,8 +83,30 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
         variables: expect.objectContaining({
           status: 'envoyée',
           nom_projet: 'nom-du-projet',
-          type_demande: 'puissance',
+          type_demande: typeDemande,
           document_absent: '',
+        }),
+      }),
+    );
+
+    expect(sendNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'admin-modification-requested',
+        message: expect.objectContaining({
+          email: 'dgec@test.test',
+          name: 'DGEC',
+          subject: `Potentiel - Nouvelle demande de type "${typeDemande}" pour un projet Eolien période 1`,
+        }),
+        context: expect.objectContaining({
+          modificationRequestId: 'la-demande',
+          dreal: '',
+          projectId: 'le-projet',
+        }),
+        variables: expect.objectContaining({
+          nom_projet: 'nom-du-projet',
+          modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
+          type_demande: typeDemande,
+          departement_projet: 'département-du-projet',
         }),
       }),
     );
@@ -87,7 +114,9 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
 
   it(`Etant donné un projet sous l'autorité de deux régions
       Quand une demande de modification est déposée par un porteur
-      Alors tous les agents des deux régions du projet devraient être notifiés`, async () => {
+      Et que la région est l'autorité compétente pour la demande
+      Alors tous les agents des deux régions du projet devraient être notifiés
+      Et le porteur devrait être notifié`, async () => {
     const sendNotification = jest.fn();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
@@ -98,6 +127,8 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
+          appelOffreId: 'Sol',
+          périodeId: '1',
         });
 
     const findUsersForDreal = (region: string) =>
@@ -114,6 +145,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       sendNotification,
       getProjectInfoForModificationRequestedNotification,
       findUsersForDreal,
+      dgecEmail: 'dgec@test.test',
     })(
       new ModificationRequested({
         payload: {

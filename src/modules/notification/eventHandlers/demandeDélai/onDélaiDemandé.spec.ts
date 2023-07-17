@@ -10,7 +10,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
       Et ayant plusieurs porteurs rattachés
       Lorsque l'un des porteurs dépose une demande de délai
       Alors tous les porteurs ayant accès au projet devraient être notifiés
-      Et aucun autre acteur ne devrait être notifié`, async () => {
+      Et une notification devrait être envoyée au mail générique de la DGEC`, async () => {
     const sendNotification = jest.fn();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
@@ -22,12 +22,15 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
+          appelOffreId: 'AO',
+          périodeId: 'la-période',
         });
 
     const onDélaiDemandé = makeOnDélaiDemandé({
       sendNotification,
       getProjectInfoForModificationRequestedNotification,
       findUsersForDreal: jest.fn(),
+      dgecEmail: 'dgec@test.test',
     });
 
     await onDélaiDemandé(
@@ -42,7 +45,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
       }),
     );
 
-    expect(sendNotification).toHaveBeenCalledTimes(2);
+    expect(sendNotification).toHaveBeenCalledTimes(3);
     expect(sendNotification).toHaveBeenCalledWith(
       expect.objectContaining({
         type: 'modification-request-status-update',
@@ -57,7 +60,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         variables: expect.objectContaining({
           status: 'envoyée',
           nom_projet: 'nom-du-projet',
-          type_demande: 'delai',
+          type_demande: 'délai',
           document_absent: '',
         }),
       }),
@@ -77,16 +80,40 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         variables: expect.objectContaining({
           status: 'envoyée',
           nom_projet: 'nom-du-projet',
-          type_demande: 'delai',
+          type_demande: 'délai',
           document_absent: '',
+        }),
+      }),
+    );
+
+    expect(sendNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'admin-modification-requested',
+        message: expect.objectContaining({
+          email: 'dgec@test.test',
+          name: 'DGEC',
+          subject: `Potentiel - Nouvelle demande de type délai pour un projet AO période la-période`,
+        }),
+        context: expect.objectContaining({
+          modificationRequestId: 'la-demande',
+          dreal: '',
+          projectId: 'le-projet',
+        }),
+        variables: expect.objectContaining({
+          nom_projet: 'nom-du-projet',
+          modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
+          type_demande: 'délai',
+          departement_projet: 'département-du-projet',
         }),
       }),
     );
   });
 
   it(`Etant donné un projet sous l'autorité de deux régions
+      Et rattaché à un porteur de projet
       Quand un délai est demandé
-      Alors tous les agents des deux régions du projet devraient être notifiés`, async () => {
+      Alors tous les agents des deux régions du projet devraient être notifiés
+      Et le porteur devrait être notifié`, async () => {
     const sendNotification = jest.fn();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
@@ -97,6 +124,8 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
+          appelOffreId: 'Sol',
+          périodeId: '1',
         });
 
     const findUsersForDreal = (region: string) =>
@@ -113,6 +142,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
       sendNotification,
       getProjectInfoForModificationRequestedNotification,
       findUsersForDreal,
+      dgecEmail: 'dgec@test.test',
     });
 
     await onDélaiDemandé(
@@ -143,7 +173,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         variables: expect.objectContaining({
           status: 'envoyée',
           nom_projet: 'nom-du-projet',
-          type_demande: 'delai',
+          type_demande: 'délai',
           document_absent: '',
         }),
       }),
@@ -164,7 +194,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         variables: expect.objectContaining({
           nom_projet: 'nom-du-projet',
           modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
-          type_demande: 'delai',
+          type_demande: 'délai',
           departement_projet: 'département-du-projet',
         }),
       }),
@@ -185,7 +215,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         variables: expect.objectContaining({
           nom_projet: 'nom-du-projet',
           modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
-          type_demande: 'delai',
+          type_demande: 'délai',
           departement_projet: 'département-du-projet',
         }),
       }),
@@ -206,7 +236,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         variables: expect.objectContaining({
           nom_projet: 'nom-du-projet',
           modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
-          type_demande: 'delai',
+          type_demande: 'délai',
           departement_projet: 'département-du-projet',
         }),
       }),

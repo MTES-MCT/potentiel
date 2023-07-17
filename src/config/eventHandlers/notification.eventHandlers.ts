@@ -61,12 +61,18 @@ eventStore.subscribe(ModificationRequestRejected.type, modificationRequestStatus
 eventStore.subscribe(ConfirmationRequested.type, modificationRequestStatusChangeHandler);
 eventStore.subscribe(ModificationRequestCancelled.type, modificationRequestStatusChangeHandler);
 
+if (!process.env.DGEC_EMAIL) {
+  console.error('ERROR: DGEC_EMAIL is not set');
+  process.exit(1);
+}
+
 eventStore.subscribe(
   ModificationRequested.type,
   handleModificationRequested({
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     getProjectInfoForModificationRequestedNotification,
+    dgecEmail: process.env.DGEC_EMAIL,
   }),
 );
 
@@ -79,11 +85,6 @@ eventStore.subscribe(
     findProjectById: oldProjectRepo.findById,
   }),
 );
-
-if (!process.env.DGEC_EMAIL) {
-  console.error('ERROR: DGEC_EMAIL is not set');
-  process.exit(1);
-}
 
 eventStore.subscribe(
   ModificationRequestCancelled.type,

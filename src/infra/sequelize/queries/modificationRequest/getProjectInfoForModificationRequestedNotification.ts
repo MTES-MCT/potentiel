@@ -7,14 +7,14 @@ export const getProjectInfoForModificationRequestedNotification: GetProjectInfoF
   (projectId: string) => {
     return wrapInfra(
       Project.findByPk(projectId, {
-        attributes: ['nomProjet', 'departementProjet', 'regionProjet'],
+        attributes: ['nomProjet', 'departementProjet', 'regionProjet', 'appelOffreId', 'periodeId'],
       }),
     ).andThen((rawProject) => {
       if (!rawProject) {
         return errAsync(new EntityNotFoundError());
       }
 
-      const { nomProjet, departementProjet, regionProjet } = rawProject;
+      const { nomProjet, departementProjet, regionProjet, appelOffreId, periodeId } = rawProject;
 
       return wrapInfra(
         UserProjects.findAll({
@@ -32,6 +32,8 @@ export const getProjectInfoForModificationRequestedNotification: GetProjectInfoF
         nomProjet,
         departementProjet,
         regionProjet,
+        appelOffreId,
+        périodeId: periodeId,
         porteursProjet: porteursProjets.map(({ user: { id, email, fullName } }) => ({
           id,
           email,

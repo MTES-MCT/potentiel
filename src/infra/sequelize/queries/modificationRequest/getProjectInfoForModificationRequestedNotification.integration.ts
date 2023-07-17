@@ -17,10 +17,12 @@ describe('Sequelize getProjectInfoForModificationRequestedNotification', () => {
     regionProjet: 'region',
   };
 
+  const project = makeFakeProject(projectInfo);
+
   beforeAll(async () => {
     await resetDatabase();
 
-    await Project.create(makeFakeProject(projectInfo));
+    await Project.create(project);
     await User.create(makeFakeUser({ id: userId, fullName: 'pp1', email: 'pp1@test.test' }));
     await User.create(makeFakeUser({ id: userId2, fullName: 'pp2', email: 'pp2@test.test' }));
 
@@ -48,6 +50,8 @@ describe('Sequelize getProjectInfoForModificationRequestedNotification', () => {
       nomProjet: 'nomProjet',
       departementProjet: 'departement',
       regionProjet: 'region',
+      appelOffreId: project.appelOffreId,
+      périodeId: project.periodeId,
       porteursProjet: expect.arrayContaining([
         {
           id: userId,

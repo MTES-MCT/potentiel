@@ -60,6 +60,8 @@ notificationEventSubscriber(
   makeOnAbandonDemandé({
     notifierPorteurChangementStatutDemande,
     getProjectInfoForModificationRequestedNotification,
+    sendNotification,
+    dgecEmail: process.env.DGEC_EMAIL,
   }),
 );
 

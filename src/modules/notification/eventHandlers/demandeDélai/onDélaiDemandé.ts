@@ -11,13 +11,26 @@ type MakeOnDélaiDemandé = (dépendances: {
   sendNotification: NotificationService['sendNotification'];
   findUsersForDreal: UserRepo['findUsersForDreal'];
   getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification;
+  dgecEmail: string;
 }) => OnDélaiDemandé;
 
 export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
-  ({ sendNotification, getProjectInfoForModificationRequestedNotification, findUsersForDreal }) =>
+  ({
+    sendNotification,
+    getProjectInfoForModificationRequestedNotification,
+    findUsersForDreal,
+    dgecEmail,
+  }) =>
   async ({ payload: { demandeDélaiId, autorité, projetId } }) => {
     await getProjectInfoForModificationRequestedNotification(projetId).match(
-      async ({ nomProjet, porteursProjet, departementProjet, regionProjet }) => {
+      async ({
+        nomProjet,
+        porteursProjet,
+        departementProjet,
+        regionProjet,
+        appelOffreId,
+        périodeId,
+      }) => {
         await Promise.all(
           porteursProjet.map(({ email, fullName, id }) =>
             sendNotification({
@@ -33,7 +46,7 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
               },
               variables: {
                 nom_projet: nomProjet,
-                type_demande: 'delai',
+                type_demande: 'délai',
                 status: 'envoyée',
                 modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                 document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
@@ -66,7 +79,7 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
                     variables: {
                       nom_projet: nomProjet,
                       departement_projet: departementProjet,
-                      type_demande: 'delai',
+                      type_demande: 'délai',
                       modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                     },
                   }),
@@ -74,6 +87,27 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
               );
             }),
           );
+        } else {
+          await sendNotification({
+            type: 'admin-modification-requested',
+            message: {
+              email: dgecEmail,
+              name: 'DGEC',
+              subject: `Potentiel - Nouvelle demande de type délai pour un projet ${appelOffreId} période ${périodeId}`,
+            },
+            context: {
+              modificationRequestId: demandeDélaiId,
+              projectId: projetId,
+              dreal: '',
+              userId: '',
+            },
+            variables: {
+              nom_projet: nomProjet,
+              departement_projet: departementProjet,
+              type_demande: 'délai',
+              modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+            },
+          });
         }
       },
       (e: Error) => {
