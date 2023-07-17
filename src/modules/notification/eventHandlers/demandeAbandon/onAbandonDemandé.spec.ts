@@ -6,7 +6,9 @@ import { GetProjectInfoForModificationRequestedNotification } from '@modules/mod
 describe(`Notifier lorsqu'un abandon est demandé`, () => {
   it(`Etant donné un projet accessible pour deux porteurs
       Quand un abandon est demandé
-      Alors les deux porteurs ayant accès au projet devraient être notifiés`, async () => {
+      Alors les deux porteurs ayant accès au projet devraient être notifiés
+      Et une notification devrait être envoyée sur l'email générique de la DGEC avec l'AO en objet`, async () => {
+    const sendNotification = jest.fn();
     const notifierPorteurChangementStatutDemande = jest.fn();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
@@ -27,7 +29,7 @@ describe(`Notifier lorsqu'un abandon est demandé`, () => {
           ],
           nomProjet: 'nom-du-projet',
           regionProjet: 'region',
-          departementProjet: 'departement',
+          departementProjet: 'département-du-projet',
           type: 'abandon',
           appelOffreId: 'Eolien',
           périodeId: '1',
@@ -36,6 +38,8 @@ describe(`Notifier lorsqu'un abandon est demandé`, () => {
     const onAbandonDemandé = makeOnAbandonDemandé({
       notifierPorteurChangementStatutDemande,
       getProjectInfoForModificationRequestedNotification,
+      sendNotification,
+      dgecEmail: 'dgec@test.test',
     });
 
     await onAbandonDemandé(
@@ -75,6 +79,29 @@ describe(`Notifier lorsqu'un abandon est demandé`, () => {
         nomProjet: 'nom-du-projet',
         modificationRequestId: 'la-demande',
         hasDocument: true,
+      }),
+    );
+
+    expect(sendNotification).toHaveBeenCalledTimes(1);
+
+    expect(sendNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'admin-modification-requested',
+        message: expect.objectContaining({
+          email: 'dgec@test.test',
+          name: 'DGEC',
+          subject: `Potentiel - Nouvelle demande de type abandon pour un projet Eolien période 1`,
+        }),
+        context: expect.objectContaining({
+          modificationRequestId: 'la-demande',
+          projectId: 'le-projet',
+        }),
+        variables: expect.objectContaining({
+          nom_projet: 'nom-du-projet',
+          modification_request_url: '/demande/la-demande/details.html',
+          type_demande: `d'abandon`,
+          departement_projet: 'département-du-projet',
+        }),
       }),
     );
   });
