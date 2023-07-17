@@ -30,6 +30,8 @@ Keycloak fonctionnant avec un système de thème, l'application Potentiel utilis
 
 [Lien de ressource vers les sous-modules git](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 
+Pour les environnements de production et de staging, keycloak est hébergé sur une application s
+```suggestion
 Pour l'environment de production et de staging, keycloak est hébergé sur une application scalingo et utilise également le repo du thème custom.
 
 ## <a id="configurer-un-environnement-local"></a> Configurer un environnement local
