@@ -12,12 +12,20 @@ export const handleModificationRequested =
     sendNotification: NotificationService['sendNotification'];
     findUsersForDreal: UserRepo['findUsersForDreal'];
     getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification;
+    dgecEmail: string;
   }) =>
   async (event: ModificationRequested) => {
     const { modificationRequestId, projectId, type, authority } = event.payload;
 
     await deps.getProjectInfoForModificationRequestedNotification(projectId).match(
-      async ({ nomProjet, porteursProjet, departementProjet, regionProjet }) => {
+      async ({
+        nomProjet,
+        porteursProjet,
+        departementProjet,
+        regionProjet,
+        appelOffreId,
+        périodeId,
+      }) => {
         await Promise.all(
           porteursProjet.map(({ email, fullName, id }) =>
             deps.sendNotification({
@@ -74,6 +82,27 @@ export const handleModificationRequested =
               );
             }),
           );
+        } else {
+          deps.sendNotification({
+            type: 'admin-modification-requested',
+            message: {
+              email: deps.dgecEmail,
+              name: 'DGEC',
+              subject: `Potentiel - Nouvelle demande de type "${type}" pour un projet ${appelOffreId} période ${périodeId}`,
+            },
+            context: {
+              modificationRequestId,
+              projectId,
+              dreal: '',
+              userId: '',
+            },
+            variables: {
+              nom_projet: nomProjet,
+              departement_projet: departementProjet,
+              type_demande: type,
+              modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+            },
+          });
         }
       },
       (e: Error) => {
