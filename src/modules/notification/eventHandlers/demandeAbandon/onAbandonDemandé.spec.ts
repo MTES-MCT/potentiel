@@ -29,6 +29,8 @@ describe(`Notifier lorsqu'un abandon est demandé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
+          appelOffreId: 'Eolien',
+          périodeId: '1',
         });
 
     const onAbandonDemandé = makeOnAbandonDemandé({

@@ -24,6 +24,8 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'région-du-projet',
+          appelOffreId: 'Eolien',
+          périodeId: '1',
         });
 
     await handleModificationRequested({
@@ -98,6 +100,8 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
+          appelOffreId: 'Sol',
+          périodeId: '1',
         });
 
     const findUsersForDreal = (region: string) =>

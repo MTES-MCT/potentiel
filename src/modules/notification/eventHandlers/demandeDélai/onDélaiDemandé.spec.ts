@@ -124,6 +124,8 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           nomProjet: 'nom-du-projet',
           departementProjet: 'département-du-projet',
           regionProjet: 'regionA / regionB',
+          appelOffreId: 'Sol',
+          périodeId: '1',
         });
 
     const findUsersForDreal = (region: string) =>
