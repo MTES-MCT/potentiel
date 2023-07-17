@@ -52,7 +52,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 - **prepare** : Met en place Husky pour la bonne éxécution des Hooks via lint-staged
 - **lint** : Recherche de fix des problèmes de code via ESLint
 - **format** : Formattage du code via Prettier
-- **migrate** : Execute les migrations de base de données
+- **migrate** : Exécute les migrations de base de données
 - **migrate:undo** : Annule la derniére migration de base de données éxécutée
 - **seed** : Ajoute les données de base pour le lancement de l'application en local
 - **start:dev** : Lance les services locaux nécessaire au fonctionnement de l'app (Postgres, S3, Keycloack), éxecute les migrations de base de données, compile l'ensemble du projet et le lance en mode watch
