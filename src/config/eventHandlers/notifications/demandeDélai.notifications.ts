@@ -34,6 +34,7 @@ notificationEventSubscriber(
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     getProjectInfoForModificationRequestedNotification,
+    dgecEmail: process.env.DGEC_EMAIL,
   }),
 );
 notificationEventSubscriber(

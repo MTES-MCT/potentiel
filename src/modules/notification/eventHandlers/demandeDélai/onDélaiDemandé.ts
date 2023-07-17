@@ -11,10 +11,16 @@ type MakeOnDélaiDemandé = (dépendances: {
   sendNotification: NotificationService['sendNotification'];
   findUsersForDreal: UserRepo['findUsersForDreal'];
   getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification;
+  dgecEmail: string;
 }) => OnDélaiDemandé;
 
 export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
-  ({ sendNotification, getProjectInfoForModificationRequestedNotification, findUsersForDreal }) =>
+  ({
+    sendNotification,
+    getProjectInfoForModificationRequestedNotification,
+    findUsersForDreal,
+    dgecEmail,
+  }) =>
   async ({ payload: { demandeDélaiId, autorité, projetId } }) => {
     await getProjectInfoForModificationRequestedNotification(projetId).match(
       async ({ nomProjet, porteursProjet, departementProjet, regionProjet }) => {
@@ -66,7 +72,7 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
                     variables: {
                       nom_projet: nomProjet,
                       departement_projet: departementProjet,
-                      type_demande: 'delai',
+                      type_demande: 'de délai',
                       modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                     },
                   }),
@@ -74,6 +80,27 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
               );
             }),
           );
+        } else {
+          await sendNotification({
+            type: 'admin-modification-requested',
+            message: {
+              email: dgecEmail,
+              name: 'DGEC',
+              subject: `Potentiel - Nouvelle demande de type délai dans votre département ${departementProjet}`,
+            },
+            context: {
+              modificationRequestId: demandeDélaiId,
+              projectId: projetId,
+              dreal: '',
+              userId: '',
+            },
+            variables: {
+              nom_projet: nomProjet,
+              departement_projet: departementProjet,
+              type_demande: 'de délai',
+              modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+            },
+          });
         }
       },
       (e: Error) => {
