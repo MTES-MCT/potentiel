@@ -4,53 +4,81 @@ import { UniqueEntityID } from '@core/domain';
 import { makeUser } from '@entities';
 import { UnwrapForTest } from '../../../../types';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import { GetModificationRequestInfoForConfirmedNotification } from '../../../modificationRequest';
+import { GetDataForAbandonConfirméNotification } from '../../../modificationRequest';
 import { makeOnAbandonConfirmé } from './onAbandonConfirmé';
 import { AbandonConfirmé, AbandonConfirméPayload } from '@modules/demandeModification';
 
 const demandeAbandonId = new UniqueEntityID().toString();
 
 describe(`Handler onAbandonConfirmé`, () => {
-  describe(`Etant donné un événement AbandonConfirmé`, () => {
+  it(`Etant donné une demande d'abandon en attente de confirmation du porteur
+      Lorsque le porteur confirme son souhait d'abandonner le projet
+      Alors une notification devrait être envoyée au chargé d'affaire à l'origine de la demande de confirmation
+      Et une notification devrait être envoyée au mail générique de la DGEC`, async () => {
     const chargeAffaire = UnwrapForTest(
       makeUser(makeFakeUser({ role: 'admin', email: 'admin@test.test', fullName: 'admin1' })),
     );
 
     const sendNotification = jest.fn(async (args: NotificationArgs) => null);
-    const getModificationRequestInfoForConfirmedNotification = jest.fn((demandeAbandonId) =>
-      okAsync({
-        chargeAffaire: { email: 'admin@test.test', fullName: 'admin1', id: chargeAffaire.id },
-        nomProjet: 'nomProjet',
-        type: 'abandon',
-      }),
-    ) as GetModificationRequestInfoForConfirmedNotification;
 
-    it(`Alors une notification devrait être envoyée au chargé d'affaire à l'origine de la demande de confirmation`, async () => {
-      sendNotification.mockClear();
-
-      await makeOnAbandonConfirmé({
-        sendNotification,
-        getModificationRequestInfoForConfirmedNotification,
-      })(
-        new AbandonConfirmé({
-          payload: { demandeAbandonId, confirméPar: '' } as AbandonConfirméPayload,
+    const getDataForAbandonConfirméNotification: GetDataForAbandonConfirméNotification = jest.fn(
+      () =>
+        okAsync({
+          chargeAffaire: { email: 'admin@test.test', fullName: 'admin1', id: chargeAffaire.id },
+          nomProjet: 'nomProjet',
+          appelOffreId: 'Eolien',
+          périodeId: '1',
         }),
-      );
+    );
 
-      expect(getModificationRequestInfoForConfirmedNotification).toHaveBeenCalledWith(
-        demandeAbandonId,
-      );
+    await makeOnAbandonConfirmé({
+      sendNotification,
+      getDataForAbandonConfirméNotification,
+      dgecEmail: 'dgec@test.test',
+    })(
+      new AbandonConfirmé({
+        payload: { demandeAbandonId, confirméPar: '' } as AbandonConfirméPayload,
+      }),
+    );
 
-      expect(sendNotification).toHaveBeenCalledTimes(1);
-      const notification = sendNotification.mock.calls[0][0];
+    expect(getDataForAbandonConfirméNotification).toHaveBeenCalledWith(demandeAbandonId);
 
-      expect(notification.message.email).toEqual('admin@test.test');
+    expect(sendNotification).toHaveBeenCalledTimes(2);
 
-      expect(
-        notification.type === 'modification-request-confirmed' &&
-          notification.variables.nom_projet === 'nomProjet' &&
-          notification.variables.type_demande === 'abandon',
-      ).toBe(true);
+    expect(sendNotification).toHaveBeenCalledWith({
+      type: 'modification-request-confirmed',
+      message: {
+        email: chargeAffaire.email,
+        name: chargeAffaire.fullName,
+        subject: `Demande d'abandon confirmée pour le projet ${'nomProjet'.toLowerCase()} (Eolien 1)`,
+      },
+      context: {
+        modificationRequestId: demandeAbandonId,
+        userId: chargeAffaire.id,
+      },
+      variables: {
+        nom_projet: 'nomProjet',
+        type_demande: 'abandon',
+        modification_request_url: `/demande/${demandeAbandonId}/details.html`,
+      },
+    });
+
+    expect(sendNotification).toHaveBeenCalledWith({
+      type: 'modification-request-confirmed',
+      message: {
+        email: 'dgec@test.test',
+        name: 'DGEC',
+        subject: `Demande d'abandon confirmée pour le projet ${'nomProjet'.toLowerCase()} (Eolien 1)`,
+      },
+      context: {
+        modificationRequestId: demandeAbandonId,
+        userId: '',
+      },
+      variables: {
+        nom_projet: 'nomProjet',
+        type_demande: 'abandon',
+        modification_request_url: `/demande/${demandeAbandonId}/details.html`,
+      },
     });
   });
 });

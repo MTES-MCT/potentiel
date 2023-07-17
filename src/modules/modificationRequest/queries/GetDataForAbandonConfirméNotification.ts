@@ -1,10 +1,10 @@
 import { ResultAsync } from '@core/utils';
 import { EntityNotFoundError, InfraNotAvailableError } from '../../shared';
-import { ModificationRequestInfoForConfirmedNotificationDTO } from '../dtos';
+import { DataForAbandonConfirméNotificationDTO } from '../dtos';
 
-export interface GetModificationRequestInfoForConfirmedNotification {
+export type GetDataForAbandonConfirméNotification = {
   (modificationRequestId: string): ResultAsync<
-    ModificationRequestInfoForConfirmedNotificationDTO,
+    DataForAbandonConfirméNotificationDTO,
     EntityNotFoundError | InfraNotAvailableError
   >;
-}
+};
