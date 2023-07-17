@@ -14,7 +14,7 @@ Actuellement le projet est en cours de refonte pour passer en organisation en wo
 
 La partie dans le répertoire `src` correspond au code source qui doit être migrer dans des `packages`. Donc toute modification dans cette partie doit être faite seulement pour des corrections de bugs bloquants ou de sécurité.
 
-Toute nouvelle fonctionnalité doit être implémenter sous forme de paquets situés dans le répertoire `packages`.
+Toute nouvelle fonctionnalité doit être implémentée sous forme de paquets situés dans le répertoire `packages`.
 
 Une exception est faite pour la partie `Front-end` de l'application dont le plan d'action de migration en package n'a pas encore été initié.
 
