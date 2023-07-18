@@ -1,10 +1,9 @@
 import asyncHandler from '../helpers/asyncHandler';
 import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { AdminNotificationCandidatsPage } from '@views';
-import { vérifierPermissionUtilisateur } from '../helpers';
+import { getCurrentUrl, getDefaultPagination, vérifierPermissionUtilisateur } from '../helpers';
 import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats';
 import { getDonnéesPourPageNotificationCandidats } from '@config/queries.config';
 
@@ -12,13 +11,12 @@ v1Router.get(
   routes.GET_NOTIFIER_CANDIDATS(),
   vérifierPermissionUtilisateur(PermissionListerProjetsÀNotifier),
   asyncHandler(async (request, response) => {
-    let { appelOffreId, periodeId, recherche, classement, pageSize } = request.query as any;
+    let {
+      query: { appelOffreId, periodeId, recherche, classement, pageSize },
+      cookies,
+    } = request as any;
 
-    const defaultPagination: Pagination = {
-      page: 0,
-      pageSize: +request.cookies?.pageSize || 10,
-    };
-    const pagination = makePagination(request.query, defaultPagination);
+    const pagination = makePagination(request.query, getDefaultPagination({ cookies }));
 
     if (!appelOffreId) {
       // Reset the periodId
@@ -37,6 +35,7 @@ v1Router.get(
       return response.send(
         AdminNotificationCandidatsPage({
           request,
+          paginationUrl: getCurrentUrl(request),
         }),
       );
     }
@@ -67,6 +66,7 @@ v1Router.get(
           listeAOs,
           listePériodes,
         },
+        paginationUrl: getCurrentUrl(request),
       }),
     );
   }),

@@ -2,23 +2,18 @@ import { appelOffreRepo } from '@dataAccess';
 import asyncHandler from '../helpers/asyncHandler';
 import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { ensureRole } from '@config';
 import { v1Router } from '../v1Router';
 import { GarantiesFinancieresPage } from '@views';
-import { getOptionsFiltresParAOs } from '../helpers';
+import { getCurrentUrl, getDefaultPagination, getOptionsFiltresParAOs } from '../helpers';
 import { listerProjets } from '@infra/sequelize/queries';
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres, pageSize } =
     request.query as any;
-  const { user } = request;
+  const { user, query, cookies } = request;
 
-  const defaultPagination: Pagination = {
-    page: 0,
-    pageSize: +request.cookies?.pageSize || 10,
-  };
-  const pagination = makePagination(request.query, defaultPagination);
+  const pagination = makePagination(query, getDefaultPagination({ cookies }));
 
   const appelsOffre = await appelOffreRepo.findAll();
 
@@ -56,6 +51,7 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
       projects,
       appelsOffre,
       ...optionsFiltresParAOs,
+      paginationUrl: getCurrentUrl(request),
     }),
   );
 });

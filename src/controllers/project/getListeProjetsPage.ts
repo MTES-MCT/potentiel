@@ -1,11 +1,15 @@
 import asyncHandler from '../helpers/asyncHandler';
 import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { ListeProjetsPage } from '@views';
 import { userIs } from '@modules/users';
-import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur, getCurrentUrl } from '../helpers';
+import {
+  getOptionsFiltresParAOs,
+  vérifierPermissionUtilisateur,
+  getCurrentUrl,
+  getDefaultPagination,
+} from '../helpers';
 import { appelOffreRepo } from '@dataAccess';
 import { listerProjets } from '@infra/sequelize/queries';
 import { PermissionListerProjets } from '@modules/project/queries/listerProjets';
@@ -23,7 +27,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     garantiesFinancieres,
     pageSize,
   } = request.query as any;
-  const { user } = request;
+  const { user, cookies } = request;
 
   // Set default filter on classés for admins
   if (userIs(['admin', 'dgec-validateur', 'dreal'])(user) && typeof classement === 'undefined') {
@@ -31,11 +35,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     request.query.classement = 'classés';
   }
 
-  const defaultPagination: Pagination = {
-    page: 0,
-    pageSize: +request.cookies?.pageSize || 10,
-  };
-  const pagination = makePagination(request.query, defaultPagination);
+  const pagination = makePagination(request.query, getDefaultPagination({ cookies }));
 
   if (!appelOffreId) {
     // Reset the periodId and familleId if there is no appelOffreId

@@ -24,5 +24,5 @@ export const updateUrlParams = (params?: UpdateUrlParams) => {
   queryString.delete('error');
   queryString.delete('success');
 
-  location.replace(`${origin}${pathname}?${queryString.toString()}`);
+  location.replace(`${origin}${pathname}?&${queryString.toString()}`);
 };

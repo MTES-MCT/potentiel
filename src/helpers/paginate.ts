@@ -4,7 +4,7 @@ const paginate = (pagination?: Pagination) => {
   if (!pagination) return {};
 
   const { page, pageSize } = pagination;
-  const offset = page * pageSize;
+  const offset = page > 1 ? (page - 1) * pageSize : 0;
   const limit = pageSize;
 
   return {

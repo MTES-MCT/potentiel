@@ -1,13 +1,12 @@
 import { appelOffreRepo } from '@dataAccess';
 import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { listMissingOwnerProjects } from '@useCases';
 import { ensureRole } from '@config';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 import { ProjetsÀRéclamerPage } from '@views';
-import { getCurrentUrl } from '../helpers';
+import { getCurrentUrl, getDefaultPagination } from '../helpers';
 
 const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -19,7 +18,7 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
     garantiesFinancieres,
     pageSize,
   } = request.query as any;
-  const { user } = request;
+  const { user, cookies } = request;
 
   // Set default filter on classés for admins
   if (
@@ -30,11 +29,7 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
     request.query.classement = 'classés';
   }
 
-  const defaultPagination: Pagination = {
-    page: 0,
-    pageSize: +request.cookies?.pageSize || 10,
-  };
-  const pagination = makePagination(request.query, defaultPagination);
+  const pagination = makePagination(request.query, getDefaultPagination({ cookies }));
 
   const appelsOffre = await appelOffreRepo.findAll();
 

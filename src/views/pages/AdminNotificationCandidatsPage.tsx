@@ -32,11 +32,13 @@ type AdminNotificationCandidatsProps = {
     listeAOs: Array<AppelOffre['id']>;
     listePériodes?: Array<Periode['id']>;
   };
+  paginationUrl: string;
 };
 
 export const AdminNotificationCandidats = ({
   request,
   données,
+  paginationUrl,
 }: AdminNotificationCandidatsProps) => {
   const { error, success, recherche, classement } = (request.query as any) || {};
 
@@ -86,7 +88,7 @@ export const AdminNotificationCandidats = ({
               onChange={(event) =>
                 updateUrlParams({
                   classement: event.target.value,
-                  page: null,
+                  page: '1',
                 })
               }
             >
@@ -116,7 +118,7 @@ export const AdminNotificationCandidats = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: null,
+                page: '1',
               })
             }
           >
@@ -141,7 +143,7 @@ export const AdminNotificationCandidats = ({
             onChange={(event) =>
               updateUrlParams({
                 periodeId: event.target.value,
-                page: null,
+                page: '1',
               })
             }
           >
@@ -192,7 +194,11 @@ export const AdminNotificationCandidats = ({
 
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
-      <ProjectList projects={projetsPériodeSélectionnée} role={request.user?.role} />
+      <ProjectList
+        projects={projetsPériodeSélectionnée}
+        role={request.user?.role}
+        paginationUrl={paginationUrl}
+      />
     </LegacyPageTemplate>
   );
 };

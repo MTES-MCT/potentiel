@@ -23,13 +23,13 @@ function getPaginationUrls({
   let prevUrl: string | null = null;
   let nextUrl: string | null = null;
 
-  if (pageCourante > 0) {
+  if (pageCourante - 1 > 0) {
     const paramPrevUrl = new URLSearchParams(url.search);
     paramPrevUrl.set('page', (pageCourante - 1).toString());
     prevUrl = new URL(`${url.origin}${url.pathname}?${paramPrevUrl.toString()}`).href;
   }
 
-  if (pageCourante + 1 < nombreDePage) {
+  if (pageCourante + 1 <= nombreDePage) {
     const paramNextUrl = new URLSearchParams(url.search);
     paramNextUrl.set('page', (pageCourante + 1).toString());
     nextUrl = new URL(`${url.origin}${url.pathname}?${paramNextUrl}`).href;
@@ -63,7 +63,7 @@ export function PaginationPanel({
           id="pagination__display"
           defaultValue={limiteParPage}
           onChange={(event) => {
-            updateUrlParams({ pageSize: event.target.value, page: '0' });
+            updateUrlParams({ pageSize: event.target.value, page: '1' });
           }}
         >
           {limitePageOptions.map((count) => (
@@ -98,7 +98,7 @@ export function PaginationPanel({
             </li>
 
             <li>
-              Page <strong>{pageCourante + 1}</strong> sur <strong>{nombreDePage}</strong>
+              Page <strong>{pageCourante}</strong> sur <strong>{nombreDePage}</strong>
             </li>
 
             <li>

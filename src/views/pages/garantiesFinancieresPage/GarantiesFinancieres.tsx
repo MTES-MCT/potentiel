@@ -28,6 +28,7 @@ export type GarantiesFinancieresProps = {
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
+  paginationUrl: string;
 };
 
 export const GarantiesFinancieres = ({
@@ -37,6 +38,7 @@ export const GarantiesFinancieres = ({
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
+  paginationUrl,
 }: GarantiesFinancieresProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
     (request.query as any) || {};
@@ -74,7 +76,7 @@ export const GarantiesFinancieres = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: null,
+                page: '1',
               })
             }
           >
@@ -102,7 +104,7 @@ export const GarantiesFinancieres = ({
                 onChange={(event) =>
                   updateUrlParams({
                     periodeId: event.target.value,
-                    page: null,
+                    page: '1',
                   })
                 }
               >
@@ -130,7 +132,7 @@ export const GarantiesFinancieres = ({
                 onChange={(event) =>
                   updateUrlParams({
                     familleId: event.target.value,
-                    page: null,
+                    page: '1',
                   })
                 }
               >
@@ -154,7 +156,7 @@ export const GarantiesFinancieres = ({
               defaultValue=""
               onChange={(event) =>
                 updateUrlParams({
-                  page: null,
+                  page: '1',
                   garantiesFinancieres: event.target.value,
                 })
               }
@@ -195,6 +197,7 @@ export const GarantiesFinancieres = ({
             projects={projects}
             role={request.user?.role}
             GFPastDue={garantiesFinancieres === 'pastDue'}
+            paginationUrl={paginationUrl}
           />
         </>
       )}

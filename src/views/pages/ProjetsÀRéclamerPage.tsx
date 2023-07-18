@@ -118,7 +118,7 @@ export const ProjetsÀRéclamer = ({
                     appelOffreId: event.target.value,
                     periodeId: null,
                     familleId: null,
-                    page: null,
+                    page: '1',
                   })
                 }
               >
@@ -145,7 +145,7 @@ export const ProjetsÀRéclamer = ({
                   onChange={(event) =>
                     updateUrlParams({
                       periodeId: event.target.value,
-                      page: null,
+                      page: '1',
                     })
                   }
                 >
@@ -171,7 +171,7 @@ export const ProjetsÀRéclamer = ({
                   onChange={(event) =>
                     updateUrlParams({
                       familleId: event.target.value,
-                      page: null,
+                      page: '1',
                     })
                   }
                 >

@@ -3,21 +3,18 @@ import asyncHandler from '../helpers/asyncHandler';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { InvitationsCandidatsEnAttentePage } from '@views';
-import { getCurrentUrl } from '../helpers';
-
-const defaultPagination: Pagination = {
-  page: 0,
-  pageSize: 50,
-};
+import { getCurrentUrl, getDefaultPagination } from '../helpers';
 
 v1Router.get(
   routes.ADMIN_INVITATION_LIST,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
-    const pagination = makePagination(request.query, defaultPagination);
+    const pagination = makePagination(
+      request.query,
+      getDefaultPagination({ cookies: request.cookies, pageSize: 50 }),
+    );
 
     await getPendingCandidateInvitations(pagination).match(
       (invitations) => {

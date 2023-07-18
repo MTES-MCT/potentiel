@@ -3,21 +3,18 @@ import { logger } from '@core/utils';
 import asyncHandler from '../helpers/asyncHandler';
 import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { EmailsEnErreurPage } from '@views';
-import { getCurrentUrl } from '../helpers';
-
-const defaultPagination: Pagination = {
-  page: 0,
-  pageSize: 50,
-};
+import { getCurrentUrl, getDefaultPagination } from '../helpers';
 
 v1Router.get(
   routes.ADMIN_NOTIFICATION_LIST,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
-    const pagination = makePagination(request.query, defaultPagination);
+    const pagination = makePagination(
+      request.query,
+      getDefaultPagination({ cookies: request.cookies, pageSize: 50 }),
+    );
 
     return await getFailedNotificationDetails(pagination).match(
       (notifications) =>

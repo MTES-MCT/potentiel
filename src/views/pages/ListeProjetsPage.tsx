@@ -109,7 +109,7 @@ export const ListeProjets = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: null,
+                page: '1',
               })
             }
           >
@@ -138,7 +138,7 @@ export const ListeProjets = ({
               onChange={(event) =>
                 updateUrlParams({
                   periodeId: event.target.value,
-                  page: null,
+                  page: '1',
                 })
               }
             >
@@ -166,7 +166,7 @@ export const ListeProjets = ({
               onChange={(event) =>
                 updateUrlParams({
                   familleId: event.target.value,
-                  page: null,
+                  page: '1',
                 })
               }
             >
@@ -196,7 +196,7 @@ export const ListeProjets = ({
               onChange={(event) =>
                 updateUrlParams({
                   garantiesFinancieres: event.target.value,
-                  page: null,
+                  page: '1',
                 })
               }
             >
@@ -219,7 +219,7 @@ export const ListeProjets = ({
             onChange={(event) =>
               updateUrlParams({
                 classement: event.target.value,
-                page: null,
+                page: '1',
               })
             }
           >

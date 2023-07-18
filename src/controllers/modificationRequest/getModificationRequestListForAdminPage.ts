@@ -4,11 +4,10 @@ import { appelOffreRepo } from '@dataAccess/inMemory';
 import asyncHandler from '../helpers/asyncHandler';
 import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { ModificationRequestListPage } from '@views';
 import { v1Router } from '../v1Router';
 import { userIs } from '@modules/users';
-import { getCurrentUrl, vérifierPermissionUtilisateur } from '../helpers';
+import { getCurrentUrl, getDefaultPagination, vérifierPermissionUtilisateur } from '../helpers';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest/queries';
 
 v1Router.get(
@@ -28,12 +27,7 @@ v1Router.get(
       pageSize,
     } = query as any;
 
-    const defaultPagination: Pagination = {
-      page: 0,
-      pageSize: Number(cookies?.pageSize) || 10,
-    };
-
-    const pagination = makePagination(query, defaultPagination);
+    const pagination = makePagination(query, getDefaultPagination({ cookies }));
     const appelsOffre = await appelOffreRepo.findAll();
 
     if (pageSize) {
