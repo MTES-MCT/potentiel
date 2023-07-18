@@ -61,7 +61,6 @@ export const AdminRegénérerPeriodeAttestations = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: '1',
               })
             }
           >
@@ -88,7 +87,6 @@ export const AdminRegénérerPeriodeAttestations = ({
               onChange={(event) =>
                 updateUrlParams({
                   periodeId: event.target.value,
-                  page: '1',
                 })
               }
             >
@@ -113,7 +111,6 @@ export const AdminRegénérerPeriodeAttestations = ({
               onChange={(event) =>
                 updateUrlParams({
                   familleId: event.target.value,
-                  page: '1',
                 })
               }
             >

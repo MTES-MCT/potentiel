@@ -88,7 +88,6 @@ export const AdminNotificationCandidats = ({
               onChange={(event) =>
                 updateUrlParams({
                   classement: event.target.value,
-                  page: '1',
                 })
               }
             >
@@ -118,7 +117,6 @@ export const AdminNotificationCandidats = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: '1',
               })
             }
           >
@@ -143,7 +141,6 @@ export const AdminNotificationCandidats = ({
             onChange={(event) =>
               updateUrlParams({
                 periodeId: event.target.value,
-                page: '1',
               })
             }
           >

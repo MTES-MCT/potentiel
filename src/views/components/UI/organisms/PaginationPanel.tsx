@@ -63,7 +63,7 @@ export function PaginationPanel({
           id="pagination__display"
           defaultValue={limiteParPage}
           onChange={(event) => {
-            updateUrlParams({ pageSize: event.target.value, page: '1' });
+            updateUrlParams({ pageSize: event.target.value });
           }}
         >
           {limitePageOptions.map((count) => (

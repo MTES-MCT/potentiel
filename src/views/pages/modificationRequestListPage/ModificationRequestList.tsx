@@ -38,7 +38,6 @@ export const ModificationRequestList = ({
     setIsShowOnlyDGECChecked(isChecked);
     updateUrlParams({
       showOnlyDGEC: isChecked ? 'on' : 'off',
-      page: '1',
     });
   };
 
@@ -99,7 +98,6 @@ export const ModificationRequestList = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: '1',
               })
             }
           >
@@ -124,7 +122,6 @@ export const ModificationRequestList = ({
               onChange={(event) =>
                 updateUrlParams({
                   periodeId: event.target.value,
-                  page: '1',
                 })
               }
             >
@@ -150,7 +147,6 @@ export const ModificationRequestList = ({
               onChange={(event) =>
                 updateUrlParams({
                   familleId: event.target.value,
-                  page: '1',
                 })
               }
             >
@@ -175,7 +171,6 @@ export const ModificationRequestList = ({
             onChange={(event) =>
               updateUrlParams({
                 modificationRequestType: event.target.value,
-                page: '1',
               })
             }
           >
@@ -202,7 +197,6 @@ export const ModificationRequestList = ({
             onChange={(event) =>
               updateUrlParams({
                 modificationRequestStatus: event.target.value,
-                page: '1',
               })
             }
           >
