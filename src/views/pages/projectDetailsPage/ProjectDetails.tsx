@@ -17,7 +17,6 @@ import {
   Form,
   Section,
   PlugIcon,
-  ClipboardCheckIcon,
   ErrorIcon,
   LinkButton,
   SecondaryLinkButton,
@@ -30,6 +29,8 @@ import {
   Contact,
   MaterielsEtTechnologies,
   ResultatsAppelOffreInnovation,
+  GarantiesFinancieres,
+  GarantiesFinancieresData,
 } from './sections';
 import { ProjectHeader } from './components';
 import routes from '@routes';
@@ -44,6 +45,7 @@ type ProjectDetailsProps = {
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
   alertesRaccordement?: AlerteRaccordement[];
+  garantiesFinancières?: GarantiesFinancieresData;
 };
 
 export const ProjectDetails = ({
@@ -51,6 +53,7 @@ export const ProjectDetails = ({
   project,
   projectEventList,
   alertesRaccordement,
+  garantiesFinancières,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -71,9 +74,7 @@ export const ProjectDetails = ({
           <CDCInfo {...{ project, user }} />
         </Callout>
         <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-6 md:mt-4">
-          <Section title="Garanties financières" icon={ClipboardCheckIcon}>
-            <div>INFORMATIONS A VENIR ...</div>
-          </Section>
+          {garantiesFinancières && <GarantiesFinancieres {...{ ...garantiesFinancières }} />}
           {project.isClasse &&
             !project.isAbandoned &&
             [

@@ -1,5 +1,8 @@
 import { getProjectEvents } from '@config';
-import { getProjectDataForProjectPage } from '@config/queries.config';
+import {
+  getGarantiesFinancièresDataForProjectPage,
+  getProjectDataForProjectPage,
+} from '@config/queries.config';
 import { shouldUserAccessProject } from '@config/useCases.config';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -100,6 +103,11 @@ v1Router.get(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
+      const garantiesFinancières = await getGarantiesFinancièresDataForProjectPage({
+        user,
+        projetId: projectId,
+      });
+
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',
         données: {
@@ -119,6 +127,7 @@ v1Router.get(
           project: projet,
           projectEventList: rawProjectEventList.value,
           alertesRaccordement,
+          garantiesFinancières,
         }),
       );
     },
