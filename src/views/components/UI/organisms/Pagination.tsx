@@ -53,8 +53,8 @@ export function Pagination({
   });
 
   return (
-    <div className="flex justify-between items-center flex-wrap mt-6">
-      <div className="m-2">
+    <div className="flex flex-col sm:flex-row justify-between items-center flex-wrap mt-6">
+      <div className="m-2 order-2 sm:order-1">
         <label htmlFor="pagination__display" className="inline">
           {limiteParPage.toString()} {titreItems.toLowerCase()} par page
         </label>
@@ -74,7 +74,7 @@ export function Pagination({
         </select>
       </div>
       {nombreDePage > 1 && (
-        <nav aria-label="Pagination">
+        <nav aria-label="Pagination" className="order-1 sm:order-2">
           <ul className={`m-0 p-0 list-none overflow-hidden flex items-center`}>
             <li>
               {prevUrl ? (
@@ -97,7 +97,7 @@ export function Pagination({
               )}
             </li>
 
-            <li>
+            <li className="mx-8">
               Page <strong>{pageCourante}</strong> sur <strong>{nombreDePage}</strong>
             </li>
 
