@@ -1,6 +1,6 @@
 import React from 'react';
 import { updateUrlParams } from '@views/helpers';
-import { ChevronLeftIcon, ChevronRightIcon } from '@components';
+import { ChevronLeftIcon, ChevronRightIcon, Link } from '@components';
 
 interface Props {
   titreItems: string;
@@ -67,7 +67,7 @@ export function Pagination({
           }}
         >
           {limitePageOptions.map((count) => (
-            <option key={'select_limiteParPage_' + count} value={count}>
+            <option key={`select_limiteParPage_${count}`} value={count}>
               {count}
             </option>
           ))}
@@ -75,24 +75,24 @@ export function Pagination({
       </div>
       {nombreDePage > 1 && (
         <nav aria-label="Pagination" className="order-1 sm:order-2">
-          <ul className={`m-0 p-0 list-none overflow-hidden flex items-center`}>
+          <ul className={`p-2 list-none overflow-hidden flex items-center`}>
             <li>
               {prevUrl ? (
-                <a
-                  className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black  hover:bg-grey-975-base focus:bg-grey-975-base`}
+                <Link
+                  className={`flex items-center no-underline hover:no-underline focus:no-underline !text-black hover:text-black`}
                   title="Page précédente"
                   href={prevUrl}
                 >
                   <ChevronLeftIcon className="mr-2" />
-                  <span className="hidden md:block">Précédent</span>
-                </a>
+                  Précédent
+                </Link>
               ) : (
                 <p
                   className="flex items-center cursor-not-allowed text-grey-625-base mr-4"
                   aria-disabled="true"
                 >
                   <ChevronLeftIcon className="mr-2" />
-                  <span className="hidden md:block">Précédent</span>
+                  Précédent
                 </p>
               )}
             </li>
@@ -103,20 +103,20 @@ export function Pagination({
 
             <li>
               {nextUrl ? (
-                <a
-                  className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black hover:bg-grey-975-base focus:bg-grey-975-base`}
+                <Link
+                  className={`flex items-center no-underline hover:no-underline focus:no-underline !text-black hover:text-black`}
                   title="Page suivante"
                   href={nextUrl}
                 >
-                  <span className="hidden md:block">Suivant</span>
+                  Suivant
                   <ChevronRightIcon className="ml-2" />
-                </a>
+                </Link>
               ) : (
                 <p
                   className="flex items-center cursor-not-allowed text-grey-625-base ml-4"
                   aria-disabled="true"
                 >
-                  <span className="hidden md:block">Suivant</span>
+                  Suivant
                   <ChevronRightIcon className="ml-2" />
                 </p>
               )}

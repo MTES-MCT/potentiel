@@ -1,6 +1,8 @@
 import routes from '@routes';
 import React from 'react';
 
+import { Link } from '@components';
+
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type FooterProps = {
@@ -12,18 +14,15 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
     <footer
       className="pt-10 border-0 border-t-2 border-solid border-blue-france-sun-base"
       id="pied-de-page"
-      style={{
-        fontFamily: 'Marianne, arial, sans-serif',
-      }}
     >
       <div className="px-4 mx-auto lg:px-6 lg:max-w-[78rem]">
         <div className="flex flex-row flex-wrap items-center mb-4 md:mb-6">
           <div className="flex flex-row items-center basis-full md:p-4 md:-m-[1rem] md:mr-0 md:basis-auto basis">
-            <a
+            <Link
               href="/"
               title="Retour à l’accueil"
               aria-label="Retour à l’accueil"
-              className="no-underline hover:no-underline visited:no-underline outline-0"
+              className="no-underline focus:no-underline hover:no-underline visited:no-underline"
             >
               <div className="lg:mb-1 logo-before" />
               <div className="m-0 font-bold tracking-tighter text-black uppercase text-[17px] md:text-[21px] leading-5">
@@ -34,7 +33,7 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
                 énergétique
               </div>
               <div className="logo-after" />
-            </a>
+            </Link>
           </div>
           <div className="flex flex-wrap basis-full mt-6 md:ml-auto lg:mt-0 lg:basis-1/2">
             <p className="text-sm leading-6 mt-0 mb-2">
