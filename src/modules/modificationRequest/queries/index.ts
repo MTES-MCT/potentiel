@@ -4,7 +4,6 @@ export * from './GetDataForStatutDemandeAbandonModifiéNotification';
 export * from './GetModificationRequestInfoForStatusNotification';
 export * from './GetModificationRequestListForAdmin';
 export * from './GetModificationRequestListForPorteur';
-export * from './GetModificationRequestRecipient';
 export * from './GetModificationRequestStatus';
 export * from './GetProjectAppelOffreId';
 export * from './HasGarantiesFinancières';
