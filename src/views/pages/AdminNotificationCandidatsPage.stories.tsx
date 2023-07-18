@@ -15,6 +15,7 @@ const selectedPeriodeId = appelsOffreStatic[0].periodes[0].id;
 export const withError = () => (
   <AdminNotificationCandidats
     request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
+    currentUrl="http://localhost:3000/admin/notifier-candidats.html"
   />
 );
 
@@ -23,6 +24,7 @@ export const withSuccess = () => (
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}
+    currentUrl="http://localhost:3000/admin/notifier-candidats.html"
   />
 );
 
@@ -51,7 +53,13 @@ export const withProjects = () => (
         ],
       },
     }}
+    currentUrl="http://localhost:3000/admin/notifier-candidats.html"
   />
 );
 
-export const withoutProjects = () => <AdminNotificationCandidats request={makeFakeRequest()} />;
+export const withoutProjects = () => (
+  <AdminNotificationCandidats
+    request={makeFakeRequest()}
+    currentUrl="http://localhost:3000/admin/notifier-candidats.html"
+  />
+);

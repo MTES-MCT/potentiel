@@ -21,13 +21,13 @@ import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 interface InvitationsCandidatsEnAttenteProps {
   request: Request;
   invitations: PaginatedList<PendingCandidateInvitationDTO>;
-  paginationUrl: string;
+  currentUrl: string;
 }
 
 export const InvitationsCandidatsEnAttente = ({
   request,
   invitations,
-  paginationUrl,
+  currentUrl,
 }: InvitationsCandidatsEnAttenteProps) => {
   const { error, success } = (request.query as any) || {};
 
@@ -98,7 +98,7 @@ export const InvitationsCandidatsEnAttente = ({
               nombreDePage={invitations.pageCount}
               limiteParPage={invitations.pagination.pageSize}
               pageCourante={invitations.pagination.page}
-              paginationUrl={paginationUrl}
+              currentUrl={currentUrl}
             />
           )}
         </>

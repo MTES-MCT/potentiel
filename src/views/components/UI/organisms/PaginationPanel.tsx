@@ -7,19 +7,19 @@ interface Props {
   nombreDePage: number;
   limiteParPage: number;
   pageCourante: number;
-  paginationUrl: string;
+  currentUrl: string;
 }
 
-function getPaginationUrls({
-  paginationUrl,
+function getcurrentUrls({
+  currentUrl,
   pageCourante,
   nombreDePage,
 }: {
-  paginationUrl: Props['paginationUrl'];
+  currentUrl: Props['currentUrl'];
   pageCourante: Props['pageCourante'];
   nombreDePage: Props['nombreDePage'];
 }) {
-  const url = new URL(paginationUrl);
+  const url = new URL(currentUrl);
   let prevUrl: string | null = null;
   let nextUrl: string | null = null;
 
@@ -42,12 +42,12 @@ export function PaginationPanel({
   titreItems,
   limiteParPage,
   pageCourante,
-  paginationUrl,
+  currentUrl,
 }: Props) {
   const limitePageOptions = [5, 10, 20, 50, 100];
 
-  let { prevUrl, nextUrl }: { prevUrl: string | null; nextUrl: string | null } = getPaginationUrls({
-    paginationUrl,
+  let { prevUrl, nextUrl }: { prevUrl: string | null; nextUrl: string | null } = getcurrentUrls({
+    currentUrl,
     pageCourante,
     nombreDePage,
   });

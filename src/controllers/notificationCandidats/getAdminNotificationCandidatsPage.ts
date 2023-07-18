@@ -35,7 +35,7 @@ v1Router.get(
       return response.send(
         AdminNotificationCandidatsPage({
           request,
-          paginationUrl: getCurrentUrl(request),
+          currentUrl: getCurrentUrl(request),
         }),
       );
     }
@@ -66,7 +66,7 @@ v1Router.get(
           listeAOs,
           listePériodes,
         },
-        paginationUrl: getCurrentUrl(request),
+        currentUrl: getCurrentUrl(request),
       }),
     );
   }),

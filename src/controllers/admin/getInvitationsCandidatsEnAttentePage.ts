@@ -22,7 +22,7 @@ v1Router.get(
           InvitationsCandidatsEnAttentePage({
             request,
             invitations,
-            paginationUrl: getCurrentUrl(request),
+            currentUrl: getCurrentUrl(request),
           }),
         );
       },

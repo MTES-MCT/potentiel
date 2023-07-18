@@ -58,7 +58,7 @@ type Props = {
   displaySelection?: boolean;
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
-  paginationUrl: string;
+  currentUrl: string;
 };
 
 export const ProjectList = ({
@@ -69,7 +69,7 @@ export const ProjectList = ({
   selectedIds = [],
   displaySelection = false,
   onSelectedIdsChanged,
-  paginationUrl,
+  currentUrl,
 }: Props) => {
   const prixDisponible = projects.items.some((project) => project.prixReference);
 
@@ -268,7 +268,7 @@ export const ProjectList = ({
           nombreDePage={projects.pageCount}
           limiteParPage={projects.pagination.pageSize}
           pageCourante={projects.pagination.page}
-          paginationUrl={paginationUrl}
+          currentUrl={currentUrl}
         />
       )}
     </>

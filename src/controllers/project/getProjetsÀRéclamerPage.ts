@@ -68,7 +68,7 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
       existingPeriodes,
       existingFamilles,
       appelsOffre,
-      paginationUrl: getCurrentUrl(request),
+      currentUrl: getCurrentUrl(request),
     }),
   );
 });

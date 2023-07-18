@@ -24,10 +24,10 @@ interface Props {
   requestActions?: (
     modificationRequest: ModificationRequestListItemDTO,
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null;
-  paginationUrl: string;
+  currentUrl: string;
 }
 
-export const RequestList = ({ modificationRequests, requestActions, paginationUrl }: Props) => {
+export const RequestList = ({ modificationRequests, requestActions, currentUrl }: Props) => {
   if (!modificationRequests?.itemCount) {
     return <ListeVide titre="Aucune demande n’a été trouvée" />;
   }
@@ -189,7 +189,7 @@ export const RequestList = ({ modificationRequests, requestActions, paginationUr
         nombreDePage={modificationRequests.pageCount}
         limiteParPage={modificationRequests.pagination.pageSize}
         pageCourante={modificationRequests.pagination.page}
-        paginationUrl={paginationUrl}
+        currentUrl={currentUrl}
       />
     </>
   );

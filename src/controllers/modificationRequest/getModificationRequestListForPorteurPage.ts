@@ -52,7 +52,7 @@ v1Router.get(
             request,
             modificationRequests,
             appelsOffre,
-            paginationUrl: getCurrentUrl(request),
+            currentUrl: getCurrentUrl(request),
           }),
         ),
       (e) => {

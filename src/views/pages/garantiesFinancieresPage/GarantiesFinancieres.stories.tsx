@@ -34,6 +34,7 @@ const props: GarantiesFinancieresProps = {
   },
   appelsOffre: appelsOffreStatic,
   existingAppelsOffres: [appelsOffreStatic[0].id],
+  currentUrl: '#',
 };
 
 export const GF = () => <GarantiesFinancieres {...props} />;

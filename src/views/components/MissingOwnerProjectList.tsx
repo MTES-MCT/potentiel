@@ -123,15 +123,10 @@ type Props = {
   projects: PaginatedList<Project> | Array<Project>;
   displayColumns: Array<string>;
   user: User;
-  paginationUrl: string;
+  currentUrl: string;
 };
 
-export const MissingOwnerProjectList = ({
-  projects,
-  displayColumns,
-  user,
-  paginationUrl,
-}: Props) => {
+export const MissingOwnerProjectList = ({ projects, displayColumns, user, currentUrl }: Props) => {
   const { email } = user;
 
   let items: Array<Project>;
@@ -238,7 +233,7 @@ export const MissingOwnerProjectList = ({
           pageCourante={projects.pagination.page}
           nombreDePage={projects.pageCount}
           titreItems="Projets"
-          paginationUrl={paginationUrl}
+          currentUrl={currentUrl}
         />
       )}
     </>

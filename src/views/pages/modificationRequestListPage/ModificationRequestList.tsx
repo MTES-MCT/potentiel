@@ -24,14 +24,14 @@ type ModificationRequestListProps = {
   request: Request;
   modificationRequests?: PaginatedList<ModificationRequestListItemDTO>;
   appelsOffre: Array<AppelOffre>;
-  paginationUrl: string;
+  currentUrl: string;
 };
 
 export const ModificationRequestList = ({
   request,
   modificationRequests,
   appelsOffre,
-  paginationUrl,
+  currentUrl,
 }: ModificationRequestListProps) => {
   const handleShowOnlyDGEC = (e: ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -239,7 +239,7 @@ export const ModificationRequestList = ({
       <RequestList
         modificationRequests={modificationRequests}
         role={request.user?.role}
-        paginationUrl={paginationUrl}
+        currentUrl={currentUrl}
       />
     </LegacyPageTemplate>
   );

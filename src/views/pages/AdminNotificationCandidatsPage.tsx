@@ -32,13 +32,13 @@ type AdminNotificationCandidatsProps = {
     listeAOs: Array<AppelOffre['id']>;
     listePériodes?: Array<Periode['id']>;
   };
-  paginationUrl: string;
+  currentUrl: string;
 };
 
 export const AdminNotificationCandidats = ({
   request,
   données,
-  paginationUrl,
+  currentUrl,
 }: AdminNotificationCandidatsProps) => {
   const { error, success, recherche, classement } = (request.query as any) || {};
 
@@ -194,7 +194,7 @@ export const AdminNotificationCandidats = ({
       <ProjectList
         projects={projetsPériodeSélectionnée}
         role={request.user?.role}
-        paginationUrl={paginationUrl}
+        currentUrl={currentUrl}
       />
     </LegacyPageTemplate>
   );

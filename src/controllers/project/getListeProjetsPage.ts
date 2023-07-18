@@ -75,7 +75,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       projects,
       appelsOffre,
       ...optionsFiltresParAOs,
-      paginationUrl: getCurrentUrl(request),
+      currentUrl: getCurrentUrl(request),
     }),
   );
 });

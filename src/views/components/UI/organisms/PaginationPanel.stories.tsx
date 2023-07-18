@@ -6,11 +6,10 @@ export default {
   component: PaginationPanel,
   argTypes: {
     nombreDePage: { control: 'number', default: 5 },
-    pagination: {
-      limiteParPage: { control: 'number', default: 25 },
-      page: { control: 'number', default: 1 },
-    },
+    limiteParPage: { control: 'number', default: 25 },
+    page: { control: 'number', default: 1 },
     titreItems: { control: 'text' },
+    currentUrl: { control: 'text' },
   },
 };
 
@@ -19,9 +18,8 @@ const Template = (args) => <PaginationPanel {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   nombreDePage: 5,
-  pagination: {
-    limiteParPage: 25,
-    page: 1,
-  },
+  limiteParPage: 25,
+  page: 1,
   titreItems: 'Projets',
+  currentUrl: 'http://localhost:3000/projets.html',
 };

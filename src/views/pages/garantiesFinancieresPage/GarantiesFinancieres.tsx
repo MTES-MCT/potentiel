@@ -28,7 +28,7 @@ export type GarantiesFinancieresProps = {
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
-  paginationUrl: string;
+  currentUrl: string;
 };
 
 export const GarantiesFinancieres = ({
@@ -38,7 +38,7 @@ export const GarantiesFinancieres = ({
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
-  paginationUrl,
+  currentUrl,
 }: GarantiesFinancieresProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
     (request.query as any) || {};
@@ -193,7 +193,7 @@ export const GarantiesFinancieres = ({
             projects={projects}
             role={request.user?.role}
             GFPastDue={garantiesFinancieres === 'pastDue'}
-            paginationUrl={paginationUrl}
+            currentUrl={currentUrl}
           />
         </>
       )}

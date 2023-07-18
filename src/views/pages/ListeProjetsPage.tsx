@@ -34,7 +34,7 @@ type ListeProjetsProps = {
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
-  paginationUrl: string;
+  currentUrl: string;
 };
 
 export const ListeProjets = ({
@@ -44,7 +44,7 @@ export const ListeProjets = ({
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
-  paginationUrl,
+  currentUrl,
 }: ListeProjetsProps) => {
   const {
     error,
@@ -319,7 +319,7 @@ export const ListeProjets = ({
           <ProjectList
             displaySelection={displaySelection}
             selectedIds={selectedProjectIds}
-            paginationUrl={paginationUrl}
+            currentUrl={currentUrl}
             onSelectedIdsChanged={setSelectedProjectIds}
             {...(request.user?.role === 'dreal' && { displayGF: true })}
             projects={projects}

@@ -22,7 +22,7 @@ v1Router.get(
           EmailsEnErreurPage({
             request,
             notifications,
-            paginationUrl: getCurrentUrl(request),
+            currentUrl: getCurrentUrl(request),
           }),
         ),
       (e) => {
