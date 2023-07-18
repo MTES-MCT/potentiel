@@ -34,8 +34,6 @@ type ChangerProducteurProps = {
 export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProducteurProps) => {
   const { error, success, justification } = (request.query as any) || {};
 
-  const isEolien = appelOffre?.type === 'eolien';
-
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
@@ -90,7 +88,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
             </span>
             .
           </AlertBox>
-          {isEolien && (
+          {!appelOffre?.changementProducteurPossibleAvantAchèvement && (
             <ErrorBox
               title="Vous ne pouvez pas changer de producteur avant la date d'achèvement de ce
                       projet."
@@ -106,12 +104,17 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
               name="producteur"
               id="producteur"
               required
-              {...(isEolien && { disabled: true })}
+              {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
             />
           </div>
           <div>
             <Label htmlFor="file">Joindre les statuts mis à jour</Label>
-            <Input type="file" name="file" id="file" {...(isEolien && { disabled: true })} />
+            <Input
+              type="file"
+              name="file"
+              id="file"
+              {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
+            />
           </div>
           <div>
             <Label htmlFor="justification">
@@ -126,7 +129,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
               name="justification"
               id="justification"
               defaultValue={justification || ''}
-              {...(isEolien && { disabled: true })}
+              {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
             />
           </div>
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">

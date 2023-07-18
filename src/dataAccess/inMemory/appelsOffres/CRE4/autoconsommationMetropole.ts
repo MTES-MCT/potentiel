@@ -35,6 +35,7 @@ const autoconsommationMetropole: AppelOffre = {
       max: 1,
     },
   },
+  changementProducteurPossibleAvantAchèvement: true,
   choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

@@ -4,7 +4,7 @@ import ROUTES from '@routes';
 const porteurProjetActions = (project: {
   id: string;
   appelOffre?: {
-    type: ProjectAppelOffre['type'];
+    changementProducteurPossibleAvantAchèvement: ProjectAppelOffre['changementProducteurPossibleAvantAchèvement'];
     unitePuissance: ProjectAppelOffre['unitePuissance'];
     periode: { type: ProjectAppelOffre['periode'] };
   };
@@ -18,7 +18,6 @@ const porteurProjetActions = (project: {
   potentielIdentifier: string;
 }) => {
   const canDownloadCertificate = !!project.certificateFile;
-  const isEolien = project.appelOffre?.type === 'eolien';
 
   if (project.isAbandoned) return [];
 
@@ -68,7 +67,7 @@ const porteurProjetActions = (project: {
         title: 'Demander un délai',
         link: ROUTES.DEMANDER_DELAI(project.id),
       },
-      ...(!isEolien
+      ...(project.appelOffre?.changementProducteurPossibleAvantAchèvement
         ? [
             {
               title: 'Changer de producteur',

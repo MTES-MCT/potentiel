@@ -726,7 +726,7 @@ export const makeProject = (args: {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
-      if (props.appelOffre?.type === 'eolien') {
+      if (!props.appelOffre?.changementProducteurPossibleAvantAchèvement) {
         return err(new ChangementProducteurImpossiblePourEolienError());
       }
 

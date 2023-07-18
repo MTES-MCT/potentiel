@@ -36,6 +36,7 @@ const batimentPPE2: AppelOffre = {
       max: 1.1,
     },
   },
+  changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

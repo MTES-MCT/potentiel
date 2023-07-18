@@ -48,6 +48,7 @@ const autoconsommationMetropolePPE2: AppelOffre = {
       },
     },
   },
+  changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

@@ -37,6 +37,7 @@ const batiment: AppelOffre = {
       max: 1.1,
     },
   },
+  changementProducteurPossibleAvantAchèvement: true,
   choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

@@ -34,6 +34,7 @@ const innovation: AppelOffre = {
       max: 1,
     },
   },
+  changementProducteurPossibleAvantAchèvement: true,
   choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

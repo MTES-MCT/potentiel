@@ -36,6 +36,7 @@ const neutrePPE2: AppelOffre = {
       max: 1.2,
     },
   },
+  changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

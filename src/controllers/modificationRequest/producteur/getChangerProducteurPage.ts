@@ -38,7 +38,7 @@ v1Router.get(
 
     // Changement de producteur interdit avant la date d'achèvement
     // La date d'achèvement n'est pas encore une information à saisir dans Potentiel
-    if (appelOffre.type === 'eolien') {
+    if (!appelOffre.changementProducteurPossibleAvantAchèvement) {
       return unauthorizedResponse({
         request,
         response,
