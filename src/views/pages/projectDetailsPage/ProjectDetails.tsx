@@ -15,6 +15,12 @@ import {
   InfoBox,
   Heading2,
   Form,
+  Section,
+  PlugIcon,
+  ClipboardCheckIcon,
+  ErrorIcon,
+  LinkButton,
+  SecondaryLinkButton,
 } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -61,39 +67,64 @@ export const ProjectDetails = ({
           />
         )}
 
-        {alertesRaccordement && (
-          <AlerteBoxRaccordement
-            dcrDueOn={project.dcrDueOn}
-            alertes={alertesRaccordement}
-            identifiantProjet={convertirEnIdentifiantProjet({
-              appelOffre: project.appelOffreId,
-              période: project.periodeId,
-              famille: project.familleId,
-              numéroCRE: project.numeroCRE,
-            }).formatter()}
-          />
-        )}
-
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
-        <div className="flex flex-col lg:flex-row gap-3">
-          {!!projectEventList?.events.length && (
-            <EtapesProjet {...{ project, user, projectEventList }} />
-          )}
-          <div className={`flex flex-col flex-grow gap-3`}>
-            <InfoGenerales {...{ project, role: user.role }} />
-            <Contact {...{ user, project }} />
-            <MaterielsEtTechnologies {...{ project }} />
-
-            {project.notesInnovation && (
-              <ResultatsAppelOffreInnovation
-                note={project.note}
-                notePrix={project.notePrix}
-                notesInnovation={project.notesInnovation}
-              />
+        <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-6 md:mt-4">
+          <Section title="Garanties financières" icon={ClipboardCheckIcon}>
+            <div>INFORMATIONS A VENIR ...</div>
+          </Section>
+          {project.isClasse &&
+            !project.isAbandoned &&
+            [
+              'admin',
+              'dgec-validateur',
+              'porteur-projet',
+              'dreal',
+              'acheteur-obligé',
+              'cre',
+            ].includes(user.role) && (
+              <Section title="Raccordement" icon={PlugIcon}>
+                {alertesRaccordement ? (
+                  <AlerteRaccordement
+                    dcrDueOn={project.dcrDueOn}
+                    alertes={alertesRaccordement}
+                    identifiantProjet={convertirEnIdentifiantProjet({
+                      appelOffre: project.appelOffreId,
+                      période: project.periodeId,
+                      famille: project.familleId,
+                      numéroCRE: project.numeroCRE,
+                    }).formatter()}
+                  />
+                ) : (
+                  <div className="mb-3">
+                    <SecondaryLinkButton
+                      href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+                        convertirEnIdentifiantProjet({
+                          appelOffre: project.appelOffreId,
+                          période: project.periodeId,
+                          famille: project.familleId,
+                          numéroCRE: project.numeroCRE,
+                        }).formatter(),
+                      )}
+                    >
+                      Mettre à jour ou consulter les données de raccordement
+                    </SecondaryLinkButton>
+                  </div>
+                )}
+              </Section>
             )}
-          </div>
+          {!!projectEventList?.events.length && <EtapesProjet {...{ projectEventList }} />}
+          <MaterielsEtTechnologies {...{ project }} />
+          <InfoGenerales {...{ project, role: user.role }} />
+          <Contact {...{ user, project }} />
+          {project.notesInnovation && (
+            <ResultatsAppelOffreInnovation
+              note={project.note}
+              notePrix={project.notePrix}
+              notesInnovation={project.notesInnovation}
+            />
+          )}
         </div>
         {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
           <EditProjectData project={project} request={request} />
@@ -197,12 +228,18 @@ const AlerteAnnulationAbandonPossible = ({
   </>
 );
 
-const AlerteBoxRaccordement: FC<{
+const AlerteRaccordement: FC<{
   dcrDueOn: ProjectDataForProjectPage['dcrDueOn'];
   alertes: AlerteRaccordement[];
   identifiantProjet: `${string}#${string}#${string}#${string}`;
 }> = ({ dcrDueOn, alertes, identifiantProjet }) => (
-  <AlertBox title="Données de raccordement à compléter">
+  <div>
+    <div className="flex flex-row mt-0 mb-3 text-sm text-red-marianne-main-472-base">
+      <div>
+        <ErrorIcon className="text-lg text-red-marianne-main-472-base mr-2" aria-hidden />
+      </div>
+      <p className="m-0">données de raccordement à compléter</p>
+    </div>
     {alertes.includes('référenceDossierManquantePourDélaiCDC2022') && (
       <p>
         Afin de nous permettre de vérifier si le délai relatif au cahier des charges du 30/08/2022
@@ -217,15 +254,15 @@ const AlerteBoxRaccordement: FC<{
         Vous devez déposer une demande de raccordement avant le {afficherDate(dcrDueOn)} auprès de
         votre gestionnaire de réseau.
         <br />
-        L'accusé de réception de cette demande transmis sur Potentiel facilitera vos démarches
+        L'accusé de réception est à transmettre dans Potentiel afin de faciliter vos démarches
         administratives avec les différents acteurs connectés à Potentiel (DGEC, DREAL,
         Cocontractant, etc.).
       </p>
     )}
-    <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}>
-      Mettre à jour les données de raccordement de mon projet
-    </Link>
-  </AlertBox>
+    <LinkButton href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}>
+      Compléter mes données de raccordement
+    </LinkButton>
+  </div>
 );
 
 hydrateOnClient(ProjectDetails);

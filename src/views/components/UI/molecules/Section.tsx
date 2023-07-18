@@ -12,12 +12,8 @@ export const Section = ({ title, children, icon, className = '', ...props }: Sec
     className={`m-0 p-4 flex-1 border border-solid border-grey-900-base rounded-[3px] ${className}`}
     {...props}
   >
-    <Heading2 className="flex items-center text-2xl border-solid border-x-0 border-t-0 border-b-[1px] border-b-grey-900-base">
-      {icon && (
-        <span className="mr-[10px]" aria-hidden>
-          {icon}
-        </span>
-      )}
+    <Heading2 className="flex items-center text-2xl border-solid border-x-0 border-t-0 border-b-[1px] border-b-grey-900-base mt-0 pb-3">
+      {Icon && <Icon className="mr-[10px]" aria-hidden />}
       {title}
     </Heading2>
     {children}
