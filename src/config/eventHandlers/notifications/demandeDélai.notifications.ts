@@ -18,7 +18,6 @@ import {
 import { sendNotification } from '../../emails.config';
 import {
   getModificationRequestInfoForStatusNotification,
-  getModificationRequestRecipient,
   getProjectInfoForModificationRequestedNotification,
 } from '../../queries.config';
 import { oldUserRepo } from '../../repos.config';
@@ -65,7 +64,6 @@ notificationEventSubscriber(
   DélaiAnnulé,
   makeOnDélaiAnnulé({
     sendNotification,
-    getModificationRequestRecipient,
     getModificationRequestInfoForStatusNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     dgecEmail: process.env.DGEC_EMAIL,

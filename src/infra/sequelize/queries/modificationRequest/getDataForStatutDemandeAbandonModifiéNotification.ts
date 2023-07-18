@@ -1,12 +1,9 @@
 import { err, ok, wrapInfra } from '@core/utils';
-import {
-  GetModificationRequestInfoForConfirmedNotification,
-  ModificationRequestInfoForConfirmedNotificationDTO,
-} from '@modules/modificationRequest';
+import { GetDataForStatutDemandeAbandonModifiéNotification } from '@modules/modificationRequest';
 import { EntityNotFoundError } from '@modules/shared';
 import { ModificationRequest, Project, User } from '@infra/sequelize/projectionsNext';
 
-export const getModificationRequestInfoForConfirmedNotification: GetModificationRequestInfoForConfirmedNotification =
+export const getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification =
   (modificationRequestId: string) => {
     return wrapInfra(
       ModificationRequest.findByPk(modificationRequestId, {
@@ -14,7 +11,7 @@ export const getModificationRequestInfoForConfirmedNotification: GetModification
           {
             model: Project,
             as: 'project',
-            attributes: ['nomProjet'],
+            attributes: ['nomProjet', 'appelOffreId', 'periodeId', 'departementProjet'],
           },
           {
             model: User,
@@ -27,15 +24,22 @@ export const getModificationRequestInfoForConfirmedNotification: GetModification
       if (!modificationRequestRaw) return err(new EntityNotFoundError());
 
       const {
-        type,
-        confirmationRequestedByUser: { email, fullName, id },
-        project: { nomProjet },
+        confirmationRequestedByUser,
+        project: { nomProjet, appelOffreId, periodeId, departementProjet },
       } = modificationRequestRaw.get();
 
       return ok({
-        type,
         nomProjet,
-        chargeAffaire: { id, email, fullName },
-      } as ModificationRequestInfoForConfirmedNotificationDTO);
+        appelOffreId,
+        périodeId: periodeId,
+        départementProjet: departementProjet,
+        ...(confirmationRequestedByUser && {
+          chargeAffaire: {
+            id: confirmationRequestedByUser.id,
+            email: confirmationRequestedByUser.email,
+            fullName: confirmationRequestedByUser.fullName,
+          },
+        }),
+      });
     });
   };

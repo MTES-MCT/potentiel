@@ -1,34 +1,39 @@
 import { okAsync } from '@core/utils';
 import { ConfirmationAbandonDemandée } from '@modules/demandeModification';
 import { makeOnConfirmationAbandonDemandée } from '.';
+import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
 
 describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est en attente de confirmation
           Alors les deux porteurs ayant accès au projet devraient être notifiés`, async () => {
       const notifierPorteurChangementStatutDemande = jest.fn();
-      const getModificationRequestInfoForStatusNotification = () =>
-        okAsync({
-          porteursProjet: [
-            {
-              role: 'porteur-projet',
-              id: 'porteur-1',
-              email: 'porteur1@test.test',
-              fullName: 'Porteur de projet 1',
-            },
-            {
-              role: 'porteur-projet',
-              id: 'porteur-2',
-              email: 'porteur2@test.test',
-              fullName: 'Porteur de projet 2',
-            },
-          ],
-          nomProjet: 'nom-du-projet',
-          regionProjet: 'region',
-          departementProjet: 'departement',
-          type: 'abandon',
-          evaluationCarboneDeRéférence: 100,
-        });
+      const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
+        () =>
+          okAsync({
+            porteursProjet: [
+              {
+                role: 'porteur-projet',
+                id: 'porteur-1',
+                email: 'porteur1@test.test',
+                fullName: 'Porteur de projet 1',
+              },
+              {
+                role: 'porteur-projet',
+                id: 'porteur-2',
+                email: 'porteur2@test.test',
+                fullName: 'Porteur de projet 2',
+              },
+            ],
+            nomProjet: 'nom-du-projet',
+            regionProjet: 'region',
+            departementProjet: 'departement',
+            type: 'abandon',
+            evaluationCarboneDeRéférence: 100,
+            autorité: 'dgec',
+            appelOffreId: 'Sol',
+            périodeId: '1',
+          });
 
       const onConfirmationAbandonDemandée = makeOnConfirmationAbandonDemandée({
         notifierPorteurChangementStatutDemande,

@@ -1,40 +1,53 @@
 import { NotificationService } from '../..';
 import { logger } from '@core/utils';
 import routes from '@routes';
-import { GetModificationRequestInfoForConfirmedNotification } from '../../../modificationRequest/queries';
+import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest/queries';
 import { AbandonConfirmé } from '@modules/demandeModification';
 
 export const makeOnAbandonConfirmé =
   (deps: {
     sendNotification: NotificationService['sendNotification'];
-    getModificationRequestInfoForConfirmedNotification: GetModificationRequestInfoForConfirmedNotification;
+    getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification;
+    dgecEmail: string;
   }) =>
-  async (event: AbandonConfirmé) => {
-    const { demandeAbandonId } = event.payload;
-
-    await deps.getModificationRequestInfoForConfirmedNotification(demandeAbandonId).match(
-      async ({ chargeAffaire, nomProjet, type }) => {
-        if (!chargeAffaire) {
-          // no registered user for this projet, no one to warn
-          return;
+  async ({ payload: { demandeAbandonId } }: AbandonConfirmé) => {
+    await deps.getDataForStatutDemandeAbandonModifiéNotification(demandeAbandonId).match(
+      async ({ chargeAffaire, nomProjet, appelOffreId, périodeId }) => {
+        if (chargeAffaire) {
+          const { email, fullName, id } = chargeAffaire;
+          await deps.sendNotification({
+            type: 'modification-request-confirmed',
+            message: {
+              email,
+              name: fullName,
+              subject: `Demande d'abandon confirmée pour le projet ${nomProjet.toLowerCase()} (${appelOffreId} ${périodeId})`,
+            },
+            context: {
+              modificationRequestId: demandeAbandonId,
+              userId: id,
+            },
+            variables: {
+              nom_projet: nomProjet,
+              type_demande: 'abandon',
+              modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeAbandonId),
+            },
+          });
         }
 
-        const { email, fullName, id } = chargeAffaire;
-
-        return deps.sendNotification({
+        await deps.sendNotification({
           type: 'modification-request-confirmed',
           message: {
-            email,
-            name: fullName,
-            subject: `Demande d'abandon confirmée pour le projet ${nomProjet.toLowerCase()}`,
+            email: deps.dgecEmail,
+            name: 'DGEC',
+            subject: `Demande d'abandon confirmée pour le projet ${nomProjet.toLowerCase()} (${appelOffreId} ${périodeId})`,
           },
           context: {
             modificationRequestId: demandeAbandonId,
-            userId: id,
+            userId: '',
           },
           variables: {
             nom_projet: nomProjet,
-            type_demande: type,
+            type_demande: 'abandon',
             modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeAbandonId),
           },
         });

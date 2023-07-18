@@ -32,7 +32,6 @@ import { sendNotification } from '../emails.config';
 import { eventStore } from '../eventStore.config';
 import {
   getModificationRequestInfoForStatusNotification,
-  getModificationRequestRecipient,
   getProjectInfoForModificationReceivedNotification,
   getProjectInfoForModificationRequestedNotification,
   récupérerDonnéesPorteursParProjetQueryHandler,
@@ -91,8 +90,7 @@ eventStore.subscribe(
   handleModificationRequestCancelled({
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
-    getModificationRequestInfo: getModificationRequestInfoForStatusNotification,
-    getModificationRequestRecipient,
+    getModificationRequestInfoForStatusNotification,
     dgecEmail: process.env.DGEC_EMAIL,
   }),
 );
