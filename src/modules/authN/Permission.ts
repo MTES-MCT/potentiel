@@ -9,6 +9,7 @@ import {
   PermissionRetirerGF,
   PermissionListerProjets,
   PermissionExporterProjets,
+  PermissionTransmettreGarantiesFinancières,
 } from '@modules/project';
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest';
@@ -59,6 +60,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterDossierRaccordement,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
+        PermissionTransmettreGarantiesFinancières,
       ];
     case 'caisse-des-dépôts':
       return [
@@ -67,6 +69,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAnnulerGF,
         PermissionAjouterDateExpirationGF,
         PermissionUploaderGF,
+        PermissionTransmettreGarantiesFinancières,
         PermissionRetirerGF,
         PermissionExporterProjets,
       ];
@@ -77,6 +80,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterProjet,
         PermissionAjouterDateExpirationGF,
         PermissionUploaderGF,
+        PermissionTransmettreGarantiesFinancières,
         PermissionRetirerGF,
         PermissionInviterDgecValidateur,
         PermissionExporterProjets,
@@ -98,6 +102,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterProjet,
         PermissionAjouterDateExpirationGF,
         PermissionUploaderGF,
+        PermissionTransmettreGarantiesFinancières,
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
@@ -125,6 +130,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
         PermissionUploaderGF,
+        PermissionTransmettreGarantiesFinancières,
       ];
     case 'ademe':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];

@@ -74,7 +74,9 @@ export const ProjectDetails = ({
           <CDCInfo {...{ project, user }} />
         </Callout>
         <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-6 md:mt-4">
-          {garantiesFinancières && <GarantiesFinancieres {...{ ...garantiesFinancières }} />}
+          {garantiesFinancières && (
+            <GarantiesFinancieres {...{ ...garantiesFinancières, projetId: project.id }} />
+          )}
           {project.isClasse &&
             !project.isAbandoned &&
             [

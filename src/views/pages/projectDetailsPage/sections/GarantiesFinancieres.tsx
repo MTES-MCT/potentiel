@@ -3,8 +3,10 @@ import React from 'react';
 import { Section, ClipboardCheckIcon, ErrorIcon, LinkButton, DownloadLink } from '@components';
 import { User } from '@entities';
 import { afficherDate } from '@views/helpers';
+import routes from '@routes';
 
 export type GarantiesFinancieresData = {
+  projetId: string;
   typeGarantiesFinancières?: string;
   dateEchéance?: number;
 } & (
@@ -63,7 +65,15 @@ export const GarantiesFinancieres = (garantiesFinancières: GarantiesFinancieres
           {afficherDate(garantiesFinancières.dateLimiteEnvoi)}.
         </p>
       )}
-      {donnéesManquantes && <LinkButton>Compléter</LinkButton>}
+      {donnéesManquantes && (
+        <LinkButton
+          href={routes.GET_TRANSMETTRE_GARANTIES_FINANCIERES_PAGE({
+            projectId: garantiesFinancières.projetId,
+          })}
+        >
+          Compléter
+        </LinkButton>
+      )}
     </Section>
   );
 };

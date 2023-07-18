@@ -366,6 +366,14 @@ class routes {
     } else return route;
   };
 
+  static GET_TRANSMETTRE_GARANTIES_FINANCIERES_PAGE = (args?: { projectId: string }) => {
+    const route = '/projet/:projectId/transmettre/garanties-financieres.html';
+    if (args) {
+      const { projectId } = args;
+      return route.replace(':projectId', projectId);
+    } else return route;
+  };
+
   static TELECHARGER_MODELE_REPONSE = (
     project?: { potentielIdentifier: string; id: string },
     modificationRequestId?: string,

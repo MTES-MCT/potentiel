@@ -7,6 +7,11 @@ import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors';
 import { GFCertificateHasAlreadyBeenSentError } from '../errors/GFCertificateHasAlreadyBeenSent';
 import { Project } from '../Project';
 
+export const PermissionTransmettreGarantiesFinancières = {
+  nom: 'transmettre-garanties-financières',
+  description: 'Transmettre des garanties financières',
+};
+
 type UploadGFDeps = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
   fileRepo: Repository<FileObject>;
