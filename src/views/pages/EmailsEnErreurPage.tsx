@@ -20,9 +20,10 @@ import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 type EmailsEnErreurProps = {
   request: Request;
   notifications: PaginatedList<FailedNotificationDTO>;
+  paginationUrl: string;
 };
 
-export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) => {
+export const EmailsEnErreur = ({ request, notifications, paginationUrl }: EmailsEnErreurProps) => {
   const { error, success } = (request.query as any) || {};
 
   return (
@@ -85,11 +86,10 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
           {!Array.isArray(notifications) && (
             <PaginationPanel
               nombreDePage={notifications.pageCount}
-              pagination={{
-                limiteParPage: notifications.pagination.pageSize,
-                page: notifications.pagination.page,
-              }}
+              limiteParPage={notifications.pagination.pageSize}
+              pageCourante={notifications.pagination.page}
               titreItems="Notifications"
+              paginationUrl={paginationUrl}
             />
           )}
         </>

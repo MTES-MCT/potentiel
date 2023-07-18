@@ -123,9 +123,15 @@ type Props = {
   projects: PaginatedList<Project> | Array<Project>;
   displayColumns: Array<string>;
   user: User;
+  paginationUrl: string;
 };
 
-export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
+export const MissingOwnerProjectList = ({
+  projects,
+  displayColumns,
+  user,
+  paginationUrl,
+}: Props) => {
   const { email } = user;
 
   let items: Array<Project>;
@@ -228,12 +234,11 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
       {!Array.isArray(projects) && (
         <PaginationPanel
-          pagination={{
-            limiteParPage: projects.pagination.pageSize,
-            page: projects.pagination.page,
-          }}
+          limiteParPage={projects.pagination.pageSize}
+          pageCourante={projects.pagination.page}
           nombreDePage={projects.pageCount}
           titreItems="Projets"
+          paginationUrl={paginationUrl}
         />
       )}
     </>

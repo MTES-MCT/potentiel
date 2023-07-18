@@ -28,6 +28,7 @@ interface ProjetsÀRéclamerProps {
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
+  paginationUrl: string;
 }
 
 export const ProjetsÀRéclamer = ({
@@ -37,6 +38,7 @@ export const ProjetsÀRéclamer = ({
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
+  paginationUrl,
 }: ProjetsÀRéclamerProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, classement } =
     (request.query as any) || {};
@@ -214,6 +216,7 @@ export const ProjetsÀRéclamer = ({
             ]}
             projects={projects}
             user={request.user}
+            paginationUrl={paginationUrl}
           />
         </>
       ) : (

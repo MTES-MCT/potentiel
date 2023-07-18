@@ -8,6 +8,7 @@ import { Pagination } from '../../types';
 import { ModificationRequestListPage } from '@views';
 import { ensureRole } from '@config';
 import { v1Router } from '../v1Router';
+import { getCurrentUrl } from '../helpers';
 
 v1Router.get(
   routes.USER_LIST_REQUESTS,
@@ -40,7 +41,7 @@ v1Router.get(
         httpOnly: true,
       });
     }
-
+    console.log('HERE', getCurrentUrl(request));
     return await getModificationRequestListForPorteur({
       user,
       pagination,
@@ -57,6 +58,7 @@ v1Router.get(
             request,
             modificationRequests,
             appelsOffre,
+            paginationUrl: getCurrentUrl(request),
           }),
         ),
       (e) => {

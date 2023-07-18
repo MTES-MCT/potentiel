@@ -6,6 +6,7 @@ import routes from '@routes';
 import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { InvitationsCandidatsEnAttentePage } from '@views';
+import { getCurrentUrl } from '../helpers';
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -20,7 +21,13 @@ v1Router.get(
 
     await getPendingCandidateInvitations(pagination).match(
       (invitations) => {
-        return response.send(InvitationsCandidatsEnAttentePage({ request, invitations }));
+        return response.send(
+          InvitationsCandidatsEnAttentePage({
+            request,
+            invitations,
+            paginationUrl: getCurrentUrl(request),
+          }),
+        );
       },
       () => {
         return response.redirect(

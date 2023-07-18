@@ -6,6 +6,7 @@ import routes from '@routes';
 import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { EmailsEnErreurPage } from '@views';
+import { getCurrentUrl } from '../helpers';
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -24,6 +25,7 @@ v1Router.get(
           EmailsEnErreurPage({
             request,
             notifications,
+            paginationUrl: getCurrentUrl(request),
           }),
         ),
       (e) => {

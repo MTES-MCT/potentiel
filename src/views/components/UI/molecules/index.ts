@@ -4,7 +4,6 @@ export * from './DownloadLink';
 export * from './DownloadLinkButton';
 export * from './dropdowns';
 export * from './ExternalLink';
-export * from './Pagination';
 export * from './Section';
 export * from './Buttons';
 export * from './StatutDemandeModification';

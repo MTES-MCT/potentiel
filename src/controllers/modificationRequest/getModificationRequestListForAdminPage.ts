@@ -8,7 +8,7 @@ import { Pagination } from '../../types';
 import { ModificationRequestListPage } from '@views';
 import { v1Router } from '../v1Router';
 import { userIs } from '@modules/users';
-import { vérifierPermissionUtilisateur } from '../helpers';
+import { getCurrentUrl, vérifierPermissionUtilisateur } from '../helpers';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest/queries';
 
 v1Router.get(
@@ -62,6 +62,7 @@ v1Router.get(
             request,
             modificationRequests,
             appelsOffre,
+            paginationUrl: getCurrentUrl(request),
           }),
         ),
       (e) => {

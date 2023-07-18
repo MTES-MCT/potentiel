@@ -16,11 +16,7 @@ import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
 import { PaginatedList } from '../../types';
-import {
-  afficherDate,
-  // ModificationRequestColorByStatus,
-  ModificationRequestStatusTitle,
-} from '../helpers';
+import { afficherDate, ModificationRequestStatusTitle } from '../helpers';
 
 interface Props {
   modificationRequests?: PaginatedList<ModificationRequestListItemDTO>;
@@ -28,9 +24,10 @@ interface Props {
   requestActions?: (
     modificationRequest: ModificationRequestListItemDTO,
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null;
+  paginationUrl: string;
 }
 
-export const RequestList = ({ modificationRequests, requestActions }: Props) => {
+export const RequestList = ({ modificationRequests, requestActions, paginationUrl }: Props) => {
   if (!modificationRequests?.itemCount) {
     return <ListeVide titre="Aucune demande n’a été trouvée" />;
   }
@@ -188,12 +185,11 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
         </tbody>
       </Table>
       <PaginationPanel
-        nombreDePage={modificationRequests.pageCount}
-        pagination={{
-          limiteParPage: modificationRequests.pagination.pageSize,
-          page: modificationRequests.pagination.page,
-        }}
         titreItems="Demandes"
+        nombreDePage={modificationRequests.pageCount}
+        limiteParPage={modificationRequests.pagination.pageSize}
+        pageCourante={modificationRequests.pagination.page}
+        paginationUrl={paginationUrl}
       />
     </>
   );

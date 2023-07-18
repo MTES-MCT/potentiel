@@ -7,6 +7,7 @@ import { ensureRole } from '@config';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 import { ProjetsÀRéclamerPage } from '@views';
+import { getCurrentUrl } from '../helpers';
 
 const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -72,6 +73,7 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
       existingPeriodes,
       existingFamilles,
       appelsOffre,
+      paginationUrl: getCurrentUrl(request),
     }),
   );
 });
