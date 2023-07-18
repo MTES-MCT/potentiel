@@ -16,7 +16,7 @@ import {
   Link,
   LinkButton,
   Tile,
-  PaginationPanel,
+  Pagination,
   Checkbox,
 } from '@components';
 import { afficherDate } from '@views/helpers';
@@ -263,7 +263,7 @@ export const ProjectList = ({
         ))}
       </ul>
       {!Array.isArray(projects) && (
-        <PaginationPanel
+        <Pagination
           titreItems="Projets"
           nombreDePage={projects.pageCount}
           limiteParPage={projects.pagination.pageSize}

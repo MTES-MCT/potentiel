@@ -1,5 +1,5 @@
 export * from './choisirCahierDesCharges';
-export * from './PaginationPanel';
+export { Pagination } from './Pagination';
 export * from './ProjectList';
 export * from './UserNavigation';
 export * from './Header';

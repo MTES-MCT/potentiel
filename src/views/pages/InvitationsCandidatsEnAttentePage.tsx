@@ -3,7 +3,7 @@ import {
   Heading1,
   ListeVide,
   LegacyPageTemplate,
-  PaginationPanel,
+  Pagination,
   SecondaryButton,
   SuccessBox,
   Table,
@@ -93,7 +93,7 @@ export const InvitationsCandidatsEnAttente = ({
             </tbody>
           </Table>
           {!Array.isArray(invitations) && (
-            <PaginationPanel
+            <Pagination
               titreItems="Invitations"
               nombreDePage={invitations.pageCount}
               limiteParPage={invitations.pagination.pageSize}

@@ -1,5 +1,5 @@
 import {
-  PaginationPanel,
+  Pagination,
   PrimaryButton,
   LegacyPageTemplate,
   SuccessBox,
@@ -84,7 +84,7 @@ export const EmailsEnErreur = ({ request, notifications, currentUrl }: EmailsEnE
             </tbody>
           </Table>
           {!Array.isArray(notifications) && (
-            <PaginationPanel
+            <Pagination
               nombreDePage={notifications.pageCount}
               limiteParPage={notifications.pagination.pageSize}
               pageCourante={notifications.pagination.page}

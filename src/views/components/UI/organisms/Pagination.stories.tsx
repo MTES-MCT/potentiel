@@ -1,9 +1,9 @@
 import React from 'react';
-import { PaginationPanel } from './PaginationPanel';
+import { Pagination } from './Pagination';
 
 export default {
   title: 'Components/Organisms/Pagination',
-  component: PaginationPanel,
+  component: Pagination,
   argTypes: {
     nombreDePage: { control: 'number', default: 5 },
     limiteParPage: { control: 'number', default: 25 },
@@ -13,7 +13,7 @@ export default {
   },
 };
 
-const Template = (args) => <PaginationPanel {...args} />;
+const Template = (args) => <Pagination {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

@@ -37,7 +37,7 @@ function getcurrentUrls({
   return { prevUrl, nextUrl };
 }
 
-export function PaginationPanel({
+export function Pagination({
   nombreDePage,
   titreItems,
   limiteParPage,

@@ -6,11 +6,11 @@ import {
   Checkbox,
   Label,
   ListeVide,
-  PaginationPanel,
   Table,
   Td,
   Th,
   Form,
+  Pagination,
 } from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
@@ -228,7 +228,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user, curren
       </Form>
 
       {!Array.isArray(projects) && (
-        <PaginationPanel
+        <Pagination
           limiteParPage={projects.pagination.pageSize}
           pageCourante={projects.pagination.page}
           nombreDePage={projects.pageCount}

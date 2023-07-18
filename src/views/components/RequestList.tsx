@@ -3,7 +3,7 @@ import {
   LinkButton,
   ListeVide,
   ModificationRequestActionTitles,
-  PaginationPanel,
+  Pagination,
   Table,
   Td,
   Th,
@@ -184,7 +184,7 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl }
           })}
         </tbody>
       </Table>
-      <PaginationPanel
+      <Pagination
         titreItems="Demandes"
         nombreDePage={modificationRequests.pageCount}
         limiteParPage={modificationRequests.pagination.pageSize}
