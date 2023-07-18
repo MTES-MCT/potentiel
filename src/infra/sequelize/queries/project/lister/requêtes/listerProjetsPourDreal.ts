@@ -78,9 +78,11 @@ export const listerProjetsPourDreal: ListerProjets = async ({
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre?.type,
-            unitePuissance: appelOffre?.unitePuissance,
-            periode: appelOffre?.periode,
+            type: appelOffre.type,
+            unitePuissance: appelOffre.unitePuissance,
+            periode: appelOffre.periode,
+            changementProducteurPossibleAvantAchèvement:
+              appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
       },

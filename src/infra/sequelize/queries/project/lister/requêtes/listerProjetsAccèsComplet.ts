@@ -54,9 +54,11 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre?.type,
-            unitePuissance: appelOffre?.unitePuissance,
-            periode: appelOffre?.periode,
+            type: appelOffre.type,
+            unitePuissance: appelOffre.unitePuissance,
+            periode: appelOffre.periode,
+            changementProducteurPossibleAvantAchèvement:
+              appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
       },
