@@ -10,9 +10,10 @@ import {
   Td,
   Th,
   Form,
+  Link,
 } from '@components';
 import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
-import ROUTES from '@routes';
+import routes from '@routes';
 import { Request } from 'express';
 import React from 'react';
 import { PaginatedList } from '../../types';
@@ -41,9 +42,7 @@ export const InvitationsCandidatsEnAttente = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      {invitations.items.length === 0 ? (
-        <ListeVide titre="Aucune invitation candidat en attente" />
-      ) : (
+      {invitations.items.length > 0 ? (
         <>
           <div className="m-2">
             <strong>{invitations.itemCount}</strong> invitations en attente{' '}
@@ -80,7 +79,7 @@ export const InvitationsCandidatsEnAttente = ({
                       {invitation.invitedOn ? afficherDateAvecHeure(invitation.invitedOn) : ''}
                     </Td>
                     <Td>
-                      <Form action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION} method="POST">
+                      <Form action={routes.ADMIN_INVITATION_RELANCE_ACTION} method="POST">
                         <input type="hidden" name="email" value={invitation.email} />
                         <SecondaryButton type="submit" name="submit" className="border-none">
                           relancer
@@ -102,6 +101,12 @@ export const InvitationsCandidatsEnAttente = ({
             />
           )}
         </>
+      ) : (
+        <ListeVide titre="Aucune invitation candidat en attente">
+          {invitations.itemCount > 0 && (
+            <Link href={routes.ADMIN_INVITATION_LIST}>Voir toutes les invitations</Link>
+          )}
+        </ListeVide>
       )}
     </LegacyPageTemplate>
   );

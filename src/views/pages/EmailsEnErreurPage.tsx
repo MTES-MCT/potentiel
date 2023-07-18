@@ -10,13 +10,14 @@ import {
   Td,
   Th,
   Form,
+  Link,
 } from '@components';
 import { FailedNotificationDTO } from '@modules/notification';
-import ROUTES from '@routes';
 import { Request } from 'express';
 import React from 'react';
 import { PaginatedList } from '../../types';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
+import routes from '@routes';
 type EmailsEnErreurProps = {
   request: Request;
   notifications: PaginatedList<FailedNotificationDTO>;
@@ -31,11 +32,11 @@ export const EmailsEnErreur = ({ request, notifications, currentUrl }: EmailsEnE
       <Heading1>Emails en erreur</Heading1>
       <p>Sont listés uniquement les emails de notification qui ont un status &quot;erreur&quot;.</p>
       <Form
-        action={ROUTES.ADMIN_NOTIFICATION_RETRY_ACTION}
+        action={routes.ADMIN_NOTIFICATION_RETRY_ACTION}
         method="POST"
         className="max-w-none mx-0 mb-6"
       >
-        {!!notifications.itemCount && (
+        {notifications.items.length > 0 && (
           <PrimaryButton className="mt-3" type="submit" name="submit" id="submit">
             Réessayer toutes les notifications en erreur
           </PrimaryButton>
@@ -44,9 +45,7 @@ export const EmailsEnErreur = ({ request, notifications, currentUrl }: EmailsEnE
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      {notifications.items.length === 0 ? (
-        <ListeVide titre="Aucune notification à lister" />
-      ) : (
+      {notifications.items.length > 0 ? (
         <>
           <div className="m-2">
             <strong>{notifications.itemCount}</strong> notifications{' '}
@@ -93,6 +92,12 @@ export const EmailsEnErreur = ({ request, notifications, currentUrl }: EmailsEnE
             />
           )}
         </>
+      ) : (
+        <ListeVide titre="Aucune notification à lister">
+          {notifications.itemCount > 0 && (
+            <Link href={routes.ADMIN_NOTIFICATION_LIST}>Voir toutes les notifications</Link>
+          )}
+        </ListeVide>
       )}
     </LegacyPageTemplate>
   );

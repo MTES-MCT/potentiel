@@ -2,7 +2,6 @@ import { Request } from 'express';
 import React, { ChangeEvent, useState } from 'react';
 import { AppelOffre } from '@entities';
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
-import ROUTES from '@routes';
 import { PaginatedList } from '../../../types';
 import {
   RequestList,
@@ -16,9 +15,12 @@ import {
   Select,
   Checkbox,
   Form,
+  ListeVide,
+  Link,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { userIs } from '@modules/users';
+import routes from '@routes';
 
 type ModificationRequestListProps = {
   request: Request;
@@ -69,15 +71,16 @@ export const ModificationRequestList = ({
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title));
 
+  const targetRoute =
+    request.user?.role === 'porteur-projet'
+      ? routes.USER_LIST_REQUESTS
+      : routes.ADMIN_LIST_REQUESTS;
+
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <Heading1>{request.user.role === 'porteur-projet' ? 'Mes demandes' : 'Demandes'}</Heading1>
       <Form
-        action={`${
-          request.user?.role === 'porteur-projet'
-            ? ROUTES.USER_LIST_REQUESTS
-            : ROUTES.ADMIN_LIST_REQUESTS
-        }?showOnlyDGEC=${isShowOnlyDGECChecked ? 'on' : 'off'}`}
+        action={`${targetRoute}?showOnlyDGEC=${isShowOnlyDGECChecked ? 'on' : 'off'}`}
         method="GET"
         className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
       >
@@ -236,11 +239,19 @@ export const ModificationRequestList = ({
       </Form>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
-      <RequestList
-        modificationRequests={modificationRequests}
-        role={request.user?.role}
-        currentUrl={currentUrl}
-      />
+      {modificationRequests && modificationRequests.items.length > 0 ? (
+        <RequestList
+          modificationRequests={modificationRequests}
+          role={request.user?.role}
+          currentUrl={currentUrl}
+        />
+      ) : (
+        <ListeVide titre="Aucune demande à afficher">
+          {modificationRequests && modificationRequests.itemCount > 0 && (
+            <Link href={targetRoute}>Voir toutes les demandes</Link>
+          )}
+        </ListeVide>
+      )}
     </LegacyPageTemplate>
   );
 };

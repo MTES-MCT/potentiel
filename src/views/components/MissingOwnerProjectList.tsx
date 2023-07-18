@@ -5,7 +5,6 @@ import {
   Input,
   Checkbox,
   Label,
-  ListeVide,
   Table,
   Td,
   Th,
@@ -148,10 +147,6 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user, curren
       }
       setSelectedProjectList([...selectedProjectList].filter((selected) => selected !== projetId));
     };
-
-  if (!items.length) {
-    return <ListeVide titre="Aucun projet à lister" />;
-  }
 
   return (
     <>
