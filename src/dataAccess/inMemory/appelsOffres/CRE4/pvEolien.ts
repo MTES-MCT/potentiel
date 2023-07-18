@@ -34,7 +34,7 @@ const pvEolien: AppelOffre = {
   garantieFinanciereEnMois: garantieFinanciereEnMois,
   renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
   changementPuissance: { ratios: { min: 0.8, max: 1 } },
-  changementProducteurPossibleAvantAchèvement: true,
+  changementProducteurPossibleAvantAchèvement: false,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
