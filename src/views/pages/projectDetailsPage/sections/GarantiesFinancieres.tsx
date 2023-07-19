@@ -6,7 +6,6 @@ import { afficherDate } from '@views/helpers';
 import routes from '@routes';
 
 export type GarantiesFinancieresData = {
-  projetId: string;
   typeGarantiesFinancières?: string;
   dateEchéance?: number;
 } & (
@@ -22,7 +21,9 @@ export type GarantiesFinancieresData = {
     }
 );
 
-export const GarantiesFinancieres = (garantiesFinancières: GarantiesFinancieresData) => {
+type GarantiesFinancieresProps = GarantiesFinancieresData & { projetId: string };
+
+export const GarantiesFinancieres = (garantiesFinancières: GarantiesFinancieresProps) => {
   const { statut, typeGarantiesFinancières, dateEchéance } = garantiesFinancières;
   const attestationTransmise = statut === 'validé' || statut === 'à traiter';
   const attestationEnEAttente = statut === 'en attente' || statut === 'en retard';
