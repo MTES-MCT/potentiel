@@ -1,8 +1,6 @@
-import { Pagination, PaginatedList } from '../types';
+import { PaginatedList, Pagination } from '@modules/pagination';
 
-const paginate = (pagination?: Pagination) => {
-  if (!pagination) return {};
-
+export const mapToOffsetAndLimit = (pagination: Pagination) => {
   const { page, pageSize } = pagination;
   const offset = page > 1 ? (page - 1) * pageSize : 0;
   const limit = pageSize;
@@ -17,22 +15,20 @@ const pageCount = (pagination: Pagination, itemCount: number) => {
   return Math.ceil(itemCount / pagination.pageSize);
 };
 
-const nullPagination = (count): Pagination => ({
+const defaultPagination = (count): Pagination => ({
   pageSize: count,
   page: 0,
 });
 
-const makePaginatedList = <T>(
+export const makePaginatedList = <T>(
   items: Array<T>,
   count: number,
   pagination?: Pagination,
 ): PaginatedList<T> => {
   return {
     items,
-    pagination: pagination || nullPagination(count),
+    pagination: pagination || defaultPagination(count),
     pageCount: pagination ? pageCount(pagination, count) : 1,
     itemCount: count,
   };
 };
-
-export { paginate, pageCount, makePaginatedList };

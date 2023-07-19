@@ -18,17 +18,3 @@ export const UnwrapForTest = <T>(res: Result<T, Error>) => {
   logger.error(res.unwrapErr());
   throw new Error('UnwrapForTest: Result is error, cannot unwrap');
 };
-
-type Pagination = {
-  page: number;
-  pageSize: number;
-};
-
-interface PaginatedList<T> {
-  items: Array<T>;
-  pagination: Pagination;
-  pageCount: number;
-  itemCount: number;
-}
-
-export { Pagination, PaginatedList };

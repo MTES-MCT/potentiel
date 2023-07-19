@@ -1,6 +1,6 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ListerProjets } from '@modules/project';
-import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
+import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Op } from 'sequelize';
@@ -60,7 +60,7 @@ export const listerProjetsPourDreal: ListerProjets = async ({
         include: [{ model: File, as: 'fichier' }],
       },
     ],
-    ...paginate(pagination),
+    ...mapToOffsetAndLimit(pagination),
     attributes,
   });
 

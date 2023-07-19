@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid';
-import { Pagination } from '../../types';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
 import { projectRepo, resetDatabase } from '.';
@@ -9,6 +8,7 @@ import {
   User,
   UserProjects,
 } from '@infra/sequelize/projectionsNext';
+import { Pagination } from '@modules/pagination';
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination;
 

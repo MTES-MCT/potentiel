@@ -1,6 +1,6 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
+import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { ListerProjetsNonNotifiés } from '@modules/notificationCandidats/queries';
 
@@ -39,7 +39,7 @@ export const listerProjetsNonNotifiés: ListerProjetsNonNotifiés = async ({
       ...findOptions?.where,
       notifiedOn: 0,
     },
-    ...paginate(pagination),
+    ...mapToOffsetAndLimit(pagination),
     attributes,
   });
 

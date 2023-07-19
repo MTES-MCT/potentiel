@@ -1,6 +1,6 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ListerProjets } from '@modules/project';
-import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
+import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
 import { UserProjects, Project } from '@infra/sequelize/projectionsNext';
@@ -51,7 +51,7 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
         attributes: [],
       },
     ],
-    ...paginate(pagination),
+    ...mapToOffsetAndLimit(pagination),
     attributes,
   });
 

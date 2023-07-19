@@ -15,7 +15,7 @@ import {
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 import { afficherDate, ModificationRequestStatusTitle } from '../helpers';
 
 interface Props {

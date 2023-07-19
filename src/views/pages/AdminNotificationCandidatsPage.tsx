@@ -20,7 +20,7 @@ import ROUTES from '@routes';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
 
 type AdminNotificationCandidatsProps = {

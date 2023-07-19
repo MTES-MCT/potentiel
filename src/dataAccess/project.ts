@@ -1,6 +1,7 @@
 import { Project, User, AppelOffre, Famille, Periode } from '@entities';
 import { Région } from '@modules/dreal/région';
-import { ResultAsync, Pagination, PaginatedList } from '../types';
+import { ResultAsync } from '../types';
+import { PaginatedList, Pagination } from '@modules/pagination';
 
 export interface ProjectFilters {
   isNotified?: boolean;

@@ -14,7 +14,7 @@ import {
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
 import routes from '@routes';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 
 type Columns =
   | 'Projet'

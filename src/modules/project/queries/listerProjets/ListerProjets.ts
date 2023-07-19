@@ -1,5 +1,5 @@
 import { AppelOffre, Periode, Famille, ProjectAppelOffre, User } from '@entities';
-import { PaginatedList, Pagination } from '../../../../types';
+import { PaginatedList, Pagination } from '@modules/pagination';
 
 export const PermissionListerProjets = {
   nom: 'lister-projets',

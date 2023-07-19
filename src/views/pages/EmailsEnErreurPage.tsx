@@ -15,7 +15,7 @@ import {
 import { FailedNotificationDTO } from '@modules/notification';
 import { Request } from 'express';
 import React from 'react';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 import routes from '@routes';
 type EmailsEnErreurProps = {
