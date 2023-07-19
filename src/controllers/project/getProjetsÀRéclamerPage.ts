@@ -1,24 +1,16 @@
 import { appelOffreRepo } from '@dataAccess';
-import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
 import { listMissingOwnerProjects } from '@useCases';
 import { ensureRole } from '@config';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 import { ProjetsÀRéclamerPage } from '@views';
-import { getCurrentUrl, getDefaultPagination } from '../helpers';
+import { getCurrentUrl, getPagination } from '../helpers';
 
 const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {
-  let {
-    appelOffreId,
-    periodeId,
-    familleId,
-    recherche,
-    classement,
-    garantiesFinancieres,
-    pageSize,
-  } = request.query as any;
-  const { user, cookies } = request;
+  let { appelOffreId, periodeId, familleId, recherche, classement, garantiesFinancieres } =
+    request.query as any;
+  const { user } = request;
 
   // Set default filter on classés for admins
   if (
@@ -29,7 +21,7 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
     request.query.classement = 'classés';
   }
 
-  const pagination = makePagination(request.query, getDefaultPagination({ cookies }));
+  const pagination = getPagination(request);
 
   const appelsOffre = await appelOffreRepo.findAll();
 
@@ -51,14 +43,6 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
   });
 
   const { projects, existingAppelsOffres, existingPeriodes, existingFamilles } = results;
-
-  if (pageSize) {
-    // Save the pageSize in a cookie
-    response.cookie('pageSize', pageSize, {
-      maxAge: 1000 * 60 * 60 * 24 * 30 * 3, // 3 months
-      httpOnly: true,
-    });
-  }
 
   response.send(
     ProjetsÀRéclamerPage({

@@ -85,9 +85,7 @@ export const EmailsEnErreur = ({ request, notifications, currentUrl }: EmailsEnE
           {!Array.isArray(notifications) && (
             <Pagination
               nombreDePage={notifications.pageCount}
-              limiteParPage={notifications.pagination.pageSize}
               pageCourante={notifications.pagination.page}
-              titreItems="Notifications"
               currentUrl={currentUrl}
             />
           )}

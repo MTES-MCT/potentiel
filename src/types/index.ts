@@ -19,10 +19,10 @@ export const UnwrapForTest = <T>(res: Result<T, Error>) => {
   throw new Error('UnwrapForTest: Result is error, cannot unwrap');
 };
 
-interface Pagination {
+type Pagination = {
   page: number;
   pageSize: number;
-}
+};
 
 interface PaginatedList<T> {
   items: Array<T>;

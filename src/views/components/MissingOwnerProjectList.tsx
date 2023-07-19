@@ -224,10 +224,8 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user, curren
 
       {!Array.isArray(projects) && (
         <Pagination
-          limiteParPage={projects.pagination.pageSize}
           pageCourante={projects.pagination.page}
           nombreDePage={projects.pageCount}
-          titreItems="Projets"
           currentUrl={currentUrl}
         />
       )}

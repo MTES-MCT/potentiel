@@ -185,9 +185,7 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl }
         </tbody>
       </Table>
       <Pagination
-        titreItems="Demandes"
         nombreDePage={modificationRequests.pageCount}
-        limiteParPage={modificationRequests.pagination.pageSize}
         pageCourante={modificationRequests.pagination.page}
         currentUrl={currentUrl}
       />

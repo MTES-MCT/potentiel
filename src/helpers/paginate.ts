@@ -35,12 +35,4 @@ const makePaginatedList = <T>(
   };
 };
 
-const makePagination = (obj: any, defaultPagination: Pagination): Pagination =>
-  obj.pageSize || obj.page
-    ? {
-        pageSize: Number(obj.pageSize || defaultPagination.pageSize),
-        page: (obj.page && Number(obj.page)) || 0,
-      }
-    : defaultPagination;
-
-export { paginate, pageCount, makePaginatedList, makePagination };
+export { paginate, pageCount, makePaginatedList };

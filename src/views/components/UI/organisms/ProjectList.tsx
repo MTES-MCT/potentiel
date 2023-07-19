@@ -264,9 +264,7 @@ export const ProjectList = ({
       </ul>
       {!Array.isArray(projects) && (
         <Pagination
-          titreItems="Projets"
           nombreDePage={projects.pageCount}
-          limiteParPage={projects.pagination.pageSize}
           pageCourante={projects.pagination.page}
           currentUrl={currentUrl}
         />

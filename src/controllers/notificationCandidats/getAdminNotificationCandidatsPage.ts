@@ -1,9 +1,8 @@
 import asyncHandler from '../helpers/asyncHandler';
-import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import { AdminNotificationCandidatsPage } from '@views';
-import { getCurrentUrl, getDefaultPagination, vérifierPermissionUtilisateur } from '../helpers';
+import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
 import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats';
 import { getDonnéesPourPageNotificationCandidats } from '@config/queries.config';
 
@@ -12,11 +11,10 @@ v1Router.get(
   vérifierPermissionUtilisateur(PermissionListerProjetsÀNotifier),
   asyncHandler(async (request, response) => {
     let {
-      query: { appelOffreId, periodeId, recherche, classement, pageSize },
-      cookies,
+      query: { appelOffreId, periodeId, recherche, classement },
     } = request as any;
 
-    const pagination = makePagination(request.query, getDefaultPagination({ cookies }));
+    const pagination = getPagination(request);
 
     if (!appelOffreId) {
       // Reset the periodId
@@ -47,14 +45,6 @@ v1Router.get(
       listeAOs,
       listePériodes,
     } = données;
-
-    if (pageSize) {
-      // Save the pageSize in a cookie
-      response.cookie('pageSize', pageSize, {
-        maxAge: 1000 * 60 * 60 * 24 * 30 * 3, // 3 months
-        httpOnly: true,
-      });
-    }
 
     response.send(
       AdminNotificationCandidatsPage({

@@ -1,24 +1,13 @@
 import React from 'react';
-import { updateUrlParams } from '@views/helpers';
 import { ChevronLeftIcon, ChevronRightIcon, Link } from '@components';
 
-interface Props {
-  titreItems: string;
+type PaginationProps = {
   nombreDePage: number;
-  limiteParPage: number;
   pageCourante: number;
   currentUrl: string;
-}
+};
 
-function getcurrentUrls({
-  currentUrl,
-  pageCourante,
-  nombreDePage,
-}: {
-  currentUrl: Props['currentUrl'];
-  pageCourante: Props['pageCourante'];
-  nombreDePage: Props['nombreDePage'];
-}) {
+const getcurrentUrls = ({ currentUrl, pageCourante, nombreDePage }: PaginationProps) => {
   const url = new URL(currentUrl);
   let prevUrl: string | null = null;
   let nextUrl: string | null = null;
@@ -35,18 +24,10 @@ function getcurrentUrls({
     nextUrl = new URL(`${url.origin}${url.pathname}?${paramNextUrl}`).href;
   }
   return { prevUrl, nextUrl };
-}
+};
 
-export function Pagination({
-  nombreDePage,
-  titreItems,
-  limiteParPage,
-  pageCourante,
-  currentUrl,
-}: Props) {
-  const limitePageOptions = [5, 10, 20, 50, 100];
-
-  let { prevUrl, nextUrl }: { prevUrl: string | null; nextUrl: string | null } = getcurrentUrls({
+export function Pagination({ nombreDePage, pageCourante, currentUrl }: PaginationProps) {
+  const { prevUrl, nextUrl } = getcurrentUrls({
     currentUrl,
     pageCourante,
     nombreDePage,
@@ -54,25 +35,6 @@ export function Pagination({
 
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center flex-wrap mt-6">
-      <div className="m-2 order-2 sm:order-1">
-        <label htmlFor="pagination__display" className="inline">
-          {limiteParPage.toString()} {titreItems.toLowerCase()} par page
-        </label>
-        <select
-          className="ml-2 py-1"
-          id="pagination__display"
-          defaultValue={limiteParPage}
-          onChange={(event) => {
-            updateUrlParams({ pageSize: event.target.value });
-          }}
-        >
-          {limitePageOptions.map((count) => (
-            <option key={`select_limiteParPage_${count}`} value={count}>
-              {count}
-            </option>
-          ))}
-        </select>
-      </div>
       {nombreDePage > 1 && (
         <nav aria-label="Pagination" className="order-1 sm:order-2">
           <ul className={`p-2 list-none overflow-hidden flex items-center`}>

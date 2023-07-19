@@ -2,19 +2,18 @@ import { getModificationRequestListForAdmin } from '@config/queries.config';
 import { logger } from '@core/utils';
 import { appelOffreRepo } from '@dataAccess/inMemory';
 import asyncHandler from '../helpers/asyncHandler';
-import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
 import { ModificationRequestListPage } from '@views';
 import { v1Router } from '../v1Router';
 import { userIs } from '@modules/users';
-import { getCurrentUrl, getDefaultPagination, vérifierPermissionUtilisateur } from '../helpers';
+import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest/queries';
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,
   vérifierPermissionUtilisateur(PermissionListerDemandesAdmin),
   asyncHandler(async (request, response) => {
-    const { user, cookies, query } = request;
+    const { user, query } = request;
 
     const {
       appelOffreId,
@@ -24,19 +23,10 @@ v1Router.get(
       modificationRequestStatus,
       modificationRequestType,
       showOnlyDGEC = 'on',
-      pageSize,
     } = query as any;
 
-    const pagination = makePagination(query, getDefaultPagination({ cookies }));
+    const pagination = getPagination(request);
     const appelsOffre = await appelOffreRepo.findAll();
-
-    if (pageSize) {
-      const MONTH_MILLISECONDS = 1000 * 60 * 60 * 24 * 30;
-      response.cookie('pageSize', pageSize, {
-        maxAge: MONTH_MILLISECONDS * 3,
-        httpOnly: true,
-      });
-    }
 
     return await getModificationRequestListForAdmin({
       user,

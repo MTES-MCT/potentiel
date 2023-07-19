@@ -1,5 +1,4 @@
 import asyncHandler from '../helpers/asyncHandler';
-import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import { ListeProjetsPage } from '@views';
@@ -8,13 +7,11 @@ import {
   getOptionsFiltresParAOs,
   vérifierPermissionUtilisateur,
   getCurrentUrl,
-  getDefaultPagination,
+  getPagination,
 } from '../helpers';
 import { appelOffreRepo } from '@dataAccess';
 import { listerProjets } from '@infra/sequelize/queries';
 import { PermissionListerProjets } from '@modules/project/queries/listerProjets';
-
-const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3;
 
 const getProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -25,9 +22,8 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     classement,
     reclames,
     garantiesFinancieres,
-    pageSize,
   } = request.query as any;
-  const { user, cookies } = request;
+  const { user } = request;
 
   // Set default filter on classés for admins
   if (userIs(['admin', 'dgec-validateur', 'dreal'])(user) && typeof classement === 'undefined') {
@@ -35,7 +31,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     request.query.classement = 'classés';
   }
 
-  const pagination = makePagination(request.query, getDefaultPagination({ cookies }));
+  const pagination = getPagination(request);
 
   if (!appelOffreId) {
     // Reset the periodId and familleId if there is no appelOffreId
@@ -57,14 +53,6 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   };
 
   const projects = await listerProjets({ user, filtres, pagination });
-
-  if (pageSize) {
-    // Save the pageSize in a cookie
-    response.cookie('pageSize', pageSize, {
-      maxAge: TROIS_MOIS,
-      httpOnly: true,
-    });
-  }
 
   const appelsOffre = await appelOffreRepo.findAll();
 
