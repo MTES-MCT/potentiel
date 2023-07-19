@@ -21,7 +21,7 @@ import {
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '@modules/project/queries';
 
-export type GarantiesFinancieresProps = {
+export type ListeGarantiesFinancieresProps = {
   request: Request;
   projects: PaginatedList<ProjectListItem>;
   appelsOffre: Array<AppelOffre>;
@@ -31,7 +31,7 @@ export type GarantiesFinancieresProps = {
   currentUrl: string;
 };
 
-export const GarantiesFinancieres = ({
+export const ListeGarantiesFinancieres = ({
   request,
   projects,
   appelsOffre,
@@ -39,7 +39,7 @@ export const GarantiesFinancieres = ({
   existingPeriodes,
   existingFamilles,
   currentUrl,
-}: GarantiesFinancieresProps) => {
+}: ListeGarantiesFinancieresProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
     (request.query as any) || {};
 
@@ -58,7 +58,7 @@ export const GarantiesFinancieres = ({
     <LegacyPageTemplate user={request.user} currentPage="list-garanties-financieres">
       <Heading1>Garanties financières</Heading1>
 
-      <Form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
+      <Form action={ROUTES.GET_LISTE_GARANTIES_FINANCIERES} method="GET" className="m-0">
         <BarreDeRecherche
           placeholder="Rechercher par nom du projet"
           name="recherche"
@@ -201,4 +201,4 @@ export const GarantiesFinancieres = ({
   );
 };
 
-hydrateOnClient(GarantiesFinancieres);
+hydrateOnClient(ListeGarantiesFinancieres);

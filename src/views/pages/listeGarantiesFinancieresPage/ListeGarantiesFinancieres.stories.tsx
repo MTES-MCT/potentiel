@@ -1,12 +1,12 @@
 import React from 'react';
-import { GarantiesFinancieres, GarantiesFinancieresProps } from '.';
+import { GarantiesFinancieres, ListeGarantiesFinancieresProps } from '.';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import makeFakeRequest from '../../../__tests__/fixtures/request';
 
 export default { title: 'Garanties Financieres' };
 
-const props: GarantiesFinancieresProps = {
+const props: ListeGarantiesFinancieresProps = {
   request: makeFakeRequest(),
   projects: {
     itemCount: 3,

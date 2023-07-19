@@ -6,7 +6,6 @@ import {
   DemanderDelai,
   DrealList,
   Error,
-  GarantiesFinancieres,
   Home,
   ModificationRequest,
   ModificationRequestList,
@@ -53,6 +52,7 @@ import {
   ModifierPropositionTechniqueEtFinancière,
   AucunDossierALister,
   ImporterDatesMiseEnService,
+  ListeGarantiesFinancieres,
 } from './pages';
 
 export { App } from './App';
@@ -108,9 +108,11 @@ export const ChoisirCahierDesChargesPage = (props: Parameters<typeof ChoisirCahi
     title: 'Changer de cahier des charges',
   });
 
-export const GarantiesFinancieresPage = (props: Parameters<typeof GarantiesFinancieres>[0]) =>
+export const ListeGarantiesFinancieresPage = (
+  props: Parameters<typeof ListeGarantiesFinancieres>[0],
+) =>
   makeHtml({
-    Component: GarantiesFinancieres,
+    Component: ListeGarantiesFinancieres,
     props,
     title: 'Garanties financières',
   });

@@ -228,7 +228,7 @@ const MenuDreal = (currentPage?: string) => (
       Demandes
     </Header.MenuItem>
     <Header.MenuItem
-      href={routes.ADMIN_GARANTIES_FINANCIERES}
+      href={routes.GET_LISTE_GARANTIES_FINANCIERES}
       {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
     >
       Garanties Financières
