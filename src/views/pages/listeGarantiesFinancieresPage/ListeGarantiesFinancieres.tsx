@@ -5,7 +5,6 @@ import { AppelOffre, Famille, Periode } from '@entities';
 import ROUTES from '@routes';
 import { PaginatedList } from '@modules/pagination';
 import {
-  ProjectList,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
@@ -20,6 +19,7 @@ import {
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '@modules/project/queries';
+import { GarantiesFinancieresList } from './components/GarantiesFinancieresList';
 
 export type ListeGarantiesFinancieresProps = {
   request: Request;
@@ -188,8 +188,7 @@ export const ListeGarantiesFinancieres = ({
               (document csv)
             </DownloadLink>
           </div>
-          <ProjectList
-            displayGF={true}
+          <GarantiesFinancieresList
             projects={projects}
             role={request.user?.role}
             GFPastDue={garantiesFinancieres === 'pastDue'}
