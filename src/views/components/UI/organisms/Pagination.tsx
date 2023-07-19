@@ -1,91 +1,99 @@
-import React from 'react';
-import { ChevronLeftIcon, ChevronRightIcon, Link } from '@components';
+import React, { ComponentProps, FC } from 'react';
+import { PreviousPageIcon, NextPageIcon, FirstPageIcon, LastPageIcon } from '../atoms';
 
 type PaginationProps = {
-  nombreDePage: number;
-  pageCourante: number;
+  pageCount: number;
+  currentPage: number;
   currentUrl: string;
 };
 
-const getcurrentUrls = ({ currentUrl, pageCourante, nombreDePage }: PaginationProps) => {
-  const url = new URL(currentUrl);
-  let prevUrl: string | null = null;
-  let nextUrl: string | null = null;
+export const Pagination: FC<PaginationProps> = ({ pageCount, currentPage, currentUrl }) => {
+  const firstPageUrl = new URL(currentUrl);
+  firstPageUrl.searchParams.set('page', '1');
 
-  if (pageCourante - 1 > 0) {
-    const paramPrevUrl = new URLSearchParams(url.search);
-    paramPrevUrl.set('page', (pageCourante - 1).toString());
-    prevUrl = new URL(`${url.origin}${url.pathname}?${paramPrevUrl.toString()}`).href;
-  }
+  const lastPageUrl = new URL(currentUrl);
+  lastPageUrl.searchParams.set('page', pageCount.toString());
 
-  if (pageCourante + 1 <= nombreDePage) {
-    const paramNextUrl = new URLSearchParams(url.search);
-    paramNextUrl.set('page', (pageCourante + 1).toString());
-    nextUrl = new URL(`${url.origin}${url.pathname}?${paramNextUrl}`).href;
-  }
-  return { prevUrl, nextUrl };
-};
+  const previousPageUrl = new URL(currentUrl);
+  previousPageUrl.searchParams.set('page', (currentPage - 1).toString());
 
-export function Pagination({ nombreDePage, pageCourante, currentUrl }: PaginationProps) {
-  const { prevUrl, nextUrl } = getcurrentUrls({
-    currentUrl,
-    pageCourante,
-    nombreDePage,
-  });
+  const nextPageUrl = new URL(currentUrl);
+  nextPageUrl.searchParams.set('page', (currentPage + 1).toString());
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between items-center flex-wrap mt-6">
-      {nombreDePage > 1 && (
-        <nav aria-label="Pagination" className="order-1 sm:order-2">
-          <ul className={`p-2 list-none overflow-hidden flex items-center`}>
-            <li>
-              {prevUrl ? (
-                <Link
-                  className={`flex items-center no-underline hover:no-underline focus:no-underline !text-black hover:text-black`}
-                  title="Page précédente"
-                  href={prevUrl}
-                >
-                  <ChevronLeftIcon className="mr-2" />
-                  Précédent
-                </Link>
-              ) : (
-                <p
-                  className="flex items-center cursor-not-allowed text-grey-625-base mr-4"
-                  aria-disabled="true"
-                >
-                  <ChevronLeftIcon className="mr-2" />
-                  Précédent
-                </p>
-              )}
-            </li>
+    <nav role="pagination" aria-label="Pagination">
+      <ul className="flex list-none gap-3 m-0 my-0 mt-4 p-0">
+        <li>
+          <PageLink href={firstPageUrl.href} title="Première page" disabled={currentPage === 1}>
+            <FirstPageIcon className="w-6 h-6" />
+          </PageLink>
+        </li>
+        <li className="mr-auto">
+          <PageLink
+            href={previousPageUrl.href}
+            title="Page précédente"
+            disabled={currentPage - 1 <= 0}
+          >
+            <PreviousPageIcon className="w-6 h-6 mr-2" />
+            <span className="hidden md:block">Précédent</span>
+          </PageLink>
+        </li>
 
-            <li className="mx-8">
-              Page <strong>{pageCourante}</strong> sur <strong>{nombreDePage}</strong>
-            </li>
+        <li>
+          <CurrentPageLink pageNumber={currentPage} /> / {pageCount}
+        </li>
 
-            <li>
-              {nextUrl ? (
-                <Link
-                  className={`flex items-center no-underline hover:no-underline focus:no-underline !text-black hover:text-black`}
-                  title="Page suivante"
-                  href={nextUrl}
-                >
-                  Suivant
-                  <ChevronRightIcon className="ml-2" />
-                </Link>
-              ) : (
-                <p
-                  className="flex items-center cursor-not-allowed text-grey-625-base ml-4"
-                  aria-disabled="true"
-                >
-                  Suivant
-                  <ChevronRightIcon className="ml-2" />
-                </p>
-              )}
-            </li>
-          </ul>
-        </nav>
-      )}
-    </div>
+        <li className="ml-auto">
+          <PageLink
+            href={nextPageUrl.href}
+            title="Page suivante"
+            disabled={currentPage + 1 > pageCount}
+          >
+            <span className="hidden md:block">Suivant</span>
+            <NextPageIcon className="w-6 h-6 ml-2" />
+          </PageLink>
+        </li>
+        <li>
+          <PageLink
+            href={lastPageUrl.href}
+            title="Dernière page"
+            disabled={currentPage === pageCount}
+          >
+            <LastPageIcon className="w-6 h-6" />
+          </PageLink>
+        </li>
+      </ul>
+    </nav>
   );
-}
+};
+
+type PageLinkProps = ComponentProps<'a'> & {
+  disabled: boolean;
+};
+
+const PageLink: FC<PageLinkProps> = ({ href, title, disabled, children }) => (
+  <a
+    className={`flex px-2 py-1 no-underline hover:no-underline focus:no-underline ${
+      disabled
+        ? 'cursor-not-allowed !text-grey-625-base hover:!text-grey-625-base'
+        : 'hover:bg-grey-1000-hover focus:no-underline !text-black hover:text-black'
+    }`}
+    title={title}
+    href={disabled ? undefined : href}
+    aria-disabled={disabled}
+    role="link"
+  >
+    {children}
+  </a>
+);
+
+const CurrentPageLink: FC<ComponentProps<'a'> & { pageNumber: number }> = ({ pageNumber }) => (
+  <a
+    role="link"
+    aria-current="page"
+    aria-disabled
+    className="bg-blue-france-sun-base !text-white px-2 py-1"
+  >
+    {pageNumber}
+  </a>
+);

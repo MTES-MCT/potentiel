@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { RiDashboardLine } from '@react-icons/all-files/ri/RiDashboardLine';
-import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine';
-import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine';
-import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine';
 import { User } from '@entities';
 import routes from '@routes';
-import { LinkButton, Container, SecondaryLinkButton, Link } from '@components';
+import {
+  LinkButton,
+  Container,
+  SecondaryLinkButton,
+  Link,
+  DashboardIcon,
+  LogoutBoxIcon,
+  AccountIcon,
+  LoginIcon,
+} from '@components';
 
 type InscriptionConnexionProps = {
   user: User;
@@ -45,14 +50,14 @@ const Bienvenue = ({ user }: BienvenueProps) => (
         className="inline-flex items-center lg:text-lg"
         href={routes.REDIRECT_BASED_ON_ROLE}
       >
-        <RiDashboardLine className="mr-4" aria-hidden />
+        <DashboardIcon className="mr-4" aria-hidden />
         Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
       </LinkButton>
       <SecondaryLinkButton
         className="inline-flex items-center lg:text-lg"
         href={routes.LOGOUT_ACTION}
       >
-        <RiLogoutBoxLine className="mr-4" aria-hidden />
+        <LogoutBoxIcon className="mr-4" aria-hidden />
         Me déconnecter
       </SecondaryLinkButton>
     </div>
@@ -86,7 +91,7 @@ const SignupBox = () => {
       </div>
       {active === 'porteur-projet' && (
         <SecondaryLinkButton href={routes.SIGNUP} className="inline-flex items-center mx-auto">
-          <RiAccountCircleLine className="mr-4" aria-hidden />
+          <AccountIcon className="mr-4" aria-hidden />
           M'inscrire
         </SecondaryLinkButton>
       )}
@@ -145,7 +150,7 @@ const LoginBox = () => {
         <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
       </div>
       <LinkButton href={routes.LOGIN} className="inline-flex items-center mx-auto">
-        <RiLockLine className="mr-4" aria-hidden />
+        <LoginIcon className="mr-4" aria-hidden />
         M'identifier
       </LinkButton>
     </div>

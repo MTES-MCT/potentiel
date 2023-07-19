@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
+import { ErrorIcon } from '../UI/atoms';
 
 type TextAreaProps = React.HTMLAttributes<HTMLTextAreaElement> & {
   value?: string;
@@ -35,7 +35,7 @@ export const TextArea = ({ className = '', error = '', onChange, ...props }: Tex
           aria-describedby={props.id}
           className="flex flex-row items-center m-0 mt-0.5 text-sm text-red-marianne-main-472-base"
         >
-          <RiErrorWarningFill className="text-sm text-red-marianne-main-472-base mr-2" />
+          <ErrorIcon className="text-sm text-red-marianne-main-472-base mr-2" />
           {error}
         </p>
       )}

@@ -185,8 +185,8 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl }
         </tbody>
       </Table>
       <Pagination
-        nombreDePage={modificationRequests.pageCount}
-        pageCourante={modificationRequests.pagination.page}
+        pageCount={modificationRequests.pageCount}
+        currentPage={modificationRequests.pagination.page}
         currentUrl={currentUrl}
       />
     </>

@@ -93,8 +93,8 @@ export const InvitationsCandidatsEnAttente = ({
           </Table>
           {!Array.isArray(invitations) && (
             <Pagination
-              nombreDePage={invitations.pageCount}
-              pageCourante={invitations.pagination.page}
+              pageCount={invitations.pageCount}
+              currentPage={invitations.pagination.page}
               currentUrl={currentUrl}
             />
           )}

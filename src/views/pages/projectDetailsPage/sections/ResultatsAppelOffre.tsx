@@ -13,7 +13,7 @@ export const ResultatsAppelOffreInnovation = ({
   notePrix,
   notesInnovation,
 }: ResultatsAppelOffreInnovationProps) => (
-  <Section title="Résultats de l'appel d'offres" icon={ClipboardCheckIcon}>
+  <Section title="Résultats de l'appel d'offres" icon={<ClipboardCheckIcon />}>
     <div className="mb-3">
       <b>Note totale</b>: {note || 'N/A'}
     </div>

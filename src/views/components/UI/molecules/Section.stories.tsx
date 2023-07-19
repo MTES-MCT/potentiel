@@ -17,6 +17,6 @@ const Template = (args) => <Section {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   title: 'Titre de ma section',
-  icon: CalendarIcon,
+  icon: <CalendarIcon />,
   children: `Ceci est un exemple de contenu possible dans une section`,
 };

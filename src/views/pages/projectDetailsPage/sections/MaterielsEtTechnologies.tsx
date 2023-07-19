@@ -11,7 +11,7 @@ export const MaterielsEtTechnologies = ({ project }: MaterielsEtTechnologiesProp
     return null;
   }
   return (
-    <Section title="Matériels et technologies" icon={CogIcon}>
+    <Section title="Matériels et technologies" icon={<CogIcon />}>
       {project.fournisseur && <div>Fournisseur: {project.fournisseur}</div>}
       {project.evaluationCarbone && (
         <div>Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq CO2/kWc</div>

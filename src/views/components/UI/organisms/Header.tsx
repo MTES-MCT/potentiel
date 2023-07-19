@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import routes from '@routes';
-import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine';
 
 import {
   ExternalLinkIcon,
   Link,
   QuestionIcon,
-  LockIcon,
+  LoginIcon,
   UserIcon,
   MenuIcon,
   LogoutBoxIcon,
@@ -14,6 +13,7 @@ import {
   Checkbox,
   Label,
   Container,
+  AccountIcon,
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -153,7 +153,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.SIGNUP}
           >
-            <RiAccountCircleLine className="text-blue-france-sun-base" aria-hidden />
+            <AccountIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block mx-1 text-blue-france-sun-base">M'inscrire</span>
           </Link>
         </li>
@@ -162,7 +162,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.LOGIN}
           >
-            <LockIcon className="text-blue-france-sun-base" aria-hidden />
+            <LoginIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block mx-1 text-blue-france-sun-base">M'identifier</span>
           </Link>
         </li>

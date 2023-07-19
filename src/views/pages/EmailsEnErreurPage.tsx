@@ -84,8 +84,8 @@ export const EmailsEnErreur = ({ request, notifications, currentUrl }: EmailsEnE
           </Table>
           {!Array.isArray(notifications) && (
             <Pagination
-              nombreDePage={notifications.pageCount}
-              pageCourante={notifications.pagination.page}
+              pageCount={notifications.pageCount}
+              currentPage={notifications.pagination.page}
               currentUrl={currentUrl}
             />
           )}
