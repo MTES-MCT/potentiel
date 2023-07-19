@@ -12,7 +12,7 @@ export const createConsumer = async (name: string): Promise<Consumer> => {
   const redis = await getRedis();
   const groupName = await createConsumerGroup(redis, streamName, name);
 
-  const handlers: Map<Event['type'], RedisEventHandler> = new Map();
+  const handlers: Map<Event['type'], Array<RedisEventHandler>> = new Map();
   let consumerRedisClient: Redis;
 
   const listenForMessage = async () => {
@@ -21,18 +21,23 @@ export const createConsumer = async (name: string): Promise<Consumer> => {
     if (message) {
       const [, messageValue] = message;
       const [eventType, eventPayload] = messageValue;
-      const handler = handlers.get(eventType);
-      if (handler) {
-        try {
-          await handler(JSON.parse(eventPayload));
-        } catch (error) {
-          logger.error(error as Error);
-          await consumerRedisClient.xadd(`${name}-DLQ`, '*', messageValue);
+      const eventHandlers = handlers.get(eventType);
+
+      if (eventHandlers) {
+        for (const handler of eventHandlers) {
+          try {
+            await handler(JSON.parse(eventPayload));
+          } catch (error) {
+            logger.error(error as Error);
+            await consumerRedisClient.xadd(`${name}-DLQ`, '*', messageValue);
+          }
         }
       }
 
       const [messageId] = message;
+
       await consumerRedisClient.xack(streamName, groupName, messageId);
+
       if (isConsuming) {
         listenForMessage();
       } else {
@@ -50,7 +55,10 @@ export const createConsumer = async (name: string): Promise<Consumer> => {
       consumerRedisClient = redis.duplicate();
       listenForMessage();
     }
-    handlers.set(eventType, handler as RedisEventHandler);
+
+    const eventHandlers = handlers.get(eventType) ?? [];
+
+    handlers.set(eventType, [...eventHandlers, handler as RedisEventHandler]);
   };
 
   const remove = <TEvent extends RedisEvent>(eventType: TEvent['type']) => {
