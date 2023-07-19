@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import { ProjectListItem } from '@modules/project';
 import { UserRole } from '@modules/users';
@@ -6,10 +6,6 @@ import routes from '@routes';
 import { PaginatedList } from '../../../../types';
 import { Badge, DownloadLink, Link, Tile, PaginationPanel } from '@components';
 import { afficherDate } from '@views/helpers';
-
-const Unit = ({ children }: { children: ReactNode }) => (
-  <span className="italic text-sm">{children}</span>
-);
 
 const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) => {
   if (project.abandonedOn) {
@@ -47,17 +43,43 @@ export const GarantiesFinancieresList = ({ projects, role, GFPastDue }: Props) =
   return (
     <>
       <ul className="p-0 m-0">
-        {projects.items.map((project) => (
-          <li className="list-none p-0 m-0" key={project.id}>
-            <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
+        {projects.items.map(({ id, potentielIdentifier, nomProjet, garantiesFinancières }) => (
+          <li className="list-none p-0 m-0" key={id}>
+            <Tile className="mb-4 flex md:relative flex-col" key={'project_' + id}>
               <div className="flex flex-col gap-2 mb-4">
                 <div className="flex flex-col md:flex-row gap-2">
-                  <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
-                  <StatutBadge project={project} role={role} />
+                  <Link href={routes.PROJECT_DETAILS(id)}>{nomProjet}</Link>
                 </div>
-                <div className="italic text-xs text-grey-425-base">
-                  {project.potentielIdentifier}
-                </div>
+                <div className="italic text-xs text-grey-425-base">{potentielIdentifier}</div>
+              </div>
+              <div className="flex flex-row">
+                {garantiesFinancières?.type && <div>type : {garantiesFinancières?.type}</div>}
+                {garantiesFinancières?.dateConstitution && (
+                  <div>
+                    datede constitution :{' '}
+                    {afficherDate(new Date(garantiesFinancières?.dateConstitution))}
+                  </div>
+                )}
+                {garantiesFinancières?.dateEchéance && (
+                  <div>
+                    date d'écheance : {afficherDate(new Date(garantiesFinancières?.dateEchéance))}
+                  </div>
+                )}
+                {garantiesFinancières?.fichier && garantiesFinancières.dateEnvoi && (
+                  <DownloadLink
+                    className="flex text-sm items-center"
+                    fileUrl={routes.DOWNLOAD_PROJECT_FILE(
+                      garantiesFinancières.fichier.id,
+                      garantiesFinancières.fichier.filename,
+                    )}
+                    aria-label={`Télécharger les garanties financières du projet ${nomProjet} déposées le ${afficherDate(
+                      new Date(garantiesFinancières.dateEnvoi),
+                    )}`}
+                  >
+                    Déposées le <br />
+                    {afficherDate(new Date(garantiesFinancières.dateEnvoi))}
+                  </DownloadLink>
+                )}
               </div>
             </Tile>
           </li>

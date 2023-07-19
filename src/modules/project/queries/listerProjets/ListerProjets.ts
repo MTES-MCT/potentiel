@@ -35,7 +35,7 @@ export type ProjectListItem = {
   garantiesFinancières?: {
     id: string;
     dateEnvoi?: string;
-    dateEcheance?: string;
+    dateEchéance?: string;
     dateConstitution?: string;
     type?: string;
     statut: 'en attente' | 'à traiter' | 'validé';
