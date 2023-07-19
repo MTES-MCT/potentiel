@@ -1,1 +1,1 @@
-export * from './FormulaireGarantiesFinancieresPage';
+export * from './TransmettreDesGarantiesFinancieresPage';

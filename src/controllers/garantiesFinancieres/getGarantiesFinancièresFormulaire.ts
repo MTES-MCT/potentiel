@@ -2,7 +2,7 @@ import routes from '@routes';
 import { vérifierPermissionUtilisateur } from '../helpers';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
-import { FormulaireGarantiesFinancieresPage } from '@views';
+import { TransmettreDesGarantiesFinancieresPage } from '@views';
 import { PermissionTransmettreGarantiesFinancières } from '@modules/project';
 
 v1Router.get(
@@ -15,7 +15,7 @@ v1Router.get(
     } = request;
 
     return response.send(
-      FormulaireGarantiesFinancieresPage({
+      TransmettreDesGarantiesFinancieresPage({
         user,
         error: error as string,
         projet: {

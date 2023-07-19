@@ -53,7 +53,7 @@ import {
   ModifierPropositionTechniqueEtFinancière,
   AucunDossierALister,
   ImporterDatesMiseEnService,
-  FormulaireGarantiesFinancieres,
+  TransmettreDesGarantiesFinancieres,
 } from './pages';
 
 export { App } from './App';
@@ -464,11 +464,11 @@ export const ImporterDatesMiseEnServicePage = (
     title: 'Importer des dates de mise en service',
   });
 
-export const FormulaireGarantiesFinancieresPage = (
-  props: Parameters<typeof FormulaireGarantiesFinancieres>[0],
+export const TransmettreDesGarantiesFinancieresPage = (
+  props: Parameters<typeof TransmettreDesGarantiesFinancieres>[0],
 ) =>
   makeHtml({
-    Component: FormulaireGarantiesFinancieres,
+    Component: TransmettreDesGarantiesFinancieres,
     props,
     title: 'Transmettre des garanties financières',
   });

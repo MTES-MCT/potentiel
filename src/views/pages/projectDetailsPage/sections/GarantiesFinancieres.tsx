@@ -65,13 +65,31 @@ export const GarantiesFinancieres = (garantiesFinancières: GarantiesFinancieres
           {afficherDate(garantiesFinancières.dateLimiteEnvoi)}.
         </p>
       )}
-      {donnéesManquantes && (
+      {!typeGarantiesFinancières && attestationEnEAttente && (
         <LinkButton
           href={routes.GET_TRANSMETTRE_GARANTIES_FINANCIERES_PAGE({
             projectId: garantiesFinancières.projetId,
           })}
         >
-          Compléter
+          Transmettre les garanties financières
+        </LinkButton>
+      )}
+      {typeGarantiesFinancières && attestationEnEAttente && (
+        <LinkButton
+          href={routes.GET_TRANSMETTRE_GARANTIES_FINANCIERES_PAGE({
+            projectId: garantiesFinancières.projetId,
+          })}
+        >
+          Transmettre l'attestation
+        </LinkButton>
+      )}
+      {!typeGarantiesFinancières && !attestationEnEAttente && (
+        <LinkButton
+          href={routes.GET_TRANSMETTRE_GARANTIES_FINANCIERES_PAGE({
+            projectId: garantiesFinancières.projetId,
+          })}
+        >
+          Renseigner le type de garanties financières
         </LinkButton>
       )}
     </Section>

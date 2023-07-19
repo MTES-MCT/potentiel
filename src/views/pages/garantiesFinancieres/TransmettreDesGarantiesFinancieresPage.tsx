@@ -10,33 +10,31 @@ import {
   PageProjetTemplate,
   Form,
   Select,
+  InfoBox,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import { ConsulterProjetReadModel } from '@potentiel/domain-views';
 
 type GarantiesFinancièresData = { dateConstitution?: number; type?: string; dateEcheance?: number };
 
-type FormulaireGarantiesFinancieresProps = {
+type TransmettreDesGarantiesFinancieresProps = {
   user: UtilisateurReadModel;
   projet: ConsulterProjetReadModel;
   garantiesFinancières?: GarantiesFinancièresData;
   error?: string;
 };
 
-export const FormulaireGarantiesFinancieres = ({
+export const TransmettreDesGarantiesFinancieres = ({
   user,
   error,
   projet,
   garantiesFinancières,
-}: FormulaireGarantiesFinancieresProps) => {
-  const handleTypeSelected = (event) => {
-    console.log('TYPE : ', event);
-    if (type === "Garantie financière avec date d'échéance et à renouveler") {
-      setdisplayDateEcheanceInput(true);
-    }
-  };
+}: TransmettreDesGarantiesFinancieresProps) => {
+  const [type, setType] = useState('');
 
-  const [displayDateEcheanceInput, setdisplayDateEcheanceInput] = useState(false);
+  const handleTypeSelected = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setType(event.target.value);
+  };
 
   return (
     <PageProjetTemplate titre="Garanties financières" user={user} résuméProjet={projet}>
@@ -68,7 +66,7 @@ export const FormulaireGarantiesFinancieres = ({
               name="type"
               defaultValue={garantiesFinancières?.type || ''}
               required
-              onChange={(event) => handleTypeSelected(event)}
+              onChange={handleTypeSelected}
             >
               <option value="">Sélectionnez un type</option>
               <option value={"Garantie financière jusqu'à 6 mois après la date d'achèvement"}>
@@ -81,7 +79,7 @@ export const FormulaireGarantiesFinancieres = ({
             </Select>
           </div>
 
-          {displayDateEcheanceInput && (
+          {type === "Garantie financière avec date d'échéance et à renouveler" && (
             <div>
               <Label htmlFor="dateEcheance">Date d'échéance</Label>
               <Input
@@ -107,8 +105,12 @@ export const FormulaireGarantiesFinancieres = ({
             <PrimaryButton type="submit">Transmettre</PrimaryButton>
           </div>
         </Form>
+        <InfoBox className="flex md:w-1/3 md:mx-auto">
+          Vous devez transmettre dans Potentiel les garanties financières soumises à la candidature
+          auprès de la CRE.
+        </InfoBox>
       </div>
     </PageProjetTemplate>
   );
 };
-hydrateOnClient(FormulaireGarantiesFinancieres);
+hydrateOnClient(TransmettreDesGarantiesFinancieres);
