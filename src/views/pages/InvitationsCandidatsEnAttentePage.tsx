@@ -3,29 +3,32 @@ import {
   Heading1,
   ListeVide,
   LegacyPageTemplate,
-  PaginationPanel,
+  Pagination,
   SecondaryButton,
   SuccessBox,
   Table,
   Td,
   Th,
   Form,
+  Link,
 } from '@components';
 import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
-import ROUTES from '@routes';
+import routes from '@routes';
 import { Request } from 'express';
 import React from 'react';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 
 interface InvitationsCandidatsEnAttenteProps {
   request: Request;
   invitations: PaginatedList<PendingCandidateInvitationDTO>;
+  currentUrl: string;
 }
 
 export const InvitationsCandidatsEnAttente = ({
   request,
   invitations,
+  currentUrl,
 }: InvitationsCandidatsEnAttenteProps) => {
   const { error, success } = (request.query as any) || {};
 
@@ -39,9 +42,7 @@ export const InvitationsCandidatsEnAttente = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      {invitations.items.length === 0 ? (
-        <ListeVide titre="Aucune invitation candidat en attente" />
-      ) : (
+      {invitations.items.length > 0 ? (
         <>
           <div className="m-2">
             <strong>{invitations.itemCount}</strong> invitations en attente{' '}
@@ -78,7 +79,7 @@ export const InvitationsCandidatsEnAttente = ({
                       {invitation.invitedOn ? afficherDateAvecHeure(invitation.invitedOn) : ''}
                     </Td>
                     <Td>
-                      <Form action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION} method="POST">
+                      <Form action={routes.ADMIN_INVITATION_RELANCE_ACTION} method="POST">
                         <input type="hidden" name="email" value={invitation.email} />
                         <SecondaryButton type="submit" name="submit" className="border-none">
                           relancer
@@ -90,19 +91,20 @@ export const InvitationsCandidatsEnAttente = ({
               })}
             </tbody>
           </Table>
-          {!Array.isArray(invitations) ? (
-            <PaginationPanel
-              nombreDePage={invitations.pageCount}
-              pagination={{
-                limiteParPage: invitations.pagination.pageSize,
-                page: invitations.pagination.page,
-              }}
-              titreItems="Invitations"
+          {!Array.isArray(invitations) && (
+            <Pagination
+              pageCount={invitations.pageCount}
+              currentPage={invitations.pagination.page}
+              currentUrl={currentUrl}
             />
-          ) : (
-            ''
           )}
         </>
+      ) : (
+        <ListeVide titre="Aucune invitation candidat en attente">
+          {invitations.itemCount > 0 && (
+            <Link href={routes.ADMIN_INVITATION_LIST}>Voir toutes les invitations</Link>
+          )}
+        </ListeVide>
       )}
     </LegacyPageTemplate>
   );

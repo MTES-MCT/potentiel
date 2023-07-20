@@ -4,8 +4,14 @@ type ListeVideProps = ComponentProps<'div'> & {
   titre: string;
 };
 
-export const ListeVide = ({ titre, className = '', ...props }: ListeVideProps) => (
-  <div className={`flex p-16 border border-dashed border-grey-625-base ${className}`} {...props}>
-    <span className="mx-auto text-center">{titre}</span>
+export const ListeVide = ({ titre, className = '', children, ...props }: ListeVideProps) => (
+  <div
+    className={`flex flex-col p-16 border border-dashed border-grey-625-base ${className}`}
+    {...props}
+  >
+    <div className="mx-auto text-center">
+      <p>{titre}</p>
+      {children}
+    </div>
   </div>
 );

@@ -3,13 +3,12 @@ import { ok, Result, wrapInfra } from '@core/utils';
 import { getFullTextSearchOptions } from '@dataAccess/db';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { User } from '@entities';
-import { makePaginatedList, paginate } from '../../../../helpers/paginate';
+import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForPorteur,
   ModificationRequestListItemDTO,
 } from '@modules/modificationRequest';
 import { InfraNotAvailableError } from '@modules/shared';
-import { PaginatedList } from '../../../../types';
 import {
   ModificationRequest,
   Project,
@@ -17,6 +16,7 @@ import {
   UserProjects,
   File,
 } from '@infra/sequelize/projectionsNext';
+import { PaginatedList } from '@modules/pagination';
 
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,
@@ -77,7 +77,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
             },
           ],
           order: [['createdAt', 'DESC']],
-          ...paginate(pagination),
+          ...(pagination && mapToOffsetAndLimit(pagination)),
         }),
       );
     })

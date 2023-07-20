@@ -1,5 +1,5 @@
 import { ListerProjets } from '@modules/project';
-import { makePaginatedList } from '../../../../../helpers/paginate';
+import { makePaginatedList } from '../../pagination';
 import { listerProjetsAccèsComplet } from './requêtes/listerProjetsAccèsComplet';
 import { listerProjetsPourDreal } from './requêtes/listerProjetsPourDreal';
 import { listerProjetsPourAdeme } from './requêtes/listerProjetsPourAdeme';

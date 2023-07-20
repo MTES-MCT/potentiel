@@ -3,13 +3,12 @@ import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/uti
 import { getFullTextSearchOptions } from '@dataAccess/db';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { User } from '@entities';
-import { makePaginatedList, paginate } from '../../../../helpers/paginate';
+import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForAdmin,
   ModificationRequestListItemDTO,
 } from '@modules/modificationRequest';
 import { InfraNotAvailableError } from '@modules/shared';
-import { PaginatedList } from '../../../../types';
 import { userIs } from '@modules/users';
 import {
   ModificationRequest,
@@ -18,6 +17,7 @@ import {
   UserDreal,
   File,
 } from '@infra/sequelize/projectionsNext';
+import { PaginatedList } from '@modules/pagination';
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
   return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance';
@@ -113,7 +113,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             },
           ],
           order: [['createdAt', 'DESC']],
-          ...paginate(pagination),
+          ...(pagination && mapToOffsetAndLimit(pagination)),
         }),
       );
     })

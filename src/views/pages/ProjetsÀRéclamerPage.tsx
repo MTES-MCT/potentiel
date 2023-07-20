@@ -1,8 +1,7 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
 import { AppelOffre, Famille, Periode, Project } from '@entities';
-import ROUTES from '@routes';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 import {
   BarreDeRecherche,
   Dropdown,
@@ -18,8 +17,10 @@ import {
   SuccessBox,
   Fieldset,
   Form,
+  Link,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
+import routes from '@routes';
 
 interface ProjetsÀRéclamerProps {
   request: Request;
@@ -28,6 +29,7 @@ interface ProjetsÀRéclamerProps {
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
+  currentUrl: string;
 }
 
 export const ProjetsÀRéclamer = ({
@@ -37,6 +39,7 @@ export const ProjetsÀRéclamer = ({
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
+  currentUrl,
 }: ProjetsÀRéclamerProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, classement } =
     (request.query as any) || {};
@@ -86,7 +89,7 @@ export const ProjetsÀRéclamer = ({
         </Dropdown>
       </InfoBox>
       <Form
-        action={ROUTES.USER_LIST_MISSING_OWNER_PROJECTS}
+        action={routes.USER_LIST_MISSING_OWNER_PROJECTS}
         method="GET"
         className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
       >
@@ -116,7 +119,6 @@ export const ProjetsÀRéclamer = ({
                     appelOffreId: event.target.value,
                     periodeId: null,
                     familleId: null,
-                    page: null,
                   })
                 }
               >
@@ -143,7 +145,6 @@ export const ProjetsÀRéclamer = ({
                   onChange={(event) =>
                     updateUrlParams({
                       periodeId: event.target.value,
-                      page: null,
                     })
                   }
                 >
@@ -169,7 +170,6 @@ export const ProjetsÀRéclamer = ({
                   onChange={(event) =>
                     updateUrlParams({
                       familleId: event.target.value,
-                      page: null,
                     })
                   }
                 >
@@ -196,7 +196,7 @@ export const ProjetsÀRéclamer = ({
       </Form>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox className="whitespace-pre-wrap">{error}</ErrorBox>}
-      {projects ? (
+      {projects && projects.items.length > 0 ? (
         <>
           <div className="m-2">
             <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
@@ -214,10 +214,17 @@ export const ProjetsÀRéclamer = ({
             ]}
             projects={projects}
             user={request.user}
+            currentUrl={currentUrl}
           />
         </>
       ) : (
-        <ListeVide titre="Aucun projet à afficher" />
+        <ListeVide titre="Aucun projet à afficher">
+          {projects && projects.itemCount > 0 && (
+            <Link href={routes.USER_LIST_MISSING_OWNER_PROJECTS}>
+              Voir tous les projets à réclamer
+            </Link>
+          )}
+        </ListeVide>
       )}
     </LegacyPageTemplate>
   );

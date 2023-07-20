@@ -1,6 +1,6 @@
 import { ResultAsync } from '@core/utils';
 import { AppelOffre, Famille, Periode, User } from '@entities';
-import { PaginatedList, Pagination } from '../../../types';
+import { PaginatedList, Pagination } from '@modules/pagination';
 import { InfraNotAvailableError } from '../../shared';
 import {
   ModificationRequestListItemDTO,

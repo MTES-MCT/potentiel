@@ -2,8 +2,7 @@ import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
 import { AppelOffre, Famille, Periode } from '@entities';
-import ROUTES from '@routes';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 
 import {
   ProjectList,
@@ -22,10 +21,12 @@ import {
   Dropdown,
   LinkButton,
   Form,
+  Link,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '@modules/project';
 import { userIsNot } from '@modules/users';
+import routes from '@routes';
 
 type ListeProjetsProps = {
   request: Request;
@@ -34,6 +35,7 @@ type ListeProjetsProps = {
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
+  currentUrl: string;
 };
 
 export const ListeProjets = ({
@@ -43,6 +45,7 @@ export const ListeProjets = ({
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
+  currentUrl,
 }: ListeProjetsProps) => {
   const {
     error,
@@ -88,7 +91,7 @@ export const ListeProjets = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      <Form action={ROUTES.LISTE_PROJETS} method="GET" className="mb-6">
+      <Form action={routes.LISTE_PROJETS} method="GET" className="mb-6">
         <BarreDeRecherche
           placeholder="Rechercher par nom du projet"
           name="recherche"
@@ -107,7 +110,6 @@ export const ListeProjets = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: null,
               })
             }
           >
@@ -136,7 +138,6 @@ export const ListeProjets = ({
               onChange={(event) =>
                 updateUrlParams({
                   periodeId: event.target.value,
-                  page: null,
                 })
               }
             >
@@ -164,7 +165,6 @@ export const ListeProjets = ({
               onChange={(event) =>
                 updateUrlParams({
                   familleId: event.target.value,
-                  page: null,
                 })
               }
             >
@@ -194,7 +194,6 @@ export const ListeProjets = ({
               onChange={(event) =>
                 updateUrlParams({
                   garantiesFinancieres: event.target.value,
-                  page: null,
                 })
               }
             >
@@ -217,7 +216,6 @@ export const ListeProjets = ({
             onChange={(event) =>
               updateUrlParams({
                 classement: event.target.value,
-                page: null,
               })
             }
           >
@@ -258,48 +256,48 @@ export const ListeProjets = ({
           </LinkButton>
         )}
       </Form>
-      {['admin', 'dgec-validateur', 'porteur-projet'].includes(request.user?.role) && (
-        <Dropdown
-          design="link"
-          text="Donner accès à un utilisateur"
-          isOpen={displaySelection}
-          changeOpenState={(state) => setDisplaySelection(state)}
-        >
-          <Form
-            action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-            method="POST"
-            name="form"
-            className="m-0 mt-4"
-          >
-            <select name="projectId" multiple hidden>
-              {selectedProjectIds.map((projectId) => (
-                <option selected key={projectId} value={projectId}>
-                  {projectId}
-                </option>
-              ))}
-            </select>
-            <div>
-              <Label htmlFor="email" required>
-                Courrier électronique de la personne habilitée à suivre les projets selectionnés
-                ci-dessous:
-              </Label>
-              <Input required type="email" name="email" id="email" />
-            </div>
-            <PrimaryButton
-              type="submit"
-              name="submit"
-              id="submit"
-              disabled={!selectedProjectIds.length}
-            >
-              Accorder les droits sur {selectedProjectIds.length}{' '}
-              {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
-            </PrimaryButton>
-          </Form>
-        </Dropdown>
-      )}
-
-      {projects.itemCount > 0 ? (
+      {projects.items.length > 0 ? (
         <>
+          {['admin', 'dgec-validateur', 'porteur-projet'].includes(request.user?.role) && (
+            <Dropdown
+              design="link"
+              text="Donner accès à un utilisateur"
+              isOpen={displaySelection}
+              changeOpenState={(state) => setDisplaySelection(state)}
+            >
+              <Form
+                action={routes.INVITE_USER_TO_PROJECT_ACTION}
+                method="POST"
+                name="form"
+                className="m-0 mt-4"
+              >
+                <select name="projectId" multiple hidden>
+                  {selectedProjectIds.map((projectId) => (
+                    <option selected key={projectId} value={projectId}>
+                      {projectId}
+                    </option>
+                  ))}
+                </select>
+                <div>
+                  <Label htmlFor="email" required>
+                    Courrier électronique de la personne habilitée à suivre les projets selectionnés
+                    ci-dessous:
+                  </Label>
+                  <Input required type="email" name="email" id="email" />
+                </div>
+                <PrimaryButton
+                  type="submit"
+                  name="submit"
+                  id="submit"
+                  disabled={!selectedProjectIds.length}
+                >
+                  Accorder les droits sur {selectedProjectIds.length}{' '}
+                  {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
+                </PrimaryButton>
+              </Form>
+            </Dropdown>
+          )}
+
           <div className="flex flex-col md:flex-row md:items-center py-2">
             <span>
               <strong>{projects.itemCount}</strong> projets
@@ -308,7 +306,7 @@ export const ListeProjets = ({
             {projects.itemCount > 0 && (
               <SecondaryLinkButton
                 className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
-                href={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                href={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
                   request.query as any,
                 )}`}
                 download
@@ -322,6 +320,7 @@ export const ListeProjets = ({
           <ProjectList
             displaySelection={displaySelection}
             selectedIds={selectedProjectIds}
+            currentUrl={currentUrl}
             onSelectedIdsChanged={setSelectedProjectIds}
             {...(request.user?.role === 'dreal' && { displayGF: true })}
             projects={projects}
@@ -329,7 +328,9 @@ export const ListeProjets = ({
           />
         </>
       ) : (
-        <ListeVide titre="Aucun projet à lister" />
+        <ListeVide titre="Aucun projet à lister">
+          {projects.itemCount > 0 && <Link href={routes.LISTE_PROJETS}>Voir tout les projets</Link>}
+        </ListeVide>
       )}
     </LegacyPageTemplate>
   );

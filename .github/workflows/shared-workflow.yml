@@ -15,11 +15,12 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run lint
-  
+
   build:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
+      NODE_OPTIONS: '--max_old_space_size=4096'
 
     steps:
       - uses: actions/checkout@v3

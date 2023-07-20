@@ -1,26 +1,26 @@
 import { getPendingCandidateInvitations, ensureRole } from '@config';
 import asyncHandler from '../helpers/asyncHandler';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { InvitationsCandidatsEnAttentePage } from '@views';
-
-const defaultPagination: Pagination = {
-  page: 0,
-  pageSize: 50,
-};
+import { getCurrentUrl, getPagination } from '../helpers';
 
 v1Router.get(
   routes.ADMIN_INVITATION_LIST,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
-    const pagination = makePagination(request.query, defaultPagination);
+    const pagination = getPagination(request);
 
     await getPendingCandidateInvitations(pagination).match(
       (invitations) => {
-        return response.send(InvitationsCandidatsEnAttentePage({ request, invitations }));
+        return response.send(
+          InvitationsCandidatsEnAttentePage({
+            request,
+            invitations,
+            currentUrl: getCurrentUrl(request),
+          }),
+        );
       },
       () => {
         return response.redirect(

@@ -1,6 +1,5 @@
 import { setDefaultOptions } from 'date-fns';
 import * as LOCALE from 'date-fns/locale';
-import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express, { Request } from 'express';
 import helmet from 'helmet';
@@ -85,8 +84,6 @@ export async function makeServer(port: number, sessionSecret: string) {
       }),
     );
     app.use(express.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }));
-
-    app.use(cookieParser());
 
     registerAuth({ app, sessionSecret, router: v1Router });
 

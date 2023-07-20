@@ -23,7 +23,7 @@ type ContactProps = {
 };
 
 export const Contact = ({ project, user }: ContactProps) => (
-  <Section title="Contact" icon={UserIcon}>
+  <Section title="Contact" icon={<UserIcon />}>
     <div className="mb-3">{project.nomCandidat}</div>
     <div>
       <Heading3 className="mb-1">Représentant légal</Heading3>

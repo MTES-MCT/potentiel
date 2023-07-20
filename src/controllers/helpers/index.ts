@@ -10,3 +10,5 @@ export * from './validateRequestBody';
 export * from './validateRequestBodyForErrorArray';
 export * from './vérifierPermissionUtilisateur';
 export * from './yupTransformations';
+export * from './getCurrentUrl';
+export * from './getPagination';

@@ -1,6 +1,6 @@
 import { Project, AppelOffre, Periode, Famille, User } from '@entities';
 import { ProjectRepo, ProjectFilters } from '@dataAccess';
-import { Pagination, PaginatedList } from '../types';
+import { PaginatedList, Pagination } from '@modules/pagination';
 
 interface MakeUseCaseProps {
   searchAllMissingOwner: ProjectRepo['searchAllMissingOwner'];

@@ -23,7 +23,7 @@ type EtapesProjetProps = {
 export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetProps) => (
   <Section
     title="Étapes du projet"
-    icon={CalendarIcon}
+    icon={<CalendarIcon />}
     className="flex-auto min-w-0 lg:max-w-[60%]"
   >
     <Timeline

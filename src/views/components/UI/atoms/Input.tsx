@@ -1,5 +1,5 @@
 import React, { ComponentProps, useState } from 'react';
-import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
+import { ErrorIcon } from './icons';
 
 type InputProps = ComponentProps<'input'> & {
   error?: string;
@@ -26,7 +26,7 @@ export const Input = ({ className = '', error = '', onChange, ...props }: InputP
           aria-describedby={props.id}
           className="flex flex-row items-center m-0 mt-0.5 text-sm text-red-marianne-main-472-base"
         >
-          <RiErrorWarningFill className="text-sm text-red-marianne-main-472-base mr-2" />
+          <ErrorIcon className="text-sm text-red-marianne-main-472-base mr-2" />
           {error}
         </p>
       )}

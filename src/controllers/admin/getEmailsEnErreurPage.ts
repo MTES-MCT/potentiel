@@ -1,22 +1,16 @@
 import { getFailedNotificationDetails, ensureRole } from '@config';
 import { logger } from '@core/utils';
 import asyncHandler from '../helpers/asyncHandler';
-import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { EmailsEnErreurPage } from '@views';
-
-const defaultPagination: Pagination = {
-  page: 0,
-  pageSize: 50,
-};
+import { getCurrentUrl, getPagination } from '../helpers';
 
 v1Router.get(
   routes.ADMIN_NOTIFICATION_LIST,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
-    const pagination = makePagination(request.query, defaultPagination);
+    const pagination = getPagination(request);
 
     return await getFailedNotificationDetails(pagination).match(
       (notifications) =>
@@ -24,6 +18,7 @@ v1Router.get(
           EmailsEnErreurPage({
             request,
             notifications,
+            currentUrl: getCurrentUrl(request),
           }),
         ),
       (e) => {

@@ -3,7 +3,7 @@ import querystring from 'querystring';
 import React from 'react';
 import { AppelOffre, Famille, Periode } from '@entities';
 import ROUTES from '@routes';
-import { PaginatedList } from '../../../types';
+import { PaginatedList } from '@modules/pagination';
 import {
   ProjectList,
   LegacyPageTemplate,
@@ -28,6 +28,7 @@ export type GarantiesFinancieresProps = {
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
+  currentUrl: string;
 };
 
 export const GarantiesFinancieres = ({
@@ -37,6 +38,7 @@ export const GarantiesFinancieres = ({
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
+  currentUrl,
 }: GarantiesFinancieresProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
     (request.query as any) || {};
@@ -74,7 +76,6 @@ export const GarantiesFinancieres = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: null,
               })
             }
           >
@@ -102,7 +103,6 @@ export const GarantiesFinancieres = ({
                 onChange={(event) =>
                   updateUrlParams({
                     periodeId: event.target.value,
-                    page: null,
                   })
                 }
               >
@@ -130,7 +130,6 @@ export const GarantiesFinancieres = ({
                 onChange={(event) =>
                   updateUrlParams({
                     familleId: event.target.value,
-                    page: null,
                   })
                 }
               >
@@ -154,7 +153,6 @@ export const GarantiesFinancieres = ({
               defaultValue=""
               onChange={(event) =>
                 updateUrlParams({
-                  page: null,
                   garantiesFinancieres: event.target.value,
                 })
               }
@@ -195,6 +193,7 @@ export const GarantiesFinancieres = ({
             projects={projects}
             role={request.user?.role}
             GFPastDue={garantiesFinancieres === 'pastDue'}
+            currentUrl={currentUrl}
           />
         </>
       )}

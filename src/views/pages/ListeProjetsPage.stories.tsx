@@ -10,8 +10,8 @@ import { ListeProjets } from './ListeProjetsPage';
 const projects = {
   itemCount: 3,
   pagination: {
-    page: 0,
-    pageSize: 10,
+    page: 1,
+    pageSize: 1,
   },
   pageCount: 1,
   items: [
@@ -47,6 +47,7 @@ export const withFilters = () => (
     existingAppelsOffres={appelsOffreStatic.map((item) => item.id)}
     appelsOffre={appelsOffreStatic}
     projects={projects}
+    currentUrl="http://localhost:3000/projets.html"
   />
 );
 
@@ -66,6 +67,7 @@ export const withError = () => (
       pageCount: 1,
       items: [],
     }}
+    currentUrl="http://localhost:3000/projets.html"
   />
 );
 
@@ -77,6 +79,7 @@ export const withSuccess = () => (
     existingAppelsOffres={[]}
     appelsOffre={appelsOffreStatic}
     projects={projects}
+    currentUrl="http://localhost:3000/projets.html"
   />
 );
 
@@ -86,6 +89,7 @@ export const adminWithProjects = () => (
     appelsOffre={appelsOffreStatic}
     existingAppelsOffres={[appelsOffreStatic[0].id]}
     projects={projects}
+    currentUrl="http://localhost:3000/projets.html"
   />
 );
 
@@ -95,6 +99,7 @@ export const drealWithProjects = () => (
     appelsOffre={appelsOffreStatic}
     existingAppelsOffres={[appelsOffreStatic[0].id]}
     projects={projects}
+    currentUrl="http://localhost:3000/projets.html"
   />
 );
 
@@ -104,6 +109,7 @@ export const porteurProjetWithProjects = () => (
     appelsOffre={appelsOffreStatic}
     existingAppelsOffres={[appelsOffreStatic[0].id]}
     projects={projects}
+    currentUrl="http://localhost:3000/projets.html"
   />
 );
 

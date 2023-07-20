@@ -1,5 +1,5 @@
 import { wrapInfra } from '@core/utils';
-import { makePaginatedList, paginate } from '../../../../helpers/paginate';
+import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import { FailedNotificationDTO, GetFailedNotificationDetails } from '@modules/notification';
 import { Notification } from '@infra/sequelize/projectionsNext';
 
@@ -8,7 +8,7 @@ export const getFailedNotificationDetails: GetFailedNotificationDetails = (pagin
     Notification.findAndCountAll({
       where: { status: 'error' },
       order: [['createdAt', 'DESC']],
-      ...paginate(pagination),
+      ...mapToOffsetAndLimit(pagination),
     }),
   ).map(({ count, rows }) =>
     makePaginatedList(

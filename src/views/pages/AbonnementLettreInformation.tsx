@@ -9,9 +9,9 @@ import {
   Container,
   SecondaryLinkButton,
   Form,
+  ErrorIcon,
+  SaveIcon,
 } from '@components';
-import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine';
-import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
 import { hydrateOnClient } from '../helpers';
 
 type AbonnementLettreInformationProps = {
@@ -71,7 +71,7 @@ const AbonnementLettreInformationForm = ({
         {error && (
           <div className="flex flex-row border border-solid border-red-marianne-main-472-base">
             <div className="bg-red-marianne-main-472-base p-3">
-              <RiErrorWarningFill className="text-white text-2xl" />
+              <ErrorIcon className="text-white text-2xl" />
             </div>
             <p className="text-sm m-0 px-4 py-2">{error}</p>
           </div>
@@ -99,7 +99,7 @@ const AbonnementLettreInformationForm = ({
 
         <div className="flex flex-row gap-2 mx-auto mt-2">
           <PrimaryButton className="inline-flex items-center" type="submit">
-            <RiSaveLine className="mr-2" />
+            <SaveIcon className="mr-2" />
             M'abonner
           </PrimaryButton>
           <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>

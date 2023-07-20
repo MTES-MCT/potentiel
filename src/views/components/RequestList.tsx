@@ -3,7 +3,7 @@ import {
   LinkButton,
   ListeVide,
   ModificationRequestActionTitles,
-  PaginationPanel,
+  Pagination,
   Table,
   Td,
   Th,
@@ -15,12 +15,8 @@ import {
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
-import { PaginatedList } from '../../types';
-import {
-  afficherDate,
-  // ModificationRequestColorByStatus,
-  ModificationRequestStatusTitle,
-} from '../helpers';
+import { PaginatedList } from '@modules/pagination';
+import { afficherDate, ModificationRequestStatusTitle } from '../helpers';
 
 interface Props {
   modificationRequests?: PaginatedList<ModificationRequestListItemDTO>;
@@ -28,9 +24,10 @@ interface Props {
   requestActions?: (
     modificationRequest: ModificationRequestListItemDTO,
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null;
+  currentUrl: string;
 }
 
-export const RequestList = ({ modificationRequests, requestActions }: Props) => {
+export const RequestList = ({ modificationRequests, requestActions, currentUrl }: Props) => {
   if (!modificationRequests?.itemCount) {
     return <ListeVide titre="Aucune demande n’a été trouvée" />;
   }
@@ -187,13 +184,10 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
           })}
         </tbody>
       </Table>
-      <PaginationPanel
-        nombreDePage={modificationRequests.pageCount}
-        pagination={{
-          limiteParPage: modificationRequests.pagination.pageSize,
-          page: modificationRequests.pagination.page,
-        }}
-        titreItems="Demandes"
+      <Pagination
+        pageCount={modificationRequests.pageCount}
+        currentPage={modificationRequests.pagination.page}
+        currentUrl={currentUrl}
       />
     </>
   );

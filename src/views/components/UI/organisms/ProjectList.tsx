@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { ProjectListItem } from '@modules/project';
 import { UserRole } from '@modules/users';
 import routes from '@routes';
-import { PaginatedList } from '../../../../types';
+import { PaginatedList } from '@modules/pagination';
 import {
   ProjectActions,
   PowerIcon,
@@ -16,7 +16,7 @@ import {
   Link,
   LinkButton,
   Tile,
-  PaginationPanel,
+  Pagination,
   Checkbox,
 } from '@components';
 import { afficherDate } from '@views/helpers';
@@ -58,6 +58,7 @@ type Props = {
   displaySelection?: boolean;
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
+  currentUrl: string;
 };
 
 export const ProjectList = ({
@@ -68,6 +69,7 @@ export const ProjectList = ({
   selectedIds = [],
   displaySelection = false,
   onSelectedIdsChanged,
+  currentUrl,
 }: Props) => {
   const prixDisponible = projects.items.some((project) => project.prixReference);
 
@@ -261,13 +263,10 @@ export const ProjectList = ({
         ))}
       </ul>
       {!Array.isArray(projects) && (
-        <PaginationPanel
-          nombreDePage={projects.pageCount}
-          pagination={{
-            limiteParPage: projects.pagination.pageSize,
-            page: projects.pagination.page,
-          }}
-          titreItems="Projets"
+        <Pagination
+          pageCount={projects.pageCount}
+          currentPage={projects.pagination.page}
+          currentUrl={currentUrl}
         />
       )}
     </>

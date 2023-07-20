@@ -20,7 +20,7 @@ import ROUTES from '@routes';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
 
 type AdminNotificationCandidatsProps = {
@@ -32,11 +32,13 @@ type AdminNotificationCandidatsProps = {
     listeAOs: Array<AppelOffre['id']>;
     listePériodes?: Array<Periode['id']>;
   };
+  currentUrl: string;
 };
 
 export const AdminNotificationCandidats = ({
   request,
   données,
+  currentUrl,
 }: AdminNotificationCandidatsProps) => {
   const { error, success, recherche, classement } = (request.query as any) || {};
 
@@ -86,7 +88,6 @@ export const AdminNotificationCandidats = ({
               onChange={(event) =>
                 updateUrlParams({
                   classement: event.target.value,
-                  page: null,
                 })
               }
             >
@@ -116,7 +117,6 @@ export const AdminNotificationCandidats = ({
                 appelOffreId: event.target.value,
                 periodeId: null,
                 familleId: null,
-                page: null,
               })
             }
           >
@@ -141,7 +141,6 @@ export const AdminNotificationCandidats = ({
             onChange={(event) =>
               updateUrlParams({
                 periodeId: event.target.value,
-                page: null,
               })
             }
           >
@@ -192,7 +191,11 @@ export const AdminNotificationCandidats = ({
 
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
-      <ProjectList projects={projetsPériodeSélectionnée} role={request.user?.role} />
+      <ProjectList
+        projects={projetsPériodeSélectionnée}
+        role={request.user?.role}
+        currentUrl={currentUrl}
+      />
     </LegacyPageTemplate>
   );
 };

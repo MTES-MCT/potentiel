@@ -13,6 +13,11 @@ export const updateUrlParams = (params?: UpdateUrlParams) => {
 
   const queryString = new URLSearchParams(search);
 
+  // always display first page
+  Object.assign(params, {
+    page: '1',
+  });
+
   Object.entries(params).forEach(([key, value]) => {
     if (value === null) {
       queryString.delete(key);

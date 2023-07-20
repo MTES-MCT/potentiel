@@ -1,7 +1,7 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ListerProjets } from '@modules/project';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
+import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
 
@@ -36,7 +36,7 @@ export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtre
       ...findOptions?.where,
       notifiedOn: { [Op.gt]: 0 },
     },
-    ...paginate(pagination),
+    ...mapToOffsetAndLimit(pagination),
     attributes,
   });
 

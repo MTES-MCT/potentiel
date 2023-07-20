@@ -1,16 +1,17 @@
 import asyncHandler from '../helpers/asyncHandler';
-import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
-import { Pagination } from '../../types';
 import { v1Router } from '../v1Router';
 import { ListeProjetsPage } from '@views';
 import { userIs } from '@modules/users';
-import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers';
+import {
+  getOptionsFiltresParAOs,
+  vérifierPermissionUtilisateur,
+  getCurrentUrl,
+  getPagination,
+} from '../helpers';
 import { appelOffreRepo } from '@dataAccess';
 import { listerProjets } from '@infra/sequelize/queries';
 import { PermissionListerProjets } from '@modules/project/queries/listerProjets';
-
-const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3;
 
 const getProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -21,7 +22,6 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     classement,
     reclames,
     garantiesFinancieres,
-    pageSize,
   } = request.query as any;
   const { user } = request;
 
@@ -31,11 +31,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     request.query.classement = 'classés';
   }
 
-  const defaultPagination: Pagination = {
-    page: 0,
-    pageSize: +request.cookies?.pageSize || 10,
-  };
-  const pagination = makePagination(request.query, defaultPagination);
+  const pagination = getPagination(request);
 
   if (!appelOffreId) {
     // Reset the periodId and familleId if there is no appelOffreId
@@ -58,24 +54,16 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 
   const projects = await listerProjets({ user, filtres, pagination });
 
-  if (pageSize) {
-    // Save the pageSize in a cookie
-    response.cookie('pageSize', pageSize, {
-      maxAge: TROIS_MOIS,
-      httpOnly: true,
-    });
-  }
-
   const appelsOffre = await appelOffreRepo.findAll();
 
   const optionsFiltresParAOs = await getOptionsFiltresParAOs({ user, appelOffreId });
-
   response.send(
     ListeProjetsPage({
       request,
       projects,
       appelsOffre,
       ...optionsFiltresParAOs,
+      currentUrl: getCurrentUrl(request),
     }),
   );
 });

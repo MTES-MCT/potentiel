@@ -5,17 +5,16 @@ import {
   Input,
   Checkbox,
   Label,
-  ListeVide,
-  PaginationPanel,
   Table,
   Td,
   Th,
   Form,
+  Pagination,
 } from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
 import routes from '@routes';
-import { PaginatedList } from '../../types';
+import { PaginatedList } from '@modules/pagination';
 
 type Columns =
   | 'Projet'
@@ -123,9 +122,10 @@ type Props = {
   projects: PaginatedList<Project> | Array<Project>;
   displayColumns: Array<string>;
   user: User;
+  currentUrl: string;
 };
 
-export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
+export const MissingOwnerProjectList = ({ projects, displayColumns, user, currentUrl }: Props) => {
   const { email } = user;
 
   let items: Array<Project>;
@@ -147,10 +147,6 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
       }
       setSelectedProjectList([...selectedProjectList].filter((selected) => selected !== projetId));
     };
-
-  if (!items.length) {
-    return <ListeVide titre="Aucun projet à lister" />;
-  }
 
   return (
     <>
@@ -227,13 +223,10 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
       </Form>
 
       {!Array.isArray(projects) && (
-        <PaginationPanel
-          pagination={{
-            limiteParPage: projects.pagination.pageSize,
-            page: projects.pagination.page,
-          }}
-          nombreDePage={projects.pageCount}
-          titreItems="Projets"
+        <Pagination
+          currentPage={projects.pagination.page}
+          pageCount={projects.pageCount}
+          currentUrl={currentUrl}
         />
       )}
     </>

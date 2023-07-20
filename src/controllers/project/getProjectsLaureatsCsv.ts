@@ -1,5 +1,3 @@
-import { Pagination } from '../../types';
-import { makePagination } from '../../helpers/paginate';
 import routes from '@routes';
 import { parseAsync } from 'json2csv';
 import { logger } from '@core/utils';
@@ -9,6 +7,7 @@ import asyncHandler from '../helpers/asyncHandler';
 import { formatField, writeCsvOnDisk } from '../../helpers/csv';
 import { promises as fsPromises } from 'fs';
 import { Project } from '@entities';
+import { getPagination } from '../helpers';
 
 const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, recherche, beforeNotification } = request.query as any;
@@ -21,12 +20,7 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
       );
   }
 
-  const defaultPagination: Pagination = {
-    page: 0,
-    pageSize: 1000000,
-  };
-
-  const pagination = makePagination(request.query, defaultPagination);
+  const pagination = getPagination(request);
 
   const projetsCandidats = [
     { dataField: 'nomCandidat' },

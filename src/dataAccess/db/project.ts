@@ -2,9 +2,9 @@ import { Attributes, literal, Op } from 'sequelize';
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
 import { logger } from '@core/utils';
 import { AppelOffre, Famille, Periode, Project, User } from '@entities';
-import { makePaginatedList, paginate } from '../../helpers/paginate';
+import { makePaginatedList, mapToOffsetAndLimit } from '../../infra/sequelize/queries/pagination';
 import { mapExceptError } from '../../helpers/results';
-import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types';
+import { Err, Ok, ResultAsync } from '../../types';
 import CONFIG from '../config';
 import isDbReady from './helpers/isDbReady';
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
@@ -16,6 +16,7 @@ import {
   File as FileModel,
   Project as ProjectModel,
 } from '@infra/sequelize/projectionsNext';
+import { PaginatedList, Pagination } from '@modules/pagination';
 
 const deserializeGarantiesFinancières = (
   gf: Attributes<GarantiesFinancières> & {
@@ -242,7 +243,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
   ): Promise<PaginatedList<Project>> {
     const { count, rows } = await ProjectModel.findAndCountAll({
       ...opts,
-      ...paginate(pagination),
+      ...(pagination && mapToOffsetAndLimit(pagination)),
     });
 
     const projectsRaw = rows

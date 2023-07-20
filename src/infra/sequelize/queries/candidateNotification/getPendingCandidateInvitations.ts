@@ -1,8 +1,8 @@
 import { wrapInfra } from '@core/utils';
 import { GetPendingCandidateInvitations } from '@modules/notificationCandidats';
-import { paginate, makePaginatedList } from '../../../../helpers/paginate';
-import { Pagination } from '../../../../types';
+import { mapToOffsetAndLimit, makePaginatedList } from '../pagination';
 import { Project, User } from '@infra/sequelize/projectionsNext';
+import { Pagination } from '@modules/pagination';
 
 export const getPendingCandidateInvitations: GetPendingCandidateInvitations = (
   pagination: Pagination,
@@ -11,7 +11,7 @@ export const getPendingCandidateInvitations: GetPendingCandidateInvitations = (
     User.findAndCountAll({
       where: { registeredOn: null },
       include: [{ model: Project, as: 'candidateProjects', required: true }],
-      ...paginate(pagination),
+      ...mapToOffsetAndLimit(pagination),
     }),
   ).map(({ count, rows: pendingUsers }) =>
     makePaginatedList(
