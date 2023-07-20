@@ -4,14 +4,7 @@ import { ProjectListItem } from '@modules/project';
 import { UserRole } from '@modules/users';
 import routes from '@routes';
 import { PaginatedList } from '../../../../types';
-import {
-  Badge,
-  DownloadLink,
-  Link,
-  Tile,
-  PaginationPanel,
-  LinkButton,
-} from '@components';
+import { Badge, DownloadLink, Link, Tile, PaginationPanel, LinkButton } from '@components';
 import { afficherDate } from '@views/helpers';
 
 const getStatutBadge = (statut?: 'en attente' | 'à traiter' | 'validé') => {
@@ -49,18 +42,13 @@ export const GarantiesFinancieresList = ({ projects, GFPastDue }: Props) => {
               key={'project_' + id}
             >
               <div className="flex-grow">
-                <div className="flex flex-row justify-between">
-                  <div className="flex flex-col gap-2 mb-4">
-                    <div className="flex flex-col md:flex-row gap-2">
-                      <Link href={routes.PROJECT_DETAILS(id)}>{nomProjet}</Link>
-                    </div>
-                    <div className="italic text-xs text-grey-425-base">{potentielIdentifier}</div>
+                <div className="flex flex-col gap-2 mb-4">
+                  <div className="flex flex-col items-center md:flex-row gap-2">
+                    <Link href={routes.PROJECT_DETAILS(id)}>{nomProjet}</Link>
+                    <div className="italic text-xs text-grey-425-base">- {potentielIdentifier}</div>
                   </div>
-                  {garantiesFinancières?.statut && (
-                    <div>{getStatutBadge(garantiesFinancières?.statut)}</div>
-                  )}
                 </div>
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row gap-16">
                   {(garantiesFinancières?.type || garantiesFinancières?.dateEchéance) && (
                     <div className="flex flex-col">
                       {garantiesFinancières?.type && <div>type : {garantiesFinancières?.type}</div>}
@@ -100,8 +88,11 @@ export const GarantiesFinancieresList = ({ projects, GFPastDue }: Props) => {
                   )}
                 </div>
               </div>
-              <div>
-                {GFPastDue && (
+              <div className="flex flex-col">
+                {garantiesFinancières?.statut && (
+                  <div className="mb-4 ml-auto">{getStatutBadge(garantiesFinancières?.statut)}</div>
+                )}
+                {garantiesFinancières?.statut === 'en attente' && GFPastDue && (
                   <DownloadLink
                     className="text-sm"
                     fileUrl={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
@@ -123,6 +114,7 @@ export const GarantiesFinancieresList = ({ projects, GFPastDue }: Props) => {
                       Valider
                     </LinkButton>
                     <LinkButton
+                      className="bg-red-marianne-425-base hover:bg-red-marianne-425-hover focus:bg-red-marianne-425-active"
                       href={routes.INVALIDER_GF({
                         projetId: id,
                       })}
