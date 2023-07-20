@@ -16,7 +16,7 @@ export const LegacyPageTemplate = ({
     <App>
       <Header user={user}>{user && <UserNavigation {...{ user, currentPage }} />}</Header>
       <main id="contenu">
-        <Container className="py-3 my-8">{children}</Container>
+        <Container className="py-3 my-4 lg:my-8">{children}</Container>
       </main>
       <Footer user={user} />
     </App>
