@@ -22,7 +22,7 @@ export const Pagination: FC<PaginationProps> = ({ pageCount, currentPage, curren
 
   return (
     <nav role="pagination" aria-label="Pagination">
-      <ul className="flex list-none gap-3 m-0 my-0 mt-4 p-0">
+      <ul className="flex list-none gap-3 m-0 my-0 mt-6 p-0">
         <li>
           <PageLink href={firstPageUrl.href} title="Première page" disabled={currentPage === 1}>
             <FirstPageIcon className="w-6 h-6" />
