@@ -249,6 +249,12 @@ type Dreals_DélaiCDC2022Appliqué = {
   variables: { nom_projet: string; projet_url: string };
 };
 
+type NouvellePériodeNotifiée = {
+  type: 'tous-rôles-sauf-dgec-et-porteurs-nouvelle-periode-notifiée';
+  context: { userId: string };
+  variables: { periode: string; appel_offre: string; date_notification: string };
+};
+
 type NotificationVariants =
   | Designation
   | ProjectInvitation
@@ -268,7 +274,8 @@ type NotificationVariants =
   | LegacyCandidateNotification
   | AccèsUtilisateurRévoqués
   | PP_DélaiCDC2022Appliqué
-  | Dreals_DélaiCDC2022Appliqué;
+  | Dreals_DélaiCDC2022Appliqué
+  | NouvellePériodeNotifiée;
 
 export type NotificationProps = BaseNotification & NotificationVariants;
 
