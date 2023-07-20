@@ -1,5 +1,5 @@
 import React from 'react';
-import { Footer, Header, UserNavigation } from '@components';
+import { Container, Footer, Header, UserNavigation } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { App } from '@views';
 
@@ -15,8 +15,8 @@ export const LegacyPageTemplate = ({
   return (
     <App>
       <Header user={user}>{user && <UserNavigation {...{ user, currentPage }} />}</Header>
-      <main id="contenu" className="flex flex-col py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl">
-        <div className="border border-solid border-[#c9d3df] rounded-[3px] p-6">{children}</div>
+      <main id="contenu">
+        <Container className="py-3 mb-4">{children}</Container>
       </main>
       <Footer user={user} />
     </App>
