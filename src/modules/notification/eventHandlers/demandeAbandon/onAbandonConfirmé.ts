@@ -12,7 +12,31 @@ export const makeOnAbandonConfirmé =
   }) =>
   async ({ payload: { demandeAbandonId } }: AbandonConfirmé) => {
     await deps.getDataForStatutDemandeAbandonModifiéNotification(demandeAbandonId).match(
-      async ({ chargeAffaire, nomProjet, appelOffreId, périodeId }) => {
+      async ({ chargeAffaire, nomProjet, appelOffreId, périodeId, porteursProjet }) => {
+        await Promise.all(
+          porteursProjet.map(({ email, fullName, id }) =>
+            deps.sendNotification({
+              type: 'modification-request-status-update',
+              message: {
+                email,
+                name: fullName,
+                subject: `Votre demande de type abandon pour le projet ${nomProjet}`,
+              },
+              context: {
+                modificationRequestId: demandeAbandonId,
+                userId: id,
+              },
+              variables: {
+                nom_projet: nomProjet,
+                type_demande: 'abandon',
+                status: 'confirmé',
+                modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeAbandonId),
+                document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
+              },
+            }),
+          ),
+        );
+
         if (chargeAffaire) {
           const { email, fullName, id } = chargeAffaire;
           await deps.sendNotification({

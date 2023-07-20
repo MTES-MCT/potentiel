@@ -1,7 +1,7 @@
-import { err, ok, wrapInfra } from '@core/utils';
+import { err, wrapInfra } from '@core/utils';
 import { GetDataForStatutDemandeAbandonModifiéNotification } from '@modules/modificationRequest';
 import { EntityNotFoundError } from '@modules/shared';
-import { ModificationRequest, Project, User } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest, Project, User, UserProjects } from '@infra/sequelize/projectionsNext';
 
 export const getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification =
   (modificationRequestId: string) => {
@@ -21,18 +21,32 @@ export const getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatu
         ],
       }),
     ).andThen((modificationRequestRaw: any) => {
-      if (!modificationRequestRaw) return err(new EntityNotFoundError());
+      if (!modificationRequestRaw) {
+        return err(new EntityNotFoundError());
+      }
 
       const {
         confirmationRequestedByUser,
+        projectId,
         project: { nomProjet, appelOffreId, periodeId, departementProjet },
       } = modificationRequestRaw.get();
 
-      return ok({
+      return wrapInfra(
+        UserProjects.findAll({
+          attributes: ['projectId'],
+          where: { projectId },
+          include: [{ model: User, as: 'user', attributes: ['fullName', 'email', 'id'] }],
+        }),
+      ).map((porteursProjet) => ({
         nomProjet,
         appelOffreId,
         périodeId: periodeId,
         départementProjet: departementProjet,
+        porteursProjet: porteursProjet.map(({ user: { id, email, fullName } }) => ({
+          id,
+          email,
+          fullName,
+        })),
         ...(confirmationRequestedByUser && {
           chargeAffaire: {
             id: confirmationRequestedByUser.id,
@@ -40,6 +54,6 @@ export const getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatu
             fullName: confirmationRequestedByUser.fullName,
           },
         }),
-      });
+      }));
     });
   };
