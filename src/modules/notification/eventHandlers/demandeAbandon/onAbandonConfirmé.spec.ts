@@ -31,6 +31,10 @@ describe(`Handler onAbandonConfirmé`, () => {
           appelOffreId: 'Eolien',
           périodeId: '1',
           départementProjet: 'departement',
+          porteursProjet: [
+            { email: 'porteur1@test.test', fullName: 'porteur1', id: 'ID1' },
+            { email: 'porteur2@test.test', fullName: 'porteur2', id: 'ID2' },
+          ],
         }),
       );
 
@@ -48,7 +52,7 @@ describe(`Handler onAbandonConfirmé`, () => {
       demandeAbandonId,
     );
 
-    expect(sendNotification).toHaveBeenCalledTimes(2);
+    expect(sendNotification).toHaveBeenCalledTimes(4);
 
     expect(sendNotification).toHaveBeenCalledWith({
       type: 'modification-request-confirmed',
@@ -83,6 +87,46 @@ describe(`Handler onAbandonConfirmé`, () => {
         nom_projet: 'nomProjet',
         type_demande: 'abandon',
         modification_request_url: `/demande/${demandeAbandonId}/details.html`,
+      },
+    });
+
+    expect(sendNotification).toHaveBeenCalledWith({
+      type: 'modification-request-status-update',
+      message: {
+        email: 'porteur1@test.test',
+        name: 'porteur1',
+        subject: `Votre demande de type abandon pour le projet nomProjet`,
+      },
+      context: {
+        modificationRequestId: demandeAbandonId,
+        userId: 'ID1',
+      },
+      variables: {
+        nom_projet: 'nomProjet',
+        type_demande: 'abandon',
+        status: 'confirmé',
+        modification_request_url: `/demande/${demandeAbandonId}/details.html`,
+        document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
+      },
+    });
+
+    expect(sendNotification).toHaveBeenCalledWith({
+      type: 'modification-request-status-update',
+      message: {
+        email: 'porteur2@test.test',
+        name: 'porteur2',
+        subject: `Votre demande de type abandon pour le projet nomProjet`,
+      },
+      context: {
+        modificationRequestId: demandeAbandonId,
+        userId: 'ID2',
+      },
+      variables: {
+        nom_projet: 'nomProjet',
+        type_demande: 'abandon',
+        status: 'confirmé',
+        modification_request_url: `/demande/${demandeAbandonId}/details.html`,
+        document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
       },
     });
   });
