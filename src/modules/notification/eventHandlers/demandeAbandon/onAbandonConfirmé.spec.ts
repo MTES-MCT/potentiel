@@ -11,10 +11,12 @@ import { AbandonConfirmé, AbandonConfirméPayload } from '@modules/demandeModif
 const demandeAbandonId = new UniqueEntityID().toString();
 
 describe(`Handler onAbandonConfirmé`, () => {
-  it(`Etant donné une demande d'abandon en attente de confirmation du porteur
-      Lorsque le porteur confirme son souhait d'abandonner le projet
+  it(`Etant donné un projet avec deux utilisateurs porteur
+      Et une demande d'abandon en attente de confirmation du porteur
+      Lorsqu'un porteur confirme son souhait d'abandonner le projet
       Alors une notification devrait être envoyée au chargé d'affaire à l'origine de la demande de confirmation
-      Et une notification devrait être envoyée au mail générique de la DGEC`, async () => {
+      Et une notification devrait être envoyée au mail générique de la DGEC
+      Et une notification devrait être envoyée à tous les porteurs du projet`, async () => {
     const chargeAffaire = UnwrapForTest(
       makeUser(makeFakeUser({ role: 'admin', email: 'admin@test.test', fullName: 'admin1' })),
     );

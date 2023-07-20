@@ -4,4 +4,5 @@ export type DataForStatutDemandeAbandonModifiéNotificationDTO = {
   appelOffreId: string;
   périodeId: string;
   départementProjet: string;
+  porteursProjet: { email: string; fullName: string; id: string }[];
 };
