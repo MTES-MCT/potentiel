@@ -7,7 +7,7 @@ import routes from '@routes';
 import { AppelOffre, Famille, Periode } from '@entities';
 import { userIsNot } from '@modules/users';
 
-export type ListeProjetsFiltresProps = {
+export type FiltresProps = {
   appelsOffre: AppelOffre[];
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
@@ -25,7 +25,7 @@ export type ListeProjetsFiltresProps = {
   user: Request['user'];
 };
 
-export const ListeProjetsFiltres = ({
+export const Filtres = ({
   appelsOffre,
   existingAppelsOffres,
   existingPeriodes,
@@ -40,7 +40,7 @@ export const ListeProjetsFiltres = ({
     reclames,
   },
   user,
-}: ListeProjetsFiltresProps) => {
+}: FiltresProps) => {
   const hasNonDefaultClassement =
     (user?.role === 'porteur-projet' && classement) ||
     (user &&
