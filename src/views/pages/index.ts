@@ -34,7 +34,7 @@ export * from './Error';
 export * from './FakeLoginPage';
 export * from './InvitationsCandidatsEnAttentePage';
 export * from './LienInvitationPériméPage';
-export * from './ListeProjetsPage';
+export * from './listeProjetsPage';
 export * from './ProjetsÀRéclamerPage';
 export * from './Signup';
 export * from './StatistiquesPage';
