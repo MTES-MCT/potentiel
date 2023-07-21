@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
+
 import { AppelOffre, Famille, Periode } from '@entities';
 import { PaginatedList } from '@modules/pagination';
-
 import {
   ExcelFileIcon,
   SecondaryLinkButton,
@@ -19,12 +19,14 @@ import {
   Form,
   Link,
 } from '@components';
-import { hydrateOnClient } from '../../helpers';
 import { ProjectListItem } from '@modules/project';
-import routes from '@routes';
-import { Filtres, Liste } from './components';
-import type { FiltresProps } from './components';
 import { userIs } from '@modules/users';
+import routes from '@routes';
+
+import { hydrateOnClient } from '../../helpers';
+
+import { Filtres, ListeProjetsComponent } from './components';
+import type { FiltresProps } from './components';
 
 type ListeProjetsProps = {
   request: Request;
@@ -141,7 +143,7 @@ export const ListeProjets = ({
         )}
       </div>
 
-      <Liste
+      <ListeProjetsComponent
         displaySelection={displaySelection}
         selectedIds={selectedProjectIds}
         currentUrl={currentUrl}

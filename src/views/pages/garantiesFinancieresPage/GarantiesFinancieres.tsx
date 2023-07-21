@@ -5,7 +5,6 @@ import { AppelOffre, Famille, Periode } from '@entities';
 import ROUTES from '@routes';
 import { PaginatedList } from '@modules/pagination';
 import {
-  ProjectList,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
@@ -20,6 +19,7 @@ import {
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '@modules/project/queries';
+import { ListeProjetsComponent } from '../listeProjetsPage';
 
 export type GarantiesFinancieresProps = {
   request: Request;
@@ -188,7 +188,7 @@ export const GarantiesFinancieres = ({
               (document csv)
             </DownloadLink>
           </div>
-          <ProjectList
+          <ListeProjetsComponent
             displayGF={true}
             projects={projects}
             role={request.user?.role}
