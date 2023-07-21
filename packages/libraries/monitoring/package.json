@@ -9,8 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@sentry/node": "^7.45.0",
-    "winston": "^3.8.2"
+    "@sentry/node": "^7.59.3",
+    "winston": "^3.10.0"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
