@@ -20,6 +20,7 @@ import {
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
   makeOnProjectCompletionDueDateSet,
+  makeOnPeriodeNotified,
 } from '@modules/notification';
 import {
   ProjectCertificateRegenerated,
@@ -27,6 +28,7 @@ import {
   ProjectGFSubmitted,
   CahierDesChargesChoisi,
   ProjectCompletionDueDateSet,
+  PeriodeNotified,
 } from '@modules/project';
 import { sendNotification } from '../emails.config';
 import { eventStore } from '../eventStore.config';
@@ -34,6 +36,7 @@ import {
   getModificationRequestInfoForStatusNotification,
   getProjectInfoForModificationReceivedNotification,
   getProjectInfoForModificationRequestedNotification,
+  getRecipientsForPeriodeNotifiedNotification,
   récupérerDonnéesPorteursParProjetQueryHandler,
 } from '../queries.config';
 import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config';
@@ -137,6 +140,11 @@ eventStore.subscribe(
     getProjectById: oldProjectRepo.findById,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
   }),
+);
+
+eventStore.subscribe(
+  PeriodeNotified.type,
+  makeOnPeriodeNotified({ sendNotification, getRecipientsForPeriodeNotifiedNotification }),
 );
 
 console.log('Notification Event Handlers Initialized');
