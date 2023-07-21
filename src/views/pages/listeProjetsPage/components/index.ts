@@ -1,2 +1,2 @@
 export { Filtres, FiltresProps } from './Filtres';
-export { ListeProjetsComponent } from './ListeProjetsComponent';
+export { ProjectList } from './ProjectList';

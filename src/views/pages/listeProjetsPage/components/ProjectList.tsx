@@ -61,7 +61,7 @@ type Props = {
   currentUrl: string;
 };
 
-export const ListeProjetsComponent = ({
+export const ProjectList = ({
   projects,
   displayGF,
   role,

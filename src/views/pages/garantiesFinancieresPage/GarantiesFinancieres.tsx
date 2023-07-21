@@ -19,7 +19,7 @@ import {
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '@modules/project/queries';
-import { ListeProjetsComponent } from '../listeProjetsPage';
+import { ProjectList } from '../listeProjetsPage';
 
 export type GarantiesFinancieresProps = {
   request: Request;
@@ -188,7 +188,7 @@ export const GarantiesFinancieres = ({
               (document csv)
             </DownloadLink>
           </div>
-          <ListeProjetsComponent
+          <ProjectList
             displayGF={true}
             projects={projects}
             role={request.user?.role}

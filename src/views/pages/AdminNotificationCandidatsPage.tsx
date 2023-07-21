@@ -21,7 +21,7 @@ import querystring from 'querystring';
 import React from 'react';
 import { PaginatedList } from '@modules/pagination';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
-import { ListeProjetsComponent } from './listeProjetsPage';
+import { ProjectList } from './listeProjetsPage';
 
 type AdminNotificationCandidatsProps = {
   request: Request;
@@ -191,7 +191,7 @@ export const AdminNotificationCandidats = ({
 
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
-      <ListeProjetsComponent
+      <ProjectList
         projects={projetsPériodeSélectionnée}
         role={request.user?.role}
         currentUrl={currentUrl}

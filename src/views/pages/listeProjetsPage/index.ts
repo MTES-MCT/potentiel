@@ -1,2 +1,2 @@
 export * from './ListeProjets';
-export { ListeProjetsComponent } from './components';
+export { ProjectList } from './components';

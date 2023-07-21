@@ -25,7 +25,7 @@ import routes from '@routes';
 
 import { hydrateOnClient } from '../../helpers';
 
-import { Filtres, ListeProjetsComponent } from './components';
+import { Filtres, ProjectList } from './components';
 import type { FiltresProps } from './components';
 
 type ListeProjetsProps = {
@@ -143,7 +143,7 @@ export const ListeProjets = ({
         )}
       </div>
 
-      <ListeProjetsComponent
+      <ProjectList
         displaySelection={displaySelection}
         selectedIds={selectedProjectIds}
         currentUrl={currentUrl}
