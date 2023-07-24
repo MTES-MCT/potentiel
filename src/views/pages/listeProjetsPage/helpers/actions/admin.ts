@@ -1,19 +1,12 @@
 import ROUTES from '@routes';
 
-const adminActions = (project: {
-  id: string;
-  certificateFile?: {
-    id: string;
-    filename: string;
-  };
-  notifiedOn: Date | null;
-  email: string;
-  potentielIdentifier: string;
-  isLegacy: boolean;
-}) => {
+import type { Action } from '../getProjectActionsByRole';
+import { ProjectActionProps } from '../../components/Actions';
+
+export const adminActions = (project: ProjectActionProps['project']) => {
   const canDownloadCertificate = !!project.certificateFile;
 
-  const actions: any = [];
+  const actions: Array<Action> = [];
 
   if (project.notifiedOn && project.certificateFile) {
     actions.push({
@@ -37,5 +30,3 @@ const adminActions = (project: {
 
   return actions;
 };
-
-export { adminActions };

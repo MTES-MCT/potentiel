@@ -1,22 +1,9 @@
-import { ProjectAppelOffre } from '@entities/appelOffre';
 import ROUTES from '@routes';
 
-const porteurProjetActions = (project: {
-  id: string;
-  appelOffre?: {
-    changementProducteurPossibleAvantAchèvement: ProjectAppelOffre['changementProducteurPossibleAvantAchèvement'];
-    unitePuissance: ProjectAppelOffre['unitePuissance'];
-    periode: { type: ProjectAppelOffre['periode'] };
-  };
-  isClasse: boolean;
-  isAbandoned: boolean;
-  certificateFile?: {
-    id: string;
-    filename: string;
-  };
-  nomProjet: string;
-  potentielIdentifier: string;
-}) => {
+import type { Action } from '../getProjectActionsByRole';
+import { ProjectActionProps } from '../../components/Actions';
+
+export const porteurProjetActions = (project: ProjectActionProps['project']) => {
   const canDownloadCertificate = !!project.certificateFile;
 
   if (project.isAbandoned) return [];
@@ -46,7 +33,7 @@ const porteurProjetActions = (project: {
     return actions;
   }
 
-  const actions: any[] = [];
+  const actions: Action[] = [];
 
   if (project.certificateFile) {
     actions.push({
@@ -96,5 +83,3 @@ const porteurProjetActions = (project: {
 
   return actions;
 };
-
-export { porteurProjetActions };

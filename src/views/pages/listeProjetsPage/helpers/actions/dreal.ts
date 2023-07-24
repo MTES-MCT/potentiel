@@ -1,14 +1,10 @@
 import ROUTES from '@routes';
 
-const drealActions = (project: {
-  id: string;
-  garantiesFinancières: {
-    id: string;
-    statut: 'à traiter' | 'validé' | 'en attente';
-  };
-  isAbandoned: boolean;
-}) => {
-  const actions: any = [];
+import type { Action } from '../getProjectActionsByRole';
+import { ProjectActionProps } from '../../components/Actions';
+
+export const drealActions = (project: ProjectActionProps['project']) => {
+  const actions: Action[] = [];
   const { garantiesFinancières } = project;
 
   if (project.isAbandoned) return [];
@@ -32,5 +28,3 @@ const drealActions = (project: {
   }
   return actions;
 };
-
-export { drealActions };

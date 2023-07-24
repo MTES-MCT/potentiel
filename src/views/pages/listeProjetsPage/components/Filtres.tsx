@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { Request } from 'express';
 import { Form, BarreDeRecherche, Label, Select, LinkButton } from '@components';
 import { resetUrlParams, updateUrlParams } from '@views/helpers';
 import routes from '@routes';
 import { AppelOffre, Famille, Periode } from '@entities';
-import { userIsNot } from '@modules/users';
+import { UserRole, userIsNot } from '@modules/users';
 
 export type FiltresProps = {
   appelsOffre: AppelOffre[];
@@ -22,7 +21,7 @@ export type FiltresProps = {
     garantiesFinancieres: string;
   };
   familles?: Famille[] | undefined;
-  user: Request['user'];
+  user: UserRole;
 };
 
 export const Filtres = ({

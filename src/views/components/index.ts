@@ -1,5 +1,4 @@
 export * from './UI';
-export * from './actions';
 export * from './dropdowns';
 export * from './forms';
 export * from './inputs';
@@ -9,7 +8,6 @@ export * from './DownloadIcon';
 export * from './InfoLienGuideUtilisationCDC';
 export * from './MissingOwnerProjectList';
 export * from './ModificationRequestActionTitles';
-export * from './ProjectActions';
 export * from './ProjectInfo';
 export * from './RequestList';
 export * from './LegacyPageTemplate';

@@ -1,6 +1,6 @@
 import { drealActions } from '.';
 import ROUTES from '@routes';
-import makeFakeProject from '../../../__tests__/fixtures/project';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
 
 describe('drealActions', () => {
   it(`Etant donné un projet avec garanties financières dont le statut est "à traiter"

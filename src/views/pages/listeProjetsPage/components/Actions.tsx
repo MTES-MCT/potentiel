@@ -1,37 +1,34 @@
 import React from 'react';
 import { UserRole } from '@modules/users';
-import { ACTION_BY_ROLE } from './actions';
-import { DropdownMenuSecondaryButton } from './UI';
-import { ProjectAppelOffre } from '@entities';
+import { DropdownMenuSecondaryButton } from '@components';
+import { getProjectActionsByRole } from '../helpers';
+import { ProjectListItem } from '@modules/project';
 
-type Props = {
-  project: {
-    id: string;
-    appelOffre?: {
-      type: ProjectAppelOffre['type'];
-      unitePuissance: ProjectAppelOffre['unitePuissance'];
-      periode: ProjectAppelOffre['periode'];
-    };
+/*
+                     ...project,
+                        isClasse: project.classe === 'Classé',
+                        isAbandoned: project.abandonedOn !== 0,
+                        isLegacy: project.appelOffre?.periode.type === 'legacy',
+                        notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
+
+*/
+
+export type ProjectActionProps = {
+  project: ProjectListItem & {
     isClasse: boolean;
     isAbandoned: boolean;
     isLegacy: boolean;
-    notifiedOn?: Date;
+    notifiedOn: number;
     certificateFile?: {
       id: string;
       filename: string;
-    };
-    email: string;
-    nomProjet: string;
-    garantiesFinancières?: {
-      id: string;
-      statut: 'à traiter' | 'validé' | 'en attente';
     };
   };
   role: UserRole;
 };
 
-export const ProjectActions = ({ project, role }: Props) => {
-  const actions = ACTION_BY_ROLE[role].call(null, project);
+export const Actions = ({ project, role }: ProjectActionProps) => {
+  const actions = getProjectActionsByRole(role, project);
   if (!actions || !actions.length) return null;
   return (
     <div className="relative">

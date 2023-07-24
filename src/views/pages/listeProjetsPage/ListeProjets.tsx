@@ -27,6 +27,7 @@ import { hydrateOnClient } from '../../helpers';
 
 import { Filtres, ProjectList } from './components';
 import type { FiltresProps } from './components';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ListeProjetsProps = {
   request: Request;
@@ -50,16 +51,16 @@ export const ListeProjets = ({
   const {
     query: { error, success },
     user,
-  } = request as { query: { error?: string; success?: string }; user: Request['user'] };
-
+  } = request;
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [displaySelection, setDisplaySelection] = useState(false);
+  const utilisateur = user as UtilisateurReadModel;
 
   if (projects.items.length === 0) {
     return (
       <>
-        <LegacyPageTemplate user={request.user} currentPage="list-projects">
-          <Heading1>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</Heading1>
+        <LegacyPageTemplate user={utilisateur} currentPage="list-projects">
+          <Heading1>{userIs('porteur-projet')(utilisateur) ? 'Mes Projets' : 'Projets'}</Heading1>
           <ListeVide titre="Aucun projet à lister">
             {projects.itemCount > 0 && (
               <Link href={routes.LISTE_PROJETS}>Voir tout les projets</Link>
@@ -71,20 +72,20 @@ export const ListeProjets = ({
   }
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-projects">
-      <Heading1>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</Heading1>
-      {success && <SuccessBox title={success} />}
-      {error && <ErrorBox title={error} />}
+    <LegacyPageTemplate user={utilisateur} currentPage="list-projects">
+      <Heading1>{utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</Heading1>
+      {success && <SuccessBox title={success as string} />}
+      {error && <ErrorBox title={error as string} />}
 
       <Filtres
         query={request.query as FiltresProps['query']}
         appelsOffre={appelsOffre}
-        user={user}
+        user={utilisateur.role}
         existingAppelsOffres={existingAppelsOffres}
         existingPeriodes={existingPeriodes}
         existingFamilles={existingFamilles}
       />
-      {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(user) && (
+      {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(utilisateur) && (
         <Dropdown
           design="link"
           text="Donner accès à un utilisateur"
@@ -148,9 +149,9 @@ export const ListeProjets = ({
         selectedIds={selectedProjectIds}
         currentUrl={currentUrl}
         onSelectedIdsChanged={setSelectedProjectIds}
-        {...(userIs('dreal') && { displayGF: true })}
+        {...(userIs('dreal')(utilisateur) && { displayGF: true })}
         projects={projects}
-        role={request.user?.role}
+        role={utilisateur.role}
       />
     </LegacyPageTemplate>
   );

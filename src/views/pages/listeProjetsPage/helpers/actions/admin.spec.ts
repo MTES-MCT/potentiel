@@ -1,5 +1,5 @@
 import { adminActions } from '.';
-import makeFakeProject from '../../../__tests__/fixtures/project';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import ROUTES from '@routes';
 
 describe('adminActions', () => {
