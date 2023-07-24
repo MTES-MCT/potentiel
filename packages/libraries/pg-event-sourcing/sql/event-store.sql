@@ -25,6 +25,9 @@ create table event_store.pending_acknowledgement (
   primary key (subscriber_id, stream_id, created_at, version)
 );
 
+-- insert into event_store.event_stream(stream_id, created_at, type, version, payload)
+-- select split_part("streamId", '#', 1) || '|' || split_part("streamId", split_part("streamId", '#', 1) || '#', 2), "createdAt", "type", "version", "payload" from "EVENT_STREAM";
+
 create or replace function event_store.notify_subscribers()
 returns trigger as
 $$
@@ -157,6 +160,3 @@ $$
     end if;
   end
 $$ language plpgsql;
-
--- insert into event_store.event_stream(stream_id, created_at, type, version, payload)
--- select split_part("streamId", '#', 1) || '|' || split_part("streamId", split_part("streamId", '#', 1) || '#', 2), "createdAt", "type", "version", "payload" from "EVENT_STREAM";
