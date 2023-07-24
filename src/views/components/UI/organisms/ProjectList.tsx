@@ -96,7 +96,7 @@ export const ProjectList = ({
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic mt-4" aria-hidden>
+      <div className="flex flex-col md:flex-row gap-2 text-sm italic mt-4 mb-2" aria-hidden>
         Légende :
         <div className="flex items-center">
           <PowerIcon
@@ -136,20 +136,18 @@ export const ProjectList = ({
         )}
       </div>
 
-      <div className="p-5 flex items-center">
-        {displaySelection && (
-          <>
-            <Checkbox
-              id="allProjects"
-              onChange={(e) => toggleSelectAllPage(e.target.checked)}
-              checked={selectedIds.length === projects.items.length}
-            />
-            <span className="text-sm">
-              Séléctioner tous les projets de la page ({projects.items.length})
-            </span>
-          </>
-        )}
-      </div>
+      {displaySelection && (
+        <div className="p-5 flex items-center">
+          <Checkbox
+            id="allProjects"
+            onChange={(e) => toggleSelectAllPage(e.target.checked)}
+            checked={selectedIds.length === projects.items.length}
+          />
+          <span className="text-sm">
+            Séléctioner tous les projets de la page ({projects.items.length})
+          </span>
+        </div>
+      )}
 
       <ul className="p-0 m-0">
         {projects.items.map((project) => (

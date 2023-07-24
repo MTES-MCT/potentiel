@@ -60,7 +60,7 @@ export const GarantiesFinancieres = ({
 
       <Form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
         <BarreDeRecherche
-          placeholder="Rechercher par nom du projet"
+          title="Rechercher par nom du projet"
           name="recherche"
           defaultValue={recherche || ''}
           className="mt-8"

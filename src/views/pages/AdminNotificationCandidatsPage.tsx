@@ -75,7 +75,12 @@ export const AdminNotificationCandidats = ({
       )}
       <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mb-4">
         <div className="form__group mt-5">
-          <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
+          <BarreDeRecherche
+            name="recherche"
+            className="pr-10"
+            defaultValue={recherche || ''}
+            title="Rechercher par nom projet"
+          />
         </div>
 
         <div className="form__group">
