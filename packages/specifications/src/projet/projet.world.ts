@@ -1,9 +1,14 @@
-import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import {
+  GarantiesFinancières,
+  IdentifiantProjet,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
 import { none } from '@potentiel/monads';
 
 type ProjetFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet;
+  garantiesFinancières?: GarantiesFinancières;
 };
 
 export class ProjetWorld {
