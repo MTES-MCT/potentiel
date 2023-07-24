@@ -26,6 +26,7 @@ class EventStreamEmitter extends EventEmitter {
 
     const listener = async (payload: string) => {
       const event = JSON.parse(payload) as TDomainEvent;
+
       if (isEvent(event)) {
         if (
           eventType === 'all' ||

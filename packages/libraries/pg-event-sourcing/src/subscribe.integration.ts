@@ -21,12 +21,13 @@ describe(`subscribe`, () => {
     };
 
     // Arrange
-    const domainEventHandler: DomainEventHandler<Event> = jest.fn(() => Promise.resolve());
-    const unsubscribe = await subscribe(eventType, domainEventHandler);
-
     const client = new Client(getConnectionString());
     await client.connect();
     await client.query(`delete from event_store.event_stream`);
+    await client.query(`insert into event_store.subscriber values($1)`, ['new_event']);
+
+    const domainEventHandler: DomainEventHandler<Event> = jest.fn(() => Promise.resolve());
+    const unsubscribe = await subscribe(eventType, domainEventHandler);
 
     await client.query(
       `
