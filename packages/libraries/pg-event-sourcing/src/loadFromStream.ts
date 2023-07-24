@@ -3,6 +3,13 @@ import { Event } from './event';
 
 export const loadFromStream = (streamId: string): Promise<ReadonlyArray<Event>> =>
   executeSelect<Event>(
-    `SELECT "type", "payload", "version" FROM "EVENT_STREAM" where "streamId" = $1 order by "createdAt", "version"`,
+    `
+    select 
+      type, 
+      payload, 
+      version 
+    from event_store.event_stream 
+    where stream_id = $1 
+    order by created_at, version`,
     streamId,
   );

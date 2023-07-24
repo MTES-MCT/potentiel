@@ -6,7 +6,7 @@ describe(`publish`, () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
-  beforeEach(() => executeQuery(`DELETE FROM "EVENT_STREAM"`));
+  beforeEach(() => executeQuery(`delete from event_store.event_stream`));
 
   it(`Lorsqu'on publie un événement,
     alors l'événement devrait être présent dans le stream`, async () => {
@@ -19,7 +19,7 @@ describe(`publish`, () => {
     await publish(streamId, event);
 
     const actuals = await executeSelect(
-      `SELECT * FROM "EVENT_STREAM" where "streamId" = $1`,
+      `select * from event_store.event_stream where stream_id = $1`,
       streamId,
     );
 
@@ -50,7 +50,7 @@ describe(`publish`, () => {
     await publish(streamId, ...events);
 
     const actuals = await executeSelect(
-      `SELECT * FROM "EVENT_STREAM" where "streamId" = $1`,
+      `seelct * from event_store.event_stream where stream_id = $1`,
       streamId,
     );
 

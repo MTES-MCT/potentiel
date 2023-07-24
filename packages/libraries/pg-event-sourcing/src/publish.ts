@@ -5,19 +5,13 @@ export const publish: Publish = async (streamId, ...events) => {
   for (const { type, payload } of events) {
     const createdAt = new Date().toISOString();
     await executeQuery(
-      `INSERT 
-       INTO "EVENT_STREAM" (
-        "streamId", 
-        "createdAt", 
-        "type", 
-        "version", 
-        "payload"
-        ) 
-       VALUES (
+      `insert 
+       into event_store.event_stream
+       values (
           $1, 
           $2, 
           $3, 
-          (SELECT COUNT("streamId") + 1 FROM "EVENT_STREAM" WHERE "streamId" = $5), 
+          (select count(stream_id) + 1 from event_store.event_stream WHERE stream_id = $5), 
           $4
           )`,
       streamId,

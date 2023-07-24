@@ -26,24 +26,19 @@ describe(`subscribe`, () => {
 
     const client = new Client(getConnectionString());
     await client.connect();
-    await client.query(`DELETE FROM "EVENT_STREAM"`);
+    await client.query(`delete from event_store.event_stream`);
 
     await client.query(
-      `INSERT 
-       INTO "EVENT_STREAM" (
-        "streamId", 
-        "createdAt", 
-        "type", 
-        "version", 
-        "payload"
-        ) 
-       VALUES (
+      `
+        insert
+        into event_store.event_stream
+        values (
           $1, 
           $2, 
           $3, 
           $4,
           $5
-          )`,
+        )`,
       [streamId, createdAt, eventType, version, payload],
     );
 
