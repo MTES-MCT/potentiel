@@ -10,31 +10,31 @@ describe(`publish`, () => {
 
   it(`Lorsqu'on publie un événement,
     alors l'événement devrait être présent dans le stream`, async () => {
-    const streamId = 'string#string';
+    const stream_id = 'string#string';
 
     const event = {
       type: 'Un-événement-métier-est-survenu',
       payload: { test: 'propriété-test' },
     };
-    await publish(streamId, event);
+    await publish(stream_id, event);
 
     const actuals = await executeSelect(
       `select * from event_store.event_stream where stream_id = $1`,
-      streamId,
+      stream_id,
     );
 
     expect(actuals).toHaveLength(1);
     expect(actuals[0]).toEqual({
       ...event,
-      streamId,
+      stream_id,
       version: 1,
-      createdAt: expect.any(String),
+      created_at: expect.any(String),
     });
   });
 
   it(`Lorsqu'on publie plusieurs événements,
     alors les événements devrait être présent dans le stream dans l'ordre de publication`, async () => {
-    const streamId = 'string#string';
+    const stream_id = 'string#string';
 
     const events = [
       {
@@ -47,19 +47,19 @@ describe(`publish`, () => {
       },
     ];
 
-    await publish(streamId, ...events);
+    await publish(stream_id, ...events);
 
     const actuals = await executeSelect(
-      `seelct * from event_store.event_stream where stream_id = $1`,
-      streamId,
+      `select * from event_store.event_stream where stream_id = $1`,
+      stream_id,
     );
 
     expect(actuals).toEqual(
       events.map((event, index) => ({
         ...event,
-        streamId,
+        stream_id,
         version: index + 1,
-        createdAt: expect.any(String),
+        created_at: expect.any(String),
       })),
     );
   });

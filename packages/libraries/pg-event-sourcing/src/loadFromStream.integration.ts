@@ -16,9 +16,9 @@ describe(`loadFromStream`, () => {
 
     await executeQuery(
       `
-      insert 
+      insert
       into event_store.event_stream
-      value (
+      values (
           $1, 
           $2, 
           $3, 
@@ -36,7 +36,7 @@ describe(`loadFromStream`, () => {
       `
       insert 
       into event_store.event_stream 
-      value (
+      values (
           $1, 
           $2, 
           $3, 
