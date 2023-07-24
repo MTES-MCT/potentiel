@@ -24,7 +24,7 @@ export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
       id={name}
       name={name}
       defaultValue={defaultValue}
-      className="leading-none px-4 pt-2 pb-[5px] rounded-t-[4px] rounded-tr-[4px] rounded-b-none rounded-bl-none border-0 border-b-[3px] border-b-blue-france-sun-base focus:border-b-blue-france-sun-base placeholder:italic"
+      className="leading-none !mt-0 px-4 pt-2 pb-[5px] rounded-t-[4px] rounded-tr-[4px] rounded-b-none rounded-bl-none border-0 border-b-[3px] border-b-blue-france-sun-base focus:border-b-blue-france-sun-base placeholder:italic"
     />
     <PrimaryButton
       type="submit"
