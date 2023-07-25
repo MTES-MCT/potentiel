@@ -1,28 +1,23 @@
 import { Option, isNone, none } from '@potentiel/monads';
 import { DateTimeValueType } from '../common.valueType';
 
-type AttestationConstitutionGarantiesFinancières = {
+export type AttestationGarantiesFinancières = {
   format: string;
   dateConstitution: DateTimeValueType;
 };
 
-type TypeEtDateEcheanceGarantiesFinancières =
-  | {
-      type: `6 mois après achèvement` | `consignation`;
-    }
+export type TypeGarantiesFinancières =
   | {
       type: `avec date d'échéance`;
-      dateEcheance: DateTimeValueType;
+      dateÉchéance: DateTimeValueType;
     }
   | {
-      // à terme ce cas devrait disparaître
-      dateEcheance: DateTimeValueType;
+      type: `consignation` | `6 mois après achèvement`;
     };
 
-export type GarantiesFinancières =
-  | (AttestationConstitutionGarantiesFinancières & TypeEtDateEcheanceGarantiesFinancières)
-  | AttestationConstitutionGarantiesFinancières
-  | TypeEtDateEcheanceGarantiesFinancières;
+export type GarantiesFinancières = {
+  attestation: AttestationGarantiesFinancières;
+} & TypeGarantiesFinancières;
 
 export type RawIdentifiantProjet = `${string}#${string}#${string}#${string}`;
 

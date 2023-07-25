@@ -16,6 +16,26 @@ export type GestionnaireRéseauProjetDéclaréEvent = DomainEvent<
   }
 >;
 
+export type TypeGarantiesFinancièresEnregistréEvent = DomainEvent<
+  'TypeGarantiesFinancièresEnregistré',
+  {
+    identifiantProjet: string;
+    type: string;
+    dateÉchéance?: string;
+  }
+>;
+
+export type AttestationGarantiesFinancièresEnregistréeEvent = DomainEvent<
+  'AttestationGarantiesFinancièresEnregistrée',
+  {
+    identifiantProjet: string;
+    format: string;
+    dateConstitution: string;
+  }
+>;
+
 export type ProjetEvent =
   | GestionnaireRéseauProjetModifiéEvent
-  | GestionnaireRéseauProjetDéclaréEvent;
+  | GestionnaireRéseauProjetDéclaréEvent
+  | AttestationGarantiesFinancièresEnregistréeEvent
+  | TypeGarantiesFinancièresEnregistréEvent;
