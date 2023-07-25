@@ -11,7 +11,6 @@ import {
   ErrorBox,
   LinkButton,
   Heading1,
-  DownloadLink,
   BarreDeRecherche,
   ListeVide,
   Label,
@@ -60,7 +59,7 @@ export const GarantiesFinancieres = ({
 
       <Form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
         <BarreDeRecherche
-          placeholder="Rechercher par nom du projet"
+          title="Rechercher par nom du projet"
           name="recherche"
           defaultValue={recherche || ''}
           className="mt-8"
@@ -176,26 +175,16 @@ export const GarantiesFinancieres = ({
       {projects.items.length === 0 ? (
         <ListeVide titre="Aucune garantie financière à lister" />
       ) : (
-        <>
-          <div className="mb-8 mt-4">
-            <DownloadLink
-              fileUrl={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-                request.query as any,
-              )}`}
-            >
-              Télécharger les{' '}
-              <span>{Array.isArray(projects) ? projects.length : projects.itemCount}</span> projets
-              (document csv)
-            </DownloadLink>
-          </div>
-          <ProjectList
-            displayGF={true}
-            projects={projects}
-            role={request.user?.role}
-            GFPastDue={garantiesFinancieres === 'pastDue'}
-            currentUrl={currentUrl}
-          />
-        </>
+        <ProjectList
+          displayGF={true}
+          projects={projects}
+          role={request.user?.role}
+          GFPastDue={garantiesFinancieres === 'pastDue'}
+          currentUrl={currentUrl}
+          downloadUrl={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+            request.query as any,
+          )}`}
+        />
       )}
     </LegacyPageTemplate>
   );

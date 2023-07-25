@@ -2,14 +2,12 @@ import {
   BarreDeRecherche,
   PrimaryButton,
   ErrorBox,
-  ExcelFileIcon,
   Heading1,
   Input,
   Label,
   ListeVide,
   LegacyPageTemplate,
   ProjectList,
-  SecondaryLinkButton,
   Select,
   SuccessBox,
   Form,
@@ -75,7 +73,12 @@ export const AdminNotificationCandidats = ({
       )}
       <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mb-4">
         <div className="form__group mt-5">
-          <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
+          <BarreDeRecherche
+            name="recherche"
+            className="pr-10"
+            defaultValue={recherche || ''}
+            title="Rechercher"
+          />
         </div>
 
         <div className="form__group">
@@ -155,21 +158,6 @@ export const AdminNotificationCandidats = ({
           </Select>
         </div>
 
-        {AOSélectionné && périodeSélectionnée && (
-          <SecondaryLinkButton
-            href={`
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-              ...request.query,
-              appelOffreId: AOSélectionné,
-              periodeId: périodeSélectionnée,
-              beforeNotification: true,
-            })}`}
-            download
-          >
-            <ExcelFileIcon className="mr-2" />
-            Télécharger la liste des lauréats (document csv)
-          </SecondaryLinkButton>
-        )}
         {projetsPériodeSélectionnée.itemCount > 0 &&
           !success &&
           request.user?.role === 'dgec-validateur' && (
@@ -195,6 +183,17 @@ export const AdminNotificationCandidats = ({
         projects={projetsPériodeSélectionnée}
         role={request.user?.role}
         currentUrl={currentUrl}
+        downloadUrl={
+          AOSélectionné && périodeSélectionnée
+            ? `
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+                ...request.query,
+                appelOffreId: AOSélectionné,
+                periodeId: périodeSélectionnée,
+                beforeNotification: true,
+              })}`
+            : undefined
+        }
       />
     </LegacyPageTemplate>
   );

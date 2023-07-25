@@ -94,7 +94,7 @@ export const ProjetsÀRéclamer = ({
         className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
       >
         <BarreDeRecherche
-          placeholder="Nom projet, nom candidat, appel d'offres, période, région"
+          title="Nom projet, nom candidat, appel d'offres, période, région"
           name="recherche"
           defaultValue={recherche || ''}
           className="mt-8"
