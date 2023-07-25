@@ -26,7 +26,12 @@ export const setupProjetViews = async (dependencies: ProjetDependencies) => {
   const { subscribe } = dependencies;
   return [
     await subscribe<ProjetEvent>(
-      ['GestionnaireRéseauProjetDéclaré', 'GestionnaireRéseauProjetModifié'],
+      [
+        'GestionnaireRéseauProjetDéclaré',
+        'GestionnaireRéseauProjetModifié',
+        'AttestationGarantiesFinancièresEnregistrée',
+        'TypeGarantiesFinancièresEnregistré',
+      ],
       async (event: ProjetEvent) => {
         await mediator.publish<ExecuteProjetProjector>({
           type: 'EXECUTE_PROJET_PROJECTOR',

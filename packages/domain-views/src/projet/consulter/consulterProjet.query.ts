@@ -98,7 +98,10 @@ export const registerConsulterProjetQuery = ({
         département: projetLegacy.departementProjet,
         région: projetLegacy.regionProjet,
       },
-      identifiantGestionnaire: isSome(result) ? result.identifiantGestionnaire : undefined,
+      ...(isSome(result) && {
+        identifiantGestionnaire: result.identifiantGestionnaire || undefined,
+        garantiesFinancières: result.garantiesFinancières || undefined,
+      }),
     };
   };
 

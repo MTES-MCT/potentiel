@@ -17,6 +17,7 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
     const key: ProjetReadModelKey = `projet|${
       event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
     }`;
+    const projet = await find<ProjetReadModel>(key);
     switch (event.type) {
       case 'GestionnaireRéseauProjetDéclaré':
         await create<ProjetReadModel>(key, {
@@ -26,8 +27,6 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
         });
         break;
       case 'GestionnaireRéseauProjetModifié':
-        const projet = await find<ProjetReadModel>(key);
-
         if (isNone(projet)) {
           await create<ProjetReadModel>(key, {
             identifiantGestionnaire: {
@@ -38,6 +37,46 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
           await update<ProjetReadModel>(key, {
             identifiantGestionnaire: {
               codeEIC: event.payload.identifiantGestionnaireRéseau,
+            },
+          });
+        }
+        break;
+      case 'TypeGarantiesFinancièresEnregistré':
+        if (isNone(projet)) {
+          await create<ProjetReadModel>(key, {
+            garantiesFinancières: {
+              type: event.payload.type,
+              dateÉchéance: event.payload.dateÉchéance,
+            },
+          });
+        } else {
+          await update<ProjetReadModel>(key, {
+            garantiesFinancières: {
+              ...projet.garantiesFinancières,
+              type: event.payload.type,
+              dateÉchéance: event.payload.dateÉchéance,
+            },
+          });
+        }
+        break;
+      case 'AttestationGarantiesFinancièresEnregistrée':
+        if (isNone(projet)) {
+          await create<ProjetReadModel>(key, {
+            garantiesFinancières: {
+              attestation: {
+                format: event.payload.format,
+                dateConstitution: event.payload.dateConstitution,
+              },
+            },
+          });
+        } else {
+          await update<ProjetReadModel>(key, {
+            garantiesFinancières: {
+              ...projet.garantiesFinancières,
+              attestation: {
+                format: event.payload.format,
+                dateConstitution: event.payload.dateConstitution,
+              },
             },
           });
         }
