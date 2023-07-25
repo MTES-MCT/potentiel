@@ -80,7 +80,7 @@ export const ListeProjets = ({
       <Filtres
         query={request.query as FiltresProps['query']}
         appelsOffre={appelsOffre}
-        user={utilisateur.role}
+        user={utilisateur}
         existingAppelsOffres={existingAppelsOffres}
         existingPeriodes={existingPeriodes}
         existingFamilles={existingFamilles}

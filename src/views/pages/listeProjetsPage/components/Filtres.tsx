@@ -4,7 +4,8 @@ import { Form, BarreDeRecherche, Label, Select, LinkButton } from '@components';
 import { resetUrlParams, updateUrlParams } from '@views/helpers';
 import routes from '@routes';
 import { AppelOffre, Famille, Periode } from '@entities';
-import { UserRole, userIsNot } from '@modules/users';
+import { userIs, userIsNot } from '@modules/users';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 export type FiltresProps = {
   appelsOffre: AppelOffre[];
@@ -21,7 +22,7 @@ export type FiltresProps = {
     garantiesFinancieres: string;
   };
   familles?: Famille[] | undefined;
-  user: UserRole;
+  user: UtilisateurReadModel;
 };
 
 export const Filtres = ({
@@ -41,10 +42,8 @@ export const Filtres = ({
   user,
 }: FiltresProps) => {
   const hasNonDefaultClassement =
-    (user?.role === 'porteur-projet' && classement) ||
-    (user &&
-      ['admin', 'dreal', 'dgec-validateur'].includes(user?.role) &&
-      classement !== 'classés');
+    userIs('porteur-projet')(user) ||
+    (userIs(['admin', 'dreal', 'dgec-validateur'])(user) && classement !== 'classés');
 
   const hasFilters = !!(
     appelOffreId ||
@@ -153,8 +152,8 @@ export const Filtres = ({
           </Select>
         </div>
       )}
-      {['admin', 'dreal', 'dgec-validateur', 'porteur-projet', 'caisse-des-dépôts'].includes(
-        user.role,
+      {userIs(['admin', 'dreal', 'dgec-validateur', 'porteur-projet', 'caisse-des-dépôts'])(
+        user,
       ) && (
         <div>
           <Label htmlFor="garantiesFinancieres" className="mt-4">

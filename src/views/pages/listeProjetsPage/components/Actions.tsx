@@ -4,15 +4,6 @@ import { DropdownMenuSecondaryButton } from '@components';
 import { getProjectActionsByRole } from '../helpers';
 import { ProjectListItem } from '@modules/project';
 
-/*
-                     ...project,
-                        isClasse: project.classe === 'Classé',
-                        isAbandoned: project.abandonedOn !== 0,
-                        isLegacy: project.appelOffre?.periode.type === 'legacy',
-                        notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
-
-*/
-
 export type ProjectActionProps = {
   project: ProjectListItem & {
     isClasse: boolean;
