@@ -10,7 +10,7 @@ export const searchProjection = async <TReadModel extends ReadModel>(
     readModel: TReadModel;
   }>
 > => {
-  const query = `SELECT "key", "value" FROM "PROJECTION" where "key" like $1`;
+  const query = `select key, value, from app_views.projection where key like $1`;
 
   const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
     query,

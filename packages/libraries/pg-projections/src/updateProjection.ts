@@ -5,5 +5,5 @@ export const updateProjection = async <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}|${string}`,
   readModel: Omit<TReadModel, 'type'>,
 ): Promise<void> => {
-  await executeQuery(`UPDATE "PROJECTION" SET "value"=$2 where "key" = $1`, id, readModel);
+  await executeQuery(`update app_views.projection set value=$2 where key = $1`, id, readModel);
 };

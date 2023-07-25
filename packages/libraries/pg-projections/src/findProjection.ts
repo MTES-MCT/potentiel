@@ -7,7 +7,7 @@ export const findProjection = async <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}|${string}`,
 ): Promise<Option<TReadModel>> => {
   const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
-    `SELECT "key", "value" FROM "PROJECTION" where "key" = $1`,
+    `select key, value from app_views.projection where key = $1`,
     id,
   );
 

@@ -3,7 +3,7 @@ create schema app_views;
 
 create table app_views.projection (
   key varchar primary key,
-  valeu jsonb not null
+  value jsonb not null
 );
 
 -- insert into app_views.projection
