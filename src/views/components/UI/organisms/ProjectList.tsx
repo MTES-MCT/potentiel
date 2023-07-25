@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+
 import { ProjectListItem } from '@modules/project';
 import { UserRole } from '@modules/users';
 import routes from '@routes';
@@ -18,6 +19,8 @@ import {
   Tile,
   Pagination,
   Checkbox,
+  SecondaryLinkButton,
+  ExcelFileIcon,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -51,6 +54,7 @@ const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) 
 };
 
 type Props = {
+  className?: string;
   projects: PaginatedList<ProjectListItem>;
   displayGF?: true;
   role: UserRole;
@@ -59,9 +63,11 @@ type Props = {
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
   currentUrl: string;
+  downloadUrl: string;
 };
 
 export const ProjectList = ({
+  className = '',
   projects,
   displayGF,
   role,
@@ -70,6 +76,7 @@ export const ProjectList = ({
   displaySelection = false,
   onSelectedIdsChanged,
   currentUrl,
+  downloadUrl,
 }: Props) => {
   const prixDisponible = projects.items.some((project) => project.prixReference);
 
@@ -95,57 +102,71 @@ export const ProjectList = ({
   };
 
   return (
-    <>
-      <div className="flex flex-col md:flex-row gap-2 text-sm italic mt-4 mb-2" aria-hidden>
-        Légende :
-        <div className="flex items-center">
-          <PowerIcon
-            className="text-yellow-moutarde-850-base mr-1 shrink-0"
-            aria-label="Puissance"
-          />{' '}
-          Puissance
-        </div>
-        {prixDisponible && (
+    <div className={className}>
+      <div className="flex justify-between items-center mb-2" aria-hidden>
+        <div className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic">
+          <span>Légende :</span>
           <div className="flex items-center">
-            <EuroIcon
-              className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
-              aria-label="Prix de référence"
+            <PowerIcon
+              className="text-yellow-moutarde-850-base mr-1 shrink-0"
+              aria-label="Puissance"
             />{' '}
-            Prix de référence
+            Puissance
           </div>
-        )}
-        {displayGF && (
-          <div className="flex items-center">
-            <div
-              className="flex text-grey-200-base font-bold text-sm mr-1"
-              aria-label="Garanties Financières"
-            >
-              GF
+          {prixDisponible && (
+            <div className="flex items-center">
+              <EuroIcon
+                className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
+                aria-label="Prix de référence"
+              />{' '}
+              Prix de référence
             </div>
-            Garanties Financières
-          </div>
-        )}
-        {évaluationCarboneDisponible && !displayGF && (
-          <div className="flex items-center">
-            <CloudIcon
-              className="text-grey-425-active mr-1 shrink-0"
-              aria-label="Évaluation carbone"
-            />
-            Évaluation carbone
-          </div>
+          )}
+          {displayGF && (
+            <div className="flex items-center">
+              <div
+                className="flex text-grey-200-base font-bold text-sm mr-1"
+                aria-label="Garanties Financières"
+              >
+                GF
+              </div>
+              Garanties Financières
+            </div>
+          )}
+          {évaluationCarboneDisponible && !displayGF && (
+            <div className="flex items-center">
+              <CloudIcon
+                className="text-grey-425-active mr-1 shrink-0"
+                aria-label="Évaluation carbone"
+              />
+              Évaluation carbone
+            </div>
+          )}
+        </div>
+        {projects.itemCount > 0 && (
+          <SecondaryLinkButton
+            className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
+            href={downloadUrl}
+            download
+          >
+            <ExcelFileIcon className="mr-2" />
+            Télécharger un export (csv)
+          </SecondaryLinkButton>
         )}
       </div>
 
       {displaySelection && (
         <div className="p-5 flex items-center">
-          <Checkbox
-            id="allProjects"
-            onChange={(e) => toggleSelectAllPage(e.target.checked)}
-            checked={selectedIds.length === projects.items.length}
-          />
-          <span className="text-sm">
-            Séléctioner tous les projets de la page ({projects.items.length})
-          </span>
+          <>
+            <Checkbox
+              id="allProjects"
+              onChange={(e) => toggleSelectAllPage(e.target.checked)}
+              checked={selectedIds.length === projects.items.length}
+            />
+            <span className="text-sm">
+              Séléctioner tous les projets de la page ({projects.items.length})
+            </span>
+          </>
         </div>
       )}
 
@@ -267,7 +288,7 @@ export const ProjectList = ({
           currentUrl={currentUrl}
         />
       )}
-    </>
+    </div>
   );
 };
 
