@@ -9,3 +9,4 @@ export * from './Buttons';
 export * from './StatutDemandeModification';
 export * from './Radio';
 export * from './Checkbox';
+export * from './Accordeon';
