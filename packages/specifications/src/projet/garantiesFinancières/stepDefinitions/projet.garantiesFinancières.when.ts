@@ -40,7 +40,7 @@ Quand(
 
       //TO DO : cas sans date d'échéance
 
-      await sleep(100);
+      await sleep(500);
     } catch (error) {
       console.log('USE CASE ERREUR', error);
       this.error = error as Error;

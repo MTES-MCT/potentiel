@@ -23,10 +23,15 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
       data: { typeGarantiesFinancières, identifiantProjet },
     });
 
-    await mediator.send<ProjetCommand>({
-      type: 'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
-      data: { attestationGarantiesFinancières, identifiantProjet },
-    });
+    // TO DO : pb à corriger
+    setTimeout(
+      async () =>
+        await mediator.send<ProjetCommand>({
+          type: 'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
+          data: { attestationGarantiesFinancières, identifiantProjet },
+        }),
+      100,
+    );
 
     // TO DO : téléverser fichier
   };

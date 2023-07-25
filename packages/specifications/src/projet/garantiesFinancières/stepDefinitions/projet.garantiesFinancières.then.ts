@@ -14,7 +14,7 @@ Alors(
     const type = exemple['type'];
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
-    const dateConstutition = exemple[`date de constitution`];
+    const dateConstitution = exemple[`date de constitution`];
 
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
@@ -30,14 +30,12 @@ Alors(
       throw new Error('Projet non trouvé');
     }
 
-    console.log('**** résultat projet **** : ', résultat);
-
     expect(résultat.garantiesFinancières).to.deep.equal({
       dateÉchéance: convertirEnDateTime(dateÉchéance).formatter(),
       type,
       attestation: {
         format,
-        dateConstutition: convertirEnDateTime(dateConstutition).formatter(),
+        dateConstitution: convertirEnDateTime(dateConstitution).formatter(),
       },
     });
   },
