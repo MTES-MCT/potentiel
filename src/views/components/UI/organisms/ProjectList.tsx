@@ -51,6 +51,7 @@ const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) 
 };
 
 type Props = {
+  className?: string;
   projects: PaginatedList<ProjectListItem>;
   displayGF?: true;
   role: UserRole;
@@ -62,6 +63,7 @@ type Props = {
 };
 
 export const ProjectList = ({
+  className = '',
   projects,
   displayGF,
   role,
@@ -95,7 +97,7 @@ export const ProjectList = ({
   };
 
   return (
-    <>
+    <div className={className}>
       <div className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic mt-4" aria-hidden>
         Légende :
         <div className="flex items-center">
@@ -136,8 +138,8 @@ export const ProjectList = ({
         )}
       </div>
 
-      <div className="p-5 flex items-center">
-        {displaySelection && (
+      {displaySelection && (
+        <div className="p-5 flex items-center">
           <>
             <Checkbox
               id="allProjects"
@@ -148,8 +150,8 @@ export const ProjectList = ({
               Séléctioner tous les projets de la page ({projects.items.length})
             </span>
           </>
-        )}
-      </div>
+        </div>
+      )}
 
       <ul className="p-0 m-0">
         {projects.items.map((project) => (
@@ -269,7 +271,7 @@ export const ProjectList = ({
           currentUrl={currentUrl}
         />
       )}
-    </>
+    </div>
   );
 };
 
