@@ -25,12 +25,12 @@ import {
 import { DossierRaccordementNonRéférencéError } from './raccordement.errors';
 import { Projet, loadProjetAggregateFactory } from '../projet/projet.aggregate';
 
-type RaccordementAggregateId = `raccordement#${string}`;
+type RaccordementAggregateId = `raccordement|${string}`;
 
 export const createRaccordementAggregateId = (
   identifiantProjet: IdentifiantProjetValueType,
 ): RaccordementAggregateId => {
-  return `raccordement#${identifiantProjet.formatter()}`;
+  return `raccordement|${identifiantProjet.formatter()}`;
 };
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };

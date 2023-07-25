@@ -20,7 +20,7 @@ export const searchProjection = async <TReadModel extends ReadModel>(
   return result.map(({ key, value }) => ({
     key,
     readModel: {
-      type: key.split('#')[0],
+      type: key.split('|')[0],
       ...value,
     } as TReadModel,
   }));

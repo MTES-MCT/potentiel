@@ -2,7 +2,7 @@ import { ReadModel } from '@potentiel/core-domain';
 import { Option } from '@potentiel/monads';
 
 export type Find = <TReadModel extends ReadModel>(
-  id: `${TReadModel['type']}#${string}`,
+  id: `${TReadModel['type']}|${string}`,
 ) => Promise<Option<TReadModel>>;
 
 export type ListOptions<TReadModel extends ReadModel> = {
@@ -23,15 +23,15 @@ export type Search = <TReadModel extends ReadModel>(
 ) => Promise<ReadonlyArray<SearchResult<TReadModel>>>;
 
 export type Create = <TReadModel extends ReadModel>(
-  id: `${TReadModel['type']}#${string}`,
+  id: `${TReadModel['type']}|${string}`,
   readModel: Omit<TReadModel, 'type'>,
 ) => Promise<void>;
 
 export type Update = <TReadModel extends ReadModel>(
-  id: `${TReadModel['type']}#${string}`,
+  id: `${TReadModel['type']}|${string}`,
   readModel: Omit<TReadModel, 'type'>,
 ) => Promise<void>;
 
 export type Remove = <TReadModel extends ReadModel>(
-  id: `${TReadModel['type']}#${string}`,
+  id: `${TReadModel['type']}|${string}`,
 ) => Promise<void>;

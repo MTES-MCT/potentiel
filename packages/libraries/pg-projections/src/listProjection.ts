@@ -19,13 +19,13 @@ export const listProjection = async <TReadModel extends ReadModel>({
 
   const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
     query,
-    `${type}#%`,
+    `${type}|%`,
   );
 
   return result.map(
     ({ key, value }) =>
       ({
-        type: key.split('#')[0],
+        type: key.split('|')[0],
         ...value,
       } as TReadModel),
   );

@@ -1,1 +1,1 @@
-export type AggregateId = `${string}#${string}`;
+export type AggregateId = `${string}|${string}`;

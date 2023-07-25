@@ -4,7 +4,7 @@ import { executeQuery } from '@potentiel/pg-helpers';
 import { loadAggregate } from './loadAggregate';
 
 describe(`loadAggregate`, () => {
-  const aggregateId = 'aggregateCategory#aggregateId';
+  const aggregateId = 'aggregateCategory|aggregateId';
 
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';

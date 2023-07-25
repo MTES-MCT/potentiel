@@ -14,7 +14,7 @@ export type ProjetProjectorDependencies = {
 
 export const registerProjetProjector = ({ create, update, find }: ProjetProjectorDependencies) => {
   const handler: MessageHandler<ExecuteProjetProjector> = async (event) => {
-    const key: ProjetReadModelKey = `projet#${
+    const key: ProjetReadModelKey = `projet|${
       event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
     }`;
     switch (event.type) {

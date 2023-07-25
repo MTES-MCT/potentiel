@@ -3,12 +3,12 @@ import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
 import { IdentifiantGestionnaireRéseauValueType } from './gestionnaireRéseau.valueType';
 import { RéférenceDossierRaccordementValueType } from '../raccordement/raccordement.valueType';
 
-type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
+type GestionnaireRéseauAggregateId = `gestionnaire-réseau|${string}`;
 
 export const createGestionnaireRéseauAggregateId = (
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseauValueType,
 ): GestionnaireRéseauAggregateId =>
-  `gestionnaire-réseau#${identifiantGestionnaireRéseau.formatter()}`;
+  `gestionnaire-réseau|${identifiantGestionnaireRéseau.formatter()}`;
 
 export type GestionnaireRéseau = {
   codeEIC: string;

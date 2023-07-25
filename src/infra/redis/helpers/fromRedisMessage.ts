@@ -74,7 +74,7 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent | null => {
   const payload = !isLegacyEvent(message)
     ? {
         ...transformerISOStringEnDate(message.payload),
-        streamId: message.streamId,
+        streamId: message.stream_id,
       }
     : {
         ...transformerISOStringEnDate(message.payload),

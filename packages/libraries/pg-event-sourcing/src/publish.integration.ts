@@ -10,7 +10,7 @@ describe(`publish`, () => {
 
   it(`Lorsqu'on publie un événement,
     alors l'événement devrait être présent dans le stream`, async () => {
-    const stream_id = 'string#string';
+    const stream_id = 'string|string';
 
     const event = {
       type: 'Un-événement-métier-est-survenu',
@@ -34,7 +34,7 @@ describe(`publish`, () => {
 
   it(`Lorsqu'on publie plusieurs événements,
     alors les événements devrait être présent dans le stream dans l'ordre de publication`, async () => {
-    const stream_id = 'string#string';
+    const stream_id = 'string|string';
 
     const events = [
       {
