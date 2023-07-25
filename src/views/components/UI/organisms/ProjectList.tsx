@@ -63,7 +63,7 @@ type Props = {
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
   currentUrl: string;
-  downloadUrl: string;
+  downloadUrl?: string;
 };
 
 export const ProjectList = ({
@@ -143,7 +143,7 @@ export const ProjectList = ({
             </div>
           )}
         </div>
-        {projects.itemCount > 0 && (
+        {downloadUrl && (
           <SecondaryLinkButton
             className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
             href={downloadUrl}
