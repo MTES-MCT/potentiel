@@ -16,12 +16,13 @@ import {
   BarreDeRecherche,
   ListeVide,
   Select,
-  // Dropdown,
   LinkButton,
   Form,
   Link,
   Accordeon,
   PageTemplate,
+  ArrowLeftIcon,
+  ArrowRightIcon,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -91,7 +92,8 @@ export const ListeProjets = ({
     periodeId ||
     familleId ||
     garantiesFinancieres ||
-    hasNonDefaultClassement
+    hasNonDefaultClassement ||
+    recherche
   );
 
   const periodes = appelsOffre
@@ -107,11 +109,12 @@ export const ListeProjets = ({
 
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [displaySelection, setDisplaySelection] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(true);
 
   return (
     <PageTemplate
       user={utilisateur}
-      currentPage={'liste-projects'}
+      currentPage={'list-projects'}
       contentHeader={
         <Heading1 className="!text-white">
           {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
@@ -123,7 +126,11 @@ export const ListeProjets = ({
       {error && <ErrorBox title={error} />}
 
       <div className="flex flex-col lg:flex-row gap-10 mt-8">
-        <div className="lg:w-1/3 lg:self-start lg:sticky lg:top-10 flex flex-col">
+        <div
+          className={`flex flex-col ${
+            filtersOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10' : 'lg:hidden'
+          }`}
+        >
           <Accordeon title="Filtrer par nom projet">
             <Form action={routes.LISTE_PROJETS} method="GET">
               <BarreDeRecherche
@@ -340,19 +347,38 @@ export const ListeProjets = ({
           )}
         </div>
 
-        <ProjectList
-          className="lg:w-2/3"
-          displaySelection={displaySelection}
-          selectedIds={selectedProjectIds}
-          currentUrl={currentUrl}
-          onSelectedIdsChanged={setSelectedProjectIds}
-          {...(userIs('dreal')(utilisateur) && { displayGF: true })}
-          projects={projects}
-          role={utilisateur.role}
-          downloadUrl={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-            request.query as any,
-          )}`}
-        />
+        <div className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}>
+          {!hasFilters && (
+            <LinkButton
+              onClick={() => setFiltersOpen(!filtersOpen)}
+              className="mb-4 text-sm cursor-pointer"
+            >
+              {filtersOpen ? (
+                <>
+                  <ArrowLeftIcon className="!text-white w-5 h-5 mr-2" />
+                  Masquer les filtres
+                </>
+              ) : (
+                <>
+                  Afficher les filtres
+                  <ArrowRightIcon className="!text-white w-5 h-5 ml-2" />
+                </>
+              )}
+            </LinkButton>
+          )}
+          <ProjectList
+            displaySelection={displaySelection}
+            selectedIds={selectedProjectIds}
+            currentUrl={currentUrl}
+            onSelectedIdsChanged={setSelectedProjectIds}
+            {...(userIs('dreal')(utilisateur) && { displayGF: true })}
+            projects={projects}
+            role={utilisateur.role}
+            downloadUrl={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+              request.query as any,
+            )}`}
+          />
+        </div>
       </div>
     </PageTemplate>
   );

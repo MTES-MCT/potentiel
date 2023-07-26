@@ -15,6 +15,8 @@ export {
   RiSkipRightLine as LastPageIcon,
   RiCloseLine as CloseIcon,
   RiRefreshLine as RefreshIcon,
+  RiArrowLeftLine as ArrowLeftIcon,
+  RiArrowRightLine as ArrowRightIcon,
   RiArrowDownSLine as ArrowDownIcon,
   RiArrowRightCircleLine as ArrowRightWithCircle,
   RiArrowDownCircleLine as ArrowDownWithCircle,
