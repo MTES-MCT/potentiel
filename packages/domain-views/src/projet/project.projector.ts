@@ -51,48 +51,48 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
           });
         }
         break;
-      case 'TypeGarantiesFinancièresEnregistré':
-        if (isNone(projet)) {
-          await create<ProjetReadModel>(key, {
-            garantiesFinancières: {
-              type: event.payload.type,
-              dateÉchéance: event.payload.dateÉchéance,
-            },
-          });
-        } else {
-          await update<ProjetReadModel>(key, {
-            ...projet,
-            garantiesFinancières: {
-              ...projet.garantiesFinancières,
-              type: event.payload.type,
-              dateÉchéance: event.payload.dateÉchéance,
-            },
-          });
-        }
-        break;
-      case 'AttestationGarantiesFinancièresEnregistrée':
-        if (isNone(projet)) {
-          await create<ProjetReadModel>(key, {
-            garantiesFinancières: {
-              attestation: {
-                format: event.payload.format,
-                dateConstitution: event.payload.dateConstitution,
-              },
-            },
-          });
-        } else {
-          await update<ProjetReadModel>(key, {
-            ...projet,
-            garantiesFinancières: {
-              ...projet.garantiesFinancières,
-              attestation: {
-                format: event.payload.format,
-                dateConstitution: event.payload.dateConstitution,
-              },
-            },
-          });
-        }
-        break;
+      // case 'TypeGarantiesFinancièresEnregistré':
+      //   if (isNone(projet)) {
+      //     await create<ProjetReadModel>(key, {
+      //       garantiesFinancières: {
+      //         type: event.payload.type,
+      //         dateÉchéance: event.payload.dateÉchéance,
+      //       },
+      //     });
+      //   } else {
+      //     await update<ProjetReadModel>(key, {
+      //       ...projet,
+      //       garantiesFinancières: {
+      //         ...projet.garantiesFinancières,
+      //         type: event.payload.type,
+      //         dateÉchéance: event.payload.dateÉchéance,
+      //       },
+      //     });
+      //   }
+      //   break;
+      // case 'AttestationGarantiesFinancièresEnregistrée':
+      //   if (isNone(projet)) {
+      //     await create<ProjetReadModel>(key, {
+      //       garantiesFinancières: {
+      //         attestation: {
+      //           format: event.payload.format,
+      //           dateConstitution: event.payload.dateConstitution,
+      //         },
+      //       },
+      //     });
+      //   } else {
+      //     await update<ProjetReadModel>(key, {
+      //       ...projet,
+      //       garantiesFinancières: {
+      //         ...projet.garantiesFinancières,
+      //         attestation: {
+      //           format: event.payload.format,
+      //           dateConstitution: event.payload.dateConstitution,
+      //         },
+      //       },
+      //     });
+      //   }
+      //   break;
     }
   };
 

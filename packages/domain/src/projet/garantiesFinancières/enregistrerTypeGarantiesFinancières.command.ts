@@ -25,7 +25,7 @@ export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
       type: 'TypeGarantiesFinancièresEnregistré',
       payload: {
         type: typeGarantiesFinancières.type,
-        ...(typeGarantiesFinancières.type === `avec date d'échéance` && {
+        ...(typeGarantiesFinancières.dateÉchéance && {
           dateÉchéance: typeGarantiesFinancières.dateÉchéance.formatter(),
         }),
         identifiantProjet: identifiantProjet.formatter(),

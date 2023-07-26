@@ -44,37 +44,27 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
           },
         };
       case 'TypeGarantiesFinancièresEnregistré':
-        if (event.payload.type === `avec date d'échéance`) {
-          return {
-            ...aggregate,
-            garantiesFinancières: {
-              ...aggregate.garantiesFinancières,
-              type: event.payload.type,
-              ...(event.payload.dateÉchéance && {
-                dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
-              }),
+        return {
+          ...aggregate,
+          garantiesFinancières: {
+            ...aggregate.garantiesFinancières,
+            type: event.payload.type,
+            ...(event.payload.dateÉchéance && {
+              dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+            }),
+          },
+        };
+      case 'AttestationGarantiesFinancièresEnregistrée':
+        return {
+          ...aggregate,
+          garantiesFinancières: {
+            ...aggregate.garantiesFinancières,
+            attestation: {
+              format: event.payload.format,
+              dateConstitution: convertirEnDateTime(event.payload.dateConstitution),
             },
-          };
-        } else {
-          return {
-            ...aggregate,
-            garantiesFinancières: {
-              ...aggregate.garantiesFinancières,
-              type: event.payload.type,
-            },
-          };
-        }
-      // case 'AttestationGarantiesFinancièresEnregistrée':
-      //   return {
-      //     ...aggregate,
-      //     garantiesFinancières: {
-      //       ...aggregate.garantiesFinancières,
-      //       attestation: {
-      //         format: event.payload.format,
-      //         dateConstitution: convertirEnDateTime(event.payload.dateConstitution),
-      //       },
-      //     },
-      //   };
+          },
+        };
       default:
         return { ...aggregate };
     }

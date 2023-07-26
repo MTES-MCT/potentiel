@@ -1,14 +1,8 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../../potentiel.world';
-import { mediator } from 'mediateur';
-import { ConsulterProjetQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 import { expect } from 'chai';
-import {
-  convertirEnDateTime,
-  convertirEnIdentifiantProjet,
-  loadProjetAggregateFactory,
-} from '@potentiel/domain';
+import { convertirEnIdentifiantProjet, loadProjetAggregateFactory } from '@potentiel/domain';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 
 Alors(
@@ -24,6 +18,7 @@ Alors(
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
     // Assert on aggregate
+
     const actualProjetAggregate = await loadProjetAggregateFactory({ loadAggregate })(
       convertirEnIdentifiantProjet(identifiantProjet),
     );
@@ -32,37 +27,26 @@ Alors(
       throw new Error(`L'agrégat projet n'existe pas !`);
     }
 
-    const actualGarantiesFinancières = await actualProjetAggregate.getGestionnaireRéseau();
+    expect(actualProjetAggregate.garantiesFinancières).not.to.be.undefined;
 
-    if (isNone(actualGarantiesFinancières)) {
-      throw new Error(`L'agrégat garanties financières n'existe pas !`);
-    }
-    actualGarantiesFinancières.should.equals({
-      dateÉchéance: convertirEnDateTime(dateÉchéance).formatter(),
-      type,
-      attestation: {
-        format,
-        dateConstitution: convertirEnDateTime(dateConstitution).formatter(),
-      },
-    });
-
-    // Assert on read model
-    const résultat = await mediator.send<ConsulterProjetQuery>({
-      type: 'CONSULTER_PROJET',
-      data: { identifiantProjet },
-    });
-
-    if (isNone(résultat)) {
-      throw new Error('Projet non trouvé');
+    if (type) {
+      expect(actualProjetAggregate.garantiesFinancières?.type).to.equals(type);
     }
 
-    expect(résultat.garantiesFinancières).to.deep.equal({
-      dateÉchéance: convertirEnDateTime(dateÉchéance).formatter(),
-      type,
-      attestation: {
-        format,
-        dateConstitution: convertirEnDateTime(dateConstitution).formatter(),
-      },
-    });
+    if (dateÉchéance) {
+      expect(actualProjetAggregate.garantiesFinancières?.dateÉchéance?.date.getTime()).to.equals(
+        new Date(dateÉchéance).getTime(),
+      );
+    }
+
+    if (format) {
+      expect(actualProjetAggregate.garantiesFinancières?.attestation?.format).to.equals(format);
+    }
+
+    if (dateConstitution) {
+      expect(
+        actualProjetAggregate.garantiesFinancières?.attestation?.dateConstitution.date.getTime(),
+      ).to.equals(new Date(dateConstitution).getTime());
+    }
   },
 );

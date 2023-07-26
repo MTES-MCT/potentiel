@@ -6,18 +6,14 @@ export type AttestationGarantiesFinancières = {
   dateConstitution: DateTimeValueType;
 };
 
-export type TypeGarantiesFinancières =
-  | {
-      type: `avec date d'échéance` | 'type inconnu';
-      dateÉchéance: DateTimeValueType;
-    }
-  | {
-      type: `consignation` | `6 mois après achèvement` | 'type inconnu';
-    };
+export type TypeGarantiesFinancières = {
+  type: `avec date d'échéance` | 'type inconnu' | `consignation` | `6 mois après achèvement`;
+  dateÉchéance?: DateTimeValueType;
+};
 
-export type GarantiesFinancières = {
+export type GarantiesFinancières = Partial<TypeGarantiesFinancières> & {
   attestation?: AttestationGarantiesFinancières;
-} & TypeGarantiesFinancières;
+};
 
 export type RawIdentifiantProjet = `${string}#${string}#${string}#${string}`;
 

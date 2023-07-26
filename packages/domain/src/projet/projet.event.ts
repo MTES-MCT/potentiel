@@ -20,15 +20,11 @@ export type TypeGarantiesFinancièresEnregistréEvent = DomainEvent<
   'TypeGarantiesFinancièresEnregistré',
   {
     identifiantProjet: string;
-  } & (
-    | {
-        type: `avec date d'échéance`;
-        dateÉchéance?: string;
-      }
-    | {
-        type: 'consignation' | `6 mois après achèvement`;
-      }
-  )
+  } & {
+    // type inconnu pour la migration du legacy (projet sans type et avec date d'échéance)
+    type: `avec date d'échéance` | 'consignation' | `6 mois après achèvement` | `type inconnu`;
+    dateÉchéance?: string;
+  }
 >;
 
 export type AttestationGarantiesFinancièresEnregistréeEvent = DomainEvent<
