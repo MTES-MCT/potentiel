@@ -3,13 +3,13 @@ import React, { ComponentProps } from 'react';
 type LabelProps = ComponentProps<'label'> & {
   htmlFor: string;
   required?: true;
-  disabled?: true;
+  disabled?: boolean;
 };
 
 export const Label = ({
   required,
   children,
-  disabled,
+  disabled = false,
   htmlFor,
   className = '',
   ...props

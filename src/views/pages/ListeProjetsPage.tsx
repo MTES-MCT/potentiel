@@ -67,9 +67,7 @@ export const ListeProjets = ({
         <LegacyPageTemplate user={utilisateur} currentPage="list-projects">
           <Heading1>{userIs('porteur-projet')(utilisateur) ? 'Mes Projets' : 'Projets'}</Heading1>
           <ListeVide titre="Aucun projet à lister">
-            {projects.itemCount > 0 && (
-              <Link href={routes.LISTE_PROJETS}>Voir tout les projets</Link>
-            )}
+            <Link href={routes.LISTE_PROJETS}>Voir tout les projets</Link>
           </ListeVide>
         </LegacyPageTemplate>
       </>
@@ -91,36 +89,40 @@ export const ListeProjets = ({
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id));
+  const filtreParPériodeActif = appelOffreId && periodes && periodes.length > 0;
 
   const familles = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
+  const filtreParFamilleActif = appelOffreId && familles && familles.length > 0;
 
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [displaySelection, setDisplaySelection] = useState(false);
 
   return (
     <LegacyPageTemplate user={utilisateur} currentPage="list-projects">
-      <div className="flex justify-between">
+      <div className="flex flex-col md:flex-row md:justify-between">
         <Heading1>
           {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
           {projects.itemCount > 0 && ` (${projects.itemCount})`}
         </Heading1>
+        <Form action={routes.LISTE_PROJETS} method="GET">
+          <BarreDeRecherche
+            title="Rechercher par nom du projet"
+            name="recherche"
+            defaultValue={recherche || ''}
+            className="mt-8 md:mt-0"
+          />
+        </Form>
       </div>
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      <div className="flex flex-col lg:flex-row gap-10 mt-10">
-        <div className="lg:w-1/3 lg:self-start lg:sticky lg:top-10">
-          <Accordeon title="Filtrer la liste des projets">
-            <Form action={routes.LISTE_PROJETS} method="GET" className="my-4">
-              <BarreDeRecherche
-                title="Rechercher par nom du projet"
-                name="recherche"
-                defaultValue={recherche || ''}
-              />
-
+      <div className="flex flex-col lg:flex-row gap-10 mt-8">
+        <div className="lg:w-1/3 lg:self-start lg:sticky lg:top-10 flex flex-col">
+          <Accordeon title="Filtrer par appel d'offre">
+            <Form action={routes.LISTE_PROJETS} method="GET">
               <div>
                 <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
                 <Select
@@ -148,67 +150,69 @@ export const ListeProjets = ({
                     ))}
                 </Select>
               </div>
-              {appelOffreId && periodes && periodes.length > 0 && (
-                <div>
-                  <Label htmlFor="periodeId" className="mt-4">
-                    Période concernée
-                  </Label>
-                  <Select
-                    id="periodeId"
-                    name="periodeId"
-                    defaultValue={periodeId}
-                    onChange={(event) =>
-                      updateUrlParams({
-                        periodeId: event.target.value,
-                      })
-                    }
-                  >
-                    <option value="default" disabled hidden>
-                      Choisir une période
-                    </option>
-                    <option value="">Toutes périodes</option>
-                    {periodes.map((periode) => (
+              <div>
+                <Label htmlFor="periodeId" className="mt-4" disabled={!filtreParPériodeActif}>
+                  Période concernée
+                </Label>
+                <Select
+                  id="periodeId"
+                  name="periodeId"
+                  defaultValue={periodeId}
+                  disabled={!filtreParPériodeActif}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      periodeId: event.target.value,
+                    })
+                  }
+                >
+                  <option value="default" disabled hidden>
+                    Choisir une période
+                  </option>
+                  <option value="">Toutes périodes</option>
+                  {periodes &&
+                    periodes.map((periode) => (
                       <option key={`appel_${periode.id}`} value={periode.id}>
                         {periode.title}
                       </option>
                     ))}
-                  </Select>
-                </div>
-              )}
-              {appelOffreId && familles && familles.length > 0 && (
-                <div>
-                  <Label htmlFor="familleId" className="mt-4">
-                    Famille concernée
-                  </Label>
-                  <Select
-                    id="familleId"
-                    name="familleId"
-                    defaultValue={familleId || 'default'}
-                    onChange={(event) =>
-                      updateUrlParams({
-                        familleId: event.target.value,
-                      })
-                    }
-                  >
-                    <option value="default" disabled hidden>
-                      Choisir une famille
-                    </option>
-                    <option value="">Toutes familles</option>
-                    {familles.map((famille) => (
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="familleId" className="mt-4" disabled={!filtreParFamilleActif}>
+                  Famille concernée
+                </Label>
+                <Select
+                  id="familleId"
+                  name="familleId"
+                  defaultValue={familleId || 'default'}
+                  disabled={!filtreParFamilleActif}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      familleId: event.target.value,
+                    })
+                  }
+                >
+                  <option value="default" disabled hidden>
+                    Choisir une famille
+                  </option>
+                  <option value="">Toutes familles</option>
+                  {familles &&
+                    familles.map((famille) => (
                       <option key={`appel_${famille.id}`} value={famille.id}>
                         {famille.title}
                       </option>
                     ))}
-                  </Select>
-                </div>
-              )}
-              {userIs(['admin', 'dreal', 'dgec-validateur', 'porteur-projet', 'caisse-des-dépôts'])(
-                utilisateur,
-              ) && (
+                </Select>
+              </div>
+            </Form>
+          </Accordeon>
+          {userIs(['admin', 'dreal', 'dgec-validateur', 'porteur-projet', 'caisse-des-dépôts'])(
+            utilisateur,
+          ) && (
+            <Accordeon title="Filtrer par état de garantie financière">
+              <Form action={routes.LISTE_PROJETS} method="GET">
                 <div>
-                  <Label htmlFor="garantiesFinancieres" className="mt-4">
-                    Garanties financières
-                  </Label>
+                  <Label htmlFor="garantiesFinancieres">Garanties financières</Label>
                   <Select
                     id="garantiesFinancieres"
                     name="garantiesFinancieres"
@@ -228,8 +232,12 @@ export const ListeProjets = ({
                     <option value="pastDue">En retard</option>
                   </Select>
                 </div>
-              )}
-              <div className="flex-1 flex-shrink-0">
+              </Form>
+            </Accordeon>
+          )}
+          <Accordeon title="Filtrer par état du projet">
+            <Form action={routes.LISTE_PROJETS} method="GET" className="mt-2">
+              <div>
                 <Label htmlFor="classement">Projets Classés/Eliminés/Abandons</Label>
                 <Select
                   id="classement"
@@ -251,7 +259,7 @@ export const ListeProjets = ({
                 </Select>
               </div>
               {userIsNot('porteur-projet')(utilisateur) && (
-                <div className="flex-1 flex-shrink-0 mt-4 md:mt-0">
+                <div className="mt-2">
                   <Label htmlFor="reclames">Projets Réclamés/Non réclamés</Label>
                   <Select
                     id="reclames"
@@ -271,11 +279,6 @@ export const ListeProjets = ({
                     <option value="non-réclamés">Non réclamés</option>
                   </Select>
                 </div>
-              )}
-              {hasFilters && (
-                <LinkButton href="#" onClick={resetUrlParams}>
-                  Retirer tous les filtres
-                </LinkButton>
               )}
             </Form>
           </Accordeon>
@@ -316,6 +319,12 @@ export const ListeProjets = ({
                 </PrimaryButton>
               </Form>
             </Accordeon>
+          )}
+
+          {hasFilters && (
+            <LinkButton href="#" onClick={resetUrlParams} className="mt-4 self-center">
+              Retirer tous les filtres
+            </LinkButton>
           )}
         </div>
 

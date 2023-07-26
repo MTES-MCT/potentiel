@@ -31,7 +31,6 @@ export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
         className="flex items-center py-2 px-2 lg:px-6 border-0 bg-blue-france-sun-base hover:bg-blue-france-sun-hover text-white"
       >
         <SearchIcon className="w-6 h-6 lg:mr-2" aria-hidden />
-        <span className="hidden lg:block text-lg font-medium">Rechercher</span>
       </PrimaryButton>
     </div>
   </div>
