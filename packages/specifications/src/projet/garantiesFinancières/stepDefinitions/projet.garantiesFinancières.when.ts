@@ -14,32 +14,31 @@ Quand(
     const exemple = table.rowsHash();
 
     try {
-      const type = exemple['type'];
+      const type = exemple['type'] as
+        | `avec date d'échéance`
+        | 'consignation'
+        | `6 mois après achèvement`
+        | `type inconnu`;
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-      if (type === `avec date d'échéance`) {
-        await mediator.send<DomainUseCase>({
-          type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
-          data: {
-            attestationGarantiesFinancières: {
-              format,
-              dateConstitution: convertirEnDateTime(dateConstutition),
-            },
-            typeGarantiesFinancières: {
-              type,
-              dateÉchéance: convertirEnDateTime(dateÉchéance),
-            },
-            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+      await mediator.send<DomainUseCase>({
+        type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
+        data: {
+          attestationGarantiesFinancières: {
+            format,
+            dateConstitution: convertirEnDateTime(dateConstutition),
           },
-        });
-      }
-
-      //TO DO : cas sans date d'échéance
-
+          typeGarantiesFinancières: {
+            type,
+            ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
+          },
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+        },
+      });
       await sleep(500);
     } catch (error) {
       console.log('USE CASE ERREUR', error);

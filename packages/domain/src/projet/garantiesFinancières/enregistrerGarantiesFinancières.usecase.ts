@@ -3,9 +3,10 @@ import { EnregistrerTypeGarantiesFinancièresCommand } from './enregistrerTypeGa
 import { ProjetCommand } from '../projet.command';
 import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command';
 
-type EnregistrerGarantiesFinancièresUseCaseData =
-  EnregistrerTypeGarantiesFinancièresCommand['data'] &
-    EnregistrerAttestationGarantiesFinancièresCommand['data'];
+type EnregistrerGarantiesFinancièresUseCaseData = Partial<
+  EnregistrerTypeGarantiesFinancièresCommand['data']
+> &
+  Partial<EnregistrerAttestationGarantiesFinancièresCommand['data']>;
 
 export type EnregistrerGarantiesFinancièresUseCase = Message<
   'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
@@ -18,20 +19,24 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     attestationGarantiesFinancières,
     identifiantProjet,
   }) => {
-    await mediator.send<ProjetCommand>({
-      type: 'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
-      data: { typeGarantiesFinancières, identifiantProjet },
-    });
+    if (typeGarantiesFinancières && identifiantProjet) {
+      await mediator.send<ProjetCommand>({
+        type: 'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
+        data: { typeGarantiesFinancières, identifiantProjet },
+      });
+    }
 
-    // TO DO : pb à corriger
-    setTimeout(
-      async () =>
-        await mediator.send<ProjetCommand>({
-          type: 'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
-          data: { attestationGarantiesFinancières, identifiantProjet },
-        }),
-      100,
-    );
+    if (attestationGarantiesFinancières && identifiantProjet) {
+      // TO DO : pb à corriger pour retirer le setTimeout
+      setTimeout(
+        async () =>
+          await mediator.send<ProjetCommand>({
+            type: 'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
+            data: { attestationGarantiesFinancières, identifiantProjet },
+          }),
+        100,
+      );
+    }
 
     // TO DO : téléverser fichier
   };
