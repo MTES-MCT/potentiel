@@ -44,7 +44,7 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
           },
         };
       case 'TypeGarantiesFinancièresEnregistré':
-        return event.payload.type === `6 mois après achèvement` ||
+        return event.payload.type === `avec date d'échéance` ||
           event.payload.type === 'type inconnu'
           ? {
               ...aggregate,
