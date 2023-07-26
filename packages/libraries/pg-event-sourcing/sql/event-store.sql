@@ -25,36 +25,34 @@ create table event_store.pending_acknowledgement (
   primary key (subscriber_id, stream_id, created_at, version)
 );
 
--- insert into event_store.event_stream(stream_id, created_at, type, version, payload)
--- select split_part("streamId", '#', 1) || '|' || split_part("streamId", split_part("streamId", '#', 1) || '#', 2), "createdAt", "type", "version", "payload" from "EVENT_STREAM";
-
 create or replace function event_store.notify_subscribers()
 returns trigger as
 $$
 declare
-  v_type varchar;
-  v_subscriber event_store.subscriber;
-  v_error_msg jsonb;
+  -- v_type varchar;
+  -- v_subscriber event_store.subscriber;
+  -- v_error_msg jsonb;
 begin
-  v_type := new.type;
+  -- v_type := new.type;
 
-  for v_subscriber in
-    select subscriber_id
-    from event_store.subscriber
-    where filter is null or v_type in (select jsonb_array_elements_text(filter))
-  loop
-    begin
-      insert into event_store.pending_acknowledgement
-      values (v_subscriber.subscriber_id, new.stream_id, new.created_at, new.version);
+  -- for v_subscriber in
+  --   select subscriber_id
+  --   from event_store.subscriber
+  --   where filter is null or v_type in (select jsonb_array_elements_text(filter))
+  -- loop
+  --   begin
+      --insert into event_store.pending_acknowledgement
+      --values (v_subscriber.subscriber_id, new.stream_id, new.created_at, new.version);
 
-      perform pg_notify(v_subscriber.subscriber_id, row_to_json(new)::text);
-    exception
-      when others then
-        v_error_msg := json_build_object('error_message', sqlerrm);
+      --perform pg_notify('v_subscriber.subscriber_id', row_to_json(new)::text);
+  --   exception
+  --     when others then
+  --       v_error_msg := json_build_object('error_message', sqlerrm);
 
-        perform pg_notify('error_notifications', v_error_msg::text);
-    end;
-  end loop;
+  --       perform pg_notify('error_notifications', v_error_msg::text);
+  --   end;
+  -- end loop;
+  perform pg_notify('new_event', row_to_json(NEW)::text);
 
   return new;
 end;
@@ -92,21 +90,6 @@ $$
       return new;
   end;
 $$ language plpgsql;
-
-create function insert_into_event_store()
-    returns trigger as
-$$
-    begin
-        insert into event_store.event_stream (stream_id, created_at, type, version, payload) values (split_part(new."streamId", '#', 1) || '|' || split_part(new."streamId", split_part(new."streamId", '#', 1) || '#', 2), new."createdAt", new."type", new."version", new."payload");
-        return new;
-    end;
-$$ language plpgsql;
-
-create trigger insert_into_event_store_trigger
-after insert
-on "EVENT_STREAM"
-for each row
-execute procedure insert_into_event_store();
 
 -- System projections
 create schema system_projections;
@@ -160,3 +143,6 @@ $$
     end if;
   end
 $$ language plpgsql;
+
+--insert into event_store.event_stream(stream_id, created_at, type, version, payload)
+--select split_part("streamId", '#', 1) || '|' || split_part("streamId", split_part("streamId", '#', 1) || '#', 2), "createdAt", "type", "version", "payload" from "EVENT_STREAM";
