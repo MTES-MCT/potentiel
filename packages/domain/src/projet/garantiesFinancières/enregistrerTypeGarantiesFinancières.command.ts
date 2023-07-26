@@ -1,26 +1,40 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType, TypeGarantiesFinancières } from '../projet.valueType';
-import { Publish } from '@potentiel/core-domain';
-import { createProjetAggregateId } from '../projet.aggregate';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
+import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
 import { TypeGarantiesFinancièresEnregistréEvent } from '../projet.event';
+import { checkType } from './checkType';
 
 export type EnregistrerTypeGarantiesFinancièresCommand = Message<
   'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
   {
     identifiantProjet: IdentifiantProjetValueType;
     typeGarantiesFinancières: TypeGarantiesFinancières;
+    currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts';
   }
 >;
 
-export type EnregistrerTypeGarantiesFinancièresDependencies = { publish: Publish };
+export type EnregistrerTypeGarantiesFinancièresDependencies = {
+  publish: Publish;
+  loadAggregate: LoadAggregate;
+};
 
 export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
   publish,
+  loadAggregate,
 }: EnregistrerTypeGarantiesFinancièresDependencies) => {
+  const loadProjet = loadProjetAggregateFactory({
+    loadAggregate,
+  });
+
   const handler: MessageHandler<EnregistrerTypeGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     typeGarantiesFinancières,
+    currentUserRôle,
   }) => {
+    const agrégatProjet = await loadProjet(identifiantProjet);
+    checkType(typeGarantiesFinancières, currentUserRôle, agrégatProjet);
+
     const event: TypeGarantiesFinancièresEnregistréEvent = {
       type: 'TypeGarantiesFinancièresEnregistré',
       payload: {

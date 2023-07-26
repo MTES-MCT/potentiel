@@ -102,7 +102,25 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | date de constitution | 2050-12-02           |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"           
 
+@select
+    Scénario: Erreur si date d'échéance saisie avec un type de garanties financières non compatible
+        Etant donné le projet "Centrale éolienne 20"
+        Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
+            | type                 | consignation         |
+            | date d'échéance      | 2027-12-01           |
+            | format               | application/pdf      |
+            | date de constitution | 2020-12-02           |
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas ajouter une date d'échéance pour le type de garanties financières renseigné" 
 
-
+@select
+    Scénario: Erreur si un porteur tente de modifier le type de garanties financières
+        Etant donné le projet "Centrale éolienne 20"
+        Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
+            | type                 | avec date d'échéance   |
+            | date d'échéance      | 2027-12-01             |          
+        Quand un utilisateur avec le rôle 'porteur-projet' transmet des garanties financières pour le projet "Centrale éolienne 20"
+            | type                 | avec date d'échéance   |
+            | date d'échéance      | 2030-12-01             |
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas modifier des données de garanties financières déjà validées" 
 
        

@@ -23,3 +23,17 @@ export class DateConstitutionGarantiesFinancièreDansLeFuturErreur extends Inval
     super('La date de constitution des garanties financières ne peut pas être une date future');
   }
 }
+
+export class DateÉchéanceGarantiesFinancièresNonAcceptéeErreur extends InvalidOperationError {
+  constructor() {
+    super(
+      "Vous ne pouvez pas ajouter une date d'échéance pour le type de garanties financières renseigné",
+    );
+  }
+}
+
+export class ModificationGarantiesFinancièresNonAutoriséeErreur extends InvalidOperationError {
+  constructor() {
+    super('Vous ne pouvez pas modifier des données de garanties financières déjà validées');
+  }
+}

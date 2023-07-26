@@ -41,6 +41,12 @@ Quand(
               ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
             },
           }),
+          currentUserRôle: role as
+            | 'admin'
+            | 'porteur-projet'
+            | 'dgec-validateur'
+            | 'cre'
+            | 'caisse-des-dépôts',
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
         },
       });

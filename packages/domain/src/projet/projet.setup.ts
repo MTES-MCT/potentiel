@@ -14,6 +14,7 @@ import { registerDéclarerGestionnaireRéseauProjetCommand } from './gestionnair
 import { registerEnregistrerGarantiesFinancièresUseCase } from './garantiesFinancières/enregistrerGarantiesFinancières.usecase';
 import { registerEnregistrerTypeGarantiesFinancièresCommand } from './garantiesFinancières/enregistrerTypeGarantiesFinancières.command';
 import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './garantiesFinancières/enregistrerAttestationGarantiesFinancières.command';
+import { registerEnregistrerGarantiesFinancièresComplètesCommand } from './garantiesFinancières/enregistrerGarantiesFinancièresComplètes.command';
 
 export type ProjetDependencies = {
   subscribe: Subscribe;
@@ -25,6 +26,7 @@ export const setupProjet = async (dependencies: ProjetDependencies) => {
   registerDéclarerGestionnaireRéseauProjetCommand(dependencies);
   registerEnregistrerTypeGarantiesFinancièresCommand(dependencies);
   registerEnregistrerAttestationGarantiesFinancièresCommand(dependencies);
+  registerEnregistrerGarantiesFinancièresComplètesCommand(dependencies);
 
   // Use cases
   registerModifierGestionnaireRéseauProjetUseCase();
