@@ -12,6 +12,9 @@ create table event_store.event_stream (
 
 create index on event_store.event_stream (stream_id);
 
+insert into event_store.event_stream(stream_id, created_at, type, version, payload)
+select split_part("streamId", '#', 1) || '|' || split_part("streamId", split_part("streamId", '#', 1) || '#', 2), "createdAt", "type", "version", "payload" from "EVENT_STREAM";
+
 create table event_store.subscriber (
   subscriber_id varchar not null primary key,
   filter jsonb default null
@@ -143,6 +146,3 @@ $$
     end if;
   end
 $$ language plpgsql;
-
---insert into event_store.event_stream(stream_id, created_at, type, version, payload)
---select split_part("streamId", '#', 1) || '|' || split_part("streamId", split_part("streamId", '#', 1) || '#', 2), "createdAt", "type", "version", "payload" from "EVENT_STREAM";

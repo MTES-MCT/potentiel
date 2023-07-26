@@ -6,5 +6,5 @@ create table app_views.projection (
   value jsonb not null
 );
 
---insert into app_views.projection
---select split_part("key", '#', 1) || '|' || split_part("key", split_part("key", '#', 1) || '#', 2), "value" from "PROJECTION";
+insert into app_views.projection
+select split_part("key", '#', 1) || '|' || split_part("key", split_part("key", '#', 1) || '#', 2), "value" from "PROJECTION";
