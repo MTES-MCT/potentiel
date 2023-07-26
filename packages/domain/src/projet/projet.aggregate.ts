@@ -44,16 +44,26 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
           },
         };
       case 'TypeGarantiesFinancièresEnregistré':
-        return {
-          ...aggregate,
-          garantiesFinancières: {
-            ...aggregate.garantiesFinancières,
-            type: event.payload.type,
-            ...(event.payload.dateÉchéance && {
-              dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
-            }),
-          },
-        };
+        return event.payload.type === `6 mois après achèvement` ||
+          event.payload.type === 'type inconnu'
+          ? {
+              ...aggregate,
+              garantiesFinancières: {
+                ...aggregate.garantiesFinancières,
+                type: event.payload.type,
+                ...(event.payload.dateÉchéance && {
+                  dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+                }),
+              },
+            }
+          : {
+              ...aggregate,
+              garantiesFinancières: {
+                ...aggregate.garantiesFinancières,
+                type: event.payload.type,
+                dateÉchéance: undefined,
+              },
+            };
       case 'AttestationGarantiesFinancièresEnregistrée':
         return {
           ...aggregate,

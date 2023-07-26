@@ -37,6 +37,8 @@ Alors(
       expect(actualProjetAggregate.garantiesFinancières?.dateÉchéance?.date.getTime()).to.equals(
         new Date(dateÉchéance).getTime(),
       );
+    } else {
+      expect(actualProjetAggregate.garantiesFinancières?.dateÉchéance).to.be.undefined;
     }
 
     if (format) {

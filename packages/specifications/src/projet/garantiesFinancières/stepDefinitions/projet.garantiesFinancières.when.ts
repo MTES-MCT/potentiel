@@ -35,10 +35,12 @@ Quand(
                 dateConstitution: convertirEnDateTime(dateConstutition),
               },
             }),
-          typeGarantiesFinancières: {
-            type,
-            ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
-          },
+          ...(type && {
+            typeGarantiesFinancières: {
+              type,
+              ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
+            },
+          }),
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
         },
       });
