@@ -7,7 +7,6 @@ import { PaginatedList } from '@modules/pagination';
 
 import {
   ProjectList,
-  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   PrimaryButton,
@@ -22,6 +21,7 @@ import {
   Form,
   Link,
   Accordeon,
+  PageTemplate,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -64,12 +64,20 @@ export const ListeProjets = ({
   if (projects.items.length === 0) {
     return (
       <>
-        <LegacyPageTemplate user={utilisateur} currentPage="list-projects">
-          <Heading1>{userIs('porteur-projet')(utilisateur) ? 'Mes Projets' : 'Projets'}</Heading1>
+        <PageTemplate
+          user={utilisateur}
+          currentPage={'liste-projects'}
+          contentHeader={
+            <Heading1 className="!text-white">
+              {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
+              {projects.itemCount > 0 && ` (${projects.itemCount})`}
+            </Heading1>
+          }
+        >
           <ListeVide titre="Aucun projet à lister">
             <Link href={routes.LISTE_PROJETS}>Voir tout les projets</Link>
           </ListeVide>
-        </LegacyPageTemplate>
+        </PageTemplate>
       </>
     );
   }
@@ -101,26 +109,30 @@ export const ListeProjets = ({
   const [displaySelection, setDisplaySelection] = useState(false);
 
   return (
-    <LegacyPageTemplate user={utilisateur} currentPage="list-projects">
-      <div className="flex flex-col md:flex-row md:justify-between">
-        <Heading1>
+    <PageTemplate
+      user={utilisateur}
+      currentPage={'liste-projects'}
+      contentHeader={
+        <Heading1 className="!text-white">
           {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
           {projects.itemCount > 0 && ` (${projects.itemCount})`}
         </Heading1>
-        <Form action={routes.LISTE_PROJETS} method="GET">
-          <BarreDeRecherche
-            title="Rechercher par nom du projet"
-            name="recherche"
-            defaultValue={recherche || ''}
-            className="mt-8 md:mt-0"
-          />
-        </Form>
-      </div>
+      }
+    >
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
       <div className="flex flex-col lg:flex-row gap-10 mt-8">
         <div className="lg:w-1/3 lg:self-start lg:sticky lg:top-10 flex flex-col">
+          <Accordeon title="Filtrer par nom projet">
+            <Form action={routes.LISTE_PROJETS} method="GET">
+              <BarreDeRecherche
+                title="Rechercher par nom du projet"
+                name="recherche"
+                defaultValue={recherche || ''}
+              />
+            </Form>
+          </Accordeon>
           <Accordeon title="Filtrer par appel d'offre">
             <Form action={routes.LISTE_PROJETS} method="GET">
               <div>
@@ -342,7 +354,7 @@ export const ListeProjets = ({
           )}`}
         />
       </div>
-    </LegacyPageTemplate>
+    </PageTemplate>
   );
 };
 
