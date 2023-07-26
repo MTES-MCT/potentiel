@@ -1,54 +1,58 @@
-import React, { ComponentProps, ReactNode, useRef, useState } from 'react';
+import React, { ComponentProps, ReactNode, useRef, useState, FC, useEffect } from 'react';
 import { AddIcon, SubtractIcon } from '../atoms/icons';
 
 type AccordeonProps = ComponentProps<'div'> & {
-  buttonChildren: React.ReactNode;
+  title: ReactNode;
+  defaultOpen?: boolean;
   children: ReactNode;
+  changeVisibleState?: (visible: boolean) => void;
 };
 
-export const Accordeon: React.FC<AccordeonProps> = ({
-  buttonChildren,
+export const Accordeon: FC<AccordeonProps> = ({
+  title,
+  defaultOpen = true,
+  changeVisibleState,
   children,
   className,
   ...props
 }: AccordeonProps) => {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(defaultOpen);
+
+  const handleChangeVisibility = (state: boolean) => {
+    setVisible(state);
+    changeVisibleState && changeVisibleState(state);
+  };
+
+  useEffect(() => {
+    handleChangeVisibility(defaultOpen);
+  }, [defaultOpen]);
 
   const ref = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   const onClickOut = (e: MouseEvent) => {
-  //     const element = e.target as HTMLElement;
-  //     if (ref.current !== element && !ref.current?.contains(element)) {
-  //       setVisible(false);
-  //     }
-  //   };
-  //   document.addEventListener('click', onClickOut);
-  //   return () => document.removeEventListener('click', onClickOut);
-  // }, [setVisible]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      setVisible(!visible);
+      handleChangeVisibility(!visible);
     }
   };
 
   return (
     <div
       ref={ref}
-      className={`flex flex-col relative cursor-pointer border-solid border-x-0 border-y-[1px] border-y-grey-900-base bg-white  ${className}`}
+      className={`flex flex-col relative cursor-pointer border-solid border-x-0 border-y-[1px] border-y-grey-900-base bg-white ${
+        className || ''
+      }`}
       aria-expanded={visible}
       {...props}
     >
       <div
         className={`flex justify-between items-center px-4 py-3 text-base text-decoration-none font-medium hover:bg-grey-1000-hover focus:bg-grey-1000-hover`}
-        onClick={() => setVisible(!visible)}
+        onClick={() => handleChangeVisibility(!visible)}
         onKeyDown={(event) => handleKeyDown(event)}
         tabIndex={0}
         aria-haspopup="true"
       >
-        {buttonChildren}
+        {title}
         {visible ? (
           <SubtractIcon className={`ml-auto lg:ml-2 mr-2 z-0`} title="Fermer" />
         ) : (
