@@ -3,7 +3,10 @@ import { EnregistrerTypeGarantiesFinancièresCommand } from './enregistrerTypeGa
 import { ProjetCommand } from '../projet.command';
 import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command';
 import { estUnTypeDeGarantiesFinancièresAccepté } from '../projet.valueType';
-import { TypeGarantiesFinancièresNonAcceptéErreur } from '../projet.error';
+import {
+  DateConstitutionGarantiesFinancièreDansLeFuturErreur,
+  TypeGarantiesFinancièresNonAcceptéErreur,
+} from '../projet.error';
 
 type EnregistrerGarantiesFinancièresUseCaseData = Partial<
   EnregistrerTypeGarantiesFinancièresCommand['data']
@@ -21,14 +24,21 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     attestationGarantiesFinancières,
     identifiantProjet,
   }) => {
-    if (typeGarantiesFinancières && identifiantProjet) {
-      if (
-        typeGarantiesFinancières.type &&
-        !estUnTypeDeGarantiesFinancièresAccepté(typeGarantiesFinancières.type)
-      ) {
-        throw new TypeGarantiesFinancièresNonAcceptéErreur();
-      }
+    if (
+      typeGarantiesFinancières &&
+      !estUnTypeDeGarantiesFinancièresAccepté(typeGarantiesFinancières.type)
+    ) {
+      throw new TypeGarantiesFinancièresNonAcceptéErreur();
+    }
 
+    if (
+      attestationGarantiesFinancières &&
+      attestationGarantiesFinancières.dateConstitution.estDansLeFutur()
+    ) {
+      throw new DateConstitutionGarantiesFinancièreDansLeFuturErreur();
+    }
+
+    if (typeGarantiesFinancières && identifiantProjet) {
       await mediator.send<ProjetCommand>({
         type: 'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
         data: { typeGarantiesFinancières, identifiantProjet },

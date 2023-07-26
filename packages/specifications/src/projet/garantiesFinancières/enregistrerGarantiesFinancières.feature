@@ -93,6 +93,15 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | date de constitution | 2021-12-02                      |
         Alors l'utilisateur devrait être informé que "Le type de garanties financières saisi n'est pas accepté"    
 
+@select
+    Scénario: Erreur si la date de constitution est dans le futur
+        Etant donné le projet "Centrale éolienne 20"
+        Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
+            | type                 | consignation         |
+            | format               | application/pdf      |
+            | date de constitution | 2050-12-02           |
+        Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"           
+
 
 
 

@@ -17,3 +17,9 @@ export class TypeGarantiesFinancièresNonAcceptéErreur extends InvalidOperation
     super(`Le type de garanties financières saisi n'est pas accepté`);
   }
 }
+
+export class DateConstitutionGarantiesFinancièreDansLeFuturErreur extends InvalidOperationError {
+  constructor() {
+    super('La date de constitution des garanties financières ne peut pas être une date future');
+  }
+}
