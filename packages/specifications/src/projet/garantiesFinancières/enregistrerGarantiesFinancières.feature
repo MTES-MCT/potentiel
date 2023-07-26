@@ -84,6 +84,15 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | format               | application/pdf        |
             | date de constitution | 2021-12-02             | 
 
+@select
+    Scénario: Erreur si le type de garanties financières est inconnu
+        Etant donné le projet "Centrale éolienne 20"
+        Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
+            | type                 | type de GF totalement inconnu   |
+            | format               | application/pdf                 |
+            | date de constitution | 2021-12-02                      |
+        Alors l'utilisateur devrait être informé que "Le type de garanties financières saisi n'est pas accepté"    
+
 
 
 

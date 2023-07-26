@@ -46,7 +46,6 @@ Quand(
       });
       await sleep(500);
     } catch (error) {
-      console.log('USE CASE ERREUR', error);
       this.error = error as Error;
     }
   },

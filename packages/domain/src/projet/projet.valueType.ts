@@ -6,14 +6,25 @@ export type AttestationGarantiesFinancières = {
   dateConstitution: DateTimeValueType;
 };
 
+type TypeAccepté =
+  | `avec date d'échéance`
+  | 'type inconnu'
+  | `consignation`
+  | `6 mois après achèvement`;
 export type TypeGarantiesFinancières = {
-  type: `avec date d'échéance` | 'type inconnu' | `consignation` | `6 mois après achèvement`;
+  type: TypeAccepté;
   dateÉchéance?: DateTimeValueType;
 };
 
 export type GarantiesFinancières = Partial<TypeGarantiesFinancières> & {
   attestation?: AttestationGarantiesFinancières;
 };
+
+export const estUnTypeDeGarantiesFinancièresAccepté = (value: any): value is TypeAccepté =>
+  value === `avec date d'échéance` ||
+  value === 'type inconnu' ||
+  value === `consignation` ||
+  value === `6 mois après achèvement`;
 
 export type RawIdentifiantProjet = `${string}#${string}#${string}#${string}`;
 

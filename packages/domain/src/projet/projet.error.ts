@@ -11,3 +11,9 @@ export class GestionnaireRéseauProjetDéjàDéclaréErreur extends InvalidOpera
     super(`Un gestionnaire de réseau a déjà été déclaré pour ce projet`);
   }
 }
+
+export class TypeGarantiesFinancièresNonAcceptéErreur extends InvalidOperationError {
+  constructor() {
+    super(`Le type de garanties financières saisi n'est pas accepté`);
+  }
+}
