@@ -33,7 +33,7 @@
     "prepare": "husky install",
     "lint": "eslint ./src --ext .ts,.tsx",
     "format": "prettier '**/*.{ts,tsx,css}' --write",
-    "migrate": "sequelize-cli db:migrate",
+    "migrate": "npm run build:migrations && sequelize-cli db:migrate",
     "migrate:undo": "npm run build:migrations && sequelize-cli db:migrate:undo",
     "seed": "npm run build:migrations && sequelize-cli db:seed:all",
     "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run migrate && npm run seed && npm run build:packages && concurrently \"ts-node-dev --transpile-only -r tsconfig-paths/register src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\" \"watch 'npm run build:packages' ./packages/**/src/\"",
