@@ -15,6 +15,7 @@ import {
   CahierDesChargesNonDisponibleError,
   PasDeChangementDeCDCPourCetAOError,
   CahierDesChargesInitialNonDisponibleError,
+  CahierDesChargesModifiéNonDisponiblePourCettePeriodeError,
 } from '../errors';
 
 type Commande = {
@@ -74,6 +75,7 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
     const {
       commande: { cahierDesCharges },
       appelOffre,
+      projet,
     } = arg;
 
     if (cahierDesCharges.type === 'initial') {
@@ -88,6 +90,21 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
       (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif,
     );
 
+    if (!cahierDesChargesModifié) {
+      return errAsync(new CahierDesChargesNonDisponibleError());
+    }
+
+    if (
+      cahierDesChargesModifié.periodeIds &&
+      !cahierDesChargesModifié.periodeIds.includes(projet.periodeId)
+    ) {
+      return errAsync(
+        new CahierDesChargesModifiéNonDisponiblePourCettePeriodeError(
+          projet.appelOffreId,
+          projet.periodeId,
+        ),
+      );
+    }
     return cahierDesChargesModifié
       ? okAsync({ ...arg, cahierDesChargesChoisi: cahierDesChargesModifié })
       : errAsync(new CahierDesChargesNonDisponibleError());

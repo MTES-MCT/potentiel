@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { Form, PrimaryButton, SecondaryLinkButton } from '@components';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
 import routes from '@routes';
@@ -22,9 +22,12 @@ type ChoisirCahierDesChargesFormulaireProps = {
     | 'delai';
 };
 
-export const ChoisirCahierDesChargesFormulaire: React.FC<
-  ChoisirCahierDesChargesFormulaireProps
-> = ({ projet, redirectUrl, type, infoBox }) => {
+export const ChoisirCahierDesChargesFormulaire: FC<ChoisirCahierDesChargesFormulaireProps> = ({
+  projet,
+  redirectUrl,
+  type,
+  infoBox,
+}) => {
   const { id: projetId, appelOffre, cahierDesChargesActuel } = projet;
   const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel);
   const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false);
@@ -61,31 +64,39 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
           </CahierDesChargesSelectionnable>
         </li>
 
-        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
-          const idCdc = formatCahierDesChargesRéférence({
-            ...cahierDesChargesModifié,
-          });
-          const sélectionné = cdcChoisi === idCdc;
+        {appelOffre.cahiersDesChargesModifiésDisponibles
+          // .filter((cahierDesChargesModifié) => {
+          //   if (!cahierDesChargesModifié.periodeIds) {
+          //     return true;
+          //   }
 
-          return (
-            <li key={`cahier-des-charges-modifié-${index}`}>
-              <CahierDesChargesSelectionnable
-                {...{
-                  id: idCdc,
-                  onCahierDesChargesChoisi: (id) => {
-                    choisirCdc(id);
-                    pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel);
-                  },
-                  sélectionné,
-                }}
-              >
-                <div className="flex-column">
-                  <CahierDesChargesModifiéDisponible {...cahierDesChargesModifié} />
-                </div>
-              </CahierDesChargesSelectionnable>
-            </li>
-          );
-        })}
+          //   return !!cahierDesChargesModifié.periodeIds.includes(projet.periodeId);
+          // })
+          .map((cahierDesChargesModifié, index) => {
+            const idCdc = formatCahierDesChargesRéférence({
+              ...cahierDesChargesModifié,
+            });
+            const sélectionné = cdcChoisi === idCdc;
+
+            return (
+              <li key={`cahier-des-charges-modifié-${index}`}>
+                <CahierDesChargesSelectionnable
+                  {...{
+                    id: idCdc,
+                    onCahierDesChargesChoisi: (id) => {
+                      choisirCdc(id);
+                      pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel);
+                    },
+                    sélectionné,
+                  }}
+                >
+                  <div className="flex-column">
+                    <CahierDesChargesModifiéDisponible {...cahierDesChargesModifié} />
+                  </div>
+                </CahierDesChargesSelectionnable>
+              </li>
+            );
+          })}
       </ul>
 
       <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">

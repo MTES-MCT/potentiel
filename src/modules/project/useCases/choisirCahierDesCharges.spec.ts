@@ -17,6 +17,7 @@ import {
   NouveauCahierDesChargesDéjàSouscrit,
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
+  CahierDesChargesModifiéNonDisponiblePourCettePeriodeError,
 } from '../errors';
 import { AppelOffreRepo } from '@dataAccess';
 
@@ -271,6 +272,58 @@ describe('Choisir un cahier des charges', () => {
       });
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(CahierDesChargesInitialNonDisponibleError);
+      expect(publishToEventStore).not.toHaveBeenCalled();
+    });
+
+    it(`Etant donné un utilisateur ayant les droits sur un projet
+        Et un projet ayant comme période la période 2
+        Et une AO ne permettant pas de choisir le CDC modifié au 30/07/2021 pour la période 2
+        Lorsqu'il souscrit au CDC modifié au 30/07/2021
+        Alors l'utilisateur devrait être alerté que l'AO ne permet pas de choisir ce cahier des charges`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true);
+      const projectRepo = fakeRepo({
+        ...makeFakeProject(),
+        cahierDesCharges: {
+          paruLe: '30/08/2022',
+        },
+        periodeId: '2',
+      } as Project);
+      const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+        ({
+          id: 'appelOffreId',
+          periodes: [{ id: 'periodeId', type: 'notified' }],
+          familles: [{ id: 'familleId' }],
+          choisirNouveauCahierDesCharges: true,
+          cahiersDesChargesModifiésDisponibles: [
+            {
+              type: 'modifié',
+              paruLe: '30/07/2021',
+              url: 'url',
+              numéroGestionnaireRequis: true,
+              periodeIds: ['1'],
+            },
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        } as AppelOffre);
+
+      const choisirCahierDesCharges = makeChoisirCahierDesCharges({
+        publishToEventStore,
+        shouldUserAccessProject,
+        projectRepo,
+        findAppelOffreById,
+      });
+
+      const res = await choisirCahierDesCharges({
+        projetId,
+        utilisateur: user,
+        cahierDesCharges: {
+          type: 'modifié',
+          paruLe: '30/07/2021',
+        },
+      });
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(
+        CahierDesChargesModifiéNonDisponiblePourCettePeriodeError,
+      );
       expect(publishToEventStore).not.toHaveBeenCalled();
     });
   });

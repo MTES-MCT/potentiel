@@ -260,6 +260,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
         },
       },
+      periodeIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
     },
     {
       type: 'modifié',

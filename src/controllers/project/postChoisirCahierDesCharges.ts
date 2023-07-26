@@ -7,6 +7,7 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import {
   CahierDesChargesInitialNonDisponibleError,
+  CahierDesChargesModifiéNonDisponiblePourCettePeriodeError,
   CahierDesChargesNonDisponibleError,
   NouveauCahierDesChargesDéjàSouscrit,
   PasDeChangementDeCDCPourCetAOError,
@@ -106,7 +107,8 @@ v1Router.post(
             error instanceof NouveauCahierDesChargesDéjàSouscrit ||
             error instanceof PasDeChangementDeCDCPourCetAOError ||
             error instanceof CahierDesChargesInitialNonDisponibleError ||
-            error instanceof CahierDesChargesNonDisponibleError
+            error instanceof CahierDesChargesNonDisponibleError ||
+            error instanceof CahierDesChargesModifiéNonDisponiblePourCettePeriodeError
           ) {
             return errorResponse({
               request,

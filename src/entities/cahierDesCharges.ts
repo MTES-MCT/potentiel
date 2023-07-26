@@ -19,6 +19,7 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
+  periodeIds?: string[];
 };
 
 export const cahiersDesChargesRéférences = [
@@ -30,12 +31,12 @@ export const cahiersDesChargesRéférences = [
   '07/02/2023-alternatif',
 ] as const;
 
-export type CahierDesChargesRéférence = typeof cahiersDesChargesRéférences[number];
+export type CahierDesChargesRéférence = (typeof cahiersDesChargesRéférences)[number];
 
 const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '07/02/2023'] as const;
 
 export type DateParutionCahierDesChargesModifié =
-  typeof datesParutionCahiersDesChargesModifiés[number];
+  (typeof datesParutionCahiersDesChargesModifiés)[number];
 
 export type CahierDesChargesRéférenceParsed =
   | { type: 'initial' }

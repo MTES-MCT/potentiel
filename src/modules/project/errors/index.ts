@@ -1,6 +1,7 @@
 export * from './AttachmentRequiredForDemandeRecoursAcceptedError';
 export * from './CahierDesChargesInitialNonDisponibleError';
 export * from './CahierDesChargesNonDisponibleError';
+export * from './CahierDesChargesModifiéNonDisponiblePourCettePeriodeError';
 export * from './CertificateFileIsMissingError';
 export * from './ChangementProducteurImpossiblePourEolienError';
 export * from './CodeEICNonTrouvéError';

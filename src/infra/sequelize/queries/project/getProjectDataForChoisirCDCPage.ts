@@ -29,6 +29,7 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
       id: projet.id,
       cahierDesChargesActuel: projet.cahierDesChargesActuel as CahierDesChargesRéférence,
       appelOffre,
+      periodeId: projet.periodeId,
     };
 
     return okAsync(projetProps);
