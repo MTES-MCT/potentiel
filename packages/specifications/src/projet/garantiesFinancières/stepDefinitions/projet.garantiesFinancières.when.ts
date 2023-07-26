@@ -28,10 +28,13 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
         data: {
-          attestationGarantiesFinancières: {
-            format,
-            dateConstitution: convertirEnDateTime(dateConstutition),
-          },
+          ...(format &&
+            dateConstutition && {
+              attestationGarantiesFinancières: {
+                format,
+                dateConstitution: convertirEnDateTime(dateConstutition),
+              },
+            }),
           typeGarantiesFinancières: {
             type,
             ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),

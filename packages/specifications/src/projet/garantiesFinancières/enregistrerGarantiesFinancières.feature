@@ -14,7 +14,6 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | format               | application/pdf        |
             | date de constitution | 2021-12-02             |
   
-    @select
     Scénario: Enregistrer des garanties financières complètes sans date d'échéance
         Etant donné le projet "Centrale éolienne 20"
         Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
@@ -26,6 +25,7 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | format               | application/pdf        |
             | date de constitution | 2021-12-02             |
 
+    @select
     Scénario: Enregistrer seulement le type et la date d'échéance de garanties financières
         Etant donné le projet "Centrale éolienne 20"
         Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
