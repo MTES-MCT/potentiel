@@ -126,11 +126,12 @@ export const ListeProjets = ({
       {error && <ErrorBox title={error} />}
 
       <div className="flex flex-col lg:flex-row gap-10 mt-8">
-        <div
-          className={`flex flex-col ${
-            filtersOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10' : 'lg:hidden'
-          }`}
-        >
+        <div className={`flex flex-col ${filtersOpen ? 'lg:w-1/3' : 'lg:hidden'}`}>
+          {hasFilters && (
+            <LinkButton href="#" onClick={resetUrlParams} className="mb-4 self-center text-sm">
+              Retirer tous les filtres
+            </LinkButton>
+          )}
           <Accordeon title="Filtrer par nom projet">
             <Form action={routes.LISTE_PROJETS} method="GET">
               <BarreDeRecherche
@@ -338,12 +339,6 @@ export const ListeProjets = ({
                 </PrimaryButton>
               </Form>
             </Accordeon>
-          )}
-
-          {hasFilters && (
-            <LinkButton href="#" onClick={resetUrlParams} className="mt-4 self-center">
-              Retirer tous les filtres
-            </LinkButton>
           )}
         </div>
 
