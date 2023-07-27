@@ -45,7 +45,7 @@ export const registerConsulterDossierRaccordementQuery = ({
     )
       ? convertirEnRéférenceDossierRaccordement(référenceDossierRaccordement).formatter()
       : référenceDossierRaccordement;
-    const key: DossierRaccordementReadModelKey = `dossier-raccordement#${rawIdentifiantProjet}#${rawRéférenceDossierRaccordement}`;
+    const key: DossierRaccordementReadModelKey = `dossier-raccordement|${rawIdentifiantProjet}#${rawRéférenceDossierRaccordement}`;
     const result = await find<LegacyDossierRaccordementReadModel>(key);
 
     if (isNone(result)) {

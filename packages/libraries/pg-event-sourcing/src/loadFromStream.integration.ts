@@ -6,7 +6,7 @@ describe(`loadFromStream`, () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
-  beforeEach(() => executeQuery(`DELETE FROM "EVENT_STREAM"`));
+  beforeEach(() => executeQuery(`delete from event_store.event_stream`));
 
   it(`Étant donné des événements dans un stream,
       Lorsqu'on charge un stream
@@ -15,15 +15,10 @@ describe(`loadFromStream`, () => {
     const createdAt = new Date().toISOString();
 
     await executeQuery(
-      `INSERT 
-       INTO "EVENT_STREAM" (
-        "streamId", 
-        "createdAt", 
-        "type", 
-        "version", 
-        "payload"
-        ) 
-       VALUES (
+      `
+      insert
+      into event_store.event_stream
+      values (
           $1, 
           $2, 
           $3, 
@@ -38,15 +33,10 @@ describe(`loadFromStream`, () => {
     );
 
     await executeQuery(
-      `INSERT 
-       INTO "EVENT_STREAM" (
-        "streamId", 
-        "createdAt", 
-        "type", 
-        "version", 
-        "payload"
-        ) 
-       VALUES (
+      `
+      insert 
+      into event_store.event_stream 
+      values (
           $1, 
           $2, 
           $3, 

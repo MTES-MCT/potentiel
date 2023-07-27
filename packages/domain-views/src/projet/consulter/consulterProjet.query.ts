@@ -81,7 +81,7 @@ export const registerConsulterProjetQuery = ({
       ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
       : identifiantProjet;
 
-    const key: ProjetReadModelKey = `projet#${rawIdentifiantProjet}`;
+    const key: ProjetReadModelKey = `projet|${rawIdentifiantProjet}`;
     const result = await find<ProjetReadModel>(key);
 
     return {

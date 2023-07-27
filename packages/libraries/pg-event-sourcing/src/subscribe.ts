@@ -26,6 +26,7 @@ class EventStreamEmitter extends EventEmitter {
 
     const listener = async (payload: string) => {
       const event = JSON.parse(payload) as TDomainEvent;
+
       if (isEvent(event)) {
         if (
           eventType === 'all' ||
@@ -71,12 +72,12 @@ export const listenToNewEvent = (eventEmitter: EventEmitter) => {
       client.on('notification', (notification) => {
         eventEmitter.emit(notification.channel, notification.payload);
       });
-      client.query(`LISTEN new_event`);
+      client.query(`listen new_event`);
     }
   });
 
   return async () => {
-    await client.query(`UNLISTEN new_event`);
+    await client.query(`unlisten new_event`);
     await client.end();
   };
 };

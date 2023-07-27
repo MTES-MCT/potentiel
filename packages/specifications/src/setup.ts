@@ -64,6 +64,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
+  await executeQuery(`insert into event_store.subscriber values($1)`, 'new_event');
+
   unsetupDomain = await setupDomain({
     common: {
       loadAggregate,
@@ -100,8 +102,9 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  await executeQuery(`DELETE FROM "EVENT_STREAM"`);
-  await executeQuery(`DELETE FROM "PROJECTION"`);
+  await executeQuery(`delete from event_store.event_stream`);
+  await executeQuery(`delete from event_store.subscriber`);
+  await executeQuery(`delete from app_views.projection`);
 
   const objectsToDelete = await getClient().listObjects({ Bucket: bucketName }).promise();
 

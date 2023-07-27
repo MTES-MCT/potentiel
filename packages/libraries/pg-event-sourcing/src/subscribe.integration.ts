@@ -6,12 +6,19 @@ import waitForExpect from 'wait-for-expect';
 import { Client } from 'pg';
 
 describe(`subscribe`, () => {
+  beforeEach(async () => {
+    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+    const client = new Client(getConnectionString());
+    await client.connect();
+    await client.query(`delete from event_store.event_stream`);
+    await client.query(`insert into event_store.subscriber values($1)`, ['new_event']);
+    await client.end();
+  });
+
   it(`Étant donnée un DomainEventHandler à l'écoute d'un type d'événement
       Lorsqu'on emet un évènement
       Alors le DomainEventHandle est éxècuté
       Et il reçoit l'évènement en paramêtre`, async () => {
-    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
-
     const eventType = 'event-1';
     const streamId = 'string#string';
     const version = 1;
@@ -26,28 +33,21 @@ describe(`subscribe`, () => {
 
     const client = new Client(getConnectionString());
     await client.connect();
-    await client.query(`DELETE FROM "EVENT_STREAM"`);
-
     await client.query(
-      `INSERT 
-       INTO "EVENT_STREAM" (
-        "streamId", 
-        "createdAt", 
-        "type", 
-        "version", 
-        "payload"
-        ) 
-       VALUES (
+      `
+        insert
+        into event_store.event_stream
+        values (
           $1, 
           $2, 
           $3, 
           $4,
           $5
-          )`,
+        )`,
       [streamId, createdAt, eventType, version, payload],
     );
-
     await client.end();
+
     await unsubscribe();
 
     await waitForExpect(() => {

@@ -41,9 +41,9 @@ describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
       `, () => {
     // Arrange
     const dateMiseEnService = new Date().toISOString();
-    const streamId = 'raccordement#identifiant-projet';
+    const stream_id = 'raccordement#identifiant-projet';
     const type = 'DateMiseEnServiceTransmise';
-    const createdAt = new Date().toISOString();
+    const created_at = new Date().toISOString();
     const version = 1;
     const payload = {
       dateMiseEnService,
@@ -54,8 +54,8 @@ describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
     const event: Event = {
       type,
       payload,
-      streamId,
-      createdAt,
+      stream_id,
+      created_at,
       version,
     };
 
@@ -68,7 +68,7 @@ describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
       payload: {
         ...payload,
         dateMiseEnService: new Date(dateMiseEnService),
-        streamId,
+        streamId: stream_id,
       },
     });
   });

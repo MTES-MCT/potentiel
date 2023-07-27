@@ -11,21 +11,21 @@ export const listProjection = async <TReadModel extends ReadModel>({
   orderBy?: keyof TReadModel;
 }): Promise<ReadonlyArray<TReadModel>> => {
   const query = !orderBy
-    ? `SELECT "key", "value" FROM "PROJECTION" where "key" like $1`
+    ? `select key, value from app_views.projection where key like $1`
     : format(
-        `SELECT "key", "value" FROM "PROJECTION" where "key" like $1 ORDER BY "value" ->> %L`,
+        `select key, value from app_views.projection where key like $1 order by value ->> %L`,
         orderBy,
       );
 
   const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
     query,
-    `${type}#%`,
+    `${type}|%`,
   );
 
   return result.map(
     ({ key, value }) =>
       ({
-        type: key.split('#')[0],
+        type: key.split('|')[0],
         ...value,
       } as TReadModel),
   );
