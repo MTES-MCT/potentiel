@@ -4,32 +4,30 @@ import {
   DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
   ModificationGarantiesFinancièresNonAutoriséeErreur,
 } from '../projet.error';
-import {
-  TypeGarantiesFinancières,
-  estUnTypeDeGarantiesFinancièresAccepté,
-} from '../projet.valueType';
+import { TypeEtDateÉchéance, estUnTypeDeGarantiesFinancièresAccepté } from '../projet.valueType';
 import { Aggregate } from '@potentiel/core-domain';
 import { Projet } from '../projet.aggregate';
 
 export const checkType = (
-  typeGarantiesFinancières: TypeGarantiesFinancières,
+  typeGarantiesFinancières: TypeEtDateÉchéance['typeGarantiesFinancières'],
+  dateÉchéance: TypeEtDateÉchéance['dateÉchéance'],
   currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts',
   agrégatProjet: Option<Aggregate & Projet>,
 ) => {
-  if (!estUnTypeDeGarantiesFinancièresAccepté(typeGarantiesFinancières.type)) {
+  if (!estUnTypeDeGarantiesFinancièresAccepté(typeGarantiesFinancières)) {
     throw new TypeGarantiesFinancièresNonAcceptéErreur();
   }
 
-  if (typeGarantiesFinancières.dateÉchéance) {
+  if (dateÉchéance) {
     if (
-      typeGarantiesFinancières.type !== `avec date d'échéance` &&
-      typeGarantiesFinancières.type !== `type inconnu`
+      typeGarantiesFinancières !== `avec date d'échéance` &&
+      typeGarantiesFinancières !== `type inconnu`
     )
       throw new DateÉchéanceGarantiesFinancièresNonAcceptéeErreur();
   }
 
   if (currentUserRôle === 'porteur-projet' && isSome(agrégatProjet)) {
-    if (agrégatProjet.garantiesFinancières?.type) {
+    if (agrégatProjet.garantiesFinancières?.typeGarantiesFinancières) {
       throw new ModificationGarantiesFinancièresNonAutoriséeErreur();
     }
   }

@@ -16,23 +16,25 @@ export type EnregistrerGarantiesFinancièresUseCase = Message<
 export const registerEnregistrerGarantiesFinancièresUseCase = () => {
   const runner: MessageHandler<EnregistrerGarantiesFinancièresUseCase> = async ({
     typeGarantiesFinancières,
-    attestationGarantiesFinancières,
+    dateÉchéance,
+    attestationConstitution,
     identifiantProjet,
     currentUserRôle,
   }) => {
     if (
       identifiantProjet &&
       typeGarantiesFinancières &&
-      attestationGarantiesFinancières &&
+      attestationConstitution &&
       currentUserRôle
     ) {
       await mediator.send<ProjetCommand>({
         type: 'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
         data: {
-          attestationGarantiesFinancières,
+          attestationConstitution,
           identifiantProjet,
           typeGarantiesFinancières,
           currentUserRôle,
+          dateÉchéance,
         },
       });
     }
@@ -40,19 +42,24 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     if (
       typeGarantiesFinancières &&
       identifiantProjet &&
-      !attestationGarantiesFinancières &&
+      !attestationConstitution &&
       currentUserRôle
     ) {
       await mediator.send<ProjetCommand>({
         type: 'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
-        data: { typeGarantiesFinancières, identifiantProjet, currentUserRôle },
+        data: {
+          typeGarantiesFinancières,
+          identifiantProjet,
+          currentUserRôle,
+          dateÉchéance,
+        },
       });
     }
 
-    if (attestationGarantiesFinancières && identifiantProjet && !typeGarantiesFinancières) {
+    if (attestationConstitution && identifiantProjet && !typeGarantiesFinancières) {
       await mediator.send<ProjetCommand>({
         type: 'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
-        data: { attestationGarantiesFinancières, identifiantProjet },
+        data: { attestationConstitution, identifiantProjet },
       });
     }
 

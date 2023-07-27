@@ -1,10 +1,8 @@
 import { DateConstitutionGarantiesFinancièreDansLeFuturErreur } from '../projet.error';
-import { AttestationGarantiesFinancières } from '../projet.valueType';
+import { AttestationConstitution } from '../projet.valueType';
 
-export const checkAttestation = (
-  attestationGarantiesFinancières: AttestationGarantiesFinancières,
-) => {
-  if (attestationGarantiesFinancières.dateConstitution.estDansLeFutur()) {
+export const checkAttestation = ({ date }: AttestationConstitution) => {
+  if (date.estDansLeFutur()) {
     throw new DateConstitutionGarantiesFinancièreDansLeFuturErreur();
   }
   return;

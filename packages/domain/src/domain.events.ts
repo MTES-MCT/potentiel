@@ -1,7 +1,16 @@
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.event';
-import { ProjetEvent } from './projet/projet.event';
+import { GarantiesFinancièresEvent, GestionnaireRéseauProjetEvent } from './projet/projet.event';
 import { RaccordementEvent } from './raccordement/raccordement.event';
 
-export type DomainEvents = GestionnaireRéseauEvent | ProjetEvent | RaccordementEvent;
+export type DomainEvents =
+  | GestionnaireRéseauEvent
+  | GestionnaireRéseauProjetEvent
+  | RaccordementEvent
+  | GarantiesFinancièresEvent;
 
-export { GestionnaireRéseauEvent, ProjetEvent, RaccordementEvent };
+export {
+  GestionnaireRéseauEvent,
+  GestionnaireRéseauProjetEvent as ProjetEvent,
+  RaccordementEvent,
+  GarantiesFinancièresEvent,
+};

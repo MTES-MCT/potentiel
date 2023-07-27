@@ -100,7 +100,6 @@ export const registerConsulterProjetQuery = ({
       },
       ...(isSome(result) && {
         identifiantGestionnaire: result.identifiantGestionnaire || undefined,
-        garantiesFinancières: result.garantiesFinancières || undefined,
       }),
     };
   };

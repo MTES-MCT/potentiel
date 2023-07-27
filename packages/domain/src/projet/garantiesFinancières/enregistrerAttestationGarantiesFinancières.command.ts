@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AttestationGarantiesFinancières, IdentifiantProjetValueType } from '../projet.valueType';
+import { AttestationConstitution, IdentifiantProjetValueType } from '../projet.valueType';
 import { Publish } from '@potentiel/core-domain';
 import { createProjetAggregateId } from '../projet.aggregate';
 import { AttestationGarantiesFinancièresEnregistréeEvent } from '../projet.event';
@@ -9,7 +9,7 @@ export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
   'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
   {
     identifiantProjet: IdentifiantProjetValueType;
-    attestationGarantiesFinancières: AttestationGarantiesFinancières;
+    attestationConstitution: AttestationConstitution;
   }
 >;
 
@@ -20,16 +20,16 @@ export const registerEnregistrerAttestationGarantiesFinancièresCommand = ({
 }: EnregistrerAttestationGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<EnregistrerAttestationGarantiesFinancièresCommand> = async ({
     identifiantProjet,
-    attestationGarantiesFinancières,
+    attestationConstitution,
   }) => {
-    checkAttestation(attestationGarantiesFinancières);
+    checkAttestation(attestationConstitution);
 
     const event: AttestationGarantiesFinancièresEnregistréeEvent = {
       type: 'AttestationGarantiesFinancièresEnregistrée',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
-        format: attestationGarantiesFinancières.format,
-        dateConstitution: attestationGarantiesFinancières.dateConstitution.formatter(),
+        format: attestationConstitution.format,
+        date: attestationConstitution.date.formatter(),
       },
     };
 

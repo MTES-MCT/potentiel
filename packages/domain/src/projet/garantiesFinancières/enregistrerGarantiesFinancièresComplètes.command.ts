@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import {
-  AttestationGarantiesFinancières,
+  AttestationConstitution,
   IdentifiantProjetValueType,
-  TypeGarantiesFinancières,
+  TypeEtDateÉchéance,
 } from '../projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
@@ -17,10 +17,9 @@ export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
   'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
   {
     identifiantProjet: IdentifiantProjetValueType;
-    typeGarantiesFinancières: TypeGarantiesFinancières;
-    attestationGarantiesFinancières: AttestationGarantiesFinancières;
+    attestationConstitution: AttestationConstitution;
     currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts';
-  }
+  } & TypeEtDateÉchéance
 >;
 
 export type EnregistrerGarantiesFinancièresComplètesDependencies = {
@@ -38,19 +37,21 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
   const handler: MessageHandler<EnregistrerGarantiesFinancièresComplètesCommand> = async ({
     identifiantProjet,
     typeGarantiesFinancières,
-    attestationGarantiesFinancières,
+    dateÉchéance,
+    attestationConstitution,
     currentUserRôle,
   }) => {
     const agrégatProjet = await loadProjet(identifiantProjet);
-    checkType(typeGarantiesFinancières, currentUserRôle, agrégatProjet);
-    checkAttestation(attestationGarantiesFinancières);
+
+    checkType(typeGarantiesFinancières, dateÉchéance, currentUserRôle, agrégatProjet);
+    checkAttestation(attestationConstitution);
 
     const eventForType: TypeGarantiesFinancièresEnregistréEvent = {
       type: 'TypeGarantiesFinancièresEnregistré',
       payload: {
-        type: typeGarantiesFinancières.type,
-        ...(typeGarantiesFinancières.dateÉchéance && {
-          dateÉchéance: typeGarantiesFinancières.dateÉchéance.formatter(),
+        typeGarantiesFinancières,
+        ...(dateÉchéance && {
+          dateÉchéance: dateÉchéance.formatter(),
         }),
         identifiantProjet: identifiantProjet.formatter(),
       },
@@ -62,12 +63,15 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
       type: 'AttestationGarantiesFinancièresEnregistrée',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
-        format: attestationGarantiesFinancières.format,
-        dateConstitution: attestationGarantiesFinancières.dateConstitution.formatter(),
+        format: attestationConstitution.format,
+        date: attestationConstitution.date.formatter(),
       },
     };
 
-    await publish(createProjetAggregateId(identifiantProjet), eventForAttestation);
+    setTimeout(
+      async () => await publish(createProjetAggregateId(identifiantProjet), eventForAttestation),
+      100,
+    );
   };
 
   mediator.register('ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES', handler);

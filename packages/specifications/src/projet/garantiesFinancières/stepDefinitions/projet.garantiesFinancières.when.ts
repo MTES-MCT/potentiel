@@ -14,7 +14,7 @@ Quand(
     const exemple = table.rowsHash();
 
     try {
-      const type = exemple['type'] as
+      const typeGarantiesFinancières = exemple['type'] as
         | `avec date d'échéance`
         | 'consignation'
         | `6 mois après achèvement`
@@ -30,16 +30,14 @@ Quand(
         data: {
           ...(format &&
             dateConstutition && {
-              attestationGarantiesFinancières: {
+              attestationConstitution: {
                 format,
-                dateConstitution: convertirEnDateTime(dateConstutition),
+                date: convertirEnDateTime(dateConstutition),
               },
             }),
-          ...(type && {
-            typeGarantiesFinancières: {
-              type,
-              ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
-            },
+          ...(typeGarantiesFinancières && {
+            typeGarantiesFinancières,
+            ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
           }),
           currentUserRôle: role as
             | 'admin'

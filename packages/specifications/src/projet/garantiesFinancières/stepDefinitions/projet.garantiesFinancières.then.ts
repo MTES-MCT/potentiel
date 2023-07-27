@@ -10,7 +10,7 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
-    const type = exemple['type'];
+    const typeGarantiesFinancières = exemple['type'];
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
     const dateConstitution = exemple[`date de constitution`];
@@ -29,8 +29,10 @@ Alors(
 
     expect(actualProjetAggregate.garantiesFinancières).not.to.be.undefined;
 
-    if (type) {
-      expect(actualProjetAggregate.garantiesFinancières?.type).to.equals(type);
+    if (typeGarantiesFinancières) {
+      expect(actualProjetAggregate.garantiesFinancières?.typeGarantiesFinancières).to.equals(
+        typeGarantiesFinancières,
+      );
     }
 
     if (dateÉchéance) {
@@ -42,12 +44,14 @@ Alors(
     }
 
     if (format) {
-      expect(actualProjetAggregate.garantiesFinancières?.attestation?.format).to.equals(format);
+      expect(actualProjetAggregate.garantiesFinancières?.attestationConstitution?.format).to.equals(
+        format,
+      );
     }
 
     if (dateConstitution) {
       expect(
-        actualProjetAggregate.garantiesFinancières?.attestation?.dateConstitution.date.getTime(),
+        actualProjetAggregate.garantiesFinancières?.attestationConstitution?.date.date.getTime(),
       ).to.equals(new Date(dateConstitution).getTime());
     }
   },

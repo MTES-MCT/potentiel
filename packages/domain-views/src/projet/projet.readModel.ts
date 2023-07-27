@@ -7,11 +7,6 @@ export type ProjetReadModel = ReadModel<
   'projet',
   {
     identifiantGestionnaire?: { codeEIC: string };
-    garantiesFinancières?: {
-      attestation?: { format: string; dateConstitution: string };
-      type?: `avec date d'échéance` | 'consignation' | `6 mois après achèvement` | 'type inconnu';
-      dateÉchéance?: string;
-    };
   }
 >;
 
