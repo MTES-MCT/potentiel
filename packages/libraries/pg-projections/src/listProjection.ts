@@ -11,9 +11,9 @@ export const listProjection = async <TReadModel extends ReadModel>({
   orderBy?: keyof TReadModel;
 }): Promise<ReadonlyArray<TReadModel>> => {
   const query = !orderBy
-    ? `select key, value from app_views.projection where key like $1`
+    ? `select key, value from domain_views.projection where key like $1`
     : format(
-        `select key, value from app_views.projection where key like $1 order by value ->> %L`,
+        `select key, value from domain_views.projection where key like $1 order by value ->> %L`,
         orderBy,
       );
 
