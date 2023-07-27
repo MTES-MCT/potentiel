@@ -104,7 +104,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 After(async () => {
   await executeQuery(`delete from event_store.event_stream`);
   await executeQuery(`delete from event_store.subscriber`);
-  await executeQuery(`delete from app_views.projection`);
+  await executeQuery(`delete from domain_views.projection`);
 
   const objectsToDelete = await getClient().listObjects({ Bucket: bucketName }).promise();
 
