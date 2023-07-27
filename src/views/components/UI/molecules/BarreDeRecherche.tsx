@@ -15,10 +15,8 @@ export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
   name,
 }) => (
   <div className={`flex flex-col ${className}`}>
-    <Label htmlFor={name} className="hidden">
-      {title}
-    </Label>
-    <div className="flex mt-2">
+    <Label htmlFor={name}>{title}</Label>
+    <div className="flex">
       <Input
         placeholder="Rechercher"
         type="search"

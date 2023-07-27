@@ -13,7 +13,6 @@ import {
   Input,
   Label,
   Heading1,
-  BarreDeRecherche,
   ListeVide,
   Select,
   LinkButton,
@@ -23,6 +22,9 @@ import {
   PageTemplate,
   ArrowLeftIcon,
   ArrowRightIcon,
+  SecondaryLinkButton,
+  ExcelFileIcon,
+  BarreDeRecherche,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -69,7 +71,7 @@ export const ListeProjets = ({
           user={utilisateur}
           currentPage={'liste-projects'}
           contentHeader={
-            <Heading1 className="!text-white">
+            <Heading1 className="!text-white whitespace-nowrap">
               {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
               {projects.itemCount > 0 && ` (${projects.itemCount})`}
             </Heading1>
@@ -82,18 +84,16 @@ export const ListeProjets = ({
       </>
     );
   }
-
-  const hasNonDefaultClassement =
-    (userIs('porteur-projet')(utilisateur) && classement) ||
-    (userIs(['admin', 'dreal', 'dgec-validateur'])(utilisateur) && classement !== 'classés');
+  const defaultClassementFilter =
+    userIs(['admin', 'dreal', 'dgec-validateur'])(utilisateur) && classement === 'classés';
 
   const hasFilters = !!(
     appelOffreId ||
     periodeId ||
     familleId ||
     garantiesFinancieres ||
-    hasNonDefaultClassement ||
-    recherche
+    recherche ||
+    (classement && !defaultClassementFilter)
   );
 
   const periodes = appelsOffre
@@ -116,32 +116,51 @@ export const ListeProjets = ({
       user={utilisateur}
       currentPage={'list-projects'}
       contentHeader={
-        <Heading1 className="!text-white">
-          {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
-          {projects.itemCount > 0 && ` (${projects.itemCount})`}
-        </Heading1>
+        <div className="flex flex-col sm:flex-row justify-between">
+          <Heading1 className="!text-white whitespace-nowrap">
+            {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
+            {projects.itemCount > 0 && ` (${projects.itemCount})`}
+          </Heading1>
+          <SecondaryLinkButton
+            className="inline-flex items-center w-fit mt-2 md:mt-0 umami--click--telecharger-un-export-projets"
+            href={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+              request.query as any,
+            )}`}
+            download
+          >
+            <ExcelFileIcon className="mr-2" />
+            Télécharger un export (csv)
+          </SecondaryLinkButton>
+        </div>
       }
     >
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
       <div className="flex flex-col lg:flex-row gap-10 mt-8">
-        <div className={`flex flex-col ${filtersOpen ? 'lg:w-1/3' : 'lg:hidden'}`}>
+        <div
+          className={`flex flex-col max-w-xl ${
+            filtersOpen ? 'lg:w-1/3 lg:max-w-none' : 'lg:hidden'
+          }`}
+        >
+          <Form action={routes.LISTE_PROJETS} method="GET" className="mb-4 lg:hidden ">
+            <BarreDeRecherche
+              title="Rechercher par nom"
+              name="recherche"
+              defaultValue={recherche || ''}
+            />
+          </Form>
+
           {hasFilters && (
             <LinkButton href="#" onClick={resetUrlParams} className="mb-4 self-center text-sm">
               Retirer tous les filtres
             </LinkButton>
           )}
-          <Accordeon title="Filtrer par nom projet">
-            <Form action={routes.LISTE_PROJETS} method="GET">
-              <BarreDeRecherche
-                title="Rechercher par nom du projet"
-                name="recherche"
-                defaultValue={recherche || ''}
-              />
-            </Form>
-          </Accordeon>
-          <Accordeon title="Filtrer par appel d'offre">
+          <Accordeon
+            title="Filtrer par appel d'offre"
+            defaultOpen={!!appelOffreId}
+            className="max-w-xl"
+          >
             <Form action={routes.LISTE_PROJETS} method="GET">
               <div>
                 <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
@@ -229,7 +248,10 @@ export const ListeProjets = ({
           {userIs(['admin', 'dreal', 'dgec-validateur', 'porteur-projet', 'caisse-des-dépôts'])(
             utilisateur,
           ) && (
-            <Accordeon title="Filtrer par état de garantie financière">
+            <Accordeon
+              title="Filtrer par état de garantie financière"
+              defaultOpen={!!garantiesFinancieres}
+            >
               <Form action={routes.LISTE_PROJETS} method="GET">
                 <div>
                   <Label htmlFor="garantiesFinancieres">Garanties financières</Label>
@@ -255,7 +277,10 @@ export const ListeProjets = ({
               </Form>
             </Accordeon>
           )}
-          <Accordeon title="Filtrer par état du projet">
+          <Accordeon
+            title="Filtrer par état du projet"
+            defaultOpen={defaultClassementFilter || classement}
+          >
             <Form action={routes.LISTE_PROJETS} method="GET" className="mt-2">
               <div>
                 <Label htmlFor="classement">Projets Classés/Eliminés/Abandons</Label>
@@ -343,24 +368,22 @@ export const ListeProjets = ({
         </div>
 
         <div className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}>
-          {!hasFilters && (
-            <LinkButton
-              onClick={() => setFiltersOpen(!filtersOpen)}
-              className="mb-4 text-sm cursor-pointer"
-            >
-              {filtersOpen ? (
-                <>
-                  <ArrowLeftIcon className="!text-white w-5 h-5 mr-2" />
-                  Masquer les filtres
-                </>
-              ) : (
-                <>
-                  Afficher les filtres
-                  <ArrowRightIcon className="!text-white w-5 h-5 ml-2" />
-                </>
-              )}
-            </LinkButton>
-          )}
+          <LinkButton
+            onClick={() => setFiltersOpen(!filtersOpen)}
+            className="hidden lg:flex items-center w-fit show mb-4 text-sm cursor-pointer"
+          >
+            {filtersOpen ? (
+              <>
+                <ArrowLeftIcon className="!text-white w-5 h-5 mr-2" />
+                Masquer les filtres
+              </>
+            ) : (
+              <>
+                Afficher les filtres
+                <ArrowRightIcon className="!text-white w-5 h-5 ml-2" />
+              </>
+            )}
+          </LinkButton>
           <ProjectList
             displaySelection={displaySelection}
             selectedIds={selectedProjectIds}
@@ -369,9 +392,7 @@ export const ListeProjets = ({
             {...(userIs('dreal')(utilisateur) && { displayGF: true })}
             projects={projects}
             role={utilisateur.role}
-            downloadUrl={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-              request.query as any,
-            )}`}
+            recherche={recherche}
           />
         </div>
       </div>

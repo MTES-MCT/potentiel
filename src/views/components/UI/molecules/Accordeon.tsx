@@ -10,7 +10,7 @@ type AccordeonProps = ComponentProps<'div'> & {
 
 export const Accordeon: FC<AccordeonProps> = ({
   title,
-  defaultOpen = true,
+  defaultOpen = false,
   changeVisibleState,
   children,
   className,

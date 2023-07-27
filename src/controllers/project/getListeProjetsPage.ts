@@ -11,22 +11,32 @@ import {
 } from '../helpers';
 import { appelOffreRepo } from '@dataAccess';
 import { listerProjets } from '@infra/sequelize/queries';
-import { PermissionListerProjets } from '@modules/project/queries/listerProjets';
+import {
+  FiltreListeProjets,
+  PermissionListerProjets,
+} from '@modules/project/queries/listerProjets';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 const getProjectListPage = asyncHandler(async (request, response) => {
   let {
-    appelOffreId,
-    periodeId,
-    familleId,
-    recherche,
-    classement,
-    reclames,
-    garantiesFinancieres,
-  } = request.query as any;
-  const { user } = request;
+    query: {
+      appelOffreId,
+      periodeId,
+      familleId,
+      recherche,
+      classement,
+      reclames,
+      garantiesFinancieres,
+    },
+    user,
+  } = request;
+  const utilisateur = user as UtilisateurReadModel;
 
   // Set default filter on classés for admins
-  if (userIs(['admin', 'dgec-validateur', 'dreal'])(user) && typeof classement === 'undefined') {
+  if (
+    userIs(['admin', 'dgec-validateur', 'dreal'])(utilisateur) &&
+    typeof classement === 'undefined'
+  ) {
     classement = 'classés';
     request.query.classement = 'classés';
   }
@@ -50,13 +60,16 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     classement,
     reclames,
     garantiesFinancieres,
-  };
+  } as FiltreListeProjets;
 
-  const projects = await listerProjets({ user, filtres, pagination });
+  const projects = await listerProjets({ user: utilisateur, filtres, pagination });
 
   const appelsOffre = await appelOffreRepo.findAll();
 
-  const optionsFiltresParAOs = await getOptionsFiltresParAOs({ user, appelOffreId });
+  const optionsFiltresParAOs = await getOptionsFiltresParAOs({
+    user,
+    appelOffreId: filtres.appelOffre?.appelOffreId,
+  });
   response.send(
     ListeProjetsPage({
       request,

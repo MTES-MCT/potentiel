@@ -21,6 +21,8 @@ import {
   Checkbox,
   SecondaryLinkButton,
   ExcelFileIcon,
+  Form,
+  BarreDeRecherche,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -64,6 +66,7 @@ type Props = {
   onSelectedIdsChanged?: (projectIds: string[]) => void;
   currentUrl: string;
   downloadUrl?: string;
+  recherche?: string;
 };
 
 export const ProjectList = ({
@@ -77,6 +80,7 @@ export const ProjectList = ({
   onSelectedIdsChanged,
   currentUrl,
   downloadUrl,
+  recherche,
 }: Props) => {
   const prixDisponible = projects.items.some((project) => project.prixReference);
 
@@ -103,8 +107,8 @@ export const ProjectList = ({
 
   return (
     <div className={className}>
-      <div className="flex justify-between items-center mb-2" aria-hidden>
-        <div className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic">
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-2" aria-hidden>
+        <div className="flex flex-row mt-4 mb-2 gap-2 text-sm italic md:flex-row md:mt-0">
           <span>Légende :</span>
           <div className="flex items-center">
             <PowerIcon
@@ -143,6 +147,13 @@ export const ProjectList = ({
             </div>
           )}
         </div>
+        <Form action={routes.LISTE_PROJETS} method="GET" className="hidden lg:block mt-0">
+          <BarreDeRecherche
+            title="Rechercher par nom"
+            name="recherche"
+            defaultValue={recherche || ''}
+          />
+        </Form>
         {downloadUrl && (
           <SecondaryLinkButton
             className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
