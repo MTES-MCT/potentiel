@@ -4,6 +4,8 @@ import { isNone } from '@potentiel/monads';
 import { expect } from 'chai';
 import { convertirEnIdentifiantProjet, loadProjetAggregateFactory } from '@potentiel/domain';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
+import { mediator } from 'mediateur';
+import { ConsulterGarantiesFinancièresQuery } from '@potentiel/domain-views';
 
 Alors(
   `les garanties financières du projet {string} devraient être consultable dans le projet`,
@@ -54,5 +56,32 @@ Alors(
         actualProjetAggregate.garantiesFinancières?.attestationConstitution?.date.date.getTime(),
       ).to.equals(new Date(dateConstitution).getTime());
     }
+
+    // Assert on read model
+
+    const résultat = await mediator.send<ConsulterGarantiesFinancièresQuery>({
+      type: 'CONSULTER_GARANTIES_FINANCIÈRES',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    if (isNone(résultat)) {
+      throw new Error('garanties financières non trouvées');
+    }
+
+    expect(résultat).not.to.be.undefined;
+
+    const expected = {
+      type: 'garanties-financières',
+      ...(typeGarantiesFinancières && { typeGarantiesFinancières }),
+      ...(dateÉchéance && { dateÉchéance: new Date(dateÉchéance).toISOString() }),
+      ...(format &&
+        dateConstitution && {
+          attestationConstitution: { format, date: new Date(dateConstitution).toISOString() },
+        }),
+    };
+
+    expect(résultat).to.deep.equal(expected);
   },
 );
