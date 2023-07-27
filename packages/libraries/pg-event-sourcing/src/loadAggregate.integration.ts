@@ -10,7 +10,9 @@ describe(`loadAggregate`, () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
-  beforeEach(() => executeQuery(`DELETE FROM "EVENT_STREAM" WHERE "streamId" = $1`, aggregateId));
+  beforeEach(() =>
+    executeQuery(`delete from event_store.event_stream where stream_id = $1`, aggregateId),
+  );
 
   it(`Lorsqu'on charge un agrégat sans évènement
       Alors aucun agrégat ne devrait être chargé`, async () => {
@@ -29,15 +31,9 @@ describe(`loadAggregate`, () => {
     const createdAt = new Date().toISOString();
 
     await executeQuery(
-      `INSERT 
-       INTO "EVENT_STREAM" (
-        "streamId", 
-        "createdAt", 
-        "type", 
-        "version", 
-        "payload"
-        ) 
-       VALUES (
+      `insert 
+       into event_store.event_stream
+       values (
           $1, 
           $2, 
           $3, 
@@ -52,15 +48,9 @@ describe(`loadAggregate`, () => {
     );
 
     await executeQuery(
-      `INSERT 
-       INTO "EVENT_STREAM" (
-        "streamId", 
-        "createdAt", 
-        "type", 
-        "version", 
-        "payload"
-        ) 
-       VALUES (
+      `insert 
+       into event_store.event_stream
+       values (
           $1, 
           $2, 
           $3, 
