@@ -1,8 +1,10 @@
 import dotenv from 'dotenv';
+import path from 'path';
 import pg from 'pg';
 import { parse } from 'pg-connection-string';
 import { Options, Sequelize } from 'sequelize';
 
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 dotenv.config();
 pg.defaults.parseInt8 = true;
 
