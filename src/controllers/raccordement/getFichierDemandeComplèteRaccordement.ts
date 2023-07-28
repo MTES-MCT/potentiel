@@ -59,7 +59,7 @@ v1Router.get(
         const extensionFichier = extension(accuséRéception.format);
         logger.info(`Extension fichier: ${extensionFichier}`);
 
-        const fileName = `accuse-reception-${reference}.${extensionFichier}`;
+        const fileName = `accuse-reception.${extensionFichier}`;
         logger.info(fileName);
 
         response.type(accuséRéception.format);
