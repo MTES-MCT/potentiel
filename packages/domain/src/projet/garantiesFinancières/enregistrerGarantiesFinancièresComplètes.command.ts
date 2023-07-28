@@ -12,6 +12,7 @@ import {
 } from '../projet.event';
 import { checkType } from './checkType';
 import { checkAttestation } from './checkAttestation';
+import { TéléverserFichierAttestationGarantiesFinancièresPort } from './garantiesFinancières.ports';
 
 export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
   'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
@@ -25,11 +26,13 @@ export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
 export type EnregistrerGarantiesFinancièresComplètesDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
+  téléverserFichier: TéléverserFichierAttestationGarantiesFinancièresPort;
 };
 
 export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
   publish,
   loadAggregate,
+  téléverserFichier,
 }: EnregistrerGarantiesFinancièresComplètesDependencies) => {
   const loadProjet = loadProjetAggregateFactory({
     loadAggregate,
@@ -45,6 +48,12 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
 
     checkType(typeGarantiesFinancières, dateÉchéance, currentUserRôle, agrégatProjet);
     checkAttestation(attestationConstitution);
+
+    await téléverserFichier({
+      attestationConstitution,
+      identifiantProjet: identifiantProjet.formatter(),
+      type: 'attestation-constitution-garanties-Financieres',
+    });
 
     const eventForType: TypeGarantiesFinancièresEnregistréEvent = {
       type: 'TypeGarantiesFinancièresEnregistré',

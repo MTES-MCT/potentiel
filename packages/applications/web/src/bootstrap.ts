@@ -12,6 +12,7 @@ import {
   consumerSubscribe,
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
+  téléverserFichierAttestationGarantiesFinancièresAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
@@ -40,6 +41,7 @@ export const bootstrap = async (legacy: {
       enregistrerPropositionTechniqueEtFinancièreSignée:
         téléverserFichierDossierRaccordementAdapter,
     },
+    projet: { téléverserFichier: téléverserFichierAttestationGarantiesFinancièresAdapter },
   });
 
   const unsetupDomainViews = await setupDomainViews({

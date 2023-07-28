@@ -7,6 +7,7 @@ import {
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { sleep } from '../../../helpers/sleep';
+import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
 
 Quand(
   `un utilisateur avec le rôle {string} transmet des garanties financières pour le projet {string}`,
@@ -22,6 +23,7 @@ Quand(
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];
+      const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
@@ -33,6 +35,7 @@ Quand(
               attestationConstitution: {
                 format,
                 date: convertirEnDateTime(dateConstutition),
+                content: contenuFichier,
               },
             }),
           ...(typeGarantiesFinancières && {
