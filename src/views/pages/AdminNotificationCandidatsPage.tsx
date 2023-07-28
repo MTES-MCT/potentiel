@@ -11,6 +11,8 @@ import {
   Select,
   SuccessBox,
   Form,
+  SecondaryLinkButton,
+  ExcelFileIcon,
 } from '@components';
 import { AppelOffre, Periode } from '@entities';
 import { ProjectListItem } from '@modules/project/queries';
@@ -158,6 +160,22 @@ export const AdminNotificationCandidats = ({
           </Select>
         </div>
 
+        {AOSélectionné && périodeSélectionnée && (
+          <SecondaryLinkButton
+            href={`
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+              ...request.query,
+              appelOffreId: AOSélectionné,
+              periodeId: périodeSélectionnée,
+              beforeNotification: true,
+            })}`}
+            download
+          >
+            <ExcelFileIcon aria-hidden className="mr-2" />
+            Télécharger la liste des lauréats (document csv)
+          </SecondaryLinkButton>
+        )}
+
         {projetsPériodeSélectionnée.itemCount > 0 &&
           !success &&
           request.user?.role === 'dgec-validateur' && (
@@ -183,17 +201,6 @@ export const AdminNotificationCandidats = ({
         projects={projetsPériodeSélectionnée}
         role={request.user?.role}
         currentUrl={currentUrl}
-        downloadUrl={
-          AOSélectionné && périodeSélectionnée
-            ? `
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-                ...request.query,
-                appelOffreId: AOSélectionné,
-                periodeId: périodeSélectionnée,
-                beforeNotification: true,
-              })}`
-            : undefined
-        }
       />
     </LegacyPageTemplate>
   );

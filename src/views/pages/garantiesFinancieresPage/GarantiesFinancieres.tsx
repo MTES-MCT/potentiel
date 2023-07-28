@@ -16,6 +16,7 @@ import {
   Label,
   Select,
   Form,
+  DownloadLink,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '@modules/project/queries';
@@ -175,16 +176,26 @@ export const GarantiesFinancieres = ({
       {projects.items.length === 0 ? (
         <ListeVide titre="Aucune garantie financière à lister" />
       ) : (
-        <ProjectList
-          displayGF={true}
-          projects={projects}
-          role={request.user?.role}
-          GFPastDue={garantiesFinancieres === 'pastDue'}
-          currentUrl={currentUrl}
-          downloadUrl={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-            request.query as any,
-          )}`}
-        />
+        <>
+          <div className="mb-8 mt-4">
+            <DownloadLink
+              fileUrl={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                request.query as any,
+              )}`}
+            >
+              Télécharger les{' '}
+              <span>{Array.isArray(projects) ? projects.length : projects.itemCount}</span> projets
+              (document csv)
+            </DownloadLink>
+          </div>
+          <ProjectList
+            displayGF={true}
+            projects={projects}
+            role={request.user?.role}
+            GFPastDue={garantiesFinancieres === 'pastDue'}
+            currentUrl={currentUrl}
+          />
+        </>
       )}
     </LegacyPageTemplate>
   );

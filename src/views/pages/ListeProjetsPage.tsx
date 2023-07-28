@@ -137,25 +137,44 @@ export const ListeProjets = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
+      <div className="flex lg:items-end lg:justify-between">
+        <LinkButton
+          onClick={() => setFiltersOpen(!filtersOpen)}
+          className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
+        >
+          {filtersOpen ? (
+            <>
+              <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
+              Masquer les filtres
+            </>
+          ) : (
+            <>
+              Afficher les filtres
+              <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
+            </>
+          )}
+        </LinkButton>
+        <Form action={routes.LISTE_PROJETS} method="GET" className="w-full lg:ml-auto">
+          <BarreDeRecherche
+            title="Rechercher par nom de projet"
+            name="recherche"
+            defaultValue={recherche || ''}
+          />
+        </Form>
+      </div>
+
       <div className="flex flex-col lg:flex-row gap-10 mt-8">
         <div
           className={`flex flex-col max-w-xl ${
-            filtersOpen ? 'lg:w-1/3 lg:max-w-none' : 'lg:hidden'
+            filtersOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
           }`}
         >
-          <Form action={routes.LISTE_PROJETS} method="GET" className="mb-4 lg:hidden ">
-            <BarreDeRecherche
-              title="Rechercher par nom"
-              name="recherche"
-              defaultValue={recherche || ''}
-            />
-          </Form>
-
           {hasFilters && (
             <LinkButton href="#" onClick={resetUrlParams} className="mb-4 self-center text-sm">
               Retirer tous les filtres
             </LinkButton>
           )}
+
           <Accordeon
             title="Filtrer par appel d'offre"
             defaultOpen={!!appelOffreId}
@@ -368,22 +387,6 @@ export const ListeProjets = ({
         </div>
 
         <div className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}>
-          <LinkButton
-            onClick={() => setFiltersOpen(!filtersOpen)}
-            className="hidden lg:flex items-center w-fit show mb-4 text-sm cursor-pointer"
-          >
-            {filtersOpen ? (
-              <>
-                <ArrowLeftIcon className="!text-white w-5 h-5 mr-2" />
-                Masquer les filtres
-              </>
-            ) : (
-              <>
-                Afficher les filtres
-                <ArrowRightIcon className="!text-white w-5 h-5 ml-2" />
-              </>
-            )}
-          </LinkButton>
           <ProjectList
             displaySelection={displaySelection}
             selectedIds={selectedProjectIds}
@@ -392,7 +395,6 @@ export const ListeProjets = ({
             {...(userIs('dreal')(utilisateur) && { displayGF: true })}
             projects={projects}
             role={utilisateur.role}
-            recherche={recherche}
           />
         </div>
       </div>

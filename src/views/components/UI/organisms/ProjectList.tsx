@@ -19,10 +19,6 @@ import {
   Tile,
   Pagination,
   Checkbox,
-  SecondaryLinkButton,
-  ExcelFileIcon,
-  Form,
-  BarreDeRecherche,
 } from '@components';
 import { afficherDate } from '@views/helpers';
 
@@ -66,7 +62,6 @@ type Props = {
   onSelectedIdsChanged?: (projectIds: string[]) => void;
   currentUrl: string;
   downloadUrl?: string;
-  recherche?: string;
 };
 
 export const ProjectList = ({
@@ -80,7 +75,6 @@ export const ProjectList = ({
   onSelectedIdsChanged,
   currentUrl,
   downloadUrl,
-  recherche,
 }: Props) => {
   const prixDisponible = projects.items.some((project) => project.prixReference);
 
@@ -107,62 +101,43 @@ export const ProjectList = ({
 
   return (
     <div className={className}>
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-2" aria-hidden>
-        <div className="flex flex-row mt-4 mb-2 gap-2 text-sm italic md:flex-row md:mt-0">
-          <span>Légende :</span>
-          <div className="flex items-center">
-            <PowerIcon
-              className="text-yellow-moutarde-850-base mr-1 shrink-0"
-              aria-label="Puissance"
-            />{' '}
-            Puissance
-          </div>
-          {prixDisponible && (
-            <div className="flex items-center">
-              <EuroIcon
-                className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
-                aria-label="Prix de référence"
-              />{' '}
-              Prix de référence
-            </div>
-          )}
-          {displayGF && (
-            <div className="flex items-center">
-              <div
-                className="flex text-grey-200-base font-bold text-sm mr-1"
-                aria-label="Garanties Financières"
-              >
-                GF
-              </div>
-              Garanties Financières
-            </div>
-          )}
-          {évaluationCarboneDisponible && !displayGF && (
-            <div className="flex items-center">
-              <CloudIcon
-                className="text-grey-425-active mr-1 shrink-0"
-                aria-label="Évaluation carbone"
-              />
-              Évaluation carbone
-            </div>
-          )}
+      <div className="flex flex-row mt-4 mb-2 gap-2 text-sm italic md:flex-row md:mt-0">
+        <span>Légende :</span>
+        <div className="flex items-center">
+          <PowerIcon
+            className="text-yellow-moutarde-850-base mr-1 shrink-0"
+            aria-label="Puissance"
+          />{' '}
+          Puissance
         </div>
-        <Form action={routes.LISTE_PROJETS} method="GET" className="hidden lg:block mt-0">
-          <BarreDeRecherche
-            title="Rechercher par nom"
-            name="recherche"
-            defaultValue={recherche || ''}
-          />
-        </Form>
-        {downloadUrl && (
-          <SecondaryLinkButton
-            className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
-            href={downloadUrl}
-            download
-          >
-            <ExcelFileIcon className="mr-2" />
-            Télécharger un export (csv)
-          </SecondaryLinkButton>
+        {prixDisponible && (
+          <div className="flex items-center">
+            <EuroIcon
+              className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
+              aria-label="Prix de référence"
+            />{' '}
+            Prix de référence
+          </div>
+        )}
+        {displayGF && (
+          <div className="flex items-center">
+            <div
+              className="flex text-grey-200-base font-bold text-sm mr-1"
+              aria-label="Garanties Financières"
+            >
+              GF
+            </div>
+            Garanties Financières
+          </div>
+        )}
+        {évaluationCarboneDisponible && !displayGF && (
+          <div className="flex items-center">
+            <CloudIcon
+              className="text-grey-425-active mr-1 shrink-0"
+              aria-label="Évaluation carbone"
+            />
+            Évaluation carbone
+          </div>
         )}
       </div>
 
@@ -184,7 +159,7 @@ export const ProjectList = ({
       <ul className="p-0 m-0">
         {projects.items.map((project) => (
           <li className="list-none p-0 m-0" key={project.id}>
-            <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
+            <Tile className="mb-4 flex md:relative flex-col" key={`project_${project.id}`}>
               <div className="flex flex-col gap-2 mb-4">
                 <div className="flex flex-col md:flex-row gap-2">
                   {displaySelection && (
