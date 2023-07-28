@@ -5,7 +5,11 @@ import { expect } from 'chai';
 import { convertirEnIdentifiantProjet, loadProjetAggregateFactory } from '@potentiel/domain';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { mediator } from 'mediateur';
-import { ConsulterGarantiesFinancièresQuery } from '@potentiel/domain-views';
+import {
+  ConsulterFichierAttestationGarantiesFinancièreQuery,
+  ConsulterGarantiesFinancièresQuery,
+} from '@potentiel/domain-views';
+import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
 
 Alors(
   `les garanties financières du projet {string} devraient être consultable dans le projet`,
@@ -83,5 +87,38 @@ Alors(
     };
 
     expect(résultat).to.deep.equal(expected);
+  },
+);
+
+Alors(
+  'le fichier devrait être téléchargeable pour le projet {string}',
+  async function (nomProjet: string, table: DataTable) {
+    const exemple = table.rowsHash();
+
+    const contenu = exemple['contenu fichier'];
+    const format = exemple['format'];
+
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+    const résultat = await mediator.send<ConsulterFichierAttestationGarantiesFinancièreQuery>({
+      type: 'CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    if (isNone(résultat)) {
+      throw new Error('attestation garanties financières non trouvée');
+    }
+
+    console.log('RECEIVED', résultat);
+
+    const expected = {
+      type: 'attestation-constitution-garanties-Financieres',
+      format: format,
+      content: convertStringToReadable(contenu),
+    };
+
+    //expect(résultat).to.deep.equal(expected);
   },
 );

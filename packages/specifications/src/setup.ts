@@ -21,6 +21,7 @@ import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
   téléverserFichierAttestationGarantiesFinancièresAdapter,
+  téléchargerFichierAttestationGarantiesFinancièresAdapter,
 } from '@potentiel/infra-adapters';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
@@ -99,6 +100,9 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
         téléchargerFichierDossierRaccordementAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
+    },
+    garantiesFinancières: {
+      téléchargerFichier: téléchargerFichierAttestationGarantiesFinancièresAdapter,
     },
   });
 });

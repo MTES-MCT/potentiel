@@ -10,18 +10,24 @@ import {
   GarantiesFinancièresProjectorDependencies,
   registerGarantiesFinancièresProjector,
 } from './garantiesFinancières.projector';
+import {
+  ConsulterFichierAttestationGarantiesFinancièresDependencies,
+  registerConsulterFichierAttestationGarantiesFinancièresQuery,
+} from './consulter/consulterFichierAttestationGarantiesFinancières.query';
 
 // Setup
-type GarantiesFinancièresDependencies = {
+export type GarantiesFinancièresDependencies = {
   subscribe: Subscribe;
 } & ConsulterGarantiesFinancièresDependencies &
-  GarantiesFinancièresProjectorDependencies;
+  GarantiesFinancièresProjectorDependencies &
+  ConsulterFichierAttestationGarantiesFinancièresDependencies;
 
 export const setupGarantiesFinancièreViews = async (
   dependencies: GarantiesFinancièresDependencies,
 ) => {
   // Queries
   registerConsulterGarantiesFinancièresQuery(dependencies);
+  registerConsulterFichierAttestationGarantiesFinancièresQuery(dependencies);
 
   // Projectors
   registerGarantiesFinancièresProjector(dependencies);

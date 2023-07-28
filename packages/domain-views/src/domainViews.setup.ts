@@ -1,7 +1,10 @@
 import { Subscribe } from '@potentiel/core-domain';
 import { setupGestionnaireRéseauViews } from './gestionnaireRéseau/gestionnaireRéseau.setup';
 import { setupProjetViews } from './projet/projet.setup';
-import { setupGarantiesFinancièreViews } from './garantiesFinancières/garantiesFinancières.setup';
+import {
+  GarantiesFinancièresDependencies,
+  setupGarantiesFinancièreViews,
+} from './garantiesFinancières/garantiesFinancières.setup';
 import {
   RaccordementDependencies,
   setupRaccordementViews,
@@ -23,6 +26,10 @@ type DomainViewsDependencies = {
     };
   };
   raccordement: Omit<RaccordementDependencies, keyof DomainViewsDependencies['common']>;
+  garantiesFinancières: Omit<
+    GarantiesFinancièresDependencies,
+    keyof DomainViewsDependencies['common']
+  >;
 };
 
 export type UnsetupDomainViews = () => Promise<void>;
@@ -30,10 +37,14 @@ export type UnsetupDomainViews = () => Promise<void>;
 export const setupDomainViews = async ({
   common,
   raccordement,
+  garantiesFinancières,
 }: DomainViewsDependencies): Promise<UnsetupDomainViews> => {
   const unsubscribeGestionnaireRéseauViews = await setupGestionnaireRéseauViews(common);
   const unsubscribeProjetViews = await setupProjetViews(common);
-  const unsubscribeGarantiesFinancièresViews = await setupGarantiesFinancièreViews(common);
+  const unsubscribeGarantiesFinancièresViews = await setupGarantiesFinancièreViews({
+    ...common,
+    ...garantiesFinancières,
+  });
   const unsubscribeRaccordement = await setupRaccordementViews({
     ...common,
     ...raccordement,
