@@ -26,8 +26,10 @@ type DemandeAbandonProps = {
 };
 
 export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonProps) => {
-  const { user } = request;
-  const { error, success } = request.query as any;
+  const {
+    query: { error, success },
+    user,
+  } = (request as any) || {};
   const { type, id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
     modificationRequest;
 
@@ -36,7 +38,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
     isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status);
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={user} currentPage="list-requests">
       <Heading1>
         <ModificationRequestActionTitles action={type} />
       </Heading1>

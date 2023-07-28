@@ -30,13 +30,16 @@ type DemanderAbandonProps = {
 };
 
 export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbandonProps) => {
-  const { error, success, justification } = (request.query as any) || {};
+  const {
+    query: { error, success, justification },
+    user,
+  } = (request as any) || {};
 
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={user} currentPage="list-requests">
       <Heading1 className="mb-10">Je demande un abandon de mon projet</Heading1>
 
       {doitChoisirCahierDesCharges ? (
@@ -47,6 +50,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
               appelOffre,
               cahierDesChargesActuel: 'initial',
               identifiantGestionnaireRéseau: project.identifiantGestionnaire,
+              periodeId: project.periodeId,
             },
             redirectUrl: routes.GET_DEMANDER_ABANDON(project.id),
             type: 'abandon',

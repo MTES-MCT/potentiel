@@ -65,13 +65,13 @@ export const ChoisirCahierDesChargesFormulaire: FC<ChoisirCahierDesChargesFormul
         </li>
 
         {appelOffre.cahiersDesChargesModifiésDisponibles
-          // .filter((cahierDesChargesModifié) => {
-          //   if (!cahierDesChargesModifié.periodeIds) {
-          //     return true;
-          //   }
+          .filter((cahierDesChargesModifié) => {
+            if (!cahierDesChargesModifié.periodeIds) {
+              return true;
+            }
 
-          //   return !!cahierDesChargesModifié.periodeIds.includes(projet.periodeId);
-          // })
+            return !!cahierDesChargesModifié.periodeIds.includes(projet.periodeId);
+          })
           .map((cahierDesChargesModifié, index) => {
             const idCdc = formatCahierDesChargesRéférence({
               ...cahierDesChargesModifié,

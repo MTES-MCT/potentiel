@@ -37,7 +37,10 @@ type ChangerFournisseurProps = {
 };
 
 export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFournisseurProps) => {
-  const { error, success, justification } = (request.query as any) || {};
+  const {
+    query: { error, success, justification },
+    user,
+  } = (request as any) || {};
 
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
@@ -45,7 +48,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
   const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>();
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={user} currentPage="list-requests">
       <Heading1 className="mb-10">Je signale un changement de fournisseur</Heading1>
 
       {doitChoisirCahierDesCharges ? (
@@ -56,6 +59,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
               appelOffre,
               cahierDesChargesActuel: 'initial',
               identifiantGestionnaireRéseau: project.identifiantGestionnaire,
+              periodeId: project.periodeId,
             },
             redirectUrl: routes.CHANGER_FOURNISSEUR(project.id),
             type: 'fournisseur',

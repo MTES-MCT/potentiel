@@ -62,6 +62,7 @@ export const NewModificationRequest = ({
               appelOffre,
               cahierDesChargesActuel: 'initial',
               identifiantGestionnaireRéseau: project.identifiantGestionnaire,
+              periodeId: project.periodeId,
             },
             redirectUrl: redirectionRoute(action),
             type: action,

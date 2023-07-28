@@ -9,6 +9,7 @@ import {
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
 import { Request } from 'express';
 import { hydrateOnClient } from '../../helpers';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ChoisirCahierDesChargesProps = {
   request: Request;
@@ -17,7 +18,7 @@ type ChoisirCahierDesChargesProps = {
 
 export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesChargesProps) => {
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-projects">
+    <LegacyPageTemplate user={request.user as UtilisateurReadModel} currentPage="list-projects">
       <Heading1 className="mb-10">Cahier des charges</Heading1>
       <ChoisirCahierDesChargesFormulaire
         projet={projet}

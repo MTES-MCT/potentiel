@@ -38,7 +38,10 @@ type DemanderDelaiProps = {
 };
 
 export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiProps) => {
-  const { error, success, justification, dateAchèvementDemandée } = (request.query as any) || {};
+  const {
+    query: { error, success, justification, dateAchèvementDemandée },
+    user,
+  } = (request as any) || {};
 
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
@@ -48,7 +51,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
   );
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={user} currentPage="list-requests">
       <Heading1 className="mb-10">Je demande un délai supplémentaire</Heading1>
 
       {doitChoisirCahierDesCharges ? (
@@ -59,6 +62,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
               appelOffre,
               cahierDesChargesActuel: 'initial',
               identifiantGestionnaireRéseau: project.identifiantGestionnaire,
+              periodeId: project.periodeId,
             },
             redirectUrl: routes.DEMANDER_DELAI(project.id),
             type: 'delai',

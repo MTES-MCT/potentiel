@@ -24,6 +24,7 @@ import {
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '@routes';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ChangerProducteurProps = {
   request: Request;
@@ -32,13 +33,18 @@ type ChangerProducteurProps = {
 };
 
 export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProducteurProps) => {
-  const { error, success, justification } = (request.query as any) || {};
+  const {
+    query: { error, success, justification },
+    user,
+  } = (request as any) || {};
+
+  const utilisateur = user as UtilisateurReadModel;
 
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={utilisateur} currentPage="list-requests">
       <Heading1 className="mb-10">Je signale un changement de producteur</Heading1>
 
       {doitChoisirCahierDesCharges ? (
@@ -49,6 +55,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
               appelOffre,
               cahierDesChargesActuel: 'initial',
               identifiantGestionnaireRéseau: project.identifiantGestionnaire,
+              periodeId: project.periodeId,
             },
             redirectUrl: routes.GET_CHANGER_PRODUCTEUR(project.id),
             type: 'producteur',

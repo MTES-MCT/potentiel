@@ -39,17 +39,15 @@ export const DemanderChangementPuissance = ({
   appelOffre,
 }: DemanderChangementPuissanceProps) => {
   const {
-    error,
-    success,
-    puissance: puissanceSaisie,
-    justification,
-  } = (request.query as any) || {};
+    query: { error, success, puissance: puissanceSaisie, justification },
+    user,
+  } = (request as any) || {};
 
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-requests">
+    <LegacyPageTemplate user={user} currentPage="list-requests">
       <Heading1 className="mb-10">Je signale un changement de puissance</Heading1>
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
@@ -59,6 +57,7 @@ export const DemanderChangementPuissance = ({
               appelOffre,
               cahierDesChargesActuel: 'initial',
               identifiantGestionnaireRéseau: project.identifiantGestionnaire,
+              periodeId: project.periodeId,
             },
             redirectUrl: routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id),
             type: 'puissance',
