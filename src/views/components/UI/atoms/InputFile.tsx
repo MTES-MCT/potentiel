@@ -4,8 +4,8 @@ import { DownloadLink, EditIcon, AddIcon } from '@components';
 type InputFileProps = {
   name: string;
   id?: string;
-  required?: true;
-  disabled?: true;
+  required?: boolean;
+  disabled?: boolean;
   fileUrl?: string;
 };
 
@@ -15,7 +15,11 @@ export const InputFile = ({ fileUrl, ...props }: InputFileProps) => {
   const [uploadedFileName, setUploadFileName] = useState('');
 
   return (
-    <div className="flex items-center mt-2 p-3 bg-grey-950-base border-0 border-b-2 border-solid border-gray-600 relative">
+    <div
+      className={`flex items-center mt-2 p-3 bg-grey-950-base border-0 border-b-2 border-solid border-gray-600 relative ${
+        props.disabled && 'cursor-not-allowed border-b-grey-925-base bg-grey-950-base'
+      }`}
+    >
       <div className="truncate mr-5">
         {uploadedFileName ? (
           uploadedFileName
@@ -28,25 +32,27 @@ export const InputFile = ({ fileUrl, ...props }: InputFileProps) => {
         )}
       </div>
 
-      <div className="flex ml-auto gap-3">
-        <button
-          type="button"
-          className="flex items-center text-base border-none bg-transparent hover:bg-transparent m-0 p-0"
-          onClick={browseForFile}
-        >
-          {fileUrl || uploadedFileName ? (
-            <>
-              <EditIcon className="md:mr-1" />
-              <span className="hidden md:inline-block text-sm">Modifier</span>
-            </>
-          ) : (
-            <>
-              <AddIcon className="md:mr-1" />
-              <span className="hidden md:inline-block text-sm">Ajouter</span>
-            </>
-          )}
-        </button>
-      </div>
+      {!props.disabled && (
+        <div className="flex ml-auto gap-3">
+          <button
+            type="button"
+            className="flex items-center text-base border-none bg-transparent hover:bg-transparent m-0 p-0"
+            onClick={browseForFile}
+          >
+            {fileUrl || uploadedFileName ? (
+              <>
+                <EditIcon className="md:mr-1" />
+                <span className="hidden md:inline-block text-sm">Modifier</span>
+              </>
+            ) : (
+              <>
+                <AddIcon className="md:mr-1" />
+                <span className="hidden md:inline-block text-sm">Ajouter</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       <input
         {...props}
