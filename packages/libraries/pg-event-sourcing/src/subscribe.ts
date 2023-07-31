@@ -1,8 +1,17 @@
 import { EventEmitter } from 'events';
-import { DomainEvent, DomainEventHandler, Unsubscribe } from '@potentiel/core-domain';
-import { getConnectionString } from '@potentiel/pg-helpers';
+import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
+import { executeQuery, getConnectionString } from '@potentiel/pg-helpers';
 import { Event, isEvent } from './event';
 import { Client } from 'pg';
+
+const registerSubscription = async <TDomainEvent extends DomainEvent = Event>({
+  eventType,
+  name,
+}: Subscriber<TDomainEvent>) => {
+  const filter =
+    eventType === 'all' ? null : JSON.stringify(Array.isArray(eventType) ? eventType : [eventType]);
+  await executeQuery(`insert into event_store.subscriber values($1, $2)`, name, filter);
+};
 
 class EventStreamEmitter extends EventEmitter {
   readonly #channel = 'new_event';
@@ -15,10 +24,11 @@ class EventStreamEmitter extends EventEmitter {
     this.#unlisten = () => Promise.reject(new Error('EventStream emmitter is not listenning.'));
   }
 
-  subscribe<TDomainEvent extends DomainEvent>(
-    eventType: TDomainEvent['type'] | ReadonlyArray<TDomainEvent['type']> | 'all',
-    eventHandler: DomainEventHandler<TDomainEvent>,
-  ): Unsubscribe {
+  subscribe<TDomainEvent extends DomainEvent>({
+    eventHandler,
+    eventType,
+    name,
+  }: Subscriber<TDomainEvent>): Unsubscribe {
     if (!this.#isListening) {
       this.#unlisten = listenToNewEvent(eventStreamEmitter);
       this.#isListening = true;
@@ -54,15 +64,15 @@ class EventStreamEmitter extends EventEmitter {
 let eventStreamEmitter: EventStreamEmitter;
 
 export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
-  eventType: TDomainEvent['type'] | ReadonlyArray<TDomainEvent['type']> | 'all',
-  eventHandler: DomainEventHandler<TDomainEvent>,
+  subscriber: Subscriber<TDomainEvent>,
 ): Promise<Unsubscribe> => {
+  await registerSubscription(subscriber);
   if (!eventStreamEmitter) {
     eventStreamEmitter = new EventStreamEmitter();
     eventStreamEmitter.setMaxListeners(50);
   }
 
-  return Promise.resolve(eventStreamEmitter.subscribe(eventType, eventHandler));
+  return Promise.resolve(eventStreamEmitter.subscribe(subscriber));
 };
 
 export const listenToNewEvent = (eventEmitter: EventEmitter) => {

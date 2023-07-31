@@ -54,8 +54,9 @@ export const setupRaccordementViews = async (dependencies: RaccordementDependenc
   const { subscribe } = dependencies;
 
   return [
-    await subscribe<RaccordementEvent>(
-      [
+    await subscribe<RaccordementEvent>({
+      name: 'RaccordementProjectorSubscriber',
+      eventType: [
         'AccuséRéceptionDemandeComplèteRaccordementTransmis',
         'DateMiseEnServiceTransmise',
         'DemandeComplèteDeRaccordementTransmise',
@@ -66,12 +67,12 @@ export const setupRaccordementViews = async (dependencies: RaccordementDependenc
         'PropositionTechniqueEtFinancièreTransmise',
         'RéférenceDossierRacordementModifiée-V1',
       ],
-      async (event: RaccordementEvent) => {
+      eventHandler: async (event: RaccordementEvent) => {
         await mediator.publish<ExecuteRaccordementProjector>({
           type: 'EXECUTE_RACCORDEMENT_PROJECTOR',
           data: event,
         });
       },
-    ),
+    }),
   ];
 };
