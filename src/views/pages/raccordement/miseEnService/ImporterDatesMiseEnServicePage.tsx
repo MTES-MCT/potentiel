@@ -83,7 +83,13 @@ export const ImporterDatesMiseEnService = ({
 
           <div>
             <Label htmlFor="fichier">Fichier .csv des dates de mise en service :</Label>
-            <Input type="file" required name="fichier-dates-mise-en-service" id="fichier" />
+            <Input
+              type="file"
+              required
+              name="fichier-dates-mise-en-service"
+              id="fichier"
+              accept=".csv"
+            />
           </div>
 
           <div className="flex flex-col md:flex-row mx-auto">
