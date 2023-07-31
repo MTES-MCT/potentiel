@@ -9,7 +9,7 @@ import {
   ConsulterFichierAttestationGarantiesFinancièreQuery,
   ConsulterGarantiesFinancièresQuery,
 } from '@potentiel/domain-views';
-import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
+import { convertReadableToString } from '../../../helpers/convertReadableToString';
 
 Alors(
   `les garanties financières du projet {string} devraient être consultable dans le projet`,
@@ -111,14 +111,8 @@ Alors(
       throw new Error('attestation garanties financières non trouvée');
     }
 
-    console.log('RECEIVED', résultat);
-
-    const expected = {
-      type: 'attestation-constitution-garanties-Financieres',
-      format: format,
-      content: convertStringToReadable(contenu),
-    };
-
-    //expect(résultat).to.deep.equal(expected);
+    expect(résultat.type).to.deep.equal('attestation-constitution-garanties-Financieres');
+    expect(résultat.format).to.deep.equal(format);
+    expect(await convertReadableToString(résultat.content)).to.deep.equal(contenu);
   },
 );

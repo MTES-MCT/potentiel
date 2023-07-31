@@ -15,11 +15,6 @@ import {
   GarantiesFinancièresReadModelKey,
 } from '../garantiesFinancières.readModel';
 
-export type ConsulterFichierAttestationGarantiesFinancièresDependencies = {
-  find: Find;
-  téléchargerFichier: TéléchargerAttestationGarantiesFinancièresPort;
-};
-
 export type ConsulterFichierAttestationGarantiesFinancièreQuery = Message<
   'CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES',
   {
@@ -28,21 +23,24 @@ export type ConsulterFichierAttestationGarantiesFinancièreQuery = Message<
   Option<FichierAttestationGarantiesFinancièresReadModel>
 >;
 
+export type ConsulterFichierAttestationGarantiesFinancièresDependencies = {
+  find: Find;
+  téléchargerFichier: TéléchargerAttestationGarantiesFinancièresPort;
+};
+
 export const registerConsulterFichierAttestationGarantiesFinancièresQuery = ({
   find,
   téléchargerFichier,
 }: ConsulterFichierAttestationGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ConsulterFichierAttestationGarantiesFinancièreQuery> = async ({
+  const queryHandler: MessageHandler<ConsulterFichierAttestationGarantiesFinancièreQuery> = async ({
     identifiantProjet,
   }) => {
     const rawIdentifiantProjet = estUnIdentifiantProjet(identifiantProjet)
       ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
       : identifiantProjet;
 
-    console.log('QUERY - id projet', rawIdentifiantProjet);
-    const key: GarantiesFinancièresReadModelKey = `garanties-financières#${rawIdentifiantProjet}}`;
+    const key: GarantiesFinancièresReadModelKey = `garanties-financières#${rawIdentifiantProjet}`;
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
-    console.log('QUERY pour fichier - GF trouvées : ', garantiesFinancières);
 
     if (
       isNone(garantiesFinancières) ||
@@ -68,5 +66,5 @@ export const registerConsulterFichierAttestationGarantiesFinancièresQuery = ({
       content: content,
     } satisfies FichierAttestationGarantiesFinancièresReadModel;
   };
-  mediator.register('CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES', handler);
+  mediator.register('CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES', queryHandler);
 };
