@@ -6,7 +6,7 @@ import { createProjetAggregateId, loadProjetAggregateFactory } from '../../proje
 import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { isNone, isSome, none } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../../../gestionnaireRéseau/gestionnaireRéseau.error';
-import { GestionnaireRéseauProjetDéclaréEvent } from '../../projet.event';
+import { GestionnaireRéseauProjetDéclaréEvent } from '../gestionnaireRéseau.event';
 
 export type DéclarerGestionnaireRéseauProjetCommand = Message<
   'DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET',

@@ -4,11 +4,14 @@ import {
   DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
   ModificationGarantiesFinancièresNonAutoriséeErreur,
 } from '../projet.error';
-import { TypeEtDateÉchéance, estUnTypeDeGarantiesFinancièresAccepté } from '../projet.valueType';
 import { Aggregate } from '@potentiel/core-domain';
 import { Projet } from '../projet.aggregate';
+import {
+  TypeEtDateÉchéance,
+  estUnTypeDeGarantiesFinancièresAccepté,
+} from './garantiesFinancières.valueType';
 
-export const checkType = (
+export const verifyGarantiesFinancièresTypeForCommand = (
   typeGarantiesFinancières: TypeEtDateÉchéance['typeGarantiesFinancières'],
   dateÉchéance: TypeEtDateÉchéance['dateÉchéance'],
   currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts',

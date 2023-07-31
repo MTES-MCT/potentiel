@@ -7,7 +7,7 @@ import { loadGestionnaireRéseauAggregateFactory } from '../../../gestionnaireR�
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../../../gestionnaireRéseau/gestionnaireRéseau.error';
 import { ProjetInconnuError } from '../../projet.error';
-import { GestionnaireRéseauProjetModifiéEvent } from '../../projet.event';
+import { GestionnaireRéseauProjetModifiéEvent } from '../gestionnaireRéseau.event';
 
 export type ModifierGestionnaireRéseauProjetCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',

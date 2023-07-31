@@ -2,10 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { EnregistrerTypeGarantiesFinancièresCommand } from './enregistrerTypeGarantiesFinancières.command';
 import { ProjetCommand } from '../projet.command';
 import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command';
+import { IdentifiantProjetValueType } from '../projet.valueType';
 
-type EnregistrerGarantiesFinancièresUseCaseData = Partial<
-  EnregistrerTypeGarantiesFinancièresCommand['data']
-> &
+type EnregistrerGarantiesFinancièresUseCaseData = {
+  identifiantProjet: IdentifiantProjetValueType;
+  currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts';
+} & Partial<EnregistrerTypeGarantiesFinancièresCommand['data']> &
   Partial<EnregistrerAttestationGarantiesFinancièresCommand['data']>;
 
 export type EnregistrerGarantiesFinancièresUseCase = Message<
@@ -21,12 +23,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     identifiantProjet,
     currentUserRôle,
   }) => {
-    if (
-      identifiantProjet &&
-      typeGarantiesFinancières &&
-      attestationConstitution &&
-      currentUserRôle
-    ) {
+    if (typeGarantiesFinancières && attestationConstitution) {
       await mediator.send<ProjetCommand>({
         type: 'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
         data: {
@@ -39,12 +36,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
       });
     }
 
-    if (
-      typeGarantiesFinancières &&
-      identifiantProjet &&
-      !attestationConstitution &&
-      currentUserRôle
-    ) {
+    if (typeGarantiesFinancières && !attestationConstitution) {
       await mediator.send<ProjetCommand>({
         type: 'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
         data: {
@@ -56,14 +48,12 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
       });
     }
 
-    if (attestationConstitution && identifiantProjet && !typeGarantiesFinancières) {
+    if (attestationConstitution && !typeGarantiesFinancières) {
       await mediator.send<ProjetCommand>({
         type: 'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
         data: { attestationConstitution, identifiantProjet },
       });
     }
-
-    // TO DO : téléverser fichier
   };
 
   mediator.register('ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE', runner);

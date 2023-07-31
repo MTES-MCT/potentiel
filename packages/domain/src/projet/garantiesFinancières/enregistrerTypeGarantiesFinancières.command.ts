@@ -1,9 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantProjetValueType, TypeEtDateÉchéance } from '../projet.valueType';
+import { IdentifiantProjetValueType } from '../projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
-import { TypeGarantiesFinancièresEnregistréEvent } from '../projet.event';
-import { checkType } from './checkType';
+import { verifyGarantiesFinancièresTypeForCommand } from './verifyGarantiesFinancièresTypeForCommand';
+import { TypeEtDateÉchéance } from './garantiesFinancières.valueType';
+import { TypeGarantiesFinancièresEnregistréEvent } from './garantiesFinancières.event';
 
 export type EnregistrerTypeGarantiesFinancièresCommand = Message<
   'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
@@ -34,7 +35,12 @@ export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
   }) => {
     const agrégatProjet = await loadProjet(identifiantProjet);
 
-    checkType(typeGarantiesFinancières, dateÉchéance, currentUserRôle, agrégatProjet);
+    verifyGarantiesFinancièresTypeForCommand(
+      typeGarantiesFinancières,
+      dateÉchéance,
+      currentUserRôle,
+      agrégatProjet,
+    );
 
     const event: TypeGarantiesFinancièresEnregistréEvent = {
       type: 'TypeGarantiesFinancièresEnregistré',
