@@ -37,7 +37,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
       : identifiantProjet;
 
-    const key: GarantiesFinancièresReadModelKey = `garanties-financières#${rawIdentifiantProjet}`;
+    const key: GarantiesFinancièresReadModelKey = `garanties-financières|${rawIdentifiantProjet}`;
     const result = await find<GarantiesFinancièresReadModel>(key);
 
     if (isNone(result)) {

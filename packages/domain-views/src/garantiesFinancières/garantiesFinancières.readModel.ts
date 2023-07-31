@@ -2,7 +2,7 @@ import { ReadModel } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '@potentiel/domain';
 import { Readable } from 'stream';
 
-export type GarantiesFinancièresReadModelKey = `garanties-financières#${RawIdentifiantProjet}`;
+export type GarantiesFinancièresReadModelKey = `garanties-financières|${RawIdentifiantProjet}`;
 
 export type GarantiesFinancièresReadModel = ReadModel<
   'garanties-financières',
