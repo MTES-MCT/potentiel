@@ -1,6 +1,7 @@
-import { Subscriber } from '@potentiel/core-domain';
+import { DomainEvent, Subscriber } from '@potentiel/core-domain';
 import { getConnectionString } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
+import waitForExpect from 'wait-for-expect';
 import { Client } from 'pg';
 
 describe(`subscribe`, () => {
@@ -85,48 +86,48 @@ describe(`subscribe`, () => {
     expect(actual.rows[0]).toEqual(expected);
   });
 
-  // it(`
-  //   Étant donnée un event handler à l'écoute d'un type d'événement
-  //   Lorsqu'on emet un évènement
-  //   Alors l'event handler est éxècuté
-  //   Et il reçoit l'évènement en paramêtre
-  // `, async () => {
-  //   const createdAt = new Date().toISOString();
-  //   const payload = {
-  //     propriété: 'propriété',
-  //   };
+  it(`
+    Étant donnée un event handler à l'écoute d'un type d'événement
+    Lorsqu'on emet un évènement
+    Alors l'event handler est éxècuté
+    Et il reçoit l'évènement en paramêtre
+  `, async () => {
+    const createdAt = new Date().toISOString();
+    const payload = {
+      propriété: 'propriété',
+    };
 
-  //   // Arrange
-  //   const eventHandler = jest.fn(() => Promise.resolve());
-  //   const unsubscribe = await subscribe(eventType, eventHandler);
+    // Arrange
+    const eventHandler = jest.fn(() => Promise.resolve());
+    const unsubscribe = await subscribe({ name: 'eventHandler', eventType, eventHandler });
 
-  //   const client = new Client(getConnectionString());
-  //   await client.connect();
-  //   await client.query(
-  //     `
-  //       insert
-  //       into event_store.event_stream
-  //       values (
-  //         $1,
-  //         $2,
-  //         $3,
-  //         $4,
-  //         $5
-  //       )`,
-  //     [streamId, createdAt, eventType, version, payload],
-  //   );
-  //   await client.end();
+    const client = new Client(getConnectionString());
+    await client.connect();
+    await client.query(
+      `
+        insert
+        into event_store.event_stream
+        values (
+          $1, 
+          $2, 
+          $3, 
+          $4,
+          $5
+        )`,
+      [streamId, createdAt, eventType, version, payload],
+    );
+    await client.end();
 
-  //   await unsubscribe();
+    await unsubscribe();
 
-  //   await waitForExpect(() => {
-  //     // Assert
-  //     const expected: DomainEvent = {
-  //       type: eventType,
-  //       payload,
-  //     };
+    await waitForExpect(() => {
+      // Assert
+      const expected: DomainEvent = {
+        type: eventType,
+        payload,
+      };
 
-  //     expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(expected));
-  //   });
-  // });
+      expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(expected));
+    });
+  });
 });
