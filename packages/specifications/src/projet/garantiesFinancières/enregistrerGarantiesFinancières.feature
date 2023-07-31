@@ -82,7 +82,7 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | contenu fichier      | le contenu             |  
             | format               | application/pdf        |     
 @select
-    Scénario: Corriger des garanties financières complètes : changer type et retirer date d'échéance
+    Scénario: Corriger des garanties financières complètes : changer type et retirer date d'échéance, changer attestation
         Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
             | type                 | avec date d'échéance   |
             | date d'échéance      | 2027-12-01             |
@@ -90,13 +90,16 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | date de constitution | 2021-12-02             | 
             | contenu fichier      | le contenu             |           
         Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
-            | type                 | consignation |     
+            | type                 | consignation           |   
+            | format               | application/pdf        |
+            | date de constitution | 2020-12-02             | 
+            | contenu fichier      | le nouveau contenu     |      
         Alors les garanties financières du projet "Centrale éolienne 20" devraient être consultable dans le projet
             | type                 | consignation           |
             | format               | application/pdf        |
-            | date de constitution | 2021-12-02             | 
+            | date de constitution | 2020-12-02             | 
         Alors le fichier devrait être téléchargeable pour le projet "Centrale éolienne 20" 
-            | contenu fichier      | le contenu             |  
+            | contenu fichier      | le nouveau contenu     |  
             | format               | application/pdf        |     
 @select
     Scénario: Erreur si le type de garanties financières est inconnu
