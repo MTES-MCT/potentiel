@@ -125,7 +125,15 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | format               | application/pdf      |
             | date de constitution | 2020-12-02           |
             | contenu fichier      | le contenu           |
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas ajouter une date d'échéance pour le type de garanties financières renseigné" 
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas ajouter une date d'échéance pour le type de garanties financières renseigné"
+@select
+    Scénario: Erreur si date d'échéance manquante le type "avec date d'échéance"
+        Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
+            | type                 | avec date d'échéance   |
+            | format               | application/pdf        |
+            | date de constitution | 2020-12-02             |
+            | contenu fichier      | le contenu             |
+        Alors l'utilisateur devrait être informé que "La date d'échéance est requise pour ce type de garanties financières"         
 @select
     Scénario: Erreur si un porteur tente de modifier le type de garanties financières
         Quand un utilisateur avec le rôle 'admin' transmet des garanties financières pour le projet "Centrale éolienne 20"
