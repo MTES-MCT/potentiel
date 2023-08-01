@@ -15,7 +15,7 @@ import {
 } from '@components';
 import { ConsulterProjetReadModel, GarantiesFinancièresReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
-import { hydrateOnClient } from '../../helpers';
+import { formatDateForInput, hydrateOnClient } from '../../helpers';
 import { TitreGarantiesFinancières } from './components/TitreGarantiesFinancières';
 
 type EnregistrerGarantiesFinancièresProps = {
@@ -32,7 +32,9 @@ export const EnregistrerGarantiesFinancières = ({
   error,
 }: EnregistrerGarantiesFinancièresProps) => {
   const { identifiantProjet } = projet;
-  const [typeSélectionné, sélectionnerType] = useState('');
+  const [typeSélectionné, sélectionnerType] = useState(
+    (garantiesFinancières?.typeGarantiesFinancières as string) ?? '',
+  );
 
   return (
     <PageProjetTemplate titre={<TitreGarantiesFinancières />} user={user} résuméProjet={projet}>
@@ -45,16 +47,16 @@ export const EnregistrerGarantiesFinancières = ({
         >
           <Heading2>Enregistrer la garantie financière</Heading2>
 
-          <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+          {/* <p className="text-sm italic m-0">Tous les champs sont obligatoires</p> */}
 
           {error && <ErrorBox>{error}</ErrorBox>}
 
           <div>
-            <Label htmlFor="typeGarantiesFinancières">Type de la garantie financière</Label>
+            <Label htmlFor="typeGarantiesFinancieres">Type de la garantie financière</Label>
             <Select
-              id="typeGarantiesFinancières"
-              name="typeGarantiesFinancières"
-              defaultValue={garantiesFinancières?.typeGarantiesFinancières ?? ''}
+              id="typeGarantiesFinancieres"
+              name="typeGarantiesFinancieres"
+              defaultValue={typeSélectionné}
               onChange={(e) => sélectionnerType(e.currentTarget.value)}
               required
               disabled={
@@ -83,7 +85,10 @@ export const EnregistrerGarantiesFinancières = ({
                 type="date"
                 id="dateEcheance"
                 name="dateEcheance"
-                defaultValue={garantiesFinancières?.dateÉchéance}
+                defaultValue={
+                  garantiesFinancières?.dateÉchéance &&
+                  formatDateForInput(garantiesFinancières?.dateÉchéance)
+                }
                 required
                 disabled={
                   garantiesFinancières?.dateÉchéance ? user.role === 'porteur-projet' : false
@@ -98,7 +103,10 @@ export const EnregistrerGarantiesFinancières = ({
               type="date"
               id="dateConstitution"
               name="dateConstitution"
-              defaultValue={garantiesFinancières?.attestationConstitution?.date}
+              defaultValue={
+                garantiesFinancières?.attestationConstitution?.date &&
+                formatDateForInput(garantiesFinancières?.attestationConstitution?.date)
+              }
               disabled={
                 garantiesFinancières?.attestationConstitution?.date
                   ? user.role === 'porteur-projet'

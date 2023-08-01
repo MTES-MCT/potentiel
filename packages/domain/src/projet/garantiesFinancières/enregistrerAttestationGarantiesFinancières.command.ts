@@ -6,14 +6,12 @@ import { createProjetAggregateId } from '../projet.aggregate';
 import { verifyGarantiesFinancièresAttestationForCommand } from './verifyGarantiesFinancièresAttestationForCommand';
 import { TéléverserFichierAttestationGarantiesFinancièresPort } from './garantiesFinancières.ports';
 import { AttestationGarantiesFinancièresEnregistréeEvent } from './garantiesFinancières.event';
-import { DateTimeValueType } from '../../common.valueType';
 
 export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
   'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
   {
     identifiantProjet: IdentifiantProjetValueType;
     attestationConstitution: AttestationConstitution;
-    dateConstitution?: DateTimeValueType;
   }
 >;
 

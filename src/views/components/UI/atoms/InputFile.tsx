@@ -7,9 +7,10 @@ type InputFileProps = {
   required?: boolean;
   disabled?: boolean;
   fileUrl?: string;
+  onFileChange?: (fileName: string) => void;
 };
 
-export const InputFile = ({ fileUrl, ...props }: InputFileProps) => {
+export const InputFile = ({ fileUrl, onFileChange, ...props }: InputFileProps) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const browseForFile = () => hiddenFileInput?.current?.click();
   const [uploadedFileName, setUploadFileName] = useState('');
@@ -20,6 +21,18 @@ export const InputFile = ({ fileUrl, ...props }: InputFileProps) => {
         props.disabled && 'cursor-not-allowed border-b-grey-925-base bg-grey-950-base'
       }`}
     >
+      <input
+        {...props}
+        ref={hiddenFileInput}
+        type="file"
+        className="-z-50 opacity-0 w-full h-full absolute top-0 left-0"
+        onChange={(e) => {
+          const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
+          setUploadFileName(fileName);
+          onFileChange && onFileChange(fileName);
+        }}
+      />
+
       <div className="truncate mr-5">
         {uploadedFileName ? (
           uploadedFileName
@@ -53,14 +66,6 @@ export const InputFile = ({ fileUrl, ...props }: InputFileProps) => {
           </button>
         </div>
       )}
-
-      <input
-        {...props}
-        ref={hiddenFileInput}
-        type="file"
-        className="opacity-0 w-full h-full absolute top-0 left-0"
-        onChange={(e) => setUploadFileName(e.currentTarget.value.replace(/^.*[\\\/]/, ''))}
-      />
     </div>
   );
 };

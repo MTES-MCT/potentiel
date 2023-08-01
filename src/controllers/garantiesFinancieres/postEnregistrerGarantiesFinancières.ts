@@ -29,7 +29,7 @@ const schema = yup.object({
     identifiantProjet: yup.string().required(),
   }),
   body: yup.object({
-    typeGarantiesFinancières: yup
+    typeGarantiesFinancieres: yup
       .mixed<`avec date d'échéance` | 'type inconnu' | `consignation` | `6 mois après achèvement`>()
       .oneOf([`avec date d'échéance`, 'type inconnu', `consignation`, `6 mois après achèvement`]),
     dateEcheance: yup
@@ -72,16 +72,20 @@ v1Router.post(
       const {
         user,
         params: { identifiantProjet },
-        body: { typeGarantiesFinancières, dateEcheance, dateConstitution },
+        body: { typeGarantiesFinancieres, dateEcheance, dateConstitution },
         file,
       } = request;
 
-      console.log(JSON.stringify(user));
-      console.log(JSON.stringify(request.params));
-      console.log(JSON.stringify(request.body));
-
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
+      if ((!file && dateConstitution) || (file && !dateConstitution)) {
+        response.redirect(
+          addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
+            error: `Vous devez renseigner une date de constitution ET une attestation`,
+          }),
+        );
       }
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
@@ -124,11 +128,11 @@ v1Router.post(
         await mediator.send<DomainUseCase>({
           type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
           data: {
+            //@ts-ignore
             currentUserRôle: user.role,
             identifiantProjet: identifiantProjetValueType,
-            typeGarantiesFinancières,
+            typeGarantiesFinancières: typeGarantiesFinancieres,
             dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
-            dateConstitution: dateConstitution ? convertirEnDateTime(dateConstitution) : undefined,
             attestationConstitution:
               file && dateConstitution
                 ? {
