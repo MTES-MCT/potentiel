@@ -8,11 +8,7 @@ export type GarantiesFinancièresReadModel = ReadModel<
   'garanties-financières',
   {
     attestationConstitution?: { format: string; date: string };
-    typeGarantiesFinancières?:
-      | `avec date d'échéance`
-      | 'consignation'
-      | `6 mois après achèvement`
-      | 'type inconnu';
+    typeGarantiesFinancières?: `avec date d'échéance` | 'consignation' | `6 mois après achèvement`;
     dateÉchéance?: string;
   }
 >;

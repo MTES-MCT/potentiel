@@ -3,8 +3,8 @@ import { IdentifiantProjetValueType } from '../projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
 import { verifyGarantiesFinancièresTypeForCommand } from './verifyGarantiesFinancièresTypeForCommand';
-import { TypeEtDateÉchéance } from './garantiesFinancières.valueType';
-import { TypeGarantiesFinancièresEnregistréEvent } from './garantiesFinancières.event';
+import { TypeEtDateÉchéance, estTypeAvecDateÉchéance } from './garantiesFinancières.valueType';
+import { TypeGarantiesFinancièresEnregistréEventV1 } from './garantiesFinancières.event';
 import { Utilisateur } from '../../domain.valueType';
 
 export type EnregistrerTypeGarantiesFinancièresCommand = Message<
@@ -43,14 +43,16 @@ export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
       agrégatProjet,
     );
 
-    const event: TypeGarantiesFinancièresEnregistréEvent = {
-      type: 'TypeGarantiesFinancièresEnregistré',
+    const event: TypeGarantiesFinancièresEnregistréEventV1 = {
+      type: 'TypeGarantiesFinancièresEnregistré-v1',
       payload: {
-        typeGarantiesFinancières,
-        ...(dateÉchéance && {
-          dateÉchéance: dateÉchéance.formatter(),
-        }),
         identifiantProjet: identifiantProjet.formatter(),
+        ...(estTypeAvecDateÉchéance(typeGarantiesFinancières)
+          ? {
+              dateÉchéance: dateÉchéance!.formatter(),
+              typeGarantiesFinancières,
+            }
+          : { typeGarantiesFinancières }),
       },
     };
 

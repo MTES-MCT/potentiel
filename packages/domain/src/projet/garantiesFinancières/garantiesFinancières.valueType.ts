@@ -7,14 +7,13 @@ export type AttestationConstitution = {
   content: Readable;
 };
 
-type TypeGarantiesFinancières =
+export type TypeGarantiesFinancières =
   | `avec date d'échéance`
-  | 'type inconnu'
   | `consignation`
   | `6 mois après achèvement`;
 
 export type TypeEtDateÉchéance = {
-  typeGarantiesFinancières: TypeGarantiesFinancières;
+  typeGarantiesFinancières: `avec date d'échéance` | `consignation` | `6 mois après achèvement`;
   dateÉchéance?: DateTimeValueType;
 };
 
@@ -26,6 +25,8 @@ export const estUnTypeDeGarantiesFinancièresAccepté = (
   value: any,
 ): value is TypeGarantiesFinancières =>
   value === `avec date d'échéance` ||
-  value === 'type inconnu' ||
   value === `consignation` ||
   value === `6 mois après achèvement`;
+
+export const estTypeAvecDateÉchéance = (value: any): value is TypeGarantiesFinancières =>
+  value === `avec date d'échéance`;

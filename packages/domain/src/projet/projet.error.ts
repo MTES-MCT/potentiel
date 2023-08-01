@@ -32,6 +32,12 @@ export class DateÉchéanceGarantiesFinancièresNonAcceptéeErreur extends Inval
   }
 }
 
+export class DateÉchéanceGarantiesFinancièresRequiseErreur extends InvalidOperationError {
+  constructor() {
+    super("La date d'échéance est requise pour ce type de garanties financières");
+  }
+}
+
 export class ModificationGarantiesFinancièresNonAutoriséeErreur extends InvalidOperationError {
   constructor() {
     super('Vous ne pouvez pas modifier des données de garanties financières déjà validées');

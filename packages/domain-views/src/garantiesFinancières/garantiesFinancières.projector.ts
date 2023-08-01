@@ -29,17 +29,24 @@ export const registerGarantiesFinancièresProjector = ({
     }`;
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
     switch (event.type) {
-      case 'TypeGarantiesFinancièresEnregistré':
+      case 'TypeGarantiesFinancièresEnregistré-v1':
+      case 'TypeGarantiesFinancièresEnregistré-v0':
         if (isNone(garantiesFinancières)) {
           await create<GarantiesFinancièresReadModel>(key, {
-            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-            dateÉchéance: event.payload.dateÉchéance,
+            typeGarantiesFinancières:
+              'typeGarantiesFinancières' in event.payload
+                ? event.payload.typeGarantiesFinancières
+                : undefined,
+            dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
           });
         } else {
           await update<GarantiesFinancièresReadModel>(key, {
             ...garantiesFinancières,
-            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-            dateÉchéance: event.payload.dateÉchéance,
+            typeGarantiesFinancières:
+              'typeGarantiesFinancières' in event.payload
+                ? event.payload.typeGarantiesFinancières
+                : undefined,
+            dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
           });
         }
         break;

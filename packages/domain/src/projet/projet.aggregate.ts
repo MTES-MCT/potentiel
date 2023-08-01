@@ -44,7 +44,8 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
             );
           },
         };
-      case 'TypeGarantiesFinancièresEnregistré':
+      case 'TypeGarantiesFinancièresEnregistré-v0':
+      case 'TypeGarantiesFinancièresEnregistré-v1':
       case 'AttestationGarantiesFinancièresEnregistrée':
         return processGarantiesFinancièresEvent({ event, aggregate });
       default:
@@ -70,27 +71,40 @@ const processGarantiesFinancièresEvent = ({
   aggregate: Projet;
 }) => {
   switch (event.type) {
-    case 'TypeGarantiesFinancièresEnregistré':
-      return event.payload.typeGarantiesFinancières === `avec date d'échéance` ||
-        event.payload.typeGarantiesFinancières === 'type inconnu'
-        ? {
-            ...aggregate,
-            garantiesFinancières: {
-              ...aggregate.garantiesFinancières,
-              typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-              ...(event.payload.dateÉchéance && {
-                dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
-              }),
-            },
-          }
-        : {
-            ...aggregate,
-            garantiesFinancières: {
-              ...aggregate.garantiesFinancières,
-              typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-              dateÉchéance: undefined,
-            },
-          };
+    case 'TypeGarantiesFinancièresEnregistré-v0':
+      if ('typeGarantiesFinancières' in event.payload) {
+        return {
+          ...aggregate,
+          garantiesFinancières: {
+            ...aggregate.garantiesFinancières,
+            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+            dateÉchéance:
+              event.payload.typeGarantiesFinancières === `avec date d'échéance`
+                ? convertirEnDateTime(event.payload.dateÉchéance)
+                : undefined,
+          },
+        };
+      } else {
+        return {
+          ...aggregate,
+          garantiesFinancières: {
+            ...aggregate.garantiesFinancières,
+            dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+          },
+        };
+      }
+    case 'TypeGarantiesFinancièresEnregistré-v1':
+      return {
+        ...aggregate,
+        garantiesFinancières: {
+          ...aggregate.garantiesFinancières,
+          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          dateÉchéance:
+            event.payload.typeGarantiesFinancières === `avec date d'échéance`
+              ? convertirEnDateTime(event.payload.dateÉchéance)
+              : undefined,
+        },
+      };
     case 'AttestationGarantiesFinancièresEnregistrée':
       return {
         ...aggregate,

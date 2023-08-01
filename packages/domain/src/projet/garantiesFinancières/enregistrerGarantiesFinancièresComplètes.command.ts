@@ -5,10 +5,14 @@ import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.a
 import { verifyGarantiesFinancièresTypeForCommand } from './verifyGarantiesFinancièresTypeForCommand';
 import { verifyGarantiesFinancièresAttestationForCommand } from './verifyGarantiesFinancièresAttestationForCommand';
 import { TéléverserFichierAttestationGarantiesFinancièresPort } from './garantiesFinancières.ports';
-import { AttestationConstitution, TypeEtDateÉchéance } from './garantiesFinancières.valueType';
 import {
-  TypeGarantiesFinancièresEnregistréEvent,
+  AttestationConstitution,
+  TypeEtDateÉchéance,
+  estTypeAvecDateÉchéance,
+} from './garantiesFinancières.valueType';
+import {
   AttestationGarantiesFinancièresEnregistréeEvent,
+  TypeGarantiesFinancièresEnregistréEventV1,
 } from './garantiesFinancières.event';
 import { Utilisateur } from '../../domain.valueType';
 
@@ -59,14 +63,16 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
       type: 'attestation-constitution-garanties-Financieres',
     });
 
-    const eventForType: TypeGarantiesFinancièresEnregistréEvent = {
-      type: 'TypeGarantiesFinancièresEnregistré',
+    const eventForType: TypeGarantiesFinancièresEnregistréEventV1 = {
+      type: 'TypeGarantiesFinancièresEnregistré-v1',
       payload: {
-        typeGarantiesFinancières,
-        ...(dateÉchéance && {
-          dateÉchéance: dateÉchéance.formatter(),
-        }),
         identifiantProjet: identifiantProjet.formatter(),
+        ...(estTypeAvecDateÉchéance(typeGarantiesFinancières)
+          ? {
+              dateÉchéance: dateÉchéance!.formatter(),
+              typeGarantiesFinancières,
+            }
+          : { typeGarantiesFinancières }),
       },
     };
 

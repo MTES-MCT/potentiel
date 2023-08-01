@@ -1,18 +1,36 @@
 import { DomainEvent } from '@potentiel/core-domain';
 
-export type TypeGarantiesFinancièresEnregistréEvent = DomainEvent<
-  'TypeGarantiesFinancièresEnregistré',
+export type TypeGarantiesFinancièresEnregistréEventV0 = DomainEvent<
+  'TypeGarantiesFinancièresEnregistré-v0',
   {
     identifiantProjet: string;
-  } & {
-    // "type inconnu" pour la migration du legacy (projet sans type et avec date d'échéance)
-    typeGarantiesFinancières:
-      | `avec date d'échéance`
-      | 'consignation'
-      | `6 mois après achèvement`
-      | `type inconnu`;
-    dateÉchéance?: string;
-  }
+  } & (
+    | {
+        typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
+      }
+    | {
+        typeGarantiesFinancières: `avec date d'échéance`;
+        dateÉchéance: string;
+      }
+    | {
+        dateÉchéance: string;
+      }
+  )
+>;
+
+export type TypeGarantiesFinancièresEnregistréEventV1 = DomainEvent<
+  'TypeGarantiesFinancièresEnregistré-v1',
+  {
+    identifiantProjet: string;
+  } & (
+    | {
+        typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
+      }
+    | {
+        typeGarantiesFinancières: `avec date d'échéance`;
+        dateÉchéance: string; // legacy
+      }
+  )
 >;
 
 export type AttestationGarantiesFinancièresEnregistréeEvent = DomainEvent<

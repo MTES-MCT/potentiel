@@ -2,6 +2,7 @@ import { When as Quand, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../../potentiel.world';
 import {
   DomainUseCase,
+  TypeGarantiesFinancières,
   Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
@@ -16,11 +17,7 @@ Quand(
     const exemple = table.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type'] as
-        | `avec date d'échéance`
-        | 'consignation'
-        | `6 mois après achèvement`
-        | `type inconnu`;
+      const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];

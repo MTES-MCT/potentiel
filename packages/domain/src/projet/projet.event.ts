@@ -1,6 +1,7 @@
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
-  TypeGarantiesFinancièresEnregistréEvent,
+  TypeGarantiesFinancièresEnregistréEventV1,
+  TypeGarantiesFinancièresEnregistréEventV0,
 } from './garantiesFinancières/garantiesFinancières.event';
 import {
   GestionnaireRéseauProjetModifiéEvent,
@@ -13,6 +14,7 @@ type GestionnaireRéseauProjetEvent =
 
 export type GarantiesFinancièresEvent =
   | AttestationGarantiesFinancièresEnregistréeEvent
-  | TypeGarantiesFinancièresEnregistréEvent;
+  | TypeGarantiesFinancièresEnregistréEventV1
+  | TypeGarantiesFinancièresEnregistréEventV0;
 
 export type ProjetEvent = GestionnaireRéseauProjetEvent | GarantiesFinancièresEvent;

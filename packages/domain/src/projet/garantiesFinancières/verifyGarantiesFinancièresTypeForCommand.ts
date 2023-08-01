@@ -3,11 +3,13 @@ import {
   TypeGarantiesFinancièresNonAcceptéErreur,
   DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
   ModificationGarantiesFinancièresNonAutoriséeErreur,
+  DateÉchéanceGarantiesFinancièresRequiseErreur,
 } from '../projet.error';
 import { Aggregate } from '@potentiel/core-domain';
 import { Projet } from '../projet.aggregate';
 import {
   TypeEtDateÉchéance,
+  estTypeAvecDateÉchéance,
   estUnTypeDeGarantiesFinancièresAccepté,
 } from './garantiesFinancières.valueType';
 import { Utilisateur, utilisateurEstPorteur } from '../../domain.valueType';
@@ -22,12 +24,12 @@ export const verifyGarantiesFinancièresTypeForCommand = (
     throw new TypeGarantiesFinancièresNonAcceptéErreur();
   }
 
-  if (dateÉchéance) {
-    if (
-      typeGarantiesFinancières !== `avec date d'échéance` &&
-      typeGarantiesFinancières !== `type inconnu`
-    )
-      throw new DateÉchéanceGarantiesFinancièresNonAcceptéeErreur();
+  if (dateÉchéance && !estTypeAvecDateÉchéance(typeGarantiesFinancières)) {
+    throw new DateÉchéanceGarantiesFinancièresNonAcceptéeErreur();
+  }
+
+  if (estTypeAvecDateÉchéance(typeGarantiesFinancières) && !dateÉchéance) {
+    throw new DateÉchéanceGarantiesFinancièresRequiseErreur();
   }
 
   if (utilisateurEstPorteur(utilisateur) && isSome(agrégatProjet)) {
