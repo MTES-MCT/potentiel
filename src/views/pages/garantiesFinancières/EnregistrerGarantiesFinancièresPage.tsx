@@ -11,6 +11,7 @@ import {
   Form,
   InfoBox,
   Select,
+  ErrorBox,
 } from '@components';
 import { ConsulterProjetReadModel, GarantiesFinancièresReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
@@ -20,13 +21,15 @@ import { TitreGarantiesFinancières } from './components/TitreGarantiesFinanciè
 type EnregistrerGarantiesFinancièresProps = {
   user: UtilisateurReadModel;
   projet: ConsulterProjetReadModel;
-  garantieFinancière?: GarantiesFinancièresReadModel;
+  garantiesFinancières?: GarantiesFinancièresReadModel;
+  error?: string;
 };
 
 export const EnregistrerGarantiesFinancières = ({
   user,
   projet,
-  garantieFinancière,
+  garantiesFinancières,
+  error,
 }: EnregistrerGarantiesFinancièresProps) => {
   const { identifiantProjet } = projet;
   const [typeSélectionné, sélectionnerType] = useState('');
@@ -44,16 +47,18 @@ export const EnregistrerGarantiesFinancières = ({
 
           <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
 
-          {/* {error && <ErrorBox>{error}</ErrorBox>} */}
+          {error && <ErrorBox>{error}</ErrorBox>}
 
           <div>
-            <Label htmlFor="identifiantGestionnaireReseau">Type de la garantie financière</Label>
+            <Label htmlFor="typeGarantiesFinancières">Type de la garantie financière</Label>
             <Select
-              defaultValue={garantieFinancière?.typeGarantiesFinancières ?? ''}
+              id="typeGarantiesFinancières"
+              name="typeGarantiesFinancières"
+              defaultValue={garantiesFinancières?.typeGarantiesFinancières ?? ''}
               onChange={(e) => sélectionnerType(e.currentTarget.value)}
               required
               disabled={
-                garantieFinancière?.typeGarantiesFinancières
+                garantiesFinancières?.typeGarantiesFinancières
                   ? user.role === 'porteur-projet'
                   : false
               }
@@ -78,9 +83,11 @@ export const EnregistrerGarantiesFinancières = ({
                 type="date"
                 id="dateEcheance"
                 name="dateEcheance"
-                defaultValue={garantieFinancière?.dateÉchéance}
+                defaultValue={garantiesFinancières?.dateÉchéance}
                 required
-                disabled={garantieFinancière?.dateÉchéance ? user.role === 'porteur-projet' : false}
+                disabled={
+                  garantiesFinancières?.dateÉchéance ? user.role === 'porteur-projet' : false
+                }
               />
             </div>
           )}
@@ -91,10 +98,9 @@ export const EnregistrerGarantiesFinancières = ({
               type="date"
               id="dateConstitution"
               name="dateConstitution"
-              defaultValue={garantieFinancière?.attestationConstitution?.date}
-              required
+              defaultValue={garantiesFinancières?.attestationConstitution?.date}
               disabled={
-                garantieFinancière?.attestationConstitution?.date
+                garantiesFinancières?.attestationConstitution?.date
                   ? user.role === 'porteur-projet'
                   : false
               }
@@ -107,13 +113,14 @@ export const EnregistrerGarantiesFinancières = ({
               id="file"
               name="file"
               fileUrl={
-                garantieFinancière?.attestationConstitution
+                garantiesFinancières?.attestationConstitution
                   ? routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES(identifiantProjet)
                   : undefined
               }
-              required
               disabled={
-                garantieFinancière?.attestationConstitution ? user.role === 'porteur-projet' : false
+                garantiesFinancières?.attestationConstitution
+                  ? user.role === 'porteur-projet'
+                  : false
               }
             />
           </div>

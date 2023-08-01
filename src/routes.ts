@@ -566,7 +566,7 @@ class routes {
   static POST_ENREGISTRER_GARANTIES_FINANCIERES = (identifiantProjet?: RawIdentifiantProjet) => {
     return `/projet/${
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
-    }/garanties-financières`;
+    }/garanties-financieres`;
   };
 }
 export default routes;

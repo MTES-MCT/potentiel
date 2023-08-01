@@ -2,12 +2,17 @@ import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { notFoundResponse } from '../helpers';
-import { ConsulterProjetQuery } from '@potentiel/domain-views';
+import { notFoundResponse, unauthorizedResponse, vérifierPermissionUtilisateur } from '../helpers';
+import { ConsulterGarantiesFinancièresQuery, ConsulterProjetQuery } from '@potentiel/domain-views';
 import { EnregistrerGarantiesFinancièresPage } from '@views';
 import { mediator } from 'mediateur';
-import { convertirEnIdentifiantProjet, estUnRawIdentifiantProjet } from '@potentiel/domain';
-import { isNone } from '@potentiel/monads';
+import {
+  convertirEnIdentifiantProjet,
+  estUnRawIdentifiantProjet,
+  PermissionConsulterGarantiesFinancières,
+} from '@potentiel/domain';
+import { isNone, isSome } from '@potentiel/monads';
+import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 
 const schema = yup.object({
   params: yup.object({
@@ -17,7 +22,7 @@ const schema = yup.object({
 
 v1Router.get(
   routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(),
-  //   vérifierPermissionUtilisateur(PermissionConsulterDossierRaccordement),
+  vérifierPermissionUtilisateur(PermissionConsulterGarantiesFinancières),
   safeAsyncHandler(
     {
       schema,
@@ -28,6 +33,7 @@ v1Router.get(
       const {
         user,
         params: { identifiantProjet },
+        query: { error },
       } = request;
 
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
@@ -51,32 +57,57 @@ v1Router.get(
         });
       }
 
-      //   const gestionnaireRéseau = projet.identifiantGestionnaire
-      //     ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
-      //         type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
-      //         data: {
-      //           identifiantGestionnaireRéseau: projet.identifiantGestionnaire,
-      //         },
-      //       })
-      //     : none;
+      const projetWithId = await Project.findOne({
+        where: {
+          appelOffreId: identifiantProjetValueType.appelOffre,
+          periodeId: identifiantProjetValueType.période,
+          familleId: isSome(identifiantProjetValueType.famille)
+            ? identifiantProjetValueType.famille
+            : '',
+          numeroCRE: identifiantProjetValueType.numéroCRE,
+        },
+        attributes: ['id'],
+      });
 
-      //   if (isSome(gestionnaireRéseau)) {
+      if (!projetWithId) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
+      if (user.role === 'porteur-projet') {
+        const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
+          where: { projectId: projetWithId.id, userId: user.id },
+        }));
+
+        if (!porteurAAccèsAuProjet) {
+          return unauthorizedResponse({
+            request,
+            response,
+            customMessage: `Vous n'avez pas accès à ce projet.`,
+          });
+        }
+      }
+
+      const garantiesFinancières = await mediator.send<ConsulterGarantiesFinancièresQuery>({
+        type: 'CONSULTER_GARANTIES_FINANCIÈRES',
+        data: {
+          identifiantProjet: identifiantProjetValueType,
+        },
+      });
+
+      console.log(garantiesFinancières);
+
       return response.send(
         EnregistrerGarantiesFinancièresPage({
           user,
           projet,
+          garantiesFinancières: isNone(garantiesFinancières) ? undefined : garantiesFinancières,
+          error: error as string,
         }),
       );
-      // }
-      //   }
-
-      //   if (userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user)) {
-      //     return response.redirect(
-      //       routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet),
-      //     );
-      //   }
-
-      //   return response.redirect(routes.GET_PAGE_RACCORDEMENT_SANS_DOSSIER_PAGE(identifiantProjet));
     },
   ),
 );
