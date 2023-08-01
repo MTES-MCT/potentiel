@@ -11,4 +11,7 @@ const ROLES_UTILISATEURS = [
 
 export type RôleUtilisateur = (typeof ROLES_UTILISATEURS)[number];
 
-export type Utilisateur = { role: RôleUtilisateur };
+export type Utilisateur = { rôle: RôleUtilisateur };
+
+export const utilisateurEstPorteur = (value: { rôle: any }): value is Utilisateur =>
+  value.rôle === 'porteur-projet';

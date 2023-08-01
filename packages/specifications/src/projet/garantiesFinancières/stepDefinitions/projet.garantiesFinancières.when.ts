@@ -2,6 +2,7 @@ import { When as Quand, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../../potentiel.world';
 import {
   DomainUseCase,
+  Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
@@ -11,7 +12,7 @@ import { convertStringToReadable } from '../../../helpers/convertStringToReadabl
 
 Quand(
   `un utilisateur avec le rôle {string} transmet des garanties financières pour le projet {string}`,
-  async function (this: PotentielWorld, role: string, nomProjet: string, table: DataTable) {
+  async function (this: PotentielWorld, rôle: string, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
     try {
@@ -42,12 +43,7 @@ Quand(
             typeGarantiesFinancières,
             ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
           }),
-          currentUserRôle: role as
-            | 'admin'
-            | 'porteur-projet'
-            | 'dgec-validateur'
-            | 'cre'
-            | 'caisse-des-dépôts',
+          utilisateur: { rôle } as Utilisateur,
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
         },
       });

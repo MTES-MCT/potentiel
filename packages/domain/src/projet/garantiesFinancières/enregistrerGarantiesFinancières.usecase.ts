@@ -3,10 +3,11 @@ import { EnregistrerTypeGarantiesFinancièresCommand } from './enregistrerTypeGa
 import { ProjetCommand } from '../projet.command';
 import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command';
 import { IdentifiantProjetValueType } from '../projet.valueType';
+import { Utilisateur } from '../../domain.valueType';
 
 type EnregistrerGarantiesFinancièresUseCaseData = {
   identifiantProjet: IdentifiantProjetValueType;
-  currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts';
+  utilisateur: Utilisateur;
 } & Partial<EnregistrerTypeGarantiesFinancièresCommand['data']> &
   Partial<EnregistrerAttestationGarantiesFinancièresCommand['data']>;
 
@@ -21,7 +22,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     dateÉchéance,
     attestationConstitution,
     identifiantProjet,
-    currentUserRôle,
+    utilisateur,
   }) => {
     if (typeGarantiesFinancières && attestationConstitution) {
       await mediator.send<ProjetCommand>({
@@ -30,7 +31,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
           attestationConstitution,
           identifiantProjet,
           typeGarantiesFinancières,
-          currentUserRôle,
+          utilisateur,
           dateÉchéance,
         },
       });
@@ -42,7 +43,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
         data: {
           typeGarantiesFinancières,
           identifiantProjet,
-          currentUserRôle,
+          utilisateur,
           dateÉchéance,
         },
       });

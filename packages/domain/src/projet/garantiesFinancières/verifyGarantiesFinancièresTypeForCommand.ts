@@ -10,11 +10,12 @@ import {
   TypeEtDateÉchéance,
   estUnTypeDeGarantiesFinancièresAccepté,
 } from './garantiesFinancières.valueType';
+import { Utilisateur, utilisateurEstPorteur } from '../../domain.valueType';
 
 export const verifyGarantiesFinancièresTypeForCommand = (
   typeGarantiesFinancières: TypeEtDateÉchéance['typeGarantiesFinancières'],
   dateÉchéance: TypeEtDateÉchéance['dateÉchéance'],
-  currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts',
+  utilisateur: Utilisateur,
   agrégatProjet: Option<Aggregate & Projet>,
 ) => {
   if (!estUnTypeDeGarantiesFinancièresAccepté(typeGarantiesFinancières)) {
@@ -29,7 +30,7 @@ export const verifyGarantiesFinancièresTypeForCommand = (
       throw new DateÉchéanceGarantiesFinancièresNonAcceptéeErreur();
   }
 
-  if (currentUserRôle === 'porteur-projet' && isSome(agrégatProjet)) {
+  if (utilisateurEstPorteur(utilisateur) && isSome(agrégatProjet)) {
     if (agrégatProjet.garantiesFinancières?.typeGarantiesFinancières) {
       throw new ModificationGarantiesFinancièresNonAutoriséeErreur();
     }

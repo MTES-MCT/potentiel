@@ -5,12 +5,13 @@ import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.a
 import { verifyGarantiesFinancièresTypeForCommand } from './verifyGarantiesFinancièresTypeForCommand';
 import { TypeEtDateÉchéance } from './garantiesFinancières.valueType';
 import { TypeGarantiesFinancièresEnregistréEvent } from './garantiesFinancières.event';
+import { Utilisateur } from '../../domain.valueType';
 
 export type EnregistrerTypeGarantiesFinancièresCommand = Message<
   'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
   {
     identifiantProjet: IdentifiantProjetValueType;
-    currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts';
+    utilisateur: Utilisateur;
   } & TypeEtDateÉchéance
 >;
 
@@ -31,14 +32,14 @@ export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
     identifiantProjet,
     typeGarantiesFinancières,
     dateÉchéance,
-    currentUserRôle,
+    utilisateur,
   }) => {
     const agrégatProjet = await loadProjet(identifiantProjet);
 
     verifyGarantiesFinancièresTypeForCommand(
       typeGarantiesFinancières,
       dateÉchéance,
-      currentUserRôle,
+      utilisateur,
       agrégatProjet,
     );
 

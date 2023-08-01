@@ -10,13 +10,14 @@ import {
   TypeGarantiesFinancièresEnregistréEvent,
   AttestationGarantiesFinancièresEnregistréeEvent,
 } from './garantiesFinancières.event';
+import { Utilisateur } from '../../domain.valueType';
 
 export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
   'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
   {
     identifiantProjet: IdentifiantProjetValueType;
     attestationConstitution: AttestationConstitution;
-    currentUserRôle: 'admin' | 'porteur-projet' | 'dgec-validateur' | 'cre' | 'caisse-des-dépôts';
+    utilisateur: Utilisateur;
   } & TypeEtDateÉchéance
 >;
 
@@ -39,14 +40,14 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
     typeGarantiesFinancières,
     dateÉchéance,
     attestationConstitution,
-    currentUserRôle,
+    utilisateur,
   }) => {
     const agrégatProjet = await loadProjet(identifiantProjet);
 
     verifyGarantiesFinancièresTypeForCommand(
       typeGarantiesFinancières,
       dateÉchéance,
-      currentUserRôle,
+      utilisateur,
       agrégatProjet,
     );
 
