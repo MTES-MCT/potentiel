@@ -29,7 +29,7 @@ export const registerRechercherDossierRaccordementQuery = ({
     référenceDossierRaccordement,
   }) => {
     const result = await search<DossierRaccordementReadModel>(
-      `dossier-raccordement#%#%${référenceDossierRaccordement}%`,
+      `dossier-raccordement|%#%${référenceDossierRaccordement}%`,
     );
 
     return result.map(({ key, readModel }) => {
@@ -37,7 +37,7 @@ export const registerRechercherDossierRaccordementQuery = ({
 
       const identifiantProjet = convertirEnIdentifiantProjet(
         key
-          .replace('dossier-raccordement#', '')
+          .replace('dossier-raccordement|', '')
           .replace(`#${référenceDossierRaccordement}`, '') as RawIdentifiantProjet,
       );
 
