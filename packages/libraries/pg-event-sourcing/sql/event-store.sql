@@ -47,7 +47,7 @@ begin
       insert into event_store.pending_acknowledgement
       values (v_subscriber.subscriber_id, new.stream_id, new.created_at, new.version);
 
-      perform pg_notify('v_subscriber.subscriber_id', row_to_json(new)::text);
+      perform pg_notify(v_subscriber.subscriber_id, row_to_json(new)::text);
     exception
       when others then
         v_error_msg := json_build_object('error_message', sqlerrm);

@@ -3,6 +3,8 @@ import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
 import { executeQuery, getConnectionString } from '@potentiel/pg-helpers';
 import { Event, isEvent } from './event';
 import { Client } from 'pg';
+import { getLogger } from '@potentiel/monitoring';
+import { WrongSubscriberNameError } from './errors/wrongSubscriberName.error';
 
 const registerSubscription = async <TDomainEvent extends DomainEvent = Event>({
   eventType,
@@ -14,7 +16,6 @@ const registerSubscription = async <TDomainEvent extends DomainEvent = Event>({
 };
 
 class EventStreamEmitter extends EventEmitter {
-  readonly #channel = 'new_event';
   #isListening: boolean;
   #unlisten: () => Promise<void>;
 
@@ -30,7 +31,9 @@ class EventStreamEmitter extends EventEmitter {
     name,
   }: Subscriber<TDomainEvent>): Unsubscribe {
     if (!this.#isListening) {
-      this.#unlisten = listenToNewEvent(eventStreamEmitter);
+      console.log(name);
+      console.log(eventType);
+      this.#unlisten = listenToNewEvent(eventStreamEmitter, name);
       this.#isListening = true;
     }
 
@@ -45,15 +48,17 @@ class EventStreamEmitter extends EventEmitter {
           await eventHandler(event);
         }
       } else {
-        // TODO use logger here if event is unknwon (warn)
+        getLogger().warn('Unknown event', {
+          event,
+        });
       }
     };
 
-    this.on(this.#channel, listener);
+    this.on(name, listener);
 
     return async () => {
-      this.removeListener(this.#channel, listener);
-      if (!this.listenerCount(this.#channel)) {
+      this.removeListener(name, listener);
+      if (!this.listenerCount(name)) {
         await this.#unlisten();
         this.#isListening = false;
       }
@@ -66,6 +71,7 @@ let eventStreamEmitter: EventStreamEmitter;
 export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   subscriber: Subscriber<TDomainEvent>,
 ): Promise<Unsubscribe> => {
+  checkSubscriberName(subscriber.name);
   await registerSubscription(subscriber);
   if (!eventStreamEmitter) {
     eventStreamEmitter = new EventStreamEmitter();
@@ -75,19 +81,27 @@ export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   return Promise.resolve(eventStreamEmitter.subscribe(subscriber));
 };
 
-export const listenToNewEvent = (eventEmitter: EventEmitter) => {
+export const listenToNewEvent = (eventEmitter: EventEmitter, name: string) => {
   const client = new Client(getConnectionString());
   client.connect((err) => {
     if (!err) {
       client.on('notification', (notification) => {
         eventEmitter.emit(notification.channel, notification.payload);
       });
-      client.query(`listen new_event`);
+      client.query(`listen ${name}`);
+    } else {
+      console.error(err);
     }
   });
 
   return async () => {
-    await client.query(`unlisten new_event`);
+    await client.query(`unlisten ${name}`);
     await client.end();
   };
+};
+
+const checkSubscriberName = (name: string) => {
+  const isValid = /^[a-z]+(?:_[a-z]+)*$/.test(name);
+
+  if (!isValid) throw new WrongSubscriberNameError();
 };

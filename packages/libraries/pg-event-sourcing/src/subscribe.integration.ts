@@ -3,6 +3,7 @@ import { getConnectionString } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
 import waitForExpect from 'wait-for-expect';
 import { Client } from 'pg';
+import { WrongSubscriberNameError } from './errors/wrongSubscriberName.error';
 
 describe(`subscribe`, () => {
   const eventType = 'event-1';
@@ -25,7 +26,7 @@ describe(`subscribe`, () => {
   `, async () => {
     const eventHandler = jest.fn(() => Promise.resolve());
     const unsubscribe = await subscribe({
-      name: 'eventHandler',
+      name: 'event_handler',
       eventType,
       eventHandler,
     });
@@ -38,14 +39,14 @@ describe(`subscribe`, () => {
         from event_store.subscriber
         where subscriber_id = $1
       `,
-      ['eventHandler'],
+      ['event_handler'],
     );
     await client.end();
 
     await unsubscribe();
 
     const expected = {
-      subscriber_id: 'eventHandler',
+      subscriber_id: 'event_handler',
       filter: [eventType],
     };
 
@@ -59,7 +60,7 @@ describe(`subscribe`, () => {
   `, async () => {
     const eventHandler = jest.fn(() => Promise.resolve());
     const unsubscribe = await subscribe({
-      name: 'eventHandler',
+      name: 'event_handler',
       eventType: 'all',
       eventHandler,
     });
@@ -72,18 +73,34 @@ describe(`subscribe`, () => {
         from event_store.subscriber
         where subscriber_id = $1
       `,
-      ['eventHandler'],
+      ['event_handler'],
     );
     await client.end();
 
     await unsubscribe();
 
     const expected = {
-      subscriber_id: 'eventHandler',
+      subscriber_id: 'event_handler',
       filter: null,
     };
 
     expect(actual.rows[0]).toEqual(expected);
+  });
+
+  it(`
+    Etant donnée un event handler
+    Lorsque que l'event handler souscrit à un type d'event
+    Mais que le nom du subscriber n'est pas en lower_snake_case
+    Alors une erreur est levée
+  `, async () => {
+    const eventHandler = jest.fn(() => Promise.resolve());
+    const promise = subscribe({
+      name: 'eventHandler',
+      eventType,
+      eventHandler,
+    });
+
+    await expect(promise).rejects.toBeInstanceOf(WrongSubscriberNameError);
   });
 
   it(`
@@ -98,11 +115,22 @@ describe(`subscribe`, () => {
     };
 
     // Arrange
-    const eventHandler = jest.fn(() => Promise.resolve());
-    const unsubscribe = await subscribe({ name: 'eventHandler', eventType, eventHandler });
+    const eventHandler1 = jest.fn(() => Promise.resolve());
+    const eventHandler2 = jest.fn(() => Promise.resolve());
+    const unsubscribe1 = await subscribe({
+      name: 'event_handler',
+      eventType,
+      eventHandler: eventHandler1,
+    });
+    const unsubscribe2 = await subscribe({
+      name: 'other_event_handler',
+      eventType,
+      eventHandler: eventHandler2,
+    });
 
     const client = new Client(getConnectionString());
     await client.connect();
+
     await client.query(
       `
         insert
@@ -118,7 +146,8 @@ describe(`subscribe`, () => {
     );
     await client.end();
 
-    await unsubscribe();
+    await unsubscribe1();
+    await unsubscribe2();
 
     await waitForExpect(() => {
       // Assert
@@ -127,7 +156,8 @@ describe(`subscribe`, () => {
         payload,
       };
 
-      expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(expected));
+      expect(eventHandler1).toHaveBeenCalledWith(expect.objectContaining(expected));
+      expect(eventHandler2).toHaveBeenCalledWith(expect.objectContaining(expected));
     });
   });
 });

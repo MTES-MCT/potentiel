@@ -55,7 +55,7 @@ export const setupRaccordementViews = async (dependencies: RaccordementDependenc
 
   return [
     await subscribe<RaccordementEvent>({
-      name: 'RaccordementProjectorSubscriber',
+      name: 'raccordement_projector',
       eventType: [
         'AccuséRéceptionDemandeComplèteRaccordementTransmis',
         'DateMiseEnServiceTransmise',
