@@ -30,8 +30,8 @@ const schema = yup.object({
   }),
   body: yup.object({
     typeGarantiesFinancieres: yup
-      .mixed<`avec date d'échéance` | 'type inconnu' | `consignation` | `6 mois après achèvement`>()
-      .oneOf([`avec date d'échéance`, 'type inconnu', `consignation`, `6 mois après achèvement`]),
+      .mixed<`avec date d'échéance` | `consignation` | `6 mois après achèvement`>()
+      .oneOf([`avec date d'échéance`, `consignation`, `6 mois après achèvement`]),
     dateEcheance: yup
       .date()
       .nullable()
