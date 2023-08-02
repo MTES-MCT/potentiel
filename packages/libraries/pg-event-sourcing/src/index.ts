@@ -2,4 +2,4 @@ export { Event } from './event';
 export { loadFromStream } from './loadFromStream';
 export { publish } from './publish';
 export { loadAggregate } from './loadAggregate';
-export { subscribe } from './subscribe';
+export { subscribe, cleanSubscribers } from './subscribe';

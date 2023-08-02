@@ -1,5 +1,5 @@
 import { setupDomain } from '@potentiel/domain';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import { cleanSubscribers, loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -22,6 +22,7 @@ export type UnsetupApp = () => Promise<void>;
 export const bootstrap = async (legacy: {
   projectRepository: LegacyProjectRepository;
 }): Promise<UnsetupApp> => {
+  await cleanSubscribers();
   mediator.use<Message>({
     middlewares: [logMiddleware],
   });

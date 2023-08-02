@@ -6,15 +6,6 @@ import { Client } from 'pg';
 import { getLogger } from '@potentiel/monitoring';
 import { WrongSubscriberNameError } from './errors/wrongSubscriberName.error';
 
-const registerSubscription = async <TDomainEvent extends DomainEvent = Event>({
-  eventType,
-  name,
-}: Subscriber<TDomainEvent>) => {
-  const filter =
-    eventType === 'all' ? null : JSON.stringify(Array.isArray(eventType) ? eventType : [eventType]);
-  await executeQuery(`insert into event_store.subscriber values($1, $2)`, name, filter);
-};
-
 class EventStreamEmitter extends EventEmitter {
   #isListening: boolean;
   #unlisten: () => Promise<void>;
@@ -30,10 +21,8 @@ class EventStreamEmitter extends EventEmitter {
     eventType,
     name,
   }: Subscriber<TDomainEvent>): Unsubscribe {
+    this.#unlisten = listenToNewEvent(eventStreamEmitter, name);
     if (!this.#isListening) {
-      console.log(name);
-      console.log(eventType);
-      this.#unlisten = listenToNewEvent(eventStreamEmitter, name);
       this.#isListening = true;
     }
 
@@ -96,7 +85,7 @@ export const listenToNewEvent = (eventEmitter: EventEmitter, name: string) => {
 
   return async () => {
     await client.query(`unlisten ${name}`);
-    await client.end();
+    //await client.end();
   };
 };
 
@@ -105,3 +94,14 @@ const checkSubscriberName = (name: string) => {
 
   if (!isValid) throw new WrongSubscriberNameError();
 };
+
+const registerSubscription = async <TDomainEvent extends DomainEvent = Event>({
+  eventType,
+  name,
+}: Subscriber<TDomainEvent>) => {
+  const filter =
+    eventType === 'all' ? null : JSON.stringify(Array.isArray(eventType) ? eventType : [eventType]);
+  await executeQuery(`insert into event_store.subscriber values($1, $2)`, name, filter);
+};
+
+export const cleanSubscribers = async () => executeQuery(`delete from event_store.subscriber`);

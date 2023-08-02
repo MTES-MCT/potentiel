@@ -1,6 +1,6 @@
 import { DomainEvent, Subscriber } from '@potentiel/core-domain';
 import { getConnectionString } from '@potentiel/pg-helpers';
-import { subscribe } from './subscribe';
+import { cleanSubscribers, subscribe } from './subscribe';
 import waitForExpect from 'wait-for-expect';
 import { Client } from 'pg';
 import { WrongSubscriberNameError } from './errors/wrongSubscriberName.error';
@@ -159,5 +159,37 @@ describe(`subscribe`, () => {
       expect(eventHandler1).toHaveBeenCalledWith(expect.objectContaining(expected));
       expect(eventHandler2).toHaveBeenCalledWith(expect.objectContaining(expected));
     });
+  });
+
+  it(`
+    Étant donnée un subscriber déjà enregistré
+    Lorsqu'on clean le registre des subscribers
+    Alors le subscriber n'est plus enregistré
+  `, async () => {
+    // Arrange
+    const unsubscribe = await subscribe({
+      name: 'event_handler',
+      eventType,
+      eventHandler: () => Promise.resolve(),
+    });
+
+    // Act
+    await cleanSubscribers();
+
+    const client = new Client(getConnectionString());
+    await client.connect();
+
+    const subscribers = await client.query(
+      `
+        select *
+        from event_store.subscriber
+        where subscriber_id = $1`,
+      ['event_handler'],
+    );
+    await client.end();
+
+    await unsubscribe();
+
+    expect(subscribers.rowCount).toBe(0);
   });
 });
