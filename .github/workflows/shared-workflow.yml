@@ -58,4 +58,5 @@ jobs:
           node-version: 18.x
           cache: 'npm'
       - run: npm ci
+      - run: npm run type:check
       - run: npm run test:legacy
