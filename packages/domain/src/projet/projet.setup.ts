@@ -2,27 +2,43 @@ import { Subscribe } from '@potentiel/core-domain';
 import {
   ModifierGestionnaireRéseauProjetDependencies,
   registerModifierGestionnaireRéseauProjetCommand,
-} from './modifier/modifierGestionnaireRéseauProjet.command';
-import { registerModifierGestionnaireRéseauProjetUseCase } from './modifier/modifierGestionnaireRéseauProjet.usecase';
+} from './gestionnaireRéseau/modifier/modifierGestionnaireRéseauProjet.command';
+import { registerModifierGestionnaireRéseauProjetUseCase } from './gestionnaireRéseau/modifier/modifierGestionnaireRéseauProjet.usecase';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement/raccordement.event';
 import { mediator } from 'mediateur';
 import {
   ExecuterAjouterGestionnaireRéseauProjetSaga,
   registerExecuterAjouterGestionnaireRéseauProjetSaga,
-} from './déclarer/déclarerGestionnaireRéseau.saga';
-import { registerDéclarerGestionnaireRéseauProjetCommand } from './déclarer/déclarerGestionnaireRéseauProjet.command';
+} from './gestionnaireRéseau/déclarer/déclarerGestionnaireRéseau.saga';
+import { registerDéclarerGestionnaireRéseauProjetCommand } from './gestionnaireRéseau/déclarer/déclarerGestionnaireRéseauProjet.command';
+import { registerEnregistrerGarantiesFinancièresUseCase } from './garantiesFinancières/enregistrerGarantiesFinancières.usecase';
+import {
+  EnregistrerTypeGarantiesFinancièresDependencies,
+  registerEnregistrerTypeGarantiesFinancièresCommand,
+} from './garantiesFinancières/enregistrerTypeGarantiesFinancières.command';
+import {
+  EnregistrerAttestationGarantiesFinancièresDependencies,
+  registerEnregistrerAttestationGarantiesFinancièresCommand,
+} from './garantiesFinancières/enregistrerAttestationGarantiesFinancières.command';
+import { registerEnregistrerGarantiesFinancièresComplètesCommand } from './garantiesFinancières/enregistrerGarantiesFinancièresComplètes.command';
 
 export type ProjetDependencies = {
   subscribe: Subscribe;
-} & ModifierGestionnaireRéseauProjetDependencies;
+} & ModifierGestionnaireRéseauProjetDependencies &
+  EnregistrerTypeGarantiesFinancièresDependencies &
+  EnregistrerAttestationGarantiesFinancièresDependencies;
 
 export const setupProjet = async (dependencies: ProjetDependencies) => {
   // Commands
   registerModifierGestionnaireRéseauProjetCommand(dependencies);
   registerDéclarerGestionnaireRéseauProjetCommand(dependencies);
+  registerEnregistrerTypeGarantiesFinancièresCommand(dependencies);
+  registerEnregistrerAttestationGarantiesFinancièresCommand(dependencies);
+  registerEnregistrerGarantiesFinancièresComplètesCommand(dependencies);
 
   // Use cases
   registerModifierGestionnaireRéseauProjetUseCase();
+  registerEnregistrerGarantiesFinancièresUseCase();
 
   // Sagas
   registerExecuterAjouterGestionnaireRéseauProjetSaga();

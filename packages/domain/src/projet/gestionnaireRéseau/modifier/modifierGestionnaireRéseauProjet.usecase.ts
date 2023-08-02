@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ModifierGestionnaireRéseauProjetCommand } from './modifierGestionnaireRéseauProjet.command';
-import { ProjetCommand } from '../projet.command';
+import { ProjetCommand } from '../../projet.command';
 
 type ModifierGestionnaireRéseauProjetUseCaseData = ModifierGestionnaireRéseauProjetCommand['data'];
 

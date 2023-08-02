@@ -17,17 +17,9 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
     const key: ProjetReadModelKey = `projet|${
       event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
     }`;
+    const projet = await find<ProjetReadModel>(key);
     switch (event.type) {
       case 'GestionnaireRéseauProjetDéclaré':
-        await create<ProjetReadModel>(key, {
-          identifiantGestionnaire: {
-            codeEIC: event.payload.identifiantGestionnaireRéseau,
-          },
-        });
-        break;
-      case 'GestionnaireRéseauProjetModifié':
-        const projet = await find<ProjetReadModel>(key);
-
         if (isNone(projet)) {
           await create<ProjetReadModel>(key, {
             identifiantGestionnaire: {
@@ -36,6 +28,23 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
           });
         } else {
           await update<ProjetReadModel>(key, {
+            ...projet,
+            identifiantGestionnaire: {
+              codeEIC: event.payload.identifiantGestionnaireRéseau,
+            },
+          });
+        }
+        break;
+      case 'GestionnaireRéseauProjetModifié':
+        if (isNone(projet)) {
+          await create<ProjetReadModel>(key, {
+            identifiantGestionnaire: {
+              codeEIC: event.payload.identifiantGestionnaireRéseau,
+            },
+          });
+        } else {
+          await update<ProjetReadModel>(key, {
+            ...projet,
             identifiantGestionnaire: {
               codeEIC: event.payload.identifiantGestionnaireRéseau,
             },
