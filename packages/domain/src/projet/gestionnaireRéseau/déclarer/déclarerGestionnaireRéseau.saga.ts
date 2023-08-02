@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DemandeComplèteRaccordementTransmiseEvent } from '../../raccordement/raccordement.event';
-import { ProjetCommand } from '../projet.command';
+import { DemandeComplèteRaccordementTransmiseEvent } from '../../../raccordement/raccordement.event';
+import { ProjetCommand } from '../../projet.command';
 import {
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantProjet,
-} from '../../domain.valueType';
+} from '../../../domain.valueType';
 
 export type ExecuterAjouterGestionnaireRéseauProjetSaga = Message<
   'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
