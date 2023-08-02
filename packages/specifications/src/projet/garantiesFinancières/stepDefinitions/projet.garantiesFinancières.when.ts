@@ -73,42 +73,61 @@ Quand(
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
       // TYPE
-      const legacyTypeEvent: TypeGarantiesFinancièresEnregistréEventV0 = {
-        type: 'TypeGarantiesFinancièresEnregistré-v0',
-        payload: {
-          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-          dateÉchéance: convertirEnDateTime(dateÉchéance).formatter(),
-          typeGarantiesFinancières,
-        },
-      };
-      await publish(
-        createProjetAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
-        legacyTypeEvent,
-      );
-      await sleep(100);
+      // comme on ne passe pas par une commande pour la migration, on vérifie le type ici
+      const typePayload =
+        dateÉchéance && typeGarantiesFinancières === `avec date d'échéance`
+          ? {
+              dateÉchéance: convertirEnDateTime(dateÉchéance).formatter(),
+              typeGarantiesFinancières,
+            }
+          : dateÉchéance && !typeGarantiesFinancières
+          ? { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }
+          : !dateÉchéance &&
+            (typeGarantiesFinancières === `consignation` ||
+              typeGarantiesFinancières === `6 mois après achèvement`)
+          ? { typeGarantiesFinancières }
+          : undefined;
+
+      if (typePayload) {
+        const legacyTypeEvent: TypeGarantiesFinancièresEnregistréEventV0 = {
+          type: 'TypeGarantiesFinancièresEnregistré-v0',
+          payload: {
+            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
+            ...typePayload,
+          },
+        };
+
+        await publish(
+          createProjetAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
+          legacyTypeEvent,
+        );
+
+        await sleep(100);
+      }
 
       // ATTESTATION
-      const attestationEvent: AttestationGarantiesFinancièresEnregistréeEvent = {
-        type: 'AttestationGarantiesFinancièresEnregistrée',
-        payload: {
-          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-          format: format,
-          date: convertirEnDateTime(dateConstutition).formatter(),
-        },
-      };
+      if (dateConstutition && format && contenuFichier) {
+        const attestationEvent: AttestationGarantiesFinancièresEnregistréeEvent = {
+          type: 'AttestationGarantiesFinancièresEnregistrée',
+          payload: {
+            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
+            format: format,
+            date: convertirEnDateTime(dateConstutition).formatter(),
+          },
+        };
 
-      // FICHIER
-      const path = join(
-        convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-        `attestation-constitution-garanties-Financieres.${extension(format)}`,
-      );
+        await publish(
+          createProjetAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
+          attestationEvent,
+        );
 
-      await upload(path, contenuFichier);
+        const path = join(
+          convertirEnIdentifiantProjet(identifiantProjet).formatter(),
+          `attestation-constitution-garanties-Financieres.${extension(format)}`,
+        );
 
-      await publish(
-        createProjetAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
-        attestationEvent,
-      );
+        await upload(path, contenuFichier);
+      }
 
       await sleep(500);
     } catch (error) {
