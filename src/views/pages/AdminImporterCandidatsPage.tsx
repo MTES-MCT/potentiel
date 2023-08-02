@@ -52,7 +52,7 @@ export const AdminImporterCandidats = ({
 
         <div>
           <Label htmlFor="candidats">Fichier csv des candidats</Label>
-          <Input type="file" name="candidats" id="candidats" required />
+          <Input type="file" name="candidats" id="candidats" required accept=".csv" />
         </div>
         <PrimaryButton type="submit" name="submit" id="submit">
           Envoyer
