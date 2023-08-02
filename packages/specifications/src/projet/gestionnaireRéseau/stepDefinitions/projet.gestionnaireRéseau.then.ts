@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { ConsulterProjetQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { loadProjetAggregateFactory, convertirEnIdentifiantProjet } from '@potentiel/domain';
 
