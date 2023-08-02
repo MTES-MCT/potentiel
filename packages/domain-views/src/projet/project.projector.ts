@@ -17,6 +17,7 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
     const key: ProjetReadModelKey = `projet|${
       event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
     }`;
+    const projet = await find<ProjetReadModel>(key);
     switch (event.type) {
       case 'GestionnaireRéseauProjetDéclaré':
         await create<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {

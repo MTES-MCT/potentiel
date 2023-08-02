@@ -4,9 +4,10 @@ import {
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { IdentifiantProjetValueType } from './projet.valueType';
-import { ProjetEvent } from './projet.event';
+import { GarantiesFinancièresEvent, ProjetEvent } from './projet.event';
 import { Option, none } from '@potentiel/monads';
-import { convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
+import { convertirEnDateTime, convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
+import { GarantiesFinancières } from './garantiesFinancières/garantiesFinancières.valueType';
 
 type ProjetAggregateId = `projet|${string}`;
 
@@ -18,7 +19,10 @@ export const createProjetAggregateId = (
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
-export type Projet = { getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>> };
+export type Projet = {
+  getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>>;
+  garantiesFinancières?: GarantiesFinancières;
+};
 
 const getDefaultAggregate = (): Projet => ({
   getGestionnaireRéseau: async () => Promise.resolve(none),
@@ -40,6 +44,10 @@ const projetAggregateFactory: AggregateFactory<Projet, ProjetEvent> = (events, l
             );
           },
         };
+      case 'TypeGarantiesFinancièresEnregistré-v0':
+      case 'TypeGarantiesFinancièresEnregistré-v1':
+      case 'AttestationGarantiesFinancièresEnregistrée':
+        return processGarantiesFinancièresEvent({ event, aggregate });
       default:
         return { ...aggregate };
     }
@@ -53,4 +61,60 @@ export const loadProjetAggregateFactory = ({ loadAggregate }: LoadAggregateFacto
       projetAggregateFactory,
     );
   };
+};
+
+const processGarantiesFinancièresEvent = ({
+  event,
+  aggregate,
+}: {
+  event: GarantiesFinancièresEvent;
+  aggregate: Projet;
+}) => {
+  switch (event.type) {
+    case 'TypeGarantiesFinancièresEnregistré-v0':
+      if ('typeGarantiesFinancières' in event.payload) {
+        return {
+          ...aggregate,
+          garantiesFinancières: {
+            ...aggregate.garantiesFinancières,
+            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+            dateÉchéance:
+              event.payload.typeGarantiesFinancières === `avec date d'échéance`
+                ? convertirEnDateTime(event.payload.dateÉchéance)
+                : undefined,
+          },
+        };
+      } else {
+        return {
+          ...aggregate,
+          garantiesFinancières: {
+            ...aggregate.garantiesFinancières,
+            dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+          },
+        };
+      }
+    case 'TypeGarantiesFinancièresEnregistré-v1':
+      return {
+        ...aggregate,
+        garantiesFinancières: {
+          ...aggregate.garantiesFinancières,
+          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          dateÉchéance:
+            event.payload.typeGarantiesFinancières === `avec date d'échéance`
+              ? convertirEnDateTime(event.payload.dateÉchéance)
+              : undefined,
+        },
+      };
+    case 'AttestationGarantiesFinancièresEnregistrée':
+      return {
+        ...aggregate,
+        garantiesFinancières: {
+          ...aggregate.garantiesFinancières,
+          attestationConstitution: {
+            format: event.payload.format,
+            date: convertirEnDateTime(event.payload.date),
+          },
+        },
+      };
+  }
 };
