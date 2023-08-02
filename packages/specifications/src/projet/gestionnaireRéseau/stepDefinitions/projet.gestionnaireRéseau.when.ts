@@ -5,7 +5,7 @@ import {
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world';
 
 Quand(
   `un porteur modifie le gestionnaire de réseau du projet {string} avec un gestionnaire non référencé`,
