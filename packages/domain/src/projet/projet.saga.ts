@@ -1,3 +1,3 @@
-import { ExecuterAjouterGestionnaireRéseauProjetSaga } from './déclarer/déclarerGestionnaireRéseau.saga';
+import { ExecuterAjouterGestionnaireRéseauProjetSaga } from './gestionnaireRéseau/déclarer/déclarerGestionnaireRéseau.saga';
 
 export type ProjetSaga = ExecuterAjouterGestionnaireRéseauProjetSaga;
