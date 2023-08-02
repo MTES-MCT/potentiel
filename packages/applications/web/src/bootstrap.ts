@@ -11,7 +11,8 @@ import {
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
- consumerSubscribe } from '@potentiel/infra-adapters';
+  consumerSubscribe,
+} from '@potentiel/infra-adapters';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
@@ -40,6 +41,7 @@ export const bootstrap = async (legacy: {
       enregistrerPropositionTechniqueEtFinancièreSignée:
         téléverserFichierDossierRaccordementAdapter,
     },
+    projet: { téléverserFichier: téléverserFichierAttestationGarantiesFinancièresAdapter },
   });
 
   const unsetupDomainViews = await setupDomainViews({
@@ -58,6 +60,9 @@ export const bootstrap = async (legacy: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
         téléchargerFichierDossierRaccordementAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
+    },
+    garantiesFinancières: {
+      téléchargerFichier: téléchargerFichierAttestationGarantiesFinancièresAdapter,
     },
   });
 
