@@ -14,15 +14,21 @@ import { registerDéclarerGestionnaireRéseauProjetCommand } from './gestionnair
 
 export type ProjetDependencies = {
   subscribe: Subscribe;
-} & ModifierGestionnaireRéseauProjetDependencies;
+} & ModifierGestionnaireRéseauProjetDependencies &
+  EnregistrerTypeGarantiesFinancièresDependencies &
+  EnregistrerAttestationGarantiesFinancièresDependencies;
 
 export const setupProjet = async (dependencies: ProjetDependencies) => {
   // Commands
   registerModifierGestionnaireRéseauProjetCommand(dependencies);
   registerDéclarerGestionnaireRéseauProjetCommand(dependencies);
+  registerEnregistrerTypeGarantiesFinancièresCommand(dependencies);
+  registerEnregistrerAttestationGarantiesFinancièresCommand(dependencies);
+  registerEnregistrerGarantiesFinancièresComplètesCommand(dependencies);
 
   // Use cases
   registerModifierGestionnaireRéseauProjetUseCase();
+  registerEnregistrerGarantiesFinancièresUseCase();
 
   // Sagas
   registerExecuterAjouterGestionnaireRéseauProjetSaga();

@@ -3,4 +3,7 @@ import { ModifierGestionnaireRéseauProjetCommand } from './gestionnaireRéseau/
 
 export type ProjetCommand =
   | DéclarerGestionnaireRéseauProjetCommand
-  | ModifierGestionnaireRéseauProjetCommand;
+  | ModifierGestionnaireRéseauProjetCommand
+  | EnregistrerTypeGarantiesFinancièresCommand
+  | EnregistrerAttestationGarantiesFinancièresCommand
+  | EnregistrerGarantiesFinancièresComplètesCommand;
