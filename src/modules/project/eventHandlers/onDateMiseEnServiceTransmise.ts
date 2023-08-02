@@ -64,9 +64,16 @@ export const makeOnDateMiseEnServiceTransmise =
               );
               return okAsync(null);
             }
+
+            const cahiersDesChargesModifiésDisponibles =
+              projectAppelOffre?.periode &&
+              'cahiersDesChargesModifiésDisponibles' in projectAppelOffre?.periode
+                ? projectAppelOffre?.periode.cahiersDesChargesModifiésDisponibles
+                : projectAppelOffre?.cahiersDesChargesModifiésDisponibles;
+
             const donnéesCDC =
-              projectAppelOffre.cahiersDesChargesModifiésDisponibles &&
-              projectAppelOffre.cahiersDesChargesModifiésDisponibles.find(
+              cahiersDesChargesModifiésDisponibles &&
+              cahiersDesChargesModifiésDisponibles.find(
                 (CDC) =>
                   CDC.type === 'modifié' &&
                   CDC.paruLe === '30/08/2022' &&

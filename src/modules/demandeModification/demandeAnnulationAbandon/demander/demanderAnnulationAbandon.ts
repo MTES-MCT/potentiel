@@ -44,12 +44,20 @@ export const makeDemanderAnnulationAbandon =
         }
 
         const ao = getProjectAppelOffre({ ...projet });
-        const cahierDesCharges = ao?.cahiersDesChargesModifiésDisponibles.find(
-          (c) =>
-            c.type === projet.cahierDesCharges.type &&
-            c.paruLe === projet.cahierDesCharges.paruLe &&
-            c.alternatif === projet.cahierDesCharges.alternatif,
-        );
+
+        const cahiersDesChargesModifiésDisponibles =
+          ao?.periode && 'cahiersDesChargesModifiésDisponibles' in ao?.periode
+            ? ao?.periode.cahiersDesChargesModifiésDisponibles
+            : ao?.cahiersDesChargesModifiésDisponibles;
+
+        const cahierDesCharges =
+          cahiersDesChargesModifiésDisponibles &&
+          cahiersDesChargesModifiésDisponibles.find(
+            (c) =>
+              c.type === projet.cahierDesCharges.type &&
+              c.paruLe === projet.cahierDesCharges.paruLe &&
+              c.alternatif === projet.cahierDesCharges.alternatif,
+          );
 
         if (
           projet.cahierDesCharges.type === 'modifié' &&

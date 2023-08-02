@@ -158,13 +158,22 @@ const formatCahierDesCharges = ({
     };
   }
 
-  const cahiersDesChargesModifié = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-    (c) =>
-      cahierDesChargesRéférenceParsed.type === 'modifié' &&
-      c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
-      c.alternatif === cahierDesChargesRéférenceParsed.alternatif,
-  );
+  const cahiersDesChargesModifié = appelOffre.periode.cahiersDesChargesModifiésDisponibles
+    ? appelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
+        (c) =>
+          cahierDesChargesRéférenceParsed.type === 'modifié' &&
+          c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
+          c.alternatif === cahierDesChargesRéférenceParsed.alternatif,
+      )
+    : appelOffre.cahiersDesChargesModifiésDisponibles.find(
+        (c) =>
+          cahierDesChargesRéférenceParsed.type === 'modifié' &&
+          c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
+          c.alternatif === cahierDesChargesRéférenceParsed.alternatif,
+      );
+
   if (!cahiersDesChargesModifié) return undefined;
+
   return {
     type: 'modifié',
     url: cahiersDesChargesModifié.url,
