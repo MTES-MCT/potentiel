@@ -1,5 +1,7 @@
 import { Option, isNone, none } from '@potentiel/monads';
 
+export * from './garantiesFinancières/garantiesFinancières.valueType';
+
 export type RawIdentifiantProjet = `${string}#${string}#${string}#${string}`;
 
 export type IdentifiantProjet = {
