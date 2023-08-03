@@ -19,7 +19,7 @@ import { extension } from 'mime-types';
 import { join } from 'path';
 
 Quand(
-  `un utilisateur avec le rôle {string} transmet (le type et la date d'échéance )(l'attestation )des garanties financières (complètes )pour le projet {string}`,
+  `un utilisateur avec le rôle {string} enregistre (le type et la date d'échéance )(l'attestation )des garanties financières (complètes )pour le projet {string} avec :`,
   async function (this: PotentielWorld, rôle: string, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
@@ -59,8 +59,8 @@ Quand(
 );
 
 Quand(
-  `un utilisateur avec le rôle {string} migre des garanties financières pour le projet {string}`,
-  async function (this: PotentielWorld, rôle: string, nomProjet: string, table: DataTable) {
+  `un développeur migre des garanties financières legacy pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
     try {
