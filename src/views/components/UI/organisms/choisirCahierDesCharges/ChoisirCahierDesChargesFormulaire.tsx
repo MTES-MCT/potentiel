@@ -28,6 +28,9 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
   const { id: projetId, appelOffre, cahierDesChargesActuel } = projet;
   const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel);
   const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false);
+  const cahiersDesChargesModifiésDisponibles =
+    appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
+    appelOffre.cahiersDesChargesModifiésDisponibles;
 
   return (
     <Form action={routes.CHANGER_CDC} method="post" className="mx-auto">
@@ -61,7 +64,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
           </CahierDesChargesSelectionnable>
         </li>
 
-        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
+        {cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
           const idCdc = formatCahierDesChargesRéférence({
             ...cahierDesChargesModifié,
           });

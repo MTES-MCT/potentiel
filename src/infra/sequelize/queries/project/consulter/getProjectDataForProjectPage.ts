@@ -95,6 +95,10 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
     const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw);
 
+    const cahiersDesChargesModifiésDisponibles =
+      appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
+      appelOffre.cahiersDesChargesModifiésDisponibles;
+
     const cahierDesCharges =
       cahierDesChargesActuel.type === 'initial'
         ? {
@@ -103,7 +107,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           }
         : {
             type: 'modifié',
-            url: appelOffre.cahiersDesChargesModifiésDisponibles.find(
+            url: cahiersDesChargesModifiésDisponibles.find(
               (c) =>
                 c.paruLe === cahierDesChargesActuel.paruLe &&
                 c.alternatif === cahierDesChargesActuel.alternatif,
@@ -114,6 +118,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
     return okAsync({ appelOffre, project, cahierDesCharges });
   };
+
   return chargerProjet
     .andThen(vérifierAccèsProjet)
     .andThen(récupérerAppelOffre)
@@ -291,14 +296,18 @@ const ajouterInfosAlerteAnnulationAbandon = (
       };
     }
 
-    const cdcDispoPourAnnulationAbandon = appelOffre?.cahiersDesChargesModifiésDisponibles.filter(
+    const cahiersDesChargesModifiésDisponibles =
+      appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
+      appelOffre.cahiersDesChargesModifiésDisponibles;
+
+    const cdcDispoPourAnnulationAbandon = cahiersDesChargesModifiésDisponibles.filter(
       (cdc) =>
         cdc.délaiAnnulationAbandon && new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime(),
     );
 
     const dateLimite =
       cahierDesChargesActuel.type === 'modifié'
-        ? appelOffre.cahiersDesChargesModifiésDisponibles.find(
+        ? cahiersDesChargesModifiésDisponibles.find(
             (cdc) =>
               cdc.paruLe === cahierDesChargesActuel.paruLe &&
               cdc.alternatif === cahierDesChargesActuel.alternatif,

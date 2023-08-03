@@ -58,12 +58,19 @@ export const makeAccorderAnnulationAbandon =
               return errAsync(new InfraNotAvailableError());
             }
 
-            const cahierDesCharges = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-              (cdc) =>
-                cdc.type === projet.cahierDesCharges.type &&
-                cdc.paruLe === projet.cahierDesCharges.paruLe &&
-                cdc.alternatif === projet.cahierDesCharges.alternatif,
-            );
+            const cahiersDesChargesModifiésDisponibles =
+              appelOffre?.periode && 'cahiersDesChargesModifiésDisponibles' in appelOffre?.periode
+                ? appelOffre?.periode.cahiersDesChargesModifiésDisponibles
+                : appelOffre?.cahiersDesChargesModifiésDisponibles;
+
+            const cahierDesCharges =
+              cahiersDesChargesModifiésDisponibles &&
+              cahiersDesChargesModifiésDisponibles.find(
+                (cdc) =>
+                  cdc.type === projet.cahierDesCharges.type &&
+                  cdc.paruLe === projet.cahierDesCharges.paruLe &&
+                  cdc.alternatif === projet.cahierDesCharges.alternatif,
+              );
 
             if (!cahierDesCharges) {
               return errAsync(new InfraNotAvailableError());
