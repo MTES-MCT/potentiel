@@ -34,8 +34,15 @@ class EventStreamEmitter extends EventEmitter {
           eventType === 'all' ||
           (Array.isArray(eventType) ? eventType.includes(event.type) : event.type === eventType)
         ) {
-          await eventHandler(event);
-          await acknowledge(name, event);
+          try {
+            await eventHandler(event);
+            await acknowledge(name, event);
+          } catch (error) {
+            getLogger().error(error as Error, {
+              subscriberName: name,
+              event,
+            });
+          }
         }
       } else {
         getLogger().warn('Unknown event', {
@@ -63,11 +70,15 @@ export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
 ): Promise<Unsubscribe> => {
   checkSubscriberName(subscriber.name);
 
-  const pendingEvent = await getPendingEvent(subscriber.name);
+  try {
+    const pendingEvent = await getPendingEvent(subscriber.name);
 
-  for (const event of pendingEvent) {
-    await subscriber.eventHandler(event as unknown as TDomainEvent);
-    await acknowledge(subscriber.name, event);
+    for (const event of pendingEvent) {
+      await subscriber.eventHandler(event as unknown as TDomainEvent);
+      await acknowledge(subscriber.name, event);
+    }
+  } catch (error) {
+    getLogger().error(new Error('Failed to replay pending event'), { error });
   }
 
   await registerSubscription(subscriber);
