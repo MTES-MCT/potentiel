@@ -30,7 +30,7 @@ export const GarantiesFinancieres = (garantiesFinancières: GarantiesFinancieres
   const donnéesManquantes = !typeGarantiesFinancières || attestationEnEAttente;
 
   return (
-    <Section title="Garanties financières" icon={ClipboardCheckIcon}>
+    <Section title="Garanties financières" icon={<ClipboardCheckIcon />}>
       <div className="mb-6">
         {donnéesManquantes && (
           <div>

@@ -13,7 +13,11 @@ export const Section = ({ title, children, icon, className = '', ...props }: Sec
     {...props}
   >
     <Heading2 className="flex items-center text-2xl border-solid border-x-0 border-t-0 border-b-[1px] border-b-grey-900-base mt-0 pb-3">
-      {Icon && <Icon className="mr-[10px]" aria-hidden />}
+      {icon && (
+        <span className="mr-[10px]" aria-hidden>
+          {icon}
+        </span>
+      )}
       {title}
     </Heading2>
     {children}

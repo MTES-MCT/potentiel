@@ -7,7 +7,7 @@ type EtapesProjetProps = ComponentProps<'section'> & {
 };
 
 export const EtapesProjet = ({ projectEventList, className = '' }: EtapesProjetProps) => (
-  <Section title="Étapes du projet" icon={CalendarIcon} className={`${className}`}>
+  <Section title="Étapes du projet" icon={<CalendarIcon />} className={`${className}`}>
     <Timeline
       {...{
         projectEventList,

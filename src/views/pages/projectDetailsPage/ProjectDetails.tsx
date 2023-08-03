@@ -87,7 +87,7 @@ export const ProjectDetails = ({
               'acheteur-obligé',
               'cre',
             ].includes(user.role) && (
-              <Section title="Raccordement" icon={PlugIcon}>
+              <Section title="Raccordement" icon={<PlugIcon />}>
                 {alertesRaccordement ? (
                   <AlerteRaccordement
                     dcrDueOn={project.dcrDueOn}
