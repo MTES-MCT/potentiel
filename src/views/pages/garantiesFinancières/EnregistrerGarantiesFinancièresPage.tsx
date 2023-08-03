@@ -51,7 +51,7 @@ export const EnregistrerGarantiesFinancières = ({
           encType="multipart/form-data"
           action={routes.POST_ENREGISTRER_GARANTIES_FINANCIERES(identifiantProjet)}
         >
-          <Heading2>Enregistrer la garantie financière</Heading2>
+          <Heading2>Enregistrer les garanties financières</Heading2>
 
           <p className="text-sm italic m-0">
             Sauf mention contraire “(optionnel)” dans le label, tous les champs sont obligatoires
@@ -60,7 +60,7 @@ export const EnregistrerGarantiesFinancières = ({
           {error && <ErrorBox>{error}</ErrorBox>}
 
           <div>
-            <Label htmlFor="typeGarantiesFinancieres">Type de la garantie financière</Label>
+            <Label htmlFor="typeGarantiesFinancieres">Type des garanties financières</Label>
             <Select
               id="typeGarantiesFinancieres"
               name="typeGarantiesFinancieres"
@@ -73,7 +73,7 @@ export const EnregistrerGarantiesFinancières = ({
                   : false
               }
             >
-              <option value="">Sélectionnez un type de garantie financière</option>
+              <option value="">Sélectionnez un type de garanties financières</option>
               <option value="6 mois après achèvement" key="6 mois après achèvement">
                 6 mois après achèvement
               </option>
@@ -161,10 +161,8 @@ export const EnregistrerGarantiesFinancières = ({
 
         <InfoBox className="flex md:w-1/3 md:mx-auto">
           En transmettant votre attestation de constitution de garanties financières sur Potentiel,
-          elle sera directement accessible par la DREAL concernée par votre projet.
-          <br />
-          <br />
-          <span className="font-bold">Vous n'avez plus à l'envoyer par courrier</span>
+          elle sera directement accessible par la DREAL concernée par votre projet, vous n'avez plus
+          à l'envoyer par courrier.
         </InfoBox>
       </div>
     </PageProjetTemplate>

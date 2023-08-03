@@ -13,6 +13,8 @@ import {
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import { getProjectAppelOffre } from '@config';
 
 const schema = yup.object({
   params: yup.object({
@@ -66,7 +68,7 @@ v1Router.get(
             : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
-        attributes: ['id'],
+        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId'],
       });
 
       if (!projetWithId) {
@@ -75,6 +77,19 @@ v1Router.get(
           response,
           ressourceTitle: 'Projet',
         });
+      }
+
+      const appelOffre = getProjectAppelOffre({
+        appelOffreId: projetWithId.appelOffreId,
+        periodeId: projetWithId.periodeId,
+        familleId: projetWithId.familleId,
+      });
+      if (appelOffre && !appelOffre.isSoumisAuxGF) {
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error: `L'appel d'offres de votre projet n'est pas soumis aux garanties financières.`,
+          }),
+        );
       }
 
       if (user.role === 'porteur-projet') {

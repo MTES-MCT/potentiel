@@ -23,7 +23,7 @@ import { DomainError } from '@core/domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
-import { getAppelOffre } from '@dataAccess/inMemory';
+import { getProjectAppelOffre } from '@config';
 
 const schema = yup.object({
   params: yup.object({
@@ -58,13 +58,13 @@ v1Router.post(
         if (estUnRawIdentifiantProjet(identifiant)) {
           return response.redirect(
             addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiant), {
-              error: `Votre garantie financière n'a pas pu être enregistrée. ${error}`,
+              error: `Les garanties financières n'ont pas pu être enregistrées. ${error}`,
             }),
           );
         }
         response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(identifiant), {
-            error: `Une erreur est survenue lors de l'enregistrement de la garantie financière, merci de vérifier les informations communiquées.`,
+            error: `Une erreur est survenue lors de l'enregistrement des garanties financières, merci de vérifier les informations communiquées.`,
           }),
         );
       },
@@ -100,7 +100,7 @@ v1Router.post(
             : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
-        attributes: ['id', 'appelOffreId'],
+        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId'],
       });
 
       if (!projet) {
@@ -111,11 +111,15 @@ v1Router.post(
         });
       }
 
-      const appelOffre = await getAppelOffre(projet.appelOffreId);
-      if (appelOffre.isOk() && !appelOffre.value.soumisAuxGarantiesFinancieres) {
+      const appelOffre = getProjectAppelOffre({
+        appelOffreId: projet.appelOffreId,
+        periodeId: projet.periodeId,
+        familleId: projet.familleId,
+      });
+      if (appelOffre && !appelOffre.isSoumisAuxGF) {
         response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
-            error: `Enregistrement impossible car l'appel d'offre n'est pas soumis aux garanties financières.`,
+            error: `Enregistrement impossible car l'appel d'offres n'est pas soumis aux garanties financières.`,
           }),
         );
       }
