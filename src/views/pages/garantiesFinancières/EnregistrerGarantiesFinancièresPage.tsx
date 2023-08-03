@@ -35,6 +35,12 @@ export const EnregistrerGarantiesFinancières = ({
   const [typeSélectionné, sélectionnerType] = useState(
     (garantiesFinancières?.typeGarantiesFinancières as string) ?? '',
   );
+  const [isInfosConstitutionRequired, setInfosConstitutionRequired] = useState(
+    garantiesFinancières?.attestationConstitution?.format &&
+      garantiesFinancières.attestationConstitution.date
+      ? true
+      : false,
+  );
 
   return (
     <PageProjetTemplate titre={<TitreGarantiesFinancières />} user={user} résuméProjet={projet}>
@@ -47,7 +53,9 @@ export const EnregistrerGarantiesFinancières = ({
         >
           <Heading2>Enregistrer la garantie financière</Heading2>
 
-          {/* <p className="text-sm italic m-0">Tous les champs sont obligatoires</p> */}
+          <p className="text-sm italic m-0">
+            Sauf mention contraire “(optionnel)” dans le label, tous les champs sont obligatoires
+          </p>
 
           {error && <ErrorBox>{error}</ErrorBox>}
 
@@ -80,7 +88,7 @@ export const EnregistrerGarantiesFinancières = ({
 
           {typeSélectionné === `avec date d'échéance` && (
             <div>
-              <Label htmlFor="dateEcheance">Date d'échéance *</Label>
+              <Label htmlFor="dateEcheance">Date d'échéance</Label>
               <Input
                 type="date"
                 id="dateEcheance"
@@ -98,7 +106,9 @@ export const EnregistrerGarantiesFinancières = ({
           )}
 
           <div>
-            <Label htmlFor="dateConstitution">Date de constitution</Label>
+            <Label htmlFor="dateConstitution">
+              Date de constitution{!isInfosConstitutionRequired && ' (optionnel)'}
+            </Label>
             <Input
               type="date"
               id="dateConstitution"
@@ -112,11 +122,17 @@ export const EnregistrerGarantiesFinancières = ({
                   ? user.role === 'porteur-projet'
                   : false
               }
+              onChange={(e) => {
+                e.currentTarget.value && setInfosConstitutionRequired(true);
+              }}
+              required={isInfosConstitutionRequired}
             />
           </div>
 
           <div>
-            <Label htmlFor="file">Attestation de constitution</Label>
+            <Label htmlFor="file">
+              Attestation de constitution{!isInfosConstitutionRequired && ' (optionnel)'}
+            </Label>
             <InputFile
               id="file"
               name="file"
@@ -130,6 +146,8 @@ export const EnregistrerGarantiesFinancières = ({
                   ? user.role === 'porteur-projet'
                   : false
               }
+              onFileChange={() => setInfosConstitutionRequired(true)}
+              required={isInfosConstitutionRequired}
             />
           </div>
 
