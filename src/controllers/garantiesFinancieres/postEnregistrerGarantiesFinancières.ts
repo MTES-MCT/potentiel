@@ -128,8 +128,9 @@ v1Router.post(
         await mediator.send<DomainUseCase>({
           type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
           data: {
-            //@ts-ignore
-            currentUserRôle: user.role,
+            utilisateur: {
+              rôle: user.role,
+            },
             identifiantProjet: identifiantProjetValueType,
             typeGarantiesFinancières: typeGarantiesFinancieres,
             dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
