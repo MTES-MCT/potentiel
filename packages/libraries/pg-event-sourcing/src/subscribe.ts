@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
-import { executeQuery, getConnectionString } from '@potentiel/pg-helpers';
+import { executeQuery, executeSelect, getConnectionString } from '@potentiel/pg-helpers';
 import { Event, isEvent } from './event';
 import { Client } from 'pg';
 import { getLogger } from '@potentiel/monitoring';
@@ -35,6 +35,7 @@ class EventStreamEmitter extends EventEmitter {
           (Array.isArray(eventType) ? eventType.includes(event.type) : event.type === eventType)
         ) {
           await eventHandler(event);
+          await acknowledge(name, event);
         }
       } else {
         getLogger().warn('Unknown event', {
@@ -61,6 +62,14 @@ export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   subscriber: Subscriber<TDomainEvent>,
 ): Promise<Unsubscribe> => {
   checkSubscriberName(subscriber.name);
+
+  const pendingEvent = await getPendingEvent(subscriber.name);
+
+  for (const event of pendingEvent) {
+    await subscriber.eventHandler(event as unknown as TDomainEvent);
+    await acknowledge(subscriber.name, event);
+  }
+
   await registerSubscription(subscriber);
   if (!eventStreamEmitter) {
     eventStreamEmitter = new EventStreamEmitter();
@@ -102,6 +111,30 @@ const registerSubscription = async <TDomainEvent extends DomainEvent = Event>({
   const filter =
     eventType === 'all' ? null : JSON.stringify(Array.isArray(eventType) ? eventType : [eventType]);
   await executeQuery(`insert into event_store.subscriber values($1, $2)`, name, filter);
+};
+
+const acknowledge = async (subscriberName: string, { stream_id, created_at, version }: Event) => {
+  await executeQuery(
+    `
+    delete from event_store.pending_acknowledgement 
+    where subscriber_id = $1 and stream_id = $2 and created_at = $3 and version = $4
+  `,
+    subscriberName,
+    stream_id,
+    created_at,
+    version,
+  );
+};
+
+const getPendingEvent = async (subscribeName: string) => {
+  return executeSelect<Event>(
+    `
+      select es.* 
+      from event_store.event_stream es
+      inner join event_store.pending_acknowledgement pa on pa.stream_id = es.stream_id and pa.created_at = es.created_at and pa.version = es.version
+      where pa.subscriber_id = $1`,
+    subscribeName,
+  );
 };
 
 export const cleanSubscribers = async () => executeQuery(`delete from event_store.subscriber`);

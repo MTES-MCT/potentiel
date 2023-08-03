@@ -108,6 +108,7 @@ describe(`subscribe`, () => {
     Lorsqu'on emet un évènement
     Alors l'event handler est éxècuté
     Et il reçoit l'évènement en paramêtre
+    Et il n'y a pas d'acknowledgement en attente dans l'event store
   `, async () => {
     const createdAt = new Date().toISOString();
     const payload = {
@@ -146,9 +147,6 @@ describe(`subscribe`, () => {
     );
     await client.end();
 
-    await unsubscribe1();
-    await unsubscribe2();
-
     await waitForExpect(() => {
       // Assert
       const expected: DomainEvent = {
@@ -159,6 +157,23 @@ describe(`subscribe`, () => {
       expect(eventHandler1).toHaveBeenCalledWith(expect.objectContaining(expected));
       expect(eventHandler2).toHaveBeenCalledWith(expect.objectContaining(expected));
     });
+
+    const client1 = new Client(getConnectionString());
+    await client1.connect();
+
+    const data = await client1.query(
+      `
+        select *
+        from event_store.pending_acknowledgement
+        where subscriber_id = any($1)`,
+      [['event_handler', 'other_event_handler']],
+    );
+    await client.end();
+
+    expect(data.rowCount).toBe(0);
+
+    await unsubscribe1();
+    await unsubscribe2();
   });
 
   it(`
@@ -191,5 +206,79 @@ describe(`subscribe`, () => {
     await unsubscribe();
 
     expect(subscribers.rowCount).toBe(0);
+  });
+
+  it(`
+    Étant donnée un event en attente d'acknowledgement
+    Et un event handler permettant de traiter cet event
+    Lorsque que l'event handler souscrit au type d'event
+    Alors l'event est traité par l'event handler
+    Et l'event est ackowledge
+  `, async () => {
+    // Arrange
+    const createdAt = new Date().toISOString();
+    const payload = {
+      propriété: 'propriété',
+    };
+    await cleanSubscribers();
+    const eventHandler = jest.fn(() => Promise.resolve());
+
+    const client = new Client(getConnectionString());
+    await client.connect();
+
+    await client.query(
+      `
+        insert
+        into event_store.subscriber
+        values ($1)`,
+      ['event_handler'],
+    );
+
+    await client.query(
+      `
+        insert
+        into event_store.event_stream
+        values (
+          $1, 
+          $2, 
+          $3, 
+          $4,
+          $5
+        )`,
+      [streamId, createdAt, eventType, version, payload],
+    );
+    await client.end();
+
+    await cleanSubscribers();
+
+    const unsubscribe = await subscribe({
+      name: 'event_handler',
+      eventType,
+      eventHandler,
+    });
+
+    // Act
+    const expected: DomainEvent = {
+      type: eventType,
+      payload,
+    };
+
+    expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(expected));
+
+    const client1 = new Client(getConnectionString());
+    await client1.connect();
+
+    const data = await client1.query(
+      `
+        select *
+        from event_store.pending_acknowledgement
+        where subscriber_id = any($1)`,
+      [['event_handler', 'other_event_handler']],
+    );
+    await client.end();
+
+    expect(data.rowCount).toBe(0);
+
+    await unsubscribe();
   });
 });
