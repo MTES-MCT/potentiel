@@ -51,20 +51,22 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
       </div>
     ) : null}
 
-    <div className="mb-3">
-      <Heading3 className="mb-0">Garanties financières</Heading3>
-      <Link
-        href={routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(
-          convertirEnIdentifiantProjet({
-            appelOffre: project.appelOffreId,
-            période: project.periodeId,
-            famille: project.familleId,
-            numéroCRE: project.numeroCRE,
-          }).formatter(),
-        )}
-      >
-        Mettre à jour ou consulter les garanties financières
-      </Link>
-    </div>
+    {project.appelOffre.soumisAuxGarantiesFinancieres && (
+      <div className="mb-3">
+        <Heading3 className="mb-0">Garanties financières</Heading3>
+        <Link
+          href={routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(
+            convertirEnIdentifiantProjet({
+              appelOffre: project.appelOffreId,
+              période: project.periodeId,
+              famille: project.familleId,
+              numéroCRE: project.numeroCRE,
+            }).formatter(),
+          )}
+        >
+          Mettre à jour ou consulter les garanties financières
+        </Link>
+      </div>
+    )}
   </Section>
 );

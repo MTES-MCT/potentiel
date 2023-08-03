@@ -23,6 +23,7 @@ import { DomainError } from '@core/domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
+import { getAppelOffre } from '@dataAccess/inMemory';
 
 const schema = yup.object({
   params: yup.object({
@@ -99,7 +100,7 @@ v1Router.post(
             : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
-        attributes: ['id'],
+        attributes: ['id', 'appelOffreId'],
       });
 
       if (!projet) {
@@ -108,6 +109,15 @@ v1Router.post(
           response,
           ressourceTitle: 'Projet',
         });
+      }
+
+      const appelOffre = await getAppelOffre(projet.appelOffreId);
+      if (appelOffre.isOk() && !appelOffre.value.soumisAuxGarantiesFinancieres) {
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error: `Enregistrement impossible car l'appel d'offre n'est pas soumis aux garanties financières.`,
+          }),
+        );
       }
 
       if (user.role === 'porteur-projet') {
