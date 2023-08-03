@@ -19,7 +19,7 @@ import { extension } from 'mime-types';
 import { join } from 'path';
 
 EtantDonné(
-  `des garanties financières (avec une attestation )(avec un type et une date d'échéance )(complètes )pour le projet {string}`,
+  `des garanties financières (avec une attestation )(avec un type et une date d'échéance )(complètes )pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
@@ -55,7 +55,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  `des garanties financières migrées pour le projet {string}`,
+  `des garanties financières migrées pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
