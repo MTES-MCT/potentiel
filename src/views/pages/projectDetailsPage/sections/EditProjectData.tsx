@@ -340,7 +340,13 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                   onChange={handleCertificateTypeChange}
                 >
                   Uploader une attestation
-                  <Input type="file" name="file" id="file" disabled={uploadIsDisabled} />
+                  <Input
+                    type="file"
+                    name="file"
+                    id="file"
+                    disabled={uploadIsDisabled}
+                    accept="application/pdf"
+                  />
                 </Radio>
               </li>
             </ul>
