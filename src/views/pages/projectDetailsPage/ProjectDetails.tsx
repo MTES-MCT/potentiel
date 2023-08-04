@@ -24,6 +24,7 @@ import {
   Contact,
   MaterielsEtTechnologies,
   ResultatsAppelOffreInnovation,
+  GarantiesFinancièresDataForProjetPage,
 } from './sections';
 import { ProjectHeader } from './components';
 import routes from '@routes';
@@ -32,20 +33,6 @@ import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
   | 'demandeComplèteRaccordementManquante';
-
-type GarantiesFinancièresDataForProjetPage =
-  | {
-      actionRequise?: 'enregistrer' | 'déposer';
-    }
-  | {
-      actionRequise?: 'compléter enregistrement';
-      typeGarantiesFinancières?:
-        | "avec date d'échéance"
-        | 'consignation'
-        | '6 mois après achèvement';
-      dateÉchéance?: string;
-      attestationConstitution?: { format: string; date: string };
-    };
 
 type ProjectDetailsProps = {
   request: Request;
@@ -89,7 +76,6 @@ export const ProjectDetails = ({
           />
         )}
 
-        {garantiesFinancières?.actionRequise && <p>TEST : {garantiesFinancières?.actionRequise}</p>}
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
@@ -98,7 +84,7 @@ export const ProjectDetails = ({
             <EtapesProjet {...{ project, user, projectEventList }} />
           )}
           <div className={`flex flex-col flex-grow gap-3`}>
-            <InfoGenerales {...{ project, role: user.role }} />
+            <InfoGenerales {...{ project, role: user.role, garantiesFinancières }} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
 

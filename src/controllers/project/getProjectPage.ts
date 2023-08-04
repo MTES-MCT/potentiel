@@ -221,19 +221,12 @@ const getAlertesRaccordement = async ({
   return alertes.length > 0 ? alertes : undefined;
 };
 
-type GarantiesFinancièresDataForProjetPage =
-  | {
-      actionRequise?: 'enregistrer' | 'déposer';
-    }
-  | {
-      actionRequise?: 'compléter enregistrement';
-      typeGarantiesFinancières?:
-        | "avec date d'échéance"
-        | 'consignation'
-        | '6 mois après achèvement';
-      dateÉchéance?: string;
-      attestationConstitution?: { format: string; date: string };
-    };
+type GarantiesFinancièresDataForProjetPage = {
+  actionRequise?: 'compléter enregistrement' | 'enregistrer' | 'déposer';
+  typeGarantiesFinancières?: "avec date d'échéance" | 'consignation' | '6 mois après achèvement';
+  dateÉchéance?: string;
+  attestationConstitution?: { format: string; date: string };
+};
 
 // TO DO : A DISCUTER POUR DÉPLACEMENT COTÉ PACKAGES OU NON
 const getGarantiesFinancièresDataForProjetPage = async ({
