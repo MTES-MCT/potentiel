@@ -20,6 +20,8 @@ import {
   PermissionTransmettreDateMiseEnService,
   PermissionTransmettrePropositionTechniqueEtFinancière,
   PermissionModifierGestionnaireRéseauProjet,
+  PermissionConsulterGarantiesFinancières,
+  PermissionEnregistrerGarantiesFinancières,
 } from '@potentiel/domain';
 import {
   PermissionListerGestionnairesRéseau,
@@ -46,6 +48,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
+        PermissionConsulterGarantiesFinancières,
+        PermissionEnregistrerGarantiesFinancières,
       ];
     case 'porteur-projet':
       return [
@@ -59,6 +63,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterDossierRaccordement,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
+        PermissionConsulterGarantiesFinancières,
+        PermissionEnregistrerGarantiesFinancières,
       ];
     case 'caisse-des-dépôts':
       return [
@@ -69,6 +75,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionUploaderGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
+        PermissionConsulterGarantiesFinancières,
+        PermissionEnregistrerGarantiesFinancières,
       ];
     case 'admin':
       return [
@@ -90,6 +98,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionTransmettreDateMiseEnService,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
+        PermissionConsulterGarantiesFinancières,
+        PermissionEnregistrerGarantiesFinancières,
       ];
     case 'dgec-validateur':
       return [
@@ -110,6 +120,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionTransmettreDateMiseEnService,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
+        PermissionConsulterGarantiesFinancières,
+        PermissionEnregistrerGarantiesFinancières,
       ];
     case 'acheteur-obligé':
       return [
@@ -125,6 +137,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
         PermissionUploaderGF,
+        PermissionConsulterGarantiesFinancières,
+        PermissionEnregistrerGarantiesFinancières,
       ];
     case 'ademe':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
