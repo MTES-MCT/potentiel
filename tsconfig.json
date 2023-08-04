@@ -112,12 +112,6 @@
       "path": "packages/libraries/pg-projections"
     },
     {
-      "path": "packages/libraries/redis-event-bus-client"
-    },
-    {
-      "path": "packages/libraries/redis-event-bus-consumer"
-    },
-    {
       "path": "packages/libraries/file-storage"
     },
     {

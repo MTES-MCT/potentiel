@@ -13,7 +13,6 @@ import {
   téléchargerFichierDossierRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
-import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
 
@@ -62,6 +61,5 @@ export const bootstrap = async (legacy: {
   return async () => {
     await unsetupDomain();
     await unsetupDomainViews();
-    consumerPool.kill();
   };
 };

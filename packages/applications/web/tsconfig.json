@@ -18,9 +18,6 @@
       "path": "../../libraries/pg-projections"
     },
     {
-      "path": "../../libraries/redis-event-bus-client"
-    },
-    {
       "path": "../../libraries/infra-adapters"
     }
   ]
