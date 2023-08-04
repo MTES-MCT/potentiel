@@ -16,6 +16,7 @@ import { PermissionConsulterProjet } from '@modules/project';
 import { mediator } from 'mediateur';
 import {
   ConsulterDossierRaccordementQuery,
+  ConsulterGarantiesFinancièresQuery,
   ListerDossiersRaccordementQuery,
 } from '@potentiel/domain-views';
 import {
@@ -28,6 +29,8 @@ import { Project } from '@infra/sequelize';
 import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '@views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { userIs } from '@modules/users';
+import { User } from '@entities';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -56,6 +59,8 @@ v1Router.get(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
+      // VÉRIFICATION DES DROITS
+
       const userHasRightsToProject = await shouldUserAccessProject.check({
         user,
         projectId,
@@ -69,6 +74,8 @@ v1Router.get(
         });
       }
 
+      // RÉCUPÉRATION DU PROJET
+
       const rawProjet = await getProjectDataForProjectPage({ projectId, user });
 
       if (rawProjet.isErr()) {
@@ -77,14 +84,18 @@ v1Router.get(
 
       const projet = rawProjet.value;
 
+      const identifiantFonctionnelProjet = {
+        appelOffre: projet.appelOffreId,
+        période: projet.periodeId,
+        famille: projet.familleId,
+        numéroCRE: projet.numeroCRE,
+      };
+
+      // DONNÉES DE RACCORDEMENT
+
       const alertesRaccordement = await getAlertesRaccordement({
         userRole: user.role,
-        identifiantProjet: {
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        },
+        identifiantProjet: identifiantFonctionnelProjet,
         CDC2022Choisi:
           projet.cahierDesChargesActuel.type === 'modifié' &&
           projet.cahierDesChargesActuel.paruLe === '30/08/2022',
@@ -93,6 +104,23 @@ v1Router.get(
           isAbandonned: projet.isAbandoned,
         },
       });
+
+      // GARANTIES FINANCIÈRES
+
+      const garantiesFinancières = projet.appelOffre.isSoumisAuxGF
+        ? await getGarantiesFinancièresDataForProjetPage({
+            identifiantProjet: identifiantFonctionnelProjet,
+            user,
+            garantiesFinancièresSoumisesÀLaCandidature:
+              projet.appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature'
+                ? true
+                : projet.appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature'
+                ? true
+                : false,
+          })
+        : undefined;
+
+      // ÉTAPES DU PROJET (PROJECT EVENTS)
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
@@ -119,11 +147,14 @@ v1Router.get(
           project: projet,
           projectEventList: rawProjectEventList.value,
           alertesRaccordement,
+          garantiesFinancières,
         }),
       );
     },
   ),
 );
+
+// FONCTIONS PRIVÉES
 
 const getIdentifiantLegacyProjet = async (identifiantProjet: RawIdentifiantProjet) => {
   const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
@@ -188,4 +219,70 @@ const getAlertesRaccordement = async ({
   }
 
   return alertes.length > 0 ? alertes : undefined;
+};
+
+type GarantiesFinancièresDataForProjetPage =
+  | {
+      actionRequise?: 'enregistrer' | 'déposer';
+    }
+  | {
+      actionRequise?: 'compléter enregistrement';
+      typeGarantiesFinancières?:
+        | "avec date d'échéance"
+        | 'consignation'
+        | '6 mois après achèvement';
+      dateÉchéance?: string;
+      attestationConstitution?: { format: string; date: string };
+    };
+
+// TO DO : A DISCUTER POUR DÉPLACEMENT COTÉ PACKAGES OU NON
+const getGarantiesFinancièresDataForProjetPage = async ({
+  identifiantProjet,
+  garantiesFinancièresSoumisesÀLaCandidature,
+  user,
+}: {
+  identifiantProjet: IdentifiantProjet;
+  garantiesFinancièresSoumisesÀLaCandidature: boolean;
+  user: User;
+}): Promise<GarantiesFinancièresDataForProjetPage | undefined> => {
+  const garantiesFinancières = await mediator.send<ConsulterGarantiesFinancièresQuery>({
+    type: 'CONSULTER_GARANTIES_FINANCIÈRES',
+    data: { identifiantProjet },
+  });
+
+  const utilisateurPeurEnregistrer = userIs([
+    'porteur-projet',
+    'admin',
+    'dgec-validateur',
+    'dreal',
+    'caisse-des-dépôts',
+    'cre',
+  ])(user);
+
+  if (isNone(garantiesFinancières)) {
+    if (garantiesFinancièresSoumisesÀLaCandidature && utilisateurPeurEnregistrer) {
+      return { actionRequise: 'enregistrer' };
+    }
+
+    if (!garantiesFinancièresSoumisesÀLaCandidature && userIs('porteur-projet')(user)) {
+      return { actionRequise: 'déposer' };
+    }
+
+    return;
+  }
+
+  const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } = garantiesFinancières;
+
+  if (
+    !typeGarantiesFinancières ||
+    !attestationConstitution ||
+    (typeGarantiesFinancières === "avec date d'échéance" && !dateÉchéance)
+  ) {
+    return {
+      ...garantiesFinancières,
+      ...(utilisateurPeurEnregistrer && { actionRequise: 'compléter enregistrement' }),
+    };
+  }
+
+  return { ...garantiesFinancières };
 };

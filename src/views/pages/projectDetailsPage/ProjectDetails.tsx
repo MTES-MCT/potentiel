@@ -33,11 +33,26 @@ export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
   | 'demandeComplèteRaccordementManquante';
 
+type GarantiesFinancièresDataForProjetPage =
+  | {
+      actionRequise?: 'enregistrer' | 'déposer';
+    }
+  | {
+      actionRequise?: 'compléter enregistrement';
+      typeGarantiesFinancières?:
+        | "avec date d'échéance"
+        | 'consignation'
+        | '6 mois après achèvement';
+      dateÉchéance?: string;
+      attestationConstitution?: { format: string; date: string };
+    };
+
 type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
   alertesRaccordement?: AlerteRaccordement[];
+  garantiesFinancières?: GarantiesFinancièresDataForProjetPage;
 };
 
 export const ProjectDetails = ({
@@ -45,10 +60,10 @@ export const ProjectDetails = ({
   project,
   projectEventList,
   alertesRaccordement,
+  garantiesFinancières,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <ProjectHeader {...{ project, user }} />
@@ -74,6 +89,7 @@ export const ProjectDetails = ({
           />
         )}
 
+        {garantiesFinancières?.actionRequise && <p>TEST : {garantiesFinancières?.actionRequise}</p>}
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
