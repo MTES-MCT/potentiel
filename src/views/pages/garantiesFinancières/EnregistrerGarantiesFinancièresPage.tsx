@@ -113,6 +113,7 @@ export const EnregistrerGarantiesFinancières = ({
               type="date"
               id="dateConstitution"
               name="dateConstitution"
+              max={new Date().toISOString().split('T').shift()}
               defaultValue={
                 garantiesFinancières?.attestationConstitution?.date &&
                 formatDateForInput(garantiesFinancières?.attestationConstitution?.date)
