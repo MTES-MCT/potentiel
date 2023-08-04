@@ -15,7 +15,7 @@ export const Input = ({ className = '', error = '', onChange, ...props }: InputP
         {...props}
         className={`appearance-none w-full mt-2 py-2 px-3 box-border rounded-[3px] text-base bg-grey-950-base border-0 border-b-2 border-solid font-body ${
           isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'
-        } outline-offset-4 outline-2 outline-solid outline-outline-base rounded-none disabled:cursor-not-allowed disabled:border-b-grey-925-base disabled:bg-grey-950-base ${className}`}
+        } outline-offset-4 outline-2 outline-solid outline-outline-base rounded-none disabled:cursor-not-allowed disabled:border-b-grey-925-base ${className}`}
         onChange={(e) => {
           valueChanged(true);
           onChange && onChange(e);

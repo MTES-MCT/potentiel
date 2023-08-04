@@ -1,0 +1,1 @@
+export { EnregistrerGarantiesFinancières } from './EnregistrerGarantiesFinancièresPage';
