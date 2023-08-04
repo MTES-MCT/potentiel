@@ -59,8 +59,9 @@ export class EventStreamEmitter extends EventEmitter {
       getLogger().info('Unsubscribe event handler', { name });
       this.removeListener(name, listener);
       await this.#client!.query(`unlisten ${name}`);
+      getLogger().info(`Listeners lenght : ${this.listeners.length}`);
 
-      if (this.listeners.length === 0) {
+      if (!this.eventNames().length) {
         getLogger().info('Postgres Client ended because all event handler has been unsubscribed');
         this.#client!.end();
         this.#client = undefined;
