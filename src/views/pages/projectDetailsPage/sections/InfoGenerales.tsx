@@ -1,13 +1,6 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '@modules/project';
-import {
-  AlertMessage,
-  BuildingIcon,
-  DownloadLink,
-  Heading3,
-  Link,
-  Section,
-} from '@components';
+import { AlertMessage, BuildingIcon, DownloadLink, Heading3, Link, Section } from '@components';
 import routes from '@routes';
 import { UserRole } from '@modules/users';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
@@ -52,6 +45,7 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
         </span>
       </div>
     </div>
+
     {project.isClasse &&
     !project.isAbandoned &&
     ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
