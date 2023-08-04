@@ -137,17 +137,20 @@ export const EnregistrerGarantiesFinancières = ({
               id="file"
               name="file"
               fileUrl={
-                garantiesFinancières?.attestationConstitution
+                garantiesFinancières?.attestationConstitution?.format
                   ? routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES(identifiantProjet)
                   : undefined
               }
               disabled={
-                garantiesFinancières?.attestationConstitution
+                garantiesFinancières?.attestationConstitution?.format
                   ? user.role === 'porteur-projet'
                   : false
               }
               onFileChange={() => setInfosConstitutionRequired(true)}
-              required={isInfosConstitutionRequired}
+              required={
+                isInfosConstitutionRequired &&
+                !garantiesFinancières?.attestationConstitution?.format
+              }
             />
           </div>
 
