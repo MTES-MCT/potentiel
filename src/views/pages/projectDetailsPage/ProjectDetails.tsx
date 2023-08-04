@@ -79,23 +79,21 @@ export const ProjectDetails = ({
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
-        <div className="flex flex-col lg:flex-row gap-3">
+        <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-6 md:mt-4">
           {!!projectEventList?.events.length && (
             <EtapesProjet {...{ project, user, projectEventList }} />
           )}
-          <div className={`flex flex-col flex-grow gap-3`}>
-            <InfoGenerales {...{ project, role: user.role, garantiesFinancières }} />
-            <Contact {...{ user, project }} />
-            <MaterielsEtTechnologies {...{ project }} />
+          <InfoGenerales {...{ project, role: user.role, garantiesFinancières }} />
+          <Contact {...{ user, project }} />
+          <MaterielsEtTechnologies {...{ project }} />
 
-            {project.notesInnovation && (
-              <ResultatsAppelOffreInnovation
-                note={project.note}
-                notePrix={project.notePrix}
-                notesInnovation={project.notesInnovation}
-              />
-            )}
-          </div>
+          {project.notesInnovation && (
+            <ResultatsAppelOffreInnovation
+              note={project.note}
+              notePrix={project.notePrix}
+              notesInnovation={project.notesInnovation}
+            />
+          )}
         </div>
         {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
           <EditProjectData project={project} request={request} />

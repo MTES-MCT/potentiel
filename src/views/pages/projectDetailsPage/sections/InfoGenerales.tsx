@@ -1,6 +1,17 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '@modules/project';
-import { AlertMessage, BuildingIcon, DownloadLink, Heading3, Link, Section } from '@components';
+import {
+  AlertMessage,
+  BuildingIcon,
+  DownloadLink,
+  FinanceIcon,
+  Heading3,
+  Link,
+  MapPinIcon,
+  PlugIcon,
+  PowerIcon,
+  Section,
+} from '@components';
 import routes from '@routes';
 import { UserRole } from '@modules/users';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
@@ -21,14 +32,20 @@ type InfoGeneralesProps = {
 
 export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGeneralesProps) => (
   <Section title="Informations générales" icon={<BuildingIcon />} className="flex flex-col">
-    <div>
-      <Heading3 className="m-0">Performances</Heading3>
+    <div className="mb-4">
+      <Heading3 className="m-0 flex items-center">
+        <PowerIcon className="text-grey-425-active mr-1 shrink-0" aria-label="Puissance" />
+        puissance
+      </Heading3>
       <p className="m-0">
-        Puissance installée: {project.puissance} {project.appelOffre?.unitePuissance}
+        Puissance installée : {project.puissance} {project.appelOffre?.unitePuissance}
       </p>
     </div>
-    <div>
-      <Heading3 className="mb-0">Site de production</Heading3>
+    <div className="mb-4">
+      <Heading3 className="m-0 flex items-center">
+        <MapPinIcon className="text-grey-425-active mr-1 shrink-0" aria-label="Puissance" />
+        site de production
+      </Heading3>
       <p className="m-0">{project.adresseProjet}</p>
       <p className="m-0">
         {project.codePostalProjet} {project.communeProjet}
@@ -42,8 +59,11 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
     ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
       role,
     ) ? (
-      <div>
-        <Heading3 className="mb-0">Raccordement au réseau</Heading3>
+      <div className="mb-4">
+        <Heading3 className="m-0 flex items-center">
+          <PlugIcon className="text-grey-425-active mr-1 shrink-0" aria-label="Puissance" />
+          raccordement au réseau
+        </Heading3>
         <Link
           href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
             convertirEnIdentifiantProjet({
@@ -60,8 +80,11 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
     ) : null}
 
     {project.appelOffre.isSoumisAuxGF && (
-      <div>
-        <Heading3 className="mb-0">Garanties financières</Heading3>
+      <div className="mb-4">
+        <Heading3 className="m-0 flex items-center">
+          <FinanceIcon className="text-grey-425-active mr-1 shrink-0" aria-label="Puissance" />
+          garanties financières
+        </Heading3>
         {garantiesFinancières?.actionRequise === 'enregistrer' && (
           <AlertMessage message="Garanties financières à enregistrer" />
         )}
