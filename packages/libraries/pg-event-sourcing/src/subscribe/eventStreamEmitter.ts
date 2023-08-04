@@ -1,29 +1,31 @@
 import { EventEmitter } from 'events';
-import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
+import { DomainEvent, Subscriber } from '@potentiel/core-domain';
 import { isEvent } from '../event';
 import { getLogger } from '@potentiel/monitoring';
 import { acknowledge } from './acknowledge';
-import { eventStreamEmitter } from './subscribe';
-import { listenToNewEvent } from './listenToNewEvent';
+import { Client } from 'pg';
+import { getConnectionString } from '@potentiel/pg-helpers';
 
 export class EventStreamEmitter extends EventEmitter {
-  #isListening: boolean;
-  #unlisten: () => Promise<void>;
+  #client?: Client;
 
-  constructor() {
-    super();
-    this.#isListening = false;
-    this.#unlisten = () => Promise.reject(new Error('EventStream emmitter is not listenning.'));
-  }
-
-  subscribe<TDomainEvent extends DomainEvent>({
+  async subscribe<TDomainEvent extends DomainEvent>({
     eventHandler,
     eventType,
     name,
-  }: Subscriber<TDomainEvent>): Unsubscribe {
-    this.#unlisten = listenToNewEvent(eventStreamEmitter, name);
-    if (!this.#isListening) {
-      this.#isListening = true;
+  }: Subscriber<TDomainEvent>) {
+    if (!this.#client) {
+      const client = new Client(getConnectionString());
+      client.connect((err) => {
+        if (!err) {
+          client.on('notification', (notification) => {
+            this.emit(notification.channel, notification.payload);
+          });
+        } else {
+          console.error(err);
+        }
+      });
+      this.#client = client;
     }
 
     const listener = async (payload: string) => {
@@ -52,12 +54,16 @@ export class EventStreamEmitter extends EventEmitter {
     };
 
     this.on(name, listener);
-
+    await this.#client!.query(`listen ${name}`);
     return async () => {
+      getLogger().info('Unsubscribe event handler', { name });
       this.removeListener(name, listener);
-      if (!this.listenerCount(name)) {
-        await this.#unlisten();
-        this.#isListening = false;
+      await this.#client!.query(`unlisten ${name}`);
+
+      if (this.listeners.length === 0) {
+        getLogger().info('Postgres Client ended because all event handler has been unsubscribed');
+        this.#client!.end();
+        this.#client = undefined;
       }
     };
   }
