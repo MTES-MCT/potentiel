@@ -16,14 +16,16 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
   PermissionEnregistrerGarantiesFinancières,
+  AttestationConstitution,
 } from '@potentiel/domain';
-import { isSome } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { DomainError } from '@core/domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
 import { getProjectAppelOffre } from '@config';
+import { ConsulterFichierAttestationGarantiesFinancièreQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
@@ -77,19 +79,52 @@ v1Router.post(
         file,
       } = request;
 
+      let fichierAttestation: AttestationConstitution | undefined = undefined;
+
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      if ((!file && dateConstitution) || (file && !dateConstitution)) {
-        response.redirect(
-          addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
-            error: `Vous devez renseigner une date de constitution ET une attestation`,
-          }),
-        );
-      }
-
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+
+      if (dateConstitution) {
+        if (!file) {
+          const fichierAttestationActuel =
+            await mediator.send<ConsulterFichierAttestationGarantiesFinancièreQuery>({
+              type: 'CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES',
+              data: {
+                identifiantProjet: identifiantProjetValueType,
+              },
+            });
+
+          if (isNone(fichierAttestationActuel)) {
+            return response.redirect(
+              addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
+                error: `Vous devez renseigner une date de constitution ET une attestation`,
+              }),
+            );
+          }
+
+          fichierAttestation = {
+            ...fichierAttestationActuel,
+            date: convertirEnDateTime(dateConstitution),
+          };
+        } else {
+          fichierAttestation = {
+            format: file.mimetype,
+            content: createReadStream(file.path),
+            date: convertirEnDateTime(dateConstitution),
+          };
+        }
+      } else {
+        if (!file) {
+          return response.redirect(
+            addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
+              error: `Vous devez renseigner une date de constitution ET une attestation`,
+            }),
+          );
+        }
+      }
 
       const projet = await Project.findOne({
         where: {
@@ -148,14 +183,7 @@ v1Router.post(
             identifiantProjet: identifiantProjetValueType,
             typeGarantiesFinancières: typeGarantiesFinancieres,
             dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
-            attestationConstitution:
-              file && dateConstitution
-                ? {
-                    format: file.mimetype,
-                    content: createReadStream(file.path),
-                    date: convertirEnDateTime(dateConstitution),
-                  }
-                : undefined,
+            attestationConstitution: fichierAttestation ?? undefined,
           },
         });
 
