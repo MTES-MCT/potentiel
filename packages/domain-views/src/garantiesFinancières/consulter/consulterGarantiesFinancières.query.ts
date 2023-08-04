@@ -7,7 +7,7 @@ import {
 
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '../../common.port';
-import { Option, isNone, none } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
@@ -39,10 +39,6 @@ export const registerConsulterGarantiesFinancièresQuery = ({
 
     const key: GarantiesFinancièresReadModelKey = `garanties-financières|${rawIdentifiantProjet}`;
     const result = await find<GarantiesFinancièresReadModel>(key);
-
-    if (isNone(result)) {
-      return none;
-    }
 
     return result;
   };

@@ -54,3 +54,6 @@ export { MdEuroSymbol as EuroIcon } from 'react-icons/md';
 export { AiFillCloud as CloudIcon } from 'react-icons/ai';
 export { BiBuildingHouse as BuildingHouseIcon } from 'react-icons/bi';
 export { CgPlug as PlugIcon } from 'react-icons/cg';
+export { RiBankLine as FinanceIcon } from 'react-icons/ri';
+export { RiAttachmentLine as AttachmentIcon } from 'react-icons/ri';
+export { RiArticleLine as DocumentIcon } from 'react-icons/ri';
