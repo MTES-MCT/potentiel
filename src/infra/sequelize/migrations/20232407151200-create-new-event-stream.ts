@@ -4,24 +4,8 @@ import { join } from 'path';
 
 export default {
   up: async (queryInterface: QueryInterface) => {
-    const sql = await readFile(
-      join(
-        __dirname,
-        '..',
-        '..',
-        '..',
-        '..',
-        '..',
-        '..',
-        'packages',
-        'libraries',
-        'pg-event-sourcing',
-        'sql',
-        'event-store.sql',
-      ),
-      'utf-8',
-    );
-    await queryInterface.sequelize.query(sql);
+    await executeScript(queryInterface, 'event-store.sql');
+    await executeScript(queryInterface, 'system.sql');
 
     if (process.env.NODE_ENV === 'test') {
       await queryInterface.sequelize.query(
@@ -30,3 +14,24 @@ export default {
     }
   },
 };
+
+async function executeScript(queryInterface: QueryInterface, scriptName: string) {
+  const sql = await readFile(
+    join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      '..',
+      '..',
+      '..',
+      'packages',
+      'libraries',
+      'pg-event-sourcing',
+      'sql',
+      scriptName,
+    ),
+    'utf-8',
+  );
+  await queryInterface.sequelize.query(sql);
+}

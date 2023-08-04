@@ -5,7 +5,6 @@ import { join } from 'path';
 export default {
   up: async (queryInterface: QueryInterface) => {
     await executeScript(queryInterface, 'app.sql');
-    await executeScript(queryInterface, 'system.sql');
     await executeScript(queryInterface, 'analytic.sql');
   },
 };

@@ -1,6 +1,7 @@
 import { DomainEvent, Subscriber } from '@potentiel/core-domain';
 import { getConnectionString } from '@potentiel/pg-helpers';
-import { cleanSubscribers, subscribe } from './subscribe';
+import { subscribe } from './subscribe';
+import { deleteAllSubscribers } from './deleteAllSubscribers';
 import waitForExpect from 'wait-for-expect';
 import { Client } from 'pg';
 import { WrongSubscriberNameError } from './errors/wrongSubscriberName.error';
@@ -189,7 +190,7 @@ describe(`subscribe`, () => {
     });
 
     // Act
-    await cleanSubscribers();
+    await deleteAllSubscribers();
 
     const client = new Client(getConnectionString());
     await client.connect();
@@ -220,7 +221,7 @@ describe(`subscribe`, () => {
     const payload = {
       propriété: 'propriété',
     };
-    await cleanSubscribers();
+    await deleteAllSubscribers();
     const eventHandler = jest.fn(() => Promise.resolve());
 
     const client = new Client(getConnectionString());
@@ -249,7 +250,7 @@ describe(`subscribe`, () => {
     );
     await client.end();
 
-    await cleanSubscribers();
+    await deleteAllSubscribers();
 
     const unsubscribe = await subscribe({
       name: 'event_handler',

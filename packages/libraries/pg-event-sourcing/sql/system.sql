@@ -1,4 +1,3 @@
-
 create schema system_views;
 
 create view system_views.stream_info as

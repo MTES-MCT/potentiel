@@ -1,5 +1,6 @@
 export { Event } from './event';
-export { loadFromStream } from './loadFromStream';
-export { publish } from './publish';
-export { loadAggregate } from './loadAggregate';
-export { subscribe, cleanSubscribers } from './subscribe';
+export { loadAggregate } from './load/loadAggregate';
+export { loadFromStream } from './load/loadFromStream';
+export { publish } from './publish/publish';
+export { subscribe } from './subscribe/subscribe';
+export { deleteAllSubscribers as cleanSubscribers } from './subscribe/deleteAllSubscribers';
