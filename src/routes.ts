@@ -548,5 +548,25 @@ class routes {
   };
   static GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE = `/admin/importer-dates-mise-en-service.html`;
   static POST_IMPORTER_DATES_MISE_EN_SERVICE = `/admin/importer-dates-mise-en-service`;
+
+  static GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE = (
+    identifiantProjet?: RawIdentifiantProjet,
+  ) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/garanties-financieres.html`;
+  };
+  static GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES = (
+    identifiantProjet?: RawIdentifiantProjet,
+  ) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/garanties-financieres/telecharger-attestation-constitution`;
+  };
+  static POST_ENREGISTRER_GARANTIES_FINANCIERES = (identifiantProjet?: RawIdentifiantProjet) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/garanties-financieres`;
+  };
 }
 export default routes;

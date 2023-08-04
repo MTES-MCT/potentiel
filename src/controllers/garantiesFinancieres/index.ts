@@ -6,3 +6,6 @@ export * from './getUploadGF';
 export * from './postAddGFExpirationDate';
 export * from './getValiderGF';
 export * from './getInvaliderGF';
+export * from './getEnregistrerGarantiesFinancièresPage';
+export * from './getFichierAttestationGarantiesFinancières';
+export * from './postEnregistrerGarantiesFinancières';
