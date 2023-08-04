@@ -19,7 +19,7 @@ import {
 } from '@potentiel/domain';
 import { isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
-import { DomainError } from '@core/domain';
+import { DomainError } from '@potentiel/core-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
