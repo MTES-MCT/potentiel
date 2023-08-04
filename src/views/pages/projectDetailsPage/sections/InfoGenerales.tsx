@@ -51,7 +51,7 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
       </div>
     ) : null}
 
-    {project.appelOffre.soumisAuxGarantiesFinancieres && (
+    {project.appelOffre.isSoumisAuxGF && (
       <div className="mb-3">
         <Heading3 className="mb-0">Garanties financières</Heading3>
         <Link
