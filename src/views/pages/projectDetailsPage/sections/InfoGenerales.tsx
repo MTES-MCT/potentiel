@@ -81,8 +81,7 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
             )}
           {garantiesFinancières?.typeGarantiesFinancières === '6 mois après achèvement' && (
             <div>
-              Garanties Financières avec date d'échéance au valide jusqu'à six mois après
-              l'achèvement
+              Garanties Financières avec date d'échéance valides jusqu'à six mois après l'achèvement
             </div>
           )}
           {garantiesFinancières?.typeGarantiesFinancières === 'consignation' && (
