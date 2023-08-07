@@ -12,7 +12,7 @@ import {
 import { convertReadableToString } from '../../../helpers/convertReadableToString';
 
 Alors(
-  `les garanties financières du projet {string} devraient être consultable dans le projet`,
+  `les garanties financières (complètes )devraient être (consultables )(mises à jour )pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
@@ -91,7 +91,7 @@ Alors(
 );
 
 Alors(
-  'le fichier devrait être téléchargeable pour le projet {string}',
+  `le fichier de l'attestation de garanties financières devrait être téléchargeable pour le projet {string} avec :`,
   async function (nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
