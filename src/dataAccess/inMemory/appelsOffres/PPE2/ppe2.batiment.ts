@@ -147,26 +147,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
     },
-    {
-      id: '5',
-      title: 'cinquième',
-      certificateTemplate: 'ppe2.v2',
-      cahierDesCharges: {
-        référence: '2023 S 071-217458',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/maj-cdc-pv-bat-v140423',
-      },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 17.39,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 23.33,
-        },
-      },
-    },
   ],
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
