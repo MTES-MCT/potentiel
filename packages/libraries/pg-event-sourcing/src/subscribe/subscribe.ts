@@ -6,8 +6,6 @@ import { EventStreamEmitter } from './eventStreamEmitter';
 import { checkSubscriberName } from './checkSubscriberName';
 import { retryPendingAcknowledgement } from './retryPendingAcknowledgement';
 
-export let eventStreamEmitter: EventStreamEmitter;
-
 export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   subscriber: Subscriber<TDomainEvent>,
 ): Promise<Unsubscribe> => {
@@ -21,10 +19,12 @@ export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
 
   await registerSubscriber(subscriber);
 
-  if (!eventStreamEmitter) {
-    eventStreamEmitter = new EventStreamEmitter();
-    eventStreamEmitter.setMaxListeners(50);
-  }
+  const eventStreamEmitter = new EventStreamEmitter(subscriber.name);
+  eventStreamEmitter.setMaxListeners(50);
+  await eventStreamEmitter.connect();
+  await eventStreamEmitter.listen(subscriber);
 
-  return Promise.resolve(eventStreamEmitter.subscribe(subscriber));
+  return async () => {
+    return eventStreamEmitter.disconnect();
+  };
 };

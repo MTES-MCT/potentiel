@@ -1,9 +1,8 @@
 import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
-import { executeQuery, executeSelect, getConnectionString } from '@potentiel/pg-helpers';
+import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
 import { deleteAllSubscribers } from './deleteAllSubscribers';
 import waitForExpect from 'wait-for-expect';
-import { Client } from 'pg';
 import { WrongSubscriberNameError } from './errors/wrongSubscriberName.error';
 
 describe(`subscribe`, () => {
@@ -21,10 +20,17 @@ describe(`subscribe`, () => {
     unsubscribes = [];
   });
 
+  afterAll(async () => {
+    await killPool();
+  });
+
   beforeEach(async () => {
-    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
     await executeQuery(`delete from event_store.event_stream`);
     await executeQuery(`delete from event_store.subscriber`);
+  });
+
+  beforeAll(() => {
+    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
   it(`
@@ -188,19 +194,15 @@ describe(`subscribe`, () => {
     // Act
     await deleteAllSubscribers();
 
-    const client = new Client(getConnectionString());
-    await client.connect();
-
-    const subscribers = await client.query(
+    const subscribers = await executeSelect(
       `
-        select *
-        from event_store.subscriber
-        where subscriber_id = $1`,
-      ['event_handler'],
+          select *
+          from event_store.subscriber
+          where subscriber_id = $1`,
+      'event_handler',
     );
-    await client.end();
 
-    expect(subscribers.rowCount).toBe(0);
+    expect(subscribers.length).toBe(0);
   });
 
   it(`
@@ -218,18 +220,15 @@ describe(`subscribe`, () => {
     await deleteAllSubscribers();
     const eventHandler = jest.fn(() => Promise.resolve());
 
-    const client = new Client(getConnectionString());
-    await client.connect();
-
-    await client.query(
+    await executeQuery(
       `
         insert
         into event_store.subscriber
         values ($1)`,
-      ['event_handler'],
+      'event_handler',
     );
 
-    await client.query(
+    await executeQuery(
       `
         insert
         into event_store.event_stream
@@ -240,9 +239,12 @@ describe(`subscribe`, () => {
           $4,
           $5
         )`,
-      [streamId, createdAt, eventType, version, payload],
+      streamId,
+      createdAt,
+      eventType,
+      version,
+      payload,
     );
-    await client.end();
 
     await deleteAllSubscribers();
 
@@ -261,18 +263,13 @@ describe(`subscribe`, () => {
 
     expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(expected));
 
-    const client1 = new Client(getConnectionString());
-    await client1.connect();
-
-    const data = await client1.query(
+    const subscribers = await executeSelect(
       `
         select *
         from event_store.pending_acknowledgement
         where subscriber_id = any($1)`,
-      [['event_handler', 'other_event_handler']],
+      ['event_handler', 'other_event_handler'],
     );
-    await client.end();
-
-    expect(data.rowCount).toBe(0);
+    expect(subscribers.length).toBe(0);
   });
 });

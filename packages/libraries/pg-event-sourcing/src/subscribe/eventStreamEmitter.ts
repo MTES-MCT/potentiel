@@ -7,30 +7,42 @@ import { Client } from 'pg';
 import { getConnectionString } from '@potentiel/pg-helpers';
 
 export class EventStreamEmitter extends EventEmitter {
-  #client?: Client;
+  #client: Client;
+  #name: string;
 
-  async subscribe<TDomainEvent extends DomainEvent>({
-    eventHandler,
-    eventType,
-    name,
-  }: Subscriber<TDomainEvent>) {
-    if (!this.#client) {
-      const client = new Client(getConnectionString());
-      client.connect((err) => {
+  constructor(name: string) {
+    super();
+    this.#client = new Client(getConnectionString());
+    this.#name = name;
+  }
+
+  connect() {
+    return new Promise<void>((resolve, reject) => {
+      this.#client.connect((err) => {
         if (!err) {
-          client.on('notification', (notification) => {
+          this.#client.on('notification', (notification) => {
             this.emit(notification.channel, notification.payload);
           });
+          resolve();
         } else {
-          console.error(err);
+          reject(err);
         }
       });
-      this.#client = client;
-    }
+    });
+  }
 
+  async disconnect() {
+    await this.#client.query(`unlisten ${this.#name}`);
+    this.removeAllListeners(this.#name);
+    await this.#client.end();
+  }
+
+  async listen<TDomainEvent extends DomainEvent>({
+    eventHandler,
+    eventType,
+  }: Subscriber<TDomainEvent>) {
     const listener = async (payload: string) => {
       const event = JSON.parse(payload) as TDomainEvent;
-
       if (isEvent(event)) {
         if (
           eventType === 'all' ||
@@ -38,10 +50,10 @@ export class EventStreamEmitter extends EventEmitter {
         ) {
           try {
             await eventHandler(event);
-            await acknowledge(name, event);
+            await acknowledge(this.#name, event);
           } catch (error) {
             getLogger().error(error as Error, {
-              subscriberName: name,
+              subscriberName: this.#name,
               event,
             });
           }
@@ -53,19 +65,8 @@ export class EventStreamEmitter extends EventEmitter {
       }
     };
 
-    this.on(name, listener);
-    await this.#client!.query(`listen ${name}`);
-    return async () => {
-      getLogger().info('Unsubscribe event handler', { name });
-      this.removeListener(name, listener);
-      await this.#client!.query(`unlisten ${name}`);
-      getLogger().info(`Listeners lenght : ${this.listeners.length}`);
+    this.on(this.#name, listener);
 
-      if (!this.eventNames().length) {
-        getLogger().info('Postgres Client ended because all event handler has been unsubscribed');
-        this.#client!.end();
-        this.#client = undefined;
-      }
-    };
+    await this.#client.query(`listen ${this.#name}`);
   }
 }

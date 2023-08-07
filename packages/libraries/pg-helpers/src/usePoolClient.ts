@@ -21,3 +21,5 @@ export const usePoolClient = async <TResult extends Record<string, unknown>>(
     poolClient?.release();
   }
 };
+
+export const killPool = async () => await pool.end();
