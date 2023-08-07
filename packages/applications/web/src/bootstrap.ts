@@ -14,6 +14,7 @@ import {
   consumerSubscribe,
   téléverserFichierAttestationGarantiesFinancièresAdapter,
   téléchargerFichierAttestationGarantiesFinancièresAdapter,
+  téléchargerFichierDépôtAttestationGarantiesFinancièresAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
@@ -65,6 +66,9 @@ export const bootstrap = async (legacy: {
     },
     garantiesFinancières: {
       téléchargerFichier: téléchargerFichierAttestationGarantiesFinancièresAdapter,
+    },
+    dépôtGarantiesFinancières: {
+      téléchargerFichier: téléchargerFichierDépôtAttestationGarantiesFinancièresAdapter,
     },
   });
 

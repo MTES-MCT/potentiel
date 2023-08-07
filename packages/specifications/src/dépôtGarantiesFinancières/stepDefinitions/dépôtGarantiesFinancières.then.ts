@@ -1,9 +1,14 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { convertirEnDateTime, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import {
+  ConsulterDépôtGarantiesFinancièresQuery,
+  ConsulterFichierDépôtAttestationGarantiesFinancièreQuery,
+} from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
+import { convertReadableToString } from '../../helpers/convertReadableToString';
 
 Alors(
   'les garanties financières devraient être consultables pour le projet {string} avec :',
@@ -71,10 +76,10 @@ Alors(
       });
 
     if (isNone(actualFile)) {
-      throw new Error('attestation garanties financières non trouvée');
+      throw new Error('dépôt attestation garanties financières non trouvé');
     }
 
-    expect(actualFile.type).to.deep.equal('attestation-constitution-garanties-Financieres');
+    expect(actualFile.type).to.deep.equal('dépôt-attestation-constitution-garanties-Financieres');
     expect(actualFile.format).to.deep.equal(format);
     expect(await convertReadableToString(actualFile.content)).to.deep.equal(contenu);
   },
