@@ -15,7 +15,6 @@ import {
   CovidDelayGrantedDTO,
   ProjectCompletionDueDateSetDTO,
   DemandeAbandonDTO,
-  GarantiesFinancièresDTO,
 } from '../../../modules/frise';
 import { Timeline } from './Timeline';
 
@@ -53,12 +52,6 @@ export const adminGarantiesFinancieresDues = () => (
           email: 'porteur@test.test',
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'garanties-financières',
-          variant: 'admin',
-          date: new Date('2022-01-13').getTime(),
-          statut: 'en attente',
-        } as GarantiesFinancièresDTO,
       ],
     }}
   />
@@ -67,7 +60,7 @@ export const adminGarantiesFinancieresDues = () => (
 export const PPGarantiesFinancieresDues = () => (
   <Timeline
     projectEventList={{
-      project: { ...project, garantieFinanciereEnMois: 42 },
+      project: { ...project },
       events: [
         {
           type: 'ProjectNotified',
@@ -83,12 +76,6 @@ export const PPGarantiesFinancieresDues = () => (
           email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'garanties-financières',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-13').getTime(),
-          statut: 'en attente',
-        } as GarantiesFinancièresDTO,
       ],
     }}
   />
@@ -113,12 +100,6 @@ export const PPGarantiesFinancieresEnRetard = () => (
           email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'garanties-financières',
-          variant: 'porteur-projet',
-          date: new Date('2019-01-13').getTime(),
-          statut: 'en attente',
-        } as GarantiesFinancièresDTO,
       ],
     }}
   />
@@ -143,12 +124,6 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
           email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'garanties-financières',
-          variant: 'porteur-projet',
-          date: new Date('2019-01-13').getTime(),
-          statut: 'en attente',
-        } as GarantiesFinancièresDTO,
       ],
     }}
   />
@@ -188,14 +163,6 @@ export const garantiesFinancieresConstituees = () => (
           email: 'email',
           claimedBy: 'someone',
         } as ProjectClaimedDTO,
-        {
-          type: 'garanties-financières',
-          variant: 'admin',
-          date: new Date('2019-01-13').getTime(),
-          statut: 'à traiter',
-          envoyéesPar: 'porteur-projet',
-          url: 'url-fichier',
-        } as GarantiesFinancièresDTO,
       ],
     }}
   />
@@ -235,14 +202,6 @@ export const garantiesFinancieresValidées = () => (
           email: 'email',
           claimedBy: 'someone',
         } as ProjectClaimedDTO,
-        {
-          type: 'garanties-financières',
-          variant: 'admin',
-          date: new Date('2019-01-13').getTime(),
-          statut: 'validé',
-          envoyéesPar: 'porteur-projet',
-          url: 'url-fichier',
-        } as GarantiesFinancièresDTO,
       ],
     }}
   />
@@ -695,14 +654,6 @@ export const drealGarantiesFinancieresUploaded = () => (
           variant: 'dreal',
           date: new Date('2022-01-12').getTime(),
         } as ProjectNotifiedDTO,
-        {
-          type: 'garanties-financières',
-          variant: 'dreal',
-          date: new Date('2019-01-13').getTime(),
-          statut: 'à traiter',
-          envoyéesPar: 'dreal',
-          url: 'url-fichier',
-        } as GarantiesFinancièresDTO,
       ],
     }}
   />
@@ -727,14 +678,6 @@ export const PPGarantiesFinancieresUploaded = () => (
           email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'garanties-financières',
-          variant: 'porteur-projet',
-          date: new Date('2019-01-13').getTime(),
-          statut: 'validé',
-          envoyéesPar: 'porteur-projet',
-          url: 'url-fichier',
-        } as GarantiesFinancièresDTO,
       ],
     }}
   />

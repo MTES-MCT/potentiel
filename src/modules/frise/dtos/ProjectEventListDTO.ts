@@ -15,7 +15,6 @@ export type ProjectEventDTO =
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
-  | GarantiesFinancièresDTO
   | ProjectNotificationDateSetDTO
   | ProjectCompletionDueDateSetDTO
   | ModificationRequestedDTO
@@ -124,25 +123,6 @@ export const isCertificateDTO = or(
   is('ProjectCertificateRegenerated'),
   is('ProjectCertificateUpdated'),
   is('ProjectClaimed'),
-);
-
-export type GarantiesFinancièresDTO = {
-  type: 'garanties-financières';
-  date: number;
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'caisse-des-dépôts' | 'cre';
-  typeGarantiesFinancières?: string;
-  dateEchéance?: number;
-} & (
-  | {
-      statut: 'en attente' | 'en retard';
-      actionPossible?: 'enregistrer' | 'soumettre';
-    }
-  | {
-      statut: 'validé' | 'à traiter';
-      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin';
-      url: string;
-      retraitDépôtPossible?: true;
-    }
 );
 
 export type ProjectCompletionDueDateSetDTO = {
@@ -492,7 +472,6 @@ export type ProjectEventListDTO = {
   project: {
     id: Project['id'];
     status: ProjectStatus;
-    garantieFinanciereEnMois?: number;
     nomProjet: string;
   };
   events: ProjectEventDTO[];
