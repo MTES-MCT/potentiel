@@ -1,5 +1,9 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { convertirEnDateTime, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import {
+  convertirEnDateTime,
+  convertirEnIdentifiantProjet,
+  loadDépôtGarantiesFinancièresAggregateFactory,
+} from '@potentiel/domain';
 import {
   ConsulterDépôtGarantiesFinancièresQuery,
   ConsulterFichierDépôtAttestationGarantiesFinancièreQuery,

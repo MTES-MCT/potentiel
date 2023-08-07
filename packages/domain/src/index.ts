@@ -8,3 +8,4 @@ export * from './permissions';
 
 export * from './gestionnaireRéseau/gestionnaireRéseau.aggregate';
 export * from './projet/projet.aggregate';
+export * from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.aggregate';

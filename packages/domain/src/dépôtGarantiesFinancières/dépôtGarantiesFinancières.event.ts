@@ -5,6 +5,7 @@ export type DépôtGarantiesFinancièresTransmisV0 = DomainEvent<
   {
     identifiantProjet: string;
     dateÉchéance?: string;
+    typeGarantiesFinancières?: `6 mois après achèvement` | 'consignation' | `avec date d'échéance`;
     attestationConstitution: { format: string; date: string };
     dateDépôt: string;
   }
