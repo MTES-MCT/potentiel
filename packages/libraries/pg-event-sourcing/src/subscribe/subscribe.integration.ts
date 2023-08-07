@@ -1,5 +1,5 @@
-import { DomainEvent, Subscriber } from '@potentiel/core-domain';
-import { getConnectionString } from '@potentiel/pg-helpers';
+import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
+import { executeQuery, executeSelect, getConnectionString } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
 import { deleteAllSubscribers } from './deleteAllSubscribers';
 import waitForExpect from 'wait-for-expect';
@@ -11,13 +11,20 @@ describe(`subscribe`, () => {
   const streamId = 'string#string';
   const version = 1;
 
+  let unsubscribes: Array<Unsubscribe> = [];
+
+  afterEach(async () => {
+    for (const unsubscribe of unsubscribes) {
+      await unsubscribe();
+    }
+
+    unsubscribes = [];
+  });
+
   beforeEach(async () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
-    const client = new Client(getConnectionString());
-    await client.connect();
-    await client.query(`delete from event_store.event_stream`);
-    await client.query(`delete from event_store.subscriber`);
-    await client.end();
+    await executeQuery(`delete from event_store.event_stream`);
+    await executeQuery(`delete from event_store.subscriber`);
   });
 
   it(`
@@ -31,27 +38,23 @@ describe(`subscribe`, () => {
       eventType,
       eventHandler,
     });
+    unsubscribes.push(unsubscribe);
 
-    const client = new Client(getConnectionString());
-    await client.connect();
-    const actual = await client.query<Subscriber>(
+    const actual = await executeSelect<Subscriber>(
       `
         select subscriber_id, filter
         from event_store.subscriber
         where subscriber_id = $1
       `,
-      ['event_handler'],
+      'event_handler',
     );
-    await client.end();
-
-    await unsubscribe();
 
     const expected = {
       subscriber_id: 'event_handler',
       filter: [eventType],
     };
 
-    expect(actual.rows[0]).toEqual(expected);
+    expect(actual[0]).toEqual(expected);
   });
 
   it(`
@@ -65,27 +68,23 @@ describe(`subscribe`, () => {
       eventType: 'all',
       eventHandler,
     });
+    unsubscribes.push(unsubscribe);
 
-    const client = new Client(getConnectionString());
-    await client.connect();
-    const actual = await client.query<Subscriber>(
+    const actual = await executeSelect<Subscriber>(
       `
         select subscriber_id, filter
         from event_store.subscriber
         where subscriber_id = $1
       `,
-      ['event_handler'],
+      'event_handler',
     );
-    await client.end();
-
-    await unsubscribe();
 
     const expected = {
       subscriber_id: 'event_handler',
       filter: null,
     };
 
-    expect(actual.rows[0]).toEqual(expected);
+    expect(actual[0]).toEqual(expected);
   });
 
   it(`
@@ -124,16 +123,16 @@ describe(`subscribe`, () => {
       eventType,
       eventHandler: eventHandler1,
     });
+    unsubscribes.push(unsubscribe1);
+
     const unsubscribe2 = await subscribe({
       name: 'other_event_handler',
       eventType,
       eventHandler: eventHandler2,
     });
+    unsubscribes.push(unsubscribe2);
 
-    const client = new Client(getConnectionString());
-    await client.connect();
-
-    await client.query(
+    await executeQuery(
       `
         insert
         into event_store.event_stream
@@ -144,11 +143,14 @@ describe(`subscribe`, () => {
           $4,
           $5
         )`,
-      [streamId, createdAt, eventType, version, payload],
+      streamId,
+      createdAt,
+      eventType,
+      version,
+      payload,
     );
-    await client.end();
 
-    await waitForExpect(() => {
+    await waitForExpect(async () => {
       // Assert
       const expected: DomainEvent = {
         type: eventType,
@@ -157,24 +159,17 @@ describe(`subscribe`, () => {
 
       expect(eventHandler1).toHaveBeenCalledWith(expect.objectContaining(expected));
       expect(eventHandler2).toHaveBeenCalledWith(expect.objectContaining(expected));
+
+      const data = await executeSelect(
+        `
+          select *
+          from event_store.pending_acknowledgement
+          where subscriber_id = any($1)`,
+        ['event_handler', 'other_event_handler'],
+      );
+
+      expect(data.length).toBe(0);
     });
-
-    const client1 = new Client(getConnectionString());
-    await client1.connect();
-
-    const data = await client1.query(
-      `
-        select *
-        from event_store.pending_acknowledgement
-        where subscriber_id = any($1)`,
-      [['event_handler', 'other_event_handler']],
-    );
-    await client.end();
-
-    expect(data.rowCount).toBe(0);
-
-    await unsubscribe1();
-    await unsubscribe2();
   });
 
   it(`
@@ -188,6 +183,7 @@ describe(`subscribe`, () => {
       eventType,
       eventHandler: () => Promise.resolve(),
     });
+    unsubscribes.push(unsubscribe);
 
     // Act
     await deleteAllSubscribers();
@@ -203,8 +199,6 @@ describe(`subscribe`, () => {
       ['event_handler'],
     );
     await client.end();
-
-    await unsubscribe();
 
     expect(subscribers.rowCount).toBe(0);
   });
@@ -257,6 +251,7 @@ describe(`subscribe`, () => {
       eventType,
       eventHandler,
     });
+    unsubscribes.push(unsubscribe);
 
     // Act
     const expected: DomainEvent = {
@@ -279,7 +274,5 @@ describe(`subscribe`, () => {
     await client.end();
 
     expect(data.rowCount).toBe(0);
-
-    await unsubscribe();
   });
 });
