@@ -4,12 +4,8 @@ import {
   AlertMessage,
   BuildingIcon,
   DownloadLink,
-  FinanceIcon,
   Heading3,
   Link,
-  MapPinIcon,
-  PlugIcon,
-  PowerIcon,
   Section,
 } from '@components';
 import routes from '@routes';
@@ -33,20 +29,18 @@ type InfoGeneralesProps = {
 export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGeneralesProps) => (
   <Section title="Informations générales" icon={<BuildingIcon />} className="flex flex-col">
     <div className="mb-6">
-      <Heading3 className="m-0 flex items-center">
-        <PowerIcon className="text-yellow-moutarde-850-base mr-1 shrink-0" aria-hidden />
-        <span className="text-sm font-semibold tracking-wide uppercase">puissance</span>
+      <Heading3 className="m-0 flex text-sm font-semibold tracking-wide uppercase">
+        puissance
       </Heading3>
-      <p className="my-0 pl-6">
+      <p className="my-0">
         Puissance installée : {project.puissance} {project.appelOffre?.unitePuissance}
       </p>
     </div>
     <div className="mb-6">
-      <Heading3 className="m-0 flex items-center">
-        <MapPinIcon className="text-red-marianne-main-472-base mr-1 shrink-0" aria-hidden />
-        <span className="text-sm font-semibold tracking-wide uppercase">site de production</span>
+      <Heading3 className="m-0 flex text-sm font-semibold tracking-wide uppercase">
+        site de production{' '}
       </Heading3>
-      <div className="pl-6">
+      <div>
         <span className="m-0">{project.adresseProjet}</span>
         <br />
         <span className="m-0">
@@ -64,26 +58,21 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
       role,
     ) ? (
       <div className="mb-6">
-        <Heading3 className="m-0 flex items-center">
-          <PlugIcon className="text-info-425-base mr-1 shrink-0" aria-hidden />
-          <span className="text-sm font-semibold tracking-wide uppercase">
-            raccordement au réseau
-          </span>
+        <Heading3 className="m-0 flex text-sm font-semibold tracking-wide uppercase">
+          raccordement au réseau
         </Heading3>
-        <div className="pl-6">
-          <Link
-            href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
-              convertirEnIdentifiantProjet({
-                appelOffre: project.appelOffreId,
-                période: project.periodeId,
-                famille: project.familleId,
-                numéroCRE: project.numeroCRE,
-              }).formatter(),
-            )}
-          >
-            Mettre à jour ou consulter les données de raccordement
-          </Link>
-        </div>
+        <Link
+          href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+            convertirEnIdentifiantProjet({
+              appelOffre: project.appelOffreId,
+              période: project.periodeId,
+              famille: project.familleId,
+              numéroCRE: project.numeroCRE,
+            }).formatter(),
+          )}
+        >
+          Mettre à jour ou consulter les données de raccordement
+        </Link>
       </div>
     ) : null}
 
@@ -92,13 +81,10 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
         role,
       ) && (
         <div className="mb-6">
-          <Heading3 className="m-0 flex items-center">
-            <FinanceIcon className="text-brown-caramel-main-648-base mr-1 shrink-0" aria-hidden />
-            <span className="text-sm font-semibold tracking-wide uppercase">
-              garanties financières
-            </span>
+          <Heading3 className="m-0 flex text-sm font-semibold tracking-wide uppercase">
+            garanties financières
           </Heading3>
-          <div className="pl-6">
+          <div>
             {garantiesFinancières?.actionRequise && (
               <AlertMessage
                 message={`garanties financières à ${
