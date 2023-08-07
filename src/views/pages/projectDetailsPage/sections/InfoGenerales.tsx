@@ -87,72 +87,75 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
       </div>
     ) : null}
 
-    {project.appelOffre.isSoumisAuxGF && (
-      <div className="mb-6">
-        <Heading3 className="m-0 flex items-center">
-          <FinanceIcon className="text-brown-caramel-main-648-base mr-1 shrink-0" aria-hidden />
-          <span className="text-sm font-semibold tracking-wide uppercase">
-            garanties financières
-          </span>
-        </Heading3>
-        <div className="pl-6">
-          {garantiesFinancières?.actionRequise === 'enregistrer' && (
-            <AlertMessage message="Garanties financières à enregistrer" />
-          )}
-          {garantiesFinancières?.actionRequise === 'déposer' && (
-            <AlertMessage message="Garanties financières à déposer" />
-          )}
-          {garantiesFinancières?.actionRequise === 'compléter enregistrement' && (
-            <AlertMessage message="Garanties financières à compléter" />
-          )}
-          <div className="flex flex-col gap-2">
-            {garantiesFinancières?.typeGarantiesFinancières === "avec date d'échéance" &&
-              garantiesFinancières?.dateÉchéance && (
-                <div>
-                  Garanties Financières avec date d'échéance au{' '}
-                  {afficherDate(new Date(garantiesFinancières.dateÉchéance))}
-                </div>
+    {project.appelOffre.isSoumisAuxGF &&
+      ['porteur-projet', 'admin', 'dgec-validateur', 'dreal', 'caisse-des-dépôts', 'cre'].includes(
+        role,
+      ) && (
+        <div className="mb-6">
+          <Heading3 className="m-0 flex items-center">
+            <FinanceIcon className="text-brown-caramel-main-648-base mr-1 shrink-0" aria-hidden />
+            <span className="text-sm font-semibold tracking-wide uppercase">
+              garanties financières
+            </span>
+          </Heading3>
+          <div className="pl-6">
+            {garantiesFinancières?.actionRequise && (
+              <AlertMessage
+                message={`garanties financières à ${
+                  garantiesFinancières?.actionRequise === 'compléter enregistrement'
+                    ? 'compléter'
+                    : garantiesFinancières?.actionRequise.valueOf()
+                }`}
+              />
+            )}
+            <div className="flex flex-col gap-2">
+              {garantiesFinancières?.typeGarantiesFinancières === "avec date d'échéance" &&
+                garantiesFinancières?.dateÉchéance && (
+                  <div>
+                    Garanties Financières avec date d'échéance au{' '}
+                    {afficherDate(new Date(garantiesFinancières.dateÉchéance))}
+                  </div>
+                )}
+              {garantiesFinancières?.typeGarantiesFinancières === '6 mois après achèvement' && (
+                <div>Garanties Financières valides jusqu'à six mois après l'achèvement</div>
               )}
-            {garantiesFinancières?.typeGarantiesFinancières === '6 mois après achèvement' && (
-              <div>Garanties Financières valides jusqu'à six mois après l'achèvement</div>
-            )}
-            {garantiesFinancières?.typeGarantiesFinancières === 'consignation' && (
-              <div>Garanties financières de type consignation</div>
-            )}
+              {garantiesFinancières?.typeGarantiesFinancières === 'consignation' && (
+                <div>Garanties financières de type consignation</div>
+              )}
 
-            {garantiesFinancières?.attestationConstitution && (
-              <DownloadLink
-                fileUrl={routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES(
-                  convertirEnIdentifiantProjet({
-                    appelOffre: project.appelOffreId,
-                    période: project.periodeId,
-                    famille: project.familleId,
-                    numéroCRE: project.numeroCRE,
-                  }).formatter(),
-                )}
-              >
-                Télécharger l'attestation (constituée le{' '}
-                {afficherDate(new Date(garantiesFinancières.attestationConstitution.date))})
-              </DownloadLink>
-            )}
+              {garantiesFinancières?.attestationConstitution && (
+                <DownloadLink
+                  fileUrl={routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES(
+                    convertirEnIdentifiantProjet({
+                      appelOffre: project.appelOffreId,
+                      période: project.periodeId,
+                      famille: project.familleId,
+                      numéroCRE: project.numeroCRE,
+                    }).formatter(),
+                  )}
+                >
+                  Télécharger l'attestation (constituée le{' '}
+                  {afficherDate(new Date(garantiesFinancières.attestationConstitution.date))})
+                </DownloadLink>
+              )}
 
-            {garantiesFinancières?.actionRequise !== 'déposer' && (
-              <Link
-                href={routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(
-                  convertirEnIdentifiantProjet({
-                    appelOffre: project.appelOffreId,
-                    période: project.periodeId,
-                    famille: project.familleId,
-                    numéroCRE: project.numeroCRE,
-                  }).formatter(),
-                )}
-              >
-                Mettre à jour les garanties financières
-              </Link>
-            )}
+              {garantiesFinancières?.actionRequise !== 'déposer' && (
+                <Link
+                  href={routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(
+                    convertirEnIdentifiantProjet({
+                      appelOffre: project.appelOffreId,
+                      période: project.periodeId,
+                      famille: project.familleId,
+                      numéroCRE: project.numeroCRE,
+                    }).formatter(),
+                  )}
+                >
+                  Mettre à jour les garanties financières
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
   </Section>
 );

@@ -228,7 +228,7 @@ type GarantiesFinancièresDataForProjetPage = {
   attestationConstitution?: { format: string; date: string };
 };
 
-// TO DO : A DISCUTER POUR DÉPLACEMENT COTÉ PACKAGES OU NON
+// TO DO : si cette fonction doit être réutilisée on discutera d'un déplacement dans un package dans le nouveau socle
 const getGarantiesFinancièresDataForProjetPage = async ({
   identifiantProjet,
   garantiesFinancièresSoumisesÀLaCandidature,
@@ -238,22 +238,20 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   garantiesFinancièresSoumisesÀLaCandidature: boolean;
   user: User;
 }): Promise<GarantiesFinancièresDataForProjetPage | undefined> => {
+  if (
+    !userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal', 'caisse-des-dépôts', 'cre'])(
+      user,
+    )
+  ) {
+    return;
+  }
   const garantiesFinancières = await mediator.send<ConsulterGarantiesFinancièresQuery>({
     type: 'CONSULTER_GARANTIES_FINANCIÈRES',
     data: { identifiantProjet },
   });
 
-  const utilisateurPeurEnregistrer = userIs([
-    'porteur-projet',
-    'admin',
-    'dgec-validateur',
-    'dreal',
-    'caisse-des-dépôts',
-    'cre',
-  ])(user);
-
   if (isNone(garantiesFinancières)) {
-    if (garantiesFinancièresSoumisesÀLaCandidature && utilisateurPeurEnregistrer) {
+    if (garantiesFinancièresSoumisesÀLaCandidature) {
       return { actionRequise: 'enregistrer' };
     }
 
@@ -273,7 +271,7 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   ) {
     return {
       ...garantiesFinancières,
-      ...(utilisateurPeurEnregistrer && { actionRequise: 'compléter enregistrement' }),
+      actionRequise: 'compléter enregistrement',
     };
   }
 
