@@ -25,8 +25,10 @@ type ContactProps = {
 export const Contact = ({ project, user }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />}>
     <div className="mb-3">{project.nomCandidat}</div>
-    <div>
-      <Heading3 className="mb-1">Représentant légal</Heading3>
+    <div className="mb-3">
+      <Heading3 className="m-0 flex text-sm font-semibold tracking-wide uppercase">
+        Représentant légal
+      </Heading3>
       <div>{project.nomRepresentantLegal}</div>
       <div>{project.email}</div>
     </div>
@@ -48,7 +50,9 @@ type ListComptesAvecAccesProps = {
 };
 const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
   <div>
-    <Heading3 className="mt-4 mb-1">Comptes ayant accès à ce projet</Heading3>
+    <Heading3 className="m-0 flex text-sm font-semibold tracking-wide uppercase">
+      Comptes ayant accès à ce projet
+    </Heading3>
     <ul className="my-1">
       {project.users.map(({ id, fullName, email }) => (
         <li key={'project_user_' + id}>
@@ -93,7 +97,9 @@ const InvitationForm = ({ project }: InvitationFormProps) => {
         name="form"
         className="invitationForm"
       >
-        <Heading3 className="mb-1 mt-2">Gestion des accès à ce projet</Heading3>
+        <Heading3 className="mb-0 mt-3 flex text-sm font-semibold tracking-wide uppercase">
+          Gestion des accès à ce projet
+        </Heading3>
         <input type="hidden" name="projectId" id="projectId" value={project.id} />
         <div>
           <Label htmlFor="email" required>
