@@ -10,7 +10,6 @@ export * from './DemandeDelaiSignaledItem';
 export * from './DemandeDélaiItem';
 export * from './DemandeRecoursSignaledItem';
 export * from './DesignationItem';
-export * from './GFItem';
 export * from './ImportItem';
 export * from './InfoItem';
 export * from './ItemDate';
