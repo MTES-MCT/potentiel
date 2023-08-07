@@ -19,9 +19,6 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | date de constitution | <date de constitution> |
     Exemples:
             | type                    | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-            | consignation            |                 |                   |                       |                      |
-            | 6 mois après achèvement |                 |                   |                       |                      |
-            | avec date d'échéance    | 2027-12-01      |                   |                       |                      |
-            | consignation            |                 | application/pdf   | le contenu du fichier | 2021-12-02           |
-            | 6 mois après achèvement |                 | application/pdf   | le contenu du fichier | 2021-12-02           |
             | avec date d'échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2021-12-02           |
+            | consignation            |                 | application/pdf   | le contenu du fichier | 2021-12-02           |
+            | 6 mois après achèvement |                 | application/pdf   | le contenu du fichier | 2021-12-02           |                                         
