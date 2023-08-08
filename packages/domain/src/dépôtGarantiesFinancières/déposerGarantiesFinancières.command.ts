@@ -15,6 +15,7 @@ import {
 } from './dépôtGarantiesFinancières.aggregate';
 import { GarantiesFinancièresDéposéesV1 } from './dépôtGarantiesFinancières.event';
 import { TéléverserFichierPort } from '../common.ports';
+import { isSome } from '@potentiel/monads';
 
 export type DéposerGarantiesFinancièresCommand = Message<
   'DÉPOSER_GARANTIES_FINANCIÈRES',
@@ -49,11 +50,11 @@ export const registerDéposerGarantiesFinancièresCommand = ({
     dateDépôt,
     utilisateur,
   }) => {
-    const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
-
     verifyGarantiesFinancièresTypeForCommand(typeGarantiesFinancières, dateÉchéance, utilisateur);
 
     verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);
+
+    const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
 
     await téléverserFichier({
       format: attestationConstitution.format,
@@ -76,7 +77,10 @@ export const registerDéposerGarantiesFinancièresCommand = ({
           format: attestationConstitution.format,
           date: attestationConstitution.date.formatter(),
         },
-        dateDépôt: dateDépôt.formatter(),
+        dateDépôt:
+          isSome(agrégatDépôtGarantiesFinancières) && agrégatDépôtGarantiesFinancières.dateDépôt
+            ? agrégatDépôtGarantiesFinancières.dateDépôt.formatter()
+            : dateDépôt.formatter(),
       },
     };
 

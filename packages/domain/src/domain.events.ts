@@ -1,4 +1,7 @@
-import { DépôtGarantiesFinancièresEvent } from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.event';
+import {
+  DépôtGarantiesFinancièresEvent,
+  GarantiesFinancièresDéposéesV0,
+} from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.event';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.event';
 import {
   TypeGarantiesFinancièresEnregistréEventV0,
@@ -21,4 +24,5 @@ export {
   TypeGarantiesFinancièresEnregistréEventV0,
   AttestationGarantiesFinancièresEnregistréeEvent,
   DépôtGarantiesFinancièresEvent,
+  GarantiesFinancièresDéposéesV0,
 };

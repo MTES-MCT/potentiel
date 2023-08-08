@@ -6,7 +6,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   createDépôtGarantiesFinancièresAggregateId,
-} from '@potentiel/domain';
+ GarantiesFinancièresDéposéesV0 } from '@potentiel/domain';
 import { convertStringToReadable } from '../../helpers/convertStringToReadable';
 import { sleep } from '../../helpers/sleep';
 import { mediator } from 'mediateur';
@@ -14,7 +14,6 @@ import { publish } from '@potentiel/pg-event-sourcing';
 import { join } from 'path';
 import { extension } from 'mime-types';
 import { upload } from '@potentiel/file-storage';
-import { GarantiesFinancièresDéposéesV0 } from '@potentiel/domain/src/dépôtGarantiesFinancières/dépôtGarantiesFinancières.event';
 
 Quand(
   'un utilisateur avec le rôle {string} dépose des garanties financières pour le projet {string} avec :',

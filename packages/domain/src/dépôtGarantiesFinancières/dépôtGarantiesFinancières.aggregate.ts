@@ -21,11 +21,10 @@ const dépôtGarantiesFinancièresAggregateFactory: AggregateFactory<
           ...aggregate,
           dateDépôt: convertirEnDateTime(event.payload.dateDépôt),
           typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-          ...('dateÉchéance' in event.payload
-            ? {
-                dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
-              }
-            : undefined),
+          dateÉchéance:
+            'dateÉchéance' in event.payload
+              ? convertirEnDateTime(event.payload.dateÉchéance)
+              : undefined,
           attestationConstitution: {
             format: event.payload.attestationConstitution.format,
             date: convertirEnDateTime(event.payload.attestationConstitution.date),
@@ -38,11 +37,9 @@ const dépôtGarantiesFinancièresAggregateFactory: AggregateFactory<
           ...('typeGarantiesFinancières' in event.payload && {
             typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
           }),
-          ...(event.payload.dateÉchéance
-            ? {
-                dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
-              }
-            : undefined),
+          dateÉchéance: event.payload.dateÉchéance
+            ? convertirEnDateTime(event.payload.dateÉchéance)
+            : undefined,
           attestationConstitution: {
             format: event.payload.attestationConstitution.format,
             date: convertirEnDateTime(event.payload.attestationConstitution.date),

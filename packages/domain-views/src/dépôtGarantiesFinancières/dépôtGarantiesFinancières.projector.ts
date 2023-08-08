@@ -33,7 +33,19 @@ export const registerDépôtGarantiesFinancièresProjector = ({
       case 'GarantiesFinancièresDéposées-v1':
       case 'GarantiesFinancièresDéposées-v0':
         if (isSome(dépôtGarantiesFinancières)) {
-          // TO DO
+          await update<DépôtGarantiesFinancièresReadModel>(key, {
+            typeGarantiesFinancières:
+              'typeGarantiesFinancières' in event.payload
+                ? event.payload.typeGarantiesFinancières
+                : undefined,
+            dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
+            attestationConstitution: {
+              format: event.payload.attestationConstitution.format,
+              date: event.payload.attestationConstitution.date,
+            },
+            dateDépôt: event.payload.dateDépôt,
+          });
+          break;
         }
         await create<DépôtGarantiesFinancièresReadModel>(key, {
           typeGarantiesFinancières:

@@ -74,4 +74,24 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
     Exemples:
             | type                    |
             | consignation            |
-            | 6 mois après achèvement |      
+            | 6 mois après achèvement |
+@select
+    Scénario: Corriger un dépôt
+        Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | date d'échéance      | 2027-12-01                    |
+            | format               | application/pdf               |
+            | contenu fichier      | le contenu du fichier         |
+            | date de constitution | 2021-12-01                    |
+            | date de dépôt        | 2023-08-11                    |     
+        Quand un utilisateur avec le rôle 'porteur-projet' dépose des garanties financières pour le projet "Centrale éolienne 20" avec :
+            | type                 | consignation                  |
+            | format               | application/pdf               |
+            | contenu fichier      | le nouveau contenu du fichier |
+            | date de constitution | 2022-01-01                    |
+            | date de dépôt        | 2022-08-11                    |     
+        Alors le dépôt de garanties financières devrait être consultable pour le projet "Centrale éolienne 20" avec :   
+            | type                 | consignation                  |
+            | format               | application/pdf               |
+            | contenu fichier      | le nouveau contenu du fichier |
+            | date de constitution | 2022-01-01                    |
+            | date de dépôt        | 2023-08-11                    |            
