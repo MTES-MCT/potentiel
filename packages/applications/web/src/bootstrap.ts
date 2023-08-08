@@ -1,5 +1,5 @@
 import { setupDomain } from '@potentiel/domain';
-import { cleanSubscribers, loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -11,8 +11,9 @@ import {
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
- consumerSubscribe } from '@potentiel/infra-adapters';
-import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
+  récupérerDétailProjetAdapter,
+} from '@potentiel/infra-adapters';
+import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
@@ -20,10 +21,7 @@ import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 
 export type UnsetupApp = () => Promise<void>;
 
-export const bootstrap = async (legacy: {
-  projectRepository: LegacyProjectRepository;
-}): Promise<UnsetupApp> => {
-  await cleanSubscribers();
+export const bootstrap = async (): Promise<UnsetupApp> => {
   mediator.use<Message>({
     middlewares: [logMiddleware],
   });
@@ -51,8 +49,9 @@ export const bootstrap = async (legacy: {
       search: searchProjection,
       subscribe: consumerSubscribe,
       update: updateProjection,
-
-      legacy,
+    },
+    projet: {
+      récupérerDétailProjet: récupérerDétailProjetAdapter,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
