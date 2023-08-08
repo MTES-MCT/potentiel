@@ -110,7 +110,7 @@ export const ModifierDemandeComplèteRaccordement = ({
               name="file"
               fileUrl={
                 accuséRéception?.format
-                  ? routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(identifiantProjet)
+                  ? routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(identifiantProjet, référence)
                   : undefined
               }
             />

@@ -84,15 +84,18 @@ v1Router.post(
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
       let accuséRéception: AccuséRéceptionDemandeComplèteRaccordement;
+      console.log;
       if (!file) {
         const accuséRéceptionActuel =
           await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
             type: 'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
             data: {
-              identifiantProjet: identifiantProjetValueType,
-              référenceDossierRaccordement: referenceDossierRaccordement,
+              identifiantProjet: identifiantProjet,
+              référenceDossierRaccordement: reference,
             },
           });
+
+        console.log(accuséRéceptionActuel);
 
         if (isNone(accuséRéceptionActuel)) {
           return response.redirect(
