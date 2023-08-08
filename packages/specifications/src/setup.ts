@@ -5,8 +5,9 @@ import {
   After,
   BeforeAll,
   setDefaultTimeout,
+  AfterAll,
 } from '@cucumber/cucumber';
-import { executeQuery } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -35,7 +36,6 @@ BeforeAll(async () => {
   process.env.S3_BUCKET = bucketName;
   process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
-  process.env.LOGGER_LEVEL = 'debug';
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
@@ -79,4 +79,8 @@ After(async () => {
   if (unsetupApp) {
     await unsetupApp();
   }
+});
+
+AfterAll(async () => {
+  await killPool();
 });

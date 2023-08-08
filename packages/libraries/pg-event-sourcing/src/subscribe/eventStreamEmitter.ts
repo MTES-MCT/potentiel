@@ -16,13 +16,10 @@ export class EventStreamEmitter extends EventEmitter {
     this.#name = name;
   }
 
-  connect() {
+  async connect() {
     return new Promise<void>((resolve, reject) => {
       this.#client.connect((err) => {
         if (!err) {
-          this.#client.on('notification', (notification) => {
-            this.emit(notification.channel, notification.payload);
-          });
           resolve();
         } else {
           reject(err);
@@ -66,6 +63,10 @@ export class EventStreamEmitter extends EventEmitter {
     };
 
     this.on(this.#name, listener);
+
+    this.#client.on('notification', (notification) => {
+      this.emit(notification.channel, notification.payload);
+    });
 
     await this.#client.query(`listen ${this.#name}`);
   }
