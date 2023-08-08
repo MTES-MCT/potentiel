@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../projet/projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-//import { verifyGarantiesFinancièresTypeForCommand } from '../projet/garantiesFinancières/verifyGarantiesFinancièresTypeForCommand';
+import { verifyGarantiesFinancièresTypeForCommand } from '../projet/garantiesFinancières/verifyGarantiesFinancièresTypeForCommand';
 import { verifyGarantiesFinancièresAttestationForCommand } from '../projet/garantiesFinancières/verifyGarantiesFinancièresAttestationForCommand';
 import {
   AttestationConstitution,
@@ -11,7 +11,7 @@ import {
 import { DateTimeValueType, Utilisateur } from '../domain.valueType';
 import {
   createDépôtGarantiesFinancièresAggregateId,
-  //loadDépôtGarantiesFinancièresAggregateFactory,
+  loadDépôtGarantiesFinancièresAggregateFactory,
 } from './dépôtGarantiesFinancières.aggregate';
 import { GarantiesFinancièresDéposéesV1 } from './dépôtGarantiesFinancières.event';
 import { TéléverserFichierPort } from '../common.ports';
@@ -37,9 +37,9 @@ export const registerDéposerGarantiesFinancièresCommand = ({
   loadAggregate,
   téléverserFichier,
 }: DéposerGarantiesFinancièresDependencies) => {
-  // const loadDépôtGarantiesFinancières = loadDépôtGarantiesFinancièresAggregateFactory({
-  //   loadAggregate,
-  // });
+  const loadDépôtGarantiesFinancières = loadDépôtGarantiesFinancièresAggregateFactory({
+    loadAggregate,
+  });
 
   const handler: MessageHandler<DéposerGarantiesFinancièresCommand> = async ({
     identifiantProjet,
@@ -49,14 +49,9 @@ export const registerDéposerGarantiesFinancièresCommand = ({
     dateDépôt,
     utilisateur,
   }) => {
-    // const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
+    const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
 
-    // verifyGarantiesFinancièresTypeForCommand(
-    //   typeGarantiesFinancières,
-    //   dateÉchéance,
-    //   utilisateur,
-    //   agrégatProjet,
-    // );
+    verifyGarantiesFinancièresTypeForCommand(typeGarantiesFinancières, dateÉchéance, utilisateur);
 
     verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);
 
