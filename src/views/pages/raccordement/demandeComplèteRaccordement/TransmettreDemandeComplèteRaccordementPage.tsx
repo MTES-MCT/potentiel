@@ -11,6 +11,7 @@ import {
   PageProjetTemplate,
   Form,
   LabelDescription,
+  InputFile,
 } from '@components';
 import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
@@ -113,7 +114,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
             <Label htmlFor="file">
               Accusé de réception de la demande complète de raccordement **
             </Label>
-            <Input type="file" id="file" name="file" required />
+            <InputFile id="file" name="file" required />
           </div>
           <div>
             <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>

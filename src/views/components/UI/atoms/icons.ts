@@ -47,3 +47,4 @@ export { RiUploadCloudLine as ImportIcon } from 'react-icons/ri';
 export { RiSaveLine as SaveIcon } from 'react-icons/ri';
 export { RiAccountCircleLine as AccountIcon } from 'react-icons/ri';
 export { RiDashboardLine as DashboardIcon } from 'react-icons/ri';
+export { RiAddCircleLine as AddIcon } from 'react-icons/ri';
