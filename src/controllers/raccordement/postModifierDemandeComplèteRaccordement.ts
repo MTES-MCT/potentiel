@@ -27,7 +27,7 @@ import { logger } from '@core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { DomainError } from '@potentiel/core-domain';
 import { isNone, isSome } from '@potentiel/monads';
-import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from 'packages/domain-views/dist';
+import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
