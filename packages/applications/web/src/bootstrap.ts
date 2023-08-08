@@ -1,5 +1,5 @@
 import { setupDomain } from '@potentiel/domain';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import { cleanSubscribers, loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -9,13 +9,10 @@ import {
   updateProjection,
 } from '@potentiel/pg-projections';
 import {
-  consumerSubscribe,
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
-import { publishToEventBus } from '@potentiel/redis-event-bus-client';
-import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
 
@@ -24,6 +21,7 @@ export type UnsetupApp = () => Promise<void>;
 export const bootstrap = async (legacy: {
   projectRepository: LegacyProjectRepository;
 }): Promise<UnsetupApp> => {
+  await cleanSubscribers();
   mediator.use<Message>({
     middlewares: [logMiddleware],
   });
@@ -32,7 +30,7 @@ export const bootstrap = async (legacy: {
     common: {
       loadAggregate,
       publish,
-      subscribe: consumerSubscribe,
+      subscribe,
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
@@ -49,7 +47,7 @@ export const bootstrap = async (legacy: {
       list: listProjection,
       remove: removeProjection,
       search: searchProjection,
-      subscribe: consumerSubscribe,
+      subscribe,
       update: updateProjection,
       legacy,
     },
@@ -60,14 +58,8 @@ export const bootstrap = async (legacy: {
     },
   });
 
-  const unsubscribePublishAll = await subscribe('all', async (event) => {
-    await publishToEventBus(event.type, event);
-  });
-
   return async () => {
     await unsetupDomain();
     await unsetupDomainViews();
-    await unsubscribePublishAll();
-    consumerPool.kill();
   };
 };

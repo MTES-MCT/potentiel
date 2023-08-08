@@ -7,29 +7,13 @@ import {
   setDefaultTimeout,
   AfterAll,
 } from '@cucumber/cucumber';
-import { executeQuery } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
+import { bootstrap, UnsetupApp } from '@potentiel/web';
 import { clear } from 'mediateur';
-import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
-import { disconnectRedis } from '@potentiel/redis-event-bus-consumer';
-import { UnsetupDomain, setupDomain } from '@potentiel/domain';
-import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
-import {
-  téléverserFichierDossierRaccordementAdapter,
-  téléchargerFichierDossierRaccordementAdapter,
-} from '@potentiel/infra-adapters';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
-import {
-  createProjection,
-  findProjection,
-  listProjection,
-  removeProjection,
-  searchProjection,
-  updateProjection,
-} from '@potentiel/pg-projections';
 
 should();
 
@@ -39,8 +23,7 @@ setDefaultTimeout(5000);
 
 const bucketName = 'potentiel';
 
-let unsetupDomain: UnsetupDomain | undefined;
-let unsetupDomainViews: UnsetupDomainViews | undefined;
+let unsetupApp: UnsetupApp | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
@@ -66,38 +49,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   await executeQuery(`insert into event_store.subscriber values($1)`, 'new_event');
 
-  unsetupDomain = await setupDomain({
-    common: {
-      loadAggregate,
-      publish,
-      subscribe,
-    },
-    raccordement: {
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
-        téléverserFichierDossierRaccordementAdapter,
-      enregistrerPropositionTechniqueEtFinancièreSignée:
-        téléverserFichierDossierRaccordementAdapter,
-    },
-  });
-
-  unsetupDomainViews = await setupDomainViews({
-    common: {
-      create: createProjection,
-      find: findProjection,
-      list: listProjection,
-      remove: removeProjection,
-      search: searchProjection,
-      subscribe,
-      update: updateProjection,
-      legacy: {
-        projectRepository: legacyProjectRepository,
-      },
-    },
-    raccordement: {
-      récupérerAccuséRéceptionDemandeComplèteRaccordement:
-        téléchargerFichierDossierRaccordementAdapter,
-      récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
-    },
+  unsetupApp = await bootstrap({
+    projectRepository: { findOne: async () => ({} as any) }, // TODO : Cette dependance ne devrait pas être là
   });
 });
 
@@ -123,17 +76,11 @@ After(async () => {
     })
     .promise();
 
-  if (unsetupDomain) {
-    await unsetupDomain();
+  if (unsetupApp) {
+    await unsetupApp();
   }
-  unsetupDomain = undefined;
-
-  if (unsetupDomainViews) {
-    await unsetupDomainViews();
-  }
-  unsetupDomainViews = undefined;
 });
 
-AfterAll(() => {
-  disconnectRedis();
+AfterAll(async () => {
+  await killPool();
 });

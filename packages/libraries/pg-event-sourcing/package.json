@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@potentiel/core-domain": "^0.0.0",
+    "@potentiel/monitoring": "*",
     "@potentiel/monads": "^0.0.0",
     "@potentiel/pg-helpers": "^0.0.0"
   },

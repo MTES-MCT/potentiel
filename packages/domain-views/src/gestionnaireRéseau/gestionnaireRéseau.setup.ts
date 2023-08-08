@@ -35,14 +35,15 @@ export const setupGestionnaireRéseauViews = async (
   // Subscribes
   const { subscribe } = dependencies;
   return [
-    await subscribe<GestionnaireRéseauEvent>(
-      ['GestionnaireRéseauAjouté', 'GestionnaireRéseauModifié'],
-      async (event: GestionnaireRéseauEvent) => {
+    await subscribe<GestionnaireRéseauEvent>({
+      name: 'gestionnaire_reseau_projector',
+      eventType: ['GestionnaireRéseauAjouté', 'GestionnaireRéseauModifié'],
+      eventHandler: async (event: GestionnaireRéseauEvent) => {
         await mediator.publish<ExecuteGestionnaireRéseauProjector>({
           type: 'EXECUTE_GESTIONNAIRE_RÉSEAU_PROJECTOR',
           data: event,
         });
       },
-    ),
+    }),
   ];
 };

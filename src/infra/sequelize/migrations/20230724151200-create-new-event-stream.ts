@@ -4,11 +4,17 @@ import { join } from 'path';
 
 export default {
   up: async (queryInterface: QueryInterface) => {
-    await executeScript(queryInterface, 'app.sql');
+    await executeScript(queryInterface, 'event-store.sql');
     await executeScript(queryInterface, 'system.sql');
-    await executeScript(queryInterface, 'analytic.sql');
+
+    if (process.env.NODE_ENV === 'test') {
+      await queryInterface.sequelize.query(
+        `drop rule prevent_delete_on_event_stream on event_store.event_stream`,
+      );
+    }
   },
 };
+
 async function executeScript(queryInterface: QueryInterface, scriptName: string) {
   const sql = await readFile(
     join(
@@ -21,7 +27,7 @@ async function executeScript(queryInterface: QueryInterface, scriptName: string)
       '..',
       'packages',
       'libraries',
-      'pg-projections',
+      'pg-event-sourcing',
       'sql',
       scriptName,
     ),
