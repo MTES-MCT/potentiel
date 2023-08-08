@@ -7,8 +7,7 @@ import {
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone, none } from '@potentiel/monads';
 
-import { Find } from '../../common.port';
-import { TéléchargerDépôtAttestationGarantiesFinancièresPort } from '../dépôtGarantiesFinancières.ports';
+import { Find, TéléchargerFichierPort } from '../../common.port';
 import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
@@ -25,7 +24,7 @@ export type ConsulterFichierDépôtAttestationGarantiesFinancièreQuery = Messag
 
 export type ConsulterFichierdépôtAttestationGarantiesFinancièresDependencies = {
   find: Find;
-  téléchargerFichier: TéléchargerDépôtAttestationGarantiesFinancièresPort;
+  téléchargerFichier: TéléchargerFichierPort;
 };
 
 export const registerConsulterFichierDépôtAttestationGarantiesFinancièresQuery = ({
@@ -51,7 +50,7 @@ export const registerConsulterFichierDépôtAttestationGarantiesFinancièresQuer
     }
 
     const content = await téléchargerFichier({
-      type: 'dépôt-attestation-constitution-garanties-Financieres',
+      type: 'depot-attestation-constitution-garanties-financieres',
       identifiantProjet: rawIdentifiantProjet,
       format: dépôtGarantiesFinancières.attestationConstitution.format,
     });
