@@ -1,6 +1,8 @@
 import { Readable } from 'stream';
 
-export type TypeFichier = 'depot-attestation-constitution-garanties-financieres';
+export type TypeFichier =
+  | 'depot-attestation-constitution-garanties-financieres'
+  | 'attestation-constitution-garanties-financieres';
 
 export type TéléverserFichierPort = (data: {
   type: TypeFichier;

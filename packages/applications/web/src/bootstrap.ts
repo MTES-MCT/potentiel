@@ -12,8 +12,6 @@ import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
   consumerSubscribe,
-  téléverserFichierAttestationGarantiesFinancièresAdapter,
-  téléchargerFichierAttestationGarantiesFinancièresAdapter,
   téléchargerFichierAdapter,
   téléverserFichierAdapter,
 } from '@potentiel/infra-adapters';
@@ -45,7 +43,7 @@ export const bootstrap = async (legacy: {
       enregistrerPropositionTechniqueEtFinancièreSignée:
         téléverserFichierDossierRaccordementAdapter,
     },
-    projet: { téléverserFichier: téléverserFichierAttestationGarantiesFinancièresAdapter },
+    projet: { téléverserFichier: téléverserFichierAdapter },
     dépôtGarantiesFinancières: { téléverserFichier: téléverserFichierAdapter },
   });
 
@@ -67,7 +65,7 @@ export const bootstrap = async (legacy: {
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
     },
     garantiesFinancières: {
-      téléchargerFichier: téléchargerFichierAttestationGarantiesFinancièresAdapter,
+      téléchargerFichier: téléchargerFichierAdapter,
     },
     dépôtGarantiesFinancières: {
       téléchargerFichier: téléchargerFichierAdapter,

@@ -111,7 +111,7 @@ Alors(
       throw new Error('attestation garanties financières non trouvée');
     }
 
-    expect(résultat.type).to.deep.equal('attestation-constitution-garanties-Financieres');
+    expect(résultat.type).to.deep.equal('attestation-constitution-garanties-financieres');
     expect(résultat.format).to.deep.equal(format);
     expect(await convertReadableToString(résultat.content)).to.deep.equal(contenu);
   },
