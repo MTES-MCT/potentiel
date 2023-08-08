@@ -1,5 +1,4 @@
 #Language: fr-FR
-@select
 Fonctionnalité: Enregistrer des garanties financières validées
     Contexte: 
         Etant donné le projet "Centrale éolienne 20"

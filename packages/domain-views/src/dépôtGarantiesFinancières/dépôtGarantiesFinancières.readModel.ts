@@ -16,6 +16,6 @@ export type DépôtGarantiesFinancièresReadModel = ReadModel<
 >;
 
 export type FichierDépôtAttestationGarantiesFinancièresReadModel = ReadModel<
-  'dépôt-attestation-constitution-garanties-Financieres',
+  'depot-attestation-constitution-garanties-financieres',
   { format: string; content: Readable }
 >;

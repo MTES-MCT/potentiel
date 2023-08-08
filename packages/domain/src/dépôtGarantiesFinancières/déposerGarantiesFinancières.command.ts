@@ -8,7 +8,7 @@ import {
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
 } from '../projet/garantiesFinancières/garantiesFinancières.valueType';
-import { Utilisateur } from '../domain.valueType';
+import { DateTimeValueType, Utilisateur } from '../domain.valueType';
 import {
   createDépôtGarantiesFinancièresAggregateId,
   //loadDépôtGarantiesFinancièresAggregateFactory,
@@ -22,6 +22,7 @@ export type DéposerGarantiesFinancièresCommand = Message<
     identifiantProjet: IdentifiantProjetValueType;
     attestationConstitution: AttestationConstitution;
     utilisateur: Utilisateur;
+    dateDépôt: DateTimeValueType;
   } & TypeEtDateÉchéance
 >;
 
@@ -45,6 +46,7 @@ export const registerDéposerGarantiesFinancièresCommand = ({
     typeGarantiesFinancières,
     dateÉchéance,
     attestationConstitution,
+    dateDépôt,
     utilisateur,
   }) => {
     // const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
@@ -79,7 +81,7 @@ export const registerDéposerGarantiesFinancièresCommand = ({
           format: attestationConstitution.format,
           date: attestationConstitution.date.formatter(),
         },
-        dateDépôt: new Date().toISOString(),
+        dateDépôt: dateDépôt.formatter(),
       },
     };
 

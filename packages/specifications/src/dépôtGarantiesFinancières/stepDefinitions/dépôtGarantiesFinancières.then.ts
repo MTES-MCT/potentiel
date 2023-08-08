@@ -15,7 +15,7 @@ import { mediator } from 'mediateur';
 import { convertReadableToString } from '../../helpers/convertReadableToString';
 
 Alors(
-  'les garanties financières devraient être consultables pour le projet {string} avec :',
+  'le dépôt de garanties financières devrait être consultable pour le projet {string} avec :',
   async function (nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
@@ -24,6 +24,7 @@ Alors(
     const format = exemple['format'];
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
+    const dateDépôt = exemple['date de dépôt'];
 
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
@@ -33,7 +34,7 @@ Alors(
       typeGarantiesFinancières,
       ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
       attestationConstitution: { format, date: convertirEnDateTime(dateConstitution) },
-      dateDépôt: new Date().toISOString(),
+      dateDépôt: convertirEnDateTime(dateDépôt),
     };
 
     const actualAggregate = await loadDépôtGarantiesFinancièresAggregateFactory({
@@ -44,16 +45,34 @@ Alors(
       throw new Error(`L'agrégat n'existe pas !`);
     }
 
-    expect(actualAggregate).to.be.deep.equal(expectedAggregate);
+    expect(actualAggregate.attestationConstitution?.format).to.be.deep.equal(
+      expectedAggregate.attestationConstitution?.format,
+    );
+
+    expect(actualAggregate.attestationConstitution?.date.date.getTime()).to.be.deep.equal(
+      expectedAggregate.attestationConstitution.date.date.getTime(),
+    );
+
+    expect(actualAggregate.dateDépôt?.date.getTime()).to.be.deep.equal(
+      expectedAggregate.dateDépôt.date.getTime(),
+    );
+
+    expect(actualAggregate.typeGarantiesFinancières).to.be.deep.equal(
+      expectedAggregate.typeGarantiesFinancières,
+    );
+
+    expect(actualAggregate.dateÉchéance?.date.getTime()).to.be.deep.equal(
+      expectedAggregate.dateÉchéance?.date.getTime(),
+    );
 
     // ASSERT ON READ MODEL
 
     const expectedReadModel = {
-      type: 'garanties-financières',
+      type: 'dépôt-garanties-financières',
       typeGarantiesFinancières,
       ...(dateÉchéance && { dateÉchéance: new Date(dateÉchéance).toISOString() }),
       attestationConstitution: { format, date: new Date(dateConstitution).toISOString() },
-      dateDépôt: new Date().toISOString(),
+      dateDépôt: new Date(dateDépôt).toISOString(),
     };
 
     const actuelRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
@@ -83,7 +102,7 @@ Alors(
       throw new Error('dépôt attestation garanties financières non trouvé');
     }
 
-    expect(actualFile.type).to.deep.equal('dépôt-attestation-constitution-garanties-Financieres');
+    expect(actualFile.type).to.deep.equal('depot-attestation-constitution-garanties-financieres');
     expect(actualFile.format).to.deep.equal(format);
     expect(await convertReadableToString(actualFile.content)).to.deep.equal(contenu);
   },

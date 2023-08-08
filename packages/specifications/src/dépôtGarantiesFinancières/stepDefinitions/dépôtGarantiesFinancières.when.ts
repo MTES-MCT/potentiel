@@ -21,6 +21,7 @@ Quand(
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];
       const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+      const dateDépôt = exemple['date de dépôt'];
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
@@ -36,6 +37,7 @@ Quand(
           ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
           utilisateur: { rôle } as Utilisateur,
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+          dateDépôt: convertirEnDateTime(dateDépôt),
         },
       });
       await sleep(500);

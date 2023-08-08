@@ -60,7 +60,7 @@ export const registerConsulterFichierDépôtAttestationGarantiesFinancièresQuer
     }
 
     return {
-      type: 'dépôt-attestation-constitution-garanties-Financieres',
+      type: 'depot-attestation-constitution-garanties-financieres',
       format: dépôtGarantiesFinancières.attestationConstitution.format,
       content: content,
     } satisfies FichierDépôtAttestationGarantiesFinancièresReadModel;
