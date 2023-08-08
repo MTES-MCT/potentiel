@@ -9,7 +9,7 @@ export type DépôtGarantiesFinancièresReadModel = ReadModel<
   'dépôt-garanties-financières',
   {
     attestationConstitution: { format: string; date: string };
-    typeGarantiesFinancières: `avec date d'échéance` | 'consignation' | `6 mois après achèvement`;
+    typeGarantiesFinancières?: `avec date d'échéance` | 'consignation' | `6 mois après achèvement`;
     dateÉchéance?: string;
     dateDépôt: string;
   }

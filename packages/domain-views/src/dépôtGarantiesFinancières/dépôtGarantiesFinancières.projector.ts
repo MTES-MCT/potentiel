@@ -30,18 +30,17 @@ export const registerDépôtGarantiesFinancièresProjector = ({
     const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(key);
 
     switch (event.type) {
-      case 'GarantiesFinancièresDéposées-v0':
-        // Dépôt GF legacy
-        break;
       case 'GarantiesFinancièresDéposées-v1':
+      case 'GarantiesFinancièresDéposées-v0':
         if (isSome(dépôtGarantiesFinancières)) {
           // TO DO
         }
         await create<DépôtGarantiesFinancièresReadModel>(key, {
-          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-          ...('dateÉchéance' in event.payload && {
-            dateÉchéance: event.payload.dateÉchéance,
-          }),
+          typeGarantiesFinancières:
+            'typeGarantiesFinancières' in event.payload
+              ? event.payload.typeGarantiesFinancières
+              : undefined,
+          dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
           attestationConstitution: {
             format: event.payload.attestationConstitution.format,
             date: event.payload.attestationConstitution.date,

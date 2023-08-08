@@ -69,24 +69,24 @@ Alors(
 
     const expectedReadModel = {
       type: 'dépôt-garanties-financières',
-      typeGarantiesFinancières,
+      ...(typeGarantiesFinancières && { typeGarantiesFinancières }),
       ...(dateÉchéance && { dateÉchéance: new Date(dateÉchéance).toISOString() }),
       attestationConstitution: { format, date: new Date(dateConstitution).toISOString() },
       dateDépôt: new Date(dateDépôt).toISOString(),
     };
 
-    const actuelRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
+    const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
       type: 'CONSULTER_DÉPÔT_GARANTIES_FINANCIÈRES',
       data: {
         identifiantProjet,
       },
     });
 
-    if (isNone(actuelRealModel)) {
-      throw new Error('dépôt garanties financières non trouvées');
+    if (isNone(actualRealModel)) {
+      throw new Error('dépôt garanties financières non trouvé (readmodel)');
     }
 
-    expect(actuelRealModel).to.deep.equal(expectedReadModel);
+    expect(actualRealModel).to.deep.equal(expectedReadModel);
 
     // ASSERT ON FILE
 
@@ -99,7 +99,7 @@ Alors(
       });
 
     if (isNone(actualFile)) {
-      throw new Error('dépôt attestation garanties financières non trouvé');
+      throw new Error('fichier dépôt attestation garanties financières non trouvé');
     }
 
     expect(actualFile.type).to.deep.equal('depot-attestation-constitution-garanties-financieres');
