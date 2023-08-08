@@ -12,7 +12,7 @@ import {
 } from './dépôtGarantiesFinancières.projector';
 import {
   ConsulterFichierdépôtAttestationGarantiesFinancièresDependencies,
-  registerConsulterFichierDépôtAttestationGarantiesFinancièresQuery as registerConsulterFichierDépôtAttestationGarantiesFinancièresQuery,
+  registerConsulterFichierDépôtAttestationGarantiesFinancièresQuery,
 } from './consulter/consulterFichierDépôtAttestationGarantiesFinancières.query';
 
 // Setup
@@ -36,7 +36,7 @@ export const setupDépôtGarantiesFinancièreViews = async (
   const { subscribe } = dependencies;
   return [
     await subscribe<DépôtGarantiesFinancièresEvent>(
-      ['DépôtGarantiesFinancièresTransmis-v0', 'DépôtGarantiesFinancièresTransmis-v1'],
+      ['GarantiesFinancièresDéposées-v0', 'GarantiesFinancièresDéposées-v1'],
       async (event: DépôtGarantiesFinancièresEvent) => {
         await mediator.publish<ExecuteDépôtGarantiesFinancièresProjector>({
           type: 'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',

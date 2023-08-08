@@ -16,7 +16,7 @@ const dépôtGarantiesFinancièresAggregateFactory: AggregateFactory<
 > = (events) =>
   events.reduce((aggregate, event) => {
     switch (event.type) {
-      case 'DépôtGarantiesFinancièresTransmis-v1':
+      case 'GarantiesFinancièresDéposées-v1':
         return {
           ...aggregate,
           dateDépôt: convertirEnDateTime(event.payload.dateDépôt),
@@ -31,7 +31,7 @@ const dépôtGarantiesFinancièresAggregateFactory: AggregateFactory<
             date: convertirEnDateTime(event.payload.attestationConstitution.date),
           },
         };
-      case 'DépôtGarantiesFinancièresTransmis-v0':
+      case 'GarantiesFinancièresDéposées-v0':
         return {
           ...aggregate,
           dateDépôt: convertirEnDateTime(event.payload.dateDépôt),

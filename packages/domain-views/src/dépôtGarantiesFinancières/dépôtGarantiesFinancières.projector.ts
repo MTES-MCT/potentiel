@@ -30,10 +30,10 @@ export const registerDépôtGarantiesFinancièresProjector = ({
     const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(key);
 
     switch (event.type) {
-      case 'DépôtGarantiesFinancièresTransmis-v0':
+      case 'GarantiesFinancièresDéposées-v0':
         // Dépôt GF legacy
         break;
-      case 'DépôtGarantiesFinancièresTransmis-v1':
+      case 'GarantiesFinancièresDéposées-v1':
         if (isSome(dépôtGarantiesFinancières)) {
           // TO DO
         }
