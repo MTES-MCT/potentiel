@@ -39,18 +39,20 @@ v1Router.get(
       });
     }
 
-    if (user.role === 'dreal') {
-      const authority = await getModificationRequestAuthority(modificationRequestId);
-
-      if (authority && authority !== user.role) {
-        return unauthorizedResponse({ request, response });
-      }
-    }
+    const authority = await getModificationRequestAuthority(modificationRequestId);
 
     const modificationRequestResult = await getModificationRequestDetails(modificationRequestId);
 
     return modificationRequestResult.match(
       (modificationRequest) => {
+        if (
+          user?.role === 'dreal' &&
+          authority !== 'dreal' &&
+          modificationRequest.type !== 'abandon'
+        ) {
+          return unauthorizedResponse({ request, response });
+        }
+
         if (modificationRequest.type === 'abandon') {
           return response.send(DemandeAbandonPage({ request, modificationRequest }));
         }
