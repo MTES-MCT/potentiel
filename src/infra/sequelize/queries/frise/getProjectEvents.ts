@@ -723,6 +723,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         'dgec-validateur',
                         'cre',
                         'acheteur-obligé',
+                        'dreal',
                       ])(user) && {
                         demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                       }),
