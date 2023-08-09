@@ -9,7 +9,7 @@ import { SendEmailProps } from '@modules/notification';
 const sentEmails: Array<SendEmailProps> = []; // For testing purposes only
 
 function fakeSendEmail(props: SendEmailProps): ResultAsync<null, Error> {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.APPLICATION_STAGE === 'test') {
     // Register the sent email but don't send it for real
     sentEmails.push(props);
     return okAsync(null);

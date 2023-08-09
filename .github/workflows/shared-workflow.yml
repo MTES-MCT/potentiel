@@ -19,7 +19,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: test
+      APPLICATION_STAGE: test
       NODE_OPTIONS: '--max_old_space_size=4096'
 
     steps:
@@ -34,7 +34,7 @@ jobs:
   specifications:
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: test
+      APPLICATION_STAGE: test
 
     steps:
       - uses: actions/checkout@v3
@@ -48,7 +48,7 @@ jobs:
   test-legacy:
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: test
+      APPLICATION_STAGE: test
       POTENTIEL_IDENTIFIER_SECRET: potentiel
 
     steps:

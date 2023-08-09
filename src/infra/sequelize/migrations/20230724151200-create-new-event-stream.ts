@@ -7,7 +7,7 @@ export default {
     await executeScript(queryInterface, 'event-store.sql');
     await executeScript(queryInterface, 'system.sql');
 
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env.APPLICATION_STAGE === 'test') {
       await queryInterface.sequelize.query(
         `drop rule prevent_delete_on_event_stream on event_store.event_stream`,
       );
