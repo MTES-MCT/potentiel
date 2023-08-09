@@ -19,8 +19,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      APPLICATION_STAGE: test
-      NODE_OPTIONS: '--max_old_space_size=4096'
+      APPLICATION_STAGE: production
+      NODE_ENV: production
 
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
-      - run: npm ci
+      - run: npm ci --include=dev
       - run: npm run build
 
   specifications:
