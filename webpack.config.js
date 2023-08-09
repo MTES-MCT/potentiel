@@ -30,10 +30,7 @@ const pageEntries = glob
   );
 
 module.exports = {
-  mode:
-    process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging'
-      ? 'production'
-      : 'development',
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
     ...pageEntries,
     shared: ['react', 'react-dom', 'moment', 'moment-timezone'],
