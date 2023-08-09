@@ -75,6 +75,8 @@ class routes {
   static GET_CRE_STATISTIQUES = '/cre/statistiques.html';
 
   static PROJECT_DETAILS = (projectId?: Project['id'] | RawIdentifiantProjet) => {
+    console.log(projectId);
+    console.log(typeof projectId);
     const route = '/projet/:projectId/details.html';
     if (projectId) {
       return route.replace(':projectId', encodeURIComponent(projectId));

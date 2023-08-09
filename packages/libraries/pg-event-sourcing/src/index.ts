@@ -4,4 +4,4 @@ export { loadFromStream } from './load/loadFromStream';
 export { publish } from './publish/publish';
 export { subscribe } from './subscribe/subscribe';
 export { oldSubscribe } from './subscribe/oldSubscribe';
-export { deleteAllSubscribers as cleanSubscribers } from './subscribe/deleteAllSubscribers';
+export { deleteAllSubscribers } from './subscribe/deleteAllSubscribers';

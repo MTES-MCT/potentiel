@@ -1,5 +1,5 @@
 import { setupDomain } from '@potentiel/domain';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish, subscribe , deleteAllSubscribers } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -22,6 +22,7 @@ import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
+  await deleteAllSubscribers();
   mediator.use<Message>({
     middlewares: [logMiddleware],
   });

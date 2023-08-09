@@ -14,12 +14,12 @@ import {
 } from '@components';
 import { hydrateOnClient } from '../../../helpers';
 import routes from '@routes';
-import { ConsulterProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
 };

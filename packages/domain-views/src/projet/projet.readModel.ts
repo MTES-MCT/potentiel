@@ -8,6 +8,8 @@ type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 export type ProjetReadModel = ReadModel<
   'projet',
   {
+    id: string;
+    identifiantProjet: RawIdentifiantProjet;
     appelOffre: string;
     période: string;
     famille: string;
