@@ -3,7 +3,6 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
-  DownloadLink,
   ErrorBox,
   Heading2,
   InfoBox,
@@ -12,6 +11,7 @@ import {
   Link,
   PageProjetTemplate,
   Form,
+  InputFile,
 } from '@components';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
 import routes from '@routes';
@@ -54,17 +54,18 @@ export const ModifierPropositionTechniqueEtFinancière = ({
 
           <div>
             <Label htmlFor="file">Proposition technique et financière signée</Label>
-            <Input type="file" id="file" name="file" required />
-            {propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée?.format && (
-              <DownloadLink
-                fileUrl={routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
-                  identifiantProjet,
-                  référence,
-                )}
-              >
-                Proposition technique et financière signée
-              </DownloadLink>
-            )}
+            <InputFile
+              id="file"
+              name="file"
+              fileUrl={
+                propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.format
+                  ? routes.GET_PROPOSITION_TECHNIQUE_ET_FINANCIERE_FILE(
+                      identifiantProjet,
+                      référence,
+                    )
+                  : undefined
+              }
+            />
           </div>
           <div>
             <Label htmlFor="dateSignature">Date de signature</Label>

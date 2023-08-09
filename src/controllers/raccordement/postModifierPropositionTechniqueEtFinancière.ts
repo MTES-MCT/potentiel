@@ -1,6 +1,7 @@
 import {
   DomainUseCase,
   PermissionTransmettrePropositionTechniqueEtFinancière,
+  PropositionTechniqueEtFinancièreSignée,
   RawIdentifiantProjet,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
@@ -25,8 +26,9 @@ import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
 
 import { mediator } from 'mediateur';
-import { isSome } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import { DomainError } from '@potentiel/core-domain';
+import { ConsulterPropositionTechniqueEtFinancièreSignéeQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
@@ -77,18 +79,39 @@ v1Router.post(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      if (!file) {
-        return response.redirect(
-          addQueryParams(
-            routes.GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(identifiantProjet),
-            {
-              error: `Vous devez joindre la proposition technique et financière`,
-            },
-          ),
-        );
-      }
-
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+
+      let propositionTechniqueEtFinancièreSignée: PropositionTechniqueEtFinancièreSignée;
+      console.log;
+      if (!file) {
+        const propositionTechniqueEtFinancièreSignéeActuelle =
+          await mediator.send<ConsulterPropositionTechniqueEtFinancièreSignéeQuery>({
+            type: 'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
+            data: {
+              identifiantProjet: identifiantProjet,
+              référenceDossierRaccordement: reference,
+            },
+          });
+
+        console.log(propositionTechniqueEtFinancièreSignéeActuelle);
+
+        if (isNone(propositionTechniqueEtFinancièreSignéeActuelle)) {
+          return response.redirect(
+            addQueryParams(
+              routes.GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(identifiantProjet),
+              {
+                error: `Vous devez joindre la proposition technique et financière`,
+              },
+            ),
+          );
+        }
+        propositionTechniqueEtFinancièreSignée = propositionTechniqueEtFinancièreSignéeActuelle;
+      } else {
+        propositionTechniqueEtFinancièreSignée = {
+          format: file.mimetype,
+          content: createReadStream(file.path),
+        };
+      }
 
       const projet = await Project.findOne({
         where: {
@@ -131,10 +154,7 @@ v1Router.post(
             identifiantProjet: identifiantProjetValueType,
             référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
             dateSignature: convertirEnDateTime(dateSignature),
-            propositionTechniqueEtFinancièreSignée: {
-              format: file.mimetype,
-              content: createReadStream(file.path),
-            },
+            propositionTechniqueEtFinancièreSignée,
           },
         });
 
