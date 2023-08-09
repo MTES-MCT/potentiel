@@ -209,16 +209,24 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       await ModificationRequest.bulkCreate([
         {
+          // inside scope because of authority
           ...baseRequest,
           id: new UniqueEntityID().toString(),
           type: 'producteur',
           authority: 'dreal',
         },
         {
-          // outside of scope because of authority
+          // inside scope because of type
           ...baseRequest,
           id: new UniqueEntityID().toString(),
           type: 'abandon',
+          authority: 'dgec',
+        },
+        {
+          // outside of scope because of authority
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'recours',
           authority: 'dgec',
         },
         {
@@ -232,7 +240,9 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
       ]);
     });
 
-    it('should return all modification requests with authority of dreal in the user‘s region', async () => {
+    it(`should return all modification requests that match these constraints : 
+        - project in dreal user's region
+        - modification under dreal authority of type "abandon"`, async () => {
       const res = await getModificationRequestListForAdmin({
         user: fakeDreal,
         pagination: { page: 0, pageSize: 10 },
@@ -240,17 +250,23 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       expect(res.isOk()).toBe(true);
 
-      expect(res._unsafeUnwrap().itemCount).toEqual(1);
+      expect(res._unsafeUnwrap().itemCount).toEqual(2);
 
-      expect(
-        res
-          ._unsafeUnwrap()
-          .items.every(
-            (modificationRequest) =>
-              modificationRequest.type === 'producteur' &&
-              modificationRequest.project.regionProjet === 'Bretagne',
-          ),
-      ).toBe(true);
+      expect(res._unsafeUnwrap().items.length).toEqual(2);
+
+      expect(res._unsafeUnwrap().items[0]).toMatchObject({
+        authority: 'dreal',
+        status: 'envoyée',
+        type: 'producteur',
+        project: expect.objectContaining({ regionProjet: 'Bretagne' }),
+      });
+
+      expect(res._unsafeUnwrap().items[1]).toMatchObject({
+        authority: 'dgec',
+        status: 'envoyée',
+        type: 'abandon',
+        project: expect.objectContaining({ regionProjet: 'Bretagne' }),
+      });
     });
   });
 });
