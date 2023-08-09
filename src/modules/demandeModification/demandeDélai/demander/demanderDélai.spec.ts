@@ -1,14 +1,10 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { Project } from "../../../project";
+import { Project } from '../../../project';
 import { Repository } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
-import { FileObject } from "../../../file";
-import {
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  UnauthorizedError,
-} from "../../../shared";
+import { FileObject } from '../../../file';
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { makeDemanderDélai } from './demanderDelai';
 import { AppelOffreRepo } from '../../../../dataAccess/inMemory';
@@ -19,7 +15,7 @@ import {
   DemanderDateAchèvementAntérieureDateThéoriqueError,
   NouveauCahierDesChargesNonChoisiError,
 } from '.';
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' });

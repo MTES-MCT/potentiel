@@ -1,4 +1,4 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',

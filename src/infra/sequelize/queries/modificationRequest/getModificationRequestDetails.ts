@@ -5,12 +5,9 @@ import {
   ModificationRequestPageDTO,
 } from '../../../../modules/modificationRequest';
 import { EntityNotFoundError } from '../../../../modules/shared';
-import {
-  parseCahierDesChargesRéférence,
-  CahierDesChargesRéférence,
-  ProjectAppelOffre,
-} from '../../../../entities';
-import { ModificationRequest, Project, User, File } from "../..";
+import { parseCahierDesChargesRéférence, ProjectAppelOffre } from '../../../../entities';
+import { CahierDesChargesRéférence } from '@potentiel/domain-views';
+import { ModificationRequest, Project, User, File } from '../../../../infra/sequelize';
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
   modificationRequestId,

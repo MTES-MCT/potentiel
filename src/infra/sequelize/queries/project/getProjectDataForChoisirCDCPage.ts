@@ -1,9 +1,9 @@
 import { errAsync, okAsync, wrapInfra } from '../../../../core/utils';
 import { EntityNotFoundError } from '../../../../modules/shared';
 import { GetProjectDataForChoisirCDCPage } from '../../../../modules/project';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
-import { CahierDesChargesRéférence } from '../../../../entities';
+import { CahierDesChargesRéférence } from '@potentiel/domain-views';
 
 export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) =>
   wrapInfra(

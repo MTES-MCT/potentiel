@@ -1,19 +1,20 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, Repository } from '../../../core/domain';
 import { okAsync } from '../../../core/utils';
-import { makeUser, AppelOffre } from '../../../entities';
+import { makeUser } from '../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 import { Readable } from 'stream';
 import { UnwrapForTest } from '../../../types';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { FileObject } from '../../file';
 import { Project } from '../../project';
-import { InfraNotAvailableError, UnauthorizedError } from "../../shared";
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { makeChangerProducteur } from './changerProducteur';
 import { AppelOffreRepo } from '../../../dataAccess/inMemory';
 import { ModificationReceived } from '../events';
-import { NouveauCahierDesChargesNonChoisiError } from "../../demandeModification";
-import { ToutAccèsAuProjetRevoqué } from "../../authZ";
+import { NouveauCahierDesChargesNonChoisiError } from '../../demandeModification';
+import { ToutAccèsAuProjetRevoqué } from '../../authZ';
 
 describe('Commande changerProducteur', () => {
   const shouldUserAccessProject = jest.fn(async () => true);

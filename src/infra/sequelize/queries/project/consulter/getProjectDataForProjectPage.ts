@@ -11,14 +11,10 @@ import {
   User as UserModel,
   UserProjects,
   File,
-} from "../../../projectionsNext";
-import {
-  CahierDesCharges,
-  parseCahierDesChargesRéférence,
-  ProjectAppelOffre,
-  User,
-} from '../../../../../entities';
+} from '../../../projectionsNext';
+import { parseCahierDesChargesRéférence, ProjectAppelOffre, User } from '../../../../../entities';
 import routes from '../../../../../routes';
+import { CahierDesCharges } from '@potentiel/domain-views';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '../../../../../modules/users';
 

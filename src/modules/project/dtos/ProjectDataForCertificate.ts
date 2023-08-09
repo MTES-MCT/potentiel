@@ -1,4 +1,5 @@
-import { ProjectAppelOffre, Technologie } from '../../../entities';
+import { ProjectAppelOffre } from '../../../entities';
+import { Technologie } from '@potentiel/domain-views';
 
 export type ProjectDataForCertificate = {
   appelOffre: ProjectAppelOffre;

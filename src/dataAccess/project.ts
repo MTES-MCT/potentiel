@@ -1,5 +1,6 @@
-import { Project, User, AppelOffre, Famille, Periode } from '../entities';
+import { Project, User } from '../entities';
 import { Région } from '../modules/dreal/région';
+import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import { ResultAsync } from '../types';
 import { PaginatedList, Pagination } from '../modules/pagination';
 

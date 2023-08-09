@@ -1,7 +1,8 @@
 import { or } from '../../../core/utils';
-import { DateParutionCahierDesChargesModifié, Project } from '../../../entities';
-import { LegacyModificationStatus } from "../../modificationRequest";
-import { Fournisseur } from "../../project";
+import { Project } from '../../../entities';
+import { LegacyModificationStatus } from '../../modificationRequest';
+import { Fournisseur } from '../../project';
+import { DateParutionCahierDesChargesModifié } from '@potentiel/domain-views';
 import {
   DemandeAbandonEventStatus,
   DemandeAnnulationAbandonEventStatus,

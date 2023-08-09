@@ -1,5 +1,6 @@
-import { AppelOffre, Periode, Famille, ProjectAppelOffre, User } from '../../../../entities';
-import { PaginatedList, Pagination } from "../../../pagination";
+import { ProjectAppelOffre, User } from '../../../../entities';
+import { PaginatedList, Pagination } from '../../../pagination';
+import { AppelOffre, Periode, Famille } from '@potentiel/domain-views';
 
 export const PermissionListerProjets = {
   nom: 'lister-projets',

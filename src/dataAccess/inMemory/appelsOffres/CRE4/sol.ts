@@ -1,4 +1,4 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const garantieFinanciereEnMois = 42;
 

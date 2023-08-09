@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { Project } from "../../../project";
+import { Project } from '../../../project';
 import { okAsync } from '../../../../core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
@@ -9,7 +9,8 @@ import { fakeRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeDemanderAnnulationAbandon } from './demanderAnnulationAbandon';
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError';
 import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError';
-import { CahierDesChargesModifié, ProjectAppelOffre } from '../../../../entities';
+import { ProjectAppelOffre } from '../../../../entities';
+import { CahierDesChargesModifié } from '@potentiel/domain-views';
 
 describe(`Demander une annulation d'abandon`, () => {
   const user = makeFakeUser({ role: 'porteur-projet' });

@@ -1,5 +1,5 @@
 import { ProjectFilters } from '../../../../../dataAccess';
-import { AppelOffre, Famille, Periode } from '../../../../../entities';
+import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 
 export type FiltresConstruireQuery = {
   appelOffreId?: AppelOffre['id'];

@@ -1,21 +1,22 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
-import { CahierDesChargesModifié, ProjectAppelOffre, User } from '../../../../entities';
-import { InfraNotAvailableError } from "../../../shared";
+import { ProjectAppelOffre, User } from '../../../../entities';
+import { InfraNotAvailableError } from '../../../shared';
+import { CahierDesChargesModifié } from '@potentiel/domain-views';
 import {
   DemandeAnnulationAbandon,
   statutsDemandeAnnulationAbandon,
 } from '../DemandeAnnulationAbandon';
 import { makeAccorderAnnulationAbandon } from './accorderAnnulationAbandon';
-import { Project } from "../../../project";
+import { Project } from '../../../project';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError';
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { Readable } from 'stream';
-import { FileObject } from "../../../file";
+import { FileObject } from '../../../file';
 
 describe(`Accorder une annulation d'abandon de projet`, () => {
   // commande

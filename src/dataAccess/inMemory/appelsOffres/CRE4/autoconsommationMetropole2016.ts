@@ -1,4 +1,4 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 export const autoconsommationMetropole2016: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole 2016',

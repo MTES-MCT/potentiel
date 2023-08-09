@@ -4,21 +4,17 @@ import {
   DemanderAbandonError,
   makeDemanderAbandon,
   NouveauCahierDesChargesNonChoisiError,
-} from "../..";
-import { Project } from "../../../project";
+} from '../..';
+import { Project } from '../../../project';
 import { Repository } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
-import { FileObject } from "../../../file";
-import {
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  UnauthorizedError,
-} from "../../../shared";
+import { FileObject } from '../../../file';
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { AppelOffreRepo } from '../../../../dataAccess/inMemory';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates';
 
 describe('Commande demanderAbandon', () => {

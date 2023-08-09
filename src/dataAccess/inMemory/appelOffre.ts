@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode } from '../../entities';
+import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import cloneDeep from 'lodash/cloneDeep';
 
 import {

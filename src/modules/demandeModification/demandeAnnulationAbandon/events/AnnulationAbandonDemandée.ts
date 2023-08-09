@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../../core/domain';
-import { CahierDesChargesRéférence } from '../../../../entities';
+import { CahierDesChargesRéférence } from '@potentiel/domain-views';
 
 type Payload = {
   demandeId: string;

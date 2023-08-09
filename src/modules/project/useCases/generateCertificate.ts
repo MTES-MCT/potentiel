@@ -10,10 +10,11 @@ import {
 } from '../../shared/errors';
 import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '../errors';
 import { Project } from '../Project';
-import { CertificateTemplate, User } from '../../../entities';
+import { User } from '../../../entities';
 import { GetUserById } from '../../../infra/sequelize/queries/users';
-import { ProjectDataForCertificate } from "..";
+import { ProjectDataForCertificate } from '..';
 import { Validateur } from '../../../views/certificates';
+import { CertificateTemplate } from '@potentiel/domain-views';
 
 export type GenerateCertificate = (args: {
   projectId: string;

@@ -1,4 +1,5 @@
-import { ProjectAppelOffre, Technologie, CahierDesChargesRéférence } from '../../../entities';
+import { ProjectAppelOffre } from '../../../entities';
+import { Technologie, CahierDesChargesRéférence } from '@potentiel/domain-views';
 import { Fournisseur } from '../../project';
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO';
 

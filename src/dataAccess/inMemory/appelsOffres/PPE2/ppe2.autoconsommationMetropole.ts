@@ -1,4 +1,4 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const autoconsommationMetropolePPE2: AppelOffre = {
   id: 'PPE2 - Autoconsommation métropole',
