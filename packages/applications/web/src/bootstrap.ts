@@ -1,4 +1,3 @@
-import { seed } from '@potentiel/domain-inmemory-referential';
 import { setupDomain } from '@potentiel/domain';
 import {
   loadAggregate,
@@ -25,6 +24,7 @@ import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerPool } from '@potentiel/redis-event-bus-consumer';
+import { seed } from './seed';
 
 export type UnsetupApp = () => Promise<void>;
 

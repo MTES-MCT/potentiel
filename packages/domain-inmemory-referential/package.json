@@ -9,8 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/domain-views": "^0.0.0",
-    "@potentiel/pg-projections": "^0.0.0"
+    "@potentiel/domain-views": "^0.0.0"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

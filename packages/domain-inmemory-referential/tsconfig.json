@@ -10,9 +10,6 @@
   "references": [
     {
       "path": "../domain-views"
-    },
-    {
-      "path": "../libraries/pg-helpers"
     }
   ]
 }
