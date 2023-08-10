@@ -13,7 +13,8 @@
     "@potentiel/domain-views": "^0.0.0",
     "@potentiel/file-storage": "^0.0.0",
     "@potentiel/monads": "^0.0.0",
-    "@potentiel/monitoring": "^0.0.0"
+    "@potentiel/monitoring": "^0.0.0",
+    "@potentiel/redis-event-bus-consumer": "^0.0.0"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

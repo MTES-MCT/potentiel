@@ -11,10 +11,12 @@ import {
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
-} from '@potentiel/infra-adapters';
+ consumerSubscribe } from '@potentiel/infra-adapters';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
+import { publishToEventBus } from '@potentiel/redis-event-bus-client';
+import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 
 export type UnsetupApp = () => Promise<void>;
 
@@ -30,7 +32,7 @@ export const bootstrap = async (legacy: {
     common: {
       loadAggregate,
       publish,
-      subscribe,
+      subscribe: consumerSubscribe,
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
@@ -47,8 +49,9 @@ export const bootstrap = async (legacy: {
       list: listProjection,
       remove: removeProjection,
       search: searchProjection,
-      subscribe,
+      subscribe: consumerSubscribe,
       update: updateProjection,
+
       legacy,
     },
     raccordement: {
@@ -58,8 +61,18 @@ export const bootstrap = async (legacy: {
     },
   });
 
+  const unsubscribePublishAll = await subscribe({
+    name: 'new_event',
+    eventType: 'all',
+    eventHandler: async (event) => {
+      await publishToEventBus(event.type, event);
+    },
+  });
+
   return async () => {
     await unsetupDomain();
     await unsetupDomainViews();
+    await unsubscribePublishAll();
+    consumerPool.kill();
   };
 };
