@@ -1,7 +1,7 @@
 import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { DépôtGarantiesFinancièresEvent } from '../domain.events';
 import { IdentifiantProjetValueType, convertirEnDateTime } from '../domain.valueType';
-import { DépôtGarantiesFinancières } from './dépôtGarantiesFinancières.valueType';
+import { DépôtGarantiesFinancières } from './garantiesFinancières.valueType';
 
 type DépôtGarantiesFinancièresAggregateId = `dépôt-garanties-financières|${string}`;
 

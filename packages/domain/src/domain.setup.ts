@@ -5,7 +5,7 @@ import { RaccordementDependencies, setupRaccordement } from './raccordement/racc
 import {
   DépôtGarantiesFinancièresDependencies,
   setupDépôtGarantiesFinancières,
-} from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
+} from './garantiesFinancières/garantiesFinancières.setup';
 
 export type DomainDependencies = {
   common: {

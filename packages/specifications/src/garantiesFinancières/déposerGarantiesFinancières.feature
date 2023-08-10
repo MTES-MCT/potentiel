@@ -75,7 +75,7 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | type                    |
             | consignation            |
             | 6 mois après achèvement |
-@select
+
     Scénario: Corriger un dépôt
         Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | date d'échéance      | 2027-12-01                    |

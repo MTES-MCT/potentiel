@@ -3,7 +3,8 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   createDépôtGarantiesFinancièresAggregateId,
- GarantiesFinancièresDéposéesV0 } from '@potentiel/domain';
+  GarantiesFinancièresDéposéesV0,
+} from '@potentiel/domain';
 import { convertStringToReadable } from '../../helpers/convertStringToReadable';
 import { sleep } from '../../helpers/sleep';
 import { PotentielWorld } from '../../potentiel.world';

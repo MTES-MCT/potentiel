@@ -12,8 +12,8 @@ import { DateTimeValueType, Utilisateur } from '../domain.valueType';
 import {
   createDépôtGarantiesFinancièresAggregateId,
   loadDépôtGarantiesFinancièresAggregateFactory,
-} from './dépôtGarantiesFinancières.aggregate';
-import { GarantiesFinancièresDéposéesV1 } from './dépôtGarantiesFinancières.event';
+} from './garantiesFinancières.aggregate';
+import { GarantiesFinancièresDéposéesV1 } from './garantiesFinancières.event';
 import { TéléverserFichierPort } from '../common.ports';
 import { isSome } from '@potentiel/monads';
 

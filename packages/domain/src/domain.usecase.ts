@@ -1,4 +1,4 @@
-import { DépôtGarantiesFinancièresUseCase } from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.usecase';
+import { DépôtGarantiesFinancièresUseCase } from './garantiesFinancières/garantiesFinancières.usecase';
 import { GestionnaireRéseauUseCase } from './gestionnaireRéseau/gestionnaireRéseau.usecase';
 import { ProjetUseCase } from './projet/projet.usecase';
 import { RaccordementUsecase } from './raccordement/raccordement.usecase';
