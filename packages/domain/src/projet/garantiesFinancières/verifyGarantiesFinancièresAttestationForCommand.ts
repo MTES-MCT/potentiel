@@ -1,5 +1,5 @@
 import { DateConstitutionGarantiesFinancièreDansLeFuturErreur } from '../projet.error';
-import { AttestationConstitution } from './garantiesFinancières.valueType';
+import { AttestationConstitution } from '../../garantiesFinancières/garantiesFinancières.valueType';
 
 export const verifyGarantiesFinancièresAttestationForCommand = ({
   date,

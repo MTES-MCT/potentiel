@@ -8,7 +8,7 @@ import {
   AttestationConstitution,
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
-} from './garantiesFinancières.valueType';
+} from '../../garantiesFinancières/garantiesFinancières.valueType';
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
   TypeGarantiesFinancièresEnregistréEventV1,

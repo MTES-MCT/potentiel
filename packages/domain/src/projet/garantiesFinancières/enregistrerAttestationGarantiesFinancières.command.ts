@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../projet.valueType';
-import { AttestationConstitution } from './garantiesFinancières.valueType';
+import { AttestationConstitution } from '../../garantiesFinancières/garantiesFinancières.valueType';
 import { Publish } from '@potentiel/core-domain';
 import { createProjetAggregateId } from '../projet.aggregate';
 import { verifyGarantiesFinancièresAttestationForCommand } from './verifyGarantiesFinancièresAttestationForCommand';

@@ -11,7 +11,7 @@ import {
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
   estUnTypeDeGarantiesFinancièresAccepté,
-} from './garantiesFinancières.valueType';
+} from '../../garantiesFinancières/garantiesFinancières.valueType';
 import { Utilisateur, utilisateurEstPorteur } from '../../domain.valueType';
 
 export const verifyGarantiesFinancièresTypeForCommand = (

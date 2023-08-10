@@ -7,7 +7,7 @@ import {
   AttestationConstitution,
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
-} from '../projet/garantiesFinancières/garantiesFinancières.valueType';
+} from './garantiesFinancières.valueType';
 import { DateTimeValueType, Utilisateur } from '../domain.valueType';
 import {
   createDépôtGarantiesFinancièresAggregateId,
