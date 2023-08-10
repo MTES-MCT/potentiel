@@ -1,5 +1,5 @@
 import { IsPeriodeLegacy } from '../../modules/appelOffre';
-import { appelsOffreStatic } from './appelOffre';
+import { appelsOffreStatic } from './appelOffreData';
 
 export const isPeriodeLegacy: IsPeriodeLegacy = async ({ appelOffreId, periodeId }) => {
   const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId);

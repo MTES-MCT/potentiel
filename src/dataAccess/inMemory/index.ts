@@ -1,4 +1,5 @@
-export * from './appelOffre';
+export * from './appelOffreData';
+export * from './appelOffreRepo';
 export * from './isPeriodeLegacy';
 export { dataFieldsFlattened } from './appelsOffres';
 

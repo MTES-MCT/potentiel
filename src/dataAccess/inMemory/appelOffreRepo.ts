@@ -1,50 +1,10 @@
 import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import cloneDeep from 'lodash/cloneDeep';
 
-import {
-  fessenheim,
-  batiment,
-  sol,
-  innovation,
-  zni,
-  zni2017,
-  autoconsommationMetropole,
-  autoconsommationMetropole2016,
-  autoconsommationZNI,
-  autoconsommationZNI2017,
-  eolien,
-  pvEolien,
-  solPPE2,
-  eolienPPE2,
-  batimentPPE2,
-  neutrePPE2,
-  innovationPPE2,
-  autoconsommationMetropolePPE2,
-} from './appelsOffres';
 import { errAsync, okAsync } from '../../core/utils';
 import { EntityNotFoundError } from '../../modules/shared';
 import { AppelOffreRepo } from '../appelOffre';
-
-const appelsOffreStatic = [
-  batiment,
-  fessenheim,
-  sol,
-  innovation,
-  zni,
-  zni2017,
-  autoconsommationMetropole,
-  autoconsommationMetropole2016,
-  autoconsommationZNI,
-  autoconsommationZNI2017,
-  eolien,
-  pvEolien,
-  solPPE2,
-  eolienPPE2,
-  batimentPPE2,
-  neutrePPE2,
-  innovationPPE2,
-  autoconsommationMetropolePPE2,
-];
+import { appelsOffreStatic } from './appelOffreData';
 
 const appelOffreRepo: AppelOffreRepo = {
   findAll: async () => {
@@ -80,4 +40,4 @@ const appelOffreRepo: AppelOffreRepo = {
   },
 };
 
-export { AppelOffreRepo, appelOffreRepo, appelsOffreStatic };
+export { AppelOffreRepo, appelOffreRepo };

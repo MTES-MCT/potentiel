@@ -1,3 +1,6 @@
+import { ReadModel } from '@potentiel/core-domain';
+import { RawIdentifiantAppelOffre } from '@potentiel/domain';
+
 type AppelOffreTypes =
   | 'autoconso'
   | 'batiment'
@@ -224,3 +227,6 @@ export type AppelOffre = {
   autoritéCompétenteDemandesDélai: 'dgec' | 'dreal';
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre;
+
+export type AppelOffreReadModelKey = `appel-offre|${RawIdentifiantAppelOffre}`;
+export type AppelOffreReadModel = ReadModel<AppelOffreReadModelKey, AppelOffre>;
