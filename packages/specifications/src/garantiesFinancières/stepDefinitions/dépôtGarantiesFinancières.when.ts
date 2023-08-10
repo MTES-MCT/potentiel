@@ -54,6 +54,41 @@ Quand(
 );
 
 Quand(
+  `un utilisateur avec le rôle {string} modifie un dépôt de garanties financières pour le projet {string} avec :`,
+  async function (rôle: string, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
+      const dateÉchéance = exemple[`date d'échéance`];
+      const format = exemple['format'];
+      const dateConstutition = exemple[`date de constitution`];
+      const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+
+      const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+      await mediator.send<DomainUseCase>({
+        type: 'MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
+        data: {
+          attestationConstitution: {
+            format,
+            date: convertirEnDateTime(dateConstutition),
+            content: contenuFichier,
+          },
+          typeGarantiesFinancières,
+          ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
+          utilisateur: { rôle } as Utilisateur,
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+        },
+      });
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   `un développeur migre un dépôt de garanties financières sans type pour le projet {string} avec :`,
   async function (nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();

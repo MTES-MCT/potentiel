@@ -15,7 +15,7 @@ import { mediator } from 'mediateur';
 import { convertReadableToString } from '../../helpers/convertReadableToString';
 
 Alors(
-  'le dépôt de garanties financières devrait être consultable pour le projet {string} avec :',
+  'le dépôt de garanties financières devrait être (consultable )(mis à jour )pour le projet {string} avec :',
   async function (nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 

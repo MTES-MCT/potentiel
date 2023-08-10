@@ -76,22 +76,24 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | consignation            |
             | 6 mois après achèvement |
 
-    Scénario: Corriger un dépôt
+    Scénario: Modifier un dépôt existant
         Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | date d'échéance      | 2027-12-01                    |
             | format               | application/pdf               |
             | contenu fichier      | le contenu du fichier         |
             | date de constitution | 2021-12-01                    |
             | date de dépôt        | 2023-08-11                    |     
-        Quand un utilisateur avec le rôle 'porteur-projet' dépose des garanties financières pour le projet "Centrale éolienne 20" avec :
+        Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | consignation                  |
             | format               | application/pdf               |
             | contenu fichier      | le nouveau contenu du fichier |
             | date de constitution | 2022-01-01                    |
-            | date de dépôt        | 2022-08-11                    |     
-        Alors le dépôt de garanties financières devrait être consultable pour le projet "Centrale éolienne 20" avec :   
+        Alors le dépôt de garanties financières devrait être mis à jour pour le projet "Centrale éolienne 20" avec :   
             | type                 | consignation                  |
             | format               | application/pdf               |
             | contenu fichier      | le nouveau contenu du fichier |
             | date de constitution | 2022-01-01                    |
             | date de dépôt        | 2023-08-11                    |            
+
+    # to do : erreur si modification d'un dépôt non trouvé        
+    # to do : erreur si envoi d'un nouveau si un dépôt existe déjà

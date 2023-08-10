@@ -28,6 +28,23 @@ export type GarantiesFinancièresDéposéesV1 = DomainEvent<
   )
 >;
 
+export type DépôtGarantiesFinancièresModifiéV1 = DomainEvent<
+  'DépôtGarantiesFinancièresModifié-v1',
+  {
+    identifiantProjet: string;
+    attestationConstitution: { format: string; date: string };
+  } & (
+    | {
+        typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
+      }
+    | {
+        typeGarantiesFinancières: `avec date d'échéance`;
+        dateÉchéance: string;
+      }
+  )
+>;
+
 export type DépôtGarantiesFinancièresEvent =
   | GarantiesFinancièresDéposéesSnapshotV1
-  | GarantiesFinancièresDéposéesV1;
+  | GarantiesFinancièresDéposéesV1
+  | DépôtGarantiesFinancièresModifiéV1;

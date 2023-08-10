@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { isSome } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
@@ -58,6 +58,21 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             date: event.payload.attestationConstitution.date,
           },
           dateDépôt: event.payload.dateDépôt,
+        });
+        break;
+      case 'DépôtGarantiesFinancièresModifié-v1':
+        if (isNone(dépôtGarantiesFinancières)) {
+          // ne devrait pas arriver
+          break;
+        }
+        await update<DépôtGarantiesFinancièresReadModel>(key, {
+          ...dépôtGarantiesFinancières,
+          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
+          attestationConstitution: {
+            format: event.payload.attestationConstitution.format,
+            date: event.payload.attestationConstitution.date,
+          },
         });
         break;
     }
