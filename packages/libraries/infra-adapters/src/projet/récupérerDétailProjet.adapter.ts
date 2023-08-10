@@ -1,10 +1,11 @@
+import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { ProjetReadModel, RécupérerDétailProjetPort } from '@potentiel/domain-views';
 import { isSome, none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
 const selectProjectQuery = `
   select json_build_object(
-    'id', "id",
+    'legacyId', "id",
     'nom', "nomProjet",
     'appelOffre', "appelOffreId",
     'période', "periodeId",
@@ -32,13 +33,23 @@ export const récupérerDétailProjetAdapter: RécupérerDétailProjetPort = asy
   famille,
   numéroCRE,
 }) => {
-  const projects = await executeSelect<{
-    value: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
+  const projets = await executeSelect<{
+    value: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire' | 'identifiantProjet'>;
   }>(selectProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
 
-  if (!projects.length) {
+  if (!projets.length) {
     return none;
   }
 
-  return projects[0].value;
+  const projet = projets[0].value;
+
+  return {
+    ...projet,
+    identifiantProjet: convertirEnIdentifiantProjet({
+      appelOffre,
+      période,
+      famille,
+      numéroCRE,
+    }).formatter(),
+  };
 };

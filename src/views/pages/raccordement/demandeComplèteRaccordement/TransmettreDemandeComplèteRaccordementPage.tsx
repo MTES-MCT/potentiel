@@ -39,7 +39,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
   error,
   delaiDemandeDeRaccordementEnMois,
 }: TransmettreDemandeComplèteRaccordementProps) => {
-  const { identifiantProjet, id } = projet;
+  const { identifiantProjet, legacyId } = projet;
 
   const gestionnaireRéseauActuel = gestionnairesRéseau.find(
     (gestionnaire) => gestionnaire.codeEIC === projet.identifiantGestionnaire?.codeEIC,
@@ -136,7 +136,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
                 Retour vers le dossier de raccordement
               </Link>
             ) : (
-              <Link href={routes.PROJECT_DETAILS(identifiantProjet)} className="m-auto">
+              <Link href={routes.PROJECT_DETAILS(legacyId)} className="m-auto">
                 Retour vers le projet
               </Link>
             )}
