@@ -16,6 +16,7 @@ import {
 import { TéléverserFichierPort } from '../common.ports';
 import { isNone } from '@potentiel/monads';
 import { DépôtGarantiesFinancièresModifiéV1 } from './garantiesFinancières.event';
+import { DépôtGarantiesFinancièresNonTrouvéPourModificationErreur } from './garantiesFinancières.error';
 
 export type ModifierDépôtGarantiesFinancièresCommand = Message<
   'MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES',
@@ -55,7 +56,7 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
     const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
 
     if (isNone(agrégatDépôtGarantiesFinancières)) {
-      // retourner une nouvelle erreur
+      throw new DépôtGarantiesFinancièresNonTrouvéPourModificationErreur();
     }
 
     await téléverserFichier({

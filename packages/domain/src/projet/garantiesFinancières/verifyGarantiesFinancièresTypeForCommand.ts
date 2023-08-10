@@ -1,10 +1,4 @@
 import { Option, isSome } from '@potentiel/monads';
-import {
-  TypeGarantiesFinancièresNonAcceptéErreur,
-  DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
-  ModificationGarantiesFinancièresNonAutoriséeErreur,
-  DateÉchéanceGarantiesFinancièresRequiseErreur,
-} from '../projet.error';
 import { Aggregate } from '@potentiel/core-domain';
 import { Projet } from '../projet.aggregate';
 import {
@@ -13,6 +7,12 @@ import {
   estUnTypeDeGarantiesFinancièresAccepté,
 } from '../../garantiesFinancières/garantiesFinancières.valueType';
 import { Utilisateur, utilisateurEstPorteur } from '../../domain.valueType';
+import {
+  DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
+  DateÉchéanceGarantiesFinancièresRequiseErreur,
+  ModificationGarantiesFinancièresNonAutoriséeErreur,
+  TypeGarantiesFinancièresNonAcceptéErreur,
+} from '../../garantiesFinancières/garantiesFinancières.error';
 
 export const verifyGarantiesFinancièresTypeForCommand = (
   typeGarantiesFinancières: TypeEtDateÉchéance['typeGarantiesFinancières'],
