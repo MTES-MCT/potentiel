@@ -1,6 +1,6 @@
 import { ResultAsync, errAsync, okAsync } from '../../../core/utils';
 import { EntityNotFoundError } from '../../../modules/shared';
-import { appelsOffreStatic } from '../appelOffreData';
+import { appelsOffreStatic } from '../appelOffreStatic';
 import { AppelOffre } from '@potentiel/domain-views';
 
 export const getAppelOffre: (

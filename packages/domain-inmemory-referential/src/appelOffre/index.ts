@@ -11,15 +11,17 @@ import {
   autoconsommationZNI2017,
   eolien,
   pvEolien,
+} from './CRE4';
+import {
   solPPE2,
   eolienPPE2,
   batimentPPE2,
   neutrePPE2,
   innovationPPE2,
   autoconsommationMetropolePPE2,
-} from './appelsOffres';
+} from './PPE2';
 
-export const appelsOffreStatic = [
+export const appelsOffreData = [
   batiment,
   fessenheim,
   sol,

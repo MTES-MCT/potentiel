@@ -11,7 +11,7 @@ import {
   innovationPPE2,
   neutrePPE2,
   solPPE2,
-} from '../../../dataAccess/inMemory/appelsOffres';
+} from '@potentiel/domain-inmemory-referential/src/appelOffre/PPE2';
 import { Validateur } from '..';
 
 export default { title: 'Attestations PDF/PPE2/v2' };

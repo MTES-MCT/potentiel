@@ -6,7 +6,7 @@ import { makeModificationRequestRepo } from './modificationRequest';
 import { logger } from '../../core/utils';
 
 import { appelOffreRepo } from '../inMemory/appelOffreRepo';
-import { appelsOffreStatic } from '../inMemory/appelOffreData';
+import { appelsOffreStatic } from '../inMemory/appelOffreStatic';
 import truncateAllTables from './helpers/truncateTables';
 import { makeGetProjectAppelOffre } from '../../modules/projectAppelOffre';
 

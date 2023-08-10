@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { errAsync, okAsync } from '../../core/utils';
 import { EntityNotFoundError } from '../../modules/shared';
 import { AppelOffreRepo } from '../appelOffre';
-import { appelsOffreStatic } from './appelOffreData';
+import { appelsOffreStatic } from './appelOffreStatic';
 
 const appelOffreRepo: AppelOffreRepo = {
   findAll: async () => {

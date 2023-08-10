@@ -19,6 +19,7 @@
     "./packages/domain-views/",
     "./packages/libraries/infra-adapters/",
     "./packages/specifications",
+    "./packages/domain-inmemory-referential/",
     "./packages/applications/*"
   ],
   "scripts": {

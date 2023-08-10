@@ -1,3 +1,4 @@
+import { seed } from '@potentiel/domain-inmemory-referential';
 import { setupDomain } from '@potentiel/domain';
 import {
   loadAggregate,
@@ -28,6 +29,8 @@ import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
+  await seed();
+
   await deleteAllSubscribers();
   mediator.use<Message>({
     middlewares: [logMiddleware],
