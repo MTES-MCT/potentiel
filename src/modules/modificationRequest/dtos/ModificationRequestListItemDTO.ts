@@ -24,7 +24,7 @@ export type ModificationRequestListItemDTO = {
   type: ModificationRequestTypes;
   status: string;
   description: string;
-  authority: 'dreal' | 'dgec';
+  authority?: 'dreal' | 'dgec';
 
   requestedOn: number;
   requestedBy: {

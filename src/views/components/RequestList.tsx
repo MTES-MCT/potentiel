@@ -81,7 +81,7 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl, 
     authority,
   }: {
     role?: UserRole;
-    authority: 'dreal' | 'dgec';
+    authority?: 'dreal' | 'dgec';
   }): boolean =>
     (role && ['admin', 'dgec-validateur', 'porteur-projet'].includes(role)) ||
     (role === 'dreal' && authority === 'dreal');
