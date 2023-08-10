@@ -78,8 +78,9 @@ export const registerDéposerGarantiesFinancièresCommand = ({
           date: attestationConstitution.date.formatter(),
         },
         dateDépôt:
-          isSome(agrégatDépôtGarantiesFinancières) && agrégatDépôtGarantiesFinancières.dateDépôt
-            ? agrégatDépôtGarantiesFinancières.dateDépôt.formatter()
+          isSome(agrégatDépôtGarantiesFinancières) &&
+          agrégatDépôtGarantiesFinancières.dépôt?.dateDépôt
+            ? agrégatDépôtGarantiesFinancières.dépôt?.dateDépôt.formatter()
             : dateDépôt.formatter(),
       },
     };

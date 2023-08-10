@@ -45,23 +45,25 @@ Alors(
       throw new Error(`L'agrégat n'existe pas !`);
     }
 
-    expect(actualAggregate.attestationConstitution?.format).to.be.deep.equal(
+    expect(actualAggregate.dépôt).not.to.be.undefined;
+
+    expect(actualAggregate?.dépôt?.attestationConstitution?.format).to.be.deep.equal(
       expectedAggregate.attestationConstitution?.format,
     );
 
-    expect(actualAggregate.attestationConstitution?.date.date.getTime()).to.be.deep.equal(
+    expect(actualAggregate?.dépôt?.attestationConstitution?.date.date.getTime()).to.be.deep.equal(
       expectedAggregate.attestationConstitution.date.date.getTime(),
     );
 
-    expect(actualAggregate.dateDépôt?.date.getTime()).to.be.deep.equal(
+    expect(actualAggregate?.dépôt?.dateDépôt?.date.getTime()).to.be.deep.equal(
       expectedAggregate.dateDépôt.date.getTime(),
     );
 
-    expect(actualAggregate.typeGarantiesFinancières).to.be.deep.equal(
+    expect(actualAggregate?.dépôt?.typeGarantiesFinancières).to.be.deep.equal(
       expectedAggregate.typeGarantiesFinancières,
     );
 
-    expect(actualAggregate.dateÉchéance?.date.getTime()).to.be.deep.equal(
+    expect(actualAggregate?.dépôt?.dateÉchéance?.date.getTime()).to.be.deep.equal(
       expectedAggregate.dateÉchéance?.date.getTime(),
     );
 
