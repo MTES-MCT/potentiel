@@ -76,6 +76,21 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | consignation            |
             | 6 mois après achèvement |
 
+    Scénario: Erreur si un dépôt a déjà été soumis
+        Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | date d'échéance      | 2027-12-01                    |
+            | format               | application/pdf               |
+            | contenu fichier      | le contenu du fichier         |
+            | date de constitution | 2021-12-01                    |
+            | date de dépôt        | 2023-08-11                    | 
+        Quand un utilisateur avec le rôle 'porteur-projet' dépose des garanties financières pour le projet "Centrale éolienne 20" avec :
+            | date d'échéance      | 2027-12-02                    |
+            | format               | application/pdf               |
+            | contenu fichier      | le contenu du fichier         |
+            | date de constitution | 2021-12-02                    |
+            | date de dépôt        | 2023-08-12                    |             
+        Alors l'utilisateur devrait être informé que "Vous avez déjà des déposé des garanties financières en attente de validation"
+
     Scénario: Modifier un dépôt existant
         Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | date d'échéance      | 2027-12-01                    |
@@ -102,6 +117,4 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | contenu fichier      | le nouveau contenu du fichier |
             | date de constitution | 2022-01-01                    |
         Alors l'utilisateur devrait être informé que "Le dépôt de garanties financières que vous tentez de modifier est introuvable"
-                   
-    # to do : erreur si envoi d'un nouveau si un dépôt existe déjà
-    
+                       

@@ -37,3 +37,9 @@ export class DépôtGarantiesFinancièresNonTrouvéPourModificationErreur extend
     super('Le dépôt de garanties financières que vous tentez de modifier est introuvable');
   }
 }
+
+export class DépôtGarantiesFinancièresDéjàExistantErreur extends InvalidOperationError {
+  constructor() {
+    super('Vous avez déjà des déposé des garanties financières en attente de validation');
+  }
+}
