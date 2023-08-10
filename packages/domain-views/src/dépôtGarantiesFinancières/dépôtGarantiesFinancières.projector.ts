@@ -31,7 +31,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
 
     switch (event.type) {
       case 'GarantiesFinancièresDéposées-v1':
-      case 'GarantiesFinancièresDéposées-v0':
+      case 'GarantiesFinancièresDéposéesSnapshot-v1':
         if (isSome(dépôtGarantiesFinancières)) {
           await update<DépôtGarantiesFinancièresReadModel>(key, {
             typeGarantiesFinancières:

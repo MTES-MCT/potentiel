@@ -1,6 +1,6 @@
 import {
   DépôtGarantiesFinancièresEvent,
-  GarantiesFinancièresDéposéesV0,
+  GarantiesFinancièresDéposéesSnapshotV1,
 } from './garantiesFinancières/garantiesFinancières.event';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.event';
 import {
@@ -24,5 +24,5 @@ export {
   TypeGarantiesFinancièresEnregistréEventV0,
   AttestationGarantiesFinancièresEnregistréeEvent,
   DépôtGarantiesFinancièresEvent,
-  GarantiesFinancièresDéposéesV0,
+  GarantiesFinancièresDéposéesSnapshotV1,
 };

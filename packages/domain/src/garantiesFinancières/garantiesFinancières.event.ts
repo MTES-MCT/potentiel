@@ -1,7 +1,7 @@
 import { DomainEvent } from '@potentiel/core-domain';
 
-export type GarantiesFinancièresDéposéesV0 = DomainEvent<
-  'GarantiesFinancièresDéposées-v0', // legacy
+export type GarantiesFinancièresDéposéesSnapshotV1 = DomainEvent<
+  'GarantiesFinancièresDéposéesSnapshot-v1', // legacy
   {
     identifiantProjet: string;
     dateÉchéance?: string;
@@ -29,5 +29,5 @@ export type GarantiesFinancièresDéposéesV1 = DomainEvent<
 >;
 
 export type DépôtGarantiesFinancièresEvent =
-  | GarantiesFinancièresDéposéesV0
+  | GarantiesFinancièresDéposéesSnapshotV1
   | GarantiesFinancièresDéposéesV1;

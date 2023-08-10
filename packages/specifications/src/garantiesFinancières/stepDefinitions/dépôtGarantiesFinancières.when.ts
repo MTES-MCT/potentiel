@@ -6,7 +6,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   createDépôtGarantiesFinancièresAggregateId,
-  GarantiesFinancièresDéposéesV0,
+  GarantiesFinancièresDéposéesSnapshotV1,
 } from '@potentiel/domain';
 import { convertStringToReadable } from '../../helpers/convertStringToReadable';
 import { sleep } from '../../helpers/sleep';
@@ -68,8 +68,8 @@ Quand(
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
       // DATA
-      const event: GarantiesFinancièresDéposéesV0 = {
-        type: 'GarantiesFinancièresDéposées-v0',
+      const event: GarantiesFinancièresDéposéesSnapshotV1 = {
+        type: 'GarantiesFinancièresDéposéesSnapshot-v1',
         payload: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
           attestationConstitution: {

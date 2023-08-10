@@ -34,7 +34,7 @@ const dépôtGarantiesFinancièresAggregateFactory: AggregateFactory<
             },
           },
         };
-      case 'GarantiesFinancièresDéposées-v0':
+      case 'GarantiesFinancièresDéposéesSnapshot-v1':
         return {
           ...aggregate,
           dépôt: {
