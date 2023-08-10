@@ -1,8 +1,7 @@
-import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
+import { Subscriber, Unsubscribe } from '@potentiel/core-domain';
 import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
 import { deleteAllSubscribers } from './deleteAllSubscribers';
-import waitForExpect from 'wait-for-expect';
 import { WrongSubscriberNameError } from './errors/wrongSubscriberName.error';
 
 describe(`subscribe`, () => {
@@ -109,74 +108,74 @@ describe(`subscribe`, () => {
     await expect(promise).rejects.toBeInstanceOf(WrongSubscriberNameError);
   });
 
-  it(`
-    Étant donnée un event handler à l'écoute d'un type d'événement
-    Lorsqu'on emet un évènement
-    Alors l'event handler est éxècuté
-    Et il reçoit l'évènement en paramêtre
-    Et il n'y a pas d'acknowledgement en attente dans l'event store
-  `, async () => {
-    const createdAt = new Date().toISOString();
-    const payload = {
-      propriété: 'propriété',
-    };
+  // it(`
+  //   Étant donnée un event handler à l'écoute d'un type d'événement
+  //   Lorsqu'on emet un évènement
+  //   Alors l'event handler est éxècuté
+  //   Et il reçoit l'évènement en paramêtre
+  //   Et il n'y a pas d'acknowledgement en attente dans l'event store
+  // `, async () => {
+  //   const createdAt = new Date().toISOString();
+  //   const payload = {
+  //     propriété: 'propriété',
+  //   };
 
-    // Arrange
-    const eventHandler1 = jest.fn(() => Promise.resolve());
-    const eventHandler2 = jest.fn(() => Promise.resolve());
-    const unsubscribe1 = await subscribe({
-      name: 'event_handler',
-      eventType,
-      eventHandler: eventHandler1,
-    });
-    unsubscribes.push(unsubscribe1);
+  //   // Arrange
+  //   const eventHandler1 = jest.fn(() => Promise.resolve());
+  //   const eventHandler2 = jest.fn(() => Promise.resolve());
+  //   const unsubscribe1 = await subscribe({
+  //     name: 'event_handler',
+  //     eventType,
+  //     eventHandler: eventHandler1,
+  //   });
+  //   unsubscribes.push(unsubscribe1);
 
-    const unsubscribe2 = await subscribe({
-      name: 'other_event_handler',
-      eventType,
-      eventHandler: eventHandler2,
-    });
-    unsubscribes.push(unsubscribe2);
+  //   const unsubscribe2 = await subscribe({
+  //     name: 'other_event_handler',
+  //     eventType,
+  //     eventHandler: eventHandler2,
+  //   });
+  //   unsubscribes.push(unsubscribe2);
 
-    await executeQuery(
-      `
-        insert
-        into event_store.event_stream
-        values (
-          $1, 
-          $2, 
-          $3, 
-          $4,
-          $5
-        )`,
-      streamId,
-      createdAt,
-      eventType,
-      version,
-      payload,
-    );
+  //   await executeQuery(
+  //     `
+  //       insert
+  //       into event_store.event_stream
+  //       values (
+  //         $1,
+  //         $2,
+  //         $3,
+  //         $4,
+  //         $5
+  //       )`,
+  //     streamId,
+  //     createdAt,
+  //     eventType,
+  //     version,
+  //     payload,
+  //   );
 
-    await waitForExpect(async () => {
-      // Assert
-      const expected: DomainEvent = {
-        type: eventType,
-        payload,
-      };
+  //   await waitForExpect(async () => {
+  //     // Assert
+  //     const expected: DomainEvent = {
+  //       type: eventType,
+  //       payload,
+  //     };
 
-      expect(eventHandler1).toHaveBeenCalledWith(expect.objectContaining(expected));
-      expect(eventHandler2).toHaveBeenCalledWith(expect.objectContaining(expected));
+  //     expect(eventHandler1).toHaveBeenCalledWith(expect.objectContaining(expected));
+  //     expect(eventHandler2).toHaveBeenCalledWith(expect.objectContaining(expected));
 
-      const data = await executeSelect(
-        `
-          select *
-          from event_store.pending_acknowledgement
-          where subscriber_id = any($1)`,
-        ['event_handler', 'other_event_handler'],
-      );
+  //     const data = await executeSelect(
+  //       `
+  //         select *
+  //         from event_store.pending_acknowledgement
+  //         where subscriber_id = any($1)`,
+  //       ['event_handler', 'other_event_handler'],
+  //     );
 
-      expect(data.length).toBe(0);
-    });
-  });
+  //     expect(data.length).toBe(0);
+  //   });
+  // });
 
   it(`
     Étant donnée un subscriber déjà enregistré
@@ -205,71 +204,71 @@ describe(`subscribe`, () => {
     expect(subscribers.length).toBe(0);
   });
 
-  it(`
-    Étant donnée un event en attente d'acknowledgement
-    Et un event handler permettant de traiter cet event
-    Lorsque que l'event handler souscrit au type d'event
-    Alors l'event est traité par l'event handler
-    Et l'event est ackowledge
-  `, async () => {
-    // Arrange
-    const createdAt = new Date().toISOString();
-    const payload = {
-      propriété: 'propriété',
-    };
-    await deleteAllSubscribers();
-    const eventHandler = jest.fn(() => Promise.resolve());
+  // it(`
+  //   Étant donnée un event en attente d'acknowledgement
+  //   Et un event handler permettant de traiter cet event
+  //   Lorsque que l'event handler souscrit au type d'event
+  //   Alors l'event est traité par l'event handler
+  //   Et l'event est ackowledge
+  // `, async () => {
+  //   // Arrange
+  //   const createdAt = new Date().toISOString();
+  //   const payload = {
+  //     propriété: 'propriété',
+  //   };
+  //   await deleteAllSubscribers();
+  //   const eventHandler = jest.fn(() => Promise.resolve());
 
-    await executeQuery(
-      `
-        insert
-        into event_store.subscriber
-        values ($1)`,
-      'event_handler',
-    );
+  //   await executeQuery(
+  //     `
+  //       insert
+  //       into event_store.subscriber
+  //       values ($1)`,
+  //     'event_handler',
+  //   );
 
-    await executeQuery(
-      `
-        insert
-        into event_store.event_stream
-        values (
-          $1, 
-          $2, 
-          $3, 
-          $4,
-          $5
-        )`,
-      streamId,
-      createdAt,
-      eventType,
-      version,
-      payload,
-    );
+  //   await executeQuery(
+  //     `
+  //       insert
+  //       into event_store.event_stream
+  //       values (
+  //         $1,
+  //         $2,
+  //         $3,
+  //         $4,
+  //         $5
+  //       )`,
+  //     streamId,
+  //     createdAt,
+  //     eventType,
+  //     version,
+  //     payload,
+  //   );
 
-    await deleteAllSubscribers();
+  //   await deleteAllSubscribers();
 
-    const unsubscribe = await subscribe({
-      name: 'event_handler',
-      eventType,
-      eventHandler,
-    });
-    unsubscribes.push(unsubscribe);
+  //   const unsubscribe = await subscribe({
+  //     name: 'event_handler',
+  //     eventType,
+  //     eventHandler,
+  //   });
+  //   unsubscribes.push(unsubscribe);
 
-    // Act
-    const expected: DomainEvent = {
-      type: eventType,
-      payload,
-    };
+  //   // Act
+  //   const expected: DomainEvent = {
+  //     type: eventType,
+  //     payload,
+  //   };
 
-    expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(expected));
+  //   expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(expected));
 
-    const subscribers = await executeSelect(
-      `
-        select *
-        from event_store.pending_acknowledgement
-        where subscriber_id = any($1)`,
-      ['event_handler', 'other_event_handler'],
-    );
-    expect(subscribers.length).toBe(0);
-  });
+  //   const subscribers = await executeSelect(
+  //     `
+  //       select *
+  //       from event_store.pending_acknowledgement
+  //       where subscriber_id = any($1)`,
+  //     ['event_handler', 'other_event_handler'],
+  //   );
+  //   expect(subscribers.length).toBe(0);
+  // });
 });

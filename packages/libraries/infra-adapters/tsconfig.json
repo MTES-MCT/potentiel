@@ -15,6 +15,9 @@
       "path": "../monitoring"
     },
     {
+      "path": "../redis-event-bus-consumer"
+    },
+    {
       "path": "../../domain"
     },
     {

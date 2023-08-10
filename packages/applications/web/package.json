@@ -13,6 +13,7 @@
     "@potentiel/infra-adapters": "^0.0.0",
     "@potentiel/pg-event-sourcing": "^0.0.0",
     "@potentiel/pg-projections": "^0.0.0",
+    "@potentiel/redis-event-bus-client": "^0.0.0",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
