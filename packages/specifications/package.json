@@ -10,7 +10,6 @@
     "specs": "cucumber-js"
   },
   "dependencies": {
-    "@potentiel/web": "*",
     "@potentiel/core-domain": "^0.0.0",
     "@potentiel/domain": "^0.0.0",
     "@potentiel/domain-views": "^0.0.0",
@@ -18,6 +17,7 @@
     "@potentiel/infra-adapters": "^0.0.0",
     "@potentiel/pg-event-sourcing": "^0.0.0",
     "@potentiel/pg-helpers": "^0.0.0",
+    "@potentiel/redis-event-bus-client": "^0.0.0",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {

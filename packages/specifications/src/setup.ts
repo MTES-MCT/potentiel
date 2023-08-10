@@ -12,8 +12,24 @@ import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
-import { bootstrap, UnsetupApp } from '@potentiel/web';
 import { clear } from 'mediateur';
+import { disconnectRedis } from '@potentiel/redis-event-bus-consumer';
+import { setupDomain, UnsetupDomain } from '@potentiel/domain';
+import { setupDomainViews, UnsetupDomainViews } from '@potentiel/domain-views';
+import {
+  téléverserFichierDossierRaccordementAdapter,
+  téléchargerFichierDossierRaccordementAdapter,
+} from '@potentiel/infra-adapters';
+import { loadAggregate, oldSubscribe, publish } from '@potentiel/pg-event-sourcing';
+import {
+  createProjection,
+  findProjection,
+  listProjection,
+  removeProjection,
+  searchProjection,
+  updateProjection,
+} from '@potentiel/pg-projections';
+import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
 
 should();
 
@@ -23,7 +39,8 @@ setDefaultTimeout(5000);
 
 const bucketName = 'potentiel';
 
-let unsetupApp: UnsetupApp | undefined;
+let unsetupDomain: UnsetupDomain | undefined;
+let unsetupDomainViews: UnsetupDomainViews | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
@@ -49,8 +66,38 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   await executeQuery(`insert into event_store.subscriber values($1)`, 'new_event');
 
-  unsetupApp = await bootstrap({
-    projectRepository: { findOne: async () => ({} as any) }, // TODO : Cette dependance ne devrait pas être là
+  unsetupDomain = await setupDomain({
+    common: {
+      loadAggregate,
+      publish,
+      subscribe: oldSubscribe,
+    },
+    raccordement: {
+      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
+        téléverserFichierDossierRaccordementAdapter,
+      enregistrerPropositionTechniqueEtFinancièreSignée:
+        téléverserFichierDossierRaccordementAdapter,
+    },
+  });
+
+  unsetupDomainViews = await setupDomainViews({
+    common: {
+      create: createProjection,
+      find: findProjection,
+      list: listProjection,
+      remove: removeProjection,
+      search: searchProjection,
+      subscribe: oldSubscribe,
+      update: updateProjection,
+      legacy: {
+        projectRepository: legacyProjectRepository,
+      },
+    },
+    raccordement: {
+      récupérerAccuséRéceptionDemandeComplèteRaccordement:
+        téléchargerFichierDossierRaccordementAdapter,
+      récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
+    },
   });
 });
 
@@ -76,11 +123,18 @@ After(async () => {
     })
     .promise();
 
-  if (unsetupApp) {
-    await unsetupApp();
+  if (unsetupDomain) {
+    await unsetupDomain();
   }
+  unsetupDomain = undefined;
+
+  if (unsetupDomainViews) {
+    await unsetupDomainViews();
+  }
+  unsetupDomainViews = undefined;
 });
 
 AfterAll(async () => {
   await killPool();
+  disconnectRedis();
 });
