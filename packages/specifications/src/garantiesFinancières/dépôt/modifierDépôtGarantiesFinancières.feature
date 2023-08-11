@@ -1,5 +1,5 @@
 #Language: fr-FR
-
+@select
 Fonctionnalité: Modifier le dépôt de garanties financières en attente de validation dans Potentiel
     Contexte: 
         Etant donné le projet "Centrale éolienne 20"

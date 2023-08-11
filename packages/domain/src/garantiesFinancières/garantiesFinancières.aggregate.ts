@@ -24,7 +24,7 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
 > = (events) =>
   events.reduce((aggregate, event) => {
     switch (event.type) {
-      case 'TypeGarantiesFinancièresEnregistré-v0':
+      case 'TypeGarantiesFinancièresEnregistréSnapshot-v1':
       case 'TypeGarantiesFinancièresEnregistré-v1':
       case 'AttestationGarantiesFinancièresEnregistrée':
         return processEnregistrementGarantiesFinancièresEvent({ event, aggregate });
@@ -58,7 +58,7 @@ const processEnregistrementGarantiesFinancièresEvent = ({
   aggregate: GarantiesFinancièresAggregate;
 }) => {
   switch (event.type) {
-    case 'TypeGarantiesFinancièresEnregistré-v0':
+    case 'TypeGarantiesFinancièresEnregistréSnapshot-v1':
       if ('typeGarantiesFinancières' in event.payload) {
         return {
           ...aggregate,

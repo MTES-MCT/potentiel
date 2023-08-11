@@ -30,7 +30,7 @@ export const registerGarantiesFinancièresProjector = ({
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
     switch (event.type) {
       case 'TypeGarantiesFinancièresEnregistré-v1':
-      case 'TypeGarantiesFinancièresEnregistré-v0':
+      case 'TypeGarantiesFinancièresEnregistréSnapshot-v1':
         if (isNone(garantiesFinancières)) {
           await create<GarantiesFinancièresReadModel>(key, {
             typeGarantiesFinancières:

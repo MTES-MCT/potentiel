@@ -1,23 +1,23 @@
 import {
   TypeGarantiesFinancièresEnregistréEventV1,
-  TypeGarantiesFinancièresEnregistréEventV0,
+  TypeGarantiesFinancièresEnregistréSnapshotV1,
   AttestationGarantiesFinancièresEnregistréeEvent,
 } from './actuelles/enregistrementGarantiesFinancières.event';
 import {
-  GarantiesFinancièresDéposéesV1,
-  DépôtGarantiesFinancièresModifiéV1,
+  GarantiesFinancièresDéposéesEventV1,
+  DépôtGarantiesFinancièresModifiéEventV1,
   GarantiesFinancièresDéposéesSnapshotV1,
 } from './dépôt/dépôtGarantiesFinancières.event';
 
 export type EnregistrementGarantiesFinancièresEvent =
-  | TypeGarantiesFinancièresEnregistréEventV0
+  | TypeGarantiesFinancièresEnregistréSnapshotV1
   | TypeGarantiesFinancièresEnregistréEventV1
   | AttestationGarantiesFinancièresEnregistréeEvent;
 
 export type DépôtGarantiesFinancièresEvent =
   | GarantiesFinancièresDéposéesSnapshotV1
-  | GarantiesFinancièresDéposéesV1
-  | DépôtGarantiesFinancièresModifiéV1;
+  | GarantiesFinancièresDéposéesEventV1
+  | DépôtGarantiesFinancièresModifiéEventV1;
 
 export type GarantiesFinancièresEvent =
   | EnregistrementGarantiesFinancièresEvent

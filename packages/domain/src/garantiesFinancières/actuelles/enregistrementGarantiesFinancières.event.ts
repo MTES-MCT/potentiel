@@ -1,7 +1,7 @@
 import { DomainEvent } from '@potentiel/core-domain';
 
-export type TypeGarantiesFinancièresEnregistréEventV0 = DomainEvent<
-  'TypeGarantiesFinancièresEnregistré-v0',
+export type TypeGarantiesFinancièresEnregistréSnapshotV1 = DomainEvent<
+  'TypeGarantiesFinancièresEnregistréSnapshot-v1',
   {
     identifiantProjet: string;
   } & (

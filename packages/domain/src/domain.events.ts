@@ -7,7 +7,7 @@ import {
   GarantiesFinancièresEvent,
 } from './garantiesFinancières/garantiesFinancières.event';
 import {
-  TypeGarantiesFinancièresEnregistréEventV0,
+  TypeGarantiesFinancièresEnregistréSnapshotV1,
   AttestationGarantiesFinancièresEnregistréeEvent,
 } from './garantiesFinancières/actuelles/enregistrementGarantiesFinancières.event';
 import { GarantiesFinancièresDéposéesSnapshotV1 } from './garantiesFinancières/dépôt/dépôtGarantiesFinancières.event';
@@ -25,7 +25,7 @@ export {
   GarantiesFinancièresEvent,
   DépôtGarantiesFinancièresEvent,
   EnregistrementGarantiesFinancièresEvent,
-  TypeGarantiesFinancièresEnregistréEventV0,
+  TypeGarantiesFinancièresEnregistréSnapshotV1,
   AttestationGarantiesFinancièresEnregistréeEvent,
   GarantiesFinancièresDéposéesSnapshotV1,
 };

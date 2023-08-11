@@ -11,7 +11,7 @@ export type GarantiesFinancièresDéposéesSnapshotV1 = DomainEvent<
   }
 >;
 
-export type GarantiesFinancièresDéposéesV1 = DomainEvent<
+export type GarantiesFinancièresDéposéesEventV1 = DomainEvent<
   'GarantiesFinancièresDéposées-v1',
   {
     identifiantProjet: string;
@@ -28,7 +28,7 @@ export type GarantiesFinancièresDéposéesV1 = DomainEvent<
   )
 >;
 
-export type DépôtGarantiesFinancièresModifiéV1 = DomainEvent<
+export type DépôtGarantiesFinancièresModifiéEventV1 = DomainEvent<
   'DépôtGarantiesFinancièresModifié-v1',
   {
     identifiantProjet: string;

@@ -4,7 +4,7 @@ import {
   AttestationGarantiesFinancièresEnregistréeEvent,
   DomainUseCase,
   TypeGarantiesFinancières,
-  TypeGarantiesFinancièresEnregistréEventV0,
+  TypeGarantiesFinancièresEnregistréSnapshotV1,
   Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
@@ -84,8 +84,8 @@ EtantDonné(
         : undefined;
 
     if (typePayload) {
-      const legacyTypeEvent: TypeGarantiesFinancièresEnregistréEventV0 = {
-        type: 'TypeGarantiesFinancièresEnregistré-v0',
+      const legacyTypeEvent: TypeGarantiesFinancièresEnregistréSnapshotV1 = {
+        type: 'TypeGarantiesFinancièresEnregistréSnapshot-v1',
         payload: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
           ...typePayload,
