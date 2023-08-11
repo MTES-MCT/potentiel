@@ -1,13 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import {
-  TypeEtDateÉchéance,
-  estTypeAvecDateÉchéance,
-} from "../garantiesFinancières.valueType";
+import { TypeEtDateÉchéance, estTypeAvecDateÉchéance } from '../garantiesFinancières.valueType';
 import { TypeGarantiesFinancièresEnregistréEventV1 } from './enregistrementGarantiesFinancières.event';
 import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
-import { loadProjetAggregateFactory, createProjetAggregateId } from '../../projet/projet.aggregate';
+import { loadProjetAggregateFactory } from '../../projet/projet.aggregate';
 import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
+import { createGarantiesFinancièresAggregateId } from '../garantiesFinancières.aggregate';
 
 export type EnregistrerTypeGarantiesFinancièresCommand = Message<
   'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
@@ -58,7 +56,7 @@ export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
       },
     };
 
-    await publish(createProjetAggregateId(identifiantProjet), event);
+    await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
   };
 
   mediator.register('ENREGISTER_TYPE_GARANTIES_FINANCIÈRES', handler);

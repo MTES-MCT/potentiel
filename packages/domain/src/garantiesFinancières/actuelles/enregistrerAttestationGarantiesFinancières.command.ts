@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { AttestationConstitution } from '../garantiesFinancières.valueType';
 import { Publish } from '@potentiel/core-domain';
-import { createProjetAggregateId } from '../../projet/projet.aggregate';
 import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
 import { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrementGarantiesFinancières.event';
 import { TéléverserFichierPort } from '../../common.ports';
+import { createGarantiesFinancièresAggregateId } from '../garantiesFinancières.aggregate';
 
 export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
   'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
@@ -46,7 +46,7 @@ export const registerEnregistrerAttestationGarantiesFinancièresCommand = ({
       },
     };
 
-    await publish(createProjetAggregateId(identifiantProjet), event);
+    await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
   };
 
   mediator.register('ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES', handler);

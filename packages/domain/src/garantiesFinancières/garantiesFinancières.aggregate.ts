@@ -1,75 +1,162 @@
 import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { DépôtGarantiesFinancièresEvent } from '../domain.events';
 import { IdentifiantProjetValueType, convertirEnDateTime } from '../domain.valueType';
-import { DépôtGarantiesFinancières } from './garantiesFinancières.valueType';
+import { DépôtGarantiesFinancières, GarantiesFinancières } from './garantiesFinancières.valueType';
+import {
+  DépôtGarantiesFinancièresEvent,
+  EnregistrementGarantiesFinancièresEvent,
+  GarantiesFinancièresEvent,
+} from './garantiesFinancières.event';
 
-type DépôtGarantiesFinancièresAggregateId = `dépôt-garanties-financières|${string}`;
+type GarantiesFinancièresAggregateId = `garanties-financières|${string}`;
 
-export const createDépôtGarantiesFinancièresAggregateId = (
+export const createGarantiesFinancièresAggregateId = (
   identifiantProjet: IdentifiantProjetValueType,
-): DépôtGarantiesFinancièresAggregateId =>
-  `dépôt-garanties-financières|${identifiantProjet.formatter()}`; // à modifier après déplacement agrégat GF actuelles ici
+): GarantiesFinancièresAggregateId => `garanties-financières|${identifiantProjet.formatter()}`;
 
-type GarantiesFinancièresAggregate = { dépôt?: Partial<DépôtGarantiesFinancières> };
+type GarantiesFinancièresAggregate = {
+  dépôt: Partial<DépôtGarantiesFinancières> | {};
+  actuelles: GarantiesFinancières | {};
+};
 
-const dépôtGarantiesFinancièresAggregateFactory: AggregateFactory<
+const garantiesFinancièresAggregateFactory: AggregateFactory<
   GarantiesFinancièresAggregate,
-  DépôtGarantiesFinancièresEvent
+  GarantiesFinancièresEvent
 > = (events) =>
   events.reduce(
     (aggregate, event) => {
       switch (event.type) {
+        case 'TypeGarantiesFinancièresEnregistré-v0':
+        case 'TypeGarantiesFinancièresEnregistré-v1':
+        case 'AttestationGarantiesFinancièresEnregistrée':
+          return processEnregistrementGarantiesFinancièresEvent({ event, aggregate });
         case 'GarantiesFinancièresDéposées-v1':
         case 'DépôtGarantiesFinancièresModifié-v1':
-          return {
-            ...aggregate,
-            dépôt: {
-              ...(aggregate.dépôt && { ...aggregate.dépôt }),
-              ...('dateDépôt' in event.payload && {
-                dateDépôt: convertirEnDateTime(event.payload.dateDépôt),
-              }),
-              typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-              dateÉchéance:
-                'dateÉchéance' in event.payload
-                  ? convertirEnDateTime(event.payload.dateÉchéance)
-                  : undefined,
-              attestationConstitution: {
-                format: event.payload.attestationConstitution.format,
-                date: convertirEnDateTime(event.payload.attestationConstitution.date),
-              },
-            },
-          };
         case 'GarantiesFinancièresDéposéesSnapshot-v1':
-          return {
-            ...aggregate,
-            dépôt: {
-              dateDépôt: convertirEnDateTime(event.payload.dateDépôt),
-              ...('typeGarantiesFinancières' in event.payload && {
-                typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-              }),
-              dateÉchéance: event.payload.dateÉchéance
-                ? convertirEnDateTime(event.payload.dateÉchéance)
-                : undefined,
-              attestationConstitution: {
-                format: event.payload.attestationConstitution.format,
-                date: convertirEnDateTime(event.payload.attestationConstitution.date),
-              },
-            },
-          };
+          return processDépôtGarantiesFinancièresEvent({ event, aggregate });
+        default:
+          return { ...aggregate };
       }
     },
-    { dépôt: {} },
+    { dépôt: {}, actuelles: {} },
   );
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
-export const loadDépôtGarantiesFinancièresAggregateFactory = ({
+export const loadGarantiesFinancièresAggregateFactory = ({
   loadAggregate,
 }: LoadAggregateFactoryDependencies) => {
   return async (identifiantProjet: IdentifiantProjetValueType) => {
-    return loadAggregate<GarantiesFinancièresAggregate, DépôtGarantiesFinancièresEvent>(
-      createDépôtGarantiesFinancièresAggregateId(identifiantProjet),
-      dépôtGarantiesFinancièresAggregateFactory,
+    return loadAggregate<GarantiesFinancièresAggregate, GarantiesFinancièresEvent>(
+      createGarantiesFinancièresAggregateId(identifiantProjet),
+      garantiesFinancièresAggregateFactory,
     );
   };
+};
+
+const processEnregistrementGarantiesFinancièresEvent = ({
+  event,
+  aggregate,
+}: {
+  event: EnregistrementGarantiesFinancièresEvent;
+  aggregate: GarantiesFinancièresAggregate;
+}) => {
+  switch (event.type) {
+    case 'TypeGarantiesFinancièresEnregistré-v0':
+      if ('typeGarantiesFinancières' in event.payload) {
+        return {
+          ...aggregate,
+          actuelles: {
+            ...aggregate.actuelles,
+            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+            dateÉchéance:
+              event.payload.typeGarantiesFinancières === `avec date d'échéance`
+                ? convertirEnDateTime(event.payload.dateÉchéance)
+                : undefined,
+          },
+        };
+      } else {
+        return {
+          ...aggregate,
+          actuelles: {
+            ...aggregate.actuelles,
+            dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+          },
+        };
+      }
+    case 'TypeGarantiesFinancièresEnregistré-v1':
+      return {
+        ...aggregate,
+        actuelles: {
+          ...aggregate.actuelles,
+          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          dateÉchéance:
+            event.payload.typeGarantiesFinancières === `avec date d'échéance`
+              ? convertirEnDateTime(event.payload.dateÉchéance)
+              : undefined,
+        },
+      };
+    case 'AttestationGarantiesFinancièresEnregistrée':
+      return {
+        ...aggregate,
+        actuelles: {
+          ...aggregate.actuelles,
+          attestationConstitution: {
+            format: event.payload.format,
+            date: convertirEnDateTime(event.payload.date),
+          },
+        },
+      };
+    default:
+      return { ...aggregate };
+  }
+};
+
+const processDépôtGarantiesFinancièresEvent = ({
+  event,
+  aggregate,
+}: {
+  event: DépôtGarantiesFinancièresEvent;
+  aggregate: GarantiesFinancièresAggregate;
+}) => {
+  switch (event.type) {
+    case 'GarantiesFinancièresDéposées-v1':
+    case 'DépôtGarantiesFinancièresModifié-v1':
+      return {
+        ...aggregate,
+        dépôt: {
+          ...(aggregate && { ...aggregate.dépôt }),
+          ...('dateDépôt' in event.payload && {
+            dateDépôt: convertirEnDateTime(event.payload.dateDépôt),
+          }),
+          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          dateÉchéance:
+            'dateÉchéance' in event.payload
+              ? convertirEnDateTime(event.payload.dateÉchéance)
+              : undefined,
+          attestationConstitution: {
+            format: event.payload.attestationConstitution.format,
+            date: convertirEnDateTime(event.payload.attestationConstitution.date),
+          },
+        },
+      };
+    case 'GarantiesFinancièresDéposéesSnapshot-v1':
+      return {
+        ...aggregate,
+        dépôt: {
+          dateDépôt: convertirEnDateTime(event.payload.dateDépôt),
+          ...('typeGarantiesFinancières' in event.payload && {
+            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          }),
+          dateÉchéance: event.payload.dateÉchéance
+            ? convertirEnDateTime(event.payload.dateÉchéance)
+            : undefined,
+          attestationConstitution: {
+            format: event.payload.attestationConstitution.format,
+            date: convertirEnDateTime(event.payload.attestationConstitution.date),
+          },
+        },
+      };
+    default:
+      return { ...aggregate };
+  }
 };

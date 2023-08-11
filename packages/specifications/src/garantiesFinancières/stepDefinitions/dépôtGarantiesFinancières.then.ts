@@ -2,7 +2,7 @@ import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
-  loadDépôtGarantiesFinancièresAggregateFactory,
+  loadGarantiesFinancièresAggregateFactory,
 } from '@potentiel/domain';
 import {
   ConsulterDépôtGarantiesFinancièresQuery,
@@ -37,7 +37,7 @@ Alors(
       dateDépôt: convertirEnDateTime(dateDépôt),
     };
 
-    const actualAggregate = await loadDépôtGarantiesFinancièresAggregateFactory({
+    const actualAggregate = await loadGarantiesFinancièresAggregateFactory({
       loadAggregate,
     })(convertirEnIdentifiantProjet(identifiantProjet));
 

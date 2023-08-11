@@ -5,7 +5,7 @@ import {
   Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
-  createDépôtGarantiesFinancièresAggregateId,
+  createGarantiesFinancièresAggregateId,
   GarantiesFinancièresDéposéesSnapshotV1,
 } from '@potentiel/domain';
 import { convertStringToReadable } from '../../helpers/convertStringToReadable';
@@ -117,7 +117,7 @@ Quand(
       };
 
       await publish(
-        createDépôtGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
+        createGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
         event,
       );
 

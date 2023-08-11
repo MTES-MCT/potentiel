@@ -10,8 +10,8 @@ import {
 } from '../garantiesFinancières.valueType';
 import { Utilisateur } from '../../domain.valueType';
 import {
-  createDépôtGarantiesFinancièresAggregateId,
-  loadDépôtGarantiesFinancièresAggregateFactory,
+  createGarantiesFinancièresAggregateId,
+  loadGarantiesFinancièresAggregateFactory,
 } from '../garantiesFinancières.aggregate';
 import { TéléverserFichierPort } from '../../common.ports';
 import { isNone } from '@potentiel/monads';
@@ -38,7 +38,7 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
   loadAggregate,
   téléverserFichier,
 }: ModifierDépôtGarantiesFinancièresDependencies) => {
-  const loadDépôtGarantiesFinancières = loadDépôtGarantiesFinancièresAggregateFactory({
+  const loadDépôtGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
     loadAggregate,
   });
 
@@ -83,7 +83,7 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
       },
     };
 
-    await publish(createDépôtGarantiesFinancièresAggregateId(identifiantProjet), event);
+    await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
   };
 
   mediator.register('MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES', handler);

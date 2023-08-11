@@ -5,16 +5,17 @@ import {
   AttestationConstitution,
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
-} from "../garantiesFinancières.valueType";
+} from '../garantiesFinancières.valueType';
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
   TypeGarantiesFinancièresEnregistréEventV1,
 } from './enregistrementGarantiesFinancières.event';
 import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
 import { TéléverserFichierPort } from '../../common.ports';
-import { loadProjetAggregateFactory, createProjetAggregateId } from '../../projet/projet.aggregate';
+import { loadProjetAggregateFactory } from '../../projet/projet.aggregate';
 import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
 import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
+import { createGarantiesFinancièresAggregateId } from '../garantiesFinancières.aggregate';
 
 export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
   'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
@@ -77,7 +78,7 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
       },
     };
 
-    await publish(createProjetAggregateId(identifiantProjet), eventForType);
+    await publish(createGarantiesFinancièresAggregateId(identifiantProjet), eventForType);
 
     const eventForAttestation: AttestationGarantiesFinancièresEnregistréeEvent = {
       type: 'AttestationGarantiesFinancièresEnregistrée',
@@ -89,7 +90,11 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
     };
 
     setTimeout(
-      async () => await publish(createProjetAggregateId(identifiantProjet), eventForAttestation),
+      async () =>
+        await publish(
+          createGarantiesFinancièresAggregateId(identifiantProjet),
+          eventForAttestation,
+        ),
       100,
     );
   };

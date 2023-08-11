@@ -2,7 +2,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
-  createDépôtGarantiesFinancièresAggregateId,
+  createGarantiesFinancièresAggregateId,
   GarantiesFinancièresDéposéesSnapshotV1,
 } from '@potentiel/domain';
 import { convertStringToReadable } from '../../helpers/convertStringToReadable';
@@ -40,7 +40,7 @@ EtantDonné(
     };
 
     await publish(
-      createDépôtGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
+      createGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
       event,
     );
 
