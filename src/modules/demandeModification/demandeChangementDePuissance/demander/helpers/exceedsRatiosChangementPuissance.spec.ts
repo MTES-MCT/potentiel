@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { ProjectAppelOffre, Technologie } from '@entities';
 import { exceedsRatiosChangementPuissance } from './exceedsRatiosChangementPuissance';
 

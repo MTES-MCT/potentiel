@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import { UniqueEntityID } from '../../../../../core/domain';
 import {

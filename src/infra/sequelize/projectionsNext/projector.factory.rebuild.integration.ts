@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { sequelizeInstance } from '../../../sequelize.config';
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Transaction } from 'sequelize';
 import { BaseDomainEvent, DomainEvent } from '@core/domain';

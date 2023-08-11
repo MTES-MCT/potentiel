@@ -1,5 +1,5 @@
-import { UserProjectsLinkedByContactEmail } from '..';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { describe, expect, it, jest } from '@jest/globals';
+import { DomainEvent, EventBus, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { InfraNotAvailableError } from '../../shared';
 import { UserCreated } from '../../users';
@@ -10,7 +10,7 @@ describe('authN.handleUserCreated', () => {
     const eventBus = {
       publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
       subscribe: jest.fn(),
-    };
+    } as EventBus;
 
     const projectWithSameEmailId = new UniqueEntityID().toString();
     const getNonLegacyProjectsByContactEmail = jest.fn((email: string) =>
@@ -31,10 +31,13 @@ describe('authN.handleUserCreated', () => {
       }),
     );
 
-    expect(eventBus).toHavePublishedTimes(1);
-    expect(eventBus).toHavePublishedWithPayload(UserProjectsLinkedByContactEmail, {
-      userId: 'userId',
-      projectIds: [projectWithSameEmailId],
+    expect(eventBus.publish).toHaveBeenCalledTimes(1);
+    expect(eventBus).toHaveBeenCalledWith({
+      type: 'UserProjectsLinkedByContactEmail',
+      payload: {
+        userId: 'userId',
+        projectIds: [projectWithSameEmailId],
+      },
     });
   });
 });

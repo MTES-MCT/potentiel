@@ -1,13 +1,16 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import { AbandonRejeté } from '@modules/demandeModification';
 import { makeOnAbandonRejeté } from '.';
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { NotifierPorteurChangementStatutDemande } from '../../useCases';
 
 describe(`Notifier lorsqu'un abandon est rejeté`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est rejeté
           Alors les deux porteurs ayant accès au projet devraient être notifiés`, async () => {
-      const notifierPorteurChangementStatutDemande = jest.fn();
+      const notifierPorteurChangementStatutDemande =
+        jest.fn<NotifierPorteurChangementStatutDemande>();
       const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
         () =>
           okAsync({

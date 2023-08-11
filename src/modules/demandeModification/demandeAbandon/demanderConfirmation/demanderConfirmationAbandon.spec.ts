@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { okAsync } from '@core/utils';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
@@ -19,7 +20,9 @@ describe(`Demander une confirmation d'abandon`, () => {
 
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible de demander une confirmation d'abandon si non Admin/DGEC`, () => {
     describe(`Etant donné un utilisateur autre que Admin ou DGEC`, () => {

@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { CahierDesChargesModifié, ProjectAppelOffre, User } from '@entities';
@@ -55,7 +56,9 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
 
   const fileRepo = fakeRepo();
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Cas d'une demande qui n'est pas en statut "envoyée"`, () => {
     for (const statut of statutsDemandeAnnulationAbandon.filter((statut) => statut !== 'envoyée')) {

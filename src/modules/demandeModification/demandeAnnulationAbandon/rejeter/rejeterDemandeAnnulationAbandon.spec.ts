@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 
 import { okAsync } from '@core/utils';
@@ -21,7 +22,9 @@ describe(`Rejeter une annulation d'abandon`, () => {
   const fileRepo = fakeRepo();
   const projetId = 'le-projet-de-la-demande';
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible si le rôle de l'utilisateur n'est pas Admin ou DGEC`, () => {
     const rolesNePouvantPasRefuser = USER_ROLES.filter(

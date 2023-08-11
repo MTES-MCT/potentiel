@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from 'neverthrow';
 import { NotificationArgs } from '../..';
 import { UniqueEntityID } from '@core/domain';
@@ -22,8 +23,8 @@ describe('notification.handleModificationRequestStatusChanged', () => {
   );
 
   const sendNotification = jest.fn(async (args: NotificationArgs) => null);
-  const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
-    jest.fn((modificationRequestId) =>
+  const getModificationRequestInfoForStatusNotification =
+    jest.fn<GetModificationRequestInfoForStatusNotification>((modificationRequestId) =>
       okAsync({
         porteursProjet: projectUsers.map(({ email, fullName, id }) => ({ email, fullName, id })),
         nomProjet: 'nomProjet',

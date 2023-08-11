@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { executeSelect, executeQuery } from '@potentiel/pg-helpers';
 import { publish } from './publish';
 

@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 
 import { DomainEvent, UniqueEntityID } from '@core/domain';
@@ -25,7 +26,9 @@ describe(`Rejeter une demande de délai`, () => {
     okAsync<null, InfraNotAvailableError>(null),
   );
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible de rejeter un délai si non Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {

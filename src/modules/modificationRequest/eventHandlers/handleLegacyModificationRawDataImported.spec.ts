@@ -1,9 +1,11 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { LegacyModificationDTO } from '..';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { okAsync, ResultAsync, WithDelay } from '@core/utils';
 import { InfraNotAvailableError } from '../../shared';
 import { LegacyModificationImported, LegacyModificationRawDataImported } from '../events';
 import { handleLegacyModificationRawDataImported } from './handleLegacyModificationRawDataImported';
+import { FindProjectByIdentifiers } from '@modules/project';
 
 const eventBus = {
   publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
@@ -30,7 +32,9 @@ describe('handleLegacyModificationRawDataImported', () => {
   };
 
   describe('when the project exists', () => {
-    const findProjectByIdentifiers = jest.fn().mockReturnValue(okAsync(projectId));
+    const findProjectByIdentifiers = jest
+      .fn<FindProjectByIdentifiers>()
+      .mockReturnValue(okAsync(projectId));
 
     beforeAll(async () => {
       eventBus.publish.mockClear();
@@ -67,7 +71,7 @@ describe('handleLegacyModificationRawDataImported', () => {
 
   describe('when the project exists but first call return null because of inconsistency', () => {
     const findProjectByIdentifiers = jest
-      .fn()
+      .fn<FindProjectByIdentifiers>()
       .mockReturnValue(okAsync(projectId))
       .mockReturnValueOnce(okAsync(null));
 
@@ -105,7 +109,9 @@ describe('handleLegacyModificationRawDataImported', () => {
   });
 
   describe('when the project does not exist', () => {
-    const findProjectByIdentifiers = jest.fn().mockReturnValue(okAsync(null));
+    const findProjectByIdentifiers = jest
+      .fn<FindProjectByIdentifiers>()
+      .mockReturnValue(okAsync(null));
 
     beforeAll(async () => {
       eventBus.publish.mockClear();

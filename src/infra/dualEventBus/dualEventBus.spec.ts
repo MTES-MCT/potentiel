@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { BaseDomainEvent, DomainEvent, EventBus } from '@core/domain';
 import { errAsync, okAsync } from '@core/utils';
 import { InfraNotAvailableError } from '@modules/shared';

@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { getLogger, levels, resetLogger } from './logger';
 
 describe('winston-logger', () => {

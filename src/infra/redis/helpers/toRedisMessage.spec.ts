@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { toRedisMessage } from './toRedisMessage';
 import { BaseDomainEvent, DomainEvent } from '@core/domain';
 

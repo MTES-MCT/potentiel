@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from 'neverthrow';
 import { NotificationArgs } from '../..';
 import { UniqueEntityID } from '@core/domain';
@@ -15,8 +16,8 @@ describe('notification.handleModificationRequestCancelled', () => {
   it(`Etant donné une demande de modification sous l'autorité DGEC
       Lorsque le porteur annule la demande
       Alors une notification par email devrait être envoyée au mail générique de la DGEC`, async () => {
-    const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
-      jest.fn(() =>
+    const getModificationRequestInfoForStatusNotification =
+      jest.fn<GetModificationRequestInfoForStatusNotification>(() =>
         okAsync({
           porteursProjet: [],
           departementProjet: 'departement',
@@ -70,8 +71,8 @@ describe('notification.handleModificationRequestCancelled', () => {
   it(`Etant donné une demande de modification sous l'autorité DREAL
       Lorsque le porteur annule la demande
       Alors une notification par email devrait être envoyée à tous les agents DREAL concernés par le projet`, async () => {
-    const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
-      jest.fn(() =>
+    const getModificationRequestInfoForStatusNotification =
+      jest.fn<GetModificationRequestInfoForStatusNotification>(() =>
         okAsync({
           porteursProjet: [],
           departementProjet: 'departement',

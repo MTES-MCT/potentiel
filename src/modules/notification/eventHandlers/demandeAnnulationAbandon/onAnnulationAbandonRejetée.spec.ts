@@ -1,12 +1,15 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import { AnnulationAbandonRejetée } from '@modules/demandeModification';
 import { makeOnAnnulationAbandonRejetée } from './onAnnulationAbandonRejetée';
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { NotifierPorteurChangementStatutDemande } from '@modules/notification/useCases';
 
 describe(`Notifier lorsqu'une annulation d'abandon est rejetée`, () => {
   it(`  Quand une annulation d'abandon est rejetée,
         alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-    const notifierPorteurChangementStatutDemande = jest.fn();
+    const notifierPorteurChangementStatutDemande =
+      jest.fn<NotifierPorteurChangementStatutDemande>();
     const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
       () =>
         okAsync({

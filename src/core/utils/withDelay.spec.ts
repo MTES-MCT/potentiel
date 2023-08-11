@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { err, ok, errAsync, okAsync } from './Result';
 import { withDelay } from './withDelay';
 

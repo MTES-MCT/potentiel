@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { UniqueEntityID } from '@core/domain';
 import { logger, okAsync, UnwrapForTest } from '@core/utils';
@@ -12,7 +13,7 @@ describe('Sequelize FileRepo', () => {
   const fileStorageService: FileStorageService = {
     upload: jest.fn((args: { contents: FileContents; path: string }) => okAsync('storageLocation')),
     download: jest.fn((storedAt: string) => okAsync(fakeFileStream)),
-    remove: jest.fn(),
+    remove: jest.fn<FileStorageService['remove']>(),
   };
 
   const fileRepo = makeFileRepo({ fileStorageService });

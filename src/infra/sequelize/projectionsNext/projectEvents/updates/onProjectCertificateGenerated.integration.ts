@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { ProjectCertificateGenerated, ProjectCertificateGeneratedPayload } from '@modules/project';
 import { resetDatabase } from '../../../helpers';

@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { ProjectImported, ProjectReimported } from '../../project';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import { handleProjectImported } from './handleProjectImported';

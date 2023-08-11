@@ -1,10 +1,12 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { ProfilUtilisateurCréé } from '@modules/utilisateur';
 import { makeOnProfilUtilisateurCréé } from './onProfilUtilisateurCréé';
+import { CreateUserCredentials } from '../queries';
 
 describe('Handler onProfilUtilisateurCréé', () => {
   it(`Etant donné un évènement ProfilUtilisateurCréé émis,
   alors createUserCredentials devrait être appelée avec les données de l'utilisateur`, async () => {
-    const createUserCredentials = jest.fn();
+    const createUserCredentials = jest.fn<CreateUserCredentials>();
 
     await makeOnProfilUtilisateurCréé(createUserCredentials)(
       new ProfilUtilisateurCréé({

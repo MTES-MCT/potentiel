@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { UniqueEntityID } from '@core/domain';

@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { EntityNotFoundError } from '@modules/shared';
 import makeFakeFile from '../../../../../__tests__/fixtures/file';

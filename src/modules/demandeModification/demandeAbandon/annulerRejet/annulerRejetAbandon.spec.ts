@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import { makeUser } from '@entities';
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors';
@@ -13,7 +14,9 @@ import { makeAnnulerRejetAbandon } from './annulerRejetAbandon';
 
 describe(`Pouvoir annuler le rejet d'un abandon`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Annulation impossible si l'utilisateur n'a pas le rôle 'admin' ou 'dgec-validateur'`, () => {
     const rôlesNePouvantPasAnnulerLeRejetDeLAbandon = USER_ROLES.filter(

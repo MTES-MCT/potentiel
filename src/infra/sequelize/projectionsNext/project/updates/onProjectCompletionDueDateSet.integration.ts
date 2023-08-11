@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
 import { ProjectCompletionDueDateSet } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';

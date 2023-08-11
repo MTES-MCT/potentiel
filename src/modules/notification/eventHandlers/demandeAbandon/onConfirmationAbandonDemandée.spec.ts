@@ -1,13 +1,16 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import { ConfirmationAbandonDemandée } from '@modules/demandeModification';
 import { makeOnConfirmationAbandonDemandée } from '.';
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { NotifierPorteurChangementStatutDemande } from '@modules/notification/useCases';
 
 describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est en attente de confirmation
           Alors les deux porteurs ayant accès au projet devraient être notifiés`, async () => {
-      const notifierPorteurChangementStatutDemande = jest.fn();
+      const notifierPorteurChangementStatutDemande =
+        jest.fn<NotifierPorteurChangementStatutDemande>();
       const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
         () =>
           okAsync({

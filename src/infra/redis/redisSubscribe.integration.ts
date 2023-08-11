@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import Redis from 'ioredis';
 import { makeRedisSubscribe } from './redisSubscribe';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ';

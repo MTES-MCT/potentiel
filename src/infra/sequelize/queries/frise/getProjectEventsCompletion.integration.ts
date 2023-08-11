@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { getProjectEvents } from '.';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent, Project } from '../../projectionsNext';

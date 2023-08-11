@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { User, UserDreal } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../../helpers';

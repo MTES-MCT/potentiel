@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import {
   DemanderAbandonError,
@@ -45,7 +46,9 @@ describe('Commande demanderAbandon', () => {
 
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Demande d'abandon impossible si le porteur n'a pas les droits sur le projet`, () => {
     describe(`Etant donné un porteur n'ayant pas les droits sur le projet`, () => {

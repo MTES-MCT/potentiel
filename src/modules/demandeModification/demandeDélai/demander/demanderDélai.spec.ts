@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { Project } from '@modules/project';
 import { Repository } from '@core/domain';
@@ -33,8 +34,8 @@ describe('Commande demanderDélai', () => {
   const fakeProject = makeFakeProject();
 
   const fileRepo = {
-    save: jest.fn(() => okAsync(null)),
-    load: jest.fn(),
+    save: jest.fn<Repository<FileObject>['save']>(() => okAsync(null)),
+    load: jest.fn<Repository<FileObject>['load']>(),
   };
 
   const fakeFileContents = {

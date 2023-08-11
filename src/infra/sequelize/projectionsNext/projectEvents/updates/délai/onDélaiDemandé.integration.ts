@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { DélaiDemandé, DélaiDemandéPayload } from '@modules/demandeModification';
 import { ProjectEvent } from '@infra/sequelize/projectionsNext';

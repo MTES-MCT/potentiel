@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { FileDetachedFromProject } from '../../../../../modules/file';
 import { resetDatabase } from '../../../helpers';

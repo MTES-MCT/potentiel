@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';

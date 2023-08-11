@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import {
   GetProjectInfoForModificationRequestedNotification,
@@ -6,6 +7,8 @@ import {
 import routes from '@routes';
 import { handleModificationRequested } from './handleModificationRequested';
 import { User } from '@entities';
+import { NotificationService } from '@modules/notification';
+import { UserRepo } from '@dataAccess';
 
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {
   it(`Etant donné un projet sous l'autorité DGEC
@@ -15,7 +18,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       Alors tous les porteurs ayant accès au projet devraient être notifiés
       Et une notification devrait être envoyée à l'email générique de la DGEC`, async () => {
     const typeDemande = 'puissance';
-    const sendNotification = jest.fn();
+    const sendNotification = jest.fn<NotificationService['sendNotification']>();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
         okAsync({
@@ -33,7 +36,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
     await handleModificationRequested({
       sendNotification,
       getProjectInfoForModificationRequestedNotification,
-      findUsersForDreal: jest.fn(),
+      findUsersForDreal: jest.fn<UserRepo['findUsersForDreal']>(),
       dgecEmail: 'dgec@test.test',
     })(
       new ModificationRequested({
@@ -117,7 +120,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       Et que la région est l'autorité compétente pour la demande
       Alors tous les agents des deux régions du projet devraient être notifiés
       Et le porteur devrait être notifié`, async () => {
-    const sendNotification = jest.fn();
+    const sendNotification = jest.fn<NotificationService['sendNotification']>();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
         okAsync({

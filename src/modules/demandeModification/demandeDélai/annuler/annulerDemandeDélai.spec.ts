@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import { DomainEvent } from '@core/domain';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
@@ -7,16 +8,14 @@ import {
 } from '../../../../__tests__/fixtures/aggregates';
 import { makeAnnulerDemandeDélai } from './annulerDemandeDélai';
 import { StatutDemandeDélai, statutsDemandeDélai } from '../DemandeDélai';
-import { makeUser } from '@entities';
-import { UnwrapForTest } from '../../../../types';
-import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { StatusPreventsCancellingError } from '@modules/modificationRequest';
+import { User } from '../../../../entities';
 
 describe(`Commande annuler demande délai`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null),
   );
-  const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
+  const user = { role: 'porteur-projet', id: 'fake-id' } as User;
 
   beforeEach(() => {
     publishToEventStore.mockClear();

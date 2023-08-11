@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 
 import { UniqueEntityID } from '@core/domain';
@@ -17,7 +18,9 @@ describe(`Rejeter une demande d'abandon`, () => {
   const fichierRéponse = { contents: Readable.from('test-content'), filename: 'fichier-réponse' };
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible de rejeter un abandon si non Admin/DGEC`, () => {
     describe(`Etant donné un utilisateur autre que Admin, DGEC`, () => {

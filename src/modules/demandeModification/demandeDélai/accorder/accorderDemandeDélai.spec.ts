@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { okAsync } from '@core/utils';
 import { UniqueEntityID } from '@core/domain';
@@ -22,7 +23,9 @@ describe(`Accorder une demande de délai`, () => {
   };
 
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible d'accorder un délai si non Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {

@@ -1,13 +1,15 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import { RejetDélaiAnnulé } from '@modules/demandeModification';
 import { makeOnRejetDélaiAnnulé } from './onRejetDélaiAnnulé';
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { NotificationService } from '@modules/notification';
 
 describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un rejet de demande de délai est annulé,
           alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-      const sendNotification = jest.fn();
+      const sendNotification = jest.fn<NotificationService['sendNotification']>();
       const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
         () =>
           okAsync({

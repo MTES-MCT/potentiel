@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { CahierDesChargesModifié } from './cahierDesCharges';
 import { ProjectAppelOffre } from './appelOffre';
 import { Periode } from './periode';

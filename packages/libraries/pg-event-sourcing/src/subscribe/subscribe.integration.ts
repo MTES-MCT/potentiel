@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { Subscriber, Unsubscribe } from '@potentiel/core-domain';
 import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';

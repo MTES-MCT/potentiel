@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { ModificationReceived } from '@modules/modificationRequest';
 import { ModificationRequest } from '@infra/sequelize/projectionsNext';

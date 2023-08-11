@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectDataCorrected } from './onProjectDataCorrected';
 import { ProjectDataCorrected } from '@modules/project';

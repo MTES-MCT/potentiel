@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { buildApplyProjectUpdate, Project } from '.';
 
 describe('Project entity', () => {

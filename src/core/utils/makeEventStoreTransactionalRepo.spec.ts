@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { AggregateFromHistoryFn, ok, Result } from '.';
 import { BaseDomainEvent, DomainEvent, EventStore, UniqueEntityID } from '../domain';
 import {

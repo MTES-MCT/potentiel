@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from 'neverthrow';
 import { NotificationArgs } from '../..';
 import { UniqueEntityID } from '@core/domain';
@@ -21,8 +22,8 @@ describe('Handler onAbandonAnnulé', () => {
       makeUser(makeFakeUser({ role: 'admin', email: 'admin@test.test', fullName: 'admin1' })),
     );
 
-    const getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification =
-      jest.fn(() =>
+    const getDataForStatutDemandeAbandonModifiéNotification =
+      jest.fn<GetDataForStatutDemandeAbandonModifiéNotification>(() =>
         okAsync({
           chargeAffaire: {
             email: chargeAffaire.email,

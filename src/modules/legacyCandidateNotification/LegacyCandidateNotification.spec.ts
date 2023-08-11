@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { makeLegacyCandidateNotificationId } from './helpers';
 import { UniqueEntityID } from '@core/domain';
 import { UnwrapForTest } from '@core/utils';

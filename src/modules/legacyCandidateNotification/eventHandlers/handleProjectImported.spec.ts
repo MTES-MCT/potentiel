@@ -1,9 +1,12 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { handleProjectImported } from './handleProjectImported';
 import {
   fakeTransactionalRepo,
   makeFakeLegacyCandidateNotification,
 } from '../../../__tests__/fixtures/aggregates';
 import { ProjectImported, ProjectReimported } from '../../project';
+import { LegacyCandidateNotification } from '../LegacyCandidateNotification';
+import { IsPeriodeLegacy } from '@modules/appelOffre';
 
 const appelOffreId = 'appelOffreId';
 const periodeId = 'periodeId';
@@ -49,9 +52,9 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
       const isPeriodeLegacy = async () => false;
 
       it('should do nothing', async () => {
-        const legacyCandidateNotificationRepo = {
-          transaction: jest.fn(),
-        };
+        const legacyCandidateNotificationRepo = fakeTransactionalRepo(
+          {} as LegacyCandidateNotification,
+        );
         await handleProjectImported({
           isPeriodeLegacy,
           legacyCandidateNotificationRepo,
@@ -98,9 +101,9 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
         const isPeriodeLegacy = async () => false;
 
         it('should do nothing', async () => {
-          const legacyCandidateNotificationRepo = {
-            transaction: jest.fn(),
-          };
+          const legacyCandidateNotificationRepo = fakeTransactionalRepo(
+            {} as LegacyCandidateNotification,
+          );
           await handleProjectImported({
             isPeriodeLegacy,
             legacyCandidateNotificationRepo,
@@ -122,12 +125,12 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
           data: { numeroCRE: '123' },
         },
       });
-      const isPeriodeLegacy = jest.fn();
+      const isPeriodeLegacy = jest.fn<IsPeriodeLegacy>();
 
       it('should do nothing', async () => {
-        const legacyCandidateNotificationRepo = {
-          transaction: jest.fn(),
-        };
+        const legacyCandidateNotificationRepo = fakeTransactionalRepo(
+          {} as LegacyCandidateNotification,
+        );
         await handleProjectImported({
           isPeriodeLegacy,
           legacyCandidateNotificationRepo,

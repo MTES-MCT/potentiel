@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import { DomainEvent } from '@core/domain';
 
@@ -22,7 +23,9 @@ describe(`Passer une demande de délai en instruction`, () => {
   const demandeDélaiId = 'demande-délai-id';
   const projetId = 'projet-id';
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible de passer en instruction une demande avec un statut autre que 'envoyée'`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {

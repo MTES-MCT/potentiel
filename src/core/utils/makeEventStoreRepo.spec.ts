@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { DomainEvent, UniqueEntityID, EventStore, BaseDomainEvent } from '../domain';
 import { ok } from '.';
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates';

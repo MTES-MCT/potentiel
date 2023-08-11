@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { loadFromStream } from './loadFromStream';
 

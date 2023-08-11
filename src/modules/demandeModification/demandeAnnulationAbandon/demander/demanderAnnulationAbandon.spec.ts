@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Project } from '@modules/project';
 import { okAsync } from '@core/utils';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
@@ -32,7 +33,9 @@ describe(`Demander une annulation d'abandon`, () => {
       ] as Readonly<Array<CahierDesChargesModifié>>,
     } as ProjectAppelOffre);
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Demande impossible si le porteur n'a pas les droits sur le projet`, () => {
     it(`Etant donné un porteur n'ayant pas les droits sur le projet

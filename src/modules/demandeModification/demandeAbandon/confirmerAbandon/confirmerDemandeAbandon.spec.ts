@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '@core/utils';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
@@ -11,7 +12,9 @@ describe(`Confirmer une demande d'abandon`, () => {
   const demandeAbandonId = 'id-demande';
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible de confirmer un abandon si non porteur-projet`, () => {
     describe(`Etant donné un utilisateur autre que porteur-projet`, () => {
