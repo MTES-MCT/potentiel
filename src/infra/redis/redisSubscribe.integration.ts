@@ -1,9 +1,10 @@
-import { describe, expect, it } from '@jest/globals';
+import { afterAll, afterEach, describe, expect, it, jest } from '@jest/globals';
 import Redis from 'ioredis';
 import { makeRedisSubscribe } from './redisSubscribe';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
 import { fromRedisMessage } from './helpers/fromRedisMessage';
 import waitForExpect from 'wait-for-expect';
+import { DomainEvent } from '@core/domain';
 
 describe('redisSubscribe', () => {
   const streamName = 'potentiel-event-bus-subscribe-tests';
@@ -34,7 +35,7 @@ describe('redisSubscribe', () => {
         streamName,
       });
 
-      const consumer = jest.fn().mockImplementation(() => Promise.resolve());
+      const consumer = jest.fn<() => Promise<void>>().mockImplementation(() => Promise.resolve());
 
       redisSubscribe(consumer, 'MyConsumer');
 
@@ -71,7 +72,7 @@ describe('redisSubscribe', () => {
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event));
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event));
 
-      const consumer = jest.fn().mockImplementation(() => Promise.resolve());
+      const consumer = jest.fn<() => Promise<void>>().mockImplementation(() => Promise.resolve());
       redisSubscribe(consumer, 'MyConsumer');
 
       await waitForExpect(() => {
@@ -96,13 +97,15 @@ describe('redisSubscribe', () => {
       occurredAt: 5678,
     };
 
-    const consumer = jest.fn().mockImplementation((event) => {
-      if (event.payload.userId === 'failed') {
-        return Promise.reject('An error occured');
-      }
+    const consumer = jest
+      .fn<(event: DomainEvent) => Promise<void>>()
+      .mockImplementation((event) => {
+        if (event.payload.userId === 'failed') {
+          return Promise.reject('An error occured');
+        }
 
-      return Promise.resolve();
-    });
+        return Promise.resolve();
+      });
 
     it('should send the failed message to the consumer only once', async () => {
       await redis.del('MyConsumer-DLQ');
@@ -161,7 +164,9 @@ describe('redisSubscribe', () => {
         streamName,
       });
 
-      const firstConsumer = jest.fn().mockImplementation(() => Promise.resolve());
+      const firstConsumer = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
       redisFirstSubscribe(firstConsumer, 'MyConsumer');
 
       const event1 = {
@@ -189,7 +194,9 @@ describe('redisSubscribe', () => {
         redis: redisDependency,
         streamName,
       });
-      const secondConsumer = jest.fn().mockImplementation(() => Promise.resolve());
+      const secondConsumer = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
       redisSecondSubscribe(secondConsumer, 'MyConsumer');
 
       const event2 = {
@@ -220,10 +227,14 @@ describe('redisSubscribe', () => {
         streamName,
       });
 
-      const firstConsumer = jest.fn().mockImplementation(() => Promise.resolve());
+      const firstConsumer = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
       redisSubscribe(firstConsumer, 'MyConsumer');
 
-      const secondConsumer = jest.fn().mockImplementation(() => Promise.resolve());
+      const secondConsumer = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
       redisSubscribe(secondConsumer, 'MyConsumer');
 
       const event = {

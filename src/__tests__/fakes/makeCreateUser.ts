@@ -8,7 +8,7 @@ type FakeCreateUserArgs = {
 };
 
 const makeFakeCreateUser: (fake?: FakeCreateUserArgs) => CreateUser = (fake) =>
-  jest.fn((createUserArgs) => {
+  jest.fn<CreateUser>((createUserArgs) => {
     return okAsync({
       id: fake?.id ?? 'user-id',
       role: fake?.role ?? createUserArgs.role ?? 'porteur-projet',

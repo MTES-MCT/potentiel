@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { ConfirmationRequested } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';

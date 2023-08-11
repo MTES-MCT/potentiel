@@ -34,7 +34,7 @@ describe('Commande demanderAbandon', () => {
 
   const fileRepo = {
     save: jest.fn(() => okAsync(null)),
-    load: jest.fn(),
+    load: jest.fn<Repository<FileObject>['load']>(),
   };
 
   const fakeFileContents = {

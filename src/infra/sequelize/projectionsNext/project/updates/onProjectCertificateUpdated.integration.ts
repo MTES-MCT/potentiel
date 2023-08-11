@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
 import { ProjectCertificateUpdated } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';

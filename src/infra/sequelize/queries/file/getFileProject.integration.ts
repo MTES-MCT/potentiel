@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { FileNotFoundError } from '@modules/file';
 import { resetDatabase } from '../../helpers';

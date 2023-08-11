@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { FileAttachedToProject } from '../../../../../modules/file';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';

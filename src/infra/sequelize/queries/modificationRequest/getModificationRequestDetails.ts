@@ -118,6 +118,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       attachmentFile: attachmentFile?.get(),
       delayInMonths,
       dateAchèvementDemandée,
+      //@ts-ignore
       actionnaire,
       fournisseurs,
       evaluationCarbone,

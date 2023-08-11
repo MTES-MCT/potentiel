@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated';
 import { ModificationRequestStatusUpdated } from '@modules/modificationRequest';

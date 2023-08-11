@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { UserRightsToProjectGranted } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';

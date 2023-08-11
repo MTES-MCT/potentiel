@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import express, { Request } from 'express';
 import { okAsync } from '@core/utils';
 import { User } from '@entities';
@@ -16,7 +16,7 @@ describe(`attachUserToRequestMiddleware`, () => {
       const nextFunction = jest.fn();
 
       const middleware = makeAttachUserToRequestMiddleware({
-        getUserByEmail: jest.fn(),
+        getUserByEmail: jest.fn<GetUserByEmail>(),
         createUser: makeFakeCreateUser(),
       });
       middleware(request, {} as express.Response, nextFunction);
@@ -45,7 +45,7 @@ describe(`attachUserToRequestMiddleware`, () => {
       const nextFunction = jest.fn();
 
       const middleware = makeAttachUserToRequestMiddleware({
-        getUserByEmail: jest.fn(),
+        getUserByEmail: jest.fn<GetUserByEmail>(),
         createUser: makeFakeCreateUser(),
       });
       middleware(request, {} as express.Response, nextFunction);
@@ -82,7 +82,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             role: undefined as unknown as UserRole,
           };
 
-          const getUserByEmail: GetUserByEmail = jest.fn((email) =>
+          const getUserByEmail = jest.fn<GetUserByEmail>((email) =>
             email === userEmail ? okAsync({ ...user, role: 'porteur-projet' }) : okAsync(null),
           );
 
@@ -163,6 +163,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             path: '/a-protected-path',
             session: {},
           } as express.Request;
+          //@ts-ignore
           request.session.destroy = jest.fn();
 
           const token = {
@@ -198,7 +199,7 @@ describe(`attachUserToRequestMiddleware`, () => {
               accountUrl: expect.any(String),
               permissions: expect.anything(),
             };
-            expect(request.user).toMatchObject(expectedUser);
+            expect(request.user).toMatchObject(expectedUser as Record<string, unknown>);
           });
 
           it('should destroy the request session', () => {
@@ -251,7 +252,7 @@ describe(`attachUserToRequestMiddleware`, () => {
               accountUrl: expect.any(String),
               permissions: expect.anything(),
             };
-            expect(request.user).toMatchObject(expectedUser);
+            expect(request.user).toMatchObject(expectedUser as Record<string, unknown>);
           });
 
           it('should execute the next function', () => {
