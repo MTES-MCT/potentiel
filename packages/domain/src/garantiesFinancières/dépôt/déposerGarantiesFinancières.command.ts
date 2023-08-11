@@ -39,7 +39,7 @@ export const registerDéposerGarantiesFinancièresCommand = ({
   loadAggregate,
   téléverserFichier,
 }: DéposerGarantiesFinancièresDependencies) => {
-  const loadDépôtGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
+  const loadGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
     loadAggregate,
   });
 
@@ -51,9 +51,9 @@ export const registerDéposerGarantiesFinancièresCommand = ({
     dateDépôt,
     utilisateur,
   }) => {
-    const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
+    const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
 
-    if (isSome(agrégatDépôtGarantiesFinancières) && agrégatDépôtGarantiesFinancières.dépôt) {
+    if (isSome(agrégatGarantiesFinancières) && agrégatGarantiesFinancières.dépôt) {
       throw new DépôtGarantiesFinancièresDéjàExistantErreur();
     }
 

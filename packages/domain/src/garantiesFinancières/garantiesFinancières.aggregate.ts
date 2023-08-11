@@ -13,7 +13,7 @@ export const createGarantiesFinancièresAggregateId = (
   identifiantProjet: IdentifiantProjetValueType,
 ): GarantiesFinancièresAggregateId => `garanties-financières|${identifiantProjet.formatter()}`;
 
-type GarantiesFinancièresAggregate = {
+export type GarantiesFinancièresAggregate = {
   dépôt: Partial<DépôtGarantiesFinancières> | {};
   actuelles: GarantiesFinancières | {};
 };

@@ -1,6 +1,5 @@
 import { Option, isSome } from '@potentiel/monads';
 import { Aggregate } from '@potentiel/core-domain';
-import { Projet } from '../projet/projet.aggregate';
 import {
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
@@ -13,12 +12,13 @@ import {
   ModificationGarantiesFinancièresNonAutoriséeErreur,
   TypeGarantiesFinancièresNonAcceptéErreur,
 } from './garantiesFinancières.error';
+import { GarantiesFinancièresAggregate } from './garantiesFinancières.aggregate';
 
 export const verifyGarantiesFinancièresTypeForCommand = (
   typeGarantiesFinancières: TypeEtDateÉchéance['typeGarantiesFinancières'],
   dateÉchéance: TypeEtDateÉchéance['dateÉchéance'],
   utilisateur: Utilisateur,
-  agrégatProjet?: Option<Aggregate & Projet>,
+  agrégatGarantiesFinancières?: Option<Aggregate & GarantiesFinancièresAggregate>,
 ) => {
   if (!estUnTypeDeGarantiesFinancièresAccepté(typeGarantiesFinancières)) {
     throw new TypeGarantiesFinancièresNonAcceptéErreur();
@@ -32,8 +32,12 @@ export const verifyGarantiesFinancièresTypeForCommand = (
     throw new DateÉchéanceGarantiesFinancièresRequiseErreur();
   }
 
-  if (utilisateurEstPorteur(utilisateur) && agrégatProjet && isSome(agrégatProjet)) {
-    if (agrégatProjet.garantiesFinancières?.typeGarantiesFinancières) {
+  if (
+    utilisateurEstPorteur(utilisateur) &&
+    agrégatGarantiesFinancières &&
+    isSome(agrégatGarantiesFinancières)
+  ) {
+    if ('typeGarantiesFinancières' in agrégatGarantiesFinancières.actuelles) {
       throw new ModificationGarantiesFinancièresNonAutoriséeErreur();
     }
   }

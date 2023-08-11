@@ -38,7 +38,7 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
   loadAggregate,
   téléverserFichier,
 }: ModifierDépôtGarantiesFinancièresDependencies) => {
-  const loadDépôtGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
+  const loadGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
     loadAggregate,
   });
 
@@ -49,9 +49,9 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
     attestationConstitution,
     utilisateur,
   }) => {
-    const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
+    const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
 
-    if (isNone(agrégatDépôtGarantiesFinancières) || !agrégatDépôtGarantiesFinancières.dépôt) {
+    if (isNone(agrégatGarantiesFinancières) || !agrégatGarantiesFinancières.dépôt) {
       throw new DépôtGarantiesFinancièresNonTrouvéPourModificationErreur();
     }
 

@@ -12,10 +12,12 @@ import {
 } from './enregistrementGarantiesFinancières.event';
 import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
 import { TéléverserFichierPort } from '../../common.ports';
-import { loadProjetAggregateFactory } from '../../projet/projet.aggregate';
 import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
 import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
-import { createGarantiesFinancièresAggregateId } from '../garantiesFinancières.aggregate';
+import {
+  createGarantiesFinancièresAggregateId,
+  loadGarantiesFinancièresAggregateFactory,
+} from '../garantiesFinancières.aggregate';
 
 export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
   'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
@@ -37,7 +39,7 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
   loadAggregate,
   téléverserFichier,
 }: EnregistrerGarantiesFinancièresComplètesDependencies) => {
-  const loadProjet = loadProjetAggregateFactory({
+  const loadGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
     loadAggregate,
   });
   const handler: MessageHandler<EnregistrerGarantiesFinancièresComplètesCommand> = async ({
@@ -47,13 +49,13 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
     attestationConstitution,
     utilisateur,
   }) => {
-    const agrégatProjet = await loadProjet(identifiantProjet);
+    const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
 
     verifyGarantiesFinancièresTypeForCommand(
       typeGarantiesFinancières,
       dateÉchéance,
       utilisateur,
-      agrégatProjet,
+      agrégatGarantiesFinancières,
     );
 
     verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);

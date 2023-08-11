@@ -3,9 +3,11 @@ import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { TypeEtDateÉchéance, estTypeAvecDateÉchéance } from '../garantiesFinancières.valueType';
 import { TypeGarantiesFinancièresEnregistréEventV1 } from './enregistrementGarantiesFinancières.event';
 import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
-import { loadProjetAggregateFactory } from '../../projet/projet.aggregate';
 import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
-import { createGarantiesFinancièresAggregateId } from '../garantiesFinancières.aggregate';
+import {
+  createGarantiesFinancièresAggregateId,
+  loadGarantiesFinancièresAggregateFactory,
+} from '../garantiesFinancières.aggregate';
 
 export type EnregistrerTypeGarantiesFinancièresCommand = Message<
   'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
@@ -24,7 +26,7 @@ export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
   publish,
   loadAggregate,
 }: EnregistrerTypeGarantiesFinancièresDependencies) => {
-  const loadProjet = loadProjetAggregateFactory({
+  const loadGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
     loadAggregate,
   });
 
@@ -34,13 +36,13 @@ export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
     dateÉchéance,
     utilisateur,
   }) => {
-    const agrégatProjet = await loadProjet(identifiantProjet);
+    const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
 
     verifyGarantiesFinancièresTypeForCommand(
       typeGarantiesFinancières,
       dateÉchéance,
       utilisateur,
-      agrégatProjet,
+      agrégatGarantiesFinancières,
     );
 
     const event: TypeGarantiesFinancièresEnregistréEventV1 = {
