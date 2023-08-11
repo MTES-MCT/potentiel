@@ -32,6 +32,12 @@ Fonctionnalité: Modifier le dépôt de garanties financières en attente de val
         Alors l'utilisateur devrait être informé que "Le dépôt de garanties financières que vous tentez de modifier est introuvable"
 
     Scénario: Erreur si date de constitution dans le futur
+        Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | date d'échéance      | 2027-12-01             |
+            | format               | application/pdf        |
+            | contenu fichier      | le contenu du fichier  |
+            | date de constitution | 2021-12-01             |
+            | date de dépôt        | 2023-08-11             |  
         Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | avec date d'échéance   |
             | date d'échéance      | 2027-12-01             |
@@ -41,6 +47,12 @@ Fonctionnalité: Modifier le dépôt de garanties financières en attente de val
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future" 
    
     Scénario: Erreur si date de d'échéance manquante
+        Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | date d'échéance      | 2027-12-01             |
+            | format               | application/pdf        |
+            | contenu fichier      | le contenu du fichier  |
+            | date de constitution | 2021-12-01             |
+            | date de dépôt        | 2023-08-11             | 
         Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | avec date d'échéance   |
             | format               | application/pdf        |
@@ -49,6 +61,12 @@ Fonctionnalité: Modifier le dépôt de garanties financières en attente de val
         Alors l'utilisateur devrait être informé que "La date d'échéance est requise pour ce type de garanties financières" 
 
     Plan du Scénario: Erreur si date de d'échéance non compatible avec le type
+        Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | date d'échéance      | 2027-12-01             |
+            | format               | application/pdf        |
+            | contenu fichier      | le contenu du fichier  |
+            | date de constitution | 2021-12-01             |
+            | date de dépôt        | 2023-08-11             | 
         Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | <type>                 |
             | date d'échéance      | 2027-12-01             |

@@ -51,15 +51,15 @@ export const registerDéposerGarantiesFinancièresCommand = ({
     dateDépôt,
     utilisateur,
   }) => {
-    verifyGarantiesFinancièresTypeForCommand(typeGarantiesFinancières, dateÉchéance, utilisateur);
-
-    verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);
-
     const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
 
     if (isSome(agrégatDépôtGarantiesFinancières) && agrégatDépôtGarantiesFinancières.dépôt) {
       throw new DépôtGarantiesFinancièresDéjàExistantErreur();
     }
+
+    verifyGarantiesFinancièresTypeForCommand(typeGarantiesFinancières, dateÉchéance, utilisateur);
+
+    verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);
 
     await téléverserFichier({
       format: attestationConstitution.format,

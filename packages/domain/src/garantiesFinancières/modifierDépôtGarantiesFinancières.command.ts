@@ -49,15 +49,15 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
     attestationConstitution,
     utilisateur,
   }) => {
+    const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
+
+    if (isNone(agrégatDépôtGarantiesFinancières) || !agrégatDépôtGarantiesFinancières.dépôt) {
+      throw new DépôtGarantiesFinancièresNonTrouvéPourModificationErreur();
+    }
+
     verifyGarantiesFinancièresTypeForCommand(typeGarantiesFinancières, dateÉchéance, utilisateur);
 
     verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);
-
-    const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
-
-    if (isNone(agrégatDépôtGarantiesFinancières)) {
-      throw new DépôtGarantiesFinancièresNonTrouvéPourModificationErreur();
-    }
 
     await téléverserFichier({
       format: attestationConstitution.format,
