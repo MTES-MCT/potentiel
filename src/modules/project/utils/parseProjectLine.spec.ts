@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import moment from 'moment';
 import { parseProjectLine } from './parseProjectLine';
 

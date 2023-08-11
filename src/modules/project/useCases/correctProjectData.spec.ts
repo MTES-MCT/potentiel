@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { DomainError, Repository, UniqueEntityID } from '@core/domain';
 import { logger, okAsync } from '@core/utils';
@@ -23,9 +24,9 @@ describe('correctProjectData', () => {
 
     const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-    const fileRepo: Repository<FileObject> = {
-      save: jest.fn(),
-      load: jest.fn(),
+    const fileRepo = {
+      save: jest.fn<Repository<FileObject>['save']>(),
+      load: jest.fn<Repository<FileObject>['load']>(),
     };
 
     const correctProjectData = makeCorrectProjectData({
@@ -63,9 +64,9 @@ describe('correctProjectData', () => {
         lastUpdatedOn: new Date(1),
       };
       const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-      const fileRepo: Repository<FileObject> = {
-        save: jest.fn(),
-        load: jest.fn(),
+      const fileRepo = {
+        save: jest.fn<Repository<FileObject>['save']>(),
+        load: jest.fn<Repository<FileObject>['load']>(),
       };
 
       const correctProjectData = makeCorrectProjectData({
@@ -235,9 +236,9 @@ describe('correctProjectData', () => {
         describe('when certificate mode is custom', () => {
           const fakeProject = makeFakeProject();
           const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-          const fileRepo: Repository<FileObject> = {
-            save: jest.fn(),
-            load: jest.fn(),
+          const fileRepo = {
+            save: jest.fn<Repository<FileObject>['save']>(),
+            load: jest.fn<Repository<FileObject>['load']>(),
           };
 
           const correctProjectData = makeCorrectProjectData({
@@ -273,9 +274,9 @@ describe('correctProjectData', () => {
               shouldCertificateBeGenerated: true,
             };
             const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-            const fileRepo: Repository<FileObject> = {
-              save: jest.fn(),
-              load: jest.fn(),
+            const fileRepo = {
+              save: jest.fn<Repository<FileObject>['save']>(),
+              load: jest.fn<Repository<FileObject>['load']>(),
             };
 
             const correctProjectData = makeCorrectProjectData({
@@ -317,9 +318,9 @@ describe('correctProjectData', () => {
               shouldCertificateBeGenerated: false,
             };
             const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-            const fileRepo: Repository<FileObject> = {
-              save: jest.fn(),
-              load: jest.fn(),
+            const fileRepo = {
+              save: jest.fn<Repository<FileObject>['save']>(),
+              load: jest.fn<Repository<FileObject>['load']>(),
             };
 
             const correctProjectData = makeCorrectProjectData({
@@ -360,9 +361,9 @@ describe('correctProjectData', () => {
             shouldCertificateBeGenerated: true,
           };
           const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-          const fileRepo: Repository<FileObject> = {
-            save: jest.fn(),
-            load: jest.fn(),
+          const fileRepo = {
+            save: jest.fn<Repository<FileObject>['save']>(),
+            load: jest.fn<Repository<FileObject>['load']>(),
           };
 
           const correctProjectData = makeCorrectProjectData({
@@ -402,9 +403,9 @@ describe('correctProjectData', () => {
 
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-        const fileRepo: Repository<FileObject> = {
-          save: jest.fn(),
-          load: jest.fn(),
+        const fileRepo = {
+          save: jest.fn<Repository<FileObject>['save']>(),
+          load: jest.fn<Repository<FileObject>['load']>(),
         };
 
         const correctProjectData = makeCorrectProjectData({

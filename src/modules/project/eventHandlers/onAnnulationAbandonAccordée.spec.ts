@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { ProjectAppelOffre } from '@entities';
 import { AnnulationAbandonAccordée } from '@modules/demandeModification';
@@ -10,7 +11,9 @@ import { makeOnAnnulationAbandonAccordée } from './onAnnulationAbandonAccordée
 describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   const projetId = new UniqueEntityID().toString();
   const completionDueOn = new Date().getTime();

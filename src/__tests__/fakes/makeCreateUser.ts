@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { CreateUser, UserRole } from '@modules/users';
 import { okAsync } from '@core/utils';
 

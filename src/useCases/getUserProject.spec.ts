@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { makeProject, User } from '@entities';
 import { UnwrapForTest } from '../types';
 import makeFakeProject from '../__tests__/fixtures/project';
@@ -33,7 +34,7 @@ describe('getUserProject use-case', () => {
 
   describe('given the user doesnt have rights to the project', () => {
     const shouldUserAccessProject = jest.fn(async () => false);
-    const findProjectById = jest.fn();
+    const findProjectById = jest.fn(async () => project);
     const getUserProject = makeGetUserProject({
       findProjectById,
       shouldUserAccessProject,

@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { makeUser } from '@entities';
@@ -18,7 +19,7 @@ const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
 describe('Supprimer une garantie financière', () => {
   beforeEach(() => {
-    return fakePublish.mockClear();
+    fakePublish.mockClear();
   });
 
   describe(`Suppression impossible si l'utilisateur n'a pas les droits sur le projet`, () => {

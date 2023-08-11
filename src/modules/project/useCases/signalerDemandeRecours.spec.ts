@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, Repository, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { makeUser } from '@entities';
@@ -35,8 +36,8 @@ describe('Commande signalerDemandeRecours', () => {
       const shouldUserAccessProject = jest.fn(async () => false);
 
       const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
+        save: jest.fn<Repository<FileObject>['save']>(),
+        load: jest.fn<Repository<FileObject>['load']>(),
       };
 
       const signalerDemandeRecours = makeSignalerDemandeRecours({
@@ -70,8 +71,8 @@ describe('Commande signalerDemandeRecours', () => {
       const hasDemandeDeMêmeTypeOuverte = jest.fn(() => okAsync(true));
 
       const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
+        save: jest.fn<Repository<FileObject>['save']>(),
+        load: jest.fn<Repository<FileObject>['load']>(),
       };
 
       const signalerDemandeRecours = makeSignalerDemandeRecours({

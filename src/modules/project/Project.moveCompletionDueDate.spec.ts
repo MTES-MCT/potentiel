@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { logger, UnwrapForTest } from '@core/utils';
 import { appelsOffreStatic } from '@dataAccess/inMemory';

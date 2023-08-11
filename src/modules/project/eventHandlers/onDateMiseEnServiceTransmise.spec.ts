@@ -9,6 +9,7 @@ import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
 import { Project } from '../Project';
 import { DateMiseEnServiceTransmise } from '../events';
+import { jest, describe, it, beforeEach, expect } from '@jest/globals';
 
 describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const projetId = new UniqueEntityID();

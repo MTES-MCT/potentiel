@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { UnwrapForTest } from '../../../types';
@@ -47,7 +48,7 @@ describe('Choisir un cahier des charges', () => {
     } as AppelOffre);
 
   beforeEach(() => {
-    return publishToEventStore.mockClear();
+    publishToEventStore.mockClear();
   });
 
   describe(`Changement impossible si l'AO du projet n'existe pas`, () => {

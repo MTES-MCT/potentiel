@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { UnwrapForTest } from '../../../types';

@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { UserCreated } from '@modules/users';
 import { makeUtilisateur } from './Utilisateur';

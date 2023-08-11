@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { UnwrapForTest } from '@core/utils';
 import makeFakeProject from '../../__tests__/fixtures/project';

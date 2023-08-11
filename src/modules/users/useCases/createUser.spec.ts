@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { ok } from '@core/utils';
 import { User as OldUser } from '@entities';
 import { fakeTransactionalRepo, makeFakeUser } from '../../../__tests__/fixtures/aggregates';

@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { DomainEvent, Repository, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
@@ -25,7 +26,7 @@ const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
 describe('Uploader une garantie financière', () => {
   beforeEach(() => {
-    return fakePublish.mockClear();
+    fakePublish.mockClear();
   });
 
   describe(`Upload impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
@@ -37,8 +38,8 @@ describe('Uploader une garantie financière', () => {
       const shouldUserAccessProject = jest.fn(async () => false);
 
       const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
+        save: jest.fn<Repository<FileObject>['save']>(),
+        load: jest.fn<Repository<FileObject>['load']>(),
       };
 
       const uploadGF = makeUploadGF({

@@ -1,4 +1,5 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { DomainEvent, EventBus, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { User } from '@entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
@@ -6,6 +7,7 @@ import { InfraNotAvailableError } from '../../shared';
 import { makeInviteUserToProject } from './inviteUserToProject';
 import { UserInvitedToProject } from '../../authZ';
 import { makeFakeCreateUser } from '../../../__tests__/fakes';
+import { GetUserByEmail } from '../queries';
 
 describe('inviteUserToProject use-case', () => {
   const fakeUser: User = makeFakeUser();
@@ -120,10 +122,10 @@ describe('inviteUserToProject use-case', () => {
       async (args: { user: User; projectId: string }) => false,
     );
 
-    const getUserByEmail = jest.fn();
+    const getUserByEmail = jest.fn<GetUserByEmail>();
     const createUser = makeFakeCreateUser();
     const eventBus = {
-      publish: jest.fn(),
+      publish: jest.fn<EventBus['publish']>(),
       subscribe: jest.fn(),
     };
 

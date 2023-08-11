@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { DomainEvent, Repository, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
@@ -87,8 +88,8 @@ describe('submitGF use-case', () => {
       const shouldUserAccessProject = jest.fn(async () => false);
 
       const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
+        save: jest.fn<Repository<FileObject>['save']>(),
+        load: jest.fn<Repository<FileObject>['load']>(),
       };
 
       const submitGF = makeSubmitGF({

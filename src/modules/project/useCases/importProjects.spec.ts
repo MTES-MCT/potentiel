@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { IllegalProjectDataError } from '..';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';

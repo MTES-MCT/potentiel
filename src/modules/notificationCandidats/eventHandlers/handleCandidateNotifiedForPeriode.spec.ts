@@ -1,10 +1,11 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { User } from '@entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeFakeCreateUser } from '../../../__tests__/fakes';
 import { GetPeriodeTitle } from '../../appelOffre';
-import { NotificationArgs } from '../../notification';
+import { NotificationArgs, NotificationService } from '../../notification';
 import { InfraNotAvailableError } from '../../shared';
 import { CandidateNotifiedForPeriode } from '../events';
 import { handleCandidateNotifiedForPeriode } from './handleCandidateNotifiedForPeriode';
@@ -62,8 +63,8 @@ describe('handleCandidateNotifiedForPeriode', () => {
   });
 
   describe('if user does not exist', () => {
-    const sendNotification = jest.fn();
-    const getPeriodeTitle = jest.fn();
+    const sendNotification = jest.fn<NotificationService['sendNotification']>();
+    const getPeriodeTitle = jest.fn<GetPeriodeTitle>();
 
     const getUserByEmail = jest.fn((email: string) =>
       okAsync<User | null, InfraNotAvailableError>(null),

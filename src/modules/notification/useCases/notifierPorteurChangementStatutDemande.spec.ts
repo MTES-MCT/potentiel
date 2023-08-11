@@ -1,9 +1,11 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { makeNotifierPorteurChangementStatutDemande } from './notifierPorteurChangementStatutDemande';
 import routes from '@routes';
+import { NotificationService } from '../NotificationService';
 
 describe(`Notifier le porteur d'un changement de statut de la demande`, () => {
   it('La notification est envoyée avec les informations fournies', async () => {
-    const sendNotification = jest.fn();
+    const sendNotification = jest.fn<NotificationService['sendNotification']>();
     const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
       sendNotification,
     });

@@ -1,8 +1,10 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { UserRightsToProjectRevoked } from '@modules/authZ';
 import { Some } from '../../../../types';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { makeOnUserRightsToProjectRevoked } from './onUserRightsToProjectRevoked';
+import { NotifierPorteurRévocationAccèsProjet } from '@modules/notification/useCases';
 
 describe(`Handler onUserRightsToProjectRevoked`, () => {
   it(`Lorsqu'un événement ToutAccèsAuProjetRévoqué est émis,
@@ -14,7 +16,7 @@ describe(`Handler onUserRightsToProjectRevoked`, () => {
 
     const getUser = jest.fn(async () => Some(porteur));
     const getProject = jest.fn(async () => projet);
-    const notifierPorteurRévocationAccèsProjet = jest.fn();
+    const notifierPorteurRévocationAccèsProjet = jest.fn<NotifierPorteurRévocationAccèsProjet>();
 
     const onUserRightsToProjectRevoked = makeOnUserRightsToProjectRevoked({
       getUser,

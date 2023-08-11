@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { makeFakeCreateUser } from '../../../__tests__/fakes';
 import { LegacyCandidateNotified } from '../../legacyCandidateNotification';

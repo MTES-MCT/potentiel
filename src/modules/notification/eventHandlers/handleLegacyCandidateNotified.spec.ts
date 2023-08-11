@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { LegacyCandidateNotified } from '../../legacyCandidateNotification';
 import { NotificationArgs } from '../Notification';

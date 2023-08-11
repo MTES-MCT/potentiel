@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '@core/domain';
 import { makeUser } from '@entities';
 import { UnwrapForTest } from '../../../types';

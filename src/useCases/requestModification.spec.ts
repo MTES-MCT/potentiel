@@ -1,5 +1,6 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { DomainEvent, Repository } from '@core/domain';
+import { DomainEvent, EventBus, Repository } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { FileObject } from '@modules/file';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
@@ -8,6 +9,7 @@ import makeRequestModification from './requestModification';
 import { fakeRepo } from '../__tests__/fixtures/aggregates';
 import { Project } from '@modules/project';
 import makeFakeProject from '../__tests__/fixtures/project';
+import { User } from '@entities';
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
@@ -24,12 +26,12 @@ describe('requestModification use-case', () => {
     } as Project);
 
     const fileRepo = {
-      save: jest.fn(),
-      load: jest.fn(),
+      save: jest.fn<Repository<FileObject>['save']>(),
+      load: jest.fn<Repository<FileObject>['load']>(),
     };
 
     const eventBus = {
-      publish: jest.fn(),
+      publish: jest.fn<EventBus['publish']>(),
       subscribe: jest.fn(),
     };
 
@@ -62,16 +64,17 @@ describe('requestModification use-case', () => {
   });
 
   describe('given user is not a porteur-projet', () => {
-    const shouldUserAccessProject = jest.fn();
+    const shouldUserAccessProject =
+      jest.fn<(args: { user: User; projectId: string }) => Promise<boolean>>();
     const projectRepo = fakeRepo(fakeProject as Project);
 
     const fileRepo = {
-      save: jest.fn(),
-      load: jest.fn(),
+      save: jest.fn<Repository<FileObject>['save']>(),
+      load: jest.fn<Repository<FileObject>['load']>(),
     };
 
     const eventBus = {
-      publish: jest.fn(),
+      publish: jest.fn<EventBus['publish']>(),
       subscribe: jest.fn(),
     };
 

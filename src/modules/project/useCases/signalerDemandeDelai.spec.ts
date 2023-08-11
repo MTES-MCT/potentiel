@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, Repository, UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { makeUser } from '@entities';
@@ -36,8 +37,8 @@ describe('signalerDemandeDelai use-case', () => {
       const shouldUserAccessProject = jest.fn(async () => false);
 
       const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
+        save: jest.fn<Repository<FileObject>['save']>(),
+        load: jest.fn<Repository<FileObject>['load']>(),
       };
 
       const signalerDemandeDelai = makeSignalerDemandeDelai({
@@ -126,8 +127,8 @@ describe('signalerDemandeDelai use-case', () => {
           const shouldUserAccessProject = jest.fn(async () => true);
 
           const fileRepo = {
-            save: jest.fn(),
-            load: jest.fn(),
+            save: jest.fn<Repository<FileObject>['save']>(),
+            load: jest.fn<Repository<FileObject>['load']>(),
           };
 
           const signalerDemandeDelai = makeSignalerDemandeDelai({
@@ -160,8 +161,8 @@ describe('signalerDemandeDelai use-case', () => {
           const shouldUserAccessProject = jest.fn(async () => true);
 
           const fileRepo = {
-            save: jest.fn(),
-            load: jest.fn(),
+            save: jest.fn<Repository<FileObject>['save']>(),
+            load: jest.fn<Repository<FileObject>['load']>(),
           };
 
           const cahierDesCharges = { type: 'modifié', paruLe: '30/07/2021' };
@@ -206,8 +207,8 @@ describe('signalerDemandeDelai use-case', () => {
           const shouldUserAccessProject = jest.fn(async () => true);
 
           const fileRepo = {
-            save: jest.fn(),
-            load: jest.fn(),
+            save: jest.fn<Repository<FileObject>['save']>(),
+            load: jest.fn<Repository<FileObject>['load']>(),
           };
 
           const cahierDesCharges = { type: 'modifié', paruLe: '30/08/2022' };
@@ -252,8 +253,8 @@ describe('signalerDemandeDelai use-case', () => {
           const shouldUserAccessProject = jest.fn(async () => true);
 
           const fileRepo = {
-            save: jest.fn(),
-            load: jest.fn(),
+            save: jest.fn<Repository<FileObject>['save']>(),
+            load: jest.fn<Repository<FileObject>['load']>(),
           };
 
           const cahierDesCharges = { type: 'modifié', paruLe: '30/08/2022' };
