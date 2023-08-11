@@ -8,8 +8,8 @@ import {
   createGarantiesFinancièresAggregateId,
   GarantiesFinancièresDéposéesSnapshotV1,
 } from '@potentiel/domain';
-import { convertStringToReadable } from '../../helpers/convertStringToReadable';
-import { sleep } from '../../helpers/sleep';
+import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
+import { sleep } from '../../../helpers/sleep';
 import { mediator } from 'mediateur';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { join } from 'path';

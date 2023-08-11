@@ -14,31 +14,28 @@ export const createGarantiesFinancièresAggregateId = (
 ): GarantiesFinancièresAggregateId => `garanties-financières|${identifiantProjet.formatter()}`;
 
 export type GarantiesFinancièresAggregate = {
-  dépôt: Partial<DépôtGarantiesFinancières> | {};
-  actuelles: GarantiesFinancières | {};
+  dépôt?: Partial<DépôtGarantiesFinancières>;
+  actuelles?: GarantiesFinancières;
 };
 
 const garantiesFinancièresAggregateFactory: AggregateFactory<
   GarantiesFinancièresAggregate,
   GarantiesFinancièresEvent
 > = (events) =>
-  events.reduce(
-    (aggregate, event) => {
-      switch (event.type) {
-        case 'TypeGarantiesFinancièresEnregistré-v0':
-        case 'TypeGarantiesFinancièresEnregistré-v1':
-        case 'AttestationGarantiesFinancièresEnregistrée':
-          return processEnregistrementGarantiesFinancièresEvent({ event, aggregate });
-        case 'GarantiesFinancièresDéposées-v1':
-        case 'DépôtGarantiesFinancièresModifié-v1':
-        case 'GarantiesFinancièresDéposéesSnapshot-v1':
-          return processDépôtGarantiesFinancièresEvent({ event, aggregate });
-        default:
-          return { ...aggregate };
-      }
-    },
-    { dépôt: {}, actuelles: {} },
-  );
+  events.reduce((aggregate, event) => {
+    switch (event.type) {
+      case 'TypeGarantiesFinancièresEnregistré-v0':
+      case 'TypeGarantiesFinancièresEnregistré-v1':
+      case 'AttestationGarantiesFinancièresEnregistrée':
+        return processEnregistrementGarantiesFinancièresEvent({ event, aggregate });
+      case 'GarantiesFinancièresDéposées-v1':
+      case 'DépôtGarantiesFinancièresModifié-v1':
+      case 'GarantiesFinancièresDéposéesSnapshot-v1':
+        return processDépôtGarantiesFinancièresEvent({ event, aggregate });
+      default:
+        return { ...aggregate };
+    }
+  }, {});
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 

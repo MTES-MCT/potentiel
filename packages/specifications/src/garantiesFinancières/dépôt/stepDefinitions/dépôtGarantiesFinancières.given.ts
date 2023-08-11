@@ -5,9 +5,9 @@ import {
   createGarantiesFinancièresAggregateId,
   GarantiesFinancièresDéposéesSnapshotV1,
 } from '@potentiel/domain';
-import { convertStringToReadable } from '../../helpers/convertStringToReadable';
-import { sleep } from '../../helpers/sleep';
-import { PotentielWorld } from '../../potentiel.world';
+import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
+import { sleep } from '../../../helpers/sleep';
+import { PotentielWorld } from '../../../potentiel.world';
 import { upload } from '@potentiel/file-storage';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { extension } from 'mime-types';
