@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { EnregistrerTypeGarantiesFinancièresCommand } from './enregistrerTypeGarantiesFinancières.command';
-import { ProjetCommand } from '../projet.command';
 import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command';
-import { IdentifiantProjetValueType } from '../projet.valueType';
-import { Utilisateur } from '../../domain.valueType';
+import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
+import { ProjetCommand } from '../../projet/projet.command';
 
 type EnregistrerGarantiesFinancièresUseCaseData = {
   identifiantProjet: IdentifiantProjetValueType;

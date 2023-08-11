@@ -1,18 +1,18 @@
 import { Option, isSome } from '@potentiel/monads';
 import { Aggregate } from '@potentiel/core-domain';
-import { Projet } from '../projet.aggregate';
+import { Projet } from '../projet/projet.aggregate';
 import {
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
   estUnTypeDeGarantiesFinancièresAccepté,
-} from '../../garantiesFinancières/garantiesFinancières.valueType';
-import { Utilisateur, utilisateurEstPorteur } from '../../domain.valueType';
+} from './garantiesFinancières.valueType';
+import { Utilisateur, utilisateurEstPorteur } from '../domain.valueType';
 import {
   DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
   DateÉchéanceGarantiesFinancièresRequiseErreur,
   ModificationGarantiesFinancièresNonAutoriséeErreur,
   TypeGarantiesFinancièresNonAcceptéErreur,
-} from '../../garantiesFinancières/garantiesFinancières.error';
+} from './garantiesFinancières.error';
 
 export const verifyGarantiesFinancièresTypeForCommand = (
   typeGarantiesFinancières: TypeEtDateÉchéance['typeGarantiesFinancières'],

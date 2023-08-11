@@ -1,50 +1,24 @@
-import { DomainEvent } from '@potentiel/core-domain';
+import {
+  TypeGarantiesFinancièresEnregistréEventV1,
+  TypeGarantiesFinancièresEnregistréEventV0,
+  AttestationGarantiesFinancièresEnregistréeEvent,
+} from './actuelles/enregistrementGarantiesFinancières.event';
+import {
+  GarantiesFinancièresDéposéesV1,
+  DépôtGarantiesFinancièresModifiéV1,
+  GarantiesFinancièresDéposéesSnapshotV1,
+} from './dépôt/dépôtGarantiesFinancières.event';
 
-export type GarantiesFinancièresDéposéesSnapshotV1 = DomainEvent<
-  'GarantiesFinancièresDéposéesSnapshot-v1', // legacy
-  {
-    identifiantProjet: string;
-    dateÉchéance?: string;
-    typeGarantiesFinancières?: `6 mois après achèvement` | 'consignation' | `avec date d'échéance`;
-    attestationConstitution: { format: string; date: string };
-    dateDépôt: string;
-  }
->;
-
-export type GarantiesFinancièresDéposéesV1 = DomainEvent<
-  'GarantiesFinancièresDéposées-v1',
-  {
-    identifiantProjet: string;
-    attestationConstitution: { format: string; date: string };
-    dateDépôt: string;
-  } & (
-    | {
-        typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
-      }
-    | {
-        typeGarantiesFinancières: `avec date d'échéance`;
-        dateÉchéance: string;
-      }
-  )
->;
-
-export type DépôtGarantiesFinancièresModifiéV1 = DomainEvent<
-  'DépôtGarantiesFinancièresModifié-v1',
-  {
-    identifiantProjet: string;
-    attestationConstitution: { format: string; date: string };
-  } & (
-    | {
-        typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
-      }
-    | {
-        typeGarantiesFinancières: `avec date d'échéance`;
-        dateÉchéance: string;
-      }
-  )
->;
+export type EnregistrementGarantiesFinancièresEvent =
+  | TypeGarantiesFinancièresEnregistréEventV0
+  | TypeGarantiesFinancièresEnregistréEventV1
+  | AttestationGarantiesFinancièresEnregistréeEvent;
 
 export type DépôtGarantiesFinancièresEvent =
   | GarantiesFinancièresDéposéesSnapshotV1
   | GarantiesFinancièresDéposéesV1
   | DépôtGarantiesFinancièresModifiéV1;
+
+export type GarantiesFinancièresEvent =
+  | EnregistrementGarantiesFinancièresEvent
+  | DépôtGarantiesFinancièresEvent;

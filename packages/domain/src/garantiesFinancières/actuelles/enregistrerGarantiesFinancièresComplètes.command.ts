@@ -1,20 +1,20 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantProjetValueType } from '../projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
-import { verifyGarantiesFinancièresTypeForCommand } from './verifyGarantiesFinancièresTypeForCommand';
-import { verifyGarantiesFinancièresAttestationForCommand } from './verifyGarantiesFinancièresAttestationForCommand';
+
 import {
   AttestationConstitution,
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
-} from '../../garantiesFinancières/garantiesFinancières.valueType';
+} from "../garantiesFinancières.valueType";
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
   TypeGarantiesFinancièresEnregistréEventV1,
-} from './garantiesFinancières.event';
-import { Utilisateur } from '../../domain.valueType';
+} from './enregistrementGarantiesFinancières.event';
+import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
 import { TéléverserFichierPort } from '../../common.ports';
+import { loadProjetAggregateFactory, createProjetAggregateId } from '../../projet/projet.aggregate';
+import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
+import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
 
 export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
   'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',

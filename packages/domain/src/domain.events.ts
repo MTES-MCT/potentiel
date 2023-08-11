@@ -1,28 +1,31 @@
+import { ProjetEvent } from './projet/projet.event';
+import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.event';
+import { RaccordementEvent } from './raccordement/raccordement.event';
 import {
   DépôtGarantiesFinancièresEvent,
-  GarantiesFinancièresDéposéesSnapshotV1,
+  EnregistrementGarantiesFinancièresEvent,
+  GarantiesFinancièresEvent,
 } from './garantiesFinancières/garantiesFinancières.event';
-import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.event';
 import {
   TypeGarantiesFinancièresEnregistréEventV0,
   AttestationGarantiesFinancièresEnregistréeEvent,
-} from './projet/garantiesFinancières/garantiesFinancières.event';
-import { ProjetEvent, GarantiesFinancièresEvent } from './projet/projet.event';
-import { RaccordementEvent } from './raccordement/raccordement.event';
+} from './garantiesFinancières/actuelles/enregistrementGarantiesFinancières.event';
+import { GarantiesFinancièresDéposéesSnapshotV1 } from './garantiesFinancières/dépôt/dépôtGarantiesFinancières.event';
 
 export type DomainEvents =
   | GestionnaireRéseauEvent
   | RaccordementEvent
   | ProjetEvent
-  | DépôtGarantiesFinancièresEvent;
+  | GarantiesFinancièresEvent;
 
 export {
   GestionnaireRéseauEvent,
   ProjetEvent,
   RaccordementEvent,
   GarantiesFinancièresEvent,
+  DépôtGarantiesFinancièresEvent,
+  EnregistrementGarantiesFinancièresEvent,
   TypeGarantiesFinancièresEnregistréEventV0,
   AttestationGarantiesFinancièresEnregistréeEvent,
-  DépôtGarantiesFinancièresEvent,
   GarantiesFinancièresDéposéesSnapshotV1,
 };

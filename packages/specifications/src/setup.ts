@@ -80,7 +80,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
         téléverserFichierDossierRaccordementAdapter,
     },
     projet: { téléverserFichier: téléverserFichierAdapter },
-    dépôtGarantiesFinancières: { téléverserFichier: téléverserFichierAdapter },
+    garantiesFinancières: { téléverserFichier: téléverserFichierAdapter },
   });
 
   unsetupDomainViews = await setupDomainViews({

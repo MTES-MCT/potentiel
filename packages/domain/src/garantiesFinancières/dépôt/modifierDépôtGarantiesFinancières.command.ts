@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { verifyGarantiesFinancièresTypeForCommand } from '../../projet/garantiesFinancières/verifyGarantiesFinancièresTypeForCommand';
-import { verifyGarantiesFinancièresAttestationForCommand } from '../../projet/garantiesFinancières/verifyGarantiesFinancièresAttestationForCommand';
+import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
+import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
 import {
   AttestationConstitution,
   TypeEtDateÉchéance,
@@ -15,8 +15,8 @@ import {
 } from '../garantiesFinancières.aggregate';
 import { TéléverserFichierPort } from '../../common.ports';
 import { isNone } from '@potentiel/monads';
-import { DépôtGarantiesFinancièresModifiéV1 } from '../garantiesFinancières.event';
 import { DépôtGarantiesFinancièresNonTrouvéPourModificationErreur } from '../garantiesFinancières.error';
+import { DépôtGarantiesFinancièresModifiéV1 } from './dépôtGarantiesFinancières.event';
 
 export type ModifierDépôtGarantiesFinancièresCommand = Message<
   'MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES',

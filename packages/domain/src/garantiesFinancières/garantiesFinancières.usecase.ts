@@ -1,6 +1,8 @@
+import { EnregistrerGarantiesFinancièresUseCase } from './actuelles/enregistrerGarantiesFinancières.usecase';
 import { DéposerGarantiesFinancièresUseCase } from './dépôt/déposerGarantiesFinancières.usecase';
 import { ModifierDépôtGarantiesFinancièresUseCase } from './dépôt/modifierdépôtGarantiesFinancières.usecase';
 
-export type DépôtGarantiesFinancièresUseCase =
+export type GarantiesFinancièresUseCase =
   | DéposerGarantiesFinancièresUseCase
-  | ModifierDépôtGarantiesFinancièresUseCase;
+  | ModifierDépôtGarantiesFinancièresUseCase
+  | EnregistrerGarantiesFinancièresUseCase;
