@@ -30,4 +30,34 @@ Fonctionnalité: Modifier le dépôt de garanties financières en attente de val
             | contenu fichier      | le nouveau contenu du fichier |
             | date de constitution | 2022-01-01                    |
         Alors l'utilisateur devrait être informé que "Le dépôt de garanties financières que vous tentez de modifier est introuvable"
+
+    Scénario: Erreur si date de constitution dans le futur
+        Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | type                 | avec date d'échéance   |
+            | date d'échéance      | 2027-12-01             |
+            | format               | application/pdf        |
+            | contenu fichier      | le contenu du fichier  |
+            | date de constitution | 2050-12-01             |
+        Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future" 
+   
+    Scénario: Erreur si date de d'échéance manquante
+        Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | type                 | avec date d'échéance   |
+            | format               | application/pdf        |
+            | contenu fichier      | le contenu du fichier  |
+            | date de constitution | 2020-12-01             |
+        Alors l'utilisateur devrait être informé que "La date d'échéance est requise pour ce type de garanties financières" 
+
+    Plan du Scénario: Erreur si date de d'échéance non compatible avec le type
+        Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | type                 | <type>                 |
+            | date d'échéance      | 2027-12-01             |
+            | format               | application/pdf        |
+            | contenu fichier      | le contenu du fichier  |
+            | date de constitution | 2021-12-02             |
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas ajouter une date d'échéance pour le type de garanties financières renseigné"
+    Exemples:
+            | type                    |
+            | consignation            |
+            | 6 mois après achèvement |    
                        
