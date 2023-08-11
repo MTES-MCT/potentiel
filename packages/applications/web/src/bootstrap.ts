@@ -12,6 +12,8 @@ import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
   consumerSubscribe,
+  téléverserFichierAttestationGarantiesFinancièresAdapter,
+  téléchargerFichierAttestationGarantiesFinancièresAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
