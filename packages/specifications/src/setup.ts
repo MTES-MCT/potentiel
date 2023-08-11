@@ -19,8 +19,8 @@ import { setupDomainViews, UnsetupDomainViews } from '@potentiel/domain-views';
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
-  téléverserFichierAttestationGarantiesFinancièresAdapter,
-  téléchargerFichierAttestationGarantiesFinancièresAdapter,
+  téléverserFichierAdapter,
+  téléchargerFichierAdapter,
 } from '@potentiel/infra-adapters';
 import { loadAggregate, oldSubscribe, publish } from '@potentiel/pg-event-sourcing';
 import {
@@ -80,7 +80,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       enregistrerPropositionTechniqueEtFinancièreSignée:
         téléverserFichierDossierRaccordementAdapter,
     },
-    projet: { téléverserFichier: téléverserFichierAttestationGarantiesFinancièresAdapter },
+    projet: { téléverserFichier: téléverserFichierAdapter },
+    dépôtGarantiesFinancières: { téléverserFichier: téléverserFichierAdapter },
   });
 
   unsetupDomainViews = await setupDomainViews({
@@ -102,8 +103,9 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
     },
     garantiesFinancières: {
-      téléchargerFichier: téléchargerFichierAttestationGarantiesFinancièresAdapter,
+      téléchargerFichier: téléchargerFichierAdapter,
     },
+    dépôtGarantiesFinancières: { téléchargerFichier: téléchargerFichierAdapter },
   });
 });
 
