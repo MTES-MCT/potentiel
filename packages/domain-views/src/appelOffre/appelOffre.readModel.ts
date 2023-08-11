@@ -229,4 +229,5 @@ export type AppelOffre = {
   GarantiesFinancièresAppelOffre;
 
 export type AppelOffreReadModelKey = `appel-offre|${RawIdentifiantAppelOffre}`;
-export type AppelOffreReadModel = ReadModel<AppelOffreReadModelKey, AppelOffre>;
+
+export type AppelOffreReadModel = ReadModel<'appel-offre', AppelOffre>;

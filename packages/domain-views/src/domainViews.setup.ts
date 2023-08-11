@@ -6,6 +6,7 @@ import {
   RaccordementDependencies,
   setupRaccordementViews,
 } from './raccordement/raccordement.setup';
+import { setupAppelOffreViews } from './appelOffre/appelOffre.setup';
 
 type DomainViewsDependencies = {
   common: {
@@ -37,12 +38,14 @@ export const setupDomainViews = async ({
     ...common,
     ...raccordement,
   });
+  const unsubscribeAppelOffreViews = await setupAppelOffreViews(common);
 
   return async () => {
     const unsubscribes = [
       ...unsubscribeGestionnaireRéseauViews,
       ...unsubscribeProjetViews,
       ...unsubscribeRaccordement,
+      ...unsubscribeAppelOffreViews,
     ];
 
     for (const unsubscribe of unsubscribes) {
