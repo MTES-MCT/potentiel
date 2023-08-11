@@ -37,7 +37,7 @@ export const verifyGarantiesFinancièresTypeForCommand = (
     agrégatGarantiesFinancières &&
     isSome(agrégatGarantiesFinancières)
   ) {
-    if ('typeGarantiesFinancières' in agrégatGarantiesFinancières.actuelles) {
+    if (agrégatGarantiesFinancières.actuelles?.typeGarantiesFinancières) {
       throw new ModificationGarantiesFinancièresNonAutoriséeErreur();
     }
   }

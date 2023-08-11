@@ -8,7 +8,7 @@ import {
   Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
-  createProjetAggregateId,
+  createGarantiesFinancièresAggregateId,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { sleep } from '../../../helpers/sleep';
@@ -98,7 +98,7 @@ Quand(
         };
 
         await publish(
-          createProjetAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
+          createGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
           legacyTypeEvent,
         );
 
@@ -117,7 +117,7 @@ Quand(
         };
 
         await publish(
-          createProjetAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
+          createGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
           attestationEvent,
         );
 
