@@ -16,6 +16,7 @@ import {
 import { GarantiesFinancièresDéposéesV1 } from './garantiesFinancières.event';
 import { TéléverserFichierPort } from '../common.ports';
 import { isSome } from '@potentiel/monads';
+import { DépôtGarantiesFinancièresDéjàExistantErreur } from './garantiesFinancières.error';
 
 export type DéposerGarantiesFinancièresCommand = Message<
   'DÉPOSER_GARANTIES_FINANCIÈRES',
@@ -56,6 +57,10 @@ export const registerDéposerGarantiesFinancièresCommand = ({
 
     const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
 
+    if (isSome(agrégatDépôtGarantiesFinancières) && agrégatDépôtGarantiesFinancières.dépôt) {
+      throw new DépôtGarantiesFinancièresDéjàExistantErreur();
+    }
+
     await téléverserFichier({
       format: attestationConstitution.format,
       content: attestationConstitution.content,
@@ -77,11 +82,7 @@ export const registerDéposerGarantiesFinancièresCommand = ({
           format: attestationConstitution.format,
           date: attestationConstitution.date.formatter(),
         },
-        dateDépôt:
-          isSome(agrégatDépôtGarantiesFinancières) &&
-          agrégatDépôtGarantiesFinancières.dépôt?.dateDépôt
-            ? agrégatDépôtGarantiesFinancières.dépôt?.dateDépôt.formatter()
-            : dateDépôt.formatter(),
+        dateDépôt: dateDépôt.formatter(),
       },
     };
 

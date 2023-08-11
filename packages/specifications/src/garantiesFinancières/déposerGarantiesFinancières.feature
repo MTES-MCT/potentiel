@@ -1,5 +1,5 @@
 #Language: fr-FR
-
+@select
 Fonctionnalité: Déposer des garanties financières pour validation dans Potentiel
     Contexte: 
         Etant donné le projet "Centrale éolienne 20"
@@ -78,13 +78,14 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
 
     Scénario: Erreur si un dépôt a déjà été soumis
         Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | type                 | avec date d'échéance          |
             | date d'échéance      | 2027-12-01                    |
             | format               | application/pdf               |
             | contenu fichier      | le contenu du fichier         |
             | date de constitution | 2021-12-01                    |
             | date de dépôt        | 2023-08-11                    | 
         Quand un utilisateur avec le rôle 'porteur-projet' dépose des garanties financières pour le projet "Centrale éolienne 20" avec :
-            | date d'échéance      | 2027-12-02                    |
+            | type                 | consignation                  |
             | format               | application/pdf               |
             | contenu fichier      | le contenu du fichier         |
             | date de constitution | 2021-12-02                    |
@@ -109,7 +110,7 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | contenu fichier      | le nouveau contenu du fichier |
             | date de constitution | 2022-01-01                    |
             | date de dépôt        | 2023-08-11                    |    
-@select
+
     Scénario: Erreur si modification d'un dépôt non trouvé  
         Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | consignation                  |
