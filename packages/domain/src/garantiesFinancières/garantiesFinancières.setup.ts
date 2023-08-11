@@ -1,13 +1,13 @@
 import {
   DéposerGarantiesFinancièresDependencies,
   registerDéposerGarantiesFinancièresCommand,
-} from './déposerGarantiesFinancières.command';
-import { registerDéposerGarantiesFinancièresUseCase } from './déposerGarantiesFinancières.usecase';
+} from './dépôt/déposerGarantiesFinancières.command';
+import { registerDéposerGarantiesFinancièresUseCase } from './dépôt/déposerGarantiesFinancières.usecase';
 import {
   ModifierDépôtGarantiesFinancièresDependencies,
   registerModifierDépôtGarantiesFinancièresCommand,
-} from './modifierDépôtGarantiesFinancières.command';
-import { registerModifierDépôtGarantiesFinancièresUseCase } from './modifierdépôtGarantiesFinancières.usecase';
+} from './dépôt/modifierDépôtGarantiesFinancières.command';
+import { registerModifierDépôtGarantiesFinancièresUseCase } from './dépôt/modifierdépôtGarantiesFinancières.usecase';
 
 export type DépôtGarantiesFinancièresDependencies = DéposerGarantiesFinancièresDependencies &
   ModifierDépôtGarantiesFinancièresDependencies;

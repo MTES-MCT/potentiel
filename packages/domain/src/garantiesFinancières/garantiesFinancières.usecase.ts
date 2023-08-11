@@ -1,5 +1,5 @@
-import { DéposerGarantiesFinancièresUseCase } from './déposerGarantiesFinancières.usecase';
-import { ModifierDépôtGarantiesFinancièresUseCase } from './modifierdépôtGarantiesFinancières.usecase';
+import { DéposerGarantiesFinancièresUseCase } from './dépôt/déposerGarantiesFinancières.usecase';
+import { ModifierDépôtGarantiesFinancièresUseCase } from './dépôt/modifierdépôtGarantiesFinancières.usecase';
 
 export type DépôtGarantiesFinancièresUseCase =
   | DéposerGarantiesFinancièresUseCase
