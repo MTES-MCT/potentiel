@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 import { Subscribe } from '@potentiel/core-domain';
-import { GarantiesFinancièresEvent } from '@potentiel/domain';
+import { EnregistrementGarantiesFinancièresEvent } from '@potentiel/domain';
 import {
   ConsulterGarantiesFinancièresDependencies,
   registerConsulterGarantiesFinancièresQuery,
@@ -34,15 +34,16 @@ export const setupGarantiesFinancièreViews = async (
 
   // Subscribes
   const { subscribe } = dependencies;
+
   return [
-    await subscribe<GarantiesFinancièresEvent>({
+    await subscribe<EnregistrementGarantiesFinancièresEvent>({
       name: 'garanties_financieres_projector',
       eventType: [
         'AttestationGarantiesFinancièresEnregistrée',
         'TypeGarantiesFinancièresEnregistré-v0',
         'TypeGarantiesFinancièresEnregistré-v1',
       ],
-      eventHandler: async (event: GarantiesFinancièresEvent) => {
+      eventHandler: async (event: EnregistrementGarantiesFinancièresEvent) => {
         await mediator.publish<ExecuteGarantiesFinancièresProjector>({
           type: 'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',
           data: event,

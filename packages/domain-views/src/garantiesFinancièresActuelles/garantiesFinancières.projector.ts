@@ -5,11 +5,11 @@ import {
   GarantiesFinancièresReadModelKey,
 } from './garantiesFinancières.readModel';
 import { Create, Update, Find } from '../common.port';
-import { GarantiesFinancièresEvent } from '@potentiel/domain';
+import { EnregistrementGarantiesFinancièresEvent } from '@potentiel/domain';
 
 export type ExecuteGarantiesFinancièresProjector = Message<
   'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',
-  GarantiesFinancièresEvent
+  EnregistrementGarantiesFinancièresEvent
 >;
 
 export type GarantiesFinancièresProjectorDependencies = {
