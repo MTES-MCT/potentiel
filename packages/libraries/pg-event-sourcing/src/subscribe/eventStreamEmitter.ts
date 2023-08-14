@@ -68,7 +68,6 @@ export class EventStreamEmitter extends EventEmitter {
       this.emit(notification.channel, notification.payload);
     });
 
-    console.log(this.#name);
     await this.#client.query(`listen ${this.#name}`);
   }
 }

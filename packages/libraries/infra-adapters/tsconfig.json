@@ -22,6 +22,9 @@
     },
     {
       "path": "../../domain-views"
+    },
+    {
+      "path": "../pg-helpers"
     }
   ]
 }

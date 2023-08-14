@@ -16,7 +16,7 @@ import {
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
-  ConsulterProjetReadModel,
+  ProjetReadModel,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
 import routes from '@routes';
@@ -29,7 +29,7 @@ import {
 
 type ModifierDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
   gestionnaireRéseauActuel: GestionnaireRéseauReadModel;

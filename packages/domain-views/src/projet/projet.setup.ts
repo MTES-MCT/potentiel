@@ -12,7 +12,7 @@ import {
 } from './project.projector';
 
 // Setup
-type ProjetDependencies = { subscribe: Subscribe } & ConsulterProjetDependencies &
+export type ProjetDependencies = { subscribe: Subscribe } & ConsulterProjetDependencies &
   ProjetProjectorDependencies;
 
 export const setupProjetViews = async (dependencies: ProjetDependencies) => {

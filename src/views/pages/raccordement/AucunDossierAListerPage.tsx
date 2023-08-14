@@ -3,12 +3,12 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { PageProjetTemplate, PlugIcon, ListeVide, Link } from '@components';
 import { hydrateOnClient } from '../../helpers';
-import { ConsulterProjetReadModel } from '@potentiel/domain-views';
+import { ProjetReadModel } from '@potentiel/domain-views';
 import routes from '@routes';
 
 type AucunDossierAListerProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
 };
 
 export const AucunDossierALister = ({ user, projet }: AucunDossierAListerProps) => (

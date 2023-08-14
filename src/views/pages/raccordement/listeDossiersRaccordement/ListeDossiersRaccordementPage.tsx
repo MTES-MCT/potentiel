@@ -5,7 +5,7 @@ import { Link, Tile, PageProjetTemplate, InfoBox, EditIcon } from '@components';
 import { hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
-  ConsulterProjetReadModel,
+  ProjetReadModel,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
 import routes from '@routes';
@@ -15,7 +15,7 @@ import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   gestionnaireRéseau: GestionnaireRéseauReadModel;
   dossiers: ReadonlyArray<DossierRaccordementReadModel>;
 };

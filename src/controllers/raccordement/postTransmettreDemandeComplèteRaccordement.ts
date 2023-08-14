@@ -171,7 +171,6 @@ v1Router.post(
             ),
           );
         }
-
         logger.error(error);
 
         return errorResponse({ request, response });

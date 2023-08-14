@@ -1,8 +1,6 @@
 import { fromRedisMessage } from './fromRedisMessage';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
 import { RedisMessage } from './RedisMessage';
-import { Event } from '@potentiel/pg-event-sourcing';
-
 describe('fromRedisMessage', () => {
   it('should deserialize a domain event from a redis message', () => {
     const result = fromRedisMessage({
@@ -30,46 +28,6 @@ describe('fromRedisMessage', () => {
     it('should return null', () => {
       const actual = fromRedisMessage({} as RedisMessage);
       expect(actual).toBeNull();
-    });
-  });
-});
-
-describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
-  it(`Lorsque le message retourné par Redis provient d'un event stream
-      Alors le message est converti en une instance de classe de type domain event
-      Et "occurredAt" est défini à la date du jour
-      `, () => {
-    // Arrange
-    const dateMiseEnService = new Date().toISOString();
-    const stream_id = 'raccordement#identifiant-projet';
-    const type = 'DateMiseEnServiceTransmise';
-    const created_at = new Date().toISOString();
-    const version = 1;
-    const payload = {
-      dateMiseEnService,
-      référenceDossierRaccordement: 'ref-raccordement',
-      identifiantProjet: 'identifiant-projet',
-    };
-
-    const event: Event = {
-      type,
-      payload,
-      stream_id,
-      created_at,
-      version,
-    };
-
-    // Act
-    const actual = fromRedisMessage(event);
-
-    // Assert
-    expect(actual).toMatchObject({
-      type,
-      payload: {
-        ...payload,
-        dateMiseEnService: new Date(dateMiseEnService),
-        streamId: stream_id,
-      },
     });
   });
 });

@@ -13,12 +13,12 @@ import {
 } from '@components';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
 import routes from '@routes';
-import { ConsulterProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettreDateMiseEnServiceProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
 };

@@ -19,6 +19,7 @@ import { setupDomainViews, UnsetupDomainViews } from '@potentiel/domain-views';
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
+  récupérerDétailProjetAdapter,
 } from '@potentiel/infra-adapters';
 import { loadAggregate, oldSubscribe, publish } from '@potentiel/pg-event-sourcing';
 import {
@@ -29,7 +30,6 @@ import {
   searchProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
-import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
 
 should();
 
@@ -89,9 +89,9 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       search: searchProjection,
       subscribe: oldSubscribe,
       update: updateProjection,
-      legacy: {
-        projectRepository: legacyProjectRepository,
-      },
+    },
+    projet: {
+      récupérerDétailProjet: récupérerDétailProjetAdapter,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
@@ -102,6 +102,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
+  await executeQuery(`delete from "projects"`);
   await executeQuery(`delete from event_store.event_stream`);
   await executeQuery(`delete from event_store.subscriber`);
   await executeQuery(`delete from domain_views.projection`);
