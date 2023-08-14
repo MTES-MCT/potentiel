@@ -1,24 +1,24 @@
 import { Option, isSome } from '@potentiel/monads';
-import {
-  TypeGarantiesFinancièresNonAcceptéErreur,
-  DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
-  ModificationGarantiesFinancièresNonAutoriséeErreur,
-  DateÉchéanceGarantiesFinancièresRequiseErreur,
-} from '../projet.error';
 import { Aggregate } from '@potentiel/core-domain';
 import { Projet } from '../projet.aggregate';
 import {
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
   estUnTypeDeGarantiesFinancièresAccepté,
-} from './garantiesFinancières.valueType';
+} from '../../garantiesFinancières/garantiesFinancières.valueType';
 import { Utilisateur, utilisateurEstPorteur } from '../../domain.valueType';
+import {
+  DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
+  DateÉchéanceGarantiesFinancièresRequiseErreur,
+  ModificationGarantiesFinancièresNonAutoriséeErreur,
+  TypeGarantiesFinancièresNonAcceptéErreur,
+} from '../../garantiesFinancières/garantiesFinancières.error';
 
 export const verifyGarantiesFinancièresTypeForCommand = (
   typeGarantiesFinancières: TypeEtDateÉchéance['typeGarantiesFinancières'],
   dateÉchéance: TypeEtDateÉchéance['dateÉchéance'],
   utilisateur: Utilisateur,
-  agrégatProjet: Option<Aggregate & Projet>,
+  agrégatProjet?: Option<Aggregate & Projet>,
 ) => {
   if (!estUnTypeDeGarantiesFinancièresAccepté(typeGarantiesFinancières)) {
     throw new TypeGarantiesFinancièresNonAcceptéErreur();
@@ -32,7 +32,7 @@ export const verifyGarantiesFinancièresTypeForCommand = (
     throw new DateÉchéanceGarantiesFinancièresRequiseErreur();
   }
 
-  if (utilisateurEstPorteur(utilisateur) && isSome(agrégatProjet)) {
+  if (utilisateurEstPorteur(utilisateur) && agrégatProjet && isSome(agrégatProjet)) {
     if (agrégatProjet.garantiesFinancières?.typeGarantiesFinancières) {
       throw new ModificationGarantiesFinancièresNonAutoriséeErreur();
     }

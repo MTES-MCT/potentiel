@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../projet.valueType';
-import { AttestationConstitution } from './garantiesFinancières.valueType';
+import { AttestationConstitution } from '../../garantiesFinancières/garantiesFinancières.valueType';
 import { Publish } from '@potentiel/core-domain';
 import { createProjetAggregateId } from '../projet.aggregate';
 import { verifyGarantiesFinancièresAttestationForCommand } from './verifyGarantiesFinancièresAttestationForCommand';
-import { TéléverserFichierAttestationGarantiesFinancièresPort } from './garantiesFinancières.ports';
 import { AttestationGarantiesFinancièresEnregistréeEvent } from './garantiesFinancières.event';
+import { TéléverserFichierPort } from '../../common.ports';
 
 export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
   'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
@@ -17,7 +17,7 @@ export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
 
 export type EnregistrerAttestationGarantiesFinancièresDependencies = {
   publish: Publish;
-  téléverserFichier: TéléverserFichierAttestationGarantiesFinancièresPort;
+  téléverserFichier: TéléverserFichierPort;
 };
 
 export const registerEnregistrerAttestationGarantiesFinancièresCommand = ({
@@ -31,9 +31,10 @@ export const registerEnregistrerAttestationGarantiesFinancièresCommand = ({
     verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);
 
     await téléverserFichier({
-      attestationConstitution,
+      content: attestationConstitution.content,
+      format: attestationConstitution.format,
       identifiantProjet: identifiantProjet.formatter(),
-      type: 'attestation-constitution-garanties-Financieres',
+      type: 'attestation-constitution-garanties-financieres',
     });
 
     const event: AttestationGarantiesFinancièresEnregistréeEvent = {
