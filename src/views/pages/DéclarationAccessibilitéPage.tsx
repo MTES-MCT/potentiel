@@ -1,6 +1,14 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Link, LegacyPageTemplate, ExternalLink, Heading1, Heading2 } from '@components';
+import {
+  Link,
+  LegacyPageTemplate,
+  ExternalLink,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+} from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type DéclarationAccessibilitéProps = {
@@ -27,6 +35,52 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
           <abbr title="Référentiel général de l'amélioration de l'accessibilité">RGAA</abbr>. Le
           site n’a encore pas été audité.
         </p>
+        <Heading3>Détail</Heading3>
+        <p>
+          Un audit interne a été réalisé en mars 2023 afin de :
+          <ul>
+            <li>détecter les défauts d'accessibilité les plus évidents</li>
+            <li>se préparer à un audit de conformité</li>
+          </ul>
+        </p>
+        Après correctifs apportés, voici l'état de la plateforme Potentiel en août 2023 :
+        <Heading4>Conforme</Heading4>
+        <ul>
+          <li>Page d'accueil accessible depuis toutes les pages</li>
+          <li>Déclaration d'accessibilité existante et accessible depuis toutes les pages</li>
+          <li>La langue du document est pertinente</li>
+          <li>Aucune information n'est véhiculée uniquement par la couleur</li>
+          <li>L'utilisateur est averti lors de l'ouverture d'une nouvelle fenêtre</li>
+          <li>Site responsive</li>
+          <li>Site lisible lorsque la taille de la police est portée à 200%</li>
+          <li>Site compréhensible sans style</li>
+          <li>Chaque champ de formulaire a une étiquette (label)</li>
+          <li>La hiérarchie des titres est cohérente</li>
+          <li>Site utilisable au clavier</li>
+          <li>Chaque page contient un menu d'accès rapides</li>
+          <li>Les éléments sont suffisement contrastés</li>
+          <li>Les actions sont spécifiques - les liens ont un intitulé précis</li>
+          <li>Les zones principales d'une page sont définies (header, main, footer)</li>
+          <li>Les images ont une alternative textuelle</li>
+        </ul>
+        <Heading4>Non-conforme</Heading4>
+        <ul>
+          <li>
+            Il devrait exister deux moyens de naviguer dans le site. Actuellement le seul moyen
+            proposé est le menu de navigation. Une seconde option est à ajouter entre un champ de
+            recherche, un plan de site ou un fil d'ariane.
+          </li>
+          <li>
+            Les fichiers en téléchargement ne sont pas accessibles. Il faudrait notamment indiquer
+            le poids et la taille des documents.
+          </li>
+        </ul>
+        <Heading4>Non-applicable</Heading4>
+        <ul>
+          <li>Les CAPTCHA ont une alternative</li>
+          <li>Les mouvements automatiques peuvent être arrêtés</li>
+          <li>Les vidéos ont une alternative</li>
+        </ul>
         <Heading2>Amélioration et contact</Heading2>
         <p>
           Si vous n’arrivez pas à accéder à un contenu ou à un service, vous pouvez contacter le
