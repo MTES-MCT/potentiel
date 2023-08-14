@@ -56,25 +56,23 @@ export const NewModificationRequest = ({
       </Heading1>
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
-          {...{
-            projet: {
-              id: project.id,
-              appelOffre,
-              cahierDesChargesActuel: 'initial',
-              identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-            },
-            redirectUrl: redirectionRoute(action),
-            type: action,
-            infoBox: (
-              <InfoBox
-                title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-                className="mb-5"
-              >
-                <InfoLienGuideUtilisationCDC />
-              </InfoBox>
-            ),
+          projet={{
+            id: project.id,
+            appelOffre,
+            cahierDesChargesActuel: 'initial',
+            identifiantGestionnaireRéseau: project.identifiantGestionnaire,
           }}
+          redirectUrl={redirectionRoute(action)}
+          type={action}
+          infoBox={
+            <InfoBox
+              title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
+                  cahier des charges à appliquer"
+              className="mb-5"
+            >
+              <InfoLienGuideUtilisationCDC />
+            </InfoBox>
+          }
         />
       ) : (
         <Form
