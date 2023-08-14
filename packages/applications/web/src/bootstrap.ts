@@ -1,5 +1,10 @@
 import { setupDomain } from '@potentiel/domain';
-import { loadAggregate, publish, subscribe , deleteAllSubscribers } from '@potentiel/pg-event-sourcing';
+import {
+  loadAggregate,
+  publish,
+  subscribe,
+  deleteAllSubscribers,
+} from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -12,6 +17,7 @@ import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
   récupérerDétailProjetAdapter,
+  consumerSubscribe,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
