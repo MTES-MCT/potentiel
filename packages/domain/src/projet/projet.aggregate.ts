@@ -7,7 +7,7 @@ import { IdentifiantProjetValueType } from './projet.valueType';
 import { GarantiesFinancièresEvent, ProjetEvent } from './projet.event';
 import { Option, none } from '@potentiel/monads';
 import { convertirEnDateTime, convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
-import { GarantiesFinancières } from './garantiesFinancières/garantiesFinancières.valueType';
+import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.valueType';
 
 type ProjetAggregateId = `projet|${string}`;
 

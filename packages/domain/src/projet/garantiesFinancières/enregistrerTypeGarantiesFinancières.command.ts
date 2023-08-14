@@ -3,7 +3,10 @@ import { IdentifiantProjetValueType } from '../projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
 import { verifyGarantiesFinancièresTypeForCommand } from './verifyGarantiesFinancièresTypeForCommand';
-import { TypeEtDateÉchéance, estTypeAvecDateÉchéance } from './garantiesFinancières.valueType';
+import {
+  TypeEtDateÉchéance,
+  estTypeAvecDateÉchéance,
+} from '../../garantiesFinancières/garantiesFinancières.valueType';
 import { TypeGarantiesFinancièresEnregistréEventV1 } from './garantiesFinancières.event';
 import { Utilisateur } from '../../domain.valueType';
 
