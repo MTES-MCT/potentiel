@@ -7,6 +7,10 @@ import {
   setupGarantiesFinancièreViews,
 } from './garantiesFinancières/garantiesFinancières.setup';
 import {
+  DépôtGarantiesFinancièresDependencies,
+  setupDépôtGarantiesFinancièreViews,
+} from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
+import {
   RaccordementDependencies,
   setupRaccordementViews,
 } from './raccordement/raccordement.setup';
@@ -28,6 +32,7 @@ type DomainViewsDependencies = {
   projet: Omit<ProjetDependencies, keyof CommonDependencies>;
   raccordement: Omit<RaccordementDependencies, keyof CommonDependencies>;
   garantiesFinancières: Omit<GarantiesFinancièresDependencies, keyof CommonDependencies>;
+  dépôtGarantiesFinancières: Omit<DépôtGarantiesFinancièresDependencies, keyof CommonDependencies>;
 };
 
 export type UnsetupDomainViews = () => Promise<void>;
@@ -37,6 +42,7 @@ export const setupDomainViews = async ({
   projet,
   raccordement,
   garantiesFinancières,
+  dépôtGarantiesFinancières,
 }: DomainViewsDependencies): Promise<UnsetupDomainViews> => {
   const unsubscribeGestionnaireRéseauViews = await setupGestionnaireRéseauViews(common);
   const unsubscribeProjetViews = await setupProjetViews({
@@ -52,6 +58,10 @@ export const setupDomainViews = async ({
     ...raccordement,
   });
   const unsubscribeAppelOffreViews = await setupAppelOffreViews(common);
+  const unsubscribeDépôtGarantiesFinancièresViews = await setupDépôtGarantiesFinancièreViews({
+    ...common,
+    ...dépôtGarantiesFinancières,
+  });
 
   return async () => {
     const unsubscribes = [
@@ -60,6 +70,7 @@ export const setupDomainViews = async ({
       ...unsubscribeRaccordement,
       ...unsubscribeAppelOffreViews,
       ...unsubscribeGarantiesFinancièresViews,
+      ...unsubscribeDépôtGarantiesFinancièresViews,
     ];
 
     for (const unsubscribe of unsubscribes) {

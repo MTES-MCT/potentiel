@@ -1,5 +1,7 @@
 import { ReadModel } from '@potentiel/core-domain';
+import { TypeFichier } from '@potentiel/domain';
 import { Option } from '@potentiel/monads';
+import { Readable } from 'stream';
 
 export type Find = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}|${string}`,
@@ -35,3 +37,9 @@ export type Update = <TReadModel extends ReadModel>(
 export type Remove = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}|${string}`,
 ) => Promise<void>;
+
+export type TéléchargerFichierPort = (args: {
+  type: TypeFichier;
+  identifiantProjet: string;
+  format: string;
+}) => Promise<Readable | undefined>;
