@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
+import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { UnauthorizedError } from '../../modules/shared';
+import routes from '../../routes';
 import {
   errorResponse,
   unauthorizedResponse,
@@ -11,8 +11,8 @@ import {
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { PermissionAjouterDateExpirationGF } from '@modules/project/useCases';
-import { addGFExpirationDate } from '@config/useCases.config';
+import { PermissionAjouterDateExpirationGF } from '../../modules/project/useCases';
+import { addGFExpirationDate } from '../../config/useCases.config';
 
 const schema = yup.object({
   body: yup.object({

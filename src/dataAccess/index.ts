@@ -1,4 +1,4 @@
-import { logger } from '@core/utils';
+import { logger } from '../core/utils';
 
 if (process.env.APPLICATION_STAGE === 'test' && process.env.TEST === 'unit') {
   logger.info(

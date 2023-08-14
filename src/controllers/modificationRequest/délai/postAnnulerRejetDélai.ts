@@ -1,7 +1,7 @@
-import { annulerRejetDélai, ensureRole } from '@config';
-import { logger } from '@core/utils';
-import { getModificationRequestAuthority } from '@infra/sequelize/queries';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
+import { annulerRejetDélai, ensureRole } from '../../../config';
+import { logger } from '../../../core/utils';
+import { getModificationRequestAuthority } from '../../../infra/sequelize/queries';
+import { EntityNotFoundError, UnauthorizedError } from '../../../modules/shared';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import routes from '../../../routes';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers';

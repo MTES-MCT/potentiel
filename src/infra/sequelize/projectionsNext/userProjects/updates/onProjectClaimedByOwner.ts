@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
-import { ProjectClaimedByOwner } from '@modules/projectClaim/events';
-import { ProjectionEnEchec } from '@modules/shared';
-import { User, UserProjects } from '@infra/sequelize/projectionsNext';
+import { logger } from '../../../../../core/utils';
+import { ProjectClaimedByOwner } from '../../../../../modules/projectClaim/events';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
+import { User, UserProjects } from "../..";
 import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(ProjectClaimedByOwner, async (évènement, transaction) => {

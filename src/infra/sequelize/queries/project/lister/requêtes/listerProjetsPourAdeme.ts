@@ -1,6 +1,6 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { ListerProjets } from '@modules/project';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.config';
+import { ListerProjets } from '../../../../../../modules/project';
+import { Project } from "../../../../projectionsNext";
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';

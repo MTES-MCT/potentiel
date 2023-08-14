@@ -1,10 +1,10 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectDataCorrected } from './onProjectDataCorrected';
-import { ProjectDataCorrected } from '@modules/project';
+import { ProjectDataCorrected } from '../../../../../modules/project';
 import { resetDatabase } from '../../../helpers';
 import { v4 as uuid } from 'uuid';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../..";
 
 const newValues = {
   numeroCRE: 'numeroCRE1',

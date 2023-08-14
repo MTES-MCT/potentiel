@@ -1,10 +1,10 @@
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
-import { AdminNotificationCandidatsPage } from '@views';
+import { AdminNotificationCandidatsPage } from '../../views';
 import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
-import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats';
-import { getDonnéesPourPageNotificationCandidats } from '@config/queries.config';
+import { PermissionListerProjetsÀNotifier } from '../../modules/notificationCandidats';
+import { getDonnéesPourPageNotificationCandidats } from '../../config/queries.config';
 
 v1Router.get(
   routes.GET_NOTIFIER_CANDIDATS(),

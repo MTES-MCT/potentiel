@@ -1,14 +1,14 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
+import { okAsync } from '../../../../core/utils';
 import {
   GetProjectInfoForModificationRequestedNotification,
   ModificationRequested,
-} from '@modules/modificationRequest';
-import routes from '@routes';
+} from "../../../modificationRequest";
+import routes from '../../../../routes';
 import { handleModificationRequested } from './handleModificationRequested';
-import { User } from '@entities';
-import { NotificationService } from '@modules/notification';
-import { UserRepo } from '@dataAccess';
+import { User } from '../../../../entities';
+import { NotificationService } from "../..";
+import { UserRepo } from '../../../../dataAccess';
 
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {
   it(`Etant donné un projet sous l'autorité DGEC

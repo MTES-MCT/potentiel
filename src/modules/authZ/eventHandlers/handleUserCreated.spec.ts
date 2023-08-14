@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { DomainEvent, EventBus, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
+import { DomainEvent, EventBus, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
 import { InfraNotAvailableError } from '../../shared';
 import { UserCreated } from '../../users';
 import { handleUserCreated } from './handleUserCreated';

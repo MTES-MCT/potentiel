@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 
-import { ensureRole, demanderAnnulationAbandon } from '@config';
-import { logger } from '@core/utils';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { ensureRole, demanderAnnulationAbandon } from '../../../config';
+import { logger } from '../../../core/utils';
+import { UnauthorizedError } from '../../../modules/shared';
+import routes from '../../../routes';
 
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import { errorResponse, unauthorizedResponse } from '../../helpers';
@@ -12,7 +12,7 @@ import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import {
   CDCIncompatibleAvecAnnulationAbandonError,
   ProjetNonAbandonnéError,
-} from '@modules/demandeModification';
+} from '../../../modules/demandeModification';
 
 const schema = yup.object({
   body: yup.object({

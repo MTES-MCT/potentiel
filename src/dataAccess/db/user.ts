@@ -1,13 +1,13 @@
 import { DataTypes } from 'sequelize';
 import { UserRepo } from '..';
-import { logger } from '@core/utils';
-import { Project, User } from '@entities';
+import { logger } from '../../core/utils';
+import { Project, User } from '../../entities';
 import { mapExceptError } from '../../helpers/results';
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types';
 import CONFIG from '../config';
 import isDbReady from './helpers/isDbReady';
-import { UserDreal, UserProjects } from '@infra/sequelize/projectionsNext';
-import { Région } from '@modules/dreal/région';
+import { UserDreal, UserProjects } from '../../infra/sequelize/projectionsNext';
+import { Région } from '../../modules/dreal/région';
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({

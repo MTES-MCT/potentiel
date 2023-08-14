@@ -1,5 +1,5 @@
-import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '@core/domain';
-import { err, ok, Result } from '@core/utils';
+import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '../../core/domain';
+import { err, ok, Result } from '../../core/utils';
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,

@@ -1,4 +1,4 @@
-import { DomainError } from '@core/domain';
+import { DomainError } from '../../../../core/domain';
 
 export class DemanderAbandonError extends DomainError {
   constructor(public raison: string) {

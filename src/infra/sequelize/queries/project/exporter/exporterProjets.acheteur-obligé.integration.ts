@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../../../projectionsNext";
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
-import { resetDatabase } from '@dataAccess';
+import { resetDatabase } from '../../../../../dataAccess';
 
 import {
   coordonnéesCandidat,
@@ -20,7 +20,7 @@ import {
   prix,
   évaluationCarbone,
 } from './colonnesParCatégorie';
-import { User } from '@entities';
+import { User } from '../../../../../entities';
 
 describe(`Export des projets en tant qu'utilisateur "acheteur-obligé"`, () => {
   beforeEach(resetDatabase);

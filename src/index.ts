@@ -1,7 +1,4 @@
-import { register } from 'module-alias';
 import { makeServer } from './server';
-
-register();
 
 // Check env variables
 

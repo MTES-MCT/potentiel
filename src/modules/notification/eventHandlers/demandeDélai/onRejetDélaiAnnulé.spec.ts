@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { RejetDélaiAnnulé } from '@modules/demandeModification';
+import { okAsync } from '../../../../core/utils';
+import { RejetDélaiAnnulé } from "../../../demandeModification";
 import { makeOnRejetDélaiAnnulé } from './onRejetDélaiAnnulé';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
-import { NotificationService } from '@modules/notification';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { NotificationService } from "../..";
 
 describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {

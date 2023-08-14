@@ -1,8 +1,8 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../../projectionsNext";
 import { findProjectByIdentifiers } from './findProjectByIdentifiers';
 
 describe('Sequelize findProjectByIdentifiers', () => {

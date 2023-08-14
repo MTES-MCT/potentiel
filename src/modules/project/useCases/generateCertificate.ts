@@ -1,5 +1,5 @@
-import { Repository, UniqueEntityID } from '@core/domain';
-import { ResultAsync } from '@core/utils';
+import { Repository, UniqueEntityID } from '../../../core/domain';
+import { ResultAsync } from '../../../core/utils';
 import { FileObject, makeFileObject } from '../../file';
 import {
   AggregateHasBeenUpdatedSinceError,
@@ -10,10 +10,10 @@ import {
 } from '../../shared/errors';
 import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '../errors';
 import { Project } from '../Project';
-import { CertificateTemplate, User } from '@entities';
-import { GetUserById } from '@infra/sequelize/queries/users';
-import { ProjectDataForCertificate } from '@modules/project';
-import { Validateur } from '@views/certificates';
+import { CertificateTemplate, User } from '../../../entities';
+import { GetUserById } from '../../../infra/sequelize/queries/users';
+import { ProjectDataForCertificate } from "..";
+import { Validateur } from '../../../views/certificates';
 
 export type GenerateCertificate = (args: {
   projectId: string;

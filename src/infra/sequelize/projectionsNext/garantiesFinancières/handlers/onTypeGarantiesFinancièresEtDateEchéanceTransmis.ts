@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@core/domain';
-import { logger } from '@core/utils';
-import { TypeGarantiesFinancièresEtDateEchéanceTransmis } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { logger } from '../../../../../core/utils';
+import { TypeGarantiesFinancièresEtDateEchéanceTransmis } from '../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import { EventHandler } from '../../eventHandler';
 

@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities';
+import { AppelOffre } from '../../../../entities';
 
 export const autoconsommationZNI2017: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI 2017',

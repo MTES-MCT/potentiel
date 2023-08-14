@@ -2,8 +2,8 @@ import { describe, expect, it, jest } from '@jest/globals';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { makeOnToutAccèsAuProjetRévoqué } from './onToutAccèsAuProjetRevoqué';
-import { ToutAccèsAuProjetRevoqué } from '@modules/authZ';
-import { NotifierPorteurRévocationAccèsProjet } from '@modules/notification/useCases';
+import { ToutAccèsAuProjetRevoqué } from "../../../authZ";
+import { NotifierPorteurRévocationAccèsProjet } from "../../useCases";
 
 describe(`Handler onToutAccèsAuProjetRevoqué`, () => {
   describe(`Etant donné un projet attaché à deux porteurs`, () => {

@@ -1,4 +1,4 @@
-import { CahierDesChargesRéférenceParsed } from '@entities';
+import { CahierDesChargesRéférenceParsed } from '../../../entities';
 
 export type GetDélaiCDC2022Applicable = (args: {
   cahierDesChargesParsed: CahierDesChargesRéférenceParsed;

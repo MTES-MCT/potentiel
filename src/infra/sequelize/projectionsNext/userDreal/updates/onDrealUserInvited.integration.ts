@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../../core/domain';
 import onDrealUserInvited from './onDrealUserInvited';
-import { DrealUserInvited } from '@modules/authZ';
+import { DrealUserInvited } from '../../../../../modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import { UserDreal } from '@infra/sequelize/projectionsNext';
+import { UserDreal } from "../..";
 
 const userId = new UniqueEntityID().toString();
 describe('userDreal.onDrealUserInvited', () => {

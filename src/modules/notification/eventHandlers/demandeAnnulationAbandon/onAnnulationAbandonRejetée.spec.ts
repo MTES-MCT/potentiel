@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { AnnulationAbandonRejetée } from '@modules/demandeModification';
+import { okAsync } from '../../../../core/utils';
+import { AnnulationAbandonRejetée } from "../../../demandeModification";
 import { makeOnAnnulationAbandonRejetée } from './onAnnulationAbandonRejetée';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
-import { NotifierPorteurChangementStatutDemande } from '@modules/notification/useCases';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { NotifierPorteurChangementStatutDemande } from "../../useCases";
 
 describe(`Notifier lorsqu'une annulation d'abandon est rejetée`, () => {
   it(`  Quand une annulation d'abandon est rejetée,

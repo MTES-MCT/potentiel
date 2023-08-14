@@ -2,8 +2,8 @@ import {
   PermissionListerGestionnairesRéseau,
   ListerGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
-import routes from '@routes';
-import { ListeGestionnairesRéseauPage } from '@views';
+import routes from '../../routes';
+import { ListeGestionnairesRéseauPage } from '../../views';
 import { vérifierPermissionUtilisateur } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';

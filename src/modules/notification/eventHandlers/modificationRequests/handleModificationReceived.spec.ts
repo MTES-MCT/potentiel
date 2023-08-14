@@ -1,14 +1,14 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
+import { okAsync } from '../../../../core/utils';
 import {
   GetProjectInfoForModificationReceivedNotification,
   ModificationReceived,
-} from '@modules/modificationRequest';
-import routes from '@routes';
-import { User } from '@entities';
+} from "../../../modificationRequest";
+import routes from '../../../../routes';
+import { User } from '../../../../entities';
 import { handleModificationReceived } from './handleModificationReceived';
 import { NotificationService } from '../../NotificationService';
-import { UserRepo } from '@dataAccess';
+import { UserRepo } from '../../../../dataAccess';
 
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {
   const modificationRequestId = 'id-demande';

@@ -1,19 +1,20 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { okAsync } from '@core/utils';
-import { UniqueEntityID } from '@core/domain';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { okAsync } from '../../../../core/utils';
+import { UniqueEntityID } from '../../../../core/domain';
+import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
 import {
   fakeRepo,
   fakeTransactionalRepo,
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates';
 import { makeAccorderDemandeDélai } from './accorderDemandeDélai';
-import { UserRole } from '@modules/users';
+import { UserRole } from "../../../users";
 import { StatutDemandeDélai } from '../DemandeDélai';
-import { User } from '@entities';
+import { User } from '../../../../entities';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { AccorderDemandeDélaiError, AccorderDateAchèvementAntérieureDateThéoriqueError } from '.';
+import { FileObject } from "../../../file";
 
 describe(`Accorder une demande de délai`, () => {
   const demandeDélaiId = 'id-demande';
@@ -105,7 +106,7 @@ describe(`Accorder une demande de délai`, () => {
         it(`Lorsqu'il accorde une demande de délai avec comme statut '${statut}'
             Alors une erreur ImpossibleDAccorderDemandeDélai devrait être retournée
             Et aucun évènement ne devrait être publié dans le store`, async () => {
-          const fileRepo = fakeRepo();
+          const fileRepo = fakeRepo<FileObject>();
           const projectRepo = fakeRepo(makeFakeProject());
 
           const demandeDélai = makeFakeDemandeDélai({
@@ -151,7 +152,7 @@ describe(`Accorder une demande de délai`, () => {
   describe(`Impossible d'accorder une demande si la date limite d'achèvement souhaitée est antérieure ou égale à la date théorique d'achèvement`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User;
-      const fileRepo = fakeRepo();
+      const fileRepo = fakeRepo<FileObject>();
       const projectRepo = fakeRepo(
         makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime() }),
       );
@@ -214,7 +215,7 @@ describe(`Accorder une demande de délai`, () => {
             Alors le courrier de réponse devrait être sauvegardé 
             Et l'évenement 'DélaiAccordé' devrait être publié dans le store`, async () => {
           const ancienneDateThéoriqueAchèvement = new Date('2022-06-27');
-          const fileRepo = fakeRepo();
+          const fileRepo = fakeRepo<FileObject>();
           const projectRepo = fakeRepo(
             makeFakeProject({ completionDueOn: ancienneDateThéoriqueAchèvement.getTime() }),
           );

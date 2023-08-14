@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { RejetDélaiAnnulé } from '@modules/demandeModification';
-import routes from '@routes';
+import { logger } from '../../../../core/utils';
+import { RejetDélaiAnnulé } from "../../../demandeModification";
+import routes from '../../../../routes';
 import { NotificationService } from '../..';
 import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification';
 

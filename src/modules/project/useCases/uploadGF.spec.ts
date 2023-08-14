@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { DomainEvent, Repository, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { makeUser } from '@entities';
-import { FileObject } from '@modules/file';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { DomainEvent, Repository, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { makeUser } from '../../../entities';
+import { FileObject } from "../../file";
+import { InfraNotAvailableError, UnauthorizedError } from "../../shared";
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeUploadGF } from './uploadGF';

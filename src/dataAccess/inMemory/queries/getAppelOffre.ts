@@ -1,7 +1,7 @@
-import { ResultAsync, errAsync, okAsync } from '@core/utils';
-import { EntityNotFoundError } from '@modules/shared';
+import { ResultAsync, errAsync, okAsync } from '../../../core/utils';
+import { EntityNotFoundError } from '../../../modules/shared';
 import { appelsOffreStatic } from '../appelOffre';
-import { AppelOffre } from '@entities/appelOffre';
+import { AppelOffre } from '../../../entities/appelOffre';
 
 export const getAppelOffre: (
   appelOffreId: string,

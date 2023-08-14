@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../../../projectionsNext";
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 import { v4 as uuid } from 'uuid';
-import { User } from '@entities';
-import { UserRole } from '@modules/users';
+import { User } from '../../../../../entities';
+import { UserRole } from '../../../../../modules/users';
 
 describe(`Récupérer les données relatives au prix de référence d'un projet`, () => {
   const projetId = uuid();

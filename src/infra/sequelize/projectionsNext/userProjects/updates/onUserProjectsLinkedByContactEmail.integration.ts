@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { UserProjectsLinkedByContactEmail } from '../../../../../modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import { User, UserProjects } from '@infra/sequelize/projectionsNext';
+import { User, UserProjects } from "../..";
 import onUserProjectsLinkedByContactEmail from './onUserProjectsLinkedByContactEmail';
 
 describe('userProjects.onUserProjectsLinkedByContactEmail', () => {

@@ -4,8 +4,8 @@ import * as yup from 'yup';
 
 import { estUnRawIdentifiantProjet } from '@potentiel/domain';
 import { PermissionConsulterDossierRaccordement } from '@potentiel/domain-views';
-import routes from '@routes';
-import { logger } from '@core/utils';
+import routes from '../../routes';
+import { logger } from '../../core/utils';
 
 import { v1Router } from '../v1Router';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';

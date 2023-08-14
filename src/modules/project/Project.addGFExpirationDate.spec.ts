@@ -1,14 +1,14 @@
 import { describe, expect, it } from '@jest/globals';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
+import { DomainEvent, UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import { ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeUser from '../../__tests__/fixtures/user';
-import { makeUser } from '@entities';
+import { makeUser } from '../../entities';
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
 import { NoGFCertificateToUpdateError } from './errors/NoGFCertificateToUpdateError';
 

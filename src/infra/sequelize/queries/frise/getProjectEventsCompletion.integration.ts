@@ -2,11 +2,11 @@ import { beforeEach, describe, expect, it } from '@jest/globals';
 import { getProjectEvents } from '.';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent, Project } from '../../projectionsNext';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { USER_ROLES } from '@modules/users';
-import { User } from '@entities';
-import { ProjectCompletionDueDateSetEvent } from '@infra/sequelize/projectionsNext/projectEvents/events';
+import { USER_ROLES } from '../../../../modules/users';
+import { User } from '../../../../entities';
+import { ProjectCompletionDueDateSetEvent } from "../../projectionsNext/projectEvents/events";
 
 describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', () => {
   const projetId = new UniqueEntityID().toString();

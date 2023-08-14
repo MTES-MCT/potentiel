@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils';
-import { InfraNotAvailableError } from '@modules/shared';
+import { okAsync } from '../../../core/utils';
+import { InfraNotAvailableError } from "../../shared";
 import {
   fakeTransactionalRepo,
   makeFakeProject as makeFakeProjectAggregate,
 } from '../../../__tests__/fixtures/aggregates';
 import { makeOnDateMiseEnServiceTransmise } from './onDateMiseEnServiceTransmise';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { CahierDesChargesModifié, ProjectAppelOffre } from '../../../entities';
 import { Project } from '../Project';
 import { DateMiseEnServiceTransmise } from '../events';
 import { jest, describe, it, beforeEach, expect } from '@jest/globals';

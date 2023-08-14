@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectStatus } from '@modules/frise';
+import { ProjectStatus } from '../../../../modules/frise';
 import {
   ItemDate,
   ItemTitle,
@@ -11,7 +11,7 @@ import {
 } from '.';
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps';
 import { CancelledStepIcon } from './cancelledStepIcon';
-import { DownloadLink, Link } from '@components';
+import { DownloadLink, Link } from "../..";
 
 type ComponentProps = ModificationRequestItemProps & {
   projectStatus: ProjectStatus;

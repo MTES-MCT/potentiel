@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { makeUser } from '@entities';
+import { UniqueEntityID } from '../../core/domain';
+import { makeUser } from '../../entities';
 import makeFakeUser from '../../__tests__/fixtures/user';
 import {
   ModificationRequestAccepted,
@@ -11,7 +11,7 @@ import {
 import { StatusPreventsConfirmationError } from './errors';
 import { makeModificationRequest } from './ModificationRequest';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
-import { UnwrapForTest } from '@core/utils';
+import { UnwrapForTest } from '../../core/utils';
 
 describe('Modification.confirm()', () => {
   const modificationRequestId = new UniqueEntityID();

@@ -8,8 +8,8 @@ import {
   Project,
   User,
   UserProjects,
-} from '@infra/sequelize/projectionsNext';
-import { Pagination } from '@modules/pagination';
+} from '../../infra/sequelize/projectionsNext';
+import { Pagination } from '../../modules/pagination';
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination;
 

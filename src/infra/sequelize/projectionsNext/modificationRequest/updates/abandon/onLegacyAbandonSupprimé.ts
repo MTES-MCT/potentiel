@@ -1,8 +1,8 @@
-import { logger } from '@core/utils';
+import { logger } from '../../../../../../core/utils';
 import { ModificationRequest } from '../../modificationRequest.model';
 import { ModificationRequestProjector } from '../../modificationRequest.projector';
-import { LegacyAbandonSupprimé } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { LegacyAbandonSupprimé } from '../../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../../modules/shared';
 
 export const onLegacyAbandonSupprimé = ModificationRequestProjector.on(
   LegacyAbandonSupprimé,

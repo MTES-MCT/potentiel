@@ -1,7 +1,7 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 import React from 'react';
 import { formatDate } from '../../../../helpers/formatDate';
-import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { ProjectDataForCertificate } from '../../../../modules/project/dtos';
 
 type HeaderProps = {
   project: ProjectDataForCertificate;

@@ -4,7 +4,7 @@ import { CahierDesChargesChoisi } from '../../project';
 import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../__tests__/fixtures/user';
-import { makeProject } from '@entities';
+import { makeProject } from '../../../entities';
 import { NotificationService } from '../NotificationService';
 
 describe('Notifier le choix du nouveau cahier des charges', () => {

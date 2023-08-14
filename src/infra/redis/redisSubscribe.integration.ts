@@ -1,10 +1,10 @@
 import { afterAll, afterEach, describe, expect, it, jest } from '@jest/globals';
 import Redis from 'ioredis';
 import { makeRedisSubscribe } from './redisSubscribe';
-import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
+import { UserProjectsLinkedByContactEmail } from '../../modules/authZ';
 import { fromRedisMessage } from './helpers/fromRedisMessage';
 import waitForExpect from 'wait-for-expect';
-import { DomainEvent } from '@core/domain';
+import { DomainEvent } from '../../core/domain';
 
 describe('redisSubscribe', () => {
   const streamName = 'potentiel-event-bus-subscribe-tests';

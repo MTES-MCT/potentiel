@@ -4,7 +4,7 @@ import {
   LegacyModificationImportedDTO,
   ProjectEventDTO,
   ProjectNotifiedDTO,
-} from '@modules/frise';
+} from '../../../../modules/frise';
 import { extractLegacyModificationsItemProps } from './extractLegacyModificationsItemProps';
 
 describe('extractLegacyModificationsItemProps', () => {

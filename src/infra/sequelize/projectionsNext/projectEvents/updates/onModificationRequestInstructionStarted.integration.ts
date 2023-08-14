@@ -1,8 +1,12 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
-import { ProjectEvent, Project, ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ModificationRequestInstructionStarted } from '../../../../../modules/modificationRequest';
+import {
+  ProjectEvent,
+  Project,
+  ModificationRequest,
+} from "../..";
 import onModificationRequestInstructionStarted from './onModificationRequestInstructionStarted';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';

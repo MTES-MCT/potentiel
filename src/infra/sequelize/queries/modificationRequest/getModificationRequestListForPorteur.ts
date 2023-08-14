@@ -1,22 +1,22 @@
 import { Op } from 'sequelize';
-import { ok, Result, wrapInfra } from '@core/utils';
-import { getFullTextSearchOptions } from '@dataAccess/db';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { User } from '@entities';
+import { ok, Result, wrapInfra } from '../../../../core/utils';
+import { getFullTextSearchOptions } from '../../../../dataAccess/db';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
+import { User } from '../../../../entities';
 import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForPorteur,
   ModificationRequestListItemDTO,
-} from '@modules/modificationRequest';
-import { InfraNotAvailableError } from '@modules/shared';
+} from '../../../../modules/modificationRequest';
+import { InfraNotAvailableError } from '../../../../modules/shared';
 import {
   ModificationRequest,
   Project,
   User as UserModel,
   UserProjects,
   File,
-} from '@infra/sequelize/projectionsNext';
-import { PaginatedList } from '@modules/pagination';
+} from "../../projectionsNext";
+import { PaginatedList } from '../../../../modules/pagination';
 
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,

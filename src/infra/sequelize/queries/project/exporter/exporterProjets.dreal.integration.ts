@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { Project, UserDreal } from '@infra/sequelize/projectionsNext';
+import { Project, UserDreal } from "../../../projectionsNext";
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
 
@@ -20,9 +20,9 @@ import {
   résultatInstructionSensible,
   évaluationCarbone,
 } from './colonnesParCatégorie';
-import { User } from '@entities';
-import { UniqueEntityID } from '@core/domain';
-import { resetDatabase } from '@infra/sequelize/helpers';
+import { User } from '../../../../../entities';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { resetDatabase } from "../../../helpers";
 
 describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
   const colonnesÀExporter = [

@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
+import { UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { User } from '../../../entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeFakeCreateUser } from '../../../__tests__/fakes';
 import { GetPeriodeTitle } from '../../appelOffre';

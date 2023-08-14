@@ -1,8 +1,8 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { logger, UnwrapForTest } from '@core/utils';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { makeUser } from '@entities';
+import { DomainEvent, UniqueEntityID } from '../../core/domain';
+import { logger, UnwrapForTest } from '../../core/utils';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
+import { makeUser } from '../../entities';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
@@ -17,7 +17,7 @@ import {
   ProjectNotified,
 } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { makeGetProjectAppelOffre } from "../projectAppelOffre";
 import { add, sub } from 'date-fns';
 
 const projectId = new UniqueEntityID('project1');

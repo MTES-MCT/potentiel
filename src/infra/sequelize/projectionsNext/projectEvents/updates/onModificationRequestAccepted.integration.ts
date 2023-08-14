@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../../core/domain';
 import {
   ModificationRequestAccepted,
   ModificationRequestAcceptedPayload,
-} from '@modules/modificationRequest';
+} from '../../../../../modules/modificationRequest';
 import { ProjectEvent } from '../projectEvent.model';
 import onModificationRequestAccepted from './onModificationRequestAccepted';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
 import makeFakeFile from '../../../../../__tests__/fixtures/file';
 import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
-import { Project, File } from '@infra/sequelize/projectionsNext';
+import { Project, File } from "../..";
 
 describe('Handler onModificationRequestAccepted', () => {
   const projectId = new UniqueEntityID().toString();

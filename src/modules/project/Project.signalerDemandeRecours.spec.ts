@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { DomainEvent, UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import {
   DemandeRecoursSignaled,
@@ -15,14 +15,14 @@ import {
   ProjectNotified,
 } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { makeGetProjectAppelOffre } from "../projectAppelOffre";
 import {
   ProjectCannotBeUpdatedIfUnnotifiedError,
   AttachmentRequiredForDemandeRecoursAcceptedError,
 } from './errors';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeUser from '../../__tests__/fixtures/user';
-import { makeUser } from '@entities';
+import { makeUser } from '../../entities';
 import { add } from 'date-fns';
 
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));

@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
-import { DomainEvent, EventBus, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
+import { DomainEvent, EventBus, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { User } from '../../../entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { InfraNotAvailableError } from '../../shared';
 import { makeInviteUserToProject } from './inviteUserToProject';

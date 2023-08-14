@@ -1,19 +1,19 @@
 import fs from 'fs';
-import { ensureRole, signalerDemandeAbandon } from '@config';
-import { logger } from '@core/utils';
+import { ensureRole, signalerDemandeAbandon } from '../../config';
+import { logger } from '../../core/utils';
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
   unauthorizedResponse,
 } from '../helpers';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { UnauthorizedError } from '../../modules/shared';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { upload } from '../upload';
 import * as yup from 'yup';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { DemandeDeMêmeTypeDéjàOuverteError } from '@modules/project/errors/DemandeDeMêmeTypeDéjàOuverteError';
+import { DemandeDeMêmeTypeDéjàOuverteError } from '../../modules/project/errors/DemandeDeMêmeTypeDéjàOuverteError';
 
 const schema = yup.object({
   body: yup.object({

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { okAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
 import { fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeAnnulerDemandeAnnulationAbandon } from './annulerDemandeAnnulationAbandon';
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon';

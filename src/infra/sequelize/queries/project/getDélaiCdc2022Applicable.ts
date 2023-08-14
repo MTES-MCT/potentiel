@@ -1,5 +1,5 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { GetDélaiCDC2022Applicable } from '@modules/project';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
+import { GetDélaiCDC2022Applicable } from '../../../../modules/project';
 
 export const getDélaiCDC2022Applicable: GetDélaiCDC2022Applicable = ({
   appelOffreId,

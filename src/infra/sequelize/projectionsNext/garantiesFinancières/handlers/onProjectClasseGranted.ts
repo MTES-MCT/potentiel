@@ -1,8 +1,8 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { UniqueEntityID } from '@core/domain';
-import { logger } from '@core/utils';
-import { ProjectClasseGranted } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { getProjectAppelOffre } from '../../../../../config/queryProjectAO.config';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { logger } from '../../../../../core/utils';
+import { ProjectClasseGranted } from '../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import { Project } from '../../project/project.model';
 import { EventHandler } from '../../eventHandler';

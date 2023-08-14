@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../core/domain';
 import {
   ProjectCertificateGeneratedDTO,
   ProjectCertificateRegeneratedDTO,
@@ -10,8 +10,8 @@ import {
   ProjectNotificationDateSetDTO,
   ProjectNotifiedDTO,
   ProjectStatus,
-} from '@modules/frise';
-import { USER_ROLES } from '@modules/users';
+} from '../../../../modules/frise';
+import { USER_ROLES } from '../../../../modules/users';
 import { extractDesignationItemProps } from './extractDesignationItemProps';
 
 describe('extractDesignationItemProps', () => {

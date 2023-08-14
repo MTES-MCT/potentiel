@@ -2,11 +2,11 @@
 import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer';
 import dotenv from 'dotenv';
 import React from 'react';
-import { errAsync, Queue, ResultAsync } from '@core/utils';
+import { errAsync, Queue, ResultAsync } from '../../core/utils';
 import { formatDate } from '../../helpers/formatDate';
-import { ProjectDataForCertificate } from '@modules/project/dtos';
-import { IllegalProjectStateError } from '@modules/project/errors';
-import { OtherError } from '@modules/shared';
+import { ProjectDataForCertificate } from '../../modules/project/dtos';
+import { IllegalProjectStateError } from '../../modules/project/errors';
+import { OtherError } from '../../modules/shared';
 import { formatNumber, getNoteThreshold } from './helpers';
 import { Validateur } from '.';
 

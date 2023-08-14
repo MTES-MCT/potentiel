@@ -1,8 +1,11 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { RejetRecoursAnnulé, RejetRecoursAnnuléPayload } from '@modules/demandeModification';
+import { UniqueEntityID } from '../../../../../core/domain';
+import {
+  RejetRecoursAnnulé,
+  RejetRecoursAnnuléPayload,
+} from '../../../../../modules/demandeModification';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { ProjectEvent } from "../..";
 import onRejetRecoursAnnulé from './onRejetRecoursAnnulé';
 
 describe('Projecteur de ProjectEvent onRejetRecoursAnnulé', () => {

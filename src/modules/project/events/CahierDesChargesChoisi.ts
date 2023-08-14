@@ -1,5 +1,5 @@
-import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain';
-import { DateParutionCahierDesChargesModifié } from '@entities/cahierDesCharges';
+import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '../../../core/domain';
+import { DateParutionCahierDesChargesModifié } from '../../../entities/cahierDesCharges';
 
 export type CahierDesChargesChoisiPayload = {
   projetId: string;

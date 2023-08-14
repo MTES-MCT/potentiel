@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
-import { DomainError, UniqueEntityID } from '@core/domain';
+import { DomainError, UniqueEntityID } from '../../../core/domain';
 import { okAsync } from 'neverthrow';
 import { ProjectCertificateObsolete } from '../events';
 import { handleProjectCertificateObsolete } from './handleProjectCertificateObsolete';

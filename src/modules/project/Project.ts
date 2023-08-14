@@ -1,4 +1,4 @@
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../core/domain';
 import {
   err,
   isPositiveNumber,
@@ -6,17 +6,17 @@ import {
   makePropertyValidator,
   ok,
   Result,
-} from '@core/utils';
+} from '../../core/utils';
 import {
   CertificateTemplate,
   ProjectAppelOffre,
   Technologie,
   User,
   CahierDesChargesRéférenceParsed,
-} from '@entities';
-import { isNotifiedPeriode } from '@entities/periode';
-import { ProjetDéjàClasséError } from '@modules/modificationRequest';
-import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre';
+} from '../../entities';
+import { isNotifiedPeriode } from '../../entities/periode';
+import { ProjetDéjàClasséError } from "../modificationRequest";
+import { getDelaiDeRealisation, GetProjectAppelOffre } from "../projectAppelOffre";
 import { add, isSameDay, sub } from 'date-fns';
 import remove from 'lodash/remove';
 import sanitize from 'sanitize-filename';

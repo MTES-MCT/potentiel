@@ -1,13 +1,13 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { makeUser } from '@entities';
+import { UniqueEntityID } from '../../../../core/domain';
+import { makeUser } from '../../../../entities';
 import {
   ModificationRequest,
   Project,
   User,
   UserDreal,
   File,
-} from '@infra/sequelize/projectionsNext';
+} from "../../projectionsNext";
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import makeFakeFile from '../../../../__tests__/fixtures/file';

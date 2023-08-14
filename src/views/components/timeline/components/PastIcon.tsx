@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckIcon } from '@components';
+import { CheckIcon } from "../..";
 
 export const PastIcon = () => (
   <div className="h-9 flex items-center">

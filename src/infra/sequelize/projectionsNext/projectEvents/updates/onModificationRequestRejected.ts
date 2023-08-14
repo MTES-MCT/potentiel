@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@core/domain';
-import { logger } from '@core/utils';
-import { ModificationRequestRejected } from '@modules/modificationRequest';
-import { ProjectionEnEchec } from '@modules/shared';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { logger } from '../../../../../core/utils';
+import { ModificationRequestRejected } from '../../../../../modules/modificationRequest';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';

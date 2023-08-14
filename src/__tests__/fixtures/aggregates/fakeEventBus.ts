@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
 import { okAsync } from 'neverthrow';
-import { DomainEvent } from '@core/domain';
-import { InfraNotAvailableError } from '@modules/shared';
+import { DomainEvent } from '../../../core/domain';
+import { InfraNotAvailableError } from '../../../modules/shared';
 
 export const makeFakeEventBus = () => {
   return {

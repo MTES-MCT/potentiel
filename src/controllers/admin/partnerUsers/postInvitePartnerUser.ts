@@ -1,15 +1,15 @@
-import { ensureRole, inviterUtilisateur } from '@config';
+import { ensureRole, inviterUtilisateur } from '../../../config';
 import asyncHandler from '../../helpers/asyncHandler';
 import { addQueryParams } from '../../../helpers/addQueryParams';
-import routes from '@routes';
+import routes from '../../../routes';
 import { v1Router } from '../../v1Router';
 import * as yup from 'yup';
 import { errorResponse, RequestValidationError, validateRequestBody } from '../../helpers';
-import { logger } from '@core/utils';
+import { logger } from '../../../core/utils';
 import {
   InvitationUniqueParUtilisateurError,
   InvitationUtilisateurExistantError,
-} from '@modules/utilisateur';
+} from '../../../modules/utilisateur';
 
 const requestBodySchema = yup.object({
   role: yup

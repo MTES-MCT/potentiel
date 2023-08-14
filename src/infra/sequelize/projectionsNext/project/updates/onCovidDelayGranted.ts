@@ -1,8 +1,8 @@
-import { logger } from '@core/utils';
-import { CovidDelayGranted } from '@modules/project';
+import { logger } from '../../../../../core/utils';
+import { CovidDelayGranted } from '../../../../../modules/project';
 import { Project } from '../project.model';
 import { ProjectProjector } from '../project.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 export const onCovidDelayGranted = ProjectProjector.on(
   CovidDelayGranted,

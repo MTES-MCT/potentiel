@@ -1,13 +1,13 @@
-import { validerGF } from '@config';
-import { logger } from '@core/utils';
+import { validerGF } from '../../config';
+import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { UnauthorizedError } from '../../modules/shared';
+import routes from '../../routes';
 import { errorResponse, unauthorizedResponse } from '../helpers';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { GFDéjàValidéesError, PermissionValiderGF } from '@modules/project';
+import { GFDéjàValidéesError, PermissionValiderGF } from '../../modules/project';
 import { vérifierPermissionUtilisateur } from '../helpers/vérifierPermissionUtilisateur';
 
 const schema = yup.object({

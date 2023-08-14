@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from 'neverthrow';
 import { NotificationArgs } from '../..';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import {
   GetModificationRequestInfoForStatusNotification,

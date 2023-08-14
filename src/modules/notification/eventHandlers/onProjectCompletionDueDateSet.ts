@@ -1,10 +1,10 @@
-import { logger } from '@core/utils';
-import { ProjectRepo, UserRepo } from '@dataAccess';
+import { logger } from '../../../core/utils';
+import { ProjectRepo, UserRepo } from '../../../dataAccess';
 import {
   ProjectCompletionDueDateSet,
   RécupérerDonnéesPorteursParProjetQueryHandler,
-} from '@modules/project';
-import routes from '@routes';
+} from "../../project";
+import routes from '../../../routes';
 import { NotificationService } from '../NotificationService';
 
 type OnProjectCompletionDueDateSet = (évènement: ProjectCompletionDueDateSet) => Promise<void>;

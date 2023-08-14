@@ -1,18 +1,18 @@
-import { getProjectEvents } from '@config';
-import { getProjectDataForProjectPage } from '@config/queries.config';
-import { shouldUserAccessProject } from '@config/useCases.config';
+import { getProjectEvents } from '../../config';
+import { getProjectDataForProjectPage } from '../../config/queries.config';
+import { shouldUserAccessProject } from '../../config/useCases.config';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
-import { ProjectDetailsPage } from '@views';
+import { ProjectDetailsPage } from '../../views';
 import {
   notFoundResponse,
   unauthorizedResponse,
   miseAJourStatistiquesUtilisation,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import routes from '@routes';
+import routes from '../../routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { PermissionConsulterProjet } from '@modules/project';
+import { PermissionConsulterProjet } from '../../modules/project';
 import { mediator } from 'mediateur';
 import {
   ConsulterDossierRaccordementQuery,
@@ -24,10 +24,10 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
-import { Project } from '@infra/sequelize';
+import { Project } from '../../infra/sequelize';
 import { isNone, isSome } from '@potentiel/monads';
-import { AlerteRaccordement } from '@views/pages/projectDetailsPage';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
+import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),

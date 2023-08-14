@@ -1,9 +1,14 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getDataForStatutDemandeAbandonModifiéNotification } from './getDataForStatutDemandeAbandonModifiéNotification';
-import { ModificationRequest, Project, User, UserProjects } from '@infra/sequelize/projectionsNext';
+import {
+  ModificationRequest,
+  Project,
+  User,
+  UserProjects,
+} from "../../projectionsNext";
 
 describe('Sequelize getDataForStatutDemandeAbandonModifiéNotification', () => {
   it('should return a complete DataForStatutDemandeAbandonModifiéNotification DTO', async () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import routes from '@routes';
+import routes from '../../../../routes';
 
 import {
   ExternalLinkIcon,
@@ -14,8 +14,8 @@ import {
   Label,
   Container,
   AccountIcon,
-} from '@components';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+} from "../..";
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type HeaderProps = {
   user?: UtilisateurReadModel;

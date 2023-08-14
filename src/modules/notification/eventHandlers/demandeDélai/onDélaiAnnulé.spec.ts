@@ -1,10 +1,10 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
-import { DélaiAnnulé } from '@modules/demandeModification';
+import { okAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { DélaiAnnulé } from "../../../demandeModification";
 import { makeOnDélaiAnnulé } from './onDélaiAnnulé';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
-import { UserRepo } from '@dataAccess';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { UserRepo } from '../../../../dataAccess';
 
 describe(`Notifier lorsqu'un délai est annulé`, () => {
   it(`Etant donné une demandé de délai sous l'autorité de la DGEC

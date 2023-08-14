@@ -6,7 +6,7 @@ import {
 } from '../../../__tests__/fixtures/aggregates';
 import { ProjectImported, ProjectReimported } from '../../project';
 import { LegacyCandidateNotification } from '../LegacyCandidateNotification';
-import { IsPeriodeLegacy } from '@modules/appelOffre';
+import { IsPeriodeLegacy } from "../../appelOffre";
 
 const appelOffreId = 'appelOffreId';
 const periodeId = 'periodeId';

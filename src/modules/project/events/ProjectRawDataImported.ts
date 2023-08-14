@@ -1,5 +1,5 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
-import { Technologie } from '@entities';
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
+import { Technologie } from '../../../entities';
 
 export interface ProjectRawDataImportedPayload {
   importId: string;

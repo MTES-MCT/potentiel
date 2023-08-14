@@ -1,11 +1,11 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { LegacyModificationDTO } from '..';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { okAsync, ResultAsync, WithDelay } from '@core/utils';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { okAsync, ResultAsync, WithDelay } from '../../../core/utils';
 import { InfraNotAvailableError } from '../../shared';
 import { LegacyModificationImported, LegacyModificationRawDataImported } from '../events';
 import { handleLegacyModificationRawDataImported } from './handleLegacyModificationRawDataImported';
-import { FindProjectByIdentifiers } from '@modules/project';
+import { FindProjectByIdentifiers } from "../../project";
 
 const eventBus = {
   publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),

@@ -1,9 +1,13 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils';
-import { User } from '@entities';
-import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors';
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
-import { ModificationRequest } from '@modules/modificationRequest';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../../core/domain';
+import { errAsync, ResultAsync, wrapInfra } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { StatutRéponseIncompatibleAvecAnnulationError } from "../../errors";
+import {
+  EntityNotFoundError,
+  InfraNotAvailableError,
+  UnauthorizedError,
+} from "../../../shared";
+import { ModificationRequest } from "../../../modificationRequest";
 import { RejetChangementDePuissanceAnnulé } from '../events';
 
 type AnnulerRejetChangementDePuissance = (commande: {

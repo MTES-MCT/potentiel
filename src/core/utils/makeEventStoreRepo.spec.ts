@@ -6,7 +6,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   HeterogeneousHistoryError,
-} from '@modules/shared';
+} from '../../modules/shared';
 import { makeEventStoreRepo } from './makeEventStoreRepo';
 
 interface DummyEventPayload {

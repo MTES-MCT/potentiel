@@ -1,16 +1,16 @@
-import { err, ok, wrapInfra } from '@core/utils';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { err, ok, wrapInfra } from '../../../../core/utils';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
 import {
   GetModificationRequestDetails,
   ModificationRequestPageDTO,
-} from '@modules/modificationRequest';
-import { EntityNotFoundError } from '@modules/shared';
+} from '../../../../modules/modificationRequest';
+import { EntityNotFoundError } from '../../../../modules/shared';
 import {
   parseCahierDesChargesRéférence,
   CahierDesChargesRéférence,
   ProjectAppelOffre,
-} from '@entities';
-import { ModificationRequest, Project, User, File } from '@infra/sequelize';
+} from '../../../../entities';
+import { ModificationRequest, Project, User, File } from "../..";
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
   modificationRequestId,

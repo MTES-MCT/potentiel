@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { resetDatabase } from '@infra/sequelize/helpers';
-import { Project, GarantiesFinancières } from '@infra/sequelize/projectionsNext';
-import { ProjectNotified } from '@modules/project';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { resetDatabase } from "../../../helpers";
+import { Project, GarantiesFinancières } from "../..";
+import { ProjectNotified } from '../../../../../modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectNotified } from './onProjectNotified';
 

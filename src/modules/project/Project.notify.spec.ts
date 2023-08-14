@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { DomainEvent, UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import { ProjectAlreadyNotifiedError } from './errors';
 import {
@@ -12,7 +12,7 @@ import {
   ProjectNotified,
 } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { makeGetProjectAppelOffre } from "../projectAppelOffre";
 import { add, sub } from 'date-fns';
 
 const projectId = new UniqueEntityID('project1');

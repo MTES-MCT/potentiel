@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { ProfilUtilisateurCréé } from '@modules/utilisateur';
+import { ProfilUtilisateurCréé } from "../../utilisateur";
 import { makeOnProfilUtilisateurCréé } from './onProfilUtilisateurCréé';
 import { CreateUserCredentials } from '../queries';
 

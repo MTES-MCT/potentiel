@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { ProjectGFWithdrawn } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '../../../../../core/utils';
+import { ProjectGFWithdrawn } from '../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { EventHandler } from '../../eventHandler';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 

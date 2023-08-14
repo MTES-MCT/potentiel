@@ -1,9 +1,9 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { makeNotificationService } from './NotificationService';
 import { SendEmailProps } from './SendEmail';
-import { okAsync, errAsync, UnwrapForTest } from '@core/utils';
+import { okAsync, errAsync, UnwrapForTest } from '../../core/utils';
 import { Notification, NotificationArgs } from './Notification';
-import { DomainError, Repository, UniqueEntityID } from '@core/domain';
+import { DomainError, Repository, UniqueEntityID } from '../../core/domain';
 import { InfraNotAvailableError } from '../shared';
 import { GetFailedNotificationsForRetry } from './queries';
 

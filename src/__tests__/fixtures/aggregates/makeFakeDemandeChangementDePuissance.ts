@@ -1,7 +1,7 @@
 import { ok } from 'neverthrow';
 
-import { UniqueEntityID, DomainEvent } from '@core/domain';
-import { ModificationRequestStatus } from '@modules/modificationRequest';
+import { UniqueEntityID, DomainEvent } from '../../../core/domain';
+import { ModificationRequestStatus } from '../../../modules/modificationRequest';
 import { jest } from '@jest/globals';
 
 export const makeFakeDemandeChangementDePuissance = (overide?: {

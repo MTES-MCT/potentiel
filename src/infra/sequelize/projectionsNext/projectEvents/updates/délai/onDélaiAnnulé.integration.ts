@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { DélaiAnnulé, DélaiAnnuléPayload } from '@modules/demandeModification';
+import { UniqueEntityID } from '../../../../../../core/domain';
+import { DélaiAnnulé, DélaiAnnuléPayload } from '../../../../../../modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { ProjectEvent } from "../../..";
 import onDélaiAnnulé from './onDélaiAnnulé';
 
 describe('Projecteur de ProjectEvent onDélaiAnnulé', () => {

@@ -1,8 +1,8 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { DomainError, Repository, UniqueEntityID } from '@core/domain';
-import { logger, okAsync } from '@core/utils';
-import { makeUser } from '@entities';
+import { DomainError, Repository, UniqueEntityID } from '../../../core/domain';
+import { logger, okAsync } from '../../../core/utils';
+import { makeUser } from '../../../entities';
 import { UnwrapForTest } from '../../../types';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../__tests__/fixtures/user';

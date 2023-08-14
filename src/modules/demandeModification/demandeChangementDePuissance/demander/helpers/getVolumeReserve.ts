@@ -1,5 +1,5 @@
-import { ProjectAppelOffre } from '@entities';
-import { isNotifiedPeriode } from '@entities/periode';
+import { ProjectAppelOffre } from '../../../../../entities';
+import { isNotifiedPeriode } from '../../../../../entities/periode';
 
 export const getVolumeReserve = (
   appelOffre: ProjectAppelOffre,

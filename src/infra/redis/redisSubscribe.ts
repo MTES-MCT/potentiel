@@ -1,6 +1,6 @@
 import { Redis } from 'ioredis';
-import { logger } from '@core/utils';
-import { Subscribe } from '@infra/sequelize/projectionsNext';
+import { logger } from '../../core/utils';
+import { Subscribe } from "../sequelize/projectionsNext";
 import { fromRedisMessage } from './helpers/fromRedisMessage';
 import { DomainEvents } from '@potentiel/domain';
 

@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { DélaiRejeté } from '@modules/demandeModification';
-import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '../../../../../../core/utils';
+import { DélaiRejeté } from '../../../../../../modules/demandeModification';
+import { ProjectionEnEchec } from '../../../../../../modules/shared';
 import { ProjectEvent } from '../../projectEvent.model';
 import { ProjectEventProjector } from '../../projectEvent.projector';
 

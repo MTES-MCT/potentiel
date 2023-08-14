@@ -1,6 +1,6 @@
-import { annulerRejetAbandon, ensureRole } from '@config';
-import { logger } from '@core/utils';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
+import { annulerRejetAbandon, ensureRole } from '../../../config';
+import { logger } from '../../../core/utils';
+import { EntityNotFoundError, UnauthorizedError } from '../../../modules/shared';
 import routes from '../../../routes';
 import {
   errorResponse,

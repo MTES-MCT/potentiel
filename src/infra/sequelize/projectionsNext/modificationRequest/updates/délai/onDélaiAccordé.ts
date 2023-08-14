@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { ProjectionEnEchec } from '@modules/shared';
-import { DélaiAccordé } from '@modules/demandeModification';
+import { logger } from '../../../../../../core/utils';
+import { ProjectionEnEchec } from '../../../../../../modules/shared';
+import { DélaiAccordé } from '../../../../../../modules/demandeModification';
 import { ModificationRequest } from '../../modificationRequest.model';
 import { ModificationRequestProjector } from '../../modificationRequest.projector';
 

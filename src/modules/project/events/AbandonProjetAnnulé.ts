@@ -1,4 +1,4 @@
-import { DomainEvent, BaseDomainEvent } from '@core/domain';
+import { DomainEvent, BaseDomainEvent } from '../../../core/domain';
 
 type payload = {
   projetId: string;

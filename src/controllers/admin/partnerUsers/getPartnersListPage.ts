@@ -1,8 +1,8 @@
 import asyncHandler from '../../helpers/asyncHandler';
-import routes from '@routes';
-import { ensureRole, getPartnersList } from '@config';
+import routes from '../../../routes';
+import { ensureRole, getPartnersList } from '../../../config';
 import { v1Router } from '../../v1Router';
-import { PartnersListPage } from '@views';
+import { PartnersListPage } from '../../../views';
 
 v1Router.get(
   routes.ADMIN_PARTNER_USERS,

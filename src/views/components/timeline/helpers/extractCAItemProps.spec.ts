@@ -1,5 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
-import { ProjectEventListDTO, ProjectImportedDTO, ProjectNotifiedDTO } from '@modules/frise';
+import {
+  ProjectEventListDTO,
+  ProjectImportedDTO,
+  ProjectNotifiedDTO,
+} from '../../../../modules/frise';
 import { extractCAItemProps } from './extractCAItemProps';
 
 describe('extractCAItemProps', () => {

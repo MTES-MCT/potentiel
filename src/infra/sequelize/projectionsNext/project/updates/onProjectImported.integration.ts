@@ -1,10 +1,10 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
-import { ProjectImported } from '@modules/project';
+import { ProjectImported } from '../../../../../modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectImported } from './onProjectImported';
-import { UniqueEntityID } from '@core/domain';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { Project } from "../..";
 
 describe('project.onProjectImported', () => {
   const projectId = new UniqueEntityID().toString();

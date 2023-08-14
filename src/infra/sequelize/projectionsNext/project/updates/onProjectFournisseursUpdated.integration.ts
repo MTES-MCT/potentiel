@@ -2,9 +2,9 @@ import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated';
-import { ProjectFournisseursUpdated, Fournisseur } from '@modules/project';
-import { UniqueEntityID } from '@core/domain';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { ProjectFournisseursUpdated, Fournisseur } from '../../../../../modules/project';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { Project } from "../..";
 
 describe('project.onProjectFournisseursUpdated', () => {
   beforeAll(async () => {

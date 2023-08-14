@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { DomainEvent } from '@core/domain';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { okAsync } from '../../../../core/utils';
+import { DomainEvent } from '../../../../core/domain';
+import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
 import {
   fakeTransactionalRepo,
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates';
 import { makeAnnulerDemandeDélai } from './annulerDemandeDélai';
 import { StatutDemandeDélai, statutsDemandeDélai } from '../DemandeDélai';
-import { StatusPreventsCancellingError } from '@modules/modificationRequest';
+import { StatusPreventsCancellingError } from "../../../modificationRequest";
 import { User } from '../../../../entities';
 
 describe(`Commande annuler demande délai`, () => {

@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { Repository, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { makeUser } from '@entities';
-import { FileObject } from '@modules/file';
-import { UnauthorizedError } from '@modules/shared';
+import { Repository, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { makeUser } from '../../../entities';
+import { FileObject } from "../../file";
+import { UnauthorizedError } from "../../shared";
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeSignalerDemandeAbandon } from './signalerDemandeAbandon';

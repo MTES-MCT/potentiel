@@ -1,17 +1,17 @@
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
-import { ListeProjetsPage } from '@views';
-import { userIs } from '@modules/users';
+import { ListeProjetsPage } from '../../views';
+import { userIs } from '../../modules/users';
 import {
   getOptionsFiltresParAOs,
   vérifierPermissionUtilisateur,
   getCurrentUrl,
   getPagination,
 } from '../helpers';
-import { appelOffreRepo } from '@dataAccess';
-import { listerProjets } from '@infra/sequelize/queries';
-import { PermissionListerProjets } from '@modules/project/queries/listerProjets';
+import { appelOffreRepo } from '../../dataAccess';
+import { listerProjets } from '../../infra/sequelize/queries';
+import { PermissionListerProjets } from '../../modules/project/queries/listerProjets';
 
 const getProjectListPage = asyncHandler(async (request, response) => {
   let {

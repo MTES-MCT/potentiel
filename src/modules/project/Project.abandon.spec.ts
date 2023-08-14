@@ -1,12 +1,12 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { makeUser } from '@entities';
+import { UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
+import { makeUser } from '../../entities';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { makeGetProjectAppelOffre } from "../projectAppelOffre";
 import { EliminatedProjectCannotBeAbandonnedError } from './errors';
 import { LegacyProjectSourced, ProjectAbandoned } from './events';
 import { makeProject } from './Project';

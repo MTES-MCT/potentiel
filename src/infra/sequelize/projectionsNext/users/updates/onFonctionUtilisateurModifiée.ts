@@ -1,8 +1,8 @@
 import { User } from '../users.model';
 import { UserProjector } from '../user.projector';
-import { FonctionUtilisateurModifiée } from '@modules/users';
-import { logger } from '@core/utils';
-import { ProjectionEnEchec } from '@modules/shared';
+import { FonctionUtilisateurModifiée } from '../../../../../modules/users';
+import { logger } from '../../../../../core/utils';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 export default UserProjector.on(FonctionUtilisateurModifiée, async (évènement, transaction) => {
   const {

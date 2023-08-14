@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { ProjectAppelOffre } from '@entities';
+import { ProjectAppelOffre } from '../../../entities';
 import { getNoteThreshold } from './getNoteThreshold';
 
 describe(`getNoteThreshold`, () => {

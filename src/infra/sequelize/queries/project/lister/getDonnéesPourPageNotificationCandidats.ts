@@ -1,6 +1,6 @@
-import { Project } from '@entities';
-import { GetDonnéesPourPageNotificationCandidats } from '@modules/notificationCandidats/queries';
-import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
+import { Project } from '../../../../../entities';
+import { GetDonnéesPourPageNotificationCandidats } from '../../../../../modules/notificationCandidats/queries';
+import { Project as ProjectModel } from "../../../projectionsNext";
 import { listerProjetsNonNotifiés } from './requêtes/listerProjetsNonNotifiés';
 
 export const getDonnéesPourPageNotificationCandidats: GetDonnéesPourPageNotificationCandidats =

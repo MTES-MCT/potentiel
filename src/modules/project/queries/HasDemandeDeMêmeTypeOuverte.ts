@@ -1,4 +1,4 @@
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+import { EntityNotFoundError, InfraNotAvailableError } from "../../shared";
 import { ResultAsync } from 'neverthrow';
 
 export type HasDemandeDeMêmeTypeOuverte = (args: {

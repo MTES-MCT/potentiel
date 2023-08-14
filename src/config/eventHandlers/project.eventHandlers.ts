@@ -1,10 +1,10 @@
-import { DomainEvent } from '@core/domain';
+import { DomainEvent } from '../../core/domain';
 import {
   DélaiAccordé,
   AbandonAccordé,
   AnnulationAbandonAccordée,
-} from '@modules/demandeModification';
-import { LegacyModificationImported } from '@modules/modificationRequest';
+} from '../../modules/demandeModification';
+import { LegacyModificationImported } from '../../modules/modificationRequest';
 import {
   handleLegacyModificationImported,
   handlePeriodeNotified,
@@ -17,11 +17,11 @@ import {
   ProjectRawDataImported,
   makeOnAnnulationAbandonAccordée,
   DateMiseEnServiceTransmise,
-} from '@modules/project';
+} from '../../modules/project';
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';
 import { findProjectByIdentifiers, getUnnotifiedProjectsForPeriode } from '../queries.config';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { getProjectAppelOffre } from "../queryProjectAO.config";
 import { projectRepo } from '../repos.config';
 import { generateCertificate } from '../useCases.config';
 import { makeOnAbandonAccordé } from '../../modules/project/eventHandlers/onAbandonAccordé';

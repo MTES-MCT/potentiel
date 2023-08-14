@@ -1,11 +1,11 @@
 import { Model, ModelStatic, QueryTypes, Transaction } from 'sequelize';
-import { DomainEvent } from '@core/domain';
+import { DomainEvent } from '../../../core/domain';
 import { sequelizeInstance } from '../../../sequelize.config';
 import { Projector } from './projector';
 import { EventHandler } from './eventHandler';
 import * as readline from 'readline';
 import { fromPersistance } from '../helpers';
-import { logger } from '@core/utils';
+import { logger } from '../../../core/utils';
 
 /**
  * @deprecated use createProjectorFactory instead (this one has a coupling with sequelizeInstance configuration)

@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { rollbackEventsFromStore } from './rollbackEventsFromStore';
 import { resetDatabase, toPersistance } from '../helpers';
-import { BaseDomainEvent, DomainEvent, UniqueEntityID } from '@core/domain';
+import { BaseDomainEvent, DomainEvent, UniqueEntityID } from '../../../core/domain';
 import models from '../models';
 const { EventStore } = models;
 

@@ -1,10 +1,10 @@
-import { getModificationRequestListForPorteur } from '@config/queries.config';
-import { logger } from '@core/utils';
-import { appelOffreRepo } from '@dataAccess/inMemory';
+import { getModificationRequestListForPorteur } from '../../config/queries.config';
+import { logger } from '../../core/utils';
+import { appelOffreRepo } from '../../dataAccess/inMemory';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '@routes';
-import { ModificationRequestListPage } from '@views';
-import { ensureRole } from '@config';
+import routes from '../../routes';
+import { ModificationRequestListPage } from '../../views';
+import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import { getCurrentUrl } from '../helpers';
 import { getPagination } from '../helpers/getPagination';

@@ -1,4 +1,4 @@
-import { makeS3FileStorageService } from '@infra/file';
+import { makeS3FileStorageService } from '../infra/file';
 
 const {
   LEGACY_S3_ACCESS_KEY_ID,

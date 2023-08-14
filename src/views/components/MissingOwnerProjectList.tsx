@@ -10,11 +10,11 @@ import {
   Th,
   Form,
   Pagination,
-} from '@components';
-import { logger } from '@core/utils';
-import { Project, User } from '@entities';
-import routes from '@routes';
-import { PaginatedList } from '@modules/pagination';
+} from ".";
+import { logger } from '../../core/utils';
+import { Project, User } from '../../entities';
+import routes from '../../routes';
+import { PaginatedList } from '../../modules/pagination';
 
 type Columns =
   | 'Projet'

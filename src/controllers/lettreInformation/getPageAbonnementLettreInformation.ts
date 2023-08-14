@@ -1,6 +1,6 @@
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '@routes';
-import { AbonnementLettreInformationPage } from '@views';
+import routes from '../../routes';
+import { AbonnementLettreInformationPage } from '../../views';
 import { v1Router } from '../v1Router';
 
 v1Router.get(

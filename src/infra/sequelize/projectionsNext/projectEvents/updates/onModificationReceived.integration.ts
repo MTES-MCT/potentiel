@@ -1,8 +1,11 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
-import { UniqueEntityID } from '@core/domain';
-import { ModificationReceived, ModificationReceivedPayload } from '@modules/modificationRequest';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { UniqueEntityID } from '../../../../../core/domain';
+import {
+  ModificationReceived,
+  ModificationReceivedPayload,
+} from '../../../../../modules/modificationRequest';
+import { ProjectEvent } from "../..";
 import onModificationReceived from './onModificationReceived';
 
 describe('onModificationReceived', () => {

@@ -1,5 +1,5 @@
 import { ok } from 'neverthrow';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
 import { jest } from '@jest/globals';
 
 export const makeFakeLegacyCandidateNotification = () => ({

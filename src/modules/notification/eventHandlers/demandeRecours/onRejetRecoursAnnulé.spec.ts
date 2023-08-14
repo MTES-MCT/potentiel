@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { RejetRecoursAnnulé } from '@modules/demandeModification';
+import { okAsync } from '../../../../core/utils';
+import { RejetRecoursAnnulé } from "../../../demandeModification";
 import { makeOnRejetRecoursAnnulé } from './onRejetRecoursAnnulé';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
-import { NotificationService } from '@modules/notification';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { NotificationService } from "../..";
 
 describe(`Notifier lors de l'annulation du rejet d'une demande de recours`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {

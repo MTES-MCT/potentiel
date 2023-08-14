@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
-import { UserRole } from '@modules/users';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { DomainEvent, UniqueEntityID } from '../../../../core/domain';
+import { okAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { UserRole } from "../../../users";
+import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
 
 import { StatutDemandeDélai } from '../DemandeDélai';
 import { makeRejeterDemandeDélai } from './rejeterDemandeDélai';
@@ -15,6 +15,7 @@ import {
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates';
 import { RejeterDemandeDélaiError } from './RejeterDemandeDélaiError';
+import { FileObject } from "../../../file";
 
 describe(`Rejeter une demande de délai`, () => {
   const demandeDélaiId = 'id-demande';
@@ -97,7 +98,7 @@ describe(`Rejeter une demande de délai`, () => {
         it(`Lorsqu'il rejette une demande avec comme statut '${statut}'
             Alors une erreur RefuserDemandeDélaiError devrait être retournée
             Et aucun évènement ne devrait être publié dans le store`, async () => {
-          const fileRepo = fakeRepo();
+          const fileRepo = fakeRepo<FileObject>();
           const projetId = 'le-projet-de-la-demande';
           const rejeterDemandéDélai = makeRejeterDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo(
@@ -143,7 +144,7 @@ describe(`Rejeter une demande de délai`, () => {
         it(`Lorsqu'il rejette une demande de délai avec comme statut '${statut}'
             Alors le courrier de réponse devrait être sauvegardé 
             Et l'événement 'DélaiRejeté' devrait être publié dans le store`, async () => {
-          const fileRepo = fakeRepo();
+          const fileRepo = fakeRepo<FileObject>();
           const projetId = 'le-projet-de-la-demande';
 
           const rejeterDemandéDélai = makeRejeterDemandeDélai({

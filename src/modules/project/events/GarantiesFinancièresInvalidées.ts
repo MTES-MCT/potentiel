@@ -1,4 +1,4 @@
-import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain';
+import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '../../../core/domain';
 
 export interface GarantiesFinancièresInvalidéesPayload {
   projetId: string;

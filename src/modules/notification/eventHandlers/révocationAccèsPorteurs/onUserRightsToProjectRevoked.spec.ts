@@ -1,10 +1,10 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { UserRightsToProjectRevoked } from '@modules/authZ';
+import { UserRightsToProjectRevoked } from "../../../authZ";
 import { Some } from '../../../../types';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { makeOnUserRightsToProjectRevoked } from './onUserRightsToProjectRevoked';
-import { NotifierPorteurRévocationAccèsProjet } from '@modules/notification/useCases';
+import { NotifierPorteurRévocationAccèsProjet } from "../../useCases";
 
 describe(`Handler onUserRightsToProjectRevoked`, () => {
   it(`Lorsqu'un événement ToutAccèsAuProjetRévoqué est émis,

@@ -1,15 +1,15 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { makeUser } from '@entities';
+import { UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
+import { makeUser } from '../../entities';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
 import { LegacyProjectSourced, ProjectClasseGranted } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { ProjetDéjàClasséError } from '@modules/modificationRequest';
+import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { ProjetDéjàClasséError } from "../modificationRequest";
 
 const projectId = new UniqueEntityID('project1');
 const appelOffreId = 'Fessenheim';

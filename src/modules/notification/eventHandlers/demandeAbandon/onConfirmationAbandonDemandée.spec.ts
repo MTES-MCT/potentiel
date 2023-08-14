@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { ConfirmationAbandonDemandée } from '@modules/demandeModification';
+import { okAsync } from '../../../../core/utils';
+import { ConfirmationAbandonDemandée } from "../../../demandeModification";
 import { makeOnConfirmationAbandonDemandée } from '.';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
-import { NotifierPorteurChangementStatutDemande } from '@modules/notification/useCases';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { NotifierPorteurChangementStatutDemande } from "../../useCases";
 
 describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {

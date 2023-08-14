@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
+import { logger } from '../../../../../../core/utils';
 import { ModificationRequest } from '../../../modificationRequest/modificationRequest.model';
-import { RejetDélaiAnnulé } from '@modules/demandeModification';
-import { ProjectionEnEchec } from '@modules/shared';
+import { RejetDélaiAnnulé } from '../../../../../../modules/demandeModification';
+import { ProjectionEnEchec } from '../../../../../../modules/shared';
 import { ProjectEvent } from '../../projectEvent.model';
 import { ProjectEventProjector } from '../../projectEvent.projector';
 

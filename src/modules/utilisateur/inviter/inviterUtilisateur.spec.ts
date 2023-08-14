@@ -5,7 +5,7 @@ import { makeInviterUtilisateur, PermissionInviterDgecValidateur } from './invit
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError';
 import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError';
 import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError';
-import { EventStore } from '@core/domain';
+import { EventStore } from '../../../core/domain';
 
 describe(`Inviter un utilisateur`, () => {
   describe(`Inviter un utilisateur`, () => {

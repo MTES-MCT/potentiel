@@ -1,9 +1,9 @@
 import fs from 'fs';
-import { ensureRole, signalerDemandeDelai } from '@config';
-import { logger } from '@core/utils';
+import { ensureRole, signalerDemandeDelai } from '../../config';
+import { logger } from '../../core/utils';
 import asyncHandler from '../helpers/asyncHandler';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { UnauthorizedError } from '../../modules/shared';
+import routes from '../../routes';
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
@@ -18,7 +18,7 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import {
   DélaiCDC2022DéjàAppliquéError,
   ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError,
-} from '@modules/project';
+} from '../../modules/project';
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),

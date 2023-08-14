@@ -1,4 +1,4 @@
-import { LegacyModificationFileAttached } from '@modules/modificationRequest';
+import { LegacyModificationFileAttached } from '../../../../../modules/modificationRequest';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

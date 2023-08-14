@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { fromRedisMessage } from './fromRedisMessage';
-import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
+import { UserProjectsLinkedByContactEmail } from '../../../modules/authZ';
 import { RedisMessage } from './RedisMessage';
 describe('fromRedisMessage', () => {
   it('should deserialize a domain event from a redis message', () => {

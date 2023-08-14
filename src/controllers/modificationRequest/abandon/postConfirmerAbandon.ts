@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 
-import { confirmerDemandeAbandon, ensureRole } from '@config';
-import { logger } from '@core/utils';
+import { confirmerDemandeAbandon, ensureRole } from '../../../config';
+import { logger } from '../../../core/utils';
 import asyncHandler from '../../helpers/asyncHandler';
 import { addQueryParams } from '../../../helpers/addQueryParams';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { EntityNotFoundError, UnauthorizedError } from '../../../modules/shared';
+import routes from '../../../routes';
 import { v1Router } from '../../v1Router';
 import {
   errorResponse,

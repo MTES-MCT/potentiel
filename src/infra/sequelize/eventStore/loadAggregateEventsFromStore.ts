@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { MakeEventStoreDeps, wrapInfra } from '@core/utils';
+import { MakeEventStoreDeps, wrapInfra } from '../../../core/utils';
 import { fromPersistance } from '../helpers';
 import models from '../models';
 

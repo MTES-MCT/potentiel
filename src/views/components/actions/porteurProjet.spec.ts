@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import ROUTES from '@routes';
+import ROUTES from '../../../routes';
 import { porteurProjetActions } from '.';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 

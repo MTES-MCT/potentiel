@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { UserRightsToProjectRevoked } from '@modules/authZ';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { UserRightsToProjectRevoked } from '../../../../../modules/authZ';
 import { resetDatabase } from '../../../helpers';
 import onUserRightsToProjectRevoked from './onUserRightsToProjectRevoked';
-import { User, UserProjects } from '@infra/sequelize/projectionsNext';
+import { User, UserProjects } from "../..";
 
 describe('userProjects.onUserRightsToProjectRevoked', () => {
   const projectId = new UniqueEntityID().toString();

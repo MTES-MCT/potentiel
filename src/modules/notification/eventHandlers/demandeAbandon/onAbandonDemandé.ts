@@ -1,9 +1,9 @@
-import { logger } from '@core/utils';
-import { AbandonDemandé } from '@modules/demandeModification';
-import { GetProjectInfoForModificationRequestedNotification } from '@modules/modificationRequest/queries';
+import { logger } from '../../../../core/utils';
+import { AbandonDemandé } from "../../../demandeModification";
+import { GetProjectInfoForModificationRequestedNotification } from "../../../modificationRequest/queries";
 
 import { NotificationService, NotifierPorteurChangementStatutDemande } from '../..';
-import routes from '@routes';
+import routes from '../../../../routes';
 
 type OnAbandonDemandé = (evenement: AbandonDemandé) => Promise<void>;
 

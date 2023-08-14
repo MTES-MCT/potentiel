@@ -1,6 +1,6 @@
-import { ok, okAsync, Result, wrapInfra, ResultAsync } from '@core/utils';
-import { User } from '@infra/sequelize/projectionsNext';
-import { InfraNotAvailableError } from '@modules/shared';
+import { ok, okAsync, Result, wrapInfra, ResultAsync } from '../../../../core/utils';
+import { User } from "../../projectionsNext";
+import { InfraNotAvailableError } from '../../../../modules/shared';
 
 export type GetUserById = {
   (id: string | null): ResultAsync<User | null, InfraNotAvailableError>;

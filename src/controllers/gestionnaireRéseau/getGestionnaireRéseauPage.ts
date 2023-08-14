@@ -1,5 +1,5 @@
-import routes from '@routes';
-import { ConsulterGestionnairesRéseauPage } from '@views';
+import routes from '../../routes';
+import { ConsulterGestionnairesRéseauPage } from '../../views';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';

@@ -1,6 +1,6 @@
-import { ok } from '@core/utils';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { UnauthorizedError } from '@modules/shared';
+import { ok } from '../../../core/utils';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { UnauthorizedError } from '../../../modules/shared';
 import { jest } from '@jest/globals';
 
 export const makeFakeAppelOffre = () => ({

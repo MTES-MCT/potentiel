@@ -3,15 +3,15 @@ import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import { getModificationRequestListForAdmin } from './getModificationRequestListForAdmin';
-import { UniqueEntityID } from '@core/domain';
-import { User as userEntity } from '@entities';
+import { UniqueEntityID } from '../../../../core/domain';
+import { User as userEntity } from '../../../../entities';
 import {
   ModificationRequest,
   Project,
   User,
   UserDreal,
   File,
-} from '@infra/sequelize/projectionsNext';
+} from "../../projectionsNext";
 
 describe('Sequelize getModificationRequestListForAdmin', () => {
   const projectId = new UniqueEntityID().toString();

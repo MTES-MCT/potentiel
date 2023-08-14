@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { ProjectEventDTO, ProjectNotifiedDTO } from '@modules/frise';
+import { UniqueEntityID } from '../../../../core/domain';
+import { ProjectEventDTO, ProjectNotifiedDTO } from '../../../../modules/frise';
 import { extractModificationRequestsItemProps } from './extractModificationRequestsItemProps';
 
 describe('extractModificationRequestItemProps', () => {

@@ -1,16 +1,16 @@
-import { EventStore, Repository, UniqueEntityID } from '@core/domain';
-import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { EventStore, Repository, UniqueEntityID } from '../../../core/domain';
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
 import {
   User,
   CahierDesChargesRéférenceParsed,
   AppelOffre,
   CahierDesChargesModifié,
-} from '@entities';
+} from '../../../entities';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { CahierDesChargesChoisi } from '../events';
 import { Project } from '../Project';
 import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit';
-import { AppelOffreRepo } from '@dataAccess';
+import { AppelOffreRepo } from '../../../dataAccess';
 import {
   CahierDesChargesNonDisponibleError,
   PasDeChangementDeCDCPourCetAOError,

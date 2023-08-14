@@ -20,8 +20,8 @@ import { Famille } from './famille';
 import { CertificateTemplate, isNotifiedPeriode } from './periode';
 
 import { territoireSchema } from './territoire';
-import { logger } from '@core/utils';
-import { CahierDesChargesRéférence } from '@entities/cahierDesCharges';
+import { logger } from '../core/utils';
+import { CahierDesChargesRéférence } from "./cahierDesCharges";
 
 const baseProjectSchema = SchemaRecord({
   id: String,

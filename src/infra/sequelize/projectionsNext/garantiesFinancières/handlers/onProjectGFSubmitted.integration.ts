@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { resetDatabase } from '@infra/sequelize/helpers';
-import { ProjectGFSubmitted } from '@modules/project';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { resetDatabase } from "../../../helpers";
+import { ProjectGFSubmitted } from '../../../../../modules/project';
 import { onProjectGFSubmitted } from './onProjectGFSubmitted';
-import { GarantiesFinancières, Project } from '@infra/sequelize/projectionsNext';
+import { GarantiesFinancières, Project } from "../..";
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 
 describe(`handler onProjectGFSubmitted pour la projection garantiesFinancières`, () => {

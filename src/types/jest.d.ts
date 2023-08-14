@@ -1,4 +1,4 @@
-import { DomainEvent, Constructor } from '@core/domain';
+import { DomainEvent, Constructor } from '../core/domain';
 
 declare global {
   namespace jest {

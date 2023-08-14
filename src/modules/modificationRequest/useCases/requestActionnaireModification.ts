@@ -1,8 +1,13 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils';
-import { User, formatCahierDesChargesRéférence } from '@entities';
+import {
+  EventBus,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '../../../core/domain';
+import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
+import { User, formatCahierDesChargesRéférence } from '../../../entities';
 import { FileContents, FileObject, makeAndSaveFile } from '../../file';
-import { Project } from '@modules/project';
+import { Project } from "../../project";
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,

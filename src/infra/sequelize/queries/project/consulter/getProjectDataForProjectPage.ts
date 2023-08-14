@@ -1,23 +1,26 @@
-import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project';
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../../../../core/utils';
+import { getProjectAppelOffre } from '../../../../../config/queryProjectAO.config';
+import {
+  ProjectDataForProjectPage,
+  GetProjectDataForProjectPage,
+} from '../../../../../modules/project';
+import { EntityNotFoundError, InfraNotAvailableError } from '../../../../../modules/shared';
 import {
   Project,
   ModificationRequest,
   User as UserModel,
   UserProjects,
   File,
-} from '@infra/sequelize/projectionsNext';
+} from "../../../projectionsNext";
 import {
   CahierDesCharges,
   parseCahierDesChargesRéférence,
   ProjectAppelOffre,
   User,
-} from '@entities';
-import routes from '@routes';
+} from '../../../../../entities';
+import routes from '../../../../../routes';
 import { format } from 'date-fns';
-import { userIs, userIsNot } from '@modules/users';
+import { userIs, userIsNot } from '../../../../../modules/users';
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(

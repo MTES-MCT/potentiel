@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@core/domain';
-import { CovidDelayGranted } from '@modules/project';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { CovidDelayGranted } from '../../../../../modules/project';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { ProjectAppelOffre } from '@entities';
-import { AnnulationAbandonAccordée } from '@modules/demandeModification';
-import { InfraNotAvailableError } from '@modules/shared';
+import { UniqueEntityID } from '../../../core/domain';
+import { ProjectAppelOffre } from '../../../entities';
+import { AnnulationAbandonAccordée } from "../../demandeModification";
+import { InfraNotAvailableError } from "../../shared";
 import { okAsync } from 'neverthrow';
 import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
 import makeFakeProject from '../../../__tests__/fixtures/project';

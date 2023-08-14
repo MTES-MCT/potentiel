@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { ProjectDCRDueDateCancelled, ProjectDCRDueDateSet } from '@modules/project';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ProjectDCRDueDateCancelled, ProjectDCRDueDateSet } from '../../../../../modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { ProjectEvent } from "../..";
 import onProjectDCRDueDateCancelled from './onProjectDCRDueDateCancelled';
 
 describe('onProjectDCRDueDateCancelled', () => {

@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
 import { v4 as uuid } from 'uuid';
 import { userRepo, resetDatabase } from '.';
-import { UserDreal, User } from '@infra/sequelize/projectionsNext';
+import { UserDreal, User } from '../../infra/sequelize/projectionsNext';
 
 describe('userRepo sequelizeInstance', () => {
   beforeEach(async () => {

@@ -1,6 +1,6 @@
-import { Repository, UniqueEntityID } from '@core/domain';
-import { err, errAsync, ok, Result, ResultAsync, wrapInfra } from '@core/utils';
-import { User } from '@entities';
+import { Repository, UniqueEntityID } from '../../../core/domain';
+import { err, errAsync, ok, Result, ResultAsync, wrapInfra } from '../../../core/utils';
+import { User } from '../../../entities';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,

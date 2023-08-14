@@ -4,7 +4,7 @@ import {
   ProjectCompletionDueDateSetDTO,
   ProjectEventListDTO,
   ProjectImportedDTO,
-} from '@modules/frise';
+} from '../../../../modules/frise';
 import { extractACItemProps } from '.';
 
 describe('extractACItemProps', () => {

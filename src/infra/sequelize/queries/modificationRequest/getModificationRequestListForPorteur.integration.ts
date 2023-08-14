@@ -2,15 +2,15 @@ import { describe, expect, it } from '@jest/globals';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import { getModificationRequestListForPorteur } from './getModificationRequestListForPorteur';
-import { UniqueEntityID } from '@core/domain';
-import { User as userEntity } from '@entities';
+import { UniqueEntityID } from '../../../../core/domain';
+import { User as userEntity } from '../../../../entities';
 import {
   ModificationRequest,
   Project,
   User,
   UserProjects,
   File,
-} from '@infra/sequelize/projectionsNext';
+} from "../../projectionsNext";
 
 /* 
 Fonctionnalité : Retourner la liste des demandes de modifications 

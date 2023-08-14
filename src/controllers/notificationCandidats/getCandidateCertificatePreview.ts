@@ -1,15 +1,15 @@
-import { UniqueEntityID } from '@core/domain';
-import { logger } from '@core/utils';
-import { toProjectDataForCertificate, ProjectProps } from '@modules/project';
-import { IncompleteDataError } from '@modules/shared';
-import routes from '@routes';
+import { UniqueEntityID } from '../../core/domain';
+import { logger } from '../../core/utils';
+import { toProjectDataForCertificate, ProjectProps } from '../../modules/project';
+import { IncompleteDataError } from '../../modules/shared';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
-import { ensureRole } from '@config';
-import { getUserProject } from '@useCases';
-import { buildCertificate } from '@views/certificates';
+import { ensureRole } from '../../config';
+import { getUserProject } from '../../useCases';
+import { buildCertificate } from '../../views/certificates';
 import { errorResponse, notFoundResponse } from '../helpers';
-import { isNotifiedPeriode } from '@entities';
-import { userIs } from '@modules/users';
+import { isNotifiedPeriode } from '../../entities';
+import { userIs } from '../../modules/users';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import * as yup from 'yup';
 

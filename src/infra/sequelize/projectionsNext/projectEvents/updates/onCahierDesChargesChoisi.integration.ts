@@ -1,8 +1,11 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
-import { CahierDesChargesChoisi, CahierDesChargesChoisiPayload } from '@modules/project';
+import { UniqueEntityID } from '../../../../../core/domain';
+import {
+  CahierDesChargesChoisi,
+  CahierDesChargesChoisiPayload,
+} from '../../../../../modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { ProjectEvent } from "../..";
 import onCahierDesChargesChoisi from './onCahierDesChargesChoisi';
 
 describe('Projecteur de ProjectEvent onCahierDesChargesChoisi', () => {

@@ -8,16 +8,16 @@ import {
   getModificationRequestDataForResponseTemplate,
   oldUserRepo,
   ensureRole,
-} from '@config';
-import { User } from '@entities';
+} from '../../config';
+import { User } from '../../entities';
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate';
 import {
   ModificationRequestDataForResponseTemplateDTO,
   ResponseTemplateDownloaded,
-} from '@modules/modificationRequest';
-import { EntityNotFoundError } from '@modules/shared';
-import routes from '@routes';
-import { shouldUserAccessProject } from '@useCases';
+} from '../../modules/modificationRequest';
+import { EntityNotFoundError } from '../../modules/shared';
+import routes from '../../routes';
+import { shouldUserAccessProject } from '../../useCases';
 import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';

@@ -1,8 +1,8 @@
-import { ensureRole, loadFileForUser } from '@config';
-import { UniqueEntityID } from '@core/domain';
-import { FileAccessDeniedError, FileNotFoundError } from '@modules/file';
-import { InfraNotAvailableError } from '@modules/shared';
-import routes from '@routes';
+import { ensureRole, loadFileForUser } from '../../config';
+import { UniqueEntityID } from '../../core/domain';
+import { FileAccessDeniedError, FileNotFoundError } from '../../modules/file';
+import { InfraNotAvailableError } from '../../modules/shared';
+import routes from '../../routes';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import {
   errorResponse,

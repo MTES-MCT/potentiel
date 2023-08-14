@@ -1,11 +1,11 @@
-import { or } from '@core/utils';
-import { DateParutionCahierDesChargesModifié, Project } from '@entities';
-import { LegacyModificationStatus } from '@modules/modificationRequest';
-import { Fournisseur } from '@modules/project';
+import { or } from '../../../core/utils';
+import { DateParutionCahierDesChargesModifié, Project } from '../../../entities';
+import { LegacyModificationStatus } from "../../modificationRequest";
+import { Fournisseur } from "../../project";
 import {
   DemandeAbandonEventStatus,
   DemandeAnnulationAbandonEventStatus,
-} from '@infra/sequelize/projectionsNext/projectEvents/events';
+} from '../../../infra/sequelize/projectionsNext/projectEvents/events';
 
 export type ProjectEventDTO =
   | ProjectNotifiedDTO

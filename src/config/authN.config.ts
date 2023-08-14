@@ -1,4 +1,4 @@
-import { makeKeycloakAuth } from '@infra/keycloak';
+import { makeKeycloakAuth } from '../infra/keycloak';
 import { sequelizeInstance } from '../sequelize.config';
 import { getUserByEmail } from './queries.config';
 import { createUser } from './useCases.config';

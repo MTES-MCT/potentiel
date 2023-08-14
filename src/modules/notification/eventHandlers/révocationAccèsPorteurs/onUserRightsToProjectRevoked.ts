@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
-import { ProjectRepo, UserRepo } from '@dataAccess';
-import { UserRightsToProjectRevoked } from '@modules/authZ';
-import { NotifierPorteurRévocationAccèsProjet } from '@modules/notification/useCases';
+import { logger } from '../../../../core/utils';
+import { ProjectRepo, UserRepo } from '../../../../dataAccess';
+import { UserRightsToProjectRevoked } from "../../../authZ";
+import { NotifierPorteurRévocationAccèsProjet } from "../../useCases";
 
 type OnUserRightsToProjectRevoked = (événement: UserRightsToProjectRevoked) => Promise<void>;
 

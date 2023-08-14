@@ -1,9 +1,9 @@
-import { cancelModificationRequest, ensureRole } from '@config';
-import { logger } from '@core/utils';
+import { cancelModificationRequest, ensureRole } from '../../config';
+import { logger } from '../../core/utils';
 import asyncHandler from '../helpers/asyncHandler';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { EntityNotFoundError, UnauthorizedError } from '../../modules/shared';
+import routes from '../../routes';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
 import { v1Router } from '../v1Router';
 

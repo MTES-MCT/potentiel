@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
-import { AnnulationAbandonAccordée } from '@modules/demandeModification';
+import { logger } from '../../../../core/utils';
+import { AnnulationAbandonAccordée } from "../../../demandeModification";
 import { NotifierPorteurChangementStatutDemande } from '../..';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest/queries";
 
 type Commande = AnnulationAbandonAccordée;
 

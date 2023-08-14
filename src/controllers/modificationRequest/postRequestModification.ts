@@ -1,13 +1,13 @@
-import { ensureRole, requestActionnaireModification } from '@config';
-import { logger } from '@core/utils';
-import { PuissanceJustificationEtCourrierManquantError } from '@modules/modificationRequest';
+import { ensureRole, requestActionnaireModification } from '../../config';
+import { logger } from '../../core/utils';
+import { PuissanceJustificationEtCourrierManquantError } from '../../modules/modificationRequest';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '@modules/shared';
-import routes from '@routes';
-import { requestModification, shouldUserAccessProject } from '@useCases';
+} from '../../modules/shared';
+import routes from '../../routes';
+import { requestModification, shouldUserAccessProject } from '../../useCases';
 import fs from 'fs';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';

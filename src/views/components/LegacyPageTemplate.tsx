@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container, Footer, Header, UserNavigation } from '@components';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { App } from '@views';
+import { Container, Footer, Header, UserNavigation } from ".";
+import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { App } from "..";
 
 export const LegacyPageTemplate = ({
   user,

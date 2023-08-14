@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../core/domain';
 
 import { makeDemandeAnnulationAbandon } from './DemandeAnnulationAbandon';
 import { AnnulationAbandonDemandée, AnnulationAbandonAnnulée } from './events';

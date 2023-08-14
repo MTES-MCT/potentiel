@@ -1,4 +1,4 @@
-import { FiltreListeProjets } from '@modules/project/queries/listerProjets';
+import { FiltreListeProjets } from '../../../../../../modules/project/queries/listerProjets';
 import {
   contenuLocal,
   coordonnéesCandidat,

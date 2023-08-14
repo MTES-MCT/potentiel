@@ -1,11 +1,11 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync } from '@core/utils';
-import { UserRole } from '@modules/users';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
+import { errAsync } from '../../../core/utils';
+import { UserRole } from "../../users";
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError';
 import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError';
 import { Utilisateur } from '../Utilisateur';
 import { UtilisateurInvité } from '../events/UtilisateurInvité';
-import { Permission } from '@modules/authN';
+import { Permission } from "../../authN";
 import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError';
 
 export const PermissionInviterDgecValidateur: Permission = {

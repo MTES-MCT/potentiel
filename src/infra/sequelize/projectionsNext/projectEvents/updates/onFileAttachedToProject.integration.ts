@@ -1,9 +1,9 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../../core/domain';
 import { FileAttachedToProject } from '../../../../../modules/file';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent, User, UserDreal } from '@infra/sequelize/projectionsNext';
+import { ProjectEvent, User, UserDreal } from "../..";
 import onFileAttachedToProject from './onFileAttachedToProject';
 
 describe('onFileAttachedToProject', () => {

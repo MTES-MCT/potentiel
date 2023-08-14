@@ -1,12 +1,12 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { DélaiDemandé } from '@modules/demandeModification';
+import { okAsync } from '../../../../core/utils';
+import { DélaiDemandé } from "../../../demandeModification";
 import { makeOnDélaiDemandé } from './onDélaiDemandé';
-import { GetProjectInfoForModificationRequestedNotification } from '@modules/modificationRequest';
-import routes from '@routes';
-import { User } from '@entities';
+import { GetProjectInfoForModificationRequestedNotification } from "../../../modificationRequest";
+import routes from '../../../../routes';
+import { User } from '../../../../entities';
 import { NotificationService } from '../../NotificationService';
-import { UserRepo } from '@dataAccess';
+import { UserRepo } from '../../../../dataAccess';
 
 describe(`Notifier lorsqu'un délai est demandé`, () => {
   it(`Etant donné un projet sous l'autorité DGEC

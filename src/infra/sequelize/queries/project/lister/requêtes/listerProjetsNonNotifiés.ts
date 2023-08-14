@@ -1,8 +1,8 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.config';
+import { Project } from "../../../../projectionsNext";
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
-import { ListerProjetsNonNotifiés } from '@modules/notificationCandidats/queries';
+import { ListerProjetsNonNotifiés } from '../../../../../../modules/notificationCandidats/queries';
 
 const attributes = [
   'id',

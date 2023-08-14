@@ -1,8 +1,8 @@
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.';
 import { makeDocumentUrl } from '../helpers';
-import { DownloadLink } from '@components';
-import { afficherDate } from '@views/helpers';
+import { DownloadLink } from "../..";
+import { afficherDate } from "../../../helpers";
 
 type DemandeDelaiSignaledItemProps = {
   date: number;

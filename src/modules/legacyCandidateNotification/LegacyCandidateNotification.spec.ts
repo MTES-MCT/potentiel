@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { makeLegacyCandidateNotificationId } from './helpers';
-import { UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
+import { UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
 import { LegacyCandidateNotified } from './events';
 import { makeLegacyCandidateNotification } from './LegacyCandidateNotification';
 

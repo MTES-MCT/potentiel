@@ -1,7 +1,7 @@
-import { ensureRole, getProjectAppelOffre } from '@config';
-import { NewModificationRequestPage } from '@views';
+import { ensureRole, getProjectAppelOffre } from '../../config';
+import { NewModificationRequestPage } from '../../views';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
-import routes from '@routes';
+import routes from '../../routes';
 import { errorResponse, notFoundResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';

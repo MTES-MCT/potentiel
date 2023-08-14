@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { DomainEvent } from '@core/domain';
+import { okAsync } from '../../../../core/utils';
+import { DomainEvent } from '../../../../core/domain';
 
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
 
-import { User } from '@entities';
+import { User } from '../../../../entities';
 
 import { makePasserDemandeDélaiEnInstruction } from './passerEnInstruction';
 import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError';

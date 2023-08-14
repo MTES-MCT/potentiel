@@ -1,4 +1,4 @@
-import { ModificationRequestStatusDTO } from '@modules/modificationRequest';
+import { ModificationRequestStatusDTO } from '../../../../modules/modificationRequest';
 import React, { ComponentProps } from 'react';
 
 type StatutDemandeModificationProps = ComponentProps<'div'> & {

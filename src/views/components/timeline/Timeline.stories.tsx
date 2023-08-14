@@ -16,7 +16,7 @@ import {
   ProjectCompletionDueDateSetDTO,
   DemandeAbandonDTO,
   GarantiesFinancièresDTO,
-} from '@modules/frise';
+} from '../../../modules/frise';
 import { Timeline } from './Timeline';
 
 export default { title: 'Nouvelle frise' };

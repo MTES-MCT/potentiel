@@ -1,5 +1,5 @@
-import { EventBus } from '@core/domain';
-import { logger } from '@core/utils';
+import { EventBus } from '../../../../../core/domain';
+import { logger } from '../../../../../core/utils';
 import {
   AbandonAnnulé,
   DélaiAccordé,
@@ -20,7 +20,7 @@ import {
   AnnulationAbandonAnnulée,
   AnnulationAbandonRejetée,
   AnnulationAbandonAccordée,
-} from '@modules/demandeModification';
+} from '../../../../../modules/demandeModification';
 import {
   ConfirmationRequested,
   LegacyModificationImported,
@@ -31,10 +31,10 @@ import {
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
   ModificationRequestStatusUpdated,
-} from '@modules/modificationRequest';
+} from '../../../../../modules/modificationRequest';
 import { onConfirmationRequested } from './onConfirmationRequested';
 import { onLegacyModificationImported } from './onLegacyModificationImported';
-import { LegacyAbandonSupprimé } from '@modules/project';
+import { LegacyAbandonSupprimé } from '../../../../../modules/project';
 import {
   onAbandonDemandé,
   onAbandonAnnulé,

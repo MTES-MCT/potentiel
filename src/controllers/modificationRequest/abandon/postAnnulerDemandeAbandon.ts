@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 
-import { annulerDemandeAbandon, ensureRole } from '@config';
-import { logger } from '@core/utils';
+import { annulerDemandeAbandon, ensureRole } from '../../../config';
+import { logger } from '../../../core/utils';
 import asyncHandler from '../../helpers/asyncHandler';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
+import { EntityNotFoundError, UnauthorizedError } from '../../../modules/shared';
 import routes from '../../../routes';
 import {
   errorResponse,

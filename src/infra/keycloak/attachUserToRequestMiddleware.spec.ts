@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import express, { Request } from 'express';
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
-import { GetUserByEmail, UserRole } from '@modules/users';
+import express from 'express';
+import { okAsync } from '../../core/utils';
+import { User } from '../../entities';
+import { GetUserByEmail, UserRole } from '../../modules/users';
 import { makeFakeCreateUser } from '../../__tests__/fakes';
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
 
@@ -191,15 +191,14 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction);
 
           it('should attach a new user to the request', () => {
-            const expectedUser: Request['user'] = {
+            expect(request.user).toMatchObject({
               email: userEmail,
               fullName: userName,
               id: userId,
               role: 'porteur-projet',
               accountUrl: expect.any(String),
               permissions: expect.anything(),
-            };
-            expect(request.user).toMatchObject(expectedUser as Record<string, unknown>);
+            });
           });
 
           it('should destroy the request session', () => {
@@ -244,15 +243,14 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction);
 
           it('should attach a new user to the request with the same role of the token', () => {
-            const expectedUser: Request['user'] = {
+            expect(request.user).toMatchObject({
               email: userEmail,
               fullName: userName,
               id: userId,
               role: userRole,
               accountUrl: expect.any(String),
               permissions: expect.anything(),
-            };
-            expect(request.user).toMatchObject(expectedUser as Record<string, unknown>);
+            });
           });
 
           it('should execute the next function', () => {

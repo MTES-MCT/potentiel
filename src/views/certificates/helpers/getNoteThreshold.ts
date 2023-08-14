@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { ProjectAppelOffre } from '@entities';
-import { isNotifiedPeriode } from '@entities/periode';
+import { logger } from '../../../core/utils';
+import { ProjectAppelOffre } from '../../../entities';
+import { isNotifiedPeriode } from '../../../entities/periode';
 
 type GetNoteThreshold = (project: {
   appelOffre: ProjectAppelOffre;

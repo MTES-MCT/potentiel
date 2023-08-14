@@ -1,6 +1,6 @@
 import { ProjectDataForProjectClaim } from '.';
-import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '@core/domain';
-import { err, ok, Result } from '@core/utils';
+import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '../../core/domain';
+import { err, ok, Result } from '../../core/utils';
 import { EntityNotFoundError } from '../shared';
 import {
   ClaimerIdentityCheckHasFailedError,

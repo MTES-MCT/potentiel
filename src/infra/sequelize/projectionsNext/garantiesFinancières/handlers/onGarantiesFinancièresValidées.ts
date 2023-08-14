@@ -1,6 +1,6 @@
-import { GarantiesFinancièresValidées } from '@modules/project';
-import { logger } from '@core/utils';
-import { ProjectionEnEchec } from '@modules/shared';
+import { GarantiesFinancièresValidées } from '../../../../../modules/project';
+import { logger } from '../../../../../core/utils';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import { EventHandler } from '../../eventHandler';
 

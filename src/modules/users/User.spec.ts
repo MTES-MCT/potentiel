@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../core/domain';
 import { EmailAlreadyUsedError, EntityNotFoundError } from '../shared';
 import { UserCreated } from './events';
 import { makeUser } from './User';

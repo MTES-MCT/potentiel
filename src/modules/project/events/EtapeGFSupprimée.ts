@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 
 // Suppression des GF quelque soit leur statut pour un projet non soumis à GF
 // Evénement émis dans une migration pour corriger des projets

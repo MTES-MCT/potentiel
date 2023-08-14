@@ -1,6 +1,6 @@
-import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, logger, ResultAsync, wrapInfra } from '@core/utils';
-import { User } from '@entities';
+import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
+import { errAsync, logger, ResultAsync, wrapInfra } from '../../../core/utils';
+import { User } from '../../../entities';
 import { FileContents, FileObject, makeFileObject } from '../../file';
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors';

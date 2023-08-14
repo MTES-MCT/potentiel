@@ -1,4 +1,4 @@
-import { ConfirmationProp } from '@views/helpers';
+import { ConfirmationProp } from "../../../../helpers";
 import React, { ComponentProps, FC } from 'react';
 import { Button } from '../../atoms/Button';
 

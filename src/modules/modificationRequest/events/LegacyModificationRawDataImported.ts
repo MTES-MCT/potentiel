@@ -1,5 +1,5 @@
 import { LegacyModificationDTO } from '../dtos';
-import { DomainEvent, BaseDomainEvent } from '@core/domain';
+import { DomainEvent, BaseDomainEvent } from '../../../core/domain';
 
 export interface LegacyModificationRawDataImportedPayload {
   periodeId: string;

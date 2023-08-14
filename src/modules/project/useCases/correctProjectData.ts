@@ -1,7 +1,7 @@
-import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '@core/utils';
-import { User } from '@entities';
-import { ProjetDéjàClasséError } from '@modules/modificationRequest';
+import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
+import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '../../../core/utils';
+import { User } from '../../../entities';
+import { ProjetDéjàClasséError } from "../../modificationRequest";
 import { FileContents, FileObject, IllegalFileDataError, makeFileObject } from '../../file';
 import {
   EntityNotFoundError,

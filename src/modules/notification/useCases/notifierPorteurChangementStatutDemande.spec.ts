@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { makeNotifierPorteurChangementStatutDemande } from './notifierPorteurChangementStatutDemande';
-import routes from '@routes';
+import routes from '../../../routes';
 import { NotificationService } from '../NotificationService';
 
 describe(`Notifier le porteur d'un changement de statut de la demande`, () => {

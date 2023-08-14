@@ -1,13 +1,13 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils';
-import { parseCahierDesChargesRéférence } from '@entities';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
+import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../../core/utils';
+import { parseCahierDesChargesRéférence } from '../../../../entities';
 import {
   GetProjectDataForSignalerDemandeDelaiPage,
   ProjectDataForSignalerDemandeDelaiPage,
-} from '@modules/project';
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+} from '../../../../modules/project';
+import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared';
 import { Op } from 'sequelize';
-import { Project, ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { Project, ModificationRequest } from "../../projectionsNext";
 import { getDélaiCDC2022Applicable } from './getDélaiCdc2022Applicable';
 
 export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignalerDemandeDelaiPage =

@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
-import { CreateUser, UserRole } from '@modules/users';
-import { okAsync } from '@core/utils';
+import { CreateUser, UserRole } from '../../modules/users';
+import { okAsync } from '../../core/utils';
 
 type FakeCreateUserArgs = {
   id?: string;

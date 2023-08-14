@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { PrimaryButton, Input, Label, SearchIcon } from '@components';
+import { PrimaryButton, Input, Label, SearchIcon } from "../..";
 
 type BarreDeRechercheProps = {
   className?: string;

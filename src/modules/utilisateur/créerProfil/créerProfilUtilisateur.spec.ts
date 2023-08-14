@@ -3,7 +3,7 @@ import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
 import { Utilisateur } from '../Utilisateur';
 import { ProfilDéjàExistantError } from './ProfilDéjàExistantError';
 import { makeCréerProfilUtilisateur } from './créerProfilUtilisateur';
-import { EventStore } from '@core/domain';
+import { EventStore } from '../../../core/domain';
 
 describe(`Créer le profil d'un utilisateur`, () => {
   describe(`Création impossible si le profil existe déjà`, () => {

@@ -1,9 +1,9 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { sequelizeInstance } from '../../../sequelize.config';
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Transaction } from 'sequelize';
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 import models from '../models';
-import { ProjectNotified, ProjectNotifiedPayload } from '@modules/project';
+import { ProjectNotified, ProjectNotifiedPayload } from '../../../modules/project';
 import { makeSequelizeProjector } from './makeSequelizeProjector';
 import { resetDatabase, toPersistance } from '../helpers';
 import { EventHandler } from './eventHandler';

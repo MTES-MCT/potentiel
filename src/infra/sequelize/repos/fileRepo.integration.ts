@@ -1,12 +1,17 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { UniqueEntityID } from '@core/domain';
-import { logger, okAsync, UnwrapForTest } from '@core/utils';
+import { UniqueEntityID } from '../../../core/domain';
+import { logger, okAsync, UnwrapForTest } from '../../../core/utils';
 import { resetDatabase } from '../helpers';
-import { FileContents, FileObject, FileStorageService, makeFileObject } from '@modules/file';
-import { EntityNotFoundError } from '@modules/shared';
+import {
+  FileContents,
+  FileObject,
+  FileStorageService,
+  makeFileObject,
+} from '../../../modules/file';
+import { EntityNotFoundError } from '../../../modules/shared';
 import { makeFileRepo } from './fileRepo';
-import { File } from '@infra/sequelize/projectionsNext';
+import { File } from "../projectionsNext";
 
 describe('Sequelize FileRepo', () => {
   const fakeFileStream = Readable.from('text123');

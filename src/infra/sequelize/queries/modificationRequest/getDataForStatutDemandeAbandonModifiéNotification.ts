@@ -1,7 +1,12 @@
-import { err, wrapInfra } from '@core/utils';
-import { GetDataForStatutDemandeAbandonModifiéNotification } from '@modules/modificationRequest';
-import { EntityNotFoundError } from '@modules/shared';
-import { ModificationRequest, Project, User, UserProjects } from '@infra/sequelize/projectionsNext';
+import { err, wrapInfra } from '../../../../core/utils';
+import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../../modules/modificationRequest';
+import { EntityNotFoundError } from '../../../../modules/shared';
+import {
+  ModificationRequest,
+  Project,
+  User,
+  UserProjects,
+} from "../../projectionsNext";
 
 export const getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification =
   (modificationRequestId: string) => {

@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { DélaiRejeté } from '@modules/demandeModification';
+import { okAsync } from '../../../../core/utils';
+import { DélaiRejeté } from "../../../demandeModification";
 import { makeOnDélaiRejeté } from './onDélaiRejeté';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
 import { NotificationService } from '../../NotificationService';
 
 describe(`Notifier lorsqu'un délai est rejeté`, () => {

@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { okAsync } from '@core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { okAsync } from '../../../../core/utils';
+import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
-import { USER_ROLES, UserRole } from '@modules/users';
-import { User } from '@entities';
+import { USER_ROLES, UserRole } from "../../../users";
+import { User } from '../../../../entities';
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon';
 import { makeConfirmerDemandeAbandon } from './confirmerDemandeAbandon';
 import { ConfirmerDemandeAbandonError } from './ConfirmerDemandeAbandonError';

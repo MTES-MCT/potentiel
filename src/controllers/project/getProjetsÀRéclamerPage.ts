@@ -1,10 +1,10 @@
-import { appelOffreRepo } from '@dataAccess';
-import routes from '@routes';
-import { listMissingOwnerProjects } from '@useCases';
-import { ensureRole } from '@config';
+import { appelOffreRepo } from '../../dataAccess';
+import routes from '../../routes';
+import { listMissingOwnerProjects } from '../../useCases';
+import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
-import { ProjetsÀRéclamerPage } from '@views';
+import { ProjetsÀRéclamerPage } from '../../views';
 import { getCurrentUrl, getPagination } from '../helpers';
 
 const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {

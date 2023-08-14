@@ -1,5 +1,5 @@
-import { is, ProjectEventDTO } from '@modules/frise';
-import { UserRole } from '@modules/users';
+import { is, ProjectEventDTO } from '../../../../modules/frise';
+import { UserRole } from '../../../../modules/users';
 
 export type AttachedFileItemProps = {
   type: 'fichier-attaché';

@@ -1,14 +1,14 @@
-import { createUser, eventStore, ensureRole } from '@config';
+import { createUser, eventStore, ensureRole } from '../../../config';
 import { addQueryParams } from '../../../helpers/addQueryParams';
-import { DrealUserInvited } from '@modules/authZ';
-import routes from '@routes';
+import { DrealUserInvited } from '../../../modules/authZ';
+import routes from '../../../routes';
 import { v1Router } from '../../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { errorResponse, RequestValidationError } from '../../helpers';
-import { EmailAlreadyUsedError } from '@modules/shared/errors';
-import { logger } from '@core/utils';
-import { REGIONS } from '@modules/dreal/région';
+import { EmailAlreadyUsedError } from '../../../modules/shared/errors';
+import { logger } from '../../../core/utils';
+import { REGIONS } from '../../../modules/dreal/région';
 
 const schema = yup.object({
   body: yup.object({

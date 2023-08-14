@@ -1,5 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
-import { ModificationReceivedDTO, ProjectEventDTO, ProjectNotifiedDTO } from '@modules/frise';
+import {
+  ModificationReceivedDTO,
+  ProjectEventDTO,
+  ProjectNotifiedDTO,
+} from '../../../../modules/frise';
 import { extractModificationReceivedItemProps } from './extractModificationReceivedItemProps';
 
 describe('extractModificationReceivedItemProps', () => {

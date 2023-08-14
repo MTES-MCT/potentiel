@@ -1,10 +1,14 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils';
-import { User } from '@entities';
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../../core/domain';
+import { errAsync, ResultAsync, wrapInfra } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import {
+  EntityNotFoundError,
+  InfraNotAvailableError,
+  UnauthorizedError,
+} from "../../../shared";
 import { DemandeDélai } from '../DemandeDélai';
 import { RejetDélaiAnnulé } from '../events';
-import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors';
+import { StatutRéponseIncompatibleAvecAnnulationError } from "../../errors";
 
 type AnnulerRejetDélai = (commande: {
   user: User;
