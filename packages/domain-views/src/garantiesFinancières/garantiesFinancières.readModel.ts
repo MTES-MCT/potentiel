@@ -14,7 +14,7 @@ export type GarantiesFinancièresReadModel = ReadModel<
 >;
 
 export type FichierAttestationGarantiesFinancièresReadModel = ReadModel<
-  'attestation-constitution-garanties-Financieres',
+  'attestation-constitution-garanties-financieres',
   { format: string; content: Readable }
 >;
 

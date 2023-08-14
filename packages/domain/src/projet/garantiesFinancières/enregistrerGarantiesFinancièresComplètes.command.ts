@@ -4,17 +4,17 @@ import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
 import { verifyGarantiesFinancièresTypeForCommand } from './verifyGarantiesFinancièresTypeForCommand';
 import { verifyGarantiesFinancièresAttestationForCommand } from './verifyGarantiesFinancièresAttestationForCommand';
-import { TéléverserFichierAttestationGarantiesFinancièresPort } from './garantiesFinancières.ports';
 import {
   AttestationConstitution,
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
-} from './garantiesFinancières.valueType';
+} from '../../garantiesFinancières/garantiesFinancières.valueType';
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
   TypeGarantiesFinancièresEnregistréEventV1,
 } from './garantiesFinancières.event';
 import { Utilisateur } from '../../domain.valueType';
+import { TéléverserFichierPort } from '../../common.ports';
 
 export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
   'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
@@ -28,7 +28,7 @@ export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
 export type EnregistrerGarantiesFinancièresComplètesDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
-  téléverserFichier: TéléverserFichierAttestationGarantiesFinancièresPort;
+  téléverserFichier: TéléverserFichierPort;
 };
 
 export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
@@ -58,9 +58,10 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
     verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);
 
     await téléverserFichier({
-      attestationConstitution,
+      content: attestationConstitution.content,
+      format: attestationConstitution.format,
       identifiantProjet: identifiantProjet.formatter(),
-      type: 'attestation-constitution-garanties-Financieres',
+      type: 'attestation-constitution-garanties-financieres',
     });
 
     const eventForType: TypeGarantiesFinancièresEnregistréEventV1 = {

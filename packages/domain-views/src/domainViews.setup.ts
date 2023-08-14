@@ -10,6 +10,10 @@ import {
   RaccordementDependencies,
   setupRaccordementViews,
 } from './raccordement/raccordement.setup';
+import {
+  DépôtGarantiesFinancièresDependencies,
+  setupDépôtGarantiesFinancièreViews,
+} from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
 
 type DomainViewsDependencies = {
   common: {
@@ -27,6 +31,10 @@ type DomainViewsDependencies = {
     GarantiesFinancièresDependencies,
     keyof DomainViewsDependencies['common']
   >;
+  dépôtGarantiesFinancières: Omit<
+    DépôtGarantiesFinancièresDependencies,
+    keyof DomainViewsDependencies['common']
+  >;
 };
 
 export type UnsetupDomainViews = () => Promise<void>;
@@ -36,6 +44,7 @@ export const setupDomainViews = async ({
   projet,
   raccordement,
   garantiesFinancières,
+  dépôtGarantiesFinancières,
 }: DomainViewsDependencies): Promise<UnsetupDomainViews> => {
   const unsubscribeGestionnaireRéseauViews = await setupGestionnaireRéseauViews(common);
   const unsubscribeProjetViews = await setupProjetViews({
@@ -50,6 +59,10 @@ export const setupDomainViews = async ({
     ...common,
     ...raccordement,
   });
+  const unsubscribeDépôtGarantiesFinancièresViews = await setupDépôtGarantiesFinancièreViews({
+    ...common,
+    ...dépôtGarantiesFinancières,
+  });
 
   return async () => {
     const unsubscribes = [
@@ -57,6 +70,7 @@ export const setupDomainViews = async ({
       ...unsubscribeProjetViews,
       ...unsubscribeRaccordement,
       ...unsubscribeGarantiesFinancièresViews,
+      ...unsubscribeDépôtGarantiesFinancièresViews,
     ];
 
     for (const unsubscribe of unsubscribes) {

@@ -1,4 +1,4 @@
-import { DateTimeValueType } from '../../common.valueType';
+import { DateTimeValueType } from '../common.valueType';
 import { Readable } from 'stream';
 
 export type AttestationConstitution = {
@@ -19,6 +19,11 @@ export type TypeEtDateÉchéance = {
 
 export type GarantiesFinancières = Partial<TypeEtDateÉchéance> & {
   attestationConstitution?: Omit<AttestationConstitution, 'content'>;
+};
+
+export type DépôtGarantiesFinancières = Partial<TypeEtDateÉchéance> & {
+  attestationConstitution: Omit<AttestationConstitution, 'content'>;
+  dateDépôt: DateTimeValueType;
 };
 
 export const estUnTypeDeGarantiesFinancièresAccepté = (
