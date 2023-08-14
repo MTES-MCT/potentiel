@@ -36,7 +36,7 @@ export const setupGarantiesFinancièreViews = async (
   const { subscribe } = dependencies;
   return [
     await subscribe<GarantiesFinancièresEvent>({
-      name: 'garanties-financieres_projector',
+      name: 'garanties_financieres_projector',
       eventType: [
         'AttestationGarantiesFinancièresEnregistrée',
         'TypeGarantiesFinancièresEnregistré-v0',
