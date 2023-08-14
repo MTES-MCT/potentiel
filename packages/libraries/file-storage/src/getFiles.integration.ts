@@ -3,10 +3,18 @@ import { Readable } from 'stream';
 import { getClient } from './getClient';
 import { upload } from './upload';
 import { getFiles } from './getFiles';
+import {
+  CreateBucketCommand,
+  DeleteBucketCommand,
+  DeleteObjectsCommand,
+  HeadBucketCommand,
+  ListObjectsCommand,
+} from '@aws-sdk/client-s3';
 
 describe(`get files`, () => {
   const bucketName = 'potentiel';
   beforeAll(() => {
+    process.env.AWS_REGION = 'localhost';
     process.env.S3_ENDPOINT = 'http://localhost:9001';
     process.env.S3_BUCKET = bucketName;
     process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
@@ -16,11 +24,11 @@ describe(`get files`, () => {
   beforeEach(async () => {
     const isBucketExists = async () => {
       try {
-        await getClient()
-          .headBucket({
+        await getClient().send(
+          new HeadBucketCommand({
             Bucket: bucketName,
-          })
-          .promise();
+          }),
+        );
         return true;
       } catch (err) {
         return false;
@@ -28,29 +36,31 @@ describe(`get files`, () => {
     };
 
     if (await isBucketExists()) {
-      const objectsToDelete = await getClient().listObjects({ Bucket: bucketName }).promise();
+      const objectsToDelete = await getClient().send(
+        new ListObjectsCommand({ Bucket: bucketName }),
+      );
 
       if (objectsToDelete.Contents?.length) {
-        await getClient()
-          .deleteObjects({
+        await getClient().send(
+          new DeleteObjectsCommand({
             Bucket: bucketName,
             Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key! })) },
-          })
-          .promise();
+          }),
+        );
       }
 
-      await getClient()
-        .deleteBucket({
+      await getClient().send(
+        new DeleteBucketCommand({
           Bucket: bucketName,
-        })
-        .promise();
+        }),
+      );
     }
 
-    await getClient()
-      .createBucket({
+    await getClient().send(
+      new CreateBucketCommand({
         Bucket: bucketName,
-      })
-      .promise();
+      }),
+    );
   });
 
   it(`

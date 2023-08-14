@@ -1,6 +1,8 @@
-import AWS from 'aws-sdk';
-import { wrapInfra, err, ok, okAsync, Result } from '../../core/utils';
+import { DeleteObjectCommand, GetObjectCommand, S3 } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
+import { wrapInfra, err, ok, Result } from '../../core/utils';
 import { FileStorageService } from '../../modules/file';
+import { Readable } from 'stream';
 
 class WrongIdentifierFormat extends Error {
   constructor() {
@@ -41,44 +43,53 @@ export const makeS3FileStorageService = (args: {
   bucket: string;
 }): FileStorageService => {
   const { accessKeyId, secretAccessKey, endpoint, bucket } = args;
-  const _client = new AWS.S3({ endpoint, accessKeyId, secretAccessKey, s3ForcePathStyle: true });
+
+  const _client = new S3({
+    endpoint,
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: accessKeyId || '',
+      secretAccessKey: secretAccessKey || '',
+    },
+    forcePathStyle: true,
+  });
 
   return {
     upload({ contents, path: filePath }) {
       return wrapInfra(
-        _client
-          .upload({
+        new Upload({
+          client: _client,
+          params: {
             Bucket: bucket,
             Key: filePath,
-            Body: contents,
-          })
-          .promise(),
+            Body: new Readable(contents),
+          },
+        }).done(),
       ).map(() => makeIdentifier(filePath, bucket));
     },
-
     download(storedAt) {
-      return parseIdentifier(storedAt, bucket)
-        .map((remote: string) =>
-          _client
-            .getObject({
-              Bucket: bucket,
-              Key: remote,
-            })
-            .createReadStream(),
-        )
-        .asyncAndThen((stream) => okAsync(stream));
+      return parseIdentifier(storedAt, bucket).asyncMap(async (remote) => {
+        const result = await _client.send(
+          new GetObjectCommand({
+            Bucket: bucket,
+            Key: remote,
+          }),
+        );
+
+        return Readable.from((await result.Body?.transformToByteArray()) ?? []);
+      });
     },
 
     remove(storedAt) {
       return parseIdentifier(storedAt, bucket)
         .asyncAndThen((remote) =>
           wrapInfra(
-            _client
-              .deleteObject({
+            _client.send(
+              new DeleteObjectCommand({
                 Bucket: bucket,
                 Key: remote,
-              })
-              .promise(),
+              }),
+            ),
           ),
         )
         .map(() => null);
