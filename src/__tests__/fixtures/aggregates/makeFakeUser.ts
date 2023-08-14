@@ -1,5 +1,6 @@
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { ok } from '@core/utils';
+import { jest } from '@jest/globals';
 import { EntityNotFoundError } from '@modules/shared';
 
 export const makeFakeUser = () => ({

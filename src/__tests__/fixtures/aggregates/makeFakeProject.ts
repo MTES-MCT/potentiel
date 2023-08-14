@@ -1,6 +1,7 @@
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { ok } from '@core/utils';
 import { CertificateTemplate, ProjectAppelOffre, User } from '@entities';
+import { jest } from '@jest/globals';
 import {
   Fournisseur,
   ProjectDataForCertificate,

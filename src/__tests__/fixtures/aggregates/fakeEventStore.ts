@@ -1,6 +1,7 @@
 import { DomainEvent } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { makeFakeEventBus } from './fakeEventBus';
+import { jest } from '@jest/globals';
 
 export const makeFakeEventStore = (fakeEvents?: DomainEvent[]) => {
   const { publish, subscribe } = makeFakeEventBus();
@@ -10,6 +11,7 @@ export const makeFakeEventStore = (fakeEvents?: DomainEvent[]) => {
     subscribe,
     _innerPublishEvents,
     transaction: jest.fn((aggregateId, fn) => {
+      //@ts-ignore
       return fn(fakeEvents || []).andThen(_innerPublishEvents);
     }),
   };

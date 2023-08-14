@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
+import { jest } from '@jest/globals';
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
 
 const fakeLoad = <T>(aggregate: T) =>

@@ -1,5 +1,6 @@
 import { ok } from 'neverthrow';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { jest } from '@jest/globals';
 
 export const makeFakeModificationRequest = () => ({
   accept: jest.fn(() => ok<null, never>(null)),

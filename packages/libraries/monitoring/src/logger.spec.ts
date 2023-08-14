@@ -1,11 +1,11 @@
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { getLogger, levels, resetLogger } from './logger';
 
 describe('winston-logger', () => {
   beforeEach(() => {
     resetLogger();
     global.console = {
-      log: jest.spyOn(console, 'log').mockImplementation(),
+      log: jest.spyOn(console, 'log').mockImplementation(jest.fn()),
     } as any;
     process.env.LOGGER_LEVEL = undefined;
   });

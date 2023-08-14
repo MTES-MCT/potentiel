@@ -1,8 +1,9 @@
-import { describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { errAsync, okAsync } from 'neverthrow';
 import { wrapInfra } from '.';
 import { InfraNotAvailableError } from '@modules/shared';
-import { BaseDomainEvent, DomainEvent, UniqueEntityID } from '../domain';
+import { BaseDomainEvent, DomainEvent, EventBus, UniqueEntityID } from '../domain';
+import { ResultAsync } from './Result';
 
 import { makeEventStore } from './makeEventStore';
 
@@ -18,10 +19,12 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 }
 
 describe('makeEventStore', () => {
-  const rollbackEventsFromStore = jest.fn();
+  const rollbackEventsFromStore =
+    jest.fn<(events: DomainEvent[]) => ResultAsync<null, InfraNotAvailableError>>();
 
   describe('publish', () => {
-    const loadAggregateEventsFromStore = jest.fn();
+    const loadAggregateEventsFromStore =
+      jest.fn<(aggregateId: string) => ResultAsync<DomainEvent[], InfraNotAvailableError>>();
     const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
       okAsync<null, InfraNotAvailableError>(null),
     );
@@ -54,9 +57,11 @@ describe('makeEventStore', () => {
   });
 
   describe('subscribe', () => {
-    const loadAggregateEventsFromStore = jest.fn();
-    const persistEventsToStore = jest.fn();
-    const publishToEventBus = jest.fn();
+    const loadAggregateEventsFromStore =
+      jest.fn<(aggregateId: string) => ResultAsync<DomainEvent[], InfraNotAvailableError>>();
+    const persistEventsToStore =
+      jest.fn<(events: DomainEvent[]) => ResultAsync<null, InfraNotAvailableError>>();
+    const publishToEventBus = jest.fn<EventBus['publish']>();
     const subscribe = jest.fn();
 
     const eventStore = makeEventStore({

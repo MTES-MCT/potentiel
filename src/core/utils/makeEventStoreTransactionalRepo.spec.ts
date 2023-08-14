@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { AggregateFromHistoryFn, ok, Result } from '.';
 import { BaseDomainEvent, DomainEvent, EventStore, UniqueEntityID } from '../domain';
 import {
@@ -94,7 +94,7 @@ describe('makeEventStoreTransactionalRepo', () => {
     });
 
     describe('when called for an existing aggregate that has no history', () => {
-      const fakeMakeAggregate: AggregateFromHistoryFn<FakeAggregate> = jest.fn();
+      const fakeMakeAggregate = jest.fn<AggregateFromHistoryFn<FakeAggregate>>();
 
       const fakeEventStore = makeFakeEventStore([]);
 
@@ -166,7 +166,7 @@ describe('makeEventStoreTransactionalRepo', () => {
     });
 
     describe('when called with isNew=true on an aggregate that has a history', () => {
-      const fakeMakeAggregate: AggregateFromHistoryFn<FakeAggregate> = jest.fn();
+      const fakeMakeAggregate = jest.fn<AggregateFromHistoryFn<FakeAggregate>>();
 
       const fakeEventStore = makeFakeEventStore([fakeHistoryEvent]);
 
