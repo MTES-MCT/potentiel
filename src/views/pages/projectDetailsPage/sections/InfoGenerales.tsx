@@ -52,6 +52,7 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
         </span>
       </div>
     </div>
+
     {project.isClasse &&
     !project.isAbandoned &&
     ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
