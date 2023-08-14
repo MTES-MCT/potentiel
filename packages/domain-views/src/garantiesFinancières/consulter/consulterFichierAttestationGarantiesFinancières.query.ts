@@ -7,8 +7,7 @@ import {
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone, none } from '@potentiel/monads';
 
-import { Find } from '../../common.port';
-import { TéléchargerAttestationGarantiesFinancièresPort } from '../garantiesFinancières.ports';
+import { Find, TéléchargerFichierPort } from '../../common.port';
 import {
   FichierAttestationGarantiesFinancièresReadModel,
   GarantiesFinancièresReadModel,
@@ -25,7 +24,7 @@ export type ConsulterFichierAttestationGarantiesFinancièreQuery = Message<
 
 export type ConsulterFichierAttestationGarantiesFinancièresDependencies = {
   find: Find;
-  téléchargerFichier: TéléchargerAttestationGarantiesFinancièresPort;
+  téléchargerFichier: TéléchargerFichierPort;
 };
 
 export const registerConsulterFichierAttestationGarantiesFinancièresQuery = ({
@@ -51,7 +50,7 @@ export const registerConsulterFichierAttestationGarantiesFinancièresQuery = ({
     }
 
     const content = await téléchargerFichier({
-      type: 'attestation-constitution-garanties-Financieres',
+      type: 'attestation-constitution-garanties-financieres',
       identifiantProjet: rawIdentifiantProjet,
       format: garantiesFinancières.attestationConstitution.format,
     });
@@ -61,7 +60,7 @@ export const registerConsulterFichierAttestationGarantiesFinancièresQuery = ({
     }
 
     return {
-      type: 'attestation-constitution-garanties-Financieres',
+      type: 'attestation-constitution-garanties-financieres',
       format: garantiesFinancières.attestationConstitution.format,
       content: content,
     } satisfies FichierAttestationGarantiesFinancièresReadModel;
