@@ -17,9 +17,9 @@ import {
   Label,
   Form,
   Callout,
-} from '@components';
-import routes from '@routes';
-import { ProjectAppelOffre } from '@entities';
+} from '../../components';
+import routes from '../../../routes';
+import { ProjectAppelOffre } from '../../../entities';
 
 import { Request } from 'express';
 import React from 'react';

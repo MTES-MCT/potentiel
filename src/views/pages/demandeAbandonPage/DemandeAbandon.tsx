@@ -11,14 +11,14 @@ import {
   SuccessBox,
   StatutDemandeModification,
   Form,
-} from '@components';
+} from '../../components';
 import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components';
-import ROUTES from '@routes';
+import ROUTES from '../../../routes';
 import React from 'react';
 import { Request } from 'express';
-import { DemandeAbandonPageDTO } from '@modules/modificationRequest';
+import { DemandeAbandonPageDTO } from '../../../modules/modificationRequest';
 import * as helpers from '../../helpers';
-import { userIs } from '@modules/users';
+import { userIs } from '../../../modules/users';
 
 type DemandeAbandonProps = {
   request: Request;

@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import React from 'react';
-import ROUTES from '@routes';
+import ROUTES from '../../../routes';
 import {
   PrimaryButton,
   ErrorBox,
@@ -17,9 +17,9 @@ import {
   Td,
   Th,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
-import { REGIONS, Région } from '@modules/dreal/région';
+import { REGIONS, Région } from '../../../modules/dreal/région';
 
 type DrealListProps = {
   request: Request;

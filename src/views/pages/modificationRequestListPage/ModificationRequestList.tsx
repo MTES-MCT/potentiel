@@ -1,8 +1,8 @@
 import { Request } from 'express';
 import React, { ChangeEvent, useState } from 'react';
-import { AppelOffre } from '@entities';
-import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
-import { PaginatedList } from '@modules/pagination';
+import { AppelOffre } from '../../../entities';
+import { ModificationRequestListItemDTO } from '../../../modules/modificationRequest';
+import { PaginatedList } from '../../../modules/pagination';
 import {
   RequestList,
   LegacyPageTemplate,
@@ -17,10 +17,10 @@ import {
   Form,
   ListeVide,
   Link,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
-import { userIs } from '@modules/users';
-import routes from '@routes';
+import { userIs } from '../../../modules/users';
+import routes from '../../../routes';
 
 type ModificationRequestListProps = {
   request: Request;

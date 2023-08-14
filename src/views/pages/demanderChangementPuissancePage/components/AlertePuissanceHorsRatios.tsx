@@ -1,7 +1,7 @@
 import React from 'react';
-import { ProjectAppelOffre, Technologie } from '@entities';
-import { getRatiosChangementPuissance } from '@modules/demandeModification';
-import { AlertBox } from '@views/components';
+import { ProjectAppelOffre, Technologie } from '../../../../entities';
+import { getRatiosChangementPuissance } from '../../../../modules/demandeModification';
+import { AlertBox } from '../../../components';
 
 type AlertOnPuissanceOutsideRatiosProps = {
   project: {

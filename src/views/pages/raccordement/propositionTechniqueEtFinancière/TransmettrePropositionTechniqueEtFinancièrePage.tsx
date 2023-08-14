@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -11,10 +11,10 @@ import {
   Link,
   PageProjetTemplate,
   Form,
-} from '@components';
+} from '../../../components';
 import { hydrateOnClient } from '../../../helpers';
-import routes from '@routes';
 import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {

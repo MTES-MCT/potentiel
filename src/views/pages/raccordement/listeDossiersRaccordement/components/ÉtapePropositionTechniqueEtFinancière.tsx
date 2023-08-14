@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 
-import routes from '@routes';
+import routes from '../../../../../routes';
 import { DossierRaccordementReadModel } from '@potentiel/domain-views';
-import { CalendarIcon, DownloadLink, EditIcon, Link } from '@components';
-import { afficherDate } from '@views/helpers';
+import { CalendarIcon, DownloadLink, EditIcon, Link } from '../../../../components';
+import { afficherDate } from '../../../../helpers';
 
 import { Etape } from './Etape';
 import { RawIdentifiantProjet } from '@potentiel/domain';

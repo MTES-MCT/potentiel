@@ -1,4 +1,4 @@
-import { Input, Label, LabelDescription } from '@components';
+import { Input, Label, LabelDescription } from '../../../components';
 import React from 'react';
 
 export const ChampsAideALaSaisieIdentifiant = ({

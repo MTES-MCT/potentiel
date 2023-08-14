@@ -1,6 +1,6 @@
 import React from 'react';
 import { Request } from 'express';
-import routes from '@routes';
+import routes from '../../../routes';
 import {
   PrimaryButton,
   FormulaireChampsObligatoireLégende,
@@ -11,7 +11,7 @@ import {
   LegacyPageTemplate,
   SuccessBox,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
 type InviterDgecValidateurProps = {

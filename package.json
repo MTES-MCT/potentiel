@@ -87,7 +87,6 @@
     "mime-types": "^2.1.35",
     "minisearch": "^5.1.0",
     "mkdirp": "^1.0.4",
-    "module-alias": "^2.2.3",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "morgan": "^1.10.0",
@@ -178,21 +177,5 @@
   },
   "engines": {
     "node": "^18.0.0"
-  },
-  "_moduleAliases": {
-      "@routes": "src/routes.js",
-      "@modules/*": "src/modules/*",
-      "@core/*": "src/core/*/index.js",
-      "@entities": "src/entities/index.js",
-      "@entities/*": "src/entities/*.js",
-      "@infra/*": "src/infra/*",
-      "@useCases": "src/useCases/index.js",
-      "@views": "src/views/index.js",
-      "@views/*": "src/views/*/index.js",
-      "@components": "src/views/components/index.js",
-      "@dataAccess": "src/dataAccess/index.js",
-      "@dataAccess/*": "src/dataAccess/*/index.js",
-      "@config": "src/config/index.js",
-      "@config/*": "src/config/*.js"
   }
 }

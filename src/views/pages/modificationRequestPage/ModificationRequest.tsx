@@ -8,10 +8,10 @@ import {
   Heading2,
   PrimaryButton,
   Form,
-} from '@components';
-import { ModificationRequestPageDTO } from '@modules/modificationRequest';
-import { userIs } from '@modules/users';
-import ROUTES from '@routes';
+} from '../../components';
+import { ModificationRequestPageDTO } from '../../../modules/modificationRequest';
+import { userIs } from '../../../modules/users';
+import ROUTES from '../../../routes';
 import { Request } from 'express';
 import moment from 'moment';
 import React from 'react';

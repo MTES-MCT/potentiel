@@ -11,10 +11,10 @@ import {
   SuccessBox,
   Dialog,
   Spinner,
-} from '@components';
-import routes from '@routes';
-import { hydrateOnClient } from '@views/helpers';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+} from '../../../components';
+import routes from '../../../../routes';
+import { hydrateOnClient } from '../../../helpers';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { CsvError } from '../../../../controllers/helpers/mapCsvYupValidationErrorToCsvErrors';
 
 type Réussi = {

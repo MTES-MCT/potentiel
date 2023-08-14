@@ -4,7 +4,7 @@ import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeRequest from '../../__tests__/fixtures/request';
 
 // This is static
-import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import { AdminNotificationCandidats } from './AdminNotificationCandidatsPage';
 
 export default { title: 'Notifier les candidats' };

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ProjectAppelOffre } from '@entities';
-import routes from '@routes';
+import { ProjectAppelOffre } from '../../../entities';
+import routes from '../../../routes';
 import { Request } from 'express';
 
 import {
@@ -20,7 +20,7 @@ import {
   Input,
   TextArea,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
 type DemanderAbandonProps = {

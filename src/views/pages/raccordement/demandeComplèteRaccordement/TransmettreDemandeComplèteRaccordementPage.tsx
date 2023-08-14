@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -12,9 +12,9 @@ import {
   Form,
   LabelDescription,
   InputFile,
-} from '@components';
+} from '../../../components';
 import { GestionnaireRéseauReadModel, ProjetReadModel } from '@potentiel/domain-views';
-import routes from '@routes';
+import routes from '../../../../routes';
 
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';

@@ -1,6 +1,6 @@
 import { Result, Option, Err } from '@hqoss/monads';
 
-import { logger } from '@core/utils';
+import { logger } from '../core/utils';
 
 // For monads
 export { Ok, Err, Some, None } from '@hqoss/monads';

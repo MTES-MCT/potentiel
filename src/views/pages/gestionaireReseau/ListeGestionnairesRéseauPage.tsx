@@ -1,9 +1,9 @@
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Heading1, LinkButton, ListeVide, LegacyPageTemplate, SuccessBox } from '@components';
-import { hydrateOnClient } from '@views/helpers';
+import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Heading1, LinkButton, ListeVide, LegacyPageTemplate, SuccessBox } from '../../components';
+import { hydrateOnClient } from '../../helpers';
 import React from 'react';
 import { Liste } from './components/Liste';
-import routes from '@routes';
+import routes from '../../../routes';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 
 type ListeGestionnairesRéseauProps = {

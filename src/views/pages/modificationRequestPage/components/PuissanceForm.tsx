@@ -4,10 +4,10 @@ import {
   exceedsRatiosChangementPuissance,
   getRatiosChangementPuissance,
   getVolumeReserve,
-} from '@modules/demandeModification/demandeChangementDePuissance';
+} from '../../../../modules/demandeModification/demandeChangementDePuissance';
 
-import { AlertBox, Checkbox } from '@components';
-import { ModificationRequestPageDTO } from '@modules/modificationRequest/dtos';
+import { AlertBox, Checkbox } from '../../../components';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest/dtos';
 
 type PuissanceFormProps = {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' };

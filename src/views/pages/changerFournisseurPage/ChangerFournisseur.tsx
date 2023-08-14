@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ProjectAppelOffre } from '@entities';
-import routes from '@routes';
+import { ProjectAppelOffre } from '../../../entities';
+import routes from '../../../routes';
 import { Request } from 'express';
 
 import {
@@ -21,9 +21,9 @@ import {
   Input,
   TextArea,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project';
+import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '../../../modules/project';
 
 type ChangerFournisseurProps = {
   request: Request;

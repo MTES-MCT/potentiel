@@ -1,11 +1,11 @@
-import { EventBus, Repository, UniqueEntityID } from '@core/domain';
-import { ok, wrapInfra, err, errAsync } from '@core/utils';
-import { User, formatCahierDesChargesRéférence } from '@entities';
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
-import { ModificationRequested } from '@modules/modificationRequest';
-import { Project } from '@modules/project';
-import { userIsNot } from '@modules/users';
-import { UnauthorizedError } from '@modules/shared';
+import { EventBus, Repository, UniqueEntityID } from '../core/domain';
+import { ok, wrapInfra, err, errAsync } from '../core/utils';
+import { User, formatCahierDesChargesRéférence } from '../entities';
+import { FileContents, FileObject, makeAndSaveFile } from '../modules/file';
+import { ModificationRequested } from '../modules/modificationRequest';
+import { Project } from '../modules/project';
+import { userIsNot } from '../modules/users';
+import { UnauthorizedError } from '../modules/shared';
 
 interface MakeUseCaseProps {
   fileRepo: Repository<FileObject>;

@@ -13,14 +13,14 @@ import {
   Select,
   SuccessBox,
   Form,
-} from '@components';
-import { AppelOffre, Periode } from '@entities';
-import { ProjectListItem } from '@modules/project/queries';
-import ROUTES from '@routes';
+} from '../components';
+import { AppelOffre, Periode } from '../../entities';
+import { ProjectListItem } from '../../modules/project/queries';
+import ROUTES from '../../routes';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import { PaginatedList } from '@modules/pagination';
+import { PaginatedList } from '../../modules/pagination';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
 
 type AdminNotificationCandidatsProps = {

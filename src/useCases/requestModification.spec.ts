@@ -1,15 +1,15 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { DomainEvent, EventBus, Repository } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { FileObject } from '@modules/file';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { DomainEvent, EventBus, Repository } from '../core/domain';
+import { okAsync } from '../core/utils';
+import { FileObject } from '../modules/file';
+import { InfraNotAvailableError, UnauthorizedError } from '../modules/shared';
 import makeFakeUser from '../__tests__/fixtures/user';
 import makeRequestModification from './requestModification';
 import { fakeRepo } from '../__tests__/fixtures/aggregates';
-import { Project } from '@modules/project';
+import { Project } from '../modules/project';
 import makeFakeProject from '../__tests__/fixtures/project';
-import { User } from '@entities';
+import { User } from '../entities';
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',

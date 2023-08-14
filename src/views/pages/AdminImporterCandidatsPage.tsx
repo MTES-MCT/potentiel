@@ -1,5 +1,5 @@
 import React from 'react';
-import ROUTES from '@routes';
+import ROUTES from '../../routes';
 import { Request } from 'express';
 import {
   PrimaryButton,
@@ -10,7 +10,7 @@ import {
   LegacyPageTemplate,
   SuccessBox,
   Form,
-} from '@components';
+} from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type AdminImporterCandidatsProps = {

@@ -1,8 +1,8 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { ProjectDataForProjectPage } from '@modules/project/queries';
-import ROUTES from '@routes';
+import { appelsOffreStatic } from '../../../../dataAccess/inMemory';
+import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
+import ROUTES from '../../../../routes';
 import {
   BuildingIcon,
   PrimaryButton,
@@ -15,8 +15,8 @@ import {
   Radio,
   Checkbox,
   Form,
-} from '@components';
-import { afficherDate } from '@views/helpers';
+} from '../../../components';
+import { afficherDate } from '../../../helpers';
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage;

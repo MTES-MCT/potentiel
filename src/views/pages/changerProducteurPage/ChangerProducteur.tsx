@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectAppelOffre } from '@entities';
+import { ProjectAppelOffre } from '../../../entities';
 import { Request } from 'express';
 
 import {
@@ -21,9 +21,9 @@ import {
   Heading1,
   ProjectProps,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import routes from '@routes';
+import routes from '../../../routes';
 
 type ChangerProducteurProps = {
   request: Request;

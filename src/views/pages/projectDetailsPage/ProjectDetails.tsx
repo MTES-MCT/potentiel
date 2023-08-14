@@ -1,8 +1,8 @@
-import { ProjectEventListDTO } from '@modules/frise';
-import { ProjectDataForProjectPage } from '@modules/project/queries';
+import { ProjectEventListDTO } from '../../../modules/frise';
+import { ProjectDataForProjectPage } from '../../../modules/project/queries';
 import { Request } from 'express';
 import React, { FC } from 'react';
-import { userIs } from '@modules/users';
+import { userIs } from '../../../modules/users';
 import {
   Callout,
   Link,
@@ -15,7 +15,7 @@ import {
   InfoBox,
   Heading2,
   Form,
-} from '@components';
+} from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
   EtapesProjet,
@@ -26,7 +26,7 @@ import {
   ResultatsAppelOffreInnovation,
 } from './sections';
 import { ProjectHeader } from './components';
-import routes from '@routes';
+import routes from '../../../routes';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 
 export type AlerteRaccordement =

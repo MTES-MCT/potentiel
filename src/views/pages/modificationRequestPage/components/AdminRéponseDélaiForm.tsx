@@ -1,5 +1,5 @@
-import { Astérisque, Input } from '@components';
-import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { Astérisque, Input } from '../../../components';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import format from 'date-fns/format';
 import React from 'react';
 
