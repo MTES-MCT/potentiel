@@ -24,10 +24,10 @@
   "scripts": {
     "type:check": "tsc --noEmit",
     "build": "npm run build:packages && npm run build:front && npm run build:css && npm run build:back && npm run build:migrations",
-    "build:back": "ttsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
+    "build:back": "tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:front": "webpack --config=webpack.config.js",
-    "build:migrations": "ttsc --build tsconfig.migrations.json",
+    "build:migrations": "tsc --build tsconfig.migrations.json",
     "build:packages": "npm run build --workspaces --if-present",
     "build-storybook": "build-storybook",
     "prepare": "husky install",
@@ -42,7 +42,8 @@
     "specs": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && npm run specs --workspaces --if-present --",
     "specs:select": "npm run specs -- --tags @select",
     "version": "ts-node .github/getPatchVersion.ts",
-    "test:legacy": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && APPLICATION_STAGE=test jest --config=jest.config.js --detectOpenHandles",
+    "test:legacy": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && jest --config=jest.config.js --detectOpenHandles",
+    "test:dev:legacy": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles",
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\""
   },
   "repository": {
@@ -86,6 +87,7 @@
     "mime-types": "^2.1.35",
     "minisearch": "^5.1.0",
     "mkdirp": "^1.0.4",
+    "module-alias": "^2.2.3",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "morgan": "^1.10.0",
@@ -167,7 +169,6 @@
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
-    "ttypescript": "^1.5.15",
     "typescript": "^5.1.6",
     "typescript-transform-paths": "^3.4.6",
     "wait-for-expect": "^3.0.2",
@@ -177,5 +178,21 @@
   },
   "engines": {
     "node": "^18.0.0"
+  },
+  "_moduleAliases": {
+      "@routes": "src/routes.js",
+      "@modules/*": "src/modules/*",
+      "@core/*": "src/core/*/index.js",
+      "@entities": "src/entities/index.js",
+      "@entities/*": "src/entities/*.js",
+      "@infra/*": "src/infra/*",
+      "@useCases": "src/useCases/index.js",
+      "@views": "src/views/index.js",
+      "@views/*": "src/views/*/index.js",
+      "@components": "src/views/components/index.js",
+      "@dataAccess": "src/dataAccess/index.js",
+      "@dataAccess/*": "src/dataAccess/*/index.js",
+      "@config": "src/config/index.js",
+      "@config/*": "src/config/*.js"
   }
 }

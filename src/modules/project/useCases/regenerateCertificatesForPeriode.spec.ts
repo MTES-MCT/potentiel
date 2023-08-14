@@ -37,6 +37,7 @@ describe('regenerateCertificatesForPeriode', () => {
         errAsync<null, DomainError>(new InfraNotAvailableError()),
       );
       const projectRepo = fakeTransactionalRepo({} as Project);
+      const spyOnTransaction = jest.spyOn(projectRepo, 'transaction');
       const eventBus = {
         subscribe: jest.fn(),
         publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
@@ -69,7 +70,7 @@ describe('regenerateCertificatesForPeriode', () => {
           reason: 'reason',
         });
 
-        expect(projectRepo.transaction).not.toHaveBeenCalled();
+        expect(spyOnTransaction).not.toHaveBeenCalled();
       });
 
       it('should emit CertificatesForPeriodeRegenerated', () => {

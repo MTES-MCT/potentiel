@@ -55,12 +55,14 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
         const legacyCandidateNotificationRepo = fakeTransactionalRepo(
           {} as LegacyCandidateNotification,
         );
+        const spyOnTransaction = jest.spyOn(legacyCandidateNotificationRepo, 'transaction');
+
         await handleProjectImported({
           isPeriodeLegacy,
           legacyCandidateNotificationRepo,
         })(event);
 
-        expect(legacyCandidateNotificationRepo.transaction).not.toHaveBeenCalled();
+        expect(spyOnTransaction).not.toHaveBeenCalled();
       });
     });
   });
@@ -104,12 +106,14 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
           const legacyCandidateNotificationRepo = fakeTransactionalRepo(
             {} as LegacyCandidateNotification,
           );
+          const spyOnTransaction = jest.spyOn(legacyCandidateNotificationRepo, 'transaction');
+
           await handleProjectImported({
             isPeriodeLegacy,
             legacyCandidateNotificationRepo,
           })(event);
 
-          expect(legacyCandidateNotificationRepo.transaction).not.toHaveBeenCalled();
+          expect(spyOnTransaction).not.toHaveBeenCalled();
         });
       });
     });
@@ -131,12 +135,14 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
         const legacyCandidateNotificationRepo = fakeTransactionalRepo(
           {} as LegacyCandidateNotification,
         );
+        const spyOnTransaction = jest.spyOn(legacyCandidateNotificationRepo, 'transaction');
+
         await handleProjectImported({
           isPeriodeLegacy,
           legacyCandidateNotificationRepo,
         })(event);
 
-        expect(legacyCandidateNotificationRepo.transaction).not.toHaveBeenCalled();
+        expect(spyOnTransaction).not.toHaveBeenCalled();
       });
     });
   });

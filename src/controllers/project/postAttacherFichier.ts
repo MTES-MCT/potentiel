@@ -100,10 +100,7 @@ v1Router.post(
           () => {
             response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
-                success:
-                  request.files?.length && request.files?.length > 1
-                    ? 'Les fichiers ont bien été attachés au projet.'
-                    : 'Le fichier a bien été attaché au projet.',
+                success: 'Les fichiers ont bien été attachés au projet.',
                 redirectUrl: routes.PROJECT_DETAILS(projectId),
                 redirectTitle: 'Retourner à la page projet',
               }),

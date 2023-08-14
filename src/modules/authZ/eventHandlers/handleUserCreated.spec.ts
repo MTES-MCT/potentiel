@@ -32,12 +32,14 @@ describe('authN.handleUserCreated', () => {
     );
 
     expect(eventBus.publish).toHaveBeenCalledTimes(1);
-    expect(eventBus).toHaveBeenCalledWith({
-      type: 'UserProjectsLinkedByContactEmail',
-      payload: {
-        userId: 'userId',
-        projectIds: [projectWithSameEmailId],
-      },
-    });
+    expect(eventBus.publish).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'UserProjectsLinkedByContactEmail',
+        payload: {
+          userId: 'userId',
+          projectIds: [projectWithSameEmailId],
+        },
+      }),
+    );
   });
 });

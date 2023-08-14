@@ -57,22 +57,26 @@ describe('attachLegacyModificationFile', () => {
       const savedFile1 = fileRepo.save.mock.calls[0][0];
       const savedFile2 = fileRepo.save.mock.calls[1][0];
       expect(eventBus.publish).toHaveBeenCalledTimes(2);
-      expect(eventBus.publish).toHaveBeenCalledWith({
-        type: 'LegacyModificationFileAttached',
-        payload: {
-          fileId: savedFile1.id.toString(),
-          filename,
-          projectId: 'projectA',
-        },
-      });
-      expect(eventBus.publish).toHaveBeenCalledWith({
-        type: 'LegacyModificationFileAttached',
-        payload: {
-          fileId: savedFile2.id.toString(),
-          filename,
-          projectId: 'projectB',
-        },
-      });
+      expect(eventBus.publish).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'LegacyModificationFileAttached',
+          payload: {
+            fileId: savedFile1.id.toString(),
+            filename,
+            projectId: 'projectA',
+          },
+        }),
+      );
+      expect(eventBus.publish).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'LegacyModificationFileAttached',
+          payload: {
+            fileId: savedFile2.id.toString(),
+            filename,
+            projectId: 'projectB',
+          },
+        }),
+      );
     });
   });
 

@@ -13,7 +13,6 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   testEnvironment: 'node',
   setupFiles: ['./jest.env.ts'],
-  setupFilesAfterEnv: ['./jest.setup.ts'],
   moduleNameMapper: {
     '^@modules/(.*)$': '<rootDir>/src/modules/$1/index.ts',
     '^@core/(.*)$': '<rootDir>/src/core/$1/index.ts',
