@@ -27,7 +27,7 @@ interface Props {
   currentUrl: string;
 }
 
-export const RequestList = ({ modificationRequests, requestActions, currentUrl }: Props) => {
+export const RequestList = ({ modificationRequests, requestActions, currentUrl, role }: Props) => {
   if (!modificationRequests?.itemCount) {
     return <ListeVide titre="Aucune demande n’a été trouvée" />;
   }
@@ -62,19 +62,29 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl }
     switch (statut) {
       case 'information validée':
       case 'acceptée':
-        return 'bg-success-975-base border-success-425-base';
+        return 'bg-success-975-base';
       case 'en instruction':
       case 'en attente de confirmation':
       case 'demande confirmée':
-        return 'bg-warning-975-base border-warning-425-base';
+        return 'bg-warning-975-base';
       case 'annulée':
       case 'rejetée':
-        return 'bg-error-975-base border-error-425-base';
+        return 'bg-error-975-base';
       case 'envoyée':
       default:
-        return 'bg-info-975-base border-info-425-base';
+        return 'bg-info-975-base';
     }
   };
+
+  const getAfficherDétail = ({
+    role,
+    authority,
+  }: {
+    role?: UserRole;
+    authority?: 'dreal' | 'dgec';
+  }): boolean =>
+    (role && ['admin', 'dgec-validateur', 'porteur-projet'].includes(role)) ||
+    (role === 'dreal' && authority === 'dreal');
 
   return (
     <>
@@ -122,25 +132,32 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl }
                 </Td>
                 <Td className="align-top">
                   <ModificationRequestActionTitles action={modificationRequest.type} />
-                  <div className="italic leading-none text-xs">
-                    {modificationRequest.description}
-                  </div>
-                  <div className="italic leading-normal text-xs">
-                    {modificationRequest.attachmentFile && (
-                      <Link
-                        href={ROUTES.DOWNLOAD_PROJECT_FILE(
-                          modificationRequest.attachmentFile.id,
-                          modificationRequest.attachmentFile.filename,
+                  {getAfficherDétail({
+                    role,
+                    authority: modificationRequest.authority,
+                  }) && (
+                    <div>
+                      <div className="italic leading-none text-xs">
+                        {modificationRequest.description}
+                      </div>
+                      <div className="italic leading-normal text-xs">
+                        {modificationRequest.attachmentFile && (
+                          <Link
+                            href={ROUTES.DOWNLOAD_PROJECT_FILE(
+                              modificationRequest.attachmentFile.id,
+                              modificationRequest.attachmentFile.filename,
+                            )}
+                            aria-label={`Télécharger la pièce-jointe de ${intituléLien(
+                              modificationRequest.type,
+                            )} pour le projet ${project.nomProjet}`}
+                            download={true}
+                          >
+                            Télécharger la pièce-jointe
+                          </Link>
                         )}
-                        aria-label={`Télécharger la pièce-jointe de ${intituléLien(
-                          modificationRequest.type,
-                        )} pour le projet ${project.nomProjet}`}
-                        download={true}
-                      >
-                        Télécharger la pièce-jointe
-                      </Link>
-                    )}
-                  </div>
+                      </div>
+                    </div>
+                  )}
                 </Td>
                 <Td
                   className={`align-top !border-x-[1px] border-solid ${

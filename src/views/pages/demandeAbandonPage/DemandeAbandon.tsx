@@ -49,7 +49,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
         </div>
 
         <div>
-          <DemandeDetails modificationRequest={modificationRequest} />
+          {user.role !== 'dreal' && <DemandeDetails modificationRequest={modificationRequest} />}
           <StatutDemandeModification statutDemande={status} className="my-4">
             <span className="font-bold">{helpers.ModificationRequestStatusTitle[status]}</span>{' '}
             {respondedOn &&
@@ -77,7 +77,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
             )}
           </StatutDemandeModification>
 
-          {status === 'rejetée' && userIs(['admin', 'dgec-validateur'])(user) && (
+          {status === 'rejetée' && isAdmin && (
             <Form method="post" action={ROUTES.ADMIN_ANNULER_ABANDON_REJETE} className="m-0 mt-4">
               <SecondaryButton
                 type="submit"

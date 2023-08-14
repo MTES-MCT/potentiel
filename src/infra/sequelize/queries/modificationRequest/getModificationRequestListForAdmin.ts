@@ -9,7 +9,7 @@ import {
   ModificationRequestListItemDTO,
 } from '@modules/modificationRequest';
 import { InfraNotAvailableError } from '@modules/shared';
-import { userIs } from '@modules/users';
+import { userIs, userIsNot } from '@modules/users';
 import {
   ModificationRequest,
   Project,
@@ -72,7 +72,6 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           isLegacy: {
             [Op.or]: [false, null],
           },
-          ...(userIs('dreal')(user) && { authority: 'dreal' }),
           ...(userIs(['admin', 'dgec-validateur'])(user) &&
             !forceNoAuthority && { authority: 'dgec' }),
           ...(modificationRequestType && { type: modificationRequestType }),
@@ -119,63 +118,19 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
     })
     .andThen(
       (res): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
-        const { count, rows } = res;
-
-        const modificationRequests = rows.map(
-          ({
-            id,
-            status,
-            requestedOn,
-            type,
-            justification,
-            actionnaire,
-            producteur,
-            puissance,
-            requestedBy: { email, fullName },
-            project: {
-              nomProjet,
-              communeProjet,
-              departementProjet,
-              regionProjet,
-              appelOffreId,
-              periodeId,
-              familleId,
-            },
-            attachmentFile,
-          }) => {
-            const getDescription = (): string => {
-              switch (type) {
-                case 'abandon':
-                case 'recours':
-                case 'fournisseur':
-                case 'delai':
-                case 'annulation abandon':
-                  return justification || '';
-                case 'actionnaire':
-                  return actionnaire || '';
-                case 'producteur':
-                  return producteur || '';
-                case 'puissance':
-                  return puissance
-                    ? `${puissance} ${_getPuissanceForAppelOffre({
-                        appelOffreId,
-                        periodeId,
-                      })}`
-                    : '';
-                case 'autre':
-                  return 'autre (legacy)';
-              }
-            };
-
-            return {
+        const modificationRequests = res.rows
+          .map(
+            ({
               id,
+              authority,
               status,
               requestedOn,
-              requestedBy: {
-                email,
-                fullName,
-              },
-              attachmentFile,
+              type,
+              justification,
+              actionnaire,
+              producteur,
+              puissance,
+              requestedBy: { email, fullName },
               project: {
                 nomProjet,
                 communeProjet,
@@ -184,15 +139,66 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
                 appelOffreId,
                 periodeId,
                 familleId,
-                unitePuissance: _getPuissanceForAppelOffre({ appelOffreId, periodeId }),
               },
-              type,
-              description: getDescription(),
-            };
-          },
-        );
+              attachmentFile,
+            }) => {
+              const getDescription = (): string => {
+                switch (type) {
+                  case 'abandon':
+                  case 'recours':
+                  case 'fournisseur':
+                  case 'delai':
+                  case 'annulation abandon':
+                    return justification || '';
+                  case 'actionnaire':
+                    return actionnaire || '';
+                  case 'producteur':
+                    return producteur || '';
+                  case 'puissance':
+                    return puissance
+                      ? `${puissance} ${_getPuissanceForAppelOffre({
+                          appelOffreId,
+                          periodeId,
+                        })}`
+                      : '';
+                  case 'autre':
+                    return 'autre (legacy)';
+                }
+              };
 
-        return ok(makePaginatedList(modificationRequests, count, pagination));
+              return {
+                id,
+                authority,
+                status,
+                requestedOn,
+                requestedBy: {
+                  email,
+                  fullName,
+                },
+                attachmentFile,
+                project: {
+                  nomProjet,
+                  communeProjet,
+                  departementProjet,
+                  regionProjet,
+                  appelOffreId,
+                  periodeId,
+                  familleId,
+                  unitePuissance: _getPuissanceForAppelOffre({ appelOffreId, periodeId }),
+                },
+                type,
+                description: getDescription(),
+              };
+            },
+          )
+          .filter(
+            (row) =>
+              userIsNot('dreal')(user) ||
+              (userIs('dreal')(user) && row.authority === 'dreal') ||
+              (userIs('dreal')(user) && row.type === 'abandon'),
+          );
+
+        return ok(makePaginatedList(modificationRequests, modificationRequests.length, pagination));
       },
     );
 };
