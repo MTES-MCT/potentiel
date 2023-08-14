@@ -123,7 +123,7 @@ Quand(
 
         const path = join(
           convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-          `attestation-constitution-garanties-Financieres.${extension(format)}`,
+          `attestation-constitution-garanties-financieres.${extension(format)}`,
         );
 
         await upload(path, contenuFichier);
