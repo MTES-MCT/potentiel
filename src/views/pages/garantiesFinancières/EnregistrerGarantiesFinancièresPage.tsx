@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   Heading2,
@@ -12,15 +12,15 @@ import {
   InfoBox,
   Select,
   ErrorBox,
-} from '@components';
-import { ConsulterProjetReadModel, GarantiesFinancièresReadModel } from '@potentiel/domain-views';
-import routes from '@routes';
+} from '../../components';
+import { ProjetReadModel, GarantiesFinancièresReadModel } from '@potentiel/domain-views';
+import routes from '../../../routes';
 import { formatDateForInput, hydrateOnClient } from '../../helpers';
 import { TitreGarantiesFinancières } from './components/TitreGarantiesFinancières';
 
 type EnregistrerGarantiesFinancièresProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   garantiesFinancières?: GarantiesFinancièresReadModel;
   error?: string;
 };
