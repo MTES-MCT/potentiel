@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react';
-import { ErrorIcon } from '@components';
+import { ErrorIcon } from '../../atoms';
 
 type AlertMessageProps = ComponentProps<'div'> & { message: string };
 
