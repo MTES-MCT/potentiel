@@ -21,6 +21,7 @@ import {
   téléchargerFichierDossierRaccordementAdapter,
   téléverserFichierAdapter,
   téléchargerFichierAdapter,
+  récupérerDétailProjetAdapter,
 } from '@potentiel/infra-adapters';
 import { loadAggregate, oldSubscribe, publish } from '@potentiel/pg-event-sourcing';
 import {
