@@ -1,8 +1,6 @@
 const glob = require('glob');
 const startCase = require('lodash/startCase');
 const path = require('path');
-const webpack = require('webpack');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 require('dotenv').config();
 
 const formatPageEntrieName = (name) => name.charAt(0).toLowerCase() + name.slice(1);
@@ -10,11 +8,14 @@ const pageEntries = glob
   .sync('./src/views/pages/**/*@(Page|Page.tsx)')
   .map((name) => {
     if (name.endsWith('.tsx')) {
-      return { name: path.basename(name, 'Page.tsx'), path: name };
+      return { name: path.basename(name, 'Page.tsx'), path: `./${name}` };
     } else {
       return {
         name: path.basename(name, 'Page'),
-        path: path.join(name, startCase(path.basename(name, 'Page')).replace(/ /g, '') + '.tsx'),
+        path: `./${path.join(
+          name,
+          startCase(path.basename(name, 'Page')).replace(/ /g, '') + '.tsx',
+        )}`,
       };
     }
   })
@@ -38,7 +39,6 @@ module.exports = {
   target: 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
-    plugins: [new TsconfigPathsPlugin()],
     fallback: { path: require.resolve('path-browserify') },
   },
   module: {
