@@ -1,4 +1,4 @@
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -19,12 +19,12 @@ import {
   AttestationConstitution,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
-import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
+import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { DomainError } from '@potentiel/core-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { upload as uploadMiddleware } from '../upload';
 import { createReadStream } from 'fs';
-import { getProjectAppelOffre } from '@config';
+import { getProjectAppelOffre } from '../../config';
 import { ConsulterFichierAttestationGarantiesFinancièreQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({

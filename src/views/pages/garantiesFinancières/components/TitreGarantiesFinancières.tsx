@@ -1,4 +1,4 @@
-import { FinanceIcon } from '@components';
+import { FinanceIcon } from '../../../components';
 import React, { ComponentProps, FC } from 'react';
 
 export const TitreGarantiesFinancières: FC<ComponentProps<'div'>> = () => (
