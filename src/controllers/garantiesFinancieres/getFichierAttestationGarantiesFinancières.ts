@@ -1,4 +1,4 @@
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -11,8 +11,8 @@ import {
   PermissionConsulterGarantiesFinancières,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
-import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
-import { logger } from '@core/utils';
+import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
+import { logger } from '../../core/utils';
 import { extension } from 'mime-types';
 
 const schema = yup.object({
