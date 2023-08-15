@@ -1,13 +1,16 @@
-import { okAsync } from '@core/utils';
-import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification';
+import { describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
+import { RejetChangementDePuissanceAnnulé } from "../../../demandeModification";
 import { makeOnRejetChangementDePuissanceAnnulé } from './onRejetChangementDePuissanceAnnulé';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { NotifierPorteurChangementStatutDemande } from "../../useCases";
 
 describe(`Notifier lors de l'annulation du rejet d'une demande de changement de puissance`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un rejet d'une demande de changement de puissance est annulé,
           alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-      const notifierPorteurChangementStatutDemande = jest.fn();
+      const notifierPorteurChangementStatutDemande =
+        jest.fn<NotifierPorteurChangementStatutDemande>();
       const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
         () =>
           okAsync({

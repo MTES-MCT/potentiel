@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
-import { AnnulationAbandonRejetée } from '@modules/demandeModification';
+import { logger } from '../../../../core/utils';
+import { AnnulationAbandonRejetée } from "../../../demandeModification";
 import { NotifierPorteurChangementStatutDemande } from '../..';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest/queries";
 
 type Commande = AnnulationAbandonRejetée;
 

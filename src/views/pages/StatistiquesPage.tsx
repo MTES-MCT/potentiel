@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Heading1, LegacyPageTemplate } from '@components';
+import { Heading1, LegacyPageTemplate } from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type StatistiquesProps = {

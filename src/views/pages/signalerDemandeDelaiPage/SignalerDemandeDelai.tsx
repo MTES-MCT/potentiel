@@ -11,10 +11,10 @@ import {
   TextArea,
   Radio,
   Form,
-} from '@components';
-import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
-import routes from '@routes';
-import { afficherDate } from '@views/helpers';
+} from '../../components';
+import { ProjectDataForSignalerDemandeDelaiPage } from '../../../modules/project';
+import routes from '../../../routes';
+import { afficherDate } from '../../helpers';
 import { Request } from 'express';
 import React, { useState } from 'react';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';

@@ -1,9 +1,10 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectProducteurUpdated } from './onProjectProducteurUpdated';
-import { ProjectProducteurUpdated } from '@modules/project';
+import { ProjectProducteurUpdated } from '../../../../../modules/project';
 import { v4 as uuid } from 'uuid';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../..";
 
 describe('project.onProjectProducteurUpdated', () => {
   const projectId = uuid();

@@ -1,5 +1,5 @@
-import { FiltreListeProjets } from '@modules/project/queries/listerProjets';
-import { UserRole } from '@modules/users';
+import { FiltreListeProjets } from '../../../../../../modules/project/queries/listerProjets';
+import { UserRole } from '../../../../../../modules/users';
 import {
   contenuLocal,
   coordonnéesCandidat,

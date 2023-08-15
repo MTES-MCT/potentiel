@@ -1,8 +1,8 @@
-import { User } from '@entities';
-import { GarantiesFinancièresStatut } from '@infra/sequelize';
-import { GarantiesFinancièresDTO } from '@modules/frise';
-import { userIs } from '@modules/users';
-import routes from '@routes';
+import { User } from '../../../../entities';
+import { GarantiesFinancièresStatut } from "../..";
+import { GarantiesFinancièresDTO } from '../../../../modules/frise';
+import { userIs } from '../../../../modules/users';
+import routes from '../../../../routes';
 
 type GarantiesFinancièresDonnéesPourDTO = {
   statut: GarantiesFinancièresStatut;

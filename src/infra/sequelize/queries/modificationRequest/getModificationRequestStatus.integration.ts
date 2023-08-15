@@ -1,5 +1,6 @@
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
+import { ModificationRequest } from "../../projectionsNext";
 import { resetDatabase } from '../../helpers';
 import { getModificationRequestStatus } from './getModificationRequestStatus';
 

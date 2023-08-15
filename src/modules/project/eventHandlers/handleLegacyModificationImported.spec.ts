@@ -1,5 +1,6 @@
-import { UniqueEntityID } from '@core/domain';
-import { ProjectAppelOffre } from '@entities';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../core/domain';
+import { ProjectAppelOffre } from '../../../entities';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import { LegacyModificationImported } from '../../modificationRequest/events';
 import { Project } from '../Project';

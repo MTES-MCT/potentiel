@@ -1,14 +1,14 @@
 import * as yup from 'yup';
 
-import { annulerDemandeAnnulationAbandon, ensureRole } from '@config';
-import { logger } from '@core/utils';
+import { annulerDemandeAnnulationAbandon, ensureRole } from '../../../config';
+import { logger } from '../../../core/utils';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
+import { EntityNotFoundError, UnauthorizedError } from '../../../modules/shared';
 import routes from '../../../routes';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers';
 import { v1Router } from '../../v1Router';
 import { addQueryParams } from '../../../helpers/addQueryParams';
-import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification';
+import { StatutRéponseIncompatibleAvecAnnulationError } from '../../../modules/demandeModification';
 
 const schema = yup.object({
   body: yup.object({

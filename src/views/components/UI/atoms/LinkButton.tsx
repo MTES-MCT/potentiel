@@ -1,4 +1,4 @@
-import { ConfirmationProp, demanderConfirmation } from '@views/helpers';
+import { ConfirmationProp, demanderConfirmation } from "../../../helpers";
 import React, { ComponentProps, FC } from 'react';
 
 type LinkButtonProps = ComponentProps<'a'> & ConfirmationProp;

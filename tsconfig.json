@@ -23,56 +23,7 @@
     "inlineSources": true,
     "sourceRoot": "/",
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@routes": [
-        "src/routes.ts"
-      ],
-      "@modules/*": [
-        "src/modules/*"
-      ],
-      "@core/*": [
-        "src/core/*/index.ts"
-      ],
-      "@entities": [
-        "src/entities/index.ts"
-      ],
-      "@entities/*": [
-        "src/entities/*.ts"
-      ],
-      "@infra/*": [
-        "src/infra/*"
-      ],
-      "@useCases": [
-        "src/useCases/index.ts"
-      ],
-      "@views": [
-        "src/views/index.ts"
-      ],
-      "@views/*": [
-        "src/views/*/index.ts"
-      ],
-      "@components": [
-        "src/views/components/index.ts"
-      ],
-      "@dataAccess": [
-        "src/dataAccess/index.ts"
-      ],
-      "@dataAccess/*": [
-        "src/dataAccess/*/index.ts"
-      ],
-      "@config": [
-        "src/config/index.ts"
-      ],
-      "@config/*": [
-        "src/config/*.ts"
-      ],
-    },
-    "plugins": [
-      {
-        "transform": "typescript-transform-paths"
-      }
-    ]
+    "baseUrl": "."
   },
   "include": [
     "src/**/*"

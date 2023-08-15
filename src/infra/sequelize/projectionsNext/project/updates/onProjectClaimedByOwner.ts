@@ -1,8 +1,8 @@
-import { logger } from '@core/utils';
-import { ProjectClaimedByOwner } from '@modules/projectClaim/events';
+import { logger } from '../../../../../core/utils';
+import { ProjectClaimedByOwner } from '../../../../../modules/projectClaim/events';
 import { Project } from '../project.model';
 import { ProjectProjector } from '../project.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 export const onProjectClaimedByOwner = ProjectProjector.on(
   ProjectClaimedByOwner,

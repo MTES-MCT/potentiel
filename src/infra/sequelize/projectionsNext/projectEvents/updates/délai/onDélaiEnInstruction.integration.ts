@@ -1,7 +1,11 @@
-import { UniqueEntityID } from '@core/domain';
-import { DélaiEnInstructionPayload, DélaiEnInstruction } from '@modules/demandeModification';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../../core/domain';
+import {
+  DélaiEnInstructionPayload,
+  DélaiEnInstruction,
+} from '../../../../../../modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { ProjectEvent } from "../../..";
 import onDélaiEnInstruction from './onDélaiEnInstruction';
 
 describe('Projecteur de ProjectEvent onDélaiEnInstruction', () => {

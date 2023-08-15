@@ -1,4 +1,4 @@
-import { ProjectAppelOffre } from '@entities';
+import { ProjectAppelOffre } from '../../../../../entities';
 import { getVolumeReserve } from './getVolumeReserve';
 
 export type ExceedsPuissanceMaxDuVolumeReserve = (arg: {

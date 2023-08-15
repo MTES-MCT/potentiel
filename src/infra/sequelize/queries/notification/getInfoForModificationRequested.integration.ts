@@ -1,5 +1,6 @@
-import { UniqueEntityID } from '@core/domain';
-import { Project, User } from '@infra/sequelize/projectionsNext';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
+import { Project, User } from "../../projectionsNext";
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../helpers';

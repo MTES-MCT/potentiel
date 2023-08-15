@@ -1,8 +1,8 @@
 import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
-import { AppelOffre, Famille, Periode } from '@entities';
-import { PaginatedList } from '@modules/pagination';
+import { AppelOffre, Famille, Periode } from '../../entities';
+import { PaginatedList } from '../../modules/pagination';
 
 import {
   ProjectList,
@@ -22,11 +22,11 @@ import {
   LinkButton,
   Form,
   Link,
-} from '@components';
+} from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
-import { ProjectListItem } from '@modules/project';
-import { userIsNot } from '@modules/users';
-import routes from '@routes';
+import { ProjectListItem } from '../../modules/project';
+import { userIsNot } from '../../modules/users';
+import routes from '../../routes';
 
 type ListeProjetsProps = {
   request: Request;

@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
-import { ConfirmationAbandonDemandée } from '@modules/demandeModification';
+import { logger } from '../../../../core/utils';
+import { ConfirmationAbandonDemandée } from "../../../demandeModification";
 import { NotifierPorteurChangementStatutDemande } from '../..';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest/queries";
 
 type OnConfirmationAbandonDemandée = (evenement: ConfirmationAbandonDemandée) => Promise<void>;
 

@@ -1,7 +1,12 @@
-import { DownloadLink, Form, SecondaryButton, StatutDemandeModification } from '@components';
-import { ModificationRequestPageDTO } from '@modules/modificationRequest';
-import { UserRole } from '@modules/users';
-import ROUTES from '@routes';
+import {
+  DownloadLink,
+  Form,
+  SecondaryButton,
+  StatutDemandeModification,
+} from '../../../components';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
+import { UserRole } from '../../../../modules/users';
+import ROUTES from '../../../../routes';
 import React from 'react';
 import * as helpers from '../../../helpers';
 

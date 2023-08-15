@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { v4 as uuid } from 'uuid';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
@@ -7,8 +8,8 @@ import {
   Project,
   User,
   UserProjects,
-} from '@infra/sequelize/projectionsNext';
-import { Pagination } from '@modules/pagination';
+} from '../../infra/sequelize/projectionsNext';
+import { Pagination } from '../../modules/pagination';
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination;
 

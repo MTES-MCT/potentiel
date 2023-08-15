@@ -1,5 +1,5 @@
-import { LegacyModificationImported } from '@modules/modificationRequest';
-import { UniqueEntityID } from '@core/domain';
+import { LegacyModificationImported } from '../../../../../modules/modificationRequest';
+import { UniqueEntityID } from '../../../../../core/domain';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

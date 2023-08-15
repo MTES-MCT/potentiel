@@ -1,6 +1,7 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { NotificationArgs } from '../Notification';
 import { makeOnPeriodeNotified } from './onPeriodeNotified';
-import { PeriodeNotified } from '@modules/project';
+import { PeriodeNotified } from "../../project";
 
 describe('notification.handleLegacyCandidateNotified', () => {
   it('should send a notification email to the PP', async () => {

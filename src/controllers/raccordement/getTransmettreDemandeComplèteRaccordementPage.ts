@@ -1,9 +1,9 @@
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { TransmettreDemandeComplèteRaccordementPage } from '@views';
+import { TransmettreDemandeComplèteRaccordementPage } from '../../views';
 import { mediator } from 'mediateur';
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
@@ -12,7 +12,7 @@ import {
 } from '@potentiel/domain';
 import { ConsulterProjetQuery, ListerGestionnaireRéseauQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
-import { getProjectAppelOffre } from '@config';
+import { getProjectAppelOffre } from '../../config';
 
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),

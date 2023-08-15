@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { User } from '@infra/sequelize/projectionsNext';
-import { GetRecipientsForPeriodeNotifiedNotification } from '@modules/notification';
+import { logger } from '../../../../core/utils';
+import { User } from "../../projectionsNext";
+import { GetRecipientsForPeriodeNotifiedNotification } from '../../../../modules/notification';
 import { Op } from 'sequelize';
 
 export const getRecipientsForPeriodeNotifiedNotification: GetRecipientsForPeriodeNotifiedNotification =

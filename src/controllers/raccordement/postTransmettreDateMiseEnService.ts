@@ -7,7 +7,7 @@ import {
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -18,7 +18,7 @@ import {
   vérifierPermissionUtilisateur,
 } from '../helpers';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { logger } from '@core/utils';
+import { logger } from '../../core/utils';
 import { mediator } from 'mediateur';
 import { DomainError } from '@potentiel/core-domain';
 

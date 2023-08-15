@@ -1,8 +1,8 @@
-import { UserRole } from '@modules/users';
+import { UserRole } from '../../../../modules/users';
 import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
 export const étatsUser = ['invité', 'créé'] as const;
-type États = typeof étatsUser[number];
+type États = (typeof étatsUser)[number];
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   id: CreationOptional<string>;

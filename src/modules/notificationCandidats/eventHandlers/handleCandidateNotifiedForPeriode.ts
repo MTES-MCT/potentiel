@@ -1,5 +1,5 @@
-import { logger, wrapInfra } from '@core/utils';
-import routes from '@routes';
+import { logger, wrapInfra } from '../../../core/utils';
+import routes from '../../../routes';
 import { GetPeriodeTitle } from '../../appelOffre';
 import { NotificationService } from '../../notification';
 import { GetUserByEmail, CreateUser } from '../../users';

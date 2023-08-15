@@ -1,8 +1,8 @@
 import { User } from '../users.model';
 import { UserProjector } from '../user.projector';
-import { UtilisateurInvité } from '@modules/utilisateur';
-import { logger } from '@core/utils';
-import { ProjectionEnEchec } from '@modules/shared';
+import { UtilisateurInvité } from '../../../../../modules/utilisateur';
+import { logger } from '../../../../../core/utils';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 export default UserProjector.on(UtilisateurInvité, async (évènement, transaction) => {
   const { payload } = évènement;

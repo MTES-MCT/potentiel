@@ -7,7 +7,7 @@ import {
   AbandonRejeté,
   ConfirmationAbandonDemandée,
   RejetAbandonAnnulé,
-} from '@modules/demandeModification';
+} from '../../../modules/demandeModification';
 import {
   makeOnAbandonAccordé,
   makeOnAbandonRejeté,
@@ -16,14 +16,14 @@ import {
   makeOnConfirmationAbandonDemandée,
   makeOnAbandonConfirmé,
   makeOnRejetAbandonAnnulé,
-} from '@modules/notification';
+} from '../../../modules/notification';
 import { sendNotification } from '../../emails.config';
 import {
   getModificationRequestInfoForStatusNotification,
   getDataForStatutDemandeAbandonModifiéNotification,
   getProjectInfoForModificationRequestedNotification,
 } from '../../queries.config';
-import { notifierPorteurChangementStatutDemande } from '@config/useCases.config';
+import { notifierPorteurChangementStatutDemande } from "../../useCases.config";
 
 if (!process.env.DGEC_EMAIL) {
   console.error('ERROR: DGEC_EMAIL is not set');

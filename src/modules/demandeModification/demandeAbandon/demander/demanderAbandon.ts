@@ -1,15 +1,15 @@
 import { errAsync, okAsync } from 'neverthrow';
-import { EventStore, Repository, UniqueEntityID } from '@core/domain';
-import { wrapInfra, ResultAsync } from '@core/utils';
-import { User, formatCahierDesChargesRéférence } from '@entities';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { EventStore, Repository, UniqueEntityID } from '../../../../core/domain';
+import { wrapInfra, ResultAsync } from '../../../../core/utils';
+import { User, formatCahierDesChargesRéférence } from '../../../../entities';
+import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
 import { AbandonDemandé } from '../events';
 import { FileContents, FileObject, makeFileObject } from '../../../file';
-import { AppelOffreRepo } from '@dataAccess';
+import { AppelOffreRepo } from '../../../../dataAccess';
 import { GetProjectAppelOffreId } from '../../../modificationRequest';
-import { Project } from '@modules/project';
+import { Project } from "../../../project";
 import { DemanderAbandonError } from './DemanderAbandonError';
-import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification/demandeDélai/demander';
+import { NouveauCahierDesChargesNonChoisiError } from "../../demandeDélai/demander";
 
 type DemanderAbandon = (commande: {
   user: User;

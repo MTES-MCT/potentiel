@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 
 // this is event is for PPE2 GF (deemed validated) that has been uploaded in Potentiel just for information
 

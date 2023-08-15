@@ -1,8 +1,11 @@
-import { logger } from '@core/utils';
-import { LegacyModificationDTO, LegacyModificationImported } from '@modules/modificationRequest';
+import { logger } from '../../../../../core/utils';
+import {
+  LegacyModificationDTO,
+  LegacyModificationImported,
+} from '../../../../../modules/modificationRequest';
 import { ModificationRequest } from '../modificationRequest.model';
 import { ModificationRequestProjector } from '../modificationRequest.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 export const onLegacyModificationImported = ModificationRequestProjector.on(
   LegacyModificationImported,

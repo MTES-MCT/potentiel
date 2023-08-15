@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { afficherDate } from './afficherDate';
 
 describe('Afficher une date', () => {

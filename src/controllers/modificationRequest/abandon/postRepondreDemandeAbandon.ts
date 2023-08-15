@@ -6,9 +6,9 @@ import {
   demanderConfirmationAbandon,
   ensureRole,
   rejeterDemandeAbandon,
-} from '@config';
-import { errAsync, logger } from '@core/utils';
-import { UnauthorizedError } from '@modules/shared';
+} from '../../../config';
+import { errAsync, logger } from '../../../core/utils';
+import { UnauthorizedError } from '../../../modules/shared';
 
 import asyncHandler from '../../helpers/asyncHandler';
 import {
@@ -22,7 +22,7 @@ import routes from '../../../routes';
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 
-import { AccorderDemandeAbandonError } from '@modules/demandeModification/demandeAbandon';
+import { AccorderDemandeAbandonError } from '../../../modules/demandeModification/demandeAbandon';
 
 const requestBodySchema = yup.object({
   submitAccept: yup.string().nullable(),

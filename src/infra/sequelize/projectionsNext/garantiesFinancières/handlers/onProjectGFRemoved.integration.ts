@@ -1,7 +1,8 @@
-import { UniqueEntityID } from '@core/domain';
-import { resetDatabase } from '@infra/sequelize/helpers';
-import { ProjectGFRemoved } from '@modules/project';
-import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { resetDatabase } from "../../../helpers";
+import { ProjectGFRemoved } from '../../../../../modules/project';
+import { GarantiesFinancières } from "../..";
 import { onProjectGFRemoved } from './onProjectGFRemoved';
 
 describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, () => {

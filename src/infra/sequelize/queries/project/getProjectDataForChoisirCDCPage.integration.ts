@@ -1,10 +1,11 @@
-import { UniqueEntityID } from '@core/domain';
+import { describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../../projectionsNext";
 import { getProjectDataForChoisirCDCPage } from './getProjectDataForChoisirCDCPage';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { ProjectDataForChoisirCDCPage } from '@modules/project';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
+import { ProjectDataForChoisirCDCPage } from '../../../../modules/project';
 
 const projetId = new UniqueEntityID().toString();
 

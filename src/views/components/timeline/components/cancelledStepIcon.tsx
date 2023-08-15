@@ -1,5 +1,5 @@
 import React from 'react';
-import { XIcon } from '@components';
+import { XIcon } from "../..";
 
 export const CancelledStepIcon = () => (
   <div className="h-9 flex items-center" aria-hidden="true">

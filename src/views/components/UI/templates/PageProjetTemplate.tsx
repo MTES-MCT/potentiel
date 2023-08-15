@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Badge, BadgeType, Heading1, KeyIcon, MapPinIcon, PageTemplate } from '@components';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Badge, BadgeType, Heading1, KeyIcon, MapPinIcon, PageTemplate } from '../..';
 import { ProjetReadModel } from '@potentiel/domain-views';
 
 export const PageProjetTemplate: FC<{

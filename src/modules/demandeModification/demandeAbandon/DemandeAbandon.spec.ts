@@ -1,5 +1,6 @@
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
+import { describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../core/domain';
+import { ModificationRequestInstructionStarted } from "../../modificationRequest";
 
 import { makeDemandeAbandon } from './DemandeAbandon';
 import {

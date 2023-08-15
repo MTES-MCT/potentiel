@@ -1,5 +1,5 @@
-import { ResultAsync } from '@core/utils';
-import { PaginatedList, Pagination } from '@modules/pagination';
+import { ResultAsync } from '../../../core/utils';
+import { PaginatedList, Pagination } from "../../pagination";
 import { InfraNotAvailableError } from '../../shared';
 import { FailedNotificationDTO } from '../dtos';
 

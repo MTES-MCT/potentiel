@@ -1,9 +1,9 @@
 import fs from 'fs';
-import { ensureRole, signalerDemandeRecours } from '@config';
-import { logger } from '@core/utils';
+import { ensureRole, signalerDemandeRecours } from '../../config';
+import { logger } from '../../core/utils';
 import asyncHandler from '../helpers/asyncHandler';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { UnauthorizedError } from '../../modules/shared';
+import routes from '../../routes';
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
@@ -15,7 +15,7 @@ import { v1Router } from '../v1Router';
 import { upload } from '../upload';
 import * as yup from 'yup';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { DemandeDeMêmeTypeDéjàOuverteError } from '@modules/project';
+import { DemandeDeMêmeTypeDéjàOuverteError } from '../../modules/project';
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),

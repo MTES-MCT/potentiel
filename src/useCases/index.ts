@@ -1,5 +1,5 @@
-import { eventStore, fileRepo, sendNotification, projectRepo } from '@config';
-import { projectRepo as OldProjectRepo, userRepo } from '@dataAccess';
+import { eventStore, fileRepo, sendNotification, projectRepo } from '../config';
+import { projectRepo as OldProjectRepo, userRepo } from '../dataAccess';
 import makeGetUserProject from './getUserProject';
 import makeListMissingOwnerProjects from './listMissingOwnerProjects';
 import makeRequestModification from './requestModification';

@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import { AppelOffre, Famille, Periode } from '@entities';
-import ROUTES from '@routes';
-import { PaginatedList } from '@modules/pagination';
+import { AppelOffre, Famille, Periode } from '../../../entities';
+import ROUTES from '../../../routes';
+import { PaginatedList } from '../../../modules/pagination';
 import {
   ProjectList,
   LegacyPageTemplate,
@@ -17,9 +17,9 @@ import {
   Label,
   Select,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
-import { ProjectListItem } from '@modules/project/queries';
+import { ProjectListItem } from '../../../modules/project/queries';
 
 export type GarantiesFinancieresProps = {
   request: Request;

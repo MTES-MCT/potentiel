@@ -1,7 +1,7 @@
-import { makeCertificateFilename } from '@modules/project';
+import { makeCertificateFilename } from './modules/project';
 import querystring from 'querystring';
 import sanitize from 'sanitize-filename';
-import type { Project } from '@entities';
+import type { Project } from './entities';
 import { RawIdentifiantProjet } from '@potentiel/domain';
 
 const withParams =

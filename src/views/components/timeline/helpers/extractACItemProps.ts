@@ -1,5 +1,5 @@
-import { or } from '@core/utils';
-import { is, ProjectEventDTO, ProjectStatus } from '@modules/frise';
+import { or } from '../../../../core/utils';
+import { is, ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 
 export type ACItemProps = {
   type: 'attestation-de-conformite';

@@ -1,5 +1,5 @@
-import { is, ProjectEventDTO } from '@modules/frise/dtos';
-import { LegacyModificationStatus } from '@modules/modificationRequest';
+import { is, ProjectEventDTO } from '../../../../modules/frise/dtos';
+import { LegacyModificationStatus } from '../../../../modules/modificationRequest';
 import { format } from 'date-fns';
 
 export type LegacyModificationsItemProps = {

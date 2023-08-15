@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequested } from '@modules/modificationRequest';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ModificationRequested } from '../../../../../modules/modificationRequest';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

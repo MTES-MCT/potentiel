@@ -1,9 +1,10 @@
-import { UniqueEntityID } from '@core/domain';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { getPendingCandidateInvitations } from './getPendingCandidateInvitations';
-import { User, Project } from '@infra/sequelize/projectionsNext';
+import { User, Project } from "../../projectionsNext";
 
 describe('getPendingCandidateInvitations()', () => {
   const pendingCandidateId = new UniqueEntityID().toString();

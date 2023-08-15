@@ -1,6 +1,7 @@
-import { UniqueEntityID } from '@core/domain';
-import { DélaiDemandé, DélaiDemandéPayload } from '@modules/demandeModification';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../../core/domain';
+import { DélaiDemandé, DélaiDemandéPayload } from '../../../../../../modules/demandeModification';
+import { ProjectEvent } from "../../..";
 import onDélaiDemandé from './onDélaiDemandé';
 
 describe('Projecteur de ProjectEvent onDélaiDemandé', () => {

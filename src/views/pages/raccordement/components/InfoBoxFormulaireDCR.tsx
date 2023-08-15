@@ -1,4 +1,4 @@
-import { ExternalLink, InfoBox } from '@views/components';
+import { ExternalLink, InfoBox } from '../../../components';
 import React, { ComponentProps } from 'react';
 
 export type InfoBoxFormulaireDCRProps = ComponentProps<'div'> & {

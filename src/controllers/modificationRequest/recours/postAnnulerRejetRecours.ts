@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 
-import { annulerRejetRecours, ensureRole } from '@config';
-import { logger } from '@core/utils';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
+import { annulerRejetRecours, ensureRole } from '../../../config';
+import { logger } from '../../../core/utils';
+import { EntityNotFoundError, UnauthorizedError } from '../../../modules/shared';
 import routes from '../../../routes';
 import {
   errorResponse,

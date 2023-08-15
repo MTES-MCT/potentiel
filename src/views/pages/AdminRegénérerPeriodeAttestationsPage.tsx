@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import React from 'react';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
-import ROUTES from '@routes';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
+import ROUTES from '../../routes';
 import {
   PrimaryButton,
   ErrorBox,
@@ -14,7 +14,7 @@ import {
   TextArea,
   Form,
   InfoBox,
-} from '@components';
+} from '../components';
 import { hydrateOnClient, updateUrlParams } from '../helpers';
 
 type AdminRegénérerPeriodeAttestationsProps = {

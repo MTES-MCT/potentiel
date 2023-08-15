@@ -1,9 +1,9 @@
-import { logger } from '@core/utils';
+import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import routes from '@routes';
-import { removeGF } from '@config/useCases.config';
-import { UnauthorizedError } from '@modules/shared';
-import { PermissionAnnulerGF } from '@modules/project/useCases';
+import routes from '../../routes';
+import { removeGF } from '../../config/useCases.config';
+import { UnauthorizedError } from '../../modules/shared';
+import { PermissionAnnulerGF } from '../../modules/project/useCases';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
@@ -16,7 +16,7 @@ import {
 import {
   NoGFCertificateToDeleteError,
   SuppressionGFValidéeImpossibleError,
-} from '@modules/project/errors';
+} from '../../modules/project/errors';
 
 v1Router.get(
   routes.REMOVE_GARANTIES_FINANCIERES(),

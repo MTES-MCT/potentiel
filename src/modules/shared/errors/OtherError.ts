@@ -1,3 +1,3 @@
-import { DomainError } from '@core/domain';
+import { DomainError } from '../../../core/domain';
 
 export class OtherError extends DomainError {}

@@ -1,8 +1,8 @@
-import { errAsync, ok, okAsync, wrapInfra } from '@core/utils';
-import { EntityNotFoundError } from '@modules/shared';
-import { RésuméProjetQueryHandler, RésuméProjetReadModel } from '@modules/project';
-import { Project } from '@infra/sequelize/projectionsNext';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { errAsync, ok, okAsync, wrapInfra } from '../../../../core/utils';
+import { EntityNotFoundError } from '../../../../modules/shared';
+import { RésuméProjetQueryHandler, RésuméProjetReadModel } from '../../../../modules/project';
+import { Project } from "../../projectionsNext";
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
 
 export const résuméProjetQueryHandler: RésuméProjetQueryHandler = (projectId) =>
   wrapInfra(

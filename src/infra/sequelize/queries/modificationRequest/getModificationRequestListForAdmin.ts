@@ -1,23 +1,23 @@
 import { Op } from 'sequelize';
-import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils';
-import { getFullTextSearchOptions } from '@dataAccess/db';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { User } from '@entities';
+import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../../core/utils';
+import { getFullTextSearchOptions } from '../../../../dataAccess/db';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
+import { User } from '../../../../entities';
 import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForAdmin,
   ModificationRequestListItemDTO,
-} from '@modules/modificationRequest';
-import { InfraNotAvailableError } from '@modules/shared';
-import { userIs, userIsNot } from '@modules/users';
+} from '../../../../modules/modificationRequest';
+import { InfraNotAvailableError } from '../../../../modules/shared';
+import { userIs, userIsNot } from '../../../../modules/users';
 import {
   ModificationRequest,
   Project,
   User as UserModel,
   UserDreal,
   File,
-} from '@infra/sequelize/projectionsNext';
-import { PaginatedList } from '@modules/pagination';
+} from '../../projectionsNext';
+import { PaginatedList } from '../../../../modules/pagination';
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
   return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance';

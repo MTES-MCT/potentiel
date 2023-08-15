@@ -1,4 +1,4 @@
-import { logger } from '@core/utils';
+import { logger } from '../core/utils';
 import { getLogger } from '@potentiel/monitoring';
 
 logger.on('debugLog', (message: string) => {

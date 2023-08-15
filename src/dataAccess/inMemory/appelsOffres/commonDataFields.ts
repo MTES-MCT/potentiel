@@ -1,5 +1,5 @@
 import toTypeLiteral from './helpers/toTypeLiteral';
-import { Project } from '@entities';
+import { Project } from '../../../entities';
 
 const dateFieldFormatter = (value) => value && new Date(value).toLocaleDateString();
 

@@ -1,7 +1,8 @@
-import { UniqueEntityID } from '@core/domain';
-import { resetDatabase } from '@infra/sequelize/helpers';
-import { GarantiesFinancièresValidées } from '@modules/project';
-import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { resetDatabase } from "../../../helpers";
+import { GarantiesFinancièresValidées } from '../../../../../modules/project';
+import { GarantiesFinancières } from "../..";
 import { onGarantiesFinancièresValidées } from './onGarantiesFinancièresValidées';
 
 describe(`handler onGarantiesFinancièresValidées pour la projection garantiesFinancières`, () => {

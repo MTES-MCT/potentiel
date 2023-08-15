@@ -1,5 +1,5 @@
-import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
-import { FiltreListeProjets } from '@modules/project/queries';
+import { GarantiesFinancières } from "../../../projectionsNext";
+import { FiltreListeProjets } from '../../../../../modules/project/queries';
 import { Op, literal } from 'sequelize';
 
 export const mapToFindOptions = ({

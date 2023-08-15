@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectAppelOffre } from '@entities';
+import { ProjectAppelOffre } from '../../../entities';
 import { Request } from 'express';
 
 import {
@@ -21,9 +21,9 @@ import {
   Heading1,
   ProjectProps,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import routes from '@routes';
+import routes from '../../../routes';
 
 type ChangerProducteurProps = {
   request: Request;
@@ -43,25 +43,23 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
 
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
-          {...{
-            projet: {
-              id: project.id,
-              appelOffre,
-              cahierDesChargesActuel: 'initial',
-              identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-            },
-            redirectUrl: routes.GET_CHANGER_PRODUCTEUR(project.id),
-            type: 'producteur',
-            infoBox: (
-              <InfoBox
-                title="Afin d'accéder au formulaire de changement de fournisseur, vous devez d'abord changer le
+          infoBox={
+            <InfoBox
+              title="Afin d'accéder au formulaire de changement de producteur, vous devez d'abord changer le
                   cahier des charges à appliquer"
-                className="mb-5"
-              >
-                <InfoLienGuideUtilisationCDC />
-              </InfoBox>
-            ),
+              className="mb-5"
+            >
+              <InfoLienGuideUtilisationCDC />
+            </InfoBox>
+          }
+          projet={{
+            id: project.id,
+            appelOffre,
+            cahierDesChargesActuel: 'initial',
+            identifiantGestionnaireRéseau: project.identifiantGestionnaire,
           }}
+          redirectUrl={routes.GET_CHANGER_PRODUCTEUR(project.id)}
+          type={'producteur'}
         />
       ) : (
         <Form

@@ -1,13 +1,13 @@
-import { ensureRole, importProjects } from '@config';
-import { UniqueEntityID } from '@core/domain';
+import { ensureRole, importProjects } from '../../config';
+import { UniqueEntityID } from '../../core/domain';
 import asyncHandler from '../helpers/asyncHandler';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { parseCsv } from '../../helpers/parseCsv';
-import { IllegalProjectDataError } from '@modules/project';
-import routes from '@routes';
+import { IllegalProjectDataError } from '../../modules/project';
+import routes from '../../routes';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
-import { AdminImporterCandidatsPage } from '@views';
+import { AdminImporterCandidatsPage } from '../../views';
 
 v1Router.post(
   routes.IMPORT_PROJECTS_ACTION,

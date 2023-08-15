@@ -1,7 +1,9 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { makeOnToutAccèsAuProjetRévoqué } from './onToutAccèsAuProjetRevoqué';
-import { ToutAccèsAuProjetRevoqué } from '@modules/authZ';
+import { ToutAccèsAuProjetRevoqué } from "../../../authZ";
+import { NotifierPorteurRévocationAccèsProjet } from "../../useCases";
 
 describe(`Handler onToutAccèsAuProjetRevoqué`, () => {
   describe(`Etant donné un projet attaché à deux porteurs`, () => {
@@ -15,7 +17,7 @@ describe(`Handler onToutAccèsAuProjetRevoqué`, () => {
 
       const getProjectUsers = jest.fn(async () => [porteur1, porteur2]);
       const getProject = jest.fn(async () => projet);
-      const notifierPorteurRévocationAccèsProjet = jest.fn();
+      const notifierPorteurRévocationAccèsProjet = jest.fn<NotifierPorteurRévocationAccèsProjet>();
 
       const onToutAccèsAuProjetRevoqué = makeOnToutAccèsAuProjetRévoqué({
         getProjectUsers,

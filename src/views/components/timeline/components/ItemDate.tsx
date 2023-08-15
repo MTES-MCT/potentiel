@@ -1,4 +1,4 @@
-import { afficherDate } from '@views/helpers';
+import { afficherDate } from "../../../helpers";
 import React from 'react';
 
 export const ItemDate = (props: { date: number }) => (

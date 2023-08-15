@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import React from 'react';
-import routes from '@routes';
+import routes from '../../routes';
 import {
   Footer,
   Header,
@@ -11,7 +11,7 @@ import {
   Form,
   ErrorIcon,
   SaveIcon,
-} from '@components';
+} from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type AbonnementLettreInformationProps = {

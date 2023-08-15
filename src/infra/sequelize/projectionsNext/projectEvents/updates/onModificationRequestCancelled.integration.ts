@@ -1,9 +1,10 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequestCancelled } from '@modules/modificationRequest';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ModificationRequestCancelled } from '../../../../../modules/modificationRequest';
 import onModificationRequestCancelled from './onModificationRequestCancelled';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
-import { ProjectEvent, ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { ProjectEvent, ModificationRequest } from "../..";
 
 describe('handler onModificationRequestCancelled', () => {
   const projectId = new UniqueEntityID().toString();

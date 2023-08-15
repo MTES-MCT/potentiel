@@ -1,4 +1,4 @@
-import { DomainError } from '@core/domain';
+import { DomainError } from '../../../core/domain';
 
 export class EmailAlreadyUsedError extends DomainError {
   constructor(public userId: string) {

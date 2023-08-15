@@ -1,5 +1,6 @@
+import { describe, expect, it } from '@jest/globals';
 import { toRedisMessage } from './toRedisMessage';
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 
 interface DummyEventPayload {
   projectId: string;

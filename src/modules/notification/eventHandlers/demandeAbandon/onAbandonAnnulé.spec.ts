@@ -1,12 +1,13 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from 'neverthrow';
 import { NotificationArgs } from '../..';
-import { UniqueEntityID } from '@core/domain';
-import { AbandonAnnulé, AbandonAnnuléPayload } from '@modules/demandeModification';
+import { UniqueEntityID } from '../../../../core/domain';
+import { AbandonAnnulé, AbandonAnnuléPayload } from "../../../demandeModification";
 import { makeOnAbandonAnnulé } from './onAbandonAnnulé';
 import { UnwrapForTest } from '../../../../types';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import { GetDataForStatutDemandeAbandonModifiéNotification } from '@modules/modificationRequest/queries';
-import { makeUser } from '@entities';
+import { GetDataForStatutDemandeAbandonModifiéNotification } from "../../../modificationRequest/queries";
+import { makeUser } from '../../../../entities';
 
 describe('Handler onAbandonAnnulé', () => {
   it(`Etant donné un projet avec deux utilisateurs porteur
@@ -21,8 +22,8 @@ describe('Handler onAbandonAnnulé', () => {
       makeUser(makeFakeUser({ role: 'admin', email: 'admin@test.test', fullName: 'admin1' })),
     );
 
-    const getDataForStatutDemandeAbandonModifiéNotification: GetDataForStatutDemandeAbandonModifiéNotification =
-      jest.fn(() =>
+    const getDataForStatutDemandeAbandonModifiéNotification =
+      jest.fn<GetDataForStatutDemandeAbandonModifiéNotification>(() =>
         okAsync({
           chargeAffaire: {
             email: chargeAffaire.email,

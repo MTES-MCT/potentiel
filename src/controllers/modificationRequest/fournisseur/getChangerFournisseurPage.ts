@@ -1,13 +1,13 @@
-import { ensureRole, getProjectAppelOffre } from '@config';
-import { shouldUserAccessProject } from '@config/useCases.config';
+import { ensureRole, getProjectAppelOffre } from '../../../config';
+import { shouldUserAccessProject } from '../../../config/useCases.config';
 
-import routes from '@routes';
+import routes from '../../../routes';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import { notFoundResponse, unauthorizedResponse } from '../../helpers';
 import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';
 
-import { ChangerFournisseurPage } from '@views';
+import { ChangerFournisseurPage } from '../../../views';
 import { Project } from '../../../infra/sequelize/projectionsNext';
 
 v1Router.get(

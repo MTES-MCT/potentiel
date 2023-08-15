@@ -1,7 +1,8 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { Repository, UniqueEntityID } from '@core/domain';
-import { ok, okAsync } from '@core/utils';
-import { CertificateTemplate } from '@entities';
+import { Repository, UniqueEntityID } from '../../../core/domain';
+import { ok, okAsync } from '../../../core/utils';
+import { CertificateTemplate } from '../../../entities';
 import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import { FileObject } from '../../file';
 import { OtherError, InfraNotAvailableError } from '../../shared';
@@ -10,8 +11,8 @@ import makeFakeUser from '../../../__tests__/fixtures/user';
 import { ProjectDataForCertificate } from '../dtos';
 import { Project } from '../Project';
 import { makeGenerateCertificate } from './generateCertificate';
-import { Validateur } from '@views/certificates';
-import { User } from '@infra/sequelize/projectionsNext';
+import { Validateur } from '../../../views/certificates';
+import { User } from '../../../infra/sequelize/projectionsNext';
 
 const projectId = 'project1';
 

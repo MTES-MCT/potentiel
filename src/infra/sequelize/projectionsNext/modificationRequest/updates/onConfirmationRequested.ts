@@ -1,8 +1,8 @@
-import { logger } from '@core/utils';
-import { ConfirmationRequested } from '@modules/modificationRequest';
+import { logger } from '../../../../../core/utils';
+import { ConfirmationRequested } from '../../../../../modules/modificationRequest';
 import { ModificationRequest } from '../modificationRequest.model';
 import { ModificationRequestProjector } from '../modificationRequest.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 export const onConfirmationRequested = ModificationRequestProjector.on(
   ConfirmationRequested,

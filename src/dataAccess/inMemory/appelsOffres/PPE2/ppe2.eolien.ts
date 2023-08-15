@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities';
+import { AppelOffre } from '../../../../entities';
 
 const eolienPPE2: AppelOffre = {
   id: 'PPE2 - Eolien',

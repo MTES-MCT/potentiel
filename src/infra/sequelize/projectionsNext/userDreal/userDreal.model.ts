@@ -1,5 +1,5 @@
 import { InferAttributes, InferCreationAttributes, Model, CreationOptional } from 'sequelize';
-import { Région } from '@modules/dreal/région';
+import { Région } from '../../../../modules/dreal/région';
 
 export class UserDreal extends Model<
   InferAttributes<UserDreal>,

@@ -3,12 +3,12 @@ import {
   ConsulterPropositionTechniqueEtFinancièreSignéeQuery,
   PermissionConsulterDossierRaccordement,
 } from '@potentiel/domain-views';
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { logger } from '@core/utils';
+import { logger } from '../../core/utils';
 import { extension } from 'mime-types';
 import { estUnRawIdentifiantProjet } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';

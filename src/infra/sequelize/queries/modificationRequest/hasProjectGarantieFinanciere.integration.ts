@@ -1,8 +1,9 @@
-import { UniqueEntityID } from '@core/domain';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
 import { resetDatabase } from '../../helpers';
 import { hasGarantiesFinancières } from './hasGarantiesFinancières';
 import { v4 as uuid } from 'uuid';
-import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
+import { GarantiesFinancières } from "../../projectionsNext";
 
 const projetId = new UniqueEntityID().toString();
 

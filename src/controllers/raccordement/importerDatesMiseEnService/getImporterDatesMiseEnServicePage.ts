@@ -1,8 +1,8 @@
-import routes from '@routes';
+import routes from '../../../routes';
 import { PermissionTransmettreDateMiseEnService } from '@potentiel/domain';
 
 import { v1Router } from '../../v1Router';
-import { ImporterDatesMiseEnServicePage } from '@views';
+import { ImporterDatesMiseEnServicePage } from '../../../views';
 import { getApiResult } from '../../helpers/apiResult';
 import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServiceApiResult';
 import { CsvError } from '../../helpers/mapCsvYupValidationErrorToCsvErrors';

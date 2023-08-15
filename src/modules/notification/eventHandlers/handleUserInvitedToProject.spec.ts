@@ -1,6 +1,7 @@
+import { jest, describe, expect, it } from '@jest/globals';
 import { NotificationArgs } from '..';
-import { UniqueEntityID } from '@core/domain';
-import { makeProject } from '@entities';
+import { UniqueEntityID } from '../../../core/domain';
+import { makeProject } from '../../../entities';
 import { Some } from '../../../types';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../__tests__/fixtures/user';

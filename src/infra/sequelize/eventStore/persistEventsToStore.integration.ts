@@ -1,9 +1,10 @@
+import { describe, expect, it } from '@jest/globals';
 import { persistEventsToStore } from './persistEventsToStore';
 import { resetDatabase } from '../helpers';
-import { ProjectAbandoned } from '@modules/project';
-import { UniqueEntityID } from '@core/domain';
+import { ProjectAbandoned } from '../../../modules/project';
+import { UniqueEntityID } from '../../../core/domain';
 import models from '../models';
-import { LegacyModificationImported } from '@modules/modificationRequest';
+import { LegacyModificationImported } from '../../../modules/modificationRequest';
 const { EventStore } = models;
 
 describe('sequelize.persistEventsToStore', () => {

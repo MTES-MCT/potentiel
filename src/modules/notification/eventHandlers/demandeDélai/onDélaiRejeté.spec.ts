@@ -1,13 +1,15 @@
-import { okAsync } from '@core/utils';
-import { DélaiRejeté } from '@modules/demandeModification';
+import { describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
+import { DélaiRejeté } from "../../../demandeModification";
 import { makeOnDélaiRejeté } from './onDélaiRejeté';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { NotificationService } from '../../NotificationService';
 
 describe(`Notifier lorsqu'un délai est rejeté`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un délai est rejeté
           Alors tous les porteurs ayant accès au projet devrait être notifié`, async () => {
-      const sendNotification = jest.fn();
+      const sendNotification = jest.fn<NotificationService['sendNotification']>();
       const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
         () =>
           okAsync({

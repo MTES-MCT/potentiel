@@ -1,4 +1,3 @@
-import { ProjectEventProjector } from '@infra/sequelize/projectionsNext';
 import { DataTypes, QueryInterface } from 'sequelize';
 
 export default {
@@ -9,8 +8,6 @@ export default {
       await queryInterface.addColumn('project_events', 'eventPublishedAt', {
         type: DataTypes.BIGINT,
       });
-
-      await ProjectEventProjector.rebuild(transaction);
 
       await transaction.commit();
     } catch (error) {

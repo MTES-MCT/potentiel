@@ -1,4 +1,4 @@
-import { ResultAsync } from '@core/utils';
+import { ResultAsync } from '../core/utils';
 import { parse } from 'csv-parse';
 import iconv from 'iconv-lite';
 export interface parseCsvOptions {

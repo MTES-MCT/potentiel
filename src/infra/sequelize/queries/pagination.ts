@@ -1,4 +1,4 @@
-import { PaginatedList, Pagination } from '@modules/pagination';
+import { PaginatedList, Pagination } from '../../../modules/pagination';
 
 export const mapToOffsetAndLimit = (pagination: Pagination) => {
   const { page, pageSize } = pagination;

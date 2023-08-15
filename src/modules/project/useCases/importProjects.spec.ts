@@ -1,7 +1,8 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { IllegalProjectDataError } from '..';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { AppelOffreRepo } from '@dataAccess';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { AppelOffreRepo } from '../../../dataAccess';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { LegacyModificationRawDataImported } from '../../modificationRequest';
 import { InfraNotAvailableError } from '../../shared';

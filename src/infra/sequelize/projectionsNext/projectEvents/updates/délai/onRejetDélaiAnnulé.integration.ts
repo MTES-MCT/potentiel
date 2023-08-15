@@ -1,6 +1,10 @@
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
-import { RejetDélaiAnnulé, RejetDélaiAnnuléPayload } from '@modules/demandeModification';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../../core/domain';
+import { ModificationRequest } from "../../..";
+import {
+  RejetDélaiAnnulé,
+  RejetDélaiAnnuléPayload,
+} from '../../../../../../modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
 import { ProjectEvent } from '../../projectEvent.model';
 import onRejetDélaiAnnulé from './onRejetDélaiAnnulé';

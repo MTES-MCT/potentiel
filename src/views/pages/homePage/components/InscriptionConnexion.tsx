@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { User } from '@entities';
-import routes from '@routes';
+import { User } from '../../../../entities';
+import routes from '../../../../routes';
 import {
   LinkButton,
   Container,
@@ -10,7 +10,7 @@ import {
   LogoutBoxIcon,
   AccountIcon,
   LoginIcon,
-} from '@components';
+} from '../../../components';
 
 type InscriptionConnexionProps = {
   user: User;

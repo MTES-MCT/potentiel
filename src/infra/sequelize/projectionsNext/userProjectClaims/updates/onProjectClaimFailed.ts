@@ -1,8 +1,8 @@
 import { UserProjectClaims } from '../userProjectClaims.model';
 import { UserProjectClaimsProjector } from '../userProjectClaims.projector';
-import { ProjectClaimFailed } from '@modules/projectClaim';
-import { logger } from '@core/utils';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectClaimFailed } from '../../../../../modules/projectClaim';
+import { logger } from '../../../../../core/utils';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 export default UserProjectClaimsProjector.on(ProjectClaimFailed, async (évènement, transaction) => {
   const {

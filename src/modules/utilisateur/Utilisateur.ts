@@ -1,6 +1,6 @@
-import { UniqueEntityID, DomainEvent, EventStoreAggregate } from '@core/domain';
-import { ok } from '@core/utils';
-import { UserCreated, UserRole } from '@modules/users';
+import { UniqueEntityID, DomainEvent, EventStoreAggregate } from '../../core/domain';
+import { ok } from '../../core/utils';
+import { UserCreated, UserRole } from "../users";
 import { UtilisateurInvité, ProfilUtilisateurCréé } from './events';
 
 type UtilisateurArgs = {

@@ -1,6 +1,7 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { ok } from '@core/utils';
-import { CertificateTemplate, ProjectAppelOffre, User } from '@entities';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { ok } from '../../../core/utils';
+import { CertificateTemplate, ProjectAppelOffre, User } from '../../../entities';
+import { jest } from '@jest/globals';
 import {
   Fournisseur,
   ProjectDataForCertificate,
@@ -12,8 +13,8 @@ import {
   ProjectDataProps,
   GFCertificateHasAlreadyBeenSentError,
   NoGFCertificateToDeleteError,
-} from '@modules/project';
-import { ProjectNotQualifiedForCovidDelay } from '@modules/shared';
+} from '../../../modules/project';
+import { ProjectNotQualifiedForCovidDelay } from '../../../modules/shared';
 
 export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   notify: jest.fn(() => ok<null, ProjectAlreadyNotifiedError>(null)),

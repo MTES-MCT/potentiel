@@ -1,9 +1,9 @@
-import { ensureRole, eventStore } from '@config';
-import { logger } from '@core/utils';
+import { ensureRole, eventStore } from '../../config';
+import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { FileDetachedFromProject } from '../../modules/file/events/FileDetachedFromProject';
-import routes from '@routes';
+import routes from '../../routes';
 import { errorResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';

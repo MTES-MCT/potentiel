@@ -1,12 +1,15 @@
-import { okAsync } from '@core/utils';
-import { AnnulationAbandonAccordée } from '@modules/demandeModification';
+import { describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
+import { AnnulationAbandonAccordée } from "../../../demandeModification";
 import { makeOnAnnulationAbandonAccordée } from './onAnnulationAbandonAccordée';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { NotifierPorteurChangementStatutDemande } from "../../useCases";
 
 describe(`Notifier lorsqu'une annulation d'abandon est accordée`, () => {
   it(`  Quand une annulation  d'abandon est accordé,
         alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-    const notifierPorteurChangementStatutDemande = jest.fn();
+    const notifierPorteurChangementStatutDemande =
+      jest.fn<NotifierPorteurChangementStatutDemande>();
     const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
       () =>
         okAsync({

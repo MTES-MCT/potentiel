@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Input, Label, TextArea } from '@components';
+import { Input, Label, TextArea } from '../../../../components';
 
 type DemandeRecoursProps = {
   justification: string;

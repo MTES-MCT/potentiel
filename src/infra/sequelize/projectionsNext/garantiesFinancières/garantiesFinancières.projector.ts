@@ -12,7 +12,7 @@ import {
   ProjectGFUploaded,
   ProjectGFWithdrawn,
   ProjectNotified,
-} from '@modules/project/events';
+} from '../../../../modules/project/events';
 import { Projector, ProjectorFactory } from '../projector';
 import { GarantiesFinancières } from './garantiesFinancières.model';
 import { onDateEchéanceGFAjoutée } from './handlers/onDateEchéanceGFAjoutée';

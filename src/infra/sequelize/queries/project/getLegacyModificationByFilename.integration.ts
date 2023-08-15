@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../core/domain';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';

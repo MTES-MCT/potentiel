@@ -3,12 +3,12 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { ModifierGestionnaireRéseauProjetPage } from '@views';
+import { ModifierGestionnaireRéseauProjetPage } from '../../views';
 import { mediator } from 'mediateur';
 import { isNone } from '@potentiel/monads';
 import { ConsulterProjetQuery, ListerGestionnaireRéseauQuery } from '@potentiel/domain-views';

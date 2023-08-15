@@ -1,4 +1,4 @@
-import { ProjectAppelOffre, Technologie } from '@entities';
+import { ProjectAppelOffre, Technologie } from '../../../../../entities';
 
 const defaultRatios = { min: 0.9, max: 1.1 };
 

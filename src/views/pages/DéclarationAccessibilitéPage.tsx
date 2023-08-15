@@ -8,7 +8,7 @@ import {
   Heading2,
   Heading3,
   Heading4,
-} from '@components';
+} from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type DéclarationAccessibilitéProps = {

@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
-import { ProjectListItem } from '@modules/project';
-import { UserRole } from '@modules/users';
-import routes from '@routes';
-import { PaginatedList } from '@modules/pagination';
+import { ProjectListItem } from '../../../../modules/project';
+import { UserRole } from '../../../../modules/users';
+import routes from '../../../../routes';
+import { PaginatedList } from '../../../../modules/pagination';
 import {
   ProjectActions,
   PowerIcon,
@@ -18,8 +18,8 @@ import {
   Tile,
   Pagination,
   Checkbox,
-} from '@components';
-import { afficherDate } from '@views/helpers';
+} from "../..";
+import { afficherDate } from "../../../helpers";
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>

@@ -1,9 +1,9 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { EventBus, UniqueEntityID } from '../../../core/domain';
 import { fakeRepo, makeFakeEventBus } from '../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { FileObject } from '../../file';
-import { LegacyModificationFileAttached } from '../events';
 import { makeAttachLegacyModificationFile } from './attachLegacyModificationFile';
 
 describe('attachLegacyModificationFile', () => {
@@ -57,16 +57,26 @@ describe('attachLegacyModificationFile', () => {
       const savedFile1 = fileRepo.save.mock.calls[0][0];
       const savedFile2 = fileRepo.save.mock.calls[1][0];
       expect(eventBus.publish).toHaveBeenCalledTimes(2);
-      expect(eventBus).toHavePublishedWithPayload(LegacyModificationFileAttached, {
-        fileId: savedFile1.id.toString(),
-        filename,
-        projectId: 'projectA',
-      });
-      expect(eventBus).toHavePublishedWithPayload(LegacyModificationFileAttached, {
-        fileId: savedFile2.id.toString(),
-        filename,
-        projectId: 'projectB',
-      });
+      expect(eventBus.publish).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'LegacyModificationFileAttached',
+          payload: {
+            fileId: savedFile1.id.toString(),
+            filename,
+            projectId: 'projectA',
+          },
+        }),
+      );
+      expect(eventBus.publish).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'LegacyModificationFileAttached',
+          payload: {
+            fileId: savedFile2.id.toString(),
+            filename,
+            projectId: 'projectB',
+          },
+        }),
+      );
     });
   });
 

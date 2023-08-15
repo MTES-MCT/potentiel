@@ -1,4 +1,4 @@
-import { User } from '@entities';
+import { User } from '../../../entities';
 
 type RécupérerDonnéesPorteursParProjetQuery = { projetId: string };
 

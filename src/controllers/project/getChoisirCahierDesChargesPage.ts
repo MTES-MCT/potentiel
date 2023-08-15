@@ -1,13 +1,13 @@
-import { ensureRole } from '@config';
+import { ensureRole } from '../../config';
 import asyncHandler from '../helpers/asyncHandler';
-import { shouldUserAccessProject } from '@config/useCases.config';
+import { shouldUserAccessProject } from '../../config/useCases.config';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
-import { EntityNotFoundError } from '@modules/shared';
-import routes from '@routes';
-import { ChoisirCahierDesChargesPage } from '@views';
+import { EntityNotFoundError } from '../../modules/shared';
+import routes from '../../routes';
+import { ChoisirCahierDesChargesPage } from '../../views';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
 import { v1Router } from '../v1Router';
-import { getProjectDataForChoisirCDCPage } from '@infra/sequelize/queries/project/getProjectDataForChoisirCDCPage';
+import { getProjectDataForChoisirCDCPage } from '../../infra/sequelize/queries/project/getProjectDataForChoisirCDCPage';
 
 v1Router.get(
   routes.CHOISIR_CAHIER_DES_CHARGES(),

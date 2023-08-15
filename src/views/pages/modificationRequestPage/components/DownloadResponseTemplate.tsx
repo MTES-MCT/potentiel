@@ -1,7 +1,7 @@
 import React from 'react';
-import { ModificationRequestPageDTO } from '@modules/modificationRequest';
-import { DownloadLink } from '@components';
-import ROUTES from '@routes';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
+import { DownloadLink } from '../../../components';
+import ROUTES from '../../../../routes';
 
 interface DownloadResponseTemplateProps {
   modificationRequest: ModificationRequestPageDTO;

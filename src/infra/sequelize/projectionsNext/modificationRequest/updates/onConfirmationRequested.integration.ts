@@ -1,7 +1,8 @@
-import { resetDatabase } from '@infra/sequelize/helpers';
-import { ConfirmationRequested } from '@modules/modificationRequest';
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { resetDatabase } from "../../../helpers";
+import { ConfirmationRequested } from '../../../../../modules/modificationRequest';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ModificationRequest } from "../..";
 import { onConfirmationRequested } from './onConfirmationRequested';
 
 describe('modificationRequest.onConfirmationRequested', () => {

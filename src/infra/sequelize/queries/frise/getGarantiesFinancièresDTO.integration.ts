@@ -1,8 +1,9 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
-import { resetDatabase } from '@infra/sequelize/helpers';
-import { UniqueEntityID } from '@core/domain';
-import { User } from '@entities';
-import { USER_ROLES } from '@modules/users';
+import { resetDatabase } from "../../helpers";
+import { UniqueEntityID } from '../../../../core/domain';
+import { User } from '../../../../entities';
+import { USER_ROLES } from '../../../../modules/users';
 
 describe(`Requête getGarantiesFinancièresDTO`, () => {
   const dateLimiteEnvoi = new Date('2050-01-01');

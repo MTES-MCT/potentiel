@@ -1,4 +1,4 @@
-import { ResultAsync } from '@core/utils';
+import { ResultAsync } from '../../../core/utils';
 import { OtherError, UnauthorizedError } from '../../shared';
 
 export interface SendResetPasswordEmail {

@@ -1,8 +1,9 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../../projectionsNext";
 import { getProjectIdsForPeriode } from './getProjectIdsForPeriode';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../core/domain';
 
 describe('Sequelize getProjectIdsForPeriode', () => {
   const projectId = new UniqueEntityID().toString();

@@ -1,8 +1,9 @@
-import { UniqueEntityID } from '@core/domain';
+import { describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { isProjectParticipatif } from './isProjectParticipatif';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../../projectionsNext";
 
 const projectId = new UniqueEntityID().toString();
 

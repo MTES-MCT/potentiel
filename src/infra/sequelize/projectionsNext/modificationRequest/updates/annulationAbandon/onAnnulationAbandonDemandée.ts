@@ -1,8 +1,8 @@
-import { logger } from '@core/utils';
-import { AnnulationAbandonDemandée } from '@modules/demandeModification';
+import { logger } from '../../../../../../core/utils';
+import { AnnulationAbandonDemandée } from '../../../../../../modules/demandeModification';
 import { ModificationRequest } from '../../modificationRequest.model';
 import { ModificationRequestProjector } from '../../modificationRequest.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectionEnEchec } from '../../../../../../modules/shared';
 
 export const onAnnulationAbandonDemandée = ModificationRequestProjector.on(
   AnnulationAbandonDemandée,

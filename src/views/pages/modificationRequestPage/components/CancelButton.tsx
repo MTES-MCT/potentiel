@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ModificationRequestStatusDTO } from '@modules/modificationRequest';
-import ROUTES from '@routes';
-import { Form, SecondaryButton } from '@views/components';
+import { ModificationRequestStatusDTO } from '../../../../modules/modificationRequest';
+import ROUTES from '../../../../routes';
+import { Form, SecondaryButton } from '../../../components';
 
 interface CancelButtonProps {
   status: ModificationRequestStatusDTO;

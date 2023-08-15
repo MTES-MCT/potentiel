@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -12,14 +12,14 @@ import {
   Form,
   LabelDescription,
   InputFile,
-} from '@components';
+} from '../../../components';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
   ProjetReadModel,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
-import routes from '@routes';
+import routes from '../../../../routes';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 import {

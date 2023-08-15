@@ -1,12 +1,13 @@
-import { UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
 import { UnwrapForTest } from '../../../types';
 import {
   AppelOffre,
   CahierDesChargesModifié,
   CahierDesChargesRéférenceParsed,
   makeUser,
-} from '@entities';
+} from '../../../entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { makeChoisirCahierDesCharges } from './choisirCahierDesCharges';
@@ -18,7 +19,7 @@ import {
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
 } from '../errors';
-import { AppelOffreRepo } from '@dataAccess';
+import { AppelOffreRepo } from '../../../dataAccess';
 
 describe('Choisir un cahier des charges', () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
@@ -47,7 +48,7 @@ describe('Choisir un cahier des charges', () => {
     } as AppelOffre);
 
   beforeEach(() => {
-    return publishToEventStore.mockClear();
+    publishToEventStore.mockClear();
   });
 
   describe(`Changement impossible si l'AO du projet n'existe pas`, () => {

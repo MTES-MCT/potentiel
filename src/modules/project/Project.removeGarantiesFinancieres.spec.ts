@@ -1,6 +1,7 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { describe, expect, it } from '@jest/globals';
+import { DomainEvent, UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import {
   GarantiesFinancièresValidées,
   ProjectGFRemoved,
@@ -9,7 +10,7 @@ import {
   ProjectNotified,
 } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { makeGetProjectAppelOffre } from "../projectAppelOffre";
 import {
   NoGFCertificateToDeleteError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
@@ -19,8 +20,8 @@ import {
 import makeFakeProject from '../../__tests__/fixtures/project';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeUser from '../../__tests__/fixtures/user';
-import { makeUser } from '@entities';
-import { USER_ROLES } from '@modules/users';
+import { makeUser } from '../../entities';
+import { USER_ROLES } from "../users";
 
 const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));

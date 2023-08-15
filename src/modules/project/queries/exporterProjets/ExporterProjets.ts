@@ -1,6 +1,6 @@
-import { ResultAsync } from '@core/utils';
-import { User } from '@entities';
-import { InfraNotAvailableError } from '@modules/shared';
+import { ResultAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { InfraNotAvailableError } from "../../../shared";
 import { FiltreListeProjets } from '../listerProjets';
 
 export const PermissionExporterProjets = {

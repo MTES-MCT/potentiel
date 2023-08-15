@@ -1,4 +1,4 @@
-import { DomainEvent } from '@core/domain';
+import { DomainEvent } from '../../../core/domain';
 
 type DetailErreurProjectionEnEchec = {
   nomProjection: string;

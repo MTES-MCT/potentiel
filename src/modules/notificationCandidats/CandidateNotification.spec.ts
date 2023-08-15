@@ -1,5 +1,6 @@
-import { UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
+import { describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,

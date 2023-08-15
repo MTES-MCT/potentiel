@@ -1,9 +1,12 @@
-import { okAsync } from '@core/utils';
-import { DélaiDemandé } from '@modules/demandeModification';
+import { describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
+import { DélaiDemandé } from "../../../demandeModification";
 import { makeOnDélaiDemandé } from './onDélaiDemandé';
-import { GetProjectInfoForModificationRequestedNotification } from '@modules/modificationRequest';
-import routes from '@routes';
-import { User } from '@entities';
+import { GetProjectInfoForModificationRequestedNotification } from "../../../modificationRequest";
+import routes from '../../../../routes';
+import { User } from '../../../../entities';
+import { NotificationService } from '../../NotificationService';
+import { UserRepo } from '../../../../dataAccess';
 
 describe(`Notifier lorsqu'un délai est demandé`, () => {
   it(`Etant donné un projet sous l'autorité DGEC
@@ -11,7 +14,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
       Lorsque l'un des porteurs dépose une demande de délai
       Alors tous les porteurs ayant accès au projet devraient être notifiés
       Et une notification devrait être envoyée au mail générique de la DGEC`, async () => {
-    const sendNotification = jest.fn();
+    const sendNotification = jest.fn<NotificationService['sendNotification']>();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
         okAsync({
@@ -29,7 +32,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
     const onDélaiDemandé = makeOnDélaiDemandé({
       sendNotification,
       getProjectInfoForModificationRequestedNotification,
-      findUsersForDreal: jest.fn(),
+      findUsersForDreal: jest.fn<UserRepo['findUsersForDreal']>(),
       dgecEmail: 'dgec@test.test',
     });
 
@@ -114,7 +117,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
       Quand un délai est demandé
       Alors tous les agents des deux régions du projet devraient être notifiés
       Et le porteur devrait être notifié`, async () => {
-    const sendNotification = jest.fn();
+    const sendNotification = jest.fn<NotificationService['sendNotification']>();
     const getProjectInfoForModificationRequestedNotification: GetProjectInfoForModificationRequestedNotification =
       () =>
         okAsync({

@@ -1,11 +1,11 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { errAsync, ok, okAsync, Result, wrapInfra } from '@core/utils';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
+import { errAsync, ok, okAsync, Result, wrapInfra } from '../../../../core/utils';
 import {
   GetProjectDataForSignalerDemandeRecoursPage,
   ProjectDataForSignalerDemandeRecoursPage,
-} from '@modules/project';
-import { EntityNotFoundError } from '@modules/shared';
-import { Project } from '@infra/sequelize/projectionsNext';
+} from '../../../../modules/project';
+import { EntityNotFoundError } from '../../../../modules/shared';
+import { Project } from "../../projectionsNext";
 
 export const getProjectDataForSignalerDemandeRecoursPage: GetProjectDataForSignalerDemandeRecoursPage =
   ({ projectId }) => {

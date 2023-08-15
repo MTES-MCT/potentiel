@@ -1,10 +1,10 @@
-import routes from '@routes';
+import routes from '../../routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { logger } from '@core/utils';
+import { logger } from '../../core/utils';
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   DomainUseCase,

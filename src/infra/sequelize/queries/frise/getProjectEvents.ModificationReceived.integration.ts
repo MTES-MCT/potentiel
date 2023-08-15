@@ -1,11 +1,12 @@
-import { User } from '@entities';
-import { UniqueEntityID } from '@core/domain';
-import { USER_ROLES } from '@modules/users';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { User } from '../../../../entities';
+import { UniqueEntityID } from '../../../../core/domain';
+import { USER_ROLES } from '../../../../modules/users';
 import { getProjectEvents } from '.';
-import { Project, ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { Project, ProjectEvent } from "../../projectionsNext";
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { ModificationRequestEvents } from '@infra/sequelize/projectionsNext/projectEvents/events';
+import { ModificationRequestEvents } from "../../projectionsNext/projectEvents/events";
 
 describe('getProjectEvents for ModificationReceived events', () => {
   const projectId = new UniqueEntityID().toString();

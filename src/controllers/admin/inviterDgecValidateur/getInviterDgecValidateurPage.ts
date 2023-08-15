@@ -1,9 +1,9 @@
 import asyncHandler from '../../helpers/asyncHandler';
-import routes from '@routes';
+import routes from '../../../routes';
 import { v1Router } from '../../v1Router';
 import { vérifierPermissionUtilisateur } from '../../helpers';
-import { InviterDgecValidateurPage } from '@views';
-import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
+import { InviterDgecValidateurPage } from '../../../views';
+import { PermissionInviterDgecValidateur } from '../../../modules/utilisateur';
 import { getApiResult } from '../../helpers/apiResult';
 
 v1Router.get(

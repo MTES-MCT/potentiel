@@ -1,5 +1,5 @@
-import { User, Project } from '@entities';
-import { Région } from '@modules/dreal/région';
+import { User, Project } from '../entities';
+import { Région } from '../modules/dreal/région';
 import { ResultAsync, OptionAsync } from '../types';
 
 export type UserRepo = {

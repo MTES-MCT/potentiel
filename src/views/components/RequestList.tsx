@@ -7,15 +7,15 @@ import {
   Table,
   Td,
   Th,
-} from '@components';
+} from ".";
 import {
   ModificationRequestListItemDTO,
   ModificationRequestTypes,
-} from '@modules/modificationRequest';
-import { UserRole } from '@modules/users';
-import ROUTES from '@routes';
+} from '../../modules/modificationRequest';
+import { UserRole } from '../../modules/users';
+import ROUTES from '../../routes';
 import React from 'react';
-import { PaginatedList } from '@modules/pagination';
+import { PaginatedList } from '../../modules/pagination';
 import { afficherDate, ModificationRequestStatusTitle } from '../helpers';
 
 interface Props {

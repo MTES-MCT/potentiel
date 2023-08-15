@@ -1,7 +1,8 @@
-import { UniqueEntityID } from '@core/domain';
-import { resetDatabase } from '@infra/sequelize/helpers';
-import { ProjectReimported, ProjectReimportedPayload } from '@modules/project';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { resetDatabase } from "../../../helpers";
+import { ProjectReimported, ProjectReimportedPayload } from '../../../../../modules/project';
+import { ProjectEvent } from "../..";
 import onProjectReimported from './onProjectReimported';
 
 describe(`Handler onProjectReimported`, () => {

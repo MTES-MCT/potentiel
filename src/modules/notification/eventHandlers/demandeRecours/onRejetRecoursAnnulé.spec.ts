@@ -1,13 +1,15 @@
-import { okAsync } from '@core/utils';
-import { RejetRecoursAnnulé } from '@modules/demandeModification';
+import { describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
+import { RejetRecoursAnnulé } from "../../../demandeModification";
 import { makeOnRejetRecoursAnnulé } from './onRejetRecoursAnnulé';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { NotificationService } from "../..";
 
 describe(`Notifier lors de l'annulation du rejet d'une demande de recours`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un rejet de demande de recours est annulé,
           alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-      const sendNotification = jest.fn();
+      const sendNotification = jest.fn<NotificationService['sendNotification']>();
       const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
         () =>
           okAsync({

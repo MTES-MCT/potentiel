@@ -1,17 +1,22 @@
-import { getDonnéesCourriersRéponse } from '@entities/donnéesCourriersRéponse';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { oldUserRepo } from '@config/repos.config';
-import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { getDonnéesCourriersRéponse } from '../../../../entities/donnéesCourriersRéponse';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
+import { oldUserRepo } from '../../../../config/repos.config';
+import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '../../../../core/utils';
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
-} from '@modules/modificationRequest';
-import { getDelaiDeRealisation } from '@modules/projectAppelOffre';
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+} from '../../../../modules/modificationRequest';
+import { getDelaiDeRealisation } from '../../../../modules/projectAppelOffre';
+import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared';
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
-import { Région } from '@modules/dreal/région';
-import { Project, User, ModificationRequest, File } from '@infra/sequelize/projectionsNext';
+import { Région } from '../../../../modules/dreal/région';
+import {
+  Project,
+  User,
+  ModificationRequest,
+  File,
+} from "../../projectionsNext";
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {

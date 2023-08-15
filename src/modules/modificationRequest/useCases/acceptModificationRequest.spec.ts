@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { ModificationRequest, ModificationRequestAcceptanceParams } from '../ModificationRequest';
 import {
   fakeRepo,
@@ -5,12 +6,12 @@ import {
   makeFakeProject,
 } from '../../../__tests__/fixtures/aggregates';
 import { makeAcceptModificationRequest } from './acceptModificationRequest';
-import { logger, okAsync } from '@core/utils';
+import { logger, okAsync } from '../../../core/utils';
 import { FileObject } from '../../file';
-import { Repository, UniqueEntityID } from '@core/domain';
+import { Repository, UniqueEntityID } from '../../../core/domain';
 import { Readable } from 'stream';
 import makeFakeUser from '../../../__tests__/fixtures/user';
-import { makeUser } from '@entities';
+import { makeUser } from '../../../entities';
 import { UnwrapForTest } from '../../../types';
 import { Project } from '../../project/Project';
 import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shared';

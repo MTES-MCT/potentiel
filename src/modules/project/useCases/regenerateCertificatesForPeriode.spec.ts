@@ -1,12 +1,15 @@
-import { DomainError, DomainEvent, UniqueEntityID } from '@core/domain';
-import { errAsync, okAsync, ResultAsync } from '@core/utils';
-import { makeUser } from '@entities';
+import { describe, expect, it, jest } from '@jest/globals';
+import { DomainError, DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { errAsync, okAsync, ResultAsync } from '../../../core/utils';
+import { makeUser } from '../../../entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { Project } from '../Project';
 import { makeRegenerateCertificatesForPeriode } from './regenerateCertificatesForPeriode';
 import { CertificatesForPeriodeRegenerated } from '../events';
+import { GetProjectIdsForPeriode } from '../queries';
+import { GenerateCertificate } from './generateCertificate';
 
 describe('regenerateCertificatesForPeriode', () => {
   const appelOffreId = 'appelOffreId';
@@ -33,9 +36,8 @@ describe('regenerateCertificatesForPeriode', () => {
       const generateCertificate = jest.fn(() =>
         errAsync<null, DomainError>(new InfraNotAvailableError()),
       );
-      const projectRepo = {
-        transaction: jest.fn(),
-      };
+      const projectRepo = fakeTransactionalRepo({} as Project);
+      const spyOnTransaction = jest.spyOn(projectRepo, 'transaction');
       const eventBus = {
         subscribe: jest.fn(),
         publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
@@ -68,7 +70,7 @@ describe('regenerateCertificatesForPeriode', () => {
           reason: 'reason',
         });
 
-        expect(projectRepo.transaction).not.toHaveBeenCalled();
+        expect(spyOnTransaction).not.toHaveBeenCalled();
       });
 
       it('should emit CertificatesForPeriodeRegenerated', () => {
@@ -95,9 +97,7 @@ describe('regenerateCertificatesForPeriode', () => {
       const generateCertificate = jest.fn(() =>
         errAsync<null, DomainError>(new InfraNotAvailableError()),
       );
-      const projectRepo = {
-        transaction: jest.fn(),
-      };
+      const projectRepo = fakeTransactionalRepo({} as Project);
       const eventBus = {
         subscribe: jest.fn(),
         publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
@@ -176,11 +176,9 @@ describe('regenerateCertificatesForPeriode', () => {
   describe('when user is not admin', () => {
     const user = makeUser(makeFakeUser({ role: 'porteur-projet' })).unwrap();
 
-    const getProjectIdsForPeriode = jest.fn();
-    const generateCertificate = jest.fn();
-    const projectRepo = {
-      transaction: jest.fn(),
-    };
+    const getProjectIdsForPeriode = jest.fn<GetProjectIdsForPeriode>();
+    const generateCertificate = jest.fn<GenerateCertificate>();
+    const projectRepo = fakeTransactionalRepo({} as Project);
 
     const eventBus = {
       subscribe: jest.fn(),

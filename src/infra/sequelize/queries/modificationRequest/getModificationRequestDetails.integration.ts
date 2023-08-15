@@ -1,10 +1,11 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getModificationRequestDetails } from './getModificationRequestDetails';
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest, Project, User, File } from '@infra/sequelize';
+import { UniqueEntityID } from '../../../../core/domain';
+import { ModificationRequest, Project, User, File } from "../..";
 
 describe('Requête getModificationRequestDetails', () => {
   const projectId = new UniqueEntityID().toString();

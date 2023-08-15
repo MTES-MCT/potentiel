@@ -1,9 +1,11 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { makeNotificationService } from './NotificationService';
 import { SendEmailProps } from './SendEmail';
-import { okAsync, errAsync, UnwrapForTest } from '@core/utils';
+import { okAsync, errAsync, UnwrapForTest } from '../../core/utils';
 import { Notification, NotificationArgs } from './Notification';
-import { DomainError, UniqueEntityID } from '@core/domain';
+import { DomainError, Repository, UniqueEntityID } from '../../core/domain';
 import { InfraNotAvailableError } from '../shared';
+import { GetFailedNotificationsForRetry } from './queries';
 
 describe('NotificationService', () => {
   const sendEmail = jest.fn((props: SendEmailProps) => okAsync<null, Error>(null));
@@ -87,10 +89,12 @@ describe('NotificationService', () => {
     describe('when sendEmail succeeds', () => {
       const sendEmail = jest.fn((props: SendEmailProps) => okAsync<null, Error>(null));
       const notificationRepo = {
-        save: jest.fn((notification: Notification) => okAsync<null, DomainError>(null)),
-        load: jest.fn(),
+        save: jest.fn<Repository<Notification>['save']>((notification: Notification) =>
+          okAsync<null, DomainError>(null),
+        ),
+        load: jest.fn<Repository<Notification>['load']>(),
       };
-      const getFailedNotificationsForRetry = jest.fn();
+      const getFailedNotificationsForRetry = jest.fn<GetFailedNotificationsForRetry>();
       const notificationService = makeNotificationService({
         sendEmail,
         emailSenderAddress: 'sender@test.test',
@@ -128,10 +132,12 @@ describe('NotificationService', () => {
       const sendEmail = jest.fn((props: SendEmailProps) =>
         errAsync<null, Error>(new Error('oops')),
       );
-      const getFailedNotificationsForRetry = jest.fn();
+      const getFailedNotificationsForRetry = jest.fn<GetFailedNotificationsForRetry>();
       const notificationRepo = {
-        save: jest.fn((notification: Notification) => okAsync<null, DomainError>(null)),
-        load: jest.fn(),
+        save: jest.fn<Repository<Notification>['save']>((notification: Notification) =>
+          okAsync<null, DomainError>(null),
+        ),
+        load: jest.fn<Repository<Notification>['load']>(),
       };
       const notificationService = makeNotificationService({
         sendEmail,

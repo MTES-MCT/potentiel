@@ -1,12 +1,13 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { FindProjectByIdentifiers } from '..';
-import { UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
+import { UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import { ProjectRawDataImported, ProjectRawDataImportedPayload } from '../events';
 import { Project } from '../Project';
 import { handleProjectRawDataImported } from './handleProjectRawDataImported';
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { ProjectAppelOffre } from '@entities';
+import { GetProjectAppelOffre } from "../../projectAppelOffre";
+import { ProjectAppelOffre } from '../../../entities';
 
 const appelOffre = { id: 'appelOffreId' } as ProjectAppelOffre;
 const getProjectAppelOffre: GetProjectAppelOffre = () => appelOffre;

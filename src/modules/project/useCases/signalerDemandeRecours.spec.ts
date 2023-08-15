@@ -1,8 +1,9 @@
-import { DomainEvent, Repository, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { makeUser } from '@entities';
-import { FileObject } from '@modules/file';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { DomainEvent, Repository, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { makeUser } from '../../../entities';
+import { FileObject } from "../../file";
+import { InfraNotAvailableError, UnauthorizedError } from "../../shared";
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeSignalerDemandeRecours } from './signalerDemandeRecours';
@@ -35,8 +36,8 @@ describe('Commande signalerDemandeRecours', () => {
       const shouldUserAccessProject = jest.fn(async () => false);
 
       const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
+        save: jest.fn<Repository<FileObject>['save']>(),
+        load: jest.fn<Repository<FileObject>['load']>(),
       };
 
       const signalerDemandeRecours = makeSignalerDemandeRecours({
@@ -70,8 +71,8 @@ describe('Commande signalerDemandeRecours', () => {
       const hasDemandeDeMêmeTypeOuverte = jest.fn(() => okAsync(true));
 
       const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
+        save: jest.fn<Repository<FileObject>['save']>(),
+        load: jest.fn<Repository<FileObject>['load']>(),
       };
 
       const signalerDemandeRecours = makeSignalerDemandeRecours({

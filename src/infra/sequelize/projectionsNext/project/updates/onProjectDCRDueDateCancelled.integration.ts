@@ -1,9 +1,10 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
-import { ProjectDCRDueDateCancelled } from '@modules/project';
+import { ProjectDCRDueDateCancelled } from '../../../../../modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled';
 import { v4 as uuid } from 'uuid';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from "../..";
 
 describe('project.onProjectDCRDueDateCancelled', () => {
   const projectId = uuid();

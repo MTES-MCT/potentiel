@@ -1,8 +1,8 @@
-import { ensureRole, passerDemandeDélaiEnInstruction } from '@config';
-import { logger } from '@core/utils';
-import { getModificationRequestAuthority } from '@infra/sequelize/queries';
-import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from '@modules/demandeModification/demandeDélai';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
+import { ensureRole, passerDemandeDélaiEnInstruction } from '../../config';
+import { logger } from '../../core/utils';
+import { getModificationRequestAuthority } from '../../infra/sequelize/queries';
+import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from '../../modules/demandeModification/demandeDélai';
+import { EntityNotFoundError, UnauthorizedError } from '../../modules/shared';
 
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { addQueryParams } from '../../helpers/addQueryParams';

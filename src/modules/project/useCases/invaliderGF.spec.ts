@@ -1,7 +1,8 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
+import { describe, expect, it, jest } from '@jest/globals';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
 import { UnwrapForTest } from '../../../types';
-import { makeUser } from '@entities';
+import { makeUser } from '../../../entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { makeInvaliderGF } from './invaliderGF';

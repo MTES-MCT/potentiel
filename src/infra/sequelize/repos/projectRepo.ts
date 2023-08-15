@@ -1,13 +1,13 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { getProjectAppelOffre } from '../../../config/queryProjectAO.config';
 import {
   DomainEvent,
   EventStore,
   Repository,
   TransactionalRepository,
   UniqueEntityID,
-} from '@core/domain';
-import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils';
-import { BuildProjectIdentifier, makeProject, Project } from '@modules/project';
+} from '../../../core/domain';
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils';
+import { BuildProjectIdentifier, makeProject, Project } from '../../../modules/project';
 
 export const makeProjectRepo = (
   eventStore: EventStore,

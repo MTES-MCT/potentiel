@@ -1,7 +1,9 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
 import { Utilisateur } from '../Utilisateur';
 import { ProfilDéjàExistantError } from './ProfilDéjàExistantError';
 import { makeCréerProfilUtilisateur } from './créerProfilUtilisateur';
+import { EventStore } from '../../../core/domain';
 
 describe(`Créer le profil d'un utilisateur`, () => {
   describe(`Création impossible si le profil existe déjà`, () => {
@@ -10,7 +12,7 @@ describe(`Créer le profil d'un utilisateur`, () => {
       const utilisateurRepo = fakeTransactionalRepo({
         statut: 'créé',
       } as Utilisateur);
-      const publishToEventStore = jest.fn();
+      const publishToEventStore = jest.fn<EventStore['publish']>();
 
       const créerProfilUtilisateur = makeCréerProfilUtilisateur({
         utilisateurRepo,
@@ -35,7 +37,7 @@ describe(`Créer le profil d'un utilisateur`, () => {
       Alors le profil de l'utilisateur devrait être créé avec toutes ces informations
       et le rôle porteur par défaut`, async () => {
       const utilisateurRepo = fakeTransactionalRepo({} as Utilisateur);
-      const publishToEventStore = jest.fn();
+      const publishToEventStore = jest.fn<EventStore['publish']>();
 
       const créerProfilUtilisateur = makeCréerProfilUtilisateur({
         utilisateurRepo,
@@ -75,7 +77,7 @@ describe(`Créer le profil d'un utilisateur`, () => {
         statut: 'invité',
         role: 'cre',
       } as Utilisateur);
-      const publishToEventStore = jest.fn();
+      const publishToEventStore = jest.fn<EventStore['publish']>();
 
       const créerProfilUtilisateur = makeCréerProfilUtilisateur({
         utilisateurRepo,

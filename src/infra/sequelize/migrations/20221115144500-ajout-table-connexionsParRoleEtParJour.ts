@@ -1,5 +1,4 @@
 import { QueryInterface, DataTypes } from 'sequelize';
-import { USER_ROLES } from '@modules/users/UserRoles';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
@@ -14,7 +13,16 @@ module.exports = {
         allowNull: false,
       },
       role: {
-        type: DataTypes.ENUM(...USER_ROLES),
+        type: DataTypes.ENUM(
+          'admin',
+          'porteur-projet',
+          'dreal',
+          'acheteur-obligé',
+          'ademe',
+          'dgec-validateur',
+          'caisse-des-dépôts',
+          'cre',
+        ),
         allowNull: false,
       },
       compteur: {

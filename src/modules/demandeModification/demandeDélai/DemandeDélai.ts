@@ -1,5 +1,5 @@
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
-import { ok, Result } from '@core/utils';
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../../core/domain';
+import { ok, Result } from '../../../core/utils';
 import {
   DélaiAccordé,
   DélaiAnnulé,
@@ -15,7 +15,7 @@ import {
   ModificationRequested,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
-} from '@modules/modificationRequest';
+} from "../../modificationRequest";
 import { EntityNotFoundError } from '../../shared';
 
 export const statutsDemandeDélai = [
@@ -26,7 +26,7 @@ export const statutsDemandeDélai = [
   'en instruction',
 ] as const;
 
-export type StatutDemandeDélai = typeof statutsDemandeDélai[number];
+export type StatutDemandeDélai = (typeof statutsDemandeDélai)[number];
 
 type DemandeDélaiArgs = {
   id: UniqueEntityID;

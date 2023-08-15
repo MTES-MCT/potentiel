@@ -1,6 +1,6 @@
 import { Document, Page, Text, View } from '@react-pdf/renderer';
 import React from 'react';
-import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { ProjectDataForCertificate } from '../../../modules/project/dtos';
 import { Header } from './components/Header';
 import { Objet } from './components/Objet';
 import { Introduction } from './components/Introduction';

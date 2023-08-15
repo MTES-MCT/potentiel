@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import ROUTES from '@routes';
+import ROUTES from '../../routes';
 import {
   ErrorBox,
   PrimaryButton,
@@ -10,7 +10,7 @@ import {
   Label,
   Input,
   Form,
-} from '@components';
+} from '../components';
 import { hydrateOnClient } from '../helpers/hydrateOnClient';
 
 export type UploadLegacyModificationFileResult =

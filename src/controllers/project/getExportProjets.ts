@@ -1,14 +1,14 @@
-import { exporterProjets } from '@infra/sequelize/queries/project/exporter';
-import routes from '@routes';
+import { exporterProjets } from '../../infra/sequelize/queries/project/exporter';
+import routes from '../../routes';
 import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import { Parser } from '@json2csv/plainjs';
 import { writeCsvOnDisk } from '../../helpers/csv';
 import { promises as fsPromises } from 'fs';
-import { logger } from '@core/utils';
-import { InfraNotAvailableError } from '@modules/shared';
-import { PermissionExporterProjets } from '@modules/project/queries';
+import { logger } from '../../core/utils';
+import { InfraNotAvailableError } from '../../modules/shared';
+import { PermissionExporterProjets } from '../../modules/project/queries';
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,

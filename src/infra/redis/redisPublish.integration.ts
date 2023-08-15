@@ -1,4 +1,5 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
+import { afterAll, beforeEach, describe, expect, it } from '@jest/globals';
+import { BaseDomainEvent, DomainEvent } from '../../core/domain';
 import { makeRedisPublish } from './redisPublish';
 import { toRedisMessage } from './helpers/toRedisMessage';
 import Redis from 'ioredis';

@@ -4,11 +4,11 @@ import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators';
 import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
-} from '@modules/demandeModification';
-import { Astérisque, ErrorBox, Input, Label, TextArea } from '@components';
+} from '../../../../modules/demandeModification';
+import { Astérisque, ErrorBox, Input, Label, TextArea } from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
-import { ProjectAppelOffre, Technologie } from '@entities';
+import { ProjectAppelOffre, Technologie } from '../../../../entities';
 
 type ChangementPuissanceProps = {
   unitePuissance: string;

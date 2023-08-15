@@ -1,4 +1,4 @@
-import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain';
+import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '../../../core/domain';
 
 //
 // This event is a value dump for items that were in the deprecated projectEvents table before the switch to event sourcing

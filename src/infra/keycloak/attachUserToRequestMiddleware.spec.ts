@@ -1,7 +1,8 @@
-import express, { Request } from 'express';
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
-import { GetUserByEmail, UserRole } from '@modules/users';
+import { describe, expect, it, jest } from '@jest/globals';
+import express from 'express';
+import { okAsync } from '../../core/utils';
+import { User } from '../../entities';
+import { GetUserByEmail, UserRole } from '../../modules/users';
 import { makeFakeCreateUser } from '../../__tests__/fakes';
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
 
@@ -15,7 +16,7 @@ describe(`attachUserToRequestMiddleware`, () => {
       const nextFunction = jest.fn();
 
       const middleware = makeAttachUserToRequestMiddleware({
-        getUserByEmail: jest.fn(),
+        getUserByEmail: jest.fn<GetUserByEmail>(),
         createUser: makeFakeCreateUser(),
       });
       middleware(request, {} as express.Response, nextFunction);
@@ -44,7 +45,7 @@ describe(`attachUserToRequestMiddleware`, () => {
       const nextFunction = jest.fn();
 
       const middleware = makeAttachUserToRequestMiddleware({
-        getUserByEmail: jest.fn(),
+        getUserByEmail: jest.fn<GetUserByEmail>(),
         createUser: makeFakeCreateUser(),
       });
       middleware(request, {} as express.Response, nextFunction);
@@ -81,7 +82,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             role: undefined as unknown as UserRole,
           };
 
-          const getUserByEmail: GetUserByEmail = jest.fn((email) =>
+          const getUserByEmail = jest.fn<GetUserByEmail>((email) =>
             email === userEmail ? okAsync({ ...user, role: 'porteur-projet' }) : okAsync(null),
           );
 
@@ -162,6 +163,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             path: '/a-protected-path',
             session: {},
           } as express.Request;
+          //@ts-ignore
           request.session.destroy = jest.fn();
 
           const token = {
@@ -189,15 +191,14 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction);
 
           it('should attach a new user to the request', () => {
-            const expectedUser: Request['user'] = {
+            expect(request.user).toMatchObject({
               email: userEmail,
               fullName: userName,
               id: userId,
               role: 'porteur-projet',
               accountUrl: expect.any(String),
               permissions: expect.anything(),
-            };
-            expect(request.user).toMatchObject(expectedUser);
+            });
           });
 
           it('should destroy the request session', () => {
@@ -242,15 +243,14 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction);
 
           it('should attach a new user to the request with the same role of the token', () => {
-            const expectedUser: Request['user'] = {
+            expect(request.user).toMatchObject({
               email: userEmail,
               fullName: userName,
               id: userId,
               role: userRole,
               accountUrl: expect.any(String),
               permissions: expect.anything(),
-            };
-            expect(request.user).toMatchObject(expectedUser);
+            });
           });
 
           it('should execute the next function', () => {

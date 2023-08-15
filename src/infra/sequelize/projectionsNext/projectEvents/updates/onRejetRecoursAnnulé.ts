@@ -1,5 +1,5 @@
-import { logger } from '@core/utils';
-import { RejetRecoursAnnulé } from '@modules/demandeModification';
+import { logger } from '../../../../../core/utils';
+import { RejetRecoursAnnulé } from '../../../../../modules/demandeModification';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

@@ -1,5 +1,5 @@
-import { logger } from '@core/utils';
-import { RejetAbandonAnnulé } from '@modules/demandeModification';
+import { logger } from '../../../../../../core/utils';
+import { RejetAbandonAnnulé } from '../../../../../../modules/demandeModification';
 import { ProjectEvent } from '../../projectEvent.model';
 import { ProjectEventProjector } from '../../projectEvent.projector';
 import { ProjectionEnEchec } from '../../../../../../modules/shared';

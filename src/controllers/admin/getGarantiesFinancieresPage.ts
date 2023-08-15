@@ -1,11 +1,11 @@
-import { appelOffreRepo } from '@dataAccess';
+import { appelOffreRepo } from '../../dataAccess';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '@routes';
-import { ensureRole } from '@config';
+import routes from '../../routes';
+import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
-import { GarantiesFinancieresPage } from '@views';
+import { GarantiesFinancieresPage } from '../../views';
 import { getCurrentUrl, getPagination, getOptionsFiltresParAOs } from '../helpers';
-import { listerProjets } from '@infra/sequelize/queries';
+import { listerProjets } from '../../infra/sequelize/queries';
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres } =

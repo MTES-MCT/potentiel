@@ -1,4 +1,4 @@
-import { Input, Label, TextArea } from '@components';
+import { Input, Label, TextArea } from '../../../../components';
 import React from 'react';
 
 type ChangementActionnaireProps = {

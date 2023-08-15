@@ -1,12 +1,12 @@
-import { Project } from '@entities';
-import ROUTES from '@routes';
+import { Project } from '../../../../entities';
+import ROUTES from '../../../../routes';
 import {
   is,
   ProjectCertificateDTO,
   ProjectEventDTO,
   ProjectStatus,
-} from '@modules/frise';
-import { UserRole } from '@modules/users';
+} from '../../../../modules/frise';
+import { UserRole } from '../../../../modules/users';
 import { or } from '../../../../core/utils';
 
 export type DesignationItemProps = {

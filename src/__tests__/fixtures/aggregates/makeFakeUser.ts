@@ -1,6 +1,7 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { ok } from '@core/utils';
-import { EntityNotFoundError } from '@modules/shared';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { ok } from '../../../core/utils';
+import { jest } from '@jest/globals';
+import { EntityNotFoundError } from '../../../modules/shared';
 
 export const makeFakeUser = () => ({
   registerFirstLogin: jest.fn(() => ok<null, never>(null)),

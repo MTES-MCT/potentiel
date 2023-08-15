@@ -1,8 +1,8 @@
-import { User } from '@entities';
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, wrapInfra } from '@core/utils';
+import { User } from '../../../../entities';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../../core/domain';
+import { errAsync, wrapInfra } from '../../../../core/utils';
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon';
-import { UnauthorizedError } from '@modules/shared';
+import { UnauthorizedError } from "../../../shared";
 import { StatutRéponseIncompatibleAvecAnnulationError } from '../../errors/StatutRéponseIncompatibleAvecAnnulationError';
 import { AnnulationAbandonAnnulée } from '../events';
 

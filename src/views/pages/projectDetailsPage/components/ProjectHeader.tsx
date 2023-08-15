@@ -1,7 +1,7 @@
 import React from 'react';
-import { User } from '@entities';
-import { ProjectDataForProjectPage } from '@modules/project/queries';
-import { Badge, Heading1 } from '@components';
+import { User } from '../../../../entities';
+import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
+import { Badge, Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 
 type ProjectHeaderProps = {

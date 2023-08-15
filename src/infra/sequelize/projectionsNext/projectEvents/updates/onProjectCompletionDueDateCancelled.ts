@@ -1,4 +1,7 @@
-import { ProjectCompletionDueDateCancelled, ProjectCompletionDueDateSet } from '@modules/project';
+import {
+  ProjectCompletionDueDateCancelled,
+  ProjectCompletionDueDateSet,
+} from '../../../../../modules/project';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

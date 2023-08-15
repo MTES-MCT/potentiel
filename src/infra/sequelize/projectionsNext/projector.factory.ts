@@ -1,11 +1,11 @@
 import { QueryTypes, Sequelize, Transaction } from 'sequelize';
-import { DomainEvent } from '@core/domain';
+import { DomainEvent } from '../../../core/domain';
 import { ProjectorFactory } from './projector';
 import { EventHandler } from './eventHandler';
 import * as readline from 'readline';
 import { fromPersistance } from '../helpers';
-import { logger } from '@core/utils';
-import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '../../../core/utils';
+import { ProjectionEnEchec } from '../../../modules/shared';
 
 export const createProjectorFactory =
   (sequelize: Sequelize): ProjectorFactory =>

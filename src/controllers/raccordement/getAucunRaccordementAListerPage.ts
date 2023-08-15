@@ -1,4 +1,4 @@
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -7,7 +7,7 @@ import {
   ConsulterProjetQuery,
   PermissionConsulterDossierRaccordement,
 } from '@potentiel/domain-views';
-import { AucunDossierAListerPage } from '@views';
+import { AucunDossierAListerPage } from '../../views';
 import { isNone } from '@potentiel/monads';
 import { convertirEnIdentifiantProjet, estUnRawIdentifiantProjet } from '@potentiel/domain';
 import { mediator } from 'mediateur';

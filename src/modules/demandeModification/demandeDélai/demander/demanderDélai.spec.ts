@@ -1,12 +1,17 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { Project } from '@modules/project';
-import { Repository } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { FileObject } from '@modules/file';
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { Project } from "../../../project";
+import { Repository } from '../../../../core/domain';
+import { okAsync } from '../../../../core/utils';
+import { FileObject } from "../../../file";
+import {
+  EntityNotFoundError,
+  InfraNotAvailableError,
+  UnauthorizedError,
+} from "../../../shared";
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { makeDemanderDélai } from './demanderDelai';
-import { AppelOffreRepo } from '@dataAccess/inMemory';
+import { AppelOffreRepo } from '../../../../dataAccess/inMemory';
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
@@ -14,7 +19,7 @@ import {
   DemanderDateAchèvementAntérieureDateThéoriqueError,
   NouveauCahierDesChargesNonChoisiError,
 } from '.';
-import { AppelOffre } from '@entities';
+import { AppelOffre } from '../../../../entities';
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' });
@@ -33,8 +38,8 @@ describe('Commande demanderDélai', () => {
   const fakeProject = makeFakeProject();
 
   const fileRepo = {
-    save: jest.fn(() => okAsync(null)),
-    load: jest.fn(),
+    save: jest.fn<Repository<FileObject>['save']>(() => okAsync(null)),
+    load: jest.fn<Repository<FileObject>['load']>(),
   };
 
   const fakeFileContents = {

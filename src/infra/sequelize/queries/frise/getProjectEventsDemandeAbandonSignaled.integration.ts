@@ -1,11 +1,12 @@
-import { User } from '@entities';
-import { UniqueEntityID } from '@core/domain';
-import { USER_ROLES } from '@modules/users';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { User } from '../../../../entities';
+import { UniqueEntityID } from '../../../../core/domain';
+import { USER_ROLES } from '../../../../modules/users';
 import { getProjectEvents } from '.';
 import { ProjectEvent, Project } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { DemandeAbandonSignaledEvent } from '@infra/sequelize/projectionsNext/projectEvents/events';
+import { DemandeAbandonSignaledEvent } from "../../projectionsNext/projectEvents/events";
 
 describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => {
   const projetId = new UniqueEntityID().toString();

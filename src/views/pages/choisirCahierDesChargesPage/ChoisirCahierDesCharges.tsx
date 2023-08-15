@@ -5,8 +5,8 @@ import {
   InfoBox,
   InfoLienGuideUtilisationCDC,
   LegacyPageTemplate,
-} from '@components';
-import { ProjectDataForChoisirCDCPage } from '@modules/project';
+} from '../../components';
+import { ProjectDataForChoisirCDCPage } from '../../../modules/project';
 import { Request } from 'express';
 import { hydrateOnClient } from '../../helpers';
 

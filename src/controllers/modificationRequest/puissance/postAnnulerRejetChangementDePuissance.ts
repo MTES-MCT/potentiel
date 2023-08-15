@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 
-import { annulerRejetChangementDePuissance, ensureRole } from '@config';
-import { logger } from '@core/utils';
-import { EntityNotFoundError, UnauthorizedError } from '@modules/shared';
+import { annulerRejetChangementDePuissance, ensureRole } from '../../../config';
+import { logger } from '../../../core/utils';
+import { EntityNotFoundError, UnauthorizedError } from '../../../modules/shared';
 
 import {
   errorResponse,

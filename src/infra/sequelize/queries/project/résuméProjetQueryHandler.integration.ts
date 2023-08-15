@@ -1,9 +1,10 @@
-import { UniqueEntityID } from '@core/domain';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
+import { Project } from "../../projectionsNext";
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { résuméProjetQueryHandler } from './résuméProjetQueryHandler';
-import { RésuméProjetReadModel } from '@modules/project';
+import { RésuméProjetReadModel } from '../../../../modules/project';
 
 const projetId = new UniqueEntityID().toString();
 const notifiedOn = new Date('2023-02-01').getTime();

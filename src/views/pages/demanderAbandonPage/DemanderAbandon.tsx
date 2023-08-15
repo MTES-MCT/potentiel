@@ -1,6 +1,6 @@
 import React from 'react';
-import { ProjectAppelOffre } from '@entities';
-import routes from '@routes';
+import { ProjectAppelOffre } from '../../../entities';
+import routes from '../../../routes';
 import { Request } from 'express';
 
 import {
@@ -20,7 +20,7 @@ import {
   Input,
   TextArea,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
 type DemanderAbandonProps = {
@@ -41,25 +41,23 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
 
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
-          {...{
-            projet: {
-              id: project.id,
-              appelOffre,
-              cahierDesChargesActuel: 'initial',
-              identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-            },
-            redirectUrl: routes.GET_DEMANDER_ABANDON(project.id),
-            type: 'abandon',
-            infoBox: (
-              <InfoBox
-                title="Afin d'accéder au formulaire de demande d'abandon, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-                className="mb-5"
-              >
-                <InfoLienGuideUtilisationCDC />
-              </InfoBox>
-            ),
+          projet={{
+            id: project.id,
+            appelOffre,
+            cahierDesChargesActuel: 'initial',
+            identifiantGestionnaireRéseau: project.identifiantGestionnaire,
           }}
+          redirectUrl={routes.GET_DEMANDER_ABANDON(project.id)}
+          type="abandon"
+          infoBox={
+            <InfoBox
+              title="Afin d'accéder au formulaire de demande d'abandon, vous devez d'abord changer le
+                  cahier des charges à appliquer"
+              className="mb-5"
+            >
+              <InfoLienGuideUtilisationCDC />
+            </InfoBox>
+          }
         />
       ) : (
         <Form

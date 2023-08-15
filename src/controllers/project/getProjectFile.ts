@@ -1,8 +1,8 @@
-import { loadFileForUser, ensureRole } from '@config';
-import { UniqueEntityID } from '@core/domain';
-import { FileAccessDeniedError, FileNotFoundError } from '@modules/file';
-import { InfraNotAvailableError } from '@modules/shared';
-import routes from '@routes';
+import { loadFileForUser, ensureRole } from '../../config';
+import { UniqueEntityID } from '../../core/domain';
+import { FileAccessDeniedError, FileNotFoundError } from '../../modules/file';
+import { InfraNotAvailableError } from '../../modules/shared';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 import path from 'path';

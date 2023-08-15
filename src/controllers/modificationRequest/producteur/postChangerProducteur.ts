@@ -2,17 +2,17 @@ import fs from 'fs';
 import omit from 'lodash/omit';
 import * as yup from 'yup';
 
-import { ensureRole, changerProducteur } from '@config';
-import { logger } from '@core/utils';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { ensureRole, changerProducteur } from '../../../config';
+import { logger } from '../../../core/utils';
+import { UnauthorizedError } from '../../../modules/shared';
+import routes from '../../../routes';
 
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import { errorResponse, unauthorizedResponse } from '../../helpers';
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
-import { ChangementProducteurImpossiblePourEolienError } from '@modules/project/errors';
-import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification';
+import { ChangementProducteurImpossiblePourEolienError } from '../../../modules/project/errors';
+import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeModification';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 
 const schema = yup.object({

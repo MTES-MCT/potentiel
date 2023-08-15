@@ -1,5 +1,5 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
-import { CahierDesChargesRéférence } from '@entities';
+import { BaseDomainEvent, DomainEvent } from '../../../../core/domain';
+import { CahierDesChargesRéférence } from '../../../../entities';
 
 export type DélaiDemandéPayload = {
   demandeDélaiId: string;

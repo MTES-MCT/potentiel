@@ -1,4 +1,5 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
+import { describe, expect, it, jest } from '@jest/globals';
+import { BaseDomainEvent, DomainEvent } from '../../core/domain';
 import { makeInMemoryPublish, makeInMemorySubscribe } from './inMemoryEventBus';
 import EventEmitter from 'events';
 

@@ -1,13 +1,13 @@
-import { getModificationRequestListForAdmin } from '@config/queries.config';
-import { logger } from '@core/utils';
-import { appelOffreRepo } from '@dataAccess/inMemory';
+import { getModificationRequestListForAdmin } from '../../config/queries.config';
+import { logger } from '../../core/utils';
+import { appelOffreRepo } from '../../dataAccess/inMemory';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '@routes';
-import { ModificationRequestListPage } from '@views';
+import routes from '../../routes';
+import { ModificationRequestListPage } from '../../views';
 import { v1Router } from '../v1Router';
-import { userIs } from '@modules/users';
+import { userIs } from '../../modules/users';
 import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
-import { PermissionListerDemandesAdmin } from '@modules/modificationRequest/queries';
+import { PermissionListerDemandesAdmin } from '../../modules/modificationRequest/queries';
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,

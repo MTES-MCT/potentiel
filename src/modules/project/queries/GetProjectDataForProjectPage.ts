@@ -1,6 +1,6 @@
-import { ResultAsync } from '@core/utils';
-import { ProjectAppelOffre, User } from '@entities';
-import { Permission } from '@modules/authN';
+import { ResultAsync } from '../../../core/utils';
+import { ProjectAppelOffre, User } from '../../../entities';
+import { Permission } from "../../authN";
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 
 export const PermissionConsulterProjet: Permission = {

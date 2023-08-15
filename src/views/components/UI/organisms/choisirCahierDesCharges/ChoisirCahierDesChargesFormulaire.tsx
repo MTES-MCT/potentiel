@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Form, PrimaryButton, SecondaryLinkButton } from '@components';
-import { ProjectDataForChoisirCDCPage } from '@modules/project';
-import routes from '@routes';
-import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
+import { Form, PrimaryButton, SecondaryLinkButton } from "../../..";
+import { ProjectDataForChoisirCDCPage } from '../../../../../modules/project';
+import routes from '../../../../../routes';
+import { formatCahierDesChargesRéférence } from '../../../../../entities/cahierDesCharges';
 
 import { CahierDesChargesInitial } from './CahierDesChargesInitial';
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible';

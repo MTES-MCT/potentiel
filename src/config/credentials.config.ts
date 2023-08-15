@@ -1,1 +1,1 @@
-export { createUserCredentials, getUserName, resendInvitationEmail } from '@infra/keycloak';
+export { createUserCredentials, getUserName, resendInvitationEmail } from '../infra/keycloak';

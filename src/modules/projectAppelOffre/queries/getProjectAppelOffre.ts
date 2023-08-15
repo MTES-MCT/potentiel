@@ -1,4 +1,4 @@
-import { AppelOffre, ProjectAppelOffre } from '@entities';
+import { AppelOffre, ProjectAppelOffre } from '../../../entities';
 
 export type GetProjectAppelOffre = (args: {
   appelOffreId: string;

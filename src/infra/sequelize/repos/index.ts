@@ -1,21 +1,21 @@
-import { eventStore } from '@config/eventStore.config';
-import { fileStorageService } from '@config/fileStorage.config';
-import { buildProjectIdentifier } from '@config/crypto.config';
-import { makeCandidateNotification } from '@modules/notificationCandidats';
-import { makeUser } from '@modules/users';
+import { eventStore } from '../../../config/eventStore.config';
+import { fileStorageService } from '../../../config/fileStorage.config';
+import { buildProjectIdentifier } from '../../../config/crypto.config';
+import { makeCandidateNotification } from '../../../modules/notificationCandidats';
+import { makeUser } from '../../../modules/users';
 import { makeFileRepo } from './fileRepo';
 import { makeModificationRequestRepo } from './modificationRequestRepo';
 import { NotificationRepo } from './notificationRepo';
 import { makeProjectRepo } from './projectRepo';
 import { makeProjectClaimRepo } from './projectClaimRepo';
-import { makeLegacyCandidateNotification } from '@modules/legacyCandidateNotification';
-import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils';
+import { makeLegacyCandidateNotification } from '../../../modules/legacyCandidateNotification';
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils';
 import {
   makeDemandeDélai,
   makeDemandeAbandon,
   makeDemandeAnnulationAbandon,
-} from '@modules/demandeModification';
-import { makeUtilisateur } from '@modules/utilisateur';
+} from '../../../modules/demandeModification';
+import { makeUtilisateur } from '../../../modules/utilisateur';
 
 export const fileRepo = makeFileRepo({ fileStorageService });
 export const notificationRepo = new NotificationRepo();

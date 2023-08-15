@@ -17,9 +17,9 @@ import {
   Label,
   Form,
   Callout,
-} from '@components';
-import routes from '@routes';
-import { ProjectAppelOffre } from '@entities';
+} from '../../components';
+import routes from '../../../routes';
+import { ProjectAppelOffre } from '../../../entities';
 
 import { Request } from 'express';
 import React from 'react';
@@ -53,25 +53,23 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
 
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
-          {...{
-            projet: {
-              id: project.id,
-              appelOffre,
-              cahierDesChargesActuel: 'initial',
-              identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-            },
-            redirectUrl: routes.DEMANDER_DELAI(project.id),
-            type: 'delai',
-            infoBox: (
-              <InfoBox
-                title="Afin d'accéder au formulaire de demande de délai, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-                className="mb-5"
-              >
-                <InfoLienGuideUtilisationCDC />
-              </InfoBox>
-            ),
+          projet={{
+            id: project.id,
+            appelOffre,
+            cahierDesChargesActuel: 'initial',
+            identifiantGestionnaireRéseau: project.identifiantGestionnaire,
           }}
+          redirectUrl={routes.DEMANDER_DELAI(project.id)}
+          type="delai"
+          infoBox={
+            <InfoBox
+              title="Afin d'accéder au formulaire de demande de délai, vous devez d'abord changer le
+                  cahier des charges à appliquer"
+              className="mb-5"
+            >
+              <InfoLienGuideUtilisationCDC />
+            </InfoBox>
+          }
         />
       ) : (
         <Form

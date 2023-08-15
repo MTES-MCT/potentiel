@@ -1,15 +1,20 @@
-import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync } from '@core/utils';
-import { User } from '@entities';
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre/queries';
+import {
+  EventStore,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '../../../../core/domain';
+import { errAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { GetProjectAppelOffre } from "../../../projectAppelOffre/queries";
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon';
-import { Project } from '@modules/project';
+import { Project } from "../../../project";
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError';
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { AnnulationAbandonAccordée } from '../events';
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
-import { InfraNotAvailableError } from '@modules/shared';
+import { FileContents, FileObject, makeAndSaveFile } from "../../../file";
+import { InfraNotAvailableError } from "../../../shared";
 
 type Commande = {
   utilisateur: User;

@@ -2,16 +2,16 @@ import asyncHandler from '../helpers/asyncHandler';
 import fs from 'fs';
 import moment from 'moment-timezone';
 import sanitize from 'sanitize-filename';
-import { correctProjectData, ensureRole } from '@config';
-import { logger } from '@core/utils';
+import { correctProjectData, ensureRole } from '../../config';
+import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
-import { IllegalProjectDataError, CertificateFileIsMissingError } from '@modules/project';
-import routes from '@routes';
+import { IllegalProjectDataError, CertificateFileIsMissingError } from '../../modules/project';
+import routes from '../../routes';
 import { errorResponse } from '../helpers';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
-import { ProjetDéjàClasséError } from '@modules/modificationRequest';
+import { ProjetDéjàClasséError } from '../../modules/modificationRequest';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 

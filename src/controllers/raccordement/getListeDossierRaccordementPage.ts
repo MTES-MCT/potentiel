@@ -1,4 +1,4 @@
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -11,9 +11,9 @@ import {
   ListerDossiersRaccordementQuery,
   PermissionConsulterDossierRaccordement,
 } from '@potentiel/domain-views';
-import { ListeDossiersRaccordementPage } from '@views';
+import { ListeDossiersRaccordementPage } from '../../views';
 import { mediator } from 'mediateur';
-import { userIs } from '@modules/users';
+import { userIs } from '../../modules/users';
 import {
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,

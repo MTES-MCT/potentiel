@@ -1,9 +1,10 @@
+import { describe, expect, it } from '@jest/globals';
 import {
   CovidDelayGrantedDTO,
   ProjectCompletionDueDateSetDTO,
   ProjectEventListDTO,
   ProjectImportedDTO,
-} from '@modules/frise';
+} from '../../../../modules/frise';
 import { extractACItemProps } from '.';
 
 describe('extractACItemProps', () => {
