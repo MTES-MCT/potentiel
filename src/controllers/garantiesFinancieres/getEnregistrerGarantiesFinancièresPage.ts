@@ -1,10 +1,10 @@
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, unauthorizedResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { ConsulterGarantiesFinancièresQuery, ConsulterProjetQuery } from '@potentiel/domain-views';
-import { EnregistrerGarantiesFinancièresPage } from '@views';
+import { EnregistrerGarantiesFinancièresPage } from '../../views';
 import { mediator } from 'mediateur';
 import {
   convertirEnIdentifiantProjet,
@@ -12,9 +12,9 @@ import {
   PermissionConsulterGarantiesFinancières,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
-import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
+import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { getProjectAppelOffre } from '@config';
+import { getProjectAppelOffre } from '../../config';
 
 const schema = yup.object({
   params: yup.object({
