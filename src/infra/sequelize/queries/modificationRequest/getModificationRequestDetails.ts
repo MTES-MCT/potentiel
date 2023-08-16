@@ -7,7 +7,7 @@ import {
 import { EntityNotFoundError } from '../../../../modules/shared';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre } from '../../../../entities';
 import { CahierDesChargesRéférence } from '@potentiel/domain-views';
-import { ModificationRequest, Project, User, File } from '../../../../infra/sequelize';
+import { ModificationRequest, Project, User, File } from '../..';
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
   modificationRequestId,
