@@ -2,14 +2,14 @@ import makeSequelizeStore from 'connect-session-sequelize';
 import session from 'express-session';
 import Keycloak from 'keycloak-connect';
 import QueryString from 'querystring';
-import { logger } from '@core/utils';
-import { User } from '@entities';
-import { EnsureRole, RegisterAuth } from '@modules/authN';
-import { CreateUser, GetUserByEmail } from '@modules/users';
-import routes from '@routes';
+import { logger } from '../../core/utils';
+import { User } from '../../entities';
+import { EnsureRole, RegisterAuth } from '../../modules/authN';
+import { CreateUser, GetUserByEmail } from '../../modules/users';
+import routes from '../../routes';
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
 import { miseAJourStatistiquesUtilisation } from '../../controllers/helpers';
-import { isDevEnv } from '@config';
+import { isDevEnv } from '../../config';
 
 export interface KeycloakAuthDeps {
   sequelizeInstance: any;

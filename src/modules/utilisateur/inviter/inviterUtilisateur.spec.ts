@@ -1,16 +1,18 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { Utilisateur } from '../Utilisateur';
 import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
 import { makeInviterUtilisateur, PermissionInviterDgecValidateur } from './inviterUtilisateur';
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError';
 import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError';
 import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError';
+import { EventStore } from '../../../core/domain';
 
 describe(`Inviter un utilisateur`, () => {
   describe(`Inviter un utilisateur`, () => {
     it(`Lorsqu'on invite un utilisateur avec un role
       Alors l'utilisateur devrait être invité`, async () => {
       const utilisateurRepo = fakeTransactionalRepo({ statut: undefined } as Utilisateur);
-      const publishToEventStore = jest.fn();
+      const publishToEventStore = jest.fn<EventStore['publish']>();
 
       const inviterUtilisateur = makeInviterUtilisateur({ utilisateurRepo, publishToEventStore });
 
@@ -37,7 +39,7 @@ describe(`Inviter un utilisateur`, () => {
     it(`Lorsqu'on invite un utilisateur avec un role 'dgec-validateur
         Alors l'utilisateur devrait être invité avec une fonction`, async () => {
       const utilisateurRepo = fakeTransactionalRepo({ statut: undefined } as Utilisateur);
-      const publishToEventStore = jest.fn();
+      const publishToEventStore = jest.fn<EventStore['publish']>();
 
       const inviterUtilisateur = makeInviterUtilisateur({ utilisateurRepo, publishToEventStore });
 
@@ -69,7 +71,7 @@ describe(`Inviter un utilisateur`, () => {
       const utilisateurRepo = fakeTransactionalRepo({
         statut: 'invité',
       } as Utilisateur);
-      const publishToEventStore = jest.fn();
+      const publishToEventStore = jest.fn<EventStore['publish']>();
 
       const inviterUtilisateur = makeInviterUtilisateur({
         utilisateurRepo,
@@ -95,7 +97,7 @@ describe(`Inviter un utilisateur`, () => {
       const utilisateurRepo = fakeTransactionalRepo({
         statut: 'créé',
       } as Utilisateur);
-      const publishToEventStore = jest.fn();
+      const publishToEventStore = jest.fn<EventStore['publish']>();
 
       const inviterUtilisateur = makeInviterUtilisateur({
         utilisateurRepo,
@@ -120,7 +122,7 @@ describe(`Inviter un utilisateur`, () => {
           Alors aucun évènement ne devrait être émis
           Et il devrait être averti qu'il n'est pas autorisé à faire cette invitation`, async () => {
       const utilisateurRepo = fakeTransactionalRepo({} as Utilisateur);
-      const publishToEventStore = jest.fn();
+      const publishToEventStore = jest.fn<EventStore['publish']>();
 
       const inviterUtilisateur = makeInviterUtilisateur({
         utilisateurRepo,

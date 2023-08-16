@@ -55,4 +55,5 @@
     "Mais": 2,
     "Règle": 2,
   },
+  "typescript.tsdk": "node_modules/typescript/lib",
 }

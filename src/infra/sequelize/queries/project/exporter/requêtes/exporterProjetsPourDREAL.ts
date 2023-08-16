@@ -1,4 +1,4 @@
-import { FiltreListeProjets } from '@modules/project/queries/listerProjets';
+import { FiltreListeProjets } from '../../../../../../modules/project/queries/listerProjets';
 import {
   coordonnéesCandidat,
   coordonnéesGéodésiques,
@@ -17,8 +17,8 @@ import {
   évaluationCarbone,
 } from '../colonnesParCatégorie';
 import { récupérerExportProjets } from './récupérerExportProjets';
-import { wrapInfra } from '@core/utils';
-import { UserDreal } from '@infra/sequelize/projectionsNext';
+import { wrapInfra } from '../../../../../../core/utils';
+import { UserDreal } from '../../../../projectionsNext';
 
 const colonnesÀExporter = [
   ...identificationProjet,

@@ -1,12 +1,14 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import makeFakeUser from '../../__tests__/fixtures/user';
-import { okAsync } from '@core/utils';
-import { Repository, UniqueEntityID } from '@core/domain';
-import { makeUser, User } from '@entities';
+import { okAsync } from '../../core/utils';
+import { Repository, UniqueEntityID } from '../../core/domain';
+import { makeUser, User } from '../../entities';
 import { FileAccessDeniedError } from './errors';
 import { FileObject } from './FileObject';
 import { makeLoadFileForUser } from './loadFileForUser';
 import { GetFileProject } from './queries';
 import { UnwrapForTest } from '../../types';
+import { ShouldUserAccessProject } from '../authZ';
 
 describe('loadFileForUser', () => {
   const fakeUser = {} as User;
@@ -20,7 +22,7 @@ describe('loadFileForUser', () => {
       const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
 
       const shouldUserAccessProject = {
-        check: jest.fn(),
+        check: jest.fn<ShouldUserAccessProject['check']>(),
       };
 
       const fileRepo = {
@@ -48,7 +50,7 @@ describe('loadFileForUser', () => {
       const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })));
 
       const shouldUserAccessProject = {
-        check: jest.fn(),
+        check: jest.fn<ShouldUserAccessProject['check']>(),
       };
 
       const fileRepo = {

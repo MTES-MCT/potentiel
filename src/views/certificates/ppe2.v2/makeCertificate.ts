@@ -1,9 +1,9 @@
 import ReactPDF, { Font } from '@react-pdf/renderer';
 import dotenv from 'dotenv';
-import { errAsync, Queue, ResultAsync } from '@core/utils';
-import { ProjectDataForCertificate } from '@modules/project/dtos';
-import { IllegalProjectStateError } from '@modules/project/errors';
-import { OtherError } from '@modules/shared';
+import { errAsync, Queue, ResultAsync } from '../../../core/utils';
+import { ProjectDataForCertificate } from '../../../modules/project/dtos';
+import { IllegalProjectStateError } from '../../../modules/project/errors';
+import { OtherError } from '../../../modules/shared';
 import { Certificate, CertificateProps } from './Certificate';
 import { makeLaureat } from './components/Laureat';
 import { Elimine } from './components/elimine';

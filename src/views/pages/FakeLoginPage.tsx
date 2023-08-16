@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import React from 'react';
-import routes from '@routes';
-import { PrimaryButton, ErrorBox, LegacyPageTemplate, Label, Input, Form } from '@components';
+import routes from '../../routes';
+import { PrimaryButton, ErrorBox, LegacyPageTemplate, Label, Input, Form } from '../components';
 import { hydrateOnClient } from '../helpers';
 
 interface FakeLoginProps {

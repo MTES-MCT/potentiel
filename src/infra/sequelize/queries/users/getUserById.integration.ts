@@ -1,5 +1,6 @@
-import { UniqueEntityID } from '@core/domain';
-import { User } from '@infra/sequelize/projectionsNext';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
+import { User } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
 import { getUserById } from './getUserById';
 

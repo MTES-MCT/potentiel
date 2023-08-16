@@ -1,4 +1,4 @@
-import { DomainError } from '@core/domain';
+import { DomainError } from '../../../core/domain';
 
 export class StatutRéponseIncompatibleAvecAnnulationError extends DomainError {
   constructor(currentStatus: string) {

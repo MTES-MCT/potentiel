@@ -1,10 +1,11 @@
-import { UniqueEntityID } from '@core/domain';
-import { EntityNotFoundError } from '@modules/shared';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { EntityNotFoundError } from '../../../../../modules/shared';
 import makeFakeFile from '../../../../../__tests__/fixtures/file';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../../helpers';
-import { Project, User, UserProjects, File } from '@infra/sequelize/projectionsNext';
+import { Project, User, UserProjects, File } from '../../../projectionsNext';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 
 const certificateFileId = new UniqueEntityID().toString();

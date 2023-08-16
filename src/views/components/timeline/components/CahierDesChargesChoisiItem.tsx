@@ -1,4 +1,4 @@
-import { CahierDesChargesChoisiDTO } from '@modules/frise';
+import { CahierDesChargesChoisiDTO } from '../../../../modules/frise';
 import React from 'react';
 import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.';
 

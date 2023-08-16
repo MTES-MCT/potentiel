@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -11,9 +11,10 @@ import {
   PageProjetTemplate,
   Form,
   LabelDescription,
-} from '@components';
-import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
-import routes from '@routes';
+  InputFile,
+} from '../../../components';
+import { GestionnaireRéseauReadModel, ProjetReadModel } from '@potentiel/domain-views';
+import routes from '../../../../routes';
 
 import { hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
@@ -26,7 +27,7 @@ import {
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   delaiDemandeDeRaccordementEnMois: InfoBoxFormulaireDCRProps['delaiDemandeDeRaccordementEnMois'];
   error?: string;
 };
@@ -38,7 +39,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
   error,
   delaiDemandeDeRaccordementEnMois,
 }: TransmettreDemandeComplèteRaccordementProps) => {
-  const { identifiantProjet } = projet;
+  const { identifiantProjet, legacyId } = projet;
 
   const gestionnaireRéseauActuel = gestionnairesRéseau.find(
     (gestionnaire) => gestionnaire.codeEIC === projet.identifiantGestionnaire?.codeEIC,
@@ -113,7 +114,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
             <Label htmlFor="file">
               Accusé de réception de la demande complète de raccordement **
             </Label>
-            <Input type="file" id="file" name="file" required />
+            <InputFile id="file" name="file" required />
           </div>
           <div>
             <Label htmlFor="dateQualification">Date de l'accusé de réception</Label>
@@ -135,7 +136,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
                 Retour vers le dossier de raccordement
               </Link>
             ) : (
-              <Link href={routes.PROJECT_DETAILS(identifiantProjet)} className="m-auto">
+              <Link href={routes.PROJECT_DETAILS(legacyId)} className="m-auto">
                 Retour vers le projet
               </Link>
             )}

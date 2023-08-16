@@ -1,4 +1,4 @@
-import { logger } from '@core/utils';
+import { logger } from '../../../core/utils';
 import { Subscribe } from './subscribe';
 import { initializeGarantiesFinancièresProjector } from './garantiesFinancières/garantiesFinancières.projector';
 import { ProjectEventProjector } from './projectEvents/projectEvent.projector';

@@ -1,10 +1,10 @@
-import { errAsync, wrapInfra } from '@core/utils';
-import { UserProjects, User, ModificationRequest, Project } from '@infra/sequelize';
+import { errAsync, wrapInfra } from '../../../../core/utils';
+import { UserProjects, User, ModificationRequest, Project } from '../..';
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,
-} from '@modules/modificationRequest';
-import { EntityNotFoundError } from '@modules/shared';
+} from '../../../../modules/modificationRequest';
+import { EntityNotFoundError } from '../../../../modules/shared';
 
 export const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
   (modificationRequestId: string) => {

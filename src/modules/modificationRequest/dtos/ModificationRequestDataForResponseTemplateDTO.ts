@@ -1,4 +1,4 @@
-import { Région } from '@modules/dreal/région';
+import { Région } from '../../dreal/région';
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO';
 
 export type ModificationRequestDataForResponseTemplateDTO = {

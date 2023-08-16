@@ -1,4 +1,4 @@
-import { DemandeAnnulationAbandonDTO } from '@modules/frise/dtos';
+import { DemandeAnnulationAbandonDTO } from '../../../../modules/frise/dtos';
 import React from 'react';
 import {
   CancelledStepIcon,
@@ -10,7 +10,7 @@ import {
   PastIcon,
   UnvalidatedStepIcon,
 } from '.';
-import { Link } from '@components';
+import { Link } from '../..';
 
 type DemandeAnnulationAbandonItemProps = DemandeAnnulationAbandonDTO;
 

@@ -1,5 +1,5 @@
 // TODO: a supprimer lorsque le soucis des imports side effects sera résolue.
-import { initializeProjectors } from '@infra/sequelize/projectionsNext';
+import { initializeProjectors } from '../infra/sequelize/projectionsNext';
 import { sequelizeInstance } from '../sequelize.config';
 import { subscribeToRedis as subscribe } from './eventBus.config';
 

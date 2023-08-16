@@ -1,4 +1,4 @@
-import { PlugIcon } from '@components';
+import { PlugIcon } from '../../../components';
 import React, { ComponentProps, FC } from 'react';
 
 export const TitrePageRaccordement: FC<ComponentProps<'div'>> = ({ children }) => (

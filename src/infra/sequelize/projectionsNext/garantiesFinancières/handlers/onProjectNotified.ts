@@ -1,10 +1,10 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { UniqueEntityID } from '@core/domain';
-import { logger } from '@core/utils';
-import { ProjectNotified } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { getProjectAppelOffre } from '../../../../../config/queryProjectAO.config';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { logger } from '../../../../../core/utils';
+import { ProjectNotified } from '../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from '../..';
 import { EventHandler } from '../../eventHandler';
 
 export const onProjectNotified: EventHandler<ProjectNotified> = async (évènement, transaction) => {

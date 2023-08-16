@@ -1,4 +1,4 @@
-import { DomainEvent, BaseDomainEvent } from '@core/domain';
+import { DomainEvent, BaseDomainEvent } from '../../../core/domain';
 import { makeCandidateNotificationId } from '../../notificationCandidats/helpers';
 
 export interface ProjectNotifiedPayload {

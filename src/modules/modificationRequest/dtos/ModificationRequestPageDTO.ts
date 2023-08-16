@@ -1,4 +1,4 @@
-import { ProjectAppelOffre, Technologie, CahierDesChargesRéférence } from '@entities';
+import { ProjectAppelOffre, Technologie, CahierDesChargesRéférence } from '../../../entities';
 import { Fournisseur } from '../../project';
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO';
 

@@ -1,10 +1,10 @@
 import { addQueryParams } from '../../helpers/addQueryParams';
-import routes from '@routes';
-import { inviteUserToProject, ensureRole } from '@config';
+import routes from '../../routes';
+import { inviteUserToProject, ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import { errorResponse, unauthorizedResponse } from '../helpers';
-import { UnauthorizedError } from '@modules/shared';
-import { logger } from '@core/utils';
+import { UnauthorizedError } from '../../modules/shared';
+import { logger } from '../../core/utils';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import * as yup from 'yup';
 

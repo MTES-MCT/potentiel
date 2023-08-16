@@ -1,5 +1,5 @@
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
-import { err, ok, Result } from '@core/utils';
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../core/domain';
+import { err, ok, Result } from '../../core/utils';
 import { EmailAlreadyUsedError, EntityNotFoundError } from '../shared';
 import { FonctionUtilisateurModifiée, RôleUtilisateurModifié, UserCreated } from './events';
 import { UserRole } from './UserRoles';

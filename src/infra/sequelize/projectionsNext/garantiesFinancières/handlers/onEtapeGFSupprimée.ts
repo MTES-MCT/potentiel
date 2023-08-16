@@ -1,4 +1,4 @@
-import { EtapeGFSupprimée } from '@modules/project';
+import { EtapeGFSupprimée } from '../../../../../modules/project';
 import { EventHandler } from '../../eventHandler';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 

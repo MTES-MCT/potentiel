@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import { Container, Footer, Header, UserNavigation } from '@components';
-import { App } from '@views';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Container, Footer, Header, UserNavigation } from '../..';
+import { App } from '../../..';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type PageTemplateProps = {
   user: UtilisateurReadModel;

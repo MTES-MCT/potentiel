@@ -1,13 +1,13 @@
 import { errAsync, okAsync } from 'neverthrow';
-import { EventStore, Repository, UniqueEntityID } from '@core/domain';
-import { logger, wrapInfra, ResultAsync } from '@core/utils';
-import { User, formatCahierDesChargesRéférence } from '@entities';
-import { FileContents, FileObject, makeFileObject } from '@modules/file';
-import { DélaiDemandé } from '@modules/demandeModification';
-import { GetProjectAppelOffreId } from '@modules/modificationRequest';
-import { AppelOffreRepo } from '@dataAccess';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
-import { Project } from '@modules/project';
+import { EventStore, Repository, UniqueEntityID } from '../../../../core/domain';
+import { logger, wrapInfra, ResultAsync } from '../../../../core/utils';
+import { User, formatCahierDesChargesRéférence } from '../../../../entities';
+import { FileContents, FileObject, makeFileObject } from '../../../file';
+import { DélaiDemandé } from '../..';
+import { GetProjectAppelOffreId } from '../../../modificationRequest';
+import { AppelOffreRepo } from '../../../../dataAccess';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { Project } from '../../../project';
 
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.';
 import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError';

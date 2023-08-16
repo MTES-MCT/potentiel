@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode } from '@entities';
+import { AppelOffre, Famille, Periode } from '../../entities';
 import cloneDeep from 'lodash/cloneDeep';
 
 import {
@@ -21,8 +21,8 @@ import {
   innovationPPE2,
   autoconsommationMetropolePPE2,
 } from './appelsOffres';
-import { errAsync, okAsync } from '@core/utils';
-import { EntityNotFoundError } from '@modules/shared';
+import { errAsync, okAsync } from '../../core/utils';
+import { EntityNotFoundError } from '../../modules/shared';
 import { AppelOffreRepo } from '../appelOffre';
 
 const appelsOffreStatic = [

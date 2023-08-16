@@ -1,9 +1,12 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { handleProjectImported } from './handleProjectImported';
 import {
   fakeTransactionalRepo,
   makeFakeLegacyCandidateNotification,
 } from '../../../__tests__/fixtures/aggregates';
 import { ProjectImported, ProjectReimported } from '../../project';
+import { LegacyCandidateNotification } from '../LegacyCandidateNotification';
+import { IsPeriodeLegacy } from '../../appelOffre';
 
 const appelOffreId = 'appelOffreId';
 const periodeId = 'periodeId';
@@ -49,15 +52,17 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
       const isPeriodeLegacy = async () => false;
 
       it('should do nothing', async () => {
-        const legacyCandidateNotificationRepo = {
-          transaction: jest.fn(),
-        };
+        const legacyCandidateNotificationRepo = fakeTransactionalRepo(
+          {} as LegacyCandidateNotification,
+        );
+        const spyOnTransaction = jest.spyOn(legacyCandidateNotificationRepo, 'transaction');
+
         await handleProjectImported({
           isPeriodeLegacy,
           legacyCandidateNotificationRepo,
         })(event);
 
-        expect(legacyCandidateNotificationRepo.transaction).not.toHaveBeenCalled();
+        expect(spyOnTransaction).not.toHaveBeenCalled();
       });
     });
   });
@@ -98,15 +103,17 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
         const isPeriodeLegacy = async () => false;
 
         it('should do nothing', async () => {
-          const legacyCandidateNotificationRepo = {
-            transaction: jest.fn(),
-          };
+          const legacyCandidateNotificationRepo = fakeTransactionalRepo(
+            {} as LegacyCandidateNotification,
+          );
+          const spyOnTransaction = jest.spyOn(legacyCandidateNotificationRepo, 'transaction');
+
           await handleProjectImported({
             isPeriodeLegacy,
             legacyCandidateNotificationRepo,
           })(event);
 
-          expect(legacyCandidateNotificationRepo.transaction).not.toHaveBeenCalled();
+          expect(spyOnTransaction).not.toHaveBeenCalled();
         });
       });
     });
@@ -122,18 +129,20 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
           data: { numeroCRE: '123' },
         },
       });
-      const isPeriodeLegacy = jest.fn();
+      const isPeriodeLegacy = jest.fn<IsPeriodeLegacy>();
 
       it('should do nothing', async () => {
-        const legacyCandidateNotificationRepo = {
-          transaction: jest.fn(),
-        };
+        const legacyCandidateNotificationRepo = fakeTransactionalRepo(
+          {} as LegacyCandidateNotification,
+        );
+        const spyOnTransaction = jest.spyOn(legacyCandidateNotificationRepo, 'transaction');
+
         await handleProjectImported({
           isPeriodeLegacy,
           legacyCandidateNotificationRepo,
         })(event);
 
-        expect(legacyCandidateNotificationRepo.transaction).not.toHaveBeenCalled();
+        expect(spyOnTransaction).not.toHaveBeenCalled();
       });
     });
   });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectDataForCertificate } from '@modules/project';
+import { ProjectDataForCertificate } from '../../../../../../modules/project';
 import { AuDessusDePcible } from './AuDessusDePcible';
 import { AutreMotif } from './AutreMotif';
 import { Competitivite } from './Competitivite';

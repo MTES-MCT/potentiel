@@ -1,12 +1,12 @@
-import { ensureRole, getProjectAppelOffre, shouldUserAccessProject } from '@config';
+import { ensureRole, getProjectAppelOffre, shouldUserAccessProject } from '../../../config';
 
-import routes from '@routes';
+import routes from '../../../routes';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import { notFoundResponse, unauthorizedResponse } from '../../helpers';
 import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';
 
-import { DemanderDelaiPage } from '@views';
+import { DemanderDelaiPage } from '../../../views';
 import { Project } from '../../../infra/sequelize/projectionsNext';
 
 v1Router.get(

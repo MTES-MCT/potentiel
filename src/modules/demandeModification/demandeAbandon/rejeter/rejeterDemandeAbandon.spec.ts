@@ -1,23 +1,27 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 
-import { UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
-import { UserRole } from '@modules/users';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { UniqueEntityID } from '../../../../core/domain';
+import { okAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { UserRole } from '../../../users';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeRejeterDemandeAbandon } from './rejeterDemandeAbandon';
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon';
 import { StatutDemandeAbandon, statutsDemandeAbandon } from '../DemandeAbandon';
 import { RejeterDemandeAbandonError } from './RejeterDemandeAbandonError';
+import { FileObject } from '../../../file';
 
 describe(`Rejeter une demande d'abandon`, () => {
   const demandeAbandonId = 'id-demande';
   const fichierRéponse = { contents: Readable.from('test-content'), filename: 'fichier-réponse' };
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible de rejeter un abandon si non Admin/DGEC`, () => {
     describe(`Etant donné un utilisateur autre que Admin, DGEC`, () => {
@@ -62,7 +66,7 @@ describe(`Rejeter une demande d'abandon`, () => {
       Lorsqu'il rejette une demande avec comme statut '${statut}'
       Alors une erreur RefuserDemandeAbandonError devrait être retournée
       Et aucun évènement ne devrait être publié dans le store`, async () => {
-          const fileRepo = fakeRepo();
+          const fileRepo = fakeRepo<FileObject>();
           const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
             demandeAbandonRepo: fakeTransactionalRepo(
               makeFakeDemandeAbandon({ id: demandeAbandonId, statut }),
@@ -97,7 +101,7 @@ describe(`Rejeter une demande d'abandon`, () => {
       Lorsqu'il rejette une demande d'abandon avec comme statut '${statut}'
       Alors le courrier de réponse devrait être sauvegardé 
       Et l'évenement 'AbandonRejeté' devrait être publié dans le store`, async () => {
-          const fileRepo = fakeRepo();
+          const fileRepo = fakeRepo<FileObject>();
 
           const projetId = 'le-projet-de-la-demande';
 

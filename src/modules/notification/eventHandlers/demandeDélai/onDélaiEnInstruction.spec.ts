@@ -1,13 +1,15 @@
-import { okAsync } from '@core/utils';
-import { DélaiEnInstruction } from '@modules/demandeModification';
+import { describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
+import { DélaiEnInstruction } from '../../../demandeModification';
 import { makeOnDélaiEnInstruction } from './onDélaiEnInstruction';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest';
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest';
+import { NotificationService } from '../../NotificationService';
 
 describe(`Notifier lorsqu'un délai est accordé`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un délai est accordé
           Alors tous les porteurs ayant accès au projet devrait être notifié`, async () => {
-      const sendNotification = jest.fn();
+      const sendNotification = jest.fn<NotificationService['sendNotification']>();
       const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
         () =>
           okAsync({

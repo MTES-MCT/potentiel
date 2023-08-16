@@ -1,4 +1,4 @@
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 declare module 'express-serve-static-core' {
   // eslint-disable-next-line

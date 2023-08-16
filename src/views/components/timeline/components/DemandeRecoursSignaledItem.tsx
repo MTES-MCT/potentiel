@@ -1,4 +1,4 @@
-import { DownloadLink } from '@components';
+import { DownloadLink } from '../..';
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, UnvalidatedStepIcon, PastIcon } from '.';
 import { makeDocumentUrl } from '../helpers';

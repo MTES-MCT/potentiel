@@ -1,19 +1,20 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import {
   DemanderAbandonError,
   makeDemanderAbandon,
   NouveauCahierDesChargesNonChoisiError,
-} from '@modules/demandeModification';
-import { Project } from '@modules/project';
-import { Repository } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { FileObject } from '@modules/file';
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+} from '../..';
+import { Project } from '../../../project';
+import { Repository } from '../../../../core/domain';
+import { okAsync } from '../../../../core/utils';
+import { FileObject } from '../../../file';
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import { AppelOffreRepo } from '@dataAccess/inMemory';
+import { AppelOffreRepo } from '../../../../dataAccess/inMemory';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
-import { AppelOffre } from '@entities';
+import { AppelOffre } from '../../../../entities';
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates';
 
 describe('Commande demanderAbandon', () => {
@@ -33,7 +34,7 @@ describe('Commande demanderAbandon', () => {
 
   const fileRepo = {
     save: jest.fn(() => okAsync(null)),
-    load: jest.fn(),
+    load: jest.fn<Repository<FileObject>['load']>(),
   };
 
   const fakeFileContents = {
@@ -45,7 +46,9 @@ describe('Commande demanderAbandon', () => {
 
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Demande d'abandon impossible si le porteur n'a pas les droits sur le projet`, () => {
     describe(`Etant donné un porteur n'ayant pas les droits sur le projet`, () => {

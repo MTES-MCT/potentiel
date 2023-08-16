@@ -11,13 +11,13 @@ import {
   Th,
   Form,
   Link,
-} from '@components';
-import { FailedNotificationDTO } from '@modules/notification';
+} from '../components';
+import { FailedNotificationDTO } from '../../modules/notification';
 import { Request } from 'express';
 import React from 'react';
-import { PaginatedList } from '@modules/pagination';
+import { PaginatedList } from '../../modules/pagination';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
-import routes from '@routes';
+import routes from '../../routes';
 type EmailsEnErreurProps = {
   request: Request;
   notifications: PaginatedList<FailedNotificationDTO>;

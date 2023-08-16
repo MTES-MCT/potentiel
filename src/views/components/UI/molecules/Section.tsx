@@ -1,4 +1,4 @@
-import { Heading2 } from '@views/components';
+import { Heading2 } from '../..';
 import React, { ComponentProps } from 'react';
 
 type SectionProps = ComponentProps<'div'> & {

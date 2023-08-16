@@ -1,4 +1,4 @@
-import { Link } from '@components';
+import { Link } from '../..';
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon } from '.';
 import { ModificationReceivedItemProps } from '../helpers';

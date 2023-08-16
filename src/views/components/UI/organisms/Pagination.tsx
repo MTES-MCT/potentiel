@@ -75,7 +75,7 @@ const PageLink: FC<PageLinkProps> = ({ href, title, disabled, children }) => (
   <a
     className={`flex px-2 py-1 no-underline hover:no-underline focus:no-underline ${
       disabled
-        ? 'cursor-not-allowed !text-grey-625-base hover:!text-grey-625-base'
+        ? 'cursor-not-allowed !text-grey-425-base hover:!text-grey-425-base'
         : 'hover:bg-grey-1000-hover focus:no-underline !text-black hover:text-black'
     }`}
     title={title}

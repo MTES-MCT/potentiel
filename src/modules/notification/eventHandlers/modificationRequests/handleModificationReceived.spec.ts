@@ -1,11 +1,14 @@
-import { okAsync } from '@core/utils';
+import { describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
 import {
   GetProjectInfoForModificationReceivedNotification,
   ModificationReceived,
-} from '@modules/modificationRequest';
-import routes from '@routes';
-import { User } from '@entities';
+} from '../../../modificationRequest';
+import routes from '../../../../routes';
+import { User } from '../../../../entities';
 import { handleModificationReceived } from './handleModificationReceived';
+import { NotificationService } from '../../NotificationService';
+import { UserRepo } from '../../../../dataAccess';
 
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {
   const modificationRequestId = 'id-demande';
@@ -16,7 +19,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       Lorsque l'un des porteurs informe le préfet d'une modification du projet
       Alors tous les porteurs ayant accès au projet devraient être notifiés
       Et tous les agents des DREALs rattachées au projet devraient être notifiés`, async () => {
-      const sendNotification = jest.fn();
+      const sendNotification = jest.fn<NotificationService['sendNotification']>();
 
       const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
         () =>
@@ -171,7 +174,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
   describe(`Lorsque la modification est de type "fournisseur"`, () => {
     it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieure à la tolérance
         Alors une section alerte ne devrait pas être ajoutée à la notification`, async () => {
-      const sendNotification = jest.fn();
+      const sendNotification = jest.fn<NotificationService['sendNotification']>();
 
       const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
         () =>
@@ -188,7 +191,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       await handleModificationReceived({
         sendNotification,
         getProjectInfoForModificationReceivedNotification,
-        findUsersForDreal: jest.fn(),
+        findUsersForDreal: jest.fn<UserRepo['findUsersForDreal']>(),
       })(
         new ModificationReceived({
           payload: {
@@ -214,7 +217,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
 
     it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieur à la tolérance
         Alors une section alerte devrait être ajoutée à la notification`, async () => {
-      const sendNotification = jest.fn();
+      const sendNotification = jest.fn<NotificationService['sendNotification']>();
 
       const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
         () =>
@@ -235,7 +238,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       await handleModificationReceived({
         sendNotification,
         getProjectInfoForModificationReceivedNotification,
-        findUsersForDreal: jest.fn(),
+        findUsersForDreal: jest.fn<UserRepo['findUsersForDreal']>(),
       })(
         new ModificationReceived({
           payload: {

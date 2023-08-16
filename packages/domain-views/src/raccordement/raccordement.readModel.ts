@@ -3,7 +3,7 @@ import { RawIdentifiantProjet, RawRéférenceDossierRaccordement } from '@potent
 import { Readable } from 'stream';
 
 export type DossierRaccordementReadModelKey =
-  `dossier-raccordement#${RawIdentifiantProjet}#${RawRéférenceDossierRaccordement}`;
+  `dossier-raccordement|${RawIdentifiantProjet}#${RawRéférenceDossierRaccordement}`;
 
 export type LegacyDossierRaccordementReadModel = ReadModel<
   'dossier-raccordement',

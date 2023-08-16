@@ -1,11 +1,11 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { ListerProjets } from '@modules/project';
+import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.config';
+import { ListerProjets } from '../../../../../../modules/project';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Op } from 'sequelize';
-import { UserDreal, Project, File } from '@infra/sequelize/projectionsNext';
-import { logger } from '@core/utils';
+import { UserDreal, Project, File } from '../../../../projectionsNext';
+import { logger } from '../../../../../../core/utils';
 
 const attributes = [
   'id',

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { ContentArea, CurrentIcon, ItemDate, ItemTitle, PastIcon } from '.';
-import ROUTES from '@routes';
+import ROUTES from '../../../../routes';
 import { InfoItem } from './InfoItem';
 import { WarningItem } from './WarningItem';
 import { WarningIcon } from './WarningIcon';
-import { GarantiesFinancièresDTO, ProjectStatus } from '@modules/frise';
+import { GarantiesFinancièresDTO, ProjectStatus } from '../../../../modules/frise';
 import { format } from 'date-fns';
-import { UserRole } from '@modules/users';
+import { UserRole } from '../../../../modules/users';
 
 import {
   PrimaryButton,
@@ -19,8 +19,8 @@ import {
   Dropdown,
   Link,
   Form,
-} from '@components';
-import { afficherDate } from '@views/helpers';
+} from '../..';
+import { afficherDate } from '../../../helpers';
 
 type ComponentProps = GarantiesFinancièresDTO & {
   project: {
@@ -53,7 +53,7 @@ const rolesAutorisés = [
   'cre',
   'dgec-validateur',
 ] as const;
-const utilisateurPeutModifierLesGF = (role: UserRole): role is typeof rolesAutorisés[number] => {
+const utilisateurPeutModifierLesGF = (role: UserRole): role is (typeof rolesAutorisés)[number] => {
   return (rolesAutorisés as readonly string[]).includes(role);
 };
 
@@ -137,7 +137,7 @@ type FormulaireProps = {
   projetId: string;
   garantieFinanciereEnMois?: number;
   action: 'soumettre' | 'enregistrer';
-  role: typeof rolesAutorisés[number];
+  role: (typeof rolesAutorisés)[number];
   dateEchéance: number | undefined;
 };
 const Formulaire = ({

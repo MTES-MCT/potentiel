@@ -1,13 +1,12 @@
-import { Project } from '@entities';
-import ROUTES from '@routes';
+import { Project } from '../../../../entities';
+import ROUTES from '../../../../routes';
 import {
-  isCertificateDTO,
   is,
   ProjectCertificateDTO,
   ProjectEventDTO,
   ProjectStatus,
-} from '@modules/frise';
-import { UserRole } from '@modules/users';
+} from '../../../../modules/frise';
+import { UserRole } from '../../../../modules/users';
 import { or } from '../../../../core/utils';
 
 export type DesignationItemProps = {
@@ -27,6 +26,12 @@ export type DesignationItemProps = {
     | undefined;
 };
 
+export const isCertificateGeneratedDTO = or(
+  is('ProjectCertificateGenerated'),
+  is('ProjectCertificateRegenerated'),
+  is('ProjectCertificateUpdated'),
+);
+
 export const extractDesignationItemProps = (
   events: ProjectEventDTO[],
   projectId: Project['id'],
@@ -38,7 +43,9 @@ export const extractDesignationItemProps = (
   if (!lastProjectDesignationEvent) return null;
   const { variant: role, date } = lastProjectDesignationEvent;
 
-  const certificateEvent = events.filter(isCertificateDTO).pop();
+  const certificateEvent =
+    events.filter(isCertificateGeneratedDTO).pop() ?? events.filter(is('ProjectClaimed')).pop();
+
   if (certificateEvent) {
     return {
       type: 'designation',

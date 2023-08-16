@@ -1,6 +1,11 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, logger, okAsync, wrapInfra } from '@core/utils';
-import { User, formatCahierDesChargesRéférence } from '@entities';
+import {
+  EventBus,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '../../../core/domain';
+import { errAsync, logger, okAsync, wrapInfra } from '../../../core/utils';
+import { User, formatCahierDesChargesRéférence } from '../../../entities';
 import { FileContents, FileObject, makeAndSaveFile } from '../../file';
 import { Fournisseur } from '../../project';
 import { Project } from '../../project/Project';

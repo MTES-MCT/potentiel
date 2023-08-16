@@ -6,7 +6,7 @@ import {
   DélaiEnInstruction,
   DélaiRejeté,
   RejetDélaiAnnulé,
-} from '@modules/demandeModification';
+} from '../../../modules/demandeModification';
 import {
   makeOnDélaiAccordé,
   makeOnDélaiAnnulé,
@@ -14,7 +14,7 @@ import {
   makeOnDélaiRejeté,
   makeOnRejetDélaiAnnulé,
   makeOnDélaiEnInstruction,
-} from '@modules/notification';
+} from '../../../modules/notification';
 import { sendNotification } from '../../emails.config';
 import {
   getModificationRequestInfoForStatusNotification,

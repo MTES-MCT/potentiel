@@ -1,15 +1,16 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { PuissanceJustificationEtCourrierManquantError } from './PuissanceJustificationEtCourrierManquantError';
-import { DomainEvent, Repository } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { makeUser } from '@entities';
+import { DomainEvent, Repository } from '../../../../core/domain';
+import { okAsync } from '../../../../core/utils';
+import { makeUser } from '../../../../entities';
 import { UnwrapForTest } from '../../../../types';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import { FileObject } from '@modules/file';
-import { Project } from '@modules/project';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
-import { ModificationReceived, ModificationRequested } from '@modules/modificationRequest/events';
+import { FileObject } from '../../../file';
+import { Project } from '../../../project';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { ModificationReceived, ModificationRequested } from '../../../modificationRequest/events';
 import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance';
 
 describe('Commande requestPuissanceModification', () => {

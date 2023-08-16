@@ -1,7 +1,11 @@
-import { UniqueEntityID } from '@core/domain';
-import { ProjectCertificateUpdated, ProjectCertificateUpdatedPayload } from '@modules/project';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
+import {
+  ProjectCertificateUpdated,
+  ProjectCertificateUpdatedPayload,
+} from '../../../../../modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { ProjectEvent } from '../..';
 import onProjectCertificateUpdated from './onProjectCertificateUpdated';
 
 describe('onProjectCertificateUpdated', () => {

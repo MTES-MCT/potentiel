@@ -4,7 +4,6 @@ export * from './aggregateFactory';
 export * from './loadAggregate';
 export * from './domainError';
 export * from './domainEvent';
-export * from './domainEventHandler';
 export * from './publish';
 export * from './subscribe';
 export * from './readModel';

@@ -1,15 +1,10 @@
-import { AnnulationAbandonAccordée } from '@modules/demandeModification';
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import {
-  AbandonProjetAnnulé,
-  Project,
-  ProjectGFDueDateSet,
-  ProjectGFRemoved,
-} from '@modules/project';
+import { AnnulationAbandonAccordée } from '../../demandeModification';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
+import { AbandonProjetAnnulé, Project, ProjectGFDueDateSet, ProjectGFRemoved } from '..';
 import add from 'date-fns/add';
 import { okAsync } from 'neverthrow';
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { logger } from '@core/utils';
+import { GetProjectAppelOffre } from '../../projectAppelOffre';
+import { logger } from '../../../core/utils';
 
 type Evènement = AnnulationAbandonAccordée;
 

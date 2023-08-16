@@ -1,8 +1,9 @@
-import { okAsync } from '@core/utils';
-import { makeUser } from '@entities';
-import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
-import { USER_ROLES } from '@modules/users';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
+import { makeUser } from '../../../../entities';
+import { StatutRéponseIncompatibleAvecAnnulationError } from '../../errors';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { USER_ROLES } from '../../../users';
 import { UnwrapForTest } from '../../../../types';
 import {
   fakeTransactionalRepo,
@@ -13,7 +14,9 @@ import { makeAnnulerRejetAbandon } from './annulerRejetAbandon';
 
 describe(`Pouvoir annuler le rejet d'un abandon`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Annulation impossible si l'utilisateur n'a pas le rôle 'admin' ou 'dgec-validateur'`, () => {
     const rôlesNePouvantPasAnnulerLeRejetDeLAbandon = USER_ROLES.filter(

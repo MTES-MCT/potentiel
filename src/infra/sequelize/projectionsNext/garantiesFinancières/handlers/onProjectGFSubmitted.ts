@@ -1,10 +1,10 @@
-import { logger } from '@core/utils';
-import { ProjectGFSubmitted } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '../../../../../core/utils';
+import { ProjectGFSubmitted } from '../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import { Project } from '../../project/project.model';
-import { UniqueEntityID } from '@core/domain';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { getProjectAppelOffre } from '../../../../../config/queryProjectAO.config';
 import { EventHandler } from '../../eventHandler';
 
 export const onProjectGFSubmitted: EventHandler<ProjectGFSubmitted> = async (

@@ -1,8 +1,8 @@
 import { ProjectEvent } from '../../projectEvent.model';
 import { ProjectEventProjector } from '../../projectEvent.projector';
 import { AnnulationAbandonAnnulée } from '../../../../../../modules/demandeModification';
-import { ProjectionEnEchec } from '@modules/shared';
-import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '../../../../../../modules/shared';
+import { logger } from '../../../../../../core/utils';
 
 export default ProjectEventProjector.on(
   AnnulationAbandonAnnulée,

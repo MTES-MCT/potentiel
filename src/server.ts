@@ -10,7 +10,6 @@ import { isDevEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap } from '@potentiel/web';
-import { Project } from '@infra/sequelize';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -19,7 +18,7 @@ const FILE_SIZE_LIMIT_MB = 50;
 
 export async function makeServer(port: number, sessionSecret: string) {
   try {
-    await bootstrap({ projectRepository: Project });
+    await bootstrap();
     const app = express();
 
     // Always first middleware
@@ -106,7 +105,7 @@ export async function makeServer(port: number, sessionSecret: string) {
       const server = app.listen(port, () => {
         process.env.start_datetime = new Date().getTime().toString();
         logger.info(`Server listening on port ${port}!`);
-        logger.info(`NODE_ENV is ${process.env.NODE_ENV}`);
+        logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
         logger.info(`Version ${process.env.npm_package_version}`);
         resolve(server);
       });

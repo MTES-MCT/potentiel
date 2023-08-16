@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
-import { UserProjectsLinkedByContactEmail } from '@modules/authZ/events';
-import { ProjectionEnEchec } from '@modules/shared/errors';
-import { User, UserProjects } from '@infra/sequelize/projectionsNext';
+import { logger } from '../../../../../core/utils';
+import { UserProjectsLinkedByContactEmail } from '../../../../../modules/authZ/events';
+import { ProjectionEnEchec } from '../../../../../modules/shared/errors';
+import { User, UserProjects } from '../..';
 import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(

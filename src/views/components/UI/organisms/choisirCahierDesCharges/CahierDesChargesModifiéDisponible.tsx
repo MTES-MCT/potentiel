@@ -1,6 +1,6 @@
 import React from 'react';
-import { ExternalLink } from '@components';
-import { CahierDesChargesModifié } from '@entities/cahierDesCharges';
+import { ExternalLink } from '../../..';
+import { CahierDesChargesModifié } from '../../../../../entities/cahierDesCharges';
 
 type CahierDesChargesModifiéDisponibleProps = CahierDesChargesModifié;
 

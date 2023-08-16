@@ -11,12 +11,12 @@ import {
   Th,
   Form,
   Link,
-} from '@components';
-import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
-import routes from '@routes';
+} from '../components';
+import { PendingCandidateInvitationDTO } from '../../modules/notificationCandidats';
+import routes from '../../routes';
 import { Request } from 'express';
 import React from 'react';
-import { PaginatedList } from '@modules/pagination';
+import { PaginatedList } from '../../modules/pagination';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 
 interface InvitationsCandidatsEnAttenteProps {

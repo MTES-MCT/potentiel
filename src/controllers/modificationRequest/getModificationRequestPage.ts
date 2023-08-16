@@ -1,15 +1,19 @@
-import { ensureRole, getModificationRequestDetails } from '@config';
-import { logger } from '@core/utils';
-import { EntityNotFoundError } from '@modules/shared';
-import { DemandeAbandonPage, DemandeAnnulationAbandonPage, ModificationRequestPage } from '@views';
-import routes from '@routes';
-import { shouldUserAccessProject } from '@config/useCases.config';
-import { getModificationRequestAuthority } from '@infra/sequelize/queries';
+import { ensureRole, getModificationRequestDetails } from '../../config';
+import { logger } from '../../core/utils';
+import { EntityNotFoundError } from '../../modules/shared';
+import {
+  DemandeAbandonPage,
+  DemandeAnnulationAbandonPage,
+  ModificationRequestPage,
+} from '../../views';
+import routes from '../../routes';
+import { shouldUserAccessProject } from '../../config/useCases.config';
+import { getModificationRequestAuthority } from '../../infra/sequelize/queries';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest } from '../../infra/sequelize/projectionsNext';
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),
@@ -39,18 +43,20 @@ v1Router.get(
       });
     }
 
-    if (user.role === 'dreal') {
-      const authority = await getModificationRequestAuthority(modificationRequestId);
-
-      if (authority && authority !== user.role) {
-        return unauthorizedResponse({ request, response });
-      }
-    }
+    const authority = await getModificationRequestAuthority(modificationRequestId);
 
     const modificationRequestResult = await getModificationRequestDetails(modificationRequestId);
 
     return modificationRequestResult.match(
       (modificationRequest) => {
+        if (
+          user?.role === 'dreal' &&
+          authority !== 'dreal' &&
+          modificationRequest.type !== 'abandon'
+        ) {
+          return unauthorizedResponse({ request, response });
+        }
+
         if (modificationRequest.type === 'abandon') {
           return response.send(DemandeAbandonPage({ request, modificationRequest }));
         }

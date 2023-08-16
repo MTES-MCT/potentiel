@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProjectActions } from './ProjectActions';
-import { ProjectDataForProjectPage } from '@modules/project';
-import { User } from '@entities';
+import { ProjectDataForProjectPage } from '../../../../modules/project';
+import { User } from '../../../../entities';
 
 export default { title: 'Components/ProjectDetailsPage/ProjectActions' };
 

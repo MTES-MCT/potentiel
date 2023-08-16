@@ -1,8 +1,8 @@
 import React from 'react';
-import routes from '@routes';
+import routes from '../../../../routes';
 import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 export const UserNavigation = ({
   user,

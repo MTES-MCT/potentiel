@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
+import { BaseDomainEvent, DomainEvent } from '../../../../core/domain';
 
 export type AbandonRejetéPayload = {
   demandeAbandonId: string;

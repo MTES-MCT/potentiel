@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -10,16 +10,16 @@ import {
   Link,
   PageProjetTemplate,
   Form,
-  DownloadLink,
   LabelDescription,
-} from '@components';
+  InputFile,
+} from '../../../components';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
-  ConsulterProjetReadModel,
+  ProjetReadModel,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
-import routes from '@routes';
+import routes from '../../../../routes';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 import {
@@ -29,7 +29,7 @@ import {
 
 type ModifierDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
   gestionnaireRéseauActuel: GestionnaireRéseauReadModel;
@@ -63,7 +63,9 @@ export const ModifierDemandeComplèteRaccordement = ({
         >
           <Heading2>Modifier une demande complète de raccordement</Heading2>
 
-          <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+          <p className="text-sm italic m-0">
+            Sauf mention contraire “(optionnel)” dans le label, tous les champs sont obligatoires
+          </p>
 
           {error && <ErrorBox>{error}</ErrorBox>}
 
@@ -103,17 +105,15 @@ export const ModifierDemandeComplèteRaccordement = ({
             <Label htmlFor="file">
               Accusé de réception de la demande complète de raccordement **
             </Label>
-            <Input type="file" id="file" name="file" required />
-            {accuséRéception?.format && (
-              <DownloadLink
-                fileUrl={routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(
-                  identifiantProjet,
-                  référence,
-                )}
-              >
-                Accusé de réception de la demande complète de raccordement
-              </DownloadLink>
-            )}
+            <InputFile
+              id="file"
+              name="file"
+              fileUrl={
+                accuséRéception?.format
+                  ? routes.GET_DEMANDE_COMPLETE_RACCORDEMENT_FILE(identifiantProjet, référence)
+                  : undefined
+              }
+            />
           </div>
 
           <div>
@@ -137,6 +137,7 @@ export const ModifierDemandeComplèteRaccordement = ({
             </Link>
           </div>
         </Form>
+
         <InfoBoxFormulaireDCR delaiDemandeDeRaccordementEnMois={delaiDemandeDeRaccordementEnMois} />
       </div>
     </PageProjetTemplate>

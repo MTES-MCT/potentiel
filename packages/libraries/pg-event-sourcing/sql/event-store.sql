@@ -12,6 +12,9 @@ create table event_store.event_stream (
 
 create index on event_store.event_stream (stream_id);
 
+insert into event_store.event_stream(stream_id, created_at, type, version, payload)
+select split_part("streamId", '#', 1) || '|' || split_part("streamId", split_part("streamId", '#', 1) || '#', 2), "createdAt", "type", "version", "payload" from "EVENT_STREAM";
+
 create table event_store.subscriber (
   subscriber_id varchar not null primary key,
   filter jsonb default null
@@ -52,7 +55,6 @@ begin
         perform pg_notify('error_notifications', v_error_msg::text);
     end;
   end loop;
-
   return new;
 end;
 $$ language plpgsql;
@@ -62,7 +64,6 @@ create trigger notify_subscribers_trigger
 after insert on event_store.event_stream
 for each row
 execute function event_store.notify_subscribers();
-
 
 create function event_store.throw_when_trying_to_update_event() returns void as
 $$
@@ -89,40 +90,6 @@ $$
       return new;
   end;
 $$ language plpgsql;
-
-create function insert_into_event_store()
-    returns trigger as
-$$
-    begin
-        insert into event_store.event_stream (stream_id, created_at, type, version, payload) values (split_part(new."streamId", '#', 1) || '|' || split_part(new."streamId", split_part(new."streamId", '#', 1) || '#', 2), new."createdAt", new."type", new."version", new."payload");
-        return new;
-    end;
-$$ language plpgsql;
-
-create trigger insert_into_event_store_trigger
-after insert
-on "EVENT_STREAM"
-for each row
-execute procedure insert_into_event_store();
-
--- System projections
-create schema system_projections;
-
-create view system_projections.stream_info as
-    select
-        split_part(event_stream.stream_id, '|', 1) category,
-        split_part(event_stream.stream_id, '|', 2) id,
-        min(event_stream.created_at) created_at,
-        max(event_stream.created_at) updated_at,
-        count(event_stream.stream_id) event_count
-    from event_store.event_stream
-    group by
-        category,
-        id
-    order by updated_at desc;
-
-create view system_projections.stream_category as
-    select category, count(id) from system_projections.stream_info group by category order by category;
 
 -- Rebuild
 create procedure event_store.rebuild(
@@ -157,6 +124,3 @@ $$
     end if;
   end
 $$ language plpgsql;
-
--- insert into event_store.event_stream(stream_id, created_at, type, version, payload)
--- select split_part("streamId", '#', 1) || '|' || split_part("streamId", split_part("streamId", '#', 1) || '#', 2), "createdAt", "type", "version", "payload" from "EVENT_STREAM";

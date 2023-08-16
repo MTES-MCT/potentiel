@@ -1,4 +1,4 @@
-import { ProjectEventDTO, ProjectStatus } from '@modules/frise';
+import { ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 
 export type CAItemProps = {
   type: 'contrat-achat';

@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@core/domain';
-import { ProjectClaimed } from '@modules/projectClaim';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ProjectClaimed } from '../../../../../modules/projectClaim';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

@@ -1,7 +1,7 @@
-import { err, ok, wrapInfra } from '@core/utils';
-import { GetProjectDataForProjectClaim } from '@modules/project';
-import { EntityNotFoundError } from '@modules/shared';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { err, ok, wrapInfra } from '../../../../core/utils';
+import { GetProjectDataForProjectClaim } from '../../../../modules/project';
+import { EntityNotFoundError } from '../../../../modules/shared';
+import { Project } from '../../projectionsNext';
 
 export const getProjectDataForProjectClaim: GetProjectDataForProjectClaim = (projectId) => {
   return wrapInfra(Project.findByPk(projectId)).andThen((projectRaw: any) => {

@@ -20,12 +20,12 @@ export const registerGestionnaireRéseauProjector = ({
   const handler: MessageHandler<ExecuteGestionnaireRéseauProjector> = async (event) => {
     switch (event.type) {
       case 'GestionnaireRéseauAjouté':
-        await create<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${event.payload.codeEIC}`, {
+        await create<GestionnaireRéseauReadModel>(`gestionnaire-réseau|${event.payload.codeEIC}`, {
           ...event.payload,
         });
         break;
       case 'GestionnaireRéseauModifié':
-        await update<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${event.payload.codeEIC}`, {
+        await update<GestionnaireRéseauReadModel>(`gestionnaire-réseau|${event.payload.codeEIC}`, {
           ...event.payload,
         });
     }

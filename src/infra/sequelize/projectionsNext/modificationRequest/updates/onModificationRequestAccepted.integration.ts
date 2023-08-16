@@ -1,11 +1,12 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
 import { onModificationRequestAccepted } from './onModificationRequestAccepted';
 import {
   ModificationRequestAcceptanceParams,
   ModificationRequestAccepted,
-} from '@modules/modificationRequest';
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+} from '../../../../../modules/modificationRequest';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ModificationRequest } from '../..';
 
 describe('modificationRequest.onModificationRequestAccepted', () => {
   const modificationRequestId = new UniqueEntityID().toString();

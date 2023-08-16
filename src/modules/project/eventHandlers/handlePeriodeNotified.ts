@@ -1,10 +1,10 @@
-import { TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { logger, okAsync } from '@core/utils';
+import { TransactionalRepository, UniqueEntityID } from '../../../core/domain';
+import { logger, okAsync } from '../../../core/utils';
 import { PeriodeNotified } from '../events/PeriodeNotified';
 import { GenerateCertificate } from '../useCases/generateCertificate';
 import { Project } from '../Project';
 import { GetUnnotifiedProjectsForPeriode } from '../queries';
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { GetProjectAppelOffre } from '../../projectAppelOffre';
 
 export const handlePeriodeNotified =
   (deps: {

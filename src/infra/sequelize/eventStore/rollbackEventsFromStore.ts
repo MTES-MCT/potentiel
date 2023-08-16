@@ -1,4 +1,4 @@
-import { MakeEventStoreDeps, wrapInfra } from '@core/utils';
+import { MakeEventStoreDeps, wrapInfra } from '../../../core/utils';
 import { sequelizeInstance } from '../../../sequelize.config';
 import models from '../models';
 const { EventStore } = models;

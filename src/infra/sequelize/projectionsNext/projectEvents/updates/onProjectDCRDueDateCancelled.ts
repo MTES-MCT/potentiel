@@ -1,4 +1,4 @@
-import { ProjectDCRDueDateCancelled, ProjectDCRDueDateSet } from '@modules/project';
+import { ProjectDCRDueDateCancelled, ProjectDCRDueDateSet } from '../../../../../modules/project';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

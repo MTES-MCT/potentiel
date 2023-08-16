@@ -1,10 +1,10 @@
-import { ensureRole, getProjectAppelOffre, shouldUserAccessProject } from '@config';
+import { ensureRole, getProjectAppelOffre, shouldUserAccessProject } from '../../../config';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
-import routes from '@routes';
+import routes from '../../../routes';
 import { notFoundResponse, unauthorizedResponse } from '../../helpers';
 import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';
-import { DemanderChangementPuissancePage } from '@views';
+import { DemanderChangementPuissancePage } from '../../../views';
 import { Project } from '../../../infra/sequelize/projectionsNext';
 
 v1Router.get(

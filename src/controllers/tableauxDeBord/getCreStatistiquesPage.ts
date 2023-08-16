@@ -1,10 +1,10 @@
 import asyncHandler from '../helpers/asyncHandler';
 import jwt from 'jsonwebtoken';
-import { logger } from '@core/utils';
-import routes from '@routes';
+import { logger } from '../../core/utils';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
-import { ensureRole } from '@config';
-import { CreStatistiquesPage } from '@views';
+import { ensureRole } from '../../config';
+import { CreStatistiquesPage } from '../../views';
 
 const { METABASE_SECRET_KEY, METABASE_SITE_URL } = process.env;
 

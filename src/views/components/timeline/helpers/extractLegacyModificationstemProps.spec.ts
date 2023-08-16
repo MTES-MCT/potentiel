@@ -1,9 +1,10 @@
+import { describe, expect, it } from '@jest/globals';
 import {
   LegacyModificationFileAttachedDTO,
   LegacyModificationImportedDTO,
   ProjectEventDTO,
   ProjectNotifiedDTO,
-} from '@modules/frise';
+} from '../../../../modules/frise';
 import { extractLegacyModificationsItemProps } from './extractLegacyModificationsItemProps';
 
 describe('extractLegacyModificationsItemProps', () => {

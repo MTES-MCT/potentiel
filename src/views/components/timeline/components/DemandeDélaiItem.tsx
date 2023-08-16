@@ -1,5 +1,5 @@
-import { Link } from '@components';
-import { DemandeDélaiDTO } from '@modules/frise/dtos';
+import { Link } from '../..';
+import { DemandeDélaiDTO } from '../../../../modules/frise/dtos';
 import { format } from 'date-fns';
 import React from 'react';
 import {

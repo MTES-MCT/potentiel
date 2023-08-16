@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
-import { AppelOffre, Famille, Periode, Project } from '@entities';
-import { PaginatedList } from '@modules/pagination';
+import { AppelOffre, Famille, Periode, Project } from '../../entities';
+import { PaginatedList } from '../../modules/pagination';
 import {
   BarreDeRecherche,
   Dropdown,
@@ -18,9 +18,9 @@ import {
   Fieldset,
   Form,
   Link,
-} from '@components';
+} from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
-import routes from '@routes';
+import routes from '../../routes';
 
 interface ProjetsÀRéclamerProps {
   request: Request;

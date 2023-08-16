@@ -14,12 +14,12 @@ export type ProjetProjectorDependencies = {
 
 export const registerProjetProjector = ({ create, update, find }: ProjetProjectorDependencies) => {
   const handler: MessageHandler<ExecuteProjetProjector> = async (event) => {
-    const key: ProjetReadModelKey = `projet#${
+    const key: ProjetReadModelKey = `projet|${
       event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
     }`;
     switch (event.type) {
       case 'GestionnaireRéseauProjetDéclaré':
-        await create<ProjetReadModel>(key, {
+        await create<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {
           identifiantGestionnaire: {
             codeEIC: event.payload.identifiantGestionnaireRéseau,
           },
@@ -29,13 +29,13 @@ export const registerProjetProjector = ({ create, update, find }: ProjetProjecto
         const projet = await find<ProjetReadModel>(key);
 
         if (isNone(projet)) {
-          await create<ProjetReadModel>(key, {
+          await create<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {
             identifiantGestionnaire: {
               codeEIC: event.payload.identifiantGestionnaireRéseau,
             },
           });
         } else {
-          await update<ProjetReadModel>(key, {
+          await update<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {
             identifiantGestionnaire: {
               codeEIC: event.payload.identifiantGestionnaireRéseau,
             },

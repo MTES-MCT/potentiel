@@ -4,9 +4,9 @@ import {
   ensureRole,
   rejectModificationRequest,
   requestConfirmation,
-} from '@config';
-import { logger } from '@core/utils';
-import { getModificationRequestAuthority } from '@infra/sequelize/queries';
+} from '../../config';
+import { logger } from '../../core/utils';
+import { getModificationRequestAuthority } from '../../infra/sequelize/queries';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
@@ -14,13 +14,13 @@ import {
   ModificationRequestAcceptanceParams,
   ProjetDéjàClasséError,
   PuissanceVariationWithDecisionJusticeError,
-} from '@modules/modificationRequest';
+} from '../../modules/modificationRequest';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '@modules/shared';
-import routes from '@routes';
+} from '../../modules/shared';
+import routes from '../../routes';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';

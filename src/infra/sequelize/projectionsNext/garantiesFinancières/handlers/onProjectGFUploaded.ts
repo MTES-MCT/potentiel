@@ -1,10 +1,10 @@
-import { logger } from '@core/utils';
-import { ProjectGFUploaded } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '../../../../../core/utils';
+import { ProjectGFUploaded } from '../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
-import { UniqueEntityID } from '@core/domain';
-import { Project } from '@infra/sequelize/projectionsNext';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { Project } from '../..';
+import { getProjectAppelOffre } from '../../../../../config/queryProjectAO.config';
 import { EventHandler } from '../../eventHandler';
 
 export const onProjectGFUploaded: EventHandler<ProjectGFUploaded> = async (

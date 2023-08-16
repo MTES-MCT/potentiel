@@ -1,9 +1,9 @@
 import { Project } from '..';
-import { TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { LegacyModificationImported } from '../../modificationRequest';
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { ProjectionEnEchec } from '@modules/shared';
-import { err } from '@core/utils';
+import { GetProjectAppelOffre } from '../../projectAppelOffre';
+import { ProjectionEnEchec } from '../../shared';
+import { err } from '../../../core/utils';
 
 type HandleLegacyModificationImportedDependencies = {
   projectRepo: TransactionalRepository<Project>;

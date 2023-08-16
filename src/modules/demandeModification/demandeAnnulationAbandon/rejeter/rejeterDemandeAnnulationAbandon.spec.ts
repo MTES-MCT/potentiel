@@ -1,9 +1,10 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
-import { USER_ROLES } from '@modules/users';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { okAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { USER_ROLES } from '../../../users';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeRejeterDemandeAnnulationAbandon } from './rejeterDemandeAnnulationAbandon';
@@ -12,16 +13,19 @@ import {
   statutsDemandeAnnulationAbandon,
 } from '../DemandeAnnulationAbandon';
 import { StatutIncompatiblePourRejeterDemandeAnnulationAbandonError } from './StatutIncompatiblePourRejeterDemandeAnnulationAbandonError';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../../core/domain';
+import { FileObject } from '../../../file';
 
 describe(`Rejeter une annulation d'abandon`, () => {
   const demandeId = 'id-demande';
   const fichierRéponse = { contents: Readable.from('test-content'), filename: 'fichier-réponse' };
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
-  const fileRepo = fakeRepo();
+  const fileRepo = fakeRepo<FileObject>();
   const projetId = 'le-projet-de-la-demande';
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible si le rôle de l'utilisateur n'est pas Admin ou DGEC`, () => {
     const rolesNePouvantPasRefuser = USER_ROLES.filter(

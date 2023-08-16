@@ -25,7 +25,7 @@ const {
   POSTGRESQL_ADDON_USER,
   POSTGRESQL_ADDON_PASSWORD,
   POSTGRESQL_POOL_MAX,
-  NODE_ENV,
+  APPLICATION_STAGE,
   DATABASE_URL,
 } = process.env;
 
@@ -46,7 +46,7 @@ let databaseOptions: Options = {
   logging: false,
 };
 
-if (NODE_ENV === 'test') {
+if (APPLICATION_STAGE === 'test') {
   databaseOptions = {
     dialect: 'postgres',
     host: 'localhost',

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import { Permission } from '@modules/authN';
-import routes from '@routes';
-import { AccèsNonAutoriséPage } from '@views';
+import { Permission } from '../../modules/authN';
+import routes from '../../routes';
+import { AccèsNonAutoriséPage } from '../../views';
 
 export const vérifierPermissionUtilisateur =
   (permission: Permission): RequestHandler =>

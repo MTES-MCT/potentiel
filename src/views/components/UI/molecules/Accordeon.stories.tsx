@@ -5,7 +5,7 @@ export default {
   title: 'Components/Molecules/Accordeon',
   component: Accordeon,
   argTypes: {
-    buttonChildren: { control: 'text' },
+    title: { control: 'text' },
     children: { control: 'text' },
   },
 };
@@ -14,7 +14,7 @@ const Template = (args: Parameters<typeof Accordeon>[0]) => <Accordeon {...args}
 
 export const Default = Template.bind({});
 Default.args = {
-  buttonChildren: `Exemple d'accordéon`,
+  title: `Exemple d'accordéon`,
   children: (
     <>
       <h2>Contenu</h2>

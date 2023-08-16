@@ -1,8 +1,9 @@
-import { UniqueEntityID } from '@core/domain';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
 import { onModificationRequestCancelled } from './onModificationRequestCancelled';
-import { ModificationRequestCancelled } from '@modules/modificationRequest';
-import { resetDatabase } from '@dataAccess';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { ModificationRequestCancelled } from '../../../../../modules/modificationRequest';
+import { resetDatabase } from '../../../../../dataAccess';
+import { ModificationRequest } from '../..';
 
 describe(`Projection de l'annulation d'une demande`, () => {
   const modificationRequestId = new UniqueEntityID().toString();

@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import React from 'react';
-import { User } from '@entities';
-import ROUTES from '@routes';
+import { User } from '../../../entities';
+import ROUTES from '../../../routes';
 import {
   PrimaryButton,
   Input,
@@ -18,7 +18,7 @@ import {
   Td,
   Th,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
 type PartnersListProps = {

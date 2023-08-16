@@ -1,4 +1,4 @@
-import { userRepo } from '@dataAccess';
+import { userRepo } from '../../../../../dataAccess';
 
 export const getDreals = async () => {
   const drealUsers = await userRepo.findAll({ role: 'dreal' });

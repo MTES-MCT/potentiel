@@ -1,10 +1,10 @@
 import type { Request } from 'express';
 import React from 'react';
-import routes from '@routes';
+import routes from '../../../routes';
 import { Header, Footer, ArrowRightWithCircle } from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components';
-import { App } from '@views';
+import { App } from '../..';
 
 type HomeProps = {
   request: Request;

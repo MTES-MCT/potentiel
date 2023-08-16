@@ -1,4 +1,4 @@
-import { ProjectAppelOffre, Technologie } from '@entities';
+import { ProjectAppelOffre, Technologie } from '../../../entities';
 
 export const getDelaiDeRealisation = (
   appelOffre: ProjectAppelOffre,

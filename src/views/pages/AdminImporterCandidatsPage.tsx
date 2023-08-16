@@ -1,5 +1,5 @@
 import React from 'react';
-import ROUTES from '@routes';
+import ROUTES from '../../routes';
 import { Request } from 'express';
 import {
   PrimaryButton,
@@ -10,7 +10,7 @@ import {
   LegacyPageTemplate,
   SuccessBox,
   Form,
-} from '@components';
+} from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type AdminImporterCandidatsProps = {
@@ -52,7 +52,7 @@ export const AdminImporterCandidats = ({
 
         <div>
           <Label htmlFor="candidats">Fichier csv des candidats</Label>
-          <Input type="file" name="candidats" id="candidats" required />
+          <Input type="file" name="candidats" id="candidats" required accept=".csv" />
         </div>
         <PrimaryButton type="submit" name="submit" id="submit">
           Envoyer

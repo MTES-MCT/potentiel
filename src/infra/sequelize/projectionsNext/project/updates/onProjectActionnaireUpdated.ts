@@ -1,8 +1,8 @@
-import { logger } from '@core/utils';
-import { ProjectActionnaireUpdated } from '@modules/project';
+import { logger } from '../../../../../core/utils';
+import { ProjectActionnaireUpdated } from '../../../../../modules/project';
 import { Project } from '../project.model';
 import { ProjectProjector } from '../project.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 export const onProjectActionnaireUpdated = ProjectProjector.on(
   ProjectActionnaireUpdated,

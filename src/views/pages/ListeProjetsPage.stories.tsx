@@ -4,7 +4,7 @@ import makeFakeRequest from '../../__tests__/fixtures/request';
 
 export default { title: 'List Projects' };
 
-import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import { ListeProjets } from './ListeProjetsPage';
 
 const projects = {

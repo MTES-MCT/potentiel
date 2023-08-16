@@ -1,11 +1,11 @@
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
-import { createUser, créerProfilUtilisateur } from '@config';
+import { createUser, créerProfilUtilisateur } from '../../config';
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { EmailAlreadyUsedError } from '@modules/shared';
+import { EmailAlreadyUsedError } from '../../modules/shared';
 
 const schema = yup.object({
   body: yup.object({

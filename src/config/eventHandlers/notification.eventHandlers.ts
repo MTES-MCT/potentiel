@@ -1,5 +1,5 @@
-import { UserInvitedToProject } from '@modules/authZ';
-import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification';
+import { UserInvitedToProject } from '../../modules/authZ';
+import { LegacyCandidateNotified } from '../../modules/legacyCandidateNotification';
 import {
   ConfirmationRequested,
   ModificationReceived,
@@ -8,7 +8,7 @@ import {
   ModificationRequested,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
-} from '@modules/modificationRequest';
+} from '../../modules/modificationRequest';
 import {
   handleLegacyCandidateNotified,
   handleModificationReceived,
@@ -21,7 +21,7 @@ import {
   handleUserInvitedToProject,
   makeOnProjectCompletionDueDateSet,
   makeOnPeriodeNotified,
-} from '@modules/notification';
+} from '../../modules/notification';
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
@@ -29,7 +29,7 @@ import {
   CahierDesChargesChoisi,
   ProjectCompletionDueDateSet,
   PeriodeNotified,
-} from '@modules/project';
+} from '../../modules/project';
 import { sendNotification } from '../emails.config';
 import { eventStore } from '../eventStore.config';
 import {

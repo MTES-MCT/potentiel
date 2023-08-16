@@ -1,7 +1,7 @@
-import { errAsync, wrapInfra } from '@core/utils';
-import { UserProjects, User, Project } from '@infra/sequelize';
-import { GetProjectInfoForModificationReceivedNotification } from '@modules/modificationRequest';
-import { EntityNotFoundError } from '@modules/shared';
+import { errAsync, wrapInfra } from '../../../../core/utils';
+import { UserProjects, User, Project } from '../..';
+import { GetProjectInfoForModificationReceivedNotification } from '../../../../modules/modificationRequest';
+import { EntityNotFoundError } from '../../../../modules/shared';
 
 export const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
   (projectId: string) => {

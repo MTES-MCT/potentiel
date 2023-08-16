@@ -8,8 +8,9 @@ import {
   DomainUseCase,
   RawIdentifiantProjet,
   convertirEnDateTime,
+  AccuséRéceptionDemandeComplèteRaccordement,
 } from '@potentiel/domain';
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -20,12 +21,13 @@ import {
   unauthorizedResponse,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
+import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { logger } from '@core/utils';
+import { logger } from '../../core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { DomainError } from '@potentiel/core-domain';
-import { isSome } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
+import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
@@ -79,18 +81,39 @@ v1Router.post(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      if (!file) {
-        return response.redirect(
-          addQueryParams(
-            routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet, reference),
-            {
-              error: `Vous devez joindre l'accusé de réception de la demande complète de raccordement`,
-            },
-          ),
-        );
-      }
-
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+
+      let accuséRéception: AccuséRéceptionDemandeComplèteRaccordement;
+      console.log;
+      if (!file) {
+        const accuséRéceptionActuel =
+          await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
+            type: 'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
+            data: {
+              identifiantProjet: identifiantProjet,
+              référenceDossierRaccordement: reference,
+            },
+          });
+
+        console.log(accuséRéceptionActuel);
+
+        if (isNone(accuséRéceptionActuel)) {
+          return response.redirect(
+            addQueryParams(
+              routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet, reference),
+              {
+                error: `Vous devez joindre l'accusé de réception de la demande complète de raccordement`,
+              },
+            ),
+          );
+        }
+        accuséRéception = accuséRéceptionActuel;
+      } else {
+        accuséRéception = {
+          format: file.mimetype,
+          content: createReadStream(file.path),
+        };
+      }
 
       const projet = await Project.findOne({
         where: {
@@ -154,10 +177,7 @@ v1Router.post(
             identifiantProjet: identifiantProjetValueType,
             référenceDossierRaccordement: nouvelleRéférenceDossierRaccordementValueType,
             dateQualification: convertirEnDateTime(dateQualification),
-            accuséRéception: {
-              format: file.mimetype,
-              content: createReadStream(file.path),
-            },
+            accuséRéception,
           },
         });
 

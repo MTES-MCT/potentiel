@@ -1,9 +1,9 @@
 import React from 'react';
 import { Request } from 'express';
-import { Timeline, CalendarIcon, Section, Link, InfoBox } from '@components';
-import { userIs } from '@modules/users';
-import { ProjectEventListDTO } from '@modules/frise';
-import routes from '@routes';
+import { Timeline, CalendarIcon, Section, Link, InfoBox } from '../../../components';
+import { userIs } from '../../../../modules/users';
+import { ProjectEventListDTO } from '../../../../modules/frise';
+import routes from '../../../../routes';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 
 type EtapesProjetProps = {

@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@core/domain';
-import { DemandeDélai, StatutDemandeDélai } from '@modules/demandeModification';
+import { UniqueEntityID } from '../../../core/domain';
+import { DemandeDélai, StatutDemandeDélai } from '../../../modules/demandeModification';
 
 export const makeFakeDemandeDélai = (overide?: {
   id?: string;

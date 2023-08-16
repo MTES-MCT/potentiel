@@ -1,5 +1,5 @@
-import { Label, Input } from '@components';
-import { afficherDate } from '@views/helpers';
+import { Label, Input } from '../../../components';
+import { afficherDate } from '../../../helpers';
 import React from 'react';
 
 export const RecoursForm = () => (

@@ -1,6 +1,7 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { makeUser } from '@entities';
+import { describe, expect, it, jest } from '@jest/globals';
+import { DomainEvent, EventBus, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { makeUser } from '../../../entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { UserRightsToProjectRevoked } from '../events';
@@ -47,9 +48,9 @@ describe('revokeRightsToProject use-case', () => {
   describe('when user doesn‘t have rights to this project', () => {
     const shouldUserAccessProject = jest.fn(async ({ user, projectId }) => false);
     const eventBus = {
-      publish: jest.fn(),
-      subscribe: jest.fn(),
-    };
+      publish: jest.fn<EventBus['publish']>(),
+      subscribe: jest.fn<EventBus['subscribe']>(),
+    } as EventBus;
 
     const fakeAdminUser = makeUser(makeFakeUser()).unwrap();
     const rightsHolderId = new UniqueEntityID().toString();

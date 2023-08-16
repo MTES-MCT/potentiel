@@ -1,7 +1,11 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
-import { UniqueEntityID } from '@core/domain';
-import { ProjectCompletionDueDateSet, ProjectCompletionDueDateSetPayload } from '@modules/project';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { UniqueEntityID } from '../../../../../core/domain';
+import {
+  ProjectCompletionDueDateSet,
+  ProjectCompletionDueDateSetPayload,
+} from '../../../../../modules/project';
+import { ProjectEvent } from '../..';
 import onProjectCompletionDueDateSet from './onProjectCompletionDueDateSet';
 
 describe('onProjectCompletionDueDateSet', () => {

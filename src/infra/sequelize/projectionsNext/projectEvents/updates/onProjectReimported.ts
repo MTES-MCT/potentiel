@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@core/domain';
-import { logger } from '@core/utils';
-import { ProjectReimported } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { logger } from '../../../../../core/utils';
+import { ProjectReimported } from '../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

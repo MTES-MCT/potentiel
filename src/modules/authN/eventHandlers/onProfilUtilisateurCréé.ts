@@ -1,5 +1,5 @@
-import { logger } from '@core/utils';
-import { ProfilUtilisateurCréé } from '@modules/utilisateur';
+import { logger } from '../../../core/utils';
+import { ProfilUtilisateurCréé } from '../../utilisateur';
 import { CreateUserCredentials } from '../queries';
 
 type OnProfilUtilisateurCréé = (évènement: ProfilUtilisateurCréé) => Promise<void>;

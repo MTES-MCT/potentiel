@@ -12,7 +12,7 @@ import {
 } from './project.projector';
 
 // Setup
-type ProjetDependencies = { subscribe: Subscribe } & ConsulterProjetDependencies &
+export type ProjetDependencies = { subscribe: Subscribe } & ConsulterProjetDependencies &
   ProjetProjectorDependencies;
 
 export const setupProjetViews = async (dependencies: ProjetDependencies) => {
@@ -25,14 +25,15 @@ export const setupProjetViews = async (dependencies: ProjetDependencies) => {
   // Subscribes
   const { subscribe } = dependencies;
   return [
-    await subscribe<ProjetEvent>(
-      ['GestionnaireRéseauProjetDéclaré', 'GestionnaireRéseauProjetModifié'],
-      async (event: ProjetEvent) => {
+    await subscribe<ProjetEvent>({
+      name: 'projet_projector',
+      eventType: ['GestionnaireRéseauProjetDéclaré', 'GestionnaireRéseauProjetModifié'],
+      eventHandler: async (event: ProjetEvent) => {
         await mediator.publish<ExecuteProjetProjector>({
           type: 'EXECUTE_PROJET_PROJECTOR',
           data: event,
         });
       },
-    ),
+    }),
   ];
 };

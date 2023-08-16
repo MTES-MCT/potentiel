@@ -1,16 +1,16 @@
-import { EventStore, Repository, UniqueEntityID } from '@core/domain';
-import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { EventStore, Repository, UniqueEntityID } from '../../../core/domain';
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
 import {
   User,
   CahierDesChargesRéférenceParsed,
   AppelOffre,
   CahierDesChargesModifié,
-} from '@entities';
+} from '../../../entities';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { CahierDesChargesChoisi } from '../events';
 import { Project } from '../Project';
 import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit';
-import { AppelOffreRepo } from '@dataAccess';
+import { AppelOffreRepo } from '../../../dataAccess';
 import {
   CahierDesChargesNonDisponibleError,
   PasDeChangementDeCDCPourCetAOError,
@@ -73,6 +73,7 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
   }) => {
     const {
       commande: { cahierDesCharges },
+      projet,
       appelOffre,
     } = arg;
 
@@ -80,11 +81,17 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
       return okAsync({ ...arg, cahierDesChargesChoisi: { type: 'initial' } });
     }
 
-    if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
+    const périodeDétails = appelOffre.periodes.find((période) => période.id === projet.periodeId);
+
+    const cahiersDesChargesModifiésDisponibles =
+      (périodeDétails && périodeDétails.cahiersDesChargesModifiésDisponibles) ||
+      appelOffre.cahiersDesChargesModifiésDisponibles;
+
+    if (cahiersDesChargesModifiésDisponibles.length === 0) {
       return errAsync(new PasDeChangementDeCDCPourCetAOError());
     }
 
-    const cahierDesChargesModifié = appelOffre.cahiersDesChargesModifiésDisponibles.find(
+    const cahierDesChargesModifié = cahiersDesChargesModifiésDisponibles.find(
       (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif,
     );
 

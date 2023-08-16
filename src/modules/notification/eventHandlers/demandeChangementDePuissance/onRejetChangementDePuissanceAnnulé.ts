@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification';
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries';
+import { logger } from '../../../../core/utils';
+import { RejetChangementDePuissanceAnnulé } from '../../../demandeModification';
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries';
 import { NotifierPorteurChangementStatutDemande } from '../..';
 type OnRejetChangementDePuissanceAnnulé = (
   evenement: RejetChangementDePuissanceAnnulé,

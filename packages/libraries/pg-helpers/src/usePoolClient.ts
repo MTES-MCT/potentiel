@@ -1,7 +1,7 @@
 import { QueryResult, Pool, PoolClient } from 'pg';
 import { getConnectionString } from './getConnectionString';
 
-let pool: Pool;
+let pool: Pool | undefined;
 
 export const usePoolClient = async <TResult extends Record<string, unknown>>(
   callback: (poolClient: PoolClient) => Promise<QueryResult<TResult>>,
@@ -20,4 +20,9 @@ export const usePoolClient = async <TResult extends Record<string, unknown>>(
   } finally {
     poolClient?.release();
   }
+};
+
+export const killPool = async () => {
+  await pool?.end();
+  pool = undefined;
 };

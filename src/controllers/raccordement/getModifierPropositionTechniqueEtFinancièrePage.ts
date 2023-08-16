@@ -4,12 +4,12 @@ import {
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { ModifierPropositionTechniqueEtFinancièrePage } from '@views';
+import { ModifierPropositionTechniqueEtFinancièrePage } from '../../views';
 import { mediator } from 'mediateur';
 import { isNone, none } from '@potentiel/monads';
 import {

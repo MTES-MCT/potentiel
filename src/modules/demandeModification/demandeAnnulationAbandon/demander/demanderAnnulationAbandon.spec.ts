@@ -1,6 +1,7 @@
-import { Project } from '@modules/project';
-import { okAsync } from '@core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { Project } from '../../../project';
+import { okAsync } from '../../../../core/utils';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
@@ -8,7 +9,7 @@ import { fakeRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeDemanderAnnulationAbandon } from './demanderAnnulationAbandon';
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError';
 import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError';
-import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
+import { CahierDesChargesModifié, ProjectAppelOffre } from '../../../../entities';
 
 describe(`Demander une annulation d'abandon`, () => {
   const user = makeFakeUser({ role: 'porteur-projet' });
@@ -32,7 +33,9 @@ describe(`Demander une annulation d'abandon`, () => {
       ] as Readonly<Array<CahierDesChargesModifié>>,
     } as ProjectAppelOffre);
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Demande impossible si le porteur n'a pas les droits sur le projet`, () => {
     it(`Etant donné un porteur n'ayant pas les droits sur le projet

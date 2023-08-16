@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { ProjectionEnEchec } from '@modules/shared';
-import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification';
+import { logger } from '../../../../../core/utils';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
+import { RejetChangementDePuissanceAnnulé } from '../../../../../modules/demandeModification';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
 

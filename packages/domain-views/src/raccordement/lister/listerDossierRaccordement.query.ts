@@ -28,7 +28,7 @@ export const registerListerDossiersRaccordementQuery = ({
     identifiantProjet,
   }) => {
     const result = await find<ListeDossiersRaccordementReadModel>(
-      `liste-dossiers-raccordement#${
+      `liste-dossiers-raccordement|${
         estUnIdentifiantProjet(identifiantProjet)
           ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
           : identifiantProjet

@@ -1,7 +1,7 @@
-import { errAsync, okAsync, wrapInfra } from '@core/utils';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
-import { GetModificationRequestStatus } from '@modules/modificationRequest';
-import { EntityNotFoundError } from '@modules/shared';
+import { errAsync, okAsync, wrapInfra } from '../../../../core/utils';
+import { ModificationRequest } from '../../projectionsNext';
+import { GetModificationRequestStatus } from '../../../../modules/modificationRequest';
+import { EntityNotFoundError } from '../../../../modules/shared';
 
 export const getModificationRequestStatus: GetModificationRequestStatus = (
   modificationRequestId: string,

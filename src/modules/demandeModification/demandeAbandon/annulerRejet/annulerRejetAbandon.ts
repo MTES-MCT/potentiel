@@ -1,9 +1,9 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, ResultAsync } from '@core/utils';
-import { User } from '@entities';
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../../core/domain';
+import { errAsync, ResultAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { DemandeAbandon } from '../DemandeAbandon';
-import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors';
+import { StatutRéponseIncompatibleAvecAnnulationError } from '../../errors';
 import { RejetAbandonAnnulé } from '../events';
 
 type AnnulerRejetAbandon = (commande: {

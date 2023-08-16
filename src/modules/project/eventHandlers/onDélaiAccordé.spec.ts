@@ -1,10 +1,11 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import { makeOnDélaiAccordé } from './onDélaiAccordé';
-import { DomainEvent } from '@core/domain';
-import { InfraNotAvailableError } from '@modules/shared';
-import { okAsync } from '@core/utils';
-import { DélaiAccordé } from '@modules/demandeModification';
+import { DomainEvent } from '../../../core/domain';
+import { InfraNotAvailableError } from '../../shared';
+import { okAsync } from '../../../core/utils';
+import { DélaiAccordé } from '../../demandeModification';
 
 describe(`Mettre à jour la date d'achèvement lorsque un délai est accordé`, () => {
   it(`Lorsqu'un délai est accordé pour un projet

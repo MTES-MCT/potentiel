@@ -1,7 +1,8 @@
-import { UniqueEntityID } from '@core/domain';
-import { resetDatabase } from '@infra/sequelize/helpers';
-import { ProjectGFDueDateSet } from '@modules/project';
-import { GarantiesFinancières, Project } from '@infra/sequelize/projectionsNext';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { resetDatabase } from '../../../helpers';
+import { ProjectGFDueDateSet } from '../../../../../modules/project';
+import { GarantiesFinancières, Project } from '../..';
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 

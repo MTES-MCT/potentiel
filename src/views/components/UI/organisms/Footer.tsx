@@ -1,9 +1,9 @@
-import routes from '@routes';
+import routes from '../../../../routes';
 import React from 'react';
 
-import { Link } from '@components';
+import { Link } from '../..';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type FooterProps = {
   user?: UtilisateurReadModel;

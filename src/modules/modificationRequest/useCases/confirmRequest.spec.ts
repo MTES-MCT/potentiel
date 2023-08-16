@@ -1,4 +1,5 @@
-import { makeUser } from '@entities';
+import { describe, expect, it, jest } from '@jest/globals';
+import { makeUser } from '../../../entities';
 import { UnwrapForTest } from '../../../types';
 import { fakeRepo, makeFakeModificationRequest } from '../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../__tests__/fixtures/user';

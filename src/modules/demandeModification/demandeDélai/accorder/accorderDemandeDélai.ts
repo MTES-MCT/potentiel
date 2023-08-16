@@ -1,11 +1,16 @@
-import { User } from '@entities';
-import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { User } from '../../../../entities';
+import {
+  EventStore,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '../../../../core/domain';
 import { DemandeDélai } from '../DemandeDélai';
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
-import { userIsNot } from '@modules/users';
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
-import { Project } from '@modules/project';
+import { errAsync, ResultAsync, wrapInfra } from '../../../../core/utils';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { userIsNot } from '../../../users';
+import { FileContents, FileObject, makeAndSaveFile } from '../../../file';
+import { Project } from '../../../project';
 
 import { DélaiAccordé } from '../events/DélaiAccordé';
 

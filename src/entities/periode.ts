@@ -1,4 +1,4 @@
-import { CahierDesCharges } from './cahierDesCharges';
+import { CahierDesCharges, CahierDesChargesModifié } from './cahierDesCharges';
 import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse';
 import { Territoire } from './territoire';
 
@@ -63,6 +63,7 @@ export type Periode = {
   };
   dossierSuiviPar?: string;
   garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
+  cahiersDesChargesModifiésDisponibles?: ReadonlyArray<CahierDesChargesModifié>;
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
 
 export const isNotifiedPeriode = (periode: Periode): periode is Periode & NotifiedPeriode => {

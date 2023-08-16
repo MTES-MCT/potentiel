@@ -1,9 +1,10 @@
-import { UniqueEntityID } from '@core/domain';
-import { User } from '@entities';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
+import { User } from '../../../../entities';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
 import { getProjectEvents } from './getProjectEvents';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from '../../projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents pou un projet legacy', () => {

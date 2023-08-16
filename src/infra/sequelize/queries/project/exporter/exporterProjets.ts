@@ -1,4 +1,4 @@
-import { ExporterProjets, FiltreListeProjets } from '@modules/project';
+import { ExporterProjets, FiltreListeProjets } from '../../../../../modules/project';
 import { exporterProjetsPourDGEC } from './requêtes/exporterProjetsPourDGEC';
 import { exporterProjetsPourCRE } from './requêtes/exporterProjetsPourCRE';
 import { exporterProjetsPourCaisseDesDépôts } from './requêtes/exporterProjetsPourCaisseDesDépôts';
@@ -6,9 +6,9 @@ import { exporterProjetsPourPorteurDeProjet } from './requêtes/exporterProjetsP
 import { exporterProjetsPourDREAL } from './requêtes/exporterProjetsPourDREAL';
 import { exporterProjetsPourADEME } from './requêtes/exporterProjetsPourADEME';
 import { exporterProjetsPourAcheteurObligé } from './requêtes/exporterProjetsPourAcheteurObligé';
-import { User } from '@entities';
+import { User } from '../../../../../entities';
 import { errAsync } from 'neverthrow';
-import { UnauthorizedError } from '@modules/shared';
+import { UnauthorizedError } from '../../../../../modules/shared';
 
 export const exporterProjets: ExporterProjets = ({
   user,

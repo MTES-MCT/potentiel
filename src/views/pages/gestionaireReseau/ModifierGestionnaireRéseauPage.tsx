@@ -9,11 +9,11 @@ import {
   Form,
   PageTemplate,
   LabelDescription,
-} from '@components';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { hydrateOnClient } from '@views/helpers';
+} from '../../components';
+import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
-import routes from '@routes';
+import routes from '../../../routes';
 import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisieIdentifiant';
 
 type ModifierGestionnaireRéseauProps = {

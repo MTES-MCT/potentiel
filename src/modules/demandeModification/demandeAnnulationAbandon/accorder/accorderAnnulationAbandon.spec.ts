@@ -1,19 +1,21 @@
-import { UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { CahierDesChargesModifié, ProjectAppelOffre, User } from '@entities';
-import { InfraNotAvailableError } from '@modules/shared';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
+import { okAsync } from '../../../../core/utils';
+import { CahierDesChargesModifié, ProjectAppelOffre, User } from '../../../../entities';
+import { InfraNotAvailableError } from '../../../shared';
 import {
   DemandeAnnulationAbandon,
   statutsDemandeAnnulationAbandon,
 } from '../DemandeAnnulationAbandon';
 import { makeAccorderAnnulationAbandon } from './accorderAnnulationAbandon';
-import { Project } from '@modules/project';
+import { Project } from '../../../project';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError';
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { Readable } from 'stream';
+import { FileObject } from '../../../file';
 
 describe(`Accorder une annulation d'abandon de projet`, () => {
   // commande
@@ -53,9 +55,11 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
       ] as Readonly<Array<CahierDesChargesModifié>>,
     } as ProjectAppelOffre);
 
-  const fileRepo = fakeRepo();
+  const fileRepo = fakeRepo<FileObject>();
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Cas d'une demande qui n'est pas en statut "envoyée"`, () => {
     for (const statut of statutsDemandeAnnulationAbandon.filter((statut) => statut !== 'envoyée')) {

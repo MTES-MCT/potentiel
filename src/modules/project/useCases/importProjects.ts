@@ -1,11 +1,11 @@
 import { ImportExecuted, ProjectRawDataImported } from '../events';
 import { IllegalProjectDataError } from '../errors';
 import { parseProjectModifications } from '../utils';
-import { AppelOffreRepo } from '@dataAccess';
-import { User } from '@entities';
+import { AppelOffreRepo } from '../../../dataAccess';
+import { User } from '../../../entities';
 import { parseProjectLine } from '../utils/parseProjectLine';
 import { LegacyModificationRawDataImported } from '../../modificationRequest';
-import { EventBus } from '@core/domain';
+import { EventBus } from '../../../core/domain';
 
 interface ImportProjectsDeps {
   eventBus: EventBus;
@@ -136,11 +136,13 @@ const checkLegacyRules = (args: {
       );
     }
   } else {
-    if (projectData.notifiedOn) {
-      throw new Error(
-        `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`,
-      );
-    }
+    // TO DO
+    // Règle supprimée temporairement :
+    // if (projectData.notifiedOn) {
+    //   throw new Error(
+    //     `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`,
+    //   );
+    // }
 
     if (hasLegacyModifications) {
       throw new Error(

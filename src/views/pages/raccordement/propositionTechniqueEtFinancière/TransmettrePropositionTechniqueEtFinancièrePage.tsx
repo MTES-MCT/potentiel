@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -11,15 +11,15 @@ import {
   Link,
   PageProjetTemplate,
   Form,
-} from '@components';
+} from '../../../components';
 import { hydrateOnClient } from '../../../helpers';
-import routes from '@routes';
-import { ConsulterProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
 };
@@ -78,7 +78,11 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
         </Form>
 
         <InfoBox className="flex md:w-1/3 md:mx-auto" title="Concernant le dépôt">
-          Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire.
+          La proposition technique et financière transmise sur Potentiel facilitera vos démarches
+          administratives avec le cocontractant connecté à Potentiel, notamment pour des retards de
+          délai de raccordement.
+          <br /> Le dépôt dans Potentiel est informatif, il ne remplace pas la transmission à votre
+          gestionnaire de réseau.
         </InfoBox>
       </div>
     </PageProjetTemplate>

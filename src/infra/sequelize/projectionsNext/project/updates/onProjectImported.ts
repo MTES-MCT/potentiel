@@ -1,8 +1,8 @@
-import { logger } from '@core/utils';
-import { ProjectImported } from '@modules/project';
+import { logger } from '../../../../../core/utils';
+import { ProjectImported } from '../../../../../modules/project';
 import { Project } from '../project.model';
 import { ProjectProjector } from '../project.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 
 // TODO: Projection migrée en l'état, Project étant typé à any dans l'implémentation initiale, il manque des champs obligatoire lors de la création.
 export const onProjectImported = ProjectProjector.on(

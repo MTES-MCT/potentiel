@@ -1,9 +1,10 @@
-import { ProjectCertificateObsolete } from '@modules/project';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { ProjectCertificateObsolete } from '../../../../../modules/project';
 import { v4 as uuid } from 'uuid';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../../helpers';
 import { onProjectCertificateObsolete } from './onProjectCertificateObsolete';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project } from '../..';
 
 describe('project.onProjectCertificateObsolete', () => {
   const projectId = uuid();

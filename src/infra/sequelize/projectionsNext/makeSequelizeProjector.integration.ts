@@ -1,4 +1,5 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
+import { describe, expect, it, jest } from '@jest/globals';
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import { sequelizeInstance } from '../../../sequelize.config';
 import { makeSequelizeProjector } from './makeSequelizeProjector';
@@ -73,6 +74,7 @@ describe('makeSequelizeProjector', () => {
       it('should call the handlers for the specific type when the event arises', () => {
         const innerDummyEventHandler = subscribe.mock.calls[0][0];
         const fakeDummyEvent = new DummyEvent({ payload: {} });
+        //@ts-ignore
         innerDummyEventHandler(fakeDummyEvent);
 
         expect(handler).toHaveBeenCalledWith(fakeDummyEvent, undefined);
@@ -100,6 +102,7 @@ describe('makeSequelizeProjector', () => {
       it('should call the handlers for the specific type when the event arises', () => {
         const innerDummyEventHandler = subscribe.mock.calls[0][0];
         const fakeDummyEvent = new DummyEvent({ payload: {} });
+        //@ts-ignore
         innerDummyEventHandler(fakeDummyEvent);
 
         expect(handler).toHaveBeenCalledWith(fakeDummyEvent, undefined);

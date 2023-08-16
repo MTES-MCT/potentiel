@@ -1,20 +1,24 @@
 import * as yup from 'yup';
 import fs from 'fs';
 
-import { accorderAnnulationAbandon, ensureRole, rejeterDemandeAnnulationAbandon } from '@config';
+import {
+  accorderAnnulationAbandon,
+  ensureRole,
+  rejeterDemandeAnnulationAbandon,
+} from '../../../config';
 
 import routes from '../../../routes';
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import { addQueryParams } from '../../../helpers/addQueryParams';
-import { errAsync, logger } from '@core/utils';
+import { errAsync, logger } from '../../../core/utils';
 import { errorResponse, RequestValidationErrorArray, unauthorizedResponse } from '../../helpers';
-import { UnauthorizedError } from '@modules/shared';
+import { UnauthorizedError } from '../../../modules/shared';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
-import { StatutIncompatiblePourRejeterDemandeAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter';
-import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/CDCProjetIncompatibleAvecAccordAnnulationAbandonError';
-import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/StatutDemandeIncompatibleAvecAccordAnnulationAbandonError';
-import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/StatutProjetIncompatibleAvecAccordAnnulationAbandonError';
+import { StatutIncompatiblePourRejeterDemandeAnnulationAbandonError } from '../../../modules/demandeModification/demandeAnnulationAbandon/rejeter';
+import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from '../../../modules/demandeModification/demandeAnnulationAbandon/accorder/CDCProjetIncompatibleAvecAccordAnnulationAbandonError';
+import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from '../../../modules/demandeModification/demandeAnnulationAbandon/accorder/StatutDemandeIncompatibleAvecAccordAnnulationAbandonError';
+import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from '../../../modules/demandeModification/demandeAnnulationAbandon/accorder/StatutProjetIncompatibleAvecAccordAnnulationAbandonError';
 const schema = yup.object({
   body: yup.object({
     submitAccept: yup.string().nullable(),

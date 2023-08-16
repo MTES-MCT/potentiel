@@ -1,9 +1,8 @@
 import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
-
-import { AppelOffre, Famille, Periode } from '@entities';
-import { PaginatedList } from '@modules/pagination';
+import { AppelOffre, Famille, Periode } from '../../entities';
+import { PaginatedList } from '../../modules/pagination';
 
 import {
   ProjectList,
@@ -18,19 +17,19 @@ import {
   LinkButton,
   Form,
   Link,
-  Accordeon,
   PageTemplate,
-  ArrowLeftIcon,
-  ArrowRightIcon,
   SecondaryLinkButton,
   ExcelFileIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
   BarreDeRecherche,
-} from '@components';
+  Accordeon,
+} from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
-import { ProjectListItem } from '@modules/project';
-import { userIsNot, userIs } from '@modules/users';
-import routes from '@routes';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { ProjectListItem } from '../../modules/project';
+import { userIs, userIsNot } from '../../modules/users';
+import routes from '../../routes';
+import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ListeProjetsProps = {
   request: Request;

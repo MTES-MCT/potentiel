@@ -1,15 +1,20 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, logger, okAsync, ok, ResultAsync, wrapInfra } from '@core/utils';
-import { User, formatCahierDesChargesRéférence } from '@entities';
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
-import { Project } from '@modules/project';
+import {
+  EventBus,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '../../../../core/domain';
+import { errAsync, logger, okAsync, ok, ResultAsync, wrapInfra } from '../../../../core/utils';
+import { User, formatCahierDesChargesRéférence } from '../../../../entities';
+import { FileContents, FileObject, makeAndSaveFile } from '../../../file';
+import { Project } from '../../../project';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '@modules/shared';
-import { ModificationRequested, ModificationReceived } from '@modules/modificationRequest/events';
+} from '../../../shared';
+import { ModificationRequested, ModificationReceived } from '../../../modificationRequest/events';
 
 import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers';
 import { PuissanceJustificationEtCourrierManquantError } from '.';

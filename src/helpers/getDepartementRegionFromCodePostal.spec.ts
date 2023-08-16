@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import getDepartementRegionFromCodePostal from './getDepartementRegionFromCodePostal';
 
 describe('getDepartementRegionFromCodePostal helper', () => {

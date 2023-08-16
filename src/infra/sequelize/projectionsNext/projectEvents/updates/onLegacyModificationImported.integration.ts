@@ -1,7 +1,8 @@
-import { UniqueEntityID } from '@core/domain';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
 import { resetDatabase } from '../../../helpers';
-import { LegacyModificationImported } from '@modules/modificationRequest';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
+import { LegacyModificationImported } from '../../../../../modules/modificationRequest';
+import { ProjectEvent } from '../..';
 import onLegacyModificationImported from './onLegacyModificationImported';
 
 describe('onLegacyModificationImported', () => {

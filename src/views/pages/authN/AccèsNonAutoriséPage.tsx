@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading1, LegacyPageTemplate } from '@views/components';
+import { Heading1, LegacyPageTemplate } from '../../components';
 import { Request } from 'express';
 
 type AccèsNonAutoriséProps = {

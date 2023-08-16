@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectAppelOffre } from '@entities';
+import { ProjectAppelOffre } from '../../../entities';
 import { Request } from 'express';
 
 import {
@@ -17,10 +17,10 @@ import {
   Heading1,
   ProjectProps,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { ChangementActionnaire, DemandeRecours } from './components';
-import routes from '@routes';
+import routes from '../../../routes';
 
 type NewModificationRequestProps = {
   request: Request;
@@ -56,25 +56,23 @@ export const NewModificationRequest = ({
       </Heading1>
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
-          {...{
-            projet: {
-              id: project.id,
-              appelOffre,
-              cahierDesChargesActuel: 'initial',
-              identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-            },
-            redirectUrl: redirectionRoute(action),
-            type: action,
-            infoBox: (
-              <InfoBox
-                title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-                className="mb-5"
-              >
-                <InfoLienGuideUtilisationCDC />
-              </InfoBox>
-            ),
+          projet={{
+            id: project.id,
+            appelOffre,
+            cahierDesChargesActuel: 'initial',
+            identifiantGestionnaireRéseau: project.identifiantGestionnaire,
           }}
+          redirectUrl={redirectionRoute(action)}
+          type={action}
+          infoBox={
+            <InfoBox
+              title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
+                  cahier des charges à appliquer"
+              className="mb-5"
+            >
+              <InfoLienGuideUtilisationCDC />
+            </InfoBox>
+          }
         />
       ) : (
         <Form

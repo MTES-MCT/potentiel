@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -11,15 +11,15 @@ import {
   PlugIcon,
   Form,
   Label,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import routes from '@routes';
-import { GestionnaireRéseauReadModel, ConsulterProjetReadModel } from '@potentiel/domain-views';
+import { GestionnaireRéseauReadModel, ProjetReadModel } from '@potentiel/domain-views';
+import routes from '../../../routes';
 import { GestionnaireRéseauSelect } from './components/GestionnaireRéseauSelect';
 
 type ModifierGestionnaireRéseauProjetProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   error?: string;
   listeGestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };

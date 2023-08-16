@@ -1,6 +1,6 @@
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
-import { ok, Result } from '@core/utils';
-import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../../core/domain';
+import { ok, Result } from '../../../core/utils';
+import { ModificationRequestInstructionStarted } from '../../modificationRequest';
 import { EntityNotFoundError } from '../../shared';
 import {
   AbandonDemandé,
@@ -22,7 +22,7 @@ export const statutsDemandeAbandon = [
   'demande confirmée',
 ] as const;
 
-export type StatutDemandeAbandon = typeof statutsDemandeAbandon[number];
+export type StatutDemandeAbandon = (typeof statutsDemandeAbandon)[number];
 
 type DemandeAbandonArgs = {
   id: UniqueEntityID;

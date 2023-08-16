@@ -1,7 +1,7 @@
-import { ensureRole, choisirCahierDesCharges } from '@config';
-import { logger } from '@core/utils';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
+import { ensureRole, choisirCahierDesCharges } from '../../config';
+import { logger } from '../../core/utils';
+import { UnauthorizedError } from '../../modules/shared';
+import routes from '../../routes';
 import { errorResponse, unauthorizedResponse } from '../helpers';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -10,14 +10,14 @@ import {
   CahierDesChargesNonDisponibleError,
   NouveauCahierDesChargesDéjàSouscrit,
   PasDeChangementDeCDCPourCetAOError,
-} from '@modules/project';
-import { ModificationRequestType } from '@modules/modificationRequest';
+} from '../../modules/project';
+import { ModificationRequestType } from '../../modules/modificationRequest';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import {
   CahierDesChargesRéférence,
   cahiersDesChargesRéférences,
   parseCahierDesChargesRéférence,
-} from '@entities';
+} from '../../entities';
 
 export type TypeDeModification = ModificationRequestType | 'delai';
 

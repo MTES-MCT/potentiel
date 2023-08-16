@@ -1,6 +1,6 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { logger, okAsync, err } from '@core/utils';
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
+import { logger, okAsync, err } from '../../../core/utils';
+import { GetProjectAppelOffre } from '../../projectAppelOffre';
 import { DateMiseEnServiceTransmise, ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
 import { FindProjectByIdentifiers } from '../queries';
@@ -64,9 +64,16 @@ export const makeOnDateMiseEnServiceTransmise =
               );
               return okAsync(null);
             }
+
+            const cahiersDesChargesModifiésDisponibles =
+              projectAppelOffre?.periode &&
+              'cahiersDesChargesModifiésDisponibles' in projectAppelOffre?.periode
+                ? projectAppelOffre?.periode.cahiersDesChargesModifiésDisponibles
+                : projectAppelOffre?.cahiersDesChargesModifiésDisponibles;
+
             const donnéesCDC =
-              projectAppelOffre.cahiersDesChargesModifiésDisponibles &&
-              projectAppelOffre.cahiersDesChargesModifiésDisponibles.find(
+              cahiersDesChargesModifiésDisponibles &&
+              cahiersDesChargesModifiésDisponibles.find(
                 (CDC) =>
                   CDC.type === 'modifié' &&
                   CDC.paruLe === '30/08/2022' &&

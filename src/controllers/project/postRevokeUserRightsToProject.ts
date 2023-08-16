@@ -1,10 +1,10 @@
-import { revokeUserRightsToProject } from '@config/useCases.config';
-import { logger } from '@core/utils';
+import { revokeUserRightsToProject } from '../../config/useCases.config';
+import { logger } from '../../core/utils';
 import asyncHandler from '../helpers/asyncHandler';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { UnauthorizedError } from '@modules/shared';
-import routes from '@routes';
-import { ensureRole } from '@config';
+import { UnauthorizedError } from '../../modules/shared';
+import routes from '../../routes';
+import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';

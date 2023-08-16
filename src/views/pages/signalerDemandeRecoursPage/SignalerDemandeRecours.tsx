@@ -13,9 +13,9 @@ import {
   TextArea,
   Radio,
   Form,
-} from '@components';
-import routes from '@routes';
-import { ProjectDataForSignalerDemandeRecoursPage } from '@modules/project';
+} from '../../components';
+import routes from '../../../routes';
+import { ProjectDataForSignalerDemandeRecoursPage } from '../../../modules/project';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 
 type SignalerDemandeRecoursProps = {

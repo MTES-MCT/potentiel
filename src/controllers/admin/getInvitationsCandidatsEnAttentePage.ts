@@ -1,9 +1,9 @@
-import { getPendingCandidateInvitations, ensureRole } from '@config';
+import { getPendingCandidateInvitations, ensureRole } from '../../config';
 import asyncHandler from '../helpers/asyncHandler';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import routes from '@routes';
+import routes from '../../routes';
 import { v1Router } from '../v1Router';
-import { InvitationsCandidatsEnAttentePage } from '@views';
+import { InvitationsCandidatsEnAttentePage } from '../../views';
 import { getCurrentUrl, getPagination } from '../helpers';
 
 v1Router.get(

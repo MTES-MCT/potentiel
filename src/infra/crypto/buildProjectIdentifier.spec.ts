@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { makeBuildProjectIdentifier } from './buildProjectIdentifier';
 
 describe('crypto.buildProjectIdentifier', () => {

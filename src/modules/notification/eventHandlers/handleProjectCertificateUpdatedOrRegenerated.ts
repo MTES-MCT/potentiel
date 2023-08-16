@@ -1,11 +1,11 @@
 import { NotificationService } from '..';
-import { Repository, UniqueEntityID } from '@core/domain';
-import { wrapInfra } from '@core/utils';
-import { User } from '@entities';
+import { Repository, UniqueEntityID } from '../../../core/domain';
+import { wrapInfra } from '../../../core/utils';
+import { User } from '../../../entities';
 import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events';
 import { Project } from '../../project/Project';
-import routes from '@routes';
-import { RécupérerDonnéesPorteursParProjetQueryHandler } from '@modules/project/queries';
+import routes from '../../../routes';
+import { RécupérerDonnéesPorteursParProjetQueryHandler } from '../../project/queries';
 
 export const handleProjectCertificateUpdatedOrRegenerated =
   (deps: {

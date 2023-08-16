@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Request } from 'express';
 
-import ROUTES from '@routes';
+import ROUTES from '../../../../routes';
 import {
   PrimaryButton,
   Heading3,
@@ -12,10 +12,10 @@ import {
   Section,
   Dropdown,
   Form,
-} from '@components';
+} from '../../../components';
 
-import { ProjectDataForProjectPage } from '@modules/project';
-import { userIs } from '@modules/users';
+import { ProjectDataForProjectPage } from '../../../../modules/project';
+import { userIs } from '../../../../modules/users';
 
 type ContactProps = {
   project: ProjectDataForProjectPage;

@@ -1,10 +1,10 @@
-import { CahierDesChargesChoisi } from '@modules/project';
+import { CahierDesChargesChoisi } from '../../../../../modules/project';
 
-import { logger } from '@core/utils';
+import { logger } from '../../../../../core/utils';
 import { Project } from '../project.model';
 import { ProjectProjector } from '../project.projector';
-import { ProjectionEnEchec } from '@modules/shared';
-import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
+import { formatCahierDesChargesRéférence } from '../../../../../entities/cahierDesCharges';
 
 export const onCahierDesChargesChoisi = ProjectProjector.on(
   CahierDesChargesChoisi,

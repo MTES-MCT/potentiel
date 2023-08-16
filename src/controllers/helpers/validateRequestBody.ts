@@ -1,4 +1,4 @@
-import { err, ok, Result } from '@core/utils';
+import { err, ok, Result } from '../../core/utils';
 import { BaseSchema, InferType, ValidationError } from 'yup';
 
 export const validateRequestBody = <Schema extends BaseSchema>(

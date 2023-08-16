@@ -1,7 +1,8 @@
-import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { Project, UserProjects } from '../../../projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
-import { resetDatabase } from '@dataAccess';
+import { resetDatabase } from '../../../../../dataAccess';
 import { v4 as uuid } from 'uuid';
 
 import {
@@ -24,7 +25,7 @@ import {
   évaluationCarbone,
   noteInnovation,
 } from './colonnesParCatégorie';
-import { User } from '@entities';
+import { User } from '../../../../../entities';
 
 describe(`Export des projets en tant que porteur de projet`, () => {
   beforeEach(resetDatabase);

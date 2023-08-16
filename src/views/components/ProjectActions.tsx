@@ -1,8 +1,8 @@
 import React from 'react';
-import { UserRole } from '@modules/users';
+import { UserRole } from '../../modules/users';
 import { ACTION_BY_ROLE } from './actions';
 import { DropdownMenuSecondaryButton } from './UI';
-import { ProjectAppelOffre } from '@entities';
+import { ProjectAppelOffre } from '../../entities';
 
 type Props = {
   project: {

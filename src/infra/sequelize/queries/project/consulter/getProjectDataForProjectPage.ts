@@ -1,23 +1,26 @@
-import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project';
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../../../../core/utils';
+import { getProjectAppelOffre } from '../../../../../config/queryProjectAO.config';
+import {
+  ProjectDataForProjectPage,
+  GetProjectDataForProjectPage,
+} from '../../../../../modules/project';
+import { EntityNotFoundError, InfraNotAvailableError } from '../../../../../modules/shared';
 import {
   Project,
   ModificationRequest,
   User as UserModel,
   UserProjects,
   File,
-} from '@infra/sequelize/projectionsNext';
+} from '../../../projectionsNext';
 import {
   CahierDesCharges,
   parseCahierDesChargesRéférence,
   ProjectAppelOffre,
   User,
-} from '@entities';
-import routes from '@routes';
+} from '../../../../../entities';
+import routes from '../../../../../routes';
 import { format } from 'date-fns';
-import { userIs, userIsNot } from '@modules/users';
+import { userIs, userIsNot } from '../../../../../modules/users';
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(
@@ -95,6 +98,10 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
     const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw);
 
+    const cahiersDesChargesModifiésDisponibles =
+      appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
+      appelOffre.cahiersDesChargesModifiésDisponibles;
+
     const cahierDesCharges =
       cahierDesChargesActuel.type === 'initial'
         ? {
@@ -103,7 +110,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           }
         : {
             type: 'modifié',
-            url: appelOffre.cahiersDesChargesModifiésDisponibles.find(
+            url: cahiersDesChargesModifiésDisponibles.find(
               (c) =>
                 c.paruLe === cahierDesChargesActuel.paruLe &&
                 c.alternatif === cahierDesChargesActuel.alternatif,
@@ -114,6 +121,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
     return okAsync({ appelOffre, project, cahierDesCharges });
   };
+
   return chargerProjet
     .andThen(vérifierAccèsProjet)
     .andThen(récupérerAppelOffre)
@@ -291,14 +299,18 @@ const ajouterInfosAlerteAnnulationAbandon = (
       };
     }
 
-    const cdcDispoPourAnnulationAbandon = appelOffre?.cahiersDesChargesModifiésDisponibles.filter(
+    const cahiersDesChargesModifiésDisponibles =
+      appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
+      appelOffre.cahiersDesChargesModifiésDisponibles;
+
+    const cdcDispoPourAnnulationAbandon = cahiersDesChargesModifiésDisponibles.filter(
       (cdc) =>
         cdc.délaiAnnulationAbandon && new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime(),
     );
 
     const dateLimite =
       cahierDesChargesActuel.type === 'modifié'
-        ? appelOffre.cahiersDesChargesModifiésDisponibles.find(
+        ? cahiersDesChargesModifiésDisponibles.find(
             (cdc) =>
               cdc.paruLe === cahierDesChargesActuel.paruLe &&
               cdc.alternatif === cahierDesChargesActuel.alternatif,

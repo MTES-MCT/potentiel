@@ -1,8 +1,8 @@
-import { DélaiAccordé } from '@modules/demandeModification';
-import { logger } from '@core/utils';
+import { DélaiAccordé } from '../../../../../../modules/demandeModification';
+import { logger } from '../../../../../../core/utils';
 import { ProjectEvent } from '../../projectEvent.model';
 import { ProjectEventProjector } from '../../projectEvent.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectionEnEchec } from '../../../../../../modules/shared';
 
 export default ProjectEventProjector.on(DélaiAccordé, async (évènement, transaction) => {
   const {

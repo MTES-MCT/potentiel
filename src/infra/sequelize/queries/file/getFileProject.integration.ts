@@ -1,8 +1,9 @@
-import { UniqueEntityID } from '@core/domain';
-import { FileNotFoundError } from '@modules/file';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
+import { FileNotFoundError } from '../../../../modules/file';
 import { resetDatabase } from '../../helpers';
 import { getFileProject } from './getFileProject';
-import { File } from '@infra/sequelize/projectionsNext';
+import { File } from '../../projectionsNext';
 
 describe('Sequelize getFileProject', () => {
   const fileWithoutProject = new UniqueEntityID();

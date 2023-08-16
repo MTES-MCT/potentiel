@@ -1,6 +1,6 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain';
-import { Fournisseur } from '@modules/project';
-import { CahierDesChargesRéférence } from '@entities';
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
+import { Fournisseur } from '../../project';
+import { CahierDesChargesRéférence } from '../../../entities';
 
 export type ModificationReceivedPayload = {
   modificationRequestId: string;

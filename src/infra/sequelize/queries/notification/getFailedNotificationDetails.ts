@@ -1,7 +1,10 @@
-import { wrapInfra } from '@core/utils';
+import { wrapInfra } from '../../../../core/utils';
 import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
-import { FailedNotificationDTO, GetFailedNotificationDetails } from '@modules/notification';
-import { Notification } from '@infra/sequelize/projectionsNext';
+import {
+  FailedNotificationDTO,
+  GetFailedNotificationDetails,
+} from '../../../../modules/notification';
+import { Notification } from '../../projectionsNext';
 
 export const getFailedNotificationDetails: GetFailedNotificationDetails = (pagination) => {
   return wrapInfra(

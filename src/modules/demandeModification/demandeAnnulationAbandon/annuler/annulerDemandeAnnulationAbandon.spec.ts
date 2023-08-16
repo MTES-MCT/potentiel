@@ -1,6 +1,7 @@
-import { okAsync } from '@core/utils';
-import { User } from '@entities';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { okAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeAnnulerDemandeAnnulationAbandon } from './annulerDemandeAnnulationAbandon';
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon';
@@ -10,7 +11,9 @@ describe(`Annuler une demande d'annulation d'abandon`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
   const user = { role: 'porteur-projet' } as User;
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible si le porteur n'a pas les droits sur le projet`, () => {
     it(`Etant donné un porteur n'ayant pas les droits sur le projet

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ROUTES from '@routes';
+import ROUTES from '../../../../routes';
 import {
   PrimaryButton,
   SecondaryButton,
@@ -11,7 +11,7 @@ import {
   Link,
   Label,
   Form,
-} from '@components';
+} from '../../../components';
 
 type AttachFileProps = {
   projectId: string;

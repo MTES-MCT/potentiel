@@ -4,8 +4,8 @@ import * as yup from 'yup';
 
 import { estUnRawIdentifiantProjet } from '@potentiel/domain';
 import { PermissionConsulterDossierRaccordement } from '@potentiel/domain-views';
-import routes from '@routes';
-import { logger } from '@core/utils';
+import routes from '../../routes';
+import { logger } from '../../core/utils';
 
 import { v1Router } from '../v1Router';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -57,12 +57,13 @@ v1Router.get(
         }
 
         const extensionFichier = extension(accuséRéception.format);
+        logger.info(`Extension fichier: ${extensionFichier}`);
+
+        const fileName = `accuse-reception.${extensionFichier}`;
+        logger.info(fileName);
 
         response.type(accuséRéception.format);
-        response.setHeader(
-          'Content-Disposition',
-          `attachment; filename=accuse-reception-${reference}.${extensionFichier}`,
-        );
+        response.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
         accuséRéception.content.pipe(response);
 
         return response.status(200);

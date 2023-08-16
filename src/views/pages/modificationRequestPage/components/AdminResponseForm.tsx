@@ -1,7 +1,7 @@
-import { Form, FormulaireChampsObligatoireLégende, PrimaryButton } from '@components';
-import { ModificationRequestPageDTO } from '@modules/modificationRequest';
-import { UserRole } from '@modules/users';
-import ROUTES from '@routes';
+import { Form, FormulaireChampsObligatoireLégende, PrimaryButton } from '../../../components';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
+import { UserRole } from '../../../../modules/users';
+import ROUTES from '../../../../routes';
 import React from 'react';
 import { UploadResponseFile } from '.';
 import { ModificationRequestTitleByType } from '../../../helpers';

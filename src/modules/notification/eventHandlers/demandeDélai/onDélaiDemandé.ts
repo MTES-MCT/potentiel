@@ -1,9 +1,9 @@
-import { logger } from '@core/utils';
-import { UserRepo } from '@dataAccess';
-import { DélaiDemandé } from '@modules/demandeModification';
-import routes from '@routes';
+import { logger } from '../../../../core/utils';
+import { UserRepo } from '../../../../dataAccess';
+import { DélaiDemandé } from '../../../demandeModification';
+import routes from '../../../../routes';
 import { NotificationService } from '../..';
-import { GetProjectInfoForModificationRequestedNotification } from '@modules/modificationRequest/queries';
+import { GetProjectInfoForModificationRequestedNotification } from '../../../modificationRequest/queries';
 
 type OnDélaiDemandé = (evenement: DélaiDemandé) => Promise<void>;
 

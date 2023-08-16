@@ -1,7 +1,8 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { DomainEvent, Repository } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { makeUser } from '@entities';
+import { DomainEvent, Repository } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { makeUser } from '../../../entities';
 import { UnwrapForTest } from '../../../types';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../__tests__/fixtures/user';
@@ -10,6 +11,7 @@ import { Project } from '../../project';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { ModificationReceived, ModificationRequested } from '../events';
 import { makeRequestActionnaireModification } from './requestActionnaireModification';
+import { HasGarantiesFinancières, IsProjectParticipatif } from '../queries';
 
 describe('requestActionnaireModification use-case', () => {
   const shouldUserAccessProject = jest.fn(async () => true);
@@ -33,8 +35,8 @@ describe('requestActionnaireModification use-case', () => {
   const getProjectAppelOffreId = jest.fn((projectId: string) =>
     okAsync<string, EntityNotFoundError | InfraNotAvailableError>('appelOffreId'),
   );
-  const isProjectParticipatif = jest.fn();
-  const hasGarantiesFinancières = jest.fn();
+  const isProjectParticipatif = jest.fn<IsProjectParticipatif>();
+  const hasGarantiesFinancières = jest.fn<HasGarantiesFinancières>();
 
   const fakeFileContents = Readable.from('test-content');
   const fakeFileName = 'myfilename.pdf';

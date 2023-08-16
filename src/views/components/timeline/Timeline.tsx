@@ -10,7 +10,7 @@ import {
   CahierDesChargesChoisiDTO,
   GarantiesFinancièresDTO,
   DemandeAnnulationAbandonDTO,
-} from '@modules/frise';
+} from '../../../modules/frise';
 import {
   TimelineItem,
   DesignationItem,

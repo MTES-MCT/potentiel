@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { DrealUserInvited } from '@modules/authZ';
-import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '../../../../../core/utils';
+import { DrealUserInvited } from '../../../../../modules/authZ';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { UserDreal } from '../userDreal.model';
 import { UserDrealProjector } from '../userDreal.projector';
 

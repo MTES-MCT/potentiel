@@ -1,7 +1,8 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { makeUser } from '@entities';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { makeUser } from '../../../entities';
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeAddGFExpirationDate } from './addGFExpirationDate';
@@ -18,7 +19,7 @@ const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
 describe(`Ajouter une date d'expiration à une garantie financière`, () => {
   beforeEach(() => {
-    return fakePublish.mockClear();
+    fakePublish.mockClear();
   });
   describe("Ajout impossible si l'utilisateur n'a pas les droits sur le projet", () => {
     it(`Étant donné un utilisateur n'ayant pas accès au projet

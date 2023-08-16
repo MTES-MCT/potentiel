@@ -1,7 +1,7 @@
-import { EventStore, Repository, UniqueEntityID } from '@core/domain';
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils';
-import { User } from '@entities';
-import { userIs } from '@modules/users';
+import { EventStore, Repository, UniqueEntityID } from '../../../core/domain';
+import { errAsync, ResultAsync, wrapInfra } from '../../../core/utils';
+import { User } from '../../../entities';
+import { userIs } from '../../users';
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { GarantiesFinancièresValidées } from '../events';
 import { Project } from '../Project';

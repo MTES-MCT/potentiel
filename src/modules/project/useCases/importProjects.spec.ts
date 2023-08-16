@@ -1,7 +1,8 @@
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { IllegalProjectDataError } from '..';
-import { DomainEvent, UniqueEntityID } from '@core/domain';
-import { okAsync } from '@core/utils';
-import { AppelOffreRepo } from '@dataAccess';
+import { DomainEvent, UniqueEntityID } from '../../../core/domain';
+import { okAsync } from '../../../core/utils';
+import { AppelOffreRepo } from '../../../dataAccess';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { LegacyModificationRawDataImported } from '../../modificationRequest';
 import { InfraNotAvailableError } from '../../shared';
@@ -452,51 +453,53 @@ describe('importProjects', () => {
     });
   });
 
-  describe('when a line is from a non-legacy periode and has a notification date', () => {
-    const invalidLine = {
-      ...validLine,
-      "Appel d'offres": 'appelOffreId',
-      Période: 'periodeId',
-      Notification: '12/12/2020',
-    };
+  // TO DO
+  // Règle supprimée temporairement
+  // describe('when a line is from a non-legacy periode and has a notification date', () => {
+  //   const invalidLine = {
+  //     ...validLine,
+  //     "Appel d'offres": 'appelOffreId',
+  //     Période: 'periodeId',
+  //     Notification: '12/12/2020',
+  //   };
 
-    const appelOffreRepo = {
-      findAll: async () => [
-        {
-          id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'notified' }],
-          familles: [{ id: 'familleId' }],
-        },
-      ],
-    } as unknown as AppelOffreRepo;
+  //   const appelOffreRepo = {
+  //     findAll: async () => [
+  //       {
+  //         id: 'appelOffreId',
+  //         periodes: [{ id: 'periodeId', type: 'notified' }],
+  //         familles: [{ id: 'familleId' }],
+  //       },
+  //     ],
+  //   } as unknown as AppelOffreRepo;
 
-    const lines = [invalidLine] as Record<string, string>[];
-    const importId = new UniqueEntityID().toString();
+  //   const lines = [invalidLine] as Record<string, string>[];
+  //   const importId = new UniqueEntityID().toString();
 
-    const eventBus = {
-      publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
-      subscribe: jest.fn(),
-    };
+  //   const eventBus = {
+  //     publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
+  //     subscribe: jest.fn(),
+  //   };
 
-    const importProjects = makeImportProjects({
-      eventBus,
-      appelOffreRepo,
-    });
+  //   const importProjects = makeImportProjects({
+  //     eventBus,
+  //     appelOffreRepo,
+  //   });
 
-    it('should throw an error', async () => {
-      expect.assertions(4);
-      try {
-        await importProjects({ lines, importId, importedBy: user });
-      } catch (error) {
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(IllegalProjectDataError);
-        expect(error.errors[1]).toContain(
-          'notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.',
-        );
-        expect(eventBus.publish).not.toHaveBeenCalled();
-      }
-    });
-  });
+  //   it('should throw an error', async () => {
+  //     expect.assertions(4);
+  //     try {
+  //       await importProjects({ lines, importId, importedBy: user });
+  //     } catch (error) {
+  //       expect(error).toBeDefined();
+  //       expect(error).toBeInstanceOf(IllegalProjectDataError);
+  //       expect(error.errors[1]).toContain(
+  //         'notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.',
+  //       );
+  //       expect(eventBus.publish).not.toHaveBeenCalled();
+  //     }
+  //   });
+  // });
 
   describe('when a line is from a non-legacy periode and has a legacy modifications', () => {
     const invalidLine = {

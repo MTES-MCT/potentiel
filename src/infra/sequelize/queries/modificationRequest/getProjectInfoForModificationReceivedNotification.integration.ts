@@ -1,9 +1,10 @@
-import { UniqueEntityID } from '@core/domain';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../core/domain';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getProjectInfoForModificationReceivedNotification } from './getProjectInfoForModificationReceivedNotification';
-import { Project, User, UserProjects } from '@infra/sequelize/projectionsNext';
+import { Project, User, UserProjects } from '../../projectionsNext';
 
 describe('Sequelize getProjectInfoForModificationReceivedNotification', () => {
   const projectId = new UniqueEntityID().toString();

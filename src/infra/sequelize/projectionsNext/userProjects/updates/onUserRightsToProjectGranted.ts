@@ -1,7 +1,7 @@
-import { logger } from '@core/utils';
-import { UserRightsToProjectGranted } from '@modules/authZ';
-import { ProjectionEnEchec } from '@modules/shared';
-import { User, UserProjects } from '@infra/sequelize/projectionsNext';
+import { logger } from '../../../../../core/utils';
+import { UserRightsToProjectGranted } from '../../../../../modules/authZ';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
+import { User, UserProjects } from '../..';
 import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(

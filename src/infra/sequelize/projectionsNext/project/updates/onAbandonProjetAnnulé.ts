@@ -1,6 +1,6 @@
-import { logger } from '@core/utils';
-import { AbandonProjetAnnulé } from '@modules/project';
-import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '../../../../../core/utils';
+import { AbandonProjetAnnulé } from '../../../../../modules/project';
+import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { Project } from '../project.model';
 import { ProjectProjector } from '../project.projector';
 

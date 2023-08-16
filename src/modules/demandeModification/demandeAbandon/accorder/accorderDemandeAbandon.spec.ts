@@ -1,14 +1,16 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
-import { okAsync } from '@core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { okAsync } from '../../../../core/utils';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
-import { UserRole } from '@modules/users';
-import { User } from '@entities';
+import { UserRole } from '../../../users';
+import { User } from '../../../../entities';
 
 import { makeAccorderDemandeAbandon } from './accorderDemandeAbandon';
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon';
 import { AccorderDemandeAbandonError } from './AccorderDemandeAbandonError';
 import { StatutDemandeAbandon, statutsDemandeAbandon } from '../DemandeAbandon';
+import { FileObject } from '../../../file';
 
 describe(`Accorder une demande d'abandon`, () => {
   const demandeAbandonId = 'id-demande';
@@ -19,7 +21,9 @@ describe(`Accorder une demande d'abandon`, () => {
 
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  beforeEach(() => publishToEventStore.mockClear());
+  beforeEach(() => {
+    publishToEventStore.mockClear();
+  });
 
   describe(`Impossible d'accorder un abandon si non Admin/DGEC`, () => {
     describe(`Etant donné un utilisateur autre que Admin ou DGEC`, () => {
@@ -73,7 +77,7 @@ describe(`Accorder une demande d'abandon`, () => {
       Lorsqu'il accorde une demande d'abandon avec comme statut '${statut}'
       Alors une erreur AccorderDemandeAbandonError devrait être retournée
       Et aucun évènement ne devrait être publié dans le store`, async () => {
-          const fileRepo = fakeRepo();
+          const fileRepo = fakeRepo<FileObject>();
 
           const demandeAbandon = makeFakeDemandeAbandon({
             id: demandeAbandonId,
@@ -118,7 +122,7 @@ describe(`Accorder une demande d'abandon`, () => {
       Lorsqu'il accorde une demande d'abandon avec comme statut '${statut}'
       Alors le courrier de réponse devrait être sauvegardé 
       Et l'évenement 'AbandonAccordé' devrait être publié dans le store`, async () => {
-          const fileRepo = fakeRepo();
+          const fileRepo = fakeRepo<FileObject>();
 
           const demandeAbandon = makeFakeDemandeAbandon({
             id: demandeAbandonId,

@@ -1,10 +1,10 @@
-import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import { format } from 'date-fns';
 import moment from 'moment';
 import React, { ComponentProps } from 'react';
-import ROUTES from '@routes';
-import { DownloadLink, ExternalLink, Heading2 } from '@components';
-import { afficherDate } from '@views/helpers';
+import ROUTES from '../../../../routes';
+import { DownloadLink, ExternalLink, Heading2 } from '../../../components';
+import { afficherDate } from '../../../helpers';
 
 type DemandeDetailsProps = ComponentProps<'div'> & {
   modificationRequest: ModificationRequestPageDTO;

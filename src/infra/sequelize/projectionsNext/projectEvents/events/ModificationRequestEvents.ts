@@ -1,4 +1,4 @@
-import { Fournisseur } from '@modules/project';
+import { Fournisseur } from '../../../../../modules/project';
 import { ProjectEvent } from '../projectEvent.model';
 
 export type ModificationRequestEvents = ProjectEvent &

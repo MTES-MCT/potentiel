@@ -1,5 +1,5 @@
-import { User, UserProjects } from '@infra/sequelize/projectionsNext';
-import { RécupérerDonnéesPorteursParProjetQueryHandler } from '@modules/project/queries';
+import { User, UserProjects } from '../../projectionsNext';
+import { RécupérerDonnéesPorteursParProjetQueryHandler } from '../../../../modules/project/queries';
 
 export const récupérerDonnéesPorteursParProjetQueryHandler: RécupérerDonnéesPorteursParProjetQueryHandler =
   async ({ projetId }) => {

@@ -3,11 +3,11 @@ import { sequelizeInstance } from '../../sequelize.config';
 import { makeUserRepo } from './user';
 import { makeProjectRepo, getFullTextSearchOptions } from './project';
 import { makeModificationRequestRepo } from './modificationRequest';
-import { logger } from '@core/utils';
+import { logger } from '../../core/utils';
 
 import { appelOffreRepo, appelsOffreStatic } from '../inMemory/appelOffre';
 import truncateAllTables from './helpers/truncateTables';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { makeGetProjectAppelOffre } from '../../modules/projectAppelOffre';
 
 // Create repo implementations
 

@@ -31,14 +31,15 @@ export const setupProjet = async (dependencies: ProjetDependencies) => {
   const { subscribe } = dependencies;
 
   return [
-    await subscribe<DemandeComplèteRaccordementTransmiseEvent>(
-      ['DemandeComplèteDeRaccordementTransmise'],
-      async (event: DemandeComplèteRaccordementTransmiseEvent) => {
+    await subscribe<DemandeComplèteRaccordementTransmiseEvent>({
+      name: 'ajouter_gestionnaire_reseau_projet_saga',
+      eventType: ['DemandeComplèteDeRaccordementTransmise'],
+      eventHandler: async (event: DemandeComplèteRaccordementTransmiseEvent) => {
         await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
           type: 'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
           data: event,
         });
       },
-    ),
+    }),
   ];
 };

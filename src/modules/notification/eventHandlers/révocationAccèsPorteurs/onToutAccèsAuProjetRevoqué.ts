@@ -1,8 +1,8 @@
-import { logger } from '@core/utils';
-import { ProjectRepo } from '@dataAccess';
-import { ToutAccèsAuProjetRevoqué } from '@modules/authZ';
-import { NotifierPorteurRévocationAccèsProjet } from '@modules/notification/useCases';
-import { RécupérerDonnéesPorteursParProjetQueryHandler } from '@modules/project';
+import { logger } from '../../../../core/utils';
+import { ProjectRepo } from '../../../../dataAccess';
+import { ToutAccèsAuProjetRevoqué } from '../../../authZ';
+import { NotifierPorteurRévocationAccèsProjet } from '../../useCases';
+import { RécupérerDonnéesPorteursParProjetQueryHandler } from '../../../project';
 
 type OnToutAccèsAuProjetRévoqué = (événement: ToutAccèsAuProjetRevoqué) => Promise<void>;
 

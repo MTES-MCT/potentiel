@@ -1,5 +1,5 @@
-import { or } from '@core/utils';
-import { ProjectEvent } from '@infra/sequelize';
+import { or } from '../../../../../core/utils';
+import { ProjectEvent } from '../../..';
 import {
   CovidDelayGrantedEvent,
   ProjectCertificateEvents,

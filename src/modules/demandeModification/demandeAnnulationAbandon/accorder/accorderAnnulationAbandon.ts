@@ -1,15 +1,20 @@
-import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync } from '@core/utils';
-import { User } from '@entities';
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre/queries';
+import {
+  EventStore,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '../../../../core/domain';
+import { errAsync } from '../../../../core/utils';
+import { User } from '../../../../entities';
+import { GetProjectAppelOffre } from '../../../projectAppelOffre/queries';
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon';
-import { Project } from '@modules/project';
+import { Project } from '../../../project';
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError';
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { AnnulationAbandonAccordée } from '../events';
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
-import { InfraNotAvailableError } from '@modules/shared';
+import { FileContents, FileObject, makeAndSaveFile } from '../../../file';
+import { InfraNotAvailableError } from '../../../shared';
 
 type Commande = {
   utilisateur: User;
@@ -58,12 +63,19 @@ export const makeAccorderAnnulationAbandon =
               return errAsync(new InfraNotAvailableError());
             }
 
-            const cahierDesCharges = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-              (cdc) =>
-                cdc.type === projet.cahierDesCharges.type &&
-                cdc.paruLe === projet.cahierDesCharges.paruLe &&
-                cdc.alternatif === projet.cahierDesCharges.alternatif,
-            );
+            const cahiersDesChargesModifiésDisponibles =
+              appelOffre?.periode && 'cahiersDesChargesModifiésDisponibles' in appelOffre?.periode
+                ? appelOffre?.periode.cahiersDesChargesModifiésDisponibles
+                : appelOffre?.cahiersDesChargesModifiésDisponibles;
+
+            const cahierDesCharges =
+              cahiersDesChargesModifiésDisponibles &&
+              cahiersDesChargesModifiésDisponibles.find(
+                (cdc) =>
+                  cdc.type === projet.cahierDesCharges.type &&
+                  cdc.paruLe === projet.cahierDesCharges.paruLe &&
+                  cdc.alternatif === projet.cahierDesCharges.alternatif,
+              );
 
             if (!cahierDesCharges) {
               return errAsync(new InfraNotAvailableError());

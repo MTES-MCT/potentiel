@@ -1,5 +1,5 @@
 import format from 'date-fns/format';
-import { DomainError } from '@core/domain';
+import { DomainError } from '../../../../core/domain';
 
 export class AccorderDateAchèvementAntérieureDateThéoriqueError extends DomainError {
   constructor(public nouvelleDateAchèvement: Date, public dateThéorique: Date) {

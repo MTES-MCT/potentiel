@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Form, PrimaryButton, SecondaryLinkButton } from '@components';
-import { ProjectDataForChoisirCDCPage } from '@modules/project';
-import routes from '@routes';
-import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
+import { Form, PrimaryButton, SecondaryLinkButton } from '../../..';
+import { ProjectDataForChoisirCDCPage } from '../../../../../modules/project';
+import routes from '../../../../../routes';
+import { formatCahierDesChargesRéférence } from '../../../../../entities/cahierDesCharges';
 
 import { CahierDesChargesInitial } from './CahierDesChargesInitial';
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible';
@@ -28,6 +28,9 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
   const { id: projetId, appelOffre, cahierDesChargesActuel } = projet;
   const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel);
   const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false);
+  const cahiersDesChargesModifiésDisponibles =
+    appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
+    appelOffre.cahiersDesChargesModifiésDisponibles;
 
   return (
     <Form action={routes.CHANGER_CDC} method="post" className="mx-auto">
@@ -61,7 +64,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
           </CahierDesChargesSelectionnable>
         </li>
 
-        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
+        {cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
           const idCdc = formatCahierDesChargesRéférence({
             ...cahierDesChargesModifié,
           });

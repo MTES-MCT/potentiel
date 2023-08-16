@@ -1,7 +1,7 @@
 import React from 'react';
 import { Font, PDFViewer } from '@react-pdf/renderer';
-import { ProjectAppelOffre } from '@entities';
-import { ProjectDataForCertificate } from '@modules/project';
+import { ProjectAppelOffre } from '../../../entities';
+import { ProjectDataForCertificate } from '../../../modules/project';
 import { makeLaureat } from './components/Laureat';
 import { Certificate } from './Certificate';
 import {
@@ -11,7 +11,7 @@ import {
   innovationPPE2,
   neutrePPE2,
   solPPE2,
-} from '@dataAccess/inMemory/appelsOffres';
+} from '../../../dataAccess/inMemory/appelsOffres';
 import { Validateur } from '..';
 
 export default { title: 'Attestations PDF/PPE2/v2' };

@@ -1,7 +1,7 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { NotificationArgs } from '../Notification';
 import { makeOnPeriodeNotified } from './onPeriodeNotified';
-import { PeriodeNotified } from '@modules/project';
-import { RecipientsForPeriodeNotifiedNotification } from '../dtos';
+import { PeriodeNotified } from '../../project';
 
 describe('notification.handleLegacyCandidateNotified', () => {
   it('should send a notification email to the PP', async () => {
@@ -17,9 +17,7 @@ describe('notification.handleLegacyCandidateNotified', () => {
 
     const sendNotification = jest.fn(async (args: NotificationArgs) => null);
 
-    const getRecipientsForPeriodeNotifiedNotification: jest.Mock<RecipientsForPeriodeNotifiedNotification> =
-      jest.fn();
-    getRecipientsForPeriodeNotifiedNotification.mockResolvedValue(users);
+    const getRecipientsForPeriodeNotifiedNotification = () => Promise.resolve(users);
 
     const onPeriodeNotified = makeOnPeriodeNotified({
       sendNotification,

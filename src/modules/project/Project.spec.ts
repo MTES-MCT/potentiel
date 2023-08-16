@@ -1,6 +1,9 @@
-import { UniqueEntityID } from '@core/domain';
+import { describe, expect, it, jest } from '@jest/globals';
+import { UniqueEntityID } from '../../core/domain';
 import { CahierDesChargesChoisi } from './events';
 import { makeProject } from './Project';
+import { GetProjectAppelOffre } from '../projectAppelOffre';
+import { BuildProjectIdentifier } from './queries';
 
 describe(`Fabriquer l'aggregat projet`, () => {
   const projectId = new UniqueEntityID('le-projet');
@@ -10,8 +13,8 @@ describe(`Fabriquer l'aggregat projet`, () => {
       Alors le cahier des charges du projet devrait être celui en vigeur à la candidature`, () => {
       const projet = makeProject({
         projectId,
-        getProjectAppelOffre: jest.fn(),
-        buildProjectIdentifier: jest.fn(),
+        getProjectAppelOffre: jest.fn<GetProjectAppelOffre>(),
+        buildProjectIdentifier: jest.fn<BuildProjectIdentifier>(),
       })._unsafeUnwrap();
 
       expect(projet.cahierDesCharges).toEqual({
@@ -34,8 +37,8 @@ describe(`Fabriquer l'aggregat projet`, () => {
             },
           }),
         ],
-        getProjectAppelOffre: jest.fn(),
-        buildProjectIdentifier: jest.fn(),
+        getProjectAppelOffre: jest.fn<GetProjectAppelOffre>(),
+        buildProjectIdentifier: jest.fn<BuildProjectIdentifier>(),
       })._unsafeUnwrap();
 
       expect(projet.cahierDesCharges).toEqual({
@@ -51,8 +54,8 @@ describe(`Fabriquer l'aggregat projet`, () => {
       Alors l'identifiant du gestionnaire de réseau du projet devrait être vide`, () => {
       const projet = makeProject({
         projectId,
-        getProjectAppelOffre: jest.fn(),
-        buildProjectIdentifier: jest.fn(),
+        getProjectAppelOffre: jest.fn<GetProjectAppelOffre>(),
+        buildProjectIdentifier: jest.fn<BuildProjectIdentifier>(),
       })._unsafeUnwrap();
 
       expect(projet.identifiantGestionnaireRéseau).toEqual('');
@@ -65,8 +68,8 @@ describe(`Fabriquer l'aggregat projet`, () => {
       Et le projet ne devrait pas avoir de date en file d'attente`, () => {
       const projet = makeProject({
         projectId,
-        getProjectAppelOffre: jest.fn(),
-        buildProjectIdentifier: jest.fn(),
+        getProjectAppelOffre: jest.fn<GetProjectAppelOffre>(),
+        buildProjectIdentifier: jest.fn<BuildProjectIdentifier>(),
       })._unsafeUnwrap();
 
       expect(projet.dateMiseEnService).toBeUndefined();

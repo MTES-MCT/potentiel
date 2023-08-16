@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Link, Tile, PageProjetTemplate, InfoBox, EditIcon } from '@components';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Link, Tile, PageProjetTemplate, InfoBox, EditIcon } from '../../../components';
 import { hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
-  ConsulterProjetReadModel,
+  ProjetReadModel,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
-import routes from '@routes';
-import { userIs } from '@modules/users';
+import routes from '../../../../routes';
+import { userIs } from '../../../../modules/users';
 import { Dossier } from './components/Dossier';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
-  projet: ConsulterProjetReadModel;
+  projet: ProjetReadModel;
   gestionnaireRéseau: GestionnaireRéseauReadModel;
   dossiers: ReadonlyArray<DossierRaccordementReadModel>;
 };

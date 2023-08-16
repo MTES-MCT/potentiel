@@ -1,9 +1,10 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { NotificationRepo } from './notificationRepo';
-import { Notification } from '@modules/notification';
+import { Notification } from '../../../modules/notification';
 import { resetDatabase } from '../helpers';
-import { UniqueEntityID } from '@core/domain';
-import { logger } from '@core/utils';
-import { Notification as NotificationModel } from '@infra/sequelize/projectionsNext';
+import { UniqueEntityID } from '../../../core/domain';
+import { logger } from '../../../core/utils';
+import { Notification as NotificationModel } from '../projectionsNext';
 
 describe('Sequelize NotificationRepo', () => {
   const notificationRepo = new NotificationRepo();

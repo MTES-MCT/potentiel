@@ -1,8 +1,8 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { ResultAsync, wrapInfra } from '@core/utils';
-import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise';
-import { userIs } from '@modules/users';
-import { InfraNotAvailableError } from '@modules/shared';
+import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
+import { ResultAsync, wrapInfra } from '../../../../core/utils';
+import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
+import { userIs } from '../../../../modules/users';
+import { InfraNotAvailableError } from '../../../../modules/shared';
 import routes from '../../../../routes';
 import {
   GarantiesFinancières,
@@ -12,8 +12,8 @@ import {
   User,
   Project,
   File,
-} from '@infra/sequelize/projectionsNext';
-import { ProjectAppelOffre } from '@entities';
+} from '../../projectionsNext';
+import { ProjectAppelOffre } from '../../../../entities';
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
@@ -723,6 +723,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         'dgec-validateur',
                         'cre',
                         'acheteur-obligé',
+                        'dreal',
                       ])(user) && {
                         demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                       }),

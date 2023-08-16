@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 
 interface ActionnaireFormProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'actionnaire' };

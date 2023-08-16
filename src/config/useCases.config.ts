@@ -1,4 +1,4 @@
-import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '@modules/authZ';
+import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '../modules/authZ';
 import {
   makeAccorderDemandeDélai,
   makeAnnulerDemandeDélai,
@@ -6,7 +6,7 @@ import {
   makeDemanderDélai,
   makeRejeterDemandeDélai,
   makePasserDemandeDélaiEnInstruction,
-} from '@modules/demandeModification/demandeDélai';
+} from '../modules/demandeModification/demandeDélai';
 import {
   makeDemanderAbandon,
   makeAnnulerDemandeAbandon,
@@ -15,16 +15,16 @@ import {
   makeDemanderConfirmationAbandon,
   makeConfirmerDemandeAbandon,
   makeAnnulerRejetAbandon,
-} from '@modules/demandeModification/demandeAbandon';
-import { makeAnnulerDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon';
-import { makeAnnulerRejetRecours } from '@modules/demandeModification/demandeRecours';
+} from '../modules/demandeModification/demandeAbandon';
+import { makeAnnulerDemandeAnnulationAbandon } from '../modules/demandeModification/demandeAnnulationAbandon';
+import { makeAnnulerRejetRecours } from '../modules/demandeModification/demandeRecours';
 import {
   makeAnnulerRejetChangementDePuissance,
   makeDemanderChangementDePuissance,
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
-} from '@modules/demandeModification/demandeChangementDePuissance';
-import { makeLoadFileForUser } from '@modules/file';
+} from '../modules/demandeModification/demandeChangementDePuissance';
+import { makeLoadFileForUser } from '../modules/file';
 import {
   makeAcceptModificationRequest,
   makeAttachLegacyModificationFile,
@@ -35,7 +35,7 @@ import {
   makeRequestConfirmation,
   makeRequestFournisseursModification,
   makeChangerProducteur,
-} from '@modules/modificationRequest';
+} from '../modules/modificationRequest';
 import {
   makeAddGFExpirationDate,
   makeCorrectProjectData,
@@ -52,10 +52,10 @@ import {
   makeWithdrawGF,
   makeValiderGF,
   makeInvaliderGF,
-} from '@modules/project';
-import { makeClaimProject } from '@modules/projectClaim';
-import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users';
-import { buildCertificate } from '@views/certificates';
+} from '../modules/project';
+import { makeClaimProject } from '../modules/projectClaim';
+import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '../modules/users';
+import { buildCertificate } from '../views/certificates';
 import { resendInvitationEmail } from './credentials.config';
 import { eventStore } from './eventStore.config';
 import {
@@ -85,17 +85,17 @@ import {
   utilisateurRepo,
   demandeAnnulationAbandonRepo,
 } from './repos.config';
-import { sendNotification } from '@config/emails.config';
+import { sendNotification } from './emails.config';
 import {
   makeNotifierPorteurChangementStatutDemande,
   makeNotifierPorteurRévocationAccèsProjet,
-} from '@modules/notification';
+} from '../modules/notification';
 
-import { makeCréerProfilUtilisateur, makeInviterUtilisateur } from '@modules/utilisateur';
-import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/demander';
+import { makeCréerProfilUtilisateur, makeInviterUtilisateur } from '../modules/utilisateur';
+import { makeDemanderAnnulationAbandon } from '../modules/demandeModification/demandeAnnulationAbandon/demander';
 import { getProjectAppelOffre } from './queryProjectAO.config';
-import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter';
-import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon';
+import { makeRejeterDemandeAnnulationAbandon } from '../modules/demandeModification/demandeAnnulationAbandon/rejeter';
+import { makeAccorderAnnulationAbandon } from '../modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 

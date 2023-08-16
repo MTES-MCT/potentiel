@@ -1,4 +1,4 @@
-import routes from '@routes';
+import routes from '../../../routes';
 import * as yup from 'yup';
 import { v1Router } from '../../v1Router';
 import {
@@ -6,13 +6,13 @@ import {
   validateRequestBody,
   vérifierPermissionUtilisateur,
 } from '../../helpers';
-import { inviterUtilisateur } from '@config';
+import { inviterUtilisateur } from '../../../config';
 import {
   InvitationUniqueParUtilisateurError,
   InvitationUtilisateurExistantError,
   PermissionInviterDgecValidateur,
-} from '@modules/utilisateur';
-import { logger } from '@core/utils';
+} from '../../../modules/utilisateur';
+import { logger } from '../../../core/utils';
 import asyncHandler from '../../helpers/asyncHandler';
 import { setApiResult } from '../../helpers/apiResult';
 

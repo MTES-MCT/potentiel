@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectAppelOffre } from '@entities';
+import { ProjectAppelOffre } from '../../../entities';
 
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import makeFakeRequest from '../../../__tests__/fixtures/request';

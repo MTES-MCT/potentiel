@@ -1,9 +1,14 @@
-import { User } from '@entities';
-import { EventStore, TransactionalRepository, Repository, UniqueEntityID } from '@core/domain';
-import { ResultAsync, errAsync, wrapInfra } from '@core/utils';
+import { User } from '../../../../entities';
+import {
+  EventStore,
+  TransactionalRepository,
+  Repository,
+  UniqueEntityID,
+} from '../../../../core/domain';
+import { ResultAsync, errAsync, wrapInfra } from '../../../../core/utils';
 
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
-import { DélaiEnInstruction } from '@modules/demandeModification/demandeDélai/events';
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { DélaiEnInstruction } from '../events';
 
 import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError';
 import { DemandeDélai } from '../DemandeDélai';

@@ -1,5 +1,10 @@
 import { setupDomain } from '@potentiel/domain';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import {
+  loadAggregate,
+  publish,
+  subscribe,
+  deleteAllSubscribers,
+} from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -9,21 +14,21 @@ import {
   updateProjection,
 } from '@potentiel/pg-projections';
 import {
-  consumerSubscribe,
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
+  récupérerDétailProjetAdapter,
+  consumerSubscribe,
 } from '@potentiel/infra-adapters';
-import { setupDomainViews, LegacyProjectRepository } from '@potentiel/domain-views';
-import { publishToEventBus } from '@potentiel/redis-event-bus-client';
-import { consumerPool } from '@potentiel/redis-event-bus-consumer';
+import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
+import { publishToEventBus } from '@potentiel/redis-event-bus-client';
+import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 
 export type UnsetupApp = () => Promise<void>;
 
-export const bootstrap = async (legacy: {
-  projectRepository: LegacyProjectRepository;
-}): Promise<UnsetupApp> => {
+export const bootstrap = async (): Promise<UnsetupApp> => {
+  await deleteAllSubscribers();
   mediator.use<Message>({
     middlewares: [logMiddleware],
   });
@@ -51,7 +56,9 @@ export const bootstrap = async (legacy: {
       search: searchProjection,
       subscribe: consumerSubscribe,
       update: updateProjection,
-      legacy,
+    },
+    projet: {
+      récupérerDétailProjet: récupérerDétailProjetAdapter,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
@@ -60,8 +67,12 @@ export const bootstrap = async (legacy: {
     },
   });
 
-  const unsubscribePublishAll = await subscribe('all', async (event) => {
-    await publishToEventBus(event.type, event);
+  const unsubscribePublishAll = await subscribe({
+    name: 'new_event',
+    eventType: 'all',
+    eventHandler: async (event) => {
+      await publishToEventBus(event.type, event);
+    },
   });
 
   return async () => {

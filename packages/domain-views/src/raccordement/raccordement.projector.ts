@@ -28,12 +28,12 @@ export const registerRaccordementProjector = ({
   const handler: MessageHandler<ExecuteRaccordementProjector> = async (event) => {
     if (event.type === 'DemandeComplèteDeRaccordementTransmise') {
       const dossierRaccordement = await find<LegacyDossierRaccordementReadModel>(
-        `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+        `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
       );
 
       if (isNone(dossierRaccordement)) {
         await create<LegacyDossierRaccordementReadModel>(
-          `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+          `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
           {
             dateQualification: event.payload.dateQualification,
             référence: event.payload.référenceDossierRaccordement,
@@ -42,19 +42,19 @@ export const registerRaccordementProjector = ({
       }
 
       const listeDossierRaccordement = await find<ListeDossiersRaccordementReadModel>(
-        `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
+        `liste-dossiers-raccordement|${event.payload.identifiantProjet}`,
       );
 
       if (isNone(listeDossierRaccordement)) {
         await create<ListeDossiersRaccordementReadModel>(
-          `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
+          `liste-dossiers-raccordement|${event.payload.identifiantProjet}`,
           {
             références: [event.payload.référenceDossierRaccordement],
           },
         );
       } else {
         await update<ListeDossiersRaccordementReadModel>(
-          `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
+          `liste-dossiers-raccordement|${event.payload.identifiantProjet}`,
           {
             ...listeDossierRaccordement,
             références: [
@@ -75,7 +75,7 @@ export const registerRaccordementProjector = ({
           : event.payload.référenceDossierRaccordement;
 
       const dossierRaccordement = await find<LegacyDossierRaccordementReadModel>(
-        `dossier-raccordement#${event.payload.identifiantProjet}#${référence}`,
+        `dossier-raccordement|${event.payload.identifiantProjet}#${référence}`,
       );
 
       if (isNone(dossierRaccordement)) {
@@ -86,7 +86,7 @@ export const registerRaccordementProjector = ({
       switch (event.type) {
         case 'AccuséRéceptionDemandeComplèteRaccordementTransmis':
           await update<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${référence}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${référence}`,
             {
               ...dossierRaccordement,
               accuséRéception: {
@@ -97,7 +97,7 @@ export const registerRaccordementProjector = ({
           break;
         case 'DateMiseEnServiceTransmise':
           await update<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
               dateMiseEnService: event.payload.dateMiseEnService,
@@ -106,11 +106,11 @@ export const registerRaccordementProjector = ({
           break;
         case 'DemandeComplèteRaccordementModifiée':
           await remove<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.referenceActuelle}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.referenceActuelle}`,
           );
 
           await create<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.nouvelleReference}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.nouvelleReference}`,
             {
               ...dossierRaccordement,
               dateQualification: event.payload.dateQualification,
@@ -119,7 +119,7 @@ export const registerRaccordementProjector = ({
           );
 
           const listeDossierRaccordement = await find<ListeDossiersRaccordementReadModel>(
-            `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
+            `liste-dossiers-raccordement|${event.payload.identifiantProjet}`,
           );
 
           if (isNone(listeDossierRaccordement)) {
@@ -129,7 +129,7 @@ export const registerRaccordementProjector = ({
 
           if (event.payload.nouvelleReference !== event.payload.referenceActuelle) {
             await update<ListeDossiersRaccordementReadModel>(
-              `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
+              `liste-dossiers-raccordement|${event.payload.identifiantProjet}`,
               {
                 ...listeDossierRaccordement,
                 références: [
@@ -146,7 +146,7 @@ export const registerRaccordementProjector = ({
           break;
         case 'DemandeComplèteRaccordementModifiée-V1':
           await update<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${référence}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${référence}`,
             {
               ...dossierRaccordement,
               dateQualification: event.payload.dateQualification,
@@ -155,11 +155,11 @@ export const registerRaccordementProjector = ({
           break;
         case 'RéférenceDossierRacordementModifiée-V1':
           await remove<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordementActuelle}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordementActuelle}`,
           );
 
           await create<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.nouvelleRéférenceDossierRaccordement}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.nouvelleRéférenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
               référence: event.payload.nouvelleRéférenceDossierRaccordement,
@@ -167,7 +167,7 @@ export const registerRaccordementProjector = ({
           );
 
           const dossiers = await find<ListeDossiersRaccordementReadModel>(
-            `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
+            `liste-dossiers-raccordement|${event.payload.identifiantProjet}`,
           );
 
           if (isNone(dossiers)) {
@@ -175,7 +175,7 @@ export const registerRaccordementProjector = ({
             return;
           }
           await update<ListeDossiersRaccordementReadModel>(
-            `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
+            `liste-dossiers-raccordement|${event.payload.identifiantProjet}`,
             {
               ...dossiers,
               références: [
@@ -191,7 +191,7 @@ export const registerRaccordementProjector = ({
           break;
         case 'PropositionTechniqueEtFinancièreModifiée':
           await update<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
               propositionTechniqueEtFinancière: {
@@ -203,7 +203,7 @@ export const registerRaccordementProjector = ({
           break;
         case 'PropositionTechniqueEtFinancièreSignéeTransmise':
           await update<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
               ...(dossierRaccordement.propositionTechniqueEtFinancière && {
@@ -217,7 +217,7 @@ export const registerRaccordementProjector = ({
           break;
         case 'PropositionTechniqueEtFinancièreTransmise':
           await update<LegacyDossierRaccordementReadModel>(
-            `dossier-raccordement#${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
             {
               ...dossierRaccordement,
               propositionTechniqueEtFinancière: {

@@ -1,11 +1,13 @@
-import { User } from '@entities';
-import { ProjectCompletionDueDateSet } from '@modules/project';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { User } from '../../../entities';
+import { ProjectCompletionDueDateSet } from '../../project';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeOnProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet';
+import { NotificationService } from '../NotificationService';
 
 describe(`Notification handler onProjectCompletionDueDateSet`, () => {
-  const sendNotification = jest.fn();
+  const sendNotification = jest.fn<NotificationService['sendNotification']>();
   const projetId = 'projetId';
   const évènement = new ProjectCompletionDueDateSet({
     payload: {
@@ -14,7 +16,11 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
       reason: 'délaiCdc2022',
     },
   });
-  beforeEach(() => sendNotification.mockClear());
+
+  beforeEach(() => {
+    sendNotification.mockClear();
+  });
+
   describe(`Notifier les porteurs de l'application du délai de 18 mois relatif au CDC 2022`, () => {
     it(`Etant donné un projet suivi par deux porteurs,
     alors les deux profils devraient être notifiés`, async () => {

@@ -1,8 +1,12 @@
-import { DownloadLinkButton, SecondaryLinkButton, DropdownMenuSecondaryButton } from '@components';
-import { User } from '@entities';
-import { ProjectDataForProjectPage } from '@modules/project';
-import { userIs } from '@modules/users';
-import routes from '@routes';
+import {
+  DownloadLinkButton,
+  SecondaryLinkButton,
+  DropdownMenuSecondaryButton,
+} from '../../../components';
+import { User } from '../../../../entities';
+import { ProjectDataForProjectPage } from '../../../../modules/project';
+import { userIs } from '../../../../modules/users';
+import routes from '../../../../routes';
 import React from 'react';
 
 type ProjectActionsProps = {

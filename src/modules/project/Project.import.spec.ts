@@ -1,6 +1,7 @@
-import { UniqueEntityID } from '@core/domain';
-import { UnwrapForTest } from '@core/utils';
-import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { UniqueEntityID } from '../../core/domain';
+import { UnwrapForTest } from '../../core/utils';
+import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import {
   TypeGarantiesFinancièresEtDateEchéanceTransmis,
@@ -20,7 +21,7 @@ import {
 } from './events';
 import { makeProject } from './Project';
 import { BuildProjectIdentifier } from './queries';
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import { findEventOfType } from '../../helpers/findEventOfType';
 
 const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);

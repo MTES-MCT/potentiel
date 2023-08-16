@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react';
-
-import { ProjectListItem } from '@modules/project';
-import { UserRole } from '@modules/users';
-import routes from '@routes';
-import { PaginatedList } from '@modules/pagination';
+import { ProjectListItem } from '../../../../modules/project';
+import { UserRole } from '../../../../modules/users';
+import routes from '../../../../routes';
+import { PaginatedList } from '../../../../modules/pagination';
 import {
   ProjectActions,
   PowerIcon,
@@ -19,8 +18,8 @@ import {
   Tile,
   Pagination,
   Checkbox,
-} from '@components';
-import { afficherDate } from '@views/helpers';
+} from '../..';
+import { afficherDate } from '../../../helpers';
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -61,7 +60,6 @@ type Props = {
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
   currentUrl: string;
-  downloadUrl?: string;
 };
 
 export const ProjectList = ({
@@ -74,7 +72,6 @@ export const ProjectList = ({
   displaySelection = false,
   onSelectedIdsChanged,
   currentUrl,
-  downloadUrl,
 }: Props) => {
   const prixDisponible = projects.items.some((project) => project.prixReference);
 

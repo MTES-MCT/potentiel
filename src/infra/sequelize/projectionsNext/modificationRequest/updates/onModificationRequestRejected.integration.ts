@@ -1,8 +1,9 @@
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../../helpers';
 import { onModificationRequestRejected } from './onModificationRequestRejected';
-import { ModificationRequestRejected } from '@modules/modificationRequest';
-import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { ModificationRequestRejected } from '../../../../../modules/modificationRequest';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ModificationRequest } from '../..';
 
 describe('modificationRequest.onModificationRequestRejected', () => {
   const modificationRequestId = new UniqueEntityID().toString();

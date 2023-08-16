@@ -1,15 +1,17 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Some } from '../../../types';
 import { CahierDesChargesChoisi } from '../../project';
 import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../__tests__/fixtures/user';
-import { makeProject } from '@entities';
+import { makeProject } from '../../../entities';
+import { NotificationService } from '../NotificationService';
 
 describe('Notifier le choix du nouveau cahier des charges', () => {
   describe(`Lorsqu'un nouveau cahier des charges est choisi pour un projet`, () => {
     const projetId = 'le-projet';
     const choisiPar = 'le-porteur-de-projet';
-    const sendNotification = jest.fn();
+    const sendNotification = jest.fn<NotificationService['sendNotification']>();
     const findProjectById = () =>
       Promise.resolve(
         makeProject(makeFakeProject({ id: projetId, nomProjet: 'nomProjet' })).unwrap(),

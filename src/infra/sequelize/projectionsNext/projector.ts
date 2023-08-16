@@ -1,5 +1,5 @@
 import type { Model, ModelStatic, Transaction } from 'sequelize/types';
-import { DomainEvent } from '@core/domain';
+import { DomainEvent } from '../../../core/domain';
 import { EventHandler } from './eventHandler';
 import { Subscribe } from './subscribe';
 

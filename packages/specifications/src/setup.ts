@@ -7,21 +7,21 @@ import {
   setDefaultTimeout,
   AfterAll,
 } from '@cucumber/cucumber';
-import { executeQuery } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
 import { clear } from 'mediateur';
-import { legacyProjectRepository } from './helpers/legacy/legacyProjectRepository';
 import { disconnectRedis } from '@potentiel/redis-event-bus-consumer';
-import { UnsetupDomain, setupDomain } from '@potentiel/domain';
-import { UnsetupDomainViews, setupDomainViews } from '@potentiel/domain-views';
+import { setupDomain, UnsetupDomain } from '@potentiel/domain';
+import { setupDomainViews, UnsetupDomainViews } from '@potentiel/domain-views';
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
+  récupérerDétailProjetAdapter,
 } from '@potentiel/infra-adapters';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, oldSubscribe, publish } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -64,11 +64,13 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
+  await executeQuery(`insert into event_store.subscriber values($1)`, 'new_event');
+
   unsetupDomain = await setupDomain({
     common: {
       loadAggregate,
       publish,
-      subscribe,
+      subscribe: oldSubscribe,
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
@@ -85,11 +87,11 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       list: listProjection,
       remove: removeProjection,
       search: searchProjection,
-      subscribe,
+      subscribe: oldSubscribe,
       update: updateProjection,
-      legacy: {
-        projectRepository: legacyProjectRepository,
-      },
+    },
+    projet: {
+      récupérerDétailProjet: récupérerDétailProjetAdapter,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
@@ -100,8 +102,10 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  await executeQuery(`DELETE FROM "EVENT_STREAM"`);
-  await executeQuery(`DELETE FROM "PROJECTION"`);
+  await executeQuery(`delete from "projects"`);
+  await executeQuery(`delete from event_store.event_stream`);
+  await executeQuery(`delete from event_store.subscriber`);
+  await executeQuery(`delete from domain_views.projection`);
 
   const objectsToDelete = await getClient().listObjects({ Bucket: bucketName }).promise();
 
@@ -131,6 +135,7 @@ After(async () => {
   unsetupDomainViews = undefined;
 });
 
-AfterAll(() => {
+AfterAll(async () => {
+  await killPool();
   disconnectRedis();
 });

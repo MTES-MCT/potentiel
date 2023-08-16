@@ -1,5 +1,5 @@
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
-import { Input, Select } from '@components';
+import { Input, Select } from '../../../components';
 import React, { ComponentProps } from 'react';
 
 type GestionnaireRéseauSelectProps = ComponentProps<'select'> & {

@@ -1,7 +1,7 @@
-import { err, ok, wrapInfra } from '@core/utils';
-import { GetProjectAppelOffreId } from '@modules/modificationRequest';
-import { EntityNotFoundError } from '@modules/shared';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { err, ok, wrapInfra } from '../../../../core/utils';
+import { GetProjectAppelOffreId } from '../../../../modules/modificationRequest';
+import { EntityNotFoundError } from '../../../../modules/shared';
+import { Project } from '../../projectionsNext';
 
 export const getProjectAppelOffreId: GetProjectAppelOffreId = (projectId) => {
   return wrapInfra(

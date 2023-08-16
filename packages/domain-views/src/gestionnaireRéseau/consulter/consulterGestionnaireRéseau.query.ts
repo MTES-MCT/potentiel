@@ -35,7 +35,7 @@ export const registerConsulterGestionnaireRéseauQuery = ({
     )
       ? convertirEnIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau).formatter()
       : identifiantGestionnaireRéseau;
-    const key: GestionnaireRéseauReadModelKey = `gestionnaire-réseau#${rawIdentifiantGestionnaireRéseau}`;
+    const key: GestionnaireRéseauReadModelKey = `gestionnaire-réseau|${rawIdentifiantGestionnaireRéseau}`;
     const result = await find<GestionnaireRéseauReadModel>(key);
 
     return result;

@@ -1,15 +1,15 @@
-import { ensureRole, requestFournisseurModification } from '@config';
-import { logger } from '@core/utils';
-import { CHAMPS_FOURNISSEURS, Fournisseur, isFournisseurKind } from '@modules/project';
-import routes from '@routes';
+import { ensureRole, requestFournisseurModification } from '../../../config';
+import { logger } from '../../../core/utils';
+import { CHAMPS_FOURNISSEURS, Fournisseur, isFournisseurKind } from '../../../modules/project';
+import routes from '../../../routes';
 import fs from 'fs';
 import { errorResponse, unauthorizedResponse } from '../../helpers';
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import * as yup from 'yup';
-import { UniqueEntityID } from '@core/domain';
+import { UniqueEntityID } from '../../../core/domain';
 import { addQueryParams } from '../../../helpers/addQueryParams';
-import { UnauthorizedError } from '@modules/shared';
+import { UnauthorizedError } from '../../../modules/shared';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 
 const schema = yup.object({

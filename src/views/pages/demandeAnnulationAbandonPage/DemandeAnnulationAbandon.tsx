@@ -9,14 +9,14 @@ import {
   SecondaryButton,
   StatutDemandeModification,
   SuccessBox,
-} from '@components';
+} from '../../components';
 import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components';
-import ROUTES from '@routes';
+import ROUTES from '../../../routes';
 import React from 'react';
 import { Request } from 'express';
-import { DemandeAnnulationAbandonPageDTO } from '@modules/modificationRequest';
+import { DemandeAnnulationAbandonPageDTO } from '../../../modules/modificationRequest';
 import { afficherDate, hydrateOnClient, ModificationRequestStatusTitle } from '../../helpers';
-import { userIs } from '@modules/users';
+import { userIs } from '../../../modules/users';
 
 type DemandeAnnulationAbandonProps = {
   request: Request;

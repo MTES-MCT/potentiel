@@ -8,12 +8,12 @@ import { ProjetEvent } from './projet.event';
 import { Option, none } from '@potentiel/monads';
 import { convertirEnIdentifiantGestionnaireRéseau } from '../domain.valueType';
 
-type ProjetAggregateId = `projet#${string}`;
+type ProjetAggregateId = `projet|${string}`;
 
 export const createProjetAggregateId = (
   identifiantProjet: IdentifiantProjetValueType,
 ): ProjetAggregateId => {
-  return `projet#${identifiantProjet.formatter()}`;
+  return `projet|${identifiantProjet.formatter()}`;
 };
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };

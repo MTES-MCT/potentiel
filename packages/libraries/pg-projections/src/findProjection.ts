@@ -4,10 +4,10 @@ import { none, Option } from '@potentiel/monads';
 import { KeyValuePair } from './keyValuePair';
 
 export const findProjection = async <TReadModel extends ReadModel>(
-  id: `${TReadModel['type']}#${string}`,
+  id: `${TReadModel['type']}|${string}`,
 ): Promise<Option<TReadModel>> => {
   const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
-    `SELECT "key", "value" FROM "PROJECTION" where "key" = $1`,
+    `select key, value from domain_views.projection where key = $1`,
     id,
   );
 
@@ -17,7 +17,7 @@ export const findProjection = async <TReadModel extends ReadModel>(
 
   const [{ key, value }] = result;
   return {
-    type: key.split('#')[0] as TReadModel['type'],
+    type: key.split('|')[0] as TReadModel['type'],
     ...value,
   } as TReadModel;
 };

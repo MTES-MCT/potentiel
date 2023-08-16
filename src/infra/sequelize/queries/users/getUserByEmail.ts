@@ -1,7 +1,7 @@
-import { ok, Result, wrapInfra } from '@core/utils';
-import { User } from '@infra/sequelize/projectionsNext';
-import { InfraNotAvailableError } from '@modules/shared';
-import { GetUserByEmail } from '@modules/users';
+import { ok, Result, wrapInfra } from '../../../../core/utils';
+import { User } from '../../projectionsNext';
+import { InfraNotAvailableError } from '../../../../modules/shared';
+import { GetUserByEmail } from '../../../../modules/users';
 
 export const getUserByEmail: GetUserByEmail = (email) => {
   return wrapInfra(User.findOne({ where: { email } })).andThen(

@@ -1,5 +1,6 @@
-import { UniqueEntityID } from '@core/domain';
-import { UserCreated } from '@modules/users';
+import { describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../core/domain';
+import { UserCreated } from '../users';
 import { makeUtilisateur } from './Utilisateur';
 import { ProfilUtilisateurCréé, UtilisateurInvité } from './events';
 

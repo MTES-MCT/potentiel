@@ -1,7 +1,8 @@
-import { UniqueEntityID } from '@core/domain';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { UniqueEntityID } from '../../../../../core/domain';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '@infra/sequelize/projectionsNext';
-import { CovidDelayGranted, CovidDelayGrantedPayload } from '@modules/project';
+import { ProjectEvent } from '../..';
+import { CovidDelayGranted, CovidDelayGrantedPayload } from '../../../../../modules/project';
 import onCovidDelayGranted from './onCovidDelayGranted';
 
 describe('onCovidDelayGranted', () => {

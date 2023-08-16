@@ -1,6 +1,6 @@
 import React from 'react';
-import { ProjectDataForProjectPage } from '@modules/project';
-import { ClipboardCheckIcon, Section } from '@components';
+import { ProjectDataForProjectPage } from '../../../../modules/project';
+import { ClipboardCheckIcon, Section } from '../../../components';
 
 type ResultatsAppelOffreInnovationProps = {
   note: ProjectDataForProjectPage['note'];

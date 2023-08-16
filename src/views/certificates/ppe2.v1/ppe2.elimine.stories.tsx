@@ -1,9 +1,9 @@
 import React from 'react';
 import { Font, PDFViewer } from '@react-pdf/renderer';
-import { ProjectAppelOffre } from '@entities';
-import { ProjectDataForCertificate } from '@modules/project';
+import { ProjectAppelOffre } from '../../../entities';
+import { ProjectDataForCertificate } from '../../../modules/project';
 import { Certificate } from './Certificate';
-import { batimentPPE2, eolienPPE2 } from '@dataAccess/inMemory/appelsOffres';
+import { batimentPPE2, eolienPPE2 } from '../../../dataAccess/inMemory/appelsOffres';
 import { Elimine } from './components/elimine/Elimine';
 
 import { Validateur } from '..';

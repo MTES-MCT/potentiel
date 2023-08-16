@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, UniqueEntityID, EventStore, BaseDomainEvent } from '../domain';
 import { ok } from '.';
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates';
@@ -5,7 +6,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   HeterogeneousHistoryError,
-} from '@modules/shared';
+} from '../../modules/shared';
 import { makeEventStoreRepo } from './makeEventStoreRepo';
 
 interface DummyEventPayload {

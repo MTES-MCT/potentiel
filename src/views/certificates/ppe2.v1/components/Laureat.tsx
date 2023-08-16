@@ -1,8 +1,8 @@
 import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
-import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { ProjectDataForCertificate } from '../../../../modules/project/dtos';
 import { formatNumber } from '../../helpers/formatNumber';
-import { getDelaiDeRealisation } from '@modules/projectAppelOffre';
+import { getDelaiDeRealisation } from '../../../../modules/projectAppelOffre';
 
 type MakeLaureat = (project: ProjectDataForCertificate) => {
   content: React.ReactNode;

@@ -13,15 +13,16 @@ import {
   Form,
   SecondaryLinkButton,
   ExcelFileIcon,
-} from '@components';
-import { AppelOffre, Periode } from '@entities';
-import { ProjectListItem } from '@modules/project/queries';
-import ROUTES from '@routes';
+} from '../components';
+import { AppelOffre, Periode } from '../../entities';
+import { ProjectListItem } from '../../modules/project/queries';
+import ROUTES from '../../routes';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import { PaginatedList } from '@modules/pagination';
+import { PaginatedList } from '../../modules/pagination';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
+import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type AdminNotificationCandidatsProps = {
   request: Request;
@@ -40,12 +41,17 @@ export const AdminNotificationCandidats = ({
   données,
   currentUrl,
 }: AdminNotificationCandidatsProps) => {
-  const { error, success, recherche, classement } = (request.query as any) || {};
+  const {
+    query: { error, success, recherche, classement },
+    user,
+  } = (request as any) || {};
+
+  const utilisateur = user as UtilisateurReadModel;
 
   if (!données) {
     // All projects have been notified
     return (
-      <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
+      <LegacyPageTemplate user={utilisateur} currentPage="notify-candidates">
         <Heading1>Notifier des candidats</Heading1>
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
@@ -63,9 +69,9 @@ export const AdminNotificationCandidats = ({
   } = données;
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
+    <LegacyPageTemplate user={utilisateur} currentPage="notify-candidates">
       <Heading1>Notifier les candidats</Heading1>
-      {request.user.role !== 'dgec-validateur' && (
+      {utilisateur.role !== 'dgec-validateur' && (
         <p>
           Seules les personnes ayant délégation de signature sont habilitées à notifier un appel
           d'offres. <br />
@@ -178,7 +184,7 @@ export const AdminNotificationCandidats = ({
 
         {projetsPériodeSélectionnée.itemCount > 0 &&
           !success &&
-          request.user?.role === 'dgec-validateur' && (
+          utilisateur.role === 'dgec-validateur' && (
             <div className="mt-4">
               <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
               <Input
@@ -199,7 +205,7 @@ export const AdminNotificationCandidats = ({
       {error && <ErrorBox title={error} />}
       <ProjectList
         projects={projetsPériodeSélectionnée}
-        role={request.user?.role}
+        role={utilisateur?.role}
         currentUrl={currentUrl}
       />
     </LegacyPageTemplate>

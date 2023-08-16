@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectAppelOffre, Technologie } from '@entities';
+import { ProjectAppelOffre, Technologie } from '../../../entities';
 import { Request } from 'express';
 
 import {
@@ -16,10 +16,10 @@ import {
   Heading1,
   ProjectProps,
   Form,
-} from '@components';
+} from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { ChangementPuissance } from './components/ChangementPuissance';
-import routes from '@routes';
+import routes from '../../../routes';
 
 type DemanderChangementPuissanceProps = {
   request: Request;
@@ -53,25 +53,23 @@ export const DemanderChangementPuissance = ({
       <Heading1 className="mb-10">Je signale un changement de puissance</Heading1>
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
-          {...{
-            projet: {
-              id: project.id,
-              appelOffre,
-              cahierDesChargesActuel: 'initial',
-              identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-            },
-            redirectUrl: routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id),
-            type: 'puissance',
-            infoBox: (
-              <InfoBox
-                title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-                className="mb-5"
-              >
-                <InfoLienGuideUtilisationCDC />
-              </InfoBox>
-            ),
+          projet={{
+            id: project.id,
+            appelOffre,
+            cahierDesChargesActuel: 'initial',
+            identifiantGestionnaireRéseau: project.identifiantGestionnaire,
           }}
+          redirectUrl={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
+          type="puissance"
+          infoBox={
+            <InfoBox
+              title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
+                  cahier des charges à appliquer"
+              className="mb-5"
+            >
+              <InfoLienGuideUtilisationCDC />
+            </InfoBox>
+          }
         />
       ) : (
         <Form

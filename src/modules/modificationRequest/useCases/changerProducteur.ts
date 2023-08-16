@@ -1,13 +1,18 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
-import { errAsync, okAsync, wrapInfra } from '@core/utils';
-import { User, formatCahierDesChargesRéférence } from '@entities';
+import {
+  EventBus,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '../../../core/domain';
+import { errAsync, okAsync, wrapInfra } from '../../../core/utils';
+import { User, formatCahierDesChargesRéférence } from '../../../entities';
 import { FileContents, FileObject, makeFileObject } from '../../file';
 import { Project } from '../../project/Project';
 import { UnauthorizedError } from '../../shared';
 import { ModificationReceived } from '../events';
-import { AppelOffreRepo } from '@dataAccess';
-import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification';
-import { ToutAccèsAuProjetRevoqué } from '@modules/authZ';
+import { AppelOffreRepo } from '../../../dataAccess';
+import { NouveauCahierDesChargesNonChoisiError } from '../../demandeModification';
+import { ToutAccèsAuProjetRevoqué } from '../../authZ';
 
 type ChangerProducteurDeps = {
   eventBus: EventBus;

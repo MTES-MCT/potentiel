@@ -1,14 +1,14 @@
 import * as yup from 'yup';
 
-import { ensureRole, demanderChangementDePuissance } from '@config';
-import { logger } from '@core/utils';
-import { PuissanceJustificationEtCourrierManquantError } from '@modules/modificationRequest';
+import { ensureRole, demanderChangementDePuissance } from '../../../config';
+import { logger } from '../../../core/utils';
+import { PuissanceJustificationEtCourrierManquantError } from '../../../modules/modificationRequest';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '@modules/shared';
-import routes from '@routes';
+} from '../../../modules/shared';
+import routes from '../../../routes';
 import fs from 'fs';
 import omit from 'lodash/omit';
 import { addQueryParams } from '../../../helpers/addQueryParams';

@@ -1,12 +1,12 @@
-import { EventStore, Repository, UniqueEntityID } from '@core/domain';
-import { formatCahierDesChargesRéférence, User } from '@entities';
-import { Project } from '@modules/project';
-import { wrapInfra, errAsync, okAsync } from '@core/utils';
-import { UnauthorizedError } from '@modules/shared';
+import { EventStore, Repository, UniqueEntityID } from '../../../../core/domain';
+import { formatCahierDesChargesRéférence, User } from '../../../../entities';
+import { Project } from '../../../project';
+import { wrapInfra, errAsync, okAsync } from '../../../../core/utils';
+import { UnauthorizedError } from '../../../shared';
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError';
 import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError';
 import { AnnulationAbandonDemandée } from '../events';
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { GetProjectAppelOffre } from '../../../projectAppelOffre';
 
 type Commande = {
   user: User;
@@ -44,12 +44,20 @@ export const makeDemanderAnnulationAbandon =
         }
 
         const ao = getProjectAppelOffre({ ...projet });
-        const cahierDesCharges = ao?.cahiersDesChargesModifiésDisponibles.find(
-          (c) =>
-            c.type === projet.cahierDesCharges.type &&
-            c.paruLe === projet.cahierDesCharges.paruLe &&
-            c.alternatif === projet.cahierDesCharges.alternatif,
-        );
+
+        const cahiersDesChargesModifiésDisponibles =
+          ao?.periode && 'cahiersDesChargesModifiésDisponibles' in ao?.periode
+            ? ao?.periode.cahiersDesChargesModifiésDisponibles
+            : ao?.cahiersDesChargesModifiésDisponibles;
+
+        const cahierDesCharges =
+          cahiersDesChargesModifiésDisponibles &&
+          cahiersDesChargesModifiésDisponibles.find(
+            (c) =>
+              c.type === projet.cahierDesCharges.type &&
+              c.paruLe === projet.cahierDesCharges.paruLe &&
+              c.alternatif === projet.cahierDesCharges.alternatif,
+          );
 
         if (
           projet.cahierDesCharges.type === 'modifié' &&

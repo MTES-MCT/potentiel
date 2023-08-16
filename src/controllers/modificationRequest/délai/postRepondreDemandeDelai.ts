@@ -1,10 +1,10 @@
 import fs from 'fs';
 import * as yup from 'yup';
 
-import { accorderDemandeDélai, ensureRole, rejeterDemandeDélai } from '@config';
-import { logger, errAsync } from '@core/utils';
-import { UnauthorizedError } from '@modules/shared';
-import { AccorderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/accorder';
+import { accorderDemandeDélai, ensureRole, rejeterDemandeDélai } from '../../../config';
+import { logger, errAsync } from '../../../core/utils';
+import { UnauthorizedError } from '../../../modules/shared';
+import { AccorderDateAchèvementAntérieureDateThéoriqueError } from '../../../modules/demandeModification/demandeDélai/accorder';
 
 import asyncHandler from '../../helpers/asyncHandler';
 import {

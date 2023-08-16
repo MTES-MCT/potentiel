@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 import { DossierRaccordementReadModel } from '@potentiel/domain-views';
-import { userIs } from '@modules/users';
-import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { userIs } from '../../../../../modules/users';
+import { UtilisateurReadModel } from '../../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 import { Separateur } from './Separateur';
 import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';
