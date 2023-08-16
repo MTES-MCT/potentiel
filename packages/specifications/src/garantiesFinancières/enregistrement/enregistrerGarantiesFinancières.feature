@@ -37,7 +37,7 @@ Fonctionnalité: Enregistrer des garanties financières validées
         Et le fichier de l'attestation de garanties financières devrait être téléchargeable pour le projet "Centrale éolienne 20" avec :
             | contenu fichier      | le contenu             |  
             | format               | application/pdf        |             
-    
+
     # Rattrapage de l'historique des garanties financières de l'ancien socle technique
     Scénario: Migrer des garanties financières legacy vers le nouveau socle technique
         Quand un développeur migre des garanties financières legacy pour le projet "Centrale éolienne 20" avec :
@@ -54,8 +54,8 @@ Fonctionnalité: Enregistrer des garanties financières validées
         Et le fichier de l'attestation de garanties financières devrait être téléchargeable pour le projet "Centrale éolienne 20" avec :
             | contenu fichier      | le contenu             |  
             | format               | application/pdf        | 
-
-    Scénario: Corriger le type de garanties financières legacy migrées sans type : changer type et retirer date d'échéance
+    
+Scénario: Corriger le type de garanties financières legacy migrées sans type : changer type et retirer date d'échéance
         Etant donné des garanties financières migrées pour le projet "Centrale éolienne 20" avec :
             | date d'échéance      | 2027-12-01             |        
             | format               | application/pdf        |

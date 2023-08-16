@@ -27,8 +27,23 @@ export const registerGarantiesFinancièresProjector = ({
     const key: GarantiesFinancièresReadModelKey = `garanties-financières|${event.payload.identifiantProjet}`;
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
     switch (event.type) {
+      case 'GarantiesFinancièresSnapshot':
+        if (!event.payload.aggregate.actuelles) {
+          return;
+        }
+        if (isNone(garantiesFinancières)) {
+          const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
+            event.payload.aggregate.actuelles;
+          await create<GarantiesFinancièresReadModel>(key, {
+            typeGarantiesFinancières,
+            dateÉchéance,
+            attestationConstitution,
+          });
+        } else {
+          // TO DO : ce cas ne devrait pas arriver, erreur à logguer ?
+        }
+        break;
       case 'TypeGarantiesFinancièresEnregistré':
-      case 'TypeGarantiesFinancièresEnregistréSnapshot':
         if (isNone(garantiesFinancières)) {
           await create<GarantiesFinancièresReadModel>(key, {
             typeGarantiesFinancières:

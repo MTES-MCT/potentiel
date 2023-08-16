@@ -40,7 +40,7 @@ export const setupGarantiesFinancièreViews = async (
       name: 'garanties_financieres_projector',
       eventType: [
         'AttestationGarantiesFinancièresEnregistrée',
-        'TypeGarantiesFinancièresEnregistréSnapshot',
+        'GarantiesFinancièresSnapshot',
         'TypeGarantiesFinancièresEnregistré',
       ],
       eventHandler: async (event: EnregistrementGarantiesFinancièresEvent) => {

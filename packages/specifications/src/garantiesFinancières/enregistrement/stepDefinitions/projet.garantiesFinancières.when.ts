@@ -1,10 +1,9 @@
 import { When as Quand, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../../potentiel.world';
 import {
-  AttestationGarantiesFinancièresEnregistréeEvent,
   DomainUseCase,
+  GarantiesFinancièresSnapshotEvent,
   TypeGarantiesFinancières,
-  TypeGarantiesFinancièresEnregistréSnapshotV1,
   Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
@@ -72,62 +71,36 @@ Quand(
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-      // TYPE
-      // comme on ne passe pas par une commande pour la migration, on vérifie le type ici
-      const typePayload =
-        dateÉchéance && typeGarantiesFinancières === `avec date d'échéance`
-          ? {
-              dateÉchéance: convertirEnDateTime(dateÉchéance).formatter(),
+      const event: GarantiesFinancièresSnapshotEvent = {
+        type: 'GarantiesFinancièresSnapshot',
+        payload: {
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
+          aggregate: {
+            actuelles: {
               typeGarantiesFinancières,
-            }
-          : dateÉchéance && !typeGarantiesFinancières
-          ? { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }
-          : !dateÉchéance &&
-            (typeGarantiesFinancières === `consignation` ||
-              typeGarantiesFinancières === `6 mois après achèvement`)
-          ? { typeGarantiesFinancières }
-          : undefined;
-
-      if (typePayload) {
-        const legacyTypeEvent: TypeGarantiesFinancièresEnregistréSnapshotV1 = {
-          type: 'TypeGarantiesFinancièresEnregistréSnapshot',
-          payload: {
-            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-            ...typePayload,
+              attestationConstitution: {
+                format: format,
+                date: convertirEnDateTime(dateConstutition).formatter(),
+              },
+              ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
+            },
           },
-        };
+        },
+      };
 
-        await publish(
-          createGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
-          legacyTypeEvent,
-        );
+      await publish(
+        createGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
+        event,
+      );
 
-        await sleep(100);
-      }
+      await sleep(100);
 
-      // ATTESTATION
-      if (dateConstutition && format && contenuFichier) {
-        const attestationEvent: AttestationGarantiesFinancièresEnregistréeEvent = {
-          type: 'AttestationGarantiesFinancièresEnregistrée',
-          payload: {
-            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-            format: format,
-            date: convertirEnDateTime(dateConstutition).formatter(),
-          },
-        };
+      const path = join(
+        convertirEnIdentifiantProjet(identifiantProjet).formatter(),
+        `attestation-constitution-garanties-Financieres.${extension(format)}`,
+      );
 
-        await publish(
-          createGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
-          attestationEvent,
-        );
-
-        const path = join(
-          convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-          `attestation-constitution-garanties-financieres.${extension(format)}`,
-        );
-
-        await upload(path, contenuFichier);
-      }
+      await upload(path, contenuFichier);
 
       await sleep(500);
     } catch (error) {

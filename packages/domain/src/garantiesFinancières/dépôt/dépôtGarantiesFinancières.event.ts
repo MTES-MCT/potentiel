@@ -1,17 +1,6 @@
 import { DomainEvent } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '../../projet/projet.valueType';
 
-export type GarantiesFinancièresDéposéesSnapshot = DomainEvent<
-  'GarantiesFinancièresDéposéesSnapshot', // legacy
-  {
-    identifiantProjet: RawIdentifiantProjet;
-    dateÉchéance?: string;
-    typeGarantiesFinancières?: `6 mois après achèvement` | 'consignation' | `avec date d'échéance`;
-    attestationConstitution: { format: string; date: string };
-    dateDépôt: string;
-  }
->;
-
 export type GarantiesFinancièresDéposéesEvent = DomainEvent<
   'GarantiesFinancièresDéposées',
   {

@@ -39,7 +39,7 @@ export const setupDépôtGarantiesFinancièreViews = async (
     await subscribe<DépôtGarantiesFinancièresEvent>({
       name: 'depot_garanties_financieres_projector',
       eventType: [
-        'GarantiesFinancièresDéposéesSnapshot',
+        'GarantiesFinancièresSnapshot',
         'GarantiesFinancièresDéposées',
         'DépôtGarantiesFinancièresModifié',
       ],

@@ -1,12 +1,12 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import {
   DomainUseCase,
+  GarantiesFinancièresSnapshotEvent,
   TypeGarantiesFinancières,
   Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   createGarantiesFinancièresAggregateId,
-  GarantiesFinancièresDéposéesSnapshotV1,
 } from '@potentiel/domain';
 import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
 import { sleep } from '../../../helpers/sleep';
@@ -102,17 +102,20 @@ Quand(
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-      // DATA
-      const event: GarantiesFinancièresDéposéesSnapshotV1 = {
-        type: 'GarantiesFinancièresDéposéesSnapshot',
+      const event: GarantiesFinancièresSnapshotEvent = {
+        type: 'GarantiesFinancièresSnapshot',
         payload: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-          attestationConstitution: {
-            format: format,
-            date: convertirEnDateTime(dateConstutition).formatter(),
+          aggregate: {
+            dépôt: {
+              attestationConstitution: {
+                format: format,
+                date: convertirEnDateTime(dateConstutition).formatter(),
+              },
+              dateDépôt: convertirEnDateTime(dateDépôt).formatter(),
+              ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
+            },
           },
-          dateDépôt: convertirEnDateTime(dateDépôt).formatter(),
-          ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
         },
       };
 
@@ -121,7 +124,6 @@ Quand(
         event,
       );
 
-      // FILE
       const path = join(
         convertirEnIdentifiantProjet(identifiantProjet).formatter(),
         `depot-attestation-constitution-garanties-financieres.${extension(format)}`,
