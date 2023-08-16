@@ -72,7 +72,7 @@ Quand(
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
       const event: GarantiesFinancièresSnapshotEvent = {
-        type: 'GarantiesFinancièresSnapshot',
+        type: 'GarantiesFinancièresSnapshot-v1',
         payload: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
           aggregate: {

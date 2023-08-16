@@ -5,9 +5,9 @@ import {
   DépôtGarantiesFinancièresEvent,
   EnregistrementGarantiesFinancièresEvent,
   GarantiesFinancièresEvent,
-  GarantiesFinancièresSnapshotEvent,
+  GarantiesFinancièresSnapshotEventV1,
 } from './garantiesFinancières/garantiesFinancières.event';
-import { AttestationGarantiesFinancièresEnregistréeEvent } from './garantiesFinancières/actuelles/enregistrementGarantiesFinancières.event';
+import { AttestationGarantiesFinancièresEnregistréeEventV1 } from './garantiesFinancières/actuelles/enregistrementGarantiesFinancières.event';
 
 export type DomainEvents =
   | GestionnaireRéseauEvent
@@ -22,6 +22,6 @@ export {
   GarantiesFinancièresEvent,
   DépôtGarantiesFinancièresEvent,
   EnregistrementGarantiesFinancièresEvent,
-  AttestationGarantiesFinancièresEnregistréeEvent,
-  GarantiesFinancièresSnapshotEvent,
+  AttestationGarantiesFinancièresEnregistréeEventV1 as AttestationGarantiesFinancièresEnregistréeEvent,
+  GarantiesFinancièresSnapshotEventV1 as GarantiesFinancièresSnapshotEvent,
 };

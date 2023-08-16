@@ -1,17 +1,17 @@
 import { DomainEvent } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '../projet/projet.valueType';
 import {
-  TypeGarantiesFinancièresEnregistréEvent,
-  AttestationGarantiesFinancièresEnregistréeEvent,
+  TypeGarantiesFinancièresEnregistréEventV1,
+  AttestationGarantiesFinancièresEnregistréeEventV1,
 } from './actuelles/enregistrementGarantiesFinancières.event';
 import {
-  GarantiesFinancièresDéposéesEvent,
-  DépôtGarantiesFinancièresModifiéEvent,
+  GarantiesFinancièresDéposéesEventV1,
+  DépôtGarantiesFinancièresModifiéEventV1,
 } from './dépôt/dépôtGarantiesFinancières.event';
 import { TypeGarantiesFinancières } from './garantiesFinancières.valueType';
 
-export type GarantiesFinancièresSnapshotEvent = DomainEvent<
-  'GarantiesFinancièresSnapshot',
+export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
+  'GarantiesFinancièresSnapshot-v1',
   {
     identifiantProjet: RawIdentifiantProjet;
     aggregate: {
@@ -31,14 +31,14 @@ export type GarantiesFinancièresSnapshotEvent = DomainEvent<
 >;
 
 export type EnregistrementGarantiesFinancièresEvent =
-  | TypeGarantiesFinancièresEnregistréEvent
-  | AttestationGarantiesFinancièresEnregistréeEvent
-  | GarantiesFinancièresSnapshotEvent;
+  | TypeGarantiesFinancièresEnregistréEventV1
+  | AttestationGarantiesFinancièresEnregistréeEventV1
+  | GarantiesFinancièresSnapshotEventV1;
 
 export type DépôtGarantiesFinancièresEvent =
-  | GarantiesFinancièresDéposéesEvent
-  | DépôtGarantiesFinancièresModifiéEvent
-  | GarantiesFinancièresSnapshotEvent;
+  | GarantiesFinancièresDéposéesEventV1
+  | DépôtGarantiesFinancièresModifiéEventV1
+  | GarantiesFinancièresSnapshotEventV1;
 
 export type GarantiesFinancièresEvent =
   | EnregistrementGarantiesFinancièresEvent

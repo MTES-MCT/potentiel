@@ -16,7 +16,7 @@ import {
 import { TéléverserFichierPort } from '../../common.ports';
 import { isNone } from '@potentiel/monads';
 import { DépôtGarantiesFinancièresNonTrouvéPourModificationErreur } from '../garantiesFinancières.error';
-import { DépôtGarantiesFinancièresModifiéEvent } from './dépôtGarantiesFinancières.event';
+import { DépôtGarantiesFinancièresModifiéEventV1 } from './dépôtGarantiesFinancières.event';
 
 export type ModifierDépôtGarantiesFinancièresCommand = Message<
   'MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES',
@@ -66,8 +66,8 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
       type: 'depot-attestation-constitution-garanties-financieres',
     });
 
-    const event: DépôtGarantiesFinancièresModifiéEvent = {
-      type: 'DépôtGarantiesFinancièresModifié',
+    const event: DépôtGarantiesFinancièresModifiéEventV1 = {
+      type: 'DépôtGarantiesFinancièresModifié-v1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         ...(estTypeAvecDateÉchéance(typeGarantiesFinancières)

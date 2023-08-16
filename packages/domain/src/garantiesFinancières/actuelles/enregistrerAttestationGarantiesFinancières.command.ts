@@ -3,7 +3,7 @@ import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { AttestationConstitution } from '../garantiesFinancières.valueType';
 import { Publish } from '@potentiel/core-domain';
 import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
-import { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrementGarantiesFinancières.event';
+import { AttestationGarantiesFinancièresEnregistréeEventV1 } from './enregistrementGarantiesFinancières.event';
 import { TéléverserFichierPort } from '../../common.ports';
 import { createGarantiesFinancièresAggregateId } from '../garantiesFinancières.aggregate';
 
@@ -37,8 +37,8 @@ export const registerEnregistrerAttestationGarantiesFinancièresCommand = ({
       type: 'attestation-constitution-garanties-financieres',
     });
 
-    const event: AttestationGarantiesFinancièresEnregistréeEvent = {
-      type: 'AttestationGarantiesFinancièresEnregistrée',
+    const event: AttestationGarantiesFinancièresEnregistréeEventV1 = {
+      type: 'AttestationGarantiesFinancièresEnregistrée-v1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         format: attestationConstitution.format,

@@ -24,7 +24,7 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
 > = (events) =>
   events.reduce((aggregate, event) => {
     switch (event.type) {
-      case 'GarantiesFinancièresSnapshot':
+      case 'GarantiesFinancièresSnapshot-v1':
         return {
           ...aggregate,
           ...(event.payload.aggregate.actuelles && {
@@ -60,11 +60,11 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
           }),
           ...(event.payload.aggregate.dépôt && {}),
         };
-      case 'TypeGarantiesFinancièresEnregistré':
-      case 'AttestationGarantiesFinancièresEnregistrée':
+      case 'TypeGarantiesFinancièresEnregistré-v1':
+      case 'AttestationGarantiesFinancièresEnregistrée-v1':
         return processEnregistrementGarantiesFinancièresEvent({ event, aggregate });
-      case 'GarantiesFinancièresDéposées':
-      case 'DépôtGarantiesFinancièresModifié':
+      case 'GarantiesFinancièresDéposées-v1':
+      case 'DépôtGarantiesFinancièresModifié-v1':
         return processDépôtGarantiesFinancièresEvent({ event, aggregate });
       default:
         return { ...aggregate };
@@ -92,7 +92,7 @@ const processEnregistrementGarantiesFinancièresEvent = ({
   aggregate: GarantiesFinancièresAggregate;
 }) => {
   switch (event.type) {
-    case 'TypeGarantiesFinancièresEnregistré':
+    case 'TypeGarantiesFinancièresEnregistré-v1':
       return {
         ...aggregate,
         actuelles: {
@@ -104,7 +104,7 @@ const processEnregistrementGarantiesFinancièresEvent = ({
               : undefined,
         },
       };
-    case 'AttestationGarantiesFinancièresEnregistrée':
+    case 'AttestationGarantiesFinancièresEnregistrée-v1':
       return {
         ...aggregate,
         actuelles: {
@@ -128,8 +128,8 @@ const processDépôtGarantiesFinancièresEvent = ({
   aggregate: GarantiesFinancièresAggregate;
 }) => {
   switch (event.type) {
-    case 'GarantiesFinancièresDéposées':
-    case 'DépôtGarantiesFinancièresModifié':
+    case 'GarantiesFinancièresDéposées-v1':
+    case 'DépôtGarantiesFinancièresModifié-v1':
       return {
         ...aggregate,
         dépôt: {
