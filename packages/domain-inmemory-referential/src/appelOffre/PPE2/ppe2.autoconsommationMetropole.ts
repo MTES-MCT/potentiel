@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel/domain-views';
 
 const autoconsommationMetropolePPE2: AppelOffre = {
   id: 'PPE2 - Autoconsommation métropole',
-  type: 'autoconso',
+  typeAppelOffre: 'autoconso',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'PPE2 - Autoconsommation métropole',

@@ -226,7 +226,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
         }),
     )
     .andThen((dto) =>
-      dto.appelOffre.type === 'innovation' ? ajouterNotesInnovation({ dto, user }) : okAsync(dto),
+      dto.appelOffre.typeAppelOffre === 'innovation'
+        ? ajouterNotesInnovation({ dto, user })
+        : okAsync(dto),
     )
     .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)));
 };

@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel/domain-views';
 
 const batimentPPE2: AppelOffre = {
   id: 'PPE2 - Bâtiment',
-  type: 'batiment',
+  typeAppelOffre: 'batiment',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance supérieure à 500 kWc»',
   shortTitle: 'PPE2 - Bâtiment',

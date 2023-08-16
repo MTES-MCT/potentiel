@@ -20,7 +20,7 @@ export type ProjectListItem = {
   puissance: number;
   appelOffre?: {
     title?: ProjectAppelOffre['title'];
-    type: ProjectAppelOffre['type'];
+    type: ProjectAppelOffre['typeAppelOffre'];
     unitePuissance: ProjectAppelOffre['unitePuissance'];
     periode: ProjectAppelOffre['periode'];
     changementProducteurPossibleAvantAchèvement: ProjectAppelOffre['changementProducteurPossibleAvantAchèvement'];

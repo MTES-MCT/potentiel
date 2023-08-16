@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel/domain-views';
 
 const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
-  type: 'autoconso',
+  typeAppelOffre: 'autoconso',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
   shortTitle: 'CRE4 - Autoconsommation ZNI',

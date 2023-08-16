@@ -134,7 +134,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
         - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
         {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
-        {appelOffre.type === 'eolien'
+        {appelOffre.typeAppelOffre === 'eolien'
           ? ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`
           : ''}
         ;
@@ -148,7 +148,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             marginLeft: 20,
           }}
         >
-          - constituer une garantie {appelOffre.type === 'eolien' ? 'bancaire ' : ''}
+          - constituer une garantie {appelOffre.typeAppelOffre === 'eolien' ? 'bancaire ' : ''}
           d’exécution dans un délai de deux (2) mois à compter de la présente notification. Les
           candidats retenus n’ayant pas adressé au préfet de région du site d’implantation
           l’attestation de constitution de garantie financière dans le délai prévu feront l’objet
@@ -163,7 +163,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
       ) : (
         <Text />
       )}
-      {appelOffre.type === 'innovation' ? (
+      {appelOffre.typeAppelOffre === 'innovation' ? (
         <Text
           style={{
             fontSize: 10,
@@ -248,14 +248,14 @@ const Laureat = (project: ProjectDataForCertificate) => {
           >
             {appelOffre.affichageParagrapheECS ? (
               <Text>
-                {appelOffre.type === 'eolien'
+                {appelOffre.typeAppelOffre === 'eolien'
                   ? 'Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
                   : 'Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés.'}{' '}
               </Text>
             ) : (
               <Text />
             )}
-            {appelOffre.type === 'innovation' ? (
+            {appelOffre.typeAppelOffre === 'innovation' ? (
               <>
                 Toute demande de modification substantielle de l’innovation sera notamment refusée
                 <Text>{addFootNote('5.4.4')}</Text>.

@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel/domain-views';
 
 const solPPE2: AppelOffre = {
   id: 'PPE2 - Sol',
-  type: 'sol',
+  typeAppelOffre: 'sol',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales au sol »',
   shortTitle: 'PPE2 - Sol',

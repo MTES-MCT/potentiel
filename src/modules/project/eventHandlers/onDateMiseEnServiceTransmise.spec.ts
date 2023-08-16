@@ -28,7 +28,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const getProjectAppelOffre = jest.fn(
     () =>
       ({
-        type: 'eolien',
+        typeAppelOffre: 'eolien',
         cahiersDesChargesModifiésDisponibles: [
           {
             type: 'modifié',

@@ -193,7 +193,7 @@ export type Territoire = (typeof territoires)[number];
 // Appel Offre Read Model
 export type AppelOffre = {
   id: string;
-  type: AppelOffreTypes;
+  typeAppelOffre: AppelOffreTypes;
   title: string;
   shortTitle: string;
   launchDate: string;

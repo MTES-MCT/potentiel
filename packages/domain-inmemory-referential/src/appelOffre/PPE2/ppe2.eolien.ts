@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel/domain-views';
 
 const eolienPPE2: AppelOffre = {
   id: 'PPE2 - Eolien',
-  type: 'eolien',
+  typeAppelOffre: 'eolien',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'PPE2 - Eolien',

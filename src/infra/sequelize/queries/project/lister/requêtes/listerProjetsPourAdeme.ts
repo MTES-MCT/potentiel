@@ -1,6 +1,6 @@
 import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.config';
 import { ListerProjets } from '../../../../../../modules/project';
-import { Project } from "../../../../projectionsNext";
+import { Project } from '../../../../projectionsNext';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
@@ -54,7 +54,7 @@ export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtre
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

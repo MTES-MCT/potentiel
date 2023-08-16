@@ -4,7 +4,7 @@ const garantieFinanciereEnMois = 36;
 
 const pvEolien: AppelOffre = {
   id: 'PV - Eolien',
-  type: 'eolien',
+  typeAppelOffre: 'eolien',
   title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,
   shortTitle: 'PV - Eolien',
   launchDate: 'Décembre 2017',
