@@ -18,6 +18,8 @@ import {
   Tile,
   Pagination,
   Checkbox,
+  SecondaryLinkButton,
+  ExcelFileIcon,
 } from '../..';
 import { afficherDate } from '../../../helpers';
 
@@ -60,6 +62,10 @@ type Props = {
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
   currentUrl: string;
+  exportListe?: {
+    title: string;
+    url: string;
+  };
 };
 
 export const ProjectList = ({
@@ -72,6 +78,7 @@ export const ProjectList = ({
   displaySelection = false,
   onSelectedIdsChanged,
   currentUrl,
+  exportListe,
 }: Props) => {
   const prixDisponible = projects.items.some((project) => project.prixReference);
 
@@ -98,43 +105,55 @@ export const ProjectList = ({
 
   return (
     <div className={className}>
-      <div className="flex flex-row mt-4 mb-2 gap-2 text-sm italic md:flex-row md:mt-0">
-        <span>Légende :</span>
-        <div className="flex items-center">
-          <PowerIcon
-            className="text-yellow-moutarde-850-base mr-1 shrink-0"
-            aria-label="Puissance"
-          />{' '}
-          Puissance
-        </div>
-        {prixDisponible && (
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-2">
+        <div className="flex order-2 md:order-1 flex-row mt-4 mb-2 gap-2 text-sm italic md:flex-row md:mt-0">
+          <span>Légende :</span>
           <div className="flex items-center">
-            <EuroIcon
-              className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
-              aria-label="Prix de référence"
+            <PowerIcon
+              className="text-yellow-moutarde-850-base mr-1 shrink-0"
+              aria-label="Puissance"
             />{' '}
-            Prix de référence
+            Puissance
           </div>
-        )}
-        {displayGF && (
-          <div className="flex items-center">
-            <div
-              className="flex text-grey-200-base font-bold text-sm mr-1"
-              aria-label="Garanties Financières"
-            >
-              GF
+          {prixDisponible && (
+            <div className="flex items-center">
+              <EuroIcon
+                className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
+                aria-label="Prix de référence"
+              />{' '}
+              Prix de référence
             </div>
-            Garanties Financières
-          </div>
-        )}
-        {évaluationCarboneDisponible && !displayGF && (
-          <div className="flex items-center">
-            <CloudIcon
-              className="text-grey-425-active mr-1 shrink-0"
-              aria-label="Évaluation carbone"
-            />
-            Évaluation carbone
-          </div>
+          )}
+          {displayGF && (
+            <div className="flex items-center">
+              <div
+                className="flex text-grey-200-base font-bold text-sm mr-1"
+                aria-label="Garanties Financières"
+              >
+                GF
+              </div>
+              Garanties Financières
+            </div>
+          )}
+          {évaluationCarboneDisponible && !displayGF && (
+            <div className="flex items-center">
+              <CloudIcon
+                className="text-grey-425-active mr-1 shrink-0"
+                aria-label="Évaluation carbone"
+              />
+              Évaluation carbone
+            </div>
+          )}
+        </div>
+        {exportListe && (
+          <SecondaryLinkButton
+            className="inline-flex order-1 md:order-2 items-center w-fit mt-0 umami--click--telecharger-un-export-projets"
+            href={exportListe.url}
+            download
+          >
+            <ExcelFileIcon className="mr-2" />
+            {exportListe.title}
+          </SecondaryLinkButton>
         )}
       </div>
 

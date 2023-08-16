@@ -11,8 +11,6 @@ import {
   Select,
   SuccessBox,
   Form,
-  SecondaryLinkButton,
-  ExcelFileIcon,
 } from '../components';
 import { AppelOffre, Periode } from '../../entities';
 import { ProjectListItem } from '../../modules/project/queries';
@@ -90,33 +88,31 @@ export const AdminNotificationCandidats = ({
         </div>
 
         <div className="form__group">
-          <div className="mt-4">
-            <Label htmlFor="classement">Classés/Eliminés</Label>
-            <Select
-              id="classement"
-              name="classement"
-              defaultValue={classement || 'default'}
-              onChange={(event) =>
-                updateUrlParams({
-                  classement: event.target.value,
-                })
-              }
-            >
-              <option value="default" disabled hidden>
-                Choisir une option
-              </option>
-              <option value="">Tous</option>
-              <option value="classés" selected={classement && classement === 'classés'}>
-                Classés
-              </option>
-              <option value="éliminés" selected={classement && classement === 'éliminés'}>
-                Eliminés
-              </option>
-            </Select>
-          </div>
+          <Label htmlFor="classement">Classés/Eliminés</Label>
+          <Select
+            id="classement"
+            name="classement"
+            defaultValue={classement || 'default'}
+            onChange={(event) =>
+              updateUrlParams({
+                classement: event.target.value,
+              })
+            }
+          >
+            <option value="default" disabled hidden>
+              Choisir une option
+            </option>
+            <option value="">Tous</option>
+            <option value="classés" selected={classement && classement === 'classés'}>
+              Classés
+            </option>
+            <option value="éliminés" selected={classement && classement === 'éliminés'}>
+              Eliminés
+            </option>
+          </Select>
         </div>
       </Form>
-      <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
+      <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post" className="mb-4">
         <div>
           <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
           <Select
@@ -166,22 +162,6 @@ export const AdminNotificationCandidats = ({
           </Select>
         </div>
 
-        {AOSélectionné && périodeSélectionnée && (
-          <SecondaryLinkButton
-            href={`
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-              ...request.query,
-              appelOffreId: AOSélectionné,
-              periodeId: périodeSélectionnée,
-              beforeNotification: true,
-            })}`}
-            download
-          >
-            <ExcelFileIcon aria-hidden className="mr-2" />
-            Télécharger la liste des lauréats (document csv)
-          </SecondaryLinkButton>
-        )}
-
         {projetsPériodeSélectionnée.itemCount > 0 &&
           !success &&
           utilisateur.role === 'dgec-validateur' && (
@@ -207,6 +187,20 @@ export const AdminNotificationCandidats = ({
         projects={projetsPériodeSélectionnée}
         role={utilisateur?.role}
         currentUrl={currentUrl}
+        exportListe={
+          AOSélectionné && périodeSélectionnée
+            ? {
+                title: ' Télécharger la liste des lauréats (document csv)',
+                url: `
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+                  ...request.query,
+                  appelOffreId: AOSélectionné,
+                  periodeId: périodeSélectionnée,
+                  beforeNotification: true,
+                })}`,
+              }
+            : undefined
+        }
       />
     </LegacyPageTemplate>
   );

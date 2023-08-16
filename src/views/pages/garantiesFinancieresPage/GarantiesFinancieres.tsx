@@ -2,7 +2,7 @@ import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
 import { AppelOffre, Famille, Periode } from '../../../entities';
-import ROUTES from '../../../routes';
+import routes from '../../../routes';
 import { PaginatedList } from '../../../modules/pagination';
 import {
   ProjectList,
@@ -63,7 +63,7 @@ export const GarantiesFinancieres = ({
     <LegacyPageTemplate user={utilisateur} currentPage="list-garanties-financieres">
       <Heading1>Garanties financières</Heading1>
 
-      <Form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
+      <Form action={routes.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
         <BarreDeRecherche
           title="Rechercher par nom du projet"
           name="recherche"
@@ -184,7 +184,7 @@ export const GarantiesFinancieres = ({
         <>
           <div className="mb-8 mt-4">
             <DownloadLink
-              fileUrl={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+              fileUrl={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
                 request.query as any,
               )}`}
             >
@@ -199,6 +199,12 @@ export const GarantiesFinancieres = ({
             role={utilisateur.role}
             GFPastDue={garantiesFinancieres === 'pastDue'}
             currentUrl={currentUrl}
+            exportListe={{
+              title: 'Télécharger un export (document csv)',
+              url: `${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                request.query as any,
+              )}`,
+            }}
           />
         </>
       )}

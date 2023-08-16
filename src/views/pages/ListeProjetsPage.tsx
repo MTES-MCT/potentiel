@@ -18,8 +18,6 @@ import {
   Form,
   Link,
   PageTemplate,
-  SecondaryLinkButton,
-  ExcelFileIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   BarreDeRecherche,
@@ -120,16 +118,6 @@ export const ListeProjets = ({
             {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
             {projects.itemCount > 0 && ` (${projects.itemCount})`}
           </Heading1>
-          <SecondaryLinkButton
-            className="inline-flex items-center w-fit mt-2 md:mt-0 umami--click--telecharger-un-export-projets"
-            href={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-              request.query as any,
-            )}`}
-            download
-          >
-            <ExcelFileIcon className="mr-2" />
-            Télécharger un export (csv)
-          </SecondaryLinkButton>
         </div>
       }
     >
@@ -394,6 +382,12 @@ export const ListeProjets = ({
             {...(userIs('dreal')(utilisateur) && { displayGF: true })}
             projects={projects}
             role={utilisateur.role}
+            exportListe={{
+              title: 'Télécharger un export (document csv)',
+              url: `${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                request.query as any,
+              )}`,
+            }}
           />
         </div>
       </div>
