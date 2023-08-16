@@ -22,6 +22,7 @@ import {
   ArrowRightIcon,
   BarreDeRecherche,
   Accordeon,
+  Dropdown,
 } from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '../../modules/project';
@@ -124,6 +125,51 @@ export const ListeProjets = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
+      {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(utilisateur) && (
+        <Dropdown
+          design="link"
+          isOpen={displaySelection}
+          changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
+          text="Donner accès à un utilisateur"
+          className="mb-6 md:mb-0"
+        >
+          {selectedProjectIds.length > 0 ? (
+            <Form
+              action={routes.INVITE_USER_TO_PROJECT_ACTION}
+              method="POST"
+              name="form"
+              className="m-0"
+            >
+              <select name="projectId" multiple hidden>
+                {selectedProjectIds.map((projectId) => (
+                  <option selected key={projectId} value={projectId}>
+                    {projectId}
+                  </option>
+                ))}
+              </select>
+              <Label htmlFor="email" required>
+                Courrier électronique de la personne habilitée à suivre les projets selectionnés
+                ci-dessous:
+              </Label>
+              <Input required type="email" name="email" id="email" />
+              <PrimaryButton
+                type="submit"
+                name="submit"
+                id="submit"
+                disabled={!selectedProjectIds.length}
+              >
+                Accorder les droits sur {selectedProjectIds.length}{' '}
+                {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
+              </PrimaryButton>
+            </Form>
+          ) : (
+            <p className="mt-2 mb-6">
+              Veuillez sélectionner un ou plusieurs projets pour en donner l'accès à un utilisateur
+            </p>
+          )}
+        </Dropdown>
+      )}
+
       <div className="flex lg:items-end lg:justify-between">
         <LinkButton
           onClick={() => setFiltersOpen(!filtersOpen)}
@@ -141,6 +187,7 @@ export const ListeProjets = ({
             </>
           )}
         </LinkButton>
+
         <Form action={routes.LISTE_PROJETS} method="GET" className="w-full lg:ml-auto">
           <BarreDeRecherche
             title="Rechercher par nom de projet"
@@ -333,44 +380,6 @@ export const ListeProjets = ({
               )}
             </Form>
           </Accordeon>
-          {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(utilisateur) && (
-            <Accordeon
-              title="Donner accès à un utilisateur"
-              defaultOpen={displaySelection}
-              changeVisibleState={(state) => setDisplaySelection(state)}
-            >
-              <Form
-                action={routes.INVITE_USER_TO_PROJECT_ACTION}
-                method="POST"
-                name="form"
-                className="m-0 mt-4"
-              >
-                <select name="projectId" multiple hidden>
-                  {selectedProjectIds.map((projectId) => (
-                    <option selected key={projectId} value={projectId}>
-                      {projectId}
-                    </option>
-                  ))}
-                </select>
-                <div>
-                  <Label htmlFor="email" required>
-                    Courrier électronique de la personne habilitée à suivre les projets selectionnés
-                    ci-dessous:
-                  </Label>
-                  <Input required type="email" name="email" id="email" />
-                </div>
-                <PrimaryButton
-                  type="submit"
-                  name="submit"
-                  id="submit"
-                  disabled={!selectedProjectIds.length}
-                >
-                  Accorder les droits sur {selectedProjectIds.length}{' '}
-                  {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
-                </PrimaryButton>
-              </Form>
-            </Accordeon>
-          )}
         </div>
 
         <div className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}>
