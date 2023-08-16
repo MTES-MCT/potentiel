@@ -28,8 +28,8 @@ export const registerDépôtGarantiesFinancièresProjector = ({
     const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(key);
 
     switch (event.type) {
-      case 'GarantiesFinancièresDéposées-v1':
-      case 'GarantiesFinancièresDéposéesSnapshot-v1':
+      case 'GarantiesFinancièresDéposées':
+      case 'GarantiesFinancièresDéposéesSnapshot':
         if (isSome(dépôtGarantiesFinancières)) {
           await update<DépôtGarantiesFinancièresReadModel>(key, {
             typeGarantiesFinancières:
@@ -58,7 +58,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           dateDépôt: event.payload.dateDépôt,
         });
         break;
-      case 'DépôtGarantiesFinancièresModifié-v1':
+      case 'DépôtGarantiesFinancièresModifié':
         if (isNone(dépôtGarantiesFinancières)) {
           // ne devrait pas arriver
           break;

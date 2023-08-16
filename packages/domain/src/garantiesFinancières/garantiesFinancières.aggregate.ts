@@ -24,13 +24,13 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
 > = (events) =>
   events.reduce((aggregate, event) => {
     switch (event.type) {
-      case 'TypeGarantiesFinancièresEnregistréSnapshot-v1':
-      case 'TypeGarantiesFinancièresEnregistré-v1':
+      case 'TypeGarantiesFinancièresEnregistréSnapshot':
+      case 'TypeGarantiesFinancièresEnregistré':
       case 'AttestationGarantiesFinancièresEnregistrée':
         return processEnregistrementGarantiesFinancièresEvent({ event, aggregate });
-      case 'GarantiesFinancièresDéposées-v1':
-      case 'DépôtGarantiesFinancièresModifié-v1':
-      case 'GarantiesFinancièresDéposéesSnapshot-v1':
+      case 'GarantiesFinancièresDéposées':
+      case 'DépôtGarantiesFinancièresModifié':
+      case 'GarantiesFinancièresDéposéesSnapshot':
         return processDépôtGarantiesFinancièresEvent({ event, aggregate });
       default:
         return { ...aggregate };
@@ -58,7 +58,7 @@ const processEnregistrementGarantiesFinancièresEvent = ({
   aggregate: GarantiesFinancièresAggregate;
 }) => {
   switch (event.type) {
-    case 'TypeGarantiesFinancièresEnregistréSnapshot-v1':
+    case 'TypeGarantiesFinancièresEnregistréSnapshot':
       if ('typeGarantiesFinancières' in event.payload) {
         return {
           ...aggregate,
@@ -80,7 +80,7 @@ const processEnregistrementGarantiesFinancièresEvent = ({
           },
         };
       }
-    case 'TypeGarantiesFinancièresEnregistré-v1':
+    case 'TypeGarantiesFinancièresEnregistré':
       return {
         ...aggregate,
         actuelles: {
@@ -116,8 +116,8 @@ const processDépôtGarantiesFinancièresEvent = ({
   aggregate: GarantiesFinancièresAggregate;
 }) => {
   switch (event.type) {
-    case 'GarantiesFinancièresDéposées-v1':
-    case 'DépôtGarantiesFinancièresModifié-v1':
+    case 'GarantiesFinancièresDéposées':
+    case 'DépôtGarantiesFinancièresModifié':
       return {
         ...aggregate,
         dépôt: {
@@ -136,7 +136,7 @@ const processDépôtGarantiesFinancièresEvent = ({
           },
         },
       };
-    case 'GarantiesFinancièresDéposéesSnapshot-v1':
+    case 'GarantiesFinancièresDéposéesSnapshot':
       return {
         ...aggregate,
         dépôt: {

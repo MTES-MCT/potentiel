@@ -8,7 +8,7 @@ import {
 } from '../garantiesFinancières.valueType';
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
-  TypeGarantiesFinancièresEnregistréEventV1,
+  TypeGarantiesFinancièresEnregistréEvent,
 } from './enregistrementGarantiesFinancières.event';
 import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
 import { TéléverserFichierPort } from '../../common.ports';
@@ -67,8 +67,8 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
       type: 'attestation-constitution-garanties-financieres',
     });
 
-    const eventForType: TypeGarantiesFinancièresEnregistréEventV1 = {
-      type: 'TypeGarantiesFinancièresEnregistré-v1',
+    const eventForType: TypeGarantiesFinancièresEnregistréEvent = {
+      type: 'TypeGarantiesFinancièresEnregistré',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         ...(estTypeAvecDateÉchéance(typeGarantiesFinancières)

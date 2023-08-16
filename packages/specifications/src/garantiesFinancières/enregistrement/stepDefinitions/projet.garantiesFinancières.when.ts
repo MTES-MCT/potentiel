@@ -90,7 +90,7 @@ Quand(
 
       if (typePayload) {
         const legacyTypeEvent: TypeGarantiesFinancièresEnregistréSnapshotV1 = {
-          type: 'TypeGarantiesFinancièresEnregistréSnapshot-v1',
+          type: 'TypeGarantiesFinancièresEnregistréSnapshot',
           payload: {
             identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
             ...typePayload,

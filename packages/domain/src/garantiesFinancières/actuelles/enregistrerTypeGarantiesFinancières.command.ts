@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { TypeEtDateÉchéance, estTypeAvecDateÉchéance } from '../garantiesFinancières.valueType';
-import { TypeGarantiesFinancièresEnregistréEventV1 } from './enregistrementGarantiesFinancières.event';
+import { TypeGarantiesFinancièresEnregistréEvent } from './enregistrementGarantiesFinancières.event';
 import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
 import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
 import {
@@ -45,8 +45,8 @@ export const registerEnregistrerTypeGarantiesFinancièresCommand = ({
       agrégatGarantiesFinancières,
     );
 
-    const event: TypeGarantiesFinancièresEnregistréEventV1 = {
-      type: 'TypeGarantiesFinancièresEnregistré-v1',
+    const event: TypeGarantiesFinancièresEnregistréEvent = {
+      type: 'TypeGarantiesFinancièresEnregistré',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         ...(estTypeAvecDateÉchéance(typeGarantiesFinancières)

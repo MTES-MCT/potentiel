@@ -1,8 +1,8 @@
 import { DomainEvent } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '../../projet/projet.valueType';
 
-export type TypeGarantiesFinancièresEnregistréSnapshotV1 = DomainEvent<
-  'TypeGarantiesFinancièresEnregistréSnapshot-v1',
+export type TypeGarantiesFinancièresEnregistréSnapshot = DomainEvent<
+  'TypeGarantiesFinancièresEnregistréSnapshot',
   {
     identifiantProjet: RawIdentifiantProjet;
   } & (
@@ -19,8 +19,8 @@ export type TypeGarantiesFinancièresEnregistréSnapshotV1 = DomainEvent<
   )
 >;
 
-export type TypeGarantiesFinancièresEnregistréEventV1 = DomainEvent<
-  'TypeGarantiesFinancièresEnregistré-v1',
+export type TypeGarantiesFinancièresEnregistréEvent = DomainEvent<
+  'TypeGarantiesFinancièresEnregistré',
   {
     identifiantProjet: RawIdentifiantProjet;
   } & (

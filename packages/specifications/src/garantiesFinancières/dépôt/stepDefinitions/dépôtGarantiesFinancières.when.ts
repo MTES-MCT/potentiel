@@ -104,7 +104,7 @@ Quand(
 
       // DATA
       const event: GarantiesFinancièresDéposéesSnapshotV1 = {
-        type: 'GarantiesFinancièresDéposéesSnapshot-v1',
+        type: 'GarantiesFinancièresDéposéesSnapshot',
         payload: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
           attestationConstitution: {

@@ -27,8 +27,8 @@ export const registerGarantiesFinancièresProjector = ({
     const key: GarantiesFinancièresReadModelKey = `garanties-financières|${event.payload.identifiantProjet}`;
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
     switch (event.type) {
-      case 'TypeGarantiesFinancièresEnregistré-v1':
-      case 'TypeGarantiesFinancièresEnregistréSnapshot-v1':
+      case 'TypeGarantiesFinancièresEnregistré':
+      case 'TypeGarantiesFinancièresEnregistréSnapshot':
         if (isNone(garantiesFinancières)) {
           await create<GarantiesFinancièresReadModel>(key, {
             typeGarantiesFinancières:
