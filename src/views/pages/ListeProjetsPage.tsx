@@ -131,7 +131,7 @@ export const ListeProjets = ({
           isOpen={displaySelection}
           changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
           text="Donner accès à un utilisateur"
-          className="mb-6 md:mb-0"
+          className={`hidden lg:block mb-6 ${(success || error) && 'mt-4'}`}
         >
           {selectedProjectIds.length > 0 ? (
             <Form
@@ -170,7 +170,9 @@ export const ListeProjets = ({
         </Dropdown>
       )}
 
-      <div className="flex lg:items-end lg:justify-between">
+      <div
+        className={`flex lg:items-end lg:justify-between ${(success || error) && 'mt-4 lg:mt-0'}`}
+      >
         <LinkButton
           onClick={() => setFiltersOpen(!filtersOpen)}
           className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
