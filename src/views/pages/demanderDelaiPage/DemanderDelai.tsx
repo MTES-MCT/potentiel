@@ -1,9 +1,7 @@
 import {
   ProjectInfo,
   TextArea,
-  Astérisque,
   Input,
-  FormulaireChampsObligatoireLégende,
   PrimaryButton,
   SecondaryLinkButton,
   InfoBox,
@@ -82,7 +80,6 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error as string} />}
 
-          <FormulaireChampsObligatoireLégende className="text-right" />
           <div>
             <div className="mb-1">Concernant le projet:</div>
             <ProjectInfo project={project} />
@@ -90,10 +87,11 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           <Callout>
             Date théorique d'achèvement actuelle : {format(project.completionDueOn, 'dd/MM/yyyy')}
           </Callout>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
+            <div className="text-sm italic mt-6">Tous les champs sont obligatoires</div>
             <div>
-              <Label htmlFor="dateAchevementDemandee">
-                Saisissez la date limite d'achèvement souhaitée <Astérisque />
+              <Label htmlFor="dateAchevementDemandee" className="font-bold">
+                Saisissez la date limite d'achèvement souhaitée
               </Label>
               <Input
                 type="date"
@@ -107,7 +105,9 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
             </div>
             <div>
               <Label htmlFor="justification">
-                Veuillez nous indiquer les raisons qui motivent votre demande
+                <span className="font-bold">
+                  Veuillez nous indiquer les raisons qui motivent votre demande
+                </span>
                 <br />
                 <span className="italic">
                   Pour faciliter le traitement de votre demande, veillez à détailler les raisons
@@ -118,10 +118,18 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                 name="justification"
                 id="justification"
                 defaultValue={justification || ''}
+                required
+                aria-required="true"
               />
             </div>
             <div>
-              <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
+              <Label htmlFor="file" className="font-bold">
+                Pièce justificative
+              </Label>
+              <br />
+              <span className="italic">
+                Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+              </span>
               <Input type="file" name="file" id="file" />
             </div>
           </div>
