@@ -24,9 +24,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
   find,
 }: DépôtGarantiesFinancièresProjectorDependencies) => {
   const handler: MessageHandler<ExecuteDépôtGarantiesFinancièresProjector> = async (event) => {
-    const key: DépôtGarantiesFinancièresReadModelKey = `dépôt-garanties-financières|${
-      event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
-    }`;
+    const key: DépôtGarantiesFinancièresReadModelKey = `dépôt-garanties-financières|${event.payload.identifiantProjet}`;
     const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(key);
 
     switch (event.type) {

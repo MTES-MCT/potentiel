@@ -1,5 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain';
-import { TypeFichier } from '@potentiel/domain';
+import { RawIdentifiantProjet, TypeFichier } from '@potentiel/domain';
 import { Option } from '@potentiel/monads';
 import { Readable } from 'stream';
 
@@ -40,6 +40,6 @@ export type Remove = <TReadModel extends ReadModel>(
 
 export type TéléchargerFichierPort = (args: {
   type: TypeFichier;
-  identifiantProjet: string;
+  identifiantProjet: RawIdentifiantProjet;
   format: string;
 }) => Promise<Readable | undefined>;

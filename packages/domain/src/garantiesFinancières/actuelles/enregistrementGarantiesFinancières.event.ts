@@ -1,9 +1,10 @@
 import { DomainEvent } from '@potentiel/core-domain';
+import { RawIdentifiantProjet } from '../../projet/projet.valueType';
 
 export type TypeGarantiesFinancièresEnregistréSnapshotV1 = DomainEvent<
   'TypeGarantiesFinancièresEnregistréSnapshot-v1',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
   } & (
     | {
         typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
@@ -21,7 +22,7 @@ export type TypeGarantiesFinancièresEnregistréSnapshotV1 = DomainEvent<
 export type TypeGarantiesFinancièresEnregistréEventV1 = DomainEvent<
   'TypeGarantiesFinancièresEnregistré-v1',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
   } & (
     | {
         typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
@@ -36,7 +37,7 @@ export type TypeGarantiesFinancièresEnregistréEventV1 = DomainEvent<
 export type AttestationGarantiesFinancièresEnregistréeEvent = DomainEvent<
   'AttestationGarantiesFinancièresEnregistrée',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
     format: string;
     date: string;
   }
