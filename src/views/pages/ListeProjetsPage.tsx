@@ -125,54 +125,7 @@ export const ListeProjets = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(utilisateur) && (
-        <Dropdown
-          design="link"
-          isOpen={displaySelection}
-          changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
-          text="Donner accès à un utilisateur"
-          className={`hidden lg:block mb-6 ${(success || error) && 'mt-4'}`}
-        >
-          {selectedProjectIds.length > 0 ? (
-            <Form
-              action={routes.INVITE_USER_TO_PROJECT_ACTION}
-              method="POST"
-              name="form"
-              className="m-0"
-            >
-              <select name="projectId" multiple hidden>
-                {selectedProjectIds.map((projectId) => (
-                  <option selected key={projectId} value={projectId}>
-                    {projectId}
-                  </option>
-                ))}
-              </select>
-              <Label htmlFor="email" required>
-                Courrier électronique de la personne habilitée à suivre les projets selectionnés
-                ci-dessous:
-              </Label>
-              <Input required type="email" name="email" id="email" />
-              <PrimaryButton
-                type="submit"
-                name="submit"
-                id="submit"
-                disabled={!selectedProjectIds.length}
-              >
-                Accorder les droits sur {selectedProjectIds.length}{' '}
-                {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
-              </PrimaryButton>
-            </Form>
-          ) : (
-            <p className="mt-2 mb-6">
-              Veuillez sélectionner un ou plusieurs projets pour en donner l'accès à un utilisateur
-            </p>
-          )}
-        </Dropdown>
-      )}
-
-      <div
-        className={`flex lg:items-end lg:justify-between ${(success || error) && 'mt-4 lg:mt-0'}`}
-      >
+      <div className={`flex lg:items-end lg:justify-between ${(success || error) && 'mt-4'}`}>
         <LinkButton
           onClick={() => setFiltersOpen(!filtersOpen)}
           className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
@@ -385,6 +338,45 @@ export const ListeProjets = ({
         </div>
 
         <div className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}>
+          {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(utilisateur) && (
+            <Dropdown
+              design="link"
+              isOpen={displaySelection}
+              changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
+              text="Donner accès à un utilisateur"
+              className={`hidden lg:block mb-4 ${(success || error) && 'mt-4'}`}
+            >
+              <Form
+                action={routes.INVITE_USER_TO_PROJECT_ACTION}
+                method="POST"
+                name="form"
+                className="m-0"
+              >
+                <select name="projectId" multiple hidden>
+                  {selectedProjectIds.map((projectId) => (
+                    <option selected key={projectId} value={projectId}>
+                      {projectId}
+                    </option>
+                  ))}
+                </select>
+                <Label htmlFor="email" className="text-sm mt-2">
+                  Merci de sélectionner les projets concernés et de renseigner le courrier
+                  électronique de la personne habilitée à suivre les projets selectionnés
+                </Label>
+                <Input required type="email" name="email" id="email" className="!mt-0" />
+                <PrimaryButton
+                  type="submit"
+                  name="submit"
+                  id="submit"
+                  disabled={!selectedProjectIds.length}
+                >
+                  Accorder les droits sur {selectedProjectIds.length}{' '}
+                  {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
+                </PrimaryButton>
+              </Form>
+            </Dropdown>
+          )}
+
           <ProjectList
             displaySelection={displaySelection}
             selectedIds={selectedProjectIds}

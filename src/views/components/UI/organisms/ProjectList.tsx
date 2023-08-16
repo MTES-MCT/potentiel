@@ -160,7 +160,7 @@ export const ProjectList = ({
       </div>
 
       {displaySelection && (
-        <div className="p-5 flex items-center">
+        <div className="px-5 pt-5 pb-2 flex items-center">
           <>
             <Checkbox
               id="allProjects"
