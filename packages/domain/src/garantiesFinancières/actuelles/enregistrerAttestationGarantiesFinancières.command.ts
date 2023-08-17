@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantProjetValueType } from '../projet.valueType';
-import { AttestationConstitution } from '../../garantiesFinancières/garantiesFinancières.valueType';
+import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
+import { AttestationConstitution } from '../garantiesFinancières.valueType';
 import { Publish } from '@potentiel/core-domain';
-import { createProjetAggregateId } from '../projet.aggregate';
-import { verifyGarantiesFinancièresAttestationForCommand } from './verifyGarantiesFinancièresAttestationForCommand';
-import { AttestationGarantiesFinancièresEnregistréeEvent } from './garantiesFinancières.event';
+import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
+import { AttestationGarantiesFinancièresEnregistréeEventV1 } from './enregistrementGarantiesFinancières.event';
 import { TéléverserFichierPort } from '../../common.ports';
+import { createGarantiesFinancièresAggregateId } from '../garantiesFinancières.aggregate';
 
 export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
   'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
@@ -37,8 +37,8 @@ export const registerEnregistrerAttestationGarantiesFinancièresCommand = ({
       type: 'attestation-constitution-garanties-financieres',
     });
 
-    const event: AttestationGarantiesFinancièresEnregistréeEvent = {
-      type: 'AttestationGarantiesFinancièresEnregistrée',
+    const event: AttestationGarantiesFinancièresEnregistréeEventV1 = {
+      type: 'AttestationGarantiesFinancièresEnregistrée-v1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         format: attestationConstitution.format,
@@ -46,7 +46,7 @@ export const registerEnregistrerAttestationGarantiesFinancièresCommand = ({
       },
     };
 
-    await publish(createProjetAggregateId(identifiantProjet), event);
+    await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
   };
 
   mediator.register('ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES', handler);

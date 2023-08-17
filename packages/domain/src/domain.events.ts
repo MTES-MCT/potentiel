@@ -1,28 +1,27 @@
+import { ProjetEvent } from './projet/projet.event';
+import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.event';
+import { RaccordementEvent } from './raccordement/raccordement.event';
 import {
   DépôtGarantiesFinancièresEvent,
-  GarantiesFinancièresDéposéesSnapshotV1,
+  EnregistrementGarantiesFinancièresEvent,
+  GarantiesFinancièresEvent,
+  GarantiesFinancièresSnapshotEventV1,
 } from './garantiesFinancières/garantiesFinancières.event';
-import { GestionnaireRéseauEvent } from './gestionnaireRéseau/gestionnaireRéseau.event';
-import {
-  TypeGarantiesFinancièresEnregistréEventV0,
-  AttestationGarantiesFinancièresEnregistréeEvent,
-} from './projet/garantiesFinancières/garantiesFinancières.event';
-import { ProjetEvent, GarantiesFinancièresEvent } from './projet/projet.event';
-import { RaccordementEvent } from './raccordement/raccordement.event';
+import { AttestationGarantiesFinancièresEnregistréeEventV1 } from './garantiesFinancières/actuelles/enregistrementGarantiesFinancières.event';
 
 export type DomainEvents =
   | GestionnaireRéseauEvent
   | RaccordementEvent
   | ProjetEvent
-  | DépôtGarantiesFinancièresEvent;
+  | GarantiesFinancièresEvent;
 
 export {
   GestionnaireRéseauEvent,
   ProjetEvent,
   RaccordementEvent,
   GarantiesFinancièresEvent,
-  TypeGarantiesFinancièresEnregistréEventV0,
-  AttestationGarantiesFinancièresEnregistréeEvent,
   DépôtGarantiesFinancièresEvent,
-  GarantiesFinancièresDéposéesSnapshotV1,
+  EnregistrementGarantiesFinancièresEvent,
+  AttestationGarantiesFinancièresEnregistréeEventV1 as AttestationGarantiesFinancièresEnregistréeEvent,
+  GarantiesFinancièresSnapshotEventV1 as GarantiesFinancièresSnapshotEvent,
 };
