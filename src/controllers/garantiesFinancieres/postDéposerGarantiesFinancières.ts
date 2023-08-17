@@ -57,7 +57,7 @@ v1Router.post(
         const identifiant = request.params.identifiantProjet;
         if (estUnRawIdentifiantProjet(identifiant)) {
           return response.redirect(
-            addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiant), {
+            addQueryParams(routes.GET_DEPOSER_GARANTIES_FINANCIERES_PAGE(identifiant), {
               error: `Les garanties financières n'ont pas pu être déposées. ${error}`,
             }),
           );
@@ -85,7 +85,7 @@ v1Router.post(
 
       if (!file) {
         return response.redirect(
-          addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
+          addQueryParams(routes.GET_DEPOSER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
             error: `Vous devez joindre l'attestation de constitution des garanties financières`,
           }),
         );
