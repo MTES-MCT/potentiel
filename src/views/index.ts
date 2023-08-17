@@ -55,6 +55,7 @@ import {
   ImporterDatesMiseEnService,
   EnregistrerGarantiesFinancières,
   DéposerGarantiesFinancières,
+  ModifierDépôtGarantiesFinancières,
 } from './pages';
 
 export { App } from './App';
@@ -481,4 +482,13 @@ export const DéposerGarantiesFinancièresPage = (
     Component: DéposerGarantiesFinancières,
     props,
     title: 'Déposer des garanties financières',
+  });
+
+export const ModifierDépôtGarantiesFinancièresPage = (
+  props: Parameters<typeof ModifierDépôtGarantiesFinancières>[0],
+) =>
+  makeHtml({
+    Component: ModifierDépôtGarantiesFinancières,
+    props,
+    title: 'Modifier des garanties financières déposées',
   });
