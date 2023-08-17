@@ -1,4 +1,3 @@
-import { Readable } from 'stream';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 import { FichierInexistant } from './fichierInexistant.error';
@@ -9,7 +8,12 @@ export const download = async (filePath: string) => {
     const result = await getClient().send(
       new GetObjectCommand({ Bucket: getBucketName(), Key: filePath }),
     );
-    return Readable.from((await result.Body?.transformToByteArray()) ?? []);
+
+    if (!result.Body) {
+      throw new FichierInexistant();
+    }
+
+    return result.Body.transformToWebStream();
   } catch (e) {
     throw new FichierInexistant();
   }

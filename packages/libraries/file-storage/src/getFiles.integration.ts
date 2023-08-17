@@ -1,7 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { Readable } from 'stream';
 import { getClient } from './getClient';
-import { upload } from './upload';
 import { getFiles } from './getFiles';
 import {
   CreateBucketCommand,
@@ -10,6 +8,7 @@ import {
   HeadBucketCommand,
   ListObjectsCommand,
 } from '@aws-sdk/client-s3';
+import { upload } from './upload';
 
 describe(`get files`, () => {
   const bucketName = 'potentiel';
@@ -69,9 +68,13 @@ describe(`get files`, () => {
     Alors sa clés d'accès ne devraient être récupérable depuis le bucket`, async () => {
     const pattern = 'path/to';
     const filePath = `${pattern}/file.pdf`;
-    const content = Readable.from("Contenu d'un fichier", {
-      encoding: 'utf8',
+    const content = new ReadableStream({
+      start: async (controller) => {
+        controller.enqueue(Buffer.from(`Contenu d'un fichier`, 'utf-8'));
+        controller.close();
+      },
     });
+
     await upload(filePath, content);
 
     await expect(getFiles(pattern)).resolves.toEqual([filePath]);

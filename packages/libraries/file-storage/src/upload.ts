@@ -1,9 +1,8 @@
-import { Readable } from 'stream';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 import { Upload } from '@aws-sdk/lib-storage';
 
-export const upload = async (filePath: string, content: Readable) => {
+export const upload = async (filePath: string, content: ReadableStream) => {
   return new Upload({
     client: getClient(),
     params: {

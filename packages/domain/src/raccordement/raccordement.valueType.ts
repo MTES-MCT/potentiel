@@ -1,5 +1,4 @@
 import { Option } from '@potentiel/monads';
-import { Readable } from 'stream';
 
 export type RawRéférenceDossierRaccordement = string;
 
@@ -54,10 +53,10 @@ export type DossierRaccordement = {
 
 export type AccuséRéceptionDemandeComplèteRaccordement = {
   format: string;
-  content: Readable;
+  content: ReadableStream;
 };
 
 export type PropositionTechniqueEtFinancièreSignée = {
   format: string;
-  content: Readable;
+  content: ReadableStream;
 };

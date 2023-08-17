@@ -9,7 +9,7 @@ import {
   IdentifiantProjet,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
-import { convertStringToReadable } from '../../helpers/convertStringToReadable';
+import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 
 type DemandeComplèteRaccordement = {
   identifiantProjet: IdentifiantProjet;
@@ -81,7 +81,7 @@ const transmettreDemandeComplèteRaccordement = async (
 
   const accuséRéception = {
     format,
-    content: convertStringToReadable(accuséRéceptionContent),
+    content: convertStringToReadableStream(accuséRéceptionContent),
   };
 
   const codeEIC =

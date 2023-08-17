@@ -1,5 +1,4 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { Readable } from 'stream';
 import { getClient } from './getClient';
 import { upload } from './upload';
 import { download } from './download';
@@ -69,9 +68,13 @@ describe(`download file`, () => {
     Quand un fichier est téléversé
     Alors le fichier devrait être récupérable depuis le bucket`, async () => {
     const filePath = 'path/to/file.pdf';
-    const content = Readable.from("Contenu d'un fichier", {
-      encoding: 'utf8',
+    const content = new ReadableStream({
+      start: async (controller) => {
+        controller.enqueue(Buffer.from(`Contenu d'un fichier`, 'utf-8'));
+        controller.close();
+      },
     });
+
     await upload(filePath, content);
 
     await expect(download(filePath)).resolves.toBeTruthy();

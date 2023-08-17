@@ -12,6 +12,7 @@ import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { FileReadableStream } from '../../helpers/fileReadableStream';
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
@@ -23,7 +24,6 @@ import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { createReadStream } from 'fs';
 
 import { mediator } from 'mediateur';
 import { isNone, isSome } from '@potentiel/monads';
@@ -109,7 +109,7 @@ v1Router.post(
       } else {
         propositionTechniqueEtFinancièreSignée = {
           format: file.mimetype,
-          content: createReadStream(file.path),
+          content: new FileReadableStream(file.path),
         };
       }
 

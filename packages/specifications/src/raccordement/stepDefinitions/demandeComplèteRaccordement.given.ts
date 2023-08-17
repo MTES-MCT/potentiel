@@ -9,7 +9,7 @@ import {
   IdentifiantProjet,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
-import { convertStringToReadable } from '../../helpers/convertStringToReadable';
+import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 
 type DemandeComplèteRaccordement = {
   identifiantProjet: IdentifiantProjet;
@@ -49,7 +49,7 @@ EtantDonné(
 
     const accuséRéception = {
       format,
-      content: convertStringToReadable(content),
+      content: convertStringToReadableStream(content),
     };
 
     this.raccordementWorld.dateQualification = dateQualification;
@@ -85,7 +85,7 @@ EtantDonné(
 
     const accuséRéception = {
       format,
-      content: convertStringToReadable(content),
+      content: convertStringToReadableStream(content),
     };
 
     const { codeEIC } =
