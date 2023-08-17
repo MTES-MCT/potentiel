@@ -36,7 +36,7 @@ export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
           Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
         </span>
       </Label>
-      <Input type="file" name="file" id="file" />
+      <Input type="file" name="file" id="file" required aria-required="true" />
     </div>
   </>
 );
