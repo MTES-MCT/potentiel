@@ -1,4 +1,4 @@
-import { UserRole } from "../users";
+import { UserRole } from '../users';
 import {
   PermissionConsulterProjet,
   PermissionInvaliderGF,
@@ -9,10 +9,10 @@ import {
   PermissionRetirerGF,
   PermissionListerProjets,
   PermissionExporterProjets,
-} from "../project";
-import { PermissionInviterDgecValidateur } from "../utilisateur";
-import { PermissionListerDemandesAdmin } from "../modificationRequest";
-import { PermissionListerProjetsÀNotifier } from "../notificationCandidats";
+} from '../project';
+import { PermissionInviterDgecValidateur } from '../utilisateur';
+import { PermissionListerDemandesAdmin } from '../modificationRequest';
+import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
 import {
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
@@ -22,6 +22,7 @@ import {
   PermissionModifierGestionnaireRéseauProjet,
   PermissionConsulterGarantiesFinancières,
   PermissionEnregistrerGarantiesFinancières,
+  PermissionDéposerGarantiesFinancières,
 } from '@potentiel/domain';
 import {
   PermissionListerGestionnairesRéseau,
@@ -65,6 +66,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierGestionnaireRéseauProjet,
         PermissionConsulterGarantiesFinancières,
         PermissionEnregistrerGarantiesFinancières,
+        PermissionDéposerGarantiesFinancières,
       ];
     case 'caisse-des-dépôts':
       return [
