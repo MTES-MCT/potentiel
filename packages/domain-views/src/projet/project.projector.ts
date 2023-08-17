@@ -26,9 +26,7 @@ export const registerProjetProjector = ({
     if (event.type === 'RebuildTriggered') {
       await remove<ProjetReadModel>(`projet|${event.payload.id}`);
     } else {
-      const key: ProjetReadModelKey = `projet|${
-        event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
-      }`;
+      const key: ProjetReadModelKey = `projet|${event.payload.identifiantProjet}`;
       switch (event.type) {
         case 'GestionnaireRéseauProjetDéclaré':
           await create<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {

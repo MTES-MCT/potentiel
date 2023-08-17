@@ -1,4 +1,5 @@
 import { Readable } from 'stream';
+import { RawIdentifiantProjet } from './domain.valueType';
 
 export type TypeFichier =
   | 'depot-attestation-constitution-garanties-financieres'
@@ -6,7 +7,7 @@ export type TypeFichier =
 
 export type TéléverserFichierPort = (data: {
   type: TypeFichier;
-  identifiantProjet: string;
+  identifiantProjet: RawIdentifiantProjet;
   format: string;
   content: Readable;
 }) => Promise<void>;
