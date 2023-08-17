@@ -6,8 +6,8 @@ import {
   exceedsPuissanceMaxDuVolumeReserve,
 } from '../../../../modules/demandeModification';
 import {
+  CertainsChampsObligatoireLégende,
   ErrorBox,
-  FormulaireChampsObligatoireLégende,
   Input,
   Label,
   TextArea,
@@ -102,7 +102,7 @@ export const ChangementPuissance = ({
       {tousLesChampsRequis ? (
         <ToutLesChampsObligatoiresLégende />
       ) : (
-        <FormulaireChampsObligatoireLégende />
+        <CertainsChampsObligatoireLégende />
       )}
       <div>
         <Label

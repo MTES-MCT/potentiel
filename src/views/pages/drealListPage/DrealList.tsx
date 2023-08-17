@@ -12,11 +12,11 @@ import {
   Select,
   SuccessBox,
   Label,
-  FormulaireChampsObligatoireLégende,
   Table,
   Td,
   Th,
   Form,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { REGIONS, Région } from '../../../modules/dreal/région';
@@ -37,7 +37,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
       <Form action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION} method="post" className="mx-auto">
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
-        <FormulaireChampsObligatoireLégende className="text-right" />
+        <CertainsChampsObligatoireLégende />
         <input type="hidden" name="role" value="dreal" />
         <div>
           <Label htmlFor="email" required>

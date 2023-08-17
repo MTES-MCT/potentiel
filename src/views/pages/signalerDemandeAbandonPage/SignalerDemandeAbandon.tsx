@@ -9,10 +9,10 @@ import {
   ErrorBox,
   Heading1,
   Label,
-  FormulaireChampsObligatoireLégende,
   TextArea,
   Radio,
   Form,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectDataForSignalerDemandeAbandonPage } from '../../../modules/project';
@@ -51,7 +51,7 @@ export const SignalerDemandeAbandon = ({
           </ProjectInfo>
         </div>
 
-        <FormulaireChampsObligatoireLégende className="ml-auto" />
+        <CertainsChampsObligatoireLégende />
 
         <Input name="projectId" value={project.id} readOnly hidden />
 

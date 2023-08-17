@@ -2,7 +2,6 @@ import React from 'react';
 import {
   PrimaryButton,
   ErrorBox,
-  FormulaireChampsObligatoireLégende,
   Heading1,
   Input,
   Label,
@@ -10,6 +9,7 @@ import {
   PageTemplate,
   Form,
   LabelDescription,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
@@ -35,7 +35,7 @@ export const AjouterGestionnaireRéseau = ({
     <Heading1>Ajouter un gestionnaire de réseau</Heading1>
     {erreur && <ErrorBox title={erreur} />}
     <Form method="post" action={routes.POST_AJOUTER_GESTIONNAIRE_RESEAU} className="mx-auto">
-      <FormulaireChampsObligatoireLégende className="self-end" />
+      <CertainsChampsObligatoireLégende className="self-end" />
       <div>
         <Label htmlFor="codeEIC" required>
           Code EIC

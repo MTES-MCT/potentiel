@@ -1,3 +1,2 @@
-export * from './Astérisque';
-export * from './FormulaireChampsObligatoireLégende';
+export * from './CertainsChampsObligatoireLégende';
 export * from './ToutLesChampsObligatoiresLégende';

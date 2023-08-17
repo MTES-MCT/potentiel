@@ -3,7 +3,6 @@ import { Request } from 'express';
 import routes from '../../../routes';
 import {
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   Heading1,
   Heading2,
   Input,
@@ -11,6 +10,7 @@ import {
   LegacyPageTemplate,
   SuccessBox,
   Form,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -36,7 +36,7 @@ export const InviterDgecValidateur = ({
         method="post"
         className="flex flex-col gap-4"
       >
-        <FormulaireChampsObligatoireLégende className="text-right" />
+        <CertainsChampsObligatoireLégende />
         <input type="hidden" name="role" value="dgec-validateur" />
         <div>
           <Label htmlFor="email" required>

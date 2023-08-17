@@ -1,4 +1,4 @@
-import { Form, FormulaireChampsObligatoireLégende, PrimaryButton } from '../../../components';
+import { CertainsChampsObligatoireLégende, Form, PrimaryButton } from '../../../components';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import { UserRole } from '../../../../modules/users';
 import ROUTES from '../../../../routes';
@@ -30,7 +30,7 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
 
   return (
     <Form action={getAdminRouteBasedOnType(type)} method="post" encType="multipart/form-data">
-      {type !== 'puissance' && <FormulaireChampsObligatoireLégende className="text-left mb-3" />}
+      {type !== 'puissance' && <CertainsChampsObligatoireLégende className="mb-3" />}
       <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
       <input type="hidden" name="type" value={modificationRequest.type} />
       <input type="hidden" name="versionDate" value={versionDate} />

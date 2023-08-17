@@ -13,11 +13,11 @@ import {
   Heading2,
   ListeVide,
   Label,
-  FormulaireChampsObligatoireLégende,
   Table,
   Td,
   Th,
   Form,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -37,7 +37,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
       <Form action={ROUTES.ADMIN_INVITE_USER_ACTION} method="post" className="mx-auto">
-        <FormulaireChampsObligatoireLégende className="text-right" />
+        <CertainsChampsObligatoireLégende />
         <div>
           <Label htmlFor="email" required>
             Adresse email :

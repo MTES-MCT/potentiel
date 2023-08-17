@@ -1,4 +1,4 @@
-import { Astérisque, Input } from '../../../components';
+import { Input, Label } from '../../../components';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import format from 'date-fns/format';
 import React from 'react';
@@ -25,9 +25,9 @@ export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseD�
 
   return (
     <div className="mt-4 mb-4">
-      <label htmlFor="dateAchevementAccordee">
-        Date limite d'achèvement accordée <Astérisque />
-      </label>
+      <Label htmlFor="dateAchevementAccordee" required>
+        Date limite d'achèvement accordée
+      </Label>
       <Input
         type="date"
         name="dateAchevementAccordee"

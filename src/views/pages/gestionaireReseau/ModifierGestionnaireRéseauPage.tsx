@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   Heading1,
   Input,
   Label,
@@ -9,6 +8,7 @@ import {
   Form,
   PageTemplate,
   LabelDescription,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
@@ -42,7 +42,7 @@ export const ModifierGestionnaireRéseau = ({
       action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(codeEIC)}
       className="mx-auto"
     >
-      <FormulaireChampsObligatoireLégende className="self-end" />
+      <CertainsChampsObligatoireLégende />
 
       <div>
         <Label htmlFor="codeEIC">Code EIC</Label>

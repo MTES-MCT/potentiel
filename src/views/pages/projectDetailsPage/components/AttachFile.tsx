@@ -5,12 +5,11 @@ import {
   SecondaryButton,
   Input,
   TextArea,
-  FormulaireChampsObligatoireLégende,
-  Astérisque,
   PaperClipIcon,
   Link,
   Label,
   Form,
+  CertainsChampsObligatoireLégende,
 } from '../../../components';
 
 type AttachFileProps = {
@@ -38,19 +37,17 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
         >
-          <FormulaireChampsObligatoireLégende className="text-right" />
+          <CertainsChampsObligatoireLégende />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <Label htmlFor="date">
+            <Label htmlFor="date" required>
               Date d'effet
-              <Astérisque />
             </Label>
             <Input type="date" required id="date" name="date" />
           </div>
           <div>
-            <Label htmlFor="title">
+            <Label htmlFor="title" required>
               Titre
-              <Astérisque />
             </Label>
             <Input type="text" name="title" id="title" required />
           </div>

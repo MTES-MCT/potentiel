@@ -5,10 +5,8 @@ import { Request } from 'express';
 import {
   ProjectInfo,
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   Label,
   SecondaryLinkButton,
-  Astérisque,
   Input,
   TextArea,
   AlertBox,
@@ -21,6 +19,7 @@ import {
   Heading1,
   ProjectProps,
   Form,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '../../../routes';
@@ -72,7 +71,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
-          <FormulaireChampsObligatoireLégende className="text-right" />
+          <CertainsChampsObligatoireLégende className="text-right" />
           <div>
             <div className="mb-2">Concernant le projet:</div>
             <ProjectInfo project={project} />
@@ -94,8 +93,8 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
           )}
           <p>Ancien producteur : {project.nomCandidat}</p>
           <div>
-            <Label htmlFor="producteur">
-              Nouveau producteur <Astérisque />
+            <Label htmlFor="producteur" required>
+              Nouveau producteur
             </Label>
             <Input
               type="text"

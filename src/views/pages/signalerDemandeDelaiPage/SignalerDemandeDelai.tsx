@@ -4,13 +4,13 @@ import {
   SecondaryLinkButton,
   ProjectInfo,
   LegacyPageTemplate,
-  Astérisque,
-  FormulaireChampsObligatoireLégende,
   ErrorBox,
   Heading1,
   TextArea,
   Radio,
   Form,
+  CertainsChampsObligatoireLégende,
+  Label,
 } from '../../components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '../../../modules/project';
 import routes from '../../../routes';
@@ -45,7 +45,7 @@ export const SignalerDemandeDelai = ({
         className="mx-auto"
       >
         <div>
-          <FormulaireChampsObligatoireLégende className="text-right" />
+          <CertainsChampsObligatoireLégende />
           <p className="m-0">Pour le projet</p>
           <ProjectInfo project={project}>
             <p className="m-0">
@@ -65,7 +65,7 @@ export const SignalerDemandeDelai = ({
 
         <div>
           <legend className="m-0">
-            Décision <Astérisque /> :
+            Décision <span className="text-red-500">*</span> :
           </legend>
           <ul className="flex flex-col lg:flex-row gap-3 my-2 p-0 list-none">
             <li>
@@ -106,9 +106,9 @@ export const SignalerDemandeDelai = ({
         </div>
 
         <div>
-          <label htmlFor="decidedOn">
-            Date de la décision (=date du courrier) <Astérisque />
-          </label>
+          <Label htmlFor="decidedOn" required>
+            Date de la décision (=date du courrier)
+          </Label>
           <Input
             type="date"
             name="decidedOn"
@@ -120,9 +120,9 @@ export const SignalerDemandeDelai = ({
 
         {doesNewDateImpactProject && (
           <div>
-            <label htmlFor="newCompletionDueOn">
-              Nouvelle date d'achèvement accordée <Astérisque />
-            </label>
+            <Label htmlFor="newCompletionDueOn" required>
+              Nouvelle date d'achèvement accordée
+            </Label>
             <Input
               type="date"
               name="newCompletionDueOn"

@@ -9,10 +9,10 @@ import {
   ProjectInfo,
   SecondaryLinkButton,
   Label,
-  FormulaireChampsObligatoireLégende,
   TextArea,
   Radio,
   Form,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectDataForSignalerDemandeRecoursPage } from '../../../modules/project';
@@ -51,7 +51,7 @@ export const SignalerDemandeRecours = ({
           </ProjectInfo>
         </div>
 
-        <FormulaireChampsObligatoireLégende className="ml-auto" />
+        <CertainsChampsObligatoireLégende />
 
         <Input name="projectId" value={project.id} readOnly hidden />
 

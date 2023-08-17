@@ -21,7 +21,7 @@ import {
   Input,
   TextArea,
   Form,
-  FormulaireChampsObligatoireLégende,
+  CertainsChampsObligatoireLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '../../../modules/project';
@@ -84,7 +84,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
-          <FormulaireChampsObligatoireLégende />
+          <CertainsChampsObligatoireLégende />
           {CHAMPS_FOURNISSEURS.map((champ) => (
             <div key={champ}>
               <div className="mb-3">
