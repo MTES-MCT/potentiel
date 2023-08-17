@@ -87,51 +87,49 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           <Callout>
             Date théorique d'achèvement actuelle : {format(project.completionDueOn, 'dd/MM/yyyy')}
           </Callout>
-          <div className="flex flex-col gap-6">
-            <div className="text-error-425-base italic mt-6">Tous les champs sont obligatoires</div>
-            <div>
-              <Label htmlFor="dateAchevementDemandee" className="font-bold">
-                Saisissez la date limite d'achèvement souhaitée
-              </Label>
-              <Input
-                type="date"
-                name="dateAchevementDemandee"
-                id="dateAchevementDemandee"
-                min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
-                defaultValue={dateAchèvementDemandée}
-                required
-                aria-required="true"
-              />
-            </div>
-            <div>
-              <Label htmlFor="justification">
-                <span className="font-bold">
-                  Veuillez nous indiquer les raisons qui motivent votre demande
-                </span>
-                <br />
-                <span className="italic">
-                  Pour faciliter le traitement de votre demande, veillez à détailler les raisons
-                  ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
-                </span>
-              </Label>
-              <TextArea
-                name="justification"
-                id="justification"
-                defaultValue={justification || ''}
-                required
-                aria-required="true"
-              />
-            </div>
-            <div>
-              <Label htmlFor="file">
-                <span className="font-bold">Pièce justificative</span>
-                <br />
-                <span className="italic">
-                  Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
-                </span>
-              </Label>
-              <Input type="file" name="file" id="file" required aria-required="true" />
-            </div>
+          <div className="text-error-425-base italic mt-6">Tous les champs sont obligatoires</div>
+          <div>
+            <Label htmlFor="dateAchevementDemandee" className="font-bold">
+              Saisissez la date limite d'achèvement souhaitée
+            </Label>
+            <Input
+              type="date"
+              name="dateAchevementDemandee"
+              id="dateAchevementDemandee"
+              min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
+              defaultValue={dateAchèvementDemandée}
+              required
+              aria-required="true"
+            />
+          </div>
+          <div>
+            <Label htmlFor="justification">
+              <span className="font-bold">
+                Veuillez nous indiquer les raisons qui motivent votre demande
+              </span>
+              <br />
+              <span className="italic">
+                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
+              </span>
+            </Label>
+            <TextArea
+              name="justification"
+              id="justification"
+              defaultValue={justification || ''}
+              required
+              aria-required="true"
+            />
+          </div>
+          <div>
+            <Label htmlFor="file">
+              <span className="font-bold">Pièce justificative</span>
+              <br />
+              <span className="italic">
+                Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+              </span>
+            </Label>
+            <Input type="file" name="file" id="file" required aria-required="true" />
           </div>
 
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">

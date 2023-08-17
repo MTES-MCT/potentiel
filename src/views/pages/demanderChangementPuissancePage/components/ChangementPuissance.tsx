@@ -98,78 +98,73 @@ export const ChangementPuissance = ({
         )}
       </div>
 
-      <div className="flex flex-col gap-6 mt-6">
-        {tousLesChampsRequis ? (
-          <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
-        ) : (
-          <FormulaireChampsObligatoireLégende />
-        )}
-        <div>
-          <Label htmlFor="puissance" required={!tousLesChampsRequis ? true : undefined}>
-            Nouvelle puissance (en {appelOffre?.unitePuissance})
-          </Label>
-          <Input
-            type="text"
-            pattern="[0-9]+([\.,][0-9]+)?"
-            name="puissance"
-            id="puissance"
-            defaultValue={puissanceSaisie || ''}
-            onChange={handlePuissanceOnChange}
-            required
-            aria-required="true"
-          />
-        </div>
+      {tousLesChampsRequis ? (
+        <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
+      ) : (
+        <FormulaireChampsObligatoireLégende />
+      )}
+      <div>
+        <Label
+          htmlFor="puissance"
+          required={!tousLesChampsRequis ? true : undefined}
+          className="font-bold"
+        >
+          Nouvelle puissance (en {appelOffre?.unitePuissance})
+        </Label>
+        <Input
+          type="text"
+          pattern="[0-9]+([\.,][0-9]+)?"
+          name="puissance"
+          id="puissance"
+          defaultValue={puissanceSaisie || ''}
+          onChange={handlePuissanceOnChange}
+          required
+          aria-required="true"
+        />
+      </div>
 
-        {!CDC2022choisi && displayAlertHorsRatios && (
-          <AlertePuissanceHorsRatios {...{ project: { appelOffre, technologie } }} />
-        )}
+      {!CDC2022choisi && displayAlertHorsRatios && (
+        <AlertePuissanceHorsRatios {...{ project: { appelOffre, technologie } }} />
+      )}
 
-        {displayAlertPuissanceMaxVolumeReserve && (
-          <AlertePuissanceMaxDepassee {...{ project: { appelOffre } }} />
-        )}
+      {displayAlertPuissanceMaxVolumeReserve && (
+        <AlertePuissanceMaxDepassee {...{ project: { appelOffre } }} />
+      )}
 
-        {displayAlertOnPuissanceType && (
-          <ErrorBox title="Le format saisi n'est pas conforme, veuillez renseigner un nombre décimal." />
-        )}
+      {displayAlertOnPuissanceType && (
+        <ErrorBox title="Le format saisi n'est pas conforme, veuillez renseigner un nombre décimal." />
+      )}
 
-        <div>
-          <Label
-            htmlFor="justification"
-            // required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
-          >
-            <span className="font-bold">
-              Veuillez nous indiquer les raisons qui motivent votre demande
-            </span>
-            <br />
-            <span className="italic">
-              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc){' '}
-            </span>
-          </Label>
-          <TextArea
-            name="justification"
-            id="justification"
-            defaultValue={justification || ''}
-            required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
-            aria-required={!CDC2022choisi && fichierEtJustificationRequis}
-          />
-        </div>
-        <div>
-          <Label
-            htmlFor="file"
-            className="mt-4"
-            // required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
-          >
-            Courrier explicatif ou décision administrative.{' '}
-          </Label>
-          <Input
-            type="file"
-            name="file"
-            id="file"
-            required={!CDC2022choisi && fichierEtJustificationRequis}
-            aria-required={!CDC2022choisi && fichierEtJustificationRequis}
-          />
-        </div>
+      <div>
+        <Label htmlFor="justification">
+          <span className="font-bold">
+            Veuillez nous indiquer les raisons qui motivent votre demande
+          </span>
+          <br />
+          <span className="italic">
+            Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+            conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+          </span>
+        </Label>
+        <TextArea
+          name="justification"
+          id="justification"
+          defaultValue={justification || ''}
+          required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
+          aria-required={!CDC2022choisi && fichierEtJustificationRequis}
+        />
+      </div>
+      <div>
+        <Label htmlFor="file" className="mt-4 font-bold">
+          Courrier explicatif ou décision administrative
+        </Label>
+        <Input
+          type="file"
+          name="file"
+          id="file"
+          required={!CDC2022choisi && fichierEtJustificationRequis}
+          aria-required={!CDC2022choisi && fichierEtJustificationRequis}
+        />
       </div>
     </>
   );

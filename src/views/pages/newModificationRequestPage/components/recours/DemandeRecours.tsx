@@ -8,17 +8,34 @@ type DemandeRecoursProps = {
 
 export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
   <>
+    <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
     <div>
       <Label htmlFor="justification">
-        <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+        <span className="font-bold">
+          Veuillez nous indiquer les raisons qui motivent votre demande
+        </span>
         <br />
-        Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit
-        à ce besoin de modification (contexte, facteurs extérieurs, etc)
+        <span className="italic">
+          Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+          conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+        </span>
       </Label>
-      <TextArea name="justification" id="justification" defaultValue={justification || ''} />
+      <TextArea
+        name="justification"
+        id="justification"
+        defaultValue={justification || ''}
+        required
+        aria-required="true"
+      />
     </div>
     <div>
-      <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
+      <Label htmlFor="file">
+        <span className="font-bold">Pièce justificative</span>
+        <br />
+        <span className="italic">
+          Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+        </span>
+      </Label>
       <Input type="file" name="file" id="file" />
     </div>
   </>
