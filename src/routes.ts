@@ -568,5 +568,17 @@ class routes {
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/garanties-financieres`;
   };
+
+  static GET_DEPOSER_GARANTIES_FINANCIERES_PAGE = (identifiantProjet?: RawIdentifiantProjet) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres.html`;
+  };
+
+  static POST_DEPOSER_GARANTIES_FINANCIERES = (identifiantProjet?: RawIdentifiantProjet) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres`;
+  };
 }
 export default routes;
