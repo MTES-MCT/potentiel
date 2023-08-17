@@ -8,6 +8,8 @@ import {
   EditIcon,
   AddIcon,
   Badge,
+  ClockIcon,
+  ErrorIcon,
 } from '../../../components';
 import routes from '../../../../routes';
 import { RawIdentifiantProjet } from '@potentiel/domain';
@@ -56,6 +58,7 @@ export const GarantiesFinancières = ({
             identifiantProjet={identifiantProjet}
             actionRequise={garantiesFinancières?.actionRequise}
             garantiesFinancièresDéposées={garantiesFinancières?.dépôt}
+            garantiesFinancièresActuelles={garantiesFinancières?.actuelles}
             userRole={userRole}
           />
         </div>
@@ -76,7 +79,7 @@ const Actuelles = ({
   return (
     <>
       {garantiesFinancièresActuelles ? (
-        <div className="mt-2">
+        <div className="mt-2 flex flex-col gap-1">
           <Heading4 className="m-0 flex text-sm font-semibold">
             Garanties financières actuelles validées
           </Heading4>
@@ -84,6 +87,7 @@ const Actuelles = ({
             type={garantiesFinancièresActuelles.typeGarantiesFinancières}
             dateÉchéance={garantiesFinancièresActuelles.dateÉchéance}
             dateConstitution={garantiesFinancièresActuelles.attestationConstitution?.date}
+            formatFichier={garantiesFinancièresActuelles.attestationConstitution?.format}
             fichierUrl={routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES(
               identifiantProjet,
             )}
@@ -112,26 +116,31 @@ const Dépôt = ({
   actionRequise,
   identifiantProjet,
   userRole,
+  garantiesFinancièresActuelles,
 }: {
   garantiesFinancièresDéposées?: GarantiesFinancièresDataForProjetPage['dépôt'];
   identifiantProjet: RawIdentifiantProjet;
   actionRequise?: GarantiesFinancièresDataForProjetPage['actionRequise'];
   userRole: UserRole;
+  garantiesFinancièresActuelles?: GarantiesFinancièresDataForProjetPage['actuelles'];
 }) => {
   return (
     <>
       {garantiesFinancièresDéposées ? (
-        <div className="mt-2">
+        <div className="mt-2 flex flex-col gap-1">
           <Heading4 className="m-0 flex text-sm font-semibold">
-            Nouvelles garanties financières déposées{' '}
-            <Badge type="info" className="ml-2 align-baseline">
+            Nouvelles garanties financières déposées
+          </Heading4>
+          <div>
+            <Badge type="warning" className="mb-1">
               en attente de validation
             </Badge>
-          </Heading4>
+          </div>
           <AfficherGF
             type={garantiesFinancièresDéposées.typeGarantiesFinancières}
             dateÉchéance={garantiesFinancièresDéposées.dateÉchéance}
             dateConstitution={garantiesFinancièresDéposées.attestationConstitution.date}
+            formatFichier={garantiesFinancièresDéposées.attestationConstitution.format}
             fichierUrl={routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES_DEPOT(
               identifiantProjet,
             )}
@@ -142,6 +151,13 @@ const Dépôt = ({
                 <EditIcon className="mr-1" aria-hidden />
                 modifier le dépôt en cours
               </Link>
+            </div>
+          )}
+          {garantiesFinancièresActuelles && (
+            <div className="italic text-sm text-grey-425-base">
+              <ErrorIcon className="mr-1 align-middle" aria-hidden />
+              Une fois validées, ces garanties financières renplaceront les garanties financières
+              actuelles.
             </div>
           )}
         </div>
@@ -178,29 +194,38 @@ const AfficherGF = ({
   dateÉchéance,
   dateConstitution,
   fichierUrl,
+  formatFichier,
 }: {
   type?: `avec date d'échéance` | `consignation` | `6 mois après achèvement`;
   dateÉchéance?: string;
   dateConstitution?: string;
+  formatFichier?: string;
   fichierUrl: string;
 }) => {
   return (
-    <>
-      {type === "avec date d'échéance" && dateÉchéance && (
+    <div>
+      <div className="flex flex-col md:flex-row md:gap-8">
+        {type && (
+          <div>
+            <Badge type="info">
+              {type === '6 mois après achèvement' ? 'valides 6 mois après achèvement' : type}
+            </Badge>
+          </div>
+        )}
+        {dateÉchéance && (
+          <div>
+            <ClockIcon className="mr-1 align-middle" aria-hidden />
+            échéance : {afficherDate(new Date(dateÉchéance))}
+          </div>
+        )}
+      </div>
+      {dateConstitution && formatFichier && (
         <div>
-          Garanties Financières avec date d'échéance au {afficherDate(new Date(dateÉchéance))}
+          <DownloadLink fileUrl={fichierUrl}>
+            télécharger l'attestation (constituée le {afficherDate(new Date(dateConstitution))})
+          </DownloadLink>
         </div>
       )}
-      {type === '6 mois après achèvement' && (
-        <div>Garanties Financières valides jusqu'à six mois après l'achèvement</div>
-      )}
-      {type === 'consignation' && <div>Garanties financières de type consignation</div>}
-
-      {dateConstitution && (
-        <DownloadLink fileUrl={fichierUrl}>
-          télécharger l'attestation (constituée le {afficherDate(new Date(dateConstitution))})
-        </DownloadLink>
-      )}
-    </>
+    </div>
   );
 };
