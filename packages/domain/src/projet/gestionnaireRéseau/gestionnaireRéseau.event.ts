@@ -1,9 +1,10 @@
 import { DomainEvent } from '@potentiel/core-domain';
+import { RawIdentifiantProjet } from '../projet.valueType';
 
 export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
   'GestionnaireRéseauProjetModifié',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
     identifiantGestionnaireRéseau: string;
   }
 >;
@@ -11,7 +12,7 @@ export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
 export type GestionnaireRéseauProjetDéclaréEvent = DomainEvent<
   'GestionnaireRéseauProjetDéclaré',
   {
-    identifiantProjet: string;
+    identifiantProjet: RawIdentifiantProjet;
     identifiantGestionnaireRéseau: string;
   }
 >;

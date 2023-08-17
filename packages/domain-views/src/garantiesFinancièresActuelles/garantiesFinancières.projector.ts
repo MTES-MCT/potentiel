@@ -5,11 +5,11 @@ import {
   GarantiesFinancièresReadModelKey,
 } from './garantiesFinancières.readModel';
 import { Create, Update, Find } from '../common.port';
-import { GarantiesFinancièresEvent } from '@potentiel/domain';
+import { EnregistrementGarantiesFinancièresEvent } from '@potentiel/domain';
 
 export type ExecuteGarantiesFinancièresProjector = Message<
   'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',
-  GarantiesFinancièresEvent
+  EnregistrementGarantiesFinancièresEvent
 >;
 
 export type GarantiesFinancièresProjectorDependencies = {
@@ -24,13 +24,26 @@ export const registerGarantiesFinancièresProjector = ({
   find,
 }: GarantiesFinancièresProjectorDependencies) => {
   const handler: MessageHandler<ExecuteGarantiesFinancièresProjector> = async (event) => {
-    const key: GarantiesFinancièresReadModelKey = `garanties-financières|${
-      event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
-    }`;
+    const key: GarantiesFinancièresReadModelKey = `garanties-financières|${event.payload.identifiantProjet}`;
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
     switch (event.type) {
+      case 'GarantiesFinancièresSnapshot-v1':
+        if (!event.payload.aggregate.actuelles) {
+          return;
+        }
+        if (isNone(garantiesFinancières)) {
+          const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
+            event.payload.aggregate.actuelles;
+          await create<GarantiesFinancièresReadModel>(key, {
+            typeGarantiesFinancières,
+            dateÉchéance,
+            attestationConstitution,
+          });
+        } else {
+          // TO DO : ce cas ne devrait pas arriver, erreur à logguer ?
+        }
+        break;
       case 'TypeGarantiesFinancièresEnregistré-v1':
-      case 'TypeGarantiesFinancièresEnregistré-v0':
         if (isNone(garantiesFinancières)) {
           await create<GarantiesFinancièresReadModel>(key, {
             typeGarantiesFinancières:
@@ -50,7 +63,7 @@ export const registerGarantiesFinancièresProjector = ({
           });
         }
         break;
-      case 'AttestationGarantiesFinancièresEnregistrée':
+      case 'AttestationGarantiesFinancièresEnregistrée-v1':
         if (isNone(garantiesFinancières)) {
           await create<GarantiesFinancièresReadModel>(key, {
             attestationConstitution: {

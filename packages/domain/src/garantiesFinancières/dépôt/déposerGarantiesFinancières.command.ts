@@ -1,22 +1,22 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantProjetValueType } from '../projet/projet.valueType';
+import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { verifyGarantiesFinancièresTypeForCommand } from '../projet/garantiesFinancières/verifyGarantiesFinancièresTypeForCommand';
-import { verifyGarantiesFinancièresAttestationForCommand } from '../projet/garantiesFinancières/verifyGarantiesFinancièresAttestationForCommand';
+import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
+import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
 import {
   AttestationConstitution,
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
-} from './garantiesFinancières.valueType';
-import { DateTimeValueType, Utilisateur } from '../domain.valueType';
+} from '../garantiesFinancières.valueType';
+import { DateTimeValueType, Utilisateur } from '../../domain.valueType';
 import {
-  createDépôtGarantiesFinancièresAggregateId,
-  loadDépôtGarantiesFinancièresAggregateFactory,
-} from './garantiesFinancières.aggregate';
-import { GarantiesFinancièresDéposéesV1 } from './garantiesFinancières.event';
-import { TéléverserFichierPort } from '../common.ports';
+  createGarantiesFinancièresAggregateId,
+  loadGarantiesFinancièresAggregateFactory,
+} from '../garantiesFinancières.aggregate';
+import { TéléverserFichierPort } from '../../common.ports';
 import { isSome } from '@potentiel/monads';
-import { DépôtGarantiesFinancièresDéjàExistantErreur } from './garantiesFinancières.error';
+import { DépôtGarantiesFinancièresDéjàExistantErreur } from '../garantiesFinancières.error';
+import { GarantiesFinancièresDéposéesEventV1 } from './dépôtGarantiesFinancières.event';
 
 export type DéposerGarantiesFinancièresCommand = Message<
   'DÉPOSER_GARANTIES_FINANCIÈRES',
@@ -39,7 +39,7 @@ export const registerDéposerGarantiesFinancièresCommand = ({
   loadAggregate,
   téléverserFichier,
 }: DéposerGarantiesFinancièresDependencies) => {
-  const loadDépôtGarantiesFinancières = loadDépôtGarantiesFinancièresAggregateFactory({
+  const loadGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
     loadAggregate,
   });
 
@@ -51,9 +51,9 @@ export const registerDéposerGarantiesFinancièresCommand = ({
     dateDépôt,
     utilisateur,
   }) => {
-    const agrégatDépôtGarantiesFinancières = await loadDépôtGarantiesFinancières(identifiantProjet);
+    const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
 
-    if (isSome(agrégatDépôtGarantiesFinancières) && agrégatDépôtGarantiesFinancières.dépôt) {
+    if (isSome(agrégatGarantiesFinancières) && agrégatGarantiesFinancières.dépôt) {
       throw new DépôtGarantiesFinancièresDéjàExistantErreur();
     }
 
@@ -68,7 +68,7 @@ export const registerDéposerGarantiesFinancièresCommand = ({
       type: 'depot-attestation-constitution-garanties-financieres',
     });
 
-    const event: GarantiesFinancièresDéposéesV1 = {
+    const event: GarantiesFinancièresDéposéesEventV1 = {
       type: 'GarantiesFinancièresDéposées-v1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
@@ -86,7 +86,7 @@ export const registerDéposerGarantiesFinancièresCommand = ({
       },
     };
 
-    await publish(createDépôtGarantiesFinancièresAggregateId(identifiantProjet), event);
+    await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
   };
 
   mediator.register('DÉPOSER_GARANTIES_FINANCIÈRES', handler);
