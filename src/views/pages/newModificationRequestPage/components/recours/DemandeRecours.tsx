@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Input, Label, TextArea } from '../../../../components';
+import { Input, Label, TextArea, ToutLesChampsObligatoiresLégende } from '../../../../components';
 
 type DemandeRecoursProps = {
   justification: string;
@@ -8,7 +8,7 @@ type DemandeRecoursProps = {
 
 export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
   <>
-    <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
+    <ToutLesChampsObligatoiresLégende />
     <div>
       <Label htmlFor="justification">
         <span className="font-bold">

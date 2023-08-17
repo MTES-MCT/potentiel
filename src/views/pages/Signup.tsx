@@ -12,6 +12,7 @@ import {
   Form,
   ErrorIcon,
   SaveIcon,
+  ToutLesChampsObligatoiresLégende,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
 
@@ -75,7 +76,7 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
           </div>
         )}
 
-        <div className="text-sm italic">Tous les champs sont obligatoires</div>
+        <ToutLesChampsObligatoiresLégende />
 
         <div>
           <label htmlFor="firstname">Prénom</label>

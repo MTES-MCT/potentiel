@@ -11,6 +11,7 @@ import {
   Link,
   PageProjetTemplate,
   Form,
+  ToutLesChampsObligatoiresLégende,
 } from '../../../components';
 import { hydrateOnClient } from '../../../helpers';
 import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
@@ -47,7 +48,7 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
         >
           <Heading2 className="mb-0">Transmettre la proposition technique et financière</Heading2>
 
-          <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
+          <ToutLesChampsObligatoiresLégende />
 
           {error && <ErrorBox>{error}</ErrorBox>}
 

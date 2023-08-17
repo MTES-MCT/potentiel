@@ -71,7 +71,8 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
           </div>
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
-          <div className="text-error-425-base italic mt-6">Tous les champs sont obligatoires</div>
+
+          <ToutLesChampsObligatoiresLégende />
           <input type="hidden" name="projectId" value={project.id} />
 
           <div>

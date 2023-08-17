@@ -15,6 +15,7 @@ import {
   Label,
   Form,
   Callout,
+  ToutLesChampsObligatoiresLégende,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectAppelOffre } from '../../../entities';
@@ -87,7 +88,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           <Callout>
             Date théorique d'achèvement actuelle : {format(project.completionDueOn, 'dd/MM/yyyy')}
           </Callout>
-          <div className="text-error-425-base italic mt-6">Tous les champs sont obligatoires</div>
+          <ToutLesChampsObligatoiresLégende />
           <div>
             <Label htmlFor="dateAchevementDemandee" className="font-bold">
               Saisissez la date limite d'achèvement souhaitée

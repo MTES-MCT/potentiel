@@ -11,6 +11,7 @@ import {
   Input,
   Label,
   TextArea,
+  ToutLesChampsObligatoiresLégende,
 } from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
@@ -99,7 +100,7 @@ export const ChangementPuissance = ({
       </div>
 
       {tousLesChampsRequis ? (
-        <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
+        <ToutLesChampsObligatoiresLégende />
       ) : (
         <FormulaireChampsObligatoireLégende />
       )}

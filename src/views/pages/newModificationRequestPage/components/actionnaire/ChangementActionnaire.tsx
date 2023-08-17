@@ -1,4 +1,4 @@
-import { Input, Label, TextArea } from '../../../../components';
+import { Input, Label, TextArea, ToutLesChampsObligatoiresLégende } from '../../../../components';
 import React from 'react';
 
 type ChangementActionnaireProps = {
@@ -19,7 +19,7 @@ export const ChangementActionnaire = ({
       </div>
     )}
 
-    <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
+    <ToutLesChampsObligatoiresLégende />
     <div>
       <Label htmlFor="actionnaire" className="font-bold">
         Nouvel actionnaire

@@ -12,6 +12,7 @@ import {
   PageProjetTemplate,
   Form,
   InputFile,
+  ToutLesChampsObligatoiresLégende,
 } from '../../../components';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
 import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
@@ -48,7 +49,7 @@ export const ModifierPropositionTechniqueEtFinancière = ({
         >
           <Heading2 className="mb-0">Modifier la proposition technique et financière</Heading2>
 
-          <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+          <ToutLesChampsObligatoiresLégende />
 
           {error && <ErrorBox>{error}</ErrorBox>}
 
