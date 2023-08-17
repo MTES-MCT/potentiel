@@ -85,7 +85,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
           {error && <ErrorBox title={error} />}
 
           <div className="flex flex-col gap-8 mt-8">
-            <FormulaireChampsObligatoireLégende className="ml-auto" />
+            <FormulaireChampsObligatoireLégende />
             {CHAMPS_FOURNISSEURS.map((champ) => (
               <div key={champ}>
                 <div className="mb-3">

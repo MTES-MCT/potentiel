@@ -88,7 +88,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
             Date théorique d'achèvement actuelle : {format(project.completionDueOn, 'dd/MM/yyyy')}
           </Callout>
           <div className="flex flex-col gap-6">
-            <div className="text-sm italic mt-6">Tous les champs sont obligatoires</div>
+            <div className="text-error-425-base italic mt-6">Tous les champs sont obligatoires</div>
             <div>
               <Label htmlFor="dateAchevementDemandee" className="font-bold">
                 Saisissez la date limite d'achèvement souhaitée
@@ -123,14 +123,14 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
               />
             </div>
             <div>
-              <Label htmlFor="file" className="font-bold">
-                Pièce justificative
+              <Label htmlFor="file">
+                <span className="font-bold">Pièce justificative</span>
+                <br />
+                <span className="italic">
+                  Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+                </span>
               </Label>
-              <br />
-              <span className="italic">
-                Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
-              </span>
-              <Input type="file" name="file" id="file" />
+              <Input type="file" name="file" id="file" required aria-required="true" />
             </div>
           </div>
 
