@@ -113,8 +113,6 @@ v1Router.get(
         },
       });
 
-      console.log(garantiesFinancières);
-
       return response.send(
         EnregistrerGarantiesFinancièresPage({
           user,
