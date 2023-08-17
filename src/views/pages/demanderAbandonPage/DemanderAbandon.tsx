@@ -6,7 +6,6 @@ import { Request } from 'express';
 import {
   ProjectInfo,
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   Label,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
@@ -66,26 +65,43 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
           encType="multipart/form-data"
           className="mx-auto"
         >
-          <input type="hidden" name="projectId" value={project.id} />
-          {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />}
-          <FormulaireChampsObligatoireLégende className="text-right" />
           <div>
             <div className="mb-2">Concernant le projet:</div>
             <ProjectInfo project={project} />
           </div>
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
+          <div className="text-error-425-base italic mt-6">Tous les champs sont obligatoires</div>
+          <input type="hidden" name="projectId" value={project.id} />
+
           <div>
             <Label htmlFor="justification">
-              <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+              <span className="font-bold">
+                Veuillez nous indiquer les raisons qui motivent votre demande
+              </span>
               <br />
-              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+              <span className="italic">
+                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+              </span>
             </Label>
-            <TextArea name="justification" id="justification" defaultValue={justification || ''} />
+            <TextArea
+              name="justification"
+              id="justification"
+              defaultValue={justification || ''}
+              required
+              aria-required="true"
+            />
           </div>
           <div>
-            <Label htmlFor="file">Pièce justificative</Label>
-            <Input type="file" name="file" id="file" />
+            <Label htmlFor="file">
+              <span className="font-bold">Pièce justificative</span>
+              <br />
+              <span className="italic">
+                Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+              </span>
+            </Label>
+            <Input type="file" name="file" id="file" required aria-required="true" />
           </div>
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
             <PrimaryButton type="submit" id="submit">
