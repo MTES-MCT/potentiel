@@ -2,7 +2,7 @@ import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
-  loadDépôtGarantiesFinancièresAggregateFactory,
+  loadGarantiesFinancièresAggregateFactory,
 } from '@potentiel/domain';
 import {
   ConsulterDépôtGarantiesFinancièresQuery,
@@ -12,7 +12,7 @@ import { isNone } from '@potentiel/monads';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
-import { convertReadableToString } from '../../helpers/convertReadableToString';
+import { convertReadableToString } from '../../../helpers/convertReadableToString';
 
 Alors(
   'le dépôt de garanties financières devrait être (consultable )(mis à jour )pour le projet {string} avec :',
@@ -30,14 +30,14 @@ Alors(
 
     // ASSERT ON AGGREGATE
 
-    const expectedAggregate = {
+    const expectedDépôtAggregate = {
       typeGarantiesFinancières,
       ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
       attestationConstitution: { format, date: convertirEnDateTime(dateConstitution) },
       dateDépôt: convertirEnDateTime(dateDépôt),
     };
 
-    const actualAggregate = await loadDépôtGarantiesFinancièresAggregateFactory({
+    const actualAggregate = await loadGarantiesFinancièresAggregateFactory({
       loadAggregate,
     })(convertirEnIdentifiantProjet(identifiantProjet));
 
@@ -47,24 +47,24 @@ Alors(
 
     expect(actualAggregate.dépôt).not.to.be.undefined;
 
-    expect(actualAggregate?.dépôt?.attestationConstitution?.format).to.be.deep.equal(
-      expectedAggregate.attestationConstitution?.format,
+    expect(actualAggregate.dépôt?.attestationConstitution?.format).to.be.deep.equal(
+      expectedDépôtAggregate.attestationConstitution?.format,
     );
 
-    expect(actualAggregate?.dépôt?.attestationConstitution?.date.date.getTime()).to.be.deep.equal(
-      expectedAggregate.attestationConstitution.date.date.getTime(),
+    expect(actualAggregate.dépôt?.attestationConstitution?.date.date.getTime()).to.be.deep.equal(
+      expectedDépôtAggregate.attestationConstitution.date.date.getTime(),
     );
 
-    expect(actualAggregate?.dépôt?.dateDépôt?.date.getTime()).to.be.deep.equal(
-      expectedAggregate.dateDépôt.date.getTime(),
+    expect(actualAggregate.dépôt?.dateDépôt?.date.getTime()).to.be.deep.equal(
+      expectedDépôtAggregate.dateDépôt.date.getTime(),
     );
 
-    expect(actualAggregate?.dépôt?.typeGarantiesFinancières).to.be.deep.equal(
-      expectedAggregate.typeGarantiesFinancières,
+    expect(actualAggregate.dépôt?.typeGarantiesFinancières).to.be.deep.equal(
+      expectedDépôtAggregate.typeGarantiesFinancières,
     );
 
-    expect(actualAggregate?.dépôt?.dateÉchéance?.date.getTime()).to.be.deep.equal(
-      expectedAggregate.dateÉchéance?.date.getTime(),
+    expect(actualAggregate.dépôt?.dateÉchéance?.date.getTime()).to.be.deep.equal(
+      expectedDépôtAggregate.dateÉchéance?.date.getTime(),
     );
 
     // ASSERT ON READ MODEL

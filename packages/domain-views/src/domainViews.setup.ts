@@ -4,7 +4,7 @@ import { ProjetDependencies, setupProjetViews } from './projet/projet.setup';
 import {
   GarantiesFinancièresDependencies,
   setupGarantiesFinancièreViews,
-} from './garantiesFinancières/garantiesFinancières.setup';
+} from './garantiesFinancièresActuelles/garantiesFinancières.setup';
 import {
   DépôtGarantiesFinancièresDependencies,
   setupDépôtGarantiesFinancièreViews,
