@@ -47,7 +47,7 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
         >
           <Heading2 className="mb-0">Transmettre la proposition technique et financière</Heading2>
 
-          <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+          <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
 
           {error && <ErrorBox>{error}</ErrorBox>}
 

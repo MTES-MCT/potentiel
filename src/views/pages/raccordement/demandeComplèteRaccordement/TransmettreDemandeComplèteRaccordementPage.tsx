@@ -66,7 +66,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
         >
           <Heading2>Transmettre une demande complète de raccordement</Heading2>
 
-          <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+          <div className="text-error-425-base italic">Tous les champs sont obligatoires</div>
 
           {error && <ErrorBox>{error}</ErrorBox>}
 
@@ -76,6 +76,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
               id="identifiantGestionnaireReseau"
               name="identifiantGestionnaireReseau"
               required
+              aria-required="true"
               disabled={!!gestionnaireRéseauActuel}
               gestionnaireRéseauActuel={gestionnaireRéseauActuel}
               gestionnairesRéseau={gestionnairesRéseau}
@@ -100,13 +101,14 @@ export const TransmettreDemandeComplèteRaccordement = ({
               </LabelDescription>
             )}
             <Input
-              className="uppercase"
+              className="uppercase placeholder:capitalize"
               type="text"
               id="referenceDossierRaccordement"
               name="referenceDossierRaccordement"
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
-              required
               pattern={expressionReguliere || undefined}
+              required
+              aria-required="true"
             />
           </div>
 
@@ -124,6 +126,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
               name="dateQualification"
               max={new Date().toISOString().split('T').shift()}
               required
+              aria-required="true"
             />
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
