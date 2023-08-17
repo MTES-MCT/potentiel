@@ -580,5 +580,13 @@ class routes {
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/depot-garanties-financieres`;
   };
+
+  static GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES_DEPOT = (
+    identifiantProjet?: RawIdentifiantProjet,
+  ) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres/telecharger-attestation-constitution`;
+  };
 }
 export default routes;
