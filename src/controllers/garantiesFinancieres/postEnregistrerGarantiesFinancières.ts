@@ -39,12 +39,12 @@ const schema = yup.object({
       .date()
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date de qualification n'est pas valide`),
+      .typeError(`La date d'échéance n'est pas valide`),
     dateConstitution: yup
       .date()
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date de qualification n'est pas valide`),
+      .typeError(`La date de constitution n'est pas valide`),
   }),
 });
 
