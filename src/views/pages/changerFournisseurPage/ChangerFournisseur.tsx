@@ -21,6 +21,7 @@ import {
   Input,
   TextArea,
   Form,
+  FormulaireChampsObligatoireLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '../../../modules/project';
@@ -83,64 +84,88 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
-          {CHAMPS_FOURNISSEURS.map((champ) => (
-            <div key={champ}>
-              <Heading2 className="mt-4 mb-1">{CORRESPONDANCE_CHAMPS_FOURNISSEURS[champ]}</Heading2>
-              {project.details?.[champ] && <p>Ancien fournisseur : {project.details?.[champ]}</p>}
-              <Label htmlFor={champ.replace(/ /g, '_').replace(/\n/g, '')} className="mt-2">
-                {champ}
-              </Label>
-              <Input
-                type="text"
-                name={champ.replace(/\n/g, '\\n')}
-                id={champ.replace(/ /g, '_').replace(/\n/g, '')}
-              />
-            </div>
-          ))}
-          {project.evaluationCarbone > 0 && (
+          <div className="flex flex-col gap-8 mt-8">
+            <FormulaireChampsObligatoireLégende className="ml-auto" />
+            {CHAMPS_FOURNISSEURS.map((champ) => (
+              <div key={champ}>
+                <div className="mb-3">
+                  <Heading2 className="m-0">{CORRESPONDANCE_CHAMPS_FOURNISSEURS[champ]}</Heading2>
+                  {project.details?.[champ] && (
+                    <p className="m-0 italic text-sm">
+                      Ancien fournisseur : {project.details?.[champ]}
+                    </p>
+                  )}
+                </div>
+                <Label htmlFor={champ.replace(/ /g, '_').replace(/\n/g, '')}>{champ}</Label>
+                <Input
+                  type="text"
+                  name={champ.replace(/\n/g, '\\n')}
+                  id={champ.replace(/ /g, '_').replace(/\n/g, '')}
+                />
+              </div>
+            ))}
+            {project.evaluationCarbone > 0 && (
+              <div>
+                <div className="mb-3">
+                  <Heading2 className="m-0">évaluation carbone</Heading2>
+                  {project.evaluationCarboneDeRéférence && (
+                    <p className="m-0 italic text-sm">
+                      Évaluation carbone initiale (kg eq CO2/kWc) :{' '}
+                      {project.evaluationCarboneDeRéférence}
+                    </p>
+                  )}
+                  {project.evaluationCarbone && (
+                    <p className="m-0 italic text-sm">
+                      Évaluation carbone actuelle (kg eq CO2/kWc) : {project.evaluationCarbone}
+                    </p>
+                  )}
+                </div>
+                <Label htmlFor="evaluationCarbone">
+                  Nouvelle évaluation carbone (kg eq CO2/kWc)
+                </Label>
+                <Input
+                  onChange={(e) => setEvaluationCarbone(parseFloat(e.target.value))}
+                  type="number"
+                  name="evaluationCarbone"
+                  id="evaluationCarbone"
+                />
+                {evaluationCarbone &&
+                  evaluationCarbone > project.evaluationCarboneDeRéférence &&
+                  Math.round(evaluationCarbone / 50) !==
+                    Math.round(project.evaluationCarboneDeRéférence / 50) && (
+                    <AlertBox className="mt-4">
+                      Cette nouvelle valeur entraîne une dégradation de la note du projet, celui-ci
+                      ne recevra pas d'attestation de conformité.
+                    </AlertBox>
+                  )}
+              </div>
+            )}
             <div>
-              <Heading2 className="mt-4 mb-1">évaluation carbone</Heading2>
-              {project.evaluationCarboneDeRéférence && (
-                <p>
-                  Évaluation carbone initiale (kg eq CO2/kWc) :{' '}
-                  {project.evaluationCarboneDeRéférence}
-                </p>
-              )}
-              {project.evaluationCarbone && (
-                <p>Évaluation carbone actuelle (kg eq CO2/kWc) : {project.evaluationCarbone}</p>
-              )}
-              <Label htmlFor="evaluationCarbone">Nouvelle évaluation carbone (kg eq CO2/kWc)</Label>
-              <Input
-                onChange={(e) => setEvaluationCarbone(parseFloat(e.target.value))}
-                type="number"
-                name="evaluationCarbone"
-                id="evaluationCarbone"
-              />
-              {evaluationCarbone &&
-                evaluationCarbone > project.evaluationCarboneDeRéférence &&
-                Math.round(evaluationCarbone / 50) !==
-                  Math.round(project.evaluationCarboneDeRéférence / 50) && (
-                  <AlertBox className="mt-4">
-                    Cette nouvelle valeur entraîne une dégradation de la note du projet, celui-ci ne
-                    recevra pas d'attestation de conformité.
-                  </AlertBox>
-                )}
+              <Label htmlFor="file" required>
+                Pièce-jointe
+              </Label>
+              <Input type="file" name="file" id="file" required aria-required="true" />
             </div>
-          )}
-          <div>
-            <Label htmlFor="file">Pièce-jointe</Label>
-            <Input type="file" name="file" id="file" />
+            <div>
+              <Label htmlFor="justification" required>
+                <span className="font-bold">
+                  Veuillez nous indiquer les raisons qui motivent votre demande
+                </span>
+                <br />
+                <span className="italic">
+                  Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                  ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+                </span>
+              </Label>
+              <TextArea
+                name="justification"
+                id="justification"
+                defaultValue={justification || ''}
+                required
+                aria-required="true"
+              />
+            </div>
           </div>
-          <div>
-            <Label htmlFor="justification">
-              <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
-              <br />
-              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
-            </Label>
-            <TextArea name="justification" id="justification" defaultValue={justification || ''} />
-          </div>
-
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
             <PrimaryButton type="submit" id="submit">
               Envoyer
