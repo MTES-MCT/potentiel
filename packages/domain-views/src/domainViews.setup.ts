@@ -5,7 +5,7 @@ import { List, Create, Find, Remove, Search, Update } from './common.port';
 import {
   GarantiesFinancièresDependencies,
   setupGarantiesFinancièreViews,
-} from './garantiesFinancières/garantiesFinancières.setup';
+} from './garantiesFinancièresActuelles/garantiesFinancières.setup';
 import {
   RaccordementDependencies,
   setupRaccordementViews,

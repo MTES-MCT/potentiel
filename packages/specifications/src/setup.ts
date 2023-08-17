@@ -21,6 +21,7 @@ import {
   téléchargerFichierDossierRaccordementAdapter,
   téléverserFichierAdapter,
   téléchargerFichierAdapter,
+  récupérerDétailProjetAdapter,
 } from '@potentiel/infra-adapters';
 import { loadAggregate, oldSubscribe, publish } from '@potentiel/pg-event-sourcing';
 import {
@@ -80,7 +81,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
         téléverserFichierDossierRaccordementAdapter,
     },
     projet: { téléverserFichier: téléverserFichierAdapter },
-    dépôtGarantiesFinancières: { téléverserFichier: téléverserFichierAdapter },
+    garantiesFinancières: { téléverserFichier: téléverserFichierAdapter },
   });
 
   unsetupDomainViews = await setupDomainViews({
