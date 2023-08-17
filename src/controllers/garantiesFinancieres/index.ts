@@ -9,3 +9,5 @@ export * from './getInvaliderGF';
 export * from './getEnregistrerGarantiesFinancièresPage';
 export * from './getFichierAttestationGarantiesFinancières';
 export * from './postEnregistrerGarantiesFinancières';
+export * from './getDéposerGarantiesFinancièresPage';
+export * from './postDéposerGarantiesFinancières';
