@@ -1,50 +1,45 @@
 import { DomainEvent } from '@potentiel/core-domain';
+import { RawIdentifiantProjet } from '../projet/projet.valueType';
+import {
+  TypeGarantiesFinancièresEnregistréEventV1,
+  AttestationGarantiesFinancièresEnregistréeEventV1,
+} from './actuelles/enregistrementGarantiesFinancières.event';
+import {
+  GarantiesFinancièresDéposéesEventV1,
+  DépôtGarantiesFinancièresModifiéEventV1,
+} from './dépôt/dépôtGarantiesFinancières.event';
+import { TypeGarantiesFinancières } from './garantiesFinancières.valueType';
 
-export type GarantiesFinancièresDéposéesSnapshotV1 = DomainEvent<
-  'GarantiesFinancièresDéposéesSnapshot-v1', // legacy
+export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
+  'GarantiesFinancièresSnapshot-v1',
   {
-    identifiantProjet: string;
-    dateÉchéance?: string;
-    typeGarantiesFinancières?: `6 mois après achèvement` | 'consignation' | `avec date d'échéance`;
-    attestationConstitution: { format: string; date: string };
-    dateDépôt: string;
+    identifiantProjet: RawIdentifiantProjet;
+    aggregate: {
+      actuelles?: {
+        typeGarantiesFinancières?: TypeGarantiesFinancières;
+        dateÉchéance?: string;
+        attestationConstitution?: { format: string; date: string };
+      };
+      dépôt?: {
+        typeGarantiesFinancières?: TypeGarantiesFinancières;
+        dateÉchéance?: string;
+        attestationConstitution: { format: string; date: string };
+        dateDépôt: string;
+      };
+    };
   }
 >;
 
-export type GarantiesFinancièresDéposéesV1 = DomainEvent<
-  'GarantiesFinancièresDéposées-v1',
-  {
-    identifiantProjet: string;
-    attestationConstitution: { format: string; date: string };
-    dateDépôt: string;
-  } & (
-    | {
-        typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
-      }
-    | {
-        typeGarantiesFinancières: `avec date d'échéance`;
-        dateÉchéance: string;
-      }
-  )
->;
-
-export type DépôtGarantiesFinancièresModifiéV1 = DomainEvent<
-  'DépôtGarantiesFinancièresModifié-v1',
-  {
-    identifiantProjet: string;
-    attestationConstitution: { format: string; date: string };
-  } & (
-    | {
-        typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
-      }
-    | {
-        typeGarantiesFinancières: `avec date d'échéance`;
-        dateÉchéance: string;
-      }
-  )
->;
+export type EnregistrementGarantiesFinancièresEvent =
+  | TypeGarantiesFinancièresEnregistréEventV1
+  | AttestationGarantiesFinancièresEnregistréeEventV1
+  | GarantiesFinancièresSnapshotEventV1;
 
 export type DépôtGarantiesFinancièresEvent =
-  | GarantiesFinancièresDéposéesSnapshotV1
-  | GarantiesFinancièresDéposéesV1
-  | DépôtGarantiesFinancièresModifiéV1;
+  | GarantiesFinancièresDéposéesEventV1
+  | DépôtGarantiesFinancièresModifiéEventV1
+  | GarantiesFinancièresSnapshotEventV1;
+
+export type GarantiesFinancièresEvent =
+  | EnregistrementGarantiesFinancièresEvent
+  | DépôtGarantiesFinancièresEvent;

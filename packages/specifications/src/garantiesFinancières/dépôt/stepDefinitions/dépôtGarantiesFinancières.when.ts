@@ -1,15 +1,15 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import {
   DomainUseCase,
+  GarantiesFinancièresSnapshotEvent,
   TypeGarantiesFinancières,
   Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
-  createDépôtGarantiesFinancièresAggregateId,
-  GarantiesFinancièresDéposéesSnapshotV1,
+  createGarantiesFinancièresAggregateId,
 } from '@potentiel/domain';
-import { convertStringToReadable } from '../../helpers/convertStringToReadable';
-import { sleep } from '../../helpers/sleep';
+import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
+import { sleep } from '../../../helpers/sleep';
 import { mediator } from 'mediateur';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { join } from 'path';
@@ -102,26 +102,28 @@ Quand(
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-      // DATA
-      const event: GarantiesFinancièresDéposéesSnapshotV1 = {
-        type: 'GarantiesFinancièresDéposéesSnapshot-v1',
+      const event: GarantiesFinancièresSnapshotEvent = {
+        type: 'GarantiesFinancièresSnapshot-v1',
         payload: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-          attestationConstitution: {
-            format: format,
-            date: convertirEnDateTime(dateConstutition).formatter(),
+          aggregate: {
+            dépôt: {
+              attestationConstitution: {
+                format: format,
+                date: convertirEnDateTime(dateConstutition).formatter(),
+              },
+              dateDépôt: convertirEnDateTime(dateDépôt).formatter(),
+              ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
+            },
           },
-          dateDépôt: convertirEnDateTime(dateDépôt).formatter(),
-          ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
         },
       };
 
       await publish(
-        createDépôtGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
+        createGarantiesFinancièresAggregateId(convertirEnIdentifiantProjet(identifiantProjet)),
         event,
       );
 
-      // FILE
       const path = join(
         convertirEnIdentifiantProjet(identifiantProjet).formatter(),
         `depot-attestation-constitution-garanties-financieres.${extension(format)}`,

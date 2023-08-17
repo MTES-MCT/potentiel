@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { EnregistrerTypeGarantiesFinancièresCommand } from './enregistrerTypeGarantiesFinancières.command';
-import { ProjetCommand } from '../projet.command';
 import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command';
-import { IdentifiantProjetValueType } from '../projet.valueType';
-import { Utilisateur } from '../../domain.valueType';
+import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
+import { EnregistrerGarantiesFinancièresComplètesCommand } from './enregistrerGarantiesFinancièresComplètes.command';
 
 type EnregistrerGarantiesFinancièresUseCaseData = {
   identifiantProjet: IdentifiantProjetValueType;
@@ -25,7 +24,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     utilisateur,
   }) => {
     if (typeGarantiesFinancières && attestationConstitution) {
-      await mediator.send<ProjetCommand>({
+      await mediator.send<EnregistrerGarantiesFinancièresComplètesCommand>({
         type: 'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
         data: {
           attestationConstitution,
@@ -38,7 +37,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     }
 
     if (typeGarantiesFinancières && !attestationConstitution) {
-      await mediator.send<ProjetCommand>({
+      await mediator.send<EnregistrerTypeGarantiesFinancièresCommand>({
         type: 'ENREGISTER_TYPE_GARANTIES_FINANCIÈRES',
         data: {
           typeGarantiesFinancières,
@@ -50,7 +49,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     }
 
     if (attestationConstitution && !typeGarantiesFinancières) {
-      await mediator.send<ProjetCommand>({
+      await mediator.send<EnregistrerAttestationGarantiesFinancièresCommand>({
         type: 'ENREGISTER_ATTESTATION_GARANTIES_FINANCIÈRES',
         data: { attestationConstitution, identifiantProjet },
       });

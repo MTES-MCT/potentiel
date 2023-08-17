@@ -42,7 +42,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
         téléverserFichierDossierRaccordementAdapter,
     },
     projet: { téléverserFichier: téléverserFichierAdapter },
-    dépôtGarantiesFinancières: { téléverserFichier: téléverserFichierAdapter },
+    garantiesFinancières: { téléverserFichier: téléverserFichierAdapter },
   });
 
   const unsetupDomainViews = await setupDomainViews({

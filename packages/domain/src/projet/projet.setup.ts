@@ -11,34 +11,18 @@ import {
   registerExecuterAjouterGestionnaireRéseauProjetSaga,
 } from './gestionnaireRéseau/déclarer/déclarerGestionnaireRéseau.saga';
 import { registerDéclarerGestionnaireRéseauProjetCommand } from './gestionnaireRéseau/déclarer/déclarerGestionnaireRéseauProjet.command';
-import { registerEnregistrerGarantiesFinancièresUseCase } from './garantiesFinancières/enregistrerGarantiesFinancières.usecase';
-import {
-  EnregistrerTypeGarantiesFinancièresDependencies,
-  registerEnregistrerTypeGarantiesFinancièresCommand,
-} from './garantiesFinancières/enregistrerTypeGarantiesFinancières.command';
-import {
-  EnregistrerAttestationGarantiesFinancièresDependencies,
-  registerEnregistrerAttestationGarantiesFinancièresCommand,
-} from './garantiesFinancières/enregistrerAttestationGarantiesFinancières.command';
-import { registerEnregistrerGarantiesFinancièresComplètesCommand } from './garantiesFinancières/enregistrerGarantiesFinancièresComplètes.command';
 
 export type ProjetDependencies = {
   subscribe: Subscribe;
-} & ModifierGestionnaireRéseauProjetDependencies &
-  EnregistrerTypeGarantiesFinancièresDependencies &
-  EnregistrerAttestationGarantiesFinancièresDependencies;
+} & ModifierGestionnaireRéseauProjetDependencies;
 
 export const setupProjet = async (dependencies: ProjetDependencies) => {
   // Commands
   registerModifierGestionnaireRéseauProjetCommand(dependencies);
   registerDéclarerGestionnaireRéseauProjetCommand(dependencies);
-  registerEnregistrerTypeGarantiesFinancièresCommand(dependencies);
-  registerEnregistrerAttestationGarantiesFinancièresCommand(dependencies);
-  registerEnregistrerGarantiesFinancièresComplètesCommand(dependencies);
 
   // Use cases
   registerModifierGestionnaireRéseauProjetUseCase();
-  registerEnregistrerGarantiesFinancièresUseCase();
 
   // Sagas
   registerExecuterAjouterGestionnaireRéseauProjetSaga();
