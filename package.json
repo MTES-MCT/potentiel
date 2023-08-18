@@ -36,7 +36,7 @@
     "migrate": "sequelize-cli db:migrate",
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "seed": "sequelize-cli db:seed:all",
-    "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run migrate && npm run seed && npm run build:packages && concurrently \"ts-node-dev --transpile-only -r tsconfig-paths/register src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\" \"watch 'npm run build:packages' ./packages/**/src/\"",
+    "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run migrate && npm run seed && npm run build:packages && concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\" \"watch 'npm run build:packages' ./packages/**/src/\"",
     "stop:dev": "docker compose  --profile app down --remove-orphans",
     "start": "npm run migrate && node ./dist/src/index.js",
     "specs": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && npm run specs --workspaces --if-present --",
