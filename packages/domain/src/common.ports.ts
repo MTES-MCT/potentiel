@@ -1,4 +1,3 @@
-import { Readable } from 'stream';
 import { RawIdentifiantProjet } from './domain.valueType';
 
 export type TypeFichier =
@@ -9,5 +8,5 @@ export type TéléverserFichierPort = (data: {
   type: TypeFichier;
   identifiantProjet: RawIdentifiantProjet;
   format: string;
-  content: Readable;
+  content: ReadableStream;
 }) => Promise<void>;
