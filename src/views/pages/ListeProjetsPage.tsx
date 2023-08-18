@@ -257,7 +257,7 @@ export const ListeProjets = ({
             utilisateur,
           ) && (
             <Accordeon
-              title="Filtrer par état de garantie financière"
+              title="Filtrer par état des garanties financières"
               defaultOpen={!!garantiesFinancieres}
             >
               <Form action={routes.LISTE_PROJETS} method="GET">
