@@ -12,7 +12,7 @@ import { isNone } from '@potentiel/monads';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
-import { convertReadableToString } from '../../../helpers/convertReadableToString';
+import { convertReadableStreamToString } from '../../../helpers/convertReadableToString';
 
 Alors(
   'le dépôt de garanties financières devrait être (consultable )(mis à jour )pour le projet {string} avec :',
@@ -106,6 +106,6 @@ Alors(
 
     expect(actualFile.type).to.deep.equal('depot-attestation-constitution-garanties-financieres');
     expect(actualFile.format).to.deep.equal(format);
-    expect(await convertReadableToString(actualFile.content)).to.deep.equal(contenu);
+    expect(await convertReadableStreamToString(actualFile.content)).to.deep.equal(contenu);
   },
 );

@@ -1,10 +1,9 @@
 import { DateTimeValueType } from '../common.valueType';
-import { Readable } from 'stream';
 
 export type AttestationConstitution = {
   format: string;
   date: DateTimeValueType;
-  content: Readable;
+  content: ReadableStream;
 };
 
 export type TypeGarantiesFinancières =
