@@ -12,10 +12,9 @@ export const seed = async () => {
 
   // Seed all appels offres from inmemory data
   getLogger().info('Add all appel offre in memory data as projections...');
-  await Promise.all(
-    appelsOffreData.map((appelOffre) => {
-      const appelOffreReadModelKey: AppelOffreReadModelKey = `appel-offre|${appelOffre.id}`;
-      return createProjection(appelOffreReadModelKey, appelOffre);
-    }),
-  );
+
+  for (const appelOffre of appelsOffreData) {
+    const appelOffreReadModelKey: AppelOffreReadModelKey = `appel-offre|${appelOffre.id}`;
+    await createProjection(appelOffreReadModelKey, appelOffre);
+  }
 };
