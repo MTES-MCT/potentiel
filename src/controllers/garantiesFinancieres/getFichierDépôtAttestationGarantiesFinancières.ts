@@ -3,9 +3,7 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, unauthorizedResponse, vérifierPermissionUtilisateur } from '../helpers';
-import {
-  ConsulterFichierDépôtAttestationGarantiesFinancièreQuery,
-} from '@potentiel/domain-views';
+import { ConsulterFichierDépôtAttestationGarantiesFinancièreQuery } from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
 import {
   convertirEnIdentifiantProjet,
@@ -36,7 +34,6 @@ v1Router.get(
       const {
         user,
         params: { identifiantProjet },
-        query: { error },
       } = request;
 
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
