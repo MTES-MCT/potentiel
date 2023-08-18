@@ -15,17 +15,15 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
-  PermissionEnregistrerGarantiesFinancières,
-  AttestationConstitution,
+  PermissionDéposerGarantiesFinancières,
 } from '@potentiel/domain';
-import { isNone, isSome } from '@potentiel/monads';
+import { isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { DomainError } from '@potentiel/core-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { upload as uploadMiddleware } from '../upload';
 import { FileReadableStream } from '../../helpers/fileReadableStream';
 import { getProjectAppelOffre } from '../../config';
-import { ConsulterFichierAttestationGarantiesFinancièreQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
@@ -34,7 +32,8 @@ const schema = yup.object({
   body: yup.object({
     typeGarantiesFinancieres: yup
       .mixed<`avec date d'échéance` | `consignation` | `6 mois après achèvement`>()
-      .oneOf([`avec date d'échéance`, `consignation`, `6 mois après achèvement`]),
+      .oneOf([`avec date d'échéance`, `consignation`, `6 mois après achèvement`])
+      .required('Vous devez séléctionner un type'),
     dateEcheance: yup
       .date()
       .nullable()
@@ -42,16 +41,16 @@ const schema = yup.object({
       .typeError(`La date d'échéance n'est pas valide`),
     dateConstitution: yup
       .date()
-      .nullable()
+      .required('La date de constitution est requise')
       .transform(iso8601DateToDateYupTransformation)
       .typeError(`La date de constitution n'est pas valide`),
   }),
 });
 
 v1Router.post(
-  routes.POST_ENREGISTRER_GARANTIES_FINANCIERES(),
+  routes.POST_DEPOSER_GARANTIES_FINANCIERES(),
   uploadMiddleware.single('file'),
-  vérifierPermissionUtilisateur(PermissionEnregistrerGarantiesFinancières),
+  vérifierPermissionUtilisateur(PermissionDéposerGarantiesFinancières),
   safeAsyncHandler(
     {
       schema,
@@ -59,14 +58,14 @@ v1Router.post(
         const identifiant = request.params.identifiantProjet;
         if (estUnRawIdentifiantProjet(identifiant)) {
           return response.redirect(
-            addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiant), {
-              error: `Les garanties financières n'ont pas pu être enregistrées. ${error}`,
+            addQueryParams(routes.GET_DEPOSER_GARANTIES_FINANCIERES_PAGE(identifiant), {
+              error: `Les garanties financières n'ont pas pu être déposées. ${error}`,
             }),
           );
         }
         response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(identifiant), {
-            error: `Une erreur est survenue lors de l'enregistrement des garanties financières, merci de vérifier les informations communiquées.`,
+            error: `Une erreur est survenue lors du dépôt des garanties financières, merci de vérifier les informations communiquées.`,
           }),
         );
       },
@@ -79,43 +78,18 @@ v1Router.post(
         file,
       } = request;
 
-      let fichierAttestation: AttestationConstitution | undefined = undefined;
-
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      if (dateConstitution) {
-        if (!file) {
-          const fichierAttestationActuel =
-            await mediator.send<ConsulterFichierAttestationGarantiesFinancièreQuery>({
-              type: 'CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES',
-              data: {
-                identifiantProjet: identifiantProjetValueType,
-              },
-            });
-
-          if (isNone(fichierAttestationActuel)) {
-            return response.redirect(
-              addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
-                error: `Vous devez joindre l'attestation de constitution`,
-              }),
-            );
-          }
-
-          fichierAttestation = {
-            ...fichierAttestationActuel,
-            date: convertirEnDateTime(dateConstitution),
-          };
-        } else {
-          fichierAttestation = {
-            format: file.mimetype,
-            content: new FileReadableStream(file.path),
-            date: convertirEnDateTime(dateConstitution),
-          };
-        }
+      if (!file) {
+        return response.redirect(
+          addQueryParams(routes.GET_DEPOSER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
+            error: `Vous devez joindre l'attestation de constitution des garanties financières`,
+          }),
+        );
       }
 
       const projet = await Project.findOne({
@@ -167,7 +141,7 @@ v1Router.post(
 
       try {
         await mediator.send<DomainUseCase>({
-          type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
+          type: 'DÉPOSER_GARANTIES_FINANCIÈRES_USE_CASE',
           data: {
             utilisateur: {
               rôle: user.role,
@@ -175,13 +149,18 @@ v1Router.post(
             identifiantProjet: identifiantProjetValueType,
             typeGarantiesFinancières: typeGarantiesFinancieres,
             dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
-            attestationConstitution: fichierAttestation ?? undefined,
+            attestationConstitution: {
+              format: file.mimetype,
+              content: new FileReadableStream(file.path),
+              date: convertirEnDateTime(dateConstitution),
+            },
+            dateDépôt: convertirEnDateTime(new Date()),
           },
         });
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
-            success: 'Les garanties financières ont bien été enregistrées',
+            success: 'Les garanties financières ont bien été déposées',
             redirectUrl: routes.PROJECT_DETAILS(identifiantProjet),
             redirectTitle: 'Retourner sur la page projet',
           }),
@@ -189,7 +168,7 @@ v1Router.post(
       } catch (error) {
         if (error instanceof DomainError) {
           return response.redirect(
-            addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
+            addQueryParams(routes.GET_DEPOSER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
               error: error.message,
             }),
           );

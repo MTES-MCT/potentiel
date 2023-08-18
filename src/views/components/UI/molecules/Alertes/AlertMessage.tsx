@@ -7,7 +7,7 @@ export const AlertMessage = ({ message, className = '', ...props }: AlertMessage
   return (
     <div
       {...props}
-      className={`flex flex-row mt-0 mb-3 text-sm text-red-marianne-main-472-base ${className}`}
+      className={`flex flex-row mt-0 mb-2 text-sm text-red-marianne-main-472-base ${className}`}
     >
       <div>
         <ErrorIcon className="text-lg text-red-marianne-main-472-base mr-2" aria-hidden />

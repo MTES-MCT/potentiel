@@ -556,6 +556,7 @@ class routes {
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/garanties-financieres.html`;
   };
+
   static GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES = (
     identifiantProjet?: RawIdentifiantProjet,
   ) => {
@@ -563,10 +564,45 @@ class routes {
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/garanties-financieres/telecharger-attestation-constitution`;
   };
+
   static POST_ENREGISTRER_GARANTIES_FINANCIERES = (identifiantProjet?: RawIdentifiantProjet) => {
     return `/projet/${
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/garanties-financieres`;
+  };
+
+  static GET_DEPOSER_GARANTIES_FINANCIERES_PAGE = (identifiantProjet?: RawIdentifiantProjet) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres.html`;
+  };
+
+  static POST_DEPOSER_GARANTIES_FINANCIERES = (identifiantProjet?: RawIdentifiantProjet) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres`;
+  };
+
+  static GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES_DEPOT = (
+    identifiantProjet?: RawIdentifiantProjet,
+  ) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres/telecharger-attestation-constitution`;
+  };
+
+  static GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE = (
+    identifiantProjet?: RawIdentifiantProjet,
+  ) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres/modifier.html`;
+  };
+
+  static POST_MODIFIER_DEPOT_GARANTIES_FINANCIERES = (identifiantProjet?: RawIdentifiantProjet) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres/modifier`;
   };
 }
 export default routes;
