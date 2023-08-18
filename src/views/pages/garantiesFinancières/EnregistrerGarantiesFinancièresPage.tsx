@@ -12,6 +12,7 @@ import {
   InfoBox,
   Select,
   ErrorBox,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { ProjetReadModel, GarantiesFinancièresReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
@@ -53,9 +54,7 @@ export const EnregistrerGarantiesFinancières = ({
         >
           <Heading2>Enregistrer les garanties financières</Heading2>
 
-          <p className="text-sm italic m-0">
-            Sauf mention contraire “(optionnel)” dans le label, tous les champs sont obligatoires
-          </p>
+          <ChampsObligatoiresLégende />
 
           {error && <ErrorBox>{error}</ErrorBox>}
 
