@@ -1,8 +1,8 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
-  type: 'neutre',
+  typeAppelOffre: 'neutre',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
   shortTitle: 'PPE2 - Neutre',

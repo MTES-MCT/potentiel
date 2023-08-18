@@ -1,10 +1,10 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const garantieFinanciereEnMois = 42;
 
 const fessenheim: AppelOffre = {
   id: 'Fessenheim',
-  type: 'autre',
+  typeAppelOffre: 'autre',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « transition énergétique du territoire de Fessenheim »',
   shortTitle: 'Fessenheim',

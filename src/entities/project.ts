@@ -9,19 +9,23 @@ import {
   Record as SchemaRecord,
   Static,
   String,
-  Undefined,
   Union,
   Unknown,
 } from '../types/schemaTypes';
 import { ModificationRequest } from './modificationRequest';
 import { User } from './user';
-import { ProjectAppelOffre, Technologie, technologies } from './appelOffre';
-import { Famille } from './famille';
-import { CertificateTemplate, isNotifiedPeriode } from './periode';
-
-import { territoireSchema } from './territoire';
+import { ProjectAppelOffre } from './appelOffre';
+import {
+  Famille,
+  CahierDesChargesRéférence,
+  CertificateTemplate,
+  Technologie,
+  technologies,
+  Territoire,
+  territoires,
+} from '@potentiel/domain-views';
+import { isNotifiedPeriode } from './periode';
 import { logger } from '../core/utils';
-import { CahierDesChargesRéférence } from "./cahierDesCharges";
 
 const baseProjectSchema = SchemaRecord({
   id: String,
@@ -75,7 +79,9 @@ const baseProjectSchema = SchemaRecord({
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
     actionnaire: String,
-    territoireProjet: territoireSchema.Or(Undefined),
+    territoireProjet: String.withGuard((value: string): value is Territoire =>
+      territoires.includes(value as Territoire),
+    ),
     appelOffre: Unknown.withGuard((obj: any): obj is ProjectAppelOffre => true), // This would be type ProjectAppelOffre
     famille: Unknown.withGuard((obj: any): obj is Famille => true),
     createdAt: Unknown.withGuard((obj: any): obj is Date => true),
@@ -284,7 +290,7 @@ export {
   Project,
   ProjectEvent,
   projectSchema,
-  territoireSchema,
+  territoires,
   buildApplyProjectUpdate,
   getCertificateIfProjectEligible,
 };

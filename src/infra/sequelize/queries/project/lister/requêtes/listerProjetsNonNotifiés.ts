@@ -1,5 +1,5 @@
 import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.config';
-import { Project } from "../../../../projectionsNext";
+import { Project } from '../../../../projectionsNext';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { ListerProjetsNonNotifiés } from '../../../../../../modules/notificationCandidats/queries';
@@ -58,7 +58,7 @@ export const listerProjetsNonNotifiés: ListerProjetsNonNotifiés = async ({
         ...(appelOffre && {
           appelOffre: {
             title: appelOffre.title,
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

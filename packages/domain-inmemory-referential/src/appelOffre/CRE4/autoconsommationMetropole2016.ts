@@ -1,8 +1,8 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 export const autoconsommationMetropole2016: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole 2016',
-  type: 'autoconso',
+  typeAppelOffre: 'autoconso',
   title:
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir d’énergies renouvelables en autoconsommation',
   shortTitle: 'CRE4 - Autoconsommation métropole 2016',

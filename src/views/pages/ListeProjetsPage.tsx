@@ -1,8 +1,8 @@
 import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
-import { AppelOffre, Famille, Periode } from '../../entities';
 import { PaginatedList } from '../../modules/pagination';
+import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 
 import {
   ProjectList,

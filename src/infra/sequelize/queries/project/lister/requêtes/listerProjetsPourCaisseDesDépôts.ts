@@ -3,7 +3,7 @@ import { ListerProjets } from '../../../../../../modules/project';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
-import { Project } from "../../../../projectionsNext";
+import { Project } from '../../../../projectionsNext';
 
 const attributes = [
   'id',
@@ -51,7 +51,7 @@ export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagina
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

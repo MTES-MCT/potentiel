@@ -1,0 +1,17 @@
+{
+  "name": "@potentiel/domain-inmemory-referential",
+  "version": "0.0.0",
+  "description": "Domain in memory referential package",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel/domain-views": "^0.0.0"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

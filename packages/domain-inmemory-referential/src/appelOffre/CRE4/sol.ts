@@ -1,10 +1,10 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const garantieFinanciereEnMois = 42;
 
 const sol: AppelOffre = {
   id: 'CRE4 - Sol',
-  type: 'sol',
+  typeAppelOffre: 'sol',
   title:
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire « Centrale au sol »',
   shortTitle: 'CRE4 - Sol',

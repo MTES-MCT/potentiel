@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { Repository, UniqueEntityID } from '../../../core/domain';
 import { ok, okAsync } from '../../../core/utils';
-import { CertificateTemplate } from '../../../entities';
+import { CertificateTemplate } from '@potentiel/domain-views';
 import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import { FileObject } from '../../file';
 import { OtherError, InfraNotAvailableError } from '../../shared';

@@ -13,11 +13,8 @@ import {
 } from '../../modules/project';
 import { ModificationRequestType } from '../../modules/modificationRequest';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import {
-  CahierDesChargesRéférence,
-  cahiersDesChargesRéférences,
-  parseCahierDesChargesRéférence,
-} from '../../entities';
+import { parseCahierDesChargesRéférence } from '../../entities';
+import { CahierDesChargesRéférence, cahiersDesChargesRéférences } from '@potentiel/domain-views';
 
 export type TypeDeModification = ModificationRequestType | 'delai';
 

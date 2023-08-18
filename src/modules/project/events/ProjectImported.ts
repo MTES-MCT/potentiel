@@ -1,5 +1,5 @@
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain';
-import { Technologie } from '../../../entities';
+import { Technologie } from '@potentiel/domain-views';
 
 export interface ProjectImportedPayload {
   projectId: string;

@@ -1,5 +1,6 @@
 import { ResultAsync } from '../../../core/utils';
-import { AppelOffre, Periode, Project } from '../../../entities';
+import { Project } from '../../../entities';
+import { AppelOffre, Periode } from '@potentiel/domain-views';
 import { InfraNotAvailableError } from '../../shared';
 
 export interface UnnotifiedProjectDTO {

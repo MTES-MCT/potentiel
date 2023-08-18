@@ -1,8 +1,8 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
-  type: 'autoconso',
+  typeAppelOffre: 'autoconso',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'CRE4 - Autoconsommation métropole',

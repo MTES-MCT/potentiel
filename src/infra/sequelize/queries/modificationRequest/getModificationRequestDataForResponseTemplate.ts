@@ -11,12 +11,7 @@ import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import { Région } from '../../../../modules/dreal/région';
-import {
-  Project,
-  User,
-  ModificationRequest,
-  File,
-} from "../../projectionsNext";
+import { Project, User, ModificationRequest, File } from '../../projectionsNext';
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
@@ -230,8 +225,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               paragraphePrixReference,
               affichageParagrapheECS: affichageParagrapheECS ? 'yes' : '',
               unitePuissance,
-              eolien: appelOffre.type === 'eolien' ? 'yes' : '',
-              AOInnovation: appelOffre.type === 'innovation' ? 'yes' : '',
+              eolien: appelOffre.typeAppelOffre === 'eolien' ? 'yes' : '',
+              AOInnovation: appelOffre.typeAppelOffre === 'innovation' ? 'yes' : '',
               soumisGF: isSoumisAuxGF ? 'yes' : '',
               renvoiSoumisAuxGarantiesFinancieres,
               renvoiDemandeCompleteRaccordement,

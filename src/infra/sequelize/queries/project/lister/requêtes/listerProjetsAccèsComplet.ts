@@ -1,6 +1,6 @@
 import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.config';
 import { ListerProjets } from '../../../../../../modules/project/queries';
-import { Project } from "../../../../projectionsNext";
+import { Project } from '../../../../projectionsNext';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 
@@ -54,7 +54,7 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

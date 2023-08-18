@@ -4,7 +4,7 @@ import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Op } from 'sequelize';
-import { UserDreal, Project, File } from "../../../../projectionsNext";
+import { UserDreal, Project, File } from '../../../../projectionsNext';
 import { logger } from '../../../../../../core/utils';
 
 const attributes = [
@@ -78,7 +78,7 @@ export const listerProjetsPourDreal: ListerProjets = async ({
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

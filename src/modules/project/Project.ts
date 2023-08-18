@@ -7,16 +7,11 @@ import {
   ok,
   Result,
 } from '../../core/utils';
-import {
-  CertificateTemplate,
-  ProjectAppelOffre,
-  Technologie,
-  User,
-  CahierDesChargesRéférenceParsed,
-} from '../../entities';
+import { ProjectAppelOffre, User, CahierDesChargesRéférenceParsed } from '../../entities';
 import { isNotifiedPeriode } from '../../entities/periode';
-import { ProjetDéjàClasséError } from "../modificationRequest";
-import { getDelaiDeRealisation, GetProjectAppelOffre } from "../projectAppelOffre";
+import { ProjetDéjàClasséError } from '../modificationRequest';
+import { getDelaiDeRealisation, GetProjectAppelOffre } from '../projectAppelOffre';
+import { CertificateTemplate, Technologie } from '@potentiel/domain-views';
 import { add, isSameDay, sub } from 'date-fns';
 import remove from 'lodash/remove';
 import sanitize from 'sanitize-filename';

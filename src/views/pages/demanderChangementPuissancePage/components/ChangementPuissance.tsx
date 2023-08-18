@@ -8,7 +8,8 @@ import {
 import { Astérisque, ErrorBox, Input, Label, TextArea } from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
-import { ProjectAppelOffre, Technologie } from '../../../../entities';
+import { ProjectAppelOffre } from '../../../../entities';
+import { Technologie } from '@potentiel/domain-views';
 
 type ChangementPuissanceProps = {
   unitePuissance: string;

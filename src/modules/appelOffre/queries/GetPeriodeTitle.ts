@@ -1,5 +1,5 @@
 import { ResultAsync } from '../../../core/utils';
-import { AppelOffre, Periode } from '../../../entities';
+import { AppelOffre, Periode } from '@potentiel/domain-views';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 
 export type GetPeriodeTitle = (

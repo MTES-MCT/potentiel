@@ -1,7 +1,8 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
-import { AppelOffre, Famille, Periode, Project } from '../../entities';
+import { Project } from '../../entities';
 import { PaginatedList } from '../../modules/pagination';
+import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {
   BarreDeRecherche,
   Dropdown,

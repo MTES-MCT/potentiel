@@ -1,5 +1,5 @@
 import { ResultAsync } from '../../../core/utils';
-import { AppelOffre, Famille } from '../../../entities';
+import { AppelOffre, Famille } from '@potentiel/domain-views';
 import { EntityNotFoundError, InfraNotAvailableError } from '../../shared';
 
 export type GetFamille = (

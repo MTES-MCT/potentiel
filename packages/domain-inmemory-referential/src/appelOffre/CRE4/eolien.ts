@@ -1,9 +1,9 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const eolien: AppelOffre = {
   autoritéCompétenteDemandesDélai: 'dgec',
   id: 'Eolien',
-  type: 'eolien',
+  typeAppelOffre: 'eolien',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'Eolien',

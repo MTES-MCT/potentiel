@@ -1,7 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
-import { CahierDesChargesModifié } from './cahierDesCharges';
+import { CahierDesChargesModifié, Periode } from '@potentiel/domain-views';
 import { ProjectAppelOffre } from './appelOffre';
-import { Periode } from './periode';
 import { getDonnéesCourriersRéponse } from './donnéesCourriersRéponse';
 
 describe(`Récupération des données des courriers de réponse`, () => {

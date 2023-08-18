@@ -1,10 +1,10 @@
-import { AppelOffre } from '../../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 const garantieFinanciereEnMois = 36;
 
 const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
-  type: 'zni',
+  typeAppelOffre: 'zni',
   title:
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI',

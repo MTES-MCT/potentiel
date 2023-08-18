@@ -90,6 +90,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       subscribe: oldSubscribe,
       update: updateProjection,
     },
+    appelOffre: {},
     projet: {
       récupérerDétailProjet: récupérerDétailProjetAdapter,
     },

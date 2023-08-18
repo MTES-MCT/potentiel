@@ -3,9 +3,12 @@ import { Font, PDFViewer } from '@react-pdf/renderer';
 import { ProjectAppelOffre } from '../../../entities';
 import { ProjectDataForCertificate } from '../../../modules/project';
 import { Certificate } from './Certificate';
-import { batimentPPE2, eolienPPE2 } from '../../../dataAccess/inMemory/appelsOffres';
 import { Elimine } from './components/elimine/Elimine';
 
+import {
+  batimentPPE2,
+  eolienPPE2,
+} from '@potentiel/domain-inmemory-referential/src/appelOffre/PPE2';
 import { Validateur } from '..';
 
 export default { title: 'Attestations PDF/PPE2/v1' };
