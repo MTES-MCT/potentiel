@@ -1,6 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '@potentiel/domain';
-import { Readable } from 'stream';
 
 export type DépôtGarantiesFinancièresReadModelKey =
   `dépôt-garanties-financières|${RawIdentifiantProjet}`;
@@ -17,5 +16,5 @@ export type DépôtGarantiesFinancièresReadModel = ReadModel<
 
 export type FichierDépôtAttestationGarantiesFinancièresReadModel = ReadModel<
   'depot-attestation-constitution-garanties-financieres',
-  { format: string; content: Readable }
+  { format: string; content: ReadableStream }
 >;

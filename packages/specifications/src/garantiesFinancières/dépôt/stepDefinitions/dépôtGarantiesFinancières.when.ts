@@ -8,13 +8,13 @@ import {
   convertirEnIdentifiantProjet,
   createGarantiesFinancièresAggregateId,
 } from '@potentiel/domain';
-import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
 import { sleep } from '../../../helpers/sleep';
 import { mediator } from 'mediateur';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { join } from 'path';
 import { extension } from 'mime-types';
 import { upload } from '@potentiel/file-storage';
+import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
 
 Quand(
   'un utilisateur avec le rôle {string} dépose des garanties financières pour le projet {string} avec :',
@@ -26,7 +26,7 @@ Quand(
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];
-      const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+      const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
       const dateDépôt = exemple['date de dépôt'];
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
@@ -63,7 +63,7 @@ Quand(
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];
-      const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+      const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
@@ -97,7 +97,7 @@ Quand(
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];
-      const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+      const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
       const dateDépôt = exemple['date de dépôt'];
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
