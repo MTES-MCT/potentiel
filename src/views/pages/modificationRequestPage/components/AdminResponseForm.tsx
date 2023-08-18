@@ -34,7 +34,9 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
       <input type="hidden" name="type" value={modificationRequest.type} />
       <input type="hidden" name="versionDate" value={versionDate} />
       <ChampsObligatoiresLégende className="mb-3" />
-      <UploadResponseFile modificationRequest={modificationRequest} />
+      {modificationRequest.type !== 'puissance' && (
+        <UploadResponseFile modificationRequest={modificationRequest} />
+      )}
       {children}
       <PrimaryButton
         type="submit"
