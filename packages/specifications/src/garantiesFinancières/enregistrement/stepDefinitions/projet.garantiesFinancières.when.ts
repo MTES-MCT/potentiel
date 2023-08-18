@@ -11,7 +11,7 @@ import {
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
 import { sleep } from '../../../helpers/sleep';
-import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
+import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
 import { upload } from '@potentiel/file-storage';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { extension } from 'mime-types';
@@ -27,7 +27,7 @@ Quand(
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];
-      const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+      const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
@@ -67,7 +67,7 @@ Quand(
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
       const dateConstutition = exemple[`date de constitution`];
-      const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+      const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
