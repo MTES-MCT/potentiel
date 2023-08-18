@@ -3,13 +3,16 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, unauthorizedResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { ConsulterGarantiesFinancièresQuery, ConsulterProjetQuery } from '@potentiel/domain-views';
-import { EnregistrerGarantiesFinancièresPage } from '../../views';
+import {
+  ConsulterDépôtGarantiesFinancièresQuery,
+  ConsulterProjetQuery,
+} from '@potentiel/domain-views';
+import { ModifierDépôtGarantiesFinancièresPage } from '../../views';
 import { mediator } from 'mediateur';
 import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
-  PermissionConsulterGarantiesFinancières,
+  PermissionDéposerGarantiesFinancières,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
@@ -23,8 +26,8 @@ const schema = yup.object({
 });
 
 v1Router.get(
-  routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(),
-  vérifierPermissionUtilisateur(PermissionConsulterGarantiesFinancières),
+  routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(),
+  vérifierPermissionUtilisateur(PermissionDéposerGarantiesFinancières),
   safeAsyncHandler(
     {
       schema,
@@ -106,19 +109,17 @@ v1Router.get(
         }
       }
 
-      const garantiesFinancières = await mediator.send<ConsulterGarantiesFinancièresQuery>({
-        type: 'CONSULTER_GARANTIES_FINANCIÈRES',
-        data: {
-          identifiantProjet: identifiantProjetValueType,
-        },
+      const dépôt = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
+        type: 'CONSULTER_DÉPÔT_GARANTIES_FINANCIÈRES',
+        data: { identifiantProjet },
       });
 
       return response.send(
-        EnregistrerGarantiesFinancièresPage({
+        ModifierDépôtGarantiesFinancièresPage({
           user,
           projet,
-          garantiesFinancières: isNone(garantiesFinancières) ? undefined : garantiesFinancières,
           error: error as string,
+          ...(isSome(dépôt) && { dépôt }),
         }),
       );
     },

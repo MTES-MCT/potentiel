@@ -13,7 +13,7 @@ import {
   Form,
   ChampsObligatoiresLégende,
 } from '../../../components';
-import { hydrateOnClient } from '../../../helpers';
+import { formatDateForInputMaxDate, hydrateOnClient } from '../../../helpers';
 import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
@@ -62,7 +62,7 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
               type="date"
               id="dateSignature"
               name="dateSignature"
-              max={new Date().toISOString().split('T').shift()}
+              max={formatDateForInputMaxDate(new Date())}
               required
             />
           </div>
