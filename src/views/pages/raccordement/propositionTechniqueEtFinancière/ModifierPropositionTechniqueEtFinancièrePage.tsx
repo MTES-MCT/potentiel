@@ -14,7 +14,7 @@ import {
   InputFile,
   ChampsObligatoiresLégende,
 } from '../../../components';
-import { formatDateForInput, hydrateOnClient } from '../../../helpers';
+import { formatDateForInput, formatDateForInputMaxDate, hydrateOnClient } from '../../../helpers';
 import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
@@ -78,7 +78,7 @@ export const ModifierPropositionTechniqueEtFinancière = ({
                 propositionTechniqueEtFinancière?.dateSignature &&
                 formatDateForInput(propositionTechniqueEtFinancière?.dateSignature)
               }
-              max={new Date().toISOString().split('T').shift()}
+              max={formatDateForInputMaxDate(new Date())}
               required
             />
           </div>

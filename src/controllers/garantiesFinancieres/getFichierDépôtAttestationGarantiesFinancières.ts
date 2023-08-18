@@ -3,8 +3,7 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, unauthorizedResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { ConsulterGarantiesFinancièresQuery, ConsulterProjetQuery } from '@potentiel/domain-views';
-import { EnregistrerGarantiesFinancièresPage } from '../../views';
+import { ConsulterFichierDépôtAttestationGarantiesFinancièreQuery } from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
 import {
   convertirEnIdentifiantProjet,
@@ -13,8 +12,8 @@ import {
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
-import { addQueryParams } from '../../helpers/addQueryParams';
-import { getProjectAppelOffre } from '../../config';
+import { logger } from '../../core/utils';
+import { sendFile } from '../helpers/sendFile';
 
 const schema = yup.object({
   params: yup.object({
@@ -23,7 +22,7 @@ const schema = yup.object({
 });
 
 v1Router.get(
-  routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(),
+  routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES_DEPOT(),
   vérifierPermissionUtilisateur(PermissionConsulterGarantiesFinancières),
   safeAsyncHandler(
     {
@@ -35,7 +34,6 @@ v1Router.get(
       const {
         user,
         params: { identifiantProjet },
-        query: { error },
       } = request;
 
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
@@ -44,22 +42,7 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterProjetQuery>({
-        type: 'CONSULTER_PROJET',
-        data: {
-          identifiantProjet: identifiantProjetValueType,
-        },
-      });
-
-      if (isNone(projet)) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Projet',
-        });
-      }
-
-      const projetWithId = await Project.findOne({
+      const projet = await Project.findOne({
         where: {
           appelOffreId: identifiantProjetValueType.appelOffre,
           periodeId: identifiantProjetValueType.période,
@@ -68,10 +51,10 @@ v1Router.get(
             : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
-        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId'],
+        attributes: ['id'],
       });
 
-      if (!projetWithId) {
+      if (!projet) {
         return notFoundResponse({
           request,
           response,
@@ -79,22 +62,9 @@ v1Router.get(
         });
       }
 
-      const appelOffre = getProjectAppelOffre({
-        appelOffreId: projetWithId.appelOffreId,
-        periodeId: projetWithId.periodeId,
-        familleId: projetWithId.familleId,
-      });
-      if (appelOffre && !appelOffre.isSoumisAuxGF) {
-        response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
-            error: `L'appel d'offres de votre projet n'est pas soumis aux garanties financières.`,
-          }),
-        );
-      }
-
       if (user.role === 'porteur-projet') {
         const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
-          where: { projectId: projetWithId.id, userId: user.id },
+          where: { projectId: projet.id, userId: user.id },
         }));
 
         if (!porteurAAccèsAuProjet) {
@@ -106,21 +76,32 @@ v1Router.get(
         }
       }
 
-      const garantiesFinancières = await mediator.send<ConsulterGarantiesFinancièresQuery>({
-        type: 'CONSULTER_GARANTIES_FINANCIÈRES',
-        data: {
-          identifiantProjet: identifiantProjetValueType,
-        },
-      });
+      try {
+        const fichierAttestation =
+          await mediator.send<ConsulterFichierDépôtAttestationGarantiesFinancièreQuery>({
+            type: 'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',
+            data: {
+              identifiantProjet: identifiantProjetValueType,
+            },
+          });
 
-      return response.send(
-        EnregistrerGarantiesFinancièresPage({
-          user,
-          projet,
-          garantiesFinancières: isNone(garantiesFinancières) ? undefined : garantiesFinancières,
-          error: error as string,
-        }),
-      );
+        if (isNone(fichierAttestation)) {
+          return notFoundResponse({
+            request,
+            response,
+            ressourceTitle: 'Fichier attestation',
+          });
+        }
+
+        await sendFile(response, {
+          content: fichierAttestation.content,
+          fileName: 'attestation',
+          mimeType: fichierAttestation.format,
+        });
+      } catch (error) {
+        logger.error(error);
+        return response.status(404);
+      }
     },
   ),
 );

@@ -22,6 +22,7 @@ import {
   PermissionModifierGestionnaireRéseauProjet,
   PermissionConsulterGarantiesFinancières,
   PermissionEnregistrerGarantiesFinancières,
+  PermissionDéposerGarantiesFinancières,
 } from '@potentiel/domain';
 import {
   PermissionListerGestionnairesRéseau,
@@ -65,6 +66,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierGestionnaireRéseauProjet,
         PermissionConsulterGarantiesFinancières,
         PermissionEnregistrerGarantiesFinancières,
+        PermissionDéposerGarantiesFinancières,
       ];
     case 'caisse-des-dépôts':
       return [
