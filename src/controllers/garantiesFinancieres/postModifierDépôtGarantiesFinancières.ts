@@ -23,7 +23,7 @@ import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { DomainError } from '@potentiel/core-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { upload as uploadMiddleware } from '../upload';
-import { createReadStream } from 'fs';
+import { FileReadableStream } from '../../helpers/fileReadableStream';
 import { getProjectAppelOffre } from '../../config';
 import { ConsulterFichierDépôtAttestationGarantiesFinancièreQuery } from '@potentiel/domain-views';
 
@@ -115,7 +115,7 @@ v1Router.post(
       } else {
         fichierAttestation = {
           format: file.mimetype,
-          content: createReadStream(file.path),
+          content: new FileReadableStream(file.path),
           date: convertirEnDateTime(dateConstitution),
         };
       }

@@ -22,7 +22,7 @@ import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { DomainError } from '@potentiel/core-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { upload as uploadMiddleware } from '../upload';
-import { createReadStream } from 'fs';
+import { FileReadableStream } from '../../helpers/fileReadableStream';
 import { getProjectAppelOffre } from '../../config';
 
 const schema = yup.object({
@@ -151,7 +151,7 @@ v1Router.post(
             dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
             attestationConstitution: {
               format: file.mimetype,
-              content: createReadStream(file.path),
+              content: new FileReadableStream(file.path),
               date: convertirEnDateTime(dateConstitution),
             },
             dateDépôt: convertirEnDateTime(new Date()),

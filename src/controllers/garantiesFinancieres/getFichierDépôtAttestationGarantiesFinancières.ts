@@ -13,7 +13,7 @@ import {
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { logger } from '../../core/utils';
-import { extension } from 'mime-types';
+import { sendFile } from '../helpers/sendFile';
 
 const schema = yup.object({
   params: yup.object({
@@ -41,22 +41,6 @@ v1Router.get(
       }
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
-
-      const fichierAttestation =
-        await mediator.send<ConsulterFichierDépôtAttestationGarantiesFinancièreQuery>({
-          type: 'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',
-          data: {
-            identifiantProjet: identifiantProjetValueType,
-          },
-        });
-
-      if (isNone(fichierAttestation)) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Fichier attestation',
-        });
-      }
 
       const projet = await Project.findOne({
         where: {
@@ -92,18 +76,32 @@ v1Router.get(
         }
       }
 
-      const extensionFichier = extension(fichierAttestation.format);
-      logger.info(`Extension fichier: ${extensionFichier}`);
+      try {
+        const fichierAttestation =
+          await mediator.send<ConsulterFichierDépôtAttestationGarantiesFinancièreQuery>({
+            type: 'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',
+            data: {
+              identifiantProjet: identifiantProjetValueType,
+            },
+          });
 
-      const fileName = `attestation.${extensionFichier}`;
-      logger.info(fileName);
+        if (isNone(fichierAttestation)) {
+          return notFoundResponse({
+            request,
+            response,
+            ressourceTitle: 'Fichier attestation',
+          });
+        }
 
-      response.type(fichierAttestation.format);
-      response.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
-
-      fichierAttestation.content.pipe(response);
-
-      return response.status(200);
+        await sendFile(response, {
+          content: fichierAttestation.content,
+          fileName: 'attestation',
+          mimeType: fichierAttestation.format,
+        });
+      } catch (error) {
+        logger.error(error);
+        return response.status(404);
+      }
     },
   ),
 );
