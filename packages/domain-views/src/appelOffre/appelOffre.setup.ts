@@ -1,7 +1,7 @@
 import {
   ConsulterAppelOffreDependencies,
   registerConsulterAppelOffreQuery,
-} from './consulterAppelOffre';
+} from './consulter/consulterAppelOffre.query';
 
 // Setup
 type AppelOffreQueryDependencies = ConsulterAppelOffreDependencies;

@@ -6,20 +6,23 @@ import {
   RaccordementDependencies,
   setupRaccordementViews,
 } from './raccordement/raccordement.setup';
-import { setupAppelOffreViews } from './appelOffre/appelOffre.setup';
+import { AppelOffreDependencies, setupAppelOffreViews } from './appelOffre/appelOffre.setup';
+
+type CommonDependencies = {
+  subscribe: Subscribe;
+  find: Find;
+  list: List;
+  search: Search;
+  create: Create;
+  remove: Remove;
+  update: Update;
+};
 
 type DomainViewsDependencies = {
-  common: {
-    subscribe: Subscribe;
-    find: Find;
-    list: List;
-    search: Search;
-    create: Create;
-    remove: Remove;
-    update: Update;
-  };
-  projet: Omit<ProjetDependencies, keyof DomainViewsDependencies['common']>;
-  raccordement: Omit<RaccordementDependencies, keyof DomainViewsDependencies['common']>;
+  common: CommonDependencies;
+  appelOffre: Omit<AppelOffreDependencies, keyof CommonDependencies>;
+  projet: Omit<ProjetDependencies, keyof CommonDependencies>;
+  raccordement: Omit<RaccordementDependencies, keyof CommonDependencies>;
 };
 
 export type UnsetupDomainViews = () => Promise<void>;

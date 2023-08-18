@@ -1,4 +1,4 @@
-import { ConsulterAppelOffreQuery } from './consulterAppelOffre';
+import { ConsulterAppelOffreQuery } from './consulter/consulterAppelOffre.query';
 
 type AppelOffreQuery = ConsulterAppelOffreQuery;
 

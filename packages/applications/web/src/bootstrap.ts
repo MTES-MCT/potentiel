@@ -60,6 +60,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       subscribe: consumerSubscribe,
       update: updateProjection,
     },
+    appelOffre: {},
     projet: {
       récupérerDétailProjet: récupérerDétailProjetAdapter,
     },
