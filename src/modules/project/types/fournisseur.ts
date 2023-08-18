@@ -7,9 +7,9 @@ export const CORRESPONDANCE_CHAMPS_FOURNISSEURS = {
   'Nom du fabricant \n(Polysilicium)': 'Polysilicium',
   'Nom du fabricant \n(Postes de conversion)': 'Postes de conversion',
   'Nom du fabricant \n(Structure)': 'Structures',
-  'Nom du fabricant \n(Dispositifs de stockage de l’énergie)':
+  'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)':
     'Dispositifs de stockage de l’énergie',
-  'Nom du fabricant \n(Dispositifs de suivi de la course du soleil)':
+  'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)':
     'Dispositifs de suivi de la course du soleil',
   'Nom du fabricant \n(Autres technologies)': 'Autres technologies',
 };
