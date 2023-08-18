@@ -1,13 +1,20 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { Readable } from 'stream';
 import { getClient } from './getClient';
 import { upload } from './upload';
 import { download } from './download';
 import { FichierInexistant } from './fichierInexistant.error';
+import {
+  CreateBucketCommand,
+  DeleteBucketCommand,
+  DeleteObjectsCommand,
+  HeadBucketCommand,
+  ListObjectsCommand,
+} from '@aws-sdk/client-s3';
 
 describe(`download file`, () => {
   const bucketName = 'potentiel';
   beforeAll(() => {
+    process.env.AWS_REGION = 'localhost';
     process.env.S3_ENDPOINT = 'http://localhost:9001';
     process.env.S3_BUCKET = bucketName;
     process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
@@ -17,11 +24,11 @@ describe(`download file`, () => {
   beforeEach(async () => {
     const isBucketExists = async () => {
       try {
-        await getClient()
-          .headBucket({
+        await getClient().send(
+          new HeadBucketCommand({
             Bucket: bucketName,
-          })
-          .promise();
+          }),
+        );
         return true;
       } catch (err) {
         return false;
@@ -29,29 +36,31 @@ describe(`download file`, () => {
     };
 
     if (await isBucketExists()) {
-      const objectsToDelete = await getClient().listObjects({ Bucket: bucketName }).promise();
+      const objectsToDelete = await getClient().send(
+        new ListObjectsCommand({ Bucket: bucketName }),
+      );
 
       if (objectsToDelete.Contents?.length) {
-        await getClient()
-          .deleteObjects({
+        await getClient().send(
+          new DeleteObjectsCommand({
             Bucket: bucketName,
             Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key! })) },
-          })
-          .promise();
+          }),
+        );
       }
 
-      await getClient()
-        .deleteBucket({
+      await getClient().send(
+        new DeleteBucketCommand({
           Bucket: bucketName,
-        })
-        .promise();
+        }),
+      );
     }
 
-    await getClient()
-      .createBucket({
+    await getClient().send(
+      new CreateBucketCommand({
         Bucket: bucketName,
-      })
-      .promise();
+      }),
+    );
   });
 
   it(`
@@ -59,9 +68,13 @@ describe(`download file`, () => {
     Quand un fichier est téléversé
     Alors le fichier devrait être récupérable depuis le bucket`, async () => {
     const filePath = 'path/to/file.pdf';
-    const content = Readable.from("Contenu d'un fichier", {
-      encoding: 'utf8',
+    const content = new ReadableStream({
+      start: async (controller) => {
+        controller.enqueue(Buffer.from(`Contenu d'un fichier`, 'utf-8'));
+        controller.close();
+      },
     });
+
     await upload(filePath, content);
 
     await expect(download(filePath)).resolves.toBeTruthy();

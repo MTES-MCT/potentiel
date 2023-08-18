@@ -1,9 +1,8 @@
 import { DomainError, UniqueEntityID } from '../../../core/domain';
-import { String } from 'aws-sdk/clients/cloudsearch';
 
 type IllegalInitialStateForAggregateErrorDetails = {
   projectId: UniqueEntityID;
-  errorMessage: String;
+  errorMessage: string;
 };
 
 export class IllegalInitialStateForAggregateError extends DomainError {

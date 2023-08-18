@@ -10,7 +10,7 @@ import {
 } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 
-import { convertReadableToString } from '../helpers/convertReadableToString';
+import { convertReadableStreamToString } from '../helpers/convertReadableToString';
 import {
   DomainUseCase,
   convertirEnIdentifiantGestionnaireRéseau,
@@ -95,7 +95,7 @@ Alors(
 
     actualFormat.should.be.equal(expectedFormat);
 
-    const actualContent = await convertReadableToString(accuséRéception.content);
+    const actualContent = await convertReadableStreamToString(accuséRéception.content);
     const expectedContent =
       this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.content;
 

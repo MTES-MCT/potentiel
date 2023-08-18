@@ -7,7 +7,7 @@ import {
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
-import { convertStringToReadable } from '../helpers/convertStringToReadable';
+import { convertStringToReadableStream } from '../helpers/convertStringToReadable';
 
 EtantDonné(
   'une propositon technique et financière pour le dossier de raccordement ayant pour référence {string} avec :',
@@ -19,7 +19,7 @@ EtantDonné(
 
     const propositionTechniqueEtFinancièreSignée = {
       format,
-      content: convertStringToReadable(content),
+      content: convertStringToReadableStream(content),
     };
 
     this.raccordementWorld.dateSignature = dateSignature;
@@ -52,7 +52,7 @@ Quand(
 
     const propositionTechniqueEtFinancièreSignée = {
       format,
-      content: convertStringToReadable(content),
+      content: convertStringToReadableStream(content),
     };
 
     this.raccordementWorld.dateSignature = dateSignature;

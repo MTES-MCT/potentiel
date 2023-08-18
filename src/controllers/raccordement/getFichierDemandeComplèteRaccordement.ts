@@ -1,9 +1,11 @@
 import { mediator } from 'mediateur';
-import { extension } from 'mime-types';
 import * as yup from 'yup';
 
 import { estUnRawIdentifiantProjet } from '@potentiel/domain';
-import { PermissionConsulterDossierRaccordement } from '@potentiel/domain-views';
+import {
+  ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
+  PermissionConsulterDossierRaccordement,
+} from '@potentiel/domain-views';
 import routes from '../../routes';
 import { logger } from '../../core/utils';
 
@@ -11,7 +13,7 @@ import { v1Router } from '../v1Router';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { isNone } from '@potentiel/monads';
-import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from 'packages/domain-views/src/raccordement/consulter/consulterAccuséRéceptionDemandeComplèteRaccordement.query';
+import { sendFile } from '../helpers/sendFile';
 
 const schema = yup.object({
   params: yup.object({
@@ -56,17 +58,11 @@ v1Router.get(
           });
         }
 
-        const extensionFichier = extension(accuséRéception.format);
-        logger.info(`Extension fichier: ${extensionFichier}`);
-
-        const fileName = `accuse-reception.${extensionFichier}`;
-        logger.info(fileName);
-
-        response.type(accuséRéception.format);
-        response.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
-        accuséRéception.content.pipe(response);
-
-        return response.status(200);
+        await sendFile(response, {
+          content: accuséRéception.content,
+          fileName: 'accuse-reception',
+          mimeType: accuséRéception.format,
+        });
       } catch (error) {
         logger.error(error);
         return response.status(404);

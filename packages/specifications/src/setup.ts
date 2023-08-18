@@ -30,6 +30,12 @@ import {
   searchProjection,
   updateProjection,
 } from '@potentiel/pg-projections';
+import {
+  CreateBucketCommand,
+  DeleteBucketCommand,
+  DeleteObjectsCommand,
+  ListObjectsCommand,
+} from '@aws-sdk/client-s3';
 
 should();
 
@@ -51,16 +57,17 @@ BeforeAll(async () => {
   process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   process.env.S3_ENDPOINT = 'http://localhost:9001';
   process.env.S3_BUCKET = bucketName;
+  process.env.AWS_REGION = 'localhost';
   process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
-  await getClient()
-    .createBucket({
+  await getClient().send(
+    new CreateBucketCommand({
       Bucket: bucketName,
-    })
-    .promise();
+    }),
+  );
 
   clear();
 
@@ -108,22 +115,22 @@ After(async () => {
   await executeQuery(`delete from event_store.subscriber`);
   await executeQuery(`delete from domain_views.projection`);
 
-  const objectsToDelete = await getClient().listObjects({ Bucket: bucketName }).promise();
+  const objectsToDelete = await getClient().send(new ListObjectsCommand({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
-    await getClient()
-      .deleteObjects({
+    await getClient().send(
+      new DeleteObjectsCommand({
         Bucket: bucketName,
         Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key! })) },
-      })
-      .promise();
+      }),
+    );
   }
 
-  await getClient()
-    .deleteBucket({
+  await getClient().send(
+    new DeleteBucketCommand({
       Bucket: bucketName,
-    })
-    .promise();
+    }),
+  );
 
   if (unsetupDomain) {
     await unsetupDomain();

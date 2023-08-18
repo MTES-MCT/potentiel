@@ -1,4 +1,3 @@
-import { createReadStream } from 'fs';
 import {
   DomainUseCase,
   PermissionTransmettreDemandeComplèteRaccordement,
@@ -12,6 +11,7 @@ import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { FileReadableStream } from '../../helpers/fileReadableStream';
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
@@ -148,7 +148,7 @@ v1Router.post(
             dateQualification: convertirEnDateTime(dateQualification),
             accuséRéception: {
               format: file.mimetype,
-              content: createReadStream(file.path),
+              content: new FileReadableStream(file.path),
             },
           },
         });
