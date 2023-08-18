@@ -21,7 +21,8 @@ import {
   Input,
   TextArea,
   Form,
-  CertainsChampsObligatoireLégende,
+  ChampsObligatoiresLégende,
+  LabelDescription,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '../../../modules/project';
@@ -84,7 +85,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
-          <CertainsChampsObligatoireLégende />
+          <ChampsObligatoiresLégende />
           {CHAMPS_FOURNISSEURS.map((champ) => (
             <div key={champ}>
               <div className="mb-3">
@@ -95,7 +96,9 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                   <p className="m-0 italic">Ancien fournisseur : {project.details?.[champ]}</p>
                 )}
               </div>
-              <Label htmlFor={champ.replace(/ /g, '_').replace(/\n/g, '')}>{champ}</Label>
+              <Label htmlFor={champ.replace(/ /g, '_').replace(/\n/g, '')} optionnel>
+                {champ}
+              </Label>
               <Input
                 type="text"
                 name={champ.replace(/\n/g, '\\n')}
@@ -119,7 +122,9 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                   </p>
                 )}
               </div>
-              <Label htmlFor="evaluationCarbone">Nouvelle évaluation carbone (kg eq CO2/kWc)</Label>
+              <Label htmlFor="evaluationCarbone" optionnel>
+                Nouvelle évaluation carbone (kg eq CO2/kWc)
+              </Label>
               <Input
                 onChange={(e) => setEvaluationCarbone(parseFloat(e.target.value))}
                 type="number"
@@ -138,22 +143,17 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
             </div>
           )}
           <div>
-            <Label htmlFor="file" required>
-              <span className="font-bold">Pièce-jointe</span>
-            </Label>
+            <Label htmlFor="file">Pièce-jointe</Label>
             <Input type="file" name="file" id="file" required aria-required="true" />
           </div>
           <div>
-            <Label htmlFor="justification" required>
-              <span className="font-bold">
-                Veuillez nous indiquer les raisons qui motivent votre demande
-              </span>
-              <br />
-              <span className="italic">
-                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
-              </span>
+            <Label htmlFor="justification">
+              Veuillez nous indiquer les raisons qui motivent votre demande
             </Label>
+            <LabelDescription>
+              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+            </LabelDescription>
             <TextArea
               name="justification"
               id="justification"

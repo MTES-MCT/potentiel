@@ -17,7 +17,7 @@ import {
   Dropdown,
   Link,
   Form,
-  CertainsChampsObligatoireLégende,
+  ChampsObligatoiresLégende,
 } from '../..';
 import { afficherDate } from '../../../helpers';
 
@@ -169,7 +169,7 @@ const Formulaire = ({
         encType="multipart/form-data"
         className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
       >
-        <CertainsChampsObligatoireLégende className="ml-auto" />
+        <ChampsObligatoiresLégende />
         {action === 'enregistrer' && (
           <p className="m-0 italic">
             L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
@@ -185,36 +185,32 @@ const Formulaire = ({
         <input type="hidden" name="type" id="type" value="garanties-financieres" />
         <input type="hidden" name="projectId" value={projetId} />
         <div>
-          <Label required htmlFor="stepDate">
-            Date de constitution des garanties financières
-          </Label>
+          <Label htmlFor="stepDate">Date de constitution des garanties financières</Label>
           <Input
             type="date"
             name="stepDate"
             id="stepDate"
             max={format(new Date(), 'yyyy-MM-dd')}
             required
+            aria-required="true"
           />
         </div>
         <div>
-          <Label required htmlFor="expirationDate">
-            Date d'échéance des garanties
-            <span>*</span>
+          <Label htmlFor="expirationDate">
+            Date d'échéance des garanties<span>*</span>
           </Label>
           <Input
             type="date"
             name="expirationDate"
             id="expirationDate"
+            defaultValue={dateEchéance && format(new Date(dateEchéance), 'yyyy-MM-dd')}
             required
             aria-required="true"
-            defaultValue={dateEchéance && format(new Date(dateEchéance), 'yyyy-MM-dd')}
           />
         </div>
         <div>
-          <Label required htmlFor="file">
-            Attestation
-          </Label>
-          <Input type="file" name="file" id="file" required />
+          <Label htmlFor="file">Attestation</Label>
+          <Input type="file" name="file" id="file" required aria-required="true" />
         </div>
         <p className="m-0 mt-3 italic">
           <span>*</span>
@@ -332,14 +328,20 @@ const DateEchéanceFormulaire = ({
         method="POST"
         className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
       >
-        <CertainsChampsObligatoireLégende />
+        <ChampsObligatoiresLégende />
         <input name="projectId" value={projetId} readOnly hidden />
         <div>
-          <Label htmlFor="expirationDate" required>
+          <Label htmlFor="expirationDate">
             Date d'échéance des garanties financières
             <span>*</span>
           </Label>
-          <Input required type="date" name="expirationDate" id="expirationDate" />
+          <Input
+            type="date"
+            name="expirationDate"
+            id="expirationDate"
+            required
+            aria-required="true"
+          />
         </div>
         <p className="italic m-0">
           <span>*</span> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}

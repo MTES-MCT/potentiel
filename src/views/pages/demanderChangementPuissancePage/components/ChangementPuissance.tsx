@@ -6,12 +6,13 @@ import {
   exceedsPuissanceMaxDuVolumeReserve,
 } from '../../../../modules/demandeModification';
 import {
-  CertainsChampsObligatoireLégende,
   ErrorBox,
   Input,
   Label,
   TextArea,
-  ToutLesChampsObligatoiresLégende,
+  ChampsObligatoiresLégende,
+  LabelDescription,
+  Callout,
 } from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
@@ -74,12 +75,12 @@ export const ChangementPuissance = ({
           id="puissance-a-la-notification"
           value={puissanceInitiale}
         />
-        <div>
+        <Callout>
           Puissance à la notification :{' '}
           <span className="font-bold">
             {puissanceInitiale} {appelOffre.unitePuissance}
           </span>
-        </div>
+        </Callout>
 
         {puissance !== puissanceInitiale && (
           <>
@@ -99,19 +100,9 @@ export const ChangementPuissance = ({
         )}
       </div>
 
-      {tousLesChampsRequis ? (
-        <ToutLesChampsObligatoiresLégende />
-      ) : (
-        <CertainsChampsObligatoireLégende />
-      )}
+      <ChampsObligatoiresLégende />
       <div>
-        <Label
-          htmlFor="puissance"
-          required={!tousLesChampsRequis ? true : undefined}
-          className="font-bold"
-        >
-          Nouvelle puissance (en {appelOffre?.unitePuissance})
-        </Label>
+        <Label htmlFor="puissance">Nouvelle puissance (en {appelOffre?.unitePuissance})</Label>
         <Input
           type="text"
           pattern="[0-9]+([\.,][0-9]+)?"
@@ -137,34 +128,31 @@ export const ChangementPuissance = ({
       )}
 
       <div>
-        <Label htmlFor="justification">
-          <span className="font-bold">
-            Veuillez nous indiquer les raisons qui motivent votre demande
-          </span>
-          <br />
-          <span className="italic">
-            Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-            conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
-          </span>
+        <Label htmlFor="justification" optionnel={!tousLesChampsRequis ? true : undefined}>
+          Veuillez nous indiquer les raisons qui motivent votre demande
         </Label>
+        <LabelDescription>
+          Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+          conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+        </LabelDescription>
         <TextArea
           name="justification"
           id="justification"
           defaultValue={justification || ''}
-          required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
-          aria-required={!CDC2022choisi && fichierEtJustificationRequis}
+          required={tousLesChampsRequis ? true : undefined}
+          aria-required={tousLesChampsRequis}
         />
       </div>
       <div>
-        <Label htmlFor="file" className="mt-4 font-bold">
+        <Label htmlFor="file" className="mt-4" optionnel={!tousLesChampsRequis ? true : undefined}>
           Courrier explicatif ou décision administrative
         </Label>
         <Input
           type="file"
           name="file"
           id="file"
-          required={!CDC2022choisi && fichierEtJustificationRequis}
-          aria-required={!CDC2022choisi && fichierEtJustificationRequis}
+          required={tousLesChampsRequis}
+          aria-required={tousLesChampsRequis}
         />
       </div>
     </>

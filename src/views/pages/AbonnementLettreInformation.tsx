@@ -11,7 +11,7 @@ import {
   Form,
   ErrorIcon,
   SaveIcon,
-  ToutLesChampsObligatoiresLégende,
+  ChampsObligatoiresLégende,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
 
@@ -78,7 +78,7 @@ const AbonnementLettreInformationForm = ({
           </div>
         )}
 
-        <ToutLesChampsObligatoiresLégende />
+        <ChampsObligatoiresLégende />
 
         <div>
           <label htmlFor="email">Adresse courriel</label>

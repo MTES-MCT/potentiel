@@ -19,7 +19,8 @@ import {
   Input,
   TextArea,
   Form,
-  ToutLesChampsObligatoiresLégende,
+  ChampsObligatoiresLégende,
+  LabelDescription,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -73,20 +74,17 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
-          <ToutLesChampsObligatoiresLégende />
+          <ChampsObligatoiresLégende />
           <input type="hidden" name="projectId" value={project.id} />
 
           <div>
             <Label htmlFor="justification">
-              <span className="font-bold">
-                Veuillez nous indiquer les raisons qui motivent votre demande
-              </span>
-              <br />
-              <span className="italic">
-                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
-              </span>
+              Veuillez nous indiquer les raisons qui motivent votre demande
             </Label>
+            <LabelDescription>
+              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+            </LabelDescription>
             <TextArea
               name="justification"
               id="justification"
@@ -96,13 +94,10 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
             />
           </div>
           <div>
-            <Label htmlFor="file">
-              <span className="font-bold">Pièce justificative</span>
-              <br />
-              <span className="italic">
-                Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
-              </span>
-            </Label>
+            <Label htmlFor="file">Pièce justificative</Label>
+            <LabelDescription>
+              Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+            </LabelDescription>
             <Input type="file" name="file" id="file" required aria-required="true" />
           </div>
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">

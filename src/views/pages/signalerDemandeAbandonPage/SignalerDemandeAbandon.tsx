@@ -12,7 +12,7 @@ import {
   TextArea,
   Radio,
   Form,
-  CertainsChampsObligatoireLégende,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectDataForSignalerDemandeAbandonPage } from '../../../modules/project';
@@ -51,22 +51,33 @@ export const SignalerDemandeAbandon = ({
           </ProjectInfo>
         </div>
 
-        <CertainsChampsObligatoireLégende />
+        <ChampsObligatoiresLégende />
 
         <Input name="projectId" value={project.id} readOnly hidden />
 
         <div>
-          <p className="m-0">
-            Décision <span className="text-error-425-base">*</span> :
-          </p>
+          <p className="m-0">Décision :</p>
           <ul className="flex flex-col lg:flex-row gap-3 my-2 p-0 list-none">
             <li>
-              <Radio id="status-accepted" value="acceptée" name="status" defaultChecked required>
+              <Radio
+                id="status-accepted"
+                value="acceptée"
+                name="status"
+                defaultChecked
+                required
+                aria-required="true"
+              >
                 Demande acceptée
               </Radio>
             </li>
             <li>
-              <Radio id="status-rejected" value="rejetée" name="status" required>
+              <Radio
+                id="status-rejected"
+                value="rejetée"
+                name="status"
+                required
+                aria-required="true"
+              >
                 Demande rejetée
               </Radio>
             </li>
@@ -74,25 +85,28 @@ export const SignalerDemandeAbandon = ({
         </div>
 
         <div>
-          <Label htmlFor="decidedOn" required>
-            Date de la décision (=date du courrier)
-          </Label>
+          <Label htmlFor="decidedOn">Date de la décision (=date du courrier)</Label>
           <Input
             type="date"
             name="decidedOn"
             id="decidedOn"
-            required
             {...(validationErrors && { error: validationErrors['decidedOn']?.toString() })}
+            required
+            aria-required="true"
           />
         </div>
 
         <div>
-          <Label htmlFor="file">Courrier de la réponse (fichier joint)</Label>
+          <Label htmlFor="file" optionnel>
+            Courrier de la réponse (fichier joint)
+          </Label>
           <Input name="file" type="file" className="rounded-none" id="file" />
         </div>
 
         <div>
-          <Label htmlFor="notes">Notes</Label>
+          <Label htmlFor="notes" optionnel>
+            Notes
+          </Label>
           <TextArea
             className="bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none"
             name="notes"

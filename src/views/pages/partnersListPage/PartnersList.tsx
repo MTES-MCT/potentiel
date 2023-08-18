@@ -17,7 +17,7 @@ import {
   Td,
   Th,
   Form,
-  CertainsChampsObligatoireLégende,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -37,30 +37,28 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
       <Form action={ROUTES.ADMIN_INVITE_USER_ACTION} method="post" className="mx-auto">
-        <CertainsChampsObligatoireLégende />
+        <ChampsObligatoiresLégende />
         <div>
-          <Label htmlFor="email" required>
-            Adresse email :
-          </Label>
+          <Label htmlFor="email">Adresse email :</Label>
           <Input
             type="email"
             name="email"
             id="email"
             placeholder="email@exemple.com"
-            required
             {...(validationErrors && { error: validationErrors['email']?.toString() })}
+            required
+            aria-required="true"
           />
         </div>
         <div>
-          <Label htmlFor="role" required>
-            Sélectionnez un rôle
-          </Label>
+          <Label htmlFor="role">Sélectionnez un rôle :</Label>
           <Select
             name="role"
             id="role"
-            required
             {...(validationErrors && { error: validationErrors['role']?.toString() })}
             defaultValue=""
+            required
+            aria-required="true"
           >
             <option value="">Sélectionnez un rôle</option>
             <option value="acheteur-obligé">Acheteur obligé</option>

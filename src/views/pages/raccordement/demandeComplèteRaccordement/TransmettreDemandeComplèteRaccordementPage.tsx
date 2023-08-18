@@ -12,7 +12,7 @@ import {
   Form,
   LabelDescription,
   InputFile,
-  ToutLesChampsObligatoiresLégende,
+  ChampsObligatoiresLégende,
 } from '../../../components';
 import { GestionnaireRéseauReadModel, ProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
@@ -67,7 +67,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
         >
           <Heading2>Transmettre une demande complète de raccordement</Heading2>
 
-          <ToutLesChampsObligatoiresLégende />
+          <ChampsObligatoiresLégende />
 
           {error && <ErrorBox>{error}</ErrorBox>}
 

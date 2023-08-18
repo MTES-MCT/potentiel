@@ -11,7 +11,7 @@ export const UploadResponseFile = ({ modificationRequest }: UploadResponseFilePr
   <>
     <DownloadResponseTemplate modificationRequest={modificationRequest} />
     <div className="form__group">
-      <Label htmlFor="file" required={modificationRequest.type !== 'puissance' ? true : undefined}>
+      <Label htmlFor="file" optionnel={modificationRequest.type === 'puissance' ? true : undefined}>
         Réponse signée (fichier pdf)
       </Label>
       <Input
@@ -19,6 +19,7 @@ export const UploadResponseFile = ({ modificationRequest }: UploadResponseFilePr
         name="file"
         id="file"
         required={modificationRequest.type !== 'puissance'}
+        aria-required={modificationRequest.type !== 'puissance'}
       />
     </div>
   </>

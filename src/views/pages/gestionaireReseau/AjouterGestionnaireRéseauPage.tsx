@@ -9,7 +9,7 @@ import {
   PageTemplate,
   Form,
   LabelDescription,
-  CertainsChampsObligatoireLégende,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
@@ -35,37 +35,37 @@ export const AjouterGestionnaireRéseau = ({
     <Heading1>Ajouter un gestionnaire de réseau</Heading1>
     {erreur && <ErrorBox title={erreur} />}
     <Form method="post" action={routes.POST_AJOUTER_GESTIONNAIRE_RESEAU} className="mx-auto">
-      <CertainsChampsObligatoireLégende className="self-end" />
+      <ChampsObligatoiresLégende />
       <div>
-        <Label htmlFor="codeEIC" required>
-          Code EIC
-        </Label>
+        <Label htmlFor="codeEIC">Code EIC</Label>
         <Input
           type="text"
           error={erreurValidation ? erreurValidation['error-body.codeEIC'] : undefined}
           id="codeEIC"
           name="codeEIC"
           required
+          aria-required="true"
         />
       </div>
 
       <div>
-        <Label htmlFor="raisonSociale" required>
-          Raison sociale
-        </Label>
+        <Label htmlFor="raisonSociale">Raison sociale</Label>
         <Input
           type="text"
           error={erreurValidation ? erreurValidation['error-body.raisonSociale'] : undefined}
           id="raisonSociale"
           name="raisonSociale"
           required
+          aria-required="true"
         />
       </div>
 
       <ChampsAideALaSaisieIdentifiant />
 
       <div>
-        <Label htmlFor="expressionReguliere">Expression régulière</Label>
+        <Label htmlFor="expressionReguliere" optionnel>
+          Expression régulière
+        </Label>
         <LabelDescription>{'Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}'}</LabelDescription>
         <Input
           type="text"

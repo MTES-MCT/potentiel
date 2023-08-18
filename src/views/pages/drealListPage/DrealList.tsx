@@ -16,7 +16,7 @@ import {
   Td,
   Th,
   Form,
-  CertainsChampsObligatoireLégende,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { REGIONS, Région } from '../../../modules/dreal/région';
@@ -37,31 +37,29 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
       <Form action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION} method="post" className="mx-auto">
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
-        <CertainsChampsObligatoireLégende />
+        <ChampsObligatoiresLégende />
         <input type="hidden" name="role" value="dreal" />
         <div>
-          <Label htmlFor="email" required>
-            Adresse email :
-          </Label>
+          <Label htmlFor="email">Adresse email :</Label>
           <Input
             type="email"
             name="email"
             id="email"
             placeholder="email@exemple.com"
-            required
             {...(validationErrors && { error: validationErrors['email']?.toString() })}
+            required
+            aria-required="true"
           />
         </div>
         <div>
-          <Label htmlFor="region" required>
-            Sélectionnez une région
-          </Label>
+          <Label htmlFor="region">Sélectionnez une région</Label>
           <Select
             name="region"
             id="region"
-            required
             {...(validationErrors && { error: validationErrors['region']?.toString() })}
             defaultValue=""
+            required
+            aria-required="true"
           >
             <option value="">Sélectionnez une région</option>
             {[...REGIONS]

@@ -1,4 +1,11 @@
-import { Input, Label, TextArea, ToutLesChampsObligatoiresLégende } from '../../../../components';
+import {
+  Input,
+  Label,
+  TextArea,
+  ChampsObligatoiresLégende,
+  Callout,
+  LabelDescription,
+} from '../../../../components';
 import React from 'react';
 
 type ChangementActionnaireProps = {
@@ -14,16 +21,14 @@ export const ChangementActionnaire = ({
 }: ChangementActionnaireProps) => (
   <>
     {project.actionnaire && (
-      <div>
+      <Callout>
         Ancien actionnaire : <span className="font-bold">{project.actionnaire}</span>
-      </div>
+      </Callout>
     )}
 
-    <ToutLesChampsObligatoiresLégende />
+    <ChampsObligatoiresLégende />
     <div>
-      <Label htmlFor="actionnaire" className="font-bold">
-        Nouvel actionnaire
-      </Label>
+      <Label htmlFor="actionnaire">Nouvel actionnaire</Label>
       <Input
         type="text"
         name="actionnaire"
@@ -35,26 +40,20 @@ export const ChangementActionnaire = ({
     </div>
 
     <div>
-      <Label htmlFor="file">
-        <span className="font-bold">Joindre les statuts mis à jour</span>
-        <br />
-        <span className="italic">
-          Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
-        </span>
-      </Label>
+      <Label htmlFor="file">Joindre les statuts mis à jour</Label>
+      <LabelDescription>
+        Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+      </LabelDescription>
       <Input type="file" name="file" id="file" required aria-required="true" />
     </div>
     <div>
       <Label htmlFor="justification">
-        <span className="font-bold">
-          Veuillez nous indiquer les raisons qui motivent votre demande
-        </span>
-        <br />
-        <span className="italic">
-          Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-          conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
-        </span>
+        Veuillez nous indiquer les raisons qui motivent votre demande
       </Label>
+      <LabelDescription>
+        Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit
+        à ce besoin de modification (contexte, facteurs extérieurs, etc)
+      </LabelDescription>
       <TextArea
         name="justification"
         id="justification"

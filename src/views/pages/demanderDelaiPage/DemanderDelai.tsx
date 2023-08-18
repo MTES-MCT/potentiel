@@ -15,7 +15,8 @@ import {
   Label,
   Form,
   Callout,
-  ToutLesChampsObligatoiresLégende,
+  ChampsObligatoiresLégende,
+  LabelDescription,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectAppelOffre } from '../../../entities';
@@ -86,11 +87,12 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
             <ProjectInfo project={project} />
           </div>
           <Callout>
-            Date théorique d'achèvement actuelle : {format(project.completionDueOn, 'dd/MM/yyyy')}
+            Date théorique d'achèvement actuelle :{' '}
+            <span className="font-bold">{format(project.completionDueOn, 'dd/MM/yyyy')}</span>
           </Callout>
-          <ToutLesChampsObligatoiresLégende />
+          <ChampsObligatoiresLégende />
           <div>
-            <Label htmlFor="dateAchevementDemandee" className="font-bold">
+            <Label htmlFor="dateAchevementDemandee">
               Saisissez la date limite d'achèvement souhaitée
             </Label>
             <Input
@@ -105,15 +107,12 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           </div>
           <div>
             <Label htmlFor="justification">
-              <span className="font-bold">
-                Veuillez nous indiquer les raisons qui motivent votre demande
-              </span>
-              <br />
-              <span className="italic">
-                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
-              </span>
+              Veuillez nous indiquer les raisons qui motivent votre demande
             </Label>
+            <LabelDescription>
+              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
+            </LabelDescription>
             <TextArea
               name="justification"
               id="justification"
@@ -123,13 +122,10 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
             />
           </div>
           <div>
-            <Label htmlFor="file">
-              <span className="font-bold">Pièce justificative</span>
-              <br />
-              <span className="italic">
-                Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
-              </span>
-            </Label>
+            <Label htmlFor="file">Pièce justificative</Label>
+            <LabelDescription>
+              Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+            </LabelDescription>
             <Input type="file" name="file" id="file" required aria-required="true" />
           </div>
 

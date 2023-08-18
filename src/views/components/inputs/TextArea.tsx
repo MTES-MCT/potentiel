@@ -23,7 +23,7 @@ export const TextArea = ({ className = '', error = '', onChange, ...props }: Tex
         className={`
         w-full py-2 px-3 rounded-[3px] text-base bg-gray-100 box-border border-x-0 border-t-0 border-b-2 border-solid 
         outline-offset-4 outline-2 outline-solid outline-outline-base 
-        disabled:cursor-not-allowed disabled:border-b-grey-925-base disabled:bg-grey-950-base 
+        disabled:cursor-not-allowed disabled:border-b-grey-925-base disabled:bg-grey-950-base mt-2
         ${isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'} ${className}`}
         onChange={(e) => {
           valueChanged(true);

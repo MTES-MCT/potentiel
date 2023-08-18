@@ -1,2 +1,1 @@
-export * from './CertainsChampsObligatoireLégende';
-export * from './ToutLesChampsObligatoiresLégende';
+export * from './ChampsObligatoiresLégende';

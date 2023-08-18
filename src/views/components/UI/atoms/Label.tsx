@@ -4,10 +4,12 @@ type LabelProps = ComponentProps<'label'> & {
   htmlFor: string;
   required?: true;
   disabled?: true;
+  optionnel?: true;
 };
 
 export const Label = ({
   required,
+  optionnel,
   children,
   disabled,
   htmlFor,
@@ -26,5 +28,6 @@ export const Label = ({
         <span className="text-error-425-base">*</span>
       </>
     )}
+    {optionnel && ' (optionnel)'}
   </label>
 );
