@@ -11,7 +11,7 @@ import {
   PageProjetTemplate,
   Form,
 } from '../../../components';
-import { formatDateForInput, hydrateOnClient } from '../../../helpers';
+import { formatDateForInput, formatDateForInputMaxDate, hydrateOnClient } from '../../../helpers';
 import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
@@ -51,7 +51,7 @@ export const TransmettreDateMiseEnService = ({
               id="dateMiseEnService"
               name="dateMiseEnService"
               defaultValue={miseEnService && formatDateForInput(miseEnService.dateMiseEnService)}
-              max={new Date().toISOString().split('T').shift()}
+              max={formatDateForInputMaxDate(new Date())}
               required
             />
           </div>

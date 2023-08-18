@@ -16,7 +16,7 @@ import {
 import { GestionnaireRéseauReadModel, ProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 
-import { hydrateOnClient } from '../../../helpers';
+import { formatDateForInputMaxDate, hydrateOnClient } from '../../../helpers';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 import {
@@ -122,7 +122,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
               type="date"
               id="dateQualification"
               name="dateQualification"
-              max={new Date().toISOString().split('T').shift()}
+              max={formatDateForInputMaxDate(new Date())}
               required
             />
           </div>
