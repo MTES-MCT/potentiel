@@ -5,12 +5,11 @@ import {
   SecondaryButton,
   Input,
   TextArea,
-  FormulaireChampsObligatoireLégende,
-  Astérisque,
   PaperClipIcon,
   Link,
   Label,
   Form,
+  ChampsObligatoiresLégende,
 } from '../../../components';
 
 type AttachFileProps = {
@@ -38,32 +37,33 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
         >
-          <FormulaireChampsObligatoireLégende className="text-right" />
+          <ChampsObligatoiresLégende />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <Label htmlFor="date">
-              Date d'effet
-              <Astérisque />
-            </Label>
-            <Input type="date" required id="date" name="date" />
+            <Label htmlFor="date">Date d'effet</Label>
+            <Input type="date" id="date" name="date" required aria-required="true" />
           </div>
           <div>
-            <Label htmlFor="title">
-              Titre
-              <Astérisque />
-            </Label>
-            <Input type="text" name="title" id="title" required />
+            <Label htmlFor="title">Titre</Label>
+            <Input type="text" name="title" id="title" required aria-required="true" />
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description" optionnel>
+              Description
+            </Label>
             <TextArea name="description" id="description" />
           </div>
           <div>
-            <Label htmlFor="file" required>
-              Fichier(s) à attacher
-            </Label>
+            <Label htmlFor="file">Fichier(s) à attacher</Label>
             {Array.from({ length: fileCount }, (v, i) => i).map((i) => (
-              <Input key={`file_${i}`} type="file" name="file" id="file" />
+              <Input
+                key={`file_${i}`}
+                type="file"
+                name="file"
+                id="file"
+                required
+                aria-required="true"
+              />
             ))}
             <Link onClick={() => setFileCount(fileCount + 1)}>+ Ajouter un autre fichier</Link>
           </div>

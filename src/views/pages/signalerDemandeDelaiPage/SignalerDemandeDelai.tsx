@@ -1,16 +1,17 @@
 import {
   PrimaryButton,
-  Input,
   SecondaryLinkButton,
   ProjectInfo,
   LegacyPageTemplate,
-  Astérisque,
-  FormulaireChampsObligatoireLégende,
   ErrorBox,
   Heading1,
   TextArea,
   Radio,
   Form,
+  ChampsObligatoiresLégende,
+  Label,
+  LabelDescription,
+  Input,
 } from '../../components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '../../../modules/project';
 import routes from '../../../routes';
@@ -45,7 +46,6 @@ export const SignalerDemandeDelai = ({
         className="mx-auto"
       >
         <div>
-          <FormulaireChampsObligatoireLégende className="text-right" />
           <p className="m-0">Pour le projet</p>
           <ProjectInfo project={project}>
             <p className="m-0">
@@ -55,18 +55,16 @@ export const SignalerDemandeDelai = ({
                   <span className="font-bold">{afficherDate(project.completionDueOn)}</span>
                 </>
               ) : (
-                <>Ce projet n'a pas de date théorique de mise en service.</>
+                "Ce projet n'a pas de date théorique de mise en service."
               )}
             </p>
           </ProjectInfo>
         </div>
 
+        <ChampsObligatoiresLégende />
         <input name="projectId" value={project.id} readOnly hidden />
-
         <div>
-          <legend className="m-0">
-            Décision <Astérisque /> :
-          </legend>
+          <legend className="m-0">Décision :</legend>
           <ul className="flex flex-col lg:flex-row gap-3 my-2 p-0 list-none">
             <li>
               <Radio
@@ -76,6 +74,7 @@ export const SignalerDemandeDelai = ({
                 onChange={(e) => e.target.checked && newDateImpactsProject(true)}
                 defaultChecked
                 required
+                aria-required="true"
               >
                 Demande acceptée
               </Radio>
@@ -87,6 +86,7 @@ export const SignalerDemandeDelai = ({
                 name="status"
                 onChange={(e) => e.target.checked && newDateImpactsProject(false)}
                 required
+                aria-required="true"
               >
                 Demande rejetée
               </Radio>
@@ -98,6 +98,7 @@ export const SignalerDemandeDelai = ({
                 name="status"
                 onChange={(e) => e.target.checked && newDateImpactsProject(false)}
                 required
+                aria-required="true"
               >
                 Accord de principe
               </Radio>
@@ -106,46 +107,48 @@ export const SignalerDemandeDelai = ({
         </div>
 
         <div>
-          <label htmlFor="decidedOn">
-            Date de la décision (=date du courrier) <Astérisque />
-          </label>
+          <Label htmlFor="decidedOn">Date de la décision (=date du courrier)</Label>
           <Input
             type="date"
             name="decidedOn"
             id="decidedOn"
-            required
             {...(validationErrors && { error: validationErrors['decidedOn']?.toString() })}
+            required
+            aria-required="true"
           />
         </div>
 
         {doesNewDateImpactProject && (
           <div>
-            <label htmlFor="newCompletionDueOn">
-              Nouvelle date d'achèvement accordée <Astérisque />
-            </label>
+            <Label htmlFor="newCompletionDueOn">Nouvelle date d'achèvement accordée</Label>
+            <LabelDescription>
+              Cette date impactera le projet seulement si elle est postérieure à la date théorique
+              de mise en service actuelle.
+            </LabelDescription>
             <Input
               type="date"
               name="newCompletionDueOn"
               id="newCompletionDueOn"
-              required
               {...(validationErrors && {
                 error: validationErrors['newCompletionDueOn']?.toString(),
               })}
+              required
+              aria-required="true"
             />
-            <p className="m-0 italic">
-              Cette date impactera le projet seulement si elle est postérieure à la date théorique
-              de mise en service actuelle.
-            </p>
           </div>
         )}
 
         <div>
-          <label htmlFor="file">Courrier de la réponse (fichier joint)</label>
-          <input name="file" type="file" className="rounded-none" id="file" />
+          <Label htmlFor="file" optionnel>
+            Courrier de la réponse (fichier joint)
+          </Label>
+          <Input name="file" type="file" className="rounded-none" id="file" />
         </div>
 
         <div>
-          <label htmlFor="notes">Notes</label>
+          <Label htmlFor="notes" optionnel>
+            Notes
+          </Label>
           <TextArea
             className="bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none"
             name="notes"

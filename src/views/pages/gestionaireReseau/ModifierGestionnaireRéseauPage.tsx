@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   Heading1,
   Input,
   Label,
@@ -9,6 +8,7 @@ import {
   Form,
   PageTemplate,
   LabelDescription,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
@@ -42,7 +42,7 @@ export const ModifierGestionnaireRéseau = ({
       action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(codeEIC)}
       className="mx-auto"
     >
-      <FormulaireChampsObligatoireLégende className="self-end" />
+      <ChampsObligatoiresLégende />
 
       <div>
         <Label htmlFor="codeEIC">Code EIC</Label>
@@ -50,23 +50,24 @@ export const ModifierGestionnaireRéseau = ({
       </div>
 
       <div>
-        <Label htmlFor="raisonSociale" required>
-          Raison sociale
-        </Label>
+        <Label htmlFor="raisonSociale">Raison sociale</Label>
         <Input
           type="text"
           id="raisonSociale"
           name="raisonSociale"
           defaultValue={raisonSociale}
-          required
           error={erreurValidation ? erreurValidation['error-body.raisonSociale'] : undefined}
+          required
+          aria-required="true"
         />
       </div>
 
       <ChampsAideALaSaisieIdentifiant format={format} légende={légende} />
 
       <div>
-        <Label htmlFor="expressionReguliere">Expression régulière</Label>
+        <Label htmlFor="expressionReguliere" optionnel>
+          Expression régulière
+        </Label>
         <LabelDescription>{'Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}'}</LabelDescription>
         <Input
           type="text"

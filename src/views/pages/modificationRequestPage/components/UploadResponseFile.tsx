@@ -5,13 +5,17 @@ import { Input, Label } from '../../../components';
 
 interface UploadResponseFileProps {
   modificationRequest: ModificationRequestPageDTO & { type: string };
+  optionnel?: true;
 }
 
-export const UploadResponseFile = ({ modificationRequest }: UploadResponseFileProps) => (
+export const UploadResponseFile = ({
+  modificationRequest,
+  optionnel = undefined,
+}: UploadResponseFileProps) => (
   <>
     <DownloadResponseTemplate modificationRequest={modificationRequest} />
     <div className="form__group">
-      <Label htmlFor="file" required={modificationRequest.type !== 'puissance' ? true : undefined}>
+      <Label htmlFor="file" optionnel={optionnel}>
         Réponse signée (fichier pdf)
       </Label>
       <Input
@@ -19,6 +23,7 @@ export const UploadResponseFile = ({ modificationRequest }: UploadResponseFilePr
         name="file"
         id="file"
         required={modificationRequest.type !== 'puissance'}
+        aria-required={modificationRequest.type !== 'puissance'}
       />
     </div>
   </>

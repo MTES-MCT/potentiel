@@ -1,9 +1,7 @@
 import {
   ProjectInfo,
   TextArea,
-  Astérisque,
   Input,
-  FormulaireChampsObligatoireLégende,
   PrimaryButton,
   SecondaryLinkButton,
   InfoBox,
@@ -17,6 +15,8 @@ import {
   Label,
   Form,
   Callout,
+  ChampsObligatoiresLégende,
+  LabelDescription,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectAppelOffre } from '../../../entities';
@@ -82,48 +82,51 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error as string} />}
 
-          <FormulaireChampsObligatoireLégende className="text-right" />
           <div>
             <div className="mb-1">Concernant le projet:</div>
             <ProjectInfo project={project} />
           </div>
           <Callout>
-            Date théorique d'achèvement actuelle : {format(project.completionDueOn, 'dd/MM/yyyy')}
+            Date théorique d'achèvement actuelle :{' '}
+            <span className="font-bold">{format(project.completionDueOn, 'dd/MM/yyyy')}</span>
           </Callout>
-          <div className="flex flex-col gap-8">
-            <div>
-              <Label htmlFor="dateAchevementDemandee">
-                Saisissez la date limite d'achèvement souhaitée <Astérisque />
-              </Label>
-              <Input
-                type="date"
-                name="dateAchevementDemandee"
-                id="dateAchevementDemandee"
-                min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
-                defaultValue={dateAchèvementDemandée}
-                required
-                aria-required="true"
-              />
-            </div>
-            <div>
-              <Label htmlFor="justification">
-                Veuillez nous indiquer les raisons qui motivent votre demande
-                <br />
-                <span className="italic">
-                  Pour faciliter le traitement de votre demande, veillez à détailler les raisons
-                  ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
-                </span>
-              </Label>
-              <TextArea
-                name="justification"
-                id="justification"
-                defaultValue={justification || ''}
-              />
-            </div>
-            <div>
-              <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
-              <Input type="file" name="file" id="file" />
-            </div>
+          <ChampsObligatoiresLégende />
+          <div>
+            <Label htmlFor="dateAchevementDemandee">
+              Saisissez la date limite d'achèvement souhaitée
+            </Label>
+            <Input
+              type="date"
+              name="dateAchevementDemandee"
+              id="dateAchevementDemandee"
+              min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
+              defaultValue={dateAchèvementDemandée}
+              required
+              aria-required="true"
+            />
+          </div>
+          <div>
+            <Label htmlFor="justification">
+              Veuillez nous indiquer les raisons qui motivent votre demande
+            </Label>
+            <LabelDescription>
+              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)
+            </LabelDescription>
+            <TextArea
+              name="justification"
+              id="justification"
+              defaultValue={justification || ''}
+              required
+              aria-required="true"
+            />
+          </div>
+          <div>
+            <Label htmlFor="file">Pièce justificative</Label>
+            <LabelDescription>
+              Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+            </LabelDescription>
+            <Input type="file" name="file" id="file" required aria-required="true" />
           </div>
 
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">

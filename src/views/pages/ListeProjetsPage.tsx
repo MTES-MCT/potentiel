@@ -279,11 +279,11 @@ export const ListeProjets = ({
                   ))}
                 </select>
                 <div>
-                  <Label htmlFor="email" required>
+                  <Label htmlFor="email">
                     Courrier électronique de la personne habilitée à suivre les projets selectionnés
-                    ci-dessous:
+                    ci-dessous :
                   </Label>
-                  <Input required type="email" name="email" id="email" />
+                  <Input type="email" name="email" id="email" required aria-required="true" />
                 </div>
                 <PrimaryButton
                   type="submit"
