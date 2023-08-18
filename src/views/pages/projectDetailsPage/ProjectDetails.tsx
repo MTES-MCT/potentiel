@@ -24,11 +24,11 @@ import {
   Contact,
   MaterielsEtTechnologies,
   ResultatsAppelOffreInnovation,
-  GarantiesFinancièresDataForProjetPage,
 } from './sections';
 import { ProjectHeader } from './components';
 import routes from '../../../routes';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { GarantiesFinancièresDataForProjetPage } from './sections/GarantiesFinancières';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'

@@ -54,6 +54,8 @@ import {
   AucunDossierALister,
   ImporterDatesMiseEnService,
   EnregistrerGarantiesFinancières,
+  DéposerGarantiesFinancières,
+  ModifierDépôtGarantiesFinancières,
 } from './pages';
 
 export { App } from './App';
@@ -471,4 +473,22 @@ export const EnregistrerGarantiesFinancièresPage = (
     Component: EnregistrerGarantiesFinancières,
     props,
     title: 'Enregistrer les garanties financières',
+  });
+
+export const DéposerGarantiesFinancièresPage = (
+  props: Parameters<typeof DéposerGarantiesFinancières>[0],
+) =>
+  makeHtml({
+    Component: DéposerGarantiesFinancières,
+    props,
+    title: 'Déposer des garanties financières',
+  });
+
+export const ModifierDépôtGarantiesFinancièresPage = (
+  props: Parameters<typeof ModifierDépôtGarantiesFinancières>[0],
+) =>
+  makeHtml({
+    Component: ModifierDépôtGarantiesFinancières,
+    props,
+    title: 'Modifier des garanties financières déposées',
   });

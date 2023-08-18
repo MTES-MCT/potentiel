@@ -15,7 +15,7 @@ import {
 } from '../../components';
 import { ProjetReadModel, GarantiesFinancièresReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
-import { formatDateForInput, hydrateOnClient } from '../../helpers';
+import { formatDateForInput, formatDateForInputMaxDate, hydrateOnClient } from '../../helpers';
 import { TitreGarantiesFinancières } from './components/TitreGarantiesFinancières';
 
 type EnregistrerGarantiesFinancièresProps = {
@@ -113,7 +113,7 @@ export const EnregistrerGarantiesFinancières = ({
               type="date"
               id="dateConstitution"
               name="dateConstitution"
-              max={new Date().toISOString().split('T').shift()}
+              max={formatDateForInputMaxDate(new Date())}
               defaultValue={
                 garantiesFinancières?.attestationConstitution?.date &&
                 formatDateForInput(garantiesFinancières?.attestationConstitution?.date)

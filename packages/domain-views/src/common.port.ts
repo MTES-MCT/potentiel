@@ -1,6 +1,7 @@
 import { ReadModel } from '@potentiel/core-domain';
 import { RawIdentifiantProjet, TypeFichier } from '@potentiel/domain';
 import { Option } from '@potentiel/monads';
+import { Readable } from 'stream';
 
 export type Find = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}|${string}`,
