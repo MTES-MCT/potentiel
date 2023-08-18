@@ -25,9 +25,7 @@ export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseD�
 
   return (
     <div className="mt-4 mb-4">
-      <Label htmlFor="dateAchevementAccordee" required>
-        Date limite d'achèvement accordée
-      </Label>
+      <Label htmlFor="dateAchevementAccordee">Date limite d'achèvement accordée</Label>
       <Input
         type="date"
         name="dateAchevementAccordee"

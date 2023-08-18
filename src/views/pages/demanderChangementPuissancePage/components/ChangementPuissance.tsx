@@ -68,39 +68,28 @@ export const ChangementPuissance = ({
 
   return (
     <>
-      <div>
-        <input
-          type="hidden"
-          name="puissance-a-la-notification"
-          id="puissance-a-la-notification"
-          value={puissanceInitiale}
-        />
-        <Callout>
-          Puissance à la notification :{' '}
-          <span className="font-bold">
-            {puissanceInitiale} {appelOffre.unitePuissance}
-          </span>
-        </Callout>
+      <Callout>
+        <>
+          <div>
+            Puissance à la notification :{' '}
+            <span className="font-bold">
+              {puissanceInitiale} {appelOffre.unitePuissance}
+            </span>
+          </div>
 
-        {puissance !== puissanceInitiale && (
-          <>
-            <input
-              type="hidden"
-              name="puissance-actuelle"
-              id="puissance-actuelle"
-              value={puissance}
-            />
+          {puissance !== puissanceInitiale && (
             <div>
               Puissance actuelle :{' '}
               <span className="font-bold">
                 {puissance} {appelOffre.unitePuissance}
               </span>
             </div>
-          </>
-        )}
-      </div>
+          )}
+        </>
+      </Callout>
 
       <ChampsObligatoiresLégende />
+
       <div>
         <Label htmlFor="puissance">Nouvelle puissance (en {appelOffre?.unitePuissance})</Label>
         <Input
