@@ -14,7 +14,7 @@ import {
 } from '../../components';
 import { DépôtGarantiesFinancièresReadModel, ProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
-import { formatDateForInput, hydrateOnClient } from '../../helpers';
+import { formatDateForInput, formatDateForInputMaxDate, hydrateOnClient } from '../../helpers';
 import { TitreGarantiesFinancières } from './components/TitreGarantiesFinancières';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -92,7 +92,7 @@ export const ModifierDépôtGarantiesFinancières = ({
               type="date"
               id="dateConstitution"
               name="dateConstitution"
-              max={new Date().toISOString().split('T').shift()}
+              max={formatDateForInputMaxDate(new Date())}
               defaultValue={
                 dépôt?.attestationConstitution.date &&
                 formatDateForInput(dépôt?.attestationConstitution.date)

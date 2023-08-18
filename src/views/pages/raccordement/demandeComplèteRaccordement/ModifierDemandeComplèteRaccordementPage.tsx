@@ -13,7 +13,7 @@ import {
   LabelDescription,
   InputFile,
 } from '../../../components';
-import { formatDateForInput, hydrateOnClient } from '../../../helpers';
+import { formatDateForInput, formatDateForInputMaxDate, hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
   ProjetReadModel,
@@ -123,7 +123,7 @@ export const ModifierDemandeComplèteRaccordement = ({
               id="dateQualification"
               name="dateQualification"
               defaultValue={dateQualification && formatDateForInput(dateQualification)}
-              max={new Date().toISOString().split('T').shift()}
+              max={formatDateForInputMaxDate(new Date())}
               required
             />
           </div>

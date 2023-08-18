@@ -14,7 +14,7 @@ import {
 } from '../../components';
 import { ProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
-import { hydrateOnClient } from '../../helpers';
+import { formatDateForInputMaxDate, hydrateOnClient } from '../../helpers';
 import { TitreGarantiesFinancières } from './components/TitreGarantiesFinancières';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -82,7 +82,7 @@ export const DéposerGarantiesFinancières = ({
               type="date"
               id="dateConstitution"
               name="dateConstitution"
-              max={new Date().toISOString().split('T').shift()}
+              max={formatDateForInputMaxDate(new Date())}
               required
             />
           </div>
