@@ -12,7 +12,7 @@ import {
   ConsulterFichierAttestationGarantiesFinancièreQuery,
   ConsulterGarantiesFinancièresQuery,
 } from '@potentiel/domain-views';
-import { convertReadableToString } from '../../../helpers/convertReadableToString';
+import { convertReadableStreamToString } from '../../../helpers/convertReadableToString';
 
 Alors(
   `les garanties financières (complètes )devraient être (consultables )(mises à jour )pour le projet {string} avec :`,
@@ -116,6 +116,6 @@ Alors(
 
     expect(résultat.type).to.deep.equal('attestation-constitution-garanties-financieres');
     expect(résultat.format).to.deep.equal(format);
-    expect(await convertReadableToString(résultat.content)).to.deep.equal(contenu);
+    expect(await convertReadableStreamToString(résultat.content)).to.deep.equal(contenu);
   },
 );

@@ -8,7 +8,6 @@ import {
   convertirEnIdentifiantProjet,
   createGarantiesFinancièresAggregateId,
 } from '@potentiel/domain';
-import { convertStringToReadable } from '../../../helpers/convertStringToReadable';
 import { sleep } from '../../../helpers/sleep';
 import { PotentielWorld } from '../../../potentiel.world';
 import { mediator } from 'mediateur/dist/core/mediator';
@@ -16,6 +15,7 @@ import { upload } from '@potentiel/file-storage';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { extension } from 'mime-types';
 import { join } from 'path';
+import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
 
 EtantDonné(
   `un dépôt de garanties financières pour le projet {string} avec :`,
@@ -24,7 +24,7 @@ EtantDonné(
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
     const dateConstutition = exemple[`date de constitution`];
-    const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+    const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
     const dateDépôt = exemple['date de dépôt'];
     const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
 
@@ -56,7 +56,7 @@ EtantDonné(
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
     const dateConstutition = exemple[`date de constitution`];
-    const contenuFichier = convertStringToReadable(exemple['contenu fichier']);
+    const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
     const dateDépôt = exemple['date de dépôt'];
     const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
 
