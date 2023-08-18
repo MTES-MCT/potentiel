@@ -100,7 +100,7 @@ v1Router.post(
           if (isNone(fichierAttestationActuel)) {
             return response.redirect(
               addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
-                error: `Vous devez renseigner une date de constitution ET une attestation`,
+                error: `Vous devez joindre l'attestation de constitution`,
               }),
             );
           }
@@ -115,14 +115,6 @@ v1Router.post(
             content: createReadStream(file.path),
             date: convertirEnDateTime(dateConstitution),
           };
-        }
-      } else {
-        if (!file) {
-          return response.redirect(
-            addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
-              error: `Vous devez renseigner une date de constitution ET une attestation`,
-            }),
-          );
         }
       }
 
