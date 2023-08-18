@@ -50,7 +50,7 @@ export const InputFile = ({ fileUrl, onFileChange, ...props }: InputFileProps) =
         <div className="flex ml-auto gap-3">
           <button
             type="button"
-            className="flex items-center text-base border-none bg-transparent hover:bg-transparent m-0 p-0"
+            className="flex items-center text-base border-none bg-transparent hover:bg-transparent hover:cursor-pointer m-0 p-0"
             onClick={browseForFile}
           >
             {fileUrl || uploadedFileName ? (

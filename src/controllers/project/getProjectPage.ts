@@ -16,6 +16,7 @@ import { PermissionConsulterProjet } from '../../modules/project';
 import { mediator } from 'mediateur';
 import {
   ConsulterDossierRaccordementQuery,
+  ConsulterDépôtGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresQuery,
   ListerDossiersRaccordementQuery,
 } from '@potentiel/domain-views';
@@ -221,13 +222,19 @@ const getAlertesRaccordement = async ({
 };
 
 type GarantiesFinancièresDataForProjetPage = {
-  actionRequise?: 'compléter enregistrement' | 'enregistrer' | 'déposer';
-  typeGarantiesFinancières?: "avec date d'échéance" | 'consignation' | '6 mois après achèvement';
-  dateÉchéance?: string;
-  attestationConstitution?: { format: string; date: string };
+  actionRequise?: 'compléter enregistrement' | 'enregistrer' | 'déposer' | 'compléter dépôt';
+  actuelles?: {
+    typeGarantiesFinancières?: "avec date d'échéance" | 'consignation' | '6 mois après achèvement';
+    dateÉchéance?: string;
+    attestationConstitution?: { format: string; date: string };
+  };
+  dépôt?: {
+    typeGarantiesFinancières?: "avec date d'échéance" | 'consignation' | '6 mois après achèvement';
+    dateÉchéance?: string;
+    attestationConstitution: { format: string; date: string };
+  };
 };
 
-// TO DO : si cette fonction doit être réutilisée on discutera d'un déplacement dans un package dans le nouveau socle
 const getGarantiesFinancièresDataForProjetPage = async ({
   identifiantProjet,
   garantiesFinancièresSoumisesÀLaCandidature,
@@ -237,6 +244,8 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   garantiesFinancièresSoumisesÀLaCandidature: boolean;
   user: UtilisateurReadModel;
 }): Promise<GarantiesFinancièresDataForProjetPage | undefined> => {
+  let actionRequise: GarantiesFinancièresDataForProjetPage['actionRequise'];
+
   if (
     !userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal', 'caisse-des-dépôts', 'cre'])(
       user,
@@ -244,35 +253,54 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   ) {
     return;
   }
-  const garantiesFinancières = await mediator.send<ConsulterGarantiesFinancièresQuery>({
+
+  const garantiesFinancièresActuelles = await mediator.send<ConsulterGarantiesFinancièresQuery>({
     type: 'CONSULTER_GARANTIES_FINANCIÈRES',
     data: { identifiantProjet },
   });
 
-  if (isNone(garantiesFinancières)) {
-    if (garantiesFinancièresSoumisesÀLaCandidature) {
-      return { actionRequise: 'enregistrer' };
-    }
+  const garantiesFinancièresDéposées = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>(
+    {
+      type: 'CONSULTER_DÉPÔT_GARANTIES_FINANCIÈRES',
+      data: { identifiantProjet },
+    },
+  );
 
-    if (!garantiesFinancièresSoumisesÀLaCandidature && userIs('porteur-projet')(user)) {
-      return { actionRequise: 'déposer' };
+  // TO DO : retirer les cas de changement de producteur et GF échue
+  if (garantiesFinancièresSoumisesÀLaCandidature) {
+    if (isNone(garantiesFinancièresActuelles)) {
+      actionRequise = 'enregistrer';
+    } else {
+      if (
+        !garantiesFinancièresActuelles.typeGarantiesFinancières ||
+        !garantiesFinancièresActuelles.attestationConstitution ||
+        (garantiesFinancièresActuelles.typeGarantiesFinancières === "avec date d'échéance" &&
+          !garantiesFinancièresActuelles.dateÉchéance)
+      ) {
+        actionRequise = 'compléter enregistrement';
+      }
     }
-
-    return;
   }
 
-  const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } = garantiesFinancières;
-
-  if (
-    !typeGarantiesFinancières ||
-    !attestationConstitution ||
-    (typeGarantiesFinancières === "avec date d'échéance" && !dateÉchéance)
-  ) {
-    return {
-      ...garantiesFinancières,
-      actionRequise: 'compléter enregistrement',
-    };
+  // TO DO : ajouter les cas de changement de producteur et GF échue
+  if (!garantiesFinancièresSoumisesÀLaCandidature && userIs('porteur-projet')(user)) {
+    if (isNone(garantiesFinancièresDéposées)) {
+      actionRequise = 'déposer';
+    } else {
+      if (
+        !garantiesFinancièresDéposées.typeGarantiesFinancières ||
+        !garantiesFinancièresDéposées.attestationConstitution ||
+        (garantiesFinancièresDéposées.typeGarantiesFinancières === "avec date d'échéance" &&
+          !garantiesFinancièresDéposées.dateÉchéance)
+      ) {
+        actionRequise = 'compléter dépôt';
+      }
+    }
   }
 
-  return { ...garantiesFinancières };
+  return {
+    actionRequise,
+    ...(isSome(garantiesFinancièresActuelles) && { actuelles: garantiesFinancièresActuelles }),
+    ...(isSome(garantiesFinancièresDéposées) && { dépôt: garantiesFinancièresDéposées }),
+  };
 };

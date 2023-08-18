@@ -9,3 +9,4 @@ export * from './demanderConfirmation';
 export * from './updateUrlParams';
 export * from './resetUrlParams';
 export * from './formatDateForInput';
+export * from './formatDateForInputMaxDate';
