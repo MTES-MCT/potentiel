@@ -23,6 +23,7 @@ import {
   PermissionConsulterGarantiesFinancières,
   PermissionEnregistrerGarantiesFinancières,
   PermissionDéposerGarantiesFinancières,
+  PermissionValiderDépôtGarantiesFinancières,
 } from '@potentiel/domain';
 import {
   PermissionListerGestionnairesRéseau,
@@ -51,6 +52,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterDossierRaccordement,
         PermissionConsulterGarantiesFinancières,
         PermissionEnregistrerGarantiesFinancières,
+        PermissionValiderDépôtGarantiesFinancières,
       ];
     case 'porteur-projet':
       return [
