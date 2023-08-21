@@ -1,3 +1,4 @@
+import { UtilisateurReadModel } from '../../../utilisateur/récupérer/UtilisateurReadModel';
 import { ProjectAppelOffre } from '../../../../entities';
 import { PaginatedList, Pagination } from '../../../pagination';
 import { AppelOffre, Periode, Famille } from '@potentiel/domain-views';

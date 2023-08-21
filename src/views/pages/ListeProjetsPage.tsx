@@ -197,7 +197,11 @@ export const ListeProjets = ({
                 </Select>
               </div>
               <div>
-                <Label htmlFor="periodeId" className="mt-4" disabled={!filtreParPériodeActif}>
+                <Label
+                  htmlFor="periodeId"
+                  className="mt-4"
+                  disabled={!filtreParPériodeActif ? true : undefined}
+                >
                   Période concernée
                 </Label>
                 <Select
@@ -224,7 +228,11 @@ export const ListeProjets = ({
                 </Select>
               </div>
               <div>
-                <Label htmlFor="familleId" className="mt-4" disabled={!filtreParFamilleActif}>
+                <Label
+                  htmlFor="familleId"
+                  className="mt-4"
+                  disabled={!filtreParFamilleActif ? true : undefined}
+                >
                   Famille concernée
                 </Label>
                 <Select
