@@ -84,7 +84,6 @@ export const ListeProjets = ({
   }
   const defaultClassementFilter =
     userIs(['admin', 'dreal', 'dgec-validateur'])(utilisateur) && classement === 'classés';
-
   const hasFilters = !!(
     appelOffreId ||
     periodeId ||

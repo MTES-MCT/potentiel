@@ -17,52 +17,75 @@ import {
 } from '../../modules/project/queries/listerProjets';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
-const getProjectListPage = asyncHandler(async (request, response) => {
+const getFiltres = ({
+  query,
+  user,
+}: {
+  query: {
+    appelOffreId?: string;
+    periodeId?: string;
+    familleId?: string;
+    recherche?: FiltreListeProjets['recherche'];
+    classement?: FiltreListeProjets['classement'];
+    reclames?: FiltreListeProjets['reclames'];
+    garantiesFinancieres?: FiltreListeProjets['garantiesFinancieres'];
+  };
+  user: UtilisateurReadModel;
+}) => {
   let {
-    query: {
-      appelOffreId,
-      periodeId,
-      familleId,
-      recherche,
-      classement,
-      reclames,
-      garantiesFinancieres,
-    },
-    user,
-  } = request;
-  const utilisateur = user as UtilisateurReadModel;
+    appelOffreId,
+    periodeId,
+    familleId,
+    recherche,
+    classement,
+    reclames,
+    garantiesFinancieres,
+  } = query;
 
-  // Set default filter on classés for admins
-  if (
-    userIs(['admin', 'dgec-validateur', 'dreal'])(utilisateur) &&
-    typeof classement === 'undefined'
-  ) {
+  if (userIs(['admin', 'dgec-validateur', 'dreal'])(user) && typeof classement === 'undefined') {
     classement = 'classés';
-    request.query.classement = 'classés';
   }
 
-  const pagination = getPagination(request);
-
-  if (!appelOffreId) {
-    // Reset the periodId and familleId if there is no appelOffreId
+  if (!query.appelOffreId) {
     periodeId = undefined;
     familleId = undefined;
   }
 
-  const filtres = {
+  return {
     recherche,
     user,
-    appelOffre: {
-      appelOffreId,
-      periodeId,
-      familleId,
-    },
+    appelOffre:
+      appelOffreId || periodeId || familleId
+        ? {
+            appelOffreId,
+            periodeId,
+            familleId,
+          }
+        : undefined,
     classement,
     reclames,
     garantiesFinancieres,
-  } as FiltreListeProjets;
+  };
+};
 
-  const projects = await listerProjets({ user: utilisateur, filtres, pagination });
+const getProjectListPage = asyncHandler(async (request, response) => {
+  let { query, user } = request;
+
+  if (
+    userIs(['admin', 'dgec-validateur', 'dreal'])(user) &&
+    typeof query.classement === 'undefined'
+  ) {
+    request.query.classement = 'classés';
+  }
+
+  const filtres = getFiltres({
+    query,
+    user,
+  });
+
+  const pagination = getPagination(request);
+
+  const projects = await listerProjets({ user, filtres, pagination });
 
   const appelsOffre = await appelOffreRepo.findAll();
 
