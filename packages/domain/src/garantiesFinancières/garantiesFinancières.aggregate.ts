@@ -33,6 +33,8 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
       case 'GarantiesFinancièresDéposées-v1':
       case 'DépôtGarantiesFinancièresModifié-v1':
         return processDépôtGarantiesFinancièresEvent({ event, aggregate });
+      case 'DépôtGarantiesFinancièresValidé-v1':
+        return processDépôtGarantiesFinancièresValidé({ aggregate });
       default:
         return { ...aggregate };
     }
@@ -162,4 +164,14 @@ const processGarantiesFinancièresSnapshotEvent = ({
   }
 
   return { ...aggregate, dépôt, actuelles };
+};
+
+const processDépôtGarantiesFinancièresValidé = ({
+  aggregate,
+}: {
+  aggregate: GarantiesFinancièresAggregate;
+}) => {
+  const dépôtValidé = aggregate.dépôt;
+  delete dépôtValidé?.dateDépôt;
+  return { actuelles: dépôtValidé, dépôt: undefined };
 };
