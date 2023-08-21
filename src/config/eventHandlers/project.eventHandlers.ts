@@ -21,7 +21,7 @@ import {
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';
 import { findProjectByIdentifiers, getUnnotifiedProjectsForPeriode } from '../queries.config';
-import { getProjectAppelOffre } from "../queryProjectAO.config";
+import { getProjectAppelOffre } from '../queryProjectAO.config';
 import { projectRepo } from '../repos.config';
 import { generateCertificate } from '../useCases.config';
 import { makeOnAbandonAccordé } from '../../modules/project/eventHandlers/onAbandonAccordé';

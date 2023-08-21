@@ -7,9 +7,9 @@ import {
 } from '../../../../core/domain';
 import { DemandeAbandon } from '../DemandeAbandon';
 import { errAsync } from '../../../../core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
-import { userIsNot } from "../../../users";
-import { FileContents, FileObject, makeAndSaveFile } from "../../../file";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { userIsNot } from '../../../users';
+import { FileContents, FileObject, makeAndSaveFile } from '../../../file';
 
 import { AbandonAccordé } from '../events';
 import { AccorderDemandeAbandonError } from './AccorderDemandeAbandonError';

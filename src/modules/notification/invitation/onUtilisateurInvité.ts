@@ -1,6 +1,6 @@
 import routes from '../../../routes';
 import { NotificationService } from '../NotificationService';
-import { UtilisateurInvité } from "../../utilisateur";
+import { UtilisateurInvité } from '../../utilisateur';
 
 type Dépendances = {
   sendNotification: NotificationService['sendNotification'];

@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { ModificationRequest } from "../..";
+import { ModificationRequest } from '../..';
 import { LegacyModificationImported } from '../../../../../modules/modificationRequest';
 import { resetDatabase } from '../../../helpers';
 import { onLegacyModificationImported } from './onLegacyModificationImported';

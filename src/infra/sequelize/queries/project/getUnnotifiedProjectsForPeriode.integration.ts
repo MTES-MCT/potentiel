@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { getUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode';

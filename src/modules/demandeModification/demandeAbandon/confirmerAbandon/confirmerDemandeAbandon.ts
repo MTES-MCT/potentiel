@@ -2,8 +2,8 @@ import { User } from '../../../../entities';
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../../core/domain';
 import { DemandeAbandon } from '../DemandeAbandon';
 import { errAsync, wrapInfra } from '../../../../core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
-import { userIsNot } from "../../../users";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { userIsNot } from '../../../users';
 import { AbandonConfirmé } from '../events';
 import { ConfirmerDemandeAbandonError } from './ConfirmerDemandeAbandonError';
 

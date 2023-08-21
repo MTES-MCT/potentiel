@@ -1,4 +1,5 @@
-import { ProjectAppelOffre, User } from '../../../../entities';
+import { UtilisateurReadModel } from '../../../utilisateur/récupérer/UtilisateurReadModel';
+import { ProjectAppelOffre } from '../../../../entities';
 import { PaginatedList, Pagination } from '../../../pagination';
 import { AppelOffre, Periode, Famille } from '@potentiel/domain-views';
 
@@ -57,7 +58,7 @@ export type FiltreListeProjets = {
 };
 
 export type ListerProjets = (args: {
-  user: User;
+  user: UtilisateurReadModel;
   pagination: Pagination;
   filtres?: FiltreListeProjets;
 }) => Promise<PaginatedList<ProjectListItem>>;

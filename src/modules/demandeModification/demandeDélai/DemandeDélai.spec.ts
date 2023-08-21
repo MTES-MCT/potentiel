@@ -1,9 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../core/domain';
-import {
-  ModificationRequested,
-  ModificationRequestedPayload,
-} from "../../modificationRequest";
+import { ModificationRequested, ModificationRequestedPayload } from '../../modificationRequest';
 
 import { makeDemandeDélai } from './DemandeDélai';
 import {

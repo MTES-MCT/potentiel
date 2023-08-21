@@ -3,7 +3,7 @@ import { ProjectGFUploaded } from '../../../../../modules/project';
 import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { Project } from "../..";
+import { Project } from '../..';
 import { getProjectAppelOffre } from '../../../../../config/queryProjectAO.config';
 import { EventHandler } from '../../eventHandler';
 

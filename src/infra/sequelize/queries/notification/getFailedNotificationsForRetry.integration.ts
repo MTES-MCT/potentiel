@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from '@jest/globals';
 import { getFailedNotificationsForRetry } from './getFailedNotificationsForRetry';
 import { resetDatabase } from '../../helpers';
 import { UniqueEntityID } from '../../../../core/domain';
-import { Notification } from "../../projectionsNext";
+import { Notification } from '../../projectionsNext';
 
 const fakeNotificationArgs = {
   message: {},

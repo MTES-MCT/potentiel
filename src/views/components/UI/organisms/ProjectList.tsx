@@ -18,8 +18,10 @@ import {
   Tile,
   Pagination,
   Checkbox,
-} from "../..";
-import { afficherDate } from "../../../helpers";
+  SecondaryLinkButton,
+  ExcelFileIcon,
+} from '../..';
+import { afficherDate } from '../../../helpers';
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -51,6 +53,7 @@ const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) 
 };
 
 type Props = {
+  className?: string;
   projects: PaginatedList<ProjectListItem>;
   displayGF?: true;
   role: UserRole;
@@ -59,9 +62,14 @@ type Props = {
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
   currentUrl: string;
+  exportListe?: {
+    title: string;
+    url: string;
+  };
 };
 
 export const ProjectList = ({
+  className = '',
   projects,
   displayGF,
   role,
@@ -70,6 +78,7 @@ export const ProjectList = ({
   displaySelection = false,
   onSelectedIdsChanged,
   currentUrl,
+  exportListe,
 }: Props) => {
   const prixDisponible = projects.items.some((project) => project.prixReference);
 
@@ -95,49 +104,63 @@ export const ProjectList = ({
   };
 
   return (
-    <>
-      <div className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic mt-4" aria-hidden>
-        Légende :
-        <div className="flex items-center">
-          <PowerIcon
-            className="text-yellow-moutarde-850-base mr-1 shrink-0"
-            aria-label="Puissance"
-          />{' '}
-          Puissance
-        </div>
-        {prixDisponible && (
-          <div className="flex items-center">
-            <EuroIcon
-              className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
-              aria-label="Prix de référence"
-            />{' '}
-            Prix de référence
-          </div>
-        )}
-        {displayGF && (
-          <div className="flex items-center">
-            <div
-              className="flex text-grey-200-base font-bold text-sm mr-1"
-              aria-label="Garanties Financières"
-            >
-              GF
+    <div className={className}>
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-2">
+        <div className="order-2 md:order-1 mt-4 mb-2 gap-2 text-sm italic md:my-0">
+          <span className="underline">Légende</span>
+          <div className="flex gap-2">
+            <div className="flex items-center">
+              <PowerIcon
+                className="text-yellow-moutarde-850-base mr-1 shrink-0"
+                aria-label="Puissance"
+              />{' '}
+              Puissance
             </div>
-            Garanties Financières
+            {prixDisponible && (
+              <div className="flex items-center">
+                <EuroIcon
+                  className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
+                  aria-label="Prix de référence"
+                />{' '}
+                Prix de référence
+              </div>
+            )}
+            {displayGF && (
+              <div className="flex items-center">
+                <div
+                  className="flex text-grey-200-base font-bold text-sm mr-1"
+                  aria-label="Garanties Financières"
+                >
+                  GF
+                </div>
+                Garanties Financières
+              </div>
+            )}
+            {évaluationCarboneDisponible && !displayGF && (
+              <div className="flex items-center">
+                <CloudIcon
+                  className="text-grey-425-active mr-1 shrink-0"
+                  aria-label="Évaluation carbone"
+                />
+                Évaluation carbone
+              </div>
+            )}
           </div>
-        )}
-        {évaluationCarboneDisponible && !displayGF && (
-          <div className="flex items-center">
-            <CloudIcon
-              className="text-grey-425-active mr-1 shrink-0"
-              aria-label="Évaluation carbone"
-            />
-            Évaluation carbone
-          </div>
+        </div>
+        {exportListe && (
+          <SecondaryLinkButton
+            className="inline-flex order-1 md:order-2 items-center w-fit mt-0 umami--click--telecharger-un-export-projets"
+            href={exportListe.url}
+            download
+          >
+            <ExcelFileIcon className="mr-2" />
+            {exportListe.title}
+          </SecondaryLinkButton>
         )}
       </div>
 
-      <div className="p-5 flex items-center">
-        {displaySelection && (
+      {displaySelection && (
+        <div className="px-5 pt-5 pb-2 flex items-center">
           <>
             <Checkbox
               id="allProjects"
@@ -148,13 +171,13 @@ export const ProjectList = ({
               Séléctioner tous les projets de la page ({projects.items.length})
             </span>
           </>
-        )}
-      </div>
+        </div>
+      )}
 
       <ul className="p-0 m-0">
         {projects.items.map((project) => (
           <li className="list-none p-0 m-0" key={project.id}>
-            <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
+            <Tile className="mb-4 flex md:relative flex-col" key={`project_${project.id}`}>
               <div className="flex flex-col gap-2 mb-4">
                 <div className="flex flex-col md:flex-row gap-2">
                   {displaySelection && (
@@ -269,7 +292,7 @@ export const ProjectList = ({
           currentUrl={currentUrl}
         />
       )}
-    </>
+    </div>
   );
 };
 

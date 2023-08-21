@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
 import { resetDatabase } from '../../../helpers';
 import { ProjectClaimed } from '../../../../../modules/projectClaim';
-import { User, UserProjects } from "../..";
+import { User, UserProjects } from '../..';
 import onProjectClaimed from './onProjectClaimed';
 
 describe('userProjects.onProjectClaimed', () => {

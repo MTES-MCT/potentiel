@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import ROUTES from '../../../routes';
+import routes from '../../../routes';
 import { PaginatedList } from '../../../modules/pagination';
 import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {
@@ -11,15 +11,16 @@ import {
   ErrorBox,
   LinkButton,
   Heading1,
-  DownloadLink,
   BarreDeRecherche,
   ListeVide,
   Label,
   Select,
   Form,
+  DownloadLink,
 } from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '../../../modules/project/queries';
+import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 export type GarantiesFinancieresProps = {
   request: Request;
@@ -40,8 +41,12 @@ export const GarantiesFinancieres = ({
   existingFamilles,
   currentUrl,
 }: GarantiesFinancieresProps) => {
-  const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
-    (request.query as any) || {};
+  const {
+    query: { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres },
+    user,
+  } = (request as any) || {};
+
+  const utilisateur = user as UtilisateurReadModel;
 
   const hasFilters = !!(appelOffreId || periodeId || familleId || garantiesFinancieres);
 
@@ -55,10 +60,10 @@ export const GarantiesFinancieres = ({
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-garanties-financieres">
+    <LegacyPageTemplate user={utilisateur} currentPage="list-garanties-financieres">
       <Heading1>Garanties financières</Heading1>
 
-      <Form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
+      <Form action={routes.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
         <BarreDeRecherche
           placeholder="Rechercher par nom du projet"
           name="recherche"
@@ -179,7 +184,7 @@ export const GarantiesFinancieres = ({
         <>
           <div className="mb-8 mt-4">
             <DownloadLink
-              fileUrl={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+              fileUrl={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
                 request.query as any,
               )}`}
             >
@@ -191,9 +196,15 @@ export const GarantiesFinancieres = ({
           <ProjectList
             displayGF={true}
             projects={projects}
-            role={request.user?.role}
+            role={utilisateur.role}
             GFPastDue={garantiesFinancieres === 'pastDue'}
             currentUrl={currentUrl}
+            exportListe={{
+              title: 'Télécharger un export (document csv)',
+              url: `${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                request.query as any,
+              )}`,
+            }}
           />
         </>
       )}

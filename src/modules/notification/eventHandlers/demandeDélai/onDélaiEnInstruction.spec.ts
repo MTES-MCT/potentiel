@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '../../../../core/utils';
-import { DélaiEnInstruction } from "../../../demandeModification";
+import { DélaiEnInstruction } from '../../../demandeModification';
 import { makeOnDélaiEnInstruction } from './onDélaiEnInstruction';
-import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest';
 import { NotificationService } from '../../NotificationService';
 
 describe(`Notifier lorsqu'un délai est accordé`, () => {

@@ -5,7 +5,7 @@ import {
   CahierDesChargesChoisiPayload,
 } from '../../../../../modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import onCahierDesChargesChoisi from './onCahierDesChargesChoisi';
 
 describe('Projecteur de ProjectEvent onCahierDesChargesChoisi', () => {

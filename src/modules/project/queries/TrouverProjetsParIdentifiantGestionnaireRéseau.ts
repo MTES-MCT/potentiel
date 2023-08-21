@@ -1,5 +1,5 @@
 import { ResultAsync } from '../../../core/utils';
-import { InfraNotAvailableError } from "../../shared";
+import { InfraNotAvailableError } from '../../shared';
 
 export type TrouverProjetsParIdentifiantGestionnaireRéseau = (
   identifiantGestionnaireRéseau: string,

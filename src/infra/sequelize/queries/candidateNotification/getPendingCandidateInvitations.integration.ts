@@ -4,7 +4,7 @@ import makeFakeUser from '../../../../__tests__/fixtures/user';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { getPendingCandidateInvitations } from './getPendingCandidateInvitations';
-import { User, Project } from "../../projectionsNext";
+import { User, Project } from '../../projectionsNext';
 
 describe('getPendingCandidateInvitations()', () => {
   const pendingCandidateId = new UniqueEntityID().toString();

@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
 import { DemandeDelaiSignaled } from '../../../../../modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import onDemandeDelaiSignaled from './onDemandeDelaiSignaled';
 
 describe('onDemandeDelaiSignaled', () => {

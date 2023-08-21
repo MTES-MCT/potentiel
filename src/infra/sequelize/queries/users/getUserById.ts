@@ -1,5 +1,5 @@
 import { ok, okAsync, Result, wrapInfra, ResultAsync } from '../../../../core/utils';
-import { User } from "../../projectionsNext";
+import { User } from '../../projectionsNext';
 import { InfraNotAvailableError } from '../../../../modules/shared';
 
 export type GetUserById = {

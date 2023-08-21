@@ -11,7 +11,7 @@ import {
 } from '../../../modules/file';
 import { EntityNotFoundError } from '../../../modules/shared';
 import { makeFileRepo } from './fileRepo';
-import { File } from "../projectionsNext";
+import { File } from '../projectionsNext';
 
 describe('Sequelize FileRepo', () => {
   const fakeFileStream = Readable.from('text123');

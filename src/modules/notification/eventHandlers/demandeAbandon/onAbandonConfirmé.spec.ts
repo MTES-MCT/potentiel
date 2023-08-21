@@ -7,7 +7,7 @@ import { UnwrapForTest } from '../../../../types';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest';
 import { makeOnAbandonConfirmé } from './onAbandonConfirmé';
-import { AbandonConfirmé, AbandonConfirméPayload } from "../../../demandeModification";
+import { AbandonConfirmé, AbandonConfirméPayload } from '../../../demandeModification';
 
 const demandeAbandonId = new UniqueEntityID().toString();
 

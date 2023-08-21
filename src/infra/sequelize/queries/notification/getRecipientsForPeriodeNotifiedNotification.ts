@@ -1,5 +1,5 @@
 import { logger } from '../../../../core/utils';
-import { User } from "../../projectionsNext";
+import { User } from '../../projectionsNext';
 import { GetRecipientsForPeriodeNotifiedNotification } from '../../../../modules/notification';
 import { Op } from 'sequelize';
 

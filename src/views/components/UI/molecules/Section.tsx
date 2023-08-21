@@ -1,4 +1,4 @@
-import { Heading2 } from "../..";
+import { Heading2 } from '../..';
 import React, { ComponentProps } from 'react';
 
 type SectionProps = ComponentProps<'div'> & {

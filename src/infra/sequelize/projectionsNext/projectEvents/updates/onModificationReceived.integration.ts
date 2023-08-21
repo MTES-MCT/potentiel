@@ -5,7 +5,7 @@ import {
   ModificationReceived,
   ModificationReceivedPayload,
 } from '../../../../../modules/modificationRequest';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import onModificationReceived from './onModificationReceived';
 
 describe('onModificationReceived', () => {

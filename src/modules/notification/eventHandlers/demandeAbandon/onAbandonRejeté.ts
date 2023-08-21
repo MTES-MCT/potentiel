@@ -1,7 +1,7 @@
 import { logger } from '../../../../core/utils';
-import { AbandonRejeté } from "../../../demandeModification";
+import { AbandonRejeté } from '../../../demandeModification';
 import { NotifierPorteurChangementStatutDemande } from '../..';
-import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest/queries";
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries';
 
 type OnAbandonRejeté = (evenement: AbandonRejeté) => Promise<void>;
 

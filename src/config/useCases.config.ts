@@ -85,7 +85,7 @@ import {
   utilisateurRepo,
   demandeAnnulationAbandonRepo,
 } from './repos.config';
-import { sendNotification } from "./emails.config";
+import { sendNotification } from './emails.config';
 import {
   makeNotifierPorteurChangementStatutDemande,
   makeNotifierPorteurRévocationAccèsProjet,

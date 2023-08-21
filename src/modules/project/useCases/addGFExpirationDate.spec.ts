@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, UniqueEntityID } from '../../../core/domain';
 import { okAsync } from '../../../core/utils';
 import { makeUser } from '../../../entities';
-import { InfraNotAvailableError, UnauthorizedError } from "../../shared";
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeAddGFExpirationDate } from './addGFExpirationDate';

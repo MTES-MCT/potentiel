@@ -9,7 +9,7 @@ type LabelProps = ComponentProps<'label'> & {
 export const Label = ({
   optionnel,
   children,
-  disabled,
+  disabled = undefined,
   htmlFor,
   className = '',
   ...props

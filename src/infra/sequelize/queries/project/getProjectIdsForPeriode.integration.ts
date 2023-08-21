@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 import { getProjectIdsForPeriode } from './getProjectIdsForPeriode';
 import { UniqueEntityID } from '../../../../core/domain';
 

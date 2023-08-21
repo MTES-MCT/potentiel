@@ -14,7 +14,7 @@ import {
   ProjectNotified,
 } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import { add } from 'date-fns';
 
 const projectId = new UniqueEntityID('project1');

@@ -5,7 +5,7 @@ import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { Transaction } from 'sequelize';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
-import { ModificationRequest, File } from "../..";
+import { ModificationRequest, File } from '../..';
 
 export default ProjectEventProjector.on(
   ModificationRequestAccepted,

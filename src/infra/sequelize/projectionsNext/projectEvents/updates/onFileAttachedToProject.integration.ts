@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../../../../../core/domain';
 import { FileAttachedToProject } from '../../../../../modules/file';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent, User, UserDreal } from "../..";
+import { ProjectEvent, User, UserDreal } from '../..';
 import onFileAttachedToProject from './onFileAttachedToProject';
 
 describe('onFileAttachedToProject', () => {

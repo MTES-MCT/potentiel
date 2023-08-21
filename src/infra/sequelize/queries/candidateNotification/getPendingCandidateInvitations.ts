@@ -1,7 +1,7 @@
 import { wrapInfra } from '../../../../core/utils';
 import { GetPendingCandidateInvitations } from '../../../../modules/notificationCandidats';
 import { mapToOffsetAndLimit, makePaginatedList } from '../pagination';
-import { Project, User } from "../../projectionsNext";
+import { Project, User } from '../../projectionsNext';
 import { Pagination } from '../../../../modules/pagination';
 
 export const getPendingCandidateInvitations: GetPendingCandidateInvitations = (

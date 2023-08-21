@@ -5,13 +5,7 @@ import makeFakeFile from '../../../../__tests__/fixtures/file';
 import { getModificationRequestListForAdmin } from './getModificationRequestListForAdmin';
 import { UniqueEntityID } from '../../../../core/domain';
 import { User as userEntity } from '../../../../entities';
-import {
-  ModificationRequest,
-  Project,
-  User,
-  UserDreal,
-  File,
-} from "../../projectionsNext";
+import { ModificationRequest, Project, User, UserDreal, File } from '../../projectionsNext';
 
 describe('Sequelize getModificationRequestListForAdmin', () => {
   const projectId = new UniqueEntityID().toString();

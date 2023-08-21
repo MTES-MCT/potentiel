@@ -1,7 +1,7 @@
 import { logger } from '../../../../../core/utils';
 import { UserRightsToProjectRevoked } from '../../../../../modules/authZ';
 import { ProjectionEnEchec } from '../../../../../modules/shared';
-import { User, UserProjects } from "../..";
+import { User, UserProjects } from '../..';
 import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(

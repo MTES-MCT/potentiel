@@ -5,12 +5,12 @@ import { USER_ROLES } from '../../../../modules/users';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
 import { getProjectEvents } from './getProjectEvents';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import {
   ProjectCertificateEvents,
   ProjectClaimedEvent,
-} from "../../projectionsNext/projectEvents/events";
+} from '../../projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les attestations de désignation', () => {
   const projetId = new UniqueEntityID().toString();

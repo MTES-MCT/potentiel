@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { resetDatabase } from "../../../helpers";
+import { resetDatabase } from '../../../helpers';
 import { ProjectReimported, ProjectReimportedPayload } from '../../../../../modules/project';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import onProjectReimported from './onProjectReimported';
 
 describe(`Handler onProjectReimported`, () => {

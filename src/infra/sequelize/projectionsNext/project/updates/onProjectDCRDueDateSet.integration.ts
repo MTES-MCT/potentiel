@@ -4,7 +4,7 @@ import { ProjectDCRDueDateSet } from '../../../../../modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet';
 import { v4 as uuid } from 'uuid';
-import { Project } from "../..";
+import { Project } from '../..';
 
 describe('project.onProjectDCRDueDateSet', () => {
   const projectId = uuid();

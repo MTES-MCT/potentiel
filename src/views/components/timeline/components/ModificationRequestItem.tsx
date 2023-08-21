@@ -11,7 +11,7 @@ import {
 } from '.';
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps';
 import { CancelledStepIcon } from './cancelledStepIcon';
-import { DownloadLink, Link } from "../..";
+import { DownloadLink, Link } from '../..';
 
 type ComponentProps = ModificationRequestItemProps & {
   projectStatus: ProjectStatus;

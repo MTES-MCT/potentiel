@@ -1,13 +1,9 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../../core/domain';
 import { errAsync, ResultAsync } from '../../../../core/utils';
 import { User } from '../../../../entities';
-import { StatutRéponseIncompatibleAvecAnnulationError } from "../../errors";
-import {
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  UnauthorizedError,
-} from "../../../shared";
-import { ModificationRequest } from "../../../modificationRequest";
+import { StatutRéponseIncompatibleAvecAnnulationError } from '../../errors';
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { ModificationRequest } from '../../../modificationRequest';
 import { RejetRecoursAnnulé } from '../events';
 
 type AnnulerRejetRecours = (commande: {

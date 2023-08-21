@@ -6,9 +6,9 @@ import {
 } from '../../../../core/domain';
 import { errAsync, ResultAsync, wrapInfra } from '../../../../core/utils';
 import { User } from '../../../../entities';
-import { FileContents, FileObject, makeAndSaveFile } from "../../../file";
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
-import { userIsNot } from "../../../users";
+import { FileContents, FileObject, makeAndSaveFile } from '../../../file';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { userIsNot } from '../../../users';
 import { DemandeDélai } from '../DemandeDélai';
 import { DélaiRejeté } from '../events/DélaiRejeté';
 import { RejeterDemandeDélaiError } from './RejeterDemandeDélaiError';

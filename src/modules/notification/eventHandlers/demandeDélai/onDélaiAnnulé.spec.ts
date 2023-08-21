@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '../../../../core/utils';
 import { User } from '../../../../entities';
-import { DélaiAnnulé } from "../../../demandeModification";
+import { DélaiAnnulé } from '../../../demandeModification';
 import { makeOnDélaiAnnulé } from './onDélaiAnnulé';
-import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest';
 import { UserRepo } from '../../../../dataAccess';
 
 describe(`Notifier lorsqu'un délai est annulé`, () => {

@@ -10,7 +10,7 @@ import {
   ProjectNotified,
 } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeUser from '../../__tests__/fixtures/user';

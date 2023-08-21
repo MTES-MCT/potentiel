@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, PrimaryButton, ChevronDownIcon, ChevronUpIcon } from "..";
+import { Link, PrimaryButton, ChevronDownIcon, ChevronUpIcon } from '..';
 
 interface DropdownProps extends React.ComponentProps<'div'> {
   text: string;

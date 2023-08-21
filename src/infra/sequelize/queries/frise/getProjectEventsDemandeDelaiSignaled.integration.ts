@@ -6,7 +6,7 @@ import { getProjectEvents } from '.';
 import { ProjectEvent, Project } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { DemandeDelaiSignaledEvent } from "../../projectionsNext/projectEvents/events";
+import { DemandeDelaiSignaledEvent } from '../../projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
   const projetId = new UniqueEntityID().toString();

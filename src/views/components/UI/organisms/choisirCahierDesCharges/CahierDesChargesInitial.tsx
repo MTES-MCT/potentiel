@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink } from "../../..";
+import { ExternalLink } from '../../..';
 import { ProjectAppelOffre } from '../../../../../entities/appelOffre';
 
 type CahierDesChargesInitialProps = {

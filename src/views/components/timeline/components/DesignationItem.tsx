@@ -1,8 +1,8 @@
 import React from 'react';
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.';
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps';
-import { DownloadLink } from "../..";
-import { afficherDate } from "../../../helpers";
+import { DownloadLink } from '../..';
+import { afficherDate } from '../../../helpers';
 
 export const DesignationItem = ({
   certificate,

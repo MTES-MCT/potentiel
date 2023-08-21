@@ -7,7 +7,7 @@ import {
   Table,
   Td,
   Th,
-} from ".";
+} from '.';
 import {
   ModificationRequestListItemDTO,
   ModificationRequestTypes,

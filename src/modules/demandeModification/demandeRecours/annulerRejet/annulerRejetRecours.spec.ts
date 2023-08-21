@@ -2,9 +2,9 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
 import { makeUser } from '../../../../entities';
-import { StatutRéponseIncompatibleAvecAnnulationError } from "../../errors";
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
-import { ModificationRequest } from "../../../modificationRequest";
+import { StatutRéponseIncompatibleAvecAnnulationError } from '../../errors';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { ModificationRequest } from '../../../modificationRequest';
 import { UnwrapForTest } from '../../../../types';
 import {
   fakeTransactionalRepo,
@@ -12,7 +12,7 @@ import {
 } from '../../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { makeAnnulerRejetRecours } from './annulerRejetRecours';
-import { USER_ROLES } from "../../../users";
+import { USER_ROLES } from '../../../users';
 
 describe(`Commande annulerRejetRecours`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>

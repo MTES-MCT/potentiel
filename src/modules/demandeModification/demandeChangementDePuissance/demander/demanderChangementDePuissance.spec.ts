@@ -7,13 +7,10 @@ import { makeUser } from '../../../../entities';
 import { UnwrapForTest } from '../../../../types';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import { FileObject } from "../../../file";
-import { Project } from "../../../project";
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
-import {
-  ModificationReceived,
-  ModificationRequested,
-} from "../../../modificationRequest/events";
+import { FileObject } from '../../../file';
+import { Project } from '../../../project';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { ModificationReceived, ModificationRequested } from '../../../modificationRequest/events';
 import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance';
 
 describe('Commande requestPuissanceModification', () => {

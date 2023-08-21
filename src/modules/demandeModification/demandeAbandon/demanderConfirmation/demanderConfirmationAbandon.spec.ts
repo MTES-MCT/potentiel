@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { okAsync } from '../../../../core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
-import { UserRole } from "../../../users";
+import { UserRole } from '../../../users';
 import { User } from '../../../../entities';
-import { FileObject } from "../../../file";
+import { FileObject } from '../../../file';
 
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon';
 import { makeDemanderConfirmationAbandon } from './demanderConfirmationAbandon';

@@ -7,7 +7,7 @@ import {
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
 import { User, formatCahierDesChargesRéférence } from '../../../entities';
 import { FileContents, FileObject, makeAndSaveFile } from '../../file';
-import { Project } from "../../project";
+import { Project } from '../../project';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,

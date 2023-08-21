@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
 import { makeUser } from '../../../../entities';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
-import { USER_ROLES } from "../../../users";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { USER_ROLES } from '../../../users';
 import { UnwrapForTest } from '../../../../types';
 import {
   fakeTransactionalRepo,
@@ -11,7 +11,7 @@ import {
 } from '../../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { makeAnnulerRejetDélai } from './annulerRejetDélai';
-import { StatutRéponseIncompatibleAvecAnnulationError } from "../../errors";
+import { StatutRéponseIncompatibleAvecAnnulationError } from '../../errors';
 
 describe(`Commande annulerRejetDélai`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>

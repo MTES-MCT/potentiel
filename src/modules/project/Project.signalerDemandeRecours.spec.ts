@@ -15,7 +15,7 @@ import {
   ProjectNotified,
 } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import {
   ProjectCannotBeUpdatedIfUnnotifiedError,
   AttachmentRequiredForDemandeRecoursAcceptedError,

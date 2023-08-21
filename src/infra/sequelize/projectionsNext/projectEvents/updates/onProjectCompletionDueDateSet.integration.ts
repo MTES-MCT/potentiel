@@ -5,7 +5,7 @@ import {
   ProjectCompletionDueDateSet,
   ProjectCompletionDueDateSetPayload,
 } from '../../../../../modules/project';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import onProjectCompletionDueDateSet from './onProjectCompletionDueDateSet';
 
 describe('onProjectCompletionDueDateSet', () => {

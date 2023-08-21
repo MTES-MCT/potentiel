@@ -1,4 +1,4 @@
-import { User, UserProjects } from "../../projectionsNext";
+import { User, UserProjects } from '../../projectionsNext';
 import { RécupérerDonnéesPorteursParProjetQueryHandler } from '../../../../modules/project/queries';
 
 export const récupérerDonnéesPorteursParProjetQueryHandler: RécupérerDonnéesPorteursParProjetQueryHandler =

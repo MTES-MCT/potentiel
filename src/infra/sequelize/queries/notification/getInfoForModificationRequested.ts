@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '../../../../core/utils';
-import { Project, User } from "../../projectionsNext";
+import { Project, User } from '../../projectionsNext';
 import { GetInfoForModificationRequested } from '../../../../modules/notification';
 import { EntityNotFoundError } from '../../../../modules/shared';
 

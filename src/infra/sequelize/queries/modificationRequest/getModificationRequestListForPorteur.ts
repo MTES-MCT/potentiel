@@ -15,7 +15,7 @@ import {
   User as UserModel,
   UserProjects,
   File,
-} from "../../projectionsNext";
+} from '../../projectionsNext';
 import { PaginatedList } from '../../../../modules/pagination';
 
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({

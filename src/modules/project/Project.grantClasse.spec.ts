@@ -8,8 +8,8 @@ import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
 import { LegacyProjectSourced, ProjectClasseGranted } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
-import { ProjetDéjàClasséError } from "../modificationRequest";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
+import { ProjetDéjàClasséError } from '../modificationRequest';
 
 const projectId = new UniqueEntityID('project1');
 const appelOffreId = 'Fessenheim';

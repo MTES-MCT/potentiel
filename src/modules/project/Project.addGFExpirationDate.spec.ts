@@ -3,7 +3,7 @@ import { DomainEvent, UniqueEntityID } from '../../core/domain';
 import { UnwrapForTest } from '../../core/utils';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import { ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';

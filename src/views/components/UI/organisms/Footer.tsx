@@ -1,7 +1,7 @@
 import routes from '../../../../routes';
 import React from 'react';
 
-import { Link } from "../..";
+import { Link } from '../..';
 
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 

@@ -2,7 +2,7 @@ import { NotificationService } from '../..';
 import { logger } from '../../../../core/utils';
 import routes from '../../../../routes';
 import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest';
-import { AbandonAnnulé } from "../../../demandeModification";
+import { AbandonAnnulé } from '../../../demandeModification';
 
 export const makeOnAbandonAnnulé =
   (deps: {

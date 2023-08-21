@@ -1,5 +1,5 @@
 import { User } from '../../../../entities';
-import { GarantiesFinancièresStatut } from "../..";
+import { GarantiesFinancièresStatut } from '../..';
 import { GarantiesFinancièresDTO } from '../../../../modules/frise';
 import { userIs } from '../../../../modules/users';
 import routes from '../../../../routes';

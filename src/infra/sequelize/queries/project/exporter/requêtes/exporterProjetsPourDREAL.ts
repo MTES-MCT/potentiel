@@ -18,7 +18,7 @@ import {
 } from '../colonnesParCatégorie';
 import { récupérerExportProjets } from './récupérerExportProjets';
 import { wrapInfra } from '../../../../../../core/utils';
-import { UserDreal } from "../../../../projectionsNext";
+import { UserDreal } from '../../../../projectionsNext';
 
 const colonnesÀExporter = [
   ...identificationProjet,

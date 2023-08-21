@@ -1,6 +1,6 @@
 import { Project } from '../../../entities/project';
-import { FiltreListeProjets, ProjectListItem } from "../../project/queries";
-import { PaginatedList, Pagination } from "../../pagination";
+import { FiltreListeProjets, ProjectListItem } from '../../project/queries';
+import { PaginatedList, Pagination } from '../../pagination';
 
 export const PermissionListerProjetsÀNotifier = {
   nom: 'lister-projets-à-notifier',

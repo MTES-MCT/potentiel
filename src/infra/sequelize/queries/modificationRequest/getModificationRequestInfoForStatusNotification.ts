@@ -1,5 +1,5 @@
 import { errAsync, wrapInfra } from '../../../../core/utils';
-import { UserProjects, User, ModificationRequest, Project } from "../..";
+import { UserProjects, User, ModificationRequest, Project } from '../..';
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,

@@ -4,7 +4,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated';
 import { ProjectFournisseursUpdated, Fournisseur } from '../../../../../modules/project';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { Project } from "../..";
+import { Project } from '../..';
 
 describe('project.onProjectFournisseursUpdated', () => {
   beforeAll(async () => {

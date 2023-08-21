@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '../../../../core/utils';
-import { DélaiDemandé } from "../../../demandeModification";
+import { DélaiDemandé } from '../../../demandeModification';
 import { makeOnDélaiDemandé } from './onDélaiDemandé';
-import { GetProjectInfoForModificationRequestedNotification } from "../../../modificationRequest";
+import { GetProjectInfoForModificationRequestedNotification } from '../../../modificationRequest';
 import routes from '../../../../routes';
 import { User } from '../../../../entities';
 import { NotificationService } from '../../NotificationService';

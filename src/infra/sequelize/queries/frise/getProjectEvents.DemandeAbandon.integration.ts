@@ -5,7 +5,7 @@ import { UniqueEntityID } from '../../../../core/domain';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
 import { getProjectEvents } from './getProjectEvents';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
 
 describe(`getProjectEvents`, () => {

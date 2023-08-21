@@ -1,6 +1,6 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../../core/domain';
 import { ok, Result } from '../../../core/utils';
-import { ModificationRequestInstructionStarted } from "../../modificationRequest";
+import { ModificationRequestInstructionStarted } from '../../modificationRequest';
 import { EntityNotFoundError } from '../../shared';
 import {
   AbandonDemandé,

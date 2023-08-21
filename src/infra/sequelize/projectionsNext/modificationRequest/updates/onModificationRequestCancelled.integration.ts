@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../../../../../core/domain';
 import { onModificationRequestCancelled } from './onModificationRequestCancelled';
 import { ModificationRequestCancelled } from '../../../../../modules/modificationRequest';
 import { resetDatabase } from '../../../../../dataAccess';
-import { ModificationRequest } from "../..";
+import { ModificationRequest } from '../..';
 
 describe(`Projection de l'annulation d'une demande`, () => {
   const modificationRequestId = new UniqueEntityID().toString();

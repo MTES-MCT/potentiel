@@ -1,6 +1,6 @@
 import { err, ok, wrapInfra } from '../../../../core/utils';
 import { EntityNotFoundError } from '../../../../modules/shared';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 
 export const getPuissanceProjet = (projectId) => {
   return wrapInfra(

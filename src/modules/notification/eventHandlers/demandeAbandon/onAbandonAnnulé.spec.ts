@@ -2,11 +2,11 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from 'neverthrow';
 import { NotificationArgs } from '../..';
 import { UniqueEntityID } from '../../../../core/domain';
-import { AbandonAnnulé, AbandonAnnuléPayload } from "../../../demandeModification";
+import { AbandonAnnulé, AbandonAnnuléPayload } from '../../../demandeModification';
 import { makeOnAbandonAnnulé } from './onAbandonAnnulé';
 import { UnwrapForTest } from '../../../../types';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import { GetDataForStatutDemandeAbandonModifiéNotification } from "../../../modificationRequest/queries";
+import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest/queries';
 import { makeUser } from '../../../../entities';
 
 describe('Handler onAbandonAnnulé', () => {

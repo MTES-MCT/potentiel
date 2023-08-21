@@ -4,7 +4,7 @@ import { ProjectCompletionDueDateCancelled } from '../../../../../modules/projec
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectCompletionDueDateCancelled } from './onProjectCompletionDueDateCancelled';
 import { v4 as uuid } from 'uuid';
-import { Project } from "../..";
+import { Project } from '../..';
 
 describe('project.onProjectCompletionDueDateCancelled', () => {
   const projectId = uuid();

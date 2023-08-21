@@ -3,7 +3,7 @@ import { ProjectRepo, UserRepo } from '../../../dataAccess';
 import {
   ProjectCompletionDueDateSet,
   RécupérerDonnéesPorteursParProjetQueryHandler,
-} from "../../project";
+} from '../../project';
 import routes from '../../../routes';
 import { NotificationService } from '../NotificationService';
 

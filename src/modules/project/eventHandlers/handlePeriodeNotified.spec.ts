@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { DomainError, UniqueEntityID } from '../../../core/domain';
 import { okAsync } from '../../../core/utils';
 import { ProjectAppelOffre } from '../../../entities';
-import { GetProjectAppelOffre } from "../../projectAppelOffre";
+import { GetProjectAppelOffre } from '../../projectAppelOffre';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import { InfraNotAvailableError } from '../../shared';
 import { PeriodeNotified } from '../events';

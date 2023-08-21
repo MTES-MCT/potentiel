@@ -1,5 +1,5 @@
 import React, { ComponentProps, useState } from 'react';
-import { ArrowDownIcon, ErrorIcon } from "../..";
+import { ArrowDownIcon, ErrorIcon } from '../..';
 
 type SelectProps = ComponentProps<'select'> & {
   error?: string;

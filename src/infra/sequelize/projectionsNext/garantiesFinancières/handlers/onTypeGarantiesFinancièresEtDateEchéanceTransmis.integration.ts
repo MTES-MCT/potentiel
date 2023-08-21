@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { resetDatabase } from "../../../helpers";
-import { GarantiesFinancières } from "../..";
+import { resetDatabase } from '../../../helpers';
+import { GarantiesFinancières } from '../..';
 import { TypeGarantiesFinancièresEtDateEchéanceTransmis } from '../../../../../modules/project';
 import { onTypeGarantiesFinancièresEtDateEchéanceTransmis } from './onTypeGarantiesFinancièresEtDateEchéanceTransmis';
 

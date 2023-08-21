@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import { UniqueEntityID } from '../../../../../core/domain';
 import {
   ProjectNotificationDateSet,

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { Project, UserProjects } from "../../../projectionsNext";
+import { Project, UserProjects } from '../../../projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
 import { resetDatabase } from '../../../../../dataAccess';

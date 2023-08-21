@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '../../../../core/domain';
 import { wrapInfra } from '../../../../core/utils';
 import { GetFailedNotificationsForRetry } from '../../../../modules/notification';
-import { Notification } from "../../projectionsNext";
+import { Notification } from '../../projectionsNext';
 
 export const getFailedNotificationsForRetry: GetFailedNotificationsForRetry = () => {
   return wrapInfra(

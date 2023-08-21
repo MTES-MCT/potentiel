@@ -7,7 +7,7 @@ import {
   makeFileObject,
 } from '../../../modules/file';
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared';
-import { File } from "../projectionsNext";
+import { File } from '../projectionsNext';
 
 interface FileRepoDeps {
   fileStorageService: FileStorageService;

@@ -6,7 +6,7 @@ import {
   ModificationRequestAccepted,
 } from '../../../../../modules/modificationRequest';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { ModificationRequest } from "../..";
+import { ModificationRequest } from '../..';
 
 describe('modificationRequest.onModificationRequestAccepted', () => {
   const modificationRequestId = new UniqueEntityID().toString();

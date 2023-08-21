@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { User, UserProjects } from "../../projectionsNext";
+import { User, UserProjects } from '../../projectionsNext';
 import * as uuid from 'uuid';
 import { récupérerDonnéesPorteursParProjetQueryHandler } from './récupérerDonnéesPorteursParProjet.queryHandler';
 

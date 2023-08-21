@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '../../../../core/utils';
-import { AbandonRejeté } from "../../../demandeModification";
+import { AbandonRejeté } from '../../../demandeModification';
 import { makeOnAbandonRejeté } from '.';
-import { GetModificationRequestInfoForStatusNotification } from "../../../modificationRequest";
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest';
 import { NotifierPorteurChangementStatutDemande } from '../../useCases';
 
 describe(`Notifier lorsqu'un abandon est rejeté`, () => {

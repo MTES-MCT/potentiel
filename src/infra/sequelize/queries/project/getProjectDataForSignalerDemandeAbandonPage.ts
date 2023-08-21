@@ -5,7 +5,7 @@ import {
   ProjectDataForSignalerDemandeAbandonPage,
 } from '../../../../modules/project';
 import { EntityNotFoundError } from '../../../../modules/shared';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 
 export const getProjectDataForSignalerDemandeAbandonPage: GetProjectDataForSignalerDemandeAbandonPage =
   ({ projectId }) => {

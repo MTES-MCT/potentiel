@@ -4,7 +4,7 @@ import {
   FailedNotificationDTO,
   GetFailedNotificationDetails,
 } from '../../../../modules/notification';
-import { Notification } from "../../projectionsNext";
+import { Notification } from '../../projectionsNext';
 
 export const getFailedNotificationDetails: GetFailedNotificationDetails = (pagination) => {
   return wrapInfra(

@@ -4,7 +4,7 @@ import { Notification } from '../../../modules/notification';
 import { resetDatabase } from '../helpers';
 import { UniqueEntityID } from '../../../core/domain';
 import { logger } from '../../../core/utils';
-import { Notification as NotificationModel } from "../projectionsNext";
+import { Notification as NotificationModel } from '../projectionsNext';
 
 describe('Sequelize NotificationRepo', () => {
   const notificationRepo = new NotificationRepo();

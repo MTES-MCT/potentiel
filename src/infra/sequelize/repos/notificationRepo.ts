@@ -2,7 +2,7 @@ import { DomainError, Repository, UniqueEntityID } from '../../../core/domain';
 import { err, Result, ResultAsync, wrapInfra } from '../../../core/utils';
 import { Notification } from '../../../modules/notification';
 import { EntityNotFoundError } from '../../../modules/shared';
-import { Notification as NotificationModel } from "../projectionsNext";
+import { Notification as NotificationModel } from '../projectionsNext';
 
 export class NotificationRepo implements Repository<Notification> {
   private toDomain(db: any): Result<Notification, DomainError> {

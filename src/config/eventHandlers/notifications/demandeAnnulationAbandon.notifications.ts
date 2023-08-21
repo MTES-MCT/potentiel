@@ -8,7 +8,7 @@ import {
   makeOnAnnulationAbandonRejetée,
 } from '../../../modules/notification';
 import { getModificationRequestInfoForStatusNotification } from '../../queries.config';
-import { notifierPorteurChangementStatutDemande } from "../../useCases.config";
+import { notifierPorteurChangementStatutDemande } from '../../useCases.config';
 
 if (!process.env.DGEC_EMAIL) {
   console.error('ERROR: DGEC_EMAIL is not set');

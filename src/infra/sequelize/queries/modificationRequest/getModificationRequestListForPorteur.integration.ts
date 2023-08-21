@@ -4,13 +4,7 @@ import makeFakeFile from '../../../../__tests__/fixtures/file';
 import { getModificationRequestListForPorteur } from './getModificationRequestListForPorteur';
 import { UniqueEntityID } from '../../../../core/domain';
 import { User as userEntity } from '../../../../entities';
-import {
-  ModificationRequest,
-  Project,
-  User,
-  UserProjects,
-  File,
-} from "../../projectionsNext";
+import { ModificationRequest, Project, User, UserProjects, File } from '../../projectionsNext';
 
 /* 
 Fonctionnalité : Retourner la liste des demandes de modifications 

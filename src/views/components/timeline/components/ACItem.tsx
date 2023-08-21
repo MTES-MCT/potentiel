@@ -1,4 +1,4 @@
-import { Link } from "../..";
+import { Link } from '../..';
 import React from 'react';
 import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.';
 import { ACItemProps } from '../helpers';

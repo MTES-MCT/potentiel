@@ -21,7 +21,7 @@ import {
 } from './events';
 import { makeProject } from './Project';
 import { BuildProjectIdentifier } from './queries';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import { findEventOfType } from '../../helpers/findEventOfType';
 
 const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);

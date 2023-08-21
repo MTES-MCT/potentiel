@@ -1,7 +1,7 @@
 import { err, ok, wrapInfra } from '../../../../core/utils';
 import { IsProjectParticipatif } from '../../../../modules/modificationRequest';
 import { EntityNotFoundError } from '../../../../modules/shared';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 
 export const isProjectParticipatif: IsProjectParticipatif = (projectId) => {
   return wrapInfra(

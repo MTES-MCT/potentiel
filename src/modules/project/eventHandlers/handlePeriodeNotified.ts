@@ -4,7 +4,7 @@ import { PeriodeNotified } from '../events/PeriodeNotified';
 import { GenerateCertificate } from '../useCases/generateCertificate';
 import { Project } from '../Project';
 import { GetUnnotifiedProjectsForPeriode } from '../queries';
-import { GetProjectAppelOffre } from "../../projectAppelOffre";
+import { GetProjectAppelOffre } from '../../projectAppelOffre';
 
 export const handlePeriodeNotified =
   (deps: {

@@ -14,7 +14,7 @@ import {
   Label,
   Container,
   AccountIcon,
-} from "../..";
+} from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type HeaderProps = {

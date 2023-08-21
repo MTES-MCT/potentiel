@@ -6,7 +6,7 @@ import { getProjectEvents } from '.';
 import { ProjectEvent, Project } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { DemandeAbandonSignaledEvent } from "../../projectionsNext/projectEvents/events";
+import { DemandeAbandonSignaledEvent } from '../../projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => {
   const projetId = new UniqueEntityID().toString();

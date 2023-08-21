@@ -1,5 +1,5 @@
 import { or } from '../../../../../core/utils';
-import { ProjectEvent } from "../../..";
+import { ProjectEvent } from '../../..';
 import {
   CovidDelayGrantedEvent,
   ProjectCertificateEvents,

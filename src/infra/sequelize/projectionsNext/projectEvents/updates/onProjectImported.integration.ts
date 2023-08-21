@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import { ProjectImported, ProjectImportedPayload } from '../../../../../modules/project';
 import onProjectImported from './onProjectImported';
 

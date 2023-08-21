@@ -1,12 +1,12 @@
 import { EventStore, Repository, UniqueEntityID } from '../../../../core/domain';
 import { formatCahierDesChargesRéférence, User } from '../../../../entities';
-import { Project } from "../../../project";
+import { Project } from '../../../project';
 import { wrapInfra, errAsync, okAsync } from '../../../../core/utils';
-import { UnauthorizedError } from "../../../shared";
+import { UnauthorizedError } from '../../../shared';
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError';
 import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError';
 import { AnnulationAbandonDemandée } from '../events';
-import { GetProjectAppelOffre } from "../../../projectAppelOffre";
+import { GetProjectAppelOffre } from '../../../projectAppelOffre';
 
 type Commande = {
   user: User;

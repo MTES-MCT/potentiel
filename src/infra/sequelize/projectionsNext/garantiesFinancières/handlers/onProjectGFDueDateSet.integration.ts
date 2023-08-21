@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { resetDatabase } from "../../../helpers";
+import { resetDatabase } from '../../../helpers';
 import { ProjectGFDueDateSet } from '../../../../../modules/project';
-import { GarantiesFinancières, Project } from "../..";
+import { GarantiesFinancières, Project } from '../..';
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 

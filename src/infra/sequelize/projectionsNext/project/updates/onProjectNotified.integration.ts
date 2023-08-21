@@ -3,7 +3,7 @@ import { resetDatabase } from '../../../helpers';
 import { ProjectNotified } from '../../../../../modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { v4 as uuid } from 'uuid';
-import { Project } from "../..";
+import { Project } from '../..';
 import { onProjectNotified } from './onProjectNotified';
 
 describe('project.onProjectNotified', () => {

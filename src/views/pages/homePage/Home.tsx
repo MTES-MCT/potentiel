@@ -4,7 +4,7 @@ import routes from '../../../routes';
 import { Header, Footer, ArrowRightWithCircle } from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components';
-import { App } from "../..";
+import { App } from '../..';
 
 type HomeProps = {
   request: Request;

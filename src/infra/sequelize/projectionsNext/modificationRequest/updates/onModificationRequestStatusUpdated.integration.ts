@@ -3,7 +3,7 @@ import { resetDatabase } from '../../../helpers';
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated';
 import { ModificationRequestStatusUpdated } from '../../../../../modules/modificationRequest';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { ModificationRequest } from "../..";
+import { ModificationRequest } from '../..';
 
 describe('modificationRequest.onModificationRequestStatusUpdated', () => {
   const modificationRequestId = new UniqueEntityID().toString();

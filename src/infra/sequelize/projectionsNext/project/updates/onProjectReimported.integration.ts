@@ -4,7 +4,7 @@ import { ProjectReimported } from '../../../../../modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectReimported } from './onProjectReimported';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { Project } from "../..";
+import { Project } from '../..';
 
 describe('project.onProjectReimported', () => {
   const projectId = new UniqueEntityID().toString();

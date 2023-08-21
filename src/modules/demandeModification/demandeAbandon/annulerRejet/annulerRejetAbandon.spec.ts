@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '../../../../core/utils';
 import { makeUser } from '../../../../entities';
-import { StatutRéponseIncompatibleAvecAnnulationError } from "../../errors";
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
-import { USER_ROLES } from "../../../users";
+import { StatutRéponseIncompatibleAvecAnnulationError } from '../../errors';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { USER_ROLES } from '../../../users';
 import { UnwrapForTest } from '../../../../types';
 import {
   fakeTransactionalRepo,

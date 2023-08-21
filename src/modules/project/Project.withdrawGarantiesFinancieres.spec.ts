@@ -4,7 +4,7 @@ import { UnwrapForTest } from '../../core/utils';
 import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import { ProjectGFUploaded, ProjectGFWithdrawn, ProjectImported, ProjectNotified } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import {
   NoGFCertificateToDeleteError,
   ProjectCannotBeUpdatedIfUnnotifiedError,

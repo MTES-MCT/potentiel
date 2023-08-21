@@ -7,12 +7,8 @@ import {
 } from '../../../../core/domain';
 import { ResultAsync, errAsync, wrapInfra } from '../../../../core/utils';
 
-import {
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  UnauthorizedError,
-} from "../../../shared";
-import { DélaiEnInstruction } from "../events";
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { DélaiEnInstruction } from '../events';
 
 import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError';
 import { DemandeDélai } from '../DemandeDélai';

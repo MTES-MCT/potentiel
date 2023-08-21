@@ -4,7 +4,7 @@ import { User } from '../../../../entities';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
 import { getProjectEvents } from './getProjectEvents';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents en général', () => {

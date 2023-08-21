@@ -1,5 +1,5 @@
 import { wrapInfra, ResultAsync, errAsync, okAsync } from '../../../../core/utils';
-import { ModificationRequest } from "../../projectionsNext";
+import { ModificationRequest } from '../../projectionsNext';
 import { ModificationRequestType } from '../../../../modules/modificationRequest';
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared';
 

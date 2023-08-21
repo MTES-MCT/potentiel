@@ -2,7 +2,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '../../core/domain';
 import { CahierDesChargesChoisi } from './events';
 import { makeProject } from './Project';
-import { GetProjectAppelOffre } from "../projectAppelOffre";
+import { GetProjectAppelOffre } from '../projectAppelOffre';
 import { BuildProjectIdentifier } from './queries';
 
 describe(`Fabriquer l'aggregat projet`, () => {

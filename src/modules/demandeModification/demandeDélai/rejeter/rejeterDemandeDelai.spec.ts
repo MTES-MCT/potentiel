@@ -4,8 +4,8 @@ import { Readable } from 'stream';
 import { DomainEvent, UniqueEntityID } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
 import { User } from '../../../../entities';
-import { UserRole } from "../../../users";
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
+import { UserRole } from '../../../users';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 
 import { StatutDemandeDélai } from '../DemandeDélai';
 import { makeRejeterDemandeDélai } from './rejeterDemandeDélai';
@@ -15,7 +15,7 @@ import {
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates';
 import { RejeterDemandeDélaiError } from './RejeterDemandeDélaiError';
-import { FileObject } from "../../../file";
+import { FileObject } from '../../../file';
 
 describe(`Rejeter une demande de délai`, () => {
   const demandeDélaiId = 'id-demande';

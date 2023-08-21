@@ -9,7 +9,7 @@ import makeFakeUser from '../../__tests__/fixtures/user';
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
 import { LegacyProjectSourced, ProjectActionnaireUpdated } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 
 const projectId = new UniqueEntityID('project1');
 const appelOffreId = 'Fessenheim';

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { User } from '../../../entities';
-import { ProjectCompletionDueDateSet } from "../../project";
+import { ProjectCompletionDueDateSet } from '../../project';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeOnProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet';

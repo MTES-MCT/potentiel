@@ -5,7 +5,7 @@ import makeFakeFile from '../../../../../__tests__/fixtures/file';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../../helpers';
-import { Project, User, UserProjects, File } from "../../../projectionsNext";
+import { Project, User, UserProjects, File } from '../../../projectionsNext';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 
 const certificateFileId = new UniqueEntityID().toString();

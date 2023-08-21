@@ -3,7 +3,7 @@ import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.';
 import routes from '../../../../routes';
 import { makeDocumentUrl } from '../helpers';
 import { AttachedFileItemProps } from '../helpers/extractAttachedFileItemProps';
-import { DownloadLink, Form, SecondaryButton, TrashIcon } from "../..";
+import { DownloadLink, Form, SecondaryButton, TrashIcon } from '../..';
 
 export const AttachedFileItem = (props: AttachedFileItemProps) => {
   const { date, title, description, files, isOwner, attachmentId, projectId, attachedBy } = props;

@@ -4,7 +4,7 @@ import { ProjectCertificateUpdated } from '../../../../../modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectCertificateUpdated } from './onProjectCertificateUpdated';
 import { v4 as uuid } from 'uuid';
-import { Project, File } from "../..";
+import { Project, File } from '../..';
 
 describe('project.onProjectCertificate', () => {
   const projectId = uuid();

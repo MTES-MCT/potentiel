@@ -2,12 +2,12 @@ import { errAsync, okAsync } from 'neverthrow';
 import { EventStore, Repository, UniqueEntityID } from '../../../../core/domain';
 import { logger, wrapInfra, ResultAsync } from '../../../../core/utils';
 import { User, formatCahierDesChargesRéférence } from '../../../../entities';
-import { FileContents, FileObject, makeFileObject } from "../../../file";
-import { DélaiDemandé } from "../..";
-import { GetProjectAppelOffreId } from "../../../modificationRequest";
+import { FileContents, FileObject, makeFileObject } from '../../../file';
+import { DélaiDemandé } from '../..';
+import { GetProjectAppelOffreId } from '../../../modificationRequest';
 import { AppelOffreRepo } from '../../../../dataAccess';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
-import { Project } from "../../../project";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { Project } from '../../../project';
 
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.';
 import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError';

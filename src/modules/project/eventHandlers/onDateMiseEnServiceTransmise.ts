@@ -1,6 +1,6 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { logger, okAsync, err } from '../../../core/utils';
-import { GetProjectAppelOffre } from "../../projectAppelOffre";
+import { GetProjectAppelOffre } from '../../projectAppelOffre';
 import { DateMiseEnServiceTransmise, ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
 import { FindProjectByIdentifiers } from '../queries';

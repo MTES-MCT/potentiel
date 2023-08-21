@@ -12,7 +12,7 @@ import {
   User,
   Project,
   File,
-} from "../../projectionsNext";
+} from '../../projectionsNext';
 import { ProjectAppelOffre } from '../../../../entities';
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
 

@@ -2,19 +2,19 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { okAsync } from '../../../../core/utils';
 import { UniqueEntityID } from '../../../../core/domain';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import {
   fakeRepo,
   fakeTransactionalRepo,
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates';
 import { makeAccorderDemandeDélai } from './accorderDemandeDélai';
-import { UserRole } from "../../../users";
+import { UserRole } from '../../../users';
 import { StatutDemandeDélai } from '../DemandeDélai';
 import { User } from '../../../../entities';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { AccorderDemandeDélaiError, AccorderDateAchèvementAntérieureDateThéoriqueError } from '.';
-import { FileObject } from "../../../file";
+import { FileObject } from '../../../file';
 
 describe(`Accorder une demande de délai`, () => {
   const demandeDélaiId = 'id-demande';

@@ -6,15 +6,15 @@ import {
 } from '../../../../core/domain';
 import { errAsync } from '../../../../core/utils';
 import { User } from '../../../../entities';
-import { GetProjectAppelOffre } from "../../../projectAppelOffre/queries";
+import { GetProjectAppelOffre } from '../../../projectAppelOffre/queries';
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon';
-import { Project } from "../../../project";
+import { Project } from '../../../project';
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError';
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError';
 import { AnnulationAbandonAccordée } from '../events';
-import { FileContents, FileObject, makeAndSaveFile } from "../../../file";
-import { InfraNotAvailableError } from "../../../shared";
+import { FileContents, FileObject, makeAndSaveFile } from '../../../file';
+import { InfraNotAvailableError } from '../../../shared';
 
 type Commande = {
   utilisateur: User;

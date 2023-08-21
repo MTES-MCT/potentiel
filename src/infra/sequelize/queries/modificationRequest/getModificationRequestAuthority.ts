@@ -1,4 +1,4 @@
-import { ModificationRequest } from "../../projectionsNext";
+import { ModificationRequest } from '../../projectionsNext';
 
 export const getModificationRequestAuthority = (
   modificationRequestId: string,

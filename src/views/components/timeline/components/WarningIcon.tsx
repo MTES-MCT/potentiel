@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ExclamationIcon } from "../..";
+import { ExclamationIcon } from '../..';
 
 export const WarningIcon = () => (
   <div className="h-9 flex items-center">

@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
-import { UserRole } from "../../users";
+import { UserRole } from '../../users';
 
 type Payload = {
   email: string;

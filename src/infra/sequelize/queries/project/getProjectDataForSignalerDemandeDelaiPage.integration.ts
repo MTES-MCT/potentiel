@@ -3,7 +3,7 @@ import { getProjectDataForSignalerDemandeDelaiPage } from './getProjectDataForSi
 import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import { Project, ModificationRequest } from "../../projectionsNext";
+import { Project, ModificationRequest } from '../../projectionsNext';
 const projectId = new UniqueEntityID().toString();
 const projectInfo = makeFakeProject({
   id: projectId,

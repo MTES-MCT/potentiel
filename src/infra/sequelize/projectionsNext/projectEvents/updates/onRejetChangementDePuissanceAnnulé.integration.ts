@@ -5,7 +5,7 @@ import {
   RejetChangementDePuissanceAnnuléPayload,
 } from '../../../../../modules/demandeModification';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import onRejetChangementDePuissanceAnnulé from './onRejetChangementDePuissanceAnnulé';
 
 describe('Projecteur de ProjectEvent onRejetRecoursAnnulé', () => {

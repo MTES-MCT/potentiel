@@ -3,10 +3,10 @@ import {
   makeOnToutAccèsAuProjetRévoqué,
   makeOnUserRightsToProjectRevoked,
 } from '../../../modules/notification';
-import { notifierPorteurRévocationAccèsProjet } from "../../useCases.config";
+import { notifierPorteurRévocationAccèsProjet } from '../../useCases.config';
 import { ToutAccèsAuProjetRevoqué, UserRightsToProjectRevoked } from '../../../modules/authZ';
 import { projectRepo, userRepo } from '../../../dataAccess';
-import { récupérerDonnéesPorteursParProjetQueryHandler } from "../../queries.config";
+import { récupérerDonnéesPorteursParProjetQueryHandler } from '../../queries.config';
 
 notificationEventSubscriber(
   ToutAccèsAuProjetRevoqué,

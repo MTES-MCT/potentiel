@@ -4,7 +4,7 @@ import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getProjectInfoForModificationRequestedNotification } from './getProjectInfoForModificationRequestedNotification';
-import { Project, User, UserProjects } from "../../projectionsNext";
+import { Project, User, UserProjects } from '../../projectionsNext';
 
 describe('Sequelize getProjectInfoForModificationRequestedNotification', () => {
   const projectId = new UniqueEntityID().toString();

@@ -1,5 +1,5 @@
 import { errAsync, okAsync, wrapInfra } from '../../../../core/utils';
-import { ModificationRequest } from "../../projectionsNext";
+import { ModificationRequest } from '../../projectionsNext';
 import { GetModificationRequestStatus } from '../../../../modules/modificationRequest';
 import { EntityNotFoundError } from '../../../../modules/shared';
 

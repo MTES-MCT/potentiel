@@ -5,7 +5,7 @@ import {
   RejetRecoursAnnuléPayload,
 } from '../../../../../modules/demandeModification';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import onRejetRecoursAnnulé from './onRejetRecoursAnnulé';
 
 describe('Projecteur de ProjectEvent onRejetRecoursAnnulé', () => {

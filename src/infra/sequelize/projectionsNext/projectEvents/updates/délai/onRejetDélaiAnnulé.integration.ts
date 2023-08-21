@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../../core/domain';
-import { ModificationRequest } from "../../..";
+import { ModificationRequest } from '../../..';
 import {
   RejetDélaiAnnulé,
   RejetDélaiAnnuléPayload,

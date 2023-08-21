@@ -8,7 +8,7 @@ import { FileObject } from './FileObject';
 import { makeLoadFileForUser } from './loadFileForUser';
 import { GetFileProject } from './queries';
 import { UnwrapForTest } from '../../types';
-import { ShouldUserAccessProject } from "../authZ";
+import { ShouldUserAccessProject } from '../authZ';
 
 describe('loadFileForUser', () => {
   const fakeUser = {} as User;

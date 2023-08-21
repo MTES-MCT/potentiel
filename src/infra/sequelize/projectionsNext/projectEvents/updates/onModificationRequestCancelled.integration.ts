@@ -4,7 +4,7 @@ import { UniqueEntityID } from '../../../../../core/domain';
 import { ModificationRequestCancelled } from '../../../../../modules/modificationRequest';
 import onModificationRequestCancelled from './onModificationRequestCancelled';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
-import { ProjectEvent, ModificationRequest } from "../..";
+import { ProjectEvent, ModificationRequest } from '../..';
 
 describe('handler onModificationRequestCancelled', () => {
   const projectId = new UniqueEntityID().toString();

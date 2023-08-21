@@ -1,6 +1,6 @@
 import { logger } from '../../../../core/utils';
-import { AbandonDemandé } from "../../../demandeModification";
-import { GetProjectInfoForModificationRequestedNotification } from "../../../modificationRequest/queries";
+import { AbandonDemandé } from '../../../demandeModification';
+import { GetProjectInfoForModificationRequestedNotification } from '../../../modificationRequest/queries';
 
 import { NotificationService, NotifierPorteurChangementStatutDemande } from '../..';
 import routes from '../../../../routes';

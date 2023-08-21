@@ -1,5 +1,5 @@
 import { ok, Result, wrapInfra } from '../../../../core/utils';
-import { User } from "../../projectionsNext";
+import { User } from '../../projectionsNext';
 import { InfraNotAvailableError } from '../../../../modules/shared';
 import { GetUserByEmail } from '../../../../modules/users';
 

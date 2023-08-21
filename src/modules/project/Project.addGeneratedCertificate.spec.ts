@@ -10,7 +10,7 @@ import {
   ProjectNotified,
 } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 
 const projectId = new UniqueEntityID('project1');
 const appelOffreId = 'Fessenheim';

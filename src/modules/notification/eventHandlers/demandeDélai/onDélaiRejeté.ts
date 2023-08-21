@@ -1,5 +1,5 @@
 import { logger } from '../../../../core/utils';
-import { DélaiRejeté } from "../../../demandeModification";
+import { DélaiRejeté } from '../../../demandeModification';
 import routes from '../../../../routes';
 import { NotificationService } from '../..';
 import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification';

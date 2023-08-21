@@ -2,14 +2,14 @@ import { errAsync, okAsync } from 'neverthrow';
 import { EventStore, Repository, UniqueEntityID } from '../../../../core/domain';
 import { wrapInfra, ResultAsync } from '../../../../core/utils';
 import { User, formatCahierDesChargesRéférence } from '../../../../entities';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { AbandonDemandé } from '../events';
 import { FileContents, FileObject, makeFileObject } from '../../../file';
 import { AppelOffreRepo } from '../../../../dataAccess';
 import { GetProjectAppelOffreId } from '../../../modificationRequest';
-import { Project } from "../../../project";
+import { Project } from '../../../project';
 import { DemanderAbandonError } from './DemanderAbandonError';
-import { NouveauCahierDesChargesNonChoisiError } from "../../demandeDélai/demander";
+import { NouveauCahierDesChargesNonChoisiError } from '../../demandeDélai/demander';
 
 type DemanderAbandon = (commande: {
   user: User;

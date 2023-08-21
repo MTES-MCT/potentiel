@@ -5,7 +5,7 @@ import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import { ProjectAbandoned, ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events';
 import { makeProject } from './Project';
-import { makeGetProjectAppelOffre } from "../projectAppelOffre";
+import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import {
   GFCertificateHasAlreadyBeenSentError,
   GFImpossibleASoumettreError,

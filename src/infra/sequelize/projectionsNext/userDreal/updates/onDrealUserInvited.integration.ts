@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../../../../../core/domain';
 import onDrealUserInvited from './onDrealUserInvited';
 import { DrealUserInvited } from '../../../../../modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import { UserDreal } from "../..";
+import { UserDreal } from '../..';
 
 const userId = new UniqueEntityID().toString();
 describe('userDreal.onDrealUserInvited', () => {

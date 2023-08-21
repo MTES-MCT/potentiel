@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { Project, UserDreal } from "../../../projectionsNext";
+import { Project, UserDreal } from '../../../projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
 
@@ -22,7 +22,7 @@ import {
 } from './colonnesParCatégorie';
 import { User } from '../../../../../entities';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { resetDatabase } from "../../../helpers";
+import { resetDatabase } from '../../../helpers';
 
 describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
   const colonnesÀExporter = [

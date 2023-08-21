@@ -1,6 +1,6 @@
-import { AbandonAccordé } from "../../demandeModification";
+import { AbandonAccordé } from '../../demandeModification';
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
-import { Project, ProjectAbandoned } from "..";
+import { Project, ProjectAbandoned } from '..';
 
 type MakeOnAbandonAccordéProps = {
   projectRepo: TransactionalRepository<Project>;

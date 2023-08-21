@@ -5,9 +5,9 @@ import { USER_ROLES } from '../../../../modules/users';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
 import { getProjectEvents } from './getProjectEvents';
-import { Project } from "../../projectionsNext";
+import { Project } from '../../projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { CovidDelayGrantedEvent } from "../../projectionsNext/projectEvents/events";
+import { CovidDelayGrantedEvent } from '../../projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les événements CovidDelayGranted', () => {
   const projetId = new UniqueEntityID().toString();

@@ -1,4 +1,4 @@
-import { UserRole } from "../users";
+import { UserRole } from '../users';
 import {
   PermissionConsulterProjet,
   PermissionInvaliderGF,
@@ -9,10 +9,10 @@ import {
   PermissionRetirerGF,
   PermissionListerProjets,
   PermissionExporterProjets,
-} from "../project";
-import { PermissionInviterDgecValidateur } from "../utilisateur";
-import { PermissionListerDemandesAdmin } from "../modificationRequest";
-import { PermissionListerProjetsÀNotifier } from "../notificationCandidats";
+} from '../project';
+import { PermissionInviterDgecValidateur } from '../utilisateur';
+import { PermissionListerDemandesAdmin } from '../modificationRequest';
+import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
 import {
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,

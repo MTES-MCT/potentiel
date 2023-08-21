@@ -10,7 +10,7 @@ import {
   Th,
   Form,
   Pagination,
-} from ".";
+} from '.';
 import { logger } from '../../core/utils';
 import { Project, User } from '../../entities';
 import routes from '../../routes';

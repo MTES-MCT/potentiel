@@ -2,14 +2,12 @@ import {
   BarreDeRecherche,
   PrimaryButton,
   ErrorBox,
-  ExcelFileIcon,
   Heading1,
   Input,
   Label,
   ListeVide,
   LegacyPageTemplate,
   ProjectList,
-  SecondaryLinkButton,
   Select,
   SuccessBox,
   Form,
@@ -22,6 +20,7 @@ import querystring from 'querystring';
 import React from 'react';
 import { PaginatedList } from '../../modules/pagination';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
+import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type AdminNotificationCandidatsProps = {
   request: Request;
@@ -40,12 +39,17 @@ export const AdminNotificationCandidats = ({
   données,
   currentUrl,
 }: AdminNotificationCandidatsProps) => {
-  const { error, success, recherche, classement } = (request.query as any) || {};
+  const {
+    query: { error, success, recherche, classement },
+    user,
+  } = (request as any) || {};
+
+  const utilisateur = user as UtilisateurReadModel;
 
   if (!données) {
     // All projects have been notified
     return (
-      <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
+      <LegacyPageTemplate user={utilisateur} currentPage="notify-candidates">
         <Heading1>Notifier des candidats</Heading1>
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
@@ -63,9 +67,9 @@ export const AdminNotificationCandidats = ({
   } = données;
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="notify-candidates">
+    <LegacyPageTemplate user={utilisateur} currentPage="notify-candidates">
       <Heading1>Notifier les candidats</Heading1>
-      {request.user.role !== 'dgec-validateur' && (
+      {utilisateur.role !== 'dgec-validateur' && (
         <p>
           Seules les personnes ayant délégation de signature sont habilitées à notifier un appel
           d'offres. <br />
@@ -75,37 +79,40 @@ export const AdminNotificationCandidats = ({
       )}
       <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mb-4">
         <div className="form__group mt-5">
-          <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
+          <BarreDeRecherche
+            name="recherche"
+            className="pr-10"
+            defaultValue={recherche || ''}
+            placeholder="Rechercher par nom de projet"
+          />
         </div>
 
         <div className="form__group">
-          <div className="mt-4">
-            <Label htmlFor="classement">Classés/Eliminés</Label>
-            <Select
-              id="classement"
-              name="classement"
-              defaultValue={classement || 'default'}
-              onChange={(event) =>
-                updateUrlParams({
-                  classement: event.target.value,
-                })
-              }
-            >
-              <option value="default" disabled hidden>
-                Choisir une option
-              </option>
-              <option value="">Tous</option>
-              <option value="classés" selected={classement && classement === 'classés'}>
-                Classés
-              </option>
-              <option value="éliminés" selected={classement && classement === 'éliminés'}>
-                Eliminés
-              </option>
-            </Select>
-          </div>
+          <Label htmlFor="classement">Classés/Eliminés</Label>
+          <Select
+            id="classement"
+            name="classement"
+            defaultValue={classement || 'default'}
+            onChange={(event) =>
+              updateUrlParams({
+                classement: event.target.value,
+              })
+            }
+          >
+            <option value="default" disabled hidden>
+              Choisir une option
+            </option>
+            <option value="">Tous</option>
+            <option value="classés" selected={classement && classement === 'classés'}>
+              Classés
+            </option>
+            <option value="éliminés" selected={classement && classement === 'éliminés'}>
+              Eliminés
+            </option>
+          </Select>
         </div>
       </Form>
-      <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
+      <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post" className="mb-4">
         <div>
           <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
           <Select
@@ -155,24 +162,9 @@ export const AdminNotificationCandidats = ({
           </Select>
         </div>
 
-        {AOSélectionné && périodeSélectionnée && (
-          <SecondaryLinkButton
-            href={`
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-              ...request.query,
-              appelOffreId: AOSélectionné,
-              periodeId: périodeSélectionnée,
-              beforeNotification: true,
-            })}`}
-            download
-          >
-            <ExcelFileIcon className="mr-2" />
-            Télécharger la liste des lauréats (document csv)
-          </SecondaryLinkButton>
-        )}
         {projetsPériodeSélectionnée.itemCount > 0 &&
           !success &&
-          request.user?.role === 'dgec-validateur' && (
+          utilisateur.role === 'dgec-validateur' && (
             <div className="mt-4">
               <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
               <Input
@@ -193,8 +185,22 @@ export const AdminNotificationCandidats = ({
       {error && <ErrorBox title={error} />}
       <ProjectList
         projects={projetsPériodeSélectionnée}
-        role={request.user?.role}
+        role={utilisateur?.role}
         currentUrl={currentUrl}
+        exportListe={
+          AOSélectionné && périodeSélectionnée
+            ? {
+                title: ' Télécharger la liste des lauréats (document csv)',
+                url: `
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+                  ...request.query,
+                  appelOffreId: AOSélectionné,
+                  periodeId: périodeSélectionnée,
+                  beforeNotification: true,
+                })}`,
+              }
+            : undefined
+        }
       />
     </LegacyPageTemplate>
   );

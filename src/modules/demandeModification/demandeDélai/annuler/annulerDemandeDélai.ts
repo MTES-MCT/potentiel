@@ -2,13 +2,9 @@ import { User } from '../../../../entities';
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../../core/domain';
 import { DemandeDélai } from '../DemandeDélai';
 import { errAsync, ResultAsync, wrapInfra } from '../../../../core/utils';
-import {
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  UnauthorizedError,
-} from "../../../shared";
-import { StatusPreventsCancellingError } from "../../../modificationRequest";
-import { DélaiAnnulé } from "../..";
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../../shared';
+import { StatusPreventsCancellingError } from '../../../modificationRequest';
+import { DélaiAnnulé } from '../..';
 
 type AnnulerDemandeDélai = (commande: {
   user: User;

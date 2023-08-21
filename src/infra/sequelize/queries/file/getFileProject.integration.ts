@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../../../../core/domain';
 import { FileNotFoundError } from '../../../../modules/file';
 import { resetDatabase } from '../../helpers';
 import { getFileProject } from './getFileProject';
-import { File } from "../../projectionsNext";
+import { File } from '../../projectionsNext';
 
 describe('Sequelize getFileProject', () => {
   const fileWithoutProject = new UniqueEntityID();

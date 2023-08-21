@@ -4,7 +4,7 @@ import { onProjectDataCorrected } from './onProjectDataCorrected';
 import { ProjectDataCorrected } from '../../../../../modules/project';
 import { resetDatabase } from '../../../helpers';
 import { v4 as uuid } from 'uuid';
-import { Project } from "../..";
+import { Project } from '../..';
 
 const newValues = {
   numeroCRE: 'numeroCRE1',

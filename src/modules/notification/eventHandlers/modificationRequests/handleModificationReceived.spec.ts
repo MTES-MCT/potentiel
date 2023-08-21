@@ -3,7 +3,7 @@ import { okAsync } from '../../../../core/utils';
 import {
   GetProjectInfoForModificationReceivedNotification,
   ModificationReceived,
-} from "../../../modificationRequest";
+} from '../../../modificationRequest';
 import routes from '../../../../routes';
 import { User } from '../../../../entities';
 import { handleModificationReceived } from './handleModificationReceived';

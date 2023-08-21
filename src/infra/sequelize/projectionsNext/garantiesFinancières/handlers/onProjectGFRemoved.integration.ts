@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
-import { resetDatabase } from "../../../helpers";
+import { resetDatabase } from '../../../helpers';
 import { ProjectGFRemoved } from '../../../../../modules/project';
-import { GarantiesFinancières } from "../..";
+import { GarantiesFinancières } from '../..';
 import { onProjectGFRemoved } from './onProjectGFRemoved';
 
 describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, () => {

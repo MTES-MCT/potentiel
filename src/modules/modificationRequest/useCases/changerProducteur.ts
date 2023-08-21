@@ -11,8 +11,8 @@ import { Project } from '../../project/Project';
 import { UnauthorizedError } from '../../shared';
 import { ModificationReceived } from '../events';
 import { AppelOffreRepo } from '../../../dataAccess';
-import { NouveauCahierDesChargesNonChoisiError } from "../../demandeModification";
-import { ToutAccèsAuProjetRevoqué } from "../../authZ";
+import { NouveauCahierDesChargesNonChoisiError } from '../../demandeModification';
+import { ToutAccèsAuProjetRevoqué } from '../../authZ';
 
 type ChangerProducteurDeps = {
   eventBus: EventBus;

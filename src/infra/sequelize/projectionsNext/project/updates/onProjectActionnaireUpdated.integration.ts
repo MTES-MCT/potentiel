@@ -4,7 +4,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectActionnaireUpdated } from './onProjectActionnaireUpdated';
 import { ProjectActionnaireUpdated } from '../../../../../modules/project';
 import { v4 as uuid } from 'uuid';
-import { Project } from "../..";
+import { Project } from '../..';
 
 describe('project.onProjectActionnaireUpdated', () => {
   const projectId = uuid();

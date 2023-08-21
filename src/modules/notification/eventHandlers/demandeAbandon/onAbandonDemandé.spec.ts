@@ -1,10 +1,10 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { okAsync } from '../../../../core/utils';
-import { AbandonDemandé } from "../../../demandeModification";
+import { AbandonDemandé } from '../../../demandeModification';
 import { makeOnAbandonDemandé } from '.';
-import { GetProjectInfoForModificationRequestedNotification } from "../../../modificationRequest/queries";
+import { GetProjectInfoForModificationRequestedNotification } from '../../../modificationRequest/queries';
 import { NotificationService } from '../../NotificationService';
-import { NotifierPorteurChangementStatutDemande } from "../..";
+import { NotifierPorteurChangementStatutDemande } from '../..';
 
 describe(`Notifier lorsqu'un abandon est demandé`, () => {
   it(`Etant donné un projet accessible pour deux porteurs

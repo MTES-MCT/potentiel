@@ -4,15 +4,15 @@ import { Readable } from 'stream';
 import { UniqueEntityID } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
 import { User } from '../../../../entities';
-import { UserRole } from "../../../users";
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
+import { UserRole } from '../../../users';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeRejeterDemandeAbandon } from './rejeterDemandeAbandon';
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon';
 import { StatutDemandeAbandon, statutsDemandeAbandon } from '../DemandeAbandon';
 import { RejeterDemandeAbandonError } from './RejeterDemandeAbandonError';
-import { FileObject } from "../../../file";
+import { FileObject } from '../../../file';
 
 describe(`Rejeter une demande d'abandon`, () => {
   const demandeAbandonId = 'id-demande';

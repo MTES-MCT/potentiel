@@ -1,7 +1,7 @@
 import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
 import { User } from '../../../entities';
-import { HasDemandeDeMêmeTypeOuverte } from "..";
+import { HasDemandeDeMêmeTypeOuverte } from '..';
 import { FileContents, FileObject, makeFileObject } from '../../file';
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import {

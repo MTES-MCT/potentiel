@@ -3,8 +3,8 @@ import { Readable } from 'stream';
 
 import { okAsync } from '../../../../core/utils';
 import { User } from '../../../../entities';
-import { USER_ROLES } from "../../../users";
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
+import { USER_ROLES } from '../../../users';
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeRejeterDemandeAnnulationAbandon } from './rejeterDemandeAnnulationAbandon';
@@ -14,7 +14,7 @@ import {
 } from '../DemandeAnnulationAbandon';
 import { StatutIncompatiblePourRejeterDemandeAnnulationAbandonError } from './StatutIncompatiblePourRejeterDemandeAnnulationAbandonError';
 import { UniqueEntityID } from '../../../../core/domain';
-import { FileObject } from "../../../file";
+import { FileObject } from '../../../file';
 
 describe(`Rejeter une annulation d'abandon`, () => {
   const demandeId = 'id-demande';

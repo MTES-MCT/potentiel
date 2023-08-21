@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { okAsync } from '../../../../core/utils';
-import { InfraNotAvailableError, UnauthorizedError } from "../../../shared";
+import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
-import { UserRole } from "../../../users";
+import { UserRole } from '../../../users';
 import { User } from '../../../../entities';
 
 import { makeAccorderDemandeAbandon } from './accorderDemandeAbandon';
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon';
 import { AccorderDemandeAbandonError } from './AccorderDemandeAbandonError';
 import { StatutDemandeAbandon, statutsDemandeAbandon } from '../DemandeAbandon';
-import { FileObject } from "../../../file";
+import { FileObject } from '../../../file';
 
 describe(`Accorder une demande d'abandon`, () => {
   const demandeAbandonId = 'id-demande';

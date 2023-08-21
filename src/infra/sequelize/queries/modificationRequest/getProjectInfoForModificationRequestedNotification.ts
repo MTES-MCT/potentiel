@@ -1,5 +1,5 @@
 import { errAsync, wrapInfra } from '../../../../core/utils';
-import { UserProjects, User, Project } from "../..";
+import { UserProjects, User, Project } from '../..';
 import { GetProjectInfoForModificationRequestedNotification } from '../../../../modules/modificationRequest';
 import { EntityNotFoundError } from '../../../../modules/shared';
 

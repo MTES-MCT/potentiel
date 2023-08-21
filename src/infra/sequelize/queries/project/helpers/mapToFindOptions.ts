@@ -1,4 +1,4 @@
-import { GarantiesFinancières } from "../../../projectionsNext";
+import { GarantiesFinancières } from '../../../projectionsNext';
 import { FiltreListeProjets } from '../../../../../modules/project/queries';
 import { Op, literal } from 'sequelize';
 

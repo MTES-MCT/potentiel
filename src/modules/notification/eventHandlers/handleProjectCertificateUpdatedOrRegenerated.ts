@@ -5,7 +5,7 @@ import { User } from '../../../entities';
 import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events';
 import { Project } from '../../project/Project';
 import routes from '../../../routes';
-import { RécupérerDonnéesPorteursParProjetQueryHandler } from "../../project/queries";
+import { RécupérerDonnéesPorteursParProjetQueryHandler } from '../../project/queries';
 
 export const handleProjectCertificateUpdatedOrRegenerated =
   (deps: {

@@ -3,11 +3,11 @@ import { okAsync } from '../../../../core/utils';
 import {
   GetProjectInfoForModificationRequestedNotification,
   ModificationRequested,
-} from "../../../modificationRequest";
+} from '../../../modificationRequest';
 import routes from '../../../../routes';
 import { handleModificationRequested } from './handleModificationRequested';
 import { User } from '../../../../entities';
-import { NotificationService } from "../..";
+import { NotificationService } from '../..';
 import { UserRepo } from '../../../../dataAccess';
 
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {

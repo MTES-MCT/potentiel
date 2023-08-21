@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
-import { Région } from "../../dreal/région";
+import { Région } from '../../dreal/région';
 
 export interface DrealUserInvitedPayload {
   userId: string;

@@ -1,4 +1,4 @@
-import { PeriodeNotified } from "../../project";
+import { PeriodeNotified } from '../../project';
 import { GetRecipientsForPeriodeNotifiedNotification, NotificationService } from '..';
 
 export const makeOnPeriodeNotified =

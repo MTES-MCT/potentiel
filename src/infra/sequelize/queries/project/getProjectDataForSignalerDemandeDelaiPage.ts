@@ -7,7 +7,7 @@ import {
 } from '../../../../modules/project';
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared';
 import { Op } from 'sequelize';
-import { Project, ModificationRequest } from "../../projectionsNext";
+import { Project, ModificationRequest } from '../../projectionsNext';
 import { getDélaiCDC2022Applicable } from './getDélaiCdc2022Applicable';
 
 export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignalerDemandeDelaiPage =

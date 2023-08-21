@@ -5,7 +5,7 @@ import {
   DélaiEnInstruction,
 } from '../../../../../../modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
-import { ProjectEvent } from "../../..";
+import { ProjectEvent } from '../../..';
 import onDélaiEnInstruction from './onDélaiEnInstruction';
 
 describe('Projecteur de ProjectEvent onDélaiEnInstruction', () => {

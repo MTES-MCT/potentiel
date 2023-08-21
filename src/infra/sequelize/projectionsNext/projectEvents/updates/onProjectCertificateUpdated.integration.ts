@@ -5,7 +5,7 @@ import {
   ProjectCertificateUpdatedPayload,
 } from '../../../../../modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from "../..";
+import { ProjectEvent } from '../..';
 import onProjectCertificateUpdated from './onProjectCertificateUpdated';
 
 describe('onProjectCertificateUpdated', () => {

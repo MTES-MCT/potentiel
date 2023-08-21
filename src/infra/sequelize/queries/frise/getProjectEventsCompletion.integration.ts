@@ -6,7 +6,7 @@ import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { USER_ROLES } from '../../../../modules/users';
 import { User } from '../../../../entities';
-import { ProjectCompletionDueDateSetEvent } from "../../projectionsNext/projectEvents/events";
+import { ProjectCompletionDueDateSetEvent } from '../../projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', () => {
   const projetId = new UniqueEntityID().toString();

@@ -1,5 +1,5 @@
 import { wrapInfra } from '../../../../core/utils';
-import { GarantiesFinancières } from "../../projectionsNext";
+import { GarantiesFinancières } from '../../projectionsNext';
 import { HasGarantiesFinancières } from '../../../../modules/modificationRequest';
 
 export const hasGarantiesFinancières: HasGarantiesFinancières = (projetId) => {

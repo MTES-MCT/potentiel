@@ -15,7 +15,7 @@ import {
   ModificationRequested,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
-} from "../../modificationRequest";
+} from '../../modificationRequest';
 import { EntityNotFoundError } from '../../shared';
 
 export const statutsDemandeDélai = [

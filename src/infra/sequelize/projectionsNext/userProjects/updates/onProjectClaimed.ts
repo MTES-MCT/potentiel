@@ -1,7 +1,7 @@
 import { logger } from '../../../../../core/utils';
 import { ProjectClaimed } from '../../../../../modules/projectClaim/events';
 import { ProjectionEnEchec } from '../../../../../modules/shared';
-import { User, UserProjects } from "../..";
+import { User, UserProjects } from '../..';
 import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(ProjectClaimed, async (évènement, transaction) => {

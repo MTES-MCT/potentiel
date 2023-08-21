@@ -1,5 +1,5 @@
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain';
-import { GetProjectAppelOffre } from "../../projectAppelOffre";
+import { GetProjectAppelOffre } from '../../projectAppelOffre';
 import { err } from '../../../core/utils';
 import { FindProjectByIdentifiers } from '..';
 import { ProjectRawDataImported } from '../events';
