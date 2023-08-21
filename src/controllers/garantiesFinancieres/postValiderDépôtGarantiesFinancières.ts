@@ -10,11 +10,12 @@ import {
   PermissionValiderDépôtGarantiesFinancières,
 } from '@potentiel/domain';
 import { isSome } from '@potentiel/monads';
-import { Project } from '../../infra/sequelize/projectionsNext';
+import { Project, UserDreal } from '../../infra/sequelize/projectionsNext';
 import { DomainError } from '@potentiel/core-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { getProjectAppelOffre } from '../../config';
 import { GarantiesFinancièresUseCase } from '@potentiel/domain/dist/garantiesFinancières/garantiesFinancières.usecase';
+import { logger } from '../../core/utils';
 
 const schema = yup.object({
   params: yup.object({
@@ -58,7 +59,7 @@ v1Router.post(
             : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
-        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId'],
+        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId', 'regionProjet'],
       });
 
       if (!projet) {
@@ -83,7 +84,27 @@ v1Router.post(
       }
 
       if (user.role === 'dreal') {
-        //TO DO : vérifier région user
+        const drealUserRegion = await UserDreal.findOne({
+          where: { userId: user.id },
+          attributes: ['dreal'],
+        });
+
+        if (
+          !drealUserRegion ||
+          (drealUserRegion && !projet.regionProjet.includes(drealUserRegion.dreal))
+        ) {
+          logger.error(
+            new Error(
+              `Echec validation garanties financières. Accès non autorité. Projet ${projet.id}`,
+            ),
+          );
+          return response.redirect(
+            addQueryParams(routes.LISTE_PROJETS, {
+              error:
+                "Vous n'avez pas pu valider le dépôt de garanties financières car vous n'accès au projet",
+            }),
+          );
+        }
       }
 
       try {
@@ -109,6 +130,8 @@ v1Router.post(
             }),
           );
         }
+
+        logger.error(error);
 
         return errorResponse({ request, response });
       }
