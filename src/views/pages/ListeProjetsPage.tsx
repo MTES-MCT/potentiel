@@ -343,7 +343,7 @@ export const ListeProjets = ({
               isOpen={displaySelection}
               changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
               text="Donner accès à un utilisateur"
-              className={`hidden lg:block mb-4 ${(success || error) && 'mt-4'}`}
+              className={`mb-4 ${(success || error) && 'mt-4'}`}
             >
               <Form
                 action={routes.INVITE_USER_TO_PROJECT_ACTION}
