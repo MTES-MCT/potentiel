@@ -83,7 +83,7 @@ export const AdminNotificationCandidats = ({
             name="recherche"
             className="pr-10"
             defaultValue={recherche || ''}
-            title="Rechercher"
+            placeholder="Rechercher par nom de projet"
           />
         </div>
 

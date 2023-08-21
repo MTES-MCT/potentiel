@@ -5,7 +5,7 @@ type BarreDeRechercheProps = {
   className?: string;
   defaultValue?: string;
   name: string;
-  placeholder: string;
+  placeholder?: string;
 };
 
 export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
