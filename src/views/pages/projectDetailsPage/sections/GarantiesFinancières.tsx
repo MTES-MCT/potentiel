@@ -10,6 +10,7 @@ import {
   Badge,
   ClockIcon,
   ErrorIcon,
+  PrimaryButton,
 } from '../../../components';
 import routes from '../../../../routes';
 import { RawIdentifiantProjet } from '@potentiel/domain';
@@ -152,6 +153,20 @@ const Dépôt = ({
                 modifier le dépôt en cours
               </Link>
             </div>
+          )}
+          {userRole === 'dreal' && (
+            <form
+              method="post"
+              action={routes.POST_VALIDER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
+            >
+              <PrimaryButton
+                type="submit"
+                className="mt-2"
+                confirmation="Êtes-vous sûr de vouloir valider ce dépôt de garanties financières ?"
+              >
+                Valider le dépôt
+              </PrimaryButton>
+            </form>
           )}
           {garantiesFinancièresActuelles && (
             <div className="italic text-sm text-grey-425-base">
