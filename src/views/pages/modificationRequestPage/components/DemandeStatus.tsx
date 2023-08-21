@@ -1,6 +1,7 @@
 import {
   DownloadLink,
   Form,
+  Heading2,
   SecondaryButton,
   StatutDemandeModification,
 } from '../../../components';
@@ -54,37 +55,42 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
     status === 'rejetée';
 
   return (
-    <StatutDemandeModification statutDemande={status} className="my-4">
-      <span className="font-bold">{helpers.ModificationRequestStatusTitle[status]}</span>{' '}
-      {respondedOn && respondedBy && `par ${respondedBy} le ${helpers.afficherDate(respondedOn)}`}
-      {afficherBoutonAnnulerRejet && (
-        <Form
-          method="post"
-          action={getAdminAnulerRejetDemandeRoute({ type, id: modificationRequest.id })}
-          className="mt-4"
-        >
-          <SecondaryButton
-            type="submit"
-            value={modificationRequest.id}
-            name={type === 'puissance' ? 'demandeChangementDePuissanceId' : 'modificationRequestId'}
-            confirmation='Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?'
+    <div>
+      <Heading2>Réponse</Heading2>
+      <StatutDemandeModification statutDemande={status} className="my-4">
+        <span className="font-bold">{helpers.ModificationRequestStatusTitle[status]}</span>{' '}
+        {respondedOn && respondedBy && `par ${respondedBy} le ${helpers.afficherDate(respondedOn)}`}
+        {afficherBoutonAnnulerRejet && (
+          <Form
+            method="post"
+            action={getAdminAnulerRejetDemandeRoute({ type, id: modificationRequest.id })}
+            className="mt-4"
           >
-            Annuler le rejet de la demande
-          </SecondaryButton>
-        </Form>
-      )}
-      {cancelledOn && cancelledBy && `par ${cancelledBy} le ${helpers.afficherDate(cancelledOn)}`}
-      <StatusForDelai modificationRequest={modificationRequest} />
-      {responseFile && (
-        <div className="mt-4">
-          <DownloadLink
-            fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
-          >
-            Télécharger le courrier de réponse
-          </DownloadLink>
-        </div>
-      )}
-    </StatutDemandeModification>
+            <SecondaryButton
+              type="submit"
+              value={modificationRequest.id}
+              name={
+                type === 'puissance' ? 'demandeChangementDePuissanceId' : 'modificationRequestId'
+              }
+              confirmation='Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?'
+            >
+              Annuler le rejet de la demande
+            </SecondaryButton>
+          </Form>
+        )}
+        {cancelledOn && cancelledBy && `par ${cancelledBy} le ${helpers.afficherDate(cancelledOn)}`}
+        <StatusForDelai modificationRequest={modificationRequest} />
+        {responseFile && (
+          <div className="mt-4">
+            <DownloadLink
+              fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
+            >
+              Télécharger le courrier de réponse
+            </DownloadLink>
+          </div>
+        )}
+      </StatutDemandeModification>
+    </div>
   );
 };
 

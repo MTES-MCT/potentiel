@@ -66,31 +66,29 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
           <ProjectInfo project={modificationRequest.project} className="mb-3" />
         </div>
 
-        <div>
-          <DemandeDetails modificationRequest={modificationRequest} />
-          <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
-          {showPasserEnInstructionButton && (
-            <Form
-              method="post"
-              action={ROUTES.ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION({
-                modificationRequestId: modificationRequest.id,
-              })}
+        <DemandeDetails modificationRequest={modificationRequest} className="mb-5" />
+        <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
+        {showPasserEnInstructionButton && (
+          <Form
+            method="post"
+            action={ROUTES.ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION({
+              modificationRequestId: modificationRequest.id,
+            })}
+          >
+            <PrimaryButton
+              type="submit"
+              name="modificationRequestId"
+              value={modificationRequest.id}
+              confirmation='Êtes-vous sûr de vouloir passer le statut de la demande "en instruction" ?'
             >
-              <PrimaryButton
-                type="submit"
-                name="modificationRequestId"
-                value={modificationRequest.id}
-                confirmation='Êtes-vous sûr de vouloir passer le statut de la demande "en instruction" ?'
-              >
-                Passer le statut en instruction
-              </PrimaryButton>
-            </Form>
-          )}
-        </div>
+              Passer le statut en instruction
+            </PrimaryButton>
+          </Form>
+        )}
 
         {showFormulaireAdministrateur && (
           <div>
-            <Heading2>Répondre</Heading2>
+            <Heading2>Répondre à la demande</Heading2>
 
             <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
               {type === 'delai' && (
