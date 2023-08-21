@@ -9,9 +9,9 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { logger } from '../../core/utils';
-import { extension } from 'mime-types';
 import { estUnRawIdentifiantProjet } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
+import { sendFile } from '../helpers/sendFile';
 
 const schema = yup.object({
   params: yup.object({
@@ -56,16 +56,11 @@ v1Router.get(
           });
         }
 
-        const extensionFichier = extension(propositionTechniqueEtFinancièreSignée.format);
-        logger.info(`Extension fichier: ${extensionFichier}`);
-
-        const fileName = `proposition-technique-et-financiere.${extensionFichier}`;
-        logger.info(fileName);
-
-        response.type(propositionTechniqueEtFinancièreSignée.format);
-        response.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
-        propositionTechniqueEtFinancièreSignée.content.pipe(response);
-        return response.status(200);
+        await sendFile(response, {
+          content: propositionTechniqueEtFinancièreSignée.content,
+          fileName: 'proposition-technique-et-financiere',
+          mimeType: propositionTechniqueEtFinancièreSignée.format,
+        });
       } catch (error) {
         logger.error(error);
         return response.status(404);

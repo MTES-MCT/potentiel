@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
@@ -8,6 +8,7 @@ import {
 
 import { AlertBox, Checkbox } from '../../../components';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest/dtos';
+import { UploadResponseFile } from './UploadResponseFile';
 
 type PuissanceFormProps = {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' };
@@ -24,8 +25,14 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
     project.cahierDesChargesActuel,
   );
 
+  const [responseFileOptionnel, setResponseFileOptionnel] = useState(false);
+
   return (
     <>
+      <UploadResponseFile
+        modificationRequest={modificationRequest}
+        optionnel={responseFileOptionnel ? true : undefined}
+      />
       <div className="form__group mt-4">
         <label>
           Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
@@ -49,7 +56,11 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
       )}
 
       <div className="form__group mb-4">
-        <Checkbox id="statusUpdateOnly" name="isDecisionJustice">
+        <Checkbox
+          id="statusUpdateOnly"
+          name="isDecisionJustice"
+          onChange={(event) => setResponseFileOptionnel(event.target.checked)}
+        >
           La demande de changement de puissance fait suite à une décision de justice
         </Checkbox>
         <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>

@@ -3,14 +3,13 @@ import { Request } from 'express';
 import routes from '../../../routes';
 import {
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   Heading1,
-  Heading2,
   Input,
   Label,
   LegacyPageTemplate,
   SuccessBox,
   Form,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -27,38 +26,35 @@ export const InviterDgecValidateur = ({
 }: InviterDgecValidateurProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="inviter-dgec-validateur">
-      <Heading1>Gérer les DGEC-VALIDATEUR</Heading1>
-      <Heading2>Ajouter un utilisateur DGEC-VALIDATEUR</Heading2>
+      <Heading1>Ajouter un utilisateur DGEC-VALIDATEUR</Heading1>
       {inviationRéussi && <SuccessBox title="L'invitation a bien été envoyée" />}
 
       <Form
         action={routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION}
         method="post"
-        className="flex flex-col gap-4"
+        className="mx-auto"
       >
-        <FormulaireChampsObligatoireLégende className="text-right" />
+        <ChampsObligatoiresLégende />
         <input type="hidden" name="role" value="dgec-validateur" />
         <div>
-          <Label htmlFor="email" required>
-            Adresse email :
-          </Label>
+          <Label htmlFor="email">Adresse email :</Label>
           <Input
             type="email"
             name="email"
             id="email"
-            required
             className="mb-2"
             error={formErrors['email']}
+            required
+            aria-required="true"
           />
-          <Label htmlFor="fonction" required>
-            Fonction :
-          </Label>
+          <Label htmlFor="fonction">Fonction :</Label>
           <Input
             type="text"
             name="fonction"
             id="fonction"
-            required
             error={formErrors['fonction']}
+            required
+            aria-required="true"
           />
         </div>
         <PrimaryButton type="submit" id="submit" className="m-auto">

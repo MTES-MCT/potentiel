@@ -9,7 +9,8 @@ import { fakeRepo } from '../../../../__tests__/fixtures/aggregates';
 import { makeDemanderAnnulationAbandon } from './demanderAnnulationAbandon';
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError';
 import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError';
-import { CahierDesChargesModifié, ProjectAppelOffre } from '../../../../entities';
+import { ProjectAppelOffre } from '../../../../entities';
+import { CahierDesChargesModifié } from '@potentiel/domain-views';
 
 describe(`Demander une annulation d'abandon`, () => {
   const user = makeFakeUser({ role: 'porteur-projet' });

@@ -11,14 +11,13 @@ import { UserRole } from '../../../../modules/users';
 import {
   PrimaryButton,
   SecondaryButton,
-  FormulaireChampsObligatoireLégende,
   Input,
   Label,
-  Astérisque,
   DownloadLink,
   Dropdown,
   Link,
   Form,
+  ChampsObligatoiresLégende,
 } from '../..';
 import { afficherDate } from '../../../helpers';
 
@@ -170,7 +169,7 @@ const Formulaire = ({
         encType="multipart/form-data"
         className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
       >
-        <FormulaireChampsObligatoireLégende className="ml-auto" />
+        <ChampsObligatoiresLégende />
         {action === 'enregistrer' && (
           <p className="m-0 italic">
             L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
@@ -186,38 +185,35 @@ const Formulaire = ({
         <input type="hidden" name="type" id="type" value="garanties-financieres" />
         <input type="hidden" name="projectId" value={projetId} />
         <div>
-          <Label required htmlFor="stepDate">
-            Date de constitution des garanties financières
-          </Label>
+          <Label htmlFor="stepDate">Date de constitution des garanties financières</Label>
           <Input
             type="date"
             name="stepDate"
             id="stepDate"
             max={format(new Date(), 'yyyy-MM-dd')}
             required
+            aria-required="true"
           />
         </div>
         <div>
-          <Label required htmlFor="expirationDate">
-            Date d'échéance des garanties
-            <Astérisque className="text-black" />
+          <Label htmlFor="expirationDate">
+            Date d'échéance des garanties<span>*</span>
           </Label>
           <Input
             type="date"
             name="expirationDate"
             id="expirationDate"
-            required
             defaultValue={dateEchéance && format(new Date(dateEchéance), 'yyyy-MM-dd')}
+            required
+            aria-required="true"
           />
         </div>
         <div>
-          <Label required htmlFor="file">
-            Attestation
-          </Label>
-          <Input type="file" name="file" id="file" required />
+          <Label htmlFor="file">Attestation</Label>
+          <Input type="file" name="file" id="file" required aria-required="true" />
         </div>
         <p className="m-0 mt-3 italic">
-          <Astérisque className="text-black" />
+          <span>*</span>
           {getInfoDuréeGF(garantieFinanciereEnMois)}
         </p>
         <div className="flex gap-4 flex-col md:flex-row mx-auto">
@@ -332,17 +328,23 @@ const DateEchéanceFormulaire = ({
         method="POST"
         className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
       >
-        <FormulaireChampsObligatoireLégende className="ml-auto" />
+        <ChampsObligatoiresLégende />
         <input name="projectId" value={projetId} readOnly hidden />
         <div>
-          <Label htmlFor="expirationDate" required>
+          <Label htmlFor="expirationDate">
             Date d'échéance des garanties financières
-            <Astérisque className="text-black" />
+            <span>*</span>
           </Label>
-          <Input required type="date" name="expirationDate" id="expirationDate" />
+          <Input
+            type="date"
+            name="expirationDate"
+            id="expirationDate"
+            required
+            aria-required="true"
+          />
         </div>
         <p className="italic m-0">
-          <Astérisque className="text-black" /> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
+          <span>*</span> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
         </p>
         <div className="mx-auto flex gap-4 flex-col md:flex-row">
           <PrimaryButton type="submit">Enregistrer</PrimaryButton>

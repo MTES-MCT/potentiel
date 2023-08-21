@@ -2,12 +2,8 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '../../../core/domain';
 import { okAsync } from '../../../core/utils';
 import { UnwrapForTest } from '../../../types';
-import {
-  AppelOffre,
-  CahierDesChargesModifié,
-  CahierDesChargesRéférenceParsed,
-  makeUser,
-} from '../../../entities';
+import { CahierDesChargesRéférenceParsed, makeUser } from '../../../entities';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { makeChoisirCahierDesCharges } from './choisirCahierDesCharges';

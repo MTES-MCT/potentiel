@@ -69,7 +69,7 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

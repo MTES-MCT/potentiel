@@ -1,4 +1,5 @@
-import { AppelOffre, ProjectAppelOffre } from '../../../entities';
+import { ProjectAppelOffre } from '../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 
 export type GetProjectAppelOffre = (args: {
   appelOffreId: string;

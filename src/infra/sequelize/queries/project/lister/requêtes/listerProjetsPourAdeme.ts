@@ -54,7 +54,7 @@ export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtre
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

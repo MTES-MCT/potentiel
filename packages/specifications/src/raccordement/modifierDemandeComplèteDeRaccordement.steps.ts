@@ -7,7 +7,7 @@ import {
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
-import { convertStringToReadable } from '../helpers/convertStringToReadable';
+import { convertStringToReadableStream } from '../helpers/convertStringToReadable';
 
 Quand(
   `le porteur modifie la demande complète de raccordement ayant pour référence {string} avec :`,
@@ -19,7 +19,7 @@ Quand(
 
     const accuséRéception = {
       format,
-      content: convertStringToReadable(content),
+      content: convertStringToReadableStream(content),
     };
 
     this.raccordementWorld.dateQualification = dateQualification;

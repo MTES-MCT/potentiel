@@ -14,6 +14,7 @@ import {
   TextArea,
   Form,
   InfoBox,
+  ChampsObligatoiresLégende,
 } from '../components';
 import { hydrateOnClient, updateUrlParams } from '../helpers';
 
@@ -50,6 +51,7 @@ export const AdminRegénérerPeriodeAttestations = ({
         method="post"
         className="max-w-none mx-0 mb-4"
       >
+        <ChampsObligatoiresLégende />
         <div>
           <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
           <Select
@@ -63,6 +65,8 @@ export const AdminRegénérerPeriodeAttestations = ({
                 familleId: null,
               })
             }
+            required
+            aria-required="true"
           >
             <option value="default" disabled hidden>
               Choisir un appel d‘offre
@@ -89,6 +93,8 @@ export const AdminRegénérerPeriodeAttestations = ({
                   periodeId: event.target.value,
                 })
               }
+              required
+              aria-required="true"
             >
               <option value="default" disabled hidden>
                 Choisir une période
@@ -103,7 +109,9 @@ export const AdminRegénérerPeriodeAttestations = ({
         )}
         {appelOffreId && familles && familles.length > 0 && (
           <div>
-            <Label htmlFor="familleId">Famille concernée</Label>
+            <Label htmlFor="familleId" optionnel>
+              Famille concernée
+            </Label>
             <Select
               id="familleId"
               name="familleId"
@@ -127,7 +135,7 @@ export const AdminRegénérerPeriodeAttestations = ({
           </div>
         )}
         <div>
-          <Label htmlFor="notificationDate">
+          <Label htmlFor="notificationDate" optionnel>
             Nouvelle date de désignation (facultatif, format JJ/MM/AAAA)
           </Label>
           <Input
@@ -142,7 +150,7 @@ export const AdminRegénérerPeriodeAttestations = ({
           </ErrorBox>
         </div>
         <div>
-          <Label htmlFor="reason">
+          <Label htmlFor="reason" optionnel>
             Message justificatif du changement (facultatif, sera inclus dans le mail aux porteurs de
             projet)
           </Label>

@@ -2,14 +2,14 @@ import React, { ComponentProps } from 'react';
 
 type LabelProps = ComponentProps<'label'> & {
   htmlFor: string;
-  required?: true;
-  disabled?: boolean;
+  disabled?: true;
+  optionnel?: true;
 };
 
 export const Label = ({
-  required,
+  optionnel,
   children,
-  disabled = false,
+  disabled = undefined,
   htmlFor,
   className = '',
   ...props
@@ -20,11 +20,6 @@ export const Label = ({
     className={`${disabled && 'text-grey-625-base'} ${className}`}
   >
     {children}
-    {required && (
-      <>
-        {' '}
-        <span className="text-error-425-base">*</span>
-      </>
-    )}
+    {optionnel && ' (optionnel)'}
   </label>
 );

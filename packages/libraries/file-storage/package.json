@@ -8,10 +8,11 @@
   "scripts": {
     "build": "tsc"
   },
-  "dependencies": {
-    "aws-sdk": "^2.1419.0"
-  },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.388.0",
+    "@aws-sdk/lib-storage": "^3.388.0"
   }
 }

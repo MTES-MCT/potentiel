@@ -6,7 +6,8 @@ import {
 } from '../../../__tests__/fixtures/aggregates';
 import { makeOnDateMiseEnServiceTransmise } from './onDateMiseEnServiceTransmise';
 import { DomainEvent, UniqueEntityID } from '../../../core/domain';
-import { CahierDesChargesModifié, ProjectAppelOffre } from '../../../entities';
+import { ProjectAppelOffre } from '../../../entities';
+import { CahierDesChargesModifié } from '@potentiel/domain-views';
 import { Project } from '../Project';
 import { DateMiseEnServiceTransmise } from '../events';
 import { jest, describe, it, beforeEach, expect } from '@jest/globals';
@@ -27,7 +28,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const getProjectAppelOffre = jest.fn(
     () =>
       ({
-        type: 'eolien',
+        typeAppelOffre: 'eolien',
         cahiersDesChargesModifiésDisponibles: [
           {
             type: 'modifié',

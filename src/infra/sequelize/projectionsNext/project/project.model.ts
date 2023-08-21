@@ -5,7 +5,7 @@ import {
   Model,
   NonAttribute,
 } from 'sequelize';
-import { Technologie } from '../../../../entities';
+import { Technologie } from '@potentiel/domain-views';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { User } from '../users/users.model';
 import { File } from '../file/file.model';

@@ -51,7 +51,7 @@ export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagina
         ...projet,
         ...(appelOffre && {
           appelOffre: {
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

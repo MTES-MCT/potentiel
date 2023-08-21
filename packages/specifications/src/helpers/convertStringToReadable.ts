@@ -1,5 +1,10 @@
-import { Readable } from 'stream';
+export const convertStringToReadableStream = (value: string) => {
+  const content = new ReadableStream({
+    start: async (controller) => {
+      controller.enqueue(Buffer.from(value, 'utf-8'));
+      controller.close();
+    },
+  });
 
-export const convertStringToReadable = (value: string) => {
-  return Readable.from([value], { objectMode: true });
+  return content;
 };

@@ -5,10 +5,8 @@ import { Request } from 'express';
 import {
   ProjectInfo,
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   Label,
   SecondaryLinkButton,
-  Astérisque,
   Input,
   TextArea,
   AlertBox,
@@ -21,6 +19,9 @@ import {
   Heading1,
   ProjectProps,
   Form,
+  ChampsObligatoiresLégende,
+  LabelDescription,
+  Callout,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '../../../routes';
@@ -71,8 +72,6 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
           <input type="hidden" name="projetId" value={project.id} />
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
-
-          <FormulaireChampsObligatoireLégende className="text-right" />
           <div>
             <div className="mb-2">Concernant le projet:</div>
             <ProjectInfo project={project} />
@@ -92,21 +91,26 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                       projet."
             />
           )}
-          <p>Ancien producteur : {project.nomCandidat}</p>
+          <Callout>
+            Producteur actuel : <span className="font-bold">{project.nomCandidat}</span>
+          </Callout>
+
+          <ChampsObligatoiresLégende />
           <div>
-            <Label htmlFor="producteur">
-              Nouveau producteur <Astérisque />
-            </Label>
+            <Label htmlFor="producteur">Nouveau producteur</Label>
             <Input
               type="text"
               name="producteur"
               id="producteur"
-              required
               {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
+              required
+              aria-required="true"
             />
           </div>
           <div>
-            <Label htmlFor="file">Joindre les statuts mis à jour</Label>
+            <Label htmlFor="file" optionnel>
+              Joindre les statuts mis à jour
+            </Label>
             <Input
               type="file"
               name="file"
@@ -115,14 +119,13 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
             />
           </div>
           <div>
-            <Label htmlFor="justification">
+            <Label htmlFor="justification" optionnel>
               Veuillez nous indiquer les raisons qui motivent votre demande
-              <br />
-              <span className="italic">
-                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc).
-              </span>
             </Label>
+            <LabelDescription>
+              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc).
+            </LabelDescription>
             <TextArea
               name="justification"
               id="justification"

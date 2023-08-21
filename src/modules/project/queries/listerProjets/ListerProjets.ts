@@ -1,6 +1,6 @@
-import { AppelOffre, Periode, Famille, ProjectAppelOffre } from '../../../../entities';
+import { ProjectAppelOffre } from '../../../../entities';
 import { PaginatedList, Pagination } from '../../../pagination';
-import { UtilisateurReadModel } from '../../../utilisateur/récupérer/UtilisateurReadModel';
+import { AppelOffre, Periode, Famille } from '@potentiel/domain-views';
 
 export const PermissionListerProjets = {
   nom: 'lister-projets',
@@ -20,7 +20,7 @@ export type ProjectListItem = {
   puissance: number;
   appelOffre?: {
     title?: ProjectAppelOffre['title'];
-    type: ProjectAppelOffre['type'];
+    type: ProjectAppelOffre['typeAppelOffre'];
     unitePuissance: ProjectAppelOffre['unitePuissance'];
     periode: ProjectAppelOffre['periode'];
     changementProducteurPossibleAvantAchèvement: ProjectAppelOffre['changementProducteurPossibleAvantAchèvement'];

@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import { AppelOffre, Famille, Periode } from '../../../entities';
 import routes from '../../../routes';
 import { PaginatedList } from '../../../modules/pagination';
+import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {
   ProjectList,
   LegacyPageTemplate,

@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { UniqueEntityID } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
-import { CahierDesChargesModifié, ProjectAppelOffre, User } from '../../../../entities';
+import { ProjectAppelOffre, User } from '../../../../entities';
 import { InfraNotAvailableError } from '../../../shared';
+import { CahierDesChargesModifié } from '@potentiel/domain-views';
 import {
   DemandeAnnulationAbandon,
   statutsDemandeAnnulationAbandon,

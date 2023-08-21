@@ -24,10 +24,13 @@ import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
 import { publishToEventBus } from '@potentiel/redis-event-bus-client';
 import { consumerPool } from '@potentiel/redis-event-bus-consumer';
+import { seed } from './seed';
 
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
+  await seed();
+
   await deleteAllSubscribers();
   mediator.use<Message>({
     middlewares: [logMiddleware],
@@ -57,6 +60,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       subscribe: consumerSubscribe,
       update: updateProjection,
     },
+    appelOffre: {},
     projet: {
       récupérerDétailProjet: récupérerDétailProjetAdapter,
     },

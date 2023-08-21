@@ -1,4 +1,3 @@
-import { createReadStream } from 'fs';
 import { mediator } from 'mediateur';
 import {
   PermissionTransmettreDemandeComplèteRaccordement,
@@ -14,6 +13,7 @@ import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { FileReadableStream } from '../../helpers/fileReadableStream';
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
@@ -111,7 +111,7 @@ v1Router.post(
       } else {
         accuséRéception = {
           format: file.mimetype,
-          content: createReadStream(file.path),
+          content: new FileReadableStream(file.path),
         };
       }
 

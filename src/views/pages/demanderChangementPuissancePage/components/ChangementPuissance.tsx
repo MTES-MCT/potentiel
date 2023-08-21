@@ -5,10 +5,19 @@ import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
 } from '../../../../modules/demandeModification';
-import { Astérisque, ErrorBox, Input, Label, TextArea } from '../../../components';
+import {
+  ErrorBox,
+  Input,
+  Label,
+  TextArea,
+  ChampsObligatoiresLégende,
+  LabelDescription,
+  Callout,
+} from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
-import { ProjectAppelOffre, Technologie } from '../../../../entities';
+import { ProjectAppelOffre } from '../../../../entities';
+import { Technologie } from '@potentiel/domain-views';
 
 type ChangementPuissanceProps = {
   unitePuissance: string;
@@ -56,38 +65,34 @@ export const ChangementPuissance = ({
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel);
 
+  const tousLesChampsRequis = !CDC2022choisi && fichierEtJustificationRequis;
+
   return (
     <>
+      <Callout>
+        <>
+          <div>
+            Puissance à la notification :{' '}
+            <span className="font-bold">
+              {puissanceInitiale} {appelOffre.unitePuissance}
+            </span>
+          </div>
+
+          {puissance !== puissanceInitiale && (
+            <div>
+              Puissance actuelle :{' '}
+              <span className="font-bold">
+                {puissance} {appelOffre.unitePuissance}
+              </span>
+            </div>
+          )}
+        </>
+      </Callout>
+
+      <ChampsObligatoiresLégende />
+
       <div>
-        <Label htmlFor="puissance-a-la-notification">
-          Puissance à la notification (en {appelOffre.unitePuissance})
-        </Label>
-        <Input
-          type="text"
-          disabled
-          value={puissanceInitiale}
-          name="puissance-a-la-notification"
-          id="puissance-a-la-notification"
-        />
-      </div>
-      {puissance !== puissanceInitiale && (
-        <div>
-          <Label htmlFor="puissance-actuelle">
-            Puissance actuelle ({appelOffre?.unitePuissance})
-          </Label>
-          <Input
-            type="text"
-            disabled
-            value={puissance}
-            name="puissance-actuelle"
-            id="puissance-actuelle"
-          />
-        </div>
-      )}
-      <div>
-        <Label htmlFor="puissance">
-          Nouvelle puissance (en {appelOffre?.unitePuissance}) <Astérisque />
-        </Label>
+        <Label htmlFor="puissance">Nouvelle puissance (en {appelOffre?.unitePuissance})</Label>
         <Input
           type="text"
           pattern="[0-9]+([\.,][0-9]+)?"
@@ -95,7 +100,8 @@ export const ChangementPuissance = ({
           id="puissance"
           defaultValue={puissanceSaisie || ''}
           onChange={handlePuissanceOnChange}
-          required={true}
+          required
+          aria-required="true"
         />
       </div>
 
@@ -112,34 +118,31 @@ export const ChangementPuissance = ({
       )}
 
       <div>
-        <Label htmlFor="justification">
-          <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
-          <br />
-          Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-          conduit à ce besoin de modification (contexte, facteurs extérieurs, etc){' '}
-          {!CDC2022choisi && fichierEtJustificationRequis && <Astérisque />}
+        <Label htmlFor="justification" optionnel={!tousLesChampsRequis ? true : undefined}>
+          Veuillez nous indiquer les raisons qui motivent votre demande
         </Label>
+        <LabelDescription>
+          Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+          conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+        </LabelDescription>
         <TextArea
           name="justification"
           id="justification"
           defaultValue={justification || ''}
-          required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
+          required={tousLesChampsRequis ? true : undefined}
+          aria-required={tousLesChampsRequis}
         />
       </div>
       <div>
-        <Label
-          htmlFor="file"
-          className="mt-4"
-          required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
-        >
-          Courrier explicatif ou décision administrative.{' '}
-          {!CDC2022choisi && fichierEtJustificationRequis && <Astérisque />}
+        <Label htmlFor="file" className="mt-4" optionnel={!tousLesChampsRequis ? true : undefined}>
+          Courrier explicatif ou décision administrative
         </Label>
         <Input
           type="file"
           name="file"
           id="file"
-          required={!CDC2022choisi && fichierEtJustificationRequis}
+          required={tousLesChampsRequis}
+          aria-required={tousLesChampsRequis}
         />
       </div>
     </>

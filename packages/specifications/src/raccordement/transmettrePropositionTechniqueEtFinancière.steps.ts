@@ -8,14 +8,14 @@ import {
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
-import { convertStringToReadable } from '../helpers/convertStringToReadable';
+import { convertStringToReadableStream } from '../helpers/convertStringToReadable';
 import {
   ConsulterDossierRaccordementQuery,
   ConsulterPropositionTechniqueEtFinancièreSignéeQuery,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
-import { convertReadableToString } from '../helpers/convertReadableToString';
+import { convertReadableStreamToString } from '../helpers/convertReadableToString';
 
 Quand(
   `le porteur de projet transmet une proposition technique et financière pour le dossier de raccordement ayant pour référence {string} avec :`,
@@ -27,7 +27,7 @@ Quand(
 
     const propositionTechniqueEtFinancièreSignée = {
       format,
-      content: convertStringToReadable(content),
+      content: convertStringToReadableStream(content),
     };
 
     this.raccordementWorld.dateSignature = dateSignature;
@@ -99,7 +99,7 @@ Alors(
 
     actualFormat.should.be.equal(expectedFormat);
 
-    const actualContent = await convertReadableToString(
+    const actualContent = await convertReadableStreamToString(
       propositionTechniqueEtFinancièreSignée.content,
     );
     const expectedContent = this.raccordementWorld.propositionTechniqueEtFinancièreSignée.content;

@@ -12,6 +12,7 @@ import {
   Section,
   Dropdown,
   Form,
+  ChampsObligatoiresLégende,
 } from '../../../components';
 
 import { ProjectDataForProjectPage } from '../../../../modules/project';
@@ -94,12 +95,13 @@ const InvitationForm = ({ project }: InvitationFormProps) => {
         className="invitationForm"
       >
         <Heading3 className="mb-1 mt-2">Gestion des accès à ce projet</Heading3>
+        <ChampsObligatoiresLégende />
         <input type="hidden" name="projectId" id="projectId" value={project.id} />
         <div>
-          <Label htmlFor="email" required>
+          <Label htmlFor="email">
             Courrier électronique de la personne habilitée à suivre ce projet
           </Label>
-          <Input type="email" name="email" id="email" required />
+          <Input type="email" name="email" id="email" required aria-required="true" />
         </div>
         <div className="flex flex-col md:flex-row gap-4 mx-auto items-center">
           <PrimaryButton className="mt-2 mr-3" type="submit" name="submit" id="submit">

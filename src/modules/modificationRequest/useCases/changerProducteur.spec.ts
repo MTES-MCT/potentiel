@@ -1,7 +1,8 @@
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, Repository } from '../../../core/domain';
 import { okAsync } from '../../../core/utils';
-import { makeUser, AppelOffre } from '../../../entities';
+import { makeUser } from '../../../entities';
+import { AppelOffre } from '@potentiel/domain-views';
 import { Readable } from 'stream';
 import { UnwrapForTest } from '../../../types';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';

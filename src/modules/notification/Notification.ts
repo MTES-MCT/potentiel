@@ -1,8 +1,8 @@
 import { Optional } from 'utility-types';
 import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '../../core/domain';
 import { ok, Result } from '../../core/utils';
-import { DateParutionCahierDesChargesModifié } from '../../entities';
 import { Région } from '../dreal/région';
+import { DateParutionCahierDesChargesModifié } from '@potentiel/domain-views';
 
 type BaseNotification = {
   message: {

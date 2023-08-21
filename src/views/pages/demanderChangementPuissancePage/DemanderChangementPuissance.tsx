@@ -1,11 +1,11 @@
 import React from 'react';
-import { ProjectAppelOffre, Technologie } from '../../../entities';
+import { ProjectAppelOffre } from '../../../entities';
+import { Technologie } from '@potentiel/domain-views';
 import { Request } from 'express';
 
 import {
   ProjectInfo,
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   SecondaryLinkButton,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
@@ -81,7 +81,6 @@ export const DemanderChangementPuissance = ({
           <input type="hidden" name="projectId" value={project.id} />
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
-          <FormulaireChampsObligatoireLégende className="text-right" />
 
           <div>
             <div className="mb-2">Concernant le projet:</div>

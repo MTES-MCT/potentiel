@@ -1,4 +1,5 @@
-import { ProjectAppelOffre, Technologie } from '../../../../../entities';
+import { ProjectAppelOffre } from '../../../../../entities';
+import { Technologie } from '@potentiel/domain-views';
 
 const defaultRatios = { min: 0.9, max: 1.1 };
 

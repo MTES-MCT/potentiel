@@ -1,19 +1,17 @@
-import { Readable } from 'stream';
-
 type EnregistrerAccuséRéceptionDemandeComplèteRaccordementOptions =
   | {
       opération: 'création';
       type: 'demande-complete-raccordement';
       identifiantProjet: string;
       référenceDossierRaccordement: string;
-      accuséRéception: { format: string; content: Readable };
+      accuséRéception: { format: string; content: ReadableStream };
     }
   | {
       opération: 'modification';
       type: 'demande-complete-raccordement';
       identifiantProjet: string;
       référenceDossierRaccordement: string;
-      accuséRéception: { format: string; content: Readable };
+      accuséRéception: { format: string; content: ReadableStream };
     }
   | {
       opération: 'déplacement';
@@ -33,14 +31,14 @@ type EnregistrerPropositionTechniqueEtFinancièreSignéeOptions =
       type: 'proposition-technique-et-financiere';
       identifiantProjet: string;
       référenceDossierRaccordement: string;
-      propositionTechniqueEtFinancièreSignée: { format: string; content: Readable };
+      propositionTechniqueEtFinancièreSignée: { format: string; content: ReadableStream };
     }
   | {
       opération: 'modification';
       type: 'proposition-technique-et-financiere';
       identifiantProjet: string;
       référenceDossierRaccordement: string;
-      propositionTechniqueEtFinancièreSignée: { format: string; content: Readable };
+      propositionTechniqueEtFinancièreSignée: { format: string; content: ReadableStream };
     }
   | {
       opération: 'déplacement';

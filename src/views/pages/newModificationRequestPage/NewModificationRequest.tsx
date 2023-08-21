@@ -6,7 +6,6 @@ import {
   ModificationRequestActionTitles,
   ProjectInfo,
   PrimaryButton,
-  FormulaireChampsObligatoireLégende,
   SecondaryLinkButton,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
@@ -86,11 +85,12 @@ export const NewModificationRequest = ({
 
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
-          <FormulaireChampsObligatoireLégende className="text-right" />
+
           <div>
             <div className="mb-2">Concernant le projet:</div>
             <ProjectInfo project={project} />
           </div>
+
           {action === 'actionnaire' && (
             <ChangementActionnaire {...{ project, actionnaire, justification }} />
           )}

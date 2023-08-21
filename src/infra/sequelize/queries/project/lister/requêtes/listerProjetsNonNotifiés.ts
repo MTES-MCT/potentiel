@@ -58,7 +58,7 @@ export const listerProjetsNonNotifiés: ListerProjetsNonNotifiés = async ({
         ...(appelOffre && {
           appelOffre: {
             title: appelOffre.title,
-            type: appelOffre.type,
+            type: appelOffre.typeAppelOffre,
             unitePuissance: appelOffre.unitePuissance,
             periode: appelOffre.periode,
             changementProducteurPossibleAvantAchèvement:

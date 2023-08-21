@@ -12,9 +12,9 @@ import {
   SuccessBox,
   Form,
 } from '../components';
-import { AppelOffre, Periode } from '../../entities';
 import { ProjectListItem } from '../../modules/project/queries';
 import ROUTES from '../../routes';
+import { AppelOffre, Periode } from '@potentiel/domain-views';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';

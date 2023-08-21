@@ -1,18 +1,6 @@
+import { CahierDesChargesRéférence, DonnéesCourriersRéponse } from '@potentiel/domain-views';
 import { ProjectAppelOffre } from './appelOffre';
-import { CahierDesChargesRéférence, parseCahierDesChargesRéférence } from './cahierDesCharges';
-
-export type DonnéesCourriersRéponse = Record<
-  | 'texteEngagementRéalisationEtModalitésAbandon'
-  | 'texteChangementDActionnariat'
-  | 'texteChangementDePuissance'
-  | 'texteIdentitéDuProducteur'
-  | 'texteChangementDeProducteur'
-  | 'texteDélaisDAchèvement',
-  {
-    référenceParagraphe: string;
-    dispositions: string;
-  }
->;
+import { parseCahierDesChargesRéférence } from './cahierDesCharges';
 
 export type GetDonnéesCourriersRéponse = (
   cahierDesChargesActuel: CahierDesChargesRéférence,
