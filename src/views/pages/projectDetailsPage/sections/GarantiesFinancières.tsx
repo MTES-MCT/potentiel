@@ -167,9 +167,11 @@ const Dépôt = ({
           déposer de nouvelles garanties financières
         </Link>
       ) : (
-        <p className="m-0 italic text-sm text-grey-425-base">
-          en attente de dépôt du porteur de projet
-        </p>
+        actionRequise === 'déposer' && (
+          <p className="m-0 italic text-sm text-grey-425-base">
+            en attente de dépôt du porteur de projet
+          </p>
+        )
       )}
     </>
   );
