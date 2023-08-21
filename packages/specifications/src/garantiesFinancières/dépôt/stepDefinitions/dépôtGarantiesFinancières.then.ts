@@ -8,7 +8,7 @@ import {
   ConsulterDépôtGarantiesFinancièresQuery,
   ConsulterFichierDépôtAttestationGarantiesFinancièreQuery,
 } from '@potentiel/domain-views';
-import { isNone } from '@potentiel/monads';
+import { isNone, none } from '@potentiel/monads';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
@@ -107,5 +107,51 @@ Alors(
     expect(actualFile.type).to.deep.equal('depot-attestation-constitution-garanties-financieres');
     expect(actualFile.format).to.deep.equal(format);
     expect(await convertReadableStreamToString(actualFile.content)).to.deep.equal(contenu);
+  },
+);
+
+Alors(
+  'le dépôt de garanties financières devrait être supprimé pour le projet {string}',
+  async function (nomProjet: string) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+    // ASSERT ON AGGREGATE
+
+    const actualAggregate = await loadGarantiesFinancièresAggregateFactory({
+      loadAggregate,
+    })(convertirEnIdentifiantProjet(identifiantProjet));
+
+    if (isNone(actualAggregate)) {
+      throw new Error(`L'agrégat n'existe pas !`);
+    }
+
+    expect(actualAggregate.dépôt).to.be.undefined;
+
+    // ASSERT ON READ MODEL
+
+    const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
+      type: 'CONSULTER_DÉPÔT_GARANTIES_FINANCIÈRES',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    if (isNone(actualRealModel)) {
+      throw new Error('dépôt garanties financières non trouvé (readmodel)');
+    }
+
+    expect(actualRealModel).to.deep.equal(undefined);
+
+    // ASSERT ON FILE
+
+    const actualFile =
+      await mediator.send<ConsulterFichierDépôtAttestationGarantiesFinancièreQuery>({
+        type: 'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',
+        data: {
+          identifiantProjet,
+        },
+      });
+
+    expect(actualFile).to.deep.equal(none);
   },
 );

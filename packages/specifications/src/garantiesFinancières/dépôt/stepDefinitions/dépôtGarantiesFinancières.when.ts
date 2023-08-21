@@ -137,3 +137,22 @@ Quand(
     }
   },
 );
+
+Quand(
+  'un utilisateur avec le rôle Dreal valide un dépôt de garanties financières pour le projet {string}',
+  async function (nomProjet: string) {
+    try {
+      const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+      await mediator.send<DomainUseCase>({
+        type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+        },
+      });
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
