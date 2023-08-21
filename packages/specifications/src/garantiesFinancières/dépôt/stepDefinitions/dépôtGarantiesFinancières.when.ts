@@ -1,7 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import {
   DomainUseCase,
-  GarantiesFinancièresSnapshotEvent,
+  GarantiesFinancièresSnapshotEventV1,
   TypeGarantiesFinancières,
   Utilisateur,
   convertirEnDateTime,
@@ -102,7 +102,7 @@ Quand(
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-      const event: GarantiesFinancièresSnapshotEvent = {
+      const event: GarantiesFinancièresSnapshotEventV1 = {
         type: 'GarantiesFinancièresSnapshot-v1',
         payload: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),

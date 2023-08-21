@@ -6,7 +6,7 @@ import {
   EnregistrementGarantiesFinancièresEvent,
   GarantiesFinancièresEvent,
 } from './garantiesFinancières.event';
-import { GarantiesFinancièresSnapshotEvent } from '../domain.events';
+import { GarantiesFinancièresSnapshotEventV1 } from '../domain.events';
 
 type GarantiesFinancièresAggregateId = `garanties-financières|${string}`;
 
@@ -126,7 +126,7 @@ const processGarantiesFinancièresSnapshotEvent = ({
   event,
   aggregate,
 }: {
-  event: GarantiesFinancièresSnapshotEvent;
+  event: GarantiesFinancièresSnapshotEventV1;
   aggregate: GarantiesFinancièresAggregate;
 }): GarantiesFinancièresAggregate => {
   let dépôt: GarantiesFinancièresAggregate['dépôt'];
