@@ -3,22 +3,24 @@ import { PrimaryButton, Input, Label, SearchIcon } from '../..';
 
 type BarreDeRechercheProps = {
   className?: string;
-  title: string;
   defaultValue?: string;
   name: string;
+  placeholder: string;
 };
 
 export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
   className = '',
-  title = 'Rechercher',
+  placeholder = 'Rechercher',
   defaultValue = '',
   name,
 }) => (
   <div className={`flex flex-col ${className}`}>
-    <Label htmlFor={name}>{title}</Label>
+    <Label htmlFor={name} className="collapse">
+      {placeholder}
+    </Label>
     <div className="flex">
       <Input
-        placeholder="Rechercher"
+        placeholder={placeholder}
         type="search"
         id={name}
         name={name}
@@ -27,7 +29,7 @@ export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
       />
       <PrimaryButton
         type="submit"
-        title={title}
+        title={placeholder}
         className="flex items-center py-2 px-2 lg:px-6 border-0 bg-blue-france-sun-base hover:bg-blue-france-sun-hover text-white"
       >
         <SearchIcon className="w-6 h-6 lg:mr-2" aria-hidden />

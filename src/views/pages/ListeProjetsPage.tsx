@@ -144,7 +144,7 @@ export const ListeProjets = ({
 
         <Form action={routes.LISTE_PROJETS} method="GET" className="w-full lg:ml-auto">
           <BarreDeRecherche
-            title="Rechercher par nom de projet"
+            placeholder="Rechercher par nom de projet"
             name="recherche"
             defaultValue={recherche || ''}
           />

@@ -85,7 +85,7 @@ export const ModificationRequestList = ({
         className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
       >
         <BarreDeRecherche
-          title="Nom projet, candidat, numéro CRE, commune, département, ..."
+          placeholder="Rechercher par nom projet, candidat, numéro CRE, commune, département..."
           name="recherche"
           defaultValue={recherche || ''}
           className="mt-8"
