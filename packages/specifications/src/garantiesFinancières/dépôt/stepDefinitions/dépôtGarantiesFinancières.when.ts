@@ -139,7 +139,7 @@ Quand(
 );
 
 Quand(
-  'un utilisateur avec le rôle Dreal valide un dépôt de garanties financières pour le projet {string}',
+  'un utilisateur avec le rôle Dreal valide le dépôt de garanties financières pour le projet {string}',
   async function (nomProjet: string) {
     try {
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);

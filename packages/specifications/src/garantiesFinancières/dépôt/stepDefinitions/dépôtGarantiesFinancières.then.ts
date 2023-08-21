@@ -136,11 +136,7 @@ Alors(
       },
     });
 
-    if (isNone(actualRealModel)) {
-      throw new Error('dépôt garanties financières non trouvé (readmodel)');
-    }
-
-    expect(actualRealModel).to.deep.equal(undefined);
+    expect(actualRealModel).to.deep.equal(none);
 
     // ASSERT ON FILE
 
