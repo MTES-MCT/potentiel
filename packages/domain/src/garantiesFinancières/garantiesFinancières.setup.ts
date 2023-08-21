@@ -24,9 +24,7 @@ export type GarantiesFinancièresDependencies = DéposerGarantiesFinancièresDep
   EnregistrerTypeGarantiesFinancièresDependencies &
   EnregistrerAttestationGarantiesFinancièresDependencies;
 
-export const setupDépôtGarantiesFinancières = async (
-  dependencies: GarantiesFinancièresDependencies,
-) => {
+export const setupGarantiesFinancières = async (dependencies: GarantiesFinancièresDependencies) => {
   // commands
   registerDéposerGarantiesFinancièresCommand(dependencies);
   registerModifierDépôtGarantiesFinancièresCommand(dependencies);
