@@ -18,11 +18,17 @@ import {
   registerModifierDépôtGarantiesFinancièresCommand,
 } from './dépôt/modifierDépôtGarantiesFinancières.command';
 import { registerModifierDépôtGarantiesFinancièresUseCase } from './dépôt/modifierdépôtGarantiesFinancières.usecase';
+import {
+  ValiderDépôtarantiesFinancièresDependencies,
+  registerValiderDépôtGarantiesFinancièresCommand,
+} from './dépôt/validerDépôtGarantiesFinancières.command';
+import { registerValiderDépôtGarantiesFinancièresUseCase } from './dépôt/validerDépôtGarantiesFinancières.usecase';
 
 export type GarantiesFinancièresDependencies = DéposerGarantiesFinancièresDependencies &
   ModifierDépôtGarantiesFinancièresDependencies &
   EnregistrerTypeGarantiesFinancièresDependencies &
-  EnregistrerAttestationGarantiesFinancièresDependencies;
+  EnregistrerAttestationGarantiesFinancièresDependencies &
+  ValiderDépôtarantiesFinancièresDependencies;
 
 export const setupGarantiesFinancières = async (dependencies: GarantiesFinancièresDependencies) => {
   // commands
@@ -31,9 +37,11 @@ export const setupGarantiesFinancières = async (dependencies: GarantiesFinanci�
   registerEnregistrerTypeGarantiesFinancièresCommand(dependencies);
   registerEnregistrerAttestationGarantiesFinancièresCommand(dependencies);
   registerEnregistrerGarantiesFinancièresComplètesCommand(dependencies);
+  registerValiderDépôtGarantiesFinancièresCommand(dependencies);
 
   // usecases
   registerDéposerGarantiesFinancièresUseCase();
   registerModifierDépôtGarantiesFinancièresUseCase();
   registerEnregistrerGarantiesFinancièresUseCase();
+  registerValiderDépôtGarantiesFinancièresUseCase();
 };
