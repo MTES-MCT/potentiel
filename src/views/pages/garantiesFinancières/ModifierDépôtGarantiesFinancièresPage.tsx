@@ -11,6 +11,7 @@ import {
   InfoBox,
   Select,
   ErrorBox,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { DépôtGarantiesFinancièresReadModel, ProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
@@ -45,9 +46,7 @@ export const ModifierDépôtGarantiesFinancières = ({
         >
           <Heading2>Modifier des garanties financières déposées</Heading2>
 
-          <p className="text-sm italic m-0">
-            Sauf mention contraire “(optionnel)” dans le label, tous les champs sont obligatoires
-          </p>
+          <ChampsObligatoiresLégende />
 
           {error && <ErrorBox>{error}</ErrorBox>}
 

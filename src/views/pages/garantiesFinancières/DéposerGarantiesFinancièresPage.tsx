@@ -11,6 +11,7 @@ import {
   InfoBox,
   Select,
   ErrorBox,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { ProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
@@ -43,7 +44,7 @@ export const DéposerGarantiesFinancières = ({
         >
           <Heading2>Déposer de nouvelles garanties financières</Heading2>
 
-          <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+          <ChampsObligatoiresLégende />
 
           {error && <ErrorBox>{error}</ErrorBox>}
 
