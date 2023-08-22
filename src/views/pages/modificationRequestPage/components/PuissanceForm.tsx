@@ -64,7 +64,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
           name="isDecisionJustice"
           onChange={(event) => setResponseFileOptionnel(event.target.checked)}
         >
-          La demande de changement de puissance fait suite à une décision de l'état
+          La demande de changement de puissance fait suite à une décision de l'État
         </Checkbox>
         <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
           En cochant cette case, vous n'aurez pas à joindre de courrier de réponse en cas
