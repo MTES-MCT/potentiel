@@ -604,5 +604,11 @@ class routes {
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/depot-garanties-financieres/modifier`;
   };
+
+  static POST_VALIDER_DEPOT_GARANTIES_FINANCIERES = (identifiantProjet?: RawIdentifiantProjet) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres/valider`;
+  };
 }
 export default routes;

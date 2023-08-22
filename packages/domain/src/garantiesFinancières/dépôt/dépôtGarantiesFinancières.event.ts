@@ -33,3 +33,10 @@ export type DépôtGarantiesFinancièresModifiéEventV1 = DomainEvent<
       }
   )
 >;
+
+export type DépôtGarantiesFinancièresValidéEventV1 = DomainEvent<
+  'DépôtGarantiesFinancièresValidé-v1',
+  {
+    identifiantProjet: RawIdentifiantProjet;
+  }
+>;
