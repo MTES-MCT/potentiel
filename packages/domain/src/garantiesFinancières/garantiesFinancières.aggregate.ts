@@ -6,7 +6,7 @@ import {
   EnregistrementGarantiesFinancièresEvent,
   GarantiesFinancièresEvent,
 } from './garantiesFinancières.event';
-import { GarantiesFinancièresSnapshotEvent } from '../domain.events';
+import { GarantiesFinancièresSnapshotEventV1 } from '../domain.events';
 
 type GarantiesFinancièresAggregateId = `garanties-financières|${string}`;
 
@@ -29,10 +29,12 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
         return processGarantiesFinancièresSnapshotEvent({ event, aggregate });
       case 'TypeGarantiesFinancièresEnregistré-v1':
       case 'AttestationGarantiesFinancièresEnregistrée-v1':
-        return processEnregistrementGarantiesFinancièresEvent({ event, aggregate });
+        return processEnregistrementGarantiesFinancièresEvents({ event, aggregate });
       case 'GarantiesFinancièresDéposées-v1':
       case 'DépôtGarantiesFinancièresModifié-v1':
-        return processDépôtGarantiesFinancièresEvent({ event, aggregate });
+        return processDépôtGarantiesFinancièresEvents({ event, aggregate });
+      case 'DépôtGarantiesFinancièresValidé-v1':
+        return processDépôtGarantiesFinancièresValidéEvent({ aggregate });
       default:
         return { ...aggregate };
     }
@@ -51,7 +53,7 @@ export const loadGarantiesFinancièresAggregateFactory = ({
   };
 };
 
-const processEnregistrementGarantiesFinancièresEvent = ({
+const processEnregistrementGarantiesFinancièresEvents = ({
   event,
   aggregate,
 }: {
@@ -87,7 +89,7 @@ const processEnregistrementGarantiesFinancièresEvent = ({
   }
 };
 
-const processDépôtGarantiesFinancièresEvent = ({
+const processDépôtGarantiesFinancièresEvents = ({
   event,
   aggregate,
 }: {
@@ -124,7 +126,7 @@ const processGarantiesFinancièresSnapshotEvent = ({
   event,
   aggregate,
 }: {
-  event: GarantiesFinancièresSnapshotEvent;
+  event: GarantiesFinancièresSnapshotEventV1;
   aggregate: GarantiesFinancièresAggregate;
 }): GarantiesFinancièresAggregate => {
   let dépôt: GarantiesFinancièresAggregate['dépôt'];
@@ -162,4 +164,14 @@ const processGarantiesFinancièresSnapshotEvent = ({
   }
 
   return { ...aggregate, dépôt, actuelles };
+};
+
+const processDépôtGarantiesFinancièresValidéEvent = ({
+  aggregate,
+}: {
+  aggregate: GarantiesFinancièresAggregate;
+}) => {
+  const dépôtValidé = aggregate.dépôt;
+  delete dépôtValidé?.dateDépôt;
+  return { actuelles: dépôtValidé, dépôt: undefined };
 };

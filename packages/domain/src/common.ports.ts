@@ -10,3 +10,9 @@ export type TéléverserFichierPort = (data: {
   format: string;
   content: ReadableStream;
 }) => Promise<void>;
+
+export type DéplacerFichierPort = (data: {
+  identifiantProjet: RawIdentifiantProjet;
+  typeFichierActuel: TypeFichier;
+  nouveauType: TypeFichier;
+}) => Promise<void>;
