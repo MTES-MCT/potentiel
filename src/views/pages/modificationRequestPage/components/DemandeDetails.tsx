@@ -34,8 +34,12 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
         </div>
       )}
 
-      <Heading3 className="mb-2">Explications du porteur de projet</Heading3>
-      {justification && <p className="m-0 italic">{`"${justification}"`}</p>}
+      {justification && (
+        <>
+          <Heading3 className="mb-2">Explications du porteur de projet</Heading3>
+          <p className="m-0 italic">{`"${justification}"`}</p>
+        </>
+      )}
 
       <DetailsByType modificationRequest={modificationRequest} />
 
