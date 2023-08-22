@@ -40,3 +40,10 @@ export type DépôtGarantiesFinancièresValidéEventV1 = DomainEvent<
     identifiantProjet: RawIdentifiantProjet;
   }
 >;
+
+export type DépôtGarantiesFinancièresSuppriméEventV1 = DomainEvent<
+  'DépôtGarantiesFinancièresSupprimé-v1',
+  {
+    identifiantProjet: RawIdentifiantProjet;
+  }
+>;
