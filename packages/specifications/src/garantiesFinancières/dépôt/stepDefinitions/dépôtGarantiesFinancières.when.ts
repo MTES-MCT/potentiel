@@ -1,7 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import {
   DomainUseCase,
-  GarantiesFinancièresSnapshotEvent,
+  GarantiesFinancièresSnapshotEventV1,
   TypeGarantiesFinancières,
   Utilisateur,
   convertirEnDateTime,
@@ -102,7 +102,7 @@ Quand(
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-      const event: GarantiesFinancièresSnapshotEvent = {
+      const event: GarantiesFinancièresSnapshotEventV1 = {
         type: 'GarantiesFinancièresSnapshot-v1',
         payload: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
@@ -131,6 +131,25 @@ Quand(
 
       await upload(path, contenuFichier);
 
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'un utilisateur avec le rôle Dreal valide le dépôt de garanties financières pour le projet {string}',
+  async function (nomProjet: string) {
+    try {
+      const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+      await mediator.send<DomainUseCase>({
+        type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+        },
+      });
       await sleep(500);
     } catch (error) {
       this.error = error as Error;

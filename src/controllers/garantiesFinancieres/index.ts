@@ -14,3 +14,4 @@ export * from './postDéposerGarantiesFinancières';
 export * from './getFichierDépôtAttestationGarantiesFinancières';
 export * from './getModifierDépôtGarantiesFinancièresPage';
 export * from './postModifierDépôtGarantiesFinancières';
+export * from './postValiderDépôtGarantiesFinancières';

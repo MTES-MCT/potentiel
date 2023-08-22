@@ -43,3 +43,11 @@ export class DépôtGarantiesFinancièresDéjàExistantErreur extends InvalidOpe
     super('Vous avez déjà des déposé des garanties financières en attente de validation');
   }
 }
+
+export class DépôtGarantiesFinancièresNonTrouvéPourValidationErreur extends InvalidOperationError {
+  constructor() {
+    super(
+      "Le dépôt de garanties financières n'a pas été trouvé. Veuillez contacter un administrateur si le problème persiste.",
+    );
+  }
+}
