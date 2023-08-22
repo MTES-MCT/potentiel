@@ -42,6 +42,7 @@ export const setupDépôtGarantiesFinancièreViews = async (
         'GarantiesFinancièresSnapshot-v1',
         'GarantiesFinancièresDéposées-v1',
         'DépôtGarantiesFinancièresModifié-v1',
+        'DépôtGarantiesFinancièresValidé-v1',
       ],
       eventHandler: async (event: DépôtGarantiesFinancièresEvent) => {
         await mediator.publish<ExecuteDépôtGarantiesFinancièresProjector>({

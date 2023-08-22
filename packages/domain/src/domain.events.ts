@@ -22,6 +22,6 @@ export {
   GarantiesFinancièresEvent,
   DépôtGarantiesFinancièresEvent,
   EnregistrementGarantiesFinancièresEvent,
-  AttestationGarantiesFinancièresEnregistréeEventV1 as AttestationGarantiesFinancièresEnregistréeEvent,
-  GarantiesFinancièresSnapshotEventV1 as GarantiesFinancièresSnapshotEvent,
+  AttestationGarantiesFinancièresEnregistréeEventV1,
+  GarantiesFinancièresSnapshotEventV1,
 };

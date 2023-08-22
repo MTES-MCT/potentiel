@@ -4,8 +4,12 @@ import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
 } from './dépôtGarantiesFinancières.readModel';
-import { Create, Update, Find } from '../common.port';
+import { Create, Update, Find, Remove } from '../common.port';
 import { DépôtGarantiesFinancièresEvent } from '@potentiel/domain';
+import {
+  GarantiesFinancièresReadModel,
+  GarantiesFinancièresReadModelKey,
+} from '../domainViews.readModel';
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',
@@ -16,12 +20,14 @@ export type DépôtGarantiesFinancièresProjectorDependencies = {
   create: Create;
   update: Update;
   find: Find;
+  remove: Remove;
 };
 
 export const registerDépôtGarantiesFinancièresProjector = ({
   create,
   update,
   find,
+  remove,
 }: DépôtGarantiesFinancièresProjectorDependencies) => {
   const handler: MessageHandler<ExecuteDépôtGarantiesFinancièresProjector> = async (event) => {
     const key: DépôtGarantiesFinancièresReadModelKey = `dépôt-garanties-financières|${event.payload.identifiantProjet}`;
@@ -89,6 +95,38 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           },
         });
         break;
+      case 'DépôtGarantiesFinancièresValidé-v1':
+        // enregistrer GF
+        const garantiesFinancièresActuellesKey: GarantiesFinancièresReadModelKey = `garanties-financières|${event.payload.identifiantProjet}`;
+        const garantiesFinancièresActuelles = await find<GarantiesFinancièresReadModel>(
+          garantiesFinancièresActuellesKey,
+        );
+
+        if (isSome(dépôtGarantiesFinancières)) {
+          const garantiesFinancières = {
+            typeGarantiesFinancières: dépôtGarantiesFinancières.typeGarantiesFinancières,
+            dateÉchéance: dépôtGarantiesFinancières.dateÉchéance,
+            attestationConstitution: {
+              format: dépôtGarantiesFinancières.attestationConstitution.format,
+              date: dépôtGarantiesFinancières.attestationConstitution.date,
+            },
+          };
+          if (isSome(garantiesFinancièresActuelles)) {
+            await update<GarantiesFinancièresReadModel>(
+              garantiesFinancièresActuellesKey,
+              garantiesFinancières,
+            );
+          } else {
+            await create<GarantiesFinancièresReadModel>(
+              garantiesFinancièresActuellesKey,
+              garantiesFinancières,
+            );
+          }
+        } else {
+          // TODO : ce cas ne devrait pas arriver - logguer erreur si pas de dépôt
+        }
+
+        await remove<DépôtGarantiesFinancièresReadModel>(key);
     }
   };
 
