@@ -11,6 +11,9 @@ import {
   ClockIcon,
   ErrorIcon,
   PrimaryButton,
+  Form,
+  SecondaryButton,
+  TrashIcon,
 } from '../../../components';
 import routes from '../../../../routes';
 import { RawIdentifiantProjet } from '@potentiel/domain';
@@ -152,6 +155,19 @@ const Dépôt = ({
                 <EditIcon className="mr-1" aria-hidden />
                 modifier le dépôt en cours
               </Link>
+
+              <Form
+                action={routes.POST_SUPPRIMER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
+                method="post"
+              >
+                <SecondaryButton
+                  className="border-error-425-base text-error-425-base hover:bg-error-950-base focus:bg-error-950-base w-fit cursor-pointer"
+                  confirmation="Etes-vous sur de vouloir supprimer le dépôt en cours ?"
+                >
+                  <TrashIcon className="h-4 w-4 mr-2 align-middle text-error-425-base" />
+                  Supprimer le dépôt en cours
+                </SecondaryButton>
+              </Form>
             </div>
           )}
           {userRole === 'dreal' && (

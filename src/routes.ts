@@ -610,5 +610,13 @@ class routes {
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/depot-garanties-financieres/valider`;
   };
+
+  static POST_SUPPRIMER_DEPOT_GARANTIES_FINANCIERES = (
+    identifiantProjet?: RawIdentifiantProjet,
+  ) => {
+    return `/projet/${
+      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
+    }/depot-garanties-financieres/supprimer`;
+  };
 }
 export default routes;

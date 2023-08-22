@@ -17,3 +17,8 @@ export const PermissionValiderDépôtGarantiesFinancières = {
   nom: 'valider-garanties-financières',
   description: 'Valider de nouvelles garanties financières',
 };
+
+export const PermissionSupprimerDépôtGarantiesFinancières = {
+  nom: 'supprimer-garanties-financières',
+  description: 'Supprimer de nouvelles garanties financières',
+};
