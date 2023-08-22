@@ -1,13 +1,19 @@
 import { appelOffreRepo } from '../../dataAccess';
 import asyncHandler from '../helpers/asyncHandler';
 import routes from '../../routes';
-import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
-import { GarantiesFinancieresPage } from '../../views';
-import { getCurrentUrl, getPagination, getOptionsFiltresParAOs } from '../helpers';
-import { listerProjets } from '../../infra/sequelize/queries';
+import { ListeGarantiesFinancieresPage } from '../../views';
+import {
+  getCurrentUrl,
+  getPagination,
+  getOptionsFiltresParAOs,
+  vérifierPermissionUtilisateur,
+} from '../helpers';
+import { listerGarantiesFinancièresPourDreal } from '../../infra/sequelize/queries';
+import { PermissionConsulterListeGarantiesFinancières } from '@potentiel/domain';
+import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
-const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
+const getListeGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres } =
     request.query as any;
 
@@ -27,8 +33,9 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
     garantiesFinancieres,
   };
 
-  const { user } = request;
-  const projects = await listerProjets({
+  const user = request.user as UtilisateurReadModel;
+
+  const projects = await listerGarantiesFinancièresPourDreal({
     pagination,
     user,
     filtres,
@@ -37,7 +44,7 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const optionsFiltresParAOs = await getOptionsFiltresParAOs({ user, appelOffreId });
 
   response.send(
-    GarantiesFinancieresPage({
+    ListeGarantiesFinancieresPage({
       request,
       projects,
       appelsOffre,
@@ -49,6 +56,6 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
 v1Router.get(
   routes.ADMIN_GARANTIES_FINANCIERES,
-  ensureRole(['dreal']),
-  getGarantiesFinancieresPage,
+  vérifierPermissionUtilisateur(PermissionConsulterListeGarantiesFinancières),
+  getListeGarantiesFinancieresPage,
 );

@@ -6,7 +6,7 @@ import {
   DemanderDelai,
   DrealList,
   Error,
-  GarantiesFinancieres,
+  ListeGarantiesFinancieres,
   Home,
   ModificationRequest,
   ModificationRequestList,
@@ -111,11 +111,13 @@ export const ChoisirCahierDesChargesPage = (props: Parameters<typeof ChoisirCahi
     title: 'Changer de cahier des charges',
   });
 
-export const GarantiesFinancieresPage = (props: Parameters<typeof GarantiesFinancieres>[0]) =>
+export const ListeGarantiesFinancieresPage = (
+  props: Parameters<typeof ListeGarantiesFinancieres>[0],
+) =>
   makeHtml({
-    Component: GarantiesFinancieres,
+    Component: ListeGarantiesFinancieres,
     props,
-    title: 'Garanties financières',
+    title: 'Liste des garanties financières',
   });
 
 export const NewModificationRequestPage = (props: Parameters<typeof NewModificationRequest>[0]) =>

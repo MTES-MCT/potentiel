@@ -5,7 +5,6 @@ import routes from '../../../routes';
 import { PaginatedList } from '../../../modules/pagination';
 import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {
-  ProjectList,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
@@ -19,12 +18,13 @@ import {
   DownloadLink,
 } from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
-import { ProjectListItem } from '../../../modules/project/queries';
+import { GarantiesFinancièresListItem } from '../../../modules/project/queries';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Liste } from './components/Liste';
 
-export type GarantiesFinancieresProps = {
+export type ListeGarantiesFinancieresProps = {
   request: Request;
-  projects: PaginatedList<ProjectListItem>;
+  projects: PaginatedList<GarantiesFinancièresListItem>;
   appelsOffre: Array<AppelOffre>;
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
@@ -32,7 +32,7 @@ export type GarantiesFinancieresProps = {
   currentUrl: string;
 };
 
-export const GarantiesFinancieres = ({
+export const ListeGarantiesFinancieres = ({
   request,
   projects,
   appelsOffre,
@@ -40,7 +40,7 @@ export const GarantiesFinancieres = ({
   existingPeriodes,
   existingFamilles,
   currentUrl,
-}: GarantiesFinancieresProps) => {
+}: ListeGarantiesFinancieresProps) => {
   const {
     query: { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres },
     user,
@@ -193,10 +193,8 @@ export const GarantiesFinancieres = ({
               (document csv)
             </DownloadLink>
           </div>
-          <ProjectList
-            displayGF={true}
+          <Liste
             projects={projects}
-            role={utilisateur.role}
             GFPastDue={garantiesFinancieres === 'pastDue'}
             currentUrl={currentUrl}
             exportListe={{
@@ -212,4 +210,4 @@ export const GarantiesFinancieres = ({
   );
 };
 
-hydrateOnClient(GarantiesFinancieres);
+hydrateOnClient(ListeGarantiesFinancieres);

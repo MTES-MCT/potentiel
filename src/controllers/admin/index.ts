@@ -2,7 +2,6 @@ export * from './drealUsers';
 export * from './inviterDgecValidateur';
 export * from './partnerUsers';
 export * from './getEmailsEnErreurPage';
-export * from './getGarantiesFinancieresPage';
 export * from './getInvitationsCandidatsEnAttentePage';
 export * from './getRegenerateCertificatesPage';
 export * from './getSignalerDemandeAbandonPage';
