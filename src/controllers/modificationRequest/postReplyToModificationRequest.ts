@@ -27,6 +27,10 @@ import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import moment from 'moment';
 
+/* eslint-disable import/no-duplicates */
+import { format, parseISO } from 'date-fns';
+import { fr } from 'date-fns/locale';
+
 const FORMAT_DATE = 'DD/MM/YYYY';
 
 v1Router.post(
@@ -43,13 +47,14 @@ v1Router.post(
         versionDate,
         submitAccept,
         submitConfirm,
-        newNotificationDate,
         puissance,
         isDecisionJustice,
         actionnaire,
         producteur,
       },
     } = request;
+
+    let newNotificationDate: string | undefined = undefined;
 
     if (!validateUniqueId(modificationRequestId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
@@ -68,7 +73,16 @@ v1Router.post(
     const acceptedReply = typeof submitAccept === 'string';
     const confirmReply = typeof submitConfirm === 'string';
 
-    if (type === 'recours' && !isDateFormatValid(newNotificationDate, FORMAT_DATE)) {
+    if (request.body.newNotificationDate) {
+      newNotificationDate = format(parseISO(request.body.newNotificationDate), 'dd/MM/yyyy', {
+        locale: fr,
+      });
+    }
+    if (
+      type === 'recours' &&
+      newNotificationDate &&
+      !isDateFormatValid(newNotificationDate, FORMAT_DATE)
+    ) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée: la date de notification est erronnée.",

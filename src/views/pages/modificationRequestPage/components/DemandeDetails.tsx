@@ -215,7 +215,6 @@ const FournisseurDetails = ({ modificationRequest }: FournisseurDetailsProps) =>
       {modificationRequest.fournisseurs?.length > 0 && (
         <>
           <Heading3 className="mb-2">Nouveau(x) fournisseur(s)</Heading3>
-          <span>Nouveau(x) fournisseur(s) : </span>
           <ul>
             {modificationRequest.fournisseurs?.map((fournisseur, index) => (
               <li key={index}>

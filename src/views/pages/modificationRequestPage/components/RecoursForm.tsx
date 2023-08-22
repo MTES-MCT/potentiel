@@ -4,13 +4,14 @@ import React from 'react';
 
 export const RecoursForm = () => (
   <div className="form__group mt-4 mb-4">
-    <Label htmlFor="newNotificationDate">Nouvelle date de désignation (format JJ/MM/AAAA)</Label>
+    <Label htmlFor="newNotificationDate">Nouvelle date de désignation</Label>
     <Input
-      type="text"
+      type="date"
       name="newNotificationDate"
       id="newNotificationDate"
       defaultValue={afficherDate(new Date())}
-      style={{ width: 'auto' }}
+      required
+      aria-required="true"
     />
   </div>
 );
