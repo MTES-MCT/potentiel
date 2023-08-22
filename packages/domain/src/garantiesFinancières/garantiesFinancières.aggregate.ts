@@ -29,12 +29,12 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
         return processGarantiesFinancièresSnapshotEvent({ event, aggregate });
       case 'TypeGarantiesFinancièresEnregistré-v1':
       case 'AttestationGarantiesFinancièresEnregistrée-v1':
-        return processEnregistrementGarantiesFinancièresEvent({ event, aggregate });
+        return processEnregistrementGarantiesFinancièresEvents({ event, aggregate });
       case 'GarantiesFinancièresDéposées-v1':
       case 'DépôtGarantiesFinancièresModifié-v1':
-        return processDépôtGarantiesFinancièresEvent({ event, aggregate });
+        return processDépôtGarantiesFinancièresEvents({ event, aggregate });
       case 'DépôtGarantiesFinancièresValidé-v1':
-        return processDépôtGarantiesFinancièresValidé({ aggregate });
+        return processDépôtGarantiesFinancièresValidéEvent({ aggregate });
       default:
         return { ...aggregate };
     }
@@ -53,7 +53,7 @@ export const loadGarantiesFinancièresAggregateFactory = ({
   };
 };
 
-const processEnregistrementGarantiesFinancièresEvent = ({
+const processEnregistrementGarantiesFinancièresEvents = ({
   event,
   aggregate,
 }: {
@@ -89,7 +89,7 @@ const processEnregistrementGarantiesFinancièresEvent = ({
   }
 };
 
-const processDépôtGarantiesFinancièresEvent = ({
+const processDépôtGarantiesFinancièresEvents = ({
   event,
   aggregate,
 }: {
@@ -166,7 +166,7 @@ const processGarantiesFinancièresSnapshotEvent = ({
   return { ...aggregate, dépôt, actuelles };
 };
 
-const processDépôtGarantiesFinancièresValidé = ({
+const processDépôtGarantiesFinancièresValidéEvent = ({
   aggregate,
 }: {
   aggregate: GarantiesFinancièresAggregate;
