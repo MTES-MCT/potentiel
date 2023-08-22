@@ -35,17 +35,19 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
       )}
 
       <Heading3 className="mb-2">Explications du porteur de projet</Heading3>
-      <p className="m-0 italic">{`"${justification}"`}</p>
+      {justification && <p className="m-0 italic">{`"${justification}"`}</p>}
 
       <DetailsByType modificationRequest={modificationRequest} />
 
-      <div className="mt-4">
-        <DownloadLink
-          fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
-        >
-          Télécharger la pièce-jointe
-        </DownloadLink>
-      </div>
+      {attachmentFile && (
+        <div className="mt-4">
+          <DownloadLink
+            fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
+          >
+            Télécharger la pièce-jointe
+          </DownloadLink>
+        </div>
+      )}
     </div>
   );
 };
