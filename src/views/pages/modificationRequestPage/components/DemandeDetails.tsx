@@ -43,7 +43,7 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
         <DownloadLink
           fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
         >
-          Télécharger les status mis à jour
+          Télécharger la pièce-jointe
         </DownloadLink>
       </div>
     </div>
