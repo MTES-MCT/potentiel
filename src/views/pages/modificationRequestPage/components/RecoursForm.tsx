@@ -1,5 +1,5 @@
 import { Label, Input } from '../../../components';
-import { afficherDate } from '../../../helpers';
+import { formatDateForInput } from '../../../helpers';
 import React from 'react';
 
 export const RecoursForm = () => (
@@ -9,7 +9,7 @@ export const RecoursForm = () => (
       type="date"
       name="newNotificationDate"
       id="newNotificationDate"
-      defaultValue={afficherDate(new Date())}
+      defaultValue={formatDateForInput(new Date().toISOString())}
       required
       aria-required="true"
     />
