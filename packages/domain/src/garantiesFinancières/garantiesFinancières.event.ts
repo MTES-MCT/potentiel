@@ -7,6 +7,7 @@ import {
 import {
   GarantiesFinancièresDéposéesEventV1,
   DépôtGarantiesFinancièresModifiéEventV1,
+  DépôtGarantiesFinancièresValidéEventV1,
 } from './dépôt/dépôtGarantiesFinancières.event';
 import { TypeGarantiesFinancières } from './garantiesFinancières.valueType';
 
@@ -33,12 +34,14 @@ export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
 export type EnregistrementGarantiesFinancièresEvent =
   | TypeGarantiesFinancièresEnregistréEventV1
   | AttestationGarantiesFinancièresEnregistréeEventV1
-  | GarantiesFinancièresSnapshotEventV1;
+  | GarantiesFinancièresSnapshotEventV1
+  | DépôtGarantiesFinancièresValidéEventV1;
 
 export type DépôtGarantiesFinancièresEvent =
   | GarantiesFinancièresDéposéesEventV1
   | DépôtGarantiesFinancièresModifiéEventV1
-  | GarantiesFinancièresSnapshotEventV1;
+  | GarantiesFinancièresSnapshotEventV1
+  | DépôtGarantiesFinancièresValidéEventV1;
 
 export type GarantiesFinancièresEvent =
   | EnregistrementGarantiesFinancièresEvent

@@ -283,7 +283,7 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   }
 
   // TO DO : ajouter les cas de changement de producteur et GF échue
-  if (!garantiesFinancièresSoumisesÀLaCandidature && userIs('porteur-projet')(user)) {
+  if (!garantiesFinancièresSoumisesÀLaCandidature && isNone(garantiesFinancièresActuelles)) {
     if (isNone(garantiesFinancièresDéposées)) {
       actionRequise = 'déposer';
     } else {
