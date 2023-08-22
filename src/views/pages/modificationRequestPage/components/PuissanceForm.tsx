@@ -33,27 +33,30 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
         modificationRequest={modificationRequest}
         optionnel={responseFileOptionnel ? true : undefined}
       />
-      <div className="form__group mt-4">
-        <label>
-          Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
-          {modificationRequest.project.unitePuissance}
-        </label>
-        <input type="hidden" value={modificationRequest.puissance} name="puissance" />
-      </div>
 
-      {!CDC2022choisi && exceedsRatios && (
-        <AlertBox className="mt-3">
-          La nouvelle puissance demandée est inférieure à {Math.round(ratios.min * 100)}% de la
-          puissance initiale ou supérieure à {Math.round(ratios.max * 100)}%.{' '}
-        </AlertBox>
-      )}
-      {exceedsPuissanceMax && reservedVolume && (
-        <AlertBox className="mt-3">
-          La nouvelle puissance demandée dépasse la puissance maximum de{' '}
-          {reservedVolume.puissanceMax} {modificationRequest.project.unitePuissance} du volume
-          reservé de l'appel d'offre.
-        </AlertBox>
-      )}
+      <div>
+        <div>
+          Nouvelle puissance demandée :{' '}
+          <span className="font-bold">
+            {modificationRequest.puissance} {modificationRequest.project.unitePuissance}
+          </span>
+        </div>
+        <input type="hidden" value={modificationRequest.puissance} name="puissance" />
+
+        {!CDC2022choisi && exceedsRatios && (
+          <AlertBox className="mt-2">
+            La nouvelle puissance demandée est inférieure à {Math.round(ratios.min * 100)}% de la
+            puissance initiale ou supérieure à {Math.round(ratios.max * 100)}%.{' '}
+          </AlertBox>
+        )}
+        {exceedsPuissanceMax && reservedVolume && (
+          <AlertBox className="mt-2">
+            La nouvelle puissance demandée dépasse la puissance maximum de{' '}
+            {reservedVolume.puissanceMax} {modificationRequest.project.unitePuissance} du volume
+            reservé de l'appel d'offre.
+          </AlertBox>
+        )}
+      </div>
 
       <div className="form__group mb-4">
         <Checkbox
@@ -61,7 +64,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
           name="isDecisionJustice"
           onChange={(event) => setResponseFileOptionnel(event.target.checked)}
         >
-          La demande de changement de puissance fait suite à une décision de justice
+          La demande de changement de puissance fait suite à une décision de l'État
         </Checkbox>
         <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
           En cochant cette case, vous n'aurez pas à joindre de courrier de réponse en cas

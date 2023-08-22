@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import moment from 'moment';
 import React, { ComponentProps } from 'react';
 import ROUTES from '../../../../routes';
-import { DownloadLink, ExternalLink, Heading2 } from '../../../components';
+import { DownloadLink, ExternalLink, Heading2, Heading3 } from '../../../components';
 import { afficherDate } from '../../../helpers';
 
 type DemandeDetailsProps = ComponentProps<'div'> & {
@@ -17,8 +17,10 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
   return (
     <div className={`${className}`}>
       <Heading2>Détail de la demande</Heading2>
+      <Heading3 className="mb-2">Contexte</Heading3>
       <div>
-        Déposée par {requestedBy} le {afficherDate(requestedOn)}
+        Demande déposée par <span className="font-bold">{requestedBy}</span> le{' '}
+        <span className="font-bold">{afficherDate(requestedOn)}</span>
       </div>
       {cahierDesCharges && (
         <div>
@@ -31,8 +33,16 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
           (<ExternalLink href={cahierDesCharges.url}>voir le cahier des charges</ExternalLink>)
         </div>
       )}
-      {justification && <div className="italic mt-2">{`"${justification}"`}</div>}
+
+      {justification && (
+        <>
+          <Heading3 className="mb-2">Explications du porteur de projet</Heading3>
+          <p className="m-0 italic">{`"${justification}"`}</p>
+        </>
+      )}
+
       <DetailsByType modificationRequest={modificationRequest} />
+
       {attachmentFile && (
         <div className="mt-4">
           <DownloadLink
@@ -49,6 +59,7 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
 interface DetailsByTypeProps {
   modificationRequest: ModificationRequestPageDTO;
 }
+
 const DetailsByType = ({ modificationRequest }: DetailsByTypeProps) => {
   switch (modificationRequest.type) {
     case 'delai':
@@ -81,28 +92,35 @@ const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
     ? new Date(dateAchèvementDemandée)
     : moment(completionDueOn).add(delayInMonths, 'month').toDate();
 
-  return status === 'envoyée' || status === 'en instruction' ? (
-    <div className="mt-2">
-      La date d'achèvement théorique est au <b>{format(new Date(completionDueOn), 'dd/MM/yyyy')}</b>
-      .
-      <br />
-      Le porteur demande un délai pour une nouvelle date limite d'achèvement le{' '}
-      <span className="font-bold">{format(dateDemandée, 'dd/MM/yyyy')}</span>.
-    </div>
-  ) : (
-    <div className="mt-1">
-      {delayInMonths && (
-        <>
-          Le porteur a demandé un délai de <span className="font-bold">{delayInMonths} mois</span>.
-        </>
-      )}
-      {dateAchèvementDemandée && (
-        <>
-          Le porteur a demandé un délai pour une nouvelle date d'achèvement le{' '}
-          <span className="font-bold">
-            {format(new Date(dateAchèvementDemandée), 'dd/MM/yyyy')}
-          </span>
-        </>
+  return (
+    <div>
+      <Heading3 className="mb-2">Nouveau délai</Heading3>
+      {['envoyée, en instruction'].includes(status) ? (
+        <div>
+          La date d'achèvement théorique est au{' '}
+          <b>{format(new Date(completionDueOn), 'dd/MM/yyyy')}</b>
+          .
+          <br />
+          Le porteur demande un délai pour une nouvelle date limite d'achèvement le{' '}
+          <span className="font-bold">{format(dateDemandée, 'dd/MM/yyyy')}</span>.
+        </div>
+      ) : (
+        <div>
+          {delayInMonths && (
+            <>
+              Le porteur a demandé un délai de{' '}
+              <span className="font-bold">{delayInMonths} mois</span>.
+            </>
+          )}
+          {dateAchèvementDemandée && (
+            <>
+              Le porteur a demandé un délai pour une nouvelle date d'achèvement le{' '}
+              <span className="font-bold">
+                {format(new Date(dateAchèvementDemandée), 'dd/MM/yyyy')}
+              </span>
+            </>
+          )}
+        </div>
       )}
     </div>
   );
@@ -119,14 +137,21 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
     puissance !== (puissanceAuMomentDuDepot || puissanceInitiale);
 
   return (
-    <div className="mt-2">
+    <div>
+      <Heading3 className="mb-2">Nouvelle puissance</Heading3>
       <div>
-        Puissance à la notification : {puissanceInitiale} {unitePuissance}
+        Puissance à la notification :{' '}
+        <span className="font-bold">
+          {puissanceInitiale} {unitePuissance}
+        </span>
       </div>
 
       {puissanceAuMomentDuDepot && puissanceInitiale !== puissanceAuMomentDuDepot && (
         <div>
-          Puissance au moment du dépôt : {puissanceAuMomentDuDepot} {unitePuissance}
+          Puissance au moment du dépôt :{' '}
+          <span className="font-bold">
+            {puissanceAuMomentDuDepot} {unitePuissance}
+          </span>
         </div>
       )}
 
@@ -134,14 +159,20 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
         <>
           {hasPuissanceChangedSinceDepot && (
             <div>
-              Puissance actuelle : {project.puissance} {unitePuissance}
+              Puissance actuelle :{' '}
+              <span className="font-bold">
+                {project.puissance} {unitePuissance}
+              </span>
             </div>
           )}
         </>
       )}
 
       <div>
-        Nouvelle puissance demandée : {modificationRequest.puissance} {unitePuissance}
+        Nouvelle puissance demandée :{' '}
+        <span className="font-bold">
+          {modificationRequest.puissance} {unitePuissance}
+        </span>
       </div>
     </div>
   );
@@ -152,8 +183,11 @@ interface ActionnaireDetailsProps {
 }
 const ActionnaireDetails = ({ modificationRequest }: ActionnaireDetailsProps) => {
   return (
-    <div className="mt-2">
-      <span>Nouvel actionnaire : {modificationRequest.actionnaire}</span>
+    <div>
+      <Heading3 className="mb-2">Nouvel actionnaire</Heading3>
+      <div>
+        Nouvel actionnaire : <span className="font-bold">{modificationRequest.actionnaire}</span>
+      </div>
     </div>
   );
 };
@@ -163,8 +197,11 @@ interface ProducteurDetailsProps {
 }
 const ProducteurDetails = ({ modificationRequest }: ProducteurDetailsProps) => {
   return (
-    <div className="mt-2">
-      <span>Nouveau producteur : {modificationRequest.producteur}</span>
+    <div>
+      <Heading3 className="mb-2">Nouveau producteur actionnaire</Heading3>
+      <div>
+        Nouveau producteur : <span className="font-bold">{modificationRequest.producteur}</span>
+      </div>
     </div>
   );
 };
@@ -174,9 +211,10 @@ interface FournisseurDetailsProps {
 }
 const FournisseurDetails = ({ modificationRequest }: FournisseurDetailsProps) => {
   return (
-    <div className="mt-2">
+    <div>
       {modificationRequest.fournisseurs?.length > 0 && (
         <>
+          <Heading3 className="mb-2">Nouveau(x) fournisseur(s)</Heading3>
           <span>Nouveau(x) fournisseur(s) : </span>
           <ul>
             {modificationRequest.fournisseurs?.map((fournisseur, index) => (
@@ -189,10 +227,11 @@ const FournisseurDetails = ({ modificationRequest }: FournisseurDetailsProps) =>
       )}
       {modificationRequest.evaluationCarbone && (
         <>
-          <br />
-          <span>
-            Nouvelle évaluation carbone : {modificationRequest.evaluationCarbone} kg eq CO2/kWc
-          </span>
+          <Heading3 className="mb-2">Nouvelle évaluation carbone</Heading3>
+          <div>
+            Nouvelle évaluation carbone :{' '}
+            <span className="font-bold">{modificationRequest.evaluationCarbone} kg eq CO2/kWc</span>
+          </div>
         </>
       )}
     </div>
