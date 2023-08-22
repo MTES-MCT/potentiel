@@ -14,6 +14,7 @@ import {
   Form,
   SecondaryButton,
   TrashIcon,
+  SecondaryLinkButton,
 } from '../../../components';
 import routes from '../../../../routes';
 import { RawIdentifiantProjet } from '@potentiel/domain';
@@ -150,11 +151,14 @@ const Dépôt = ({
             )}
           />
           {userRole === 'porteur-projet' && (
-            <div>
-              <Link href={routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiantProjet)}>
+            <div className="flex gap-4">
+              <SecondaryLinkButton
+                className="font-normal"
+                href={routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiantProjet)}
+              >
                 <EditIcon className="mr-1" aria-hidden />
-                modifier le dépôt en cours
-              </Link>
+                Modifier le dépôt en cours
+              </SecondaryLinkButton>
 
               <Form
                 action={routes.POST_SUPPRIMER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
