@@ -4,7 +4,7 @@ import { ProjetDependencies, setupProjet } from './projet/projet.setup';
 import { RaccordementDependencies, setupRaccordement } from './raccordement/raccordement.setup';
 import {
   GarantiesFinancièresDependencies,
-  setupDépôtGarantiesFinancières,
+  setupGarantiesFinancières,
 } from './garantiesFinancières/garantiesFinancières.setup';
 
 export type DomainDependencies = {
@@ -33,7 +33,7 @@ export const setupDomain = async ({
 
   setupGestionnaireRéseau(common);
 
-  setupDépôtGarantiesFinancières({ ...common, ...garantiesFinancières });
+  setupGarantiesFinancières({ ...common, ...garantiesFinancières });
 
   const unsubscribeProjet = await setupProjet({ ...common, ...projet });
 
