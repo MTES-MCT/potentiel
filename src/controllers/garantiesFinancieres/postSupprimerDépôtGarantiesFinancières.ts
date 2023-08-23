@@ -38,7 +38,7 @@ v1Router.post(
         const identifiant = request.params.identifiantProjet;
         response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(identifiant), {
-            error: `Le dépôt de garanties financières n'a pas pu être validé. Veuillez contacter un administrateur si le problème persiste.`,
+            error: `Le dépôt de garanties financières n'a pas pu être supprimé. Veuillez contacter un administrateur si le problème persiste.`,
           }),
         );
       },
