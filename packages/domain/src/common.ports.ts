@@ -16,3 +16,8 @@ export type DéplacerFichierPort = (data: {
   typeFichierActuel: TypeFichier;
   nouveauType: TypeFichier;
 }) => Promise<void>;
+
+export type SupprimerFichierPort = (data: {
+  type: TypeFichier;
+  identifiantProjet: RawIdentifiantProjet;
+}) => Promise<void>;

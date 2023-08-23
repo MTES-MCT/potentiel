@@ -5,34 +5,34 @@ import {
   createGarantiesFinancièresAggregateId,
   loadGarantiesFinancièresAggregateFactory,
 } from '../garantiesFinancières.aggregate';
-import { DéplacerFichierPort } from '../../common.ports';
+import { SupprimerFichierPort } from '../../common.ports';
 import { isNone } from '@potentiel/monads';
 import { DépôtGarantiesFinancièresNonTrouvéErreur } from '../garantiesFinancières.error';
-import { DépôtGarantiesFinancièresValidéEventV1 } from './dépôtGarantiesFinancières.event';
+import { DépôtGarantiesFinancièresSuppriméEventV1 } from './dépôtGarantiesFinancières.event';
 
-export type ValiderDépôtGarantiesFinancièresCommand = Message<
-  'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES',
+export type SupprimerDépôtGarantiesFinancièresCommand = Message<
+  'SUPPRIMER_DÉPÔT_GARANTIES_FINANCIÈRES',
   {
     identifiantProjet: IdentifiantProjetValueType;
   }
 >;
 
-export type ValiderDépôtarantiesFinancièresDependencies = {
+export type SupprimerDépôtGarantiesFinancièresDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
-  déplacerFichier: DéplacerFichierPort;
+  supprimerFichier: SupprimerFichierPort;
 };
 
-export const registerValiderDépôtGarantiesFinancièresCommand = ({
+export const registerSupprimerDépôtGarantiesFinancièresCommand = ({
   publish,
   loadAggregate,
-  déplacerFichier,
-}: ValiderDépôtarantiesFinancièresDependencies) => {
+  supprimerFichier,
+}: SupprimerDépôtGarantiesFinancièresDependencies) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
     loadAggregate,
   });
 
-  const handler: MessageHandler<ValiderDépôtGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<SupprimerDépôtGarantiesFinancièresCommand> = async ({
     identifiantProjet,
   }) => {
     const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
@@ -41,14 +41,13 @@ export const registerValiderDépôtGarantiesFinancièresCommand = ({
       throw new DépôtGarantiesFinancièresNonTrouvéErreur();
     }
 
-    await déplacerFichier({
+    await supprimerFichier({
+      type: 'depot-attestation-constitution-garanties-financieres',
       identifiantProjet: identifiantProjet.formatter(),
-      typeFichierActuel: 'depot-attestation-constitution-garanties-financieres',
-      nouveauType: 'attestation-constitution-garanties-financieres',
     });
 
-    const event: DépôtGarantiesFinancièresValidéEventV1 = {
-      type: 'DépôtGarantiesFinancièresValidé-v1',
+    const event: DépôtGarantiesFinancièresSuppriméEventV1 = {
+      type: 'DépôtGarantiesFinancièresSupprimé-v1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
       },
@@ -57,5 +56,5 @@ export const registerValiderDépôtGarantiesFinancièresCommand = ({
     await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
   };
 
-  mediator.register('VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES', handler);
+  mediator.register('SUPPRIMER_DÉPÔT_GARANTIES_FINANCIÈRES', handler);
 };

@@ -127,6 +127,9 @@ export const registerDépôtGarantiesFinancièresProjector = ({
         }
 
         await remove<DépôtGarantiesFinancièresReadModel>(key);
+      case 'DépôtGarantiesFinancièresSupprimé-v1':
+        await remove<DépôtGarantiesFinancièresReadModel>(key);
+        break;
     }
   };
 
