@@ -23,6 +23,7 @@ import {
   téléchargerFichierAdapter,
   récupérerDétailProjetAdapter,
   déplacerFichierAdapter,
+  supprimerFichierAdapter,
 } from '@potentiel/infra-adapters';
 import { loadAggregate, oldSubscribe, publish } from '@potentiel/pg-event-sourcing';
 import {
@@ -92,6 +93,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     garantiesFinancières: {
       téléverserFichier: téléverserFichierAdapter,
       déplacerFichier: déplacerFichierAdapter,
+      supprimerFichier: supprimerFichierAdapter,
     },
   });
 

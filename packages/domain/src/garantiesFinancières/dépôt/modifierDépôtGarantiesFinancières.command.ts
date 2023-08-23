@@ -15,7 +15,7 @@ import {
 } from '../garantiesFinancières.aggregate';
 import { TéléverserFichierPort } from '../../common.ports';
 import { isNone } from '@potentiel/monads';
-import { DépôtGarantiesFinancièresNonTrouvéPourModificationErreur } from '../garantiesFinancières.error';
+import { DépôtGarantiesFinancièresNonTrouvéErreur } from '../garantiesFinancières.error';
 import { DépôtGarantiesFinancièresModifiéEventV1 } from './dépôtGarantiesFinancières.event';
 
 export type ModifierDépôtGarantiesFinancièresCommand = Message<
@@ -52,7 +52,7 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
     const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
 
     if (isNone(agrégatGarantiesFinancières) || !agrégatGarantiesFinancières.dépôt) {
-      throw new DépôtGarantiesFinancièresNonTrouvéPourModificationErreur();
+      throw new DépôtGarantiesFinancièresNonTrouvéErreur();
     }
 
     verifyGarantiesFinancièresTypeForCommand(typeGarantiesFinancières, dateÉchéance, utilisateur);
