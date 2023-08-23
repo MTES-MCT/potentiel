@@ -24,6 +24,7 @@ import {
   PermissionEnregistrerGarantiesFinancières,
   PermissionDéposerGarantiesFinancières,
   PermissionValiderDépôtGarantiesFinancières,
+  PermissionSupprimerDépôtGarantiesFinancières,
 } from '@potentiel/domain';
 import {
   PermissionListerGestionnairesRéseau,
@@ -69,6 +70,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterGarantiesFinancières,
         PermissionEnregistrerGarantiesFinancières,
         PermissionDéposerGarantiesFinancières,
+        PermissionSupprimerDépôtGarantiesFinancières,
       ];
     case 'caisse-des-dépôts':
       return [

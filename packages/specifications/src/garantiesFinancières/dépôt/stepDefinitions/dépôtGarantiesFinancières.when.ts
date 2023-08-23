@@ -156,3 +156,21 @@ Quand(
     }
   },
 );
+
+Quand(
+  'un utilisateur avec le rôle Porteur supprime le dépôt de garanties financières pour le projet {string}',
+  async function (nomProjet: string) {
+    try {
+      const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+      await mediator.send<DomainUseCase>({
+        type: 'SUPPRIMER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
