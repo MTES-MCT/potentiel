@@ -14,7 +14,6 @@ import {
   Form,
   SecondaryButton,
   TrashIcon,
-  SecondaryLinkButton,
 } from '../../../components';
 import routes from '../../../../routes';
 import { RawIdentifiantProjet } from '@potentiel/domain';
@@ -151,21 +150,18 @@ const Dépôt = ({
             )}
           />
           {userRole === 'porteur-projet' && (
-            <div className="flex gap-4">
-              <SecondaryLinkButton
-                className="font-normal"
-                href={routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiantProjet)}
-              >
+            <div className="flex items-center gap-4 mt-2">
+              <Link href={routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiantProjet)}>
                 <EditIcon className="mr-1" aria-hidden />
                 Modifier le dépôt en cours
-              </SecondaryLinkButton>
+              </Link>
 
               <Form
                 action={routes.POST_SUPPRIMER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
                 method="post"
               >
                 <SecondaryButton
-                  className="border-error-425-base text-error-425-base hover:bg-error-950-base focus:bg-error-950-base w-fit cursor-pointer"
+                  className="!p-0 shadow-none border-none bg-transparent hover:bg-transparent focus:bg-transparent text-error-425-base underline w-fit cursor-pointer"
                   confirmation="Êtes-vous sûr de vouloir supprimer le dépôt en cours ?"
                 >
                   <TrashIcon className="h-4 w-4 mr-2 align-middle text-error-425-base" />
@@ -258,11 +254,9 @@ const AfficherGF = ({
         )}
       </div>
       {dateConstitution && formatFichier && (
-        <div>
-          <DownloadLink fileUrl={fichierUrl}>
-            télécharger l'attestation (constituée le {afficherDate(new Date(dateConstitution))})
-          </DownloadLink>
-        </div>
+        <DownloadLink fileUrl={fichierUrl} className="block mt-2">
+          télécharger l'attestation (constituée le {afficherDate(new Date(dateConstitution))})
+        </DownloadLink>
       )}
     </div>
   );
