@@ -187,7 +187,7 @@ const Dépôt = ({
           {garantiesFinancièresActuelles && (
             <div className="italic text-sm text-grey-425-base">
               <ErrorIcon className="mr-1 align-middle" aria-hidden />
-              Une fois validées, ces garanties financières renplaceront les garanties financières
+              Une fois validées, ces garanties financières remplaceront les garanties financières
               actuelles.
             </div>
           )}
