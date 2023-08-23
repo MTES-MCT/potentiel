@@ -1,11 +1,10 @@
 import { Request } from 'express';
-import querystring from 'querystring';
 import React from 'react';
-import routes from '../../../routes';
-import { PaginatedList } from '../../../modules/pagination';
+import routes from '../../../../routes';
+import { PaginatedList } from '../../../../modules/pagination';
 import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {
-  LegacyPageTemplate,
+  PageTemplate,
   SuccessBox,
   ErrorBox,
   LinkButton,
@@ -15,12 +14,47 @@ import {
   Label,
   Select,
   Form,
-  DownloadLink,
-} from '../../components';
-import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
-import { GarantiesFinancièresListItem } from '../../../modules/project/queries';
-import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Liste } from './components/Liste';
+} from '../../../components';
+import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../../helpers';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Liste } from './composants/Liste';
+
+export type GarantiesFinancièresListItem = {
+  id: string;
+  nomProjet: string;
+  potentielIdentifier: string;
+  numeroCRE: string;
+  communeProjet: string;
+  departementProjet: string;
+  regionProjet: string;
+  nomCandidat: string;
+  nomRepresentantLegal: string;
+  email: string;
+  appelOffre: {
+    title: string;
+    periode: string;
+    famille: string;
+  };
+  garantiesFinancières?: {
+    actionRequise?: 'compléter enregistrement' | 'enregistrer' | 'déposer' | 'compléter dépôt';
+    actuelles?: {
+      typeGarantiesFinancières?:
+        | "avec date d'échéance"
+        | 'consignation'
+        | '6 mois après achèvement';
+      dateÉchéance?: string;
+      attestationConstitution?: { format: string; date: string };
+    };
+    dépôt?: {
+      typeGarantiesFinancières?:
+        | "avec date d'échéance"
+        | 'consignation'
+        | '6 mois après achèvement';
+      dateÉchéance?: string;
+      attestationConstitution: { format: string; date: string };
+    };
+  };
+};
 
 export type ListeGarantiesFinancieresProps = {
   request: Request;
@@ -60,9 +94,11 @@ export const ListeGarantiesFinancieres = ({
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
 
   return (
-    <LegacyPageTemplate user={utilisateur} currentPage="list-garanties-financieres">
-      <Heading1>Garanties financières</Heading1>
-
+    <PageTemplate
+      user={utilisateur}
+      currentPage="list-garanties-financieres"
+      contentHeader={<Heading1 className="text-white">Garanties financières</Heading1>}
+    >
       <Form action={routes.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
         <BarreDeRecherche
           placeholder="Rechercher par nom du projet"
@@ -176,37 +212,22 @@ export const ListeGarantiesFinancieres = ({
           </LinkButton>
         )}
       </Form>
+
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
+
       {projects.items.length === 0 ? (
-        <ListeVide titre="Aucune garantie financière à lister" />
+        <ListeVide titre="Aucunes garanties financières à lister" />
       ) : (
-        <>
-          <div className="mb-8 mt-4">
-            <DownloadLink
-              fileUrl={`${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-                request.query as any,
-              )}`}
-            >
-              Télécharger les{' '}
-              <span>{Array.isArray(projects) ? projects.length : projects.itemCount}</span> projets
-              (document csv)
-            </DownloadLink>
-          </div>
-          <Liste
-            projects={projects}
-            GFPastDue={garantiesFinancieres === 'pastDue'}
-            currentUrl={currentUrl}
-            exportListe={{
-              title: 'Télécharger un export (document csv)',
-              url: `${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-                request.query as any,
-              )}`,
-            }}
-          />
-        </>
+        <Liste
+          className="mt-6"
+          userRole={user.role}
+          projects={projects}
+          GFPastDue={garantiesFinancieres === 'pastDue'}
+          currentUrl={currentUrl}
+        />
       )}
-    </LegacyPageTemplate>
+    </PageTemplate>
   );
 };
 
