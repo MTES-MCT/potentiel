@@ -166,7 +166,7 @@ const Dépôt = ({
               >
                 <SecondaryButton
                   className="border-error-425-base text-error-425-base hover:bg-error-950-base focus:bg-error-950-base w-fit cursor-pointer"
-                  confirmation="Etes-vous sur de vouloir supprimer le dépôt en cours ?"
+                  confirmation="Êtes-vous sûr de vouloir supprimer le dépôt en cours ?
                 >
                   <TrashIcon className="h-4 w-4 mr-2 align-middle text-error-425-base" />
                   Supprimer le dépôt en cours
