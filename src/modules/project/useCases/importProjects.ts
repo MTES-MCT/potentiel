@@ -6,6 +6,12 @@ import { User } from '../../../entities';
 import { parseProjectLine } from '../utils/parseProjectLine';
 import { LegacyModificationRawDataImported } from '../../modificationRequest';
 import { EventBus } from '../../../core/domain';
+import { mediator } from 'mediateur';
+import {
+  DomainUseCase,
+  convertirEnDateTime,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
 
 interface ImportProjectsDeps {
   eventBus: EventBus;
@@ -83,6 +89,26 @@ export const makeImportProjects =
           }),
         );
       }
+
+      await mediator.send<DomainUseCase>({
+        type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
+        data: {
+          utilisateur: {
+            rôle: importedBy.role,
+          },
+          identifiantProjet: convertirEnIdentifiantProjet({
+            appelOffre: appelOffreId,
+            période: periodeId,
+            famille: familleId,
+            numéroCRE: numeroCRE,
+          }),
+          typeGarantiesFinancières: projectData.garantiesFinancièresType,
+          dateÉchéance: projectData.garantiesFinancièresDateEchéance
+            ? convertirEnDateTime(projectData.garantiesFinancièresDateEchéance)
+            : undefined,
+          attestationConstitution: undefined,
+        },
+      });
     }
   };
 
