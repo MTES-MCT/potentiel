@@ -8,6 +8,7 @@ import {
   GarantiesFinancièresDéposéesEventV1,
   DépôtGarantiesFinancièresModifiéEventV1,
   DépôtGarantiesFinancièresValidéEventV1,
+  DépôtGarantiesFinancièresSuppriméEventV1,
 } from './dépôt/dépôtGarantiesFinancières.event';
 import { TypeGarantiesFinancières } from './garantiesFinancières.valueType';
 
@@ -41,7 +42,8 @@ export type DépôtGarantiesFinancièresEvent =
   | GarantiesFinancièresDéposéesEventV1
   | DépôtGarantiesFinancièresModifiéEventV1
   | GarantiesFinancièresSnapshotEventV1
-  | DépôtGarantiesFinancièresValidéEventV1;
+  | DépôtGarantiesFinancièresValidéEventV1
+  | DépôtGarantiesFinancièresSuppriméEventV1;
 
 export type GarantiesFinancièresEvent =
   | EnregistrementGarantiesFinancièresEvent
