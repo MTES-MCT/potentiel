@@ -1,5 +1,4 @@
 #Language: fr-FR
-
 Fonctionnalité: Modifier le dépôt de garanties financières en attente de validation dans Potentiel
     Contexte: 
         Etant donné le projet "Centrale éolienne 20"
@@ -49,7 +48,7 @@ Fonctionnalité: Modifier le dépôt de garanties financières en attente de val
             | format               | application/pdf               |
             | contenu fichier      | le nouveau contenu du fichier |
             | date de constitution | 2022-01-01                    |
-        Alors l'utilisateur devrait être informé que "Le dépôt de garanties financières que vous tentez de modifier est introuvable"
+        Alors l'utilisateur devrait être informé que "Le dépôt de garanties financières n'a pas été trouvé pour ce projet. Veuillez contacter un administrateur si le problème persiste."
 
     Scénario: Erreur si date de constitution dans le futur
         Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
