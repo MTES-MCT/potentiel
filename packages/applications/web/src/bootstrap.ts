@@ -21,6 +21,7 @@ import {
   téléchargerFichierAdapter,
   téléverserFichierAdapter,
   déplacerFichierAdapter,
+  supprimerFichierAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
@@ -55,6 +56,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     garantiesFinancières: {
       téléverserFichier: téléverserFichierAdapter,
       déplacerFichier: déplacerFichierAdapter,
+      supprimerFichier: supprimerFichierAdapter,
     },
   });
 

@@ -32,22 +32,16 @@ export class ModificationGarantiesFinancièresNonAutoriséeErreur extends Invali
   }
 }
 
-export class DépôtGarantiesFinancièresNonTrouvéPourModificationErreur extends InvalidOperationError {
-  constructor() {
-    super('Le dépôt de garanties financières que vous tentez de modifier est introuvable');
-  }
-}
-
 export class DépôtGarantiesFinancièresDéjàExistantErreur extends InvalidOperationError {
   constructor() {
     super('Vous avez déjà des déposé des garanties financières en attente de validation');
   }
 }
 
-export class DépôtGarantiesFinancièresNonTrouvéPourValidationErreur extends InvalidOperationError {
+export class DépôtGarantiesFinancièresNonTrouvéErreur extends InvalidOperationError {
   constructor() {
     super(
-      "Le dépôt de garanties financières n'a pas été trouvé. Veuillez contacter un administrateur si le problème persiste.",
+      "Le dépôt de garanties financières n'a pas été trouvé pour ce projet. Veuillez contacter un administrateur si le problème persiste.",
     );
   }
 }
