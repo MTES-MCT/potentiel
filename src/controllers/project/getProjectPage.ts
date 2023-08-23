@@ -108,7 +108,7 @@ v1Router.get(
       // GARANTIES FINANCIÈRES
 
       const garantiesFinancières = projet.appelOffre.isSoumisAuxGF
-        ? await getGarantiesFinancièresDataForProjetPage({
+        ? await getProjectGarantiesFinancièresData({
             identifiantProjet: identifiantFonctionnelProjet,
             user,
             garantiesFinancièresSoumisesÀLaCandidature:
@@ -221,7 +221,7 @@ const getAlertesRaccordement = async ({
   return alertes.length > 0 ? alertes : undefined;
 };
 
-type GarantiesFinancièresDataForProjetPage = {
+type ProjectGarantiesFinancièresData = {
   actionRequise?: 'compléter enregistrement' | 'enregistrer' | 'déposer' | 'compléter dépôt';
   actuelles?: {
     typeGarantiesFinancières?: "avec date d'échéance" | 'consignation' | '6 mois après achèvement';
@@ -235,7 +235,7 @@ type GarantiesFinancièresDataForProjetPage = {
   };
 };
 
-const getGarantiesFinancièresDataForProjetPage = async ({
+const getProjectGarantiesFinancièresData = async ({
   identifiantProjet,
   garantiesFinancièresSoumisesÀLaCandidature,
   user,
@@ -243,8 +243,8 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   identifiantProjet: IdentifiantProjet;
   garantiesFinancièresSoumisesÀLaCandidature: boolean;
   user: UtilisateurReadModel;
-}): Promise<GarantiesFinancièresDataForProjetPage | undefined> => {
-  let actionRequise: GarantiesFinancièresDataForProjetPage['actionRequise'];
+}): Promise<ProjectGarantiesFinancièresData | undefined> => {
+  let actionRequise: ProjectGarantiesFinancièresData['actionRequise'];
 
   if (
     !userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal', 'caisse-des-dépôts', 'cre'])(
