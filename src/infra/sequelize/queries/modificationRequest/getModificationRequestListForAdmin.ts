@@ -112,13 +112,13 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             },
           ],
           order: [['createdAt', 'DESC']],
-          ...(pagination && mapToOffsetAndLimit(pagination)),
+          ...mapToOffsetAndLimit(pagination),
         }),
       );
     })
     .andThen(
-      (res): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
-        const modificationRequests = res.rows
+      (résultat): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
+        const modificationRequests = résultat.rows
           .map(
             ({
               id,
@@ -198,7 +198,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
               (userIs('dreal')(user) && row.type === 'abandon'),
           );
 
-        return ok(makePaginatedList(modificationRequests, modificationRequests.length, pagination));
+        return ok(makePaginatedList(modificationRequests, résultat.count, pagination));
       },
     );
 };
