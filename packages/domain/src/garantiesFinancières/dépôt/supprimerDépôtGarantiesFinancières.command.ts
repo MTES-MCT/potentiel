@@ -7,7 +7,7 @@ import {
 } from '../garantiesFinancières.aggregate';
 import { SupprimerFichierPort } from '../../common.ports';
 import { isNone } from '@potentiel/monads';
-import { DépôtGarantiesFinancièresNonTrouvéPourValidationErreur } from '../garantiesFinancières.error';
+import { DépôtGarantiesFinancièresNonTrouvéErreur } from '../garantiesFinancières.error';
 import { DépôtGarantiesFinancièresSuppriméEventV1 } from './dépôtGarantiesFinancières.event';
 
 export type SupprimerDépôtGarantiesFinancièresCommand = Message<
@@ -38,7 +38,7 @@ export const registerSupprimerDépôtGarantiesFinancièresCommand = ({
     const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
 
     if (isNone(agrégatGarantiesFinancières) || !agrégatGarantiesFinancières.dépôt) {
-      throw new DépôtGarantiesFinancièresNonTrouvéPourValidationErreur();
+      throw new DépôtGarantiesFinancièresNonTrouvéErreur();
     }
 
     await supprimerFichier({
