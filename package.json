@@ -99,7 +99,7 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "path-browserify": "^1.0.1",
-    "pg": "^8.11.1",
+    "pg": "^8.11.2",
     "pg-connection-string": "^2.6.1",
     "pg-hstore": "^2.3.4",
     "pizzip": "^3.1.4",
