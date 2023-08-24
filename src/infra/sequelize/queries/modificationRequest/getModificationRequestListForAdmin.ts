@@ -9,7 +9,7 @@ import {
   ModificationRequestListItemDTO,
 } from '../../../../modules/modificationRequest';
 import { InfraNotAvailableError } from '../../../../modules/shared';
-import { userIs, userIsNot } from '../../../../modules/users';
+import { userIs } from '../../../../modules/users';
 import {
   ModificationRequest,
   Project,
@@ -74,6 +74,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           },
           ...(userIs(['admin', 'dgec-validateur'])(user) &&
             !forceNoAuthority && { authority: 'dgec' }),
+          ...(userIs('dreal')(user) && { [Op.or]: [{ authority: 'dreal' }, { type: 'abandon' }] }),
           ...(modificationRequestType && { type: modificationRequestType }),
           ...(modificationRequestStatus && { status: modificationRequestStatus }),
         },
@@ -112,25 +113,69 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             },
           ],
           order: [['createdAt', 'DESC']],
-          ...(pagination && mapToOffsetAndLimit(pagination)),
+          ...mapToOffsetAndLimit(pagination),
         }),
       );
     })
     .andThen(
-      (res): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
-        const modificationRequests = res.rows
-          .map(
-            ({
+      (résultat): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
+        const modificationRequests = résultat.rows.map(
+          ({
+            id,
+            authority,
+            status,
+            requestedOn,
+            type,
+            justification,
+            actionnaire,
+            producteur,
+            puissance,
+            requestedBy: { email, fullName },
+            project: {
+              nomProjet,
+              communeProjet,
+              departementProjet,
+              regionProjet,
+              appelOffreId,
+              periodeId,
+              familleId,
+            },
+            attachmentFile,
+          }) => {
+            const getDescription = (): string => {
+              switch (type) {
+                case 'abandon':
+                case 'recours':
+                case 'fournisseur':
+                case 'delai':
+                case 'annulation abandon':
+                  return justification || '';
+                case 'actionnaire':
+                  return actionnaire || '';
+                case 'producteur':
+                  return producteur || '';
+                case 'puissance':
+                  return puissance
+                    ? `${puissance} ${_getPuissanceForAppelOffre({
+                        appelOffreId,
+                        periodeId,
+                      })}`
+                    : '';
+                case 'autre':
+                  return 'autre (legacy)';
+              }
+            };
+
+            return {
               id,
               authority,
               status,
               requestedOn,
-              type,
-              justification,
-              actionnaire,
-              producteur,
-              puissance,
-              requestedBy: { email, fullName },
+              requestedBy: {
+                email,
+                fullName,
+              },
+              attachmentFile,
               project: {
                 nomProjet,
                 communeProjet,
@@ -139,66 +184,15 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
                 appelOffreId,
                 periodeId,
                 familleId,
+                unitePuissance: _getPuissanceForAppelOffre({ appelOffreId, periodeId }),
               },
-              attachmentFile,
-            }) => {
-              const getDescription = (): string => {
-                switch (type) {
-                  case 'abandon':
-                  case 'recours':
-                  case 'fournisseur':
-                  case 'delai':
-                  case 'annulation abandon':
-                    return justification || '';
-                  case 'actionnaire':
-                    return actionnaire || '';
-                  case 'producteur':
-                    return producteur || '';
-                  case 'puissance':
-                    return puissance
-                      ? `${puissance} ${_getPuissanceForAppelOffre({
-                          appelOffreId,
-                          periodeId,
-                        })}`
-                      : '';
-                  case 'autre':
-                    return 'autre (legacy)';
-                }
-              };
+              type,
+              description: getDescription(),
+            };
+          },
+        );
 
-              return {
-                id,
-                authority,
-                status,
-                requestedOn,
-                requestedBy: {
-                  email,
-                  fullName,
-                },
-                attachmentFile,
-                project: {
-                  nomProjet,
-                  communeProjet,
-                  departementProjet,
-                  regionProjet,
-                  appelOffreId,
-                  periodeId,
-                  familleId,
-                  unitePuissance: _getPuissanceForAppelOffre({ appelOffreId, periodeId }),
-                },
-                type,
-                description: getDescription(),
-              };
-            },
-          )
-          .filter(
-            (row) =>
-              userIsNot('dreal')(user) ||
-              (userIs('dreal')(user) && row.authority === 'dreal') ||
-              (userIs('dreal')(user) && row.type === 'abandon'),
-          );
-
-        return ok(makePaginatedList(modificationRequests, modificationRequests.length, pagination));
+        return ok(makePaginatedList(modificationRequests, résultat.count, pagination));
       },
     );
 };
