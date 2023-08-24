@@ -6,12 +6,6 @@ import { User } from '../../../entities';
 import { parseProjectLine } from '../utils/parseProjectLine';
 import { LegacyModificationRawDataImported } from '../../modificationRequest';
 import { EventBus } from '../../../core/domain';
-import { mediator } from 'mediateur';
-import {
-  DomainUseCase,
-  convertirEnDateTime,
-  convertirEnIdentifiantProjet,
-} from '@potentiel/domain';
 
 interface ImportProjectsDeps {
   eventBus: EventBus;
@@ -26,7 +20,7 @@ interface ImportProjectsArgs {
 
 export const makeImportProjects =
   ({ eventBus, appelOffreRepo }: ImportProjectsDeps) =>
-  async ({ lines, importId, importedBy }: ImportProjectsArgs): Promise<void> => {
+  async ({ lines, importId, importedBy }: ImportProjectsArgs) => {
     const errors: Record<number, string> = {};
     const projects: {
       projectData: ReturnType<typeof parseProjectLine>;
@@ -89,52 +83,11 @@ export const makeImportProjects =
           }),
         );
       }
-
-      try {
-        /*
-        "Garantie financière jusqu'à 6 mois après la date d'achèvement",
-        "Garantie financière avec date d'échéance et à renouveler",
-        'Consignation',
-
-          | `avec date d'échéance`
-          | `consignation`
-          | `6 mois après achèvement`;
-        */
-
-        const formatGFTypeForUseCase = (type: string) => {
-          switch (type) {
-            case "Garantie financière jusqu'à 6 mois après la date d'achèvement":
-              return `6 mois après achèvement`;
-            case "Garantie financière avec date d'échéance et à renouveler":
-              return `avec date d'échéance`;
-            case 'Consignation':
-              return `consignation`;
-          }
-        };
-
-        await mediator.send<DomainUseCase>({
-          type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
-          data: {
-            utilisateur: {
-              rôle: importedBy.role,
-            },
-            identifiantProjet: convertirEnIdentifiantProjet({
-              appelOffre: appelOffreId,
-              période: periodeId,
-              famille: familleId,
-              numéroCRE: numeroCRE,
-            }),
-            typeGarantiesFinancières: formatGFTypeForUseCase(projectData.garantiesFinancièresType),
-            dateÉchéance: projectData.garantiesFinancièresDateEchéance
-              ? convertirEnDateTime(projectData.garantiesFinancièresDateEchéance)
-              : undefined,
-            attestationConstitution: undefined,
-          },
-        });
-      } catch (error) {
-        console.error('ERRROR', error.message);
-      }
     }
+
+    return projects
+      .filter((projet) => projet.projectData.garantiesFinancièresType)
+      .map((projet) => projet.projectData);
   };
 
 const checkAppelOffrePeriode = (projectData, appelsOffre) => {
