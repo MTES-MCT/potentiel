@@ -12,3 +12,23 @@ export type ProjectGarantiesFinancièresData = {
     attestationConstitution: { format: string; date: string };
   };
 };
+
+export type GarantiesFinancièresListItem = {
+  id: string;
+  nomProjet: string;
+  potentielIdentifier: string;
+  numeroCRE: string;
+  communeProjet: string;
+  departementProjet: string;
+  regionProjet: string;
+  nomCandidat: string;
+  nomRepresentantLegal: string;
+  notifiedOn: number;
+  email: string;
+  appelOffre: {
+    title: string;
+    periode: string;
+    famille: string;
+  };
+  garantiesFinancières?: ProjectGarantiesFinancièresData;
+};
