@@ -35,7 +35,7 @@ const getListeGarantiesFinancieresPage = asyncHandler(async (request, response) 
 
   const user = request.user as UtilisateurReadModel;
 
-  const projects = await listerGarantiesFinancièresPourDreal({
+  const listeGarantiesFinancières = await listerGarantiesFinancièresPourDreal({
     pagination,
     user,
     filtres,
@@ -46,7 +46,7 @@ const getListeGarantiesFinancieresPage = asyncHandler(async (request, response) 
   response.send(
     ListeGarantiesFinancieresPage({
       request,
-      projects,
+      listeGarantiesFinancières: listeGarantiesFinancières,
       appelsOffre,
       ...optionsFiltresParAOs,
       currentUrl: getCurrentUrl(request),

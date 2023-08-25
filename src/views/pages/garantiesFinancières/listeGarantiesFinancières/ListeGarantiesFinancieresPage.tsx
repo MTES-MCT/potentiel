@@ -18,47 +18,11 @@ import {
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../../helpers';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Liste } from './composants/Liste';
-
-export type GarantiesFinancièresListItem = {
-  id: string;
-  nomProjet: string;
-  potentielIdentifier: string;
-  numeroCRE: string;
-  communeProjet: string;
-  departementProjet: string;
-  regionProjet: string;
-  nomCandidat: string;
-  nomRepresentantLegal: string;
-  email: string;
-  appelOffre: {
-    title: string;
-    periode: string;
-    famille: string;
-  };
-  garantiesFinancières?: {
-    actionRequise?: 'compléter enregistrement' | 'enregistrer' | 'déposer' | 'compléter dépôt';
-    actuelles?: {
-      typeGarantiesFinancières?:
-        | "avec date d'échéance"
-        | 'consignation'
-        | '6 mois après achèvement';
-      dateÉchéance?: string;
-      attestationConstitution?: { format: string; date: string };
-    };
-    dépôt?: {
-      typeGarantiesFinancières?:
-        | "avec date d'échéance"
-        | 'consignation'
-        | '6 mois après achèvement';
-      dateÉchéance?: string;
-      attestationConstitution: { format: string; date: string };
-    };
-  };
-};
+import { GarantiesFinancièresListItem } from '../../../../modules/garantiesFinancières';
 
 export type ListeGarantiesFinancieresProps = {
   request: Request;
-  projects: PaginatedList<GarantiesFinancièresListItem>;
+  listeGarantiesFinancières: PaginatedList<GarantiesFinancièresListItem>;
   appelsOffre: Array<AppelOffre>;
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
@@ -68,7 +32,7 @@ export type ListeGarantiesFinancieresProps = {
 
 export const ListeGarantiesFinancieres = ({
   request,
-  projects,
+  listeGarantiesFinancières,
   appelsOffre,
   existingAppelsOffres,
   existingPeriodes,
@@ -216,13 +180,12 @@ export const ListeGarantiesFinancieres = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      {projects.items.length === 0 ? (
+      {listeGarantiesFinancières.items.length === 0 ? (
         <ListeVide titre="Aucunes garanties financières à lister" />
       ) : (
         <Liste
           className="mt-6"
-          userRole={user.role}
-          projects={projects}
+          listeGarantiesFinancières={listeGarantiesFinancières}
           GFPastDue={garantiesFinancieres === 'pastDue'}
           currentUrl={currentUrl}
         />
