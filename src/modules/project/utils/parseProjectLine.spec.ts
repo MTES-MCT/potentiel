@@ -664,7 +664,7 @@ describe('parseProjectLine', () => {
             '1',
         }),
       ).toMatchObject({
-        garantiesFinancièresType: `Garantie financière jusqu'à 6 mois après la date d'achèvement`,
+        garantiesFinancièresType: `6 mois après achèvement`,
       });
 
       expect(
@@ -675,7 +675,7 @@ describe('parseProjectLine', () => {
           "Date d'échéance au format JJ/MM/AAAA": '01/01/2021',
         }),
       ).toMatchObject({
-        garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
+        garantiesFinancièresType: `avec date d'échéance`,
       });
 
       expect(
@@ -684,7 +684,7 @@ describe('parseProjectLine', () => {
           "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
             '3',
         }),
-      ).toMatchObject({ garantiesFinancièresType: `Consignation` });
+      ).toMatchObject({ garantiesFinancièresType: `consignation` });
 
       expect(
         parseProjectLine({
@@ -772,7 +772,7 @@ describe('parseProjectLine', () => {
             "Date d'échéance au format JJ/MM/AAAA": '24/01/2034',
           }),
         ).toMatchObject({
-          garantiesFinancièresType: `Garantie financière avec date d'échéance et à renouveler`,
+          garantiesFinancièresType: `avec date d'échéance`,
           garantiesFinancièresDateEchéance: new Date('2034-01-24').toDateString(),
         });
       });
