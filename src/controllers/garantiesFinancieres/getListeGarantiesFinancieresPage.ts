@@ -14,14 +14,14 @@ import { PermissionConsulterListeGarantiesFinancières } from '@potentiel/domain
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 const getListeGarantiesFinancieresPage = asyncHandler(async (request, response) => {
-  const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres } =
+  const { appelOffreId, periodeId, familleId, recherche, statutGarantiesFinancieres } =
     request.query as any;
 
   const pagination = getPagination(request);
 
   const appelsOffre = await appelOffreRepo.findAll();
 
-  const filtres = {
+  const projetsFiltres = {
     appelOffre: {
       appelOffreId,
       periodeId: appelOffreId ? periodeId : undefined,
@@ -30,7 +30,6 @@ const getListeGarantiesFinancieresPage = asyncHandler(async (request, response) 
     recherche,
     classement: 'classés' as const,
     reclames: undefined,
-    garantiesFinancieres,
   };
 
   const user = request.user as UtilisateurReadModel;
@@ -38,7 +37,8 @@ const getListeGarantiesFinancieresPage = asyncHandler(async (request, response) 
   const listeGarantiesFinancières = await listerGarantiesFinancièresPourDreal({
     pagination,
     user,
-    filtres,
+    projetsFiltres,
+    statutGarantiesFinancières: statutGarantiesFinancieres,
   });
 
   const optionsFiltresParAOs = await getOptionsFiltresParAOs({ user, appelOffreId });

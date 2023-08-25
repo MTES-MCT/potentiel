@@ -18,5 +18,10 @@ export type FiltreListeGarantiesFinancières = {
 export type ListerGarantiesFinancièresPourDreal = (args: {
   user: UtilisateurReadModel;
   pagination: Pagination;
-  filtres?: FiltreListeGarantiesFinancières;
+  statutGarantiesFinancières?:
+    | 'à enregistrer'
+    | 'enregistrées'
+    | 'dépôt à valider'
+    | 'en attente de dépôt';
+  projetsFiltres?: FiltreListeGarantiesFinancières;
 }) => Promise<PaginatedList<GarantiesFinancièresListItem>>;

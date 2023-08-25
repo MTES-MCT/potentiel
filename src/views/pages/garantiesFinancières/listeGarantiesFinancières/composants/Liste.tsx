@@ -13,7 +13,6 @@ export const Liste = ({
 }: {
   className?: string;
   listeGarantiesFinancières: PaginatedList<GarantiesFinancièresListItem>;
-  GFPastDue?: boolean;
   currentUrl: string;
 }) => {
   return (

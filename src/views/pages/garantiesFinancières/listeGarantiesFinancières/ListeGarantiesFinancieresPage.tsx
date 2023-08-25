@@ -40,13 +40,21 @@ export const ListeGarantiesFinancieres = ({
   currentUrl,
 }: ListeGarantiesFinancieresProps) => {
   const {
-    query: { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres },
+    query: {
+      error,
+      success,
+      recherche,
+      appelOffreId,
+      periodeId,
+      familleId,
+      statutGarantiesFinancieres,
+    },
     user,
   } = (request as any) || {};
 
   const utilisateur = user as UtilisateurReadModel;
 
-  const hasFilters = !!(appelOffreId || periodeId || familleId || garantiesFinancieres);
+  const hasFilters = !!(appelOffreId || periodeId || familleId || statutGarantiesFinancieres);
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
@@ -151,21 +159,22 @@ export const ListeGarantiesFinancieres = ({
             </>
           )}
           <div className="mt-4">
-            <Label htmlFor="garantiesFinancieres">Statut des garanties financières</Label>
+            <Label htmlFor="statutGarantiesFinancieres">Statut des garanties financières</Label>
             <Select
-              id="garantiesFinancieres"
-              name="garantiesFinancieres"
+              id="statutGarantiesFinancieres"
+              name="statutGarantiesFinancieres"
               defaultValue=""
               onChange={(event) =>
                 updateUrlParams({
-                  garantiesFinancieres: event.target.value,
+                  statutGarantiesFinancieres: event.target.value,
                 })
               }
             >
               <option value="">Toutes</option>
-              <option value="submitted">Déposées</option>
-              <option value="notSubmitted">Non-déposées</option>
-              <option value="pastDue">En retard</option>
+              <option value="enregistrées">enregistrées</option>
+              <option value="à enregistrer">à enregistrer</option>
+              <option value="dépôt à valider">dépôt à valider</option>
+              <option value="en attente de dépôt">en attente de dépôt</option>
             </Select>
           </div>
         </div>
@@ -186,7 +195,6 @@ export const ListeGarantiesFinancieres = ({
         <Liste
           className="mt-6"
           listeGarantiesFinancières={listeGarantiesFinancières}
-          GFPastDue={garantiesFinancieres === 'pastDue'}
           currentUrl={currentUrl}
         />
       )}

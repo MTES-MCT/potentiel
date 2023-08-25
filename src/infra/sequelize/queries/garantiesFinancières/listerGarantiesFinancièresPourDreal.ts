@@ -31,10 +31,11 @@ const attributes = [
 
 export const listerGarantiesFinancièresPourDreal: ListerGarantiesFinancièresPourDreal = async ({
   pagination,
-  filtres,
+  projetsFiltres,
   user: { id: userId },
+  statutGarantiesFinancières,
 }) => {
-  const findOptions = filtres && mapToFindOptions(filtres);
+  const findOptions = projetsFiltres && mapToFindOptions(projetsFiltres);
 
   const utilisateur = await UserDreal.findOne({ where: { userId }, attributes: ['dreal'] });
 
