@@ -1,7 +1,3 @@
-import { mediator } from 'mediateur';
-import {
-  DomainUseCase,
-} from '@potentiel/domain';
 
 import { UniqueEntityID } from '../../../../../core/domain';
 import { logger } from '../../../../../core/utils';
@@ -30,7 +26,6 @@ export default ProjectEventProjector.on(ProjectImported, async (évènement, tra
       },
       { transaction },
     );
-    await mediator.send<DomainUseCase>;
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(

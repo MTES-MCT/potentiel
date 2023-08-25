@@ -59,46 +59,54 @@ v1Router.post(
     const importId = new UniqueEntityID().toString();
 
     try {
-      const projetsPourEnregistrementGFs = await importProjects({
+      const rawProjetsImportés = await importProjects({
         lines: linesResult.value,
         importedBy: request.user,
         importId,
       });
 
-      const erreursEnregistrementGfs: string[] = [];
+      const projetsPourEnregistrementsGFs = rawProjetsImportés
+        .map((projet) => projet.projectData)
+        .filter((projet) => projet.garantiesFinancièresType);
 
-      for (const projet of projetsPourEnregistrementGFs) {
-        try {
-          await mediator.send<DomainUseCase>({
-            type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
-            data: {
-              utilisateur: {
-                rôle: request.user!.role,
-              },
-              identifiantProjet: convertirEnIdentifiantProjet({
-                appelOffre: projet.appelOffreId,
-                famille: projet.familleId,
-                numéroCRE: projet.numeroCRE,
-                période: projet.periodeId,
-              }),
-              typeGarantiesFinancières: formatGFTypeForUseCase(projet.garantiesFinancièresType),
-              dateÉchéance: projet.garantiesFinancièresDateEchéance
-                ? convertirEnDateTime(projet.garantiesFinancièresDateEchéance)
-                : undefined,
-              attestationConstitution: undefined,
-            },
-          });
-        } catch (e) {
-          if (e instanceof DomainError) {
-            erreursEnregistrementGfs.push(`Projet ${projet.nomProjet} - ${e.message}`);
-          }
-        }
-      }
+      if (projetsPourEnregistrementsGFs.length > 0) {
+        const erreursEnregistrementGfs: string[] = [];
 
-      if (erreursEnregistrementGfs.length > 0) {
-        return response.send(
-          AdminImporterCandidatsPage({ request, importErrors: erreursEnregistrementGfs }),
+        await Promise.all(
+          projetsPourEnregistrementsGFs.map(async (projet) => {
+            try {
+              await mediator.send<DomainUseCase>({
+                type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
+                data: {
+                  utilisateur: {
+                    rôle: request.user!.role,
+                  },
+                  identifiantProjet: convertirEnIdentifiantProjet({
+                    appelOffre: projet.appelOffreId,
+                    famille: projet.familleId,
+                    numéroCRE: projet.numeroCRE,
+                    période: projet.periodeId,
+                  }),
+                  typeGarantiesFinancières: formatGFTypeForUseCase(projet.garantiesFinancièresType),
+                  dateÉchéance: projet.garantiesFinancièresDateEchéance
+                    ? convertirEnDateTime(projet.garantiesFinancièresDateEchéance)
+                    : undefined,
+                  attestationConstitution: undefined,
+                },
+              });
+            } catch (e) {
+              if (e instanceof DomainError) {
+                erreursEnregistrementGfs.push(`Projet ${projet.nomProjet} - ${e.message}`);
+              }
+            }
+          }),
         );
+
+        if (erreursEnregistrementGfs.length > 0) {
+          return response.send(
+            AdminImporterCandidatsPage({ request, importErrors: erreursEnregistrementGfs }),
+          );
+        }
       }
 
       return response.send(AdminImporterCandidatsPage({ request, isSuccess: true }));

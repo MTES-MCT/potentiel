@@ -85,9 +85,7 @@ export const makeImportProjects =
       }
     }
 
-    return projects
-      .filter((projet) => projet.projectData.garantiesFinancièresType)
-      .map((projet) => projet.projectData);
+    return projects;
   };
 
 const checkAppelOffrePeriode = (projectData, appelsOffre) => {
