@@ -184,21 +184,21 @@ const columnMapper = {
 
     if (statutProjet === 'Classé') {
       return typeGF === '1'
-        ? "Garantie financière jusqu'à 6 mois après la date d'achèvement"
+        ? '6 mois après achèvement'
         : typeGF === '2'
-        ? "Garantie financière avec date d'échéance et à renouveler"
+        ? "avec date d'échéance"
         : typeGF === '3'
-        ? 'Consignation'
+        ? 'consignation'
         : 'valeur incorrecte';
     }
 
     if (statutProjet === 'Eliminé') {
       return typeGF === '1'
-        ? "Garantie financière jusqu'à 6 mois après la date d'achèvement"
+        ? '6 mois après achèvement'
         : typeGF === '2'
-        ? "Garantie financière avec date d'échéance et à renouveler"
+        ? "avec date d'échéance"
         : typeGF === '3'
-        ? 'Consignation'
+        ? 'consignation'
         : typeGF === 'N/A'
         ? undefined
         : 'valeur incorrecte';
@@ -377,11 +377,7 @@ const projectSchema = yup.object().shape({
   garantiesFinancièresType: yup
     .mixed()
     .oneOf(
-      [
-        "Garantie financière jusqu'à 6 mois après la date d'achèvement",
-        "Garantie financière avec date d'échéance et à renouveler",
-        'Consignation',
-      ],
+      ['6 mois après achèvement', "avec date d'échéance", 'consignation'],
       `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3. La valeur N/A est acceptée pour les projets éliminés.`,
     ),
   garantiesFinancièresDateEchéance: yup.string().optional(),
@@ -434,8 +430,7 @@ export const parseProjectLine = (line) => {
     }
 
     if (
-      rawProjectData.garantiesFinancièresType ===
-        `Garantie financière avec date d'échéance et à renouveler` &&
+      rawProjectData.garantiesFinancièresType === `avec date d'échéance` &&
       !rawProjectData.garantiesFinancièresDateEchéance
     ) {
       throw new yup.ValidationError(
@@ -444,8 +439,7 @@ export const parseProjectLine = (line) => {
     }
 
     if (
-      rawProjectData.garantiesFinancièresType !==
-        `Garantie financière avec date d'échéance et à renouveler` &&
+      rawProjectData.garantiesFinancièresType !== `avec date d'échéance` &&
       rawProjectData.garantiesFinancièresDateEchéance
     ) {
       throw new yup.ValidationError(

@@ -15,22 +15,6 @@ import {
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 
-const formatGFTypeForUseCase = (
-  type:
-    | "Garantie financière jusqu'à 6 mois après la date d'achèvement"
-    | "Garantie financière avec date d'échéance et à renouveler"
-    | 'Consignation',
-) => {
-  switch (type) {
-    case "Garantie financière jusqu'à 6 mois après la date d'achèvement":
-      return `6 mois après achèvement`;
-    case "Garantie financière avec date d'échéance et à renouveler":
-      return `avec date d'échéance`;
-    case 'Consignation':
-      return `consignation`;
-  }
-};
-
 v1Router.post(
   routes.IMPORT_PROJECTS_ACTION,
   ensureRole(['admin', 'dgec-validateur']),
@@ -87,7 +71,7 @@ v1Router.post(
                     numéroCRE: projet.numeroCRE,
                     période: projet.periodeId,
                   }),
-                  typeGarantiesFinancières: formatGFTypeForUseCase(projet.garantiesFinancièresType),
+                  typeGarantiesFinancières: projet.garantiesFinancièresType,
                   dateÉchéance: projet.garantiesFinancièresDateEchéance
                     ? convertirEnDateTime(projet.garantiesFinancièresDateEchéance)
                     : undefined,
