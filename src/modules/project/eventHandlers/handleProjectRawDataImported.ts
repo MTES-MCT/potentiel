@@ -7,7 +7,6 @@ import { Project } from '../Project';
 import { mediator } from 'mediateur';
 import {
   DomainUseCase,
-  TypeGarantiesFinancières,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
@@ -67,7 +66,7 @@ export const handleProjectRawDataImported =
               rôle: 'admin',
             },
             identifiantProjet,
-            typeGarantiesFinancières: data.garantiesFinancièresType as TypeGarantiesFinancières,
+            typeGarantiesFinancières: data.garantiesFinancièresType,
             dateÉchéance: data.garantiesFinancièresDateEchéance
               ? convertirEnDateTime(data.garantiesFinancièresDateEchéance)
               : undefined,
