@@ -13,14 +13,18 @@ import { Validateur } from '.';
 dotenv.config();
 
 Font.register({
-  family: 'Arial',
+  family: 'Arimo',
   fonts: [
     {
-      src: process.env.BASE_URL + '/fonts/arial.ttf',
+      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Regular.ttf',
     },
     {
-      src: process.env.BASE_URL + '/fonts/arial-bold.ttf',
+      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Bold.ttf',
       fontWeight: 'bold',
+    },
+    {
+      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Italic.ttf',
+      fontStyle: 'italic',
     },
   ],
 });
@@ -357,7 +361,7 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
         size="A4"
         style={{
           backgroundColor: '#FFF',
-          fontFamily: 'Arial',
+          fontFamily: 'Arimo',
           paddingTop: 50,
           paddingBottom: 50,
         }}
