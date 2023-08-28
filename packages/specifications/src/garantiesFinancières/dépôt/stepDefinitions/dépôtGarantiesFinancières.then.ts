@@ -25,6 +25,7 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateDépôt = exemple['date de dépôt'];
+    const dateDernièreModification = exemple['date dernière modification'];
 
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
@@ -75,6 +76,9 @@ Alors(
       ...(dateÉchéance && { dateÉchéance: new Date(dateÉchéance).toISOString() }),
       attestationConstitution: { format, date: new Date(dateConstitution).toISOString() },
       dateDépôt: new Date(dateDépôt).toISOString(),
+      dateDernièreMiseÀJour: dateDernièreModification
+        ? new Date(dateDernièreModification).toISOString()
+        : new Date(dateDépôt).toISOString(),
     };
 
     const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({

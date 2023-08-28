@@ -46,6 +46,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             dateÉchéance,
             attestationConstitution,
             dateDépôt,
+            dateDernièreMiseÀJour: dateDépôt,
           });
         } else {
           // TO DO : ce cas ne devrait pas arriver, erreur à logguer ?
@@ -64,6 +65,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
               date: event.payload.attestationConstitution.date,
             },
             dateDépôt: event.payload.dateDépôt,
+            dateDernièreMiseÀJour: event.payload.dateDépôt,
           });
           break;
         }
@@ -78,6 +80,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             date: event.payload.attestationConstitution.date,
           },
           dateDépôt: event.payload.dateDépôt,
+          dateDernièreMiseÀJour: event.payload.dateDépôt,
         });
         break;
       case 'DépôtGarantiesFinancièresModifié-v1':
@@ -93,6 +96,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             format: event.payload.attestationConstitution.format,
             date: event.payload.attestationConstitution.date,
           },
+          dateDernièreMiseÀJour: event.payload.dateModification,
         });
         break;
       case 'DépôtGarantiesFinancièresValidé-v1':
