@@ -39,8 +39,6 @@ export interface ProjectImportedPayload {
     technologie: Technologie;
     actionnariat?: string;
     soumisAuxGF?: true;
-    garantiesFinancièresDateEchéance?: string;
-    garantiesFinancièresType?: string;
   };
 }
 export class ProjectImported

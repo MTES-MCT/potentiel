@@ -1,9 +1,16 @@
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { GetProjectAppelOffre } from '../../projectAppelOffre';
-import { err } from '../../../core/utils';
+import { err, logger } from '../../../core/utils';
 import { FindProjectByIdentifiers } from '..';
 import { ProjectRawDataImported } from '../events';
 import { Project } from '../Project';
+import { mediator } from 'mediateur';
+import {
+  DomainUseCase,
+  TypeGarantiesFinancières,
+  convertirEnDateTime,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
 
 export const handleProjectRawDataImported =
   (deps: {
@@ -36,14 +43,41 @@ export const handleProjectRawDataImported =
 
       return projectRepo.transaction(
         new UniqueEntityID(projectIdOrNull || undefined),
-        (project) => {
-          return project.import({ appelOffre, data, importId });
-        },
+        (project) => project.import({ appelOffre, data, importId }),
         { acceptNew: true },
       );
     });
 
     if (res.isErr()) {
-      console.error('handleProjectRawDataImported error', res.error);
+      logger.error(`handleProjectRawDataImported error : ${res.error}`);
+    }
+
+    if (data.garantiesFinancièresType) {
+      const identifiantProjet = convertirEnIdentifiantProjet({
+        appelOffre: data.appelOffreId,
+        famille: data.familleId,
+        numéroCRE: data.numeroCRE,
+        période: data.periodeId,
+      });
+      try {
+        await mediator.send<DomainUseCase>({
+          type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
+          data: {
+            utilisateur: {
+              rôle: 'admin',
+            },
+            identifiantProjet,
+            typeGarantiesFinancières: data.garantiesFinancièresType as TypeGarantiesFinancières,
+            dateÉchéance: data.garantiesFinancièresDateEchéance
+              ? convertirEnDateTime(data.garantiesFinancièresDateEchéance)
+              : undefined,
+            attestationConstitution: undefined,
+          },
+        });
+      } catch (error) {
+        logger.error(
+          `handleProjectRawDataImported : enregistrer le type de garantie financière (projet ${identifiantProjet}) : ${error.message}`,
+        );
+      }
     }
   };
