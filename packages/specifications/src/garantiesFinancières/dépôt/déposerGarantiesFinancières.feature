@@ -2,7 +2,7 @@
 
 Fonctionnalité: Déposer des garanties financières pour validation dans Potentiel
     Contexte: 
-        Etant donné le projet "Centrale éolienne 20"
+        Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
 
     Plan du Scénario: Déposer de nouvelles garanties financières pour un projet
         Quand un utilisateur avec le rôle 'porteur-projet' dépose des garanties financières pour le projet "Centrale éolienne 20" avec :
@@ -19,6 +19,7 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
             | date de dépôt        | 2023-08-11             |
+            | région               | Nouvelle-Aquitaine     |
     Exemples:
             | type                    | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec date d'échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2021-12-02           |
@@ -37,7 +38,8 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
-            | date de dépôt        | 2023-08-11             |            
+            | date de dépôt        | 2023-08-11             | 
+            | région               | Nouvelle-Aquitaine     |           
     Exemples:
             | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | 2027-12-01      | application/pdf   | le contenu du fichier | 2021-12-02           |

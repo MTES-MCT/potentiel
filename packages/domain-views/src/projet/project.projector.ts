@@ -15,7 +15,6 @@ export type ProjetProjectorDependencies = {
 export const registerProjetProjector = ({ create, update, find }: ProjetProjectorDependencies) => {
   const handler: MessageHandler<ExecuteProjetProjector> = async (event) => {
     const key: ProjetReadModelKey = `projet|${event.payload.identifiantProjet}`;
-    const projet = await find<ProjetReadModel>(key);
     switch (event.type) {
       case 'GestionnaireRéseauProjetDéclaré':
         await create<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {

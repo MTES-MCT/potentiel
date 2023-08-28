@@ -12,6 +12,7 @@ export type DépôtGarantiesFinancièresReadModel = ReadModel<
     dateÉchéance?: string;
     dateDépôt: string;
     dateDernièreMiseÀJour: string;
+    région: RégionFrançaise[];
   }
 >;
 
@@ -19,3 +20,29 @@ export type FichierDépôtAttestationGarantiesFinancièresReadModel = ReadModel<
   'depot-attestation-constitution-garanties-financieres',
   { format: string; content: ReadableStream }
 >;
+
+export const RÉGIONS_FRANCAISES = [
+  'Grand Est',
+  'Occitanie',
+  "Provence-Alpes-Côte d'Azur",
+  'Normandie',
+  'Auvergne-Rhône-Alpes',
+  'Nouvelle-Aquitaine',
+  'Centre-Val de Loire',
+  'Bourgogne-Franche-Comté',
+  'Bretagne',
+  'Pays de la Loire',
+  'Hauts-de-France',
+  'Île-de-France',
+  'Guadeloupe',
+  'Martinique',
+  'Guyane',
+  'La Réunion',
+  'Mayotte',
+  'Corse',
+] as const;
+
+export type RégionFrançaise = (typeof RÉGIONS_FRANCAISES)[number];
+
+export const isRégionFrançaise = (value: any): value is RégionFrançaise =>
+  RÉGIONS_FRANCAISES.includes(value);

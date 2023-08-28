@@ -3,13 +3,20 @@ import { isNone, isSome } from '@potentiel/monads';
 import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
+  RégionFrançaise,
+  isRégionFrançaise,
 } from './dépôtGarantiesFinancières.readModel';
-import { DépôtGarantiesFinancièresEvent } from '@potentiel/domain';
+import {
+  DépôtGarantiesFinancièresEvent,
+  RawIdentifiantProjet,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
 import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
 } from '../domainViews.readModel';
 import { Create, Update, Find, Remove } from '@potentiel/core-domain';
+import { RécupérerDétailProjetPort } from '../domainViews.port';
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',
@@ -21,6 +28,7 @@ export type DépôtGarantiesFinancièresProjectorDependencies = {
   update: Update;
   find: Find;
   remove: Remove;
+  récupérerDétailProjet: RécupérerDétailProjetPort;
 };
 
 export const registerDépôtGarantiesFinancièresProjector = ({
@@ -28,10 +36,24 @@ export const registerDépôtGarantiesFinancièresProjector = ({
   update,
   find,
   remove,
+  récupérerDétailProjet,
 }: DépôtGarantiesFinancièresProjectorDependencies) => {
   const handler: MessageHandler<ExecuteDépôtGarantiesFinancièresProjector> = async (event) => {
-    const key: DépôtGarantiesFinancièresReadModelKey = `dépôt-garanties-financières|${event.payload.identifiantProjet}`;
-    const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(key);
+    const dépôtReadModelKey: DépôtGarantiesFinancièresReadModelKey = `dépôt-garanties-financières|${event.payload.identifiantProjet}`;
+    const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(
+      dépôtReadModelKey,
+    );
+
+    const getRégionsProjet = async (identifiantProjet: RawIdentifiantProjet) => {
+      const projet = await récupérerDétailProjet(convertirEnIdentifiantProjet(identifiantProjet));
+      const régions = isSome(projet) ? projet.localité.région.split(' / ') : [];
+      return régions.reduce((prev: RégionFrançaise[], current: string) => {
+        if (isRégionFrançaise(current)) {
+          return [...prev, current];
+        }
+        return prev;
+      }, []);
+    };
 
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
@@ -41,20 +63,23 @@ export const registerDépôtGarantiesFinancièresProjector = ({
         if (isNone(dépôtGarantiesFinancières)) {
           const { typeGarantiesFinancières, dateÉchéance, attestationConstitution, dateDépôt } =
             event.payload.aggregate.dépôt;
-          await create<DépôtGarantiesFinancièresReadModel>(key, {
+          const régions = await getRégionsProjet(event.payload.identifiantProjet);
+          await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
             typeGarantiesFinancières,
             dateÉchéance,
             attestationConstitution,
             dateDépôt,
             dateDernièreMiseÀJour: dateDépôt,
+            région: régions,
           });
         } else {
           // TO DO : ce cas ne devrait pas arriver, erreur à logguer ?
         }
         break;
       case 'GarantiesFinancièresDéposées-v1':
+        const régions = await getRégionsProjet(event.payload.identifiantProjet);
         if (isSome(dépôtGarantiesFinancières)) {
-          await update<DépôtGarantiesFinancièresReadModel>(key, {
+          await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
             typeGarantiesFinancières:
               'typeGarantiesFinancières' in event.payload
                 ? event.payload.typeGarantiesFinancières
@@ -66,10 +91,11 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             },
             dateDépôt: event.payload.dateDépôt,
             dateDernièreMiseÀJour: event.payload.dateDépôt,
+            région: régions,
           });
           break;
         }
-        await create<DépôtGarantiesFinancièresReadModel>(key, {
+        await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
           typeGarantiesFinancières:
             'typeGarantiesFinancières' in event.payload
               ? event.payload.typeGarantiesFinancières
@@ -81,6 +107,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           },
           dateDépôt: event.payload.dateDépôt,
           dateDernièreMiseÀJour: event.payload.dateDépôt,
+          région: régions,
         });
         break;
       case 'DépôtGarantiesFinancièresModifié-v1':
@@ -88,7 +115,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           // ne devrait pas arriver
           break;
         }
-        await update<DépôtGarantiesFinancièresReadModel>(key, {
+        await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
           ...dépôtGarantiesFinancières,
           typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
           dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
@@ -130,9 +157,9 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           // TODO : ce cas ne devrait pas arriver - logguer erreur si pas de dépôt
         }
 
-        await remove<DépôtGarantiesFinancièresReadModel>(key);
+        await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
       case 'DépôtGarantiesFinancièresSupprimé-v1':
-        await remove<DépôtGarantiesFinancièresReadModel>(key);
+        await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
         break;
     }
   };

@@ -2,7 +2,7 @@
 @select
 Fonctionnalité: Modifier le dépôt de garanties financières en attente de validation dans Potentiel
     Contexte: 
-        Etant donné le projet "Centrale éolienne 20"
+        Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
 
     Scénario: Modifier un dépôt existant
         Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
@@ -25,6 +25,8 @@ Fonctionnalité: Modifier le dépôt de garanties financières en attente de val
             | date de constitution       | 2022-01-01                    |
             | date de dépôt              | 2023-08-11                    |  
             | date dernière modification | 2023-08-28                    |
+            | région                     | Nouvelle-Aquitaine            |
+
 
     Scénario: Modifier un dépôt après sa migration
         Etant donné un dépôt de garanties financières migré pour le projet "Centrale éolienne 20" avec :
@@ -45,7 +47,8 @@ Fonctionnalité: Modifier le dépôt de garanties financières en attente de val
             | contenu fichier            | le nouveau contenu du fichier |
             | date de constitution       | 2022-01-01                    |
             | date de dépôt              | 2023-08-11                    |   
-            | date dernière modification | 2023-08-28                    |         
+            | date dernière modification | 2023-08-28                    |        
+            | région                     | Nouvelle-Aquitaine            | 
 
     Scénario: Erreur si modification d'un dépôt non trouvé  
         Quand un utilisateur avec le rôle 'porteur-projet' modifie un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :

@@ -119,7 +119,10 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
     garantiesFinancières: {
       téléchargerFichier: téléchargerFichierAdapter,
     },
-    dépôtGarantiesFinancières: { téléchargerFichier: téléchargerFichierAdapter },
+    dépôtGarantiesFinancières: {
+      téléchargerFichier: téléchargerFichierAdapter,
+      récupérerDétailProjet: récupérerDétailProjetAdapter,
+    },
   });
 });
 

@@ -1,4 +1,5 @@
 #Language: fr-FR
+@select
 Fonctionnalité: Supprimer un dépôt de garanties financières
     Contexte: 
         Etant donné le projet "Centrale éolienne 20"

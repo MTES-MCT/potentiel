@@ -26,6 +26,7 @@ Alors(
     const contenu = exemple['contenu fichier'];
     const dateDépôt = exemple['date de dépôt'];
     const dateDernièreModification = exemple['date dernière modification'];
+    const région = exemple['région'];
 
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
@@ -79,6 +80,7 @@ Alors(
       dateDernièreMiseÀJour: dateDernièreModification
         ? new Date(dateDernièreModification).toISOString()
         : new Date(dateDépôt).toISOString(),
+      région: [région],
     };
 
     const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
