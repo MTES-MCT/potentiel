@@ -9,8 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/domain-inmemory-referential": "^0.0.0",
     "@potentiel/domain": "^0.0.0",
+    "@potentiel/domain-inmemory-referential": "^0.0.0",
     "@potentiel/infra-adapters": "^0.0.0",
     "@potentiel/pg-event-sourcing": "^0.0.0",
     "@potentiel/pg-projections": "^0.0.0",
