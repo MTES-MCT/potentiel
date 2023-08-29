@@ -4,12 +4,12 @@ import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
 } from './dépôtGarantiesFinancières.readModel';
-import { Create, Update, Find, Remove } from '../common.port';
 import { DépôtGarantiesFinancièresEvent } from '@potentiel/domain';
 import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
 } from '../domainViews.readModel';
+import { Create, Update, Find, Remove } from '@potentiel/core-domain';
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',

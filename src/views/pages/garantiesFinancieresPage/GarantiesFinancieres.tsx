@@ -194,10 +194,8 @@ export const GarantiesFinancieres = ({
             </DownloadLink>
           </div>
           <ProjectList
-            displayGF={true}
             projects={projects}
             role={utilisateur.role}
-            GFPastDue={garantiesFinancieres === 'pastDue'}
             currentUrl={currentUrl}
             exportListe={{
               title: 'Télécharger un export (document csv)',

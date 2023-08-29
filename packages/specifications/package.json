@@ -21,10 +21,10 @@
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^9.3.0",
+    "@cucumber/cucumber": "^9.4.0",
     "@cucumber/pretty-formatter": "^1.0.0",
     "@potentiel/tsconfig": "*",
     "@types/chai": "^4.3.5",
-    "chai": "^4.3.7"
+    "chai": "^4.3.8"
   }
 }

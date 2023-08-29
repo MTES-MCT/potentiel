@@ -260,42 +260,7 @@ export const ListeProjets = ({
               </div>
             </Form>
           </Accordeon>
-          {userIs(['admin', 'dreal', 'dgec-validateur', 'porteur-projet', 'caisse-des-dépôts'])(
-            utilisateur,
-          ) && (
-            <Accordeon
-              title="Filtrer par état des garanties financières"
-              defaultOpen={!!garantiesFinancieres}
-            >
-              <Form action={routes.LISTE_PROJETS} method="GET">
-                <div>
-                  <Label htmlFor="garantiesFinancieres">Garanties financières</Label>
-                  <Select
-                    id="garantiesFinancieres"
-                    name="garantiesFinancieres"
-                    defaultValue={garantiesFinancieres || 'default'}
-                    onChange={(event) =>
-                      updateUrlParams({
-                        garantiesFinancieres: event.target.value,
-                      })
-                    }
-                  >
-                    <option value="default" disabled hidden>
-                      Choisir un état
-                    </option>
-                    <option value="">Toutes</option>
-                    <option value="submitted">Déposées</option>
-                    <option value="notSubmitted">Non-déposées</option>
-                    <option value="pastDue">En retard</option>
-                  </Select>
-                </div>
-              </Form>
-            </Accordeon>
-          )}
-          <Accordeon
-            title="Filtrer par état du projet"
-            defaultOpen={defaultClassementFilter || classement}
-          >
+          <Accordeon title="Filtrer par état" defaultOpen={defaultClassementFilter || classement}>
             <Form action={routes.LISTE_PROJETS} method="GET" className="mt-2">
               <div>
                 <Label htmlFor="classement">Projets Classés/Eliminés/Abandons</Label>

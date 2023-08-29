@@ -4,8 +4,8 @@ import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
 } from './garantiesFinancières.readModel';
-import { Create, Update, Find } from '../common.port';
 import { EnregistrementGarantiesFinancièresEvent } from '@potentiel/domain';
+import { Create, Find, Update } from '@potentiel/core-domain';
 
 export type ExecuteGarantiesFinancièresProjector = Message<
   'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',
