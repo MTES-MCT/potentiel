@@ -56,4 +56,53 @@ describe(`listProjection`, () => {
       target: 'yes',
     });
   });
+
+  it(`Lorsqu'on liste les projections avec un ordre
+      Alors la liste devrait être ordonnée`, async () => {
+    // Arrange
+    await executeQuery(
+      `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+      'projection|another-one',
+      { type: 'projection', target: 'B' },
+    );
+    await executeQuery(
+      `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+      'projection|another-one-2',
+      { type: 'projection', target: 'C' },
+    );
+
+    await executeQuery(
+      `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+      'projection|the-expected-one',
+      { type: 'projection', target: 'A' },
+    );
+
+    // Act
+    const result = await listProjection<ProjectionReadModel>({
+      type: 'projection',
+      orderBy: 'target',
+    });
+
+    // Assert
+    expect(result).toEqual([
+      {
+        type: 'projection',
+        target: 'A',
+      },
+      {
+        type: 'projection',
+        target: 'B',
+      },
+      {
+        type: 'projection',
+        target: 'C',
+      },
+    ]);
+  });
 });
