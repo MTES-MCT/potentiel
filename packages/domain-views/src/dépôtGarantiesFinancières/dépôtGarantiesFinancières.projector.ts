@@ -71,6 +71,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             dateDépôt,
             dateDernièreMiseÀJour: dateDépôt,
             région: régions,
+            identifiantProjet: event.payload.identifiantProjet,
           });
         } else {
           // TO DO : ce cas ne devrait pas arriver, erreur à logguer ?
@@ -92,6 +93,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             dateDépôt: event.payload.dateDépôt,
             dateDernièreMiseÀJour: event.payload.dateDépôt,
             région: régions,
+            identifiantProjet: event.payload.identifiantProjet,
           });
           break;
         }
@@ -108,6 +110,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           dateDépôt: event.payload.dateDépôt,
           dateDernièreMiseÀJour: event.payload.dateDépôt,
           région: régions,
+          identifiantProjet: event.payload.identifiantProjet,
         });
         break;
       case 'DépôtGarantiesFinancièresModifié-v1':

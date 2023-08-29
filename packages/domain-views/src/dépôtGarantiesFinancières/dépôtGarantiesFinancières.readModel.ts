@@ -13,6 +13,7 @@ export type DépôtGarantiesFinancièresReadModel = ReadModel<
     dateDépôt: string;
     dateDernièreMiseÀJour: string;
     région: RégionFrançaise[];
+    identifiantProjet: RawIdentifiantProjet;
   }
 >;
 
