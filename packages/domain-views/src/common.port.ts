@@ -9,6 +9,10 @@ export type ListOptions<TReadModel extends ReadModel> = {
   type: TReadModel['type'];
   orderBy?: keyof TReadModel;
   where?: Partial<TReadModel>;
+  pagination?: {
+    page: number;
+    itemsPerPage: number;
+  };
 };
 export type List = <TReadModel extends ReadModel>(
   options: ListOptions<TReadModel>,

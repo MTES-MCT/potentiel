@@ -57,6 +57,104 @@ describe(`listProjection`, () => {
     });
   });
 
+  it(`Étant donné 20 projections
+      Lorsqu'on liste les projections pour la 1ère page avec 5 éléments
+      Alors les 5 premiers éléments devraient être récupérés`, async () => {
+    // Arrange
+    for (let time = 1; time <= 20; time++) {
+      await executeQuery(
+        `insert 
+            into domain_views.projection
+            values ($1, $2)`,
+        `projection|random-${time}`,
+        { type: 'projection', target: `a random value ${time}` },
+      );
+    }
+
+    // Act
+    const result = await listProjection<ProjectionReadModel>({
+      type: 'projection',
+      pagination: {
+        page: 1,
+        itemsPerPage: 5,
+      },
+    });
+
+    // Assert
+    expect(result).toHaveLength(5);
+    expect(result).toEqual([
+      {
+        type: 'projection',
+        target: 'a random value 1',
+      },
+      {
+        type: 'projection',
+        target: 'a random value 2',
+      },
+      {
+        type: 'projection',
+        target: 'a random value 3',
+      },
+      {
+        type: 'projection',
+        target: 'a random value 4',
+      },
+      {
+        type: 'projection',
+        target: 'a random value 5',
+      },
+    ]);
+  });
+
+  it(`Étant donné 20 projections
+      Lorsqu'on liste les projections pour la 2ème page avec 5 éléments
+      Alors 5 éléments pour la page 2 devraient être récupérés`, async () => {
+    // Arrange
+    for (let time = 1; time <= 20; time++) {
+      await executeQuery(
+        `insert 
+            into domain_views.projection
+            values ($1, $2)`,
+        `projection|random-${time}`,
+        { type: 'projection', target: `a random value ${time}` },
+      );
+    }
+
+    // Act
+    const result = await listProjection<ProjectionReadModel>({
+      type: 'projection',
+      pagination: {
+        page: 2,
+        itemsPerPage: 5,
+      },
+    });
+
+    // Assert
+    expect(result).toHaveLength(5);
+    expect(result).toEqual([
+      {
+        type: 'projection',
+        target: 'a random value 6',
+      },
+      {
+        type: 'projection',
+        target: 'a random value 7',
+      },
+      {
+        type: 'projection',
+        target: 'a random value 8',
+      },
+      {
+        type: 'projection',
+        target: 'a random value 9',
+      },
+      {
+        type: 'projection',
+        target: 'a random value 10',
+      },
+    ]);
+  });
+
   it(`Lorsqu'on liste les projections avec un ordre
       Alors la liste devrait être ordonnée`, async () => {
     // Arrange
