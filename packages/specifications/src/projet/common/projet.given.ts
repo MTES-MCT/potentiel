@@ -73,7 +73,7 @@ EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProje
     'communeProjet',
     'departementProjet',
     'Normandie',
-    'classé',
+    'Classé',
     false,
     false,
     false,
@@ -93,6 +93,7 @@ EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProje
 EtantDonné(
   'le projet {string} de la région {string}',
   async function (this: PotentielWorld, nomProjet: string, régionProjet: RégionFrançaise) {
+    const legacyId = randomUUID();
     await executeQuery(
       `
       insert into "projects" (
@@ -142,7 +143,7 @@ EtantDonné(
         $21
       )
     `,
-      randomUUID(),
+      legacyId,
       'PPE2 - Eolien',
       '1',
       '27',
@@ -159,7 +160,7 @@ EtantDonné(
       'communeProjet',
       'departementProjet',
       régionProjet,
-      'classé',
+      'Classé',
       false,
       false,
       false,
@@ -173,6 +174,15 @@ EtantDonné(
         famille: none,
         numéroCRE: '27',
       },
+      statut: 'classé',
+      appelOffre: 'PPE2 - Eolien',
+      commune: 'communeProjet',
+      département: 'departementProjet',
+      famille: '',
+      legacyId,
+      numéroCRE: '27',
+      période: '1',
+      région: régionProjet,
     });
   },
 );

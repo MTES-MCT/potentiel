@@ -4,6 +4,15 @@ import { none } from '@potentiel/monads';
 type ProjetFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet;
+  legacyId?: string;
+  appelOffre?: string;
+  période?: string;
+  famille?: string;
+  numéroCRE?: string;
+  commune?: string;
+  région?: string;
+  département?: string;
+  statut?: string;
 };
 
 export class ProjetWorld {

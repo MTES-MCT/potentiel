@@ -7,6 +7,7 @@ import {
 import {
   ConsulterDépôtGarantiesFinancièresQuery,
   ConsulterFichierDépôtAttestationGarantiesFinancièreQuery,
+  ListerDépôtsGarantiesFinancièresQuery,
 } from '@potentiel/domain-views';
 import { isNone, none } from '@potentiel/monads';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
@@ -28,7 +29,17 @@ Alors(
     const dateDernièreModification = exemple['date dernière modification'];
     const région = exemple['région'];
 
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const {
+      identifiantProjet,
+      legacyId,
+      appelOffre,
+      période,
+      famille,
+      numéroCRE,
+      commune,
+      département,
+      statut,
+    } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
     // ASSERT ON AGGREGATE
 
@@ -114,6 +125,39 @@ Alors(
     expect(actualFile.type).to.deep.equal('depot-attestation-constitution-garanties-financieres');
     expect(actualFile.format).to.deep.equal(format);
     expect(await convertReadableStreamToString(actualFile.content)).to.deep.equal(contenu);
+
+    // ASSERT ON LIST
+
+    const expectedListeDépôtsReadModel = {
+      type: 'liste-dépôts-garanties-financières',
+      liste: [
+        {
+          dépôt: expectedReadModel,
+          projet: {
+            legacyId,
+            nom: nomProjet,
+            appelOffre,
+            période,
+            famille,
+            numéroCRE,
+            localité: {
+              commune,
+              région,
+              département,
+            },
+            statut,
+            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
+          },
+        },
+      ],
+    };
+
+    const actualListeDépôtsReadModel = await mediator.send<ListerDépôtsGarantiesFinancièresQuery>({
+      type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
+      data: {},
+    });
+
+    expect(actualListeDépôtsReadModel).to.deep.equal(expectedListeDépôtsReadModel);
   },
 );
 
