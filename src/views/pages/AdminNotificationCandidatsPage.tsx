@@ -73,7 +73,7 @@ export const AdminNotificationCandidats = ({
 
   const hasFilters = !!(classement || recherche || appelOffreId || periodeId);
 
-  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [formOpen, setFormOpen] = useState(true);
 
   return (
     <PageTemplate
@@ -98,17 +98,17 @@ export const AdminNotificationCandidats = ({
 
       <div className={`flex lg:items-end lg:justify-between`}>
         <LinkButton
-          onClick={() => setFiltersOpen(!filtersOpen)}
+          onClick={() => setFormOpen(!formOpen)}
           className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
         >
-          {filtersOpen ? (
+          {formOpen ? (
             <>
               <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
-              Masquer les filtres
+              Masquer le formulaire
             </>
           ) : (
             <>
-              Afficher les filtres
+              Afficher le formulaire
               <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
             </>
           )}
@@ -125,7 +125,7 @@ export const AdminNotificationCandidats = ({
       <div className="flex flex-col lg:flex-row gap-10 mt-8">
         <div
           className={`flex flex-col max-w-xl ${
-            filtersOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
+            formOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
           }`}
         >
           {hasFilters && (
@@ -236,7 +236,7 @@ export const AdminNotificationCandidats = ({
 
         <ProjectList
           projects={projetsPériodeSélectionnée}
-          className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}
+          className={formOpen ? 'lg:w-2/3' : 'lg:w-full'}
           role={utilisateur?.role}
           currentUrl={currentUrl}
           exportListe={
