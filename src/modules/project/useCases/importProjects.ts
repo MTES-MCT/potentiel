@@ -84,8 +84,6 @@ export const makeImportProjects =
         );
       }
     }
-
-    return projects;
   };
 
 const checkAppelOffrePeriode = (projectData, appelsOffre) => {
