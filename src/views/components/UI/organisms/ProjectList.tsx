@@ -12,7 +12,6 @@ import {
   BuildingHouseIcon,
   UserIcon,
   Badge,
-  DownloadLink,
   Link,
   LinkButton,
   Tile,
@@ -21,7 +20,6 @@ import {
   SecondaryLinkButton,
   ExcelFileIcon,
 } from '../..';
-import { afficherDate } from '../../../helpers';
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -55,9 +53,7 @@ const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) 
 type Props = {
   className?: string;
   projects: PaginatedList<ProjectListItem>;
-  displayGF?: true;
   role: UserRole;
-  GFPastDue?: boolean;
   displaySelection?: boolean;
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
@@ -71,9 +67,7 @@ type Props = {
 export const ProjectList = ({
   className = '',
   projects,
-  displayGF,
   role,
-  GFPastDue,
   selectedIds = [],
   displaySelection = false,
   onSelectedIdsChanged,
@@ -125,18 +119,7 @@ export const ProjectList = ({
                 Prix de référence
               </div>
             )}
-            {displayGF && (
-              <div className="flex items-center">
-                <div
-                  className="flex text-grey-200-base font-bold text-sm mr-1"
-                  aria-label="Garanties Financières"
-                >
-                  GF
-                </div>
-                Garanties Financières
-              </div>
-            )}
-            {évaluationCarboneDisponible && !displayGF && (
+            {évaluationCarboneDisponible && (
               <div className="flex items-center">
                 <CloudIcon
                   className="text-grey-425-active mr-1 shrink-0"
@@ -239,24 +222,20 @@ export const ProjectList = ({
                     </div>
                   )}
 
-                  {displayGF ? (
-                    <GF project={project} GFPastDue={GFPastDue} />
-                  ) : (
-                    project.evaluationCarbone !== undefined && (
-                      <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
-                        <CloudIcon className="text-grey-425-active" title="Évaluation carbone" />
-                        <div>
-                          {project.evaluationCarbone > 0 ? (
-                            <div className="lg:flex lg:flex-col items-center text-center">
-                              {project.evaluationCarbone}
-                              <Unit> kg eq CO2/kWc</Unit>
-                            </div>
-                          ) : (
-                            '- - -'
-                          )}
-                        </div>
+                  {project.evaluationCarbone !== undefined && (
+                    <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
+                      <CloudIcon className="text-grey-425-active" title="Évaluation carbone" />
+                      <div>
+                        {project.evaluationCarbone > 0 ? (
+                          <div className="lg:flex lg:flex-col items-center text-center">
+                            {project.evaluationCarbone}
+                            <Unit> kg eq CO2/kWc</Unit>
+                          </div>
+                        ) : (
+                          '- - -'
+                        )}
                       </div>
-                    )
+                    </div>
                   )}
                 </div>
 
@@ -291,60 +270,6 @@ export const ProjectList = ({
           currentPage={projects.pagination.page}
           currentUrl={currentUrl}
         />
-      )}
-    </div>
-  );
-};
-
-const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: boolean }) => {
-  const gf = project.garantiesFinancières;
-  return (
-    <div className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center">
-      <div
-        className="flex text-grey-200-base font-bold text-sm pt-0.5"
-        title="Garanties financières"
-      >
-        GF
-      </div>
-      {!gf?.dateEnvoi && !GFPastDue && <div className="flex">Non Déposées</div>}
-
-      {gf?.dateEnvoi && (
-        <div className="flex flex-col md:flex-row lg:flex-col items-center gap-1">
-          {gf.statut === 'validé' ? (
-            <Badge className="lg:self-center" type="success">
-              validé
-            </Badge>
-          ) : (
-            <Badge className="lg:self-center" type="warning">
-              à traiter
-            </Badge>
-          )}
-          {gf.fichier && (
-            <DownloadLink
-              className="flex text-sm items-center"
-              fileUrl={routes.DOWNLOAD_PROJECT_FILE(gf.fichier.id, gf.fichier.filename)}
-              aria-label={`Télécharger les garanties financières du projet ${
-                project.nomProjet
-              } déposées le ${afficherDate(new Date(gf.dateEnvoi))}`}
-            >
-              Déposées le <br />
-              {afficherDate(new Date(gf.dateEnvoi))}
-            </DownloadLink>
-          )}
-        </div>
-      )}
-
-      {GFPastDue && (
-        <DownloadLink
-          className="text-sm"
-          fileUrl={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
-            id: project.id,
-            nomProjet: project.nomProjet,
-          })}
-          aria-label={`Télécharger un modèle de mise en demeure pour le projet ${project.nomProjet}`}
-        >
-          Télécharger le modèle de mise de demeure
-        </DownloadLink>
       )}
     </div>
   );
