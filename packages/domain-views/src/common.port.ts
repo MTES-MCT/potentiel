@@ -8,6 +8,7 @@ export type Find = <TReadModel extends ReadModel>(
 export type ListOptions<TReadModel extends ReadModel> = {
   type: TReadModel['type'];
   orderBy?: keyof TReadModel;
+  where?: Partial<TReadModel>;
 };
 export type List = <TReadModel extends ReadModel>(
   options: ListOptions<TReadModel>,
