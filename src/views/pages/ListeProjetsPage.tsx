@@ -64,22 +64,20 @@ export const ListeProjets = ({
 
   if (projects.items.length === 0) {
     return (
-      <>
-        <PageTemplate
-          user={utilisateur}
-          currentPage={'liste-projects'}
-          contentHeader={
-            <Heading1 className="!text-white whitespace-nowrap">
-              {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
-              {projects.itemCount > 0 && ` (${projects.itemCount})`}
-            </Heading1>
-          }
-        >
-          <ListeVide titre="Aucun projet à lister">
-            <Link href={routes.LISTE_PROJETS}>Voir tout les projets</Link>
-          </ListeVide>
-        </PageTemplate>
-      </>
+      <PageTemplate
+        user={utilisateur}
+        currentPage={'liste-projects'}
+        contentHeader={
+          <Heading1 className="!text-white whitespace-nowrap">
+            {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
+            {projects.itemCount > 0 && ` (${projects.itemCount})`}
+          </Heading1>
+        }
+      >
+        <ListeVide titre="Aucun projet à lister">
+          <Link href={routes.LISTE_PROJETS}>Voir tout les projets</Link>
+        </ListeVide>
+      </PageTemplate>
     );
   }
   const defaultClassementFilter =
