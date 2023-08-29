@@ -55,7 +55,7 @@ v1Router.get(
         });
       }
 
-      const gestionnairesRéseau = await mediator.send<ListerGestionnaireRéseauQuery>({
+      const { items: gestionnairesRéseau } = await mediator.send<ListerGestionnaireRéseauQuery>({
         type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
         data: {},
       });

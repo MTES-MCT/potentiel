@@ -54,10 +54,11 @@ v1Router.get(
         });
       }
 
-      const listeGestionnairesRéseau = await mediator.send<ListerGestionnaireRéseauQuery>({
-        type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
-        data: {},
-      });
+      const { items: listeGestionnairesRéseau } =
+        await mediator.send<ListerGestionnaireRéseauQuery>({
+          type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+          data: {},
+        });
 
       return response.send(
         ModifierGestionnaireRéseauProjetPage({

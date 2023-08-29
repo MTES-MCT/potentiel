@@ -14,9 +14,16 @@ export type ListOptions<TReadModel extends ReadModel> = {
     itemsPerPage: number;
   };
 };
+export type ListResult<TReadModel extends ReadModel> = {
+  items: ReadonlyArray<TReadModel>;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+};
+
 export type List = <TReadModel extends ReadModel>(
   options: ListOptions<TReadModel>,
-) => Promise<ReadonlyArray<TReadModel>>;
+) => Promise<ListResult<TReadModel>>;
 
 export type SearchResult<TReadModel extends ReadModel> = {
   key: string;

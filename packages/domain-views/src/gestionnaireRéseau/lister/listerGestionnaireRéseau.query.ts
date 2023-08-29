@@ -1,11 +1,11 @@
-import { List } from '../../common.port';
+import { List, ListResult } from '../../common.port';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 export type ListerGestionnaireRéseauQuery = Message<
   'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
   {},
-  ReadonlyArray<GestionnaireRéseauReadModel>
+  ListResult<GestionnaireRéseauReadModel>
 >;
 
 export type ListerGestionnaireRéseauDependencies = {

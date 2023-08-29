@@ -1,5 +1,6 @@
 import { executeSelect } from '@potentiel/pg-helpers';
 import { ReadModel } from '@potentiel/core-domain';
+import { ListOptions, ListResult } from '@potentiel/domain-views';
 import { KeyValuePair } from './keyValuePair';
 import format from 'pg-format';
 
@@ -8,15 +9,7 @@ export const listProjection = async <TReadModel extends ReadModel>({
   orderBy,
   where,
   pagination,
-}: {
-  type: TReadModel['type'];
-  orderBy?: keyof TReadModel;
-  where?: Partial<TReadModel>;
-  pagination?: {
-    page: number;
-    itemsPerPage: number;
-  };
-}): Promise<ReadonlyArray<TReadModel>> => {
+}: ListOptions<TReadModel>): Promise<ListResult<TReadModel>> => {
   const baseQuery = `select key, value from domain_views.projection where key like $1`;
 
   const orderByClause = orderBy ? format(`order by value ->> %L`, orderBy) : '';
@@ -45,11 +38,23 @@ export const listProjection = async <TReadModel extends ReadModel>({
     ...(where ? Object.values(where) : []),
   );
 
-  return result.map(
-    ({ key, value }) =>
-      ({
-        type: key.split('|')[0],
-        ...value,
-      } as TReadModel),
-  );
+  const totalResult = pagination
+    ? await executeSelect<{ totalItems: string }>(
+        'select count(key) as "totalItems" from domain_views.projection where key like $1',
+        `${type}|%`,
+      )
+    : [{ totalItems: result.length.toString() }];
+
+  return {
+    currentPage: pagination?.page ?? 1,
+    itemsPerPage: pagination?.itemsPerPage ?? result.length,
+    totalItems: parseInt(totalResult[0].totalItems),
+    items: result.map(
+      ({ key, value }) =>
+        ({
+          type: key.split('|')[0],
+          ...value,
+        } as TReadModel),
+    ),
+  };
 };
