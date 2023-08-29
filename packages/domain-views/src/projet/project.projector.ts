@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { ProjetEvent } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import { ProjetReadModel, ProjetReadModelKey } from './projet.readModel';
-import { Create, Update, Find } from '../common.port';
+import { Create, Update, Find } from '@potentiel/core-domain';
 
 export type ExecuteProjetProjector = Message<'EXECUTE_PROJET_PROJECTOR', ProjetEvent>;
 

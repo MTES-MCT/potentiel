@@ -1,7 +1,6 @@
-import { Subscribe } from '@potentiel/core-domain';
+import { Subscribe, List, Create, Find, Remove, Search, Update } from '@potentiel/core-domain';
 import { setupGestionnaireRéseauViews } from './gestionnaireRéseau/gestionnaireRéseau.setup';
 import { ProjetDependencies, setupProjetViews } from './projet/projet.setup';
-import { List, Create, Find, Remove, Search, Update } from './common.port';
 import {
   RaccordementDependencies,
   setupRaccordementViews,

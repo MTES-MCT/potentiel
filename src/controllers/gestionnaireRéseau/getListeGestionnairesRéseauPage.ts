@@ -13,7 +13,7 @@ v1Router.get(
   routes.GET_LISTE_GESTIONNAIRES_RESEAU,
   vérifierPermissionUtilisateur(PermissionListerGestionnairesRéseau),
   asyncHandler(async (request, response) => {
-    const gestionnairesRéseau = await mediator.send<ListerGestionnaireRéseauQuery>({
+    const { items: gestionnairesRéseau } = await mediator.send<ListerGestionnaireRéseauQuery>({
       type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
       data: {},
     });

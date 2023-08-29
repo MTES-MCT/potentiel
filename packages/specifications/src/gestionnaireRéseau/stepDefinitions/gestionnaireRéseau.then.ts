@@ -7,8 +7,8 @@ import {
 import { isNone } from '@potentiel/monads';
 import {
   ConsulterGestionnaireRéseauQuery,
-  GestionnaireRéseauQuery,
   GestionnaireRéseauReadModel,
+  ListerGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { mediator } from 'mediateur';
@@ -25,7 +25,7 @@ Alors(
     actualAggregate.codeEIC.should.equal(gestionnaireRéseau.codeEIC);
 
     // Assert read model
-    const actualReadModel = await mediator.send<GestionnaireRéseauQuery>({
+    const actualReadModel = await mediator.send<ListerGestionnaireRéseauQuery>({
       type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
       data: {},
     });
@@ -35,7 +35,7 @@ Alors(
       ...gestionnaireRéseau,
     };
 
-    actualReadModel.should.deep.contain(expected);
+    actualReadModel.items.should.deep.contain(expected);
   },
 );
 

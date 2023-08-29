@@ -8,7 +8,7 @@ import {
   RawRéférenceDossierRaccordement,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
-import { Search } from '../../common.port';
+import { Search } from '@potentiel/core-domain';
 
 export type RechercherDossierRaccordementQuery = Message<
   'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
