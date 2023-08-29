@@ -20,7 +20,7 @@ interface ImportProjectsArgs {
 
 export const makeImportProjects =
   ({ eventBus, appelOffreRepo }: ImportProjectsDeps) =>
-  async ({ lines, importId, importedBy }: ImportProjectsArgs): Promise<void> => {
+  async ({ lines, importId, importedBy }: ImportProjectsArgs) => {
     const errors: Record<number, string> = {};
     const projects: {
       projectData: ReturnType<typeof parseProjectLine>;
