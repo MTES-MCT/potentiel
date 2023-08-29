@@ -1,5 +1,6 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 import { Technologie } from '@potentiel/domain-views';
+import { TypeGarantiesFinancières } from '@potentiel/domain';
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 
 export interface ProjectRawDataImportedPayload {
   importId: string;
@@ -32,7 +33,7 @@ export interface ProjectRawDataImportedPayload {
     details: any;
     technologie: Technologie;
     actionnariat?: string;
-    garantiesFinancièresType?: string;
+    garantiesFinancièresType?: TypeGarantiesFinancières;
     garantiesFinancièresDateEchéance?: string;
   };
 }
