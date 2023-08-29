@@ -6,13 +6,13 @@ import {
 } from '@potentiel/domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone, none } from '@potentiel/monads';
-
-import { Find, TéléchargerFichierPort } from '../../common.port';
 import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
   FichierDépôtAttestationGarantiesFinancièresReadModel,
 } from '../dépôtGarantiesFinancières.readModel';
+import { Find } from '@potentiel/core-domain';
+import { TéléchargerFichierPort } from '../../common.port';
 
 export type ConsulterFichierDépôtAttestationGarantiesFinancièreQuery = Message<
   'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',

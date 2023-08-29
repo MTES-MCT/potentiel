@@ -4,14 +4,13 @@ import {
   convertirEnIdentifiantProjet,
   estUnIdentifiantProjet,
 } from '@potentiel/domain';
-
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Find } from '../../common.port';
 import { Option } from '@potentiel/monads';
 import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
 } from '../garantiesFinancières.readModel';
+import { Find } from '@potentiel/core-domain';
 
 export type ConsulterGarantiesFinancièresReadModel = GarantiesFinancièresReadModel;
 
