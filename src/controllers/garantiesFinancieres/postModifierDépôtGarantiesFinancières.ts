@@ -178,6 +178,7 @@ v1Router.post(
             typeGarantiesFinancières: typeGarantiesFinancieres,
             dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
             attestationConstitution: fichierAttestation,
+            dateModification: convertirEnDateTime(new Date()),
           },
         });
 
