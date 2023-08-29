@@ -6,7 +6,7 @@ import {
 
 import { ProjetReadModel, ProjetReadModelKey } from '../projet.readModel';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Find } from '../../common.port';
+import { Find } from '@potentiel/core-domain';
 import { Option, isSome, none } from '@potentiel/monads';
 import { RécupérerDétailProjetPort } from '../projet.ports';
 

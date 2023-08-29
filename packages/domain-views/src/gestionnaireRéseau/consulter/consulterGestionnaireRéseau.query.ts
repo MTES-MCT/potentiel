@@ -4,7 +4,7 @@ import {
   GestionnaireRéseauReadModel,
   GestionnaireRéseauReadModelKey,
 } from '../gestionnaireRéseau.readModel';
-import { Find } from '../../common.port';
+import { Find } from '@potentiel/core-domain';
 import {
   IdentifiantGestionnaireRéseau,
   RawIdentifiantGestionnaireRéseau,
