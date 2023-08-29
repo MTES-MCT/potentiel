@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { List } from '../../common.port';
 import { isSome } from '@potentiel/monads';
 import {
   DépôtGarantiesFinancièresReadModel,
@@ -8,6 +7,7 @@ import {
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { ProjetReadModel } from '../../domainViews.readModel';
+import { List } from '@potentiel/core-domain';
 
 type ListerDépôtsGarantiesFinancièresReadModel = {
   type: 'liste-dépôts-garanties-financières';
@@ -47,12 +47,12 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
       // TO DO : ajouter un where sur la région ici
     });
 
-    if (!dépôts.length) {
+    if (!dépôts.items.length) {
       return { type: 'liste-dépôts-garanties-financières', liste: [], ...(région && { région }) };
     }
 
     const liste = await Promise.all(
-      dépôts.map(async (dépôt) => {
+      dépôts.items.map(async (dépôt) => {
         const projet = await récupérerDétailProjet(
           convertirEnIdentifiantProjet(dépôt.identifiantProjet),
         );
