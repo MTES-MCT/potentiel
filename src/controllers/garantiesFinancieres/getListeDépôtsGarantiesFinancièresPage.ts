@@ -1,6 +1,11 @@
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
-import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
+import {
+  getCurrentUrl,
+  getPagination,
+  notFoundResponse,
+  vérifierPermissionUtilisateur,
+} from '../helpers';
 import { ListerDépôtsGarantiesFinancièresQuery } from '@potentiel/domain-views';
 import { ListerDépôtsGarantiesFinancièresPage } from '../../views';
 import { mediator } from 'mediateur';
@@ -23,9 +28,14 @@ v1Router.get(
         ressourceTitle: 'Région',
       });
     }
+    const { page, pageSize: itemsPerPage } = getPagination(request);
+
     const résultat = await mediator.send<ListerDépôtsGarantiesFinancièresQuery>({
       type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
-      data: { région: userRégion.dreal },
+      data: {
+        région: userRégion.dreal,
+        pagination: { page, itemsPerPage },
+      },
     });
 
     return response.send(
@@ -34,7 +44,7 @@ v1Router.get(
         user,
         //@ts-ignore
         listeDépôtsGarantiesFinancières: résultat.liste,
-        // error: error as string,
+        pagination: { ...résultat.pagination, currentUrl: getCurrentUrl(request) },
       }),
     );
   }),

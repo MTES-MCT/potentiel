@@ -151,11 +151,12 @@ Alors(
           },
         },
       ],
+      pagination: { currentPage: 1, pageCount: 1 },
     };
 
     const actualListeDépôtsReadModel = await mediator.send<ListerDépôtsGarantiesFinancièresQuery>({
       type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
-      data: { région },
+      data: { région, pagination: { page: 1, itemsPerPage: 10 } },
     });
 
     expect(actualListeDépôtsReadModel).to.deep.equal(expectedListeDépôtsReadModel);

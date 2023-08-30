@@ -16,12 +16,14 @@ type ListerDépôtsGarantiesFinancièresReadModel = {
       }
     | undefined // TO DO : à retirer
   >;
+  pagination: { currentPage: number; pageCount: number };
 };
 
 export type ListerDépôtsGarantiesFinancièresQuery = Message<
   'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
   {
     région: string;
+    pagination: { page: number; itemsPerPage: number };
   },
   ListerDépôtsGarantiesFinancièresReadModel
 >;
@@ -37,16 +39,14 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
 }: ListerDépôtsGarantiesFinancièresDependencies) => {
   const queryHandler: MessageHandler<ListerDépôtsGarantiesFinancièresQuery> = async ({
     région,
+    pagination: { page, itemsPerPage },
   }) => {
     const dépôts = await list<DépôtGarantiesFinancièresReadModel>({
       type: 'dépôt-garanties-financières',
       orderBy: 'dateDernièreMiseÀJour',
       like: { région },
+      pagination: { page, itemsPerPage },
     });
-
-    if (!dépôts.items.length) {
-      return { type: 'liste-dépôts-garanties-financières', liste: [], région };
-    }
 
     const liste = await Promise.all(
       dépôts.items.map(async (dépôt) => {
@@ -71,6 +71,10 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
       type: 'liste-dépôts-garanties-financières',
       région,
       liste: listeFiltrée,
+      pagination: {
+        currentPage: dépôts.currentPage,
+        pageCount: Math.ceil(dépôts.totalItems / dépôts.itemsPerPage),
+      },
     };
   };
 
