@@ -3,7 +3,7 @@ import { Container, Footer, Header, UserNavigation } from '../..';
 import { App } from '../../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
-type PageTemplateProps = {
+export type PageTemplateProps = {
   user: UtilisateurReadModel;
   children: React.ReactNode;
   currentPage?: string;
