@@ -40,9 +40,7 @@ v1Router.get(
 
     return response.send(
       ListerDépôtsGarantiesFinancièresPage({
-        //@ts-ignore
         user,
-        //@ts-ignore
         listeDépôtsGarantiesFinancières: résultat.liste,
         pagination: { ...résultat.pagination, currentUrl: getCurrentUrl(request) },
       }),

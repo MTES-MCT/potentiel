@@ -6,26 +6,21 @@ import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { ProjetReadModel } from '../../domainViews.readModel';
 import { List } from '@potentiel/core-domain';
 
-type ListerDépôtsGarantiesFinancièresReadModel = {
-  type: 'liste-dépôts-garanties-financières';
-  région: string;
-  liste: ReadonlyArray<
-    | {
-        dépôt: DépôtGarantiesFinancièresReadModel;
-        projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
-      }
-    | undefined // TO DO : à retirer
-  >;
-  pagination: { currentPage: number; pageCount: number };
-};
-
 export type ListerDépôtsGarantiesFinancièresQuery = Message<
   'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
   {
     région: string;
     pagination: { page: number; itemsPerPage: number };
   },
-  ListerDépôtsGarantiesFinancièresReadModel
+  {
+    type: 'liste-dépôts-garanties-financières';
+    région: string;
+    liste: {
+      dépôt: DépôtGarantiesFinancièresReadModel;
+      projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
+    }[];
+    pagination: { currentPage: number; pageCount: number };
+  }
 >;
 
 export type ListerDépôtsGarantiesFinancièresDependencies = {
@@ -48,29 +43,29 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
       pagination: { page, itemsPerPage },
     });
 
-    const liste = await Promise.all(
+    const liste: {
+      dépôt: DépôtGarantiesFinancièresReadModel;
+      projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
+    }[] = [];
+
+    await Promise.all(
       dépôts.items.map(async (dépôt) => {
         const projet = await récupérerDétailProjet(
           convertirEnIdentifiantProjet(dépôt.identifiantProjet),
         );
-
         if (isSome(projet)) {
-          return {
+          liste.push({
             dépôt,
             projet,
-          };
+          });
         }
-        // TO DO : logguer une erreur si pas de projet (ce cas ne devrait pas arriver)
-        return undefined;
       }),
     );
-
-    const listeFiltrée = liste.filter((item) => item !== undefined);
 
     return {
       type: 'liste-dépôts-garanties-financières',
       région,
-      liste: listeFiltrée,
+      liste,
       pagination: {
         currentPage: dépôts.currentPage,
         pageCount: Math.ceil(dépôts.totalItems / dépôts.itemsPerPage),
