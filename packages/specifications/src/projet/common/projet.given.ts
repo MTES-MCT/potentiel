@@ -2,9 +2,7 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { none } from '@potentiel/monads';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { randomUUID } from 'crypto';
-
 import { PotentielWorld } from '../../potentiel.world';
-import { RégionFrançaise } from '@potentiel/domain-views';
 
 EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProjet: string) {
   await executeQuery(
@@ -92,7 +90,7 @@ EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProje
 
 EtantDonné(
   'le projet {string} de la région {string}',
-  async function (this: PotentielWorld, nomProjet: string, régionProjet: RégionFrançaise) {
+  async function (this: PotentielWorld, nomProjet: string, régionProjet: string) {
     const legacyId = randomUUID();
     await executeQuery(
       `

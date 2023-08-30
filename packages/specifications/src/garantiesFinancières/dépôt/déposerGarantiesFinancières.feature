@@ -1,9 +1,8 @@
 #Language: fr-FR
-
+@select
 Fonctionnalité: Déposer des garanties financières pour validation dans Potentiel
     Contexte: 
         Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
-@select
     Plan du Scénario: Déposer de nouvelles garanties financières pour un projet
         Quand un utilisateur avec le rôle 'porteur-projet' dépose des garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | <type>                 |

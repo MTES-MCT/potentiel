@@ -1,9 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { isSome } from '@potentiel/monads';
-import {
-  DépôtGarantiesFinancièresReadModel,
-  RégionFrançaise,
-} from '../dépôtGarantiesFinancières.readModel';
+import { DépôtGarantiesFinancièresReadModel } from '../dépôtGarantiesFinancières.readModel';
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { ProjetReadModel } from '../../domainViews.readModel';
@@ -11,7 +8,7 @@ import { List } from '@potentiel/core-domain';
 
 type ListerDépôtsGarantiesFinancièresReadModel = {
   type: 'liste-dépôts-garanties-financières';
-  région?: RégionFrançaise;
+  région: string;
   liste: ReadonlyArray<
     | {
         dépôt: DépôtGarantiesFinancièresReadModel;
@@ -24,7 +21,7 @@ type ListerDépôtsGarantiesFinancièresReadModel = {
 export type ListerDépôtsGarantiesFinancièresQuery = Message<
   'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
   {
-    région?: RégionFrançaise;
+    région: string;
   },
   ListerDépôtsGarantiesFinancièresReadModel
 >;
@@ -44,11 +41,11 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
     const dépôts = await list<DépôtGarantiesFinancièresReadModel>({
       type: 'dépôt-garanties-financières',
       orderBy: 'dateDernièreMiseÀJour',
-      // TO DO : ajouter un where sur la région ici
+      like: { région },
     });
 
     if (!dépôts.items.length) {
-      return { type: 'liste-dépôts-garanties-financières', liste: [], ...(région && { région }) };
+      return { type: 'liste-dépôts-garanties-financières', liste: [], région };
     }
 
     const liste = await Promise.all(
@@ -72,7 +69,7 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
 
     return {
       type: 'liste-dépôts-garanties-financières',
-      ...(région && { région }),
+      région,
       liste: listeFiltrée,
     };
   };

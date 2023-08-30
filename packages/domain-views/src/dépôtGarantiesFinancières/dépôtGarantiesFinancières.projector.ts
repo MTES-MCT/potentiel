@@ -3,8 +3,6 @@ import { isNone, isSome } from '@potentiel/monads';
 import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
-  RégionFrançaise,
-  isRégionFrançaise,
 } from './dépôtGarantiesFinancières.readModel';
 import {
   DépôtGarantiesFinancièresEvent,
@@ -46,13 +44,12 @@ export const registerDépôtGarantiesFinancièresProjector = ({
 
     const getRégionsProjet = async (identifiantProjet: RawIdentifiantProjet) => {
       const projet = await récupérerDétailProjet(convertirEnIdentifiantProjet(identifiantProjet));
-      const régions = isSome(projet) ? projet.localité.région.split(' / ') : [];
-      return régions.reduce((prev: RégionFrançaise[], current: string) => {
-        if (isRégionFrançaise(current)) {
-          return [...prev, current];
-        }
-        return prev;
-      }, []);
+      if (isSome(projet)) {
+        return projet.localité.région;
+      } else {
+        // TO DO : erreur à logguer
+        return undefined;
+      }
     };
 
     switch (event.type) {
@@ -63,14 +60,14 @@ export const registerDépôtGarantiesFinancièresProjector = ({
         if (isNone(dépôtGarantiesFinancières)) {
           const { typeGarantiesFinancières, dateÉchéance, attestationConstitution, dateDépôt } =
             event.payload.aggregate.dépôt;
-          const régions = await getRégionsProjet(event.payload.identifiantProjet);
+          const région = await getRégionsProjet(event.payload.identifiantProjet);
           await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
             typeGarantiesFinancières,
             dateÉchéance,
             attestationConstitution,
             dateDépôt,
             dateDernièreMiseÀJour: dateDépôt,
-            région: régions,
+            région: région!!,
             identifiantProjet: event.payload.identifiantProjet,
           });
         } else {
@@ -78,7 +75,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
         }
         break;
       case 'GarantiesFinancièresDéposées-v1':
-        const régions = await getRégionsProjet(event.payload.identifiantProjet);
+        const région = await getRégionsProjet(event.payload.identifiantProjet);
         if (isSome(dépôtGarantiesFinancières)) {
           await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
             typeGarantiesFinancières:
@@ -92,7 +89,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             },
             dateDépôt: event.payload.dateDépôt,
             dateDernièreMiseÀJour: event.payload.dateDépôt,
-            région: régions,
+            région: région!!,
             identifiantProjet: event.payload.identifiantProjet,
           });
           break;
@@ -109,7 +106,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           },
           dateDépôt: event.payload.dateDépôt,
           dateDernièreMiseÀJour: event.payload.dateDépôt,
-          région: régions,
+          région: région!!,
           identifiantProjet: event.payload.identifiantProjet,
         });
         break;

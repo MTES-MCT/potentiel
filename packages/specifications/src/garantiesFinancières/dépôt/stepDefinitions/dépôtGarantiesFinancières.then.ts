@@ -91,7 +91,7 @@ Alors(
       dateDernièreMiseÀJour: dateDernièreModification
         ? new Date(dateDernièreModification).toISOString()
         : new Date(dateDépôt).toISOString(),
-      région: [région],
+      région,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
     };
 
@@ -130,6 +130,7 @@ Alors(
 
     const expectedListeDépôtsReadModel = {
       type: 'liste-dépôts-garanties-financières',
+      région,
       liste: [
         {
           dépôt: expectedReadModel,
@@ -154,7 +155,7 @@ Alors(
 
     const actualListeDépôtsReadModel = await mediator.send<ListerDépôtsGarantiesFinancièresQuery>({
       type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
-      data: {},
+      data: { région },
     });
 
     expect(actualListeDépôtsReadModel).to.deep.equal(expectedListeDépôtsReadModel);
