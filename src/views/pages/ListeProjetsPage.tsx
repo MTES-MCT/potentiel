@@ -96,12 +96,10 @@ export const ListeProjets = ({
       user={utilisateur}
       currentPage={'list-projects'}
       contentHeader={
-        <div className="flex flex-col sm:flex-row justify-between">
-          <Heading1 className="!text-white whitespace-nowrap">
-            {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
-            {projects.itemCount > 0 && ` (${projects.itemCount})`}
-          </Heading1>
-        </div>
+        <Heading1 className="!text-white whitespace-nowrap">
+          {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
+          {projects.itemCount > 0 && ` (${projects.itemCount})`}
+        </Heading1>
       }
     >
       <PageListeTemplate.TopBar success={success} error={error}>

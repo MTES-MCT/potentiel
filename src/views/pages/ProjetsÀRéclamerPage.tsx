@@ -6,19 +6,19 @@ import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {
   BarreDeRecherche,
   Dropdown,
-  ErrorBox,
   Heading1,
   InfoBox,
   Label,
   LinkButton,
   ListeVide,
   MissingOwnerProjectList,
-  LegacyPageTemplate,
   Select,
-  SuccessBox,
-  Fieldset,
   Form,
-  Link,
+  PageListeTemplate,
+  Accordeon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  SecondaryLinkButton,
 } from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import routes from '../../routes';
@@ -37,7 +37,6 @@ export const ProjetsÀRéclamer = ({
   request,
   projects,
   appelsOffre,
-  existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
   currentUrl,
@@ -51,64 +50,78 @@ export const ProjetsÀRéclamer = ({
       ['admin', 'dreal', 'dgec-validateur'].includes(request.user?.role) &&
       classement !== 'classés');
 
-  const hasFilters = !!(appelOffreId || periodeId || familleId || hasNonDefaultClassement);
+  const hasFilters = !!(
+    appelOffreId ||
+    periodeId ||
+    familleId ||
+    hasNonDefaultClassement ||
+    recherche
+  );
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id));
+  const filtreParPériodeActif = appelOffreId && periodes && periodes.length > 0;
 
   const familles = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
+  const filtreParFamilleActif = appelOffreId && familles && familles.length > 0;
 
   const [displayHelp, showHelp] = useState(false);
-  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
+  const [filtersOpen, setFiltersOpen] = useState(true);
 
   return (
-    <LegacyPageTemplate user={request.user} currentPage="list-missing-owner-projects">
-      <Heading1 className="mb-10">Projets à réclamer</Heading1>
-      <InfoBox>
-        Pour ajouter un projet en attente d'affectation à votre suivi de projets (onglet "Mes
-        projets"), sélectionnez-le, qu’il vous soit pré-affecté ou non.
-        <br />
-        Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de référence tel
-        qu'il figure dans votre attestation de désignation, ainsi que le numéro CRE puis téléversez
-        l’attestation de désignation.
-        <Dropdown
-          text="Où trouver mon numéro CRE sur mon attestation de désignation ?"
-          design="link"
-          changeOpenState={(state) => showHelp(state)}
-          isOpen={displayHelp}
-          className="mt-2"
+    <PageListeTemplate
+      user={request.user}
+      currentPage={'list-missing-owner-projects'}
+      contentHeader={
+        <Heading1 className="!text-white whitespace-nowrap">
+          Projets à réclamer {projects && projects.itemCount > 0 && ` (${projects.itemCount})`}
+        </Heading1>
+      }
+    >
+      <PageListeTemplate.TopBar success={success} error={error}>
+        <div className="flex gap-4 order-2 mt-8 lg:mt-0 lg:order-1">
+          <LinkButton
+            onClick={() => setFiltersOpen(!filtersOpen)}
+            className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
+          >
+            {filtersOpen ? (
+              <>
+                <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
+                Masquer les filtres
+              </>
+            ) : (
+              <>
+                Afficher les filtres
+                <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
+              </>
+            )}
+          </LinkButton>
+          {hasFilters && (
+            <SecondaryLinkButton href="#" onClick={resetUrlParams} className="text-sm">
+              Retirer tous les filtres
+            </SecondaryLinkButton>
+          )}
+        </div>
+        <Form
+          action={routes.USER_LIST_MISSING_OWNER_PROJECTS}
+          method="GET"
+          className="w-full order-1 lg:order-2 lg:ml-auto"
         >
-          <img
-            alt="Capture d'un exemple d'attestation de désignation indiquant où trouver le numéro CRE dans les référence du document."
-            src="/images/numeroCRE_tooltip.jpg"
-            className="mt-4 w-[700px]"
+          <BarreDeRecherche
+            placeholder="Rechercher par nom projet, nom candidat, appel d'offres, période, région"
+            name="recherche"
+            defaultValue={recherche || ''}
+            className="mt-8"
           />
-        </Dropdown>
-      </InfoBox>
-      <Form
-        action={routes.USER_LIST_MISSING_OWNER_PROJECTS}
-        method="GET"
-        className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
-      >
-        <BarreDeRecherche
-          placeholder="Rechercher par nom projet, nom candidat, appel d'offres, période, région"
-          name="recherche"
-          defaultValue={recherche || ''}
-          className="mt-8"
-        />
-
-        <Dropdown
-          design="link"
-          text="Filtrer"
-          isOpen={afficherFiltres}
-          changeOpenState={(state) => setAfficherFiltres(state)}
-          className="mt-8 !w-full"
-        >
-          <Fieldset className="flex flex-col gap-4 mt-4">
+        </Form>
+      </PageListeTemplate.TopBar>
+      <PageListeTemplate.SideBar open={filtersOpen}>
+        <Accordeon title="Filtrer par appel d'offre" defaultOpen={!!appelOffreId}>
+          <Form action={routes.USER_LIST_MISSING_OWNER_PROJECTS} method="GET">
             <div>
               <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
               <Select
@@ -127,107 +140,122 @@ export const ProjetsÀRéclamer = ({
                   Choisir un appel d‘offre
                 </option>
                 <option value="">Tous appels d'offres</option>
-                {appelsOffre
-                  .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
-                  .map((appelOffre) => (
-                    <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
-                      {appelOffre.shortTitle}
-                    </option>
-                  ))}
+                {appelsOffre.map((appelOffre) => (
+                  <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
+                    {appelOffre.shortTitle}
+                  </option>
+                ))}
               </Select>
             </div>
-            {appelOffreId && periodes && periodes.length > 0 && (
-              <div>
-                <Label htmlFor="periodeId">Période concernée</Label>
-                <Select
-                  id="periodeId"
-                  name="periodeId"
-                  defaultValue={periodeId || 'default'}
-                  onChange={(event) =>
-                    updateUrlParams({
-                      periodeId: event.target.value,
-                    })
-                  }
-                >
-                  <option value="default" disabled hidden>
-                    Choisir une période
-                  </option>
-                  <option value="">Toutes périodes</option>
-                  {periodes.map((periode) => (
+            <div>
+              <Label
+                htmlFor="periodeId"
+                className="mt-4"
+                disabled={!filtreParPériodeActif ? true : undefined}
+              >
+                Période concernée
+              </Label>
+              <Select
+                id="periodeId"
+                name="periodeId"
+                defaultValue={periodeId}
+                disabled={!filtreParPériodeActif}
+                onChange={(event) =>
+                  updateUrlParams({
+                    periodeId: event.target.value,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir une période
+                </option>
+                <option value="">Toutes périodes</option>
+                {periodes &&
+                  periodes.map((periode) => (
                     <option key={`appel_${periode.id}`} value={periode.id}>
                       {periode.title}
                     </option>
                   ))}
-                </Select>
-              </div>
-            )}
-            {appelOffreId && familles && familles.length > 0 && (
-              <div>
-                <Label htmlFor="familleId">Famille concernée</Label>
-                <Select
-                  id="familleId"
-                  name="familleId"
-                  defaultValue={familleId || 'default'}
-                  onChange={(event) =>
-                    updateUrlParams({
-                      familleId: event.target.value,
-                    })
-                  }
-                >
-                  <option value="default" disabled hidden>
-                    Choisir une famille
-                  </option>
-                  <option value="">Toutes familles</option>
-                  {familles.map((famille) => (
+              </Select>
+            </div>
+            <div>
+              <Label
+                htmlFor="familleId"
+                className="mt-4"
+                disabled={!filtreParFamilleActif ? true : undefined}
+              >
+                Famille concernée
+              </Label>
+              <Select
+                id="familleId"
+                name="familleId"
+                defaultValue={familleId || 'default'}
+                disabled={!filtreParFamilleActif}
+                onChange={(event) =>
+                  updateUrlParams({
+                    familleId: event.target.value,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir une famille
+                </option>
+                <option value="">Toutes familles</option>
+                {familles &&
+                  familles.map((famille) => (
                     <option key={`appel_${famille.id}`} value={famille.id}>
                       {famille.title}
                     </option>
                   ))}
-                </Select>
-              </div>
-            )}
-          </Fieldset>
-        </Dropdown>
-
-        {hasFilters && (
-          <LinkButton href="#" onClick={resetUrlParams}>
-            Retirer tous les filtres
-          </LinkButton>
+              </Select>
+            </div>
+          </Form>
+        </Accordeon>
+      </PageListeTemplate.SideBar>
+      <PageListeTemplate.List sideBarOpen={filtersOpen}>
+        {!projects || projects.items.length === 0 ? (
+          <ListeVide titre="Aucun projet à afficher" />
+        ) : (
+          <>
+            <InfoBox className="mb-4">
+              Pour ajouter un projet en attente d'affectation à votre suivi de projets (onglet "Mes
+              projets"), sélectionnez-le, qu’il vous soit pré-affecté ou non.
+              <br />
+              Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de
+              référence tel qu'il figure dans votre attestation de désignation, ainsi que le numéro
+              CRE puis téléversez l’attestation de désignation.
+              <Dropdown
+                text="Où trouver mon numéro CRE sur mon attestation de désignation ?"
+                design="link"
+                changeOpenState={(state) => showHelp(state)}
+                isOpen={displayHelp}
+                className="mt-2"
+              >
+                <img
+                  alt="Capture d'un exemple d'attestation de désignation indiquant où trouver le numéro CRE dans les référence du document."
+                  src="/images/numeroCRE_tooltip.jpg"
+                  className="mt-4 w-[700px]"
+                />
+              </Dropdown>
+            </InfoBox>
+            <MissingOwnerProjectList
+              displayColumns={[
+                'Projet',
+                'Puissance',
+                'Region',
+                'Projet pre-affecte',
+                'Prix',
+                'N° CRE',
+                'Attestation de designation',
+              ]}
+              projects={projects}
+              user={request.user}
+              currentUrl={currentUrl}
+            />
+          </>
         )}
-      </Form>
-      {success && <SuccessBox title={success} />}
-      {error && <ErrorBox className="whitespace-pre-wrap">{error}</ErrorBox>}
-      {projects && projects.items.length > 0 ? (
-        <>
-          <div className="m-2">
-            <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
-            projets
-          </div>
-          <MissingOwnerProjectList
-            displayColumns={[
-              'Projet',
-              'Puissance',
-              'Region',
-              'Projet pre-affecte',
-              'Prix',
-              'N° CRE',
-              'Attestation de designation',
-            ]}
-            projects={projects}
-            user={request.user}
-            currentUrl={currentUrl}
-          />
-        </>
-      ) : (
-        <ListeVide titre="Aucun projet à afficher">
-          {projects && projects.itemCount > 0 && (
-            <Link href={routes.USER_LIST_MISSING_OWNER_PROJECTS}>
-              Voir tous les projets à réclamer
-            </Link>
-          )}
-        </ListeVide>
-      )}
-    </LegacyPageTemplate>
+      </PageListeTemplate.List>
+    </PageListeTemplate>
   );
 };
 
