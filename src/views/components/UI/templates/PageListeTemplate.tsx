@@ -1,5 +1,5 @@
 import React, { Children, ReactElement, ReactNode } from 'react';
-import { PageTemplate, PageTemplateProps } from '../..';
+import { ErrorBox, PageTemplate, PageTemplateProps, SuccessBox } from '../..';
 
 /**
  * Fonction utilitaire permettant de trouver un nœud enfant correspondant à un type donné.
@@ -28,13 +28,17 @@ type TopBarProps = {
   error?: string;
 };
 const TopBar = ({ children, success, error }: TopBarProps) => (
-  <div
-    className={`flex flex-col lg:flex-row lg:items-end lg:justify-between ${
-      (success || error) && 'mt-4'
-    }`}
-  >
-    {children}
-  </div>
+  <>
+    {success && <SuccessBox title={success} />}
+    {error && <ErrorBox title={error} />}
+    <div
+      className={`flex flex-col lg:flex-row lg:items-end lg:justify-between ${
+        (success || error) && 'mt-4'
+      }`}
+    >
+      {children}
+    </div>
+  </>
 );
 
 type FiltresProps = {

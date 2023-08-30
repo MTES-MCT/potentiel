@@ -5,8 +5,6 @@ import { PaginatedList } from '../../../modules/pagination';
 import { AppelOffre } from '@potentiel/domain-views';
 import {
   RequestList,
-  SuccessBox,
-  ErrorBox,
   LinkButton,
   Heading1,
   BarreDeRecherche,
@@ -15,11 +13,11 @@ import {
   Checkbox,
   Form,
   ListeVide,
-  PageTemplate,
   ArrowRightIcon,
   ArrowLeftIcon,
   Accordeon,
   SecondaryLinkButton,
+  PageListeTemplate,
 } from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { userIs } from '../../../modules/users';
@@ -86,7 +84,7 @@ export const ModificationRequestList = ({
   const formActionRoute = `${targetRoute}?showOnlyDGEC=${isShowOnlyDGECChecked ? 'on' : 'off'}`;
 
   return (
-    <PageTemplate
+    <PageListeTemplate
       user={request.user}
       currentPage="list-requests"
       contentHeader={
@@ -96,14 +94,7 @@ export const ModificationRequestList = ({
         </Heading1>
       }
     >
-      {success && <SuccessBox title={success} />}
-      {error && <ErrorBox title={error} />}
-
-      <div
-        className={`flex flex-col lg:flex-row lg:items-end lg:justify-between ${
-          (success || error) && 'mt-4'
-        }`}
-      >
+      <PageListeTemplate.TopBar success={success} error={error}>
         <div className="flex gap-4 order-2 mt-8 lg:mt-0 lg:order-1">
           <LinkButton
             onClick={() => setFiltersOpen(!filtersOpen)}
@@ -127,7 +118,6 @@ export const ModificationRequestList = ({
             </SecondaryLinkButton>
           )}
         </div>
-
         <Form
           action={formActionRoute}
           method="GET"
@@ -139,208 +129,199 @@ export const ModificationRequestList = ({
             defaultValue={recherche || ''}
           />
         </Form>
-      </div>
-
-      <div className="flex flex-col mt-4 lg:flex-row lg:mt-8 gap-10">
-        <div
-          className={`flex flex-col max-w-xl ${
-            filtersOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
-          }`}
+      </PageListeTemplate.TopBar>
+      <PageListeTemplate.Filtres filtersOpen={filtersOpen}>
+        <Accordeon
+          title="Filtrer par appel d'offre"
+          defaultOpen={!!appelOffreId}
+          className="max-w-xl"
         >
-          <Accordeon
-            title="Filtrer par appel d'offre"
-            defaultOpen={!!appelOffreId}
-            className="max-w-xl"
-          >
-            <Form action={formActionRoute} method="GET">
-              <div>
-                <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
-                <Select
-                  id="appelOffreId"
-                  name="appelOffreId"
-                  defaultValue={appelOffreId || 'default'}
-                  onChange={(event) =>
-                    updateUrlParams({
-                      appelOffreId: event.target.value,
-                      periodeId: null,
-                      familleId: null,
-                    })
-                  }
-                >
-                  <option value="default" disabled hidden>
-                    Choisir un appel d‘offre
+          <Form action={formActionRoute} method="GET">
+            <div>
+              <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+              <Select
+                id="appelOffreId"
+                name="appelOffreId"
+                defaultValue={appelOffreId || 'default'}
+                onChange={(event) =>
+                  updateUrlParams({
+                    appelOffreId: event.target.value,
+                    periodeId: null,
+                    familleId: null,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir un appel d‘offre
+                </option>
+                <option value="">Tous appels d'offres</option>
+                {appelsOffre.map((appelOffre) => (
+                  <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
+                    {appelOffre.shortTitle}
                   </option>
-                  <option value="">Tous appels d'offres</option>
-                  {appelsOffre.map((appelOffre) => (
-                    <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
-                      {appelOffre.shortTitle}
+                ))}
+              </Select>
+            </div>
+            <div>
+              <Label
+                htmlFor="periodeId"
+                className="mt-4"
+                disabled={!filtreParPériodeActif ? true : undefined}
+              >
+                Période concernée
+              </Label>
+              <Select
+                id="periodeId"
+                name="periodeId"
+                defaultValue={periodeId}
+                disabled={!filtreParPériodeActif}
+                onChange={(event) =>
+                  updateUrlParams({
+                    periodeId: event.target.value,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir une période
+                </option>
+                <option value="">Toutes périodes</option>
+                {periodes &&
+                  periodes.map((periode) => (
+                    <option key={`appel_${periode.id}`} value={periode.id}>
+                      {periode.title}
                     </option>
                   ))}
-                </Select>
-              </div>
-              <div>
-                <Label
-                  htmlFor="periodeId"
-                  className="mt-4"
-                  disabled={!filtreParPériodeActif ? true : undefined}
-                >
-                  Période concernée
-                </Label>
-                <Select
-                  id="periodeId"
-                  name="periodeId"
-                  defaultValue={periodeId}
-                  disabled={!filtreParPériodeActif}
-                  onChange={(event) =>
-                    updateUrlParams({
-                      periodeId: event.target.value,
-                    })
-                  }
-                >
-                  <option value="default" disabled hidden>
-                    Choisir une période
-                  </option>
-                  <option value="">Toutes périodes</option>
-                  {periodes &&
-                    periodes.map((periode) => (
-                      <option key={`appel_${periode.id}`} value={periode.id}>
-                        {periode.title}
-                      </option>
-                    ))}
-                </Select>
-              </div>
-              <div>
-                <Label
-                  htmlFor="familleId"
-                  className="mt-4"
-                  disabled={!filtreParFamilleActif ? true : undefined}
-                >
-                  Famille concernée
-                </Label>
-                <Select
-                  id="familleId"
-                  name="familleId"
-                  defaultValue={familleId || 'default'}
-                  disabled={!filtreParFamilleActif}
-                  onChange={(event) =>
-                    updateUrlParams({
-                      familleId: event.target.value,
-                    })
-                  }
-                >
-                  <option value="default" disabled hidden>
-                    Choisir une famille
-                  </option>
-                  <option value="">Toutes familles</option>
-                  {familles &&
-                    familles.map((famille) => (
-                      <option key={`appel_${famille.id}`} value={famille.id}>
-                        {famille.title}
-                      </option>
-                    ))}
-                </Select>
-              </div>
-            </Form>
-          </Accordeon>
+              </Select>
+            </div>
+            <div>
+              <Label
+                htmlFor="familleId"
+                className="mt-4"
+                disabled={!filtreParFamilleActif ? true : undefined}
+              >
+                Famille concernée
+              </Label>
+              <Select
+                id="familleId"
+                name="familleId"
+                defaultValue={familleId || 'default'}
+                disabled={!filtreParFamilleActif}
+                onChange={(event) =>
+                  updateUrlParams({
+                    familleId: event.target.value,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir une famille
+                </option>
+                <option value="">Toutes familles</option>
+                {familles &&
+                  familles.map((famille) => (
+                    <option key={`appel_${famille.id}`} value={famille.id}>
+                      {famille.title}
+                    </option>
+                  ))}
+              </Select>
+            </div>
+          </Form>
+        </Accordeon>
+        <Accordeon
+          title="Filtrer par type de demande"
+          defaultOpen={!!modificationRequestType}
+          className="max-w-xl"
+        >
+          <Form action={formActionRoute} method="GET">
+            <div>
+              <Label htmlFor="modificationRequestType">Type de demande</Label>
+              <Select
+                id="modificationRequestType"
+                name="modificationRequestType"
+                defaultValue={modificationRequestType || 'default'}
+                onChange={(event) =>
+                  updateUrlParams({
+                    modificationRequestType: event.target.value,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir un type de demande
+                </option>
+                <option value="">Tous</option>
+                <option value="actionnaire">Actionnaire</option>
+                <option value="fournisseur">Fournisseur</option>
+                <option value="producteur">Producteur</option>
+                <option value="puissance">Puissance</option>
+                <option value="recours">Recours</option>
+                <option value="delai">Délai</option>
+                <option value="abandon">Abandon</option>
+                <option value="annulation abandon">Annulation abandon</option>
+              </Select>
+            </div>
+          </Form>
+        </Accordeon>
+        <Accordeon
+          title="Filtrer par statut de la demande"
+          defaultOpen={!!modificationRequestStatus}
+          className="max-w-xl"
+        >
+          <Form action={formActionRoute} method="GET">
+            <div>
+              <Label htmlFor="modificationRequestStatus">Statut de la demande</Label>
+              <Select
+                id="modificationRequestStatus"
+                name="modificationRequestStatus"
+                defaultValue={modificationRequestStatus || 'default'}
+                onChange={(event) =>
+                  updateUrlParams({
+                    modificationRequestStatus: event.target.value,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir le statut de la demande
+                </option>
+                <option value="">Tous</option>
+                <option value="envoyée">Envoyée</option>
+                <option value="en instruction">En instruction</option>
+                <option value="en attente de confirmation">En attente de confirmation</option>
+                <option value="demande confirmée">Demande confirmée</option>
+                <option value="acceptée">Acceptée</option>
+                <option value="rejetée">Rejetée</option>
+                <option value="annulée">Annulée</option>
+                <option value="information validée">Information validée</option>
+              </Select>
+            </div>
+          </Form>
+        </Accordeon>
+      </PageListeTemplate.Filtres>
+      <PageListeTemplate.Liste filtersOpen={filtersOpen}>
+        {userIs(['admin', 'dgec-validateur'])(request.user) && (
+          <Form action={formActionRoute} method="GET">
+            <div className="flex flex-row mb-5">
+              <Checkbox
+                id="showOnlyDGEC"
+                name="showOnlyDGEC"
+                checked={isShowOnlyDGECChecked}
+                onChange={handleShowOnlyDGEC}
+              >
+                Afficher seulement les demandes adressées à la DGEC
+              </Checkbox>
+            </div>
+          </Form>
+        )}
 
-          <Accordeon
-            title="Filtrer par type de demande"
-            defaultOpen={!!modificationRequestType}
-            className="max-w-xl"
-          >
-            <Form action={formActionRoute} method="GET">
-              <div>
-                <Label htmlFor="modificationRequestType">Type de demande</Label>
-                <Select
-                  id="modificationRequestType"
-                  name="modificationRequestType"
-                  defaultValue={modificationRequestType || 'default'}
-                  onChange={(event) =>
-                    updateUrlParams({
-                      modificationRequestType: event.target.value,
-                    })
-                  }
-                >
-                  <option value="default" disabled hidden>
-                    Choisir un type de demande
-                  </option>
-                  <option value="">Tous</option>
-                  <option value="actionnaire">Actionnaire</option>
-                  <option value="fournisseur">Fournisseur</option>
-                  <option value="producteur">Producteur</option>
-                  <option value="puissance">Puissance</option>
-                  <option value="recours">Recours</option>
-                  <option value="delai">Délai</option>
-                  <option value="abandon">Abandon</option>
-                  <option value="annulation abandon">Annulation abandon</option>
-                </Select>
-              </div>
-            </Form>
-          </Accordeon>
-
-          <Accordeon
-            title="Filtrer par statut de la demande"
-            defaultOpen={!!modificationRequestStatus}
-            className="max-w-xl"
-          >
-            <Form action={formActionRoute} method="GET">
-              <div>
-                <Label htmlFor="modificationRequestStatus">Statut de la demande</Label>
-                <Select
-                  id="modificationRequestStatus"
-                  name="modificationRequestStatus"
-                  defaultValue={modificationRequestStatus || 'default'}
-                  onChange={(event) =>
-                    updateUrlParams({
-                      modificationRequestStatus: event.target.value,
-                    })
-                  }
-                >
-                  <option value="default" disabled hidden>
-                    Choisir le statut de la demande
-                  </option>
-                  <option value="">Tous</option>
-                  <option value="envoyée">Envoyée</option>
-                  <option value="en instruction">En instruction</option>
-                  <option value="en attente de confirmation">En attente de confirmation</option>
-                  <option value="demande confirmée">Demande confirmée</option>
-                  <option value="acceptée">Acceptée</option>
-                  <option value="rejetée">Rejetée</option>
-                  <option value="annulée">Annulée</option>
-                  <option value="information validée">Information validée</option>
-                </Select>
-              </div>
-            </Form>
-          </Accordeon>
-        </div>
-        <div className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}>
-          {userIs(['admin', 'dgec-validateur'])(request.user) && (
-            <Form action={formActionRoute} method="GET">
-              <div className="flex flex-row mb-5">
-                <Checkbox
-                  id="showOnlyDGEC"
-                  name="showOnlyDGEC"
-                  checked={isShowOnlyDGECChecked}
-                  onChange={handleShowOnlyDGEC}
-                >
-                  Afficher seulement les demandes adressées à la DGEC
-                </Checkbox>
-              </div>
-            </Form>
-          )}
-
-          {modificationRequests.items.length === 0 ? (
-            <ListeVide titre="Aucune demande n’a été trouvée" />
-          ) : (
-            <RequestList
-              modificationRequests={modificationRequests}
-              role={request.user?.role}
-              currentUrl={currentUrl}
-            />
-          )}
-        </div>
-      </div>
-    </PageTemplate>
+        {modificationRequests.items.length === 0 ? (
+          <ListeVide titre="Aucune demande n’a été trouvée" />
+        ) : (
+          <RequestList
+            modificationRequests={modificationRequests}
+            role={request.user?.role}
+            currentUrl={currentUrl}
+          />
+        )}
+      </PageListeTemplate.Liste>
+    </PageListeTemplate>
   );
 };
 

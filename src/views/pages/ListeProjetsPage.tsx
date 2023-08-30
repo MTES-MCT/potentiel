@@ -128,7 +128,6 @@ export const ListeProjets = ({
             </SecondaryLinkButton>
           )}
         </div>
-
         <Form
           action={routes.LISTE_PROJETS}
           method="GET"
