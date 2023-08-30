@@ -41,47 +41,47 @@ const TopBar = ({ children, success, error }: TopBarProps) => (
   </>
 );
 
-type FiltresProps = {
+type SideBarProps = {
   children: React.ReactNode;
-  filtersOpen: boolean;
+  open: boolean;
 };
-const Filtres = ({ children, filtersOpen }: FiltresProps) => (
+const SideBar = ({ children, open }: SideBarProps) => (
   <div
     className={`flex flex-col max-w-xl ${
-      filtersOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
+      open ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
     }`}
   >
     {children}
   </div>
 );
 
-type ListeProps = {
+type ListProps = {
   children: React.ReactNode;
-  filtersOpen: boolean;
+  sideBarOpen: boolean;
 };
-const Liste = ({ children, filtersOpen }: ListeProps) => (
-  <div className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}>{children}</div>
+const List = ({ children, sideBarOpen }: ListProps) => (
+  <div className={sideBarOpen ? 'lg:w-2/3' : 'lg:w-full'}>{children}</div>
 );
 
 export const PageListeTemplate: React.FC<PageTemplateProps> & {
   TopBar: typeof TopBar;
-  Filtres: typeof Filtres;
-  Liste: typeof Liste;
+  SideBar: typeof SideBar;
+  List: typeof List;
 } = ({ user, children, currentPage, contentHeader }) => {
   const TopBarComponent = findSlotOfType(children, TopBar);
-  const FiltresComponent = findSlotOfType(children, Filtres);
-  const ListeComponent = findSlotOfType(children, Liste);
+  const SideBarComponent = findSlotOfType(children, SideBar);
+  const ListComponent = findSlotOfType(children, List);
   return (
     <PageTemplate user={user} contentHeader={contentHeader} currentPage={currentPage}>
       {TopBarComponent}
       <div className="flex flex-col mt-4 lg:flex-row lg:mt-8 gap-10">
-        {FiltresComponent}
-        {ListeComponent}
+        {SideBarComponent}
+        {ListComponent}
       </div>
     </PageTemplate>
   );
 };
 
 PageListeTemplate.TopBar = TopBar;
-PageListeTemplate.Filtres = Filtres;
-PageListeTemplate.Liste = Liste;
+PageListeTemplate.SideBar = SideBar;
+PageListeTemplate.List = List;

@@ -130,7 +130,7 @@ export const ModificationRequestList = ({
           />
         </Form>
       </PageListeTemplate.TopBar>
-      <PageListeTemplate.Filtres filtersOpen={filtersOpen}>
+      <PageListeTemplate.SideBar open={filtersOpen}>
         <Accordeon
           title="Filtrer par appel d'offre"
           defaultOpen={!!appelOffreId}
@@ -294,8 +294,8 @@ export const ModificationRequestList = ({
             </div>
           </Form>
         </Accordeon>
-      </PageListeTemplate.Filtres>
-      <PageListeTemplate.Liste filtersOpen={filtersOpen}>
+      </PageListeTemplate.SideBar>
+      <PageListeTemplate.List sideBarOpen={filtersOpen}>
         {userIs(['admin', 'dgec-validateur'])(request.user) && (
           <Form action={formActionRoute} method="GET">
             <div className="flex flex-row mb-5">
@@ -320,7 +320,7 @@ export const ModificationRequestList = ({
             currentUrl={currentUrl}
           />
         )}
-      </PageListeTemplate.Liste>
+      </PageListeTemplate.List>
     </PageListeTemplate>
   );
 };

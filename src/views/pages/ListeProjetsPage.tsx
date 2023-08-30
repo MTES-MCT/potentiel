@@ -140,7 +140,7 @@ export const ListeProjets = ({
           />
         </Form>
       </PageListeTemplate.TopBar>
-      <PageListeTemplate.Filtres filtersOpen={filtersOpen}>
+      <PageListeTemplate.SideBar open={filtersOpen}>
         <Accordeon
           title="Filtrer par appel d'offre"
           defaultOpen={!!appelOffreId}
@@ -324,8 +324,8 @@ export const ListeProjets = ({
             )}
           </Form>
         </Accordeon>
-      </PageListeTemplate.Filtres>
-      <PageListeTemplate.Liste filtersOpen={filtersOpen}>
+      </PageListeTemplate.SideBar>
+      <PageListeTemplate.List sideBarOpen={filtersOpen}>
         {projects.items.length === 0 ? (
           <ListeVide titre="Aucun projet à lister" />
         ) : (
@@ -386,7 +386,7 @@ export const ListeProjets = ({
             />
           </>
         )}
-      </PageListeTemplate.Liste>
+      </PageListeTemplate.List>
     </PageListeTemplate>
   );
 };
