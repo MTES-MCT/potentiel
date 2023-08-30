@@ -16,13 +16,13 @@ import {
   Select,
   LinkButton,
   Form,
-  Link,
   PageTemplate,
   ArrowLeftIcon,
   ArrowRightIcon,
   BarreDeRecherche,
   Accordeon,
   Dropdown,
+  SecondaryLinkButton,
 } from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '../../modules/project';
@@ -62,26 +62,9 @@ export const ListeProjets = ({
   } = (request.query as any) || {};
   const utilisateur = request.user as UtilisateurReadModel;
 
-  if (projects.items.length === 0) {
-    return (
-      <PageTemplate
-        user={utilisateur}
-        currentPage={'liste-projects'}
-        contentHeader={
-          <Heading1 className="!text-white whitespace-nowrap">
-            {utilisateur.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}
-            {projects.itemCount > 0 && ` (${projects.itemCount})`}
-          </Heading1>
-        }
-      >
-        <ListeVide titre="Aucun projet à lister">
-          <Link href={routes.LISTE_PROJETS}>Voir tout les projets</Link>
-        </ListeVide>
-      </PageTemplate>
-    );
-  }
   const defaultClassementFilter =
     userIs(['admin', 'dreal', 'dgec-validateur'])(utilisateur) && classement === 'classés';
+
   const hasFilters = !!(
     appelOffreId ||
     periodeId ||
@@ -106,6 +89,10 @@ export const ListeProjets = ({
   const [displaySelection, setDisplaySelection] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(true);
 
+  const appelsOffreFiltre = appelsOffre.filter((appelOffre) =>
+    existingAppelsOffres.includes(appelOffre.id),
+  );
+
   return (
     <PageTemplate
       user={utilisateur}
@@ -122,25 +109,40 @@ export const ListeProjets = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      <div className={`flex lg:items-end lg:justify-between ${(success || error) && 'mt-4'}`}>
-        <LinkButton
-          onClick={() => setFiltersOpen(!filtersOpen)}
-          className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
-        >
-          {filtersOpen ? (
-            <>
-              <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
-              Masquer les filtres
-            </>
-          ) : (
-            <>
-              Afficher les filtres
-              <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
-            </>
+      <div
+        className={`flex flex-col lg:flex-row lg:items-end lg:justify-between ${
+          (success || error) && 'mt-4'
+        }`}
+      >
+        <div className="flex gap-4 order-2 mt-8 lg:mt-0 lg:order-1">
+          <LinkButton
+            onClick={() => setFiltersOpen(!filtersOpen)}
+            className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
+          >
+            {filtersOpen ? (
+              <>
+                <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
+                Masquer les filtres
+              </>
+            ) : (
+              <>
+                Afficher les filtres
+                <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
+              </>
+            )}
+          </LinkButton>
+          {hasFilters && (
+            <SecondaryLinkButton href="#" onClick={resetUrlParams} className="text-sm">
+              Retirer tous les filtres
+            </SecondaryLinkButton>
           )}
-        </LinkButton>
+        </div>
 
-        <Form action={routes.LISTE_PROJETS} method="GET" className="w-full lg:ml-auto">
+        <Form
+          action={routes.LISTE_PROJETS}
+          method="GET"
+          className="w-full order-1 lg:order-2 lg:ml-auto"
+        >
           <BarreDeRecherche
             placeholder="Rechercher par nom de projet"
             name="recherche"
@@ -149,18 +151,12 @@ export const ListeProjets = ({
         </Form>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-10 mt-8">
+      <div className="flex flex-col mt-4 lg:flex-row lg:mt-8 gap-10">
         <div
           className={`flex flex-col max-w-xl ${
             filtersOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
           }`}
         >
-          {hasFilters && (
-            <LinkButton href="#" onClick={resetUrlParams} className="mb-4 self-center text-sm">
-              Retirer tous les filtres
-            </LinkButton>
-          )}
-
           <Accordeon
             title="Filtrer par appel d'offre"
             defaultOpen={!!appelOffreId}
@@ -168,11 +164,17 @@ export const ListeProjets = ({
           >
             <Form action={routes.LISTE_PROJETS} method="GET">
               <div>
-                <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+                <Label
+                  htmlFor="appelOffreId"
+                  disabled={appelsOffreFiltre.length === 0 ? true : undefined}
+                >
+                  Appel d'offre concerné
+                </Label>
                 <Select
                   id="appelOffreId"
                   name="appelOffreId"
                   defaultValue={appelOffreId || 'default'}
+                  disabled={appelsOffreFiltre.length === 0}
                   onChange={(event) =>
                     updateUrlParams({
                       appelOffreId: event.target.value,
@@ -185,13 +187,11 @@ export const ListeProjets = ({
                     Choisir un appel d‘offre
                   </option>
                   <option value="">Tous appels d'offres</option>
-                  {appelsOffre
-                    .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
-                    .map((appelOffre) => (
-                      <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
-                        {appelOffre.shortTitle}
-                      </option>
-                    ))}
+                  {appelsOffreFiltre.map((appelOffre) => (
+                    <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
+                      {appelOffre.shortTitle}
+                    </option>
+                  ))}
                 </Select>
               </div>
               <div>
@@ -343,60 +343,66 @@ export const ListeProjets = ({
         </div>
 
         <div className={filtersOpen ? 'lg:w-2/3' : 'lg:w-full'}>
-          {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(utilisateur) && (
-            <Dropdown
-              design="link"
-              isOpen={displaySelection}
-              changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
-              text="Donner accès à un utilisateur"
-              className={`mb-4 ${(success || error) && 'mt-4'}`}
-            >
-              <Form
-                action={routes.INVITE_USER_TO_PROJECT_ACTION}
-                method="POST"
-                name="form"
-                className="m-0"
-              >
-                <select name="projectId" multiple hidden>
-                  {selectedProjectIds.map((projectId) => (
-                    <option selected key={projectId} value={projectId}>
-                      {projectId}
-                    </option>
-                  ))}
-                </select>
-                <Label htmlFor="email" className="text-sm mt-2">
-                  Merci de sélectionner les projets concernés et de renseigner le courrier
-                  électronique de la personne habilitée à suivre les projets selectionnés
-                </Label>
-                <Input required type="email" name="email" id="email" className="!mt-0" />
-                <PrimaryButton
-                  type="submit"
-                  name="submit"
-                  id="submit"
-                  disabled={!selectedProjectIds.length}
+          {projects.items.length === 0 ? (
+            <ListeVide titre="Aucun projet à lister" />
+          ) : (
+            <>
+              {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(utilisateur) && (
+                <Dropdown
+                  design="link"
+                  isOpen={displaySelection}
+                  changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
+                  text="Donner accès à un utilisateur"
+                  className={`mb-4 ${(success || error) && 'mt-4'}`}
                 >
-                  Accorder les droits sur {selectedProjectIds.length}{' '}
-                  {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
-                </PrimaryButton>
-              </Form>
-            </Dropdown>
-          )}
+                  <Form
+                    action={routes.INVITE_USER_TO_PROJECT_ACTION}
+                    method="POST"
+                    name="form"
+                    className="m-0"
+                  >
+                    <select name="projectId" multiple hidden>
+                      {selectedProjectIds.map((projectId) => (
+                        <option selected key={projectId} value={projectId}>
+                          {projectId}
+                        </option>
+                      ))}
+                    </select>
+                    <Label htmlFor="email" className="text-sm mt-2">
+                      Merci de sélectionner les projets concernés et de renseigner le courrier
+                      électronique de la personne habilitée à suivre les projets selectionnés
+                    </Label>
+                    <Input required type="email" name="email" id="email" className="!mt-0" />
+                    <PrimaryButton
+                      type="submit"
+                      name="submit"
+                      id="submit"
+                      disabled={!selectedProjectIds.length}
+                    >
+                      Accorder les droits sur {selectedProjectIds.length}{' '}
+                      {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
+                    </PrimaryButton>
+                  </Form>
+                </Dropdown>
+              )}
 
-          <ProjectList
-            displaySelection={displaySelection}
-            selectedIds={selectedProjectIds}
-            currentUrl={currentUrl}
-            onSelectedIdsChanged={setSelectedProjectIds}
-            {...(userIs('dreal')(utilisateur) && { displayGF: true })}
-            projects={projects}
-            role={utilisateur.role}
-            exportListe={{
-              title: 'Télécharger un export (document csv)',
-              url: `${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-                request.query as any,
-              )}`,
-            }}
-          />
+              <ProjectList
+                displaySelection={displaySelection}
+                selectedIds={selectedProjectIds}
+                currentUrl={currentUrl}
+                onSelectedIdsChanged={setSelectedProjectIds}
+                {...(userIs('dreal')(utilisateur) && { displayGF: true })}
+                projects={projects}
+                role={utilisateur.role}
+                exportListe={{
+                  title: 'Télécharger un export (document csv)',
+                  url: `${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                    request.query as any,
+                  )}`,
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
     </PageTemplate>

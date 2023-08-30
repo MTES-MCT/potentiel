@@ -19,6 +19,7 @@ import {
   ArrowRightIcon,
   ArrowLeftIcon,
   Accordeon,
+  SecondaryLinkButton,
 } from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { userIs } from '../../../modules/users';
@@ -65,7 +66,8 @@ export const ModificationRequestList = ({
     periodeId ||
     familleId ||
     modificationRequestStatus ||
-    modificationRequestType
+    modificationRequestType ||
+    recherche
   );
 
   const periodes = appelsOffre.find((ao) => ao.id === appelOffreId)?.periodes;
@@ -97,25 +99,40 @@ export const ModificationRequestList = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      <div className={`flex lg:items-end lg:justify-between ${(success || error) && 'mt-4'}`}>
-        <LinkButton
-          onClick={() => setFiltersOpen(!filtersOpen)}
-          className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
-        >
-          {filtersOpen ? (
-            <>
-              <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
-              Masquer les filtres
-            </>
-          ) : (
-            <>
-              Afficher les filtres
-              <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
-            </>
+      <div
+        className={`flex flex-col lg:flex-row lg:items-end lg:justify-between ${
+          (success || error) && 'mt-4'
+        }`}
+      >
+        <div className="flex gap-4 order-2 mt-8 lg:mt-0 lg:order-1">
+          <LinkButton
+            onClick={() => setFiltersOpen(!filtersOpen)}
+            className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
+          >
+            {filtersOpen ? (
+              <>
+                <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
+                Masquer les filtres
+              </>
+            ) : (
+              <>
+                Afficher les filtres
+                <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
+              </>
+            )}
+          </LinkButton>
+          {hasFilters && (
+            <SecondaryLinkButton href="#" onClick={resetUrlParams} className="text-sm">
+              Retirer tous les filtres
+            </SecondaryLinkButton>
           )}
-        </LinkButton>
+        </div>
 
-        <Form action={formActionRoute} method="GET" className="w-full lg:ml-auto">
+        <Form
+          action={formActionRoute}
+          method="GET"
+          className="w-full order-1 lg:order-2 lg:ml-auto"
+        >
           <BarreDeRecherche
             placeholder="Rechercher par nom projet, candidat, numéro CRE, commune, département..."
             name="recherche"
@@ -124,18 +141,12 @@ export const ModificationRequestList = ({
         </Form>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-10 mt-8">
+      <div className="flex flex-col mt-4 lg:flex-row lg:mt-8 gap-10">
         <div
           className={`flex flex-col max-w-xl ${
             filtersOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
           }`}
         >
-          {hasFilters && (
-            <LinkButton href="#" onClick={resetUrlParams} className="mb-4 self-center text-sm">
-              Retirer tous les filtres
-            </LinkButton>
-          )}
-
           <Accordeon
             title="Filtrer par appel d'offre"
             defaultOpen={!!appelOffreId}
@@ -318,7 +329,7 @@ export const ModificationRequestList = ({
             </Form>
           )}
 
-          {modificationRequests.itemCount === 0 ? (
+          {modificationRequests.items.length === 0 ? (
             <ListeVide titre="Aucune demande n’a été trouvée" />
           ) : (
             <RequestList
