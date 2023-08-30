@@ -618,5 +618,8 @@ class routes {
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
     }/depot-garanties-financieres/supprimer`;
   };
+
+  static GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE = () =>
+    `/liste-depots-garanties-financieres.html`;
 }
 export default routes;

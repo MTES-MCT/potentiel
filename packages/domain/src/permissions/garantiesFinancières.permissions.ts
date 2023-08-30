@@ -22,3 +22,8 @@ export const PermissionSupprimerDépôtGarantiesFinancières = {
   nom: 'supprimer-dépôt-garanties-financières',
   description: 'Supprimer un dépôt de garanties financières',
 };
+
+export const PermissionConsulterListeDépôts = {
+  nom: 'consulter-liste-dépôts-garanties-financières',
+  description: 'Consulter la liste des dépôts de garanties financières',
+};
