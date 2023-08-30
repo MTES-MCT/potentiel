@@ -14,6 +14,7 @@ import {
   LinkButton,
   ArrowLeftIcon,
   ArrowRightIcon,
+  SecondaryLinkButton,
 } from '../components';
 import { ProjectListItem } from '../../modules/project/queries';
 import ROUTES from '../../routes';
@@ -49,28 +50,6 @@ export const AdminNotificationCandidats = ({
 
   const utilisateur = user as UtilisateurReadModel;
 
-  if (!données) {
-    return (
-      <PageTemplate
-        user={utilisateur}
-        currentPage="notify-candidates"
-        contentHeader={
-          <Heading1 className="!text-white whitespace-nowrap">Notifier les candidats</Heading1>
-        }
-      >
-        <ListeVide titre="Aucun candidat à notifier" />
-      </PageTemplate>
-    );
-  }
-
-  const {
-    projetsPériodeSélectionnée,
-    AOSélectionné,
-    périodeSélectionnée,
-    listeAOs,
-    listePériodes,
-  } = données;
-
   const hasFilters = !!(classement || recherche || appelOffreId || periodeId);
 
   const [formOpen, setFormOpen] = useState(true);
@@ -96,24 +75,39 @@ export const AdminNotificationCandidats = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      <div className={`flex lg:items-end lg:justify-between`}>
-        <LinkButton
-          onClick={() => setFormOpen(!formOpen)}
-          className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
-        >
-          {formOpen ? (
-            <>
-              <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
-              Masquer le formulaire
-            </>
-          ) : (
-            <>
-              Afficher le formulaire
-              <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
-            </>
+      <div
+        className={`flex flex-col lg:flex-row lg:items-end lg:justify-between ${
+          (success || error) && 'mt-4'
+        }`}
+      >
+        <div className="flex gap-4 order-2 mt-8 lg:mt-0 lg:order-1">
+          <LinkButton
+            onClick={() => setFormOpen(!formOpen)}
+            className="hidden lg:flex items-center w-fit show text-sm cursor-pointer"
+          >
+            {formOpen ? (
+              <>
+                <ArrowLeftIcon aria-hidden className="!text-white w-5 h-5 mr-2" />
+                Masquer le formulaire
+              </>
+            ) : (
+              <>
+                Afficher le formulaire
+                <ArrowRightIcon aria-hidden className="!text-white w-5 h-5 ml-2" />
+              </>
+            )}
+          </LinkButton>
+          {hasFilters && (
+            <SecondaryLinkButton href="#" onClick={resetUrlParams} className="text-sm">
+              Retirer tous les filtres
+            </SecondaryLinkButton>
           )}
-        </LinkButton>
-        <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="w-full lg:ml-auto">
+        </div>
+        <Form
+          action={ROUTES.GET_NOTIFIER_CANDIDATS()}
+          method="GET"
+          className="w-full order-1 lg:order-2 lg:ml-auto"
+        >
           <BarreDeRecherche
             placeholder="Rechercher par nom de projet"
             name="recherche"
@@ -128,13 +122,86 @@ export const AdminNotificationCandidats = ({
             formOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
           }`}
         >
-          {hasFilters && (
-            <LinkButton href="#" onClick={resetUrlParams} className="mb-4 self-center text-sm">
-              Retirer tous les filtres
-            </LinkButton>
-          )}
+          <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
+            <div>
+              <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+              <Select
+                name="appelOffreId"
+                id="appelOffreId"
+                defaultValue={données && données.AOSélectionné ? données.AOSélectionné : 'default'}
+                onChange={(event) =>
+                  updateUrlParams({
+                    appelOffreId: event.target.value,
+                    periodeId: null,
+                    familleId: null,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir un appel d‘offre
+                </option>
+                {données &&
+                  données.listeAOs.map((appelOffreId) => (
+                    <option key={`appel_${appelOffreId}`} value={appelOffreId}>
+                      Appel d'offres {appelOffreId}
+                    </option>
+                  ))}
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="periodeId" className="mt-4">
+                Periode concernée
+              </Label>
+              <Select
+                name="periodeId"
+                id="periodeId"
+                defaultValue={
+                  données && données.périodeSélectionnée ? données.périodeSélectionnée : 'default'
+                }
+                onChange={(event) =>
+                  updateUrlParams({
+                    periodeId: event.target.value,
+                  })
+                }
+              >
+                <option value="default" disabled hidden>
+                  Choisir une période
+                </option>
+                {données &&
+                  données.listePériodes &&
+                  données.listePériodes.map((periodeId) => (
+                    <option key={`appel_${periodeId}`} value={periodeId}>
+                      période {periodeId}
+                    </option>
+                  ))}
+              </Select>
+            </div>
 
-          <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mb-4">
+            {!success &&
+              utilisateur.role === 'dgec-validateur' &&
+              données &&
+              données.projetsPériodeSélectionnée.itemCount > 0 && (
+                <>
+                  <div>
+                    <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
+                    <Input
+                      type="text"
+                      name="notificationDate"
+                      id="notificationDate"
+                      defaultValue={afficherDate(new Date())}
+                    />
+                  </div>
+                  <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
+                    Notifier{' '}
+                    {données.projetsPériodeSélectionnée.itemCount === 1
+                      ? 'le candidat '
+                      : `les ${données.projetsPériodeSélectionnée.itemCount} candidats `}
+                    de cette période
+                  </PrimaryButton>
+                </>
+              )}
+          </Form>
+          <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mt-4">
             <div>
               <Label htmlFor="classement">Classés/Eliminés</Label>
               <Select
@@ -160,100 +227,32 @@ export const AdminNotificationCandidats = ({
               </Select>
             </div>
           </Form>
-
-          <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
-            <div>
-              <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
-              <Select
-                name="appelOffreId"
-                id="appelOffreId"
-                defaultValue={AOSélectionné || 'default'}
-                onChange={(event) =>
-                  updateUrlParams({
-                    appelOffreId: event.target.value,
-                    periodeId: null,
-                    familleId: null,
-                  })
-                }
-              >
-                <option value="default" disabled hidden>
-                  Choisir un appel d‘offre
-                </option>
-                {listeAOs.map((appelOffreId) => (
-                  <option key={`appel_${appelOffreId}`} value={appelOffreId}>
-                    Appel d'offres {appelOffreId}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="periodeId" className="mt-4">
-                Periode concernée
-              </Label>
-              <Select
-                name="periodeId"
-                id="periodeId"
-                defaultValue={périodeSélectionnée || 'default'}
-                onChange={(event) =>
-                  updateUrlParams({
-                    periodeId: event.target.value,
-                  })
-                }
-              >
-                <option value="default" disabled hidden>
-                  Choisir une période
-                </option>
-                {listePériodes?.map((periodeId) => (
-                  <option key={`appel_${periodeId}`} value={periodeId}>
-                    période {periodeId}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            {!success && utilisateur.role === 'dgec-validateur' && (
-              <>
-                <div>
-                  <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
-                  <Input
-                    type="text"
-                    name="notificationDate"
-                    id="notificationDate"
-                    defaultValue={afficherDate(new Date())}
-                  />
-                </div>
-                <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
-                  Notifier{' '}
-                  {projetsPériodeSélectionnée.itemCount === 1
-                    ? 'le candidat '
-                    : `les ${projetsPériodeSélectionnée.itemCount} candidats `}
-                  de cette période
-                </PrimaryButton>
-              </>
-            )}
-          </Form>
         </div>
-
-        <ProjectList
-          projects={projetsPériodeSélectionnée}
-          className={formOpen ? 'lg:w-2/3' : 'lg:w-full'}
-          role={utilisateur?.role}
-          currentUrl={currentUrl}
-          exportListe={
-            AOSélectionné && périodeSélectionnée
-              ? {
-                  title: ' Télécharger la liste des lauréats (document csv)',
-                  url: `
+        <div className={formOpen ? 'lg:w-2/3' : 'lg:w-full'}>
+          {données && données.projetsPériodeSélectionnée.items.length > 0 ? (
+            <ProjectList
+              projects={données.projetsPériodeSélectionnée}
+              role={utilisateur?.role}
+              currentUrl={currentUrl}
+              exportListe={
+                données.AOSélectionné && données.périodeSélectionnée
+                  ? {
+                      title: ' Télécharger la liste des lauréats (document csv)',
+                      url: `
                 ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-                    ...request.query,
-                    appelOffreId: AOSélectionné,
-                    periodeId: périodeSélectionnée,
-                    beforeNotification: true,
-                  })}`,
-                }
-              : undefined
-          }
-        />
+                        ...request.query,
+                        appelOffreId: données.AOSélectionné,
+                        periodeId: données.périodeSélectionnée,
+                        beforeNotification: true,
+                      })}`,
+                    }
+                  : undefined
+              }
+            />
+          ) : (
+            <ListeVide titre="Aucun candidat à notifier" />
+          )}
+        </div>
       </div>
     </PageTemplate>
   );
