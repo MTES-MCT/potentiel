@@ -199,10 +199,7 @@ export const AdminNotificationCandidats = ({
                 })
               }
             >
-              <option value="default" disabled hidden>
-                Choisir une option
-              </option>
-              <option value="">Tous</option>
+              <option value="default">Tous</option>
               <option value="classés" selected={classement && classement === 'classés'}>
                 Classés
               </option>
