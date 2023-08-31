@@ -4,12 +4,17 @@ import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
 } from './dépôtGarantiesFinancières.readModel';
-import { DépôtGarantiesFinancièresEvent } from '@potentiel/domain';
+import {
+  DépôtGarantiesFinancièresEvent,
+  RawIdentifiantProjet,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
 import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
 } from '../domainViews.readModel';
 import { Create, Update, Find, Remove } from '@potentiel/core-domain';
+import { RécupérerDétailProjetPort } from '../domainViews.port';
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',
@@ -21,6 +26,7 @@ export type DépôtGarantiesFinancièresProjectorDependencies = {
   update: Update;
   find: Find;
   remove: Remove;
+  récupérerDétailProjet: RécupérerDétailProjetPort;
 };
 
 export const registerDépôtGarantiesFinancièresProjector = ({
@@ -28,10 +34,23 @@ export const registerDépôtGarantiesFinancièresProjector = ({
   update,
   find,
   remove,
+  récupérerDétailProjet,
 }: DépôtGarantiesFinancièresProjectorDependencies) => {
   const handler: MessageHandler<ExecuteDépôtGarantiesFinancièresProjector> = async (event) => {
-    const key: DépôtGarantiesFinancièresReadModelKey = `dépôt-garanties-financières|${event.payload.identifiantProjet}`;
-    const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(key);
+    const dépôtReadModelKey: DépôtGarantiesFinancièresReadModelKey = `dépôt-garanties-financières|${event.payload.identifiantProjet}`;
+    const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(
+      dépôtReadModelKey,
+    );
+
+    const getRégionsProjet = async (identifiantProjet: RawIdentifiantProjet) => {
+      const projet = await récupérerDétailProjet(convertirEnIdentifiantProjet(identifiantProjet));
+      if (isSome(projet)) {
+        return projet.localité.région;
+      } else {
+        // TODO: logger error
+        return 'REGION INCONNUE';
+      }
+    };
 
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
@@ -41,19 +60,24 @@ export const registerDépôtGarantiesFinancièresProjector = ({
         if (isNone(dépôtGarantiesFinancières)) {
           const { typeGarantiesFinancières, dateÉchéance, attestationConstitution, dateDépôt } =
             event.payload.aggregate.dépôt;
-          await create<DépôtGarantiesFinancièresReadModel>(key, {
+          const région = await getRégionsProjet(event.payload.identifiantProjet);
+          await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
             typeGarantiesFinancières,
             dateÉchéance,
             attestationConstitution,
             dateDépôt,
+            dateDernièreMiseÀJour: dateDépôt,
+            région,
+            identifiantProjet: event.payload.identifiantProjet,
           });
         } else {
-          // TO DO : ce cas ne devrait pas arriver, erreur à logguer ?
+          // TODO: logger error
         }
         break;
       case 'GarantiesFinancièresDéposées-v1':
+        const région = await getRégionsProjet(event.payload.identifiantProjet);
         if (isSome(dépôtGarantiesFinancières)) {
-          await update<DépôtGarantiesFinancièresReadModel>(key, {
+          await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
             typeGarantiesFinancières:
               'typeGarantiesFinancières' in event.payload
                 ? event.payload.typeGarantiesFinancières
@@ -64,10 +88,13 @@ export const registerDépôtGarantiesFinancièresProjector = ({
               date: event.payload.attestationConstitution.date,
             },
             dateDépôt: event.payload.dateDépôt,
+            dateDernièreMiseÀJour: event.payload.dateDépôt,
+            région,
+            identifiantProjet: event.payload.identifiantProjet,
           });
           break;
         }
-        await create<DépôtGarantiesFinancièresReadModel>(key, {
+        await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
           typeGarantiesFinancières:
             'typeGarantiesFinancières' in event.payload
               ? event.payload.typeGarantiesFinancières
@@ -78,6 +105,9 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             date: event.payload.attestationConstitution.date,
           },
           dateDépôt: event.payload.dateDépôt,
+          dateDernièreMiseÀJour: event.payload.dateDépôt,
+          région,
+          identifiantProjet: event.payload.identifiantProjet,
         });
         break;
       case 'DépôtGarantiesFinancièresModifié-v1':
@@ -85,7 +115,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           // ne devrait pas arriver
           break;
         }
-        await update<DépôtGarantiesFinancièresReadModel>(key, {
+        await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
           ...dépôtGarantiesFinancières,
           typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
           dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
@@ -93,6 +123,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             format: event.payload.attestationConstitution.format,
             date: event.payload.attestationConstitution.date,
           },
+          dateDernièreMiseÀJour: event.payload.dateModification,
         });
         break;
       case 'DépôtGarantiesFinancièresValidé-v1':
@@ -123,12 +154,12 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             );
           }
         } else {
-          // TODO : ce cas ne devrait pas arriver - logguer erreur si pas de dépôt
+          // TODO: logger error
         }
 
-        await remove<DépôtGarantiesFinancièresReadModel>(key);
+        await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
       case 'DépôtGarantiesFinancièresSupprimé-v1':
-        await remove<DépôtGarantiesFinancièresReadModel>(key);
+        await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
         break;
     }
   };

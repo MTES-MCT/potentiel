@@ -3,6 +3,11 @@ import { List, Create, Find, Remove, Search, Update } from '@potentiel/core-doma
 import { setupGestionnaireRéseauViews } from './gestionnaireRéseau/gestionnaireRéseau.setup';
 import { ProjetDependencies, setupProjetViews } from './projet/projet.setup';
 import {
+  RaccordementDependencies,
+  setupRaccordementViews,
+} from './raccordement/raccordement.setup';
+import { AppelOffreDependencies, setupAppelOffreViews } from './appelOffre/appelOffre.setup';
+import {
   GarantiesFinancièresDependencies,
   setupGarantiesFinancièreViews,
 } from './garantiesFinancièresActuelles/garantiesFinancières.setup';
@@ -10,11 +15,6 @@ import {
   DépôtGarantiesFinancièresDependencies,
   setupDépôtGarantiesFinancièreViews,
 } from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
-import {
-  RaccordementDependencies,
-  setupRaccordementViews,
-} from './raccordement/raccordement.setup';
-import { AppelOffreDependencies, setupAppelOffreViews } from './appelOffre/appelOffre.setup';
 
 type CommonDependencies = {
   subscribe: Subscribe;

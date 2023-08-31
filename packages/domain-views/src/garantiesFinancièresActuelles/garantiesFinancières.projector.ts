@@ -40,7 +40,7 @@ export const registerGarantiesFinancièresProjector = ({
             attestationConstitution,
           });
         } else {
-          // TO DO : ce cas ne devrait pas arriver, erreur à logguer ?
+          // TODO: logger error
         }
         break;
       case 'TypeGarantiesFinancièresEnregistré-v1':
