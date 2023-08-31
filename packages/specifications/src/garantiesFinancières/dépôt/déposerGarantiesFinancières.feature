@@ -1,5 +1,4 @@
 #Language: fr-FR
-@select
 Fonctionnalité: Déposer des garanties financières pour validation dans Potentiel
     Contexte: 
         Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"

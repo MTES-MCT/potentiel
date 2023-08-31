@@ -1,5 +1,4 @@
 #Language: fr-FR
-@select
 Fonctionnalité: Valider un dépôt de garanties financières
     Contexte: 
         Etant donné le projet "Centrale éolienne 20"
