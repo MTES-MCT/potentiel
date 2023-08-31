@@ -72,7 +72,7 @@ export const ListeDépôtsGarantiesFinancières = ({
                       </div>
                     </div>
                   </div>
-                  <div className="mt-2 flex flex-col gap-1 md:grid md:grid-cols-4 md:grid-rows-1">
+                  <div className="mt-2 flex flex-col gap-1 md:grid md:grid-cols-4 md:grid-rows-1 md:items-center">
                     <div className="col-span-1">
                       {dépôt.typeGarantiesFinancières && (
                         <div>
