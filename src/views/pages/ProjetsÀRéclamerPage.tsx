@@ -123,7 +123,7 @@ export const ProjetsÀRéclamer = ({
         <Accordeon title="Filtrer par appel d'offre" defaultOpen={!!appelOffreId}>
           <Form action={routes.USER_LIST_MISSING_OWNER_PROJECTS} method="GET">
             <div>
-              <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+              <Label htmlFor="appelOffreId">Appel d'offres concerné</Label>
               <Select
                 id="appelOffreId"
                 name="appelOffreId"
