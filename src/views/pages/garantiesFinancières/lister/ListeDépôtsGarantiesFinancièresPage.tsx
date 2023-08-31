@@ -4,6 +4,7 @@ import {
   ClockIcon,
   DownloadLink,
   Heading1,
+  Heading2,
   KeyIcon,
   Link,
   ListeVide,
@@ -36,8 +37,9 @@ export const ListeDépôtsGarantiesFinancières = ({
     <PageTemplate
       currentPage="liste-dépôts-garanties-financières"
       user={user}
-      contentHeader={<Heading1 className="text-white">Dépôts de garanties financières</Heading1>}
+      contentHeader={<Heading1 className="text-white">Garanties financières</Heading1>}
     >
+      <Heading2>Dépôts de garanties financières à valider</Heading2>
       {!listeDépôtsGarantiesFinancières || !listeDépôtsGarantiesFinancières.length ? (
         <ListeVide titre="Aucun dépôt à afficher" />
       ) : (

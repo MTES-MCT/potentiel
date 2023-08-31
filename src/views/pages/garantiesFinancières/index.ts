@@ -2,3 +2,4 @@ export { EnregistrerGarantiesFinancières } from './EnregistrerGarantiesFinanci�
 export { DéposerGarantiesFinancières } from './DéposerGarantiesFinancièresPage';
 export { ModifierDépôtGarantiesFinancières } from './ModifierDépôtGarantiesFinancièresPage';
 export { ListeDépôtsGarantiesFinancières } from './lister/ListeDépôtsGarantiesFinancièresPage';
+export { ListeGarantiesFinancièresÀDéposer } from './lister/ListeGarantiesFinancièresÀDéposerPage';

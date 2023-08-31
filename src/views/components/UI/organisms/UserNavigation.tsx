@@ -227,11 +227,22 @@ const MenuDreal = (currentPage?: string) => (
     >
       Demandes
     </Header.MenuItem>
-    <Header.MenuItem
-      href={routes.GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE()}
-      {...(currentPage === 'liste-dépôts-garanties-financières' && { isCurrent: true })}
-    >
-      Dépôts garanties financières à valider
-    </Header.MenuItem>
+
+    <DropdownMenu buttonChildren={'Garanties financières'}>
+      <DropdownMenu.DropdownItem
+        href={routes.GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE()}
+        {...(currentPage === 'liste-dépôts-garanties-financières' && { isCurrent: true })}
+      >
+        Dépôts garanties financières à valider
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.GET_LISTE_GARANTIES_FINANCIERES_A_DEPOSER_PAGE()}
+        {...(currentPage === 'liste-garanties-financieres-a-deposer' && {
+          isCurrent: true,
+        })}
+      >
+        Garanties financières à déposer
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
   </>
 );

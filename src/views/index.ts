@@ -57,6 +57,7 @@ import {
   DéposerGarantiesFinancières,
   ModifierDépôtGarantiesFinancières,
   ListeDépôtsGarantiesFinancières,
+  ListeGarantiesFinancièresÀDéposer,
 } from './pages';
 
 export { App } from './App';
@@ -501,4 +502,13 @@ export const ListerDépôtsGarantiesFinancièresPage = (
     Component: ListeDépôtsGarantiesFinancières,
     props,
     title: 'Lister les garanties financières déposées',
+  });
+
+export const ListeGarantiesFinancièresÀDéposerPage = (
+  props: Parameters<typeof ListeGarantiesFinancièresÀDéposer>[0],
+) =>
+  makeHtml({
+    Component: ListeGarantiesFinancièresÀDéposer,
+    props,
+    title: 'Lister les garanties financières à déposer',
   });
