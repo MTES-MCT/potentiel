@@ -47,8 +47,8 @@ export const registerDépôtGarantiesFinancièresProjector = ({
       if (isSome(projet)) {
         return projet.localité.région;
       } else {
-        // TO DO : erreur à logguer
-        return undefined;
+        // TODO: logger error
+        return 'REGION INCONNUE';
       }
     };
 
@@ -67,11 +67,11 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             attestationConstitution,
             dateDépôt,
             dateDernièreMiseÀJour: dateDépôt,
-            région: région!!,
+            région,
             identifiantProjet: event.payload.identifiantProjet,
           });
         } else {
-          // TO DO : ce cas ne devrait pas arriver, erreur à logguer ?
+          // TODO: logger error
         }
         break;
       case 'GarantiesFinancièresDéposées-v1':
@@ -89,7 +89,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             },
             dateDépôt: event.payload.dateDépôt,
             dateDernièreMiseÀJour: event.payload.dateDépôt,
-            région: région!!,
+            région,
             identifiantProjet: event.payload.identifiantProjet,
           });
           break;
@@ -106,7 +106,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           },
           dateDépôt: event.payload.dateDépôt,
           dateDernièreMiseÀJour: event.payload.dateDépôt,
-          région: région!!,
+          région,
           identifiantProjet: event.payload.identifiantProjet,
         });
         break;
@@ -154,7 +154,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             );
           }
         } else {
-          // TODO : ce cas ne devrait pas arriver - logguer erreur si pas de dépôt
+          // TODO: logger error
         }
 
         await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
