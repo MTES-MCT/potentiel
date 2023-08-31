@@ -132,13 +132,13 @@ export const ModificationRequestList = ({
       </PageListeTemplate.TopBar>
       <PageListeTemplate.SideBar open={filtersOpen}>
         <Accordeon
-          title="Filtrer par appel d'offre"
+          title="Filtrer par appel d'offres"
           defaultOpen={!!appelOffreId}
           className="max-w-xl"
         >
           <Form action={formActionRoute} method="GET">
             <div>
-              <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+              <Label htmlFor="appelOffreId">Appel d'offres concerné</Label>
               <Select
                 id="appelOffreId"
                 name="appelOffreId"
@@ -152,7 +152,7 @@ export const ModificationRequestList = ({
                 }
               >
                 <option value="default" disabled hidden>
-                  Choisir un appel d‘offre
+                  Choisir un appel d‘offres
                 </option>
                 <option value="">Tous appels d'offres</option>
                 {appelsOffre.map((appelOffre) => (

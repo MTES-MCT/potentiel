@@ -109,7 +109,7 @@ export const AdminNotificationCandidats = ({
       <PageListeTemplate.SideBar open={formOpen}>
         <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
           <div>
-            <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+            <Label htmlFor="appelOffreId">Appel d'offres concerné</Label>
             <Select
               name="appelOffreId"
               id="appelOffreId"
@@ -123,7 +123,7 @@ export const AdminNotificationCandidats = ({
               }
             >
               <option value="default" disabled hidden>
-                Choisir un appel d‘offre
+                Choisir un appel d‘offres
               </option>
               {données &&
                 données.listeAOs.map((appelOffreId) => (

@@ -140,7 +140,7 @@ export const ListeProjets = ({
       </PageListeTemplate.TopBar>
       <PageListeTemplate.SideBar open={filtersOpen}>
         <Accordeon
-          title="Filtrer par appel d'offre"
+          title="Filtrer par appel d'offres"
           defaultOpen={!!appelOffreId}
           className="max-w-xl"
         >
