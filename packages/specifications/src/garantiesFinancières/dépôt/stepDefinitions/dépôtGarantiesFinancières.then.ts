@@ -7,6 +7,7 @@ import {
 import {
   ConsulterDépôtGarantiesFinancièresQuery,
   ConsulterFichierDépôtAttestationGarantiesFinancièreQuery,
+  ListerDépôtsGarantiesFinancièresQuery,
 } from '@potentiel/domain-views';
 import { isNone, none } from '@potentiel/monads';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
@@ -25,8 +26,20 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateDépôt = exemple['date de dépôt'];
+    const dateDernièreModification = exemple['date dernière modification'];
+    const région = exemple['région'];
 
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const {
+      identifiantProjet,
+      legacyId,
+      appelOffre,
+      période,
+      famille,
+      numéroCRE,
+      commune,
+      département,
+      statut,
+    } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
     // ASSERT ON AGGREGATE
 
@@ -75,6 +88,11 @@ Alors(
       ...(dateÉchéance && { dateÉchéance: new Date(dateÉchéance).toISOString() }),
       attestationConstitution: { format, date: new Date(dateConstitution).toISOString() },
       dateDépôt: new Date(dateDépôt).toISOString(),
+      dateDernièreMiseÀJour: dateDernièreModification
+        ? new Date(dateDernièreModification).toISOString()
+        : new Date(dateDépôt).toISOString(),
+      région,
+      identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
     };
 
     const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
@@ -107,6 +125,41 @@ Alors(
     expect(actualFile.type).to.deep.equal('depot-attestation-constitution-garanties-financieres');
     expect(actualFile.format).to.deep.equal(format);
     expect(await convertReadableStreamToString(actualFile.content)).to.deep.equal(contenu);
+
+    // ASSERT ON LIST
+
+    const expectedListeDépôtsReadModel = {
+      type: 'liste-dépôts-garanties-financières',
+      région,
+      liste: [
+        {
+          dépôt: expectedReadModel,
+          projet: {
+            legacyId,
+            nom: nomProjet,
+            appelOffre,
+            période,
+            famille,
+            numéroCRE,
+            localité: {
+              commune,
+              région,
+              département,
+            },
+            statut,
+            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
+          },
+        },
+      ],
+      pagination: { currentPage: 1, pageCount: 1 },
+    };
+
+    const actualListeDépôtsReadModel = await mediator.send<ListerDépôtsGarantiesFinancièresQuery>({
+      type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
+      data: { région, pagination: { page: 1, itemsPerPage: 10 } },
+    });
+
+    expect(actualListeDépôtsReadModel).to.deep.equal(expectedListeDépôtsReadModel);
   },
 );
 

@@ -7,6 +7,7 @@ export const listProjection = async <TReadModel extends ReadModel>({
   type,
   orderBy,
   where,
+  like,
   pagination,
 }: ListOptions<TReadModel>): Promise<ListResult<TReadModel>> => {
   const baseQuery = `select key, value from domain_views.projection where key like $1`;
@@ -22,6 +23,17 @@ export const listProjection = async <TReadModel extends ReadModel>({
       )
     : '';
 
+  const whereClauseLength = where ? Object.keys(where).length : 0;
+
+  const likeClause = like
+    ? format(
+        Object.keys(like)
+          .map((_, index) => `and value ->> %L like $${index + whereClauseLength + 2}`)
+          .join(' '),
+        Object.keys(like),
+      )
+    : '';
+
   const paginationClause = pagination
     ? format(
         'limit %s offset %s',
@@ -30,11 +42,12 @@ export const listProjection = async <TReadModel extends ReadModel>({
       )
     : '';
 
-  const query = `${baseQuery} ${whereClause} ${orderByClause} ${paginationClause}`;
+  const query = `${baseQuery} ${whereClause} ${likeClause} ${orderByClause} ${paginationClause}`;
   const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
     query,
     `${type}|%`,
     ...(where ? Object.values(where) : []),
+    ...(like ? Object.values(like).map((value) => `%${value}%`) : []),
   );
 
   const totalResult = pagination

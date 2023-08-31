@@ -11,6 +11,9 @@ export type DépôtGarantiesFinancièresReadModel = ReadModel<
     typeGarantiesFinancières?: `avec date d'échéance` | 'consignation' | `6 mois après achèvement`;
     dateÉchéance?: string;
     dateDépôt: string;
+    dateDernièreMiseÀJour: string;
+    région: string;
+    identifiantProjet: RawIdentifiantProjet;
   }
 >;
 

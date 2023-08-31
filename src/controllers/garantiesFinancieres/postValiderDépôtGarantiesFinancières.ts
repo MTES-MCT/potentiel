@@ -101,7 +101,7 @@ v1Router.post(
           return response.redirect(
             addQueryParams(routes.LISTE_PROJETS, {
               error:
-                "Vous n'avez pas pu valider le dépôt de garanties financières car vous n'accès au projet",
+                "Vous n'avez pas pu valider le dépôt de garanties financières car vous n'avez pas accès au projet",
             }),
           );
         }
