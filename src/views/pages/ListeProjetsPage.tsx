@@ -166,7 +166,7 @@ export const ListeProjets = ({
                 }
               >
                 <option value="default" disabled hidden>
-                  Choisir un appel d‘offre
+                  Choisir un appel d'offres
                 </option>
                 <option value="">Tous appels d'offres</option>
                 {appelsOffreFiltre.map((appelOffre) => (
