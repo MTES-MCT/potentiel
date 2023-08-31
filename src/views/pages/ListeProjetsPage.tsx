@@ -150,7 +150,7 @@ export const ListeProjets = ({
                 htmlFor="appelOffreId"
                 disabled={appelsOffreFiltre.length === 0 ? true : undefined}
               >
-                Appel d'offre concerné
+                Appel d'offres concerné
               </Label>
               <Select
                 id="appelOffreId"
