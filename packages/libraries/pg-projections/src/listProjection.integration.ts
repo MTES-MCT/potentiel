@@ -4,7 +4,7 @@ import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { listProjection } from './listProjection';
 
 describe(`listProjection`, () => {
-  type ProjectionReadModel = ReadModel<'projection', { target: string }>;
+  type ProjectionReadModel = ReadModel<'projection', { target: string; secondeTarget?: string }>;
 
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
@@ -44,46 +44,148 @@ describe(`listProjection`, () => {
   });
 
   describe(`filtering`, () => {
-    it(`Étant donné plusieurs projections dont une seule avec dans son payload la propriété "target" contenant la valeur "yes"
+    describe(`clause "where"`, () => {
+      it(`Étant donné plusieurs projections dont une seule avec dans son payload la propriété "target" contenant la valeur "yes"
       Lorsqu'on liste les projections en filtrant celle avec la propriété "target" avec la valeur "yes"
       Alors un seul résultat devrait être récupéré`, async () => {
-      // Arrange
-      await executeQuery(
-        `insert 
+        // Arrange
+        await executeQuery(
+          `insert 
        into domain_views.projection
        values ($1, $2)`,
-        'projection|another-one',
-        { type: 'projection', target: 'a random value' },
-      );
-      await executeQuery(
-        `insert 
+          'projection|another-one',
+          { type: 'projection', target: 'a random value' },
+        );
+        await executeQuery(
+          `insert 
        into domain_views.projection
        values ($1, $2)`,
-        'projection|another-one-2',
-        { type: 'projection', target: 'a random value' },
-      );
+          'projection|another-one-2',
+          { type: 'projection', target: 'a random value' },
+        );
 
-      await executeQuery(
-        `insert 
+        await executeQuery(
+          `insert 
        into domain_views.projection
        values ($1, $2)`,
-        'projection|the-expected-one',
-        { type: 'projection', target: 'yes' },
-      );
+          'projection|the-expected-one',
+          { type: 'projection', target: 'yes' },
+        );
 
-      // Act
-      const result = await listProjection<ProjectionReadModel>({
-        type: 'projection',
-        where: {
+        // Act
+        const result = await listProjection<ProjectionReadModel>({
+          type: 'projection',
+          where: {
+            target: 'yes',
+          },
+        });
+
+        // Assert
+        expect(result.items).toHaveLength(1);
+        expect(result.items).toContainEqual({
+          type: 'projection',
           target: 'yes',
-        },
+        });
       });
+    });
 
-      // Assert
-      expect(result.items).toHaveLength(1);
-      expect(result.items).toContainEqual({
-        type: 'projection',
-        target: 'yes',
+    describe(`clause "like"`, () => {
+      it(`Étant donné plusieurs projections dont une seule avec dans son payload la propriété "target" contenant la valeur "yes"
+      Lorsqu'on liste les projections en filtrant celle avec la propriété "target" avec une valeur contenant "yes"
+      Alors un seul résultat devrait être récupéré`, async () => {
+        // Arrange
+        await executeQuery(
+          `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+          'projection|another-one',
+          { type: 'projection', target: 'a random value' },
+        );
+        await executeQuery(
+          `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+          'projection|another-one-2',
+          { type: 'projection', target: 'a random value' },
+        );
+
+        await executeQuery(
+          `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+          'projection|the-expected-one',
+          { type: 'projection', target: 'value should match with yes word' },
+        );
+
+        // Act
+        const result = await listProjection<ProjectionReadModel>({
+          type: 'projection',
+          like: {
+            target: 'yes',
+          },
+        });
+
+        // Assert
+        expect(result.items).toHaveLength(1);
+        expect(result.items[0]).toEqual({
+          type: 'projection',
+          target: 'value should match with yes word',
+        });
+      });
+    });
+
+    describe(`combinaison clauses "where" et "like"`, () => {
+      it(`Etant donné trois projections avec les propriétés target et secondeTarget
+          Lorsqu'on filtre une requête sur ces deux propriétés avec les clauses where et like
+          Alors seuls les projections répondant aux deux conditions devraient être retournées`, async () => {
+        // Arrange
+        await executeQuery(
+          `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+          'projection|another-one',
+          { type: 'projection', target: 'a random value', secondeTarget: 'perdu' },
+        );
+        await executeQuery(
+          `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+          'projection|another-one-2',
+          {
+            type: 'projection',
+            target: 'contains yes',
+            secondeTarget: 'perdu',
+          },
+        );
+
+        await executeQuery(
+          `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+          'projection|the-expected-one',
+          {
+            type: 'projection',
+            target: 'also contains yes',
+            secondeTarget: 'gagné',
+          },
+        );
+
+        // Act
+        const result = await listProjection<ProjectionReadModel>({
+          type: 'projection',
+          where: { secondeTarget: 'gagné' },
+          like: {
+            target: 'yes',
+          },
+        });
+
+        // Assert
+        expect(result.items).toHaveLength(1);
+        expect(result.items[0]).toEqual({
+          type: 'projection',
+          target: 'also contains yes',
+          secondeTarget: 'gagné',
+        });
       });
     });
   });

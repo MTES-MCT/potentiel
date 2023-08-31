@@ -22,6 +22,7 @@ export type DépôtGarantiesFinancièresModifiéEventV1 = DomainEvent<
   'DépôtGarantiesFinancièresModifié-v1',
   {
     identifiantProjet: RawIdentifiantProjet;
+    dateModification: string;
     attestationConstitution: { format: string; date: string };
   } & (
     | {

@@ -14,13 +14,18 @@ import {
   ConsulterFichierdépôtAttestationGarantiesFinancièresDependencies,
   registerConsulterFichierDépôtAttestationGarantiesFinancièresQuery,
 } from './consulter/consulterFichierDépôtAttestationGarantiesFinancières.query';
+import {
+  ListerDépôtsGarantiesFinancièresDependencies,
+  registerListerDépôtsGarantiesFinancièresQuery,
+} from './lister/listerDépôtsGarantiesFinancières.query';
 
 // Setup
 export type DépôtGarantiesFinancièresDependencies = {
   subscribe: Subscribe;
 } & ConsulterDépôtGarantiesFinancièresDependencies &
   DépôtGarantiesFinancièresProjectorDependencies &
-  ConsulterFichierdépôtAttestationGarantiesFinancièresDependencies;
+  ConsulterFichierdépôtAttestationGarantiesFinancièresDependencies &
+  ListerDépôtsGarantiesFinancièresDependencies;
 
 export const setupDépôtGarantiesFinancièreViews = async (
   dependencies: DépôtGarantiesFinancièresDependencies,
@@ -28,6 +33,7 @@ export const setupDépôtGarantiesFinancièreViews = async (
   // Queries
   registerConsulterDépôtGarantiesFinancièresQuery(dependencies);
   registerConsulterFichierDépôtAttestationGarantiesFinancièresQuery(dependencies);
+  registerListerDépôtsGarantiesFinancièresQuery(dependencies);
 
   // Projectors
   registerDépôtGarantiesFinancièresProjector(dependencies);

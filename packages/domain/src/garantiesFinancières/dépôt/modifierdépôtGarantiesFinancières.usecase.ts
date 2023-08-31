@@ -16,6 +16,7 @@ export const registerModifierDépôtGarantiesFinancièresUseCase = () => {
     attestationConstitution,
     identifiantProjet,
     utilisateur,
+    dateModification,
   }) => {
     await mediator.send<ModifierDépôtGarantiesFinancièresCommand>({
       type: 'MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES',
@@ -25,6 +26,7 @@ export const registerModifierDépôtGarantiesFinancièresUseCase = () => {
         typeGarantiesFinancières,
         utilisateur,
         dateÉchéance,
+        dateModification,
       },
     });
   };
