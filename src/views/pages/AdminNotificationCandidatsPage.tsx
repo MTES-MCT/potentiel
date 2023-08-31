@@ -1,20 +1,18 @@
 import {
   BarreDeRecherche,
   PrimaryButton,
-  ErrorBox,
   Heading1,
   Input,
   Label,
   ListeVide,
   ProjectList,
   Select,
-  SuccessBox,
   Form,
-  PageTemplate,
   LinkButton,
   ArrowLeftIcon,
   ArrowRightIcon,
   SecondaryLinkButton,
+  PageListeTemplate,
 } from '../components';
 import { ProjectListItem } from '../../modules/project/queries';
 import ROUTES from '../../routes';
@@ -55,7 +53,7 @@ export const AdminNotificationCandidats = ({
   const [formOpen, setFormOpen] = useState(true);
 
   return (
-    <PageTemplate
+    <PageListeTemplate
       user={utilisateur}
       currentPage="notify-candidates"
       contentHeader={
@@ -72,14 +70,7 @@ export const AdminNotificationCandidats = ({
         </>
       }
     >
-      {success && <SuccessBox title={success} />}
-      {error && <ErrorBox title={error} />}
-
-      <div
-        className={`flex flex-col lg:flex-row lg:items-end lg:justify-between ${
-          (success || error) && 'mt-4'
-        }`}
-      >
+      <PageListeTemplate.TopBar success={success} error={error}>
         <div className="flex gap-4 order-2 mt-8 lg:mt-0 lg:order-1">
           <LinkButton
             onClick={() => setFormOpen(!formOpen)}
@@ -114,147 +105,137 @@ export const AdminNotificationCandidats = ({
             defaultValue={recherche || ''}
           />
         </Form>
-      </div>
-
-      <div className="flex flex-col lg:flex-row gap-10 mt-8">
-        <div
-          className={`flex flex-col max-w-xl ${
-            formOpen ? 'lg:w-1/3 lg:self-start lg:sticky lg:top-10 lg:max-w-none' : 'lg:hidden'
-          }`}
-        >
-          <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
-            <div>
-              <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
-              <Select
-                name="appelOffreId"
-                id="appelOffreId"
-                defaultValue={données && données.AOSélectionné ? données.AOSélectionné : 'default'}
-                onChange={(event) =>
-                  updateUrlParams({
-                    appelOffreId: event.target.value,
-                    periodeId: null,
-                    familleId: null,
-                  })
-                }
-              >
-                <option value="default" disabled hidden>
-                  Choisir un appel d‘offre
-                </option>
-                {données &&
-                  données.listeAOs.map((appelOffreId) => (
-                    <option key={`appel_${appelOffreId}`} value={appelOffreId}>
-                      Appel d'offres {appelOffreId}
-                    </option>
-                  ))}
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="periodeId" className="mt-4">
-                Periode concernée
-              </Label>
-              <Select
-                name="periodeId"
-                id="periodeId"
-                defaultValue={
-                  données && données.périodeSélectionnée ? données.périodeSélectionnée : 'default'
-                }
-                onChange={(event) =>
-                  updateUrlParams({
-                    periodeId: event.target.value,
-                  })
-                }
-              >
-                <option value="default" disabled hidden>
-                  Choisir une période
-                </option>
-                {données &&
-                  données.listePériodes &&
-                  données.listePériodes.map((periodeId) => (
-                    <option key={`appel_${periodeId}`} value={periodeId}>
-                      période {periodeId}
-                    </option>
-                  ))}
-              </Select>
-            </div>
-
-            {!success &&
-              utilisateur.role === 'dgec-validateur' &&
-              données &&
-              données.projetsPériodeSélectionnée.itemCount > 0 && (
-                <>
-                  <div>
-                    <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
-                    <Input
-                      type="text"
-                      name="notificationDate"
-                      id="notificationDate"
-                      defaultValue={afficherDate(new Date())}
-                    />
-                  </div>
-                  <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
-                    Notifier{' '}
-                    {données.projetsPériodeSélectionnée.itemCount === 1
-                      ? 'le candidat '
-                      : `les ${données.projetsPériodeSélectionnée.itemCount} candidats `}
-                    de cette période
-                  </PrimaryButton>
-                </>
-              )}
-          </Form>
-          <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mt-4">
-            <div>
-              <Label htmlFor="classement">Classés/Eliminés</Label>
-              <Select
-                id="classement"
-                name="classement"
-                defaultValue={classement || 'default'}
-                onChange={(event) =>
-                  updateUrlParams({
-                    classement: event.target.value,
-                  })
-                }
-              >
-                <option value="default" disabled hidden>
-                  Choisir une option
-                </option>
-                <option value="">Tous</option>
-                <option value="classés" selected={classement && classement === 'classés'}>
-                  Classés
-                </option>
-                <option value="éliminés" selected={classement && classement === 'éliminés'}>
-                  Eliminés
-                </option>
-              </Select>
-            </div>
-          </Form>
-        </div>
-        <div className={formOpen ? 'lg:w-2/3' : 'lg:w-full'}>
-          {données && données.projetsPériodeSélectionnée.items.length > 0 ? (
-            <ProjectList
-              projects={données.projetsPériodeSélectionnée}
-              role={utilisateur?.role}
-              currentUrl={currentUrl}
-              exportListe={
-                données.AOSélectionné && données.périodeSélectionnée
-                  ? {
-                      title: ' Télécharger la liste des lauréats (document csv)',
-                      url: `
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-                        ...request.query,
-                        appelOffreId: données.AOSélectionné,
-                        periodeId: données.périodeSélectionnée,
-                        beforeNotification: true,
-                      })}`,
-                    }
-                  : undefined
+      </PageListeTemplate.TopBar>
+      <PageListeTemplate.SideBar open={formOpen}>
+        <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
+          <div>
+            <Label htmlFor="appelOffreId">Appel d'offres concerné</Label>
+            <Select
+              name="appelOffreId"
+              id="appelOffreId"
+              defaultValue={données && données.AOSélectionné ? données.AOSélectionné : 'default'}
+              onChange={(event) =>
+                updateUrlParams({
+                  appelOffreId: event.target.value,
+                  periodeId: null,
+                  familleId: null,
+                })
               }
-            />
-          ) : (
-            <ListeVide titre="Aucun candidat à notifier" />
-          )}
-        </div>
-      </div>
-    </PageTemplate>
+            >
+              <option value="default" disabled hidden>
+                Choisir un appel d‘offres
+              </option>
+              {données &&
+                données.listeAOs.map((appelOffreId) => (
+                  <option key={`appel_${appelOffreId}`} value={appelOffreId}>
+                    Appel d'offres {appelOffreId}
+                  </option>
+                ))}
+            </Select>
+          </div>
+          <div>
+            <Label htmlFor="periodeId" className="mt-4">
+              Periode concernée
+            </Label>
+            <Select
+              name="periodeId"
+              id="periodeId"
+              defaultValue={
+                données && données.périodeSélectionnée ? données.périodeSélectionnée : 'default'
+              }
+              onChange={(event) =>
+                updateUrlParams({
+                  periodeId: event.target.value,
+                })
+              }
+            >
+              <option value="default" disabled hidden>
+                Choisir une période
+              </option>
+              {données &&
+                données.listePériodes &&
+                données.listePériodes.map((periodeId) => (
+                  <option key={`appel_${periodeId}`} value={periodeId}>
+                    période {periodeId}
+                  </option>
+                ))}
+            </Select>
+          </div>
+
+          {!success &&
+            utilisateur.role === 'dgec-validateur' &&
+            données &&
+            données.projetsPériodeSélectionnée.itemCount > 0 && (
+              <>
+                <div>
+                  <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
+                  <Input
+                    type="text"
+                    name="notificationDate"
+                    id="notificationDate"
+                    defaultValue={afficherDate(new Date())}
+                  />
+                </div>
+                <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
+                  Notifier{' '}
+                  {données.projetsPériodeSélectionnée.itemCount === 1
+                    ? 'le candidat '
+                    : `les ${données.projetsPériodeSélectionnée.itemCount} candidats `}
+                  de cette période
+                </PrimaryButton>
+              </>
+            )}
+        </Form>
+        <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mt-4">
+          <div>
+            <Label htmlFor="classement">Classés/Eliminés</Label>
+            <Select
+              id="classement"
+              name="classement"
+              defaultValue={classement || 'default'}
+              onChange={(event) =>
+                updateUrlParams({
+                  classement: event.target.value,
+                })
+              }
+            >
+              <option value="default">Tous</option>
+              <option value="classés" selected={classement && classement === 'classés'}>
+                Classés
+              </option>
+              <option value="éliminés" selected={classement && classement === 'éliminés'}>
+                Eliminés
+              </option>
+            </Select>
+          </div>
+        </Form>
+      </PageListeTemplate.SideBar>
+      <PageListeTemplate.List sideBarOpen={formOpen}>
+        {données && données.projetsPériodeSélectionnée.items.length > 0 ? (
+          <ProjectList
+            projects={données.projetsPériodeSélectionnée}
+            role={utilisateur?.role}
+            currentUrl={currentUrl}
+            exportListe={
+              données.AOSélectionné && données.périodeSélectionnée
+                ? {
+                    title: ' Télécharger la liste des lauréats (document csv)',
+                    url: `
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+                      ...request.query,
+                      appelOffreId: données.AOSélectionné,
+                      periodeId: données.périodeSélectionnée,
+                      beforeNotification: true,
+                    })}`,
+                  }
+                : undefined
+            }
+          />
+        ) : (
+          <ListeVide titre="Aucun candidat à notifier" />
+        )}
+      </PageListeTemplate.List>
+    </PageListeTemplate>
   );
 };
 
