@@ -10,8 +10,7 @@ import { getPagination } from '../helpers';
 import { ProjectListItem } from '../../modules/project';
 
 const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
-  const { appelOffreId, periodeId, recherche, beforeNotification, classement } =
-    request.query as any;
+  const { appelOffreId, periodeId, recherche, beforeNotification } = request.query as any;
 
   if (!appelOffreId || !periodeId) {
     return response
@@ -26,7 +25,6 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
   const projetsCandidats = [
     { dataField: 'nomCandidat' },
     { dataField: 'nomProjet' },
-    { dataField: 'classe' },
     { dataField: 'puissance' },
     { dataField: 'familleId' },
     { dataField: 'departementProjet' },
@@ -41,7 +39,7 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
             periodeId,
             pagination,
             recherche,
-            classement,
+            classement: 'classés',
           })
         : null;
 
@@ -66,7 +64,6 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
       projects[0].appelOffre && projects[0].appelOffre.title
     }`;
     fields.unshift({ label: 'Titre', value: () => title });
-    console.log(sortedProjects, fields);
     const csv = await parseAsync(sortedProjects, { fields, delimiter: ';' });
     const csvFilePath = await writeCsvOnDisk(csv, '/tmp');
 
