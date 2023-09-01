@@ -10,14 +10,15 @@ import { getDelaiDeRealisation } from '../../../../modules/projectAppelOffre';
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared';
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
-import { Région } from '../../../../modules/dreal/région';
+import { REGIONS, Région } from '../../../../modules/dreal/région';
 import { Project, User, ModificationRequest, File } from '../../projectionsNext';
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
-    if (!ModificationRequest || !Project || !File || !User)
+    if (!ModificationRequest || !Project || !File || !User) {
       // TODO: check inutile aprés la migration projection next
       return errAsync(new InfraNotAvailableError());
+    }
     return _getModificationRequestById(modificationRequestId)
       .andThen(
         (
@@ -46,10 +47,11 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           { dreal: Région | ''; modificationRequest; previousRequest },
           InfraNotAvailableError
         > => {
+          const {
+            project: { regionProjet },
+          } = modificationRequest;
+
           if (user.role === 'dreal') {
-            const {
-              project: { regionProjet },
-            } = modificationRequest;
             return wrapInfra(oldUserRepo.findDrealsForUser(user.id)).map((userDreals) => {
               // If there are multiple, use the first to coincide with the project
               const dreal = userDreals.find((dreal) => regionProjet.includes(dreal)) || '';
@@ -62,7 +64,15 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             });
           }
 
-          return okAsync({ dreal: '', modificationRequest, previousRequest });
+          const dreal = [...REGIONS].find(
+            (region) => region.toLowerCase() === regionProjet.toLowerCase(),
+          );
+
+          return okAsync({
+            dreal: dreal || '',
+            modificationRequest,
+            previousRequest,
+          });
         },
       )
       .andThen(({ dreal, modificationRequest, previousRequest }) => {
