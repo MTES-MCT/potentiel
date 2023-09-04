@@ -6,4 +6,3 @@ export * from './domainError';
 export * from './domainEvent';
 export * from './publish';
 export * from './subscribe';
-export * from './readModel';

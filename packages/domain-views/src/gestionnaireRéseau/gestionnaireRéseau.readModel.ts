@@ -1,4 +1,4 @@
-import { ReadModel } from '@potentiel/core-domain';
+import { ReadModel } from '@potentiel/core-domain-views';
 import { RawIdentifiantGestionnaireRéseau } from '@potentiel/domain';
 
 export type GestionnaireRéseauReadModelKey =

@@ -1,4 +1,4 @@
-import { ReadModel } from '@potentiel/core-domain';
+import { ReadModel } from '@potentiel/core-domain-views';
 import { executeQuery } from '@potentiel/pg-helpers';
 
 export const updateProjection = async <TReadModel extends ReadModel>(

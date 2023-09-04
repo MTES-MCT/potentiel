@@ -16,7 +16,7 @@ import {
   PropositionTechniqueEtFinancièreSignéeReadModel,
 } from '../raccordement.readModel';
 import { RécupérerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
-import { Find } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain-views';
 
 export type ConsulterPropositionTechniqueEtFinancièreSignéeDependencies = {
   find: Find;

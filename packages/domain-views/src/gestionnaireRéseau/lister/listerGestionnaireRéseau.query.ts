@@ -1,4 +1,4 @@
-import { List, ListResult } from '@potentiel/core-domain';
+import { List, ListResult } from '@potentiel/core-domain-views';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
