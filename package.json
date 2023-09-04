@@ -12,8 +12,6 @@
     "./packages/libraries/pg-helpers/",
     "./packages/libraries/pg-event-sourcing/",
     "./packages/libraries/pg-projections",
-    "./packages/libraries/redis-event-bus-client/",
-    "./packages/libraries/redis-event-bus-consumer/",
     "./packages/libraries/file-storage/",
     "./packages/domain/",
     "./packages/domain-views/",
