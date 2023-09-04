@@ -13,6 +13,21 @@ import { formatDate } from '../../../../helpers/formatDate';
 import { REGIONS, Région } from '../../../../modules/dreal/région';
 import { Project, User, ModificationRequest, File } from '../../projectionsNext';
 
+const getEdfType = (region: Région) => {
+  if (!region) {
+    return {
+      isEDFOA: '',
+      isEDFSEI: '',
+    };
+  }
+
+  const regionOutreMer: Région[] = ['Guadeloupe', 'Guyane', 'Martinique', 'Mayotte', 'La Réunion'];
+  return {
+    isEDFOA: `${!regionOutreMer.includes(region) ? 'true' : ''}`,
+    isEDFSEI: `${regionOutreMer.includes(region) ? 'true' : ''}`,
+  };
+};
+
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
     if (!ModificationRequest || !Project || !File || !User) {
@@ -44,7 +59,13 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           modificationRequest,
           previousRequest,
         }): ResultAsync<
-          { dreal: Région | ''; modificationRequest; previousRequest },
+          {
+            dreal: Région | '';
+            modificationRequest;
+            previousRequest;
+            isEDFOA: string;
+            isEDFSEI: string;
+          },
           InfraNotAvailableError
         > => {
           const {
@@ -60,6 +81,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 dreal,
                 modificationRequest,
                 previousRequest,
+                ...getEdfType(regionProjet),
               };
             });
           }
@@ -72,10 +94,11 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             dreal: dreal || '',
             modificationRequest,
             previousRequest,
+            ...getEdfType(regionProjet),
           });
         },
       )
-      .andThen(({ dreal, modificationRequest, previousRequest }) => {
+      .andThen(({ dreal, modificationRequest, previousRequest, isEDFOA, isEDFSEI }) => {
         const {
           type,
           project,
@@ -167,6 +190,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateDemande: formatDate(requestedOn),
           justificationDemande: justification,
           dateNotification: formatDate(notifiedOn),
+          isEDFOA,
+          isEDFSEI,
         };
 
         const {
