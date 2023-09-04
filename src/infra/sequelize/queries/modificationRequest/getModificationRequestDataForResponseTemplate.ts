@@ -18,13 +18,15 @@ const getEdfType = (region: Région) => {
     return {
       isEDFOA: '',
       isEDFSEI: '',
+      isEDM: '',
     };
   }
 
-  const regionOutreMer: Région[] = ['Guadeloupe', 'Guyane', 'Martinique', 'Mayotte', 'La Réunion'];
+  const regionOutreMer: Région[] = ['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion'];
   return {
-    isEDFOA: `${!regionOutreMer.includes(region) ? 'true' : ''}`,
+    isEDFOA: `${region !== 'Mayotte' && !regionOutreMer.includes(region) ? 'true' : ''}`,
     isEDFSEI: `${regionOutreMer.includes(region) ? 'true' : ''}`,
+    isEDM: `${region === 'Mayotte' ? 'true' : ''}`,
   };
 };
 
@@ -65,6 +67,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             previousRequest;
             isEDFOA: string;
             isEDFSEI: string;
+            isEDM: string;
           },
           InfraNotAvailableError
         > => {
@@ -98,7 +101,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           });
         },
       )
-      .andThen(({ dreal, modificationRequest, previousRequest, isEDFOA, isEDFSEI }) => {
+      .andThen(({ dreal, modificationRequest, previousRequest, isEDFOA, isEDFSEI, isEDM }) => {
         const {
           type,
           project,
@@ -192,6 +195,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateNotification: formatDate(notifiedOn),
           isEDFOA,
           isEDFSEI,
+          isEDM,
         };
 
         const {
