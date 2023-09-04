@@ -2,24 +2,11 @@ import { Redis } from 'ioredis';
 import { logger } from '../../core/utils';
 import { Subscribe } from '../sequelize/projectionsNext';
 import { fromRedisMessage } from './helpers/fromRedisMessage';
-import { DomainEvents } from '@potentiel/domain';
 
 type MakeRedisSubscribeDeps = {
   redis: Redis;
   streamName: string;
 };
-
-const skipEvents: Array<DomainEvents['type']> = [
-  'AccuséRéceptionDemandeComplèteRaccordementTransmis',
-  'DemandeComplèteDeRaccordementTransmise',
-  'DemandeComplèteRaccordementModifiée',
-  'GestionnaireRéseauAjouté',
-  'GestionnaireRéseauModifié',
-  'GestionnaireRéseauProjetModifié',
-  'PropositionTechniqueEtFinancièreModifiée',
-  'PropositionTechniqueEtFinancièreSignéeTransmise',
-  'PropositionTechniqueEtFinancièreTransmise',
-];
 
 const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Subscribe => {
   const subscribedConsumers: string[] = [];
@@ -38,11 +25,6 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Subs
       const [, messageValue] = message;
       const [, eventValue] = messageValue;
       const actualEventValue = JSON.parse(eventValue);
-
-      if (skipEvents.includes(actualEventValue.type)) {
-        return Promise.resolve();
-      }
-
       const event = fromRedisMessage(actualEventValue);
 
       if (event) {
