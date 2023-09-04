@@ -217,7 +217,11 @@ export const AdminNotificationCandidats = ({
             role={utilisateur?.role}
             currentUrl={currentUrl}
             exportListe={
-              données.AOSélectionné && données.périodeSélectionnée
+              données.AOSélectionné &&
+              données.périodeSélectionnée &&
+              données.projetsPériodeSélectionnée.items.filter(
+                (projet) => projet.classe === 'Classé',
+              ).length > 0
                 ? {
                     title: ' Télécharger la liste des lauréats (document csv)',
                     url: `
