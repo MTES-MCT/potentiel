@@ -9,6 +9,7 @@
     "./packages/libraries/monitoring/",
     "./packages/libraries/monads/",
     "./packages/libraries/core-domain/",
+    "./packages/libraries/core-domain-views/",
     "./packages/libraries/pg-helpers/",
     "./packages/libraries/pg-event-sourcing/",
     "./packages/libraries/pg-projections",

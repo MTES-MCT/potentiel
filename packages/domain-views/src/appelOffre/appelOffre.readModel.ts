@@ -1,4 +1,4 @@
-import { ReadModel } from '@potentiel/core-domain';
+import { ReadModel } from '@potentiel/core-domain-views';
 import { RawIdentifiantAppelOffre } from '@potentiel/domain';
 
 type AppelOffreTypes =

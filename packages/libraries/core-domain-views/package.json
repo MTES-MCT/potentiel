@@ -1,0 +1,16 @@
+{
+  "name": "@potentiel/core-domain-views",
+  "version": "0.0.0",
+  "description": "Core domain types",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

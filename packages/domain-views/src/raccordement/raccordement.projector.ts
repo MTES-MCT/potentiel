@@ -5,7 +5,7 @@ import {
   LegacyDossierRaccordementReadModel,
   ListeDossiersRaccordementReadModel,
 } from './raccordement.readModel';
-import { Create, Find, Remove, Update } from '@potentiel/core-domain';
+import { Create, Find, Remove, Update } from '@potentiel/core-domain-views';
 
 export type ExecuteRaccordementProjector = Message<
   'EXECUTE_RACCORDEMENT_PROJECTOR',

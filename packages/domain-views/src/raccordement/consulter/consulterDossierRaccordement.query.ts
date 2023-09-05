@@ -15,7 +15,7 @@ import {
   estUnIdentifiantProjet,
   estUneRéférenceDossierRaccordement,
 } from '@potentiel/domain';
-import { Find } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain-views';
 
 export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',

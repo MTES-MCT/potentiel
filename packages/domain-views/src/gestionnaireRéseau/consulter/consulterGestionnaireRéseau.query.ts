@@ -4,7 +4,7 @@ import {
   GestionnaireRéseauReadModel,
   GestionnaireRéseauReadModelKey,
 } from '../gestionnaireRéseau.readModel';
-import { Find } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain-views';
 import {
   IdentifiantGestionnaireRéseau,
   RawIdentifiantGestionnaireRéseau,
