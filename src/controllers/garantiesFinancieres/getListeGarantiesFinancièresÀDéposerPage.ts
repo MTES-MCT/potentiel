@@ -10,7 +10,8 @@ import { ListeGarantiesFinancièresÀDéposerPage } from '../../views';
 import { PermissionConsulterListeDépôts } from '@potentiel/domain';
 import asyncHandler from '../helpers/asyncHandler';
 import { UserDreal } from '../../infra/sequelize/projectionsNext';
-import { ProjetReadModel } from '@potentiel/domain-views';
+import { ListerGarantiesFinancièresÀDéposerQuery } from '@potentiel/domain-views';
+import { mediator } from 'mediateur';
 
 v1Router.get(
   routes.GET_LISTE_GARANTIES_FINANCIERES_A_DEPOSER_PAGE(),
@@ -29,49 +30,10 @@ v1Router.get(
     }
     const { page, pageSize: itemsPerPage } = getPagination(request);
 
-    // FAKE DONNÉES À SUPPRIMER - POUR TEST FRONT
-    const projets: ReadonlyArray<
-      Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'> & { dateLimiteDeDépôt?: string }
-    > = [
-      {
-        appelOffre: 'PPE2 - Eolien',
-        période: '1',
-        famille: '1',
-        numéroCRE: 'AZERT',
-        identifiantProjet: 'PPE2 - Eolien#1#1#AZERT',
-        legacyId: 'ddgfd',
-        localité: { commune: 'Paris', département: 'Paris', région: 'Ile-de-France' },
-        nom: 'Centrale-Sol',
-        statut: 'classé',
-        dateLimiteDeDépôt: new Date('2023-12-01').toISOString(),
-      },
-      {
-        appelOffre: 'PPE2 - Eolien',
-        période: '1',
-        famille: '1',
-        numéroCRE: 'AZE',
-        identifiantProjet: 'PPE2 - Eolien#1#1#AZE',
-        legacyId: 'gfd',
-        localité: { commune: 'Paris', département: 'Paris', région: 'Ile-de-France' },
-        nom: 'Centrale-Solaire',
-        statut: 'classé',
-        dateLimiteDeDépôt: new Date('2023-01-01').toISOString(),
-      },
-      {
-        appelOffre: 'PPE2 - Eolien',
-        période: '1',
-        famille: '1',
-        numéroCRE: 'NBV',
-        identifiantProjet: 'PPE2 - Eolien#1#1#NBV',
-        legacyId: 'gfd',
-        localité: { commune: 'Paris', département: 'Paris', région: 'Ile-de-France' },
-        nom: 'Centrale-Solaire-2',
-        statut: 'classé',
-      },
-    ];
-    const résultat = { pagination: { currentPage: 1, pageCount: 1 }, liste: projets };
-    // TODO : AJOUTER QUERY ICI
-    // FAKE
+    const résultat = await mediator.send<ListerGarantiesFinancièresÀDéposerQuery>({
+      type: 'LISTER_GARANTIES_FINANCIÈRES_À_DÉPOSER',
+      data: { région: userRégion.dreal, pagination: { page, itemsPerPage } },
+    });
 
     return response.send(
       ListeGarantiesFinancièresÀDéposerPage({

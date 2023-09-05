@@ -20,9 +20,10 @@ import { afficherDate, hydrateOnClient } from '../../../helpers';
 
 type ListeGarantiesFinancièresÀDéposerProps = {
   user: UtilisateurReadModel;
-  projets?: ReadonlyArray<
-    Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'> & { dateLimiteDeDépôt?: string }
-  >;
+  projets?: ReadonlyArray<{
+    dateLimiteDeDépôt?: string;
+    projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
+  }>;
   pagination: { currentPage: number; pageCount: number; currentUrl: string };
 };
 
@@ -48,14 +49,16 @@ export const ListeGarantiesFinancièresÀDéposer = ({
           <ul className="p-0 m-0">
             {projets.map(
               ({
-                appelOffre,
-                famille,
-                identifiantProjet,
-                legacyId,
-                localité,
-                nom,
-                numéroCRE,
-                période,
+                projet: {
+                  appelOffre,
+                  famille,
+                  identifiantProjet,
+                  legacyId,
+                  localité,
+                  nom,
+                  numéroCRE,
+                  période,
+                },
                 dateLimiteDeDépôt,
               }) => (
                 <li className="list-none p-0 m-0" key={identifiantProjet}>
