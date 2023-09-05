@@ -1,7 +1,7 @@
+import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import { ResultAsync } from '../../../core/utils';
 import { User } from '../../../entities';
 import { PaginatedList, Pagination } from '../../pagination';
-import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import { InfraNotAvailableError } from '../../shared';
 import {
   ModificationRequestListItemDTO,
@@ -19,7 +19,7 @@ type GetModificationRequestListForAdminFilter = {
   appelOffreId?: AppelOffre['id'];
   periodeId?: Periode['id'];
   familleId?: Famille['id'];
-  pagination?: Pagination;
+  pagination: Pagination;
   recherche?: string;
   modificationRequestStatus?: ModificationRequestStatusDTO;
   modificationRequestType?: ModificationRequestTypes;
