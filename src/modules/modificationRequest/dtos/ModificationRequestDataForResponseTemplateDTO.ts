@@ -28,6 +28,10 @@ export type ModificationRequestDataForResponseTemplateDTO = {
 
   dateDemande: string;
   justificationDemande: string;
+
+  isEDFOA: string;
+  isEDFSEI: string;
+  isEDM: string;
 } & (
   | DelaiVariant
   | RecoursVariant

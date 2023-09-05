@@ -10,14 +10,32 @@ import { getDelaiDeRealisation } from '../../../../modules/projectAppelOffre';
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared';
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
-import { Région } from '../../../../modules/dreal/région';
+import { REGIONS, Région } from '../../../../modules/dreal/région';
 import { Project, User, ModificationRequest, File } from '../../projectionsNext';
+
+const getEdfType = (region: Région) => {
+  if (!region) {
+    return {
+      isEDFOA: '',
+      isEDFSEI: '',
+      isEDM: '',
+    };
+  }
+
+  const regionOutreMer: Région[] = ['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion'];
+  return {
+    isEDFOA: `${region !== 'Mayotte' && !regionOutreMer.includes(region) ? 'true' : ''}`,
+    isEDFSEI: `${regionOutreMer.includes(region) ? 'true' : ''}`,
+    isEDM: `${region === 'Mayotte' ? 'true' : ''}`,
+  };
+};
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
-    if (!ModificationRequest || !Project || !File || !User)
+    if (!ModificationRequest || !Project || !File || !User) {
       // TODO: check inutile aprés la migration projection next
       return errAsync(new InfraNotAvailableError());
+    }
     return _getModificationRequestById(modificationRequestId)
       .andThen(
         (
@@ -43,13 +61,21 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           modificationRequest,
           previousRequest,
         }): ResultAsync<
-          { dreal: Région | ''; modificationRequest; previousRequest },
+          {
+            dreal: Région | '';
+            modificationRequest;
+            previousRequest;
+            isEDFOA: string;
+            isEDFSEI: string;
+            isEDM: string;
+          },
           InfraNotAvailableError
         > => {
+          const {
+            project: { regionProjet },
+          } = modificationRequest;
+
           if (user.role === 'dreal') {
-            const {
-              project: { regionProjet },
-            } = modificationRequest;
             return wrapInfra(oldUserRepo.findDrealsForUser(user.id)).map((userDreals) => {
               // If there are multiple, use the first to coincide with the project
               const dreal = userDreals.find((dreal) => regionProjet.includes(dreal)) || '';
@@ -58,14 +84,24 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 dreal,
                 modificationRequest,
                 previousRequest,
+                ...getEdfType(regionProjet),
               };
             });
           }
 
-          return okAsync({ dreal: '', modificationRequest, previousRequest });
+          const dreal = [...REGIONS].find(
+            (region) => region.toLowerCase() === regionProjet.toLowerCase(),
+          );
+
+          return okAsync({
+            dreal: dreal || '',
+            modificationRequest,
+            previousRequest,
+            ...getEdfType(regionProjet),
+          });
         },
       )
-      .andThen(({ dreal, modificationRequest, previousRequest }) => {
+      .andThen(({ dreal, modificationRequest, previousRequest, isEDFOA, isEDFSEI, isEDM }) => {
         const {
           type,
           project,
@@ -157,6 +193,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateDemande: formatDate(requestedOn),
           justificationDemande: justification,
           dateNotification: formatDate(notifiedOn),
+          isEDFOA,
+          isEDFSEI,
+          isEDM,
         };
 
         const {

@@ -962,4 +962,119 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       });
     });
   });
+
+  describe(`Cas d'un projet situé en France métropolitaine (sauf Corse)`, () => {
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase();
+
+      await Project.create({ ...project, regionProjet: 'Bretagne' });
+
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
+
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe', role: 'admin' }));
+
+      await ModificationRequest.create({
+        id: modificationRequestId,
+        projectId,
+        userId,
+        fileId,
+        type: 'puissance',
+        requestedOn: 123,
+        respondedOn: 321,
+        respondedBy: userId2,
+        status: 'envoyée',
+        justification: 'justification',
+        authority: 'dreal',
+        versionDate,
+      });
+    });
+    it(`Alors un DTO devrait être retourné avec comme entreprise d'éléctricité EDF OA`, async () => {
+      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+        modificationRequestId.toString(),
+        fakeAdminUser,
+        dgecEmail,
+      );
+
+      expect(modificationRequestResult._unsafeUnwrap().isEDFOA).toEqual('true');
+      expect(modificationRequestResult._unsafeUnwrap().isEDFSEI).toEqual('');
+      expect(modificationRequestResult._unsafeUnwrap().isEDM).toEqual('');
+    });
+  });
+  describe(`Cas d'un projet situé dans un département d'outre-mer (Corse inclus)`, () => {
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase();
+
+      await Project.create({ ...project, regionProjet: 'Corse' });
+
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
+
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe', role: 'admin' }));
+
+      await ModificationRequest.create({
+        id: modificationRequestId,
+        projectId,
+        userId,
+        fileId,
+        type: 'puissance',
+        requestedOn: 123,
+        respondedOn: 321,
+        respondedBy: userId2,
+        status: 'envoyée',
+        justification: 'justification',
+        authority: 'dreal',
+        versionDate,
+      });
+    });
+    it(`Alors un DTO devrait être retourné avec comme entreprise d'éléctricité EDF SEIO`, async () => {
+      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+        modificationRequestId.toString(),
+        fakeAdminUser,
+        dgecEmail,
+      );
+
+      expect(modificationRequestResult._unsafeUnwrap().isEDFOA).toEqual('');
+      expect(modificationRequestResult._unsafeUnwrap().isEDFSEI).toEqual('true');
+      expect(modificationRequestResult._unsafeUnwrap().isEDM).toEqual('');
+    });
+  });
+  describe(`Cas d'un projet situé à Mayotte`, () => {
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase();
+
+      await Project.create({ ...project, regionProjet: 'Mayotte' });
+
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
+
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe', role: 'admin' }));
+
+      await ModificationRequest.create({
+        id: modificationRequestId,
+        projectId,
+        userId,
+        fileId,
+        type: 'puissance',
+        requestedOn: 123,
+        respondedOn: 321,
+        respondedBy: userId2,
+        status: 'envoyée',
+        justification: 'justification',
+        authority: 'dreal',
+        versionDate,
+      });
+    });
+    it(`Alors un DTO devrait être retourné avec comme entreprise d'éléctricité EDM`, async () => {
+      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+        modificationRequestId.toString(),
+        fakeAdminUser,
+        dgecEmail,
+      );
+
+      expect(modificationRequestResult._unsafeUnwrap().isEDFOA).toEqual('');
+      expect(modificationRequestResult._unsafeUnwrap().isEDFSEI).toEqual('');
+      expect(modificationRequestResult._unsafeUnwrap().isEDM).toEqual('true');
+    });
+  });
 });
