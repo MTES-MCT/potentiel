@@ -19,7 +19,7 @@ type GetModificationRequestListForAdminFilter = {
   appelOffreId?: AppelOffre['id'];
   periodeId?: Periode['id'];
   familleId?: Famille['id'];
-  pagination?: Pagination;
+  pagination: Pagination;
   recherche?: string;
   modificationRequestStatus?: ModificationRequestStatusDTO;
   modificationRequestType?: ModificationRequestTypes;
