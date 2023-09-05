@@ -57,16 +57,12 @@ export const registerDépôtGarantiesFinancièresProjector = ({
         if (!event.payload.aggregate.dépôt) {
           return;
         }
+
         if (isNone(dépôtGarantiesFinancières)) {
-          const { typeGarantiesFinancières, dateÉchéance, attestationConstitution, dateDépôt } =
-            event.payload.aggregate.dépôt;
           const région = await getRégionsProjet(event.payload.identifiantProjet);
           await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-            typeGarantiesFinancières,
-            dateÉchéance,
-            attestationConstitution,
-            dateDépôt,
-            dateDernièreMiseÀJour: dateDépôt,
+            ...event.payload.aggregate.dépôt,
+            dateDernièreMiseÀJour: event.payload.aggregate.dépôt.dateDépôt,
             région,
             identifiantProjet: event.payload.identifiantProjet,
           });
@@ -77,29 +73,13 @@ export const registerDépôtGarantiesFinancièresProjector = ({
       case 'GarantiesFinancièresDéposées-v1':
         const région = await getRégionsProjet(event.payload.identifiantProjet);
         if (isSome(dépôtGarantiesFinancières)) {
-          await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-            typeGarantiesFinancières:
-              'typeGarantiesFinancières' in event.payload
-                ? event.payload.typeGarantiesFinancières
-                : undefined,
-            dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
-            attestationConstitution: {
-              format: event.payload.attestationConstitution.format,
-              date: event.payload.attestationConstitution.date,
-            },
-            dateDépôt: event.payload.dateDépôt,
-            dateDernièreMiseÀJour: event.payload.dateDépôt,
-            région,
-            identifiantProjet: event.payload.identifiantProjet,
-          });
+          // TODO : logger erreur (on ne devrait pas pouvoir déposer des GF si dépôt déjà existant)
           break;
         }
+
         await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-          typeGarantiesFinancières:
-            'typeGarantiesFinancières' in event.payload
-              ? event.payload.typeGarantiesFinancières
-              : undefined,
-          dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
+          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          ...('dateÉchéance' in event.payload && { dateÉchéance: event.payload.dateÉchéance }),
           attestationConstitution: {
             format: event.payload.attestationConstitution.format,
             date: event.payload.attestationConstitution.date,
@@ -112,18 +92,21 @@ export const registerDépôtGarantiesFinancièresProjector = ({
         break;
       case 'DépôtGarantiesFinancièresModifié-v1':
         if (isNone(dépôtGarantiesFinancières)) {
-          // ne devrait pas arriver
+          // TODO : logger erreur (on ne devrait pas modifier un dépôt inexistant)
           break;
         }
         await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
           ...dépôtGarantiesFinancières,
+          dateDernièreMiseÀJour: event.payload.dateModification,
           typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-          dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
+          dateÉchéance:
+            event.payload.typeGarantiesFinancières === "avec date d'échéance"
+              ? event.payload.dateÉchéance
+              : undefined,
           attestationConstitution: {
             format: event.payload.attestationConstitution.format,
             date: event.payload.attestationConstitution.date,
           },
-          dateDernièreMiseÀJour: event.payload.dateModification,
         });
         break;
       case 'DépôtGarantiesFinancièresValidé-v1':
@@ -133,8 +116,12 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           garantiesFinancièresActuellesKey,
         );
 
+        if (isNone(dépôtGarantiesFinancières)) {
+          // TODO : logguer erreur (on ne devrait pas pouvoir valider un dépôt inexistant)
+        }
+
         if (isSome(dépôtGarantiesFinancières)) {
-          const garantiesFinancières = {
+          const nouvellesGarantiesFinancières = {
             typeGarantiesFinancières: dépôtGarantiesFinancières.typeGarantiesFinancières,
             dateÉchéance: dépôtGarantiesFinancières.dateÉchéance,
             attestationConstitution: {
@@ -142,24 +129,30 @@ export const registerDépôtGarantiesFinancièresProjector = ({
               date: dépôtGarantiesFinancières.attestationConstitution.date,
             },
           };
+
           if (isSome(garantiesFinancièresActuelles)) {
             await update<GarantiesFinancièresReadModel>(
               garantiesFinancièresActuellesKey,
-              garantiesFinancières,
+              nouvellesGarantiesFinancières,
             );
           } else {
             await create<GarantiesFinancièresReadModel>(
               garantiesFinancièresActuellesKey,
-              garantiesFinancières,
+              nouvellesGarantiesFinancières,
             );
           }
-        } else {
-          // TODO: logger error
+
+          await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
+        }
+        break;
+      case 'DépôtGarantiesFinancièresSupprimé-v1':
+        if (isNone(dépôtGarantiesFinancières)) {
+          // TODO : logguer erreur si pas de dépôt existant
         }
 
-        await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
-      case 'DépôtGarantiesFinancièresSupprimé-v1':
-        await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
+        if (isSome(dépôtGarantiesFinancières)) {
+          await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
+        }
         break;
     }
   };
