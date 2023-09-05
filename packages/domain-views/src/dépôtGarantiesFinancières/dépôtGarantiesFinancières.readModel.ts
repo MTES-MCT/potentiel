@@ -14,7 +14,7 @@ export type DépôtGarantiesFinancièresReadModel = ReadModel<
     dateDernièreMiseÀJour: string;
     région: string;
     identifiantProjet: RawIdentifiantProjet;
-    dateLimiteDépôt?: string; // TODO : à voir si cette propriété est optionnelle ou si on doit toujours l'avoir
+    dateLimiteDépôt?: string;
   }
 >;
 

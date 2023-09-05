@@ -1,5 +1,4 @@
 #Language: fr-FR
-@select
 Fonctionnalité: Migrer des garanties financières à déposer
     Contexte: 
         Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"

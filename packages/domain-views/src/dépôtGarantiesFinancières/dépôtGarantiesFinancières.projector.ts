@@ -12,6 +12,8 @@ import {
 import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
+  GarantiesFinancièresÀDéposerReadModel,
+  GarantiesFinancièresÀDéposerReadModelKey,
 } from '../domainViews.readModel';
 import { Create, Update, Find, Remove } from '@potentiel/core-domain-views';
 import { RécupérerDétailProjetPort } from '../domainViews.port';
@@ -41,6 +43,8 @@ export const registerDépôtGarantiesFinancièresProjector = ({
     const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(
       dépôtReadModelKey,
     );
+
+    const garantiesFinancièresÀDéposerReadModelKey: GarantiesFinancièresÀDéposerReadModelKey = `garanties-financières-à-déposer|${event.payload.identifiantProjet}`;
 
     const getRégionsProjet = async (identifiantProjet: RawIdentifiantProjet) => {
       const projet = await récupérerDétailProjet(convertirEnIdentifiantProjet(identifiantProjet));
@@ -80,6 +84,14 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           break;
         }
 
+        const garantiesFinancièresÀDéposer = await find<GarantiesFinancièresÀDéposerReadModel>(
+          garantiesFinancièresÀDéposerReadModelKey,
+        );
+
+        const dateLimiteDépôt = isSome(garantiesFinancièresÀDéposer)
+          ? garantiesFinancièresÀDéposer.dateLimiteDépôt
+          : undefined;
+
         await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
           typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
           ...('dateÉchéance' in event.payload && { dateÉchéance: event.payload.dateÉchéance }),
@@ -91,7 +103,14 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           dateDernièreMiseÀJour: event.payload.dateDépôt,
           région,
           identifiantProjet: event.payload.identifiantProjet,
+          dateLimiteDépôt,
         });
+
+        if (isSome(garantiesFinancièresÀDéposer)) {
+          await remove<GarantiesFinancièresÀDéposerReadModel>(
+            garantiesFinancièresÀDéposerReadModelKey,
+          );
+        }
         break;
       case 'DépôtGarantiesFinancièresModifié-v1':
         if (isNone(dépôtGarantiesFinancières)) {
@@ -155,8 +174,16 @@ export const registerDépôtGarantiesFinancièresProjector = ({
 
         if (isSome(dépôtGarantiesFinancières)) {
           await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
-
-          // TODO : créer projection de type dépôt en attente avec la date limite d'envoi du dépôt qu'on supprime
+          await create<GarantiesFinancièresÀDéposerReadModel>(
+            garantiesFinancièresÀDéposerReadModelKey,
+            {
+              ...(dépôtGarantiesFinancières.dateLimiteDépôt && {
+                dateLimiteDépôt: dépôtGarantiesFinancières.dateLimiteDépôt,
+              }),
+              région: dépôtGarantiesFinancières.région,
+              identifiantProjet: dépôtGarantiesFinancières.identifiantProjet,
+            },
+          );
         }
         break;
     }

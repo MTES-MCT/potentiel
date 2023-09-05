@@ -28,6 +28,7 @@ Alors(
     const dateDépôt = exemple['date de dépôt'];
     const dateDernièreModification = exemple['date dernière modification'];
     const région = exemple['région'];
+    const dateLimiteDépôt = exemple['date limite de dépôt'];
 
     const {
       identifiantProjet,
@@ -93,6 +94,7 @@ Alors(
         : new Date(dateDépôt).toISOString(),
       région,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
+      ...(dateLimiteDépôt && { dateLimiteDépôt: new Date(dateLimiteDépôt).toISOString() }),
     };
 
     const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({

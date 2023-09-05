@@ -8,7 +8,7 @@ import {
   ConsulterGarantiesFinancièresÀDéposerQuery,
   ListerGarantiesFinancièresÀDéposerQuery,
 } from '@potentiel/domain-views';
-import { isNone } from '@potentiel/monads';
+import { isNone, none } from '@potentiel/monads';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
@@ -104,5 +104,22 @@ Alors(
     });
 
     expect(actualListeReadModel).to.deep.equal(expectedListeReadModel);
+  },
+);
+
+Alors(
+  `il ne devrait plus y avoir de garanties financières à déposer pour le projet {string}`,
+  async function (nomProjet: string) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+    // ASSERT ON READ MODEL
+    const actualRealModel = await mediator.send<ConsulterGarantiesFinancièresÀDéposerQuery>({
+      type: 'CONSULTER_GARANTIES_FINANCIÈRES_À_DÉPOSER',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    expect(actualRealModel).to.deep.equal(none);
   },
 );

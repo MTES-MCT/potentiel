@@ -8,7 +8,7 @@ export type GarantiesFinancièresÀDéposerReadModel = ReadModel<
   'garanties-financières-à-déposer',
   {
     identifiantProjet: RawIdentifiantProjet;
-    dateLimiteDépôt: string;
+    dateLimiteDépôt?: string;
     région: string;
   }
 >;

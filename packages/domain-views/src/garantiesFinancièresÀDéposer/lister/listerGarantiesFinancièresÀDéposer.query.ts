@@ -18,7 +18,7 @@ export type ListerGarantiesFinancièresÀDéposerQuery = Message<
     type: 'liste-garanties-financières-à-déposer';
     région: string;
     liste: {
-      dateLimiteDépôt: string;
+      dateLimiteDépôt?: string;
       projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
     }[];
     pagination: { currentPage: number; pageCount: number };
@@ -45,7 +45,7 @@ export const registerListerGarantiesFinancièresÀDéposerQuery = ({
     });
 
     const liste: {
-      dateLimiteDépôt: string;
+      dateLimiteDépôt?: string;
       projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
     }[] = [];
 
