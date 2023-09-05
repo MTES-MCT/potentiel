@@ -28,7 +28,6 @@ create table event_store.pending_acknowledgement (
   primary key (subscriber_id, stream_id, created_at, version)
 );
 
-
 create or replace function event_store.notify_subscribers()
 returns trigger as
 $$
@@ -40,14 +39,14 @@ begin
   v_type := new.type;
 
   select into v_subscriber
-    "subscriber_id"
-  from event_store."subscriber"
-  where "filter" is not null and v_type in (select jsonb_array_elements_text(filter))
+    subscriber_id
+  from event_store.subscriber
+  where filter is null or v_type in (select jsonb_array_elements_text(filter))
   limit 1;
 
   if v_subscriber is null then
     insert into event_store.pending_acknowledgement
-    values ('dead-letter-queue', new.stream_id, new.created_at, new.version);
+    values ('dead_letter_queue', new.stream_id, new.created_at, new.version);
   else
     for v_subscriber in
       select subscriber_id

@@ -1,6 +1,6 @@
 create schema analytic_views
 
-create view statistics as
+create view analytic_views.statistics as
 select si.category,
        si.id,
        p.value,
