@@ -7,7 +7,7 @@ import {
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 
-import { Create, Find } from '@potentiel/core-domain';
+import { Create, Find } from '@potentiel/core-domain-views';
 import { RécupérerDétailProjetPort } from '../domainViews.port';
 import {
   GarantiesFinancièresÀDéposerReadModel,

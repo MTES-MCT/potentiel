@@ -6,7 +6,7 @@ import {
 } from '@potentiel/domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel/monads';
-import { Find } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain-views';
 import {
   GarantiesFinancièresÀDéposerReadModel,
   GarantiesFinancièresÀDéposerReadModelKey,
