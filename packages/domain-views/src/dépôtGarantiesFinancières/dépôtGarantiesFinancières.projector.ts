@@ -62,6 +62,9 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           const région = await getRégionsProjet(event.payload.identifiantProjet);
           await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
             ...event.payload.aggregate.dépôt,
+            ...(event.payload.aggregate.dateLimiteDépôt && {
+              dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
+            }),
             dateDernièreMiseÀJour: event.payload.aggregate.dépôt.dateDépôt,
             région,
             identifiantProjet: event.payload.identifiantProjet,
@@ -152,6 +155,8 @@ export const registerDépôtGarantiesFinancièresProjector = ({
 
         if (isSome(dépôtGarantiesFinancières)) {
           await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
+
+          // TODO : créer projection de type dépôt en attente avec la date limite d'envoi du dépôt qu'on supprime
         }
         break;
     }

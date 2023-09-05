@@ -83,6 +83,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       téléchargerFichier: téléchargerFichierAdapter,
       récupérerDétailProjet: récupérerDétailProjetAdapter,
     },
+    garantiesFinancièresÀDéposer: { récupérerDétailProjet: récupérerDétailProjetAdapter },
   });
 
   return async () => {

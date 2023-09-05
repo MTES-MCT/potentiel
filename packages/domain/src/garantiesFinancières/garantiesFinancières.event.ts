@@ -28,6 +28,7 @@ export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
         attestationConstitution: { format: string; date: string };
         dateDépôt: string;
       };
+      dateLimiteDépôt?: string;
     };
   }
 >;
@@ -45,6 +46,9 @@ export type DépôtGarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresValidéEventV1
   | DépôtGarantiesFinancièresSuppriméEventV1;
 
+export type GarantiesFinancièresÀDéposerEvent = GarantiesFinancièresSnapshotEventV1;
+
 export type GarantiesFinancièresEvent =
   | EnregistrementGarantiesFinancièresEvent
-  | DépôtGarantiesFinancièresEvent;
+  | DépôtGarantiesFinancièresEvent
+  | GarantiesFinancièresÀDéposerEvent;
