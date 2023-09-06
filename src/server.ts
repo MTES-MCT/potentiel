@@ -10,6 +10,10 @@ import { isDevEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap } from '@potentiel/web';
+import { subscribe } from '@potentiel/pg-event-sourcing';
+import { DateMiseEnServiceTransmise } from './modules/project';
+import { transformerISOStringEnDate } from './infra/helpers';
+import { publishToEventBus } from './config/eventBus.config';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -19,6 +23,32 @@ const FILE_SIZE_LIMIT_MB = 50;
 export async function makeServer(port: number, sessionSecret: string) {
   try {
     await bootstrap();
+
+    // TODO : Subscribe à supprimer et saga à reimplémenter côté nouveau socle
+    // lorsque la notion de projet sera dispo en tant qu'aggregate dans le package domain
+    await subscribe({
+      name: 'raccordement_application_delais_dix_huit_mois_saga',
+      eventType: ['DateMiseEnServiceTransmise'],
+      eventHandler: (event) => {
+        return new Promise<void>((resolve) => {
+          logger.info('Executing raccordement_application_delais_dix_huit_mois_saga');
+          if (event.type === 'DateMiseEnServiceTransmise') {
+            publishToEventBus(
+              new DateMiseEnServiceTransmise({
+                payload: {
+                  ...transformerISOStringEnDate(event.payload),
+                  streamId: event.stream_id,
+                },
+              }),
+            ).map(() => {
+              resolve();
+            });
+          }
+          resolve();
+        });
+      },
+    });
+
     const app = express();
 
     // Always first middleware

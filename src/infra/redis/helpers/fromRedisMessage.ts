@@ -13,7 +13,7 @@ import * as DemandeAbandonEvents from '../../../modules/demandeModification/dema
 import * as DemandeAnnulationAbandonEvents from '../../../modules/demandeModification/demandeAnnulationAbandon/events';
 import * as DemandeChangementDePuissanceEvents from '../../../modules/demandeModification/demandeChangementDePuissance/events';
 import * as UtilisateurEvents from '../../../modules/utilisateur/events';
-import { isLegacyEvent, RedisMessage } from './RedisMessage';
+import { RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
 import { DateMiseEnServiceTransmise } from '../../../modules/project/events';
@@ -32,8 +32,6 @@ interface HasEventConstructor {
   new (props: EventProps): DomainEvent;
 }
 
-const compatibilityEvents = { DateMiseEnServiceTransmise };
-
 const EventClassByType: Record<string, HasEventConstructor> = {
   ...ModificationRequestEvents,
   ...CandidateNotificationEvents,
@@ -49,7 +47,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeAnnulationAbandonEvents,
   ...DemandeChangementDePuissanceEvents,
   ...UtilisateurEvents,
-  ...compatibilityEvents,
+  DateMiseEnServiceTransmise,
 };
 
 export const fromRedisMessage = (message: RedisMessage): DomainEvent | null => {
@@ -60,28 +58,22 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent | null => {
     return null;
   }
 
-  const original = isLegacyEvent(message)
-    ? {
-        version: 1,
-        occurredAt: new Date(Number(message.occurredAt)),
-      }
-    : undefined;
+  const original = {
+    version: 1,
+    occurredAt: new Date(Number(message.occurredAt)),
+  };
 
   if (original && isNaN(original.occurredAt.getTime())) {
     throw new Error('message occurredAt is not a valid timestamp');
   }
 
-  const payload = !isLegacyEvent(message)
-    ? {
-        ...transformerISOStringEnDate(message.payload),
-        streamId: message.stream_id,
-      }
-    : {
-        ...transformerISOStringEnDate(message.payload),
-      };
-
   return new EventClass({
-    payload,
-    original,
+    payload: {
+      ...transformerISOStringEnDate(message.payload),
+    },
+    original: {
+      version: 1,
+      occurredAt: new Date(Number(message.occurredAt)),
+    },
   });
 };

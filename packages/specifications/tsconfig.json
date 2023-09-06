@@ -24,7 +24,7 @@
       "path": "../libraries/infra-adapters"
     },
     {
-      "path": "../libraries/redis-event-bus-client"
+      "path": "../applications/web"
     }
   ]
 }

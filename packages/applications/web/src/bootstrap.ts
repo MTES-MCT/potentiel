@@ -17,13 +17,10 @@ import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
   récupérerDétailProjetAdapter,
-  consumerSubscribe,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';
-import { publishToEventBus } from '@potentiel/redis-event-bus-client';
-import { consumerPool } from '@potentiel/redis-event-bus-consumer';
 import { seed } from './seed';
 
 export type UnsetupApp = () => Promise<void>;
@@ -40,7 +37,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     common: {
       loadAggregate,
       publish,
-      subscribe: consumerSubscribe,
+      subscribe,
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
@@ -57,7 +54,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       list: listProjection,
       remove: removeProjection,
       search: searchProjection,
-      subscribe: consumerSubscribe,
+      subscribe,
       update: updateProjection,
     },
     appelOffre: {},
@@ -71,18 +68,8 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     },
   });
 
-  const unsubscribePublishAll = await subscribe({
-    name: 'new_event',
-    eventType: 'all',
-    eventHandler: async (event) => {
-      await publishToEventBus(event.type, event);
-    },
-  });
-
   return async () => {
     await unsetupDomain();
     await unsetupDomainViews();
-    await unsubscribePublishAll();
-    consumerPool.kill();
   };
 };
