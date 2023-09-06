@@ -205,3 +205,8 @@ Alors(
     expect(actualFile).to.deep.equal(none);
   },
 );
+
+Alors(
+  'les porteurs du projet devraient être notifiés que le dépôt de garanties financières pour le projet {string} a été validé',
+  async function (nomProjet: string) {},
+);
