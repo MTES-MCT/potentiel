@@ -207,6 +207,23 @@ Alors(
 );
 
 Alors(
-  'les porteurs du projet devraient être notifiés que le dépôt de garanties financières pour le projet {string} a été validé',
-  async function (nomProjet: string) {},
+  'les porteurs du projet devraient être notifiés que le dépôt de garanties financières pour le projet {string} a été validé avec :',
+  async function (nomProjet: string, table: DataTable) {
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+    const actualAggregate = await loadGarantiesFinancièresAggregateFactory({
+      loadAggregate,
+    })(convertirEnIdentifiantProjet(identifiantProjet));
+
+    if (isNone(actualAggregate)) {
+      throw new Error(`L'agrégat n'existe pas !`);
+    }
+
+    const expectedPorteursNotifiés = table.rows().map(([name, email]) => ({
+      name,
+      email,
+    }));
+
+    expect(actualAggregate.actuelles?.porteursNotifiés).to.be.deep.equal(expectedPorteursNotifiés);
+  },
 );

@@ -263,6 +263,45 @@ EtantDonné(
       false,
     );
 
+    for (const [name, email, role] of table.rows()[0]) {
+      const porteurId = randomUUID();
+      await executeQuery(
+        `
+      insert into "users" (
+        "id",
+        "fullName",
+        "email",
+        "role"
+      )
+      values (
+        $1,
+        $2,
+        $3,
+        $4
+      )
+    `,
+        porteurId,
+        name,
+        email,
+        role,
+      );
+
+      await executeQuery(
+        `
+      insert into "UserProjects" (
+        "userId",
+        "projectId"
+      )
+      values (
+        $1,
+        $2
+      )
+    `,
+        porteurId,
+        projetId,
+      );
+    }
+
     this.projetWorld.projetFixtures.set(nomProjet, {
       nom: nomProjet,
       identifiantProjet: {
@@ -272,59 +311,5 @@ EtantDonné(
         numéroCRE: '23',
       },
     });
-
-    for (const [fullName, email, role] of table.rows()[0]) {
-      const porteurId = randomUUID();
-      await executeQuery(
-        `
-      insert into "users" (
-        "id",
-        "fullName",
-        "email",
-        "role",
-        "projectAdmissionKey",
-        "registredOn",
-        "keycloakId",
-        "fonction",
-        "état",
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-      )
-    `,
-        porteurId,
-        fullName,
-        email,
-        role,
-        null,
-        null,
-        null,
-        null,
-        null,
-      );
-
-      await executeQuery(
-        `
-      insert into "UserProjects" (
-        "userId",
-        "projectId",
-      )
-      values (
-        $1,
-        $2,
-      )
-    `,
-        porteurId,
-        projetId,
-      );
-    }
   },
 );

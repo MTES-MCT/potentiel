@@ -3,10 +3,9 @@
 Fonctionnalité: Notifier un dépôt de garanties financières validé
     Contexte: 
         Etant donné le projet "Centrale éolienne 20" associé aux porteurs : 
-            | fullName  | email              | role           |
-            | Porteur 1 | porteur1@test.test | porteur-projet |
-            | Porteur 2 | porteur2@test.test | porteur-projet |
-
+            | name         | email              | role           |
+            | Porteur 1    | porteur1@test.test | porteur-projet |
+            | Porteur 2    | porteur2@test.test | porteur-projet |
     Scénario: Notifier un dépôt de garanties financières initiales validé
         Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | consignation          |
@@ -15,8 +14,10 @@ Fonctionnalité: Notifier un dépôt de garanties financières validé
             | date de constitution | 2023-01-01            |
             | date de dépôt        | 2023-10-01            | 
         Quand un utilisateur avec le rôle Dreal valide le dépôt de garanties financières pour le projet "Centrale éolienne 20"
-        Alors les porteurs du projet devraient être notifiés que le dépôt de garanties financières pour le projet "Centrale éolienne 20" a été validé
-
+        Alors les porteurs du projet devraient être notifiés que le dépôt de garanties financières pour le projet "Centrale éolienne 20" a été validé avec :
+            | name      | email              | 
+            | Porteur 1 | porteur1@test.test | 
+            | Porteur 2 | porteur2@test.test |   
     Scénario: Notifier un dépôt pour un renouvellement de garanties financières validé
         Etant donné des garanties financières complètes pour le projet "Centrale éolienne 20" avec :
             | type                 | avec date d'échéance  |
@@ -31,4 +32,7 @@ Fonctionnalité: Notifier un dépôt de garanties financières validé
             | date de constitution | 2023-01-01            |
             | date de dépôt        | 2023-10-01            |  
         Quand un utilisateur avec le rôle Dreal valide le dépôt de garanties financières pour le projet "Centrale éolienne 20"
-        Alors les porteurs du projet devraient être notifiés que le dépôt de garanties financières pour le projet "Centrale éolienne 20" a été validé        
+        Alors les porteurs du projet devraient être notifiés que le dépôt de garanties financières pour le projet "Centrale éolienne 20" a été validé avec : 
+            | name      | email              | 
+            | Porteur 1 | porteur1@test.test | 
+            | Porteur 2 | porteur2@test.test |
