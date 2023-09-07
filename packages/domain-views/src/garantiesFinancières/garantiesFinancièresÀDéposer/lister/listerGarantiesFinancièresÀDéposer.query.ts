@@ -39,6 +39,7 @@ export const registerListerGarantiesFinancièresÀDéposerQuery = ({
     const garantiesFinancièresÀDéposer = await list<GarantiesFinancièresÀDéposerReadModel>({
       type: 'garanties-financières-à-déposer',
       like: { région },
+      where: { statutDépôt: 'en attente' },
       pagination: { page, itemsPerPage },
     });
 

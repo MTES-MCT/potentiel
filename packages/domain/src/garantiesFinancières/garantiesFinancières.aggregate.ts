@@ -187,7 +187,7 @@ const processDépôtGarantiesFinancièresValidéEvent = ({
 }) => {
   const dépôtValidé = aggregate.dépôt;
   delete dépôtValidé?.dateDépôt;
-  return { actuelles: dépôtValidé, dépôt: undefined };
+  return { actuelles: dépôtValidé, dépôt: undefined, dateLimiteDépôt: undefined };
 };
 
 const processDépôtGarantiesFinancièresSuppriméEvent = ({

@@ -15,7 +15,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | date de dépôt        | 2023-10-01            | 
         Quand un utilisateur avec le rôle Porteur supprime le dépôt de garanties financières pour le projet "Centrale éolienne 20"
         Alors le dépôt de garanties financières devrait être supprimé pour le projet "Centrale éolienne 20"
-        Et des garanties financières devraient être à déposer pour le projet "Centrale éolienne 20" avec :
+        Et il devrait y avoir un dépôt de garanties financières "en attente" pour le projet "Centrale éolienne 20" avec :
             | date limite de dépôt | 2023-11-01            |
             | région               | Nouvelle-Aquitaine    |
 

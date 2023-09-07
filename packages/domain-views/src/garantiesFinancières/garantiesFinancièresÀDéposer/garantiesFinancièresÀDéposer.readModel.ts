@@ -10,5 +10,6 @@ export type GarantiesFinancièresÀDéposerReadModel = ReadModel<
     identifiantProjet: RawIdentifiantProjet;
     dateLimiteDépôt?: string;
     région: string;
+    statutDépôt: 'en attente' | 'en cours' | 'validé';
   }
 >;

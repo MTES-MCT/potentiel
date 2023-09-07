@@ -94,7 +94,6 @@ Alors(
         : new Date(dateDépôt).toISOString(),
       région,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-      ...(dateLimiteDépôt && { dateLimiteDépôt: new Date(dateLimiteDépôt).toISOString() }),
     };
 
     const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
