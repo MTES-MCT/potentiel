@@ -221,6 +221,10 @@ const modifierRéférenceDossierRacordement = (
     payload: { nouvelleRéférenceDossierRaccordement, référenceDossierRaccordementActuelle },
   }: RéférenceDossierRacordementModifiéeEventV1,
 ): Raccordement => {
+  if (aggregate.dossiers.has(nouvelleRéférenceDossierRaccordement)) {
+    return aggregate;
+  }
+
   const dossier = récupérerDossier(aggregate, référenceDossierRaccordementActuelle);
   dossier.référence = convertirEnRéférenceDossierRaccordement(nouvelleRéférenceDossierRaccordement);
 
