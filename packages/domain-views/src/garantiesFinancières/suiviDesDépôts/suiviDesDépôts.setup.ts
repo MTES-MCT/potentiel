@@ -16,14 +16,14 @@ import {
 } from './lister/listerGarantiesFinancièresÀDéposer.query';
 
 // Setup
-export type GarantiesFinancièresÀDéposerDependencies = {
+export type SuiviDépôtsGarantiesFinancièresDependencies = {
   subscribe: Subscribe;
 } & ConsulterSuiviDépôtGarantiesFinancièresDependencies &
   ListerDépôtsGarantiesFinancièresEnAttenteDependencies &
   SuiviDépôtsGarantiesFinancièresProjectorDependencies;
 
-export const setupGarantiesFinancièresÀDéposerViews = async (
-  dependencies: GarantiesFinancièresÀDéposerDependencies,
+export const setupSuiviDépôtsGarantiesFinancièresViews = async (
+  dependencies: SuiviDépôtsGarantiesFinancièresDependencies,
 ) => {
   // Queries
   registerConsulterSuiviDépôtGarantiesFinancièresQuery(dependencies);

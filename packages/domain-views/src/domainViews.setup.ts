@@ -16,8 +16,8 @@ import {
   setupDépôtGarantiesFinancièreViews,
 } from './garantiesFinancières/dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
 import {
-  GarantiesFinancièresÀDéposerDependencies,
-  setupGarantiesFinancièresÀDéposerViews,
+  SuiviDépôtsGarantiesFinancièresDependencies,
+  setupSuiviDépôtsGarantiesFinancièresViews,
 } from './garantiesFinancières/suiviDesDépôts/suiviDesDépôts.setup';
 
 type CommonDependencies = {
@@ -37,8 +37,8 @@ type DomainViewsDependencies = {
   raccordement: Omit<RaccordementDependencies, keyof CommonDependencies>;
   garantiesFinancières: Omit<GarantiesFinancièresDependencies, keyof CommonDependencies>;
   dépôtGarantiesFinancières: Omit<DépôtGarantiesFinancièresDependencies, keyof CommonDependencies>;
-  garantiesFinancièresÀDéposer: Omit<
-    GarantiesFinancièresÀDéposerDependencies,
+  suiviDépôtsGarantiesFinancières: Omit<
+    SuiviDépôtsGarantiesFinancièresDependencies,
     keyof CommonDependencies
   >;
 };
@@ -51,7 +51,7 @@ export const setupDomainViews = async ({
   raccordement,
   garantiesFinancières,
   dépôtGarantiesFinancières,
-  garantiesFinancièresÀDéposer,
+  suiviDépôtsGarantiesFinancières,
 }: DomainViewsDependencies): Promise<UnsetupDomainViews> => {
   const unsubscribeGestionnaireRéseauViews = await setupGestionnaireRéseauViews(common);
   const unsubscribeProjetViews = await setupProjetViews({
@@ -71,12 +71,11 @@ export const setupDomainViews = async ({
     ...common,
     ...dépôtGarantiesFinancières,
   });
-  const unsubscribeGarantiesFinancièresÀDéposerViews = await setupGarantiesFinancièresÀDéposerViews(
-    {
+  const unsubscribeSuiviDépôtsGarantiesFinancièresViews =
+    await setupSuiviDépôtsGarantiesFinancièresViews({
       ...common,
-      ...garantiesFinancièresÀDéposer,
-    },
-  );
+      ...suiviDépôtsGarantiesFinancières,
+    });
 
   return async () => {
     const unsubscribes = [
@@ -86,7 +85,7 @@ export const setupDomainViews = async ({
       ...unsubscribeAppelOffreViews,
       ...unsubscribeGarantiesFinancièresViews,
       ...unsubscribeDépôtGarantiesFinancièresViews,
-      ...unsubscribeGarantiesFinancièresÀDéposerViews,
+      ...unsubscribeSuiviDépôtsGarantiesFinancièresViews,
     ];
 
     for (const unsubscribe of unsubscribes) {
