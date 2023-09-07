@@ -14,7 +14,6 @@ export type DépôtGarantiesFinancièresReadModel = ReadModel<
     dateDernièreMiseÀJour: string;
     région: string;
     identifiantProjet: RawIdentifiantProjet;
-    dateLimiteDépôt?: string;
   }
 >;
 

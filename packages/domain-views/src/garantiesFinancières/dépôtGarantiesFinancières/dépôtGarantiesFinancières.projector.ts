@@ -15,10 +15,6 @@ import {
   GarantiesFinancièresReadModelKey,
   GarantiesFinancièresReadModel,
 } from '../garantiesFinancièresActuelles/garantiesFinancières.readModel';
-import {
-  GarantiesFinancièresÀDéposerReadModelKey,
-  GarantiesFinancièresÀDéposerReadModel,
-} from '../garantiesFinancièresÀDéposer/garantiesFinancièresÀDéposer.readModel';
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',
@@ -45,9 +41,6 @@ export const registerDépôtGarantiesFinancièresProjector = ({
     const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(
       dépôtReadModelKey,
     );
-
-    const garantiesFinancièresÀDéposerReadModelKey: GarantiesFinancièresÀDéposerReadModelKey = `garanties-financières-à-déposer|${event.payload.identifiantProjet}`;
-
     const getRégionsProjet = async (identifiantProjet: RawIdentifiantProjet) => {
       const projet = await récupérerDétailProjet(convertirEnIdentifiantProjet(identifiantProjet));
       if (isSome(projet)) {
@@ -68,9 +61,6 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           const région = await getRégionsProjet(event.payload.identifiantProjet);
           await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
             ...event.payload.aggregate.dépôt,
-            ...(event.payload.aggregate.dateLimiteDépôt && {
-              dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
-            }),
             dateDernièreMiseÀJour: event.payload.aggregate.dépôt.dateDépôt,
             région,
             identifiantProjet: event.payload.identifiantProjet,
@@ -86,14 +76,6 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           break;
         }
 
-        const garantiesFinancièresÀDéposer = await find<GarantiesFinancièresÀDéposerReadModel>(
-          garantiesFinancièresÀDéposerReadModelKey,
-        );
-
-        const dateLimiteDépôt = isSome(garantiesFinancièresÀDéposer)
-          ? garantiesFinancièresÀDéposer.dateLimiteDépôt
-          : undefined;
-
         await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
           typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
           ...('dateÉchéance' in event.payload && { dateÉchéance: event.payload.dateÉchéance }),
@@ -105,14 +87,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
           dateDernièreMiseÀJour: event.payload.dateDépôt,
           région,
           identifiantProjet: event.payload.identifiantProjet,
-          dateLimiteDépôt,
         });
-
-        if (isSome(garantiesFinancièresÀDéposer)) {
-          await remove<GarantiesFinancièresÀDéposerReadModel>(
-            garantiesFinancièresÀDéposerReadModelKey,
-          );
-        }
         break;
       case 'DépôtGarantiesFinancièresModifié-v1':
         if (isNone(dépôtGarantiesFinancières)) {
@@ -176,16 +151,6 @@ export const registerDépôtGarantiesFinancièresProjector = ({
 
         if (isSome(dépôtGarantiesFinancières)) {
           await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
-          await create<GarantiesFinancièresÀDéposerReadModel>(
-            garantiesFinancièresÀDéposerReadModelKey,
-            {
-              ...(dépôtGarantiesFinancières.dateLimiteDépôt && {
-                dateLimiteDépôt: dépôtGarantiesFinancières.dateLimiteDépôt,
-              }),
-              région: dépôtGarantiesFinancières.région,
-              identifiantProjet: dépôtGarantiesFinancières.identifiantProjet,
-            },
-          );
         }
         break;
     }
