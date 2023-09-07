@@ -45,7 +45,7 @@ export const ModifierGestionnaireRéseau = ({
       <ChampsObligatoiresLégende />
 
       <div>
-        <Label htmlFor="codeEIC">Code EIC</Label>
+        <Label htmlFor="codeEIC">Code EIC ou gestionnaire</Label>
         <Input type="text" id="codeEIC" name="codeEIC" defaultValue={codeEIC} disabled />
       </div>
 

@@ -37,7 +37,7 @@ export const GestionnaireRéseauSelect = ({
         <option value="">Sélectionnez votre gestionnaire de réseau</option>
         {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
           <option value={codeEIC} key={codeEIC}>
-            {raisonSociale} (code EIC : {codeEIC})
+            {raisonSociale} (code EIC ou gestionnaire : {codeEIC})
           </option>
         ))}
       </Select>

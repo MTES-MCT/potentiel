@@ -37,7 +37,7 @@ export const AjouterGestionnaireRéseau = ({
     <Form method="post" action={routes.POST_AJOUTER_GESTIONNAIRE_RESEAU} className="mx-auto">
       <ChampsObligatoiresLégende />
       <div>
-        <Label htmlFor="codeEIC">Code EIC</Label>
+        <Label htmlFor="codeEIC">Code EIC ou gestionnaire</Label>
         <Input
           type="text"
           error={erreurValidation ? erreurValidation['error-body.codeEIC'] : undefined}
