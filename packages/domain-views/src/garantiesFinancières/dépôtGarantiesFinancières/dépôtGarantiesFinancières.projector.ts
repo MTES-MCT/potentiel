@@ -9,14 +9,16 @@ import {
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
-import {
-  GarantiesFinancièresReadModel,
-  GarantiesFinancièresReadModelKey,
-  GarantiesFinancièresÀDéposerReadModel,
-  GarantiesFinancièresÀDéposerReadModelKey,
-} from '../domainViews.readModel';
 import { Create, Update, Find, Remove } from '@potentiel/core-domain-views';
-import { RécupérerDétailProjetPort } from '../domainViews.port';
+import { RécupérerDétailProjetPort } from '../../domainViews.port';
+import {
+  GarantiesFinancièresReadModelKey,
+  GarantiesFinancièresReadModel,
+} from '../garantiesFinancièresActuelles/garantiesFinancières.readModel';
+import {
+  GarantiesFinancièresÀDéposerReadModelKey,
+  GarantiesFinancièresÀDéposerReadModel,
+} from '../garantiesFinancièresÀDéposer/garantiesFinancièresÀDéposer.readModel';
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',

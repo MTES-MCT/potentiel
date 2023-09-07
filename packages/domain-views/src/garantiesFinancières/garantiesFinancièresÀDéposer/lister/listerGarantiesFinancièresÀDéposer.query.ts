@@ -1,12 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { isSome } from '@potentiel/monads';
-import { RécupérerDétailProjetPort } from '../../domainViews.port';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
-import {
-  GarantiesFinancièresÀDéposerReadModel,
-  ProjetReadModel,
-} from '../../domainViews.readModel';
 import { List } from '@potentiel/core-domain-views';
+import { RécupérerDétailProjetPort } from '../../../domainViews.port';
+import { ProjetReadModel } from '../../../domainViews.readModel';
+import { GarantiesFinancièresÀDéposerReadModel } from '../garantiesFinancièresÀDéposer.readModel';
 
 export type ListerGarantiesFinancièresÀDéposerQuery = Message<
   'LISTER_GARANTIES_FINANCIÈRES_À_DÉPOSER',

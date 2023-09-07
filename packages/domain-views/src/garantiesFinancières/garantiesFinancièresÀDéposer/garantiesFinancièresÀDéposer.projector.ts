@@ -8,11 +8,11 @@ import {
 } from '@potentiel/domain';
 
 import { Create, Find } from '@potentiel/core-domain-views';
-import { RécupérerDétailProjetPort } from '../domainViews.port';
 import {
   GarantiesFinancièresÀDéposerReadModel,
   GarantiesFinancièresÀDéposerReadModelKey,
 } from './garantiesFinancièresÀDéposer.readModel';
+import { RécupérerDétailProjetPort } from '../../domainViews.port';
 
 export type ExecuteGarantiesFinancièresÀDéposerProjector = Message<
   'GARANTIES_FINANCIÈRES_À_DÉPOSER_PROJECTOR',

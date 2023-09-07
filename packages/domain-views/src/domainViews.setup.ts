@@ -10,15 +10,15 @@ import { AppelOffreDependencies, setupAppelOffreViews } from './appelOffre/appel
 import {
   GarantiesFinancièresDependencies,
   setupGarantiesFinancièreViews,
-} from './garantiesFinancièresActuelles/garantiesFinancières.setup';
+} from './garantiesFinancières/garantiesFinancièresActuelles/garantiesFinancières.setup';
 import {
   DépôtGarantiesFinancièresDependencies,
   setupDépôtGarantiesFinancièreViews,
-} from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
+} from './garantiesFinancières/dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
 import {
   GarantiesFinancièresÀDéposerDependencies,
   setupGarantiesFinancièresÀDéposerViews,
-} from './garantiesFinancièresÀDéposer/garantiesFinancièresÀDéposer.setup';
+} from './garantiesFinancières/garantiesFinancièresÀDéposer/garantiesFinancièresÀDéposer.setup';
 
 type CommonDependencies = {
   subscribe: Subscribe;
