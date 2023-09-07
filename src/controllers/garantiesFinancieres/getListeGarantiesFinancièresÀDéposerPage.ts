@@ -31,7 +31,7 @@ v1Router.get(
     const { page, pageSize: itemsPerPage } = getPagination(request);
 
     const résultat = await mediator.send<ListerGarantiesFinancièresÀDéposerQuery>({
-      type: 'LISTER_GARANTIES_FINANCIÈRES_À_DÉPOSER',
+      type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES_EN_ATTENTE',
       data: { région: userRégion.dreal, pagination: { page, itemsPerPage } },
     });
 

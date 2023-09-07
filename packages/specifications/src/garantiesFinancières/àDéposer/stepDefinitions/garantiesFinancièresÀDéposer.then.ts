@@ -5,8 +5,8 @@ import {
   loadGarantiesFinancièresAggregateFactory,
 } from '@potentiel/domain';
 import {
-  ConsulterGarantiesFinancièresÀDéposerQuery,
-  ListerGarantiesFinancièresÀDéposerQuery,
+  ConsulterSuiviDépôtGarantiesFinancièresQuery,
+  ListerDépôtsGarantiesFinancièresEnAttenteQuery,
 } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
@@ -55,15 +55,15 @@ Alors(
     // ASSERT ON READ MODEL
 
     const expectedReadModel = {
-      type: 'garanties-financières-à-déposer',
+      type: 'suivi-dépôt-garanties-financières',
       dateLimiteDépôt: convertirEnDateTime(dateLimiteDépôt).formatter(),
       région,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
       statutDépôt,
     };
 
-    const actualRealModel = await mediator.send<ConsulterGarantiesFinancièresÀDéposerQuery>({
-      type: 'CONSULTER_GARANTIES_FINANCIÈRES_À_DÉPOSER',
+    const actualRealModel = await mediator.send<ConsulterSuiviDépôtGarantiesFinancièresQuery>({
+      type: 'CONSULTER_SUIVI_DÉPÔT_GARANTIES_FINANCIÈRES',
       data: {
         identifiantProjet,
       },
@@ -78,7 +78,7 @@ Alors(
     if (statutDépôt === 'en attente') {
       // ASSERT ON LIST
       const expectedListeReadModel = {
-        type: 'liste-garanties-financières-à-déposer',
+        type: 'liste-suivi-dépôt-garanties-financières-en-attente',
         région,
         liste: [
           {
@@ -103,10 +103,11 @@ Alors(
         pagination: { currentPage: 1, pageCount: 1 },
       };
 
-      const actualListeReadModel = await mediator.send<ListerGarantiesFinancièresÀDéposerQuery>({
-        type: 'LISTER_GARANTIES_FINANCIÈRES_À_DÉPOSER',
-        data: { région, pagination: { page: 1, itemsPerPage: 10 } },
-      });
+      const actualListeReadModel =
+        await mediator.send<ListerDépôtsGarantiesFinancièresEnAttenteQuery>({
+          type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES_EN_ATTENTE',
+          data: { région, pagination: { page: 1, itemsPerPage: 10 } },
+        });
 
       expect(actualListeReadModel).to.deep.equal(expectedListeReadModel);
     }

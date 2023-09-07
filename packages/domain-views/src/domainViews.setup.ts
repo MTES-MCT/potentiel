@@ -18,7 +18,7 @@ import {
 import {
   GarantiesFinancièresÀDéposerDependencies,
   setupGarantiesFinancièresÀDéposerViews,
-} from './garantiesFinancières/garantiesFinancièresÀDéposer/garantiesFinancièresÀDéposer.setup';
+} from './garantiesFinancières/suiviDesDépôts/suiviDesDépôts.setup';
 
 type CommonDependencies = {
   subscribe: Subscribe;

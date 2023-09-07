@@ -4,4 +4,4 @@ export * from './projet/projet.query';
 export * from './raccordement/raccordement.query';
 export * from './garantiesFinancières/garantiesFinancièresActuelles/garantiesFinancières.query';
 export * from './garantiesFinancières/dépôtGarantiesFinancières/dépôtGarantiesFinancières.query';
-export * from './garantiesFinancières/garantiesFinancièresÀDéposer/garantiesFinancièresÀDéposer.query';
+export * from './garantiesFinancières/suiviDesDépôts/suiviDesDépôts.query';

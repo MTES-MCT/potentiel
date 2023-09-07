@@ -2,39 +2,41 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { isNone, isSome } from '@potentiel/monads';
 
 import {
-  GarantiesFinancièresÀDéposerEvent,
+  SuiviDépôtsGarantiesFinancièresEvent,
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 
 import { Create, Find, Update } from '@potentiel/core-domain-views';
 import {
-  GarantiesFinancièresÀDéposerReadModel,
-  GarantiesFinancièresÀDéposerReadModelKey,
-} from './garantiesFinancièresÀDéposer.readModel';
+  SuiviDépôtGarantiesFinancièresReadModel,
+  SuiviDépôtGarantiesFinancièresReadModelKey,
+} from './suiviDesDépôts.readModel';
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
 
-export type ExecuteGarantiesFinancièresÀDéposerProjector = Message<
-  'GARANTIES_FINANCIÈRES_À_DÉPOSER_PROJECTOR',
-  GarantiesFinancièresÀDéposerEvent
+export type ExecuteSuiviDépôtsGarantiesFinancièresProjector = Message<
+  'SUIVI_DÉPÔTS_GARANTIES_FINANCIÈRES_PROJECTOR',
+  SuiviDépôtsGarantiesFinancièresEvent
 >;
 
-export type GarantiesFinancièresÀDéposerProjectorDependencies = {
+export type SuiviDépôtsGarantiesFinancièresProjectorDependencies = {
   create: Create;
   find: Find;
   update: Update;
   récupérerDétailProjet: RécupérerDétailProjetPort;
 };
 
-export const registerGarantiesFinancièresÀDéposerProjector = ({
+export const registerSuiviDépôtsGarantiesFinancièresProjector = ({
   create,
   find,
   update,
   récupérerDétailProjet,
-}: GarantiesFinancièresÀDéposerProjectorDependencies) => {
-  const handler: MessageHandler<ExecuteGarantiesFinancièresÀDéposerProjector> = async (event) => {
-    const actualReadModelKey: GarantiesFinancièresÀDéposerReadModelKey = `garanties-financières-à-déposer|${event.payload.identifiantProjet}`;
-    const actualReadModel = await find<GarantiesFinancièresÀDéposerReadModel>(actualReadModelKey);
+}: SuiviDépôtsGarantiesFinancièresProjectorDependencies) => {
+  const handler: MessageHandler<ExecuteSuiviDépôtsGarantiesFinancièresProjector> = async (
+    event,
+  ) => {
+    const actualReadModelKey: SuiviDépôtGarantiesFinancièresReadModelKey = `suivi-dépôt-garanties-financières|${event.payload.identifiantProjet}`;
+    const actualReadModel = await find<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey);
 
     const getRégionsProjet = async (identifiantProjet: RawIdentifiantProjet) => {
       const projet = await récupérerDétailProjet(convertirEnIdentifiantProjet(identifiantProjet));
@@ -53,7 +55,7 @@ export const registerGarantiesFinancièresÀDéposerProjector = ({
           if (isSome(actualReadModel)) {
             // TODO : erreur à logguer
           }
-          return create<GarantiesFinancièresÀDéposerReadModel>(actualReadModelKey, {
+          return create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
             dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
             région,
             identifiantProjet: event.payload.identifiantProjet,
@@ -65,7 +67,7 @@ export const registerGarantiesFinancièresÀDéposerProjector = ({
           }
 
           if (isNone(actualReadModel)) {
-            await create<GarantiesFinancièresÀDéposerReadModel>(actualReadModelKey, {
+            await create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
               dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
               région,
               identifiantProjet: event.payload.identifiantProjet,
@@ -77,7 +79,7 @@ export const registerGarantiesFinancièresÀDéposerProjector = ({
         break;
       case 'GarantiesFinancièresDéposées-v1':
         if (isSome(actualReadModel)) {
-          await update<GarantiesFinancièresÀDéposerReadModel>(actualReadModelKey, {
+          await update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
             ...actualReadModel,
             statutDépôt: 'en cours',
           });
@@ -85,7 +87,7 @@ export const registerGarantiesFinancièresÀDéposerProjector = ({
         break;
       case 'DépôtGarantiesFinancièresSupprimé-v1':
         if (isSome(actualReadModel)) {
-          await update<GarantiesFinancièresÀDéposerReadModel>(actualReadModelKey, {
+          await update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
             ...actualReadModel,
             statutDépôt: 'en attente',
           });
@@ -93,7 +95,7 @@ export const registerGarantiesFinancièresÀDéposerProjector = ({
         break;
       case 'DépôtGarantiesFinancièresValidé-v1':
         if (isSome(actualReadModel)) {
-          await update<GarantiesFinancièresÀDéposerReadModel>(actualReadModelKey, {
+          await update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
             ...actualReadModel,
             statutDépôt: 'validé',
           });
@@ -102,5 +104,5 @@ export const registerGarantiesFinancièresÀDéposerProjector = ({
     }
   };
 
-  mediator.register('GARANTIES_FINANCIÈRES_À_DÉPOSER_PROJECTOR', handler);
+  mediator.register('SUIVI_DÉPÔTS_GARANTIES_FINANCIÈRES_PROJECTOR', handler);
 };

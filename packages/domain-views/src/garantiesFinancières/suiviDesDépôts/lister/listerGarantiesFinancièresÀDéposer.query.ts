@@ -4,16 +4,16 @@ import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { List } from '@potentiel/core-domain-views';
 import { RécupérerDétailProjetPort } from '../../../domainViews.port';
 import { ProjetReadModel } from '../../../domainViews.readModel';
-import { GarantiesFinancièresÀDéposerReadModel } from '../garantiesFinancièresÀDéposer.readModel';
+import { SuiviDépôtGarantiesFinancièresReadModel } from '../suiviDesDépôts.readModel';
 
-export type ListerGarantiesFinancièresÀDéposerQuery = Message<
-  'LISTER_GARANTIES_FINANCIÈRES_À_DÉPOSER',
+export type ListerDépôtsGarantiesFinancièresEnAttenteQuery = Message<
+  'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES_EN_ATTENTE',
   {
     région: string;
     pagination: { page: number; itemsPerPage: number };
   },
   {
-    type: 'liste-garanties-financières-à-déposer';
+    type: 'liste-suivi-dépôt-garanties-financières-en-attente';
     région: string;
     liste: {
       dateLimiteDépôt?: string;
@@ -23,25 +23,27 @@ export type ListerGarantiesFinancièresÀDéposerQuery = Message<
   }
 >;
 
-export type ListerGarantiesFinancièresÀDéposerDependencies = {
+export type ListerDépôtsGarantiesFinancièresEnAttenteDependencies = {
   list: List;
   récupérerDétailProjet: RécupérerDétailProjetPort;
 };
 
-export const registerListerGarantiesFinancièresÀDéposerQuery = ({
+export const registerListerDépôtsGarantiesFinancièresEnAttenteQuery = ({
   list,
   récupérerDétailProjet,
-}: ListerGarantiesFinancièresÀDéposerDependencies) => {
-  const queryHandler: MessageHandler<ListerGarantiesFinancièresÀDéposerQuery> = async ({
+}: ListerDépôtsGarantiesFinancièresEnAttenteDependencies) => {
+  const queryHandler: MessageHandler<ListerDépôtsGarantiesFinancièresEnAttenteQuery> = async ({
     région,
     pagination: { page, itemsPerPage },
   }) => {
-    const garantiesFinancièresÀDéposer = await list<GarantiesFinancièresÀDéposerReadModel>({
-      type: 'garanties-financières-à-déposer',
-      like: { région },
-      where: { statutDépôt: 'en attente' },
-      pagination: { page, itemsPerPage },
-    });
+    const dépôtsGarantiesFinancièresEnAttente = await list<SuiviDépôtGarantiesFinancièresReadModel>(
+      {
+        type: 'suivi-dépôt-garanties-financières',
+        like: { région },
+        where: { statutDépôt: 'en attente' },
+        pagination: { page, itemsPerPage },
+      },
+    );
 
     const liste: {
       dateLimiteDépôt?: string;
@@ -49,7 +51,7 @@ export const registerListerGarantiesFinancièresÀDéposerQuery = ({
     }[] = [];
 
     await Promise.all(
-      garantiesFinancièresÀDéposer.items.map(async (item) => {
+      dépôtsGarantiesFinancièresEnAttente.items.map(async (item) => {
         const projet = await récupérerDétailProjet(
           convertirEnIdentifiantProjet(item.identifiantProjet),
         );
@@ -63,17 +65,18 @@ export const registerListerGarantiesFinancièresÀDéposerQuery = ({
     );
 
     return {
-      type: 'liste-garanties-financières-à-déposer',
+      type: 'liste-suivi-dépôt-garanties-financières-en-attente',
       région,
       liste,
       pagination: {
-        currentPage: garantiesFinancièresÀDéposer.currentPage,
+        currentPage: dépôtsGarantiesFinancièresEnAttente.currentPage,
         pageCount: Math.ceil(
-          garantiesFinancièresÀDéposer.totalItems / garantiesFinancièresÀDéposer.itemsPerPage,
+          dépôtsGarantiesFinancièresEnAttente.totalItems /
+            dépôtsGarantiesFinancièresEnAttente.itemsPerPage,
         ),
       },
     };
   };
 
-  mediator.register('LISTER_GARANTIES_FINANCIÈRES_À_DÉPOSER', queryHandler);
+  mediator.register('LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES_EN_ATTENTE', queryHandler);
 };
