@@ -14,6 +14,10 @@ type ProjetFixture = {
   région?: string;
   département?: string;
   statut?: string;
+  porteursÀNotifier?: {
+    name: string;
+    email: string;
+  }[];
 };
 
 export class ProjetWorld {

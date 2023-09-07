@@ -191,9 +191,18 @@ EtantDonné(
 EtantDonné(
   `des porteurs associés au projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
-    const { id: projetId } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const {
+      id: projetId,
+      nom,
+      identifiantProjet,
+    } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-    for (const [name, email, role] of table.rows()[0]) {
+    const porteursÀNotifier: {
+      name: string;
+      email: string;
+    }[] = [];
+
+    for (const [name, email] of table.rows()) {
       const porteurId = randomUUID();
       await executeQuery(
         `
@@ -213,7 +222,7 @@ EtantDonné(
         porteurId,
         name,
         email,
-        role,
+        'porteur-projet',
       );
 
       await executeQuery(
@@ -230,6 +239,18 @@ EtantDonné(
         porteurId,
         projetId,
       );
+
+      porteursÀNotifier.push({
+        name,
+        email,
+      });
     }
+
+    this.projetWorld.projetFixtures.set(nomProjet, {
+      id: projetId,
+      nom,
+      identifiantProjet,
+      porteursÀNotifier,
+    });
   },
 );
