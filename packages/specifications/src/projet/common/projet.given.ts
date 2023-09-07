@@ -1,4 +1,4 @@
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { none } from '@potentiel/monads';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { randomUUID } from 'crypto';
@@ -185,5 +185,51 @@ EtantDonné(
       période: '1',
       région: régionProjet,
     });
+  },
+);
+
+EtantDonné(
+  `des porteurs associés au projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    const { id: projetId } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+    for (const [name, email, role] of table.rows()[0]) {
+      const porteurId = randomUUID();
+      await executeQuery(
+        `
+      insert into "users" (
+        "id",
+        "fullName",
+        "email",
+        "role"
+      )
+      values (
+        $1,
+        $2,
+        $3,
+        $4
+      )
+    `,
+        porteurId,
+        name,
+        email,
+        role,
+      );
+
+      await executeQuery(
+        `
+      insert into "UserProjects" (
+        "userId",
+        "projectId"
+      )
+      values (
+        $1,
+        $2
+      )
+    `,
+        porteurId,
+        projetId,
+      );
+    }
   },
 );

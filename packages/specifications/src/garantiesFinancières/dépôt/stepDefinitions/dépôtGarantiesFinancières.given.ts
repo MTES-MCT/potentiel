@@ -16,54 +16,6 @@ import { publish } from '@potentiel/pg-event-sourcing';
 import { extension } from 'mime-types';
 import { join } from 'path';
 import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
-import { randomUUID } from 'crypto';
-import { executeQuery } from '@potentiel/pg-helpers';
-
-EtantDonné(
-  `des porteurs associés au projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
-    const { id: projetId } = this.projetWorld.rechercherProjetFixture(nomProjet);
-
-    for (const [name, email, role] of table.rows()[0]) {
-      const porteurId = randomUUID();
-      await executeQuery(
-        `
-      insert into "users" (
-        "id",
-        "fullName",
-        "email",
-        "role"
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4
-      )
-    `,
-        porteurId,
-        name,
-        email,
-        role,
-      );
-
-      await executeQuery(
-        `
-      insert into "UserProjects" (
-        "userId",
-        "projectId"
-      )
-      values (
-        $1,
-        $2
-      )
-    `,
-        porteurId,
-        projetId,
-      );
-    }
-  },
-);
 
 EtantDonné(
   `un dépôt de garanties financières pour le projet {string} avec :`,
