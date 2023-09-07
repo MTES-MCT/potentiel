@@ -19,7 +19,7 @@ import { DépôtGarantiesFinancièresReadModel, ProjetReadModel } from '@potenti
 import routes from '../../../../routes';
 import { afficherDate, hydrateOnClient } from '../../../helpers';
 
-type ListeDépôtsGarantiesFinancièresProps = {
+type ListeDépôtsGarantiesFinancièresÀValiderProps = {
   user: UtilisateurReadModel;
   listeDépôtsGarantiesFinancières?: ReadonlyArray<{
     dépôt: DépôtGarantiesFinancièresReadModel;
@@ -28,14 +28,14 @@ type ListeDépôtsGarantiesFinancièresProps = {
   pagination: { currentPage: number; pageCount: number; currentUrl: string };
 };
 
-export const ListeDépôtsGarantiesFinancières = ({
+export const ListeDépôtsGarantiesFinancièresÀValider = ({
   user,
   listeDépôtsGarantiesFinancières,
   pagination: { currentPage, pageCount, currentUrl },
-}: ListeDépôtsGarantiesFinancièresProps) => {
+}: ListeDépôtsGarantiesFinancièresÀValiderProps) => {
   return (
     <PageTemplate
-      currentPage="liste-dépôts-garanties-financières"
+      currentPage="liste-depots-garanties-financieres-a-valider"
       user={user}
       contentHeader={<Heading1 className="text-white">Garanties financières</Heading1>}
     >
@@ -132,4 +132,4 @@ export const ListeDépôtsGarantiesFinancières = ({
   );
 };
 
-hydrateOnClient(ListeDépôtsGarantiesFinancières);
+hydrateOnClient(ListeDépôtsGarantiesFinancièresÀValider);

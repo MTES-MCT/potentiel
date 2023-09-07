@@ -6,15 +6,15 @@ import {
   notFoundResponse,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import { ListeGarantiesFinancièresÀDéposerPage } from '../../views';
+import { ListerDépôtsGarantiesFinancièresQuery } from '@potentiel/domain-views';
+import { ListerDépôtsGarantiesFinancièresÀValiderPage } from '../../views';
+import { mediator } from 'mediateur';
 import { PermissionConsulterListeDépôts } from '@potentiel/domain';
 import asyncHandler from '../helpers/asyncHandler';
 import { UserDreal } from '../../infra/sequelize/projectionsNext';
-import { ListerGarantiesFinancièresÀDéposerQuery } from '@potentiel/domain-views';
-import { mediator } from 'mediateur';
 
 v1Router.get(
-  routes.GET_LISTE_GARANTIES_FINANCIERES_A_DEPOSER_PAGE(),
+  routes.GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE(),
   vérifierPermissionUtilisateur(PermissionConsulterListeDépôts),
   asyncHandler(async (request, response) => {
     const { user } = request;
@@ -30,15 +30,18 @@ v1Router.get(
     }
     const { page, pageSize: itemsPerPage } = getPagination(request);
 
-    const résultat = await mediator.send<ListerGarantiesFinancièresÀDéposerQuery>({
-      type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES_EN_ATTENTE',
-      data: { région: userRégion.dreal, pagination: { page, itemsPerPage } },
+    const résultat = await mediator.send<ListerDépôtsGarantiesFinancièresQuery>({
+      type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
+      data: {
+        région: userRégion.dreal,
+        pagination: { page, itemsPerPage },
+      },
     });
 
     return response.send(
-      ListeGarantiesFinancièresÀDéposerPage({
+      ListerDépôtsGarantiesFinancièresÀValiderPage({
         user,
-        projets: résultat.liste,
+        listeDépôtsGarantiesFinancières: résultat.liste,
         pagination: { ...résultat.pagination, currentUrl: getCurrentUrl(request) },
       }),
     );

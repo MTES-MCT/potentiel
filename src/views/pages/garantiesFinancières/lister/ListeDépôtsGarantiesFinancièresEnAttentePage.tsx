@@ -18,7 +18,7 @@ import { ProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { afficherDate, hydrateOnClient } from '../../../helpers';
 
-type ListeGarantiesFinancièresÀDéposerProps = {
+type ListeDépôtsGarantiesFinancièresEnAttenteProps = {
   user: UtilisateurReadModel;
   projets?: ReadonlyArray<{
     dateLimiteDeDépôt?: string;
@@ -27,21 +27,21 @@ type ListeGarantiesFinancièresÀDéposerProps = {
   pagination: { currentPage: number; pageCount: number; currentUrl: string };
 };
 
-export const ListeGarantiesFinancièresÀDéposer = ({
+export const ListeDépôtsGarantiesFinancièresEnAttente = ({
   user,
   projets,
   pagination: { currentPage, pageCount, currentUrl },
-}: ListeGarantiesFinancièresÀDéposerProps) => {
+}: ListeDépôtsGarantiesFinancièresEnAttenteProps) => {
   const isLate = (dateLimiteDeDépôt?: string) =>
     dateLimiteDeDépôt && new Date(dateLimiteDeDépôt).getTime() < new Date().getTime();
 
   return (
     <PageTemplate
-      currentPage="liste-garanties-financieres-a-deposer"
+      currentPage="liste-depots-garanties-financieres-en-attente"
       user={user}
       contentHeader={<Heading1 className="text-white">Garanties financières</Heading1>}
     >
-      <Heading2>Garanties financières à déposer par le porteur</Heading2>
+      <Heading2>Projets en attente de dépôt de garanties financières</Heading2>
       {!projets || !projets.length ? (
         <ListeVide titre="Aucun projet à afficher" />
       ) : (
@@ -131,4 +131,4 @@ export const ListeGarantiesFinancièresÀDéposer = ({
   );
 };
 
-hydrateOnClient(ListeGarantiesFinancièresÀDéposer);
+hydrateOnClient(ListeDépôtsGarantiesFinancièresEnAttente);

@@ -231,17 +231,17 @@ const MenuDreal = (currentPage?: string) => (
     <DropdownMenu buttonChildren={'Garanties financières'}>
       <DropdownMenu.DropdownItem
         href={routes.GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE()}
-        {...(currentPage === 'liste-dépôts-garanties-financières' && { isCurrent: true })}
+        {...(currentPage === 'liste-depots-garanties-financieres-a-valider' && { isCurrent: true })}
       >
-        Dépôts garanties financières à valider
+        Dépôts de garanties financières à valider
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.GET_LISTE_GARANTIES_FINANCIERES_A_DEPOSER_PAGE()}
-        {...(currentPage === 'liste-garanties-financieres-a-deposer' && {
+        {...(currentPage === 'liste-depots-garanties-financieres-en-attente' && {
           isCurrent: true,
         })}
       >
-        Garanties financières à déposer
+        Dépôts de garanties financières en attente
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
