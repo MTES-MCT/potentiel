@@ -2,6 +2,7 @@ import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/doma
 import { none } from '@potentiel/monads';
 
 type ProjetFixture = {
+  id: string;
   nom: string;
   identifiantProjet: IdentifiantProjet;
   legacyId?: string;
