@@ -10,7 +10,7 @@ import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
 } from '../garantiesFinancières.readModel';
-import { Find } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain-views';
 
 export type ConsulterGarantiesFinancièresReadModel = GarantiesFinancièresReadModel;
 
