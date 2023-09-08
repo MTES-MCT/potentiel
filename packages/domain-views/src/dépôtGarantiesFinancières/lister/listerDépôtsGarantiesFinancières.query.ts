@@ -4,7 +4,7 @@ import { DépôtGarantiesFinancièresReadModel } from '../dépôtGarantiesFinanc
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { ProjetReadModel } from '../../domainViews.readModel';
-import { List } from '@potentiel/core-domain';
+import { List } from '@potentiel/core-domain-views';
 
 export type ListerDépôtsGarantiesFinancièresQuery = Message<
   'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',

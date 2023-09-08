@@ -5,7 +5,7 @@ import {
   GarantiesFinancièresReadModelKey,
 } from './garantiesFinancières.readModel';
 import { EnregistrementGarantiesFinancièresEvent } from '@potentiel/domain';
-import { Create, Find, Update } from '@potentiel/core-domain';
+import { Create, Find, Update } from '@potentiel/core-domain-views';
 
 export type ExecuteGarantiesFinancièresProjector = Message<
   'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',

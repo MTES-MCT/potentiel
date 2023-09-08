@@ -13,7 +13,7 @@ import {
   GarantiesFinancièresReadModel,
   GarantiesFinancièresReadModelKey,
 } from '../domainViews.readModel';
-import { Create, Update, Find, Remove } from '@potentiel/core-domain';
+import { Create, Update, Find, Remove } from '@potentiel/core-domain-views';
 import { RécupérerDétailProjetPort } from '../domainViews.port';
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
