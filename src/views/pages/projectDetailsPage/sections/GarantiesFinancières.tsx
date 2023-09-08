@@ -38,11 +38,17 @@ export const GarantiesFinancières = ({
   garantiesFinancières,
   identifiantProjet,
   userRole,
+  statutProjet,
 }: {
   garantiesFinancières?: GarantiesFinancièresDataForProjetPage;
   identifiantProjet: RawIdentifiantProjet;
   userRole: UserRole;
+  statutProjet: 'classé' | 'abandonné' | 'éliminé';
 }) => {
+  if (statutProjet !== 'classé' && !garantiesFinancières?.actuelles) {
+    return <></>;
+  }
+
   return (
     <div className="mb-6">
       <Heading3 className="m-0 flex text-sm font-semibold tracking-wide uppercase">
