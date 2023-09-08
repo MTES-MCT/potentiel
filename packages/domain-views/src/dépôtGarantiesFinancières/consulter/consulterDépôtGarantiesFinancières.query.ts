@@ -10,7 +10,7 @@ import {
   DépôtGarantiesFinancièresReadModel,
   DépôtGarantiesFinancièresReadModelKey,
 } from '../dépôtGarantiesFinancières.readModel';
-import { Find } from '@potentiel/core-domain';
+import { Find } from '@potentiel/core-domain-views';
 
 export type ConsulterDépôtGarantiesFinancièresQuery = Message<
   'CONSULTER_DÉPÔT_GARANTIES_FINANCIÈRES',
