@@ -18,6 +18,8 @@ import {
   createGarantiesFinancièresAggregateId,
   loadGarantiesFinancièresAggregateFactory,
 } from '../garantiesFinancières.aggregate';
+import { EnregistrementGarantiesFinancièresImpossibleCarDépôtAttenduErreur } from '../garantiesFinancières.error';
+import { isSome } from '@potentiel/monads';
 
 export type EnregistrerGarantiesFinancièresComplètesCommand = Message<
   'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
@@ -50,6 +52,14 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
     utilisateur,
   }) => {
     const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
+
+    if (
+      utilisateur.rôle === 'porteur-projet' &&
+      isSome(agrégatGarantiesFinancières) &&
+      agrégatGarantiesFinancières.dateLimiteDépôt
+    ) {
+      throw new EnregistrementGarantiesFinancièresImpossibleCarDépôtAttenduErreur();
+    }
 
     verifyGarantiesFinancièresTypeForCommand(
       typeGarantiesFinancières,

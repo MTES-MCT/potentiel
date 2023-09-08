@@ -72,6 +72,7 @@ export const InfoGenerales = ({ project, role, garantiesFinancières }: InfoGene
       ) && (
         <GarantiesFinancières
           userRole={role}
+          statutProjet={project.isAbandoned ? 'abandonné' : project.isClasse ? 'classé' : 'éliminé'}
           garantiesFinancières={garantiesFinancières}
           identifiantProjet={convertirEnIdentifiantProjet({
             appelOffre: project.appelOffreId,
