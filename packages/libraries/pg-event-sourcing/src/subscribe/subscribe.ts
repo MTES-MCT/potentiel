@@ -19,7 +19,7 @@ export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
 
   await registerSubscriber(subscriber);
 
-  const eventStreamEmitter = new EventStreamEmitter(subscriber.name);
+  const eventStreamEmitter = new EventStreamEmitter(subscriber.streamCategory, subscriber.name);
   eventStreamEmitter.setMaxListeners(50);
   await eventStreamEmitter.connect();
   await eventStreamEmitter.listen(subscriber);

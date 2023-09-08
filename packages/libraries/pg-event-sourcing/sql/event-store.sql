@@ -41,7 +41,7 @@ begin
   select into v_subscriber
     subscriber_id
   from event_store.subscriber
-  where filter is null or v_type in (select jsonb_array_elements_text(filter))
+  where (filter is null or v_type in (select jsonb_array_elements_text(filter))) and split_part(subscriber_id, '|', 1) = split_part(new.stream_id, '|', 1)
   limit 1;
 
   if v_subscriber is null then
@@ -51,7 +51,7 @@ begin
     for v_subscriber in
       select subscriber_id
       from event_store.subscriber
-      where filter is null or v_type in (select jsonb_array_elements_text(filter))
+      where (filter is null or v_type in (select jsonb_array_elements_text(filter))) and split_part(subscriber_id, '|', 1) = split_part(new.stream_id, '|', 1)
     loop
       begin
         insert into event_store.pending_acknowledgement
@@ -69,6 +69,7 @@ begin
   return new;
 end;
 $$ language plpgsql;
+
 
 -- créer le déclencheur sur la table event_store.event_stream
 create trigger notify_subscribers_trigger
@@ -123,12 +124,12 @@ $$
                 order by version desc
                 limit 1
             ),
-            '{}'
+            json_build_object('category', p_category, 'id', p_id)
         );
     else
       insert into event_store.event_stream
-      select p_category || '|' || si.id, left(trim(both '"' from to_json(now())::text), 23) || 'Z', 'RebuildTriggered', coalesce(max(es.version), 0) + 1, '{}'
-      from system_projections.stream_info si
+      select p_category || '|' || si.id, left(trim(both '"' from to_json(now())::text), 23) || 'Z', 'RebuildTriggered', coalesce(max(es.version), 0) + 1, json_build_object('category', p_category, 'id', si.id)
+      from system_views.stream_info si
       left join event_store.event_stream es on (p_category || '|' || si.id) = es.stream_id
       where si.category = p_category
       group by si.id;

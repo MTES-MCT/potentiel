@@ -9,5 +9,5 @@ const selectEventsWithPendingAcknowledgement = `
                                                     and pa.version = es.version 
    where pa.subscriber_id = $1`;
 
-export const getEventsWithPendingAcknowledgement = async (subscribeName: string) =>
-  executeSelect<Event>(selectEventsWithPendingAcknowledgement, subscribeName);
+export const getEventsWithPendingAcknowledgement = async (subscribeId: string) =>
+  executeSelect<Event>(selectEventsWithPendingAcknowledgement, subscribeId);

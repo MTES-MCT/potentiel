@@ -1,69 +1,77 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { executeQuery } from '@potentiel/pg-helpers';
 import { loadFromStream } from './loadFromStream';
+import { Event } from '../event';
+import { insertEventsInDatabase } from '../fixtures/insertEventsInDatabase';
+import { deleteAllEvents } from '../fixtures/deleteAllEvents';
 
 describe(`loadFromStream`, () => {
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
-  beforeEach(() => executeQuery(`delete from event_store.event_stream`));
+  beforeEach(() => deleteAllEvents());
 
   it(`Étant donné des événements dans un stream,
       Lorsqu'on charge un stream
       Alors les événements devrait être récupérer dans l'ordre createdAt + version`, async () => {
     const streamId = 'string#string';
-    const createdAt = new Date().toISOString();
 
-    await executeQuery(
-      `
-      insert
-      into event_store.event_stream
-      values (
-          $1, 
-          $2, 
-          $3, 
-          $4,
-          $5
-          )`,
-      streamId,
-      createdAt,
-      'event-2',
-      2,
-      { test2: '2' },
-    );
+    const event1: Event = {
+      stream_id: streamId,
+      created_at: new Date().toISOString(),
+      type: 'event-1',
+      version: 1,
+      payload: { test1: '1' },
+    };
 
-    await executeQuery(
-      `
-      insert 
-      into event_store.event_stream 
-      values (
-          $1, 
-          $2, 
-          $3, 
-          $4,
-          $5
-          )`,
-      streamId,
-      createdAt,
-      'event-1',
-      1,
-      { test1: '1' },
-    );
+    const event2: Event = {
+      stream_id: streamId,
+      created_at: new Date().toISOString(),
+      type: 'event-2',
+      version: 2,
+      payload: { test2: '2' },
+    };
 
-    const actuals = await loadFromStream(streamId);
+    await insertEventsInDatabase(event1, event2);
 
-    expect(actuals).toEqual([
-      {
-        type: 'event-1',
-        version: 1,
-        payload: { test1: '1' },
-      },
-      {
-        type: 'event-2',
-        version: 2,
-        payload: { test2: '2' },
-      },
-    ]);
+    const actuals = await loadFromStream({ streamId });
+
+    expect(actuals).toEqual([event1, event2]);
+  });
+
+  it(`Étant donné des événements dans un stream,
+      Lorsqu'on charge un stream avec des types d'événement spécifique
+      Alors les événements devrait être récupérer dans l'ordre createdAt + version`, async () => {
+    const streamId = 'string#string';
+
+    const event1: Event = {
+      stream_id: streamId,
+      created_at: new Date().toISOString(),
+      type: 'event-1',
+      version: 1,
+      payload: { test1: '1' },
+    };
+
+    const event2: Event = {
+      stream_id: streamId,
+      created_at: new Date().toISOString(),
+      type: 'event-2',
+      version: 2,
+      payload: { test2: '2' },
+    };
+
+    const event3: Event = {
+      stream_id: streamId,
+      created_at: new Date().toISOString(),
+      type: 'event-1',
+      version: 3,
+      payload: { test1: '3' },
+    };
+
+    await insertEventsInDatabase(event1, event2, event3);
+
+    const actuals = await loadFromStream({ streamId, eventTypes: ['event-1'] });
+
+    expect(actuals).toEqual([event1, event3]);
   });
 });

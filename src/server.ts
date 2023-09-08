@@ -27,7 +27,7 @@ export async function makeServer(port: number, sessionSecret: string) {
     // TODO : Subscribe à supprimer et saga à reimplémenter côté nouveau socle
     // lorsque la notion de projet sera dispo en tant qu'aggregate dans le package domain
     await subscribe({
-      name: 'raccordement_application_delais_dix_huit_mois_saga',
+      name: 'saga_application_delais_dix_huit_mois',
       eventType: ['DateMiseEnServiceTransmise'],
       eventHandler: (event) => {
         return new Promise<void>((resolve) => {
@@ -47,6 +47,7 @@ export async function makeServer(port: number, sessionSecret: string) {
           resolve();
         });
       },
+      streamCategory: 'raccordement',
     });
 
     const app = express();

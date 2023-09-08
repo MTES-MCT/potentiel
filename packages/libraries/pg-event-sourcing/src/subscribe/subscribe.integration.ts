@@ -17,7 +17,7 @@ import waitForExpect from 'wait-for-expect';
 
 describe(`subscribe`, () => {
   const eventType = 'event-1';
-  const streamId = 'string#string';
+  const streamId = 'category#id';
   const version = 1;
 
   let unsubscribes: Array<Unsubscribe> = [];
@@ -53,7 +53,9 @@ describe(`subscribe`, () => {
       name: 'event_handler',
       eventType,
       eventHandler,
+      streamCategory: 'category',
     });
+
     unsubscribes.push(unsubscribe);
 
     const actual = await executeSelect<Subscriber>(
@@ -83,6 +85,7 @@ describe(`subscribe`, () => {
       name: 'event_handler',
       eventType: 'all',
       eventHandler,
+      streamCategory: 'category',
     });
     unsubscribes.push(unsubscribe);
 
@@ -114,6 +117,7 @@ describe(`subscribe`, () => {
       name: 'eventHandler',
       eventType,
       eventHandler,
+      streamCategory: 'category',
     });
 
     await expect(promise).rejects.toBeInstanceOf(WrongSubscriberNameError);
@@ -138,6 +142,7 @@ describe(`subscribe`, () => {
       name: 'event_handler',
       eventType,
       eventHandler: eventHandler1,
+      streamCategory: 'category',
     });
     unsubscribes.push(unsubscribe1);
 
@@ -145,6 +150,7 @@ describe(`subscribe`, () => {
       name: 'other_event_handler',
       eventType,
       eventHandler: eventHandler2,
+      streamCategory: 'category',
     });
     unsubscribes.push(unsubscribe2);
 
@@ -198,6 +204,7 @@ describe(`subscribe`, () => {
       name: 'event_handler',
       eventType,
       eventHandler: () => Promise.resolve(),
+      streamCategory: 'category',
     });
     unsubscribes.push(unsubscribe);
 
@@ -262,6 +269,7 @@ describe(`subscribe`, () => {
       name: 'event_handler',
       eventType,
       eventHandler,
+      streamCategory: 'category',
     });
     unsubscribes.push(unsubscribe);
 

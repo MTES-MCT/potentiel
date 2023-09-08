@@ -10,6 +10,7 @@ import {
   ExecuteProjetProjector,
   ProjetProjectorDependencies,
 } from './project.projector';
+import { RebuildTriggered } from '@potentiel/core-domain-views';
 
 // Setup
 export type ProjetDependencies = { subscribe: Subscribe } & ConsulterProjetDependencies &
@@ -25,15 +26,20 @@ export const setupProjetViews = async (dependencies: ProjetDependencies) => {
   // Subscribes
   const { subscribe } = dependencies;
   return [
-    await subscribe<ProjetEvent>({
-      name: 'projet_projector',
-      eventType: ['GestionnaireRéseauProjetDéclaré', 'GestionnaireRéseauProjetModifié'],
-      eventHandler: async (event: ProjetEvent) => {
+    await subscribe({
+      name: 'projector',
+      eventType: [
+        'GestionnaireRéseauProjetDéclaré',
+        'GestionnaireRéseauProjetModifié',
+        'RebuildTriggered',
+      ],
+      eventHandler: async (event: ProjetEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteProjetProjector>({
           type: 'EXECUTE_PROJET_PROJECTOR',
           data: event,
         });
       },
+      streamCategory: 'projet',
     }),
   ];
 };

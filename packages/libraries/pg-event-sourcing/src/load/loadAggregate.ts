@@ -9,7 +9,9 @@ export const loadAggregate: LoadAggregate = async <
   aggregateId: AggregateId,
   aggregateFactory: AggregateFactory<TAggregate, TDomainEvent>,
 ) => {
-  const events = await loadFromStream(aggregateId);
+  const events = await loadFromStream({
+    streamId: aggregateId,
+  });
 
   if (!events.length) {
     return none;
