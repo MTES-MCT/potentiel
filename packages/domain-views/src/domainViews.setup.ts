@@ -10,11 +10,15 @@ import { AppelOffreDependencies, setupAppelOffreViews } from './appelOffre/appel
 import {
   GarantiesFinancièresDependencies,
   setupGarantiesFinancièreViews,
-} from './garantiesFinancièresActuelles/garantiesFinancières.setup';
+} from './garantiesFinancières/garantiesFinancièresActuelles/garantiesFinancières.setup';
 import {
   DépôtGarantiesFinancièresDependencies,
   setupDépôtGarantiesFinancièreViews,
-} from './dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
+} from './garantiesFinancières/dépôtGarantiesFinancières/dépôtGarantiesFinancières.setup';
+import {
+  SuiviDépôtsGarantiesFinancièresDependencies,
+  setupSuiviDépôtsGarantiesFinancièresViews,
+} from './garantiesFinancières/suiviDesDépôts/suiviDesDépôts.setup';
 
 type CommonDependencies = {
   subscribe: Subscribe;
@@ -33,6 +37,10 @@ type DomainViewsDependencies = {
   raccordement: Omit<RaccordementDependencies, keyof CommonDependencies>;
   garantiesFinancières: Omit<GarantiesFinancièresDependencies, keyof CommonDependencies>;
   dépôtGarantiesFinancières: Omit<DépôtGarantiesFinancièresDependencies, keyof CommonDependencies>;
+  suiviDépôtsGarantiesFinancières: Omit<
+    SuiviDépôtsGarantiesFinancièresDependencies,
+    keyof CommonDependencies
+  >;
 };
 
 export type UnsetupDomainViews = () => Promise<void>;
@@ -43,6 +51,7 @@ export const setupDomainViews = async ({
   raccordement,
   garantiesFinancières,
   dépôtGarantiesFinancières,
+  suiviDépôtsGarantiesFinancières,
 }: DomainViewsDependencies): Promise<UnsetupDomainViews> => {
   const unsubscribeGestionnaireRéseauViews = await setupGestionnaireRéseauViews(common);
   const unsubscribeProjetViews = await setupProjetViews({
@@ -62,6 +71,11 @@ export const setupDomainViews = async ({
     ...common,
     ...dépôtGarantiesFinancières,
   });
+  const unsubscribeSuiviDépôtsGarantiesFinancièresViews =
+    await setupSuiviDépôtsGarantiesFinancièresViews({
+      ...common,
+      ...suiviDépôtsGarantiesFinancières,
+    });
 
   return async () => {
     const unsubscribes = [
@@ -71,6 +85,7 @@ export const setupDomainViews = async ({
       ...unsubscribeAppelOffreViews,
       ...unsubscribeGarantiesFinancièresViews,
       ...unsubscribeDépôtGarantiesFinancièresViews,
+      ...unsubscribeSuiviDépôtsGarantiesFinancièresViews,
     ];
 
     for (const unsubscribe of unsubscribes) {

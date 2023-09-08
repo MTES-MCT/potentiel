@@ -12,7 +12,7 @@ import {
   GarantiesFinancièresReadModelKey,
 } from '../garantiesFinancières.readModel';
 import { Find } from '@potentiel/core-domain-views';
-import { TéléchargerFichierPort } from '../../common.port';
+import { TéléchargerFichierPort } from '../../../common.port';
 
 export type ConsulterFichierAttestationGarantiesFinancièreQuery = Message<
   'CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES',

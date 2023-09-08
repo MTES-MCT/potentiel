@@ -28,6 +28,7 @@ Alors(
     const dateDépôt = exemple['date de dépôt'];
     const dateDernièreModification = exemple['date dernière modification'];
     const région = exemple['région'];
+    const dateLimiteDépôt = exemple['date limite de dépôt'];
 
     const {
       identifiantProjet,

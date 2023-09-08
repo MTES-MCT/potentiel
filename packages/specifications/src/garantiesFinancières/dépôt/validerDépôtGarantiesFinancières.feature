@@ -1,10 +1,12 @@
 #Language: fr-FR
 Fonctionnalité: Valider un dépôt de garanties financières
     Contexte: 
-        Etant donné le projet "Centrale éolienne 20"
-
+        Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
+    
     Scénario: Valider un dépôt de garanties financières initiales 
-        Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+        Etant donné des garanties financières à déposer pour le projet "Centrale éolienne 20" avec :
+            | date limite de dépôt | 2023-11-01            |
+        Et un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | consignation          |
             | format               | application/pdf       |
             | contenu fichier      | nouveau contenu       |
@@ -19,7 +21,10 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et le fichier de l'attestation de garanties financières devrait être téléchargeable pour le projet "Centrale éolienne 20" avec :
             | format               | application/pdf       |
             | contenu fichier      | nouveau contenu       |
-        Et le dépôt de garanties financières devrait être supprimé pour le projet "Centrale éolienne 20"    
+        Et le dépôt de garanties financières devrait être supprimé pour le projet "Centrale éolienne 20"  
+        Et il devrait y avoir un dépôt de garanties financières "validé" pour le projet "Centrale éolienne 20" avec :
+            | date limite de dépôt | 2023-11-01            |
+            | région               | Nouvelle-Aquitaine    |  
 
     Scénario: Valider un dépôt pour un renouvellement de garanties financières
         Etant donné des garanties financières complètes pour le projet "Centrale éolienne 20" avec :
