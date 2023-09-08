@@ -31,6 +31,9 @@ import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { userIs } from '../../modules/users';
+import {
+  ConsulterSuiviDépôtGarantiesFinancièresQuery,
+} from 'packages/domain-views/dist/garantiesFinancières/suiviDesDépôts/consulter/consulterSuiviDépôtGarantiesFinancières.query';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -112,12 +115,6 @@ v1Router.get(
             identifiantProjet: identifiantFonctionnelProjet,
             user,
             statutProjet: projet.isAbandoned ? 'abandonné' : projet.isClasse ? 'classé' : 'éliminé',
-            garantiesFinancièresSoumisesÀLaCandidature:
-              projet.appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature'
-                ? true
-                : projet.appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature'
-                ? true
-                : false,
           })
         : undefined;
 
@@ -238,12 +235,10 @@ type GarantiesFinancièresDataForProjetPage = {
 
 const getGarantiesFinancièresDataForProjetPage = async ({
   identifiantProjet,
-  garantiesFinancièresSoumisesÀLaCandidature,
   user,
   statutProjet,
 }: {
   identifiantProjet: IdentifiantProjet;
-  garantiesFinancièresSoumisesÀLaCandidature: boolean;
   user: UtilisateurReadModel;
   statutProjet: 'abandonné' | 'classé' | 'éliminé';
 }): Promise<GarantiesFinancièresDataForProjetPage | undefined> => {
@@ -269,42 +264,41 @@ const getGarantiesFinancièresDataForProjetPage = async ({
     },
   );
 
-  // TO DO : retirer les cas de changement de producteur et GF échue
-  if (garantiesFinancièresSoumisesÀLaCandidature && statutProjet === 'classé') {
-    if (isNone(garantiesFinancièresActuelles)) {
-      actionRequise = 'enregistrer';
-    } else {
-      if (
-        !garantiesFinancièresActuelles.typeGarantiesFinancières ||
-        !garantiesFinancièresActuelles.attestationConstitution ||
-        (garantiesFinancièresActuelles.typeGarantiesFinancières === "avec date d'échéance" &&
-          !garantiesFinancièresActuelles.dateÉchéance)
-      ) {
-        actionRequise = 'compléter enregistrement';
-      }
-    }
+  const suiviDépôtsGarantiesFinancières =
+    await mediator.send<ConsulterSuiviDépôtGarantiesFinancièresQuery>({
+      type: 'CONSULTER_SUIVI_DÉPÔT_GARANTIES_FINANCIÈRES',
+      data: { identifiantProjet },
+    });
+
+  if (statutProjet !== 'classé') {
+    return {
+      ...(isSome(garantiesFinancièresActuelles) && { actuelles: garantiesFinancièresActuelles }),
+    };
   }
 
-  // TO DO : ajouter les cas de changement de producteur et GF échue
   if (
-    !garantiesFinancièresSoumisesÀLaCandidature &&
-    isNone(garantiesFinancièresActuelles) &&
-    statutProjet === 'classé'
+    isSome(garantiesFinancièresDéposées) &&
+    (!garantiesFinancièresDéposées.typeGarantiesFinancières ||
+      !garantiesFinancièresDéposées.attestationConstitution ||
+      (garantiesFinancièresDéposées.typeGarantiesFinancières === "avec date d'échéance" &&
+        !garantiesFinancièresDéposées.dateÉchéance))
   ) {
-    if (isNone(garantiesFinancièresDéposées)) {
-      // TODO : à terme il faudra se bases sur la projection suiviDépôtsGarantiesFinancières pour vérifier si dépôt en attente pour le projet
-      // à la place actuellement on se base sur l'AO seulement
-      actionRequise = 'déposer';
-    } else {
-      if (
-        !garantiesFinancièresDéposées.typeGarantiesFinancières ||
-        !garantiesFinancièresDéposées.attestationConstitution ||
-        (garantiesFinancièresDéposées.typeGarantiesFinancières === "avec date d'échéance" &&
-          !garantiesFinancièresDéposées.dateÉchéance)
-      ) {
-        actionRequise = 'compléter dépôt';
-      }
-    }
+    actionRequise = 'compléter dépôt';
+  } else if (
+    isSome(suiviDépôtsGarantiesFinancières) &&
+    suiviDépôtsGarantiesFinancières.statutDépôt === 'en attente'
+  ) {
+    actionRequise = 'déposer';
+  } else if (
+    isSome(garantiesFinancièresActuelles) &&
+    (!garantiesFinancièresActuelles.typeGarantiesFinancières ||
+      !garantiesFinancièresActuelles.attestationConstitution ||
+      (garantiesFinancièresActuelles.typeGarantiesFinancières === "avec date d'échéance" &&
+        !garantiesFinancièresActuelles.dateÉchéance))
+  ) {
+    actionRequise = 'compléter enregistrement';
+  } else if (isNone(garantiesFinancièresActuelles)) {
+    actionRequise = 'enregistrer';
   }
 
   return {
