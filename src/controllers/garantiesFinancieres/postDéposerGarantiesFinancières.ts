@@ -101,7 +101,7 @@ v1Router.post(
             : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
-        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId'],
+        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId', 'classe', 'abandonedOn'],
       });
 
       if (!projet) {
@@ -112,6 +112,14 @@ v1Router.post(
         });
       }
 
+      if (projet.abandonedOn > 0 || projet.classe === 'Eliminé') {
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error: `Vous ne pouvez pas déposer de garanties financières car le projet n'est pas "classé"`,
+          }),
+        );
+      }
+
       const appelOffre = getProjectAppelOffre({
         appelOffreId: projet.appelOffreId,
         periodeId: projet.periodeId,
@@ -120,7 +128,7 @@ v1Router.post(
       if (appelOffre && !appelOffre.isSoumisAuxGF) {
         response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
-            error: `Enregistrement impossible car l'appel d'offres n'est pas soumis aux garanties financières.`,
+            error: `Vous ne pouvez pas déposer de garanties financières car l'appel d'offres n'est pas soumis à garanties financières`,
           }),
         );
       }
