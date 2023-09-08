@@ -45,3 +45,11 @@ export class DépôtGarantiesFinancièresNonTrouvéErreur extends InvalidOperati
     );
   }
 }
+
+export class EnregistrementGarantiesFinancièresImpossibleCarDépôtAttenduErreur extends InvalidOperationError {
+  constructor() {
+    super(
+      'Vous ne pouvez pas enregistrer des garanties financières mais vous devez faire un dépôt pour validation de nouvelles garanties financières',
+    );
+  }
+}

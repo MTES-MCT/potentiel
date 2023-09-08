@@ -87,6 +87,61 @@ v1Router.post(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
+      const projet = await Project.findOne({
+        where: {
+          appelOffreId: identifiantProjetValueType.appelOffre,
+          periodeId: identifiantProjetValueType.période,
+          familleId: isSome(identifiantProjetValueType.famille)
+            ? identifiantProjetValueType.famille
+            : '',
+          numeroCRE: identifiantProjetValueType.numéroCRE,
+        },
+        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId', 'classe', 'abandonedOn'],
+      });
+
+      if (!projet) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
+      if (projet.abandonedOn > 0 || projet.classe === 'Eliminé') {
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error: `Vous ne pouvez pas enregistrer des garanties financières car le projet n'est pas "classé"`,
+          }),
+        );
+      }
+
+      const appelOffre = getProjectAppelOffre({
+        appelOffreId: projet.appelOffreId,
+        periodeId: projet.periodeId,
+        familleId: projet.familleId,
+      });
+      if (appelOffre && !appelOffre.isSoumisAuxGF) {
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error: `Vous ne pouvez pas enregistrer des garanties financières car l'appel d'offres n'est pas soumis à garanties financières`,
+          }),
+        );
+      }
+
+      if (user.role === 'porteur-projet') {
+        const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
+          where: { projectId: projet.id, userId: user.id },
+        }));
+
+        if (!porteurAAccèsAuProjet) {
+          return unauthorizedResponse({
+            request,
+            response,
+            customMessage: `Vous n'avez pas accès à ce projet.`,
+          });
+        }
+      }
+
       if (dateConstitution) {
         if (!file) {
           const fichierAttestationActuel =
@@ -115,53 +170,6 @@ v1Router.post(
             content: new FileReadableStream(file.path),
             date: convertirEnDateTime(dateConstitution),
           };
-        }
-      }
-
-      const projet = await Project.findOne({
-        where: {
-          appelOffreId: identifiantProjetValueType.appelOffre,
-          periodeId: identifiantProjetValueType.période,
-          familleId: isSome(identifiantProjetValueType.famille)
-            ? identifiantProjetValueType.famille
-            : '',
-          numeroCRE: identifiantProjetValueType.numéroCRE,
-        },
-        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId'],
-      });
-
-      if (!projet) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Projet',
-        });
-      }
-
-      const appelOffre = getProjectAppelOffre({
-        appelOffreId: projet.appelOffreId,
-        periodeId: projet.periodeId,
-        familleId: projet.familleId,
-      });
-      if (appelOffre && !appelOffre.isSoumisAuxGF) {
-        response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
-            error: `Enregistrement impossible car l'appel d'offres n'est pas soumis aux garanties financières.`,
-          }),
-        );
-      }
-
-      if (user.role === 'porteur-projet') {
-        const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
-          where: { projectId: projet.id, userId: user.id },
-        }));
-
-        if (!porteurAAccèsAuProjet) {
-          return unauthorizedResponse({
-            request,
-            response,
-            customMessage: `Vous n'avez pas accès à ce projet.`,
-          });
         }
       }
 
