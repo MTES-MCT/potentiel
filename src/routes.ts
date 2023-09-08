@@ -621,5 +621,8 @@ class routes {
 
   static GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE = () =>
     `/liste-depots-garanties-financieres.html`;
+
+  static GET_LISTE_GARANTIES_FINANCIERES_A_DEPOSER_PAGE = () =>
+    `/liste-garanties-financieres-a-deposer.html`;
 }
 export default routes;

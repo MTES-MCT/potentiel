@@ -12,7 +12,7 @@ import {
   FichierDépôtAttestationGarantiesFinancièresReadModel,
 } from '../dépôtGarantiesFinancières.readModel';
 import { Find } from '@potentiel/core-domain-views';
-import { TéléchargerFichierPort } from '../../common.port';
+import { TéléchargerFichierPort } from '../../../common.port';
 
 export type ConsulterFichierDépôtAttestationGarantiesFinancièreQuery = Message<
   'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',

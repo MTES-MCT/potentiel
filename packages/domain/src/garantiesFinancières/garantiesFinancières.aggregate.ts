@@ -1,5 +1,9 @@
 import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
-import { IdentifiantProjetValueType, convertirEnDateTime } from '../domain.valueType';
+import {
+  DateTimeValueType,
+  IdentifiantProjetValueType,
+  convertirEnDateTime,
+} from '../domain.valueType';
 import { DépôtGarantiesFinancières, GarantiesFinancières } from './garantiesFinancières.valueType';
 import {
   DépôtGarantiesFinancièresEvent,
@@ -17,6 +21,7 @@ export const createGarantiesFinancièresAggregateId = (
 export type GarantiesFinancièresAggregate = {
   dépôt?: Partial<DépôtGarantiesFinancières>;
   actuelles?: GarantiesFinancières;
+  dateLimiteDépôt?: DateTimeValueType;
 };
 
 const garantiesFinancièresAggregateFactory: AggregateFactory<
@@ -165,7 +170,14 @@ const processGarantiesFinancièresSnapshotEvent = ({
     };
   }
 
-  return { ...aggregate, dépôt, actuelles };
+  return {
+    ...aggregate,
+    dépôt,
+    actuelles,
+    ...(event.payload.aggregate.dateLimiteDépôt && {
+      dateLimiteDépôt: convertirEnDateTime(event.payload.aggregate.dateLimiteDépôt),
+    }),
+  };
 };
 
 const processDépôtGarantiesFinancièresValidéEvent = ({
@@ -175,7 +187,7 @@ const processDépôtGarantiesFinancièresValidéEvent = ({
 }) => {
   const dépôtValidé = aggregate.dépôt;
   delete dépôtValidé?.dateDépôt;
-  return { actuelles: dépôtValidé, dépôt: undefined };
+  return { actuelles: dépôtValidé, dépôt: undefined, dateLimiteDépôt: undefined };
 };
 
 const processDépôtGarantiesFinancièresSuppriméEvent = ({
