@@ -16,4 +16,5 @@ export * from './getModifierDépôtGarantiesFinancièresPage';
 export * from './postModifierDépôtGarantiesFinancières';
 export * from './postValiderDépôtGarantiesFinancières';
 export * from './postSupprimerDépôtGarantiesFinancières';
-export * from './getListeDépôtsGarantiesFinancièresPage';
+export * from './getListeDépôtsGarantiesFinancièresÀValiderPage';
+export * from './getListeDépôtsGarantiesFinancièresEnAttentePage';

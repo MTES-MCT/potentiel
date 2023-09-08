@@ -4,6 +4,7 @@ import {
   ClockIcon,
   DownloadLink,
   Heading1,
+  Heading2,
   KeyIcon,
   Link,
   ListeVide,
@@ -18,7 +19,7 @@ import { DépôtGarantiesFinancièresReadModel, ProjetReadModel } from '@potenti
 import routes from '../../../../routes';
 import { afficherDate, hydrateOnClient } from '../../../helpers';
 
-type ListeDépôtsGarantiesFinancièresProps = {
+type ListeDépôtsGarantiesFinancièresÀValiderProps = {
   user: UtilisateurReadModel;
   listeDépôtsGarantiesFinancières?: ReadonlyArray<{
     dépôt: DépôtGarantiesFinancièresReadModel;
@@ -27,17 +28,18 @@ type ListeDépôtsGarantiesFinancièresProps = {
   pagination: { currentPage: number; pageCount: number; currentUrl: string };
 };
 
-export const ListeDépôtsGarantiesFinancières = ({
+export const ListeDépôtsGarantiesFinancièresÀValider = ({
   user,
   listeDépôtsGarantiesFinancières,
   pagination: { currentPage, pageCount, currentUrl },
-}: ListeDépôtsGarantiesFinancièresProps) => {
+}: ListeDépôtsGarantiesFinancièresÀValiderProps) => {
   return (
     <PageTemplate
-      currentPage="liste-dépôts-garanties-financières"
+      currentPage="liste-depots-garanties-financieres-a-valider"
       user={user}
-      contentHeader={<Heading1 className="text-white">Dépôts de garanties financières</Heading1>}
+      contentHeader={<Heading1 className="text-white">Garanties financières</Heading1>}
     >
+      <Heading2>Dépôts de garanties financières à valider</Heading2>
       {!listeDépôtsGarantiesFinancières || !listeDépôtsGarantiesFinancières.length ? (
         <ListeVide titre="Aucun dépôt à afficher" />
       ) : (
@@ -130,4 +132,4 @@ export const ListeDépôtsGarantiesFinancières = ({
   );
 };
 
-hydrateOnClient(ListeDépôtsGarantiesFinancières);
+hydrateOnClient(ListeDépôtsGarantiesFinancièresÀValider);

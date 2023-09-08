@@ -56,7 +56,8 @@ import {
   EnregistrerGarantiesFinancières,
   DéposerGarantiesFinancières,
   ModifierDépôtGarantiesFinancières,
-  ListeDépôtsGarantiesFinancières,
+  ListeDépôtsGarantiesFinancièresÀValider,
+  ListeDépôtsGarantiesFinancièresEnAttente,
 } from './pages';
 
 export { App } from './App';
@@ -494,11 +495,20 @@ export const ModifierDépôtGarantiesFinancièresPage = (
     title: 'Modifier des garanties financières déposées',
   });
 
-export const ListerDépôtsGarantiesFinancièresPage = (
-  props: Parameters<typeof ListeDépôtsGarantiesFinancières>[0],
+export const ListerDépôtsGarantiesFinancièresÀValiderPage = (
+  props: Parameters<typeof ListeDépôtsGarantiesFinancièresÀValider>[0],
 ) =>
   makeHtml({
-    Component: ListeDépôtsGarantiesFinancières,
+    Component: ListeDépôtsGarantiesFinancièresÀValider,
     props,
-    title: 'Lister les garanties financières déposées',
+    title: 'Lister les dépôts de garanties financières à valider',
+  });
+
+export const ListeDépôtsGarantiesFinancièresEnAttentePage = (
+  props: Parameters<typeof ListeDépôtsGarantiesFinancièresEnAttente>[0],
+) =>
+  makeHtml({
+    Component: ListeDépôtsGarantiesFinancièresEnAttente,
+    props,
+    title: 'Lister les dépôts de garanties financières en attente',
   });
