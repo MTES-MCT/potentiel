@@ -166,6 +166,7 @@ Quand(
             content: contenuFichier,
             date: convertirEnDateTime(dateConstitution),
           },
+          nomProjet,
           porteursÀNotifier,
         },
       });

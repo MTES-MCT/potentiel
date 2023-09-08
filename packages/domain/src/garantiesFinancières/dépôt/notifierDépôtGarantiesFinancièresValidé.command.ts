@@ -1,7 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { format } from 'date-fns';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { LoadAggregate } from '@potentiel/core-domain';
 import { loadGarantiesFinancièresAggregateFactory } from '../garantiesFinancières.aggregate';
+import { EnvoyerEmailPort } from '../../common.ports';
 // import { LoadAggregate } from '@potentiel/core-domain';
 // import { loadGarantiesFinancièresAggregateFactory } from '../garantiesFinancières.aggregate';
 // import { isNone } from '@potentiel/monads';
@@ -11,8 +13,9 @@ export type NotifierDépôtGarantiesFinancièresValidéCommand = Message<
   'NOTIFIER_DÉPÔT_GARANTIES_FINANCIÈRES_VALIDÉ',
   {
     identifiantProjet: IdentifiantProjetValueType;
+    nomProjet: string;
     porteursÀNotifier: {
-      fullName: string;
+      name: string;
       email: string;
     }[];
   }
@@ -20,11 +23,12 @@ export type NotifierDépôtGarantiesFinancièresValidéCommand = Message<
 
 export type NotifierDépôtGarantiesFinancièresValidéDependencies = {
   loadAggregate: LoadAggregate;
-  // notifierPorteursDépôtGarantiesFinancièresValidé: ;
+  notifierPorteursDépôtGarantiesFinancièresValidé: EnvoyerEmailPort;
 };
 
 export const registerNotifierDépôtGarantiesFinancièresValidéCommand = ({
   loadAggregate,
+  notifierPorteursDépôtGarantiesFinancièresValidé,
 }: NotifierDépôtGarantiesFinancièresValidéDependencies) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresAggregateFactory({
     loadAggregate,
@@ -32,6 +36,7 @@ export const registerNotifierDépôtGarantiesFinancièresValidéCommand = ({
 
   const handler: MessageHandler<NotifierDépôtGarantiesFinancièresValidéCommand> = async ({
     identifiantProjet,
+    nomProjet,
     porteursÀNotifier,
   }) => {
     /*
@@ -46,12 +51,21 @@ export const registerNotifierDépôtGarantiesFinancièresValidéCommand = ({
 
     // TODO : Appeler l'adapter (passé en dépendance)
 
-    // await notifierPorteurDépôtGarantiesFinancièresValidé({
-    //   identifiantProjet,
-    //   porteursÀNotifier,
-    // });
-
-    console.log('porteurs A notifier', porteursÀNotifier);
+    await notifierPorteursDépôtGarantiesFinancièresValidé({
+      type: 'notifier-pp-gf-validé-notification',
+      contexte: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+      message: {
+        objet: 'Validation du dépôt des des garanties financières',
+        destinataires: porteursÀNotifier,
+      },
+      variables: {
+        nomProjet,
+        dreal: 'TEST',
+        dateDépôt: format(new Date(), 'dd/MM/yyyy'),
+      },
+    });
   };
 
   mediator.register('NOTIFIER_DÉPÔT_GARANTIES_FINANCIÈRES_VALIDÉ', handler);

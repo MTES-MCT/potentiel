@@ -21,3 +21,17 @@ export type SupprimerFichierPort = (data: {
   type: TypeFichier;
   identifiantProjet: RawIdentifiantProjet;
 }) => Promise<void>;
+
+export type EmailType = 'notifier-pp-gf-validé-notification';
+
+export type EnvoyerEmailPort = (data: {
+  type: EmailType;
+  contexte: {
+    identifiantProjet: RawIdentifiantProjet;
+  };
+  message: {
+    objet: string;
+    destinataires: { email: string; name: string }[];
+  };
+  variables: Record<string, string>;
+}) => Promise<void>;

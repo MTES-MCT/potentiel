@@ -6,7 +6,7 @@ import { NotifierDépôtGarantiesFinancièresValidéCommand } from './notifierD�
 
 type ValiderDépôtGarantiesFinancièresUseCaseData = ValiderDépôtGarantiesFinancièresCommand['data'] &
   EnregistrerGarantiesFinancièresComplètesCommand['data'] &
-  Pick<NotifierDépôtGarantiesFinancièresValidéCommand['data'], 'porteursÀNotifier'>;
+  NotifierDépôtGarantiesFinancièresValidéCommand['data'];
 
 export type ValiderDépôtGarantiesFinancièresUseCase = Message<
   'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
@@ -16,6 +16,7 @@ export type ValiderDépôtGarantiesFinancièresUseCase = Message<
 export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
   const runner: MessageHandler<ValiderDépôtGarantiesFinancièresUseCase> = async ({
     identifiantProjet,
+    nomProjet,
     typeGarantiesFinancières,
     dateÉchéance,
     attestationConstitution,
@@ -49,6 +50,7 @@ export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
       type: 'NOTIFIER_DÉPÔT_GARANTIES_FINANCIÈRES_VALIDÉ',
       data: {
         identifiantProjet,
+        nomProjet,
         porteursÀNotifier,
       },
     });
