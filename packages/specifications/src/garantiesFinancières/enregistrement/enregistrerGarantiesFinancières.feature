@@ -172,6 +172,17 @@ Scénario: Corriger le type de garanties financières legacy migrées sans type 
             | type                 | avec date d'échéance   |
             | date d'échéance      | 2030-12-01             |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas modifier des données de garanties financières déjà validées" 
+ 
+     Scénario: Erreur si un porteur tente d'enregistrer des garanties financières alors qu'il devrait faire un dépôt 
+        Etant donné des garanties financières à déposer pour le projet "Centrale éolienne 20" avec :
+            | date limite de dépôt | 2023-11-01             |
+        Quand un utilisateur avec le rôle 'porteur-projet' enregistre des garanties financières complètes pour le projet "Centrale éolienne 20" avec : 
+            | type                 | avec date d'échéance   |
+            | date d'échéance      | 2027-12-01             |        
+            | format               | application/pdf        |
+            | date de constitution | 2021-12-02             |
+            | contenu fichier      | le contenu             |
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas enregistrer des garanties financières mais vous devez faire un dépôt pour validation de nouvelles garanties financières" 
        
 
  
