@@ -1,0 +1,17 @@
+{
+  "name": "@potentiel/email-sender",
+  "version": "0.0.0",
+  "description": "Email solution for managing notifications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  },
+  "dependencies": {
+    "node-mailjet": "^5.1.1"
+  }
+}

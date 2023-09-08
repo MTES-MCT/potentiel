@@ -1,16 +1,6 @@
 import { EnvoyerEmailPort } from '@potentiel/domain';
+import { sendEmail } from '@potentiel/email-sender';
 
-export const envoyerEmailAdapter: EnvoyerEmailPort = async ({
-  type,
-  contexte,
-  message,
-  variables,
-}) => {
-  console.log('LOOK IM HERE', {
-    type,
-    contexte,
-    message,
-    variables,
-  });
-  // TODO : Connecter avec la méthode sendEmail du package
+export const envoyerEmailAdapter: EnvoyerEmailPort = async (props) => {
+  await sendEmail(props);
 };

@@ -22,10 +22,9 @@ export type SupprimerFichierPort = (data: {
   identifiantProjet: RawIdentifiantProjet;
 }) => Promise<void>;
 
-export type EmailType = 'notifier-pp-gf-validé-notification';
-
+export type TemplateEmailType = 'notifier-pp-gf-validé-notification';
 export type EnvoyerEmailPort = (data: {
-  type: EmailType;
+  type: TemplateEmailType;
   contexte: {
     identifiantProjet: RawIdentifiantProjet;
   };

@@ -12,6 +12,7 @@
     "@potentiel/domain": "^0.0.0",
     "@potentiel/domain-views": "^0.0.0",
     "@potentiel/file-storage": "^0.0.0",
+    "@potentiel/email-sender": "^0.0.0",
     "@potentiel/monads": "^0.0.0",
     "@potentiel/monitoring": "^0.0.0"
   },
