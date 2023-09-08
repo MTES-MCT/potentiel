@@ -111,6 +111,7 @@ v1Router.get(
         ? await getGarantiesFinancièresDataForProjetPage({
             identifiantProjet: identifiantFonctionnelProjet,
             user,
+            statutProjet: projet.isAbandoned ? 'abandonné' : projet.isClasse ? 'classé' : 'éliminé',
             garantiesFinancièresSoumisesÀLaCandidature:
               projet.appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature'
                 ? true
@@ -239,10 +240,12 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   identifiantProjet,
   garantiesFinancièresSoumisesÀLaCandidature,
   user,
+  statutProjet,
 }: {
   identifiantProjet: IdentifiantProjet;
   garantiesFinancièresSoumisesÀLaCandidature: boolean;
   user: UtilisateurReadModel;
+  statutProjet: 'abandonné' | 'classé' | 'éliminé';
 }): Promise<GarantiesFinancièresDataForProjetPage | undefined> => {
   let actionRequise: GarantiesFinancièresDataForProjetPage['actionRequise'];
 
@@ -267,7 +270,7 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   );
 
   // TO DO : retirer les cas de changement de producteur et GF échue
-  if (garantiesFinancièresSoumisesÀLaCandidature) {
+  if (garantiesFinancièresSoumisesÀLaCandidature && statutProjet === 'classé') {
     if (isNone(garantiesFinancièresActuelles)) {
       actionRequise = 'enregistrer';
     } else {
@@ -283,8 +286,14 @@ const getGarantiesFinancièresDataForProjetPage = async ({
   }
 
   // TO DO : ajouter les cas de changement de producteur et GF échue
-  if (!garantiesFinancièresSoumisesÀLaCandidature && isNone(garantiesFinancièresActuelles)) {
+  if (
+    !garantiesFinancièresSoumisesÀLaCandidature &&
+    isNone(garantiesFinancièresActuelles) &&
+    statutProjet === 'classé'
+  ) {
     if (isNone(garantiesFinancièresDéposées)) {
+      // TODO : à terme il faudra se bases sur la projection suiviDépôtsGarantiesFinancières pour vérifier si dépôt en attente pour le projet
+      // à la place actuellement on se base sur l'AO seulement
       actionRequise = 'déposer';
     } else {
       if (
