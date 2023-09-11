@@ -7,7 +7,7 @@ import {
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 
-import { Create, Find, Update } from '@potentiel/core-domain-views';
+import { Create, Find, Remove, Update } from '@potentiel/core-domain-views';
 import {
   SuiviDépôtGarantiesFinancièresReadModel,
   SuiviDépôtGarantiesFinancièresReadModelKey,
@@ -23,6 +23,7 @@ export type SuiviDépôtsGarantiesFinancièresProjectorDependencies = {
   create: Create;
   find: Find;
   update: Update;
+  remove: Remove;
   récupérerDétailProjet: RécupérerDétailProjetPort;
 };
 
@@ -31,6 +32,7 @@ export const registerSuiviDépôtsGarantiesFinancièresProjector = ({
   find,
   update,
   récupérerDétailProjet,
+  remove,
 }: SuiviDépôtsGarantiesFinancièresProjectorDependencies) => {
   const handler: MessageHandler<ExecuteSuiviDépôtsGarantiesFinancièresProjector> = async (
     event,
@@ -87,16 +89,21 @@ export const registerSuiviDépôtsGarantiesFinancièresProjector = ({
         break;
       case 'DépôtGarantiesFinancièresSupprimé-v1':
         if (isSome(actualReadModel)) {
-          await update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
-            ...actualReadModel,
-            statutDépôt: 'en attente',
-          });
+          if (actualReadModel.dateLimiteDépôt) {
+            await update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
+              ...actualReadModel,
+              statutDépôt: 'en attente',
+            });
+          } else {
+            await remove<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey);
+          }
         }
         break;
       case 'DépôtGarantiesFinancièresValidé-v1':
         if (isSome(actualReadModel)) {
           await update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
             ...actualReadModel,
+            dateLimiteDépôt: undefined,
             statutDépôt: 'validé',
           });
         }

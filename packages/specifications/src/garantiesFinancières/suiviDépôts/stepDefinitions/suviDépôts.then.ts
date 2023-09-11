@@ -55,7 +55,9 @@ Alors(
 
     const expectedReadModel = {
       type: 'suivi-dépôt-garanties-financières',
-      dateLimiteDépôt: convertirEnDateTime(dateLimiteDépôt).formatter(),
+      ...(statutDépôt !== 'validé' && {
+        dateLimiteDépôt: convertirEnDateTime(dateLimiteDépôt).formatter(),
+      }),
       région,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
       statutDépôt,
