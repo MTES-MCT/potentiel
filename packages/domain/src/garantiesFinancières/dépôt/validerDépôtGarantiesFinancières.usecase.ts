@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ValiderDépôtGarantiesFinancièresCommand } from './validerDépôtGarantiesFinancières.command';
 
-type ValiderDépGarantiesFinancièresUseCaseData = ValiderDépôtGarantiesFinancièresCommand['data'];
+type ValiderDépôtGarantiesFinancièresUseCaseData = ValiderDépôtGarantiesFinancièresCommand['data'];
 
 export type ValiderDépôtGarantiesFinancièresUseCase = Message<
   'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
-  ValiderDépGarantiesFinancièresUseCaseData
+  ValiderDépôtGarantiesFinancièresUseCaseData
 >;
 
 export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
