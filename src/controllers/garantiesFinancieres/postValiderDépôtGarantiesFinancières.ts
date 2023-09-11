@@ -31,18 +31,21 @@ const schema = yup.object({
   body: yup.object({
     typeGarantiesFinancieres: yup
       .mixed<`avec date d'échéance` | `consignation` | `6 mois après achèvement`>()
-      .oneOf([`avec date d'échéance`, `consignation`, `6 mois après achèvement`])
+      .oneOf(
+        [`avec date d'échéance`, `consignation`, `6 mois après achèvement`],
+        `Le type de garanties financières doit être : avec date d'échéance, consignation ou 6 mois après achèvement`,
+      )
       .required('Le type de garanties financières doit être renseigné'),
     dateEcheance: yup
       .date()
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date d'échéance n'est pas valide`),
+      .typeError(`La date d'échéance n'est pas valide.`),
     dateConstitution: yup
       .date()
-      .required('La date de constitution est requise')
+      .required('La date de constitution est requise.')
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date de constitution n'est pas valide`),
+      .typeError(`La date de constitution n'est pas valide.`),
   }),
 });
 
@@ -54,7 +57,7 @@ v1Router.post(
       schema,
       onError: ({ request, response, error }) => {
         const identifiant = request.params.identifiantProjet;
-        response.redirect(
+        return response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(identifiant), {
             error: `Le dépôt de garanties financières n'a pas pu être validé. ${error.errors.join(
               ' ',
