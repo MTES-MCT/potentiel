@@ -141,15 +141,30 @@ Quand(
 );
 
 Quand(
-  'un utilisateur avec le rôle Dreal valide le dépôt de garanties financières pour le projet {string}',
-  async function (nomProjet: string) {
+  'un utilisateur avec le rôle Dreal valide le dépôt de garanties financières pour le projet {string} avec :',
+  async function (nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
     try {
+      const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
+      const dateÉchéance = exemple[`date d'échéance`];
+      const format = exemple['format'];
+      const dateConstutition = exemple[`date de constitution`];
+      const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
       await mediator.send<DomainUseCase>({
         type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
         data: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+          typeGarantiesFinancières,
+          ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
+          utilisateur: { rôle: 'dreal' } as Utilisateur,
+          attestationConstitution: {
+            format,
+            content: contenuFichier,
+            date: convertirEnDateTime(dateConstutition),
+          },
         },
       });
       await sleep(500);
