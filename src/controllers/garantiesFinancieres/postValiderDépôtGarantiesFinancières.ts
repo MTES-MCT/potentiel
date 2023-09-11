@@ -2,24 +2,47 @@ import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { errorResponse, notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
+import {
+  errorResponse,
+  iso8601DateToDateYupTransformation,
+  notFoundResponse,
+  vérifierPermissionUtilisateur,
+} from '../helpers';
 import { mediator } from 'mediateur';
 import {
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
   PermissionValiderDépôtGarantiesFinancières,
 } from '@potentiel/domain';
-import { isSome } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserDreal } from '../../infra/sequelize/projectionsNext';
 import { DomainError } from '@potentiel/core-domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { getProjectAppelOffre } from '../../config';
 import { GarantiesFinancièresUseCase } from '@potentiel/domain/dist/garantiesFinancières/garantiesFinancières.usecase';
 import { logger } from '../../core/utils';
+import { ConsulterFichierDépôtAttestationGarantiesFinancièreQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({
     identifiantProjet: yup.string().required(),
+  }),
+  body: yup.object({
+    typeGarantiesFinancieres: yup
+      .mixed<`avec date d'échéance` | `consignation` | `6 mois après achèvement`>()
+      .oneOf([`avec date d'échéance`, `consignation`, `6 mois après achèvement`])
+      .required('Le type de garanties financières doit être renseigné'),
+    dateEcheance: yup
+      .date()
+      .nullable()
+      .transform(iso8601DateToDateYupTransformation)
+      .typeError(`La date d'échéance n'est pas valide`),
+    dateConstitution: yup
+      .date()
+      .required('La date de constitution est requise')
+      .transform(iso8601DateToDateYupTransformation)
+      .typeError(`La date de constitution n'est pas valide`),
   }),
 });
 
@@ -29,11 +52,13 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) => {
+      onError: ({ request, response, error }) => {
         const identifiant = request.params.identifiantProjet;
         response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(identifiant), {
-            error: `Le dépôt de garanties financières n'a pas pu être validé. Veuillez contacter un administrateur si le problème persiste.`,
+            error: `Le dépôt de garanties financières n'a pas pu être validé. ${error.errors.join(
+              ' ',
+            )}`,
           }),
         );
       },
@@ -42,6 +67,7 @@ v1Router.post(
       const {
         user,
         params: { identifiantProjet },
+        body: { typeGarantiesFinancieres, dateEcheance, dateConstitution },
       } = request;
 
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
@@ -76,7 +102,7 @@ v1Router.post(
         familleId: projet.familleId,
       });
       if (appelOffre && !appelOffre.isSoumisAuxGF) {
-        response.redirect(
+        return response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
             error: `L'appel d'offres n'est pas soumis aux garanties financières.`,
           }),
@@ -107,11 +133,42 @@ v1Router.post(
         }
       }
 
+      const fichier = await mediator.send<ConsulterFichierDépôtAttestationGarantiesFinancièreQuery>(
+        {
+          type: 'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+          },
+        },
+      );
+
+      if (isNone(fichier)) {
+        logger.error(
+          new Error(
+            `Echec validation garanties financières. Fichier non trouvé. Projet ${projet.id}`,
+          ),
+        );
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error: `Le dépôt n'a pas pu être validé, veuillez contacter un administrateur si le problème persiste.`,
+          }),
+        );
+      }
+
       try {
         await mediator.send<GarantiesFinancièresUseCase>({
           type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
           data: {
+            utilisateur: {
+              rôle: user.role,
+            },
             identifiantProjet: identifiantProjetValueType,
+            typeGarantiesFinancières: typeGarantiesFinancieres,
+            dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
+            attestationConstitution: {
+              ...fichier,
+              date: convertirEnDateTime(dateConstitution),
+            },
           },
         });
 
