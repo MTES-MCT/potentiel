@@ -14,7 +14,7 @@ type ProjetFixture = {
   région?: string;
   département?: string;
   statut?: string;
-  porteursÀNotifier?: {
+  porteurs?: {
     name: string;
     email: string;
   }[];

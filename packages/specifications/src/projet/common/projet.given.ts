@@ -197,7 +197,7 @@ EtantDonné(
       identifiantProjet,
     } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-    const porteursÀNotifier: {
+    const porteurs: {
       name: string;
       email: string;
     }[] = [];
@@ -240,7 +240,7 @@ EtantDonné(
         projetId,
       );
 
-      porteursÀNotifier.push({
+      porteurs.push({
         name,
         email,
       });
@@ -250,7 +250,7 @@ EtantDonné(
       id: projetId,
       nom,
       identifiantProjet,
-      porteursÀNotifier,
+      porteurs,
     });
   },
 );

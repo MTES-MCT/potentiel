@@ -3,7 +3,7 @@ import { TemplateEmailInexistant } from './emailSender.errors';
 import { getClient } from './getClient';
 
 const TEMPLATE_ID_BY_TYPE: Record<TemplateEmailType, number> = {
-  'notifier-pp-gf-validé-notification': 111111111,
+  'notifier-pp-gf-validé': 111111111,
 };
 
 type sendEmailProps = {
@@ -53,8 +53,6 @@ export const sendEmail = async (props: sendEmailProps) => {
             Variables: variables,
           },
         ],
-        // TODO : Ceci est une sécurité pendant le dev de la teature, ce flag empêche le mail de vraiment partir et throw les erreurs
-        SandboxMode: true,
       });
 
     console.log(result);

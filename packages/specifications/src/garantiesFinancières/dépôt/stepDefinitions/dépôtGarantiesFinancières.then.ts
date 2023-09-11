@@ -219,7 +219,7 @@ Alors(
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
     await sendEmail({
-      type: 'notifier-pp-gf-validé-notification',
+      type: 'notifier-pp-gf-validé',
       contexte: {
         identifiantProjet: identifiantProjet.formatter(),
       },

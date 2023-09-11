@@ -49,10 +49,8 @@ export const registerNotifierDépôtGarantiesFinancièresValidéCommand = ({
       // }
     */
 
-    // TODO : Appeler l'adapter (passé en dépendance)
-
     await notifierPorteursDépôtGarantiesFinancièresValidé({
-      type: 'notifier-pp-gf-validé-notification',
+      type: 'notifier-pp-gf-validé',
       contexte: {
         identifiantProjet: identifiantProjet.formatter(),
       },
