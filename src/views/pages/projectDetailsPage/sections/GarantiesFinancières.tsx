@@ -219,7 +219,7 @@ const Dépôt = ({
             </div>
           )}
         </div>
-      ) : actionRequise === 'déposer' && userRole === 'porteur-projet' ? (
+      ) : userRole === 'porteur-projet' ? (
         <Link href={routes.GET_DEPOSER_GARANTIES_FINANCIERES_PAGE(identifiantProjet)}>
           <AddIcon className="mr-1 align-middle" aria-hidden />
           déposer de nouvelles garanties financières
