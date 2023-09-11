@@ -43,7 +43,6 @@ export type DépôtGarantiesFinancièresEvent =
   | GarantiesFinancièresDéposéesEventV1
   | DépôtGarantiesFinancièresModifiéEventV1
   | GarantiesFinancièresSnapshotEventV1
-  | DépôtGarantiesFinancièresValidéEventV1
   | DépôtGarantiesFinancièresSuppriméEventV1;
 
 export type SuiviDépôtsGarantiesFinancièresEvent =
