@@ -151,8 +151,7 @@ Quand(
       const format = exemple['format'];
       const dateConstitution = exemple[`date de constitution`];
       const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
-      const { identifiantProjet, porteursÀNotifier } =
-        this.projetWorld.rechercherProjetFixture(nomProjet);
+      const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
       await mediator.send<DomainUseCase>({
         type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
@@ -167,7 +166,6 @@ Quand(
             date: convertirEnDateTime(dateConstitution),
           },
           nomProjet,
-          porteursÀNotifier,
         },
       });
       await sleep(500);

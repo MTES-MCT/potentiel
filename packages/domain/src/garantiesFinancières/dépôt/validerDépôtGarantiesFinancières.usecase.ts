@@ -21,7 +21,6 @@ export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
     dateÉchéance,
     attestationConstitution,
     utilisateur,
-    porteursÀNotifier,
   }) => {
     await mediator.send<EnregistrerGarantiesFinancièresComplètesCommand>({
       type: 'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
@@ -51,7 +50,6 @@ export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
       data: {
         identifiantProjet,
         nomProjet,
-        porteursÀNotifier,
       },
     });
   };

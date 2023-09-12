@@ -21,6 +21,7 @@ import {
   téléverserFichierAdapter,
   supprimerFichierAdapter,
   envoyerEmailAdapter,
+  récupérerLesPorteursÀNotifierAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
@@ -54,6 +55,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       téléverserFichier: téléverserFichierAdapter,
       supprimerFichier: supprimerFichierAdapter,
       notifierPorteursDépôtGarantiesFinancièresValidé: envoyerEmailAdapter,
+      récupérerLesPorteursÀNotifier: récupérerLesPorteursÀNotifierAdapter,
     },
   });
 

@@ -1,4 +1,4 @@
-import { InvalidOperationError } from '@potentiel/core-domain';
+import { InvalidOperationError, NotFoundError } from '@potentiel/core-domain';
 
 export class TypeGarantiesFinancièresNonAcceptéErreur extends InvalidOperationError {
   constructor() {
@@ -50,6 +50,13 @@ export class EnregistrementGarantiesFinancièresImpossibleCarDépôtAttenduErreu
   constructor() {
     super(
       'Vous ne pouvez pas enregistrer des garanties financières mais vous devez faire un dépôt pour validation de nouvelles garanties financières',
+    );
+  }
+}
+export class PorteursÀNotifierNonTrouvésErreur extends NotFoundError {
+  constructor() {
+    super(
+      "Le(s) porteur(s) à notifier n'ont pas été trouvé pour ce projet. Veuillez contacter un administrateur si le problème persiste.",
     );
   }
 }

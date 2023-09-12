@@ -197,11 +197,6 @@ EtantDonné(
       identifiantProjet,
     } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-    const porteurs: {
-      name: string;
-      email: string;
-    }[] = [];
-
     for (const [name, email] of table.rows()) {
       const porteurId = randomUUID();
       await executeQuery(
@@ -239,18 +234,12 @@ EtantDonné(
         porteurId,
         projetId,
       );
-
-      porteurs.push({
-        name,
-        email,
-      });
     }
 
     this.projetWorld.projetFixtures.set(nomProjet, {
       id: projetId,
       nom,
       identifiantProjet,
-      porteurs,
     });
   },
 );
