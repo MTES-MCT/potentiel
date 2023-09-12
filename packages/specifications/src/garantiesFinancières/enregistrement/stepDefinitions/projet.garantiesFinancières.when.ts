@@ -26,7 +26,7 @@ Quand(
       const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
-      const dateConstutition = exemple[`date de constitution`];
+      const dateConstitution = exemple[`date de constitution`];
       const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
@@ -35,10 +35,10 @@ Quand(
         type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
         data: {
           ...(format &&
-            dateConstutition && {
+            dateConstitution && {
               attestationConstitution: {
                 format,
-                date: convertirEnDateTime(dateConstutition),
+                date: convertirEnDateTime(dateConstitution),
                 content: contenuFichier,
               },
             }),
@@ -66,7 +66,7 @@ Quand(
       const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
-      const dateConstutition = exemple[`date de constitution`];
+      const dateConstitution = exemple[`date de constitution`];
       const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
 
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
@@ -80,7 +80,7 @@ Quand(
               typeGarantiesFinancières,
               attestationConstitution: {
                 format: format,
-                date: convertirEnDateTime(dateConstutition).formatter(),
+                date: convertirEnDateTime(dateConstitution).formatter(),
               },
               ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
             },
