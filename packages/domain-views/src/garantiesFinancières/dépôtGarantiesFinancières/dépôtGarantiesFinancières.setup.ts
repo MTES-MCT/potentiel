@@ -48,7 +48,6 @@ export const setupDépôtGarantiesFinancièreViews = async (
         'GarantiesFinancièresSnapshot-v1',
         'GarantiesFinancièresDéposées-v1',
         'DépôtGarantiesFinancièresModifié-v1',
-        'DépôtGarantiesFinancièresValidé-v1',
         'DépôtGarantiesFinancièresSupprimé-v1',
       ],
       eventHandler: async (event: DépôtGarantiesFinancièresEvent) => {
