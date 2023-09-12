@@ -22,7 +22,7 @@ type ListeDépôtsGarantiesFinancièresEnAttenteProps = {
   user: UtilisateurReadModel;
   projets?: ReadonlyArray<{
     dateLimiteDeDépôt?: string;
-    projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
+    projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire' | 'statut'>;
   }>;
   pagination: { currentPage: number; pageCount: number; currentUrl: string };
 };

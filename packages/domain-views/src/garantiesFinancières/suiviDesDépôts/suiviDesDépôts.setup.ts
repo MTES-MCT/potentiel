@@ -19,8 +19,8 @@ import {
 export type SuiviDépôtsGarantiesFinancièresDependencies = {
   subscribe: Subscribe;
 } & ConsulterSuiviDépôtGarantiesFinancièresDependencies &
-  ListerDépôtsGarantiesFinancièresEnAttenteDependencies &
-  SuiviDépôtsGarantiesFinancièresProjectorDependencies;
+  SuiviDépôtsGarantiesFinancièresProjectorDependencies &
+  ListerDépôtsGarantiesFinancièresEnAttenteDependencies;
 
 export const setupSuiviDépôtsGarantiesFinancièresViews = async (
   dependencies: SuiviDépôtsGarantiesFinancièresDependencies,

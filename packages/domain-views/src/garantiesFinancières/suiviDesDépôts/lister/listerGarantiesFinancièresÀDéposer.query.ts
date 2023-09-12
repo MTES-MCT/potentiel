@@ -1,10 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { isSome } from '@potentiel/monads';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain';
-import { List } from '@potentiel/core-domain-views';
-import { RécupérerDétailProjetPort } from '../../../domainViews.port';
 import { ProjetReadModel } from '../../../domainViews.readModel';
-import { SuiviDépôtGarantiesFinancièresReadModel } from '../suiviDesDépôts.readModel';
+import { ListerDépôtsGarantiesFinancièresEnAttentePort } from '../suiviDesDépôts.port';
 
 export type ListerDépôtsGarantiesFinancièresEnAttenteQuery = Message<
   'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES_EN_ATTENTE',
@@ -17,63 +13,32 @@ export type ListerDépôtsGarantiesFinancièresEnAttenteQuery = Message<
     région: string;
     liste: {
       dateLimiteDépôt?: string;
-      projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
+      projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire' | 'statut'>;
     }[];
     pagination: { currentPage: number; pageCount: number };
   }
 >;
 
 export type ListerDépôtsGarantiesFinancièresEnAttenteDependencies = {
-  list: List;
-  récupérerDétailProjet: RécupérerDétailProjetPort;
+  listerDépôtsGarantiesFinancièresEnAttente: ListerDépôtsGarantiesFinancièresEnAttentePort;
 };
 
 export const registerListerDépôtsGarantiesFinancièresEnAttenteQuery = ({
-  list,
-  récupérerDétailProjet,
+  listerDépôtsGarantiesFinancièresEnAttente,
 }: ListerDépôtsGarantiesFinancièresEnAttenteDependencies) => {
   const queryHandler: MessageHandler<ListerDépôtsGarantiesFinancièresEnAttenteQuery> = async ({
     région,
-    pagination: { page, itemsPerPage },
+    pagination,
   }) => {
-    const dépôtsGarantiesFinancièresEnAttente = await list<SuiviDépôtGarantiesFinancièresReadModel>(
-      {
-        type: 'suivi-dépôt-garanties-financières',
-        like: { région },
-        where: { statutDépôt: 'en attente' },
-        pagination: { page, itemsPerPage },
-      },
-    );
-
-    const liste: {
-      dateLimiteDépôt?: string;
-      projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
-    }[] = [];
-
-    await Promise.all(
-      dépôtsGarantiesFinancièresEnAttente.items.map(async (item) => {
-        const projet = await récupérerDétailProjet(
-          convertirEnIdentifiantProjet(item.identifiantProjet),
-        );
-        if (isSome(projet)) {
-          liste.push({
-            dateLimiteDépôt: item.dateLimiteDépôt,
-            projet,
-          });
-        }
-      }),
-    );
+    const résultat = await listerDépôtsGarantiesFinancièresEnAttente({ région, pagination });
 
     return {
       type: 'liste-suivi-dépôt-garanties-financières-en-attente',
       région,
-      liste,
+      liste: résultat.items,
       pagination: {
-        currentPage: dépôtsGarantiesFinancièresEnAttente.currentPage,
-        pageCount: Math.ceil(
-          dépôtsGarantiesFinancièresEnAttente.totalItems /
-            dépôtsGarantiesFinancièresEnAttente.itemsPerPage,
-        ),
+        currentPage: pagination.page,
+        pageCount: Math.ceil(résultat.totalCount / pagination.itemsPerPage),
       },
     };
   };
