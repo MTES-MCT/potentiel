@@ -19,6 +19,7 @@ import {
   ConsulterDépôtGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresQuery,
   ListerDossiersRaccordementQuery,
+  ConsulterSuiviDépôtGarantiesFinancièresQuery,
 } from '@potentiel/domain-views';
 import {
   IdentifiantProjet,
@@ -31,9 +32,7 @@ import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { userIs } from '../../modules/users';
-import {
-  ConsulterSuiviDépôtGarantiesFinancièresQuery,
-} from 'packages/domain-views/dist/garantiesFinancières/suiviDesDépôts/consulter/consulterSuiviDépôtGarantiesFinancières.query';
+import { addQueryParams } from '../../helpers/addQueryParams';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -53,7 +52,11 @@ v1Router.get(
 
       if (estUnRawIdentifiantProjet(request.params.projectId)) {
         const projectId = await getIdentifiantLegacyProjet(request.params.projectId);
-        return response.redirect(routes.PROJECT_DETAILS(projectId));
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            error: request.query.error,
+          }),
+        );
       }
 
       const projectId = request.params.projectId;

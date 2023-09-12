@@ -14,7 +14,6 @@ import {
   récupérerDétailProjetAdapter,
   téléchargerFichierAdapter,
   téléverserFichierAdapter,
-  déplacerFichierAdapter,
   supprimerFichierAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
@@ -46,7 +45,6 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     projet: { téléverserFichier: téléverserFichierAdapter },
     garantiesFinancières: {
       téléverserFichier: téléverserFichierAdapter,
-      déplacerFichier: déplacerFichierAdapter,
       supprimerFichier: supprimerFichierAdapter,
     },
   });

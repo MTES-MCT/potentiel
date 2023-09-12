@@ -17,7 +17,7 @@ import {
 } from '../../../components';
 import routes from '../../../../routes';
 import { RawIdentifiantProjet } from '@potentiel/domain';
-import { afficherDate } from '../../../helpers';
+import { afficherDate, formatDateForInput } from '../../../helpers';
 import { UserRole } from '../../../../modules/users';
 
 export type GarantiesFinancièresDataForProjetPage = {
@@ -181,6 +181,27 @@ const Dépôt = ({
               method="post"
               action={routes.POST_VALIDER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
             >
+              <input
+                type="hidden"
+                value={garantiesFinancièresDéposées?.typeGarantiesFinancières}
+                name="typeGarantiesFinancieres"
+              />
+              <input
+                type="hidden"
+                defaultValue={
+                  garantiesFinancièresDéposées?.dateÉchéance &&
+                  formatDateForInput(garantiesFinancièresDéposées?.dateÉchéance)
+                }
+                name="dateEcheance"
+              />
+              <input
+                type="hidden"
+                defaultValue={
+                  garantiesFinancièresDéposées?.attestationConstitution.date &&
+                  formatDateForInput(garantiesFinancièresDéposées?.attestationConstitution.date)
+                }
+                name="dateConstitution"
+              />
               <PrimaryButton
                 type="submit"
                 className="mt-2"
@@ -198,7 +219,7 @@ const Dépôt = ({
             </div>
           )}
         </div>
-      ) : actionRequise === 'déposer' && userRole === 'porteur-projet' ? (
+      ) : userRole === 'porteur-projet' ? (
         <Link href={routes.GET_DEPOSER_GARANTIES_FINANCIERES_PAGE(identifiantProjet)}>
           <AddIcon className="mr-1 align-middle" aria-hidden />
           déposer de nouvelles garanties financières
