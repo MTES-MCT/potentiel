@@ -1,7 +1,7 @@
 #Language: fr-FR
 Fonctionnalité: Déposer des garanties financières pour validation dans Potentiel
     Contexte: 
-        Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
+        Etant donné le projet "classé" "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
 
     Plan du Scénario: Déposer de nouvelles garanties financières pour un projet
         Etant donné des garanties financières à déposer pour le projet "Centrale éolienne 20" avec :

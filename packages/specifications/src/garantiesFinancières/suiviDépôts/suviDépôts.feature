@@ -1,7 +1,7 @@
 #Language: fr-FR
 Fonctionnalité: Migrer des garanties financières à déposer
     Contexte: 
-        Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
+        Etant donné le projet "classé" "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
 
  Scénario: Migrer les garanties financières legacy 
         Quand un développeur migre des garanties financières à déposer pour le projet "Centrale éolienne 20" avec :
