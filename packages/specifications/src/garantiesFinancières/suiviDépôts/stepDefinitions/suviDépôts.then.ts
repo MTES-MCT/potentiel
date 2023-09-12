@@ -96,7 +96,6 @@ Alors(
                 région,
                 département,
               },
-              statut,
               identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
             },
           },
@@ -112,5 +111,25 @@ Alors(
 
       expect(actualListeReadModel).to.deep.equal(expectedListeReadModel);
     }
+  },
+);
+
+Alors(
+  `la liste des projets en attente de dépôt de garanties financières pour la région {string} devrait être vide`,
+  async function (région: string) {
+    const expectedListeReadModel = {
+      type: 'liste-suivi-dépôt-garanties-financières-en-attente',
+      région,
+      liste: [],
+      pagination: { currentPage: 1, pageCount: 0 },
+    };
+
+    const actualListeReadModel =
+      await mediator.send<ListerDépôtsGarantiesFinancièresEnAttenteQuery>({
+        type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES_EN_ATTENTE',
+        data: { région, pagination: { page: 1, itemsPerPage: 10 } },
+      });
+
+    expect(actualListeReadModel).to.deep.equal(expectedListeReadModel);
   },
 );
