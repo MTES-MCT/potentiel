@@ -88,7 +88,7 @@ v1Router.post(
             : '',
           numeroCRE: identifiantProjetValueType.numéroCRE,
         },
-        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId', 'regionProjet'],
+        attributes: ['id', 'appelOffreId', 'periodeId', 'familleId', 'regionProjet', 'nomProjet'],
       });
 
       if (!projet) {
@@ -166,6 +166,7 @@ v1Router.post(
               rôle: user.role,
             },
             identifiantProjet: identifiantProjetValueType,
+            nomProjet: projet.nomProjet,
             typeGarantiesFinancières: typeGarantiesFinancieres,
             dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
             attestationConstitution: {
