@@ -1,16 +1,7 @@
-import { TemplateEmailType } from '@potentiel/domain';
-import { TemplateEmailInexistant } from './emailSender.errors';
 import { getClient } from './getClient';
 
-const TEMPLATE_ID_BY_TYPE: Record<TemplateEmailType, number> = {
-  'notifier-pp-gf-validé': 111111111,
-};
-
-type sendEmailProps = {
-  type: TemplateEmailType;
-  contexte: {
-    identifiantProjet: string;
-  };
+type SendEmailProps = {
+  templateId: number;
   message: {
     objet: string;
     destinataires: { email: string; name: string }[];
@@ -18,19 +9,13 @@ type sendEmailProps = {
   variables: Record<string, string>;
 };
 
-export const sendEmail = async (props: sendEmailProps) => {
+export const sendEmail = async (props: SendEmailProps) => {
   try {
     const {
-      type,
+      templateId,
       message: { objet, destinataires },
       variables,
     } = props;
-
-    const templateId = TEMPLATE_ID_BY_TYPE[type];
-
-    if (!templateId) {
-      throw new TemplateEmailInexistant(type);
-    }
 
     const result = await getClient()
       .post('send', {

@@ -22,9 +22,9 @@ export type SupprimerFichierPort = (data: {
   identifiantProjet: RawIdentifiantProjet;
 }) => Promise<void>;
 
-export type TemplateEmailType = 'notifier-pp-gf-validé';
-export type EnvoyerEmailPort = (data: {
-  type: TemplateEmailType;
+type TemplateEmailTypeEtVariables = {
+  type: 'notifier-pp-gf-validé';
+  templateId: 12345678910;
   contexte: {
     identifiantProjet: RawIdentifiantProjet;
   };
@@ -32,5 +32,10 @@ export type EnvoyerEmailPort = (data: {
     objet: string;
     destinataires: { email: string; name: string }[];
   };
-  variables: Record<string, string>;
-}) => Promise<void>;
+  variables: {
+    nomProjet: string;
+    dreal: string;
+    dateDépôt: string;
+  };
+};
+export type EnvoyerEmailPort = (data: TemplateEmailTypeEtVariables) => Promise<void>;

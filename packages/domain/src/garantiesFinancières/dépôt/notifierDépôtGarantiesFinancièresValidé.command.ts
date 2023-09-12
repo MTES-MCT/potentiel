@@ -47,10 +47,13 @@ export const registerNotifierDépôtGarantiesFinancièresValidéCommand = ({
       // if (isNone(agrégatGarantiesFinancières) || !agrégatGarantiesFinancières.actuelles) {
       //   throw new DépôtGarantiesFinancièresNonTrouvéErreur();
       // }
+
+      // TO DO : AJouter une adapter pour aller récupérer les porteurs associés à un projet, pour les notifier
     */
 
     await notifierPorteursDépôtGarantiesFinancièresValidé({
       type: 'notifier-pp-gf-validé',
+      templateId: 12345678910,
       contexte: {
         identifiantProjet: identifiantProjet.formatter(),
       },

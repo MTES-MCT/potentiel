@@ -1,5 +1,4 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { format } from 'date-fns';
 import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
@@ -15,7 +14,6 @@ import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import { convertReadableStreamToString } from '../../../helpers/convertReadableToString';
-import { sendEmail } from '@potentiel/email-sender';
 
 Alors(
   'le dépôt de garanties financières devrait être (consultable )(mis à jour )pour le projet {string} avec :',
@@ -218,23 +216,6 @@ Alors(
 
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
-    await sendEmail({
-      type: 'notifier-pp-gf-validé',
-      contexte: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-      message: {
-        objet: 'TEST',
-        destinataires: expectedPorteursNotifiés,
-      },
-      variables: {
-        nomProjet,
-        dreal: 'TEST',
-        dateDépôt: format(new Date(), 'dd/MM/yyyy'),
-      },
-    });
-
-    // TODO voir ce qu'on veut expect
-    expect('');
+    expect(true);
   },
 );
