@@ -37,7 +37,7 @@ export async function makeServer(port: number, sessionSecret: string) {
               new DateMiseEnServiceTransmise({
                 payload: {
                   ...transformerISOStringEnDate(event.payload),
-                  streamId: event.stream_id,
+                  streamId: event.streamId,
                 },
               }),
             ).map(() => {

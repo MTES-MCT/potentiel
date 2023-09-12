@@ -65,10 +65,10 @@ export class EventStreamEmitter extends EventEmitter {
           const events =
             eventType === 'all'
               ? await loadFromStream({
-                  streamId: event.stream_id,
+                  streamId: event.streamId,
                 })
               : await loadFromStream({
-                  streamId: event.stream_id,
+                  streamId: event.streamId,
                   eventTypes: Array.isArray(eventType) ? eventType : [eventType],
                 });
 
