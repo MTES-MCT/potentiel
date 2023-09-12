@@ -16,7 +16,7 @@ describe(`loadAggregate`, () => {
   );
 
   it(`Lorsqu'on charge un agrégat sans évènement
-      Alors aucun agrégat ne devrait être chargé`, async () => {
+      Alors aucun agrégat ne devrait pas être chargé`, async () => {
     // Arrange
 
     // Act
