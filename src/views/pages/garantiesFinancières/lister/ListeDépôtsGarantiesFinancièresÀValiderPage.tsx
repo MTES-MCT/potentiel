@@ -17,7 +17,7 @@ import {
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { DépôtGarantiesFinancièresReadModel, ProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
-import { afficherDate, hydrateOnClient } from '../../../helpers';
+import { afficherDate, formatDateForInput, hydrateOnClient } from '../../../helpers';
 
 type ListeDépôtsGarantiesFinancièresÀValiderProps = {
   user: UtilisateurReadModel;
@@ -106,16 +106,34 @@ export const ListeDépôtsGarantiesFinancièresÀValider = ({
                       </div>
                     )}
                     <form
-                      className="col-span-1"
                       method="post"
                       action={routes.POST_VALIDER_DEPOT_GARANTIES_FINANCIERES(
                         projet.identifiantProjet,
                       )}
                     >
+                      <input
+                        type="hidden"
+                        value={dépôt.typeGarantiesFinancières}
+                        name="typeGarantiesFinancieres"
+                      />
+                      <input
+                        type="hidden"
+                        defaultValue={dépôt.dateÉchéance && formatDateForInput(dépôt.dateÉchéance)}
+                        name="dateEcheance"
+                      />
+                      <input
+                        type="hidden"
+                        defaultValue={
+                          dépôt.attestationConstitution.date &&
+                          formatDateForInput(dépôt.attestationConstitution.date)
+                        }
+                        name="dateConstitution"
+                      />
                       <PrimaryButton
                         type="submit"
+                        className="mt-2"
                         confirmation="Êtes-vous sûr de vouloir valider ce dépôt de garanties financières ?"
-                        aria-label={`valider le dépôt de garanties financières pour le projet ${projet.nom}`}
+                        aria-label={`Valider le dépôt de garanties financières pour le projet ${projet.nom}`}
                       >
                         Valider le dépôt
                       </PrimaryButton>

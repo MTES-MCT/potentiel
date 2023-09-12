@@ -11,10 +11,8 @@ import {
 } from '@potentiel/domain';
 import { Create, Update, Find, Remove } from '@potentiel/core-domain-views';
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
-import {
-  GarantiesFinancièresReadModelKey,
-  GarantiesFinancièresReadModel,
-} from '../garantiesFinancièresActuelles/garantiesFinancières.readModel';
+
+
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',
@@ -107,42 +105,6 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             date: event.payload.attestationConstitution.date,
           },
         });
-        break;
-      case 'DépôtGarantiesFinancièresValidé-v1':
-        // enregistrer GF
-        const garantiesFinancièresActuellesKey: GarantiesFinancièresReadModelKey = `garanties-financières|${event.payload.identifiantProjet}`;
-        const garantiesFinancièresActuelles = await find<GarantiesFinancièresReadModel>(
-          garantiesFinancièresActuellesKey,
-        );
-
-        if (isNone(dépôtGarantiesFinancières)) {
-          // TODO : logguer erreur (on ne devrait pas pouvoir valider un dépôt inexistant)
-        }
-
-        if (isSome(dépôtGarantiesFinancières)) {
-          const nouvellesGarantiesFinancières = {
-            typeGarantiesFinancières: dépôtGarantiesFinancières.typeGarantiesFinancières,
-            dateÉchéance: dépôtGarantiesFinancières.dateÉchéance,
-            attestationConstitution: {
-              format: dépôtGarantiesFinancières.attestationConstitution.format,
-              date: dépôtGarantiesFinancières.attestationConstitution.date,
-            },
-          };
-
-          if (isSome(garantiesFinancièresActuelles)) {
-            await update<GarantiesFinancièresReadModel>(
-              garantiesFinancièresActuellesKey,
-              nouvellesGarantiesFinancières,
-            );
-          } else {
-            await create<GarantiesFinancièresReadModel>(
-              garantiesFinancièresActuellesKey,
-              nouvellesGarantiesFinancières,
-            );
-          }
-
-          await remove<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey);
-        }
         break;
       case 'DépôtGarantiesFinancièresSupprimé-v1':
         if (isNone(dépôtGarantiesFinancières)) {

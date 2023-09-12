@@ -23,7 +23,7 @@ EtantDonné(
     const exemple = table.rowsHash();
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
-    const dateConstutition = exemple[`date de constitution`];
+    const dateConstitution = exemple[`date de constitution`];
     const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
     const dateDépôt = exemple['date de dépôt'];
     const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
@@ -35,7 +35,7 @@ EtantDonné(
       data: {
         attestationConstitution: {
           format,
-          date: convertirEnDateTime(dateConstutition),
+          date: convertirEnDateTime(dateConstitution),
           content: contenuFichier,
         },
         typeGarantiesFinancières,
@@ -55,7 +55,7 @@ EtantDonné(
     const exemple = table.rowsHash();
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
-    const dateConstutition = exemple[`date de constitution`];
+    const dateConstitution = exemple[`date de constitution`];
     const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
     const dateDépôt = exemple['date de dépôt'];
     const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
@@ -71,7 +71,7 @@ EtantDonné(
             typeGarantiesFinancières,
             attestationConstitution: {
               format: format,
-              date: convertirEnDateTime(dateConstutition).formatter(),
+              date: convertirEnDateTime(dateConstitution).formatter(),
             },
             dateDépôt: convertirEnDateTime(dateDépôt).formatter(),
             ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),

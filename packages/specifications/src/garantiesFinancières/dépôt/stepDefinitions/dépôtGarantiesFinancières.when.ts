@@ -25,7 +25,7 @@ Quand(
       const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
-      const dateConstutition = exemple[`date de constitution`];
+      const dateConstitution = exemple[`date de constitution`];
       const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
       const dateDépôt = exemple['date de dépôt'];
 
@@ -36,7 +36,7 @@ Quand(
         data: {
           attestationConstitution: {
             format,
-            date: convertirEnDateTime(dateConstutition),
+            date: convertirEnDateTime(dateConstitution),
             content: contenuFichier,
           },
           typeGarantiesFinancières,
@@ -62,7 +62,7 @@ Quand(
       const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
-      const dateConstutition = exemple[`date de constitution`];
+      const dateConstitution = exemple[`date de constitution`];
       const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
       const dateModification = exemple['date de modification'];
 
@@ -73,7 +73,7 @@ Quand(
         data: {
           attestationConstitution: {
             format,
-            date: convertirEnDateTime(dateConstutition),
+            date: convertirEnDateTime(dateConstitution),
             content: contenuFichier,
           },
           typeGarantiesFinancières,
@@ -98,7 +98,7 @@ Quand(
     try {
       const dateÉchéance = exemple[`date d'échéance`];
       const format = exemple['format'];
-      const dateConstutition = exemple[`date de constitution`];
+      const dateConstitution = exemple[`date de constitution`];
       const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
       const dateDépôt = exemple['date de dépôt'];
 
@@ -112,7 +112,7 @@ Quand(
             dépôt: {
               attestationConstitution: {
                 format: format,
-                date: convertirEnDateTime(dateConstutition).formatter(),
+                date: convertirEnDateTime(dateConstitution).formatter(),
               },
               dateDépôt: convertirEnDateTime(dateDépôt).formatter(),
               ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
@@ -141,15 +141,30 @@ Quand(
 );
 
 Quand(
-  'un utilisateur avec le rôle Dreal valide le dépôt de garanties financières pour le projet {string}',
-  async function (nomProjet: string) {
+  'un utilisateur avec le rôle Dreal valide le dépôt de garanties financières pour le projet {string} avec :',
+  async function (nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
     try {
+      const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
+      const dateÉchéance = exemple[`date d'échéance`];
+      const format = exemple['format'];
+      const dateConstitution = exemple[`date de constitution`];
+      const contenuFichier = convertStringToReadableStream(exemple['contenu fichier']);
       const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
       await mediator.send<DomainUseCase>({
         type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
         data: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+          typeGarantiesFinancières,
+          ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
+          utilisateur: { rôle: 'dreal' } as Utilisateur,
+          attestationConstitution: {
+            format,
+            content: contenuFichier,
+            date: convertirEnDateTime(dateConstitution),
+          },
         },
       });
       await sleep(500);
