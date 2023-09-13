@@ -51,7 +51,12 @@ export class EventStreamEmitter extends EventEmitter {
         ) {
           try {
             await eventHandler(event);
-            await acknowledge(`${this.#streamCategory}|${this.#name}`, event);
+            await acknowledge({
+              subscriber_id: `${this.#streamCategory}|${this.#name}`,
+              created_at: event.created_at,
+              stream_id: event.stream_id,
+              version: event.version,
+            });
           } catch (error) {
             getLogger().error(error as Error, {
               subscriberName: this.#name,
@@ -84,12 +89,22 @@ export class EventStreamEmitter extends EventEmitter {
               });
             }
           }
-          await acknowledge(`${this.#streamCategory}|${this.#name}`, event);
+          await acknowledge({
+            subscriber_id: `${this.#streamCategory}|${this.#name}`,
+            created_at: event.created_at,
+            stream_id: event.stream_id,
+            version: event.version,
+          });
         } else {
           getLogger().warn('Unknown event', {
             event,
           });
-          await acknowledge(`${this.#streamCategory}|${this.#name}`, event);
+          await acknowledge({
+            subscriber_id: `${this.#streamCategory}|${this.#name}`,
+            created_at: event.created_at,
+            stream_id: event.stream_id,
+            version: event.version,
+          });
         }
       }
     };

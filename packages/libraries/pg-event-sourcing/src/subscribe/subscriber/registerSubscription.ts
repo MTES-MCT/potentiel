@@ -8,7 +8,7 @@ export const registerSubscriber = async <TDomainEvent extends DomainEvent = Even
   eventType,
   name,
   streamCategory,
-}: Subscriber<TDomainEvent>) => {
+}: Omit<Subscriber<TDomainEvent>, 'eventHandler'>) => {
   const filter =
     eventType === 'all' ? null : JSON.stringify(Array.isArray(eventType) ? eventType : [eventType]);
   await executeQuery(insertSubscriberQuery, `${streamCategory}|${name}`, filter);
