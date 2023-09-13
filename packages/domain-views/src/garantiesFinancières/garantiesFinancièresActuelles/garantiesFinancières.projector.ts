@@ -29,18 +29,25 @@ export const registerGarantiesFinancièresProjector = ({
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
         if (!event.payload.aggregate.actuelles) {
-          return;
+          break;
         }
+
         if (isNone(garantiesFinancières)) {
           const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
             event.payload.aggregate.actuelles;
           await create<GarantiesFinancièresReadModel>(key, {
-            typeGarantiesFinancières,
-            dateÉchéance,
+            typeGarantiesFinancières: typeGarantiesFinancières || undefined,
+            dateÉchéance: dateÉchéance || undefined,
             attestationConstitution,
           });
         } else {
-          // TODO: logger error
+          const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
+            event.payload.aggregate.actuelles;
+          await update<GarantiesFinancièresReadModel>(key, {
+            typeGarantiesFinancières: typeGarantiesFinancières || undefined,
+            dateÉchéance: dateÉchéance || undefined,
+            attestationConstitution,
+          });
         }
         break;
       case 'TypeGarantiesFinancièresEnregistré-v1':

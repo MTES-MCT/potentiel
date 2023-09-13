@@ -55,21 +55,31 @@ export const registerSuiviDépôtsGarantiesFinancièresProjector = ({
       case 'GarantiesFinancièresSnapshot-v1':
         if (event.payload.aggregate.dépôt) {
           if (isSome(actualReadModel)) {
-            // TODO : erreur à logguer
+            return update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
+              dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt || undefined,
+              région,
+              identifiantProjet: event.payload.identifiantProjet,
+              statutDépôt: 'en cours',
+            });
           }
           return create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
-            dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
+            dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt || undefined,
             région,
             identifiantProjet: event.payload.identifiantProjet,
             statutDépôt: 'en cours',
           });
         } else if (event.payload.aggregate.dateLimiteDépôt) {
           if (isSome(actualReadModel)) {
-            // TODO : erreur à logguer
+            return update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
+              dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
+              région,
+              identifiantProjet: event.payload.identifiantProjet,
+              statutDépôt: 'en attente',
+            });
           }
 
           if (isNone(actualReadModel)) {
-            await create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
+            return create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
               dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
               région,
               identifiantProjet: event.payload.identifiantProjet,

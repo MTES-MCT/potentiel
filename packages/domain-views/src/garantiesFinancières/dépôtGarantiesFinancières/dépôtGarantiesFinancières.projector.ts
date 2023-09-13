@@ -12,8 +12,6 @@ import {
 import { Create, Update, Find, Remove } from '@potentiel/core-domain-views';
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
 
-
-
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',
   DépôtGarantiesFinancièresEvent
@@ -52,19 +50,33 @@ export const registerDépôtGarantiesFinancièresProjector = ({
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
         if (!event.payload.aggregate.dépôt) {
-          return;
+          break;
         }
 
         if (isNone(dépôtGarantiesFinancières)) {
           const région = await getRégionsProjet(event.payload.identifiantProjet);
           await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-            ...event.payload.aggregate.dépôt,
+            typeGarantiesFinancières:
+              event.payload.aggregate.dépôt.typeGarantiesFinancières || undefined,
+            dateÉchéance: event.payload.aggregate.dépôt.dateÉchéance || undefined,
+            attestationConstitution: { ...event.payload.aggregate.dépôt.attestationConstitution },
             dateDernièreMiseÀJour: event.payload.aggregate.dépôt.dateDépôt,
             région,
             identifiantProjet: event.payload.identifiantProjet,
+            dateDépôt: event.payload.aggregate.dépôt.dateDépôt,
           });
         } else {
-          // TODO: logger error
+          const région = await getRégionsProjet(event.payload.identifiantProjet);
+          await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
+            typeGarantiesFinancières:
+              event.payload.aggregate.dépôt.typeGarantiesFinancières || undefined,
+            dateÉchéance: event.payload.aggregate.dépôt.dateÉchéance || undefined,
+            attestationConstitution: { ...event.payload.aggregate.dépôt.attestationConstitution },
+            dateDernièreMiseÀJour: event.payload.aggregate.dépôt.dateDépôt,
+            région,
+            identifiantProjet: event.payload.identifiantProjet,
+            dateDépôt: event.payload.aggregate.dépôt.dateDépôt,
+          });
         }
         break;
       case 'GarantiesFinancièresDéposées-v1':
@@ -109,6 +121,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
       case 'DépôtGarantiesFinancièresSupprimé-v1':
         if (isNone(dépôtGarantiesFinancières)) {
           // TODO : logguer erreur si pas de dépôt existant
+          break;
         }
 
         if (isSome(dépôtGarantiesFinancières)) {
