@@ -11,7 +11,6 @@ import {
 import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
 import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
-import { deleteAllSubscribers } from './subscriber/deleteAllSubscribers';
 import waitForExpect from 'wait-for-expect';
 import { WrongSubscriberNameError } from './subscriber/checkSubscriberName';
 
@@ -195,34 +194,6 @@ describe(`subscribe`, () => {
   });
 
   it(`
-    Étant donnée un subscriber déjà enregistré
-    Lorsqu'on clean le registre des subscribers
-    Alors le subscriber n'est plus enregistré
-  `, async () => {
-    // Arrange
-    const unsubscribe = await subscribe({
-      name: 'event_handler',
-      eventType,
-      eventHandler: () => Promise.resolve(),
-      streamCategory: 'category',
-    });
-    unsubscribes.push(unsubscribe);
-
-    // Act
-    await deleteAllSubscribers();
-
-    const subscribers = await executeSelect(
-      `
-          select *
-          from event_store.subscriber
-          where subscriber_id = $1`,
-      'event_handler',
-    );
-
-    expect(subscribers.length).toBe(0);
-  });
-
-  it(`
     Étant donnée un event en attente d'acknowledgement
     Et un event handler permettant de traiter cet event
     Lorsque que l'event handler souscrit au type d'event
@@ -234,7 +205,7 @@ describe(`subscribe`, () => {
     const payload = {
       propriété: 'propriété',
     };
-    await deleteAllSubscribers();
+
     const eventHandler = jest.fn(() => Promise.resolve());
 
     await executeQuery(
@@ -262,8 +233,6 @@ describe(`subscribe`, () => {
       version,
       payload,
     );
-
-    await deleteAllSubscribers();
 
     const unsubscribe = await subscribe({
       name: 'event_handler',
