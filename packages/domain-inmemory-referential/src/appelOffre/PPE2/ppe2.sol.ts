@@ -126,6 +126,26 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
     },
+    {
+      id: '4',
+      title: 'quatrième',
+      certificateTemplate: 'ppe2.v2',
+      cahierDesCharges: {
+        référence: '2023 S 063-187860',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/maj-cdc-pv-sol-v140423',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      noteThresholdBy: 'category',
+      noteThreshold: {
+        volumeReserve: {
+          noteThreshold: 17.96,
+          puissanceMax: 5,
+        },
+        autres: {
+          noteThreshold: 17.34,
+        },
+      },
+    },
   ],
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
