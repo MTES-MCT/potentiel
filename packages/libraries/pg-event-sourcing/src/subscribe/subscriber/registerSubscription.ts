@@ -1,6 +1,4 @@
-import { DomainEvent } from '@potentiel/core-domain';
 import { executeQuery } from '@potentiel/pg-helpers';
-import { Event } from '../../event';
 import { SubscriberConfiguration } from './subscriberConfiguration';
 
 const upsertSubscriberQuery = `
@@ -10,7 +8,7 @@ const upsertSubscriberQuery = `
   do update set filter = $2
 `;
 
-export const registerSubscriber = async <TDomainEvent extends DomainEvent = Event>({
+export const registerSubscriber = async ({
   eventType,
   name,
   streamCategory,

@@ -45,4 +45,62 @@ describe('register-subscription', () => {
     };
     expect(actual).toEqual(expected);
   });
+
+  it(`
+    Étant donnée une subscriber
+    Quand le subscriber est ajouté au registre pour tous les types d'event
+    Alors la configuration du subscriber est disponible dans le registre
+  `, async () => {
+    // Arrange
+    const name = 'subscriber';
+    const streamCategory = 'category';
+
+    const subscriberConfiguration: SubscriberConfiguration = {
+      eventType: 'all',
+      name,
+      streamCategory,
+    };
+
+    // Act
+    await registerSubscriber(subscriberConfiguration);
+
+    const actual = await getSubscriber(streamCategory, name);
+
+    // Assert
+    const expected: SubscriberConfiguration = {
+      eventType: 'all',
+      name,
+      streamCategory,
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it(`
+    Étant donnée une subscriber
+    Quand le subscriber est ajouté au registre pour plusieurs types d'event
+    Alors la configuration du subscriber est disponible dans le registre
+  `, async () => {
+    // Arrange
+    const name = 'subscriber';
+    const streamCategory = 'category';
+
+    const subscriberConfiguration: SubscriberConfiguration = {
+      eventType: ['event-1', 'event-2'],
+      name,
+      streamCategory,
+    };
+
+    // Act
+    await registerSubscriber(subscriberConfiguration);
+
+    const actual = await getSubscriber(streamCategory, name);
+
+    // Assert
+    const expected: SubscriberConfiguration = {
+      eventType: ['event-1', 'event-2'],
+      name,
+      streamCategory,
+    };
+    expect(actual).toEqual(expected);
+  });
 });
