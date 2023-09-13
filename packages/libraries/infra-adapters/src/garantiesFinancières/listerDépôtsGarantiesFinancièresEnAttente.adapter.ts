@@ -52,16 +52,12 @@ export const listerDépôtsGarantiesFinancièresEnAttenteAdapter: ListerDépôts
       AND gf.value->>'région' LIKE $2
       AND gf.value->>'statutDépôt' = $3
       AND p."abandonedOn" = $4
-      AND p.classe = $5
-    LIMIT $6
-    OFFSET $7`,
+      AND p.classe = $5`,
       `suivi-dépôt-garanties-financières|%`,
       `%${région}%`,
       'en attente',
       0,
       'Classé',
-      itemsPerPage,
-      page <= 1 ? 0 : (page - 1) * itemsPerPage,
     );
 
     return { items, totalCount: parseInt(totalCount[0].totalItems as string) };
