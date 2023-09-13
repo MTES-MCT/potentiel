@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ProjetReadModel } from '../../../domainViews.readModel';
-import { ListerDépôtsGarantiesFinancièresEnAttentePort } from '../suiviDesDépôts.port';
+import { ListerDépôtsGarantiesFinancièresEnAttentePort } from '../suiviDépôts.port';
 
 export type ListerDépôtsGarantiesFinancièresEnAttenteQuery = Message<
   'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES_EN_ATTENTE',

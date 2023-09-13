@@ -29,7 +29,6 @@ Alors(
       numéroCRE,
       commune,
       département,
-      statut,
     } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
     // ASSERT ON AGGREGATE

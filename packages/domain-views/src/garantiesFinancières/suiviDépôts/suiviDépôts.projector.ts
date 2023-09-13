@@ -11,7 +11,7 @@ import { Create, Find, Remove, Update } from '@potentiel/core-domain-views';
 import {
   SuiviDépôtGarantiesFinancièresReadModel,
   SuiviDépôtGarantiesFinancièresReadModelKey,
-} from './suiviDesDépôts.readModel';
+} from './suiviDépôts.readModel';
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
 
 export type ExecuteSuiviDépôtsGarantiesFinancièresProjector = Message<

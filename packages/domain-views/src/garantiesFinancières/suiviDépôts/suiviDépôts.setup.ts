@@ -9,7 +9,7 @@ import {
   ExecuteSuiviDépôtsGarantiesFinancièresProjector,
   SuiviDépôtsGarantiesFinancièresProjectorDependencies,
   registerSuiviDépôtsGarantiesFinancièresProjector,
-} from './suiviDesDépôts.projector';
+} from './suiviDépôts.projector';
 import {
   ListerDépôtsGarantiesFinancièresEnAttenteDependencies,
   registerListerDépôtsGarantiesFinancièresEnAttenteQuery,
