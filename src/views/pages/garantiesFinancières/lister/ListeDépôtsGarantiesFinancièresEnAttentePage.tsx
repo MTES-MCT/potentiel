@@ -21,7 +21,7 @@ import { afficherDate, hydrateOnClient } from '../../../helpers';
 type ListeDépôtsGarantiesFinancièresEnAttenteProps = {
   user: UtilisateurReadModel;
   projets?: ReadonlyArray<{
-    dateLimiteDeDépôt?: string;
+    dateLimiteDépôt?: string;
     projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire' | 'statut'>;
   }>;
   pagination: { currentPage: number; pageCount: number; currentUrl: string };
@@ -32,8 +32,8 @@ export const ListeDépôtsGarantiesFinancièresEnAttente = ({
   projets,
   pagination: { currentPage, pageCount, currentUrl },
 }: ListeDépôtsGarantiesFinancièresEnAttenteProps) => {
-  const isLate = (dateLimiteDeDépôt?: string) =>
-    dateLimiteDeDépôt && new Date(dateLimiteDeDépôt).getTime() < new Date().getTime();
+  const isLate = (dateLimiteDépôt?: string) =>
+    dateLimiteDépôt && new Date(dateLimiteDépôt).getTime() < new Date().getTime();
 
   return (
     <PageTemplate
@@ -59,7 +59,7 @@ export const ListeDépôtsGarantiesFinancièresEnAttente = ({
                   numéroCRE,
                   période,
                 },
-                dateLimiteDeDépôt,
+                dateLimiteDépôt,
               }) => (
                 <li className="list-none p-0 m-0" key={identifiantProjet}>
                   <Tile
@@ -89,7 +89,7 @@ export const ListeDépôtsGarantiesFinancièresEnAttente = ({
                           </div>
                         </div>
                       </div>
-                      {isLate(dateLimiteDeDépôt) && (
+                      {isLate(dateLimiteDépôt) && (
                         <Badge
                           type="warning"
                           className="mt-2 md:mt-0"
@@ -100,14 +100,14 @@ export const ListeDépôtsGarantiesFinancièresEnAttente = ({
                       )}
                     </div>
                     <div>
-                      {dateLimiteDeDépôt && (
+                      {dateLimiteDépôt && (
                         <div className="flex flex-col md:flex-row md:justify-between">
                           <div>
                             <ClockIcon className="mr-1 align-middle" aria-hidden />
                             date limite de dépôt dans Potentiel :{' '}
-                            {afficherDate(new Date(dateLimiteDeDépôt))}
+                            {afficherDate(new Date(dateLimiteDépôt))}
                           </div>
-                          {isLate(dateLimiteDeDépôt) && (
+                          {isLate(dateLimiteDépôt) && (
                             <DownloadLink
                               fileUrl={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE()}
                               className="mt-2 md:mt-0"
