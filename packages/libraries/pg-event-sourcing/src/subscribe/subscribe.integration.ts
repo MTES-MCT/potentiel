@@ -11,9 +11,9 @@ import {
 import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
 import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
-import { deleteAllSubscribers } from './deleteAllSubscribers';
-import { WrongSubscriberNameError } from './errors/wrongSubscriberName.error';
+import { deleteAllSubscribers } from './subscriber/deleteAllSubscribers';
 import waitForExpect from 'wait-for-expect';
+import { WrongSubscriberNameError } from './subscriber/checkSubscriberName';
 
 describe(`subscribe`, () => {
   const eventType = 'event-1';

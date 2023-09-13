@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { DomainEvent, Subscriber } from '@potentiel/core-domain';
 import { isEvent } from '../event';
 import { getLogger } from '@potentiel/monitoring';
-import { acknowledge } from './acknowledge';
+import { acknowledge } from './acknowledgement/acknowledge';
 import { Client } from 'pg';
 import { getConnectionString } from '@potentiel/pg-helpers';
 import { loadFromStream } from '../load/loadFromStream';
@@ -65,13 +65,14 @@ export class EventStreamEmitter extends EventEmitter {
           const events =
             eventType === 'all'
               ? await loadFromStream({
-                  streamId: event.streamId,
+                  streamId: event.stream_id,
                 })
               : await loadFromStream({
-                  streamId: event.streamId,
+                  streamId: event.stream_id,
                   eventTypes: Array.isArray(eventType) ? eventType : [eventType],
                 });
 
+          console.log(events.length);
           for (const evt of [event, ...events]) {
             try {
               getLogger().info('Rebuilding projection');

@@ -1,6 +1,6 @@
 import { DomainEvent, Subscriber } from '@potentiel/core-domain';
 import { executeQuery } from '@potentiel/pg-helpers';
-import { Event } from '../event';
+import { Event } from '../../event';
 
 const insertSubscriberQuery = 'insert into event_store.subscriber values($1, $2)';
 

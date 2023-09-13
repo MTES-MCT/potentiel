@@ -19,7 +19,11 @@ export const loadFromStream = async ({
 
   const query = `${baseQuery} ${whereEventTypeCondition} ${orderByClause}`;
 
+  console.log(query);
+
   const params = hasEventTypes ? [streamId, eventTypes] : [streamId];
+
+  console.log(JSON.stringify(params));
 
   return executeSelect<Event>(format(query), ...params);
 };

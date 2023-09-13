@@ -3,4 +3,4 @@ export { loadAggregate } from './load/loadAggregate';
 export { loadFromStream } from './load/loadFromStream';
 export { publish } from './publish/publish';
 export { subscribe } from './subscribe/subscribe';
-export { deleteAllSubscribers } from './subscribe/deleteAllSubscribers';
+export { deleteAllSubscribers } from './subscribe/subscriber/deleteAllSubscribers';

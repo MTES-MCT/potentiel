@@ -1,6 +1,4 @@
-drop view if exists system_views.stream_info;
-
-create view system_views.stream_info as
+create or replace view system_views.stream_info as
   select
     split_part(es.stream_id, '|', 1) category,
     split_part(es.stream_id, '|', 2) id,

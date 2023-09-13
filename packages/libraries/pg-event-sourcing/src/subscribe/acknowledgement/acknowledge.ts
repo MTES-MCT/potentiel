@@ -1,5 +1,5 @@
 import { executeQuery } from '@potentiel/pg-helpers';
-import { Event } from '../event';
+import { Event } from '../../event';
 
 const deletePendingAcknowledgementQuery = `
   delete 
@@ -11,5 +11,5 @@ const deletePendingAcknowledgementQuery = `
 
 export const acknowledge = async (
   subscriberName: string,
-  { streamId, createdAt, version }: Event,
+  { stream_id: streamId, created_at: createdAt, version }: Event,
 ) => executeQuery(deletePendingAcknowledgementQuery, subscriberName, streamId, createdAt, version);
