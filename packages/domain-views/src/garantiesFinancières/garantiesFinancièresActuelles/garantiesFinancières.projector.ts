@@ -28,26 +28,30 @@ export const registerGarantiesFinancièresProjector = ({
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
-        if (!event.payload.aggregate.actuelles) {
-          break;
-        }
-
-        if (isNone(garantiesFinancières)) {
-          const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
+        if (event.payload.aggregate.actuelles) {
+          const { typeGarantiesFinancières, attestationConstitution, dateÉchéance } =
             event.payload.aggregate.actuelles;
-          await create<GarantiesFinancièresReadModel>(key, {
-            typeGarantiesFinancières: typeGarantiesFinancières || undefined,
-            dateÉchéance: dateÉchéance || undefined,
-            attestationConstitution,
-          });
-        } else {
-          const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
-            event.payload.aggregate.actuelles;
-          await update<GarantiesFinancièresReadModel>(key, {
-            typeGarantiesFinancières: typeGarantiesFinancières || undefined,
-            dateÉchéance: dateÉchéance || undefined,
-            attestationConstitution,
-          });
+          if (isNone(garantiesFinancières)) {
+            await create<GarantiesFinancièresReadModel>(key, {
+              typeGarantiesFinancières:
+                typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
+              dateÉchéance: dateÉchéance === 'Date inconnue ' ? undefined : dateÉchéance,
+              attestationConstitution:
+                'attestationAbsente' in attestationConstitution
+                  ? undefined
+                  : attestationConstitution,
+            });
+          } else {
+            await update<GarantiesFinancièresReadModel>(key, {
+              typeGarantiesFinancières:
+                typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
+              dateÉchéance: dateÉchéance === 'Date inconnue ' ? undefined : dateÉchéance,
+              attestationConstitution:
+                'attestationAbsente' in attestationConstitution
+                  ? undefined
+                  : attestationConstitution,
+            });
+          }
         }
         break;
       case 'TypeGarantiesFinancièresEnregistré-v1':

@@ -110,12 +110,15 @@ Quand(
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
           aggregate: {
             dépôt: {
+              typeGarantiesFinancières: 'Type inconnu',
               attestationConstitution: {
                 format: format,
                 date: convertirEnDateTime(dateConstitution).formatter(),
               },
               dateDépôt: convertirEnDateTime(dateDépôt).formatter(),
-              ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
+              dateÉchéance: dateÉchéance
+                ? convertirEnDateTime(dateÉchéance).formatter()
+                : 'Date inconnue',
             },
           },
         },

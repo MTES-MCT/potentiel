@@ -54,16 +54,17 @@ export const registerSuiviDépôtsGarantiesFinancièresProjector = ({
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
         if (event.payload.aggregate.dépôt) {
+          const { dateLimiteDépôt } = event.payload.aggregate;
           if (isSome(actualReadModel)) {
             return update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
-              dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt || undefined,
+              dateLimiteDépôt: dateLimiteDépôt === 'Date inconnue' ? undefined : dateLimiteDépôt,
               région,
               identifiantProjet: event.payload.identifiantProjet,
               statutDépôt: 'en cours',
             });
           }
           return create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
-            dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt || undefined,
+            dateLimiteDépôt: dateLimiteDépôt === 'Date inconnue' ? undefined : dateLimiteDépôt,
             région,
             identifiantProjet: event.payload.identifiantProjet,
             statutDépôt: 'en cours',

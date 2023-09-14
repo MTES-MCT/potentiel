@@ -49,35 +49,36 @@ export const registerDépôtGarantiesFinancièresProjector = ({
 
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
-        if (!event.payload.aggregate.dépôt) {
-          break;
+        if (event.payload.aggregate.dépôt) {
+          const { attestationConstitution, dateDépôt, dateÉchéance, typeGarantiesFinancières } =
+            event.payload.aggregate.dépôt;
+          const région = await getRégionsProjet(event.payload.identifiantProjet);
+
+          if (isNone(dépôtGarantiesFinancières)) {
+            await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
+              typeGarantiesFinancières:
+                typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
+              dateÉchéance: dateÉchéance === 'Date inconnue' ? undefined : dateÉchéance,
+              attestationConstitution,
+              dateDernièreMiseÀJour: dateDépôt,
+              région,
+              identifiantProjet: event.payload.identifiantProjet,
+              dateDépôt: dateDépôt,
+            });
+          } else {
+            await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
+              typeGarantiesFinancières:
+                typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
+              dateÉchéance: dateÉchéance === 'Date inconnue' ? undefined : dateÉchéance,
+              attestationConstitution,
+              dateDernièreMiseÀJour: dateDépôt,
+              région,
+              identifiantProjet: event.payload.identifiantProjet,
+              dateDépôt: dateDépôt,
+            });
+          }
         }
 
-        if (isNone(dépôtGarantiesFinancières)) {
-          const région = await getRégionsProjet(event.payload.identifiantProjet);
-          await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-            typeGarantiesFinancières:
-              event.payload.aggregate.dépôt.typeGarantiesFinancières || undefined,
-            dateÉchéance: event.payload.aggregate.dépôt.dateÉchéance || undefined,
-            attestationConstitution: { ...event.payload.aggregate.dépôt.attestationConstitution },
-            dateDernièreMiseÀJour: event.payload.aggregate.dépôt.dateDépôt,
-            région,
-            identifiantProjet: event.payload.identifiantProjet,
-            dateDépôt: event.payload.aggregate.dépôt.dateDépôt,
-          });
-        } else {
-          const région = await getRégionsProjet(event.payload.identifiantProjet);
-          await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-            typeGarantiesFinancières:
-              event.payload.aggregate.dépôt.typeGarantiesFinancières || undefined,
-            dateÉchéance: event.payload.aggregate.dépôt.dateÉchéance || undefined,
-            attestationConstitution: { ...event.payload.aggregate.dépôt.attestationConstitution },
-            dateDernièreMiseÀJour: event.payload.aggregate.dépôt.dateDépôt,
-            région,
-            identifiantProjet: event.payload.identifiantProjet,
-            dateDépôt: event.payload.aggregate.dépôt.dateDépôt,
-          });
-        }
         break;
       case 'GarantiesFinancièresDéposées-v1':
         const région = await getRégionsProjet(event.payload.identifiantProjet);

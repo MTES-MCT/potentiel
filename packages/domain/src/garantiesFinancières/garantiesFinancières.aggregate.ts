@@ -143,14 +143,18 @@ const processGarantiesFinancièresSnapshotEvent = ({
     const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
       event.payload.aggregate.actuelles;
     actuelles = {
-      typeGarantiesFinancières,
+      typeGarantiesFinancières:
+        typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
       ...(attestationConstitution && {
-        attestationConstitution: {
-          format: attestationConstitution.format,
-          date: convertirEnDateTime(attestationConstitution.date),
-        },
+        attestationConstitution:
+          'attestationAbsente' in attestationConstitution
+            ? undefined
+            : {
+                format: attestationConstitution.format,
+                date: convertirEnDateTime(attestationConstitution.date),
+              },
       }),
-      ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
+      ...(dateÉchéance !== 'Date inconnue' && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
     };
   }
 
@@ -158,25 +162,27 @@ const processGarantiesFinancièresSnapshotEvent = ({
     const { typeGarantiesFinancières, dateÉchéance, attestationConstitution, dateDépôt } =
       event.payload.aggregate.dépôt;
     dépôt = {
-      typeGarantiesFinancières,
-      ...(attestationConstitution && {
-        attestationConstitution: {
-          format: attestationConstitution.format,
-          date: convertirEnDateTime(attestationConstitution.date),
-        },
-      }),
-      ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
+      typeGarantiesFinancières:
+        typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
+      attestationConstitution: {
+        format: attestationConstitution.format,
+        date: convertirEnDateTime(attestationConstitution.date),
+      },
+      ...(dateÉchéance !== 'Date inconnue' && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
       dateDépôt: convertirEnDateTime(dateDépôt),
     };
   }
+
+  const dateLimiteDépôt = event.payload.aggregate.dateLimiteDépôt;
 
   return {
     ...aggregate,
     dépôt,
     actuelles,
-    ...(event.payload.aggregate.dateLimiteDépôt && {
-      dateLimiteDépôt: convertirEnDateTime(event.payload.aggregate.dateLimiteDépôt),
-    }),
+    ...(dateLimiteDépôt &&
+      dateLimiteDépôt !== 'Date inconnue' && {
+        dateLimiteDépôt: convertirEnDateTime(dateLimiteDépôt),
+      }),
   };
 };
 
