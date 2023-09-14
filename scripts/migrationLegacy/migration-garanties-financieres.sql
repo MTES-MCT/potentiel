@@ -34,15 +34,15 @@ SELECT
     'identifiantProjet', p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
     'aggregate', json_build_object(
         'dépôt', json_build_object(
-            'typeGarantiesFinancières', gf.type,
-            'dateÉchéance', TO_CHAR(gf."dateEchéance", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"'), 
+            'typeGarantiesFinancières', CASE WHEN gf.type IS NOT NULL THEN gf.type ELSE 'Type inconnu' END,
+            'dateÉchéance',CASE WHEN gf."dateEchéance" IS NOT NULL THEN TO_CHAR(gf."dateEchéance", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"') ELSE 'Date inconnue' END, 
             'attestationConstitution', json_build_object(
                 'format', (SELECT 
                             CASE
                                 WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) IN ('pdf', 'PDF') THEN 'application/pdf'
                                 WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) = 'msg' THEN 'application/vnd.ms-outlook'
                                 WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) = 'tif' THEN 'image/tiff'
-                            ELSE 'Type inconnu'
+                            ELSE 'Format inconnu'
                             END AS mime_type
                             FROM  "files" 
                             WHERE id = gf."fichierId"), 
@@ -50,7 +50,7 @@ SELECT
             ),
             'dateDépôt', TO_CHAR(gf."dateEnvoi", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"')
         ),
-        'dateLimiteDépôt', TO_CHAR(gf."dateLimiteEnvoi", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"')
+        'dateLimiteDépôt', CASE WHEN gf."dateLimiteEnvoi" IS NOT NULL THEN TO_CHAR(gf."dateLimiteEnvoi", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"') ELSE 'Date inconnue' END
         )
     )
 FROM "garantiesFinancières" gf
@@ -73,20 +73,24 @@ SELECT
     'identifiantProjet', p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
     'aggregate', json_build_object(
         'actuelles', json_build_object(
-            'typeGarantiesFinancières', gf.type,
-            'dateÉchéance', TO_CHAR(gf."dateEchéance", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"'), 
-            'attestationConstitution', json_build_object(
-                'format', (SELECT 
-                            CASE
-                                WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) IN ('pdf', 'PDF') THEN 'application/pdf'
-                                WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) = 'msg' THEN 'application/vnd.ms-outlook'
-                                WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) = 'tif' THEN 'image/tiff'
-                            ELSE 'Type inconnu'
-                            END AS mime_type
-                            FROM  "files" 
-                            WHERE id = gf."fichierId"), 
-                'date', TO_CHAR(gf."dateConstitution", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"')
-            )
+            'typeGarantiesFinancières', CASE WHEN gf.type IS NOT NULL THEN gf.type ELSE 'Type inconnu' END,
+            'dateÉchéance',CASE WHEN gf."dateEchéance" IS NOT NULL THEN TO_CHAR(gf."dateEchéance", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"') ELSE 'Date inconnue' END, 
+            'attestationConstitution', CASE 
+                                            WHEN gf."fichierId" IS NOT NULL
+                                                THEN json_build_object(
+                                                'format', (SELECT 
+                                                            CASE
+                                                                WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) IN ('pdf', 'PDF') THEN 'application/pdf'
+                                                                WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) = 'msg' THEN 'application/vnd.ms-outlook'
+                                                                WHEN REVERSE(SPLIT_PART(REVERSE(filename), '.', 1)) = 'tif' THEN 'image/tiff'
+                                                            ELSE 'Type inconnu'
+                                                            END AS mime_type
+                                                            FROM  "files" 
+                                                            WHERE id = gf."fichierId"), 
+                                                'date', TO_CHAR(gf."dateConstitution", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"')
+                                                )
+                                            ELSE json_build_object('attestationAbsente', true)  
+                                            END     
         )
         )
     )
