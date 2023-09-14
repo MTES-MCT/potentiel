@@ -20,6 +20,7 @@ import {
   téléchargerFichierAdapter,
   téléverserFichierAdapter,
   supprimerFichierAdapter,
+  listerDépôtsGarantiesFinancièresEnAttenteAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
@@ -81,7 +82,10 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       téléchargerFichier: téléchargerFichierAdapter,
       récupérerDétailProjet: récupérerDétailProjetAdapter,
     },
-    suiviDépôtsGarantiesFinancières: { récupérerDétailProjet: récupérerDétailProjetAdapter },
+    suiviDépôtsGarantiesFinancières: {
+      récupérerDétailProjet: récupérerDétailProjetAdapter,
+      listerDépôtsGarantiesFinancièresEnAttente: listerDépôtsGarantiesFinancièresEnAttenteAdapter,
+    },
   });
 
   return async () => {

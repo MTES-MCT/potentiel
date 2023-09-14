@@ -18,17 +18,17 @@ export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
     identifiantProjet: RawIdentifiantProjet;
     aggregate: {
       actuelles?: {
-        typeGarantiesFinancières?: TypeGarantiesFinancières;
-        dateÉchéance?: string;
-        attestationConstitution?: { format: string; date: string };
+        typeGarantiesFinancières: TypeGarantiesFinancières | 'Type inconnu';
+        dateÉchéance: string | 'Date inconnue';
+        attestationConstitution: { format: string; date: string } | { attestationAbsente: true };
       };
       dépôt?: {
-        typeGarantiesFinancières?: TypeGarantiesFinancières;
-        dateÉchéance?: string;
+        typeGarantiesFinancières: TypeGarantiesFinancières | 'Type inconnu';
+        dateÉchéance: string | 'Date inconnue';
         attestationConstitution: { format: string; date: string };
         dateDépôt: string;
       };
-      dateLimiteDépôt?: string;
+      dateLimiteDépôt?: string | 'Date inconnue';
     };
   }
 >;

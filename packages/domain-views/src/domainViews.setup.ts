@@ -18,7 +18,7 @@ import {
 import {
   SuiviDépôtsGarantiesFinancièresDependencies,
   setupSuiviDépôtsGarantiesFinancièresViews,
-} from './garantiesFinancières/suiviDesDépôts/suiviDesDépôts.setup';
+} from './garantiesFinancières/suiviDépôts/suiviDépôts.setup';
 
 type CommonDependencies = {
   subscribe: Subscribe;

@@ -9,7 +9,7 @@ import {
   ExecuteSuiviDépôtsGarantiesFinancièresProjector,
   SuiviDépôtsGarantiesFinancièresProjectorDependencies,
   registerSuiviDépôtsGarantiesFinancièresProjector,
-} from './suiviDesDépôts.projector';
+} from './suiviDépôts.projector';
 import {
   ListerDépôtsGarantiesFinancièresEnAttenteDependencies,
   registerListerDépôtsGarantiesFinancièresEnAttenteQuery,
@@ -19,8 +19,8 @@ import {
 export type SuiviDépôtsGarantiesFinancièresDependencies = {
   subscribe: Subscribe;
 } & ConsulterSuiviDépôtGarantiesFinancièresDependencies &
-  ListerDépôtsGarantiesFinancièresEnAttenteDependencies &
-  SuiviDépôtsGarantiesFinancièresProjectorDependencies;
+  SuiviDépôtsGarantiesFinancièresProjectorDependencies &
+  ListerDépôtsGarantiesFinancièresEnAttenteDependencies;
 
 export const setupSuiviDépôtsGarantiesFinancièresViews = async (
   dependencies: SuiviDépôtsGarantiesFinancièresDependencies,

@@ -12,8 +12,6 @@ import {
 import { Create, Update, Find, Remove } from '@potentiel/core-domain-views';
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
 
-
-
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',
   DépôtGarantiesFinancièresEvent
@@ -51,21 +49,29 @@ export const registerDépôtGarantiesFinancièresProjector = ({
 
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
-        if (!event.payload.aggregate.dépôt) {
-          return;
-        }
-
-        if (isNone(dépôtGarantiesFinancières)) {
+        if (event.payload.aggregate.dépôt) {
+          const { attestationConstitution, dateDépôt, dateÉchéance, typeGarantiesFinancières } =
+            event.payload.aggregate.dépôt;
           const région = await getRégionsProjet(event.payload.identifiantProjet);
-          await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-            ...event.payload.aggregate.dépôt,
-            dateDernièreMiseÀJour: event.payload.aggregate.dépôt.dateDépôt,
+
+          const readModel = {
+            typeGarantiesFinancières:
+              typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
+            dateÉchéance: dateÉchéance === 'Date inconnue' ? undefined : dateÉchéance,
+            attestationConstitution,
+            dateDernièreMiseÀJour: dateDépôt,
             région,
             identifiantProjet: event.payload.identifiantProjet,
-          });
-        } else {
-          // TODO: logger error
+            dateDépôt: dateDépôt,
+          };
+
+          if (isNone(dépôtGarantiesFinancières)) {
+            await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, readModel);
+          } else {
+            await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, readModel);
+          }
         }
+
         break;
       case 'GarantiesFinancièresDéposées-v1':
         const région = await getRégionsProjet(event.payload.identifiantProjet);
@@ -109,6 +115,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
       case 'DépôtGarantiesFinancièresSupprimé-v1':
         if (isNone(dépôtGarantiesFinancières)) {
           // TODO : logguer erreur si pas de dépôt existant
+          break;
         }
 
         if (isSome(dépôtGarantiesFinancières)) {
