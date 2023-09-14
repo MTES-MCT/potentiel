@@ -74,7 +74,9 @@ EtantDonné(
               date: convertirEnDateTime(dateConstitution).formatter(),
             },
             dateDépôt: convertirEnDateTime(dateDépôt).formatter(),
-            ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance).formatter() }),
+            dateÉchéance: dateÉchéance
+              ? convertirEnDateTime(dateÉchéance).formatter()
+              : 'Date inconnue',
           },
         },
       },

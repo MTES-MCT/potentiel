@@ -89,8 +89,18 @@ EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProje
 });
 
 EtantDonné(
-  'le projet {string} de la région {string}',
-  async function (this: PotentielWorld, nomProjet: string, régionProjet: string) {
+  'le projet {string} {string} de la région {string}',
+  async function (
+    this: PotentielWorld,
+    statutProjet: string,
+    nomProjet: string,
+    régionProjet: string,
+  ) {
+    if (!['classé', 'éliminé', 'abandonné'].includes(statutProjet)) {
+      throw new Error(
+        `Le statut du projet est incorrect. Doit être : 'classé', 'éliminé' ou 'abandonné'`,
+      );
+    }
     const legacyId = randomUUID();
     await executeQuery(
       `
@@ -115,7 +125,8 @@ EtantDonné(
         "classe",
         "isFinancementParticipatif",
         "isInvestissementParticipatif",
-        "engagementFournitureDePuissanceAlaPointe"
+        "engagementFournitureDePuissanceAlaPointe",
+        "abandonedOn"
       )
       values (
         $1,
@@ -138,7 +149,8 @@ EtantDonné(
         $18,
         $19,
         $20,
-        $21
+        $21,
+        $22
       )
     `,
       legacyId,
@@ -158,10 +170,11 @@ EtantDonné(
       'communeProjet',
       'departementProjet',
       régionProjet,
-      'Classé',
+      statutProjet === 'éliminé' ? 'Eliminé' : 'Classé',
       false,
       false,
       false,
+      statutProjet === 'abandonné' ? new Date().getTime() : 0,
     );
 
     this.projetWorld.projetFixtures.set(nomProjet, {
@@ -172,7 +185,7 @@ EtantDonné(
         famille: none,
         numéroCRE: '27',
       },
-      statut: 'classé',
+      statut: statutProjet,
       appelOffre: 'PPE2 - Eolien',
       commune: 'communeProjet',
       département: 'departementProjet',

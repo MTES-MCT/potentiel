@@ -2,7 +2,7 @@
 
 Fonctionnalité: Supprimer un dépôt de garanties financières
     Contexte: 
-        Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
+        Etant donné le projet "classé" "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
 
     Scénario: Supprimer un dépôt de garanties financières 
         Etant donné des garanties financières à déposer pour le projet "Centrale éolienne 20" avec :
