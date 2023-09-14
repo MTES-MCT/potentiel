@@ -109,7 +109,10 @@ export const ListeDépôtsGarantiesFinancièresEnAttente = ({
                           </div>
                           {isLate(dateLimiteDépôt) && (
                             <DownloadLink
-                              fileUrl={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE()}
+                              fileUrl={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
+                                id: legacyId,
+                                nomProjet: nom,
+                              })}
                               className="mt-2 md:mt-0"
                               aria-label={`télécharger un modèle de mise en demeure pour le projet ${nom}`}
                             >
