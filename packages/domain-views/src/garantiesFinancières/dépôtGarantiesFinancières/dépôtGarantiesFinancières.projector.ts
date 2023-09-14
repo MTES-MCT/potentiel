@@ -54,28 +54,21 @@ export const registerDépôtGarantiesFinancièresProjector = ({
             event.payload.aggregate.dépôt;
           const région = await getRégionsProjet(event.payload.identifiantProjet);
 
+          const readModel = {
+            typeGarantiesFinancières:
+              typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
+            dateÉchéance: dateÉchéance === 'Date inconnue' ? undefined : dateÉchéance,
+            attestationConstitution,
+            dateDernièreMiseÀJour: dateDépôt,
+            région,
+            identifiantProjet: event.payload.identifiantProjet,
+            dateDépôt: dateDépôt,
+          };
+
           if (isNone(dépôtGarantiesFinancières)) {
-            await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-              typeGarantiesFinancières:
-                typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
-              dateÉchéance: dateÉchéance === 'Date inconnue' ? undefined : dateÉchéance,
-              attestationConstitution,
-              dateDernièreMiseÀJour: dateDépôt,
-              région,
-              identifiantProjet: event.payload.identifiantProjet,
-              dateDépôt: dateDépôt,
-            });
+            await create<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, readModel);
           } else {
-            await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, {
-              typeGarantiesFinancières:
-                typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
-              dateÉchéance: dateÉchéance === 'Date inconnue' ? undefined : dateÉchéance,
-              attestationConstitution,
-              dateDernièreMiseÀJour: dateDépôt,
-              région,
-              identifiantProjet: event.payload.identifiantProjet,
-              dateDépôt: dateDépôt,
-            });
+            await update<DépôtGarantiesFinancièresReadModel>(dépôtReadModelKey, readModel);
           }
         }
 

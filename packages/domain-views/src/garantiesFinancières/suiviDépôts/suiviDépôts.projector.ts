@@ -55,37 +55,28 @@ export const registerSuiviDépôtsGarantiesFinancièresProjector = ({
       case 'GarantiesFinancièresSnapshot-v1':
         if (event.payload.aggregate.dépôt) {
           const { dateLimiteDépôt } = event.payload.aggregate;
-          if (isSome(actualReadModel)) {
-            return update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
-              dateLimiteDépôt: dateLimiteDépôt === 'Date inconnue' ? undefined : dateLimiteDépôt,
-              région,
-              identifiantProjet: event.payload.identifiantProjet,
-              statutDépôt: 'en cours',
-            });
-          }
-          return create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
+          const readModel = {
             dateLimiteDépôt: dateLimiteDépôt === 'Date inconnue' ? undefined : dateLimiteDépôt,
             région,
             identifiantProjet: event.payload.identifiantProjet,
-            statutDépôt: 'en cours',
-          });
-        } else if (event.payload.aggregate.dateLimiteDépôt) {
+            statutDépôt: 'en cours' as const,
+          };
           if (isSome(actualReadModel)) {
-            return update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
-              dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
-              région,
-              identifiantProjet: event.payload.identifiantProjet,
-              statutDépôt: 'en attente',
-            });
+            return update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, readModel);
           }
-
+          return create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, readModel);
+        } else if (event.payload.aggregate.dateLimiteDépôt) {
+          const readModel = {
+            dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
+            région,
+            identifiantProjet: event.payload.identifiantProjet,
+            statutDépôt: 'en attente' as const,
+          };
+          if (isSome(actualReadModel)) {
+            return update<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, readModel);
+          }
           if (isNone(actualReadModel)) {
-            return create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, {
-              dateLimiteDépôt: event.payload.aggregate.dateLimiteDépôt,
-              région,
-              identifiantProjet: event.payload.identifiantProjet,
-              statutDépôt: 'en attente',
-            });
+            return create<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey, readModel);
           }
         }
 
