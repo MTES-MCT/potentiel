@@ -25,13 +25,13 @@ type ListeDépôtsGarantiesFinancièresÀValiderProps = {
     dépôt: DépôtGarantiesFinancièresReadModel;
     projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
   }>;
-  pagination: { currentPage: number; pageCount: number; currentUrl: string };
+  pagination: { currentPage: number; pageCount: number; currentUrl: string; totalCount: number };
 };
 
 export const ListeDépôtsGarantiesFinancièresÀValider = ({
   user,
   listeDépôtsGarantiesFinancières,
-  pagination: { currentPage, pageCount, currentUrl },
+  pagination: { currentPage, pageCount, currentUrl, totalCount },
 }: ListeDépôtsGarantiesFinancièresÀValiderProps) => {
   return (
     <PageTemplate
@@ -39,7 +39,7 @@ export const ListeDépôtsGarantiesFinancièresÀValider = ({
       user={user}
       contentHeader={<Heading1 className="text-white">Garanties financières</Heading1>}
     >
-      <Heading2>Dépôts de garanties financières à valider</Heading2>
+      <Heading2>Dépôts de garanties financières à valider ({totalCount})</Heading2>
       {!listeDépôtsGarantiesFinancières || !listeDépôtsGarantiesFinancières.length ? (
         <ListeVide titre="Aucun dépôt à afficher" />
       ) : (
