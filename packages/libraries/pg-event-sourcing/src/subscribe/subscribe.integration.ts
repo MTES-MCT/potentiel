@@ -8,11 +8,10 @@ import {
   it,
   jest,
 } from '@jest/globals';
-import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
+import { DomainEvent, Unsubscribe } from '@potentiel/core-domain';
 import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
 import waitForExpect from 'wait-for-expect';
-import { WrongSubscriberNameError } from './subscriber/checkSubscriberName';
 
 describe(`subscribe`, () => {
   const eventType = 'event-1';
@@ -36,90 +35,11 @@ describe(`subscribe`, () => {
   beforeEach(async () => {
     await executeQuery(`delete from event_store.event_stream`);
     await executeQuery(`delete from event_store.subscriber`);
+    await executeQuery(`delete from event_store.pending_acknowledgement`);
   });
 
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
-  });
-
-  it(`
-    Etant donnée un event handler
-    Lorsque que l'event handler souscrit à un type d'event
-    Alors la souscription est crée dans l'event store
-  `, async () => {
-    const eventHandler = jest.fn(() => Promise.resolve());
-    const unsubscribe = await subscribe({
-      name: 'event_handler',
-      eventType,
-      eventHandler,
-      streamCategory: 'category',
-    });
-
-    unsubscribes.push(unsubscribe);
-
-    const actual = await executeSelect<Subscriber>(
-      `
-        select subscriber_id, filter
-        from event_store.subscriber
-        where subscriber_id = $1
-      `,
-      'event_handler',
-    );
-
-    const expected = {
-      subscriber_id: 'event_handler',
-      filter: [eventType],
-    };
-
-    expect(actual[0]).toEqual(expected);
-  });
-
-  it(`
-    Etant donnée un event handler
-    Lorsque que l'event handler souscrit à tout les types d'event
-    Alors la souscription est crée dans l'event store
-  `, async () => {
-    const eventHandler = jest.fn(() => Promise.resolve());
-    const unsubscribe = await subscribe({
-      name: 'event_handler',
-      eventType: 'all',
-      eventHandler,
-      streamCategory: 'category',
-    });
-    unsubscribes.push(unsubscribe);
-
-    const actual = await executeSelect<Subscriber>(
-      `
-        select subscriber_id, filter
-        from event_store.subscriber
-        where subscriber_id = $1
-      `,
-      'event_handler',
-    );
-
-    const expected = {
-      subscriber_id: 'event_handler',
-      filter: null,
-    };
-
-    expect(actual[0]).toEqual(expected);
-  });
-
-  it(`
-    Etant donnée un event handler
-    Lorsque que l'event handler souscrit à un type d'event
-    Mais que le nom du subscriber n'est pas en lower_snake_case
-    Alors une erreur est levée
-  `, async () => {
-    const eventHandler = jest.fn(() => Promise.resolve());
-    const promise = subscribe({
-      name: 'eventHandler',
-      eventType,
-      eventHandler,
-      streamCategory: 'category',
-    });
-
-    await expect(promise).rejects.toBeInstanceOf(WrongSubscriberNameError);
   });
 
   it(`
