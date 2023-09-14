@@ -1,4 +1,18 @@
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
+
+const CDCModifié30072021: CahierDesChargesModifié = {
+  paruLe: '30/07/2021',
+  type: 'modifié',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-1',
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.2.4',
+      dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+ Les modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+ Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
+    },
+  },
+};
 
 export const autoconsommationMetropole2016: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole 2016',
@@ -83,6 +97,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '2',
@@ -93,22 +108,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [
-    {
-      paruLe: '30/07/2021',
-      type: 'modifié',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-1',
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.2.4',
-          dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-        },
-      },
-    },
-  ],
+  cahiersDesChargesModifiésDisponibles: [],
 };
