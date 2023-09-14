@@ -28,19 +28,21 @@ export const registerGarantiesFinancièresProjector = ({
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
-        if (!event.payload.aggregate.actuelles) {
-          return;
-        }
-        if (isNone(garantiesFinancières)) {
-          const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
+        if (event.payload.aggregate.actuelles) {
+          const { typeGarantiesFinancières, attestationConstitution, dateÉchéance } =
             event.payload.aggregate.actuelles;
-          await create<GarantiesFinancièresReadModel>(key, {
-            typeGarantiesFinancières,
-            dateÉchéance,
-            attestationConstitution,
-          });
-        } else {
-          // TODO: logger error
+          const readModel = {
+            typeGarantiesFinancières:
+              typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
+            dateÉchéance: dateÉchéance === 'Date inconnue ' ? undefined : dateÉchéance,
+            attestationConstitution:
+              'attestationAbsente' in attestationConstitution ? undefined : attestationConstitution,
+          };
+          if (isNone(garantiesFinancières)) {
+            await create<GarantiesFinancièresReadModel>(key, readModel);
+          } else {
+            await update<GarantiesFinancièresReadModel>(key, readModel);
+          }
         }
         break;
       case 'TypeGarantiesFinancièresEnregistré-v1':

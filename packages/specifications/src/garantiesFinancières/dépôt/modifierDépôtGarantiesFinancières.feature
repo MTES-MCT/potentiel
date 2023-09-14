@@ -1,7 +1,7 @@
 #Language: fr-FR
 Fonctionnalité: Modifier le dépôt de garanties financières en attente de validation dans Potentiel
     Contexte: 
-        Etant donné le projet "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
+        Etant donné le projet "classé" "Centrale éolienne 20" de la région "Nouvelle-Aquitaine"
 
     Scénario: Modifier un dépôt existant
         Etant donné un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :

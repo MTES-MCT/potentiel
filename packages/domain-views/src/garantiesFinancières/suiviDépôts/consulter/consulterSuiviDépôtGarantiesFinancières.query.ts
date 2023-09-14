@@ -10,7 +10,7 @@ import { Find } from '@potentiel/core-domain-views';
 import {
   SuiviDépôtGarantiesFinancièresReadModel,
   SuiviDépôtGarantiesFinancièresReadModelKey,
-} from '../suiviDesDépôts.readModel';
+} from '../suiviDépôts.readModel';
 
 export type ConsulterSuiviDépôtGarantiesFinancièresQuery = Message<
   'CONSULTER_SUIVI_DÉPÔT_GARANTIES_FINANCIÈRES',
