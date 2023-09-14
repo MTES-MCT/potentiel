@@ -12,7 +12,7 @@ import { mediator } from 'mediateur';
 import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
-  PermissionDéposerGarantiesFinancières,
+  PermissionModifierDépôtGarantiesFinancières,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
@@ -27,7 +27,7 @@ const schema = yup.object({
 
 v1Router.get(
   routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(),
-  vérifierPermissionUtilisateur(PermissionDéposerGarantiesFinancières),
+  vérifierPermissionUtilisateur(PermissionModifierDépôtGarantiesFinancières),
   safeAsyncHandler(
     {
       schema,

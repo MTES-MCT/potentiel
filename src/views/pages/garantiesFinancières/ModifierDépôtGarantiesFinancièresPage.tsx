@@ -109,6 +109,7 @@ export const ModifierDépôtGarantiesFinancières = ({
               id="file"
               name="file"
               required={!dépôt?.attestationConstitution.format}
+              disabled={user.role !== 'porteur-projet'}
               fileUrl={routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES_DEPOT(
                 identifiantProjet,
               )}
@@ -124,7 +125,8 @@ export const ModifierDépôtGarantiesFinancières = ({
         </Form>
 
         <InfoBox className="flex md:w-1/3 md:mx-auto">
-          Vous pouvez modifier ce dépôt jusqu'à sa validation par la DREAL concernée.
+          Vous pouvez modifier ce dépôt jusqu'à sa validation{' '}
+          {user.role === 'porteur-projet' && <span>par la DREAL concernée</span>}.
         </InfoBox>
       </div>
     </PageProjetTemplate>

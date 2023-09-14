@@ -16,7 +16,7 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
   AttestationConstitution,
-  PermissionDéposerGarantiesFinancières,
+  PermissionModifierDépôtGarantiesFinancières,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
@@ -52,7 +52,7 @@ const schema = yup.object({
 v1Router.post(
   routes.POST_MODIFIER_DEPOT_GARANTIES_FINANCIERES(),
   uploadMiddleware.single('file'),
-  vérifierPermissionUtilisateur(PermissionDéposerGarantiesFinancières),
+  vérifierPermissionUtilisateur(PermissionModifierDépôtGarantiesFinancières),
   safeAsyncHandler(
     {
       schema,

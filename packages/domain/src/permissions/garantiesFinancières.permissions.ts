@@ -13,6 +13,11 @@ export const PermissionDéposerGarantiesFinancières = {
   description: 'Déposer de nouvelles garanties financières',
 };
 
+export const PermissionModifierDépôtGarantiesFinancières = {
+  nom: 'modifier-dépôt-garanties-financières',
+  description: 'Modifier un dépôt de garanties financières',
+};
+
 export const PermissionValiderDépôtGarantiesFinancières = {
   nom: 'valider-dépôt-garanties-financières',
   description: 'Valider un dépôt de garanties financières',
