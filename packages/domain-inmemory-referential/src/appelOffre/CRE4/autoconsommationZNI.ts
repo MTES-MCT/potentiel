@@ -1,6 +1,42 @@
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
 
-const autoconsommationZNI: AppelOffre = {
+const CDCModifié30072021: CahierDesChargesModifié = {
+  paruLe: '30/07/2021',
+  type: 'modifié',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-autoconsommation-2',
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.3.4',
+      dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+ Les modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+ Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
+    },
+  },
+};
+
+const CDCModifié30082022: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '30/08/2022',
+  numéroGestionnaireRequis: true,
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-2-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.3.4',
+      dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance  de  l’Installation  modifiée  soit  comprise  entre  quatre-vingt  pourcents  (80%)  et  cent  pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée)  et que la Puissance modifiée soit inférieure à la limite de puissance mentionnée au 2.2.
+    Les modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+    Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
+    },
+  },
+  seuilSupplémentaireChangementPuissance: {
+    ratios: {
+      min: 0.8,
+      max: 1.4,
+    },
+  },
+};
+
+export const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
   typeAppelOffre: 'autoconso',
   title:
@@ -85,6 +121,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
     },
     {
       id: '2',
@@ -104,43 +141,9 @@ Les modifications de la Puissance installée hors de cette fourchette ou les mod
 Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [
-    {
-      paruLe: '30/07/2021',
-      type: 'modifié',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-autoconsommation-2',
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.3.4',
-          dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-        },
-      },
-    },
-    {
-      type: 'modifié',
-      paruLe: '30/08/2022',
-      numéroGestionnaireRequis: true,
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-2-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.3.4',
-          dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance  de  l’Installation  modifiée  soit  comprise  entre  quatre-vingt  pourcents  (80%)  et  cent  pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
-    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée)  et que la Puissance modifiée soit inférieure à la limite de puissance mentionnée au 2.2.
-    Les modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
-    Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
-        },
-      },
-      délaiApplicable: {
-        délaiEnMois: 18,
-        intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
-      },
-    },
-  ],
+  cahiersDesChargesModifiésDisponibles: [],
 };
-
-export { autoconsommationZNI };
