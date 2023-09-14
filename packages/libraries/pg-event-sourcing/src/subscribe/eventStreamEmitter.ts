@@ -1,22 +1,68 @@
 import { EventEmitter } from 'events';
 import { DomainEvent, Subscriber } from '@potentiel/core-domain';
-import { isEvent } from '../event';
+import { isEvent, Event } from '../event';
 import { getLogger } from '@potentiel/monitoring';
 import { acknowledge } from './acknowledgement/acknowledge';
 import { Client } from 'pg';
 import { getConnectionString } from '@potentiel/pg-helpers';
-import { loadFromStream } from '../load/loadFromStream';
+import { rebuild } from './rebuild/rebuild';
+import format from 'pg-format';
+import { RebuildTriggered } from '@potentiel/core-domain-views';
 
 export class EventStreamEmitter extends EventEmitter {
   #client: Client;
-  #name: string;
-  #streamCategory: string;
+  #subscriber: Subscriber;
 
-  constructor(streamCategory: string, name: string) {
+  constructor(subscriber: Subscriber) {
     super();
     this.#client = new Client(getConnectionString());
-    this.#name = name;
-    this.#streamCategory = streamCategory;
+    this.#subscriber = subscriber;
+
+    this.on('rebuild', async (event: RebuildTriggered) => {
+      await rebuild(event, this.#subscriber);
+    });
+
+    this.on('domain-event', async (event: Event) => {
+      try {
+        await this.#subscriber.eventHandler({
+          type: event.type,
+          payload: event.payload,
+        } as DomainEvent);
+        await acknowledge({
+          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
+          created_at: event.created_at,
+          stream_id: event.stream_id,
+          version: event.version,
+        });
+      } catch (error) {
+        getLogger().error(new Error('Handling domain event failed'), {
+          error,
+          event,
+          subscriber: this.#subscriber,
+        });
+      }
+    });
+
+    this.on('unknown-event', async (event: Event) => {
+      getLogger().warn('Unknown event', {
+        event,
+        subscriber: this.#subscriber,
+      });
+      try {
+        await acknowledge({
+          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
+          created_at: event.created_at,
+          stream_id: event.stream_id,
+          version: event.version,
+        });
+      } catch (error) {
+        getLogger().error(new Error('Handling unknow event failed'), {
+          error,
+          event,
+          subscriber: this.#subscriber,
+        });
+      }
+    });
   }
 
   async connect() {
@@ -32,89 +78,48 @@ export class EventStreamEmitter extends EventEmitter {
   }
 
   async disconnect() {
-    await this.#client.query(`unlisten "${this.#streamCategory}|${this.#name}"`);
-    this.removeAllListeners(this.#name);
+    await this.#client.query(
+      format(`unlisten "${this.#subscriber.streamCategory}|${this.#subscriber.name}"`),
+    );
+    this.removeAllListeners('domain-event');
+    this.removeAllListeners('unknown-event');
+    this.removeAllListeners('rebuild');
     await this.#client.end();
   }
 
-  async listen<TDomainEvent extends DomainEvent>({
-    eventHandler,
-    eventType,
-  }: Subscriber<TDomainEvent>) {
-    const listener = async (payload: string) => {
-      const event = JSON.parse(payload) as TDomainEvent;
-      if (isEvent(event)) {
-        if (
-          event.type !== 'RebuildTriggered' &&
-          (eventType === 'all' ||
-            (Array.isArray(eventType) ? eventType.includes(event.type) : event.type === eventType))
-        ) {
-          try {
-            await eventHandler(event);
-            await acknowledge({
-              subscriber_id: `${this.#streamCategory}|${this.#name}`,
-              created_at: event.created_at,
-              stream_id: event.stream_id,
-              version: event.version,
-            });
-          } catch (error) {
-            getLogger().error(error as Error, {
-              subscriberName: this.#name,
-              event,
-            });
-          }
-        } else if (event.type === 'RebuildTriggered') {
-          getLogger().info(
-            `RebuildTriggered event received: ${`${this.#streamCategory}|${this.#name}`}`,
-          );
-          const events =
-            eventType === 'all'
-              ? await loadFromStream({
-                  streamId: event.stream_id,
-                })
-              : await loadFromStream({
-                  streamId: event.stream_id,
-                  eventTypes: Array.isArray(eventType) ? eventType : [eventType],
-                });
-
-          console.log(events.length);
-          for (const evt of [event, ...events]) {
-            try {
-              getLogger().info('Rebuilding projection');
-              await eventHandler(evt as unknown as TDomainEvent);
-            } catch (error) {
-              getLogger().error(error as Error, {
-                subscriberName: `${this.#streamCategory}|${this.#name}`,
-                event,
-              });
-            }
-          }
-          await acknowledge({
-            subscriber_id: `${this.#streamCategory}|${this.#name}`,
-            created_at: event.created_at,
-            stream_id: event.stream_id,
-            version: event.version,
-          });
-        } else {
-          getLogger().warn('Unknown event', {
-            event,
-          });
-          await acknowledge({
-            subscriber_id: `${this.#streamCategory}|${this.#name}`,
-            created_at: event.created_at,
-            stream_id: event.stream_id,
-            version: event.version,
-          });
-        }
-      }
-    };
-
-    this.on(`${this.#streamCategory}|${this.#name}`, listener);
-
+  async listen() {
     this.#client.on('notification', (notification) => {
-      this.emit(notification.channel, notification.payload);
+      const event = JSON.parse(notification.payload || '{}');
+
+      if (!isEvent(event)) {
+        getLogger().warn('Notification payload is not an event', {
+          notification,
+          subscriber: this.#subscriber,
+        });
+        return;
+      }
+
+      this.emit(this.#getChannelName(event.type), event);
     });
 
-    await this.#client.query(`listen "${this.#streamCategory}|${this.#name}"`);
+    await this.#client.query(
+      format(`listen "${this.#subscriber.streamCategory}|${this.#subscriber.name}"`),
+    );
+  }
+
+  #getChannelName(eventType: string) {
+    if (eventType === 'RebuildTriggered') {
+      return 'rebuild';
+    }
+
+    if (this.#subscriber.eventType === 'all') {
+      return 'domain-event';
+    }
+
+    const canHandleEvent = Array.isArray(this.#subscriber.eventType)
+      ? this.#subscriber.eventType.includes(eventType)
+      : eventType === this.#subscriber.eventType;
+
+    return canHandleEvent ? 'domain-event' : 'unkown-event';
   }
 }

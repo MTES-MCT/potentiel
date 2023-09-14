@@ -10,10 +10,15 @@ export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   await retryPendingAcknowledgement<TDomainEvent>(subscriber);
   await registerSubscriber(subscriber);
 
-  const eventStreamEmitter = new EventStreamEmitter(subscriber.streamCategory, subscriber.name);
-  eventStreamEmitter.setMaxListeners(50);
+  const eventStreamEmitter = new EventStreamEmitter({
+    eventHandler: subscriber.eventHandler,
+    eventType: subscriber.eventType,
+    name: subscriber.name,
+    streamCategory: subscriber.streamCategory,
+  } as Subscriber);
+  eventStreamEmitter.setMaxListeners(3);
   await eventStreamEmitter.connect();
-  await eventStreamEmitter.listen(subscriber);
+  await eventStreamEmitter.listen();
 
   return async () => {
     return eventStreamEmitter.disconnect();
