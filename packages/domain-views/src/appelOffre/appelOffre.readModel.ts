@@ -68,6 +68,13 @@ export type DélaiApplicable = {
   intervaleDateMiseEnService: { min: Date; max: Date };
 };
 
+export type SeuilSupplémentaireChangementPuissance = {
+  ratios: {
+    min: number;
+    max: number;
+  };
+};
+
 export const cahiersDesChargesRéférences = [
   'initial',
   '30/07/2021',
@@ -93,6 +100,7 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
+  seuilSupplémentaireChangementPuissance?: SeuilSupplémentaireChangementPuissance;
 };
 
 // Technologies
