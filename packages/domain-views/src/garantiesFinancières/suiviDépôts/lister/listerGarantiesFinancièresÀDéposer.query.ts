@@ -15,7 +15,7 @@ export type ListerDépôtsGarantiesFinancièresEnAttenteQuery = Message<
       dateLimiteDépôt?: string;
       projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire' | 'statut'>;
     }[];
-    pagination: { currentPage: number; pageCount: number };
+    pagination: { currentPage: number; pageCount: number; totalCount: number };
   }
 >;
 
@@ -39,6 +39,7 @@ export const registerListerDépôtsGarantiesFinancièresEnAttenteQuery = ({
       pagination: {
         currentPage: pagination.page,
         pageCount: Math.ceil(résultat.totalCount / pagination.itemsPerPage),
+        totalCount: résultat.totalCount,
       },
     };
   };

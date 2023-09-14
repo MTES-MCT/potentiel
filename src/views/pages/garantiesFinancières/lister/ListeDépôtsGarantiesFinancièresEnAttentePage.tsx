@@ -24,13 +24,13 @@ type ListeDépôtsGarantiesFinancièresEnAttenteProps = {
     dateLimiteDépôt?: string;
     projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire' | 'statut'>;
   }>;
-  pagination: { currentPage: number; pageCount: number; currentUrl: string };
+  pagination: { currentPage: number; pageCount: number; currentUrl: string; totalCount: number };
 };
 
 export const ListeDépôtsGarantiesFinancièresEnAttente = ({
   user,
   projets,
-  pagination: { currentPage, pageCount, currentUrl },
+  pagination: { currentPage, pageCount, currentUrl, totalCount },
 }: ListeDépôtsGarantiesFinancièresEnAttenteProps) => {
   const isLate = (dateLimiteDépôt?: string) =>
     dateLimiteDépôt && new Date(dateLimiteDépôt).getTime() < new Date().getTime();
@@ -41,7 +41,7 @@ export const ListeDépôtsGarantiesFinancièresEnAttente = ({
       user={user}
       contentHeader={<Heading1 className="text-white">Garanties financières</Heading1>}
     >
-      <Heading2>Projets en attente de dépôt de garanties financières</Heading2>
+      <Heading2>Projets en attente de dépôt de garanties financières ({totalCount})</Heading2>
       {!projets || !projets.length ? (
         <ListeVide titre="Aucun projet à afficher" />
       ) : (

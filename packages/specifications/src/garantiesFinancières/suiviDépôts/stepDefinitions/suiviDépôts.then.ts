@@ -99,7 +99,7 @@ Alors(
             },
           },
         ],
-        pagination: { currentPage: 1, pageCount: 1 },
+        pagination: { currentPage: 1, pageCount: 1, totalCount: 1 },
       };
 
       const actualListeReadModel =
@@ -120,7 +120,7 @@ Alors(
       type: 'liste-suivi-dépôt-garanties-financières-en-attente',
       région,
       liste: [],
-      pagination: { currentPage: 1, pageCount: 0 },
+      pagination: { currentPage: 1, pageCount: 0, totalCount: 0 },
     };
 
     const actualListeReadModel =
