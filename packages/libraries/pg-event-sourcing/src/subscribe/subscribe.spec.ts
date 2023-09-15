@@ -147,4 +147,49 @@ describe(`subscribe`, () => {
 
     expect(actuals.length).toBe(0);
   });
+
+  it(`
+    Lorsqu'un notification est publiée
+    Mais qu'elle ne correspond pas à un événement
+    Alors une erreur est loggé
+  `, async () => {
+    // Arrange
+    const eventType = 'event-1';
+    const category = 'category';
+    const id = 'id';
+    const payload = {
+      propriété: 'propriété',
+    };
+
+    const subscriberName = 'event_handler';
+    const eventHandler = jest.fn(() => Promise.resolve());
+
+    await registerSubscriber({
+      eventType,
+      name: subscriberName,
+      streamCategory: category,
+    });
+
+    const event: DomainEvent = {
+      type: eventType,
+      payload,
+    };
+
+    await publish(`${category}|${id}`, event);
+
+    // Act
+    const unsubscribe = await subscribe({
+      name: subscriberName,
+      eventType,
+      eventHandler,
+      streamCategory: category,
+    });
+    unsubscribes.push(unsubscribe);
+
+    expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(event));
+
+    const actuals = await getPendingAcknowledgements(category, subscriberName);
+
+    expect(actuals.length).toBe(0);
+  });
 });

@@ -87,8 +87,31 @@ export class EventStreamEmitter extends EventEmitter {
   }
 
   #setupRebuildListener() {
-    this.on('rebuild', async (event: RebuildTriggered) => {
-      await rebuild(event, this.#subscriber);
+    this.on('rebuild', async (event: Event & RebuildTriggered) => {
+      try {
+        getLogger().info('Rebuilding', {
+          event,
+          subscriber: this.#subscriber,
+        });
+        await rebuild(event, this.#subscriber);
+        getLogger().info('Rebuilt', {
+          event,
+          subscriber: this.#subscriber,
+        });
+      } catch (error) {
+        getLogger().error(new Error('Rebuild failed'), {
+          error,
+          event,
+          subscriber: this.#subscriber,
+        });
+      } finally {
+        await acknowledge({
+          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
+          created_at: event.created_at,
+          stream_id: event.stream_id,
+          version: event.version,
+        });
+      }
     });
   }
 
