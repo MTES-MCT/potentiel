@@ -66,7 +66,7 @@ describe('acknowledgement', () => {
     // Act
     const actuals = await getEventsWithPendingAcknowledgement(streamCategory, subscriberName);
 
-    // Arrange
+    // Assert
     expect(actuals.length).toBe(0);
   });
 
@@ -121,7 +121,7 @@ describe('acknowledgement', () => {
     // Act
     const actuals = await getEventsWithPendingAcknowledgement(streamCategory, subscriberName);
 
-    // Arrange
+    // Assert
     const events = [expect.objectContaining(event2), expect.objectContaining(event4)];
     expect(actuals).toEqual(events);
   });

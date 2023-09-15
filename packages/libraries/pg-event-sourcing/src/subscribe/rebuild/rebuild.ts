@@ -4,7 +4,7 @@ import { RebuildTriggered } from '@potentiel/core-domain-views';
 
 export const rebuild = async <TDomainEvent extends DomainEvent = DomainEvent>(
   rebuildTriggered: RebuildTriggered,
-  { eventType, name, streamCategory, eventHandler }: Subscriber<TDomainEvent>,
+  { eventType, eventHandler }: Subscriber<TDomainEvent>,
 ) => {
   const streamId = `${rebuildTriggered.payload.category}|${rebuildTriggered.payload.id}`;
 
