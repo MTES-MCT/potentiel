@@ -8,11 +8,11 @@ import { getConnectionString } from '@potentiel/pg-helpers';
 import { rebuild } from './rebuild/rebuild';
 import format from 'pg-format';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
-import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEventError';
-import { NotificationPayloadParseError } from './errors/NotificationPayloadParseError';
-import { RebuildFailedError } from './errors/RebuildFailedError';
-import { DomainEventHandlingFailed } from './errors/DomainEventHandlingFailed';
-import { UnknownEventHandlingFailed } from './errors/UnknownEventHandlingFailed';
+import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
+import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
+import { RebuildFailedError } from './errors/RebuildFailed.error';
+import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error';
+import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 
@@ -145,7 +145,7 @@ export class EventStreamEmitter extends EventEmitter {
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new DomainEventHandlingFailed(), {
+        getLogger().error(new DomainEventHandlingFailedError(), {
           error,
           event,
           subscriber: this.#subscriber,
@@ -169,7 +169,7 @@ export class EventStreamEmitter extends EventEmitter {
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new UnknownEventHandlingFailed(), {
+        getLogger().error(new UnknownEventHandlingFailedError(), {
           error,
           event,
           subscriber: this.#subscriber,

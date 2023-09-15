@@ -14,7 +14,7 @@ describe(`loadFromStream`, () => {
 
   it(`Étant donné des événements dans un stream,
       Lorsqu'on charge un stream
-      Alors les événements devrait être récupérer dans l'ordre de création et de versionning
+      Alors les événements devraient être récupérés dans l'ordre de création et de versionning
       Mais les évènements de type RebuildTriggered ne sont pas récupérés`, async () => {
     // Arrange
     const streamId = 'string|string';
@@ -45,7 +45,7 @@ describe(`loadFromStream`, () => {
 
   it(`Étant donné des événements dans un stream,
       Lorsqu'on charge un stream avec des types d'événement spécifique
-      Alors les événements devrait être récupérer dans l'ordre de création et de versionning
+      Alors les événements devraient être récupérés dans l'ordre de création et de versionning
       Mais les évènements de type RebuildTriggered ne sont pas récupérés`, async () => {
     // Arrange
     const streamId = 'string|string';
@@ -70,7 +70,7 @@ describe(`loadFromStream`, () => {
       payload: { category: 'string', id: 'string' },
     };
 
-    await publish('string|string', event1, event2, event3, event4);
+    await publish(streamId, event1, event2, event3, event4);
 
     // Act
     const actual = await loadFromStream({ streamId, eventTypes: ['event-1'] });
@@ -82,7 +82,7 @@ describe(`loadFromStream`, () => {
 
   it(`Étant donné des événements dans un stream,
       Lorsqu'on charge un stream avec le type d'événement RebuildTriggered
-      Alors aucuns événements n'est récupérés`, async () => {
+      Alors aucun événement n'est récupéré`, async () => {
     // Arrange
     const streamId = 'string|string';
 
@@ -96,7 +96,7 @@ describe(`loadFromStream`, () => {
       payload: { category: 'string', id: 'string' },
     };
 
-    await publish('string|string', event1, event2);
+    await publish(streamId, event1, event2);
 
     // Act
     const actuals = await loadFromStream({ streamId, eventTypes: ['RebuildTriggered'] });

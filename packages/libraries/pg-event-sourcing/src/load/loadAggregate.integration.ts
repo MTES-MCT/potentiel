@@ -13,7 +13,7 @@ describe(`loadAggregate`, () => {
   beforeEach(() => executeQuery(`delete from event_store.event_stream`));
 
   it(`Lorsqu'on charge un agrégat sans évènement
-      Alors aucun agrégat ne devrait pas être chargé`, async () => {
+      Alors aucun agrégat ne devrait être chargé`, async () => {
     // Arrange
     const aggregateId = 'aggregateCategory|aggregateId';
 

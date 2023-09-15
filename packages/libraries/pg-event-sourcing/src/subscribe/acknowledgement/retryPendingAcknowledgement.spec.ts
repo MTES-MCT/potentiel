@@ -49,7 +49,7 @@ describe('acknowledgement', () => {
     await registerSubscriber({
       eventType: ['event-1', 'event-2'],
       name: 'subscriber',
-      streamCategory: streamCategory,
+      streamCategory,
     });
 
     await publish(`${streamCategory}|${id}`, event1, event2, event3);
@@ -103,7 +103,7 @@ describe('acknowledgement', () => {
     await registerSubscriber({
       eventType: ['event-1', 'event-2', 'event-4'],
       name: 'subscriber',
-      streamCategory: streamCategory,
+      streamCategory,
     });
 
     await publish(`${streamCategory}|${id}`, event1, event2, event3, event4);

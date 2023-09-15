@@ -42,7 +42,7 @@ export * from './userProjectClaims/userProjectClaims.projector';
 export * from './userProjects/userProjects.projector';
 export * from './users/user.projector';
 
-// Export des updates (side effects à l'intérieur..., à faire aprés l'init des models)
+// Export des updates (side effects à l'intérieur..., à faire après l'init des models)
 // TODO: la liste des exports qui suit doit à terme être supprimé.
 export * from './modificationRequest/updates';
 export * from './project/updates';

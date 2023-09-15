@@ -20,8 +20,8 @@ import { publish } from '../publish/publish';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 import { executeRebuild } from './rebuild/executeRebuild';
-import { NotificationPayloadParseError } from './errors/NotificationPayloadParseError';
-import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEventError';
+import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
+import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
 
 describe(`subscribe`, () => {
   let unsubscribes: Array<Unsubscribe> = [];
@@ -62,11 +62,11 @@ describe(`subscribe`, () => {
   });
 
   it(`
-    Étant donnée un event handler en attente du traitement d'un type d'événement
-    Lorsqu'on emet un événement correspondant au type
+    Étant donné un event handler en attente du traitement d'un type d'événement
+    Lorsqu'on émet un événement correspondant au type
     Alors l'event handler est exécuté
-    Et il reçoit l'événement en paramêtre
-    Et il n'y a pas d'acknowledgement en attente pour cet événement aprés son traitement
+    Et il reçoit l'événement en paramétre
+    Et il n'y a pas d'acknowledgement en attente pour cet événement après son traitement
   `, async () => {
     // Arrange
     const eventType = 'event-1';
@@ -121,10 +121,10 @@ describe(`subscribe`, () => {
   });
 
   it(`
-    Étant donnée un event handler en attente du traitement d'un type d'événement
-    Lorsqu'on emet un événement correspondant au type
+    Étant donné un event handler en attente du traitement d'un type d'événement
+    Lorsqu'on émet un événement correspondant au type
     Et que l'event handler levé une exception
-    Alors l'événement n'est pas acknowledgement
+    Alors l'événement est en attente d'acknowledgement
   `, async () => {
     // Arrange
     const eventType = 'event-1';
@@ -164,12 +164,12 @@ describe(`subscribe`, () => {
   });
 
   it(`
-    Étant donnée un event en attente d'acknowledgement
+    Étant donné un event en attente d'acknowledgement
     Et un event handler en attente du traitement d'un type d'événement
     Lorsque que l'event handler souscrit au type d'event
     Alors l'event handler est exécuté
-    Et il reçoit l'événement en paramêtre
-    Et il n'y a pas d'acknowledgement en attente pour cet événement aprés son traitement
+    Et il reçoit l'événement en paramétre
+    Et il n'y a pas d'acknowledgement en attente pour cet événement après son traitement
   `, async () => {
     // Arrange
     const eventType = 'event-1';
@@ -212,9 +212,9 @@ describe(`subscribe`, () => {
   });
 
   it(`
-    Étant donnée un event handler en attente du traitement d'un type d'événement ainsi que du type RebuildTriggered
+    Étant donné un event handler en attente du traitement d'un type d'événement ainsi que du type RebuildTriggered
     Et des événements précédement insérés dans le stream d'événement
-    Lorsqu'on emet un événement de type RebuildTriggered pour le stream
+    Lorsqu'on émet un événement de type RebuildTriggered pour le stream
     Alors l'event handler est exécuté avec l'événement RebuildTriggered
     Et il est ensuite exécuté avec l'ensemble des autres événements contenus dans le stream
     Et il n'y a pas d'acknowledgement en attente pour l'événement RebuildTriggered
@@ -277,9 +277,9 @@ describe(`subscribe`, () => {
   });
 
   it(`
-    Étant donnée un event handler en attente du traitement d'un type d'événement ainsi que du type RebuildTriggered
+    Étant donné un event handler en attente du traitement d'un type d'événement ainsi que du type RebuildTriggered
     Et des événements précédement insérés dans le stream d'événement
-    Lorsqu'on emet un événement de type RebuildTriggered pour la catégorie du stream
+    Lorsqu'on émet un événement de type RebuildTriggered pour la catégorie du stream
     Alors l'event handler est exécuté avec l'événement RebuildTriggered
     Et il est ensuite exécuté avec l'ensemble des autres événements contenu dans le stream
     Et il n'y a pas d'acknowledgement en attente pour l'événement RebuildTriggered
@@ -315,7 +315,7 @@ describe(`subscribe`, () => {
     unsubscribes.push(unsubscribe1);
 
     // Act
-    await executeRebuild(category, id);
+    await executeRebuild(category);
 
     await waitForExpect(async () => {
       // Assert
@@ -462,7 +462,7 @@ describe(`subscribe`, () => {
   });
 
   it(`
-    Lorsqu'on emet un événement
+    Lorsqu'on émet un événement
     Mais que le type de l'événement ne correspond à aucun subscriber
     Et il a acknowledgement en attente pour cet événement dans la dead letter queue
   `, async () => {

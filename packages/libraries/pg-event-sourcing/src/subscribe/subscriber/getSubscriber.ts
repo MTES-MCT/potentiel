@@ -17,7 +17,7 @@ export const getSubscriber = async (streamCategory: string, subscriberName: stri
 
   const subscriberConfiguration: SubscriberConfiguration = {
     name: subscriberName,
-    streamCategory: streamCategory,
+    streamCategory,
     eventType: filter.length === 0 ? 'all' : filter.length === 1 ? filter[0] : filter,
   };
 

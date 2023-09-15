@@ -33,7 +33,7 @@ const getEdfType = (region: Région) => {
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
     if (!ModificationRequest || !Project || !File || !User) {
-      // TODO: check inutile aprés la migration projection next
+      // TODO: check inutile après la migration projection next
       return errAsync(new InfraNotAvailableError());
     }
     return _getModificationRequestById(modificationRequestId)

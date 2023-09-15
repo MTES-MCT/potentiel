@@ -19,8 +19,8 @@ describe('register-subscription', () => {
   });
 
   it(`
-    Étant donnée une subscriber
-    Quand le subscriber est ajouté au registre pour un type d'event donnée
+    Étant donné un subscriber
+    Quand le subscriber est ajouté au registre pour un type d'event donné
     Alors la configuration du subscriber est disponible dans le registre
   `, async () => {
     // Arrange
@@ -48,7 +48,7 @@ describe('register-subscription', () => {
   });
 
   it(`
-    Étant donnée une subscriber
+    Étant donné un subscriber
     Quand le subscriber est ajouté au registre pour tous les types d'event
     Alors la configuration du subscriber est disponible dans le registre
   `, async () => {
@@ -77,7 +77,7 @@ describe('register-subscription', () => {
   });
 
   it(`
-    Étant donnée une subscriber
+    Étant donné un subscriber
     Quand le subscriber est ajouté au registre pour plusieurs types d'event
     Alors la configuration du subscriber est disponible dans le registre
   `, async () => {
@@ -106,7 +106,7 @@ describe('register-subscription', () => {
   });
 
   it(`
-    Étant donnée une subscriber
+    Étant donné un subscriber
     Quand le subscriber est ajouté au registre
     Mais que le nom du subscriber n'utilise pas la convention de nommage kebab-case
     Alors une erreur est levée

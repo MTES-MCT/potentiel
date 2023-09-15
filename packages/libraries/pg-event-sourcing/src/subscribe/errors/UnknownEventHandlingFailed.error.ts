@@ -1,4 +1,4 @@
-export class UnknownEventHandlingFailed extends Error {
+export class UnknownEventHandlingFailedError extends Error {
   constructor() {
     super('Handling unknow event failed');
   }

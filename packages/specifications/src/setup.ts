@@ -54,8 +54,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  await executeQuery(`insert into event_store.subscriber values($1)`, 'new_event');
-
   unsetupApp = await bootstrap();
 });
 
