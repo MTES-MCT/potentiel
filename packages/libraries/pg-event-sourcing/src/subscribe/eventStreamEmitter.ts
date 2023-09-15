@@ -8,6 +8,11 @@ import { getConnectionString } from '@potentiel/pg-helpers';
 import { rebuild } from './rebuild/rebuild';
 import format from 'pg-format';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
+import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEventError';
+import { NotificationPayloadParseError } from './errors/NotificationPayloadParseError';
+import { RebuildFailedError } from './errors/RebuildFailedError';
+import { DomainEventHandlingFailed } from './errors/DomainEventHandlingFailed';
+import { UnknownEventHandlingFailed } from './errors/UnknownEventHandlingFailed';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 
@@ -53,7 +58,7 @@ export class EventStreamEmitter extends EventEmitter {
         const event = JSON.parse(notification.payload || '{}');
 
         if (!isEvent(event)) {
-          getLogger().error(new Error('Notification payload is not an event'), {
+          getLogger().error(new NotificationPayloadNotAnEventError(), {
             notification,
             subscriber: this.#subscriber,
           });
@@ -62,7 +67,7 @@ export class EventStreamEmitter extends EventEmitter {
 
         this.emit(this.#getChannelName(event.type), event);
       } catch (error) {
-        getLogger().error(new Error('Unknown error'), {
+        getLogger().error(new NotificationPayloadParseError(), {
           error,
         });
       }
@@ -108,7 +113,7 @@ export class EventStreamEmitter extends EventEmitter {
           subscriber: this.#subscriber,
         });
       } catch (error) {
-        getLogger().error(new Error('Rebuild failed'), {
+        getLogger().error(new RebuildFailedError(), {
           error,
           event,
           subscriber: this.#subscriber,
@@ -140,7 +145,7 @@ export class EventStreamEmitter extends EventEmitter {
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new Error('Handling domain event failed'), {
+        getLogger().error(new DomainEventHandlingFailed(), {
           error,
           event,
           subscriber: this.#subscriber,
@@ -164,7 +169,7 @@ export class EventStreamEmitter extends EventEmitter {
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new Error('Handling unknow event failed'), {
+        getLogger().error(new UnknownEventHandlingFailed(), {
           error,
           event,
           subscriber: this.#subscriber,

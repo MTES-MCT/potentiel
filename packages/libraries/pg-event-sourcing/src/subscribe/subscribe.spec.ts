@@ -20,6 +20,8 @@ import { publish } from '../publish/publish';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 import { executeRebuild } from './rebuild/executeRebuild';
+import { NotificationPayloadParseError } from './errors/NotificationPayloadParseError';
+import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEventError';
 
 describe(`subscribe`, () => {
   let unsubscribes: Array<Unsubscribe> = [];
@@ -374,8 +376,8 @@ describe(`subscribe`, () => {
       expect(error).toHaveBeenCalledTimes(1);
       const param = error.mock.calls[0][0];
 
-      expect(param).toBeInstanceOf(Error);
-      expect((param as Error).message).toBe('Unknown error');
+      expect(param).toBeInstanceOf(NotificationPayloadParseError);
+      expect((param as Error).message).toBe('Notification payload parse error');
     });
   });
 
@@ -410,7 +412,7 @@ describe(`subscribe`, () => {
       expect(error).toHaveBeenCalledTimes(1);
       const param = error.mock.calls[0][0];
 
-      expect(param).toBeInstanceOf(Error);
+      expect(param).toBeInstanceOf(NotificationPayloadNotAnEventError);
       expect((param as Error).message).toBe('Notification payload is not an event');
     });
   });
