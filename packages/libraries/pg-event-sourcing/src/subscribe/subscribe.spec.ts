@@ -17,9 +17,14 @@ import waitForExpect from 'wait-for-expect';
 import * as monitoring from '@potentiel/monitoring';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
 import { publish } from '../publish/publish';
+import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
+import { RebuildTriggered } from '@potentiel/core-domain-views';
+import { executeRebuild } from './rebuild/executeRebuild';
 
 describe(`subscribe`, () => {
   let unsubscribes: Array<Unsubscribe> = [];
+  const error = jest.fn();
+  const warn = jest.fn();
 
   afterEach(async () => {
     for (const unsubscribe of unsubscribes) {
@@ -27,6 +32,9 @@ describe(`subscribe`, () => {
     }
 
     unsubscribes = [];
+
+    error.mockClear();
+    warn.mockClear();
   });
 
   afterAll(async () => {
@@ -37,6 +45,13 @@ describe(`subscribe`, () => {
     await executeQuery(`delete from event_store.event_stream`);
     await executeQuery(`delete from event_store.subscriber`);
     await executeQuery(`delete from event_store.pending_acknowledgement`);
+
+    jest.spyOn(monitoring, 'getLogger').mockReturnValue({
+      debug: jest.fn(),
+      error,
+      info: jest.fn(),
+      warn,
+    });
   });
 
   beforeAll(() => {
@@ -46,9 +61,9 @@ describe(`subscribe`, () => {
 
   it(`
     Étant donnée un event handler en attente du traitement d'un type d'événement
-    Lorsqu'on emet un évènement correspondant au type
-    Alors l'event handler est éxècuté
-    Et il reçoit l'évènement en paramêtre
+    Lorsqu'on emet un événement correspondant au type
+    Alors l'event handler est exécuté
+    Et il reçoit l'événement en paramêtre
     Et il n'y a pas d'acknowledgement en attente pour cet événement aprés son traitement
   `, async () => {
     // Arrange
@@ -104,11 +119,54 @@ describe(`subscribe`, () => {
   });
 
   it(`
+    Étant donnée un event handler en attente du traitement d'un type d'événement
+    Lorsqu'on emet un événement correspondant au type
+    Et que l'event handler levé une exception
+    Alors l'événement n'est pas acknowledgement
+  `, async () => {
+    // Arrange
+    const eventType = 'event-1';
+    const category = 'category';
+    const id = 'id';
+    const payload = {
+      propriété: 'propriété',
+    };
+
+    const subscriberName = 'event_handler';
+
+    const unsubscribe = await subscribe({
+      name: subscriberName,
+      eventType: eventType,
+      eventHandler: () => {
+        throw new Error();
+      },
+      streamCategory: category,
+    });
+    unsubscribes.push(unsubscribe);
+
+    const event: DomainEvent = {
+      type: eventType,
+      payload,
+    };
+
+    // Act
+    await publish(`${category}|${id}`, event);
+
+    await waitForExpect(async () => {
+      // Assert
+      const actuals = await getEventsWithPendingAcknowledgement(category, subscriberName);
+
+      const events = [expect.objectContaining(event)];
+      expect(actuals).toEqual(events);
+    });
+  });
+
+  it(`
     Étant donnée un event en attente d'acknowledgement
     Et un event handler en attente du traitement d'un type d'événement
     Lorsque que l'event handler souscrit au type d'event
-    Alors l'event handler est éxècuté
-    Et il reçoit l'évènement en paramêtre
+    Alors l'event handler est exécuté
+    Et il reçoit l'événement en paramêtre
     Et il n'y a pas d'acknowledgement en attente pour cet événement aprés son traitement
   `, async () => {
     // Arrange
@@ -151,7 +209,135 @@ describe(`subscribe`, () => {
     expect(actuals.length).toBe(0);
   });
 
-  // TODO event handling failed
+  it(`
+    Étant donnée un event handler en attente du traitement d'un type d'événement ainsi que du type RebuildTriggered
+    Et des événements précédement insérés dans le stream d'événement
+    Lorsqu'on emet un événement de type RebuildTriggered pour le stream
+    Alors l'event handler est exécuté avec l'événement RebuildTriggered
+    Et il est ensuite exécuté avec l'ensemble des autres événements contenus dans le stream
+    Et il n'y a pas d'acknowledgement en attente pour l'événement RebuildTriggered
+  `, async () => {
+    // Arrange
+    const category = 'category';
+    const id = 'id';
+
+    const event1: DomainEvent = {
+      type: 'event-1',
+      payload: {
+        propriété: 'propriété1',
+      },
+    };
+
+    const event2: DomainEvent = {
+      type: 'event-1',
+      payload: {
+        propriété: 'propriété2',
+      },
+    };
+
+    await publish(`${category}|${id}`, event1, event2);
+
+    const eventHandler = jest.fn((event: DomainEvent) => Promise.resolve());
+
+    const unsubscribe1 = await subscribe({
+      name: 'event_handler',
+      eventType: ['event-1', 'event-2', 'RebuildTriggered'],
+      eventHandler: eventHandler,
+      streamCategory: category,
+    });
+    unsubscribes.push(unsubscribe1);
+
+    // Act
+    await executeRebuild(category, id);
+
+    await waitForExpect(async () => {
+      // Assert
+      const rebuildTriggered: RebuildTriggered = {
+        type: 'RebuildTriggered',
+        payload: {
+          category,
+          id,
+        },
+      };
+
+      const expected = [
+        [expect.objectContaining(rebuildTriggered)],
+        [expect.objectContaining(event1)],
+        [expect.objectContaining(event2)],
+      ];
+
+      expect(eventHandler.mock.calls).toEqual(expected);
+
+      const actuals = await getPendingAcknowledgements(category, 'event_handler');
+
+      expect(actuals.length).toBe(0);
+    });
+  });
+
+  it(`
+    Étant donnée un event handler en attente du traitement d'un type d'événement ainsi que du type RebuildTriggered
+    Et des événements précédement insérés dans le stream d'événement
+    Lorsqu'on emet un événement de type RebuildTriggered pour la catégorie du stream
+    Alors l'event handler est exécuté avec l'événement RebuildTriggered
+    Et il est ensuite exécuté avec l'ensemble des autres événements contenu dans le stream
+    Et il n'y a pas d'acknowledgement en attente pour l'événement RebuildTriggered
+  `, async () => {
+    // Arrange
+    const category = 'category';
+    const id = 'id';
+
+    const event1: DomainEvent = {
+      type: 'event-1',
+      payload: {
+        propriété: 'propriété1',
+      },
+    };
+
+    const event2: DomainEvent = {
+      type: 'event-1',
+      payload: {
+        propriété: 'propriété2',
+      },
+    };
+
+    await publish(`${category}|${id}`, event1, event2);
+
+    const eventHandler = jest.fn((event: DomainEvent) => Promise.resolve());
+
+    const unsubscribe1 = await subscribe({
+      name: 'event_handler',
+      eventType: ['event-1', 'event-2', 'RebuildTriggered'],
+      eventHandler: eventHandler,
+      streamCategory: category,
+    });
+    unsubscribes.push(unsubscribe1);
+
+    // Act
+    await executeRebuild(category, id);
+
+    await waitForExpect(async () => {
+      // Assert
+      const rebuildTriggered: RebuildTriggered = {
+        type: 'RebuildTriggered',
+        payload: {
+          category,
+          id,
+        },
+      };
+
+      const expected = [
+        [expect.objectContaining(rebuildTriggered)],
+        [expect.objectContaining(event1)],
+        [expect.objectContaining(event2)],
+      ];
+
+      expect(eventHandler.mock.calls).toEqual(expected);
+
+      const actuals = await getPendingAcknowledgements(category, 'event_handler');
+
+      expect(actuals.length).toBe(0);
+    });
+  });
 
   it(`
     Quand une notification est publiée
@@ -166,15 +352,6 @@ describe(`subscribe`, () => {
       eventType: 'event-1',
       name: subscriberName,
       streamCategory: category,
-    });
-
-    const error = jest.fn();
-
-    jest.spyOn(monitoring, 'getLogger').mockReturnValue({
-      debug: jest.fn(),
-      error,
-      info: jest.fn(),
-      warn: jest.fn(),
     });
 
     // Act
@@ -217,15 +394,6 @@ describe(`subscribe`, () => {
       streamCategory: category,
     });
 
-    const error = jest.fn();
-
-    jest.spyOn(monitoring, 'getLogger').mockReturnValue({
-      debug: jest.fn(),
-      error,
-      info: jest.fn(),
-      warn: jest.fn(),
-    });
-
     // Act
     const unsubscribe = await subscribe({
       name: subscriberName,
@@ -250,7 +418,7 @@ describe(`subscribe`, () => {
   it(`
     Quand une notification est publiée
     Et que le payload correspond à celui d'un événement
-    Quand un événement est envoyé à un subscriber qui ne correspondant pas au type de l'événement 
+    Et que l'événement est envoyé à un subscriber qui ne correspondant pas au type de l'événement 
     Alors un warning est loggé
   `, async () => {
     // Arrange
@@ -261,15 +429,6 @@ describe(`subscribe`, () => {
       eventType: 'event-1',
       name: subscriberName,
       streamCategory: category,
-    });
-
-    const warn = jest.fn();
-
-    jest.spyOn(monitoring, 'getLogger').mockReturnValue({
-      debug: jest.fn(),
-      error: jest.fn(),
-      info: jest.fn(),
-      warn,
     });
 
     // Act
