@@ -1,6 +1,6 @@
 import { describe, it, expect, afterAll, beforeEach, beforeAll } from '@jest/globals';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
-import { registerSubscriber } from './registerSubscription';
+import { registerSubscriber } from './registerSubscriber';
 import { getSubscriber } from './getSubscriber';
 import { SubscriberConfiguration } from './subscriberConfiguration';
 import { WrongSubscriberNameError } from './checkSubscriberName';
@@ -20,7 +20,7 @@ describe('register-subscription', () => {
 
   it(`
     Étant donnée une subscriber
-    Quand le subscriber est ajouté au registre pour un type d'event données
+    Quand le subscriber est ajouté au registre pour un type d'event donnée
     Alors la configuration du subscriber est disponible dans le registre
   `, async () => {
     // Arrange
@@ -108,7 +108,7 @@ describe('register-subscription', () => {
   it(`
     Étant donnée une subscriber
     Quand le subscriber est ajouté au registre
-    Mais que le nom du subscriber n'est pas en lower_snake_case
+    Mais que le nom du subscriber n'utilise pas la convention de nommage kebab-case
     Alors une erreur est levée
   `, async () => {
     const subscriberConfiguration: SubscriberConfiguration = {

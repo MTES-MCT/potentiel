@@ -11,7 +11,7 @@ import {
 import { DomainEvent, Unsubscribe } from '@potentiel/core-domain';
 import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
-import { registerSubscriber } from './subscriber/registerSubscription';
+import { registerSubscriber } from './subscriber/registerSubscriber';
 import { Event } from '../event';
 import waitForExpect from 'wait-for-expect';
 import * as monitoring from '@potentiel/monitoring';
@@ -74,8 +74,8 @@ describe(`subscribe`, () => {
       propriété: 'propriété',
     };
 
-    const subscriberName1 = 'event_handler';
-    const subscriberName2 = 'other_event_handler';
+    const subscriberName1 = 'event-handler';
+    const subscriberName2 = 'other-event-handler';
 
     const eventHandler1 = jest.fn(() => Promise.resolve());
     const eventHandler2 = jest.fn(() => Promise.resolve());
@@ -132,7 +132,7 @@ describe(`subscribe`, () => {
       propriété: 'propriété',
     };
 
-    const subscriberName = 'event_handler';
+    const subscriberName = 'event-handler';
 
     const unsubscribe = await subscribe({
       name: subscriberName,
@@ -177,7 +177,7 @@ describe(`subscribe`, () => {
       propriété: 'propriété',
     };
 
-    const subscriberName = 'event_handler';
+    const subscriberName = 'event-handler';
     const eventHandler = jest.fn(() => Promise.resolve());
 
     await registerSubscriber({
@@ -240,7 +240,7 @@ describe(`subscribe`, () => {
     const eventHandler = jest.fn((event: DomainEvent) => Promise.resolve());
 
     const unsubscribe1 = await subscribe({
-      name: 'event_handler',
+      name: 'event-handler',
       eventType: ['event-1', 'event-2', 'RebuildTriggered'],
       eventHandler: eventHandler,
       streamCategory: category,
@@ -268,7 +268,7 @@ describe(`subscribe`, () => {
 
       expect(eventHandler.mock.calls).toEqual(expected);
 
-      const actuals = await getPendingAcknowledgements(category, 'event_handler');
+      const actuals = await getPendingAcknowledgements(category, 'event-handler');
 
       expect(actuals.length).toBe(0);
     });
@@ -305,7 +305,7 @@ describe(`subscribe`, () => {
     const eventHandler = jest.fn((event: DomainEvent) => Promise.resolve());
 
     const unsubscribe1 = await subscribe({
-      name: 'event_handler',
+      name: 'event-handler',
       eventType: ['event-1', 'event-2', 'RebuildTriggered'],
       eventHandler: eventHandler,
       streamCategory: category,
@@ -333,7 +333,7 @@ describe(`subscribe`, () => {
 
       expect(eventHandler.mock.calls).toEqual(expected);
 
-      const actuals = await getPendingAcknowledgements(category, 'event_handler');
+      const actuals = await getPendingAcknowledgements(category, 'event-handler');
 
       expect(actuals.length).toBe(0);
     });
@@ -346,7 +346,7 @@ describe(`subscribe`, () => {
   `, async () => {
     // Arrange
     const category = 'category';
-    const subscriberName = 'event_handler';
+    const subscriberName = 'event-handler';
 
     await registerSubscriber({
       eventType: 'event-1',
@@ -386,7 +386,7 @@ describe(`subscribe`, () => {
   `, async () => {
     // Arrange
     const category = 'category';
-    const subscriberName = 'event_handler';
+    const subscriberName = 'event-handler';
 
     await registerSubscriber({
       eventType: 'event-1',
@@ -423,7 +423,7 @@ describe(`subscribe`, () => {
   `, async () => {
     // Arrange
     const category = 'category';
-    const subscriberName = 'event_handler';
+    const subscriberName = 'event-handler';
 
     await registerSubscriber({
       eventType: 'event-1',

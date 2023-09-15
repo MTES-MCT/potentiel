@@ -1,7 +1,7 @@
 import { describe, it, expect, afterAll, beforeEach, beforeAll } from '@jest/globals';
 import { DomainEvent } from '@potentiel/core-domain';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
-import { registerSubscriber } from '../subscriber/registerSubscription';
+import { registerSubscriber } from '../subscriber/registerSubscriber';
 import { publish } from '../../publish/publish';
 import { retryPendingAcknowledgement } from './retryPendingAcknowledgement';
 import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';

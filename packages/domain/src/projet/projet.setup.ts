@@ -32,7 +32,7 @@ export const setupProjet = async (dependencies: ProjetDependencies) => {
 
   return [
     await subscribe<DemandeComplèteRaccordementTransmiseEvent>({
-      name: 'saga_ajouter_gestionnaire_reseau_projet',
+      name: 'saga-ajouter-gestionnaire-reseau-projet',
       eventType: ['DemandeComplèteDeRaccordementTransmise'],
       eventHandler: async (event: DemandeComplèteRaccordementTransmiseEvent) => {
         await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({

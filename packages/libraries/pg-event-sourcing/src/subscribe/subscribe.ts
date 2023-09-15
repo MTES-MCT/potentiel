@@ -1,6 +1,6 @@
 import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
 import { Event } from '../event';
-import { registerSubscriber } from './subscriber/registerSubscription';
+import { registerSubscriber } from './subscriber/registerSubscriber';
 import { EventStreamEmitter } from './eventStreamEmitter';
 import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 

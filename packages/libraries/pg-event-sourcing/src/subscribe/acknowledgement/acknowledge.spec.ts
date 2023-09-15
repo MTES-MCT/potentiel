@@ -2,7 +2,7 @@ import { describe, it, expect, afterAll, beforeEach, beforeAll } from '@jest/glo
 import { DomainEvent } from '@potentiel/core-domain';
 import { publish } from '../../publish/publish';
 import { acknowledge } from './acknowledge';
-import { registerSubscriber } from '../subscriber/registerSubscription';
+import { registerSubscriber } from '../subscriber/registerSubscriber';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { getPendingAcknowledgements } from './getPendingAcknowledgements';
 
