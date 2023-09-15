@@ -3,7 +3,6 @@ import { Event } from '../../event';
 import { acknowledge } from './acknowledge';
 import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';
 import { getLogger } from '@potentiel/monitoring';
-import { SubscriberId } from '../subscriber/subscriberId';
 
 export async function retryPendingAcknowledgement<TDomainEvent extends DomainEvent = Event>({
   streamCategory,
@@ -11,7 +10,6 @@ export async function retryPendingAcknowledgement<TDomainEvent extends DomainEve
   eventHandler,
 }: Subscriber<TDomainEvent>) {
   const events = await getEventsWithPendingAcknowledgement(streamCategory, name);
-  const subscriberId: SubscriberId = `${streamCategory}|${name}`;
 
   try {
     for (const { stream_id, created_at, version, type, payload } of events) {
@@ -21,7 +19,8 @@ export async function retryPendingAcknowledgement<TDomainEvent extends DomainEve
       } as TDomainEvent);
 
       await acknowledge({
-        subscriber_id: subscriberId,
+        stream_category: streamCategory,
+        subscriber_name: name,
         stream_id,
         created_at,
         version,

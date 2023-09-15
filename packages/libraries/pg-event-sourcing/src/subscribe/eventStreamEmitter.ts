@@ -115,7 +115,8 @@ export class EventStreamEmitter extends EventEmitter {
         });
       } finally {
         await acknowledge({
-          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
+          stream_category: this.#subscriber.streamCategory,
+          subscriber_name: this.#subscriber.name,
           created_at: event.created_at,
           stream_id: event.stream_id,
           version: event.version,
@@ -132,7 +133,8 @@ export class EventStreamEmitter extends EventEmitter {
           payload: event.payload,
         } as DomainEvent);
         await acknowledge({
-          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
+          stream_category: this.#subscriber.streamCategory,
+          subscriber_name: this.#subscriber.name,
           created_at: event.created_at,
           stream_id: event.stream_id,
           version: event.version,
@@ -155,7 +157,8 @@ export class EventStreamEmitter extends EventEmitter {
       });
       try {
         await acknowledge({
-          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
+          stream_category: this.#subscriber.streamCategory,
+          subscriber_name: this.#subscriber.name,
           created_at: event.created_at,
           stream_id: event.stream_id,
           version: event.version,

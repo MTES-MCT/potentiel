@@ -1,19 +1,17 @@
 import { executeSelect } from '@potentiel/pg-helpers';
-import { SubscriberId } from './subscriberId';
 import { SubscriberConfiguration } from './subscriberConfiguration';
 
 const selectSubscriber = `
   select
     filter
   from event_store.subscriber
-  where subscriber_id = $1
+  where stream_category = $1 and subscriber_name = $2
 `;
 
 export const getSubscriber = async (streamCategory: string, subscriberName: string) => {
-  const subscriberId: SubscriberId = `${streamCategory}|${subscriberName}`;
   const subscriber = await executeSelect<{
     filter?: Array<string>;
-  }>(selectSubscriber, subscriberId);
+  }>(selectSubscriber, streamCategory, subscriberName);
 
   const filter = subscriber[0].filter ?? [];
 

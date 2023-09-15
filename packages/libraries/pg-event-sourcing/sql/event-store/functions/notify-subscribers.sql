@@ -9,25 +9,25 @@ begin
   v_type := new.type;
 
   select into v_subscriber
-    subscriber_id
+    subscriber_name
   from event_store.subscriber
-  where (filter is null or v_type in (select jsonb_array_elements_text(filter))) and split_part(subscriber_id, '|', 1) = split_part(new.stream_id, '|', 1)
+  where (filter is null or v_type in (select jsonb_array_elements_text(filter))) and stream_category = split_part(new.stream_id, '|', 1)
   limit 1;
 
   if v_subscriber is null then
     insert into event_store.pending_acknowledgement
-    values ('dead_letter_queue', new.stream_id, new.created_at, new.version);
+    values (split_part(new.stream_id, '|', 1), 'dead-letter-queue', new.stream_id, new.created_at, new.version);
   else
     for v_subscriber in
-      select subscriber_id
+      select stream_category, subscriber_name
       from event_store.subscriber
-      where (filter is null or v_type in (select jsonb_array_elements_text(filter))) and split_part(subscriber_id, '|', 1) = split_part(new.stream_id, '|', 1)
+      where (filter is null or v_type in (select jsonb_array_elements_text(filter))) and stream_category = split_part(new.stream_id, '|', 1)
     loop
       begin
         insert into event_store.pending_acknowledgement
-        values (v_subscriber.subscriber_id, new.stream_id, new.created_at, new.version);
+        values (v_subscriber.stream_category, v_subscriber.subscriber_name, new.stream_id, new.created_at, new.version);
 
-        perform pg_notify(v_subscriber.subscriber_id, row_to_json(new)::text);
+        perform pg_notify(v_subscriber.stream_category || '|' || v_subscriber.subscriber_name, row_to_json(new)::text);
       exception
         when others then
           v_error_msg := json_build_object('error_message', sqlerrm);

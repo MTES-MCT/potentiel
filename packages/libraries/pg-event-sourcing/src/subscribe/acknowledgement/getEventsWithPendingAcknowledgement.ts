@@ -1,5 +1,4 @@
 import { executeSelect } from '@potentiel/pg-helpers';
-import { SubscriberId } from '../subscriber/subscriberId';
 import { Event } from '../../event';
 
 const selectEventsWithPendingAcknowledgement = `
@@ -14,12 +13,15 @@ const selectEventsWithPendingAcknowledgement = `
       pa.stream_id = es.stream_id and 
       pa.created_at = es.created_at and 
       pa.version = es.version 
-   where pa.subscriber_id = $1`;
+   where pa.stream_category = $1 and subscriber_name = $2`;
 
 export const getEventsWithPendingAcknowledgement = async (
   streamCategory: string,
   subscriberName: string,
 ) => {
-  const subscriberId: SubscriberId = `${streamCategory}|${subscriberName}`;
-  return await executeSelect<Event>(selectEventsWithPendingAcknowledgement, subscriberId);
+  return await executeSelect<Event>(
+    selectEventsWithPendingAcknowledgement,
+    streamCategory,
+    subscriberName,
+  );
 };

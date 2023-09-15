@@ -1,5 +1,6 @@
-drop table if exists event_store.subscriber;
-create table event_store.subscriber (
-  subscriber_id varchar not null primary key,
-  filter jsonb default null
+create table if not exists event_store.subscriber (
+  stream_category varchar not null,
+  subscriber_name varchar not null,
+  filter jsonb default null,
+  primary key (stream_category, subscriber_name)
 );

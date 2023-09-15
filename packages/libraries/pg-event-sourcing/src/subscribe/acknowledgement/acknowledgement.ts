@@ -1,7 +1,6 @@
-import { SubscriberId } from '../subscriber/subscriberId';
-
 export type Acknowledgement = {
-  subscriber_id: SubscriberId;
+  stream_category: string;
+  subscriber_name: string;
   stream_id: string;
   created_at: string;
   version: number;
