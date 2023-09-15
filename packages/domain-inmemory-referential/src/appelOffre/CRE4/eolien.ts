@@ -48,7 +48,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
   },
 };
 
-const eolien: AppelOffre = {
+export const eolien: AppelOffre = {
   autoritéCompétenteDemandesDélai: 'dgec',
   id: 'Eolien',
   typeAppelOffre: 'eolien',
@@ -323,5 +323,3 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
   familles: [],
   cahiersDesChargesModifiésDisponibles: [],
 };
-
-export { eolien };

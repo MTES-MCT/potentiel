@@ -57,7 +57,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
   },
 };
 
-const batiment: AppelOffre = {
+export const batiment: AppelOffre = {
   id: 'CRE4 - Bâtiment',
   typeAppelOffre: 'batiment',
   title:
@@ -317,5 +317,3 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
   ],
   cahiersDesChargesModifiésDisponibles: [],
 };
-
-export { batiment };

@@ -54,7 +54,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   },
 };
 
-const innovation: AppelOffre = {
+export const innovation: AppelOffre = {
   id: 'CRE4 - Innovation',
   typeAppelOffre: 'innovation',
   title:
@@ -227,5 +227,3 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
   ],
   cahiersDesChargesModifiésDisponibles: [],
 };
-
-export { innovation };

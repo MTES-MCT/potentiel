@@ -55,7 +55,7 @@ const CDCModifié30082022: CahierDesChargesModifié = {
   },
 };
 
-const sol: AppelOffre = {
+export const sol: AppelOffre = {
   id: 'CRE4 - Sol',
   typeAppelOffre: 'sol',
   title:
@@ -295,5 +295,3 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
   ],
   cahiersDesChargesModifiésDisponibles: [],
 };
-
-export { sol };
