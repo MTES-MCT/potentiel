@@ -15,54 +15,11 @@ export class EventStreamEmitter extends EventEmitter {
 
   constructor(subscriber: Subscriber) {
     super();
+    this.setMaxListeners(3);
     this.#client = new Client(getConnectionString());
     this.#subscriber = subscriber;
 
-    this.on('rebuild', async (event: RebuildTriggered) => {
-      await rebuild(event, this.#subscriber);
-    });
-
-    this.on('domain-event', async (event: Event) => {
-      try {
-        await this.#subscriber.eventHandler({
-          type: event.type,
-          payload: event.payload,
-        } as DomainEvent);
-        await acknowledge({
-          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
-          created_at: event.created_at,
-          stream_id: event.stream_id,
-          version: event.version,
-        });
-      } catch (error) {
-        getLogger().error(new Error('Handling domain event failed'), {
-          error,
-          event,
-          subscriber: this.#subscriber,
-        });
-      }
-    });
-
-    this.on('unknown-event', async (event: Event) => {
-      getLogger().warn('Unknown event', {
-        event,
-        subscriber: this.#subscriber,
-      });
-      try {
-        await acknowledge({
-          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
-          created_at: event.created_at,
-          stream_id: event.stream_id,
-          version: event.version,
-        });
-      } catch (error) {
-        getLogger().error(new Error('Handling unknow event failed'), {
-          error,
-          event,
-          subscriber: this.#subscriber,
-        });
-      }
-    });
+    this.#setupListener();
   }
 
   async connect() {
@@ -121,5 +78,63 @@ export class EventStreamEmitter extends EventEmitter {
       : eventType === this.#subscriber.eventType;
 
     return canHandleEvent ? 'domain-event' : 'unkown-event';
+  }
+
+  #setupListener() {
+    this.#setupRebuildListener();
+    this.#setupDomainEventListener();
+    this.#setupUnknownEventListener();
+  }
+
+  #setupRebuildListener() {
+    this.on('rebuild', async (event: RebuildTriggered) => {
+      await rebuild(event, this.#subscriber);
+    });
+  }
+
+  #setupDomainEventListener() {
+    this.on('domain-event', async (event: Event) => {
+      try {
+        await this.#subscriber.eventHandler({
+          type: event.type,
+          payload: event.payload,
+        } as DomainEvent);
+        await acknowledge({
+          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
+          created_at: event.created_at,
+          stream_id: event.stream_id,
+          version: event.version,
+        });
+      } catch (error) {
+        getLogger().error(new Error('Handling domain event failed'), {
+          error,
+          event,
+          subscriber: this.#subscriber,
+        });
+      }
+    });
+  }
+
+  #setupUnknownEventListener() {
+    this.on('unknown-event', async (event: Event) => {
+      getLogger().warn('Unknown event', {
+        event,
+        subscriber: this.#subscriber,
+      });
+      try {
+        await acknowledge({
+          subscriber_id: `${this.#subscriber.streamCategory}|${this.#subscriber.name}`,
+          created_at: event.created_at,
+          stream_id: event.stream_id,
+          version: event.version,
+        });
+      } catch (error) {
+        getLogger().error(new Error('Handling unknow event failed'), {
+          error,
+          event,
+          subscriber: this.#subscriber,
+        });
+      }
+    });
   }
 }
