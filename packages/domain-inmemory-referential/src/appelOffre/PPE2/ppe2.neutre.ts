@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel/domain-views';
 
-const neutrePPE2: AppelOffre = {
+export const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
   typeAppelOffre: 'neutre',
   title:
@@ -97,5 +97,3 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
   ],
   cahiersDesChargesModifiésDisponibles: [],
 };
-
-export { neutrePPE2 };
