@@ -460,4 +460,33 @@ describe(`subscribe`, () => {
       expect(param).toBe('Unknown event');
     });
   });
+
+  it(`
+    Lorsqu'on emet un événement
+    Mais que le type de l'événement ne correspond à aucun subscriber
+    Et il a acknowledgement en attente pour cet événement dans la dead letter queue
+  `, async () => {
+    // Arrange
+    const category = 'category';
+    const id = 'id';
+    const payload = {
+      propriété: 'propriété',
+    };
+
+    const event: DomainEvent = {
+      type: 'event-1',
+      payload,
+    };
+
+    // Act
+    await publish(`${category}|${id}`, event);
+
+    await waitForExpect(async () => {
+      // Assert
+      const expected = [expect.objectContaining(event)];
+      const actuals = await getEventsWithPendingAcknowledgement(category, 'dead-letter-queue');
+
+      expect(actuals).toEqual(expect.arrayContaining(expected));
+    });
+  });
 });
