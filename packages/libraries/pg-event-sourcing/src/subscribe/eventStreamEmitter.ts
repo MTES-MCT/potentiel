@@ -9,6 +9,8 @@ import { rebuild } from './rebuild/rebuild';
 import format from 'pg-format';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 
+type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
+
 export class EventStreamEmitter extends EventEmitter {
   #client: Client;
   #subscriber: Subscriber;
@@ -38,25 +40,32 @@ export class EventStreamEmitter extends EventEmitter {
     await this.#client.query(
       format(`unlisten "${this.#subscriber.streamCategory}|${this.#subscriber.name}"`),
     );
-    this.removeAllListeners('domain-event');
-    this.removeAllListeners('unknown-event');
-    this.removeAllListeners('rebuild');
+
+    this.removeAllListeners('domain-event' satisfies ChannelName);
+    this.removeAllListeners('unknown-event' satisfies ChannelName);
+    this.removeAllListeners('rebuild' satisfies ChannelName);
     await this.#client.end();
   }
 
   async listen() {
     this.#client.on('notification', (notification) => {
-      const event = JSON.parse(notification.payload || '{}');
+      try {
+        const event = JSON.parse(notification.payload || '{}');
 
-      if (!isEvent(event)) {
-        getLogger().warn('Notification payload is not an event', {
-          notification,
-          subscriber: this.#subscriber,
+        if (!isEvent(event)) {
+          getLogger().error(new Error('Notification payload is not an event'), {
+            notification,
+            subscriber: this.#subscriber,
+          });
+          return;
+        }
+
+        this.emit(this.#getChannelName(event.type), event);
+      } catch (error) {
+        getLogger().error(new Error('Unknown error'), {
+          error,
         });
-        return;
       }
-
-      this.emit(this.#getChannelName(event.type), event);
     });
 
     await this.#client.query(
@@ -64,7 +73,7 @@ export class EventStreamEmitter extends EventEmitter {
     );
   }
 
-  #getChannelName(eventType: string) {
+  #getChannelName(eventType: string): ChannelName {
     if (eventType === 'RebuildTriggered') {
       return 'rebuild';
     }
@@ -77,7 +86,7 @@ export class EventStreamEmitter extends EventEmitter {
       ? this.#subscriber.eventType.includes(eventType)
       : eventType === this.#subscriber.eventType;
 
-    return canHandleEvent ? 'domain-event' : 'unkown-event';
+    return canHandleEvent ? 'domain-event' : 'unknown-event';
   }
 
   #setupListener() {
@@ -87,7 +96,7 @@ export class EventStreamEmitter extends EventEmitter {
   }
 
   #setupRebuildListener() {
-    this.on('rebuild', async (event: Event & RebuildTriggered) => {
+    this.on('rebuild' satisfies ChannelName, async (event: Event & RebuildTriggered) => {
       try {
         getLogger().info('Rebuilding', {
           event,
@@ -116,7 +125,7 @@ export class EventStreamEmitter extends EventEmitter {
   }
 
   #setupDomainEventListener() {
-    this.on('domain-event', async (event: Event) => {
+    this.on('domain-event' satisfies ChannelName, async (event: Event) => {
       try {
         await this.#subscriber.eventHandler({
           type: event.type,
@@ -139,7 +148,7 @@ export class EventStreamEmitter extends EventEmitter {
   }
 
   #setupUnknownEventListener() {
-    this.on('unknown-event', async (event: Event) => {
+    this.on('unknown-event' satisfies ChannelName, async (event: Event) => {
       getLogger().warn('Unknown event', {
         event,
         subscriber: this.#subscriber,
