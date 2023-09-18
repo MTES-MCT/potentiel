@@ -215,6 +215,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      cahiersDesChargesModifiésDisponibles: [],
     },
   ],
   familles: [],

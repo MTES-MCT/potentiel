@@ -177,7 +177,7 @@ export type Periode = {
   };
   dossierSuiviPar?: string;
   garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
-  cahiersDesChargesModifiésDisponibles?: ReadonlyArray<CahierDesChargesModifié>;
+  cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
 
 // Territoire

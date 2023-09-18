@@ -221,6 +221,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 7.14,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [],
     },
     {
       id: '5',
@@ -241,6 +242,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 15.09,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [],
     },
   ],
   familles: [],

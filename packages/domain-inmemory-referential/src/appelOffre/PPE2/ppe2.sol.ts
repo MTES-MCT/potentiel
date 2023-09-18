@@ -184,6 +184,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 14.16,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [],
     },
     {
       id: '4',
