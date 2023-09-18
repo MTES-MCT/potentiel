@@ -69,7 +69,7 @@ export async function makeServer(port: number, sessionSecret: string) {
           contentSecurityPolicy: {
             useDefaults: false,
             directives: {
-              'default-src': ["'self'", 'metabase.potentiel.beta.gouv.fr'],
+              'default-src': ["'self'", 'blob:', 'metabase.potentiel.beta.gouv.fr'],
               'connect-src': [
                 "'self'",
                 "'unsafe-inline'",
