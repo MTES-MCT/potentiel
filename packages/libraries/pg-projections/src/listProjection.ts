@@ -44,7 +44,7 @@ export const listProjection = async <TReadModel extends ReadModel>({
 
   const query = `${baseQuery} ${whereClause} ${likeClause} ${orderByClause} ${paginationClause}`;
   const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
-    query,
+    format(query),
     `${type}|%`,
     ...(where ? Object.values(where) : []),
     ...(like ? Object.values(like).map((value) => `%${value}%`) : []),
@@ -52,7 +52,9 @@ export const listProjection = async <TReadModel extends ReadModel>({
 
   const totalResult = pagination
     ? await executeSelect<{ totalItems: string }>(
-        `select count(key) as "totalItems" from domain_views.projection where key like $1 ${whereClause} ${likeClause}`,
+        format(
+          `select count(key) as "totalItems" from domain_views.projection where key like $1 ${whereClause} ${likeClause}`,
+        ),
         `${type}|%`,
         ...(where ? Object.values(where) : []),
         ...(like ? Object.values(like).map((value) => `%${value}%`) : []),
