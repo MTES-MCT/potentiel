@@ -58,8 +58,8 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
   describe(`Projet pouvant bénéficier du délai de 18 mois`, () => {
     it(`Etant donné un projet éolien,
       dont la date de mise en service est comprise entre le 1er juin 2022 et le 30 septembre 2024,
-      ayant souscrit au CDC 2022,
-      n'ayant pas déjà bénéficié du délai,
+      ayant souscrit au CDC 2022 dont la période de l'appel d'offre permet le délai de 18 mois,
+      et n'ayant pas déjà bénéficié du délai,
       alors le délai de 18 mois en lien avec le CDC 2022 devrait être appliqué`, async () => {
       const fakeProject = {
         ...makeFakeProjectAggregate(),
@@ -162,6 +162,58 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           familleId,
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
+          projectRepo,
+          publishToEventStore,
+          getProjectAppelOffre,
+          findProjectByIdentifiers,
+        });
+
+        const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
+          payload: {
+            dateMiseEnService: new Date('01/01/2023').toISOString(),
+            référenceDossierRaccordement: 'ref-du-dossier',
+            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+          },
+        });
+
+        await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
+
+        expect(publishToEventStore).not.toHaveBeenCalled();
+      });
+    });
+
+    describe(`Cahier des charges souscrit mais application du délai de 18 mois non autorisé`, () => {
+      it(`Etant donné un projet PPE2 Bâtiment d'une période ne permettant pas les 18 mois (période 3),
+          dont la date de mise en service est comprise entre le 1er juin 2022 et le 30 septembre 2024,
+          ayant souscrit au CDC 2022,
+          alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
+        const fakeProject = {
+          ...makeFakeProjectAggregate(),
+          cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+          completionDueOn: dateAchèvementInitiale,
+          délaiCDC2022appliqué: false,
+          numeroCRE,
+          appelOffreId: 'PPE2 - Bâtiment',
+          periodeId: '3',
+          id: projetId,
+          familleId,
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const getProjectAppelOffre = jest.fn(
+          () =>
+            ({
+              typeAppelOffre: 'batiment',
+              cahiersDesChargesModifiésDisponibles: [
+                {
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
+                } as CahierDesChargesModifié,
+              ] as ReadonlyArray<CahierDesChargesModifié>,
+            } as ProjectAppelOffre),
+        );
 
         const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
           projectRepo,
