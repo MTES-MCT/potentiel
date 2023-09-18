@@ -152,7 +152,7 @@ Alors(
           },
         },
       ],
-      pagination: { currentPage: 1, pageCount: 1 },
+      pagination: { currentPage: 1, pageCount: 1, totalCount: 1 },
     };
 
     const actualListeDépôtsReadModel = await mediator.send<ListerDépôtsGarantiesFinancièresQuery>({

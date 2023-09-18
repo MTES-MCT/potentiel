@@ -19,7 +19,7 @@ export type ListerDépôtsGarantiesFinancièresQuery = Message<
       dépôt: DépôtGarantiesFinancièresReadModel;
       projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
     }[];
-    pagination: { currentPage: number; pageCount: number };
+    pagination: { currentPage: number; pageCount: number; totalCount: number };
   }
 >;
 
@@ -69,6 +69,7 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
       pagination: {
         currentPage: dépôts.currentPage,
         pageCount: Math.ceil(dépôts.totalItems / dépôts.itemsPerPage),
+        totalCount: dépôts.totalItems,
       },
     };
   };
