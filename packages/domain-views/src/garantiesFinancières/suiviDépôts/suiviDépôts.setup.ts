@@ -14,6 +14,7 @@ import {
   ListerDépôtsGarantiesFinancièresEnAttenteDependencies,
   registerListerDépôtsGarantiesFinancièresEnAttenteQuery,
 } from './lister/listerGarantiesFinancièresÀDéposer.query';
+import { RebuildTriggered } from '@potentiel/core-domain-views';
 
 // Setup
 export type SuiviDépôtsGarantiesFinancièresDependencies = {
@@ -36,20 +37,22 @@ export const setupSuiviDépôtsGarantiesFinancièresViews = async (
   const { subscribe } = dependencies;
 
   return [
-    await subscribe<SuiviDépôtsGarantiesFinancièresEvent>({
-      name: 'suivi_depot_garanties_financieres_projector',
+    await subscribe({
+      name: 'suivi-depot-gf-projector',
       eventType: [
         'GarantiesFinancièresSnapshot-v1',
         'DépôtGarantiesFinancièresSupprimé-v1',
         'GarantiesFinancièresDéposées-v1',
         'DépôtGarantiesFinancièresValidé-v1',
+        'RebuildTriggered',
       ],
-      eventHandler: async (event: SuiviDépôtsGarantiesFinancièresEvent) => {
+      eventHandler: async (event: SuiviDépôtsGarantiesFinancièresEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteSuiviDépôtsGarantiesFinancièresProjector>({
           type: 'SUIVI_DÉPÔTS_GARANTIES_FINANCIÈRES_PROJECTOR',
           data: event,
         });
       },
+      streamCategory: 'garanties-financières',
     }),
   ];
 };

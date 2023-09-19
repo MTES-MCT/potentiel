@@ -9,12 +9,12 @@ import {
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
-import { Create, Update, Find, Remove } from '@potentiel/core-domain-views';
+import { Create, Update, Find, Remove, RebuildTriggered } from '@potentiel/core-domain-views';
 import { RécupérerDétailProjetPort } from '../../domainViews.port';
 
 export type ExecuteDépôtGarantiesFinancièresProjector = Message<
   'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_PROJECTOR',
-  DépôtGarantiesFinancièresEvent
+  DépôtGarantiesFinancièresEvent | RebuildTriggered
 >;
 
 export type DépôtGarantiesFinancièresProjectorDependencies = {
@@ -33,6 +33,11 @@ export const registerDépôtGarantiesFinancièresProjector = ({
   récupérerDétailProjet,
 }: DépôtGarantiesFinancièresProjectorDependencies) => {
   const handler: MessageHandler<ExecuteDépôtGarantiesFinancièresProjector> = async (event) => {
+    if (event.type === 'RebuildTriggered') {
+      return remove<DépôtGarantiesFinancièresReadModel>(
+        `dépôt-garanties-financières|${event.payload.id}`,
+      );
+    }
     const dépôtReadModelKey: DépôtGarantiesFinancièresReadModelKey = `dépôt-garanties-financières|${event.payload.identifiantProjet}`;
     const dépôtGarantiesFinancières = await find<DépôtGarantiesFinancièresReadModel>(
       dépôtReadModelKey,

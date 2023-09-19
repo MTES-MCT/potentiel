@@ -7,7 +7,7 @@ import {
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 
-import { Create, Find, Remove, Update } from '@potentiel/core-domain-views';
+import { Create, Find, RebuildTriggered, Remove, Update } from '@potentiel/core-domain-views';
 import {
   SuiviDépôtGarantiesFinancièresReadModel,
   SuiviDépôtGarantiesFinancièresReadModelKey,
@@ -16,7 +16,7 @@ import { RécupérerDétailProjetPort } from '../../domainViews.port';
 
 export type ExecuteSuiviDépôtsGarantiesFinancièresProjector = Message<
   'SUIVI_DÉPÔTS_GARANTIES_FINANCIÈRES_PROJECTOR',
-  SuiviDépôtsGarantiesFinancièresEvent
+  SuiviDépôtsGarantiesFinancièresEvent | RebuildTriggered
 >;
 
 export type SuiviDépôtsGarantiesFinancièresProjectorDependencies = {
@@ -37,6 +37,11 @@ export const registerSuiviDépôtsGarantiesFinancièresProjector = ({
   const handler: MessageHandler<ExecuteSuiviDépôtsGarantiesFinancièresProjector> = async (
     event,
   ) => {
+    if (event.type === 'RebuildTriggered') {
+      return remove<SuiviDépôtGarantiesFinancièresReadModel>(
+        `suivi-dépôt-garanties-financières|${event.payload.id}`,
+      );
+    }
     const actualReadModelKey: SuiviDépôtGarantiesFinancièresReadModelKey = `suivi-dépôt-garanties-financières|${event.payload.identifiantProjet}`;
     const actualReadModel = await find<SuiviDépôtGarantiesFinancièresReadModel>(actualReadModelKey);
 
