@@ -1,7 +1,6 @@
 #Language: fr-FR
 Fonctionnalité: Modifier un gestionnaire de réseau
 
-@select
     Scénario: Modifier un gestionnaire de réseau
         Etant donné un gestionnaire de réseau
             | Code EIC       | 17X0000009352859       |

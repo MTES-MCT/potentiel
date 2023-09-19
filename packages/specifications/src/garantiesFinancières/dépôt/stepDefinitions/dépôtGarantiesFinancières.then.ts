@@ -28,7 +28,6 @@ Alors(
     const dateDépôt = exemple['date de dépôt'];
     const dateDernièreModification = exemple['date dernière modification'];
     const région = exemple['région'];
-    const dateLimiteDépôt = exemple['date limite de dépôt'];
 
     const {
       identifiantProjet,
@@ -95,19 +94,17 @@ Alors(
       région,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
     };
-
-    const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
+    const actualReadModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
       type: 'CONSULTER_DÉPÔT_GARANTIES_FINANCIÈRES',
       data: {
         identifiantProjet,
       },
     });
-
-    if (isNone(actualRealModel)) {
+    if (isNone(actualReadModel)) {
       throw new Error('dépôt garanties financières non trouvé (readmodel)');
     }
 
-    expect(actualRealModel).to.deep.equal(expectedReadModel);
+    expect(actualReadModel).to.deep.equal(expectedReadModel);
 
     // ASSERT ON FILE
 
@@ -183,14 +180,14 @@ Alors(
 
     // ASSERT ON READ MODEL
 
-    const actualRealModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
+    const actualReadModel = await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
       type: 'CONSULTER_DÉPÔT_GARANTIES_FINANCIÈRES',
       data: {
         identifiantProjet,
       },
     });
 
-    expect(actualRealModel).to.deep.equal(none);
+    expect(actualReadModel).to.deep.equal(none);
 
     // ASSERT ON FILE
 
