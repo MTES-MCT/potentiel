@@ -301,8 +301,8 @@ describe(`listProjection`, () => {
   });
 
   describe(`ordering`, () => {
-    it(`Lorsqu'on liste les projections avec un ordre
-      Alors la liste devrait être ordonnée`, async () => {
+    it(`Lorsqu'on liste les projections avec un ordre et sans préciser le sens de tri
+      Alors la liste devrait être ordonnée dans un ordre croissant`, async () => {
       // Arrange
       await executeQuery(
         `insert 
@@ -346,6 +346,55 @@ describe(`listProjection`, () => {
         {
           type: 'projection',
           target: 'C',
+        },
+      ]);
+    });
+
+    it(`Lorsqu'on liste les projections avec un ordre décroissant
+      Alors la liste devrait être ordonnée dans un ordre décroissant`, async () => {
+      // Arrange
+      await executeQuery(
+        `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+        'projection|another-one',
+        { type: 'projection', target: 'B' },
+      );
+      await executeQuery(
+        `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+        'projection|another-one-2',
+        { type: 'projection', target: 'C' },
+      );
+      await executeQuery(
+        `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+        'projection|the-expected-one',
+        { type: 'projection', target: 'A' },
+      );
+
+      // Act
+      const result = await listProjection<ProjectionReadModel>({
+        type: 'projection',
+        orderBy: 'target',
+        sort: 'DESC',
+      });
+
+      // Assert
+      expect(result.items).toEqual([
+        {
+          type: 'projection',
+          target: 'C',
+        },
+        {
+          type: 'projection',
+          target: 'B',
+        },
+        {
+          type: 'projection',
+          target: 'A',
         },
       ]);
     });
