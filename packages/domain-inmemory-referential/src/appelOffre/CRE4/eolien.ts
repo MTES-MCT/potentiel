@@ -321,5 +321,4 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [],
 };

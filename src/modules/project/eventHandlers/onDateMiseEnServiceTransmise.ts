@@ -65,20 +65,12 @@ export const makeOnDateMiseEnServiceTransmise =
               return okAsync(null);
             }
 
-            const cahiersDesChargesModifiésDisponibles =
-              projectAppelOffre?.periode &&
-              'cahiersDesChargesModifiésDisponibles' in projectAppelOffre?.periode
-                ? projectAppelOffre?.periode.cahiersDesChargesModifiésDisponibles
-                : projectAppelOffre?.cahiersDesChargesModifiésDisponibles;
-
-            const donnéesCDC =
-              cahiersDesChargesModifiésDisponibles &&
-              cahiersDesChargesModifiésDisponibles.find(
-                (CDC) =>
-                  CDC.type === 'modifié' &&
-                  CDC.paruLe === '30/08/2022' &&
-                  CDC.alternatif === cahierDesCharges.alternatif,
-              );
+            const donnéesCDC = projectAppelOffre?.periode.cahiersDesChargesModifiésDisponibles.find(
+              (CDC) =>
+                CDC.type === 'modifié' &&
+                CDC.paruLe === '30/08/2022' &&
+                CDC.alternatif === cahierDesCharges.alternatif,
+            );
 
             if (!donnéesCDC) {
               logger.error(

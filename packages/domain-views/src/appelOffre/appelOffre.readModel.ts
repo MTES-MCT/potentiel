@@ -222,7 +222,6 @@ export type AppelOffre = {
   renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;
   changementProducteurPossibleAvantAchèvement: boolean;
-  cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
   doitPouvoirChoisirCDCInitial?: true;
   autoritéCompétenteDemandesDélai: 'dgec' | 'dreal';

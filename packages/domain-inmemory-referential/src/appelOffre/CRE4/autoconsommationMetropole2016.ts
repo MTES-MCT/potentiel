@@ -112,5 +112,4 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [],
 };

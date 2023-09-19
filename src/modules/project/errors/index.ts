@@ -18,7 +18,7 @@ export * from './ImpossibleDeChangerLaDateDeFAError';
 export * from './NoGFCertificateToDeleteError';
 export * from './NoGFCertificateToUpdateError';
 export * from './NouveauCahierDesChargesDéjàSouscrit';
-export * from './PasDeChangementDeCDCPourCetAOError';
+export * from './PasDeChangementDeCDCPourLaPériodeDeCetAOError';
 export * from './ProjectAlreadyNotifiedError';
 export * from './ProjectCannotBeUpdatedIfUnnotifiedError';
 export * from './ProjectHasBeenUpdatedSinceError';

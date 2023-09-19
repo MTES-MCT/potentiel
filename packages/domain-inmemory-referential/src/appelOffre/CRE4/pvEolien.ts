@@ -136,5 +136,4 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [],
 };

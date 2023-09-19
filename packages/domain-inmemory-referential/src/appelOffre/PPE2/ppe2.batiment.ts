@@ -246,5 +246,4 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [],
 };

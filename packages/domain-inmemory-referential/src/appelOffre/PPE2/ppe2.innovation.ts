@@ -137,5 +137,4 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
   ],
-  cahiersDesChargesModifiésDisponibles: [],
 };

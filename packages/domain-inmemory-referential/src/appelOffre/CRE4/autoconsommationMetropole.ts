@@ -415,5 +415,4 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [],
 };

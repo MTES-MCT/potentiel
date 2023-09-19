@@ -145,5 +145,4 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [],
 };

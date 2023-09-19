@@ -29,19 +29,21 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
     () =>
       ({
         typeAppelOffre: 'eolien',
-        cahiersDesChargesModifiésDisponibles: [
-          {
-            type: 'modifié',
-            paruLe: '30/08/2022',
-            délaiApplicable: {
-              délaiEnMois: 18,
-              intervaleDateMiseEnService: {
-                min: new Date('2022-06-01'),
-                max: new Date('2024-09-30'),
+        periode: {
+          cahiersDesChargesModifiésDisponibles: [
+            {
+              type: 'modifié',
+              paruLe: '30/08/2022',
+              délaiApplicable: {
+                délaiEnMois: 18,
+                intervaleDateMiseEnService: {
+                  min: new Date('2022-06-01'),
+                  max: new Date('2024-09-30'),
+                },
               },
-            },
-          } as CahierDesChargesModifié,
-        ] as ReadonlyArray<CahierDesChargesModifié>,
+            } as CahierDesChargesModifié,
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        },
       } as ProjectAppelOffre),
   );
 
@@ -206,12 +208,14 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           () =>
             ({
               typeAppelOffre: 'batiment',
-              cahiersDesChargesModifiésDisponibles: [
-                {
-                  type: 'modifié',
-                  paruLe: '30/08/2022',
-                } as CahierDesChargesModifié,
-              ] as ReadonlyArray<CahierDesChargesModifié>,
+              periode: {
+                cahiersDesChargesModifiésDisponibles: [
+                  {
+                    type: 'modifié',
+                    paruLe: '30/08/2022',
+                  } as CahierDesChargesModifié,
+                ] as ReadonlyArray<CahierDesChargesModifié>,
+              },
             } as ProjectAppelOffre),
         );
 

@@ -9,7 +9,7 @@ import {
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
   NouveauCahierDesChargesDéjàSouscrit,
-  PasDeChangementDeCDCPourCetAOError,
+  PasDeChangementDeCDCPourLaPériodeDeCetAOError,
 } from '../../modules/project';
 import { ModificationRequestType } from '../../modules/modificationRequest';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -101,7 +101,7 @@ v1Router.post(
 
           if (
             error instanceof NouveauCahierDesChargesDéjàSouscrit ||
-            error instanceof PasDeChangementDeCDCPourCetAOError ||
+            error instanceof PasDeChangementDeCDCPourLaPériodeDeCetAOError ||
             error instanceof CahierDesChargesInitialNonDisponibleError ||
             error instanceof CahierDesChargesNonDisponibleError
           ) {
