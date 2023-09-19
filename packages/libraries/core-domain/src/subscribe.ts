@@ -6,6 +6,7 @@ export type Subscriber<TDomainEvent extends DomainEvent = DomainEvent> = {
   name: string;
   eventType: TDomainEvent['type'] | ReadonlyArray<TDomainEvent['type']> | 'all';
   eventHandler: (event: TDomainEvent) => Promise<void>;
+  streamCategory: string;
 };
 
 export type Subscribe = <TDomainEvent extends DomainEvent>(

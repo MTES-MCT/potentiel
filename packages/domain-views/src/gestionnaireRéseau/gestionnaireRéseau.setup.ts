@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { Subscribe } from '@potentiel/core-domain';
+import { RebuildTriggered } from '@potentiel/core-domain-views';
 import { GestionnaireRéseauEvent } from '@potentiel/domain';
 import {
   ConsulterGestionnaireRéseauDependencies,
@@ -35,15 +36,16 @@ export const setupGestionnaireRéseauViews = async (
   // Subscribes
   const { subscribe } = dependencies;
   return [
-    await subscribe<GestionnaireRéseauEvent>({
-      name: 'gestionnaire_reseau_projector',
-      eventType: ['GestionnaireRéseauAjouté', 'GestionnaireRéseauModifié'],
-      eventHandler: async (event: GestionnaireRéseauEvent) => {
+    await subscribe({
+      name: 'projector',
+      eventType: ['GestionnaireRéseauAjouté', 'GestionnaireRéseauModifié', 'RebuildTriggered'],
+      eventHandler: async (event: GestionnaireRéseauEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteGestionnaireRéseauProjector>({
           type: 'EXECUTE_GESTIONNAIRE_RÉSEAU_PROJECTOR',
           data: event,
         });
       },
+      streamCategory: 'gestionnaire-réseau',
     }),
   ];
 };

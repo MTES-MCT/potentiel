@@ -1,28 +1,24 @@
 import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel/core-domain';
 import { Event } from '../event';
-import { getLogger } from '@potentiel/monitoring';
-import { registerSubscriber } from './registerSubscription';
+import { registerSubscriber } from './subscriber/registerSubscriber';
 import { EventStreamEmitter } from './eventStreamEmitter';
-import { checkSubscriberName } from './checkSubscriberName';
-import { retryPendingAcknowledgement } from './retryPendingAcknowledgement';
+import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 
 export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   subscriber: Subscriber<TDomainEvent>,
 ): Promise<Unsubscribe> => {
-  checkSubscriberName(subscriber.name);
-
-  try {
-    await retryPendingAcknowledgement<TDomainEvent>(subscriber);
-  } catch (error) {
-    getLogger().error(new Error('Failed to replay pending event'), { error });
-  }
-
+  await retryPendingAcknowledgement<TDomainEvent>(subscriber);
   await registerSubscriber(subscriber);
 
-  const eventStreamEmitter = new EventStreamEmitter(subscriber.name);
-  eventStreamEmitter.setMaxListeners(50);
+  const eventStreamEmitter = new EventStreamEmitter({
+    eventHandler: subscriber.eventHandler,
+    eventType: subscriber.eventType,
+    name: subscriber.name,
+    streamCategory: subscriber.streamCategory,
+  } as Subscriber);
+
   await eventStreamEmitter.connect();
-  await eventStreamEmitter.listen(subscriber);
+  await eventStreamEmitter.listen();
 
   return async () => {
     return eventStreamEmitter.disconnect();

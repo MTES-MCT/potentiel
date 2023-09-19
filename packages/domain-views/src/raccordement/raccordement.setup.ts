@@ -26,6 +26,7 @@ import {
 } from './raccordement.projector';
 import { RaccordementEvent } from '@potentiel/domain';
 import { mediator } from 'mediateur';
+import { RebuildTriggered } from '@potentiel/core-domain-views';
 
 // Setup
 type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
@@ -54,8 +55,8 @@ export const setupRaccordementViews = async (dependencies: RaccordementDependenc
   const { subscribe } = dependencies;
 
   return [
-    await subscribe<RaccordementEvent>({
-      name: 'raccordement_projector',
+    await subscribe({
+      name: 'projector',
       eventType: [
         'AccuséRéceptionDemandeComplèteRaccordementTransmis',
         'DateMiseEnServiceTransmise',
@@ -66,13 +67,15 @@ export const setupRaccordementViews = async (dependencies: RaccordementDependenc
         'PropositionTechniqueEtFinancièreSignéeTransmise',
         'PropositionTechniqueEtFinancièreTransmise',
         'RéférenceDossierRacordementModifiée-V1',
+        'RebuildTriggered',
       ],
-      eventHandler: async (event: RaccordementEvent) => {
+      eventHandler: async (event: RaccordementEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteRaccordementProjector>({
           type: 'EXECUTE_RACCORDEMENT_PROJECTOR',
           data: event,
         });
       },
+      streamCategory: 'raccordement',
     }),
   ];
 };
