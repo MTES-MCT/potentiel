@@ -35,12 +35,18 @@ export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
       data: { identifiantProjet },
     });
 
-    await mediator.send<ValiderDépôtGarantiesFinancièresCommand>({
-      type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES',
-      data: {
-        identifiantProjet,
-      },
-    });
+    //TODO : problème de concurrence à traiter
+
+    setTimeout(
+      async () =>
+        await mediator.send<ValiderDépôtGarantiesFinancièresCommand>({
+          type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES',
+          data: {
+            identifiantProjet,
+          },
+        }),
+      100,
+    );
   };
 
   mediator.register('VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE', runner);
