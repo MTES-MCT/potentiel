@@ -5,25 +5,30 @@ import {
   GarantiesFinancièresReadModelKey,
 } from './garantiesFinancières.readModel';
 import { EnregistrementGarantiesFinancièresEvent } from '@potentiel/domain';
-import { Create, Find, Update } from '@potentiel/core-domain-views';
+import { Create, Find, RebuildTriggered, Remove, Update } from '@potentiel/core-domain-views';
 
 export type ExecuteGarantiesFinancièresProjector = Message<
   'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',
-  EnregistrementGarantiesFinancièresEvent
+  EnregistrementGarantiesFinancièresEvent | RebuildTriggered
 >;
 
 export type GarantiesFinancièresProjectorDependencies = {
   create: Create;
   update: Update;
   find: Find;
+  remove: Remove;
 };
 
 export const registerGarantiesFinancièresProjector = ({
   create,
   update,
   find,
+  remove,
 }: GarantiesFinancièresProjectorDependencies) => {
   const handler: MessageHandler<ExecuteGarantiesFinancièresProjector> = async (event) => {
+    if (event.type === 'RebuildTriggered') {
+      return remove<GarantiesFinancièresReadModel>(`garanties-financières|${event.payload.id}`);
+    }
     const key: GarantiesFinancièresReadModelKey = `garanties-financières|${event.payload.identifiantProjet}`;
     const garantiesFinancières = await find<GarantiesFinancièresReadModel>(key);
     switch (event.type) {

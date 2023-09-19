@@ -14,6 +14,7 @@ import {
   ConsulterFichierAttestationGarantiesFinancièresDependencies,
   registerConsulterFichierAttestationGarantiesFinancièresQuery,
 } from './consulter/consulterFichierAttestationGarantiesFinancières.query';
+import { RebuildTriggered } from '@potentiel/core-domain-views';
 
 // Setup
 export type GarantiesFinancièresDependencies = {
@@ -36,19 +37,21 @@ export const setupGarantiesFinancièreViews = async (
   const { subscribe } = dependencies;
 
   return [
-    await subscribe<EnregistrementGarantiesFinancièresEvent>({
-      name: 'garanties_financieres_projector',
+    await subscribe({
+      name: 'gf-projector',
       eventType: [
         'AttestationGarantiesFinancièresEnregistrée-v1',
         'GarantiesFinancièresSnapshot-v1',
         'TypeGarantiesFinancièresEnregistré-v1',
+        'RebuildTriggered',
       ],
-      eventHandler: async (event: EnregistrementGarantiesFinancièresEvent) => {
+      eventHandler: async (event: EnregistrementGarantiesFinancièresEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteGarantiesFinancièresProjector>({
           type: 'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',
           data: event,
         });
       },
+      streamCategory: 'garanties-financières',
     }),
   ];
 };
