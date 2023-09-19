@@ -62,18 +62,18 @@ Alors(
       statutDépôt,
     };
 
-    const actualRealModel = await mediator.send<ConsulterSuiviDépôtGarantiesFinancièresQuery>({
+    const actualReadModel = await mediator.send<ConsulterSuiviDépôtGarantiesFinancièresQuery>({
       type: 'CONSULTER_SUIVI_DÉPÔT_GARANTIES_FINANCIÈRES',
       data: {
         identifiantProjet,
       },
     });
 
-    if (isNone(actualRealModel)) {
+    if (isNone(actualReadModel)) {
       throw new Error('read model non trouvé');
     }
 
-    expect(actualRealModel).to.deep.equal(expectedReadModel);
+    expect(actualReadModel).to.deep.equal(expectedReadModel);
 
     if (statutDépôt === 'en attente') {
       // ASSERT ON LIST
