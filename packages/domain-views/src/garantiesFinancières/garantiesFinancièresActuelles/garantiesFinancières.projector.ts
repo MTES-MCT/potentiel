@@ -39,7 +39,7 @@ export const registerGarantiesFinancièresProjector = ({
           const readModel = {
             typeGarantiesFinancières:
               typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
-            dateÉchéance: dateÉchéance === 'Date inconnue ' ? undefined : dateÉchéance,
+            dateÉchéance: dateÉchéance === 'Date inconnue' ? undefined : dateÉchéance,
             attestationConstitution:
               'attestationAbsente' in attestationConstitution ? undefined : attestationConstitution,
           };
