@@ -593,10 +593,11 @@ class routes {
 
   static GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE = (
     identifiantProjet?: RawIdentifiantProjet,
+    origine?: 'projet' | 'liste',
   ) => {
     return `/projet/${
       identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
-    }/depot-garanties-financieres/modifier.html`;
+    }/depot-garanties-financieres/modifier-depuis-${origine || ':origine'}.html`;
   };
 
   static POST_MODIFIER_DEPOT_GARANTIES_FINANCIERES = (identifiantProjet?: RawIdentifiantProjet) => {

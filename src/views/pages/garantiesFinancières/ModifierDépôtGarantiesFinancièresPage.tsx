@@ -24,6 +24,7 @@ type ModifierDépôtGarantiesFinancièresProps = {
   projet: ProjetReadModel;
   dépôt?: DépôtGarantiesFinancièresReadModel;
   error?: string;
+  origine: 'liste' | 'projet';
 };
 
 export const ModifierDépôtGarantiesFinancières = ({
@@ -31,6 +32,7 @@ export const ModifierDépôtGarantiesFinancières = ({
   projet,
   error,
   dépôt,
+  origine,
 }: ModifierDépôtGarantiesFinancièresProps) => {
   const { identifiantProjet } = projet;
   const [typeSélectionné, sélectionnerType] = useState(dépôt?.typeGarantiesFinancières || '');
@@ -44,11 +46,13 @@ export const ModifierDépôtGarantiesFinancières = ({
           encType="multipart/form-data"
           action={routes.POST_MODIFIER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
         >
-          <Heading2>Modifier des garanties financières déposées</Heading2>
+          <Heading2>Modifier des garanties financières déposées depuis</Heading2>
 
           <ChampsObligatoiresLégende />
 
           {error && <ErrorBox>{error}</ErrorBox>}
+
+          <input type="hidden" name="origine" value={origine} />
 
           <div>
             <Label htmlFor="typeGarantiesFinancieres">Type des garanties financières</Label>

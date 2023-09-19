@@ -22,6 +22,7 @@ import { getProjectAppelOffre } from '../../config';
 const schema = yup.object({
   params: yup.object({
     identifiantProjet: yup.string().required(),
+    origine: yup.string().required(),
   }),
 });
 
@@ -37,7 +38,7 @@ v1Router.get(
     async (request, response) => {
       const {
         user,
-        params: { identifiantProjet },
+        params: { identifiantProjet, origine },
         query: { error },
       } = request;
 
@@ -119,6 +120,7 @@ v1Router.get(
           user,
           projet,
           error: error as string,
+          origine: origine === 'liste' ? 'liste' : 'projet',
           ...(isSome(dépôt) && { dépôt }),
         }),
       );

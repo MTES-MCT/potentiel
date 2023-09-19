@@ -157,7 +157,12 @@ const Dépôt = ({
           />
           {['porteur-projet', 'admin', 'dreal'].includes(userRole) && (
             <div className="flex items-center gap-4 mt-2">
-              <Link href={routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiantProjet)}>
+              <Link
+                href={routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(
+                  identifiantProjet,
+                  'projet',
+                )}
+              >
                 <EditIcon className="mr-1" aria-hidden />
                 Modifier ou compléter le dépôt en cours
               </Link>
@@ -183,6 +188,7 @@ const Dépôt = ({
               method="post"
               action={routes.POST_VALIDER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
             >
+              <input type="hidden" name="origine" value="projet" />
               <input
                 type="hidden"
                 value={garantiesFinancièresDéposées?.typeGarantiesFinancières}
