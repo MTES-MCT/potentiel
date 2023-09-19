@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel/notification",
+  "version": "0.0.0",
+  "description": "Potentiel notification packages for the notification service application",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel/core-domain": "^0.0.0",
+    "@potentiel/domain": "^0.0.0",
+    "@potentiel/pg-event-sourcing": "^0.0.0"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}
