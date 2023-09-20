@@ -52,8 +52,10 @@ export const registerDéposerGarantiesFinancièresCommand = ({
     utilisateur,
   }) => {
     const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
-
-    if (isSome(agrégatGarantiesFinancières) && agrégatGarantiesFinancières.dépôt) {
+    if (
+      isSome(agrégatGarantiesFinancières) &&
+      agrégatGarantiesFinancières.dépôt?.attestationConstitution
+    ) {
       throw new DépôtGarantiesFinancièresDéjàExistantErreur();
     }
 
