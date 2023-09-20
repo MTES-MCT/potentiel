@@ -34,15 +34,6 @@ export type ProjectListItem = {
   isFinancementParticipatif?: boolean;
   isInvestissementParticipatif?: boolean;
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | '';
-  garantiesFinancières?: {
-    id: string;
-    dateEnvoi?: string;
-    statut: 'en attente' | 'à traiter' | 'validé';
-    fichier?: {
-      id: string;
-      filename: string;
-    };
-  };
 };
 
 export type FiltreListeProjets = {
@@ -54,7 +45,6 @@ export type FiltreListeProjets = {
   };
   classement?: 'classés' | 'éliminés' | 'abandons';
   reclames?: 'réclamés' | 'non-réclamés';
-  garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue';
 };
 
 export type ListerProjets = (args: {
