@@ -21,7 +21,6 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | date de constitution | <date de constitution> |
             | date de dépôt        | 2023-08-11             |
             | région               | Nouvelle-Aquitaine     |
-            | date limite de dépôt | 2023-11-01             |
         Et il devrait y avoir un dépôt de garanties financières "en cours" pour le projet "Centrale éolienne 20" avec :
             | date limite de dépôt | 2023-11-01            |
             | région               | Nouvelle-Aquitaine    |
@@ -49,6 +48,38 @@ Fonctionnalité: Déposer des garanties financières pour validation dans Potent
             | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | 2027-12-01      | application/pdf   | le contenu du fichier | 2021-12-02           |
             |                 | application/pdf   | le contenu du fichier | 2021-12-02           |
+
+     Scénario: Déposer de nouvelle garanties financières après validation d'un premier dépôt 
+        Etant donné des garanties financières à déposer pour le projet "Centrale éolienne 20" avec :
+            | date limite de dépôt | 2023-11-01            |
+        Et un dépôt de garanties financières pour le projet "Centrale éolienne 20" avec :
+            | type                 | consignation          |
+            | format               | application/pdf       |
+            | contenu fichier      | contenu               |
+            | date de constitution | 2023-01-01            |
+            | date de dépôt        | 2023-10-01            |     
+        Et une validation du dépôt de garanties financières par la Dreal pour le projet "Centrale éolienne 20" avec :
+            | type                 | consignation          |
+            | format               | application/pdf       |
+            | contenu fichier      | contenu               |
+            | date de constitution | 2023-01-01            |
+        Quand un utilisateur avec le rôle 'porteur-projet' dépose des garanties financières pour le projet "Centrale éolienne 20" avec :
+            | type                 | avec date d'échéance  |
+            | date d'échéance      | 2025-01-01            |
+            | format               |  application/pdf      |
+            | contenu fichier      | nouveau contenu       |
+            | date de constitution | 2023-09-01            |
+            | date de dépôt        | 2023-09-20            |    
+        Alors le dépôt de garanties financières devrait être consultable pour le projet "Centrale éolienne 20" avec :
+            | type                 | avec date d'échéance  |
+            | date d'échéance      | 2025-01-01            |
+            | format               | application/pdf       |
+            | contenu fichier      | nouveau contenu       |
+            | date de constitution | 2023-09-01            |
+            | région               | Nouvelle-Aquitaine    |  
+            | date de dépôt        | 2023-09-20            |           
+         Et il devrait y avoir un dépôt de garanties financières "en cours" pour le projet "Centrale éolienne 20" avec :
+            | région               | Nouvelle-Aquitaine    |        
 
     Scénario: Erreur si date de constitution dans le futur
         Quand un utilisateur avec le rôle 'porteur-projet' dépose des garanties financières pour le projet "Centrale éolienne 20" avec :

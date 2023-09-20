@@ -16,7 +16,7 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
   AttestationConstitution,
-  PermissionDéposerGarantiesFinancières,
+  PermissionModifierDépôtGarantiesFinancières,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
@@ -46,13 +46,14 @@ const schema = yup.object({
       .required('Vous devez renseigner la date de constitution')
       .transform(iso8601DateToDateYupTransformation)
       .typeError(`La date de constitution n'est pas valide`),
+    origine: yup.mixed<`liste` | `projet`>().oneOf([`liste`, `projet`]),
   }),
 });
 
 v1Router.post(
   routes.POST_MODIFIER_DEPOT_GARANTIES_FINANCIERES(),
   uploadMiddleware.single('file'),
-  vérifierPermissionUtilisateur(PermissionDéposerGarantiesFinancières),
+  vérifierPermissionUtilisateur(PermissionModifierDépôtGarantiesFinancières),
   safeAsyncHandler(
     {
       schema,
@@ -60,9 +61,15 @@ v1Router.post(
         const identifiant = request.params.identifiantProjet;
         if (estUnRawIdentifiantProjet(identifiant)) {
           return response.redirect(
-            addQueryParams(routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiant), {
-              error: `Le dépôt de garanties financières n'a pas pu être modifié. ${error}`,
-            }),
+            addQueryParams(
+              routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(
+                identifiant,
+                request.params.origine === 'liste' ? 'liste' : 'projet',
+              ),
+              {
+                error: `Le dépôt de garanties financières n'a pas pu être modifié. ${error}`,
+              },
+            ),
           );
         }
         response.redirect(
@@ -76,7 +83,7 @@ v1Router.post(
       const {
         user,
         params: { identifiantProjet },
-        body: { typeGarantiesFinancieres, dateEcheance, dateConstitution },
+        body: { typeGarantiesFinancieres, dateEcheance, dateConstitution, origine },
         file,
       } = request;
 
@@ -85,6 +92,11 @@ v1Router.post(
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
+
+      const redirectUrl =
+        origine === 'liste'
+          ? routes.GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE()
+          : routes.PROJECT_DETAILS(identifiantProjet);
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
@@ -100,7 +112,10 @@ v1Router.post(
         if (isNone(fichierAttestationActuel)) {
           return response.redirect(
             addQueryParams(
-              routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiantProjet),
+              routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(
+                identifiantProjet,
+                request.params.origine === 'liste' ? 'liste' : 'projet',
+              ),
               {
                 error: `Vous devez joindre l'attestation de constitution des garanties financières`,
               },
@@ -147,7 +162,7 @@ v1Router.post(
       });
       if (appelOffre && !appelOffre.isSoumisAuxGF) {
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+          addQueryParams(redirectUrl, {
             error: `L'appel d'offres n'est pas soumis aux garanties financières.`,
           }),
         );
@@ -185,15 +200,21 @@ v1Router.post(
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: 'Le dépôt de garanties financières a bien été modifié',
-            redirectUrl: routes.PROJECT_DETAILS(identifiantProjet),
-            redirectTitle: 'Retourner sur la page projet',
+            redirectUrl,
+            redirectTitle:
+              origine === 'liste'
+                ? 'Retourner sur la liste de dépôts'
+                : 'Retourner sur la page du projet',
           }),
         );
       } catch (error) {
         if (error instanceof DomainError) {
           return response.redirect(
             addQueryParams(
-              routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiantProjet),
+              routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(
+                identifiantProjet,
+                request.params.origine === 'liste' ? 'liste' : 'projet',
+              ),
               {
                 error: error.message,
               },

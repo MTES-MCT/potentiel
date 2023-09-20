@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { isSome } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import { DépôtGarantiesFinancièresReadModel } from '../dépôtGarantiesFinancières.readModel';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { List } from '@potentiel/core-domain-views';
@@ -39,6 +39,7 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
     const dépôts = await list<DépôtGarantiesFinancièresReadModel>({
       type: 'dépôt-garanties-financières',
       orderBy: 'dateDernièreMiseÀJour',
+      sort: 'DESC',
       like: { région },
       pagination: { page, itemsPerPage },
     });
@@ -48,19 +49,21 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
       projet: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>;
     }[] = [];
 
-    await Promise.all(
-      dépôts.items.map(async (dépôt) => {
-        const projet = await récupérerDétailProjet(
-          convertirEnIdentifiantProjet(dépôt.identifiantProjet),
-        );
-        if (isSome(projet)) {
-          liste.push({
-            dépôt,
-            projet,
-          });
-        }
-      }),
-    );
+    for (const dépôt of dépôts.items) {
+      const projet = await récupérerDétailProjet(
+        convertirEnIdentifiantProjet(dépôt.identifiantProjet),
+      );
+      if (isNone(projet)) {
+        // TODO : erreur à logguer
+      }
+
+      if (isSome(projet)) {
+        liste.push({
+          dépôt,
+          projet,
+        });
+      }
+    }
 
     return {
       type: 'liste-dépôts-garanties-financières',

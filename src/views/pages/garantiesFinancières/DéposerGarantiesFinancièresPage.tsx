@@ -103,8 +103,8 @@ export const DéposerGarantiesFinancières = ({
 
         <InfoBox className="flex md:w-1/3 md:mx-auto">
           Une fois les garanties financières déposées dans Potentiel, la DREAL concernée recevra une
-          notification l'invitation vérifier leur conformité. Vous serez à votre tour notifié à la
-          validation des garanties financières.
+          notification par mail l'invitant à vérifier leur conformité. Vous serez à votre tour
+          notifié par mail à la validation des garanties financières.
         </InfoBox>
       </div>
     </PageProjetTemplate>

@@ -46,6 +46,7 @@ const schema = yup.object({
       .required('La date de constitution est requise.')
       .transform(iso8601DateToDateYupTransformation)
       .typeError(`La date de constitution n'est pas valide.`),
+    origine: yup.mixed<`liste` | `projet`>().oneOf([`liste`, `projet`]),
   }),
 });
 
@@ -58,11 +59,16 @@ v1Router.post(
       onError: ({ request, response, error }) => {
         const identifiant = request.params.identifiantProjet;
         return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(identifiant), {
-            error: `Le dépôt de garanties financières n'a pas pu être validé. ${error.errors.join(
-              ' ',
-            )}`,
-          }),
+          addQueryParams(
+            request.body.origine === 'liste'
+              ? routes.GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE
+              : routes.PROJECT_DETAILS(identifiant),
+            {
+              error: `Le dépôt de garanties financières n'a pas pu être validé. ${error.errors.join(
+                ' ',
+              )}`,
+            },
+          ),
         );
       },
     },
@@ -70,12 +76,17 @@ v1Router.post(
       const {
         user,
         params: { identifiantProjet },
-        body: { typeGarantiesFinancieres, dateEcheance, dateConstitution },
+        body: { typeGarantiesFinancieres, dateEcheance, dateConstitution, origine },
       } = request;
 
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
+
+      const redirectUrl =
+        origine === 'liste'
+          ? routes.GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE()
+          : routes.PROJECT_DETAILS(identifiantProjet);
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
@@ -106,7 +117,7 @@ v1Router.post(
       });
       if (appelOffre && !appelOffre.isSoumisAuxGF) {
         return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+          addQueryParams(redirectUrl, {
             error: `L'appel d'offres n'est pas soumis aux garanties financières.`,
           }),
         );
@@ -128,7 +139,7 @@ v1Router.post(
             ),
           );
           return response.redirect(
-            addQueryParams(routes.LISTE_PROJETS, {
+            addQueryParams(origine === 'liste' ? redirectUrl : routes.LISTE_PROJETS, {
               error:
                 "Vous n'avez pas pu valider le dépôt de garanties financières car vous n'avez pas accès au projet",
             }),
@@ -152,7 +163,7 @@ v1Router.post(
           ),
         );
         return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+          addQueryParams(redirectUrl, {
             error: `Le dépôt n'a pas pu être validé, veuillez contacter un administrateur si le problème persiste.`,
           }),
         );
@@ -178,14 +189,17 @@ v1Router.post(
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: 'Le dépôt de garanties financières a bien été validé',
-            redirectUrl: routes.PROJECT_DETAILS(identifiantProjet),
-            redirectTitle: 'Retourner sur la page du projet',
+            redirectUrl,
+            redirectTitle:
+              origine === 'liste'
+                ? `Retourner sur la listes des dépôts à valider`
+                : `Retourner sur le projet`,
           }),
         );
       } catch (error) {
         if (error instanceof DomainError) {
           return response.redirect(
-            addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            addQueryParams(redirectUrl, {
               error: error.message,
             }),
           );

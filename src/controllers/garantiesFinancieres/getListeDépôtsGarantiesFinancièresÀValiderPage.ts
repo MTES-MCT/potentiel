@@ -17,7 +17,10 @@ v1Router.get(
   routes.GET_LISTE_DEPOTS_GARANTIES_FINANCIERES_PAGE(),
   vérifierPermissionUtilisateur(PermissionConsulterListeDépôts),
   asyncHandler(async (request, response) => {
-    const { user } = request;
+    const {
+      user,
+      query: { error },
+    } = request;
 
     const userRégion = await UserDreal.findOne({ where: { userId: user.id } });
 
@@ -43,6 +46,7 @@ v1Router.get(
         user,
         listeDépôtsGarantiesFinancières: résultat.liste,
         pagination: { ...résultat.pagination, currentUrl: getCurrentUrl(request) },
+        error: error as string,
       }),
     );
   }),

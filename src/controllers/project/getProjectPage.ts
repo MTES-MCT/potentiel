@@ -300,7 +300,7 @@ const getGarantiesFinancièresDataForProjetPage = async ({
         !garantiesFinancièresActuelles.dateÉchéance))
   ) {
     actionRequise = 'compléter enregistrement';
-  } else if (isNone(garantiesFinancièresActuelles)) {
+  } else if (isNone(garantiesFinancièresActuelles) && isNone(suiviDépôtsGarantiesFinancières)) {
     actionRequise = 'enregistrer';
   }
 

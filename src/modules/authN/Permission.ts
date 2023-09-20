@@ -26,6 +26,7 @@ import {
   PermissionValiderDépôtGarantiesFinancières,
   PermissionSupprimerDépôtGarantiesFinancières,
   PermissionConsulterListeDépôts,
+  PermissionModifierDépôtGarantiesFinancières,
 } from '@potentiel/domain';
 import {
   PermissionListerGestionnairesRéseau,
@@ -56,6 +57,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionEnregistrerGarantiesFinancières,
         PermissionValiderDépôtGarantiesFinancières,
         PermissionConsulterListeDépôts,
+        PermissionModifierDépôtGarantiesFinancières,
       ];
     case 'porteur-projet':
       return [
@@ -73,6 +75,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionEnregistrerGarantiesFinancières,
         PermissionDéposerGarantiesFinancières,
         PermissionSupprimerDépôtGarantiesFinancières,
+        PermissionModifierDépôtGarantiesFinancières,
       ];
     case 'caisse-des-dépôts':
       return [
@@ -108,6 +111,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierGestionnaireRéseauProjet,
         PermissionConsulterGarantiesFinancières,
         PermissionEnregistrerGarantiesFinancières,
+        PermissionModifierDépôtGarantiesFinancières,
       ];
     case 'dgec-validateur':
       return [
