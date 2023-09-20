@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
-import { afterAll, beforeAll, beforeEach, describe, jest, test } from '@jest/globals';
+import { afterAll, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import waitForExpect from 'wait-for-expect';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { DépôtGarantiesFinancièresValidéEventV1 } from '@potentiel/domain/src/garantiesFinancières/dépôt/dépôtGarantiesFinancières.event';
@@ -8,10 +9,11 @@ import {
   createGarantiesFinancièresAggregateId,
 } from '@potentiel/domain';
 import { UnsetupApp, bootstrap } from '../../bootstrap';
+import { sendEmail } from '@potentiel/email-sender';
 
 let unsetupNotification: UnsetupApp;
 
-jest.mock('../../sendEmail');
+jest.mock('@potentiel/email-sender');
 
 describe(`Notification sur les dépôts des garanties financières`, () => {
   beforeAll(async () => {
@@ -198,6 +200,9 @@ describe(`Notification sur les dépôts des garanties financières`, () => {
       await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
 
       // ASSERT
+      await waitForExpect(() => {
+        expect(sendEmail).toHaveBeenCalled();
+      });
     });
   });
 });

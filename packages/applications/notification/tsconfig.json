@@ -4,6 +4,7 @@
     "outDir": "dist",
     "rootDir": "src"
   },
+  "exclude": ["./__mocks__/*"],
   "references": [
     {
       "path": "../../domain"
@@ -12,7 +13,10 @@
       "path": "../../libraries/core-domain"
     },
     {
-      "path": "../../libraries/pg-event-sourcing"
+      "path": "../../libraries/email-sender"
     },
+    {
+      "path": "../../libraries/pg-event-sourcing"
+    }
   ]
 }

@@ -12,12 +12,12 @@
   "dependencies": {
     "@potentiel/core-domain": "^0.0.0",
     "@potentiel/domain": "^0.0.0",
+    "@potentiel/email-sender": "^0.0.0",
     "@potentiel/pg-event-sourcing": "^0.0.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.6.4",
     "@potentiel/tsconfig": "*",
-    "@types/sinon": "^10.0.16",
-    "sinon": "^16.0.0"
+    "wait-for-expect": "^3.0.2"
   }
 }
