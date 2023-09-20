@@ -122,7 +122,6 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   identifiantGestionnaireRéseau: '',
   délaiCDC2022appliqué: false,
   soumisAuxGF: false,
-  GFValidées: false,
   notifiedOn: new Date('2020-01-01').getTime(),
   hasCurrentGf: false,
   isParticipatif: false,

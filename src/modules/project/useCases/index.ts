@@ -11,5 +11,3 @@ export * from './signalerDemandeRecours';
 export * from './submitGF';
 export * from './uploadGF';
 export * from './withdrawGF';
-export * from './invaliderGF';
-export * from './validerGF';

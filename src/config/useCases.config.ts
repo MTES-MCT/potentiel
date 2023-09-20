@@ -50,8 +50,6 @@ import {
   makeChoisirCahierDesCharges,
   makeUploadGF,
   makeWithdrawGF,
-  makeValiderGF,
-  makeInvaliderGF,
 } from '../modules/project';
 import { makeClaimProject } from '../modules/projectClaim';
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '../modules/users';
@@ -169,18 +167,6 @@ export const removeGF = makeRemoveGF({
 
 export const withdrawGF = makeWithdrawGF({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const validerGF = makeValiderGF({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  publishToEventStore,
-  projectRepo,
-});
-
-export const invaliderGF = makeInvaliderGF({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  publishToEventStore,
   projectRepo,
 });
 

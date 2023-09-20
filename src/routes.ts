@@ -338,22 +338,6 @@ class routes {
     } else return route;
   };
 
-  static VALIDER_GF = (args?: { projetId: string }) => {
-    const route = '/projet/:projetId/valider/garanties-financieres';
-    if (args) {
-      const { projetId } = args;
-      return route.replace(':projetId', projetId);
-    } else return route;
-  };
-
-  static INVALIDER_GF = (args?: { projetId: string }) => {
-    const route = '/projet/:projetId/invalider/garanties-financieres';
-    if (args) {
-      const { projetId } = args;
-      return route.replace(':projetId', projetId);
-    } else return route;
-  };
-
   static TELECHARGER_MODELE_MISE_EN_DEMEURE_DEFAUT_GF_INITIALE = (projet?: {
     identifiantProjet: string;
     nomProjet: string;

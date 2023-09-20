@@ -1,8 +1,6 @@
 import { UserRole } from '../users';
 import {
   PermissionConsulterProjet,
-  PermissionInvaliderGF,
-  PermissionValiderGF,
   PermissionAnnulerGF,
   PermissionAjouterDateExpirationGF,
   PermissionUploaderGF,
@@ -45,8 +43,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
       return [
         PermissionListerProjets,
         PermissionConsulterProjet,
-        PermissionValiderGF,
-        PermissionInvaliderGF,
         PermissionAjouterDateExpirationGF,
         PermissionUploaderGF,
         PermissionRetirerGF,
