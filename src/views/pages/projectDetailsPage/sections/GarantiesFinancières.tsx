@@ -32,6 +32,7 @@ export type GarantiesFinancièresDataForProjetPage = {
     dateÉchéance?: string;
     attestationConstitution: { format: string; date: string };
   };
+  dateLimiteDépôt?: string;
 };
 
 export const GarantiesFinancières = ({
@@ -56,7 +57,12 @@ export const GarantiesFinancières = ({
       </Heading3>
       <div>
         {garantiesFinancières?.actionRequise && (
-          <AlertMessage message={getAlertMessage(garantiesFinancières.actionRequise)} />
+          <AlertMessage
+            message={getAlertMessage(
+              garantiesFinancières.actionRequise,
+              garantiesFinancières.dateLimiteDépôt,
+            )}
+          />
         )}
         <div className="flex flex-col gap-2">
           <Actuelles
@@ -243,14 +249,19 @@ const Dépôt = ({
   );
 };
 
-const getAlertMessage = (actionRequise: GarantiesFinancièresDataForProjetPage['actionRequise']) => {
+const getAlertMessage = (
+  actionRequise: GarantiesFinancièresDataForProjetPage['actionRequise'],
+  dateLimiteDépôt?: string,
+): string => {
   switch (actionRequise) {
     case 'enregistrer':
       return 'garanties financières à enregistrer';
     case 'compléter enregistrement':
       return 'enregistrement des garanties financières à compléter';
     case 'déposer':
-      return 'garanties financières à déposer';
+      return `garanties financières à déposer ${
+        dateLimiteDépôt && `${`avant le ${afficherDate(new Date(dateLimiteDépôt))}`}`
+      }`;
     case 'compléter dépôt':
       return 'dépôt de garanties financières à compléter';
     default:
