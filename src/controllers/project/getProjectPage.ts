@@ -234,6 +234,7 @@ type GarantiesFinancièresDataForProjetPage = {
     dateÉchéance?: string;
     attestationConstitution: { format: string; date: string };
   };
+  dateLimiteDépôt?: string;
 };
 
 const getGarantiesFinancièresDataForProjetPage = async ({
@@ -308,5 +309,9 @@ const getGarantiesFinancièresDataForProjetPage = async ({
     actionRequise,
     ...(isSome(garantiesFinancièresActuelles) && { actuelles: garantiesFinancièresActuelles }),
     ...(isSome(garantiesFinancièresDéposées) && { dépôt: garantiesFinancièresDéposées }),
+    ...(actionRequise === 'déposer' &&
+      isSome(suiviDépôtsGarantiesFinancières) && {
+        dateLimiteDépôt: suiviDépôtsGarantiesFinancières.dateLimiteDépôt,
+      }),
   };
 };
