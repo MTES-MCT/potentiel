@@ -5,6 +5,7 @@ import {
   DownloadLink,
   EditIcon,
   ErrorBox,
+  ErrorIcon,
   Heading1,
   Heading2,
   KeyIcon,
@@ -165,10 +166,11 @@ export const ListeDépôtsGarantiesFinancièresÀValider = ({
                         Valider le dépôt
                       </PrimaryButton>
                       {!dépôt.typeGarantiesFinancières && (
-                        <p className="text-sm italic">
+                        <div className="italic text-sm text-warning-425-base mt-2">
+                          <ErrorIcon className="mr-1 align-middle" aria-hidden />
                           La validation est désactivée car le type de garanties financières doit
-                          être précisé.
-                        </p>
+                          être précisé (lien vers le formulaire ci-contre).
+                        </div>
                       )}
                     </form>
                   </div>
