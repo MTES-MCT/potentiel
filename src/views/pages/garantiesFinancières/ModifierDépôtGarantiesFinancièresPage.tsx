@@ -24,6 +24,7 @@ type ModifierDépôtGarantiesFinancièresProps = {
   projet: ProjetReadModel;
   dépôt?: DépôtGarantiesFinancièresReadModel;
   error?: string;
+  origine: 'liste' | 'projet';
 };
 
 export const ModifierDépôtGarantiesFinancières = ({
@@ -31,6 +32,7 @@ export const ModifierDépôtGarantiesFinancières = ({
   projet,
   error,
   dépôt,
+  origine,
 }: ModifierDépôtGarantiesFinancièresProps) => {
   const { identifiantProjet } = projet;
   const [typeSélectionné, sélectionnerType] = useState(dépôt?.typeGarantiesFinancières || '');
@@ -44,11 +46,13 @@ export const ModifierDépôtGarantiesFinancières = ({
           encType="multipart/form-data"
           action={routes.POST_MODIFIER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
         >
-          <Heading2>Modifier des garanties financières déposées</Heading2>
+          <Heading2>Modifier des garanties financières déposées depuis</Heading2>
 
           <ChampsObligatoiresLégende />
 
           {error && <ErrorBox>{error}</ErrorBox>}
+
+          <input type="hidden" name="origine" value={origine} />
 
           <div>
             <Label htmlFor="typeGarantiesFinancieres">Type des garanties financières</Label>
@@ -109,6 +113,7 @@ export const ModifierDépôtGarantiesFinancières = ({
               id="file"
               name="file"
               required={!dépôt?.attestationConstitution.format}
+              disabled={user.role !== 'porteur-projet'}
               fileUrl={routes.GET_ATTESTATION_CONSTITUTION_GARANTIES_FINANCIERES_DEPOT(
                 identifiantProjet,
               )}
@@ -124,7 +129,8 @@ export const ModifierDépôtGarantiesFinancières = ({
         </Form>
 
         <InfoBox className="flex md:w-1/3 md:mx-auto">
-          Vous pouvez modifier ce dépôt jusqu'à sa validation par la DREAL concernée.
+          Vous pouvez modifier ce dépôt jusqu'à sa validation{' '}
+          {user.role === 'porteur-projet' && <span>par la DREAL concernée</span>}.
         </InfoBox>
       </div>
     </PageProjetTemplate>

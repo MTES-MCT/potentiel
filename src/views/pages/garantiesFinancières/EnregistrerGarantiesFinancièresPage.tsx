@@ -164,8 +164,7 @@ export const EnregistrerGarantiesFinancières = ({
 
         <InfoBox className="flex md:w-1/3 md:mx-auto">
           En transmettant votre attestation de constitution de garanties financières sur Potentiel,
-          elle sera directement accessible par la DREAL concernée par votre projet, vous n'avez plus
-          à l'envoyer par courrier.
+          elle sera directement accessible par la DREAL concernée par votre projet.
         </InfoBox>
       </div>
     </PageProjetTemplate>

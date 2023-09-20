@@ -155,25 +155,32 @@ const Dépôt = ({
               identifiantProjet,
             )}
           />
-          {userRole === 'porteur-projet' && (
+          {['porteur-projet', 'admin', 'dreal'].includes(userRole) && (
             <div className="flex items-center gap-4 mt-2">
-              <Link href={routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(identifiantProjet)}>
+              <Link
+                href={routes.GET_MODIFIER_DEPOT_GARANTIES_FINANCIERES_PAGE(
+                  identifiantProjet,
+                  'projet',
+                )}
+              >
                 <EditIcon className="mr-1" aria-hidden />
-                Modifier le dépôt en cours
+                Modifier ou compléter le dépôt en cours
               </Link>
 
-              <Form
-                action={routes.POST_SUPPRIMER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
-                method="post"
-              >
-                <SecondaryButton
-                  className="!p-0 shadow-none border-none bg-transparent hover:bg-transparent focus:bg-transparent text-error-425-base underline w-fit cursor-pointer"
-                  confirmation="Êtes-vous sûr de vouloir supprimer le dépôt en cours ?"
+              {userRole === 'porteur-projet' && (
+                <Form
+                  action={routes.POST_SUPPRIMER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
+                  method="post"
                 >
-                  <TrashIcon className="h-4 w-4 mr-2 align-middle text-error-425-base" />
-                  Supprimer le dépôt en cours
-                </SecondaryButton>
-              </Form>
+                  <SecondaryButton
+                    className="!p-0 shadow-none border-none bg-transparent hover:bg-transparent focus:bg-transparent text-error-425-base underline w-fit cursor-pointer"
+                    confirmation="Êtes-vous sûr de vouloir supprimer le dépôt en cours ?"
+                  >
+                    <TrashIcon className="h-4 w-4 mr-2 align-middle text-error-425-base" />
+                    Supprimer le dépôt en cours
+                  </SecondaryButton>
+                </Form>
+              )}
             </div>
           )}
           {userRole === 'dreal' && (
@@ -181,6 +188,7 @@ const Dépôt = ({
               method="post"
               action={routes.POST_VALIDER_DEPOT_GARANTIES_FINANCIERES(identifiantProjet)}
             >
+              <input type="hidden" name="origine" value="projet" />
               <input
                 type="hidden"
                 value={garantiesFinancièresDéposées?.typeGarantiesFinancières}
@@ -214,7 +222,7 @@ const Dépôt = ({
           {garantiesFinancièresActuelles && (
             <div className="italic text-sm text-grey-425-base">
               <ErrorIcon className="mr-1 align-middle" aria-hidden />
-              Une fois validées, ces garanties financières renplaceront les garanties financières
+              Une fois validées, ces garanties financières remplaceront les garanties financières
               actuelles.
             </div>
           )}

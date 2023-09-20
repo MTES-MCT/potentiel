@@ -43,7 +43,7 @@ Alors(
 
     if (statutDépôt === 'validé') {
       expect(actualAggregate.dateLimiteDépôt).to.be.undefined;
-    } else {
+    } else if (dateLimiteDépôt) {
       expect(actualAggregate.dateLimiteDépôt).not.to.be.undefined;
       expect(actualAggregate.dateLimiteDépôt?.date).to.be.deep.equal(
         convertirEnDateTime(dateLimiteDépôt).date,
@@ -54,9 +54,10 @@ Alors(
 
     const expectedReadModel = {
       type: 'suivi-dépôt-garanties-financières',
-      ...(statutDépôt !== 'validé' && {
-        dateLimiteDépôt: convertirEnDateTime(dateLimiteDépôt).formatter(),
-      }),
+      ...(statutDépôt !== 'validé' &&
+        dateLimiteDépôt && {
+          dateLimiteDépôt: convertirEnDateTime(dateLimiteDépôt).formatter(),
+        }),
       région,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
       statutDépôt,
