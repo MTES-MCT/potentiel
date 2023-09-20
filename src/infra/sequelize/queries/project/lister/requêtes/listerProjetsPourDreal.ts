@@ -2,9 +2,8 @@ import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.co
 import { ListerProjets } from '../../../../../../modules/project';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
-import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Op } from 'sequelize';
-import { UserDreal, Project, File } from '../../../../projectionsNext';
+import { UserDreal, Project } from '../../../../projectionsNext';
 import { logger } from '../../../../../../core/utils';
 
 const attributes = [
@@ -52,14 +51,6 @@ export const listerProjetsPourDreal: ListerProjets = async ({
         [Op.substring]: utilisateur.dreal,
       },
     },
-    include: [
-      ...(findOptions?.include ? findOptions.include : []),
-      {
-        model: GarantiesFinancières,
-        as: 'garantiesFinancières',
-        include: [{ model: File, as: 'fichier' }],
-      },
-    ],
     ...mapToOffsetAndLimit(pagination),
     attributes,
   });

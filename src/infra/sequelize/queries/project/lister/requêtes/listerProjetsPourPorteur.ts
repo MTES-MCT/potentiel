@@ -44,7 +44,6 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
       notifiedOn: { [Op.gt]: 0 },
     },
     include: [
-      ...(findOptions?.include ? findOptions.include : []),
       {
         model: UserProjects,
         as: 'users',
