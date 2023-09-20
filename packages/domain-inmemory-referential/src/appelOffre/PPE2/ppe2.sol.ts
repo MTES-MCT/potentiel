@@ -205,6 +205,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 17.34,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [],
     },
   ],
   familles: [],
