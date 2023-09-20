@@ -1,10 +1,6 @@
 import { UserRole } from '../users';
 import {
   PermissionConsulterProjet,
-  PermissionAnnulerGF,
-  PermissionAjouterDateExpirationGF,
-  PermissionUploaderGF,
-  PermissionRetirerGF,
   PermissionListerProjets,
   PermissionExporterProjets,
 } from '../project';
@@ -43,9 +39,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
       return [
         PermissionListerProjets,
         PermissionConsulterProjet,
-        PermissionAjouterDateExpirationGF,
-        PermissionUploaderGF,
-        PermissionRetirerGF,
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
@@ -59,9 +52,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
       return [
         PermissionListerProjets,
         PermissionConsulterProjet,
-        PermissionAnnulerGF,
-        PermissionAjouterDateExpirationGF,
-        PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionTransmettreDemandeComplèteRaccordement,
         PermissionConsulterDossierRaccordement,
@@ -77,10 +67,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
       return [
         PermissionListerProjets,
         PermissionConsulterProjet,
-        PermissionAnnulerGF,
-        PermissionAjouterDateExpirationGF,
-        PermissionUploaderGF,
-        PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionConsulterGarantiesFinancières,
         PermissionEnregistrerGarantiesFinancières,
@@ -90,9 +76,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerProjets,
         PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
-        PermissionAjouterDateExpirationGF,
-        PermissionUploaderGF,
-        PermissionRetirerGF,
         PermissionInviterDgecValidateur,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
@@ -114,9 +97,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerProjets,
         PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
-        PermissionAjouterDateExpirationGF,
-        PermissionUploaderGF,
-        PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
         PermissionListerGestionnairesRéseau,
@@ -144,7 +124,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterProjet,
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
-        PermissionUploaderGF,
         PermissionConsulterGarantiesFinancières,
         PermissionEnregistrerGarantiesFinancières,
       ];
