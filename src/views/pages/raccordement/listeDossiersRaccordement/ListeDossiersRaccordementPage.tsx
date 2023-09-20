@@ -1,7 +1,15 @@
 import React from 'react';
 
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Link, Tile, PageProjetTemplate, InfoBox, EditIcon } from '../../../components';
+import {
+  Link,
+  Tile,
+  PageProjetTemplate,
+  InfoBox,
+  EditIcon,
+  SecondaryLinkButton,
+  ArrowLeftIcon,
+} from '../../../components';
 import { hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
@@ -62,6 +70,10 @@ export const ListeDossiersRaccordement = ({
         </Link>
         .
       </InfoBox>
+      <SecondaryLinkButton href={routes.PROJECT_DETAILS(projet.identifiantProjet)} className="mt-3">
+        <ArrowLeftIcon aria-hidden className="w-5 h-5 mr-2" />
+        Retour vers le projet
+      </SecondaryLinkButton>
     </PageProjetTemplate>
   );
 };
