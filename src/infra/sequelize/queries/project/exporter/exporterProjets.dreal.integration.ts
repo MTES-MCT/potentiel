@@ -10,7 +10,6 @@ import {
   donnéesDeRaccordement,
   donnéesFournisseurs,
   financementCitoyen,
-  garantiesFinancières,
   identificationProjet,
   implantation,
   localisationProjet,
@@ -40,7 +39,6 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
     ...référencesCandidature,
     ...résultatInstructionSensible,
     ...modificationsAvantImport,
-    ...garantiesFinancières,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
   const utilisateurId = new UniqueEntityID().toString();
