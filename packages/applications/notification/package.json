@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest --config=jest.config.js --detectOpenHandles"
   },
   "dependencies": {
     "@potentiel/core-domain": "^0.0.0",
@@ -14,6 +15,9 @@
     "@potentiel/pg-event-sourcing": "^0.0.0"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@jest/globals": "^29.6.4",
+    "@potentiel/tsconfig": "*",
+    "@types/sinon": "^10.0.16",
+    "sinon": "^16.0.0"
   }
 }

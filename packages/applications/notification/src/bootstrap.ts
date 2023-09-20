@@ -5,7 +5,7 @@ import { DépôtGarantiesFinancièresEvent } from '@potentiel/domain';
 import {
   ExecuteDépôtGarantiesFinancièresNotification,
   registerDépôtGarantiesFinancièresNotification,
-} from './garantiesFinancières/dépôt/notifierDépôtGarantiesFinancièresValidé.notification';
+} from './garantiesFinancières/dépôt/dépôtGarantiesFinancières.notification';
 
 export type UnsetupApp = () => Promise<void>;
 
