@@ -6,10 +6,13 @@
   },
   "references": [
     {
+      "path": "../core-domain"
+    },
+    {
       "path": "../monads"
     },
     {
-      "path": "../core-domain"
+      "path": "../monitoring"
     },
     {
       "path": "../pg-helpers"

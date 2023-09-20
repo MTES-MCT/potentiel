@@ -5,23 +5,24 @@
     "rootDir": "src"
   },
   "references": [
-    {
-      "path": "../../domain-inmemory-referential"
-    },
+
     {
       "path": "../../domain"
     },
     {
-      "path": "../../libraries/core-domain"
+      "path": "../../domain-views"
     },
+    {
+      "path": "../../domain-inmemory-referential"
+    },
+        {
+      "path": "../../libraries/infra-adapters"
+    },    
     {
       "path": "../../libraries/pg-event-sourcing"
     },
     {
       "path": "../../libraries/pg-projections"
     },
-    {
-      "path": "../../libraries/infra-adapters"
-    }
   ]
 }

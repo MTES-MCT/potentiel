@@ -6,10 +6,16 @@
   },
   "references": [
     {
+      "path": "../applications/web"
+    },
+    {
       "path": "../domain"
     },
     {
-      "path": "../libraries/core-domain"
+      "path": "../domain-views"
+    },    
+    {
+      "path": "../libraries/file-storage"
     },
     {
       "path": "../libraries/pg-event-sourcing"
@@ -17,14 +23,5 @@
     {
       "path": "../libraries/pg-helpers"
     },
-    {
-      "path": "../libraries/pg-projections"
-    },
-    {
-      "path": "../libraries/infra-adapters"
-    },
-    {
-      "path": "../applications/web"
-    }
   ]
 }

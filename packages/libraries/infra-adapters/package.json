@@ -9,11 +9,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/domain": "^0.0.0",
-    "@potentiel/domain-views": "^0.0.0",
-    "@potentiel/file-storage": "^0.0.0",
-    "@potentiel/monads": "^0.0.0",
-    "@potentiel/monitoring": "^0.0.0"
+    "@potentiel/domain": "*",
+    "@potentiel/domain-views": "*",
+    "@potentiel/file-storage": "*",
+    "@potentiel/monads": "*",
+    "@potentiel/pg-helpers": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

@@ -11,13 +11,12 @@
   },
   "dependencies": {
     "@potentiel/web": "*",
-    "@potentiel/core-domain": "^0.0.0",
-    "@potentiel/domain": "^0.0.0",
-    "@potentiel/domain-views": "^0.0.0",
-    "@potentiel/file-storage": "^0.0.0",
-    "@potentiel/infra-adapters": "^0.0.0",
-    "@potentiel/pg-event-sourcing": "^0.0.0",
-    "@potentiel/pg-helpers": "^0.0.0",
+    "@potentiel/domain": "*",
+    "@potentiel/domain-views": "*",
+    "@potentiel/file-storage": "*",
+    "@potentiel/pg-event-sourcing": "*",
+    "@potentiel/pg-helpers": "*",
+    "@potentiel/monads": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {

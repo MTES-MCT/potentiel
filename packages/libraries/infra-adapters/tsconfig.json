@@ -6,19 +6,16 @@
   },
   "references": [
     {
-      "path": "../monads"
+      "path": "../../domain"
+    },
+    {
+      "path": "../../domain-views"
     },
     {
       "path": "../file-storage"
     },
     {
-      "path": "../monitoring"
-    },
-    {
-      "path": "../../domain"
-    },
-    {
-      "path": "../../domain-views"
+      "path": "../monads"
     },
     {
       "path": "../pg-helpers"

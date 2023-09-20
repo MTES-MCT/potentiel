@@ -9,10 +9,16 @@
   ],
   "references": [
     {
-      "path": "../libraries/monads"
+      "path": "../libraries/core-domain"
     },
     {
-      "path": "../libraries/core-domain"
-    }
+      "path": "../libraries/core-domain-views"
+    },
+    {
+      "path": "../domain"
+    },
+    {
+      "path": "../libraries/monads"
+    },
   ]
 }

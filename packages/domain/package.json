@@ -9,8 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/core-domain": "^0.0.0",
-    "@potentiel/web": "^0.0.0",
+    "@potentiel/core-domain": "*",
+    "@potentiel/monads": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {

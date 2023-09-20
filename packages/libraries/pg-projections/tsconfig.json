@@ -6,7 +6,7 @@
   },
   "references": [
     {
-      "path": "../core-domain"
+      "path": "../core-domain-views"
     },
     {
       "path": "../pg-helpers"
