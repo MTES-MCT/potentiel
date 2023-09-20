@@ -27,22 +27,15 @@ import { ProjectDataForCertificate } from './dtos';
 import {
   AttachmentRequiredForDemandeRecoursAcceptedError,
   EliminatedProjectCannotBeAbandonnedError,
-  GFCertificateHasAlreadyBeenSentError,
   IllegalProjectStateError,
-  NoGFCertificateToDeleteError,
-  NoGFCertificateToUpdateError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
   ChangementProducteurImpossiblePourEolienError,
-  SuppressionGFValidéeImpossibleError,
-  GFImpossibleASoumettreError,
-  SuppressionGFATraiterImpossibleError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
   CovidDelayGranted,
-  DateEchéanceGFAjoutée,
   DemandeAbandonSignaled,
   DemandeDelaiSignaled,
   DemandeRecoursSignaled,
@@ -62,12 +55,6 @@ import {
   ProjectDCRDueDateCancelled,
   ProjectDCRDueDateSet,
   ProjectFournisseursUpdated,
-  ProjectGFDueDateCancelled,
-  ProjectGFDueDateSet,
-  ProjectGFRemoved,
-  ProjectGFSubmitted,
-  ProjectGFUploaded,
-  ProjectGFWithdrawn,
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectNotified,
@@ -76,10 +63,7 @@ import {
   ProjectReimported,
   CahierDesChargesChoisi,
   LegacyAbandonSupprimé,
-  GarantiesFinancièresValidées,
-  GarantiesFinancièresInvalidées,
   AbandonProjetAnnulé,
-  TypeGarantiesFinancièresEtDateEchéanceTransmis,
   ProjectRawDataImportedPayload,
 } from './events';
 import { toProjectDataForCertificate } from './mappers';
@@ -138,29 +122,6 @@ export interface Project extends EventStoreAggregate {
     certificateFileId: string;
     reason?: string;
   }) => Result<null, IllegalInitialStateForAggregateError>;
-  submitGarantiesFinancieres: (
-    gfDate: Date,
-    fileId: string,
-    submittedBy: User,
-    expirationDate: Date,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
-  uploadGarantiesFinancieres: (
-    gfDate: Date,
-    fileId: string,
-    submittedBy: User,
-    expirationDate: Date,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
-  removeGarantiesFinancieres: (
-    removedBy: User,
-  ) => Result<
-    null,
-    | ProjectCannotBeUpdatedIfUnnotifiedError
-    | NoGFCertificateToDeleteError
-    | SuppressionGFValidéeImpossibleError
-  >;
-  withdrawGarantiesFinancieres: (
-    removedBy: User,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>;
   signalerDemandeDelai: (
     args: {
       decidedOn: Date;
@@ -192,11 +153,6 @@ export interface Project extends EventStoreAggregate {
     status: 'acceptée' | 'rejetée';
     attachment?: { id: string; name: string };
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  addGFExpirationDate: (args: {
-    projectId: string;
-    expirationDate: Date;
-    submittedBy: User;
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>;
   readonly shouldCertificateBeGenerated: boolean;
   readonly isClasse?: boolean;
   readonly isLegacy?: boolean;
@@ -223,8 +179,6 @@ export interface Project extends EventStoreAggregate {
   readonly dateMiseEnService?: Date;
   readonly dateFileAttente?: Date;
   readonly délaiCDC2022appliqué: boolean;
-  readonly GFValidées: boolean;
-  readonly hasCurrentGf: boolean;
   readonly dcrDueOn?: Date;
   readonly notifiedOn: number;
   readonly isParticipatif: boolean;
@@ -273,8 +227,6 @@ export interface ProjectProps {
   cahierDesCharges: CahierDesChargesRéférenceParsed;
   fieldsUpdatedAfterImport: Set<string>;
   potentielIdentifier?: string;
-  hasCurrentGf: boolean;
-  GFExpirationDate: Date | undefined;
   appelOffreId: string;
   periodeId: string;
   familleId: string;
@@ -282,7 +234,6 @@ export interface ProjectProps {
   dateMiseEnService: Date | undefined;
   dateFileAttente: Date | undefined;
   délaiCDC2022appliqué: boolean;
-  GFValidées: boolean;
   dcrDueOn: Date | undefined;
   isParticipatif: boolean;
 }
@@ -319,8 +270,6 @@ export const makeProject = (args: {
     lastCertificateUpdate: undefined,
     cahierDesCharges: { type: 'initial' },
     fieldsUpdatedAfterImport: new Set<string>(),
-    hasCurrentGf: false,
-    GFExpirationDate: undefined,
     potentielIdentifier: '',
     appelOffreId: '',
     periodeId: '',
@@ -329,7 +278,6 @@ export const makeProject = (args: {
     dateMiseEnService: undefined,
     dateFileAttente: undefined,
     délaiCDC2022appliqué: false,
-    GFValidées: false,
     dcrDueOn: undefined,
     isParticipatif: false,
   };
@@ -391,14 +339,6 @@ export const makeProject = (args: {
 
       _updateDCRDate(projectAppelOffre);
       _updateCompletionDate(projectAppelOffre);
-
-      if (
-        projectAppelOffre.famille?.soumisAuxGarantiesFinancieres === 'après candidature' ||
-        projectAppelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
-      ) {
-        _updateGFDate(projectAppelOffre);
-      }
-
       return ok(null);
     },
     abandon: function (user) {
@@ -470,19 +410,6 @@ export const makeProject = (args: {
             },
           }),
         );
-
-        if (garantiesFinancièresType) {
-          _publishEvent(
-            new TypeGarantiesFinancièresEtDateEchéanceTransmis({
-              payload: {
-                projectId: id,
-                type: garantiesFinancièresType,
-                dateEchéance: garantiesFinancièresDateEchéance,
-              },
-            }),
-          );
-        }
-
         if (data.notifiedOn) {
           try {
             isStrictlyPositiveNumber(data.notifiedOn);
@@ -497,7 +424,6 @@ export const makeProject = (args: {
           });
 
           _updateDCRDate(appelOffre);
-          _updateGFDate(appelOffre);
           _updateCompletionDate(appelOffre);
         }
       } else {
@@ -543,11 +469,9 @@ export const makeProject = (args: {
             if (data.classe === 'Classé') {
               // éliminé -> classé
               _updateDCRDate(appelOffre);
-              _updateGFDate(appelOffre);
               _updateCompletionDate(appelOffre);
             } else if (data.classe === 'Eliminé') {
               // classé -> eliminé
-              _cancelGFDate(appelOffre);
               _cancelDCRDate();
               _cancelCompletionDate();
             }
@@ -566,7 +490,6 @@ export const makeProject = (args: {
               if (hasNotificationDateChanged) {
                 // remains classé
                 _updateDCRDate(appelOffre);
-                _updateGFDate(appelOffre);
                 _updateCompletionDate(appelOffre);
               }
             }
@@ -657,12 +580,6 @@ export const makeProject = (args: {
       const { appelOffre } = props;
       if (appelOffre) {
         _updateDCRDate(appelOffre);
-        if (
-          appelOffre.famille?.soumisAuxGarantiesFinancieres === 'après candidature' ||
-          appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
-        ) {
-          _updateGFDate(appelOffre);
-        }
         _updateCompletionDate(appelOffre);
       }
 
@@ -737,32 +654,6 @@ export const makeProject = (args: {
           },
         }),
       );
-
-      const { appelOffre, isClasse } = props;
-
-      if (isClasse && appelOffre?.isSoumisAuxGF) {
-        _publishEvent(
-          new ProjectGFDueDateSet({
-            payload: {
-              projectId: props.projectId.toString(),
-              garantiesFinancieresDueOn: add(new Date(), {
-                months: 1,
-              }).getTime(),
-            },
-          }),
-        );
-
-        if (props.hasCurrentGf) {
-          _publishEvent(
-            new ProjectGFRemoved({
-              payload: {
-                projectId: props.projectId.toString(),
-              },
-            }),
-          );
-        }
-      }
-
       return ok(null);
     },
     updateFournisseurs: function (user, newFournisseurs: Fournisseur[], newEvaluationCarbone) {
@@ -830,92 +721,6 @@ export const makeProject = (args: {
         );
       }
 
-      return ok(null);
-    },
-    submitGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-      if (!props.isClasse || props.abandonedOn > 0) {
-        return err(new GFImpossibleASoumettreError());
-      }
-      if (props.hasCurrentGf) {
-        return err(new GFCertificateHasAlreadyBeenSentError());
-      }
-      _publishEvent(
-        new ProjectGFSubmitted({
-          payload: {
-            projectId: props.projectId.toString(),
-            fileId,
-            gfDate,
-            submittedBy: submittedBy.id,
-            expirationDate,
-          },
-        }),
-      );
-      return ok(null);
-    },
-    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-      if (props.hasCurrentGf) {
-        return err(new GFCertificateHasAlreadyBeenSentError());
-      }
-      _publishEvent(
-        new ProjectGFUploaded({
-          payload: {
-            projectId: props.projectId.toString(),
-            fileId: fileId,
-            gfDate: gfDate,
-            submittedBy: submittedBy.id,
-            expirationDate,
-          },
-        }),
-      );
-      return ok(null);
-    },
-    removeGarantiesFinancieres: function (removedBy) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-      if (!props.hasCurrentGf) {
-        return err(new NoGFCertificateToDeleteError());
-      }
-      if (props.GFValidées && removedBy.role === 'porteur-projet') {
-        return err(new SuppressionGFValidéeImpossibleError());
-      }
-      if (!props.GFValidées && !['porteur-projet', 'caisse-des-dépôts'].includes(removedBy.role)) {
-        return err(new SuppressionGFATraiterImpossibleError());
-      }
-      _publishEvent(
-        new ProjectGFRemoved({
-          payload: {
-            projectId: props.projectId.toString(),
-            removedBy: removedBy.id,
-          },
-        }),
-      );
-      return ok(null);
-    },
-    withdrawGarantiesFinancieres: function (removedBy) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-      if (!props.hasCurrentGf) {
-        return err(new NoGFCertificateToDeleteError());
-      }
-      if (props.GFValidées && removedBy.role === 'porteur-projet') {
-        return err(new SuppressionGFValidéeImpossibleError());
-      }
-      _publishEvent(
-        new ProjectGFWithdrawn({
-          payload: {
-            projectId: props.projectId.toString(),
-            removedBy: removedBy.id,
-          },
-        }),
-      );
       return ok(null);
     },
     signalerDemandeDelai: function (args) {
@@ -1028,26 +833,6 @@ export const makeProject = (args: {
 
       return ok(null);
     },
-    addGFExpirationDate: function (args) {
-      const { expirationDate, submittedBy, projectId } = args;
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-      if (!props.hasCurrentGf) {
-        return err(new NoGFCertificateToUpdateError());
-      }
-      _publishEvent(
-        new DateEchéanceGFAjoutée({
-          payload: {
-            expirationDate,
-            submittedBy: submittedBy.id,
-            projectId,
-          },
-        }),
-      );
-
-      return ok(null);
-    },
     get pendingEvents() {
       return pendingEvents;
     },
@@ -1138,12 +923,6 @@ export const makeProject = (args: {
     get délaiCDC2022appliqué() {
       return props.délaiCDC2022appliqué;
     },
-    get GFValidées() {
-      return props.GFValidées;
-    },
-    get hasCurrentGf() {
-      return props.hasCurrentGf;
-    },
     get notifiedOn() {
       return props.notifiedOn;
     },
@@ -1194,9 +973,6 @@ export const makeProject = (args: {
       case ProjectCompletionDueDateSet.type:
       case ProjectDataCorrected.type:
       case ProjectClasseGranted.type:
-      case ProjectGFSubmitted.type:
-      case ProjectGFRemoved.type:
-      case ProjectGFUploaded.type:
         props.lastUpdatedOn = event.occurredAt;
         break;
       default:
@@ -1207,12 +983,6 @@ export const makeProject = (args: {
 
   function _processEvent(event: DomainEvent) {
     switch (event.type) {
-      case GarantiesFinancièresValidées.type:
-        props.GFValidées = true;
-        break;
-      case GarantiesFinancièresInvalidées.type:
-        props.GFValidées = false;
-        break;
       case LegacyProjectSourced.type:
         props.data = event.payload.content;
         props.notifiedOn = event.payload.content.notifiedOn;
@@ -1333,25 +1103,6 @@ export const makeProject = (args: {
         }
 
         break;
-      case ProjectGFSubmitted.type:
-        props.hasCurrentGf = true;
-        if (event.payload.expirationDate) {
-          props.GFExpirationDate = event.payload.expirationDate;
-        }
-        break;
-      case ProjectGFUploaded.type:
-        props.hasCurrentGf = true;
-        if (event.payload.expirationDate) {
-          props.GFExpirationDate = event.payload.expirationDate;
-        }
-        props.GFValidées = true;
-        break;
-
-      case ProjectGFRemoved.type:
-      case ProjectGFWithdrawn.type:
-        props.hasCurrentGf = false;
-        props.GFValidées = false;
-        break;
       case ProjectAbandoned.type:
         props.abandonedOn = event.occurredAt.getTime();
         break;
@@ -1362,14 +1113,6 @@ export const makeProject = (args: {
       case AppelOffreProjetModifié.type:
         props.appelOffreId = event.payload.appelOffreId;
         props.periodeId = event.payload.periodeId;
-        break;
-      case DateEchéanceGFAjoutée.type:
-        props.GFExpirationDate = event.payload.expirationDate;
-        break;
-      case TypeGarantiesFinancièresEtDateEchéanceTransmis.type:
-        if (event.payload.dateEchéance) {
-          props.GFExpirationDate = event.payload.dateEchéance;
-        }
         break;
       case IdentifiantPotentielPPE2Batiment2Corrigé.type:
         props.potentielIdentifier = event.payload.nouvelIdentifiant;
@@ -1516,35 +1259,6 @@ export const makeProject = (args: {
         },
       }),
     );
-  }
-
-  function _updateGFDate(appelOffre: ProjectAppelOffre) {
-    const { isClasse } = props;
-    if (isClasse && appelOffre.isSoumisAuxGF) {
-      _removePendingEventsOfType(ProjectGFDueDateSet.type);
-      _publishEvent(
-        new ProjectGFDueDateSet({
-          payload: {
-            projectId: props.projectId.toString(),
-            garantiesFinancieresDueOn: add(props.notifiedOn, {
-              months: 2,
-            }).getTime(),
-          },
-        }),
-      );
-    }
-  }
-
-  function _cancelGFDate(appelOffre: ProjectAppelOffre) {
-    if (appelOffre.isSoumisAuxGF) {
-      _publishEvent(
-        new ProjectGFDueDateCancelled({
-          payload: {
-            projectId: props.projectId.toString(),
-          },
-        }),
-      );
-    }
   }
 
   function _computeDelta(data) {
