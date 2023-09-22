@@ -17,7 +17,23 @@ DépôtGarantiesFinancièresNotificationDependencies) => {
   const handler: MessageHandler<ExecuteDépôtGarantiesFinancièresNotification> = async (event) => {
     switch (event.type) {
       case 'DépôtGarantiesFinancièresValidé-v1':
-        sendEmail(`Email sent for ${event.type}`);
+        sendEmail({
+          type: 'notifier-pp-gf-validé',
+          templateId: 12345678910,
+          contexte: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+          message: {
+            object: 'Validation du dépôt des des garanties financières',
+            recipients: porteursÀNotifier,
+          },
+          variables: {
+            nomProjet,
+            // TODO : récupérer la dreal dans un adapter ou depuis une query dans le controller ?
+            dreal: 'TEST',
+            dateDépôt: format(new Date(), 'dd/MM/yyyy'),
+          },
+        });
         break;
     }
   };
