@@ -11,7 +11,6 @@ export type DemanderAbandonAvecRecandidatureCommand = Message<
   {
     identifiantProjet: IdentifiantProjetValueType;
     raison: string;
-    avecRecandidature: boolean;
     piéceJustificative: PiéceJustificativeAbandon;
   }
 >;
@@ -30,7 +29,6 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
     identifiantProjet,
     piéceJustificative,
     raison,
-    avecRecandidature,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -39,7 +37,7 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
         type: 'AbandonDemandé',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
-          avecRecandidature,
+          avecRecandidature: true,
           piéceJustificative,
           raison,
         },
