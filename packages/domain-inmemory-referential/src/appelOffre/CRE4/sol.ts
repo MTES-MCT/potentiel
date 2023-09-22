@@ -94,6 +94,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -104,6 +105,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -114,6 +116,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-3eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',
@@ -124,6 +127,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-4eme-et-5eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '5',
@@ -134,6 +138,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-4eme-et-5eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '6',
@@ -160,6 +165,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-5-septembre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '8',
@@ -176,6 +182,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/Fichiers/ao-solaire-au-sol-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-29-octobre-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '9',
@@ -192,6 +199,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/Fichiers/ao-solaire-au-sol-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-29-octobre-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '10',
@@ -208,6 +216,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-12-fevrier-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [

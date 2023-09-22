@@ -97,6 +97,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
 `,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -120,6 +121,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
 `,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -144,6 +146,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
 `,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',
@@ -167,6 +170,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
 `,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '5',
@@ -190,6 +194,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
 `,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '6',
@@ -214,6 +219,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
 `,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '7',
@@ -238,6 +244,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
 `,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '8',
@@ -262,6 +269,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         `,
         },
       },
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [],

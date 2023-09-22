@@ -90,6 +90,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents et cent pourcents de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -111,6 +112,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents et cent pourcents de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -132,6 +134,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-quinze pourcents et cent pourcents de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [

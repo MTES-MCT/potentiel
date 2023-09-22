@@ -86,6 +86,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 26.46,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -106,6 +107,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 11.4362187267599,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -126,6 +128,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 13.82,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',

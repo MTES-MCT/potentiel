@@ -81,6 +81,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         { familleId: '1', noteThreshold: 65.05 },
         { familleId: '2', noteThreshold: 61.76 },
       ],
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [

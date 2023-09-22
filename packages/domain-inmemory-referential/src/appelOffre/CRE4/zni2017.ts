@@ -91,6 +91,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-pv-stockage-zni',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [

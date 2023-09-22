@@ -110,6 +110,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '1c', territoire: 'Martinique', noteThreshold: 75.9 },
         { familleId: '1c', territoire: 'Mayotte', noteThreshold: 19.6 },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -138,6 +139,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 17.1 },
         { familleId: '2c', territoire: 'Martinique', noteThreshold: 27.2 },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -164,6 +166,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '1c', territoire: 'Guadeloupe', noteThreshold: 64.1 },
         { familleId: '1c', territoire: 'La Réunion', noteThreshold: 33.7 },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',
@@ -192,6 +195,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2c', territoire: 'Guyane', noteThreshold: 62.19 },
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 19.93 },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '5',
@@ -213,6 +217,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '1c', territoire: 'Mayotte', noteThreshold: 21.4 },
         { familleId: '1c', territoire: 'Guyane', noteThreshold: 65.52 },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '6',
