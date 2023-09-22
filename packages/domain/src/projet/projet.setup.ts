@@ -1,16 +1,16 @@
 import { Subscribe } from '@potentiel/core-domain';
-import {
-  ModifierGestionnaireRéseauProjetDependencies,
-  registerModifierGestionnaireRéseauProjetCommand,
-} from './modifier/modifierGestionnaireRéseauProjet.command';
-import { registerModifierGestionnaireRéseauProjetUseCase } from './modifier/modifierGestionnaireRéseauProjet.usecase';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement/raccordement.event';
 import { mediator } from 'mediateur';
 import {
-  ExecuterAjouterGestionnaireRéseauProjetSaga,
   registerExecuterAjouterGestionnaireRéseauProjetSaga,
-} from './déclarer/déclarerGestionnaireRéseau.saga';
-import { registerDéclarerGestionnaireRéseauProjetCommand } from './déclarer/déclarerGestionnaireRéseauProjet.command';
+  ExecuterAjouterGestionnaireRéseauProjetSaga,
+} from './lauréat/gestionnaireRéseau/déclarer/déclarerGestionnaireRéseau.saga';
+import { registerDéclarerGestionnaireRéseauProjetCommand } from './lauréat/gestionnaireRéseau/déclarer/déclarerGestionnaireRéseauProjet.command';
+import {
+  ModifierGestionnaireRéseauProjetDependencies,
+  registerModifierGestionnaireRéseauProjetCommand,
+} from './lauréat/gestionnaireRéseau/modifier/modifierGestionnaireRéseauProjet.command';
+import { registerModifierGestionnaireRéseauProjetUseCase } from './lauréat/gestionnaireRéseau/modifier/modifierGestionnaireRéseauProjet.usecase';
 
 export type ProjetDependencies = {
   subscribe: Subscribe;

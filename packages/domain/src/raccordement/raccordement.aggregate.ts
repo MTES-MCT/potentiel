@@ -23,7 +23,10 @@ import {
   convertirEnRéférenceDossierRaccordement,
 } from './raccordement.valueType';
 import { DossierRaccordementNonRéférencéError } from './raccordement.errors';
-import { Projet, loadProjetAggregateFactory } from '../projet/projet.aggregate';
+import {
+  GestionnaireRéseauProjet,
+  loadGestionnaireRéseauProjetAggregateFactory,
+} from '../projet/lauréat/gestionnaireRéseau/gestionnaireRéseauProjet.aggregate';
 
 type RaccordementAggregateId = `raccordement|${string}`;
 
@@ -36,7 +39,7 @@ export const createRaccordementAggregateId = (
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
 type Raccordement = {
-  getProjet(): Promise<Option<Projet>>;
+  getProjet(): Promise<Option<GestionnaireRéseauProjet>>;
   getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>>;
   dossiers: Map<string, DossierRaccordement>;
   contientLeDossier: (
@@ -118,7 +121,7 @@ const ajouterDossier = (
   return {
     ...aggregate,
     getProjet: async function () {
-      const loadProjet = loadProjetAggregateFactory({
+      const loadProjet = loadGestionnaireRéseauProjetAggregateFactory({
         loadAggregate,
       });
       return loadProjet(convertirEnIdentifiantProjet(identifiantProjet));
