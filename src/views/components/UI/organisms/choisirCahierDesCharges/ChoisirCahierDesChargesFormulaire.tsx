@@ -29,8 +29,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
   const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel);
   const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false);
   const cahiersDesChargesModifiésDisponibles =
-    appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
-    appelOffre.cahiersDesChargesModifiésDisponibles;
+    appelOffre.periode.cahiersDesChargesModifiésDisponibles;
 
   return (
     <Form action={routes.CHANGER_CDC} method="post" className="mx-auto">

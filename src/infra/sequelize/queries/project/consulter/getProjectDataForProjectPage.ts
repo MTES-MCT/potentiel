@@ -94,10 +94,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
     const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw);
 
-    const cahiersDesChargesModifiésDisponibles =
-      appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
-      appelOffre.cahiersDesChargesModifiésDisponibles;
-
     const cahierDesCharges =
       cahierDesChargesActuel.type === 'initial'
         ? {
@@ -106,7 +102,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           }
         : {
             type: 'modifié',
-            url: cahiersDesChargesModifiésDisponibles.find(
+            url: appelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
               (c) =>
                 c.paruLe === cahierDesChargesActuel.paruLe &&
                 c.alternatif === cahierDesChargesActuel.alternatif,
@@ -298,8 +294,7 @@ const ajouterInfosAlerteAnnulationAbandon = (
     }
 
     const cahiersDesChargesModifiésDisponibles =
-      appelOffre.periode.cahiersDesChargesModifiésDisponibles ||
-      appelOffre.cahiersDesChargesModifiésDisponibles;
+      appelOffre.periode.cahiersDesChargesModifiésDisponibles;
 
     const cdcDispoPourAnnulationAbandon = cahiersDesChargesModifiésDisponibles.filter(
       (cdc) =>
@@ -308,7 +303,7 @@ const ajouterInfosAlerteAnnulationAbandon = (
 
     const dateLimite =
       cahierDesChargesActuel.type === 'modifié'
-        ? cahiersDesChargesModifiésDisponibles.find(
+        ? appelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
             (cdc) =>
               cdc.paruLe === cahierDesChargesActuel.paruLe &&
               cdc.alternatif === cahierDesChargesActuel.alternatif,

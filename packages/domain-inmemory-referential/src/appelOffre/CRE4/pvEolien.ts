@@ -1,8 +1,47 @@
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
 
 const garantieFinanciereEnMois = 36;
 
-const pvEolien: AppelOffre = {
+const CDCModifié30082022: CahierDesChargesModifié = {
+  type: 'modifié',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-pv-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+  paruLe: '30/08/2022',
+  numéroGestionnaireRequis: true,
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.4.4',
+      dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance indiquée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance de 18 MW mentionnée au 1.2.1.
+Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.
+Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
+    },
+    texteDélaisDAchèvement: {
+      référenceParagraphe: '6.4',
+      dispositions: `
+Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+- vingt-quatre (24) mois à compter de la Date de désignation.
+- deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
+Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
+En cas de dépassement de ce délai, le prix de référence T0 proposé au C du formulaire de candidature est diminué de 0,25 euros/MWh par mois de retard pendant les 6 premiers mois, puis de 0,50 euros/MWh par mois de retard à partir du 7ème mois.
+Des dérogations au délai d’Achèvement sont toutefois possibles dans le cas où des contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux.
+Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé.
+Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent être accordés en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.
+`,
+    },
+  },
+  délaiApplicable: {
+    délaiEnMois: 18,
+    intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
+  },
+  seuilSupplémentaireChangementPuissance: {
+    ratios: {
+      min: 0.8,
+      max: 1.4,
+    },
+  },
+};
+
+export const pvEolien: AppelOffre = {
   id: 'PV - Eolien',
   typeAppelOffre: 'eolien',
   title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,
@@ -93,43 +132,8 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-quinze pourcents et cent pourcents de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [
-    {
-      type: 'modifié',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-pv-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      paruLe: '30/08/2022',
-      numéroGestionnaireRequis: true,
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.4.4',
-          dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance indiquée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
-Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance de 18 MW mentionnée au 1.2.1.
-Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.
-Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
-        },
-        texteDélaisDAchèvement: {
-          référenceParagraphe: '6.4',
-          dispositions: `
-Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
-- vingt-quatre (24) mois à compter de la Date de désignation.
-- deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
-Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-En cas de dépassement de ce délai, le prix de référence T0 proposé au C du formulaire de candidature est diminué de 0,25 euros/MWh par mois de retard pendant les 6 premiers mois, puis de 0,50 euros/MWh par mois de retard à partir du 7ème mois.
-Des dérogations au délai d’Achèvement sont toutefois possibles dans le cas où des contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux.
-Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé.
-Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent être accordés en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.
-`,
-        },
-      },
-      délaiApplicable: {
-        délaiEnMois: 18,
-        intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
-      },
-    },
-  ],
 };
-
-export { pvEolien };

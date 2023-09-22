@@ -46,13 +46,7 @@ export const makeDemanderAnnulationAbandon =
         const ao = getProjectAppelOffre({ ...projet });
 
         const cahiersDesChargesModifiésDisponibles =
-          ao?.periode && 'cahiersDesChargesModifiésDisponibles' in ao?.periode
-            ? ao?.periode.cahiersDesChargesModifiésDisponibles
-            : ao?.cahiersDesChargesModifiésDisponibles;
-
-        const cahierDesCharges =
-          cahiersDesChargesModifiésDisponibles &&
-          cahiersDesChargesModifiésDisponibles.find(
+          ao?.periode.cahiersDesChargesModifiésDisponibles.find(
             (c) =>
               c.type === projet.cahierDesCharges.type &&
               c.paruLe === projet.cahierDesCharges.paruLe &&
@@ -61,8 +55,8 @@ export const makeDemanderAnnulationAbandon =
 
         if (
           projet.cahierDesCharges.type === 'modifié' &&
-          cahierDesCharges &&
-          !cahierDesCharges.délaiAnnulationAbandon
+          cahiersDesChargesModifiésDisponibles &&
+          !cahiersDesChargesModifiésDisponibles.délaiAnnulationAbandon
         ) {
           return errAsync(new CDCIncompatibleAvecAnnulationAbandonError(projet.id.toString()));
         }

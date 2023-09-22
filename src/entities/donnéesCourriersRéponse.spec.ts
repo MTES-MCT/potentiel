@@ -10,7 +10,9 @@ describe(`Récupération des données des courriers de réponse`, () => {
       const cahierDesChargesActuel = '30/07/2021';
 
       const projectAppelOffre = {
-        periode: {} as Periode,
+        periode: {
+          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
+        } as Periode,
         donnéesCourriersRéponse: {
           texteEngagementRéalisationEtModalitésAbandon: {
             référenceParagraphe: 'AO-1',
@@ -22,7 +24,6 @@ describe(`Récupération des données des courriers de réponse`, () => {
           texteChangementDeProducteur: { référenceParagraphe: 'AO-5', dispositions: 'AO-cinq' },
           texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
         },
-        cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
       } as ProjectAppelOffre;
 
       const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre);
@@ -55,6 +56,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
             },
             texteChangementDActionnariat: { référenceParagraphe: 'PE-2', dispositions: 'PE-deux' },
           },
+          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
         } as Periode,
         donnéesCourriersRéponse: {
           texteEngagementRéalisationEtModalitésAbandon: {
@@ -67,7 +69,6 @@ describe(`Récupération des données des courriers de réponse`, () => {
           texteChangementDeProducteur: { référenceParagraphe: 'AO-5', dispositions: 'AO-cinq' },
           texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
         },
-        cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
       } as ProjectAppelOffre;
 
       const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre);
@@ -126,6 +127,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
             },
             texteChangementDActionnariat: { référenceParagraphe: 'PE-2', dispositions: 'PE-deux' },
           },
+          cahiersDesChargesModifiésDisponibles,
         } as Periode,
         donnéesCourriersRéponse: {
           texteEngagementRéalisationEtModalitésAbandon: {
@@ -138,7 +140,6 @@ describe(`Récupération des données des courriers de réponse`, () => {
           texteChangementDeProducteur: { référenceParagraphe: 'AO-5', dispositions: 'AO-cinq' },
           texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
         },
-        cahiersDesChargesModifiésDisponibles,
       } as ProjectAppelOffre;
 
       const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre);
