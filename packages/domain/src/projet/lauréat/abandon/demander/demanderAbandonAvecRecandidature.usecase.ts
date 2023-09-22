@@ -13,14 +13,14 @@ export const registerDemanderAbandonAvecRecandidatureUseCase = () => {
   const runner: MessageHandler<DemanderAbandonAvecRecandidatureUseCase> = async ({
     identifiantProjet,
     piéceJustificative,
-    raisonAbandon,
+    raison: raisonAbandon,
   }) => {
     await mediator.send<AbandonCommand>({
       type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_COMMAND',
       data: {
         identifiantProjet,
         piéceJustificative,
-        raisonAbandon,
+        raison: raisonAbandon,
       },
     });
   };
