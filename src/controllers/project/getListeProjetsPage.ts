@@ -28,19 +28,10 @@ const getFiltres = ({
     recherche?: FiltreListeProjets['recherche'];
     classement?: FiltreListeProjets['classement'];
     reclames?: FiltreListeProjets['reclames'];
-    garantiesFinancieres?: FiltreListeProjets['garantiesFinancieres'];
   };
   user: UtilisateurReadModel;
 }) => {
-  let {
-    appelOffreId,
-    periodeId,
-    familleId,
-    recherche,
-    classement,
-    reclames,
-    garantiesFinancieres,
-  } = query;
+  let { appelOffreId, periodeId, familleId, recherche, classement, reclames } = query;
 
   if (userIs(['admin', 'dgec-validateur', 'dreal'])(user) && typeof classement === 'undefined') {
     classement = 'classés';
@@ -64,7 +55,6 @@ const getFiltres = ({
         : undefined,
     classement,
     reclames,
-    garantiesFinancieres,
   };
 };
 
