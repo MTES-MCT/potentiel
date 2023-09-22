@@ -152,6 +152,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -189,6 +190,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -226,6 +228,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',
@@ -263,6 +266,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '5',
@@ -300,6 +304,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '6',
@@ -380,6 +385,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '8',
@@ -423,6 +429,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '9',
@@ -466,6 +473,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '10',
@@ -509,6 +517,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [

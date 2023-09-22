@@ -121,6 +121,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         { familleId: '2', noteThreshold: 61.76 },
       ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [
