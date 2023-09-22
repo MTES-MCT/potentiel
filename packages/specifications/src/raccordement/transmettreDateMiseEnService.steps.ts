@@ -27,7 +27,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
             référenceDossierRaccordement,
           ),
@@ -47,7 +47,7 @@ Alors(
       type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-        identifiantProjet: this.projetWorld.identifiantProjet,
+        identifiantProjet: this.lauréatWorld.identifiantProjet,
       },
     });
 

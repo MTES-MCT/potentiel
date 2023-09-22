@@ -5,12 +5,12 @@ import {
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
   `un porteur modifie le gestionnaire de réseau du projet {string} avec un gestionnaire non référencé`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     try {
       await mediator.send<DomainUseCase>({
@@ -31,7 +31,7 @@ Quand(
 Quand(
   `un porteur modifie le gestionnaire de réseau du projet {string} avec le gestionnaire {string}`,
   async function (this: PotentielWorld, nomProjet: string, raisonSocialGestionnaireRéseau: string) {
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialGestionnaireRéseau,
     );

@@ -20,7 +20,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
           nouvelleRéférenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
             nouvelleRéférenceDossierRaccordement,
           ),

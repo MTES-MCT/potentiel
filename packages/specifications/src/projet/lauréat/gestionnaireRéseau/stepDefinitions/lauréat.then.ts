@@ -5,17 +5,17 @@ import { mediator } from 'mediateur';
 import { ConsulterProjetQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 
-import { PotentielWorld } from '../../potentiel.world';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import {
   loadGestionnaireRéseauProjetAggregateFactory,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
+import { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(
   `le projet {string} devrait avoir comme gestionnaire de réseau {string}`,
   async function (this: PotentielWorld, nomProjet: string, raisonSociale: string) {
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
 

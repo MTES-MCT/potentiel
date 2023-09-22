@@ -45,7 +45,7 @@ Quand(
           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
             référenceDossierRaccordement,
           ),
-          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
           propositionTechniqueEtFinancièreSignée,
         },
       });
@@ -61,7 +61,7 @@ Alors(
     const dossierRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
       type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
-        identifiantProjet: this.projetWorld.identifiantProjet,
+        identifiantProjet: this.lauréatWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       },
     });
@@ -86,7 +86,7 @@ Alors(
         type: 'CONSULTER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_SIGNÉE',
         data: {
           référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-          identifiantProjet: this.projetWorld.identifiantProjet,
+          identifiantProjet: this.lauréatWorld.identifiantProjet,
         },
       });
 
