@@ -376,14 +376,7 @@ export const makeProject = (args: {
       return ok(null);
     },
     import: function ({ appelOffre, data, importId }) {
-      const {
-        appelOffreId,
-        periodeId,
-        familleId,
-        numeroCRE,
-        garantiesFinancièresDateEchéance,
-        garantiesFinancièresType,
-      } = data;
+      const { appelOffreId, periodeId, familleId, numeroCRE } = data;
 
       const id = projectId.toString();
 
