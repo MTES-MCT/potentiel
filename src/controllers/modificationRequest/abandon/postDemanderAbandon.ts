@@ -17,6 +17,7 @@ const schema = yup.object({
     projectId: yup.string().uuid().required(),
     justification: yup.string().optional(),
     numeroGestionnaire: yup.string().optional(),
+    abandonAvecRecandidature: yup.string().optional(),
   }),
 });
 
@@ -36,12 +37,14 @@ v1Router.post(
     },
     async (request, response) => {
       const { user } = request;
-      const { projectId, justification } = request.body;
+      const { projectId, justification, abandonAvecRecandidature } = request.body;
 
       const file = request.file && {
         contents: fs.createReadStream(request.file.path),
         filename: `${Date.now()}-${request.file.originalname}`,
       };
+
+      // TODO : appel du bon use-case en fonction de l'existance de la clé "abandonAvecRecandidature"
 
       return demanderAbandon({
         user,

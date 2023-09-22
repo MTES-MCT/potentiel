@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { ProjectAppelOffre } from '../../../entities';
 import routes from '../../../routes';
 import { Request } from 'express';
@@ -21,6 +21,7 @@ import {
   Form,
   ChampsObligatoiresLégende,
   LabelDescription,
+  Checkbox,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -29,6 +30,32 @@ type DemanderAbandonProps = {
   project: ProjectProps & { cahierDesChargesActuel: string };
   appelOffre: ProjectAppelOffre;
 };
+
+const InfoBoxChampAbandonAvecRecandidature = ({ ...props }: ComponentProps<'div'>) => (
+  <InfoBox className="flex md:w-1/3 md:mx-auto order-1 md:order-2" {...props}>
+    <div className="font-bold">* Demande d'abandon pour re-candidature</div>
+    <p className="m-0">
+      Je m'engage sur l'honneur à ne pas avoir débuté mes travaux au sens du cahier des charges de
+      l'AO associé et a abandonné mon statut de lauréat au profit d'une recandidature réalisée au
+      plus tard le 31/12/2024. Je m'engage sur l'honneur à ce que cette recandidature respecte les
+      conditions suivantes :
+      <ul className="mb-0">
+        <li>
+          Que le dossier soit complet et respecte les conditions d'éligibilité du cahier des charges
+          concerné
+        </li>
+        <li>Le même lieu d'implantation que le projet abandonné</li>
+        <li>Une puissance équivalente à plus ou moins 20% que le projet abandonné</li>
+        <li>
+          Un tarif équivalent au tarif du dernier lauréat retenu pour la période dont le projet
+          était initialement lauréat (et le cas échéant de la famille concernée) indexé jusqu'à
+          septembre 2023 selon la formule d'indexation du cahier des charges de la dernière période
+          avant le 1er octobre 2023
+        </li>
+      </ul>
+    </p>
+  </InfoBox>
+);
 
 export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbandonProps) => {
   const { error, success, justification } = (request.query as any) || {};
@@ -61,52 +88,66 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
           }
         />
       ) : (
-        <Form
-          action={routes.POST_DEMANDER_ABANDON}
-          method="post"
-          encType="multipart/form-data"
-          className="mx-auto"
-        >
-          <div>
-            <div className="mb-2">Concernant le projet:</div>
-            <ProjectInfo project={project} />
-          </div>
-          {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />}
+        <div className="flex flex-col md:flex-row gap-4">
+          <Form
+            action={routes.POST_DEMANDER_ABANDON}
+            method="post"
+            encType="multipart/form-data"
+            className="order-2 md:order-1 md:mx-auto"
+          >
+            <div>
+              <div className="mb-2">Concernant le projet:</div>
+              <ProjectInfo project={project} />
+            </div>
+            {success && <SuccessBox title={success} />}
+            {error && <ErrorBox title={error} />}
 
-          <ChampsObligatoiresLégende />
-          <input type="hidden" name="projectId" value={project.id} />
+            <ChampsObligatoiresLégende />
+            <input type="hidden" name="projectId" value={project.id} />
 
-          <div>
-            <Label htmlFor="justification">
-              Veuillez nous indiquer les raisons qui motivent votre demande
-            </Label>
-            <LabelDescription>
-              Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-              conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
-            </LabelDescription>
-            <TextArea
-              name="justification"
-              id="justification"
-              defaultValue={justification || ''}
-              required
-              aria-required="true"
-            />
-          </div>
-          <div>
-            <Label htmlFor="file">Pièce justificative</Label>
-            <LabelDescription>
-              Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
-            </LabelDescription>
-            <Input type="file" name="file" id="file" required aria-required="true" />
-          </div>
-          <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
-            <PrimaryButton type="submit" id="submit">
-              Envoyer
-            </PrimaryButton>
-            <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
-          </div>
-        </Form>
+            <div>
+              <Label htmlFor="justification">
+                Veuillez nous indiquer les raisons qui motivent votre demande
+              </Label>
+              <LabelDescription>
+                Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
+                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+              </LabelDescription>
+              <TextArea
+                name="justification"
+                id="justification"
+                defaultValue={justification || ''}
+                required
+                aria-required="true"
+              />
+            </div>
+            <div>
+              <Label htmlFor="file">Pièce justificative</Label>
+              <LabelDescription>
+                Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
+              </LabelDescription>
+              <Input type="file" name="file" id="file" required aria-required="true" />
+            </div>
+
+            {appelOffre.periode.abandonAvecRecandidature && (
+              <Checkbox
+                name="abandonAvecRecandidature"
+                id="abandonAvecRecandidature"
+                className="items-start mt-2"
+              >
+                Demande d'abandon pour re-candidature (optionnel) *
+              </Checkbox>
+            )}
+
+            <div className="mx-auto flex flex-col md:flex-row gap-4 items-center mt-4">
+              <PrimaryButton type="submit" id="submit">
+                Envoyer
+              </PrimaryButton>
+              <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+            </div>
+          </Form>
+          {appelOffre.periode.abandonAvecRecandidature && <InfoBoxChampAbandonAvecRecandidature />}
+        </div>
       )}
     </LegacyPageTemplate>
   );
