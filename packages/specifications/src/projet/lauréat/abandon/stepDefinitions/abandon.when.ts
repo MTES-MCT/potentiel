@@ -30,7 +30,7 @@ Quand(
         type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_USECASE',
         data: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
-          raisonAbandon,
+          raison: raisonAbandon,
           piéceJustificative,
         },
       });
