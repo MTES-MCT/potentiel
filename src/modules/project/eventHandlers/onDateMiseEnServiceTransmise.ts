@@ -80,9 +80,6 @@ export const makeOnDateMiseEnServiceTransmise =
             }
 
             if (!donnéesCDC.délaiApplicable) {
-              logger.error(
-                `Le cahier des charges en vigueur ne permet pas d'appliquer un délai supplémentaire. Projet ${projetId}`,
-              );
               return okAsync(null);
             }
 
@@ -92,9 +89,6 @@ export const makeOnDateMiseEnServiceTransmise =
               new Date(dateMiseEnService).getTime() >
                 new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.max).getTime()
             ) {
-              logger.info(
-                `La date de mise en service ne se trouve pas dans l'interval prévu par le cahier des charges de la période de l'appel d'offre du projet`,
-              );
               return okAsync(null);
             }
 
