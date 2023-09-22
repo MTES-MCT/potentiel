@@ -98,6 +98,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -109,6 +110,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [],
