@@ -85,6 +85,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -104,6 +105,7 @@ Les modifications de la Puissance installée hors de cette fourchette ou les mod
 Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [],

@@ -83,6 +83,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-derniere-version-modifiee-rendue-publique-le-29-mai-2017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [],

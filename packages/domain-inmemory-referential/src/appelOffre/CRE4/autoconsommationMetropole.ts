@@ -87,6 +87,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -120,6 +121,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -153,6 +155,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',
@@ -186,6 +189,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '5',
@@ -219,6 +223,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '6',
@@ -252,6 +257,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '7',
@@ -286,6 +292,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '8',
@@ -320,6 +327,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '9',
@@ -354,6 +362,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
     {
       id: '10',
@@ -388,6 +397,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [],

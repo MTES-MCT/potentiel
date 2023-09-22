@@ -83,6 +83,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -93,6 +94,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [],
