@@ -16,6 +16,6 @@ export type GestionnaireRéseauProjetDéclaréEvent = DomainEvent<
   }
 >;
 
-export type ProjetEvent =
+export type GestionnaireRéseauProjetEvent =
   | GestionnaireRéseauProjetModifiéEvent
   | GestionnaireRéseauProjetDéclaréEvent;

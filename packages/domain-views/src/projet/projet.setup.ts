@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 import { Subscribe } from '@potentiel/core-domain';
-import { ProjetEvent } from '@potentiel/domain';
+import { GestionnaireRéseauProjetEvent } from '@potentiel/domain';
 import {
   ConsulterProjetDependencies,
   registerConsulterProjetQuery,
@@ -33,7 +33,7 @@ export const setupProjetViews = async (dependencies: ProjetDependencies) => {
         'GestionnaireRéseauProjetModifié',
         'RebuildTriggered',
       ],
-      eventHandler: async (event: ProjetEvent | RebuildTriggered) => {
+      eventHandler: async (event: GestionnaireRéseauProjetEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteProjetProjector>({
           type: 'EXECUTE_PROJET_PROJECTOR',
           data: event,

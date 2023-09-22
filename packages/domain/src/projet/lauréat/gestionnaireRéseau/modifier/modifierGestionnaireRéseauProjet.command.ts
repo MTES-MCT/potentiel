@@ -1,13 +1,16 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantGestionnaireRéseauValueType } from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
-import { IdentifiantProjetValueType } from '../projet.valueType';
-import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
-import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { isNone } from '@potentiel/monads';
-import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
-import { ProjetInconnuError } from '../projet.error';
-import { GestionnaireRéseauProjetModifiéEvent } from '../projet.event';
+import { GestionnaireRéseauProjetModifiéEvent } from '../gestionnaireRéseauProjet.event';
+import { IdentifiantGestionnaireRéseauValueType } from '../../../../gestionnaireRéseau/gestionnaireRéseau.valueType';
+import { IdentifiantProjetValueType } from '../../../projet.valueType';
+import {
+  createGestionnaireRéseauProjetAggregateId,
+  loadGestionnaireRéseauProjetAggregateFactory,
+} from '../gestionnaireRéseauProjet.aggregate';
+import { loadGestionnaireRéseauAggregateFactory } from '../../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
+import { ProjetInconnuError } from '../../../projet.error';
+import { GestionnaireRéseauInconnuError } from '../../../../gestionnaireRéseau/gestionnaireRéseau.error';
 
 export type ModifierGestionnaireRéseauProjetCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET',
@@ -26,7 +29,7 @@ export const registerModifierGestionnaireRéseauProjetCommand = ({
   publish,
   loadAggregate,
 }: ModifierGestionnaireRéseauProjetDependencies) => {
-  const loadProjet = loadProjetAggregateFactory({
+  const loadProjet = loadGestionnaireRéseauProjetAggregateFactory({
     loadAggregate,
   });
 
@@ -64,7 +67,7 @@ export const registerModifierGestionnaireRéseauProjetCommand = ({
         },
       };
 
-      await publish(createProjetAggregateId(identifiantProjet), event);
+      await publish(createGestionnaireRéseauProjetAggregateId(identifiantProjet), event);
     }
   };
 

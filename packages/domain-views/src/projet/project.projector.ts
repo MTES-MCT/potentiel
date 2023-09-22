@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { ProjetEvent } from '@potentiel/domain';
+import { GestionnaireRéseauProjetEvent } from '@potentiel/domain';
 import { isNone } from '@potentiel/monads';
 import { ProjetReadModel, ProjetReadModelKey } from './projet.readModel';
 import { Create, Update, Find, RebuildTriggered, Remove } from '@potentiel/core-domain-views';
 
 export type ExecuteProjetProjector = Message<
   'EXECUTE_PROJET_PROJECTOR',
-  ProjetEvent | RebuildTriggered
+  GestionnaireRéseauProjetEvent | RebuildTriggered
 >;
 
 export type ProjetProjectorDependencies = {

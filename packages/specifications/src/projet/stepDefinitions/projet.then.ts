@@ -7,7 +7,10 @@ import { isNone } from '@potentiel/monads';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
-import { loadProjetAggregateFactory, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import {
+  loadGestionnaireRéseauProjetAggregateFactory,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
 
 Alors(
   `le projet {string} devrait avoir comme gestionnaire de réseau {string}`,
@@ -17,9 +20,9 @@ Alors(
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
 
     // Assert on aggregate
-    const actualProjetAggregate = await loadProjetAggregateFactory({ loadAggregate })(
-      convertirEnIdentifiantProjet(identifiantProjet),
-    );
+    const actualProjetAggregate = await loadGestionnaireRéseauProjetAggregateFactory({
+      loadAggregate,
+    })(convertirEnIdentifiantProjet(identifiantProjet));
 
     if (isNone(actualProjetAggregate)) {
       throw new Error(`L'agrégat projet n'existe pas !`);

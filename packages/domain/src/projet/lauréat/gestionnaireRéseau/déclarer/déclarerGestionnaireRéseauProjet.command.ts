@@ -1,12 +1,15 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantGestionnaireRéseauValueType } from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
-import { IdentifiantProjetValueType } from '../projet.valueType';
-import { createProjetAggregateId, loadProjetAggregateFactory } from '../projet.aggregate';
-import { loadGestionnaireRéseauAggregateFactory } from '../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { isNone, isSome, none } from '@potentiel/monads';
-import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
-import { GestionnaireRéseauProjetDéclaréEvent } from '../projet.event';
+import { GestionnaireRéseauProjetDéclaréEvent } from '../gestionnaireRéseauProjet.event';
+import { IdentifiantGestionnaireRéseauValueType } from '../../../../gestionnaireRéseau/gestionnaireRéseau.valueType';
+import { IdentifiantProjetValueType } from '../../../projet.valueType';
+import {
+  createGestionnaireRéseauProjetAggregateId,
+  loadGestionnaireRéseauProjetAggregateFactory,
+} from '../gestionnaireRéseauProjet.aggregate';
+import { loadGestionnaireRéseauAggregateFactory } from '../../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
+import { GestionnaireRéseauInconnuError } from '../../../../gestionnaireRéseau/gestionnaireRéseau.error';
 
 export type DéclarerGestionnaireRéseauProjetCommand = Message<
   'DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET',
@@ -25,7 +28,7 @@ export const registerDéclarerGestionnaireRéseauProjetCommand = ({
   publish,
   loadAggregate,
 }: DéclarerGestionnaireRéseauProjetDependencies) => {
-  const loadProjet = loadProjetAggregateFactory({
+  const loadProjet = loadGestionnaireRéseauProjetAggregateFactory({
     loadAggregate,
   });
 
@@ -56,7 +59,7 @@ export const registerDéclarerGestionnaireRéseauProjetCommand = ({
         },
       };
 
-      await publish(createProjetAggregateId(identifiantProjet), event);
+      await publish(createGestionnaireRéseauProjetAggregateId(identifiantProjet), event);
     } else {
       if (!gestionnaireRéseauProjet.estÉgaleÀ(gestionnaireRéseau)) {
         // TODO: Ce cas doit être moinitoré. Il est fonctionnellement impossible, mais technique déclenchable.
