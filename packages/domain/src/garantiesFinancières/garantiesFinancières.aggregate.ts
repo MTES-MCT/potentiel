@@ -207,7 +207,7 @@ const processDépôtGarantiesFinancièresValidéEvent = ({
 }: {
   aggregate: GarantiesFinancièresAggregate;
 }) => {
-  return { ...aggregate, dateLimiteDépôt: undefined };
+  return { ...aggregate, dateLimiteDépôt: undefined, dépôt: undefined };
 };
 
 const processDépôtGarantiesFinancièresSuppriméEvent = ({

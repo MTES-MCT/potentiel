@@ -38,14 +38,14 @@ export type EnregistrementGarantiesFinancièresEvent =
   | TypeGarantiesFinancièresEnregistréEventV1
   | AttestationGarantiesFinancièresEnregistréeEventV1
   | GarantiesFinancièresComplètesEnregistréesEventV1
-  | GarantiesFinancièresSnapshotEventV1
-  | DépôtGarantiesFinancièresValidéEventV1;
+  | GarantiesFinancièresSnapshotEventV1;
 
 export type DépôtGarantiesFinancièresEvent =
   | GarantiesFinancièresDéposéesEventV1
   | DépôtGarantiesFinancièresModifiéEventV1
   | GarantiesFinancièresSnapshotEventV1
-  | DépôtGarantiesFinancièresSuppriméEventV1;
+  | DépôtGarantiesFinancièresSuppriméEventV1
+  | DépôtGarantiesFinancièresValidéEventV1;
 
 export type SuiviDépôtsGarantiesFinancièresEvent =
   | GarantiesFinancièresSnapshotEventV1

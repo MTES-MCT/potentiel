@@ -118,6 +118,7 @@ export const registerDépôtGarantiesFinancièresProjector = ({
         });
         break;
       case 'DépôtGarantiesFinancièresSupprimé-v1':
+      case 'DépôtGarantiesFinancièresValidé-v1':
         if (isNone(dépôtGarantiesFinancières)) {
           // TODO : logguer erreur si pas de dépôt existant
           break;
