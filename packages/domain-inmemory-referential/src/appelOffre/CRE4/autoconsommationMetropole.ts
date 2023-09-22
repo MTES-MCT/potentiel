@@ -1,6 +1,20 @@
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
 
-const autoconsommationMetropole: AppelOffre = {
+const CDCModifié30072021: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '30/07/2021',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-2',
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.3.4',
+      dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingts pourcents (80%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+ Les modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+ Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
+    },
+  },
+};
+
+export const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
   typeAppelOffre: 'autoconso',
   title:
@@ -87,6 +101,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '2',
@@ -120,6 +135,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '3',
@@ -153,6 +169,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '4',
@@ -186,6 +203,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '5',
@@ -219,6 +237,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '6',
@@ -252,6 +271,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '7',
@@ -286,6 +306,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '8',
@@ -320,6 +341,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '9',
@@ -354,6 +376,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
     {
       id: '10',
@@ -388,24 +411,8 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
     },
   ],
   familles: [],
-  cahiersDesChargesModifiésDisponibles: [
-    {
-      type: 'modifié',
-      paruLe: '30/07/2021',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-2',
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.3.4',
-          dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingts pourcents (80%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-        },
-      },
-    },
-  ],
 };
-
-export { autoconsommationMetropole };

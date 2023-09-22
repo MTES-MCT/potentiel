@@ -1,8 +1,81 @@
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
 
 const garantieFinanciereEnMois = 36;
 
-const zni: AppelOffre = {
+const CDCModifié30072021: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '30/07/2021',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-2',
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.4.4',
+      dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+ Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+ Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
+    },
+  },
+};
+
+const CDCModifié30082022: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '30/08/2022',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+  numéroGestionnaireRequis: true,
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.4.4',
+      dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée)   et  que  la  Puissance  modifiée  soit  i  nférieure  au  plafond  de  puissance  de  la  famille  dans  laquelle entre l’offre.
+    Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+    Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
+    },
+  },
+  seuilSupplémentaireChangementPuissance: {
+    ratios: {
+      min: 0.9,
+      max: 1.4,
+    },
+  },
+};
+
+const CDCModifié30082022Alternatif: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '30/08/2022',
+  alternatif: true,
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-bis-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+  numéroGestionnaireRequis: true,
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.4.4',
+      dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre.Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
+    },
+  },
+  seuilSupplémentaireChangementPuissance: {
+    ratios: {
+      min: 0.9,
+      max: 1.4,
+    },
+  },
+};
+
+const CDCModifié07022023: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '07/02/2023',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-07-02-2023',
+  numéroGestionnaireRequis: true,
+  délaiAnnulationAbandon: new Date('2023-02-23'),
+};
+
+const CDCModifié07022023Alternatif: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '07/02/2023',
+  alternatif: true,
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-alternatif-publie-le-07-02-2023',
+  numéroGestionnaireRequis: true,
+  délaiAnnulationAbandon: new Date('2023-02-23'),
+};
+
+export const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
   typeAppelOffre: 'zni',
   title:
@@ -110,6 +183,13 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '1c', territoire: 'Martinique', noteThreshold: 75.9 },
         { familleId: '1c', territoire: 'Mayotte', noteThreshold: 19.6 },
       ],
+      cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
+        CDCModifié30082022,
+        CDCModifié30082022Alternatif,
+        CDCModifié07022023,
+        CDCModifié07022023Alternatif,
+      ],
     },
     {
       id: '2',
@@ -138,6 +218,13 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 17.1 },
         { familleId: '2c', territoire: 'Martinique', noteThreshold: 27.2 },
       ],
+      cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
+        CDCModifié30082022,
+        CDCModifié30082022Alternatif,
+        CDCModifié07022023,
+        CDCModifié07022023Alternatif,
+      ],
     },
     {
       id: '3',
@@ -163,6 +250,13 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '1c', territoire: 'Corse', noteThreshold: 80.7 },
         { familleId: '1c', territoire: 'Guadeloupe', noteThreshold: 64.1 },
         { familleId: '1c', territoire: 'La Réunion', noteThreshold: 33.7 },
+      ],
+      cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
+        CDCModifié30082022,
+        CDCModifié30082022Alternatif,
+        CDCModifié07022023,
+        CDCModifié07022023Alternatif,
       ],
     },
     {
@@ -192,6 +286,13 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2c', territoire: 'Guyane', noteThreshold: 62.19 },
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 19.93 },
       ],
+      cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
+        CDCModifié30082022,
+        CDCModifié30082022Alternatif,
+        CDCModifié07022023,
+        CDCModifié07022023Alternatif,
+      ],
     },
     {
       id: '5',
@@ -212,6 +313,13 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         //
         { familleId: '1c', territoire: 'Mayotte', noteThreshold: 21.4 },
         { familleId: '1c', territoire: 'Guyane', noteThreshold: 65.52 },
+      ],
+      cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
+        CDCModifié30082022,
+        CDCModifié30082022Alternatif,
+        CDCModifié07022023,
+        CDCModifié07022023Alternatif,
       ],
     },
     {
@@ -240,6 +348,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2a', territoire: 'La Réunion', noteThreshold: 42.59 },
         { familleId: '2b', territoire: 'La Réunion', noteThreshold: 32.6 },
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 24.18 },
+      ],
+      cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
+        CDCModifié07022023,
+        CDCModifié07022023Alternatif,
       ],
     },
   ],
@@ -297,72 +410,4 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
-  cahiersDesChargesModifiésDisponibles: [
-    {
-      type: 'modifié',
-      paruLe: '30/07/2021',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-2',
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.4.4',
-          dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-        },
-      },
-    },
-    {
-      type: 'modifié',
-      paruLe: '30/08/2022',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      numéroGestionnaireRequis: true,
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.4.4',
-          dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
-    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée)   et  que  la  Puissance  modifiée  soit  i  nférieure  au  plafond  de  puissance  de  la  famille  dans  laquelle entre l’offre.
-    Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
-    Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
-        },
-      },
-      délaiApplicable: {
-        délaiEnMois: 18,
-        intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
-      },
-    },
-    {
-      type: 'modifié',
-      paruLe: '30/08/2022',
-      alternatif: true,
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-bis-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      numéroGestionnaireRequis: true,
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.4.4',
-          dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre.Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-        },
-      },
-      délaiApplicable: {
-        délaiEnMois: 18,
-        intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
-      },
-    },
-    {
-      type: 'modifié',
-      paruLe: '07/02/2023',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-07-02-2023',
-      numéroGestionnaireRequis: true,
-      délaiAnnulationAbandon: new Date('2023-02-23'),
-    },
-    {
-      type: 'modifié',
-      paruLe: '07/02/2023',
-      alternatif: true,
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-alternatif-publie-le-07-02-2023',
-      numéroGestionnaireRequis: true,
-      délaiAnnulationAbandon: new Date('2023-02-23'),
-    },
-  ],
 };
-
-export { zni };

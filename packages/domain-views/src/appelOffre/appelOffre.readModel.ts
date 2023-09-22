@@ -93,6 +93,7 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
+  seuilSupplémentaireChangementPuissance?: ChangementPuissance;
 };
 
 // Technologies
@@ -176,7 +177,7 @@ export type Periode = {
   };
   dossierSuiviPar?: string;
   garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
-  cahiersDesChargesModifiésDisponibles?: ReadonlyArray<CahierDesChargesModifié>;
+  cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
 
 // Territoire
@@ -221,7 +222,6 @@ export type AppelOffre = {
   renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;
   changementProducteurPossibleAvantAchèvement: boolean;
-  cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
   doitPouvoirChoisirCDCInitial?: true;
   autoritéCompétenteDemandesDélai: 'dgec' | 'dreal';

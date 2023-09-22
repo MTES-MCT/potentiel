@@ -36,16 +36,12 @@ const donnéesCourriersRéponseParDéfaut: DonnéesCourriersRéponse = {
 
 export const getDonnéesCourriersRéponse: GetDonnéesCourriersRéponse = (
   cahierDesChargesActuel,
-  { donnéesCourriersRéponse, periode, cahiersDesChargesModifiésDisponibles },
+  { donnéesCourriersRéponse, periode },
 ) => {
   const cdc = parseCahierDesChargesRéférence(cahierDesChargesActuel);
-  const cahierDesChargesModifié = periode.cahiersDesChargesModifiésDisponibles
-    ? periode.cahiersDesChargesModifiésDisponibles.find(
-        (c) => cdc.type === 'modifié' && c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif,
-      )
-    : cahiersDesChargesModifiésDisponibles.find(
-        (c) => cdc.type === 'modifié' && c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif,
-      );
+  const cahierDesChargesModifié = periode.cahiersDesChargesModifiésDisponibles.find(
+    (c) => cdc.type === 'modifié' && c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif,
+  );
 
   return {
     ...donnéesCourriersRéponseParDéfaut,

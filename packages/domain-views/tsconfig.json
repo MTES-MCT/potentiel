@@ -13,6 +13,9 @@
     },
     {
       "path": "../libraries/core-domain"
+    },
+    {
+      "path": "../domain-inmemory-referential"
     }
   ]
 }

@@ -9,7 +9,7 @@ import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDe
 import { AppelOffreRepo } from '../../../dataAccess';
 import {
   CahierDesChargesNonDisponibleError,
-  PasDeChangementDeCDCPourCetAOError,
+  PasDeChangementDeCDCPourLaPériodeDeCetAOError,
   CahierDesChargesInitialNonDisponibleError,
 } from '../errors';
 
@@ -27,7 +27,7 @@ type ChoisirCahierDesCharges = (
   | InfraNotAvailableError
   | NouveauCahierDesChargesDéjàSouscrit
   | CahierDesChargesInitialNonDisponibleError
-  | PasDeChangementDeCDCPourCetAOError
+  | PasDeChangementDeCDCPourLaPériodeDeCetAOError
   | CahierDesChargesNonDisponibleError
 >;
 
@@ -80,11 +80,10 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
     const périodeDétails = appelOffre.periodes.find((période) => période.id === projet.periodeId);
 
     const cahiersDesChargesModifiésDisponibles =
-      (périodeDétails && périodeDétails.cahiersDesChargesModifiésDisponibles) ||
-      appelOffre.cahiersDesChargesModifiésDisponibles;
+      (périodeDétails && périodeDétails.cahiersDesChargesModifiésDisponibles) || [];
 
     if (cahiersDesChargesModifiésDisponibles.length === 0) {
-      return errAsync(new PasDeChangementDeCDCPourCetAOError());
+      return errAsync(new PasDeChangementDeCDCPourLaPériodeDeCetAOError());
     }
 
     const cahierDesChargesModifié = cahiersDesChargesModifiésDisponibles.find(
