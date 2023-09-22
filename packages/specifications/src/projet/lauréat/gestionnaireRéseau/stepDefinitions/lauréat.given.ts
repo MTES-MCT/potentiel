@@ -2,8 +2,7 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { none } from '@potentiel/monads';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { randomUUID } from 'crypto';
-
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world';
 
 EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProjet: string) {
   await executeQuery(
@@ -78,7 +77,7 @@ EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProje
     false,
   );
 
-  this.projetWorld.projetFixtures.set(nomProjet, {
+  this.lauréatWorld.lauréatFixtures.set(nomProjet, {
     nom: nomProjet,
     identifiantProjet: {
       appelOffre: 'PPE2 - Eolien',

@@ -1,24 +1,24 @@
 import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { none } from '@potentiel/monads';
 
-type ProjetFixture = {
+type LauréatFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet;
 };
 
-export class ProjetWorld {
-  #projetFixtures: Map<string, ProjetFixture> = new Map();
-  get projetFixtures() {
-    return this.#projetFixtures;
+export class LauréatWorld {
+  #lauréatFixtures: Map<string, LauréatFixture> = new Map();
+  get lauréatFixtures() {
+    return this.#lauréatFixtures;
   }
-  rechercherProjetFixture(nomProjet: string): ProjetFixture {
-    const projet = this.#projetFixtures.get(nomProjet);
+  rechercherLauréatFixture(nom: string): LauréatFixture {
+    const lauréat = this.#lauréatFixtures.get(nom);
 
-    if (!projet) {
-      throw new Error(`Aucun projet correspondant à ${nomProjet} dans les jeux de données`);
+    if (!lauréat) {
+      throw new Error(`Aucun projet lauréat correspondant à ${nom} dans les jeux de données`);
     }
 
-    return projet;
+    return lauréat;
   }
 
   #identifiantProjet: IdentifiantProjet;
