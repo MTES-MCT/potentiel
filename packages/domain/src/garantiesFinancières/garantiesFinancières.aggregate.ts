@@ -34,6 +34,7 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
         return processGarantiesFinancièresSnapshotEvent({ event, aggregate });
       case 'TypeGarantiesFinancièresEnregistré-v1':
       case 'AttestationGarantiesFinancièresEnregistrée-v1':
+      case 'GarantiesFinancièresComplètesEnregistréesEvent-v1':
         return processEnregistrementGarantiesFinancièresEvents({ event, aggregate });
       case 'GarantiesFinancièresDéposées-v1':
       case 'DépôtGarantiesFinancièresModifié-v1':
@@ -88,6 +89,21 @@ const processEnregistrementGarantiesFinancièresEvents = ({
           attestationConstitution: {
             format: event.payload.format,
             date: convertirEnDateTime(event.payload.date),
+          },
+        },
+      };
+    case 'GarantiesFinancièresComplètesEnregistréesEvent-v1':
+      return {
+        ...aggregate,
+        actuelles: {
+          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          dateÉchéance:
+            'dateÉchéance' in event.payload
+              ? convertirEnDateTime(event.payload.dateÉchéance)
+              : undefined,
+          attestationConstitution: {
+            format: event.payload.attestationConstitution.format,
+            date: convertirEnDateTime(event.payload.attestationConstitution.date),
           },
         },
       };
