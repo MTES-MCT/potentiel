@@ -12,7 +12,13 @@
       "path": "../libraries/monads"
     },
     {
+      "path": "../domain"
+    },
+    {
       "path": "../libraries/core-domain"
+    },
+    {
+      "path": "../libraries/core-domain-views"
     }
   ]
 }

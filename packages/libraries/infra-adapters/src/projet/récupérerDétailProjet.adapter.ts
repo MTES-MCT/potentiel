@@ -1,5 +1,5 @@
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
-import { ProjetReadModel, RécupérerDétailProjetPort } from '@potentiel/domain-views';
+import { LegacyProjetReadModel, RécupérerDétailProjetPort } from '@potentiel/domain-views';
 import { isSome, none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
@@ -34,7 +34,7 @@ export const récupérerDétailProjetAdapter: RécupérerDétailProjetPort = asy
   numéroCRE,
 }) => {
   const projets = await executeSelect<{
-    value: Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire' | 'identifiantProjet'>;
+    value: Omit<LegacyProjetReadModel, 'type' | 'identifiantGestionnaire' | 'identifiantProjet'>;
   }>(selectProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
 
   if (!projets.length) {

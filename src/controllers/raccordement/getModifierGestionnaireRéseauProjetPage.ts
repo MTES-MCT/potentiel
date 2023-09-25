@@ -11,7 +11,7 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { ModifierGestionnaireRéseauProjetPage } from '../../views';
 import { mediator } from 'mediateur';
 import { isNone } from '@potentiel/monads';
-import { ConsulterProjetQuery, ListerGestionnaireRéseauQuery } from '@potentiel/domain-views';
+import { ConsulterLegacyProjetQuery, ListerGestionnaireRéseauQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),
@@ -39,8 +39,8 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterProjetQuery>({
-        type: 'CONSULTER_PROJET',
+      const projet = await mediator.send<ConsulterLegacyProjetQuery>({
+        type: 'CONSULTER_LEGACY_PROJET',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },

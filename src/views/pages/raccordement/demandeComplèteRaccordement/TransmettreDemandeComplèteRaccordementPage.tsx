@@ -14,7 +14,7 @@ import {
   InputFile,
   ChampsObligatoiresLégende,
 } from '../../../components';
-import { GestionnaireRéseauReadModel, ProjetReadModel } from '@potentiel/domain-views';
+import { GestionnaireRéseauReadModel, LegacyProjetReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 
 import { hydrateOnClient } from '../../../helpers';
@@ -28,7 +28,7 @@ import {
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  projet: ProjetReadModel;
+  projet: LegacyProjetReadModel;
   delaiDemandeDeRaccordementEnMois: InfoBoxFormulaireDCRProps['delaiDemandeDeRaccordementEnMois'];
   error?: string;
 };

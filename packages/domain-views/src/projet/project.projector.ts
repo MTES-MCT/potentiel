@@ -1,59 +1,99 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { GestionnaireRéseauProjetEvent } from '@potentiel/domain';
-import { isNone } from '@potentiel/monads';
-import { ProjetReadModel, ProjetReadModelKey } from './projet.readModel';
-import { Create, Update, Find, RebuildTriggered, Remove } from '@potentiel/core-domain-views';
+import {
+  AbandonEvent,
+  GestionnaireRéseauProjetEvent,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
+import { isNone, isSome } from '@potentiel/monads';
+import { LegacyProjetReadModel, LegacyProjetReadModelKey } from './projet.readModel';
+import { Find, RebuildTriggered, Remove, Upsert } from '@potentiel/core-domain-views';
+import { ProjetQuery } from './projet.query';
+import { NotFoundError } from '@potentiel/core-domain';
 
 export type ExecuteProjetProjector = Message<
   'EXECUTE_PROJET_PROJECTOR',
-  GestionnaireRéseauProjetEvent | RebuildTriggered
+  GestionnaireRéseauProjetEvent | AbandonEvent | RebuildTriggered
 >;
 
 export type ProjetProjectorDependencies = {
-  create: Create;
-  update: Update;
+  upsert: Upsert;
   find: Find;
   remove: Remove;
 };
 
-export const registerProjetProjector = ({
-  create,
-  update,
-  find,
-  remove,
-}: ProjetProjectorDependencies) => {
+export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjectorDependencies) => {
   const handler: MessageHandler<ExecuteProjetProjector> = async (event) => {
     if (event.type === 'RebuildTriggered') {
-      await remove<ProjetReadModel>(`projet|${event.payload.id}`);
+      await remove<LegacyProjetReadModel>(`projet|${event.payload.id}`);
     } else {
-      const key: ProjetReadModelKey = `projet|${
+      const key: LegacyProjetReadModelKey = `projet|${
         event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
       }`;
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      // WARNING
+      // Le code précédent le switch utilise une query afin de commencer la bascule avec le legacy sur la partie projet.
+      // N'utilisez pas de query dans d'autre projector pour l'instant
+      const { appelOffre, famille, numéroCRE, période } = convertirEnIdentifiantProjet(
+        event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`,
+      );
+      const projet = await mediator.send<ProjetQuery>({
+        data: {
+          identifiantProjet: {
+            appelOffre,
+            famille,
+            numéroCRE,
+            période,
+          },
+        },
+        type: 'CONSULTER_LEGACY_PROJET',
+      });
+
+      if (isNone(projet)) {
+        throw new NotFoundError('Projet not found');
+      }
+
+      const projection = await find<LegacyProjetReadModel>(key);
+
+      const { localité, nom, statut } = projet;
+
+      let projetToUpdate: Omit<LegacyProjetReadModel, 'type' | 'legacyId' | 'identifiantProjet'> = {
+        appelOffre,
+        famille: isSome(famille) ? famille : '',
+        numéroCRE,
+        période,
+        localité,
+        nom,
+        statut,
+        identifiantGestionnaire: {
+          codeEIC: '',
+        },
+      };
+
+      if (isSome(projection)) {
+        projetToUpdate = {
+          ...projetToUpdate,
+          identifiantGestionnaire: projection.identifiantGestionnaire,
+        };
+      }
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       switch (event.type) {
         case 'GestionnaireRéseauProjetDéclaré':
-          await create<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {
+        case 'GestionnaireRéseauProjetModifié':
+          await upsert<Omit<LegacyProjetReadModel, 'legacyId' | 'identifiantProjet'>>(key, {
+            ...projetToUpdate,
             identifiantGestionnaire: {
               codeEIC: event.payload.identifiantGestionnaireRéseau,
             },
           });
           break;
-        case 'GestionnaireRéseauProjetModifié':
-          const projet = await find<ProjetReadModel>(key);
-
-          if (isNone(projet)) {
-            await create<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {
-              identifiantGestionnaire: {
-                codeEIC: event.payload.identifiantGestionnaireRéseau,
-              },
-            });
-          } else {
-            await update<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key, {
-              identifiantGestionnaire: {
-                codeEIC: event.payload.identifiantGestionnaireRéseau,
-              },
-            });
-          }
-          break;
+        case 'AbandonDemandé':
+          await upsert<Omit<LegacyProjetReadModel, 'legacyId' | 'identifiantProjet'>>(key, {
+            ...projetToUpdate,
+            statut: 'abandonné',
+            recandidature: event.payload.avecRecandidature ? true : undefined,
+          });
       }
     }
   };

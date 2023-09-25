@@ -7,8 +7,7 @@ import {
 import { ProjetReadModel, ProjetReadModelKey } from '../projet.readModel';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '@potentiel/core-domain-views';
-import { Option, isSome, none } from '@potentiel/monads';
-import { RécupérerDétailProjetPort } from '../projet.ports';
+import { Option } from '@potentiel/monads';
 
 export type ConsulterProjetQuery = Message<
   'CONSULTER_PROJET',
@@ -20,30 +19,15 @@ export type ConsulterProjetQuery = Message<
 
 export type ConsulterProjetDependencies = {
   find: Find;
-  récupérerDétailProjet: RécupérerDétailProjetPort;
 };
 
-export const registerConsulterProjetQuery = ({
-  find,
-  récupérerDétailProjet,
-}: ConsulterProjetDependencies) => {
-  const queryHandler: MessageHandler<ConsulterProjetQuery> = async ({ identifiantProjet }) => {
+export const registerConsulterProjetQuery = ({ find }: ConsulterProjetDependencies) => {
+  const handler: MessageHandler<ConsulterProjetQuery> = async ({ identifiantProjet }) => {
     const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
-    const detailProjet = await récupérerDétailProjet(identifiantProjetValueType);
+    const key: ProjetReadModelKey = `projet|${identifiantProjetValueType.formatter()}`;
 
-    if (isSome(detailProjet)) {
-      const key: ProjetReadModelKey = `projet|${identifiantProjetValueType.formatter()}`;
-      const result = await find<Pick<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>(key);
-
-      return {
-        type: 'projet',
-        ...detailProjet,
-        identifiantGestionnaire: isSome(result) ? result.identifiantGestionnaire : undefined,
-      };
-    }
-
-    return none;
+    return await find<ProjetReadModel>(key);
   };
 
-  mediator.register('CONSULTER_PROJET', queryHandler);
+  mediator.register('CONSULTER_PROJET', handler);
 };
