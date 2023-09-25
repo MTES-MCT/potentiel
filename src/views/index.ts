@@ -53,6 +53,7 @@ import {
   ModifierPropositionTechniqueEtFinancière,
   AucunDossierALister,
   ImporterDatesMiseEnService,
+  ListeProjetsAbandonnésAvecRecandidature,
 } from './pages';
 
 export { App } from './App';
@@ -461,4 +462,13 @@ export const ImporterDatesMiseEnServicePage = (
     Component: ImporterDatesMiseEnService,
     props,
     title: 'Importer des dates de mise en service',
+  });
+
+export const ListeProjetsAbandonnésAvecRecandidaturePage = (
+  props: Parameters<typeof ListeProjetsAbandonnésAvecRecandidature>[0],
+) =>
+  makeHtml({
+    Component: ListeProjetsAbandonnésAvecRecandidature,
+    props,
+    title: 'Lister les projets abandonnés avec re',
   });

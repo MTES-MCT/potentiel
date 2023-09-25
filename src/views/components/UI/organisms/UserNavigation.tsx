@@ -59,12 +59,20 @@ const MenuCre = (currentPage?: string) => (
 
 const MenuAdmin = (currentPage?: string) => (
   <>
-    <Header.MenuItem
-      href={routes.LISTE_PROJETS}
-      {...(currentPage === 'list-projects' && { isCurrent: true })}
-    >
-      Projets
-    </Header.MenuItem>
+    <DropdownMenu buttonChildren={'Projets'}>
+      <DropdownMenu.DropdownItem
+        href={routes.LISTE_PROJETS}
+        {...(currentPage === 'list-projects' && { isCurrent: true })}
+      >
+        Liste des projets
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.LISTE_PROJETS_ABANDONNÉS_AVEC_RECANDIDATURE}
+        {...(currentPage === 'liste-projets-avec-recandidature' && { isCurrent: true })}
+      >
+        Liste des projets abandonnés avec recandidature
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
     <Header.MenuItem
       href={routes.ADMIN_LIST_REQUESTS}
       {...(currentPage === 'list-requests' && { isCurrent: true })}
