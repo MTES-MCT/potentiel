@@ -5,18 +5,21 @@ import { demanderAbandon, ensureRole } from '../../../config';
 import { logger } from '../../../core/utils';
 import { UnauthorizedError } from '../../../modules/shared';
 import routes from '../../../routes';
-
+import { Project } from '../../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import { errorResponse, unauthorizedResponse } from '../../helpers';
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
+import { mediator } from 'mediateur';
+import { DomainUseCase, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { FileReadableStream } from '../../../helpers/fileReadableStream';
+import { none } from '@potentiel/monads';
 
 const schema = yup.object({
   body: yup.object({
     projectId: yup.string().uuid().required(),
     justification: yup.string().optional(),
-    numeroGestionnaire: yup.string().optional(),
     abandonAvecRecandidature: yup.string().optional(),
   }),
 });
@@ -44,7 +47,28 @@ v1Router.post(
         filename: `${Date.now()}-${request.file.originalname}`,
       };
 
-      // TODO : appel du bon use-case en fonction de l'existance de la clé "abandonAvecRecandidature"
+      if (abandonAvecRecandidature) {
+        const projet = await Project.findByPk(projectId, {
+          attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
+        });
+
+        await mediator.send<DomainUseCase>({
+          type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_USECASE',
+          data: {
+            identifiantProjet: convertirEnIdentifiantProjet({
+              appelOffre: projet?.appelOffreId || '',
+              famille: projet?.familleId || none,
+              numéroCRE: projet?.numeroCRE || '',
+              période: projet?.periodeId || '',
+            }),
+            piéceJustificative: {
+              format: request.file?.mimetype || '',
+              content: new FileReadableStream(request.file?.path || ''),
+            },
+            raison: justification || '',
+          },
+        });
+      }
 
       return demanderAbandon({
         user,
