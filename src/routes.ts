@@ -354,14 +354,17 @@ class routes {
     } else return route;
   };
 
-  static TELECHARGER_MODELE_MISE_EN_DEMEURE = (project?: { id: string; nomProjet: string }) => {
-    const route = '/projet/:projectId/telecharger-mise-en-demeure/:filename';
-    if (project) {
+  static TELECHARGER_MODELE_MISE_EN_DEMEURE_DEFAUT_GF_INITIALE = (projet?: {
+    identifiantProjet: string;
+    nomProjet: string;
+  }) => {
+    const route = '/projet/:identifiantProjet/telecharger-mise-en-demeure/:filename';
+    if (projet) {
       return route
-        .replace(':projectId', project.id)
+        .replace(':identifiantProjet', projet.identifiantProjet)
         .replace(
           ':filename',
-          sanitize(`Mise en demeure Garanties Financières - ${project.nomProjet}.docx`),
+          sanitize(`Mise en demeure Garanties Financières - ${projet.nomProjet}.docx`),
         );
     } else return route;
   };
