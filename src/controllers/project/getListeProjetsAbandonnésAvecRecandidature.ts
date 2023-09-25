@@ -2,59 +2,44 @@ import asyncHandler from '../helpers/asyncHandler';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { ListeProjetsAbandonnésAvecRecandidaturePage } from '../../views';
-import {
-  vérifierPermissionUtilisateur,
-} from '../helpers';
+import { vérifierPermissionUtilisateur } from '../helpers';
 
 import { PermissionListerProjetsAbandonnésAvecRecandidature } from '@potentiel/domain';
+import { ProjetReadModel } from '@potentiel/domain-views';
 
-// const getProjectListPage = asyncHandler(async (request, response) => {
-//   let { query, user } = request;
+const getFakeProjets = () => {
+  const fakeProjets: ProjetReadModel[] = [];
+  for (let i = 1; i <= 10; i += 1) {
+    fakeProjets.push({
+      legacyId: `${i}`,
+      nom: `Projet ${i}`,
+      appelOffre: 'CRE4 - Bâtiment',
+      période: `${i}`,
+      famille: '1',
+      numéroCRE: 'NuméroCRE',
+      localité: {
+        commune: 'Bordeaux',
+        département: 'Gironde',
+        région: 'Nouvelle Aquitaine',
+      },
+      statut: 'abandonné',
+      type: 'projet',
+      identifiantProjet: `CRE4 - Bâtiment#1#1#NuméroCRE`,
+    });
+  }
 
-//   if (
-//     userIs(['admin', 'dgec-validateur', 'dreal'])(user) &&
-//     typeof query.classement === 'undefined'
-//   ) {
-//     request.query.classement = 'classés';
-//   }
-
-//   const filtres = getFiltres({
-//     query,
-//     user,
-//   });
-
-//   const pagination = getPagination(request);
-
-//   const projects = await listerProjets({ user, filtres, pagination });
-
-//   const appelsOffre = await appelOffreRepo.findAll();
-
-//   const optionsFiltresParAOs = await getOptionsFiltresParAOs({
-//     user,
-//     appelOffreId: filtres.appelOffre?.appelOffreId,
-//   });
-//   response.send(
-//     ListeProjetsPage({
-//       request,
-//       projects,
-//       appelsOffre,
-//       ...optionsFiltresParAOs,
-//       currentUrl: getCurrentUrl(request),
-//     }),
-//   );
-// });
+  return fakeProjets;
+};
 
 v1Router.get(
   routes.LISTE_PROJETS_ABANDONNÉS_AVEC_RECANDIDATURE,
   vérifierPermissionUtilisateur(PermissionListerProjetsAbandonnésAvecRecandidature),
-  asyncHandler(async (request, response) => {
-    console.log('YO');
+  asyncHandler(async (request, response) =>
     response.send(
       ListeProjetsAbandonnésAvecRecandidaturePage({
         request,
-        projets: [],
+        projets: getFakeProjets(),
       }),
-    );
-    // response
-  }),
+    ),
+  ),
 );
