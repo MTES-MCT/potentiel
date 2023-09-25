@@ -21,7 +21,7 @@ export type ConsulterLegacyProjetQuery = Message<
   Option<LegacyProjetReadModel>
 >;
 
-export type ConsulterProjetDependencies = {
+export type ConsulterLegacyProjetDependencies = {
   find: Find;
   récupérerDétailProjet: RécupérerDétailProjetPort;
 };
@@ -29,7 +29,7 @@ export type ConsulterProjetDependencies = {
 export const registerConsulterLegacyProjetQuery = ({
   find,
   récupérerDétailProjet,
-}: ConsulterProjetDependencies) => {
+}: ConsulterLegacyProjetDependencies) => {
   const queryHandler: MessageHandler<ConsulterLegacyProjetQuery> = async ({
     identifiantProjet,
   }) => {

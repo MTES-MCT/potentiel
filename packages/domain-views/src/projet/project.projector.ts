@@ -7,7 +7,7 @@ import {
 import { isNone, isSome } from '@potentiel/monads';
 import { LegacyProjetReadModel, LegacyProjetReadModelKey } from './projet.readModel';
 import { Find, RebuildTriggered, Remove, Upsert } from '@potentiel/core-domain-views';
-import { ProjetQuery } from './projet.query';
+import { ConsulterLegacyProjetQuery } from './projet.query';
 import { NotFoundError } from '@potentiel/core-domain';
 
 export type ExecuteProjetProjector = Message<
@@ -37,7 +37,7 @@ export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjecto
       const { appelOffre, famille, numéroCRE, période } = convertirEnIdentifiantProjet(
         event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`,
       );
-      const projet = await mediator.send<ProjetQuery>({
+      const projet = await mediator.send<ConsulterLegacyProjetQuery>({
         data: {
           identifiantProjet: {
             appelOffre,
