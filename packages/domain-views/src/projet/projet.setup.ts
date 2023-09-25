@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { Subscribe } from '@potentiel/core-domain';
 import { AbandonEvent, GestionnaireRéseauProjetEvent } from '@potentiel/domain';
 import {
-  ConsulterProjetDependencies,
+  ConsulterLegacyProjetDependencies,
   registerConsulterLegacyProjetQuery,
 } from './consulter/consulterLegacyProjet.query';
 import {
@@ -11,16 +11,26 @@ import {
   ProjetProjectorDependencies,
 } from './project.projector';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
-import { registerConsulterProjetQuery } from './consulter/consulterProjet.query';
+import {
+  ConsulterProjetDependencies,
+  registerConsulterProjetQuery,
+} from './consulter/consulterProjet.query';
+import {
+  ListerProjetEnAttenteRecandidatureDependencies,
+  registerListerProjetEnAttenteRecandidatureQuery,
+} from './lister/listerProjetEnAttenteRecandidature.query';
 
 // Setup
-export type ProjetDependencies = { subscribe: Subscribe } & ConsulterProjetDependencies &
+export type ProjetDependencies = { subscribe: Subscribe } & ConsulterLegacyProjetDependencies &
+  ConsulterProjetDependencies &
+  ListerProjetEnAttenteRecandidatureDependencies &
   ProjetProjectorDependencies;
 
 export const setupProjetViews = async (dependencies: ProjetDependencies) => {
   // Queries
   registerConsulterProjetQuery(dependencies);
   registerConsulterLegacyProjetQuery(dependencies);
+  registerListerProjetEnAttenteRecandidatureQuery(dependencies);
 
   // Projectors
   registerProjetProjector(dependencies);

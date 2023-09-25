@@ -10,4 +10,5 @@ Fonctionnalité: Abandonner un projet lauréat avec recandidature
         | Le format de la piéce justificative   | application/pdf                                                         |
         | Le contenu de la piéce justificative  | Le contenu de la piéce justificative expliquant la raison de l'abandon du projet lauréat |
       Alors la recandidature du projet "Du boulodrome de Marseille" devrait être consultable dans la liste des projets lauréat abandonnés devant recandidater
+      Et le projet "Du boulodrome de Marseille" devrait être disponible dans la liste des recandidatures attendues
         
