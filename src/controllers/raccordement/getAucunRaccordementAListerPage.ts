@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
-  ConsulterProjetQuery,
+  ConsulterLegacyProjetQuery,
   PermissionConsulterDossierRaccordement,
 } from '@potentiel/domain-views';
 import { AucunDossierAListerPage } from '../../views';
@@ -37,8 +37,8 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterProjetQuery>({
-        type: 'CONSULTER_PROJET',
+      const projet = await mediator.send<ConsulterLegacyProjetQuery>({
+        type: 'CONSULTER_LEGACY_PROJET',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },

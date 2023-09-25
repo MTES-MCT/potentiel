@@ -7,6 +7,7 @@ import {
   removeProjection,
   searchProjection,
   updateProjection,
+  upsertProjection,
 } from '@potentiel/pg-projections';
 import {
   téléverserFichierDossierRaccordementAdapter,
@@ -50,6 +51,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       search: searchProjection,
       subscribe,
       update: updateProjection,
+      upsert: upsertProjection,
     },
     appelOffre: {},
     projet: {

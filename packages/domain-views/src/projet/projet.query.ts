@@ -1,6 +1,6 @@
-import { ConsulterProjetQuery } from './consulter/consulterProjet.query';
+import { ConsulterLegacyProjetQuery } from './consulter/consulterLegacyProjet.query';
 
 // Queries
-type ProjetQuery = ConsulterProjetQuery;
+type ProjetQuery = ConsulterLegacyProjetQuery;
 
-export { ProjetQuery, ConsulterProjetQuery };
+export { ProjetQuery, ConsulterLegacyProjetQuery };

@@ -55,3 +55,8 @@ export type Update = <TReadModel extends ReadModel>(
 export type Remove = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}|${string}`,
 ) => Promise<void>;
+
+export type Upsert = <TReadModel extends ReadModel>(
+  id: `${TReadModel['type']}|${string}`,
+  readModel: Omit<TReadModel, 'type'>,
+) => Promise<void>;

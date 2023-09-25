@@ -1,11 +1,11 @@
 import { ReadModel } from '@potentiel/core-domain-views';
 import { RawIdentifiantProjet } from '@potentiel/domain';
 
-export type ProjetReadModelKey = `projet|${RawIdentifiantProjet}`;
+export type LegacyProjetReadModelKey = `projet|${RawIdentifiantProjet}`;
 
-type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
+export type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 
-export type ProjetReadModel = ReadModel<
+export type LegacyProjetReadModel = ReadModel<
   'projet',
   {
     legacyId: string;
@@ -22,5 +22,26 @@ export type ProjetReadModel = ReadModel<
       région: string;
     };
     identifiantGestionnaire?: { codeEIC: string };
+    recandidature?: true;
+  }
+>;
+
+export type ProjetReadModelKey = `projet|${RawIdentifiantProjet}`;
+export type ProjetReadModel = ReadModel<
+  'projet',
+  {
+    appelOffre: string;
+    période: string;
+    famille: string;
+    numéroCRE: string;
+    statut: StatutProjet;
+    nom: string;
+    localité: {
+      commune: string;
+      département: string;
+      région: string;
+    };
+    identifiantGestionnaire?: { codeEIC: string };
+    recandidature?: true;
   }
 >;

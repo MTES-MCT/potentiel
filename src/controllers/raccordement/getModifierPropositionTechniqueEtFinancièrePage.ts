@@ -13,7 +13,7 @@ import { ModifierPropositionTechniqueEtFinancièrePage } from '../../views';
 import { mediator } from 'mediateur';
 import { isNone, none } from '@potentiel/monads';
 import {
-  ConsulterProjetQuery,
+  ConsulterLegacyProjetQuery,
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
@@ -47,8 +47,8 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterProjetQuery>({
-        type: 'CONSULTER_PROJET',
+      const projet = await mediator.send<ConsulterLegacyProjetQuery>({
+        type: 'CONSULTER_LEGACY_PROJET',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },

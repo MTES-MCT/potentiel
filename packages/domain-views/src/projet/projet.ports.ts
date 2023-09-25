@@ -1,10 +1,10 @@
 import { IdentifiantProjetValueType } from '@potentiel/domain';
-import { ProjetReadModel } from './projet.readModel';
+import { LegacyProjetReadModel } from './projet.readModel';
 import { Option } from '@potentiel/monads';
 
 export type RécupérerDétailProjetPort = (
   identifiantProjet: IdentifiantProjetValueType,
-) => Promise<Option<Omit<ProjetReadModel, 'type' | 'identifiantGestionnaire'>>>;
+) => Promise<Option<Omit<LegacyProjetReadModel, 'type' | 'identifiantGestionnaire'>>>;
 
 export type RécupérerPorteursProjetPort = (
   identifiantProjet: IdentifiantProjetValueType,

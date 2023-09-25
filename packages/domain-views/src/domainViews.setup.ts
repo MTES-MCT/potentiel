@@ -1,5 +1,5 @@
 import { Subscribe } from '@potentiel/core-domain';
-import { List, Create, Find, Remove, Search, Update } from '@potentiel/core-domain-views';
+import { List, Create, Find, Remove, Search, Update, Upsert } from '@potentiel/core-domain-views';
 import { setupGestionnaireRéseauViews } from './gestionnaireRéseau/gestionnaireRéseau.setup';
 import { ProjetDependencies, setupProjetViews } from './projet/projet.setup';
 import {
@@ -16,6 +16,7 @@ type CommonDependencies = {
   create: Create;
   remove: Remove;
   update: Update;
+  upsert: Upsert;
 };
 
 type DomainViewsDependencies = {

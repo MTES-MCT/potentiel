@@ -15,7 +15,7 @@ import { isNone, none } from '@potentiel/monads';
 import {
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauQuery,
-  ConsulterProjetQuery,
+  ConsulterLegacyProjetQuery,
 } from '@potentiel/domain-views';
 import { getProjectAppelOffre } from '../../config';
 
@@ -48,8 +48,8 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterProjetQuery>({
-        type: 'CONSULTER_PROJET',
+      const projet = await mediator.send<ConsulterLegacyProjetQuery>({
+        type: 'CONSULTER_LEGACY_PROJET',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },
