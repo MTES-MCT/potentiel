@@ -20,12 +20,12 @@ import {
   PermissionTransmettreDateMiseEnService,
   PermissionTransmettrePropositionTechniqueEtFinancière,
   PermissionModifierGestionnaireRéseauProjet,
-  PermissionListerProjetsAbandonnésAvecRecandidature,
 } from '@potentiel/domain';
 import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
   PermissionConsulterDossierRaccordement,
+  PermissionListerProjetsAbandonnésAvecRecandidature,
 } from '@potentiel/domain-views';
 
 export type Permission = {

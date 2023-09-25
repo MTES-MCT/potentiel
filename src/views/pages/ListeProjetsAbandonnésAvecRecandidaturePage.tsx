@@ -3,8 +3,6 @@ import React from 'react';
 
 import {
   Heading1,
-  Link,
-  LinkButton,
   ListeVide,
   MapPinIcon,
   PageListeTemplate,
@@ -13,11 +11,11 @@ import {
 import { hydrateOnClient } from '../helpers';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { ProjetReadModel } from '@potentiel/domain-views';
-import routes from '../../routes';
+import { ListResult } from '@potentiel/core-domain-views';
 
 type ListeProjetsAbandonnésAvecRecandidatureProps = {
   request: Request;
-  projets: ProjetReadModel[];
+  projets: ListResult<ProjetReadModel>;
 };
 
 export const ListeProjetsAbandonnésAvecRecandidature = ({
@@ -37,16 +35,16 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
       }
     >
       <PageListeTemplate.List sideBarOpen={false}>
-        {projets.length === 0 ? (
+        {projets.totalItems === 0 ? (
           <ListeVide titre="Aucun projet à lister" />
         ) : (
           <ul className="p-0 m-0">
-            {projets.map((projet) => (
-              <li className="list-none p-0 m-0" key={projet.legacyId}>
-                <Tile className="mb-4 flex md:relative flex-col" key={`project_${projet.legacyId}`}>
+            {projets.items.map((projet) => (
+              <li className="list-none p-0 m-0">
+                <Tile className="mb-4 flex md:relative flex-col">
                   <div className="flex flex-col gap-2 mb-4">
                     <div className="flex flex-col md:flex-row gap-2">
-                      <Link href={routes.PROJECT_DETAILS(projet.legacyId)}>{projet.nom}</Link>
+                      {/* <Link href={routes.PROJECT_DETAILS(projet.legacyId)}>{projet.nom}</Link> */}
                     </div>
                     <div className="italic text-xs text-grey-425-base">
                       {projet.appelOffre}-P{projet.période}-F{projet.famille}-{projet.numéroCRE}
@@ -65,12 +63,12 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
                     </div>
 
                     <div className="flex md:absolute md:top-4 md:right-5 gap-2">
-                      <LinkButton
+                      {/* <LinkButton
                         href={routes.PROJECT_DETAILS(projet.legacyId)}
                         aria-label={`voir le projet ${projet.nom}`}
                       >
                         Voir
-                      </LinkButton>
+                      </LinkButton> */}
                     </div>
                   </div>
                 </Tile>
