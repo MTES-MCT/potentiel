@@ -470,5 +470,5 @@ export const ListeProjetsAbandonnésAvecRecandidaturePage = (
   makeHtml({
     Component: ListeProjetsAbandonnésAvecRecandidature,
     props,
-    title: 'Lister les projets abandonnés avec re',
+    title: 'Lister les projets abandonnés avec recandidature',
   });
