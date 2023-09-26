@@ -5,6 +5,7 @@ import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abando
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
+import { EnregistrerPiéceJustificativeAbandonPort } from '../abandon.port';
 
 export type DemanderAbandonAvecRecandidatureCommand = Message<
   'DEMANDER_ABANDON_AVEC_RECANDIDATURE_COMMAND',
@@ -15,15 +16,17 @@ export type DemanderAbandonAvecRecandidatureCommand = Message<
   }
 >;
 
-export type DemanderAbandonAvecRecandidatureCommandDependencies = {
+export type DemanderAbandonAvecRecandidatureDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
+  enregistrerPiéceJustificativeAbandon: EnregistrerPiéceJustificativeAbandonPort;
 };
 
 export const registerDemanderAbandonAvecRecandidatureCommand = ({
   loadAggregate,
   publish,
-}: DemanderAbandonAvecRecandidatureCommandDependencies) => {
+  enregistrerPiéceJustificativeAbandon,
+}: DemanderAbandonAvecRecandidatureDependencies) => {
   const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate });
   const handler: MessageHandler<DemanderAbandonAvecRecandidatureCommand> = async ({
     identifiantProjet,
@@ -35,6 +38,11 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
     if (isSome(abandon)) {
       throw new Error(`Une demande d'abandon existe déjà pour le projet`);
     }
+
+    await enregistrerPiéceJustificativeAbandon({
+      identifiantProjet: identifiantProjet.formatter(),
+      piéceJustificative,
+    });
 
     const event: AbandonDemandéEvent = {
       type: 'AbandonDemandé',

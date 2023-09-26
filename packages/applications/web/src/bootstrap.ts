@@ -13,6 +13,7 @@ import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
   récupérerDétailProjetAdapter,
+  téléverserPiéceJustificativeAbandonAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
@@ -33,6 +34,9 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       loadAggregate,
       publish,
       subscribe,
+    },
+    projet: {
+      enregistrerPiéceJustificativeAbandon: téléverserPiéceJustificativeAbandonAdapter,
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:

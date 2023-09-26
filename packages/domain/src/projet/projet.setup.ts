@@ -5,18 +5,26 @@ import {
   registerExecuterAjouterGestionnaireRéseauProjetSaga,
   ExecuterAjouterGestionnaireRéseauProjetSaga,
 } from './lauréat/gestionnaireRéseau/déclarer/déclarerGestionnaireRéseau.saga';
-import { registerDéclarerGestionnaireRéseauProjetCommand } from './lauréat/gestionnaireRéseau/déclarer/déclarerGestionnaireRéseauProjet.command';
+import {
+  DéclarerGestionnaireRéseauProjetDependencies,
+  registerDéclarerGestionnaireRéseauProjetCommand,
+} from './lauréat/gestionnaireRéseau/déclarer/déclarerGestionnaireRéseauProjet.command';
 import {
   ModifierGestionnaireRéseauProjetDependencies,
   registerModifierGestionnaireRéseauProjetCommand,
 } from './lauréat/gestionnaireRéseau/modifier/modifierGestionnaireRéseauProjet.command';
 import { registerModifierGestionnaireRéseauProjetUseCase } from './lauréat/gestionnaireRéseau/modifier/modifierGestionnaireRéseauProjet.usecase';
-import { registerDemanderAbandonAvecRecandidatureCommand } from './lauréat/abandon/demander/demanderAbandonAvecRecandidature.command';
+import {
+  DemanderAbandonAvecRecandidatureDependencies,
+  registerDemanderAbandonAvecRecandidatureCommand,
+} from './lauréat/abandon/demander/demanderAbandonAvecRecandidature.command';
 import { registerDemanderAbandonAvecRecandidatureUseCase } from './lauréat/abandon/demander/demanderAbandonAvecRecandidature.usecase';
 
 export type ProjetDependencies = {
   subscribe: Subscribe;
-} & ModifierGestionnaireRéseauProjetDependencies;
+} & DéclarerGestionnaireRéseauProjetDependencies &
+  ModifierGestionnaireRéseauProjetDependencies &
+  DemanderAbandonAvecRecandidatureDependencies;
 
 export const setupProjet = async (dependencies: ProjetDependencies) => {
   // Commands
