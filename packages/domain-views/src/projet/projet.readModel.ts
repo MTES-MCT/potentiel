@@ -22,7 +22,6 @@ export type LegacyProjetReadModel = ReadModel<
       région: string;
     };
     identifiantGestionnaire?: { codeEIC: string };
-    recandidature?: true;
   }
 >;
 
@@ -42,6 +41,8 @@ export type ProjetReadModel = ReadModel<
       région: string;
     };
     identifiantGestionnaire?: { codeEIC: string };
+
+    dateAbandon?: string;
     recandidature?: true;
   }
 >;

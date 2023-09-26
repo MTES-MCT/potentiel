@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import React from 'react';
 
+<<<<<<< HEAD
 import {
   Heading1,
   ListeVide,
@@ -9,6 +10,9 @@ import {
   Pagination,
   Tile,
 } from '../components';
+=======
+import { Heading1, ListeVide, MapPinIcon, PageListeTemplate, Tile } from '../components';
+>>>>>>> d22c10d3 (✨ Order by date d'abandon)
 import { hydrateOnClient } from '../helpers';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { ProjetReadModel } from '@potentiel/domain-views';
@@ -39,6 +43,7 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
         {projets.totalItems === 0 ? (
           <ListeVide titre="Aucun projet à lister" />
         ) : (
+<<<<<<< HEAD
           <>
             <ul className="p-0 m-0">
               {projets.items.map((projet) => (
@@ -53,6 +58,32 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
                       </div>
                       <div className="italic text-xs text-grey-425-base">
                         {projet.appelOffre}-P{projet.période}-F{projet.famille}-{projet.numéroCRE}
+=======
+          <ul className="p-0 m-0">
+            {projets.items.map((projet) => (
+              <li className="list-none p-0 m-0">
+                <Tile className="mb-4 flex md:relative flex-col">
+                  <div className="flex flex-col gap-2 mb-4">
+                    <div className="flex flex-col md:flex-row gap-2">
+                      {/* <Link href={routes.PROJECT_DETAILS(projet.legacyId)}>{projet.nom}</Link> */}
+                    </div>
+                    <div className="italic text-xs text-grey-425-base">
+                      {projet.appelOffre}-P{projet.période}-F{projet.famille}-{projet.numéroCRE}
+                    </div>
+                    <div className="italic text-xs text-grey-425-base">
+                      Date abandon : {projet.dateAbandon}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col md:flex-row gap-4 md:items-center">
+                    <div className="flex md:flex-1 flex-col gap-1 text-sm">
+                      <div className="flex items-center">
+                        <MapPinIcon className="mr-2 shrink-0" title="Localisation du projet" />
+                        <span className="italic">
+                          {projet.localité.commune}, {projet.localité.département},{' '}
+                          {projet.localité.région}
+                        </span>
+>>>>>>> d22c10d3 (✨ Order by date d'abandon)
                       </div>
                     </div>
 

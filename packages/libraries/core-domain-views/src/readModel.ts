@@ -15,7 +15,10 @@ export type Find = <TReadModel extends ReadModel>(
 
 export type ListOptions<TReadModel extends ReadModel> = {
   type: TReadModel['type'];
-  orderBy?: keyof TReadModel;
+  orderBy?: {
+    property: keyof TReadModel;
+    ascending: boolean;
+  };
   where?: Partial<TReadModel>;
   pagination?: {
     page: number;
