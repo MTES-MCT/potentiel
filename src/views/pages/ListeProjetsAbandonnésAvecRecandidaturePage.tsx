@@ -9,7 +9,7 @@ import {
   Pagination,
   Tile,
 } from '../components';
-import { hydrateOnClient } from '../helpers';
+import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { ProjetReadModel } from '@potentiel/domain-views';
 import { ListResult } from '@potentiel/core-domain-views';
@@ -53,6 +53,9 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
                       </div>
                       <div className="italic text-xs text-grey-425-base">
                         {projet.appelOffre}-P{projet.période}-F{projet.famille}-{projet.numéroCRE}
+                      </div>
+                      <div className="italic text-xs text-grey-425-base">
+                        Abandonné le {afficherDateAvecHeure(new Date(projet.dateAbandon || ''))}
                       </div>
                     </div>
 
