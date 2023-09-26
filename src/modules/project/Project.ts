@@ -227,6 +227,7 @@ export interface Project extends EventStoreAggregate {
   readonly hasCurrentGf: boolean;
   readonly dcrDueOn?: Date;
   readonly notifiedOn: number;
+  readonly isParticipatif: boolean;
 }
 
 export interface ProjectDataProps {
@@ -283,6 +284,7 @@ export interface ProjectProps {
   délaiCDC2022appliqué: boolean;
   GFValidées: boolean;
   dcrDueOn: Date | undefined;
+  isParticipatif: boolean;
 }
 
 const projectValidator = makePropertyValidator({
@@ -329,6 +331,7 @@ export const makeProject = (args: {
     délaiCDC2022appliqué: false,
     GFValidées: false,
     dcrDueOn: undefined,
+    isParticipatif: false,
   };
 
   // Initialize aggregate by processing each event in history
@@ -1144,6 +1147,9 @@ export const makeProject = (args: {
     get notifiedOn() {
       return props.notifiedOn;
     },
+    get isParticipatif() {
+      return props.isParticipatif;
+    },
   });
 
   // private methods
@@ -1216,6 +1222,14 @@ export const makeProject = (args: {
         props.appelOffreId = event.payload.appelOffreId;
         props.periodeId = event.payload.periodeId;
         props.familleId = event.payload.familleId;
+        if (
+          event.payload.data.isFinancementParticipatif ||
+          event.payload.data.isInvestissementParticipatif
+        ) {
+          props.isParticipatif =
+            event.payload.data.isFinancementParticipatif ||
+            event.payload.data.isInvestissementParticipatif;
+        }
         break;
       case ProjectImported.type:
         props.data = event.payload.data;
@@ -1225,6 +1239,9 @@ export const makeProject = (args: {
         props.appelOffreId = event.payload.appelOffreId;
         props.periodeId = event.payload.periodeId;
         props.familleId = event.payload.familleId;
+        props.isParticipatif =
+          event.payload.data.isFinancementParticipatif ||
+          event.payload.data.isInvestissementParticipatif;
         break;
       case ProjectReimported.type:
         props.data = { ...props.data, ...event.payload.data };
@@ -1233,6 +1250,14 @@ export const makeProject = (args: {
         }
         if (event.payload.data.classe) {
           _updateClasse(event.payload.data.classe);
+        }
+        if (
+          event.payload.data.isFinancementParticipatif ||
+          event.payload.data.isInvestissementParticipatif
+        ) {
+          props.isParticipatif =
+            event.payload.data.isFinancementParticipatif ||
+            event.payload.data.isInvestissementParticipatif;
         }
         break;
       case ProjectNotified.type:
