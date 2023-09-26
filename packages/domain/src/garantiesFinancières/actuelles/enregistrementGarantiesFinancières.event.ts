@@ -11,7 +11,7 @@ export type TypeGarantiesFinancièresEnregistréEventV1 = DomainEvent<
       }
     | {
         typeGarantiesFinancières: `avec date d'échéance`;
-        dateÉchéance: string; // legacy
+        dateÉchéance: string;
       }
   )
 >;
@@ -23,4 +23,20 @@ export type AttestationGarantiesFinancièresEnregistréeEventV1 = DomainEvent<
     format: string;
     date: string;
   }
+>;
+
+export type GarantiesFinancièresComplètesEnregistréesEventV1 = DomainEvent<
+  'GarantiesFinancièresComplètesEnregistréesEvent-v1',
+  {
+    identifiantProjet: RawIdentifiantProjet;
+    attestationConstitution: { format: string; date: string };
+  } & (
+    | {
+        typeGarantiesFinancières: `6 mois après achèvement` | 'consignation';
+      }
+    | {
+        typeGarantiesFinancières: `avec date d'échéance`;
+        dateÉchéance: string;
+      }
+  )
 >;

@@ -69,35 +69,27 @@ Scénario: Corriger le type de garanties financières legacy migrées sans type 
             | date de constitution | 2021-12-02             | 
 
     # Rattrapage pour les projets notifiés avant la mise en place de l'import des types de GF avec les csv. de candidats 
-    Scénario: Enregistrer des garanties financières complètes avec date d'échéance
+    Plan du scénario: Enregistrer des garanties financières complètes
         Quand un utilisateur avec le rôle 'admin' enregistre des garanties financières complètes pour le projet "Centrale éolienne 20" avec : 
-            | type                 | avec date d'échéance   |
-            | date d'échéance      | 2027-12-01             |        
-            | format               | application/pdf        |
-            | date de constitution | 2021-12-02             |
-            | contenu fichier      | le contenu             |
+            | type                 | <type>                 |
+            | date d'échéance      | <date d'échéance>      |
+            | format               | <format du fichier>    |
+            | contenu fichier      | <contenu du fichier>   |
+            | date de constitution | <date de constitution> |
         Alors les garanties financières devraient être consultables pour le projet "Centrale éolienne 20" avec :
-            | type                 | avec date d'échéance   |
-            | date d'échéance      | 2027-12-01             |        
-            | format               | application/pdf        |
-            | date de constitution | 2021-12-02             |
+            | type                 | <type>                 |
+            | date d'échéance      | <date d'échéance>      |
+            | format               | <format du fichier>    |
+            | date de constitution | <date de constitution> |
         Et le fichier de l'attestation de garanties financières devrait être téléchargeable pour le projet "Centrale éolienne 20" avec :
-            | contenu fichier      | le contenu             |  
-            | format               | application/pdf        | 
-    
-    Scénario: Enregistrer des garanties financières complètes sans date d'échéance
-        Quand un utilisateur avec le rôle 'admin' enregistre des garanties financières complètes pour le projet "Centrale éolienne 20" avec :
-            | type                 | consignation           |
-            | format               | application/pdf        |
-            | date de constitution | 2021-12-02             |
-            | contenu fichier      | le contenu             |
-        Alors les garanties financières devraient être consultables pour le projet "Centrale éolienne 20" avec :
-            | type                 | consignation           |
-            | format               | application/pdf        |
-            | date de constitution | 2021-12-02             |
-        Et le fichier de l'attestation de garanties financières devrait être téléchargeable pour le projet "Centrale éolienne 20" avec :
-            | contenu fichier      | le contenu             |  
-            | format               | application/pdf        |     
+            | format               | <format du fichier>    |
+            | contenu fichier      | <contenu du fichier>   | 
+        Exemples:
+            | type                    | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
+            | avec date d'échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2021-12-02           |
+            | consignation            |                 | application/pdf   | le contenu du fichier | 2021-12-02           |
+            | 6 mois après achèvement |                 | application/pdf   | le contenu du fichier | 2021-12-02           |  
+  
 
      Scénario: Compléter des garanties financières incomplètes avec leur type et date d'échéance 
         Etant donné des garanties financières avec une attestation pour le projet "Centrale éolienne 20" avec :

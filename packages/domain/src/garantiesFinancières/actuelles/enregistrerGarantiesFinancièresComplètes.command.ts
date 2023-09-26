@@ -6,10 +6,7 @@ import {
   TypeEtDateÉchéance,
   estTypeAvecDateÉchéance,
 } from '../garantiesFinancières.valueType';
-import {
-  AttestationGarantiesFinancièresEnregistréeEventV1,
-  TypeGarantiesFinancièresEnregistréEventV1,
-} from './enregistrementGarantiesFinancières.event';
+import { GarantiesFinancièresComplètesEnregistréesEventV1 } from './enregistrementGarantiesFinancières.event';
 import { IdentifiantProjetValueType, Utilisateur } from '../../domain.valueType';
 import { TéléverserFichierPort } from '../../common.ports';
 import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
@@ -77,10 +74,14 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
       type: 'attestation-constitution-garanties-financieres',
     });
 
-    const eventForType: TypeGarantiesFinancièresEnregistréEventV1 = {
-      type: 'TypeGarantiesFinancièresEnregistré-v1',
+    const event: GarantiesFinancièresComplètesEnregistréesEventV1 = {
+      type: 'GarantiesFinancièresComplètesEnregistréesEvent-v1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
+        attestationConstitution: {
+          format: attestationConstitution.format,
+          date: attestationConstitution.date.formatter(),
+        },
         ...(estTypeAvecDateÉchéance(typeGarantiesFinancières)
           ? {
               dateÉchéance: dateÉchéance!.formatter(),
@@ -90,25 +91,7 @@ export const registerEnregistrerGarantiesFinancièresComplètesCommand = ({
       },
     };
 
-    await publish(createGarantiesFinancièresAggregateId(identifiantProjet), eventForType);
-
-    const eventForAttestation: AttestationGarantiesFinancièresEnregistréeEventV1 = {
-      type: 'AttestationGarantiesFinancièresEnregistrée-v1',
-      payload: {
-        identifiantProjet: identifiantProjet.formatter(),
-        format: attestationConstitution.format,
-        date: attestationConstitution.date.formatter(),
-      },
-    };
-
-    setTimeout(
-      async () =>
-        await publish(
-          createGarantiesFinancièresAggregateId(identifiantProjet),
-          eventForAttestation,
-        ),
-      100,
-    );
+    await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
   };
 
   mediator.register('ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES', handler);
