@@ -5,7 +5,7 @@ import {
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
-import { LegacyProjetReadModel, LegacyProjetReadModelKey } from './projet.readModel';
+import { ProjetReadModel, ProjetReadModelKey } from './projet.readModel';
 import { Find, RebuildTriggered, Remove, Upsert } from '@potentiel/core-domain-views';
 import { ConsulterLegacyProjetQuery } from './projet.query';
 import { NotFoundError } from '@potentiel/core-domain';
@@ -24,9 +24,9 @@ export type ProjetProjectorDependencies = {
 export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjectorDependencies) => {
   const handler: MessageHandler<ExecuteProjetProjector> = async (event) => {
     if (event.type === 'RebuildTriggered') {
-      await remove<LegacyProjetReadModel>(`projet|${event.payload.id}`);
+      await remove<ProjetReadModel>(`projet|${event.payload.id}`);
     } else {
-      const key: LegacyProjetReadModelKey = `projet|${
+      const key: ProjetReadModelKey = `projet|${
         event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`
       }`;
 
@@ -53,11 +53,11 @@ export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjecto
         throw new NotFoundError('Projet not found');
       }
 
-      const projection = await find<LegacyProjetReadModel>(key);
+      const projection = await find<ProjetReadModel>(key);
 
       const { localité, nom, statut } = projet;
 
-      let projetToUpdate: Omit<LegacyProjetReadModel, 'type' | 'legacyId' | 'identifiantProjet'> = {
+      let projetToUpdate: Omit<ProjetReadModel, 'type'> = {
         appelOffre,
         famille: isSome(famille) ? famille : '',
         numéroCRE,
@@ -81,7 +81,7 @@ export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjecto
       switch (event.type) {
         case 'GestionnaireRéseauProjetDéclaré':
         case 'GestionnaireRéseauProjetModifié':
-          await upsert<Omit<LegacyProjetReadModel, 'legacyId' | 'identifiantProjet'>>(key, {
+          await upsert<ProjetReadModel>(key, {
             ...projetToUpdate,
             identifiantGestionnaire: {
               codeEIC: event.payload.identifiantGestionnaireRéseau,
@@ -89,9 +89,10 @@ export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjecto
           });
           break;
         case 'AbandonDemandé':
-          await upsert<Omit<LegacyProjetReadModel, 'legacyId' | 'identifiantProjet'>>(key, {
+          await upsert<ProjetReadModel>(key, {
             ...projetToUpdate,
             statut: 'abandonné',
+            dateAbandon: event.payload.dateAbandon,
             recandidature: event.payload.avecRecandidature ? true : undefined,
           });
       }

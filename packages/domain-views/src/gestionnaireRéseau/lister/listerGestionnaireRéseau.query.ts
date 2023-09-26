@@ -16,6 +16,9 @@ export const registerListerGestionnaireRéseauQuery = ({
   list,
 }: ListerGestionnaireRéseauDependencies) => {
   const commandHandler: MessageHandler<ListerGestionnaireRéseauQuery> = async () =>
-    list<GestionnaireRéseauReadModel>({ type: 'gestionnaire-réseau', orderBy: 'raisonSociale' });
+    list<GestionnaireRéseauReadModel>({
+      type: 'gestionnaire-réseau',
+      orderBy: { property: 'raisonSociale', ascending: true },
+    });
   mediator.register('LISTER_GESTIONNAIRE_RÉSEAU_QUERY', commandHandler);
 };

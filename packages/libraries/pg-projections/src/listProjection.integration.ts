@@ -228,7 +228,10 @@ describe(`listProjection`, () => {
       // Act
       const result = await listProjection<ProjectionReadModel>({
         type: 'projection',
-        orderBy: 'target',
+        orderBy: {
+          property: 'target',
+          ascending: true,
+        },
       });
 
       // Assert

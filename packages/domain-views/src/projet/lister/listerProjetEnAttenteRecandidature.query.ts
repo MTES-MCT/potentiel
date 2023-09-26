@@ -26,6 +26,10 @@ export const registerListerProjetEnAttenteRecandidatureQuery = ({
       where: {
         recandidature: true,
       },
+      orderBy: {
+        property: 'dateAbandon',
+        ascending: false,
+      },
     });
   };
 

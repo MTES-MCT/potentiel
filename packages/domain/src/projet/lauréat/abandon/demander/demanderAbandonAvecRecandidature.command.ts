@@ -40,6 +40,7 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
           avecRecandidature: true,
           piéceJustificative,
           raison,
+          dateAbandon: new Date().toISOString(),
         },
       };
 
