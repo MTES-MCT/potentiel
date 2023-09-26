@@ -1,6 +1,10 @@
 import { mediator } from 'mediateur';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import { AbandonEvent } from '@potentiel/domain';
+import {
+  récupérerDétailProjetAdapter,
+  récupérerPorteursProjetAdapter,
+} from '@potentiel/infra-adapters';
 
 import {
   ExecuteAbandonProjetNotification,
@@ -10,7 +14,10 @@ import {
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
-  registerAbandonProjetNotification({});
+  registerAbandonProjetNotification({
+    récupérerDétailProjet: récupérerDétailProjetAdapter,
+    récupérerPorteursProjet: récupérerPorteursProjetAdapter,
+  });
 
   // Subscribes
   const unsubscribeNotifications = await subscribe<AbandonEvent>({

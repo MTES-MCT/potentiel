@@ -1,17 +1,16 @@
 import { getMailjetClient } from './getMailjetClient';
 
 type SendEmail = (email: {
-  templateId: number;
-  message: {
-    object: string;
-    recipients: { email: string; name: string }[];
-  };
+  templateId: string;
+  messageSubject: string;
+  recipients: { email: string; fullName: string }[];
   variables: Record<string, string>;
 }) => Promise<void>;
 
 export const sendEmail: SendEmail = async ({
   templateId,
-  message: { object, recipients },
+  messageSubject,
+  recipients,
   variables,
 }) => {
   const { SEND_EMAILS_FROM, SEND_EMAILS_FROM_NAME } = process.env;
@@ -27,13 +26,13 @@ export const sendEmail: SendEmail = async ({
             Email: SEND_EMAILS_FROM,
             Name: SEND_EMAILS_FROM_NAME,
           },
-          To: recipients.map(({ email, name }) => ({
+          To: recipients.map(({ email, fullName }) => ({
             Email: email,
-            Name: name,
+            Name: fullName,
           })),
           TemplateID: templateId,
           TemplateLanguage: true,
-          Subject: object,
+          Subject: messageSubject,
           Variables: variables,
         },
       ],

@@ -24,6 +24,9 @@ describe(`Notification sur les abandons avec recandidature`, () => {
     await executeQuery(`delete from event_store.event_stream`);
     await executeQuery(`delete from event_store.subscriber`);
     await executeQuery(`delete from domain_views.projection`);
+    await executeQuery(`delete from "projects"`);
+    await executeQuery(`delete from "UserProjects"`);
+    await executeQuery(`delete from "users"`);
   });
 
   afterAll(async () => {
@@ -34,6 +37,9 @@ describe(`Notification sur les abandons avec recandidature`, () => {
     await executeQuery(`delete from event_store.event_stream`);
     await executeQuery(`delete from event_store.subscriber`);
     await executeQuery(`delete from domain_views.projection`);
+    await executeQuery(`delete from "projects"`);
+    await executeQuery(`delete from "UserProjects"`);
+    await executeQuery(`delete from "users"`);
 
     await killPool();
   });
@@ -58,8 +64,8 @@ describe(`Notification sur les abandons avec recandidature`, () => {
       const nomProjet = 'Du boulodrome de Marseille';
       const statutProjet = 'Classé';
       const régionProjet = 'Nouvelle-Aquitaine';
-
       const projectLegacyId = randomUUID();
+
       await executeQuery(
         `
         insert into "projects" (
@@ -186,8 +192,8 @@ describe(`Notification sur les abandons avec recandidature`, () => {
       const identifiantProjet = convertirEnIdentifiantProjet({
         appelOffre: 'PPE2 - Eolien',
         période: '1',
-        famille: '27',
-        numéroCRE: '',
+        famille: '',
+        numéroCRE: '27',
       });
 
       const event: AbandonEvent = {
@@ -206,7 +212,19 @@ describe(`Notification sur les abandons avec recandidature`, () => {
 
       // ASSERT
       await waitForExpect(() => {
-        expect(sendEmail).toHaveBeenCalled();
+        expect(sendEmail).toHaveBeenCalledWith(
+          expect.objectContaining({
+            templateId: '5126436',
+            messageSubject: `Abandon du projet ${nomProjet}`,
+            recipients: expect.arrayContaining([
+              { fullName: nomPorteur1, email: emailPorteur1 },
+              { fullName: nomPorteur2, email: emailPorteur2 },
+            ]),
+            variables: expect.objectContaining({
+              lien_projet: `/projet/${encodeURIComponent(projectLegacyId)}/details.html`,
+            }),
+          }),
+        );
       });
     });
   });
