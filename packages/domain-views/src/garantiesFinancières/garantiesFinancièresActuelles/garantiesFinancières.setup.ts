@@ -44,6 +44,7 @@ export const setupGarantiesFinancièreViews = async (
         'GarantiesFinancièresSnapshot-v1',
         'TypeGarantiesFinancièresEnregistré-v1',
         'RebuildTriggered',
+        'GarantiesFinancièresComplètesEnregistréesEvent-v1',
       ],
       eventHandler: async (event: EnregistrementGarantiesFinancièresEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteGarantiesFinancièresProjector>({

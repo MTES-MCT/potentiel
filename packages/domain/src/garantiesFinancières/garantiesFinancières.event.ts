@@ -3,6 +3,7 @@ import { RawIdentifiantProjet } from '../projet/projet.valueType';
 import {
   TypeGarantiesFinancièresEnregistréEventV1,
   AttestationGarantiesFinancièresEnregistréeEventV1,
+  GarantiesFinancièresComplètesEnregistréesEventV1,
 } from './actuelles/enregistrementGarantiesFinancières.event';
 import {
   GarantiesFinancièresDéposéesEventV1,
@@ -36,14 +37,15 @@ export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
 export type EnregistrementGarantiesFinancièresEvent =
   | TypeGarantiesFinancièresEnregistréEventV1
   | AttestationGarantiesFinancièresEnregistréeEventV1
-  | GarantiesFinancièresSnapshotEventV1
-  | DépôtGarantiesFinancièresValidéEventV1;
+  | GarantiesFinancièresComplètesEnregistréesEventV1
+  | GarantiesFinancièresSnapshotEventV1;
 
 export type DépôtGarantiesFinancièresEvent =
   | GarantiesFinancièresDéposéesEventV1
   | DépôtGarantiesFinancièresModifiéEventV1
   | GarantiesFinancièresSnapshotEventV1
-  | DépôtGarantiesFinancièresSuppriméEventV1;
+  | DépôtGarantiesFinancièresSuppriméEventV1
+  | DépôtGarantiesFinancièresValidéEventV1;
 
 export type SuiviDépôtsGarantiesFinancièresEvent =
   | GarantiesFinancièresSnapshotEventV1

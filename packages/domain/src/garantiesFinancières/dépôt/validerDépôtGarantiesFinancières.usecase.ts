@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ValiderDépôtGarantiesFinancièresCommand } from './validerDépôtGarantiesFinancières.command';
 import { EnregistrerGarantiesFinancièresComplètesCommand } from '../actuelles/enregistrerGarantiesFinancièresComplètes.command';
-import { SupprimerDépôtGarantiesFinancièresCommand } from './supprimerDépôtGarantiesFinancières.command';
 
 type ValiderDépôtGarantiesFinancièresUseCaseData = ValiderDépôtGarantiesFinancièresCommand['data'] &
   EnregistrerGarantiesFinancièresComplètesCommand['data'];
@@ -19,6 +18,13 @@ export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
     attestationConstitution,
     utilisateur,
   }) => {
+    await mediator.send<ValiderDépôtGarantiesFinancièresCommand>({
+      type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES',
+      data: {
+        identifiantProjet,
+      },
+    });
+
     await mediator.send<EnregistrerGarantiesFinancièresComplètesCommand>({
       type: 'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
       data: {
@@ -29,24 +35,6 @@ export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
         identifiantProjet,
       },
     });
-
-    await mediator.send<SupprimerDépôtGarantiesFinancièresCommand>({
-      type: 'SUPPRIMER_DÉPÔT_GARANTIES_FINANCIÈRES',
-      data: { identifiantProjet },
-    });
-
-    //TODO : problème de concurrence à traiter
-
-    setTimeout(
-      async () =>
-        await mediator.send<ValiderDépôtGarantiesFinancièresCommand>({
-          type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES',
-          data: {
-            identifiantProjet,
-          },
-        }),
-      100,
-    );
   };
 
   mediator.register('VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE', runner);

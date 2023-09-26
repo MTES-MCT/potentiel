@@ -88,6 +88,27 @@ export const registerGarantiesFinancièresProjector = ({
           });
         }
         break;
+      case 'GarantiesFinancièresComplètesEnregistréesEvent-v1':
+        if (isNone(garantiesFinancières)) {
+          await create<GarantiesFinancièresReadModel>(key, {
+            attestationConstitution: {
+              format: event.payload.attestationConstitution.format,
+              date: event.payload.attestationConstitution.date,
+            },
+            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+            ...('dateÉchéance' in event.payload && { dateÉchéance: event.payload.dateÉchéance }),
+          });
+        } else {
+          await update<GarantiesFinancièresReadModel>(key, {
+            attestationConstitution: {
+              format: event.payload.attestationConstitution.format,
+              date: event.payload.attestationConstitution.date,
+            },
+            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+            dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
+          });
+        }
+        break;
     }
   };
 
