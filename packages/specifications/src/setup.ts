@@ -7,7 +7,7 @@ import {
   setDefaultTimeout,
   AfterAll,
 } from '@cucumber/cucumber';
-import { killPool } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -58,10 +58,10 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  //await executeQuery(`delete from "projects"`);
-  //await executeQuery(`delete from event_store.event_stream`);
-  //await executeQuery(`delete from event_store.subscriber`);
-  //await executeQuery(`delete from domain_views.projection`);
+  await executeQuery(`delete from "projects"`);
+  await executeQuery(`delete from event_store.event_stream`);
+  await executeQuery(`delete from event_store.subscriber`);
+  await executeQuery(`delete from domain_views.projection`);
 
   const objectsToDelete = await getClient().send(new ListObjectsCommand({ Bucket: bucketName }));
 

@@ -3,7 +3,7 @@ import { IdentifiantProjetValueType } from '../../../projet.valueType';
 import { PiéceJustificativeAbandon } from '../abandon.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { isNone } from '@potentiel/monads';
+import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
 
 export type DemanderAbandonAvecRecandidatureCommand = Message<
@@ -32,20 +32,22 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
-    if (isNone(abandon)) {
-      const event: AbandonDemandéEvent = {
-        type: 'AbandonDemandé',
-        payload: {
-          identifiantProjet: identifiantProjet.formatter(),
-          avecRecandidature: true,
-          piéceJustificative,
-          raison,
-          dateAbandon: new Date().toISOString(),
-        },
-      };
-
-      await publish(createAbandonAggregateId(identifiantProjet), event);
+    if (isSome(abandon)) {
+      throw new Error(`Une demande d'abandon existe déjà pour le projet`);
     }
+
+    const event: AbandonDemandéEvent = {
+      type: 'AbandonDemandé',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        avecRecandidature: true,
+        piéceJustificative,
+        raison,
+        dateAbandon: new Date().toISOString(),
+      },
+    };
+
+    await publish(createAbandonAggregateId(identifiantProjet), event);
   };
   mediator.register('DEMANDER_ABANDON_AVEC_RECANDIDATURE_COMMAND', handler);
 };

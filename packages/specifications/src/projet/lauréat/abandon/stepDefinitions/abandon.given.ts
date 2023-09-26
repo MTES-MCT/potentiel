@@ -3,6 +3,13 @@ import { none } from '@potentiel/monads';
 import { PotentielWorld } from '../../../../potentiel.world';
 import { randomUUID } from 'crypto';
 import { executeQuery } from '@potentiel/pg-helpers';
+import { mediator } from 'mediateur';
+import {
+  DomainUseCase,
+  PiéceJustificativeAbandon,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   await executeQuery(
@@ -101,3 +108,24 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
     },
   });
 });
+
+EtantDonné(
+  `une demande d'abandon avec recandidature pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const piéceJustificative: PiéceJustificativeAbandon = {
+      format: `Le format de l'accusé de réception`,
+      content: convertStringToReadableStream(`Le contenu de l'accusé de réception`),
+    };
+
+    await mediator.send<DomainUseCase>({
+      type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_USECASE',
+      data: {
+        identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+        piéceJustificative,
+        raison: `La raison de l'abandon`,
+      },
+    });
+  },
+);
