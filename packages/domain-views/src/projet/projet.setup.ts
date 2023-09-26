@@ -19,16 +19,22 @@ import {
   ListerProjetEnAttenteRecandidatureDependencies,
   registerListerProjetEnAttenteRecandidatureQuery,
 } from './lister/listerProjetEnAttenteRecandidature.query';
+import {
+  ConsulterPiéceJustificativeAbandonProjetDependencies,
+  registerConsulterPiéceJustificativeAbandonProjetQuery,
+} from './consulter/consulterPiéceJustificativeAbandon.query';
 
 // Setup
 export type ProjetDependencies = { subscribe: Subscribe } & ConsulterLegacyProjetDependencies &
   ConsulterProjetDependencies &
+  ConsulterPiéceJustificativeAbandonProjetDependencies &
   ListerProjetEnAttenteRecandidatureDependencies &
   ProjetProjectorDependencies;
 
 export const setupProjetViews = async (dependencies: ProjetDependencies) => {
   // Queries
   registerConsulterProjetQuery(dependencies);
+  registerConsulterPiéceJustificativeAbandonProjetQuery(dependencies);
   registerConsulterLegacyProjetQuery(dependencies);
   registerListerProjetEnAttenteRecandidatureQuery(dependencies);
 

@@ -65,9 +65,6 @@ export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjecto
         localité,
         nom,
         statut,
-        identifiantGestionnaire: {
-          codeEIC: '',
-        },
       };
 
       if (isSome(projection)) {
@@ -94,6 +91,7 @@ export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjecto
             statut: 'abandonné',
             dateAbandon: event.payload.dateAbandon,
             recandidature: event.payload.avecRecandidature ? true : undefined,
+            piéceJustificative: event.payload.piéceJustificative,
           });
       }
     }

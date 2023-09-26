@@ -9,3 +9,8 @@ export type RécupérerDétailProjetPort = (
 export type RécupérerPorteursProjetPort = (
   identifiantProjet: IdentifiantProjetValueType,
 ) => Promise<Array<{ email: string; fullName: string }>>;
+
+export type RécupérerPiéceJustificativeAbandonProjetPort = (
+  identifiantProjet: string,
+  format: string,
+) => Promise<ReadableStream | undefined>;

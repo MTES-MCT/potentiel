@@ -24,6 +24,11 @@ Quand(
         content: convertStringToReadableStream(content),
       };
 
+      this.lauréatWorld.abandonWorld.piéceJustificative = {
+        format,
+        content,
+      };
+
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<DomainUseCase>({
