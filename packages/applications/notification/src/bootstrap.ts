@@ -1,24 +1,25 @@
 import { mediator } from 'mediateur';
 import { subscribe } from '@potentiel/pg-event-sourcing';
-import { DépôtGarantiesFinancièresEvent } from '@potentiel/domain';
+import { AbandonEvent } from '@potentiel/domain';
 
 import {
-  ExecuteDépôtGarantiesFinancièresNotification,
-  registerDépôtGarantiesFinancièresNotification,
-} from './garantiesFinancières/dépôt/dépôtGarantiesFinancières.notification';
+  ExecuteAbandonProjetNotification,
+  registerAbandonProjetNotification,
+} from './abandon/abandonAvecRecandidature.notification';
 
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
-  registerDépôtGarantiesFinancièresNotification({});
+  registerAbandonProjetNotification({});
 
   // Subscribes
-  const unsubscribeNotifications = await subscribe<DépôtGarantiesFinancièresEvent>({
+  const unsubscribeNotifications = await subscribe<AbandonEvent>({
     name: 'notifications',
-    eventType: ['DépôtGarantiesFinancièresValidé-v1'],
-    eventHandler: async (event: DépôtGarantiesFinancièresEvent) => {
-      await mediator.publish<ExecuteDépôtGarantiesFinancièresNotification>({
-        type: 'EXECUTE_DÉPÔT_GARANTIES_FINANCIÈRES_NOTIFICATION',
+    streamCategory: 'abandon',
+    eventType: ['AbandonDemandé'],
+    eventHandler: async (event: AbandonEvent) => {
+      await mediator.publish<ExecuteAbandonProjetNotification>({
+        type: 'EXECUTE_ABANDON_PROJET_NOTIFICATION',
         data: event,
       });
     },

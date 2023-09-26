@@ -3,19 +3,19 @@ import { afterAll, beforeAll, beforeEach, describe, expect, jest, test } from '@
 import waitForExpect from 'wait-for-expect';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { publish } from '@potentiel/pg-event-sourcing';
-import { DépôtGarantiesFinancièresValidéEventV1 } from '@potentiel/domain/src/garantiesFinancières/dépôt/dépôtGarantiesFinancières.event';
 import {
   convertirEnIdentifiantProjet,
-  createGarantiesFinancièresAggregateId,
+  createAbandonAggregateId,
+  AbandonEvent,
 } from '@potentiel/domain';
-import { UnsetupApp, bootstrap } from '../../bootstrap';
+import { UnsetupApp, bootstrap } from '../bootstrap';
 import { sendEmail } from '@potentiel/email-sender';
 
 let unsetupNotification: UnsetupApp;
 
 jest.mock('@potentiel/email-sender');
 
-describe(`Notification sur les dépôts des garanties financières`, () => {
+describe(`Notification sur les abandons avec recandidature`, () => {
   beforeAll(async () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
@@ -38,7 +38,7 @@ describe(`Notification sur les dépôts des garanties financières`, () => {
     await killPool();
   });
 
-  describe(`Notifier qu'un dépôt a été validé`, () => {
+  describe(`Notifier qu'un abandon a été fait avec recandidature`, () => {
     test(`
         Étant donné le projet :
             | Nom    | Du boulodrome de Marseille |
@@ -48,8 +48,8 @@ describe(`Notification sur les dépôts des garanties financières`, () => {
             | Nom       | Email                         |
             | Porteur 1 | porteur1@boulodrome.marseille |
             | Porteur 2 | porteur2@boulodrome.marseille |
-        Quand un dépôt de garanties financières est validé pour le projet "Du boulodrome de Marseille"
-        Alors les porteurs suivants devraient être notifiés que le dépôt de garanties financières pour le projet "Du boulodrome de Marseille" a été validé :
+        Quand un abandon avec recandidature est fait pour le projet "Du boulodrome de Marseille"
+        Alors les porteurs suivants devraient être notifiés que le projet "Du boulodrome de Marseille" a été abandonné avec recandidature :
             | Nom       | Email                         |
             | Porteur 1 | porteur1@boulodrome.marseille |
             | Porteur 2 | porteur2@boulodrome.marseille |
@@ -190,14 +190,19 @@ describe(`Notification sur les dépôts des garanties financières`, () => {
         numéroCRE: '',
       });
 
-      const event: DépôtGarantiesFinancièresValidéEventV1 = {
-        type: 'DépôtGarantiesFinancièresValidé-v1',
+      const event: AbandonEvent = {
+        type: 'AbandonDemandé',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
+          avecRecandidature: true,
+          piéceJustificative: {
+            format: 'pdf',
+          },
+          raison: '',
         },
       };
 
-      await publish(createGarantiesFinancièresAggregateId(identifiantProjet), event);
+      await publish(createAbandonAggregateId(identifiantProjet), event);
 
       // ASSERT
       await waitForExpect(() => {
