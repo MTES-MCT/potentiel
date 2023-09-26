@@ -65,13 +65,14 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) =>
-        errorResponse({
+      onError: ({ request, response }) => {
+        return errorResponse({
           request,
           response,
           customMessage:
             'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-        }),
+        });
+      },
     },
     async (request, response) => {
       const {
