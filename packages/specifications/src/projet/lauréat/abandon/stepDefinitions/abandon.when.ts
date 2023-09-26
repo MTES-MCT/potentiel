@@ -9,7 +9,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 Quand(
-  `un porteur demande un abandon avec recandidature pour le projet {string} avec :`,
+  `un porteur demande l'abandon avec recandidature pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     try {
       const exemple = table.rowsHash();
@@ -32,6 +32,32 @@ Quand(
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
           raison: raisonAbandon,
           piéceJustificative,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `un porteur demande l'abandon avec recandidature pour un projet qui n'existe pas`,
+  async function (this: PotentielWorld) {
+    try {
+      await mediator.send<DomainUseCase>({
+        type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_USECASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet({
+            appelOffre: 'appelOffreInconnu',
+            famille: 'familleInconnue',
+            numéroCRE: 'numéroCREInconnu',
+            période: 'périodeInconnue',
+          }),
+          raison: `La raison de l'abandon`,
+          piéceJustificative: {
+            format: `Le format de l'accusé de réception`,
+            content: convertStringToReadableStream(`Le contenu de l'accusé de réception`),
+          },
         },
       });
     } catch (error) {

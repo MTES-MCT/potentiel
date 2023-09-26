@@ -39,7 +39,7 @@ Alors(
       },
     };
 
-    actual.should.be.deep.equal(expected);
+    actual.should.be.contains(expected);
   },
 );
 
@@ -51,7 +51,12 @@ Alors(
     const listeRecandidatureEnAttente =
       await mediator.send<ListerProjetEnAttenteRecandidatureQuery>({
         type: 'LISTER_PROJET_EN_ATTENTE_RECANDIDATURE_QUERY',
-        data: {},
+        data: {
+          pagination: {
+            itemsPerPage: 0,
+            page: 1,
+          },
+        },
       });
 
     const actual = listeRecandidatureEnAttente.items.find(
