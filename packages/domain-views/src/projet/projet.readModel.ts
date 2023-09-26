@@ -44,5 +44,13 @@ export type ProjetReadModel = ReadModel<
 
     dateAbandon?: string;
     recandidature?: true;
+    piéceJustificative?: {
+      format: string;
+    };
   }
+>;
+
+export type PiéceJustificativeAbandonProjetReadModel = ReadModel<
+  'piéce-justificative-abandon-projet',
+  { format: string; content: ReadableStream }
 >;

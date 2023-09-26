@@ -6,8 +6,9 @@ import { convertirEnIdentifiantProjet, loadAbandonAggregateFactory } from '@pote
 import { isNone, isSome } from '@potentiel/monads';
 import { mediator } from 'mediateur';
 import { ConsulterProjetQuery } from '@potentiel/domain-views/src/projet/consulter/consulterProjet.query';
-import { ListerProjetEnAttenteRecandidatureQuery } from '@potentiel/domain-views';
+import { ListerProjetEnAttenteRecandidatureQuery , ConsulterPiéceJustificativeAbandonProjetQuery } from '@potentiel/domain-views';
 import { expect } from 'chai';
+import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 
 Alors(
   `la recandidature du projet {string} devrait être consultable dans la liste des projets lauréat abandonnés devant recandidater`,
@@ -23,12 +24,35 @@ Alors(
       throw new Error(`L'agrégat abandon n'existe pas !`);
     }
 
-    const actual = await mediator.send<ConsulterProjetQuery>({
+    const actualProjet = await mediator.send<ConsulterProjetQuery>({
       type: 'CONSULTER_PROJET',
       data: {
         identifiantProjet: lauréat.identifiantProjet,
       },
     });
+
+    if (isNone(actualProjet)) {
+      throw new Error('Projet non trouvée');
+    }
+
+    const piéceJustificative = await mediator.send<ConsulterPiéceJustificativeAbandonProjetQuery>({
+      type: 'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
+      data: {
+        identifiantProjet: lauréat.identifiantProjet,
+      },
+    });
+
+    if (isNone(piéceJustificative)) {
+      throw new Error('Piéce justificative non trouvée');
+    }
+
+    const actualFormat = piéceJustificative.format;
+    const expectedFormat = this.lauréatWorld.abandonWorld.piéceJustificative.format;
+    actualFormat.should.be.equal(expectedFormat);
+
+    const actualContent = await convertReadableStreamToString(piéceJustificative.content);
+    const expectedContent = this.lauréatWorld.abandonWorld.piéceJustificative.content;
+    actualContent.should.be.equal(expectedContent);
 
     const expected = {
       ...lauréat.projet,
@@ -39,7 +63,7 @@ Alors(
       },
     };
 
-    actual.should.be.contains(expected);
+    actualProjet.should.be.contains(expected);
   },
 );
 

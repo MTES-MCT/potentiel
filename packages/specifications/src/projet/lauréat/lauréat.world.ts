@@ -1,6 +1,7 @@
 import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { ProjetReadModel } from '@potentiel/domain-views';
 import { none } from '@potentiel/monads';
+import { AbandonWord } from './abandon/abandon.world';
 
 type LauréatFixture = {
   nom: string;
@@ -29,7 +30,15 @@ export class LauréatWorld {
     return this.#identifiantProjet;
   }
 
+  #abandonWorld!: AbandonWord;
+
+  get abandonWorld() {
+    return this.#abandonWorld;
+  }
+
   constructor() {
+    this.#abandonWorld = new AbandonWord();
+
     this.#identifiantProjet = convertirEnIdentifiantProjet({
       appelOffre: 'PPE2 - Eolien',
       période: '1',
