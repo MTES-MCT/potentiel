@@ -15,9 +15,9 @@ Quand(
       const exemple = table.rowsHash();
       const raisonAbandon = exemple[`La raison de l'abandon`] ?? `La raison de l'abandon`;
       const format =
-        exemple[`Le format de l'accusé de réception`] ?? `Le format de l'accusé de réception`;
+        exemple[`Le format de la piéce justificative`] ?? `Le format de la piéce justificative`;
       const content =
-        exemple[`Le contenu de l'accusé de réception`] ?? `Le contenu de l'accusé de réception`;
+        exemple[`Le contenu de la piéce justificative`] ?? `Le contenu de la piéce justificative`;
 
       const piéceJustificative: PiéceJustificativeAbandon = {
         format,
