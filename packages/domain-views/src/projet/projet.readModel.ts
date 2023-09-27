@@ -43,7 +43,7 @@ export type ProjetReadModel = ReadModel<
     identifiantGestionnaire?: { codeEIC: string };
 
     dateAbandon?: string;
-    recandidature: boolean;
+    recandidature?: boolean;
     piéceJustificative?: {
       format: string;
     };

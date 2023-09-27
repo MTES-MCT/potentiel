@@ -27,14 +27,14 @@ Alors(
       throw new Error(`L'agrégat abandon n'existe pas !`);
     }
 
-    const projet = await mediator.send<ConsulterProjetQuery>({
+    const actual = await mediator.send<ConsulterProjetQuery>({
       type: 'CONSULTER_PROJET',
       data: {
         identifiantProjet: lauréat.identifiantProjet,
       },
     });
 
-    if (isNone(projet)) {
+    if (isNone(actual)) {
       throw new Error('Projet non trouvée');
     }
 
@@ -58,39 +58,14 @@ Alors(
     const expectedContent = this.lauréatWorld.abandonWorld.piéceJustificative.content;
     actualContent.should.be.equal(expectedContent);
 
-    const {
-      appelOffre,
-      famille,
-      localité,
-      nom,
-      numéroCRE,
-      période,
-      statut,
-      piéceJustificative,
-      recandidature,
-      type,
-    } = projet;
-
-    const actual = {
-      type,
-      appelOffre,
-      famille,
-      localité,
-      nom,
-      numéroCRE,
-      période,
-      statut,
-      piéceJustificative,
-      recandidature,
-    };
-
     const expected = {
       ...lauréat.projet,
       piéceJustificative: {
         format: expectedFormat,
       },
       statut: 'abandonné',
-      recandidature: true,
+      dateAbandon: this.lauréatWorld.abandonWorld.dateAbandon.toISOString(),
+      recandidature: this.lauréatWorld.abandonWorld.recandidature,
     };
 
     actual.should.be.deep.equal(expected);
