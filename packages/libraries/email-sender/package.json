@@ -9,7 +9,11 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel/tsconfig": "*",
+    "@types/node-mailjet": "^3.3.9"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@potentiel/monitoring": "*",
+    "node-mailjet": "^6.0.4"
+  }
 }
