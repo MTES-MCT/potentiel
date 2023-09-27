@@ -15,8 +15,8 @@ import {
 } from './lauréat/gestionnaireRéseau/modifier/modifierGestionnaireRéseauProjet.command';
 import { registerModifierGestionnaireRéseauProjetUseCase } from './lauréat/gestionnaireRéseau/modifier/modifierGestionnaireRéseauProjet.usecase';
 import {
-  DemanderAbandonAvecRecandidatureDependencies,
-  registerDemanderAbandonAvecRecandidatureCommand,
+  DemanderAbandonDependencies,
+  registerDemanderAbandonCommand,
 } from './lauréat/abandon/demander/demanderAbandon.command';
 import { registerDemanderAbandonAvecRecandidatureUseCase } from './lauréat/abandon/demander/demanderAbandon.usecase';
 
@@ -24,13 +24,13 @@ export type ProjetDependencies = {
   subscribe: Subscribe;
 } & DéclarerGestionnaireRéseauProjetDependencies &
   ModifierGestionnaireRéseauProjetDependencies &
-  DemanderAbandonAvecRecandidatureDependencies;
+  DemanderAbandonDependencies;
 
 export const setupProjet = async (dependencies: ProjetDependencies) => {
   // Commands
   registerModifierGestionnaireRéseauProjetCommand(dependencies);
   registerDéclarerGestionnaireRéseauProjetCommand(dependencies);
-  registerDemanderAbandonAvecRecandidatureCommand(dependencies);
+  registerDemanderAbandonCommand(dependencies);
 
   // Use cases
   registerModifierGestionnaireRéseauProjetUseCase();

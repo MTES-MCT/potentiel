@@ -2,6 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import {
   DomainUseCase,
   PiéceJustificativeAbandon,
+  RéponseSignée,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
@@ -74,6 +75,43 @@ Quand(
           },
           recandidature: false,
           dateAbandon: convertirEnDateTime(new Date()),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `le DGEC validateur rejette l'abandon pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    const exemple = table.rowsHash();
+    const format = exemple['Le format de la réponse signée'] ?? 'Le format de la réponse signée';
+    const content = exemple['Le contenu de la réponse signée'] ?? 'Le contenu de la réponse signée';
+
+    const dateRejet = new Date();
+    this.lauréatWorld.abandonWorld.dateAbandon = dateRejet;
+
+    const réponseSignée: RéponseSignée = {
+      format,
+      content: convertStringToReadableStream(content),
+    };
+
+    this.lauréatWorld.abandonWorld.réponseSignée = {
+      format,
+      content,
+    };
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    try {
+      await mediator.send<DomainUseCase>({
+        type: 'REJETER_ABANDON_USECASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+          réponseSignée,
+          rejetéLe: convertirEnDateTime(dateRejet),
         },
       });
     } catch (error) {

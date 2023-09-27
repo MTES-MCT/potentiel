@@ -12,6 +12,19 @@ export class AbandonWord {
     this.#piéceJustificative = value;
   }
 
+  #réponseSignée!: { format: string; content: string };
+
+  get réponseSignée(): { format: string; content: string } {
+    if (!this.#réponseSignée) {
+      throw new Error('réponseSignée not initialized');
+    }
+    return this.#réponseSignée;
+  }
+
+  set réponseSignée(value: { format: string; content: string }) {
+    this.#réponseSignée = value;
+  }
+
   #dateAbandon!: Date;
 
   get dateAbandon(): Date {

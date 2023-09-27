@@ -9,7 +9,7 @@ import { EnregistrerPiéceJustificativeAbandonPort } from '../abandon.port';
 import { DateTimeValueType } from '../../../../common.valueType';
 import { DemandeAbandonEnCoursErreur } from '../abandon.error';
 
-export type DemanderAbandonAvecRecandidatureCommand = Message<
+export type DemanderAbandonCommand = Message<
   'DEMANDER_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
@@ -20,19 +20,19 @@ export type DemanderAbandonAvecRecandidatureCommand = Message<
   }
 >;
 
-export type DemanderAbandonAvecRecandidatureDependencies = {
+export type DemanderAbandonDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
   enregistrerPiéceJustificativeAbandon: EnregistrerPiéceJustificativeAbandonPort;
 };
 
-export const registerDemanderAbandonAvecRecandidatureCommand = ({
+export const registerDemanderAbandonCommand = ({
   loadAggregate,
   publish,
   enregistrerPiéceJustificativeAbandon,
-}: DemanderAbandonAvecRecandidatureDependencies) => {
+}: DemanderAbandonDependencies) => {
   const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate });
-  const handler: MessageHandler<DemanderAbandonAvecRecandidatureCommand> = async ({
+  const handler: MessageHandler<DemanderAbandonCommand> = async ({
     identifiantProjet,
     piéceJustificative,
     raison,

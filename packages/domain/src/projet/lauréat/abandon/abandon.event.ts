@@ -13,4 +13,15 @@ export type AbandonDemandéEvent = DomainEvent<
   }
 >;
 
+export type AbandonRejetéEvent = DomainEvent<
+  'AbandonRejeté',
+  {
+    rejetéLe: string;
+    identifiantProjet: string;
+    réponseSignée: {
+      format: string;
+    };
+  }
+>;
+
 export type AbandonEvent = AbandonDemandéEvent;
