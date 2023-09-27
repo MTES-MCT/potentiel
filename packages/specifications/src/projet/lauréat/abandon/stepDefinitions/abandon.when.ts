@@ -2,6 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import {
   DomainUseCase,
   PiéceJustificativeAbandon,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 import { mediator } from 'mediateur';
@@ -19,6 +20,12 @@ Quand(
       const content =
         exemple[`Le contenu de la piéce justificative`] ?? `Le contenu de la piéce justificative`;
 
+      const recandidature = exemple[`Recandidature`] === 'oui';
+      this.lauréatWorld.abandonWorld.recandidature = recandidature;
+
+      const dateAbandon = new Date();
+      this.lauréatWorld.abandonWorld.dateAbandon = dateAbandon;
+
       const piéceJustificative: PiéceJustificativeAbandon = {
         format,
         content: convertStringToReadableStream(content),
@@ -32,11 +39,13 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<DomainUseCase>({
-        type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_USECASE',
+        type: 'DEMANDER_ABANDON_USECASE',
         data: {
           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
           raison: raisonAbandon,
           piéceJustificative,
+          recandidature,
+          dateAbandon: convertirEnDateTime(dateAbandon),
         },
       });
     } catch (error) {
@@ -50,7 +59,7 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       await mediator.send<DomainUseCase>({
-        type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_USECASE',
+        type: 'DEMANDER_ABANDON_USECASE',
         data: {
           identifiantProjet: convertirEnIdentifiantProjet({
             appelOffre: 'appelOffreInconnu',
@@ -63,6 +72,8 @@ Quand(
             format: `Le format de l'accusé de réception`,
             content: convertStringToReadableStream(`Le contenu de l'accusé de réception`),
           },
+          recandidature: false,
+          dateAbandon: convertirEnDateTime(new Date()),
         },
       });
     } catch (error) {

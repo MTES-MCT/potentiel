@@ -7,6 +7,7 @@ import { mediator } from 'mediateur';
 import {
   DomainUseCase,
   PiéceJustificativeAbandon,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
@@ -120,11 +121,13 @@ EtantDonné(
     };
 
     await mediator.send<DomainUseCase>({
-      type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_USECASE',
+      type: 'DEMANDER_ABANDON_USECASE',
       data: {
         identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
         piéceJustificative,
         raison: `La raison de l'abandon`,
+        recandidature: false,
+        dateAbandon: convertirEnDateTime(new Date()),
       },
     });
   },
