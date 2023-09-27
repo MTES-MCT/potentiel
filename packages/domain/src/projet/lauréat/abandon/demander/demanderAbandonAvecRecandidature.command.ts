@@ -49,7 +49,9 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         avecRecandidature: true,
-        piéceJustificative,
+        piéceJustificative: {
+          format: piéceJustificative.format,
+        },
         raison,
         dateAbandon: new Date().toISOString(),
       },

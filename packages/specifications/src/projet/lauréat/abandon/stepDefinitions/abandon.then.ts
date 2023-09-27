@@ -6,7 +6,10 @@ import { convertirEnIdentifiantProjet, loadAbandonAggregateFactory } from '@pote
 import { isNone, isSome } from '@potentiel/monads';
 import { mediator } from 'mediateur';
 import { ConsulterProjetQuery } from '@potentiel/domain-views/src/projet/consulter/consulterProjet.query';
-import { ListerProjetEnAttenteRecandidatureQuery , ConsulterPiéceJustificativeAbandonProjetQuery } from '@potentiel/domain-views';
+import {
+  ListerProjetEnAttenteRecandidatureQuery,
+  ConsulterPiéceJustificativeAbandonProjetQuery,
+} from '@potentiel/domain-views';
 import { expect } from 'chai';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 
@@ -24,46 +27,73 @@ Alors(
       throw new Error(`L'agrégat abandon n'existe pas !`);
     }
 
-    const actualProjet = await mediator.send<ConsulterProjetQuery>({
+    const projet = await mediator.send<ConsulterProjetQuery>({
       type: 'CONSULTER_PROJET',
       data: {
         identifiantProjet: lauréat.identifiantProjet,
       },
     });
 
-    if (isNone(actualProjet)) {
+    if (isNone(projet)) {
       throw new Error('Projet non trouvée');
     }
 
-    const piéceJustificative = await mediator.send<ConsulterPiéceJustificativeAbandonProjetQuery>({
-      type: 'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
-      data: {
-        identifiantProjet: lauréat.identifiantProjet,
-      },
-    });
+    const piéceJustificativeAbandon =
+      await mediator.send<ConsulterPiéceJustificativeAbandonProjetQuery>({
+        type: 'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
+        data: {
+          identifiantProjet: lauréat.identifiantProjet,
+        },
+      });
 
-    if (isNone(piéceJustificative)) {
+    if (isNone(piéceJustificativeAbandon)) {
       throw new Error('Piéce justificative non trouvée');
     }
 
-    const actualFormat = piéceJustificative.format;
+    const actualFormat = piéceJustificativeAbandon.format;
     const expectedFormat = this.lauréatWorld.abandonWorld.piéceJustificative.format;
     actualFormat.should.be.equal(expectedFormat);
 
-    const actualContent = await convertReadableStreamToString(piéceJustificative.content);
+    const actualContent = await convertReadableStreamToString(piéceJustificativeAbandon.content);
     const expectedContent = this.lauréatWorld.abandonWorld.piéceJustificative.content;
     actualContent.should.be.equal(expectedContent);
 
-    const expected = {
-      ...lauréat.projet,
-      statut: 'abandonné',
-      recandidature: true,
-      identifiantGestionnaire: {
-        codeEIC: '',
-      },
+    const {
+      appelOffre,
+      famille,
+      localité,
+      nom,
+      numéroCRE,
+      période,
+      statut,
+      piéceJustificative,
+      recandidature,
+      type,
+    } = projet;
+
+    const actual = {
+      type,
+      appelOffre,
+      famille,
+      localité,
+      nom,
+      numéroCRE,
+      période,
+      statut,
+      piéceJustificative,
+      recandidature,
     };
 
-    actualProjet.should.be.contains(expected);
+    const expected = {
+      ...lauréat.projet,
+      piéceJustificative: {
+        format: expectedFormat,
+      },
+      statut: 'abandonné',
+      recandidature: true,
+    };
+
+    actual.should.be.deep.equal(expected);
   },
 );
 
@@ -77,7 +107,7 @@ Alors(
         type: 'LISTER_PROJET_EN_ATTENTE_RECANDIDATURE_QUERY',
         data: {
           pagination: {
-            itemsPerPage: 0,
+            itemsPerPage: 1,
             page: 1,
           },
         },
