@@ -1223,12 +1223,12 @@ export const makeProject = (args: {
         props.periodeId = event.payload.periodeId;
         props.familleId = event.payload.familleId;
         if (
-          event.payload.data.isFinancementParticipatif ||
-          event.payload.data.isInvestissementParticipatif
+          event.payload.content.isFinancementParticipatif ||
+          event.payload.content.isInvestissementParticipatif
         ) {
           props.isParticipatif =
-            event.payload.data.isFinancementParticipatif ||
-            event.payload.data.isInvestissementParticipatif;
+            event.payload.content.isFinancementParticipatif ||
+            event.payload.content.isInvestissementParticipatif;
         }
         break;
       case ProjectImported.type:
