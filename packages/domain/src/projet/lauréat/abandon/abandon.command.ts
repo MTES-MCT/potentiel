@@ -1,3 +1,3 @@
-import { DemanderAbandonAvecRecandidatureCommand } from './demander/demanderAbandonAvecRecandidature.command';
+import { DemanderAbandonAvecRecandidatureCommand } from './demander/demanderAbandon.command';
 
 export type AbandonCommand = DemanderAbandonAvecRecandidatureCommand;

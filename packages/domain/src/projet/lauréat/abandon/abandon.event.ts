@@ -6,7 +6,7 @@ export type AbandonDemandéEvent = DomainEvent<
     dateAbandon: string;
     identifiantProjet: string;
     raison: string;
-    avecRecandidature: boolean;
+    recandidature: boolean;
     piéceJustificative: {
       format: string;
     };

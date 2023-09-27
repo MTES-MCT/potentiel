@@ -65,6 +65,7 @@ export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjecto
         localité,
         nom,
         statut,
+        recandidature: false,
       };
 
       if (isSome(projection)) {
@@ -86,13 +87,15 @@ export const registerProjetProjector = ({ upsert, find, remove }: ProjetProjecto
           });
           break;
         case 'AbandonDemandé':
+          const { dateAbandon, recandidature, piéceJustificative } = event.payload;
           await upsert<ProjetReadModel>(key, {
             ...projetToUpdate,
             statut: 'abandonné',
-            dateAbandon: event.payload.dateAbandon,
-            recandidature: event.payload.avecRecandidature ? true : undefined,
-            piéceJustificative: event.payload.piéceJustificative,
+            dateAbandon,
+            recandidature,
+            piéceJustificative,
           });
+          break;
       }
     }
   };
