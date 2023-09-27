@@ -7,16 +7,28 @@
   "exclude": ["./__mocks__/*"],
   "references": [
     {
+      "path": "../../libraries/core-domain"
+    },
+    {
       "path": "../../domain"
     },
     {
-      "path": "../../libraries/core-domain"
+      "path": "../../domain-views"
     },
     {
       "path": "../../libraries/email-sender"
     },
     {
+      "path": "../../libraries/infra-adapters"
+    },
+    {
+      "path": "../../libraries/monads"
+    },
+    {
       "path": "../../libraries/pg-event-sourcing"
+    },
+    {
+      "path": "../../libraries/pg-helpers"
     }
   ]
 }
