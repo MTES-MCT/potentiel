@@ -3,19 +3,16 @@ import { afterAll, beforeAll, beforeEach, describe, expect, jest, test } from '@
 import waitForExpect from 'wait-for-expect';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
 import { publish } from '@potentiel/pg-event-sourcing';
-import {
-  convertirEnIdentifiantProjet,
-  createAbandonAggregateId,
-  AbandonEvent,
-} from '@potentiel/domain';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { UnsetupApp, bootstrap } from '../bootstrap';
 import { sendEmail } from '@potentiel/email-sender';
+import { QuelqueChoseSestPasséEvent } from './exemple.event';
 
 let unsetupNotification: UnsetupApp;
 
 jest.mock('@potentiel/email-sender');
 
-describe(`Notification sur les abandons avec recandidature`, () => {
+describe(`Notification`, () => {
   beforeAll(async () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
@@ -44,7 +41,7 @@ describe(`Notification sur les abandons avec recandidature`, () => {
     await killPool();
   });
 
-  describe(`Notifier qu'un abandon a été fait avec recandidature`, () => {
+  describe(`Notifier quelque chose sur un projet`, () => {
     test(`
         Étant donné le projet :
             | Nom    | Du boulodrome de Marseille |
@@ -54,16 +51,14 @@ describe(`Notification sur les abandons avec recandidature`, () => {
             | Nom       | Email                         |
             | Porteur 1 | porteur1@boulodrome.marseille |
             | Porteur 2 | porteur2@boulodrome.marseille |
-        Quand un abandon avec recandidature est fait pour le projet "Du boulodrome de Marseille"
-        Alors les porteurs suivants devraient être notifiés que le projet "Du boulodrome de Marseille" a été abandonné avec recandidature :
+        Quand quelquechose est fait pour le projet "Du boulodrome de Marseille"
+        Alors les porteurs suivants devraient être notifiés que quelquechose est survenu sur le projet "Du boulodrome de Marseille" :
             | Nom       | Email                         |
             | Porteur 1 | porteur1@boulodrome.marseille |
             | Porteur 2 | porteur2@boulodrome.marseille |
     `, async () => {
       // ARRANGE
       const nomProjet = 'Du boulodrome de Marseille';
-      const statutProjet = 'Classé';
-      const régionProjet = 'Nouvelle-Aquitaine';
       const projectLegacyId = randomUUID();
 
       await executeQuery(
@@ -131,8 +126,8 @@ describe(`Notification sur les abandons avec recandidature`, () => {
         'codePostalProjet',
         'communeProjet',
         'departementProjet',
-        régionProjet,
-        statutProjet,
+        'Nouvelle-Aquitaine',
+        'Classé',
         false,
         false,
         false,
@@ -196,26 +191,22 @@ describe(`Notification sur les abandons avec recandidature`, () => {
         numéroCRE: '27',
       });
 
-      const event: AbandonEvent = {
-        type: 'AbandonDemandé',
+      const event: QuelqueChoseSestPasséEvent = {
+        type: 'QuelqueChoseSestPassé',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
-          avecRecandidature: true,
-          piéceJustificative: {
-            format: 'pdf',
-          },
-          raison: '',
         },
       };
 
-      await publish(createAbandonAggregateId(identifiantProjet), event);
+      const aggregateId: `${string}|${string}` = `projet|${identifiantProjet}`;
+      await publish(aggregateId, event);
 
       // ASSERT
       await waitForExpect(() => {
         expect(sendEmail).toHaveBeenCalledWith(
           expect.objectContaining({
-            templateId: '5126436',
-            messageSubject: `Abandon du projet ${nomProjet}`,
+            templateId: 'TEMPLATE_ID',
+            messageSubject: `Le projet ${nomProjet}`,
             recipients: expect.arrayContaining([
               { fullName: nomPorteur1, email: emailPorteur1 },
               { fullName: nomPorteur2, email: emailPorteur2 },

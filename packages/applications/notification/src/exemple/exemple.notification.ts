@@ -1,26 +1,27 @@
 import { RécupérerDétailProjetPort, RécupérerPorteursProjetPort } from '@potentiel/domain-views';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { sendEmail } from '@potentiel/email-sender';
-import { AbandonEvent, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain';
 import { isSome } from '@potentiel/monads';
+import { QuelqueChoseSestPasséEvent } from './exemple.event';
 
-export type ExecuteAbandonProjetNotification = Message<
-  'EXECUTE_ABANDON_PROJET_NOTIFICATION',
-  AbandonEvent
+export type ExecuteProjetNotification = Message<
+  'EXECUTE_PROJET_NOTIFICATION',
+  QuelqueChoseSestPasséEvent
 >;
 
-export type AbandonProjetNotificationDependencies = {
+export type ProjetNotificationDependencies = {
   récupérerDétailProjet: RécupérerDétailProjetPort;
   récupérerPorteursProjet: RécupérerPorteursProjetPort;
 };
 
-export const registerAbandonProjetNotification = ({
+export const registerProjetNotification = ({
   récupérerDétailProjet,
   récupérerPorteursProjet,
-}: AbandonProjetNotificationDependencies) => {
-  const handler: MessageHandler<ExecuteAbandonProjetNotification> = async (event) => {
+}: ProjetNotificationDependencies) => {
+  const handler: MessageHandler<ExecuteProjetNotification> = async (event) => {
     switch (event.type) {
-      case 'AbandonDemandé':
+      case 'QuelqueChoseSestPassé':
         const projet = await récupérerDétailProjet(
           convertirEnIdentifiantProjet(event.payload.identifiantProjet),
         );
@@ -31,12 +32,9 @@ export const registerAbandonProjetNotification = ({
             convertirEnIdentifiantProjet(event.payload.identifiantProjet),
           );
 
-          console.log(porteurs);
-          // const porteurs: Array<{ email: string; name: string }> = [];
-
           sendEmail({
-            templateId: '5126436',
-            messageSubject: `Abandon du projet ${projet.nom}`,
+            templateId: 'TEMPLATE_ID',
+            messageSubject: `Le projet ${projet.nom}`,
             recipients: porteurs,
             variables: {
               lien_projet: urlProjet,
@@ -47,5 +45,5 @@ export const registerAbandonProjetNotification = ({
     }
   };
 
-  mediator.register('EXECUTE_ABANDON_PROJET_NOTIFICATION', handler);
+  mediator.register('EXECUTE_PROJET_NOTIFICATION', handler);
 };

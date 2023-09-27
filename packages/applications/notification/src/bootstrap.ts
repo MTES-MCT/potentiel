@@ -1,32 +1,32 @@
 import { mediator } from 'mediateur';
 import { subscribe } from '@potentiel/pg-event-sourcing';
-import { AbandonEvent } from '@potentiel/domain';
 import {
   récupérerDétailProjetAdapter,
   récupérerPorteursProjetAdapter,
 } from '@potentiel/infra-adapters';
 
 import {
-  ExecuteAbandonProjetNotification,
-  registerAbandonProjetNotification,
-} from './abandon/abandonAvecRecandidature.notification';
+  ExecuteProjetNotification,
+  registerProjetNotification,
+} from './exemple/exemple.notification';
+import { QuelqueChoseSestPasséEvent } from './exemple/exemple.event';
 
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
-  registerAbandonProjetNotification({
+  registerProjetNotification({
     récupérerDétailProjet: récupérerDétailProjetAdapter,
     récupérerPorteursProjet: récupérerPorteursProjetAdapter,
   });
 
   // Subscribes
-  const unsubscribeNotifications = await subscribe<AbandonEvent>({
+  const unsubscribeNotifications = await subscribe<QuelqueChoseSestPasséEvent>({
     name: 'notifications',
-    streamCategory: 'abandon',
-    eventType: ['AbandonDemandé'],
-    eventHandler: async (event: AbandonEvent) => {
-      await mediator.publish<ExecuteAbandonProjetNotification>({
-        type: 'EXECUTE_ABANDON_PROJET_NOTIFICATION',
+    streamCategory: 'projet',
+    eventType: ['QuelqueChoseSestPassé'],
+    eventHandler: async (event: QuelqueChoseSestPasséEvent) => {
+      await mediator.publish<ExecuteProjetNotification>({
+        type: 'EXECUTE_PROJET_NOTIFICATION',
         data: event,
       });
     },
