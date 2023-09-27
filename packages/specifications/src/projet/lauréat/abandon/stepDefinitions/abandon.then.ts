@@ -14,7 +14,7 @@ import { expect } from 'chai';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 
 Alors(
-  `la recandidature du projet {string} devrait être consultable dans la liste des projets lauréat abandonnés devant recandidater`,
+  `la recandidature du projet {string} devrait être consultable dans la liste des projets lauréat abandonnés`,
   async function (this: PotentielWorld, nomProjet: string) {
     const lauréat = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
