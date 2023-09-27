@@ -12,7 +12,11 @@ import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { mediator } from 'mediateur';
-import { DomainUseCase, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import {
+  DomainUseCase,
+  convertirEnDateTime,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain';
 import { FileReadableStream } from '../../../helpers/fileReadableStream';
 import { none } from '@potentiel/monads';
 
@@ -47,28 +51,28 @@ v1Router.post(
         filename: `${Date.now()}-${request.file.originalname}`,
       };
 
-      if (abandonAvecRecandidature) {
-        const projet = await Project.findByPk(projectId, {
-          attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
-        });
+      const projet = await Project.findByPk(projectId, {
+        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
+      });
 
-        await mediator.send<DomainUseCase>({
-          type: 'DEMANDER_ABANDON_AVEC_RECANDIDATURE_USECASE',
-          data: {
-            identifiantProjet: convertirEnIdentifiantProjet({
-              appelOffre: projet?.appelOffreId || '',
-              famille: projet?.familleId || none,
-              numéroCRE: projet?.numeroCRE || '',
-              période: projet?.periodeId || '',
-            }),
-            piéceJustificative: {
-              format: request.file?.mimetype || '',
-              content: new FileReadableStream(request.file?.path || ''),
-            },
-            raison: justification || '',
+      await mediator.send<DomainUseCase>({
+        type: 'DEMANDER_ABANDON_USECASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet({
+            appelOffre: projet?.appelOffreId || '',
+            famille: projet?.familleId || none,
+            numéroCRE: projet?.numeroCRE || '',
+            période: projet?.periodeId || '',
+          }),
+          piéceJustificative: {
+            format: request.file?.mimetype || '',
+            content: new FileReadableStream(request.file?.path || ''),
           },
-        });
-      }
+          dateAbandon: convertirEnDateTime(new Date()),
+          recandidature: !!abandonAvecRecandidature,
+          raison: justification || '',
+        },
+      });
 
       return demanderAbandon({
         user,

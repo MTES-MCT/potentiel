@@ -17,8 +17,8 @@ import { registerModifierGestionnaireRéseauProjetUseCase } from './lauréat/ges
 import {
   DemanderAbandonAvecRecandidatureDependencies,
   registerDemanderAbandonAvecRecandidatureCommand,
-} from './lauréat/abandon/demander/demanderAbandonAvecRecandidature.command';
-import { registerDemanderAbandonAvecRecandidatureUseCase } from './lauréat/abandon/demander/demanderAbandonAvecRecandidature.usecase';
+} from './lauréat/abandon/demander/demanderAbandon.command';
+import { registerDemanderAbandonAvecRecandidatureUseCase } from './lauréat/abandon/demander/demanderAbandon.usecase';
 
 export type ProjetDependencies = {
   subscribe: Subscribe;

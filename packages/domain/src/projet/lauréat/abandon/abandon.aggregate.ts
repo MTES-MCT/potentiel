@@ -17,7 +17,7 @@ export type Abandon = {
   piéceJustificative: {
     format: string;
   };
-  avecRecandidature: boolean;
+  recandidature: boolean;
   typeAbandon: 'recandidature';
 };
 
@@ -26,7 +26,7 @@ const getDefaultAggregate = (): Abandon => ({
   piéceJustificative: {
     format: '',
   },
-  avecRecandidature: true,
+  recandidature: true,
   typeAbandon: 'recandidature',
 });
 
@@ -34,10 +34,10 @@ const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events
   return events.reduce((aggregate, { type, payload }) => {
     switch (type) {
       case 'AbandonDemandé':
-        const { avecRecandidature, piéceJustificative, raison } = payload;
+        const { recandidature, piéceJustificative, raison } = payload;
         return {
           ...aggregate,
-          avecRecandidature,
+          recandidature,
           piéceJustificative,
           raison,
         };

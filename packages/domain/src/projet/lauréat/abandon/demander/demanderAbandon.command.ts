@@ -6,13 +6,16 @@ import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
 import { EnregistrerPiéceJustificativeAbandonPort } from '../abandon.port';
+import { DateTimeValueType } from '../../../../common.valueType';
 
 export type DemanderAbandonAvecRecandidatureCommand = Message<
-  'DEMANDER_ABANDON_AVEC_RECANDIDATURE_COMMAND',
+  'DEMANDER_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
     raison: string;
     piéceJustificative: PiéceJustificativeAbandon;
+    dateAbandon: DateTimeValueType;
+    recandidature: boolean;
   }
 >;
 
@@ -32,6 +35,8 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
     identifiantProjet,
     piéceJustificative,
     raison,
+    dateAbandon,
+    recandidature,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -48,16 +53,16 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
       type: 'AbandonDemandé',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
-        avecRecandidature: true,
+        recandidature,
         piéceJustificative: {
           format: piéceJustificative.format,
         },
         raison,
-        dateAbandon: new Date().toISOString(),
+        dateAbandon: dateAbandon.formatter(),
       },
     };
 
     await publish(createAbandonAggregateId(identifiantProjet), event);
   };
-  mediator.register('DEMANDER_ABANDON_AVEC_RECANDIDATURE_COMMAND', handler);
+  mediator.register('DEMANDER_ABANDON_COMMAND', handler);
 };
