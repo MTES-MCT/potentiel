@@ -100,3 +100,23 @@ Alors(
     expect(actual).to.be.not.undefined;
   },
 );
+
+Alors(
+  `le projet {string} n'a plus de demande d'abandon en cours`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const lauréat = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const actual = await mediator.send<ConsulterProjetQuery>({
+      type: 'CONSULTER_PROJET',
+      data: {
+        identifiantProjet: lauréat.identifiantProjet,
+      },
+    });
+
+    if (isNone(actual)) {
+      throw new Error('Projet non trouvée');
+    }
+
+    actual.should.be.deep.equal(lauréat.projet);
+  },
+);

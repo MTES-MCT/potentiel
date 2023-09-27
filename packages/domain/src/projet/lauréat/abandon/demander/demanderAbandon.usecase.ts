@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DemanderAbandonAvecRecandidatureCommand } from './demanderAbandon.command';
+import { DemanderAbandonCommand } from './demanderAbandon.command';
 import { AbandonCommand } from '../abandon.command';
 
-type DemanderAbandonAvecRecandidatureUseCaseData = DemanderAbandonAvecRecandidatureCommand['data'];
+type DemanderAbandonUseCaseData = DemanderAbandonCommand['data'];
 
 export type DemanderAbandonAvecRecandidatureUseCase = Message<
   'DEMANDER_ABANDON_USECASE',
-  DemanderAbandonAvecRecandidatureUseCaseData
+  DemanderAbandonUseCaseData
 >;
 
 export const registerDemanderAbandonAvecRecandidatureUseCase = () => {
