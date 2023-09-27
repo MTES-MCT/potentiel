@@ -10,7 +10,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 Quand(
-  `un porteur demande l'abandon avec recandidature pour le projet {string} avec :`,
+  `un porteur demande l'abandon du projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     try {
       const exemple = table.rowsHash();

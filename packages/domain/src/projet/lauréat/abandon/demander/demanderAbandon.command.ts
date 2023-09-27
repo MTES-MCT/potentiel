@@ -7,6 +7,7 @@ import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
 import { EnregistrerPiéceJustificativeAbandonPort } from '../abandon.port';
 import { DateTimeValueType } from '../../../../common.valueType';
+import { DemandeAbandonEnCoursErreur } from '../abandon.error';
 
 export type DemanderAbandonAvecRecandidatureCommand = Message<
   'DEMANDER_ABANDON_COMMAND',
@@ -41,7 +42,7 @@ export const registerDemanderAbandonAvecRecandidatureCommand = ({
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     if (isSome(abandon)) {
-      throw new Error(`Une demande d'abandon existe déjà pour le projet`);
+      throw new DemandeAbandonEnCoursErreur();
     }
 
     await enregistrerPiéceJustificativeAbandon({
