@@ -55,24 +55,28 @@ v1Router.post(
         attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
       });
 
-      await mediator.send<DomainUseCase>({
-        type: 'DEMANDER_ABANDON_USECASE',
-        data: {
-          identifiantProjet: convertirEnIdentifiantProjet({
-            appelOffre: projet?.appelOffreId || '',
-            famille: projet?.familleId || none,
-            numéroCRE: projet?.numeroCRE || '',
-            période: projet?.periodeId || '',
-          }),
-          piéceJustificative: {
-            format: request.file?.mimetype || '',
-            content: new FileReadableStream(request.file?.path || ''),
+      try {
+        await mediator.send<DomainUseCase>({
+          type: 'DEMANDER_ABANDON_USECASE',
+          data: {
+            identifiantProjet: convertirEnIdentifiantProjet({
+              appelOffre: projet?.appelOffreId || '',
+              famille: projet?.familleId || none,
+              numéroCRE: projet?.numeroCRE || '',
+              période: projet?.periodeId || '',
+            }),
+            piéceJustificative: {
+              format: request.file?.mimetype || '',
+              content: new FileReadableStream(request.file?.path || ''),
+            },
+            dateAbandon: convertirEnDateTime(new Date()),
+            recandidature: !!abandonAvecRecandidature,
+            raison: justification || '',
           },
-          dateAbandon: convertirEnDateTime(new Date()),
-          recandidature: !!abandonAvecRecandidature,
-          raison: justification || '',
-        },
-      });
+        });
+      } catch (error) {
+        console.log(error);
+      }
 
       return demanderAbandon({
         user,

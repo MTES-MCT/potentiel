@@ -5,7 +5,7 @@ import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbando
 type DemanderConfirmationAbandonUseCaseData = DemanderConfirmationAbandonCommand['data'];
 
 export type DemanderConfirmationAbandonUseCase = Message<
-  'DEMANDER_ABANDON_USECASE',
+  'DEMANDER_CONFIRMATION_ABANDON_USECASE',
   DemanderConfirmationAbandonUseCaseData
 >;
 
@@ -24,5 +24,5 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
       },
     });
   };
-  mediator.register('DEMANDER_ABANDON_USECASE', runner);
+  mediator.register('DEMANDER_CONFIRMATION_ABANDON_USECASE', runner);
 };
