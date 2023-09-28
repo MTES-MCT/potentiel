@@ -35,6 +35,30 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 `,
     },
   },
+  délaiApplicable: {
+    délaiEnMois: 18,
+    intervaleDateMiseEnService: {
+      min: new Date('2022-09-01'),
+      max: new Date('2024-12-31'),
+    },
+  },
+  seuilSupplémentaireChangementPuissance: {
+    changementByTechnologie: true,
+    ratios: {
+      pv: {
+        min: 0.9,
+        max: 1.4,
+      },
+      eolien: {
+        min: 0.8,
+        max: 1.4,
+      },
+      hydraulique: {
+        min: 0.9,
+        max: 1.4,
+      },
+    },
+  },
 };
 
 export const autoconsommationMetropolePPE2: AppelOffre = {
@@ -135,35 +159,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      cahiersDesChargesModifiésDisponibles: [
-        {
-          ...CDCModifié30082022,
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
-            },
-          },
-          seuilSupplémentaireChangementPuissance: {
-            changementByTechnologie: true,
-            ratios: {
-              pv: {
-                min: 0.9,
-                max: 1.4,
-              },
-              eolien: {
-                min: 0.8,
-                max: 1.4,
-              },
-              hydraulique: {
-                min: 0.9,
-                max: 1.4,
-              },
-            },
-          },
-        },
-      ],
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
     },
     {
       id: '2',
@@ -175,35 +171,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      cahiersDesChargesModifiésDisponibles: [
-        {
-          ...CDCModifié30082022,
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
-            },
-          },
-          seuilSupplémentaireChangementPuissance: {
-            changementByTechnologie: true,
-            ratios: {
-              pv: {
-                min: 0.9,
-                max: 1.4,
-              },
-              eolien: {
-                min: 0.8,
-                max: 1.4,
-              },
-              hydraulique: {
-                min: 0.9,
-                max: 1.4,
-              },
-            },
-          },
-        },
-      ],
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
     },
     {
       id: '3',
