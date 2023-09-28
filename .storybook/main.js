@@ -13,15 +13,11 @@ module.exports = {
         optimizationLevel: 3,
       },
     },
-    '@storybook/addon-mdx-gfm',
   ],
 
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {},
-  },
+  framework: '@storybook/react-webpack5',
 
-  staticDirs: ['../src/public'],
+  staticDirs: [{ from: '../src/public', to: '/' }],
 
   webpackFinal: async (config) => {
     return {

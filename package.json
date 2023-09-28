@@ -44,7 +44,7 @@
     "version": "ts-node-dev .github/getPatchVersion.ts",
     "test:legacy": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && jest --config=jest.config.js --detectOpenHandles",
     "test:dev:legacy": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles",
-    "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 storybook dev -p 6006\""
+    "storybook": "storybook dev"
   },
   "repository": {
     "type": "git",
@@ -124,7 +124,6 @@
     "@storybook/addon-essentials": "^7.4.5",
     "@storybook/addon-interactions": "^7.4.5",
     "@storybook/addon-links": "^7.4.5",
-    "@storybook/addon-mdx-gfm": "^7.4.5",
     "@storybook/react": "^7.4.5",
     "@storybook/react-webpack5": "^7.4.5",
     "@storybook/testing-library": "^0.2.1",
