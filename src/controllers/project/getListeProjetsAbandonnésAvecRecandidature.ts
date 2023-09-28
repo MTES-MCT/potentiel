@@ -19,7 +19,7 @@ v1Router.get(
     const { page, pageSize: itemsPerPage } = getPagination(request);
 
     const projets = await mediator.send<ListerProjetEnAttenteRecandidatureQuery>({
-      type: 'LISTER_PROJET_EN_ATTENTE_RECANDIDATURE_QUERY',
+      type: 'LISTER_ABANDON_AVEC_RECANDIDATURE_QUERY',
       data: {
         pagination: { page, itemsPerPage },
       },

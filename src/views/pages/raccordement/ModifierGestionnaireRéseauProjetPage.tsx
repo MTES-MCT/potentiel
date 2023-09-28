@@ -13,13 +13,18 @@ import {
   Label,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import { GestionnaireRéseauReadModel, CandidatureLegacyReadModel } from '@potentiel/domain-views';
+import {
+  GestionnaireRéseauReadModel,
+  CandidatureLegacyReadModel,
+  GestionnaireRéseauLauréatReadModel,
+} from '@potentiel/domain-views';
 import routes from '../../../routes';
 import { GestionnaireRéseauSelect } from './components/GestionnaireRéseauSelect';
 
 type ModifierGestionnaireRéseauProjetProps = {
   user: UtilisateurReadModel;
   projet: CandidatureLegacyReadModel;
+  gestionnaireRéseauLauréat: GestionnaireRéseauLauréatReadModel;
   error?: string;
   listeGestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
@@ -27,12 +32,14 @@ type ModifierGestionnaireRéseauProjetProps = {
 export const ModifierGestionnaireRéseauProjet = ({
   user,
   projet,
+  gestionnaireRéseauLauréat,
   error,
   listeGestionnairesRéseau,
 }: ModifierGestionnaireRéseauProjetProps) => {
-  const { identifiantProjet, identifiantGestionnaire } = projet;
+  const { identifiantProjet } = projet;
   const gestionnaireActuel = listeGestionnairesRéseau.find(
-    (gestionnaire) => gestionnaire.codeEIC === identifiantGestionnaire?.codeEIC,
+    (gestionnaire) =>
+      gestionnaire.codeEIC === gestionnaireRéseauLauréat.identifiantGestionnaire?.codeEIC,
   );
 
   return (

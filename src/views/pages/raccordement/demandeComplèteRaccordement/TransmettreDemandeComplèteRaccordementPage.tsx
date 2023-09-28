@@ -14,7 +14,11 @@ import {
   InputFile,
   ChampsObligatoiresLégende,
 } from '../../../components';
-import { GestionnaireRéseauReadModel, CandidatureLegacyReadModel } from '@potentiel/domain-views';
+import {
+  GestionnaireRéseauReadModel,
+  CandidatureLegacyReadModel,
+  GestionnaireRéseauLauréatReadModel,
+} from '@potentiel/domain-views';
 import routes from '../../../../routes';
 
 import { hydrateOnClient } from '../../../helpers';
@@ -28,6 +32,7 @@ import {
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
+  gestionnaireRéseauLauréat: GestionnaireRéseauLauréatReadModel;
   projet: CandidatureLegacyReadModel;
   delaiDemandeDeRaccordementEnMois: InfoBoxFormulaireDCRProps['delaiDemandeDeRaccordementEnMois'];
   error?: string;
@@ -36,6 +41,7 @@ type TransmettreDemandeComplèteRaccordementProps = {
 export const TransmettreDemandeComplèteRaccordement = ({
   user,
   gestionnairesRéseau,
+  gestionnaireRéseauLauréat,
   projet,
   error,
   delaiDemandeDeRaccordementEnMois,
@@ -43,7 +49,8 @@ export const TransmettreDemandeComplèteRaccordement = ({
   const { identifiantProjet, legacyId } = projet;
 
   const gestionnaireRéseauActuel = gestionnairesRéseau.find(
-    (gestionnaire) => gestionnaire.codeEIC === projet.identifiantGestionnaire?.codeEIC,
+    (gestionnaire) =>
+      gestionnaire.codeEIC === gestionnaireRéseauLauréat.identifiantGestionnaire?.codeEIC,
   );
 
   const [format, setFormat] = useState(
@@ -132,7 +139,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>
-            {projet.identifiantGestionnaire ? (
+            {gestionnaireRéseauLauréat.identifiantGestionnaire ? (
               <Link
                 href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
                 className="m-auto"
