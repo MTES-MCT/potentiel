@@ -40,7 +40,7 @@ const schema = yup.object({
       .date()
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date d'échéance n'est pas valide`),
+      .typeError(`La date d'échéance n'est pas valide.`),
     dateConstitution: yup
       .date()
       .transform(iso8601DateToDateYupTransformation)
@@ -178,7 +178,7 @@ v1Router.post(
         if (isNone(fichierAttestationActuel)) {
           return response.redirect(
             addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
-              error: `Vous devez joindre l'attestation de constitution`,
+              error: `Vous devez joindre l'attestation de constitution.`,
             }),
           );
         }
@@ -209,7 +209,7 @@ v1Router.post(
                   dateÉchéance: convertirEnDateTime(dateEcheance!),
                 }
               : { typeGarantiesFinancières: typeGarantiesFinancieres }),
-            attestationConstitution: fichierAttestation ?? undefined,
+            attestationConstitution: fichierAttestation,
           },
         });
 
