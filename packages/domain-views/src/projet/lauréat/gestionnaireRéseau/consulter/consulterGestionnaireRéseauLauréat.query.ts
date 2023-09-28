@@ -6,7 +6,7 @@ import {
 
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '@potentiel/core-domain-views';
-import { Option, isSome } from '@potentiel/monads';
+import { Option, isSome, none } from '@potentiel/monads';
 import {
   GestionnaireRéseauLauréatLegacyReadModel,
   GestionnaireRéseauLauréatReadModel,
@@ -35,10 +35,12 @@ export const registerConsulterGestionnaireRéseauLauréatQuery = ({
       `projet|${identifiantProjetValueType.formatter()}`,
     );
 
-    return {
-      type: 'gestion-réseau-lauréat',
-      identifiantGestionnaire: isSome(result) ? result.identifiantGestionnaire : undefined,
-    };
+    return isSome(result)
+      ? {
+          type: 'gestion-réseau-lauréat',
+          identifiantGestionnaire: result.identifiantGestionnaire,
+        }
+      : none;
   };
 
   mediator.register('CONSULTER_GESTIONNAIRE_RÉSEAU_LAURÉAT_QUERY', queryHandler);

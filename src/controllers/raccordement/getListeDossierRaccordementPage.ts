@@ -72,15 +72,7 @@ v1Router.get(
           },
         });
 
-      if (isNone(gestionnaireRéseauLauréat)) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Projet',
-        });
-      }
-
-      const gestionnaireRéseau = gestionnaireRéseauLauréat.identifiantGestionnaire
+      const gestionnaireRéseau = isSome(gestionnaireRéseauLauréat)
         ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
             type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
             data: {
