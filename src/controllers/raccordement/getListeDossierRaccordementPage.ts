@@ -6,6 +6,7 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   ConsulterCandidatureLegacyQuery,
   ConsulterDossierRaccordementQuery,
+  ConsulterGestionnaireRéseauLauréatQuery,
   ConsulterGestionnaireRéseauQuery,
   DossierRaccordementReadModel,
   ListerDossiersRaccordementQuery,
@@ -63,11 +64,27 @@ v1Router.get(
         });
       }
 
-      const gestionnaireRéseau = projet.identifiantGestionnaire
+      const gestionnaireRéseauLauréat =
+        await mediator.send<ConsulterGestionnaireRéseauLauréatQuery>({
+          type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_LAURÉAT_QUERY',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+          },
+        });
+
+      if (isNone(gestionnaireRéseauLauréat)) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
+      const gestionnaireRéseau = gestionnaireRéseauLauréat.identifiantGestionnaire
         ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
             type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
             data: {
-              identifiantGestionnaireRéseau: projet.identifiantGestionnaire,
+              identifiantGestionnaireRéseau: gestionnaireRéseauLauréat.identifiantGestionnaire,
             },
           })
         : none;

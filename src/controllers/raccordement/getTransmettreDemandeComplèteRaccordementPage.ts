@@ -12,6 +12,7 @@ import {
 } from '@potentiel/domain';
 import {
   ConsulterCandidatureLegacyQuery,
+  ConsulterGestionnaireRéseauLauréatQuery,
   ListerGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
@@ -58,6 +59,22 @@ v1Router.get(
         });
       }
 
+      const gestionnaireRéseauLauréat =
+        await mediator.send<ConsulterGestionnaireRéseauLauréatQuery>({
+          type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_LAURÉAT_QUERY',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+          },
+        });
+
+      if (isNone(gestionnaireRéseauLauréat)) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
       const { items: gestionnairesRéseau } = await mediator.send<ListerGestionnaireRéseauQuery>({
         type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
         data: {},
@@ -81,6 +98,7 @@ v1Router.get(
         TransmettreDemandeComplèteRaccordementPage({
           user,
           gestionnairesRéseau,
+          gestionnaireRéseauLauréat,
           projet,
           error: error as string,
           delaiDemandeDeRaccordementEnMois: appelOffre.periode.delaiDcrEnMois,

@@ -15,6 +15,7 @@ import { isNone, none } from '@potentiel/monads';
 import {
   ConsulterCandidatureLegacyQuery,
   ConsulterDossierRaccordementQuery,
+  ConsulterGestionnaireRéseauLauréatQuery,
   ConsulterGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
 
@@ -78,11 +79,27 @@ v1Router.get(
         });
       }
 
-      const gestionnaireRéseauActuel = projet.identifiantGestionnaire
+      const gestionnaireRéseauLauréat =
+        await mediator.send<ConsulterGestionnaireRéseauLauréatQuery>({
+          type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_LAURÉAT_QUERY',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+          },
+        });
+
+      if (isNone(gestionnaireRéseauLauréat)) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
+      const gestionnaireRéseauActuel = gestionnaireRéseauLauréat.identifiantGestionnaire
         ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
             type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
             data: {
-              identifiantGestionnaireRéseau: projet.identifiantGestionnaire,
+              identifiantGestionnaireRéseau: gestionnaireRéseauLauréat.identifiantGestionnaire,
             },
           })
         : none;
