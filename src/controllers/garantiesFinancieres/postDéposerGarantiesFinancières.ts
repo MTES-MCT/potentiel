@@ -33,17 +33,17 @@ const schema = yup.object({
     typeGarantiesFinancieres: yup
       .mixed<`avec date d'échéance` | `consignation` | `6 mois après achèvement`>()
       .oneOf([`avec date d'échéance`, `consignation`, `6 mois après achèvement`])
-      .required('Vous devez séléctionner un type'),
+      .required('Vous devez séléctionner un type de garanties financières.'),
     dateEcheance: yup
       .date()
       .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date d'échéance n'est pas valide`),
+      .typeError(`La date d'échéance n'est pas valide.`),
     dateConstitution: yup
       .date()
-      .required('La date de constitution est requise')
+      .required('La date de constitution est requise.')
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date de constitution n'est pas valide`),
+      .typeError(`La date de constitution n'est pas valide.`),
   }),
 });
 
@@ -147,16 +147,38 @@ v1Router.post(
         }
       }
 
+      if (
+        dateEcheance &&
+        [`consignation`, `6 mois après achèvement`].includes(typeGarantiesFinancieres)
+      ) {
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error:
+              "Il ne peut pas y avoir une date d'échéance avec ce type de garanties financières. Nous vous invions à corriger ces données.",
+          }),
+        );
+      }
+
+      if (!dateEcheance && typeGarantiesFinancieres === "avec date d'échéance") {
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error:
+              "Une date d'échéance doit être renseignée avec ce type de garanties financières. Nous vous invions à corriger ces données.",
+          }),
+        );
+      }
+
       try {
         await mediator.send<DomainUseCase>({
           type: 'DÉPOSER_GARANTIES_FINANCIÈRES_USE_CASE',
           data: {
-            utilisateur: {
-              rôle: user.role,
-            },
             identifiantProjet: identifiantProjetValueType,
-            typeGarantiesFinancières: typeGarantiesFinancieres,
-            dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
+            ...(typeGarantiesFinancieres === "avec date d'échéance"
+              ? {
+                  typeGarantiesFinancières: "avec date d'échéance",
+                  dateÉchéance: convertirEnDateTime(dateEcheance!),
+                }
+              : { typeGarantiesFinancières: typeGarantiesFinancieres }),
             attestationConstitution: {
               format: file.mimetype,
               content: new FileReadableStream(file.path),

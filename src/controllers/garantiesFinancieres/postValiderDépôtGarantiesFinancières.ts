@@ -147,6 +147,27 @@ v1Router.post(
         }
       }
 
+      if (
+        dateEcheance &&
+        [`consignation`, `6 mois après achèvement`].includes(typeGarantiesFinancieres)
+      ) {
+        return response.redirect(
+          addQueryParams(origine === 'liste' ? redirectUrl : routes.LISTE_PROJETS, {
+            error:
+              "Il ne peut pas y avoir une date d'échéance avec ce type de garanties financières. Nous vous invions à corriger ces données.",
+          }),
+        );
+      }
+
+      if (!dateEcheance && typeGarantiesFinancieres === "avec date d'échéance") {
+        return response.redirect(
+          addQueryParams(origine === 'liste' ? redirectUrl : routes.LISTE_PROJETS, {
+            error:
+              "Une date d'échéance doit être renseignée avec ce type de garanties financières. Nous vous invions à corriger ces données.",
+          }),
+        );
+      }
+
       const fichier = await mediator.send<ConsulterFichierDépôtAttestationGarantiesFinancièreQuery>(
         {
           type: 'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',
@@ -177,12 +198,16 @@ v1Router.post(
               rôle: user.role,
             },
             identifiantProjet: identifiantProjetValueType,
-            typeGarantiesFinancières: typeGarantiesFinancieres,
-            dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
             attestationConstitution: {
               ...fichier,
               date: convertirEnDateTime(dateConstitution),
             },
+            ...(typeGarantiesFinancieres === "avec date d'échéance"
+              ? {
+                  typeGarantiesFinancières: "avec date d'échéance",
+                  dateÉchéance: convertirEnDateTime(dateEcheance!),
+                }
+              : { typeGarantiesFinancières: typeGarantiesFinancieres }),
           },
         });
 

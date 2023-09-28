@@ -15,8 +15,8 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
-  AttestationConstitution,
   PermissionModifierDépôtGarantiesFinancières,
+  DateTimeValueType,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
@@ -87,7 +87,9 @@ v1Router.post(
         file,
       } = request;
 
-      let fichierAttestation: AttestationConstitution | undefined = undefined;
+      let fichierAttestation:
+        | { format: string; date: DateTimeValueType; content: ReadableStream }
+        | undefined = undefined;
 
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
@@ -182,6 +184,27 @@ v1Router.post(
         }
       }
 
+      if (
+        dateEcheance &&
+        [`consignation`, `6 mois après achèvement`].includes(typeGarantiesFinancieres)
+      ) {
+        return response.redirect(
+          addQueryParams(origine === 'liste' ? redirectUrl : routes.LISTE_PROJETS, {
+            error:
+              "Il ne peut pas y avoir une date d'échéance avec ce type de garanties financières. Nous vous invions à corriger ces données.",
+          }),
+        );
+      }
+
+      if (!dateEcheance && typeGarantiesFinancieres === "avec date d'échéance") {
+        return response.redirect(
+          addQueryParams(origine === 'liste' ? redirectUrl : routes.LISTE_PROJETS, {
+            error:
+              "Une date d'échéance doit être renseignée avec ce type de garanties financières. Nous vous invions à corriger ces données.",
+          }),
+        );
+      }
+
       try {
         await mediator.send<DomainUseCase>({
           type: 'MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
@@ -190,8 +213,12 @@ v1Router.post(
               rôle: user.role,
             },
             identifiantProjet: identifiantProjetValueType,
-            typeGarantiesFinancières: typeGarantiesFinancieres,
-            dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
+            ...(typeGarantiesFinancieres === "avec date d'échéance"
+              ? {
+                  typeGarantiesFinancières: "avec date d'échéance",
+                  dateÉchéance: convertirEnDateTime(dateEcheance!),
+                }
+              : { typeGarantiesFinancières: typeGarantiesFinancieres }),
             attestationConstitution: fichierAttestation,
             dateModification: convertirEnDateTime(new Date()),
           },

@@ -16,7 +16,7 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
   PermissionEnregistrerGarantiesFinancières,
-  AttestationConstitution,
+  DateTimeValueType,
 } from '@potentiel/domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
@@ -34,7 +34,8 @@ const schema = yup.object({
   body: yup.object({
     typeGarantiesFinancieres: yup
       .mixed<`avec date d'échéance` | `consignation` | `6 mois après achèvement`>()
-      .oneOf([`avec date d'échéance`, `consignation`, `6 mois après achèvement`]),
+      .oneOf([`avec date d'échéance`, `consignation`, `6 mois après achèvement`])
+      .required('Vous devez renseigner le type de garanties financières.'),
     dateEcheance: yup
       .date()
       .nullable()
@@ -42,9 +43,9 @@ const schema = yup.object({
       .typeError(`La date d'échéance n'est pas valide`),
     dateConstitution: yup
       .date()
-      .nullable()
       .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date de constitution n'est pas valide`),
+      .typeError(`La date de constitution n'est pas valid.e`)
+      .required('Vous devez renseigner la date de constitution des garanties financières.'),
   }),
 });
 
@@ -79,7 +80,9 @@ v1Router.post(
         file,
       } = request;
 
-      let fichierAttestation: AttestationConstitution | undefined = undefined;
+      let fichierAttestation:
+        | { format: string; date: DateTimeValueType; content: ReadableStream }
+        | undefined = undefined;
 
       if (!estUnRawIdentifiantProjet(identifiantProjet)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
@@ -142,35 +145,54 @@ v1Router.post(
         }
       }
 
-      if (dateConstitution) {
-        if (!file) {
-          const fichierAttestationActuel =
-            await mediator.send<ConsulterFichierAttestationGarantiesFinancièreQuery>({
-              type: 'CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES',
-              data: {
-                identifiantProjet: identifiantProjetValueType,
-              },
-            });
+      if (
+        dateEcheance &&
+        [`consignation`, `6 mois après achèvement`].includes(typeGarantiesFinancieres)
+      ) {
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error:
+              "Il ne peut pas y avoir une date d'échéance avec ce type de garanties financières. Nous vous invions à corriger ces données.",
+          }),
+        );
+      }
 
-          if (isNone(fichierAttestationActuel)) {
-            return response.redirect(
-              addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
-                error: `Vous devez joindre l'attestation de constitution`,
-              }),
-            );
-          }
+      if (!dateEcheance && typeGarantiesFinancieres === "avec date d'échéance") {
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(identifiantProjet), {
+            error:
+              "Une date d'échéance doit être renseignée avec ce type de garanties financières. Nous vous invions à corriger ces données.",
+          }),
+        );
+      }
 
-          fichierAttestation = {
-            ...fichierAttestationActuel,
-            date: convertirEnDateTime(dateConstitution),
-          };
-        } else {
-          fichierAttestation = {
-            format: file.mimetype,
-            content: new FileReadableStream(file.path),
-            date: convertirEnDateTime(dateConstitution),
-          };
+      if (!file) {
+        const fichierAttestationActuel =
+          await mediator.send<ConsulterFichierAttestationGarantiesFinancièreQuery>({
+            type: 'CONSULTER_ATTESTATION_GARANTIES_FINANCIÈRES',
+            data: {
+              identifiantProjet: identifiantProjetValueType,
+            },
+          });
+
+        if (isNone(fichierAttestationActuel)) {
+          return response.redirect(
+            addQueryParams(routes.GET_ENREGISTRER_GARANTIES_FINANCIERES_PAGE(identifiantProjet), {
+              error: `Vous devez joindre l'attestation de constitution`,
+            }),
+          );
         }
+
+        fichierAttestation = {
+          ...fichierAttestationActuel,
+          date: convertirEnDateTime(dateConstitution),
+        };
+      } else {
+        fichierAttestation = {
+          format: file.mimetype,
+          content: new FileReadableStream(file.path),
+          date: convertirEnDateTime(dateConstitution),
+        };
       }
 
       try {
@@ -181,8 +203,12 @@ v1Router.post(
               rôle: user.role,
             },
             identifiantProjet: identifiantProjetValueType,
-            typeGarantiesFinancières: typeGarantiesFinancieres,
-            dateÉchéance: dateEcheance ? convertirEnDateTime(dateEcheance) : undefined,
+            ...(typeGarantiesFinancieres === "avec date d'échéance"
+              ? {
+                  typeGarantiesFinancières: "avec date d'échéance",
+                  dateÉchéance: convertirEnDateTime(dateEcheance!),
+                }
+              : { typeGarantiesFinancières: typeGarantiesFinancieres }),
             attestationConstitution: fichierAttestation ?? undefined,
           },
         });
