@@ -1,13 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
-import { verifyGarantiesFinancièresTypeForCommand } from '../verifyGarantiesFinancièresTypeForCommand';
-import { verifyGarantiesFinancièresAttestationForCommand } from '../verifyGarantiesFinancièresAttestationForCommand';
-import {
-  AttestationConstitution,
-  TypeEtDateÉchéance,
-  estTypeAvecDateÉchéance,
-} from '../garantiesFinancières.valueType';
 import { DateTimeValueType, Utilisateur } from '../../domain.valueType';
 import {
   createGarantiesFinancièresAggregateId,
@@ -15,17 +8,25 @@ import {
 } from '../garantiesFinancières.aggregate';
 import { TéléverserFichierPort } from '../../common.ports';
 import { isNone } from '@potentiel/monads';
-import { DépôtGarantiesFinancièresNonTrouvéErreur } from '../garantiesFinancières.error';
+import {
+  DateConstitutionGarantiesFinancièreDansLeFuturErreur,
+  DateÉchéanceGarantiesFinancièresNonAcceptéeErreur,
+  DateÉchéanceGarantiesFinancièresRequiseErreur,
+  DépôtGarantiesFinancièresNonTrouvéErreur,
+} from '../garantiesFinancières.error';
 import { DépôtGarantiesFinancièresModifiéEventV1 } from './dépôtGarantiesFinancières.event';
 
 export type ModifierDépôtGarantiesFinancièresCommand = Message<
   'MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    attestationConstitution: AttestationConstitution;
     utilisateur: Utilisateur;
+    identifiantProjet: IdentifiantProjetValueType;
+    attestationConstitution: { format: string; date: DateTimeValueType; content: ReadableStream };
     dateModification: DateTimeValueType;
-  } & TypeEtDateÉchéance
+  } & (
+    | { typeGarantiesFinancières: `avec date d'échéance`; dateÉchéance: DateTimeValueType }
+    | { typeGarantiesFinancières: `consignation` | `6 mois après achèvement` }
+  )
 >;
 
 export type ModifierDépôtGarantiesFinancièresDependencies = {
@@ -43,23 +44,32 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
     loadAggregate,
   });
 
-  const handler: MessageHandler<ModifierDépôtGarantiesFinancièresCommand> = async ({
-    identifiantProjet,
-    typeGarantiesFinancières,
-    dateÉchéance,
-    attestationConstitution,
-    utilisateur,
-    dateModification,
-  }) => {
+  const handler: MessageHandler<ModifierDépôtGarantiesFinancièresCommand> = async (message) => {
+    const {
+      identifiantProjet,
+      typeGarantiesFinancières,
+      attestationConstitution,
+      utilisateur,
+      dateModification,
+    } = message;
+
     const agrégatGarantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
 
     if (isNone(agrégatGarantiesFinancières) || !agrégatGarantiesFinancières.dépôt) {
       throw new DépôtGarantiesFinancièresNonTrouvéErreur();
     }
 
-    verifyGarantiesFinancièresTypeForCommand(typeGarantiesFinancières, dateÉchéance, utilisateur);
+    if ('dateÉchéance' in message && typeGarantiesFinancières !== "avec date d'échéance") {
+      throw new DateÉchéanceGarantiesFinancièresNonAcceptéeErreur();
+    }
 
-    verifyGarantiesFinancièresAttestationForCommand(attestationConstitution);
+    if (!('dateÉchéance' in message) && typeGarantiesFinancières === "avec date d'échéance") {
+      throw new DateÉchéanceGarantiesFinancièresRequiseErreur();
+    }
+
+    if (attestationConstitution.date.estDansLeFutur()) {
+      throw new DateConstitutionGarantiesFinancièreDansLeFuturErreur();
+    }
 
     await téléverserFichier({
       format: attestationConstitution.format,
@@ -73,9 +83,9 @@ export const registerModifierDépôtGarantiesFinancièresCommand = ({
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         dateModification: dateModification.formatter(),
-        ...(estTypeAvecDateÉchéance(typeGarantiesFinancières)
+        ...(typeGarantiesFinancières === "avec date d'échéance"
           ? {
-              dateÉchéance: dateÉchéance!.formatter(),
+              dateÉchéance: message.dateÉchéance!.formatter(),
               typeGarantiesFinancières,
             }
           : { typeGarantiesFinancières }),

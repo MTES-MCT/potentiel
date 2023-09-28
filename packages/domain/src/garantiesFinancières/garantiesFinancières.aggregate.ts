@@ -32,9 +32,8 @@ const garantiesFinancièresAggregateFactory: AggregateFactory<
     switch (event.type) {
       case 'GarantiesFinancièresSnapshot-v1':
         return processGarantiesFinancièresSnapshotEvent({ event, aggregate });
-      case 'TypeGarantiesFinancièresEnregistré-v1':
-      case 'AttestationGarantiesFinancièresEnregistrée-v1':
-      case 'GarantiesFinancièresComplètesEnregistréesEvent-v1':
+      case 'TypeGarantiesFinancièresImporté-v1':
+      case 'GarantiesFinancièresEnregistrées-v1':
         return processEnregistrementGarantiesFinancièresEvents({ event, aggregate });
       case 'GarantiesFinancièresDéposées-v1':
       case 'DépôtGarantiesFinancièresModifié-v1':
@@ -69,7 +68,7 @@ const processEnregistrementGarantiesFinancièresEvents = ({
   aggregate: GarantiesFinancièresAggregate;
 }): GarantiesFinancièresAggregate => {
   switch (event.type) {
-    case 'TypeGarantiesFinancièresEnregistré-v1':
+    case 'TypeGarantiesFinancièresImporté-v1':
       return {
         ...aggregate,
         actuelles: {
@@ -81,18 +80,7 @@ const processEnregistrementGarantiesFinancièresEvents = ({
               : undefined,
         },
       };
-    case 'AttestationGarantiesFinancièresEnregistrée-v1':
-      return {
-        ...aggregate,
-        actuelles: {
-          ...aggregate.actuelles,
-          attestationConstitution: {
-            format: event.payload.format,
-            date: convertirEnDateTime(event.payload.date),
-          },
-        },
-      };
-    case 'GarantiesFinancièresComplètesEnregistréesEvent-v1':
+    case 'GarantiesFinancièresEnregistrées-v1':
       return {
         ...aggregate,
         actuelles: {

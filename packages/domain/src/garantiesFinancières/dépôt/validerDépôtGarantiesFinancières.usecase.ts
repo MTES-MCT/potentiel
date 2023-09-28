@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ValiderDépôtGarantiesFinancièresCommand } from './validerDépôtGarantiesFinancières.command';
-import { EnregistrerGarantiesFinancièresComplètesCommand } from '../actuelles/enregistrerGarantiesFinancièresComplètes.command';
+import { EnregistrerGarantiesFinancièresCommand } from '../actuelles/enregistrerGarantiesFinancières.command';
 
 type ValiderDépôtGarantiesFinancièresUseCaseData = ValiderDépôtGarantiesFinancièresCommand['data'] &
-  EnregistrerGarantiesFinancièresComplètesCommand['data'];
+  EnregistrerGarantiesFinancièresCommand['data'];
 
 export type ValiderDépôtGarantiesFinancièresUseCase = Message<
   'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES_USE_CASE',
@@ -11,29 +11,17 @@ export type ValiderDépôtGarantiesFinancièresUseCase = Message<
 >;
 
 export const registerValiderDépôtGarantiesFinancièresUseCase = () => {
-  const runner: MessageHandler<ValiderDépôtGarantiesFinancièresUseCase> = async ({
-    identifiantProjet,
-    typeGarantiesFinancières,
-    dateÉchéance,
-    attestationConstitution,
-    utilisateur,
-  }) => {
+  const runner: MessageHandler<ValiderDépôtGarantiesFinancièresUseCase> = async (message) => {
     await mediator.send<ValiderDépôtGarantiesFinancièresCommand>({
       type: 'VALIDER_DÉPÔT_GARANTIES_FINANCIÈRES',
       data: {
-        identifiantProjet,
+        identifiantProjet: message.identifiantProjet,
       },
     });
 
-    await mediator.send<EnregistrerGarantiesFinancièresComplètesCommand>({
-      type: 'ENREGISTER_GARANTIES_FINANCIÈRES_COMPLÈTES',
-      data: {
-        typeGarantiesFinancières,
-        dateÉchéance,
-        attestationConstitution,
-        utilisateur,
-        identifiantProjet,
-      },
+    await mediator.send<EnregistrerGarantiesFinancièresCommand>({
+      type: 'ENREGISTER_GARANTIES_FINANCIÈRES',
+      data: message,
     });
   };
 

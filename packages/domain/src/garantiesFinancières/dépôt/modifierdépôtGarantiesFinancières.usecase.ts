@@ -10,24 +10,10 @@ export type ModifierDépôtGarantiesFinancièresUseCase = Message<
 >;
 
 export const registerModifierDépôtGarantiesFinancièresUseCase = () => {
-  const runner: MessageHandler<ModifierDépôtGarantiesFinancièresUseCase> = async ({
-    typeGarantiesFinancières,
-    dateÉchéance,
-    attestationConstitution,
-    identifiantProjet,
-    utilisateur,
-    dateModification,
-  }) => {
+  const runner: MessageHandler<ModifierDépôtGarantiesFinancièresUseCase> = async (message) => {
     await mediator.send<ModifierDépôtGarantiesFinancièresCommand>({
       type: 'MODIFIER_DÉPÔT_GARANTIES_FINANCIÈRES',
-      data: {
-        attestationConstitution,
-        identifiantProjet,
-        typeGarantiesFinancières,
-        utilisateur,
-        dateÉchéance,
-        dateModification,
-      },
+      data: message,
     });
   };
 
