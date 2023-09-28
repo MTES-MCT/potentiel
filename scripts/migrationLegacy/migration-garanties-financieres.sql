@@ -17,6 +17,7 @@ FROM "garantiesFinancières" gf
 JOIN "projects" p
 ON gf."projetId" = p.id
 WHERE gf."dateLimiteEnvoi" IS NOT NULL 
+    AND gf."type" IS NULL
     AND gf.statut = 'en attente' 
     AND p."abandonedOn" = 0
     AND p.classe = 'Classé';
@@ -107,7 +108,8 @@ SELECT
 FROM "garantiesFinancières" gf
 JOIN "projects" p
 ON gf."projetId" = p.id
-WHERE gf.statut = 'validé';
+WHERE gf.statut = 'validé'
+OR (gf.statut = 'en attente' and gf.type IS NOT NULL and gf."dateLimiteEnvoi" is NULL);
 
 
         
