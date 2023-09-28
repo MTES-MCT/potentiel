@@ -634,7 +634,9 @@ export const makeProject = (args: {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
-      if (!props.appelOffre?.changementProducteurPossibleAvantAchèvement) {
+      if (!props.* 🔥 valider/invalider GF
+
+appelOffre?.changementProducteurPossibleAvantAchèvement) {
         return err(new ChangementProducteurImpossiblePourEolienError());
       }
 

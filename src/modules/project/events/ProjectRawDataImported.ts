@@ -1,5 +1,4 @@
 import { Technologie } from '@potentiel/domain-views';
-import { TypeGarantiesFinancières } from '@potentiel/domain';
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 
 export interface ProjectRawDataImportedPayload {
@@ -33,9 +32,15 @@ export interface ProjectRawDataImportedPayload {
     details: any;
     technologie: Technologie;
     actionnariat?: string;
-    garantiesFinancièresType?: TypeGarantiesFinancières;
-    garantiesFinancièresDateEchéance?: string;
-  };
+  } & (
+    | {
+        garantiesFinancièresType?: `avec date d'échéance`;
+        garantiesFinancièresDateEchéance?: string;
+      }
+    | {
+        garantiesFinancièresType?: `consignation` | `6 mois après achèvement`;
+      }
+  );
 }
 export class ProjectRawDataImported
   extends BaseDomainEvent<ProjectRawDataImportedPayload>
