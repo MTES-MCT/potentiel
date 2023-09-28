@@ -6,22 +6,26 @@ import { Op } from 'sequelize';
 export const getListLegacyIdByIdentifiantsProjes = async (
   identifiantsProjet: IdentifiantProjet[],
 ) => {
-  if (!identifiantsProjet) {
+  if (!identifiantsProjet || !identifiantsProjet.length) {
     return [];
   }
 
-  const projets: { id: Project['id'] }[] = await Project.findAll({
-    where: {
-      [Op.or]: identifiantsProjet.map((identifiantProjet) => ({
-        appelOffreId: identifiantProjet.appelOffre,
-        periodeId: identifiantProjet.période,
-        familleId: isSome(identifiantProjet.famille) ? identifiantProjet.famille : '',
-        numeroCRE: identifiantProjet.numéroCRE,
-      })),
-    },
-    raw: true,
-    attributes: ['id'],
-  });
+  try {
+    const projets = await Project.findAll({
+      where: {
+        [Op.or]: identifiantsProjet.map((identifiantProjet) => ({
+          appelOffreId: identifiantProjet.appelOffre,
+          periodeId: identifiantProjet.période,
+          familleId: isSome(identifiantProjet.famille) ? identifiantProjet.famille : '',
+          numeroCRE: identifiantProjet.numéroCRE,
+        })),
+      },
+      raw: true,
+      attributes: ['id'],
+    });
 
-  return projets.map((p) => p.id);
+    return projets.map((p) => p.id);
+  } catch (error) {
+    throw new Error(error);
+  }
 };

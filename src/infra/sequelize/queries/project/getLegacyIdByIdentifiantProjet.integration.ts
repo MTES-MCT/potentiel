@@ -11,7 +11,7 @@ describe('Query getLegacyIdByIdentifiantProjet', () => {
     await resetDatabase();
   });
 
-  const identifiantNaturelCible: IdentifiantProjet = {
+  const identifiantNaturel: IdentifiantProjet = {
     appelOffre: 'CRE4 - Bâtiment',
     période: '1',
     famille: '1',
@@ -21,7 +21,7 @@ describe('Query getLegacyIdByIdentifiantProjet', () => {
   describe(`Récupérer l'identifiant technique d'un projet à partir d'un identifiant naturel`, () => {
     it(`
       Étant donné une liste de projets et un identifiant naturel qui cible un de ces projets
-      Lorsqu'on recherche un l'identifiant technique d'un projet à partir d'un identifiant naturel
+      Lorsqu'on recherche l'identifiant technique d'un projet à partir d'un identifiant naturel
       Alors l'identifiant technique de celui-ci doit être retourné
       `, async () => {
       const projetLegacyId = new UniqueEntityID().toString();
@@ -29,37 +29,27 @@ describe('Query getLegacyIdByIdentifiantProjet', () => {
       await Project.create({
         ...makeFakeProject(),
         id: projetLegacyId,
-        appelOffreId: identifiantNaturelCible.appelOffre,
-        periodeId: identifiantNaturelCible.période,
-        familleId: identifiantNaturelCible.famille as string,
-        numeroCRE: identifiantNaturelCible.numéroCRE,
+        appelOffreId: identifiantNaturel.appelOffre,
+        periodeId: identifiantNaturel.période,
+        familleId: identifiantNaturel.famille as string,
+        numeroCRE: identifiantNaturel.numéroCRE,
       });
 
-      const résultat = await getLegacyIdByIdentifiantProjet(identifiantNaturelCible);
+      const résultat = await getLegacyIdByIdentifiantProjet(identifiantNaturel);
 
       expect(résultat).toEqual(projetLegacyId);
     });
   });
 
-  describe(`Récupérer null si aucun projet trouvé à partir d'un identifiants naturels`, () => {
+  describe(`Impossible de récupérer l'identifiant technique si aucun projet trouvé à partir d'un identifiant naturel`, () => {
     it(`
-      Étant donné une liste de projets et une liste d'identifiants naturels cible ne correspondant aux projets existant
-      Lorsqu'on recherche les projets correspondant à la liste d'identifiants naturels
-      Alors une liste vide doit être retournée
+      Étant donné une liste de projets et un identifiant technqiue cible ne correspondant à aucun des projets
+      Lorsqu'on recherche l'identifiant technique d'un projet à partir de son identifiant naturel
+      Alors aucun identifiant technique ne doit être retourné
       `, async () => {
-      const résultat = await getLegacyIdByIdentifiantProjet(identifiantNaturelCible);
+      const résultat = await getLegacyIdByIdentifiantProjet(identifiantNaturel);
 
-      expect(résultat).toEqual(null);
+      expect(résultat).toBeNull();
     });
   });
-
-  // describe(`Récupérer une liste vide d'identifiants techniques à partir d'une liste d'identifiants naturels vide `, () => {
-  //   it(`
-  //     Étant donné une liste de projets et une liste d'identifiants naturels cible ne correspondant aux projets existant
-  //     Lorsqu'on recherche les projets correspondant à la liste d'identifiants naturels
-  //     Alors une liste vide doit être retournée
-  //     `, async () => {
-  //     expect(await getListLegacyIdByIdentifiantsProjes([])).toEqual([]);
-  //   });
-  // });
 });
