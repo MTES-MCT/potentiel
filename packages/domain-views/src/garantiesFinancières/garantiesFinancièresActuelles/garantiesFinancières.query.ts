@@ -2,10 +2,4 @@ import { ConsulterGarantiesFinancièresQuery } from './consulter/consulterGarant
 import { ConsulterFichierAttestationGarantiesFinancièreQuery } from './consulter/consulterFichierAttestationGarantiesFinancières.query';
 
 // Queries
-type GarantiesFinancièresQuery = ConsulterGarantiesFinancièresQuery;
-
-export {
-  GarantiesFinancièresQuery,
-  ConsulterGarantiesFinancièresQuery,
-  ConsulterFichierAttestationGarantiesFinancièreQuery,
-};
+export { ConsulterGarantiesFinancièresQuery, ConsulterFichierAttestationGarantiesFinancièreQuery };
