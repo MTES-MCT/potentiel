@@ -1,4 +1,7 @@
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
+import {
+  DemandeAbandonPageDTO,
+  ModificationRequestPageDTO,
+} from '../../../../modules/modificationRequest';
 import { format } from 'date-fns';
 import moment from 'moment';
 import React, { ComponentProps } from 'react';
@@ -7,7 +10,7 @@ import { DownloadLink, ExternalLink, Heading2, Heading3 } from '../../../compone
 import { afficherDate } from '../../../helpers';
 
 type DemandeDetailsProps = ComponentProps<'div'> & {
-  modificationRequest: ModificationRequestPageDTO;
+  modificationRequest: ModificationRequestPageDTO | DemandeAbandonPageDTO;
 };
 
 export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeDetailsProps) => {
@@ -42,6 +45,15 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
       )}
 
       <DetailsByType modificationRequest={modificationRequest} />
+
+      {modificationRequest.type === 'abandon' && modificationRequest.recandidature && (
+        <>
+          <Heading3>Recandidature</Heading3>
+          <div>
+            Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
+          </div>
+        </>
+      )}
 
       {attachmentFile && (
         <div className="mt-4">

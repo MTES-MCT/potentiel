@@ -25,19 +25,17 @@
 //       },
 //     });
 
-//     if (!projets.items.length) {
-//       return response.send(
-//         ListeProjetsAbandonnésAvecRecandidaturePage({
-//           request,
-//           projetsLegacyIds,
-//           modificationsRequestIds,
-//           projets: {
-//             ...projets,
-//             currentUrl: getCurrentUrl(request),
-//           },
-//         }),
-//       );
-//     }
+// if (!projets.items.length) {
+//   return response.send(
+//     ListeProjetsAbandonnésAvecRecandidaturePage({
+//       request,
+//       projets: {
+//         ...projets,
+//         currentUrl: getCurrentUrl(request),
+//       },
+//     }),
+//   );
+// }
 
 //     const projetsLegacyIds = await getListLegacyIdsByIdentifiantsProjet(
 //       projets.items.map((p) => ({
