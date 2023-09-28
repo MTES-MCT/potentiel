@@ -49,7 +49,7 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
 
     const content = await récupérerPiéceJustificativeAbandonProjet(
       rawIdentifiantProjet,
-      abandon.piéceJustificative?.format || '',
+      abandon.demandePiéceJustificativeFormat || '',
     );
 
     if (!content) {
@@ -58,7 +58,7 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
 
     return {
       type: 'piéce-justificative-abandon-projet',
-      format: abandon.piéceJustificative?.format || '',
+      format: abandon.demandePiéceJustificativeFormat || '',
       content,
     } satisfies PiéceJustificativeAbandonProjetReadModel;
   };

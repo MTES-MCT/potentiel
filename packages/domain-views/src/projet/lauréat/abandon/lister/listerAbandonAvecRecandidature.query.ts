@@ -24,10 +24,10 @@ export const registerListerAbandonAvecRecandidatureQuery = ({
       type: 'abandon',
       pagination: { page, itemsPerPage },
       where: {
-        recandidature: true,
+        demandeRecandidature: true,
       },
       orderBy: {
-        property: 'demandéLe',
+        property: 'demandeDemandéLe',
         ascending: false,
       },
     });

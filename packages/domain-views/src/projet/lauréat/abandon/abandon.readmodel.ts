@@ -7,11 +7,17 @@ export type AbandonReadModel = ReadModel<
   'abandon',
   {
     status: StatusAbandon;
-    piéceJustificative: {
-      format: string;
-    };
-    recandidature: boolean;
-    demandéLe: string;
+
+    appelOffre: string;
+    numéroCRE: string;
+    famille?: string;
+    période: string;
+
+    //flatten organization to optimize complex query. Will be revised soon
+    demandeRaison: string;
+    demandePiéceJustificativeFormat: string;
+    demandeRecandidature: boolean;
+    demandeDemandéLe: string;
   }
 >;
 
