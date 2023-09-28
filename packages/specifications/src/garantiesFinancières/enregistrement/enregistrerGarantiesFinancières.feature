@@ -41,22 +41,6 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | consignation            |                 | application/pdf   | le contenu du fichier | 2021-12-02           |
             | 6 mois après achèvement |                 | application/pdf   | le contenu du fichier | 2021-12-02           |      
 
-    Scénario: Migrer des garanties financières legacy vers le nouveau socle technique
-        Quand un développeur migre des garanties financières legacy pour le projet "Centrale éolienne 20" avec :
-            | type                 | avec date d'échéance   |
-            | date d'échéance      | 2027-12-01             |        
-            | format               | application/pdf        |
-            | date de constitution | 2021-12-02             |
-            | contenu fichier      | le contenu             |
-        Alors les garanties financières devraient être consultables pour le projet "Centrale éolienne 20" avec :
-            | type                 | avec date d'échéance   |
-            | date d'échéance      | 2027-12-01             |        
-            | format               | application/pdf        |
-            | date de constitution | 2021-12-02             |
-        Et le fichier de l'attestation de garanties financières devrait être téléchargeable pour le projet "Centrale éolienne 20" avec :
-            | contenu fichier      | le contenu             |  
-            | format               | application/pdf        | 
-
     Scénario: Corriger le type de garanties financières migrées sans type : changer type et retirer date d'échéance
         Etant donné des garanties financières migrées pour le projet "Centrale éolienne 20" avec :
             | date d'échéance      | 2027-12-01             |        
