@@ -1,4 +1,4 @@
-import { ensureRole, requestActionnaireModification } from '../../config';
+import { ensureRole, getProjectAppelOffre, requestActionnaireModification } from '../../config';
 import { logger } from '../../core/utils';
 import { PuissanceJustificationEtCourrierManquantError } from '../../modules/modificationRequest';
 import {
@@ -18,6 +18,13 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
+import { Project } from '../../infra/sequelize';
+import { mediator } from 'mediateur';
+import {
+  ConsulterDépôtGarantiesFinancièresQuery,
+  ConsulterGarantiesFinancièresQuery,
+} from '@potentiel/domain-views';
+import { isSome } from '@potentiel/monads';
 
 const routeRedirection = (type, projectId) => {
   let returnRoute: string;
@@ -67,6 +74,14 @@ v1Router.post(
     data.evaluationCarbone = data.evaluationCarbone ? Number(data.evaluationCarbone) : undefined;
 
     let file;
+
+    if (data.type === 'actionnaire' && !request.file) {
+      return response.redirect(
+        addQueryParams(routeRedirection('actionnaire', projectId), {
+          error: 'Vous devez joindre les nouveaux statuts.',
+        }),
+      );
+    }
 
     if (request.file) {
       const dirExists: boolean = await pathExists(request.file.path);
@@ -131,12 +146,61 @@ v1Router.post(
 
     switch (data.type) {
       case 'actionnaire':
+        const project = await Project.findByPk(data.projectId);
+        if (!project) {
+          return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+        }
+        const { appelOffreId, periodeId, familleId, numeroCRE } = project;
+        const appelOffreProjet = getProjectAppelOffre({
+          appelOffreId,
+          periodeId,
+          familleId,
+        });
+        const soumisAuxGarantiesFinancières =
+          appelOffreProjet?.famille?.soumisAuxGarantiesFinancieres ||
+          appelOffreProjet?.soumisAuxGarantiesFinancieres;
+
+        let garantiesFinancièresConstituées;
+
+        if (soumisAuxGarantiesFinancières === 'après candidature') {
+          const garantiesFinancièresActuelles =
+            await mediator.send<ConsulterGarantiesFinancièresQuery>({
+              type: 'CONSULTER_GARANTIES_FINANCIÈRES',
+              data: {
+                identifiantProjet: {
+                  appelOffre: appelOffreId,
+                  période: periodeId,
+                  famille: familleId || '',
+                  numéroCRE: numeroCRE,
+                },
+              },
+            });
+
+          const dépôtGarantiesFinancières =
+            await mediator.send<ConsulterDépôtGarantiesFinancièresQuery>({
+              type: 'CONSULTER_DÉPÔT_GARANTIES_FINANCIÈRES',
+              data: {
+                identifiantProjet: {
+                  appelOffre: appelOffreId,
+                  période: periodeId,
+                  famille: familleId || '',
+                  numéroCRE: numeroCRE,
+                },
+              },
+            });
+
+          garantiesFinancièresConstituées =
+            isSome(garantiesFinancièresActuelles) || isSome(dépôtGarantiesFinancières);
+        }
+
         await requestActionnaireModification({
           projectId: data.projectId,
           requestedBy: request.user,
           newActionnaire: data.actionnaire,
           justification: data.justification,
           file,
+          soumisAuxGarantiesFinancières,
+          ...(garantiesFinancièresConstituées && { garantiesFinancièresConstituées }),
         }).match(handleSuccess, handleError);
         break;
       default:

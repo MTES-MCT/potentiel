@@ -68,8 +68,6 @@ import {
   getUserByEmail,
   getUserById,
   hasDemandeDeMêmeTypeOuverte,
-  hasGarantiesFinancières,
-  isProjectParticipatif,
 } from './queries.config';
 import {
   demandeAbandonRepo,
@@ -201,9 +199,6 @@ export const requestActionnaireModification = makeRequestActionnaireModification
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   fileRepo,
-  isProjectParticipatif,
-  hasGarantiesFinancières,
-  getProjectAppelOffreId,
 });
 
 export const changerProducteur = makeChangerProducteur({

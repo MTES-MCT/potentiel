@@ -15,25 +15,29 @@ import {
   UnauthorizedError,
 } from '../../shared';
 import { ModificationReceived, ModificationRequested } from '../events';
-import { GetProjectAppelOffreId, HasGarantiesFinancières, IsProjectParticipatif } from '../queries';
 
-interface RequestActionnaireModificationDeps {
+type RequestActionnaireModificationDeps = {
   eventBus: EventBus;
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
   projectRepo: TransactionalRepository<Project>;
   fileRepo: Repository<FileObject>;
-  isProjectParticipatif: IsProjectParticipatif;
-  hasGarantiesFinancières: HasGarantiesFinancières;
-  getProjectAppelOffreId: GetProjectAppelOffreId;
-}
+};
 
-interface RequestActionnaireModificationArgs {
+type RequestActionnaireModificationArgs = {
   projectId: UniqueEntityID;
   requestedBy: User;
   newActionnaire: string;
   justification?: string;
-  file?: { contents: FileContents; filename: string };
-}
+  file: { contents: FileContents; filename: string };
+} & (
+  | {
+      soumisAuxGarantiesFinancières: 'non soumis' | 'à la candidature';
+    }
+  | {
+      soumisAuxGarantiesFinancières: 'après candidature';
+      garantiesFinancièresConstituées?: true;
+    }
+);
 
 export const makeRequestActionnaireModification =
   (deps: RequestActionnaireModificationDeps) =>
@@ -46,7 +50,14 @@ export const makeRequestActionnaireModification =
     | EntityNotFoundError
     | UnauthorizedError
   > => {
-    const { projectId, requestedBy, newActionnaire, justification, file } = args;
+    const {
+      projectId,
+      requestedBy,
+      newActionnaire,
+      justification,
+      file,
+      soumisAuxGarantiesFinancières,
+    } = args;
     const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps;
 
     return wrapInfra(
@@ -54,8 +65,6 @@ export const makeRequestActionnaireModification =
     )
       .andThen((userHasRightsToProject) => {
         if (!userHasRightsToProject) return errAsync(new UnauthorizedError());
-        if (!file) return okAsync(null);
-
         return makeAndSaveFile({
           file: {
             designation: 'modification-request',
@@ -72,39 +81,27 @@ export const makeRequestActionnaireModification =
             return new InfraNotAvailableError();
           });
       })
-      .andThen((fileId: string) =>
-        deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
-          if (appelOffreId === 'Eolien') {
-            return ResultAsync.combine([
-              deps.hasGarantiesFinancières(projectId.toString()),
-              deps.isProjectParticipatif(projectId.toString()),
-            ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
-              requiresAuthorization: !hasGarantieFinanciere || isProjectParticipatif,
-              fileId,
-            }));
-          }
-
-          return okAsync({ requiresAuthorization: false, fileId });
-        }),
-      )
-      .andThen(({ requiresAuthorization, fileId }) =>
+      .andThen((fileId) =>
         projectRepo.transaction(projectId, (project: Project) => {
-          if (requiresAuthorization) {
-            return eventBus.publish(
-              new ModificationRequested({
-                payload: {
-                  modificationRequestId: new UniqueEntityID().toString(),
-                  projectId: projectId.toString(),
-                  requestedBy: requestedBy.id,
-                  type: 'actionnaire',
-                  actionnaire: newActionnaire,
-                  justification,
-                  fileId,
-                  authority: 'dreal',
-                  cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
-                },
-              }),
-            );
+          const { isParticipatif } = project;
+          if (soumisAuxGarantiesFinancières === 'après candidature') {
+            if (isParticipatif || !args.garantiesFinancièresConstituées) {
+              return eventBus.publish(
+                new ModificationRequested({
+                  payload: {
+                    modificationRequestId: new UniqueEntityID().toString(),
+                    projectId: projectId.toString(),
+                    requestedBy: requestedBy.id,
+                    type: 'actionnaire',
+                    actionnaire: newActionnaire,
+                    justification,
+                    fileId,
+                    authority: 'dreal',
+                    cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
+                  },
+                }),
+              );
+            }
           }
 
           project.updateActionnaire(requestedBy, newActionnaire);
