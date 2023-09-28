@@ -58,7 +58,12 @@ v1Router.get(
         }
 
         if (modificationRequest.type === 'abandon') {
-          return response.send(DemandeAbandonPage({ request, modificationRequest }));
+          return response.send(
+            DemandeAbandonPage({
+              request,
+              demandeAbandon: { ...modificationRequest, recandidature: true },
+            }),
+          );
         }
         if (modificationRequest.type === 'annulation abandon') {
           return response.send(DemandeAnnulationAbandonPage({ request, modificationRequest }));
