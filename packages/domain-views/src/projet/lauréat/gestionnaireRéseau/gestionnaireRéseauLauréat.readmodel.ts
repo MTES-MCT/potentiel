@@ -6,13 +6,13 @@ import { ReadModel } from '@potentiel/core-domain-views';
 export type GestionnaireRéseauLauréatLegacyReadModel = ReadModel<
   'projet',
   {
-    identifiantGestionnaire?: { codeEIC: string };
+    identifiantGestionnaire: { codeEIC: string };
   }
 >;
 
 export type GestionnaireRéseauLauréatReadModel = ReadModel<
   'gestion-réseau-lauréat',
   {
-    identifiantGestionnaire?: { codeEIC: string };
+    identifiantGestionnaire: { codeEIC: string };
   }
 >;

@@ -11,7 +11,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { ModifierPropositionTechniqueEtFinancièrePage } from '../../views';
 import { mediator } from 'mediateur';
-import { isNone, none } from '@potentiel/monads';
+import { isNone, isSome, none } from '@potentiel/monads';
 import {
   ConsulterCandidatureLegacyQuery,
   ConsulterDossierRaccordementQuery,
@@ -87,15 +87,7 @@ v1Router.get(
           },
         });
 
-      if (isNone(gestionnaireRéseauLauréat)) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Projet',
-        });
-      }
-
-      const gestionnaireRéseauActuel = gestionnaireRéseauLauréat.identifiantGestionnaire
+      const gestionnaireRéseauActuel = isSome(gestionnaireRéseauLauréat)
         ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
             type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
             data: {
