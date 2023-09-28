@@ -19,7 +19,7 @@ export const createGarantiesFinancièresAggregateId = (
 ): GarantiesFinancièresAggregateId => `garanties-financières|${identifiantProjet.formatter()}`;
 
 export type GarantiesFinancièresAggregate = {
-  dépôt?: Partial<DépôtGarantiesFinancières>;
+  dépôt?: DépôtGarantiesFinancières;
   actuelles?: GarantiesFinancières;
   dateLimiteDépôt?: DateTimeValueType;
 };
@@ -73,26 +73,28 @@ const processEnregistrementGarantiesFinancièresEvents = ({
         ...aggregate,
         actuelles: {
           ...aggregate.actuelles,
-          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-          dateÉchéance:
-            event.payload.typeGarantiesFinancières === `avec date d'échéance`
-              ? convertirEnDateTime(event.payload.dateÉchéance)
-              : undefined,
+          ...(event.payload.typeGarantiesFinancières === "avec date d'échéance"
+            ? {
+                typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+                dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+              }
+            : { typeGarantiesFinancières: event.payload.typeGarantiesFinancières }),
         },
       };
     case 'GarantiesFinancièresEnregistrées-v1':
       return {
         ...aggregate,
         actuelles: {
-          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-          dateÉchéance:
-            'dateÉchéance' in event.payload
-              ? convertirEnDateTime(event.payload.dateÉchéance)
-              : undefined,
           attestationConstitution: {
             format: event.payload.attestationConstitution.format,
             date: convertirEnDateTime(event.payload.attestationConstitution.date),
           },
+          ...(event.payload.typeGarantiesFinancières === "avec date d'échéance"
+            ? {
+                typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+                dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+              }
+            : { typeGarantiesFinancières: event.payload.typeGarantiesFinancières }),
         },
       };
     default:
@@ -109,23 +111,38 @@ const processDépôtGarantiesFinancièresEvents = ({
 }): GarantiesFinancièresAggregate => {
   switch (event.type) {
     case 'GarantiesFinancièresDéposées-v1':
-    case 'DépôtGarantiesFinancièresModifié-v1':
       return {
         ...aggregate,
         dépôt: {
-          ...(aggregate && { ...aggregate.dépôt }),
-          ...('dateDépôt' in event.payload && {
-            dateDépôt: convertirEnDateTime(event.payload.dateDépôt),
-          }),
-          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-          dateÉchéance:
-            'dateÉchéance' in event.payload
-              ? convertirEnDateTime(event.payload.dateÉchéance)
-              : undefined,
+          dateDépôt: convertirEnDateTime(event.payload.dateDépôt),
           attestationConstitution: {
             format: event.payload.attestationConstitution.format,
             date: convertirEnDateTime(event.payload.attestationConstitution.date),
           },
+          ...(event.payload.typeGarantiesFinancières === "avec date d'échéance"
+            ? {
+                dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+                typeGarantiesFinancières: "avec date d'échéance",
+              }
+            : { typeGarantiesFinancières: event.payload.typeGarantiesFinancières }),
+        },
+      };
+    case 'DépôtGarantiesFinancièresModifié-v1':
+      return {
+        ...aggregate,
+        dépôt: {
+          ...aggregate.dépôt,
+          dateDépôt: aggregate.dépôt!.dateDépôt,
+          attestationConstitution: {
+            format: event.payload.attestationConstitution.format,
+            date: convertirEnDateTime(event.payload.attestationConstitution.date),
+          },
+          ...(event.payload.typeGarantiesFinancières === "avec date d'échéance"
+            ? {
+                dateÉchéance: convertirEnDateTime(event.payload.dateÉchéance),
+                typeGarantiesFinancières: "avec date d'échéance",
+              }
+            : { typeGarantiesFinancières: event.payload.typeGarantiesFinancières }),
         },
       };
     default:
@@ -146,34 +163,54 @@ const processGarantiesFinancièresSnapshotEvent = ({
   if (event.payload.aggregate.actuelles) {
     const { typeGarantiesFinancières, dateÉchéance, attestationConstitution } =
       event.payload.aggregate.actuelles;
+
     actuelles = {
-      typeGarantiesFinancières:
-        typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
-      ...(attestationConstitution && {
-        attestationConstitution:
-          'attestationAbsente' in attestationConstitution
-            ? undefined
-            : {
-                format: attestationConstitution.format,
-                date: convertirEnDateTime(attestationConstitution.date),
-              },
-      }),
-      ...(dateÉchéance !== 'Date inconnue' && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
+      attestationConstitution:
+        'attestationAbsente' in attestationConstitution
+          ? undefined
+          : {
+              format: attestationConstitution.format,
+              date: convertirEnDateTime(attestationConstitution.date),
+            },
+      ...(dateÉchéance !== 'Date inconnue' && typeGarantiesFinancières === "avec date d'échéance"
+        ? {
+            dateÉchéance: convertirEnDateTime(dateÉchéance),
+            typeGarantiesFinancières: "avec date d'échéance",
+          }
+        : dateÉchéance !== 'Date inconnue' && typeGarantiesFinancières === 'Type inconnu'
+        ? {
+            dateÉchéance: convertirEnDateTime(dateÉchéance),
+          }
+        : (typeGarantiesFinancières === 'consignation' ||
+            typeGarantiesFinancières === '6 mois après achèvement') && {
+            typeGarantiesFinancières,
+          }),
     };
   }
 
   if (event.payload.aggregate.dépôt) {
     const { typeGarantiesFinancières, dateÉchéance, attestationConstitution, dateDépôt } =
       event.payload.aggregate.dépôt;
+
     dépôt = {
-      typeGarantiesFinancières:
-        typeGarantiesFinancières === 'Type inconnu' ? undefined : typeGarantiesFinancières,
       attestationConstitution: {
         format: attestationConstitution.format,
         date: convertirEnDateTime(attestationConstitution.date),
       },
-      ...(dateÉchéance !== 'Date inconnue' && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
       dateDépôt: convertirEnDateTime(dateDépôt),
+      ...(dateÉchéance !== 'Date inconnue' && typeGarantiesFinancières === "avec date d'échéance"
+        ? {
+            dateÉchéance: convertirEnDateTime(dateÉchéance),
+            typeGarantiesFinancières: "avec date d'échéance",
+          }
+        : dateÉchéance !== 'Date inconnue' && typeGarantiesFinancières === 'Type inconnu'
+        ? {
+            dateÉchéance: convertirEnDateTime(dateÉchéance),
+          }
+        : (typeGarantiesFinancières === 'consignation' ||
+            typeGarantiesFinancières === '6 mois après achèvement') && {
+            typeGarantiesFinancières,
+          }),
     };
   }
 

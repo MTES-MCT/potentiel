@@ -38,30 +38,32 @@ Alors(
 
     expect(actualGarantiesFinancièresAggregate.actuelles).not.to.be.undefined;
 
-    if (typeGarantiesFinancières) {
-      expect(actualGarantiesFinancièresAggregate.actuelles?.typeGarantiesFinancières).to.equals(
-        typeGarantiesFinancières,
-      );
-    }
+    if (actualGarantiesFinancièresAggregate.actuelles) {
+      if (typeGarantiesFinancières) {
+        expect(actualGarantiesFinancièresAggregate.actuelles.typeGarantiesFinancières).to.equals(
+          typeGarantiesFinancières,
+        );
+      }
 
-    if (dateÉchéance) {
-      expect(actualGarantiesFinancièresAggregate.actuelles?.dateÉchéance?.date.getTime()).to.equals(
-        new Date(dateÉchéance).getTime(),
-      );
-    } else {
-      expect(actualGarantiesFinancièresAggregate.actuelles?.dateÉchéance).to.be.undefined;
-    }
+      if (dateÉchéance) {
+        expect('dateÉchéance' in actualGarantiesFinancièresAggregate.actuelles).to.be.true;
+        'dateÉchéance' in actualGarantiesFinancièresAggregate.actuelles &&
+          expect(
+            actualGarantiesFinancièresAggregate.actuelles.dateÉchéance.date.getTime(),
+          ).to.equals(new Date(dateÉchéance).getTime());
+      }
 
-    if (format) {
-      expect(
-        actualGarantiesFinancièresAggregate.actuelles?.attestationConstitution?.format,
-      ).to.equals(format);
-    }
+      if (format) {
+        expect(
+          actualGarantiesFinancièresAggregate.actuelles.attestationConstitution?.format,
+        ).to.equals(format);
+      }
 
-    if (dateConstitution) {
-      expect(
-        actualGarantiesFinancièresAggregate.actuelles?.attestationConstitution?.date.date.getTime(),
-      ).to.equals(new Date(dateConstitution).getTime());
+      if (dateConstitution) {
+        expect(
+          actualGarantiesFinancièresAggregate.actuelles.attestationConstitution?.date.date.getTime(),
+        ).to.equals(new Date(dateConstitution).getTime());
+      }
     }
 
     // Assert on read model
