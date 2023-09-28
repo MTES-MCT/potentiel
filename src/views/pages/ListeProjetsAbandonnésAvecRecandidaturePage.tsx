@@ -39,7 +39,8 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
       currentPage={'liste-projets-avec-recandidature'}
       contentHeader={
         <Heading1 className="!text-white whitespace-nowrap">
-          Projets abandonnés avec recandidature
+          Projets abandonnés avec recandidature{' '}
+          {projets.totalItems > 0 && `(${projets.totalItems})`}
         </Heading1>
       }
     >

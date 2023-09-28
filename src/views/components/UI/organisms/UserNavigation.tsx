@@ -59,26 +59,26 @@ const MenuCre = (currentPage?: string) => (
 
 const MenuAdmin = (currentPage?: string) => (
   <>
-    <DropdownMenu buttonChildren={'Projets'}>
+    <Header.MenuItem
+      href={routes.LISTE_PROJETS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Projets
+    </Header.MenuItem>
+    <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={routes.LISTE_PROJETS}
-        {...(currentPage === 'list-projects' && { isCurrent: true })}
+        href={routes.ADMIN_LIST_REQUESTS}
+        {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
-        Liste des projets
+        Liste des demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.LISTE_PROJETS_ABANDONNÉS_AVEC_RECANDIDATURE}
         {...(currentPage === 'liste-projets-avec-recandidature' && { isCurrent: true })}
       >
-        Liste des projets abandonnés avec recandidature
+        Liste des demandes d'abandon avec recandidature
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <Header.MenuItem
-      href={routes.ADMIN_LIST_REQUESTS}
-      {...(currentPage === 'list-requests' && { isCurrent: true })}
-    >
-      Demandes
-    </Header.MenuItem>
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
         href={routes.IMPORT_PROJECTS}
@@ -223,26 +223,26 @@ const MenuAdeme = (currentPage?: string) => (
 
 const MenuDreal = (currentPage?: string) => (
   <>
-    <DropdownMenu buttonChildren={'Projets'}>
+    <Header.MenuItem
+      href={routes.LISTE_PROJETS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Projets
+    </Header.MenuItem>
+    <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={routes.LISTE_PROJETS}
-        {...(currentPage === 'list-projects' && { isCurrent: true })}
+        href={routes.ADMIN_LIST_REQUESTS}
+        {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
-        Liste des projets
+        Liste des demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.LISTE_PROJETS_ABANDONNÉS_AVEC_RECANDIDATURE}
         {...(currentPage === 'liste-projets-avec-recandidature' && { isCurrent: true })}
       >
-        Liste des projets abandonnés avec recandidature
+        Liste des demandes d'abandon avec recandidature
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <Header.MenuItem
-      href={routes.ADMIN_LIST_REQUESTS}
-      {...(currentPage === 'list-requests' && { isCurrent: true })}
-    >
-      Demandes
-    </Header.MenuItem>
     <Header.MenuItem
       href={routes.ADMIN_GARANTIES_FINANCIERES}
       {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
