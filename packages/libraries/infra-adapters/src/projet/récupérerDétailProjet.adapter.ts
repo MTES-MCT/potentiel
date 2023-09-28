@@ -1,5 +1,8 @@
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
-import { LegacyProjetReadModel, RécupérerDétailProjetPort } from '@potentiel/domain-views';
+import {
+  CandidatureLegacyReadModel,
+  RécupérerCandidatureLegacyPort,
+} from '@potentiel/domain-views';
 import { isSome, none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
@@ -27,14 +30,14 @@ const selectProjectQuery = `
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4
 `;
 
-export const récupérerDétailProjetAdapter: RécupérerDétailProjetPort = async ({
+export const récupérerCandidatureAdapter: RécupérerCandidatureLegacyPort = async ({
   appelOffre,
   période,
   famille,
   numéroCRE,
 }) => {
   const projets = await executeSelect<{
-    value: Omit<LegacyProjetReadModel, 'type' | 'identifiantGestionnaire' | 'identifiantProjet'>;
+    value: Omit<CandidatureLegacyReadModel, 'type' | 'identifiantProjet'>;
   }>(selectProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
 
   if (!projets.length) {
@@ -51,5 +54,6 @@ export const récupérerDétailProjetAdapter: RécupérerDétailProjetPort = asy
       famille,
       numéroCRE,
     }).formatter(),
+    type: 'projet',
   };
 };

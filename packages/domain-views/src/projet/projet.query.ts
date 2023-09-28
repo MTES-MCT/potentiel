@@ -1,19 +1,10 @@
-import { ConsulterLegacyProjetQuery } from './consulter/consulterLegacyProjet.query';
-import { ConsulterPiéceJustificativeAbandonProjetQuery } from './consulter/consulterPiéceJustificativeAbandon.query';
-import { ConsulterProjetQuery } from './consulter/consulterProjet.query';
-import { ListerProjetEnAttenteRecandidatureQuery } from './lister/listerProjetEnAttenteRecandidature.query';
+import { AbandonQuery } from './lauréat/abandon/abandon.query';
+import { CandidatureQuery } from './candidature/candidature.query';
+import { GestionnaireRéseauLauréatQuery } from './lauréat/gestionnaireRéseau/gestionnaireRéseauLauréat.query';
 
 // Queries
-type ProjetQuery =
-  | ConsulterLegacyProjetQuery
-  | ConsulterProjetQuery
-  | ConsulterPiéceJustificativeAbandonProjetQuery
-  | ListerProjetEnAttenteRecandidatureQuery;
+export type ProjetQuery = AbandonQuery | GestionnaireRéseauLauréatQuery | CandidatureQuery;
 
-export {
-  ProjetQuery,
-  ConsulterLegacyProjetQuery,
-  ConsulterProjetQuery,
-  ConsulterPiéceJustificativeAbandonProjetQuery,
-  ListerProjetEnAttenteRecandidatureQuery,
-};
+export * from './lauréat/abandon/abandon.query';
+export * from './lauréat/gestionnaireRéseau/gestionnaireRéseauLauréat.query';
+export * from './candidature/candidature.query';

@@ -10,7 +10,10 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
-import { ConsulterLegacyProjetQuery, ListerGestionnaireRéseauQuery } from '@potentiel/domain-views';
+import {
+  ConsulterCandidatureLegacyQuery,
+  ListerGestionnaireRéseauQuery,
+} from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 import { getProjectAppelOffre } from '../../config';
 
@@ -40,8 +43,8 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterLegacyProjetQuery>({
-        type: 'CONSULTER_LEGACY_PROJET',
+      const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
+        type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },

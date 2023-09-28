@@ -2,11 +2,11 @@ import React, { FC, ReactNode } from 'react';
 
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Badge, BadgeType, Heading1, KeyIcon, MapPinIcon, PageTemplate } from '../..';
-import { ProjetReadModel } from '@potentiel/domain-views';
+import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
-  résuméProjet: ProjetReadModel;
+  résuméProjet: CandidatureLegacyReadModel;
   titre: ReactNode;
 }> = ({ user, résuméProjet, titre, children }) => (
   <PageTemplate user={user} contentHeader={<EntêteProjet {...résuméProjet} />}>
@@ -15,7 +15,7 @@ export const PageProjetTemplate: FC<{
   </PageTemplate>
 );
 
-const EntêteProjet: FC<ProjetReadModel> = ({
+const EntêteProjet: FC<CandidatureLegacyReadModel> = ({
   appelOffre,
   période,
   famille,
@@ -50,7 +50,7 @@ const EntêteProjet: FC<ProjetReadModel> = ({
   </div>
 );
 
-const getBadgeType = (statut: ProjetReadModel['statut']): BadgeType => {
+const getBadgeType = (statut: CandidatureLegacyReadModel['statut']): BadgeType => {
   switch (statut) {
     case 'abandonné':
       return 'warning';
@@ -64,7 +64,7 @@ const getBadgeType = (statut: ProjetReadModel['statut']): BadgeType => {
 };
 
 const StatutProjet: FC<{
-  statut: ProjetReadModel['statut'];
+  statut: CandidatureLegacyReadModel['statut'];
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
     {statut}

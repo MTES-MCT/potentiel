@@ -1,17 +1,11 @@
-type EnregistrerPiéceJustificativeAbandonOptions = {
+import { PiéceJustificativeAbandon, RéponseSignée } from './abandon.valueType';
+
+export type EnregistrerPiéceJustificativeAbandonPort = (options: {
   identifiantProjet: string;
-  piéceJustificative: { format: string; content: ReadableStream };
-};
+  piéceJustificative: PiéceJustificativeAbandon;
+}) => Promise<void>;
 
-export type EnregistrerPiéceJustificativeAbandonPort = (
-  options: EnregistrerPiéceJustificativeAbandonOptions,
-) => Promise<void>;
-
-type EnregistrerRéponseSignéeOptions = {
+export type EnregistrerRéponseSignéePort = (options: {
   identifiantProjet: string;
-  réponseSignée: { format: string; content: ReadableStream };
-};
-
-export type EnregistrerRéponseSignéePort = (
-  options: EnregistrerRéponseSignéeOptions,
-) => Promise<void>;
+  réponseSignée: RéponseSignée;
+}) => Promise<void>;

@@ -12,13 +12,13 @@ import {
   Form,
 } from '../../../components';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
-import { LegacyProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { CandidatureLegacyReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettreDateMiseEnServiceProps = {
   user: UtilisateurReadModel;
-  projet: LegacyProjetReadModel;
+  projet: CandidatureLegacyReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
 };
