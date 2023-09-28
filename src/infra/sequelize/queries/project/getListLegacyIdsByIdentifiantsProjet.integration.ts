@@ -4,7 +4,7 @@ import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { Project } from '../../projectionsNext';
 import { IdentifiantProjet } from '@potentiel/domain';
-import { getListLegacyIdByIdentifiantsProjes } from './getListLegacyIdByIdentifiantsProjet';
+import { getListLegacyIdsByIdentifiantsProjet } from './getListLegacyIdsByIdentifiantsProjet';
 
 describe('Query getListLegacyIdByIdentifiantsProjet', () => {
   beforeEach(async () => {
@@ -54,7 +54,7 @@ describe('Query getListLegacyIdByIdentifiantsProjet', () => {
         ].map(makeFakeProject),
       );
 
-      const résultat = await getListLegacyIdByIdentifiantsProjes(listeIdentifiantsNaturelCible);
+      const résultat = await getListLegacyIdsByIdentifiantsProjet(listeIdentifiantsNaturelCible);
 
       expect(résultat).toEqual([projetALegacyId, projetBLegacyId]);
     });
@@ -73,7 +73,7 @@ describe('Query getListLegacyIdByIdentifiantsProjet', () => {
         numéroCRE: 'PROJETA',
       };
 
-      const résultat = await getListLegacyIdByIdentifiantsProjes([identifiantNaturel]);
+      const résultat = await getListLegacyIdsByIdentifiantsProjet([identifiantNaturel]);
 
       expect(résultat).toEqual([]);
     });

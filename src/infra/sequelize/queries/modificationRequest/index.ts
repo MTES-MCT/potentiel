@@ -13,3 +13,4 @@ export * from './hasGarantiesFinancières';
 export * from './isProjectParticipatif';
 export * from './getProjectInfoForModificationReceivedNotification';
 export * from './getProjectInfoForModificationRequestedNotification';
+export * from './getListModificationRequestIdsByLegacyIds';

@@ -3,6 +3,8 @@ import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { ListeProjetsAbandonnésAvecRecandidaturePage } from '../../views';
 import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
+import { getListLegacyIdsByIdentifiantsProjet } from '../../infra/sequelize/queries/project';
+import { getListModificationRequestIdsByLegacyIds } from '../../infra/sequelize/queries/modificationRequest';
 
 import {
   ListerProjetEnAttenteRecandidatureQuery,
@@ -23,9 +25,38 @@ v1Router.get(
       },
     });
 
-    response.send(
+    if (!projets.items.length) {
+      return response.send(
+        ListeProjetsAbandonnésAvecRecandidaturePage({
+          request,
+          projetsLegacyIds,
+          modificationsRequestIds,
+          projets: {
+            ...projets,
+            currentUrl: getCurrentUrl(request),
+          },
+        }),
+      );
+    }
+
+    const projetsLegacyIds = await getListLegacyIdsByIdentifiantsProjet(
+      projets.items.map((p) => ({
+        appelOffre: p.appelOffre,
+        période: p.période,
+        famille: p.famille,
+        numéroCRE: p.numéroCRE,
+      })),
+    );
+
+    const modificationsRequestIds = await getListModificationRequestIdsByLegacyIds(
+      projetsLegacyIds,
+    );
+
+    return response.send(
       ListeProjetsAbandonnésAvecRecandidaturePage({
         request,
+        projetsLegacyIds,
+        modificationsRequestIds,
         projets: {
           ...projets,
           currentUrl: getCurrentUrl(request),

@@ -3,7 +3,7 @@ import { isSome } from '@potentiel/monads';
 import { Project } from '../../projectionsNext';
 import { Op } from 'sequelize';
 
-export const getListLegacyIdByIdentifiantsProjes = async (
+export const getListLegacyIdsByIdentifiantsProjet = async (
   identifiantsProjet: IdentifiantProjet[],
 ) => {
   if (!identifiantsProjet || !identifiantsProjet.length) {
