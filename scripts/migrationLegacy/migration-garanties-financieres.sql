@@ -34,7 +34,12 @@ SELECT
     'identifiantProjet', p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
     'aggregate', json_build_object(
         'dépôt', json_build_object(
-            'typeGarantiesFinancières', CASE WHEN gf.type IS NOT NULL THEN gf.type ELSE 'Type inconnu' END,
+            'typeGarantiesFinancières', CASE 
+                                            WHEN gf.type = 'Consignation' then 'consignation'
+                                            WHEN gf.type = 'Garantie financière jusqu''à 6 mois après la date d''achèvement' then '6 mois après achèvement'
+                                            WHEN gf.type = 'Garantie financière avec date d''échéance et à renouveler' then 'avec date d''échéance'
+                                            ELSE 'Type inconnu' 
+                                        END,
             'dateÉchéance',CASE WHEN gf."dateEchéance" IS NOT NULL THEN TO_CHAR(gf."dateEchéance", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"') ELSE 'Date inconnue' END, 
             'attestationConstitution', json_build_object(
                 'format', (SELECT 
@@ -73,7 +78,12 @@ SELECT
     'identifiantProjet', p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
     'aggregate', json_build_object(
         'actuelles', json_build_object(
-            'typeGarantiesFinancières', CASE WHEN gf.type IS NOT NULL THEN gf.type ELSE 'Type inconnu' END,
+            'typeGarantiesFinancières', CASE 
+                                            WHEN gf.type = 'Consignation' then 'consignation'
+                                            WHEN gf.type = 'Garantie financière jusqu''à 6 mois après la date d''achèvement' then '6 mois après achèvement'
+                                            WHEN gf.type = 'Garantie financière avec date d''échéance et à renouveler' then 'avec date d''échéance'
+                                            ELSE 'Type inconnu' 
+                                        END,
             'dateÉchéance',CASE WHEN gf."dateEchéance" IS NOT NULL THEN TO_CHAR(gf."dateEchéance", 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"') ELSE 'Date inconnue' END, 
             'attestationConstitution', CASE 
                                             WHEN gf."fichierId" IS NOT NULL
