@@ -8,16 +8,20 @@ export const getLegacyIdByIdentifiantProjet = async ({
   famille,
   numéroCRE,
 }: IdentifiantProjet) => {
-  const projet = await Project.findOne({
-    where: {
-      appelOffreId: appelOffre,
-      periodeId: période,
-      familleId: isSome(famille) ? famille : '',
-      numeroCRE: numéroCRE,
-    },
-    attributes: ['id'],
-    raw: true,
-  });
+  try {
+    const projet = await Project.findOne({
+      where: {
+        appelOffreId: appelOffre,
+        periodeId: période,
+        familleId: isSome(famille) ? famille : '',
+        numeroCRE: numéroCRE,
+      },
+      attributes: ['id'],
+      raw: true,
+    });
 
-  return projet?.id || null;
+    return projet?.id || null;
+  } catch (error) {
+    throw new Error(error);
+  }
 };

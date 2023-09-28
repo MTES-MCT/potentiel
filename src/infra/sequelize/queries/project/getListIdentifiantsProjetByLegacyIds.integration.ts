@@ -4,18 +4,18 @@ import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { Project } from '../../projectionsNext';
 import { IdentifiantProjet } from '@potentiel/domain';
-import { getListLegacyIdByIdentifiantsProjes } from './getListLegacyIdByIdentifiantsProjet';
+import { getListIdentifiantsProjetByLegacyIds } from './getListIdentifiantsProjetByLegacyIds';
 
-describe('Query getListLegacyIdByIdentifiantsProjet', () => {
+describe('Query getListIdentifiantsProjetByLegacyIds', () => {
   beforeEach(async () => {
     await resetDatabase();
   });
 
-  describe(`Récupérer une liste d'identifiants techniques à partir d'une liste d'identifiants naturel `, () => {
+  describe(`Récupérer une liste d'identifiants naturels à partir d'une liste d'identifiants technique `, () => {
     it(`
-      Étant donné une liste de projets et une liste d'identifiants naturel qui ciblent plusieurs de ces projets
-      Lorsqu'on recherche les identifiants technique de plusieurs projets à partir de leurs identifiants naturel
-      Alors une liste d'identifiants technique doit être retournée
+      Étant donné une liste de projets et une liste d'identifiants technique qui ciblent plusieurs de ces projets
+      Lorsqu'on recherche les identifiants naturel de plusieurs projets à partir de leurs identifiants technique
+      Alors une liste d'identifiants naturel doit être retournée
       `, async () => {
       const projetALegacyId = new UniqueEntityID().toString();
       const projetBLegacyId = new UniqueEntityID().toString();
@@ -54,26 +54,23 @@ describe('Query getListLegacyIdByIdentifiantsProjet', () => {
         ].map(makeFakeProject),
       );
 
-      const résultat = await getListLegacyIdByIdentifiantsProjes(listeIdentifiantsNaturelCible);
+      const résultat = await getListIdentifiantsProjetByLegacyIds([
+        projetALegacyId,
+        projetBLegacyId,
+      ]);
 
-      expect(résultat).toEqual([projetALegacyId, projetBLegacyId]);
+      expect(résultat).toEqual(listeIdentifiantsNaturelCible);
     });
   });
 
-  describe(`Impossible de récupérer une liste d'identifiants naturel si aucun projet n'est trouvé à partir des identifiants technique`, () => {
+  describe(`Impossible de récupérer une liste d'identifiants naturel si aucun projet n'est trouvé à partir d'une liste d'identifiants technique`, () => {
     it(`
-      Étant donné une liste de projets et une liste d'identifiants technqiue qui ne correspondent à aucun de ces projets
+      Étant donné une liste de projets et une liste d'identifiants technique qui ne correspondent à aucun de ces projets
       Lorsqu'on recherche les identifiants naturel de plusieurs projets à partir de leurs identifiants technique
-      Alors aucun identifiant technique ne doit être retourné
+      Alors aucun identifiant naturel ne doit être retourné
       `, async () => {
-      const identifiantNaturel: IdentifiantProjet = {
-        appelOffre: 'CRE4 - Bâtiment',
-        période: '1',
-        famille: '1',
-        numéroCRE: 'PROJETA',
-      };
-
-      const résultat = await getListLegacyIdByIdentifiantsProjes([identifiantNaturel]);
+      const legacyId = new UniqueEntityID().toString();
+      const résultat = await getListIdentifiantsProjetByLegacyIds([legacyId]);
 
       expect(résultat).toEqual([]);
     });
