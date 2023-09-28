@@ -1,4 +1,4 @@
-import { Text } from '@react-pdf/renderer';
+import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
 export const Introduction = () => {
@@ -18,6 +18,45 @@ export const Introduction = () => {
         Par courrier du [JJ/MM/AAAA], il vous a été notifié la désignation du projet ci-dessous
         comme lauréat de l’appel d’offres cité en objet.
       </Text>
+
+      <View
+        style={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginTop: 10,
+          border: '1px solid #000',
+          textAlign: 'center',
+        }}
+      >
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            backgroundColor: '#ddd',
+            borderBottom: '1px solid #000',
+          }}
+        >
+          <Text style={{ padding: 10, borderRight: '1px solid #000', width: 110 }}>
+            Nom du projet
+          </Text>
+          <Text style={{ padding: 10, borderRight: '1px solid #000', width: 110 }}>
+            Puissance (MW)
+          </Text>
+          <Text style={{ padding: 10, width: 110 }}>Commune d'implantation</Text>
+        </View>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          <Text style={{ padding: 10, borderRight: '1px solid #000', width: 110 }}>
+            [NOM DU PROJET]
+          </Text>
+          <Text style={{ padding: 10, borderRight: '1px solid #000', width: 110 }}>[XX]</Text>
+          <Text style={{ padding: 10, width: 110 }}>[NOM DE LA COMMUNE (CODE POSTAL)]</Text>
+        </View>
+      </View>
 
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10, marginBottom: 10 }}>
         Par votre demande reçue dans nos services le [JJ/MM/AAAA], vous m’informez que votre société
