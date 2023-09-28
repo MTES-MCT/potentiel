@@ -15,7 +15,7 @@ import { isNone, none } from '@potentiel/monads';
 import {
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauQuery,
-  ConsulterLegacyProjetQuery,
+  ConsulterCandidatureLegacyQuery,
 } from '@potentiel/domain-views';
 
 const schema = yup.object({
@@ -47,8 +47,8 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterLegacyProjetQuery>({
-        type: 'CONSULTER_LEGACY_PROJET',
+      const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
+        type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },

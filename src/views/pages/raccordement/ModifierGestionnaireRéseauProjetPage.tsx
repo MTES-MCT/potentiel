@@ -13,13 +13,13 @@ import {
   Label,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import { GestionnaireRéseauReadModel, LegacyProjetReadModel } from '@potentiel/domain-views';
+import { GestionnaireRéseauReadModel, CandidatureLegacyReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
 import { GestionnaireRéseauSelect } from './components/GestionnaireRéseauSelect';
 
 type ModifierGestionnaireRéseauProjetProps = {
   user: UtilisateurReadModel;
-  projet: LegacyProjetReadModel;
+  projet: CandidatureLegacyReadModel;
   error?: string;
   listeGestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };

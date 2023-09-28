@@ -51,7 +51,7 @@ export const registerDemanderAbandonCommand = ({
     });
 
     const event: AbandonDemandéEvent = {
-      type: 'AbandonDemandé',
+      type: 'AbandonDemandé-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         recandidature,

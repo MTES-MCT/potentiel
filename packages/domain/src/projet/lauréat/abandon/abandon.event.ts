@@ -1,7 +1,7 @@
 import { DomainEvent } from '@potentiel/core-domain';
 
 export type AbandonDemandéEvent = DomainEvent<
-  'AbandonDemandé',
+  'AbandonDemandé-V1',
   {
     dateAbandon: string;
     identifiantProjet: string;
@@ -14,7 +14,7 @@ export type AbandonDemandéEvent = DomainEvent<
 >;
 
 export type AbandonRejetéEvent = DomainEvent<
-  'AbandonRejeté',
+  'AbandonRejeté-V1',
   {
     rejetéLe: string;
     identifiantProjet: string;
@@ -24,4 +24,39 @@ export type AbandonRejetéEvent = DomainEvent<
   }
 >;
 
-export type AbandonEvent = AbandonDemandéEvent;
+export type AbandonAccordéEvent = DomainEvent<
+  'AbandonAccordé-V1',
+  {
+    acceptéLe: string;
+    identifiantProjet: string;
+    réponseSignée: {
+      format: string;
+    };
+  }
+>;
+
+export type ConfirmationAbandonDemandéEvent = DomainEvent<
+  'ConfirmationAbandonDemandé-V1',
+  {
+    confirmationDemandéLe: string;
+    identifiantProjet: string;
+    réponseSignée: {
+      format: string;
+    };
+  }
+>;
+
+export type AbandonConfirméEvent = DomainEvent<
+  'AbandonConfirmé-V1',
+  {
+    confirméLe: string;
+    identifiantProjet: string;
+  }
+>;
+
+export type AbandonEvent =
+  | AbandonDemandéEvent
+  | AbandonRejetéEvent
+  | AbandonAccordéEvent
+  | ConfirmationAbandonDemandéEvent
+  | AbandonConfirméEvent;

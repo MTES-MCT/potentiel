@@ -12,7 +12,7 @@ import {
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
-  récupérerDétailProjetAdapter,
+  récupérerCandidatureAdapter,
   téléverserPiéceJustificativeAbandonAdapter,
   téléchargerPiéceJustificativeAbandonProjetAdapter,
 } from '@potentiel/infra-adapters';
@@ -38,6 +38,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     },
     projet: {
       enregistrerPiéceJustificativeAbandon: téléverserPiéceJustificativeAbandonAdapter,
+      enregistrerRéponseSignée: async () => {},
     },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
@@ -60,7 +61,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     },
     appelOffre: {},
     projet: {
-      récupérerDétailProjet: récupérerDétailProjetAdapter,
+      récupérerCandidature: récupérerCandidatureAdapter,
       récupérerPiéceJustificativeAbandonProjet: téléchargerPiéceJustificativeAbandonProjetAdapter,
     },
     raccordement: {

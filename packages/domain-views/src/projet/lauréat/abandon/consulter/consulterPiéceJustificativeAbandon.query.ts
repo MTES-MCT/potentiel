@@ -5,14 +5,15 @@ import {
   estUnIdentifiantProjet,
 } from '@potentiel/domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import {
-  PiéceJustificativeAbandonProjetReadModel,
-  ProjetReadModel,
-  ProjetReadModelKey,
-} from '../projet.readModel';
+
 import { Option, isNone, none } from '@potentiel/monads';
 import { Find } from '@potentiel/core-domain-views';
-import { RécupérerPiéceJustificativeAbandonProjetPort } from '../projet.ports';
+import { RécupérerPiéceJustificativeAbandonProjetPort } from '../abandon.port';
+import {
+  AbandonReadModel,
+  AbandonReadModelKey,
+  PiéceJustificativeAbandonProjetReadModel,
+} from '../abandon.readmodel';
 
 export type ConsulterPiéceJustificativeAbandonProjetQuery = Message<
   'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
@@ -38,17 +39,17 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
       ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
       : identifiantProjet;
 
-    const key: ProjetReadModelKey = `projet|${rawIdentifiantProjet}`;
+    const key: AbandonReadModelKey = `abandon|${rawIdentifiantProjet}`;
 
-    const projet = await find<ProjetReadModel>(key);
+    const abandon = await find<AbandonReadModel>(key);
 
-    if (isNone(projet)) {
+    if (isNone(abandon)) {
       return none;
     }
 
     const content = await récupérerPiéceJustificativeAbandonProjet(
       rawIdentifiantProjet,
-      projet.piéceJustificative?.format || '',
+      abandon.piéceJustificative?.format || '',
     );
 
     if (!content) {
@@ -57,7 +58,7 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
 
     return {
       type: 'piéce-justificative-abandon-projet',
-      format: projet.piéceJustificative?.format || '',
+      format: abandon.piéceJustificative?.format || '',
       content,
     } satisfies PiéceJustificativeAbandonProjetReadModel;
   };

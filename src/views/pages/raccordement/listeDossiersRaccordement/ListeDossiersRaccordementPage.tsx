@@ -13,7 +13,7 @@ import {
 import { hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
-  LegacyProjetReadModel,
+  CandidatureLegacyReadModel,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
 import routes from '../../../../routes';
@@ -23,7 +23,7 @@ import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
-  projet: LegacyProjetReadModel;
+  projet: CandidatureLegacyReadModel;
   gestionnaireRéseau: GestionnaireRéseauReadModel;
   dossiers: ReadonlyArray<DossierRaccordementReadModel>;
 };

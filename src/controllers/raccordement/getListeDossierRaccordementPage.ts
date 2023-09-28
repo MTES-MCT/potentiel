@@ -4,9 +4,9 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
+  ConsulterCandidatureLegacyQuery,
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauQuery,
-  ConsulterLegacyProjetQuery,
   DossierRaccordementReadModel,
   ListerDossiersRaccordementQuery,
   PermissionConsulterDossierRaccordement,
@@ -48,8 +48,8 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterLegacyProjetQuery>({
-        type: 'CONSULTER_LEGACY_PROJET',
+      const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
+        type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },

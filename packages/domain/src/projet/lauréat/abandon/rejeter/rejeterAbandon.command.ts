@@ -7,7 +7,11 @@ import { isNone } from '@potentiel/monads';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
 import { DateTimeValueType } from '../../../../common.valueType';
 import { AbandonRejetéEvent } from '../abandon.event';
-import { DemandeAbandonInconnuErreur } from '../abandon.error';
+import {
+  AbandonDéjàAccordéError,
+  AbandonDéjàRejetéError,
+  DemandeAbandonInconnuErreur,
+} from '../abandon.error';
 
 export type RejeterAbandonCommand = Message<
   'REJETER_ABANDON_COMMAND',
@@ -41,13 +45,21 @@ export const registerRejeterAbandonCommand = ({
       throw new DemandeAbandonInconnuErreur();
     }
 
+    if (abandon.getStatus() === 'accordé') {
+      throw new AbandonDéjàAccordéError();
+    }
+
+    if (abandon.getStatus() === 'rejeté') {
+      throw new AbandonDéjàRejetéError();
+    }
+
     await enregistrerRéponseSignée({
       identifiantProjet: identifiantProjet.formatter(),
       réponseSignée,
     });
 
     const event: AbandonRejetéEvent = {
-      type: 'AbandonRejeté',
+      type: 'AbandonRejeté-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         réponseSignée: {
