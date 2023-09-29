@@ -50,10 +50,10 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
         ) : (
           <>
             <ul className="p-0 m-0">
-              {abandons.items.map((projet, index) => (
+              {abandons.items.map((abandon, index) => (
                 <li
                   className="list-none p-0 m-0"
-                  key={`${projet.appelOffre}#${projet.période}#${projet.famille}#${projet.numéroCRE}`}
+                  key={`${abandon.appelOffre}#${abandon.période}#${abandon.famille}#${abandon.numéroCRE}`}
                 >
                   <Tile className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>
@@ -66,12 +66,13 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
                           </div>
                         )}
                         <div className="italic text-xs text-grey-425-base">
-                          {projet.appelOffre}-P{projet.période}-F{projet.famille}-{projet.numéroCRE}
+                          {abandon.appelOffre}-P{abandon.période}-F{abandon.famille}-
+                          {abandon.numéroCRE}
                         </div>
                         <div className="italic text-xs text-grey-425-base">
-                          Demandé le{' '}
-                          {afficherDateAvecHeure(new Date(projet.demandeDemandéLe || ''))}
+                          Status: {abandon.status}
                         </div>
+                        {getStatutAbandon(abandon)}
                       </div>
 
                       <div className="flex items-center text-sm mb-4 md:mb-0">
@@ -114,6 +115,57 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
       </PageListeTemplate.List>
     </PageListeTemplate>
   );
+};
+
+const getStatutAbandon = (abandon: AbandonReadModel) => {
+  switch (abandon.status) {
+    case 'accordé':
+      return (
+        <>
+          <div className="italic text-xs text-grey-425-base">Statut : Accordé</div>
+          <div className="italic text-xs text-grey-425-base">
+            Accordé le {afficherDateAvecHeure(new Date(abandon.accordAccordéLe || ''))}
+          </div>
+        </>
+      );
+    case 'rejeté':
+      return (
+        <>
+          <div className="italic text-xs text-grey-425-base">Statut : Rejeté</div>
+          <div className="italic text-xs text-grey-425-base">
+            Rejeté le {afficherDateAvecHeure(new Date(abandon.rejetRejetéLe || ''))}
+          </div>
+        </>
+      );
+    case 'confirmé':
+      return (
+        <>
+          <div className="italic text-xs text-grey-425-base">Statut : Confirmé</div>
+          <div className="italic text-xs text-grey-425-base">
+            Confirmé le {afficherDateAvecHeure(new Date(abandon.confirmationConfirméLe || ''))}
+          </div>
+        </>
+      );
+    case 'à-confirmer':
+      return (
+        <>
+          <div className="italic text-xs text-grey-425-base">Statut : Confirmation demandée</div>
+          <div className="italic text-xs text-grey-425-base">
+            Confirmation demandé le{' '}
+            {afficherDateAvecHeure(new Date(abandon.confirmationDemandéLe || ''))}
+          </div>
+        </>
+      );
+    default:
+      return (
+        <>
+          <div className="italic text-xs text-grey-425-base">Statut : Demandé</div>
+          <div className="italic text-xs text-grey-425-base">
+            Demandé le {afficherDateAvecHeure(new Date(abandon.demandeDemandéLe))}
+          </div>
+        </>
+      );
+  }
 };
 
 hydrateOnClient(ListeProjetsAbandonnésAvecRecandidature);
