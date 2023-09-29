@@ -57,11 +57,7 @@ export const RéponseAbandonAvecRecandidature = ({
           paddingBottom: 70,
         }}
       >
-        <Header
-          dateCourrier={dateCourrier}
-          dossierSuiviPar={demandeAbandon.instructeur.nom}
-          projet={projet}
-        />
+        <Header dateCourrier={dateCourrier} projet={projet} />
 
         <View style={{ paddingLeft: 15 }}>
           <View style={{ textAlign: 'justify' }}>
