@@ -1,12 +1,12 @@
-import { AccorderAbandonCommand } from './accorder/accorderAbandon.command';
-import { ConfirmerAbandonCommand } from './confirmer/confirmerAbandon.command';
+import { AccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
+import { ConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import { DemanderAbandonAvecRecandidatureUseCase } from './demander/demanderAbandon.usecase';
-import { DemanderConfirmationAbandonCommand } from './demander/demanderConfirmationAbandon.command';
+import { DemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 
 export type AbandonUsecase =
   | DemanderAbandonAvecRecandidatureUseCase
   | RejeterAbandonUseCase
-  | AccorderAbandonCommand
-  | DemanderConfirmationAbandonCommand
-  | ConfirmerAbandonCommand;
+  | AccorderAbandonUseCase
+  | DemanderConfirmationAbandonUseCase
+  | ConfirmerAbandonUseCase;
