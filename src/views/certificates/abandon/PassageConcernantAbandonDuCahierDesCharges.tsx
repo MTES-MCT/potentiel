@@ -1,17 +1,30 @@
 import { Text, View } from '@react-pdf/renderer';
-import React from 'react';
+import React, { FC } from 'react';
 
-export const PassageConcernantAbandonDuCahierDesCharges = () => {
+type PassageConcernantAbandonDuCahierDesChargesProps = {
+  appelOffre: {
+    texteEngagementRéalisationEtModalitésAbandon: {
+      référenceParagraphe: string;
+      dispositions: string;
+    };
+  };
+};
+
+export const PassageConcernantAbandonDuCahierDesCharges: FC<
+  PassageConcernantAbandonDuCahierDesChargesProps
+> = ({
+  appelOffre: {
+    texteEngagementRéalisationEtModalitésAbandon: { référenceParagraphe, dispositions },
+  },
+}) => {
   return (
     <>
       <Text style={{ fontSize: 10 }}>
-        Le paragraphe [REFERENCE_PARAGRAPHE_ABANDON] du cahier des charges de l’appel d’offres cité
-        en objet indique :
+        Le paragraphe {référenceParagraphe} du cahier des charges de l’appel d’offres cité en objet
+        indique :
       </Text>
 
-      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-        « [TEXTE_PARAGRAPHE_ABANDON] »
-      </Text>
+      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>« {dispositions} »</Text>
 
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Votre demande s’inscrit dans le processus mis en place à titre exceptionnel jusqu’au

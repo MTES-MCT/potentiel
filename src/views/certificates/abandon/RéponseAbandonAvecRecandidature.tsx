@@ -7,7 +7,44 @@ import { Introduction } from './Introduction';
 import { Signature } from './Signature';
 import { PassageConcernantAbandonDuCahierDesCharges } from './PassageConcernantAbandonDuCahierDesCharges';
 
-export const RéponseAbandonAvecRecandidature = () => {
+export type RéponseAbandonAvecRecandidatureProps = {
+  dateCourrier: string;
+  projet: {
+    potentielId: string;
+    nomReprésentantLégal: string;
+    nomCandidat: string;
+    email: string;
+    nom: string;
+    commune: string;
+    codePostal: string;
+    dateDésignation: string;
+    puissance: number;
+  };
+  appelOffre: {
+    nom: string;
+    description: string;
+    période: string;
+    unitéPuissance: string;
+    texteEngagementRéalisationEtModalitésAbandon: {
+      référenceParagraphe: string;
+      dispositions: string;
+    };
+  };
+  demandeAbandon: {
+    date: string;
+    instructeur: {
+      nom: string;
+      fonction: string;
+    };
+  };
+};
+
+export const RéponseAbandonAvecRecandidature = ({
+  dateCourrier,
+  projet,
+  appelOffre,
+  demandeAbandon,
+}: RéponseAbandonAvecRecandidatureProps) => {
   return (
     <Document>
       <Page
@@ -20,14 +57,18 @@ export const RéponseAbandonAvecRecandidature = () => {
           paddingBottom: 70,
         }}
       >
-        <Header />
+        <Header
+          dateCourrier={dateCourrier}
+          dossierSuiviPar={demandeAbandon.instructeur.nom}
+          projet={projet}
+        />
 
         <View style={{ paddingLeft: 15 }}>
           <View style={{ textAlign: 'justify' }}>
-            <Objet />
-            <Introduction />
+            <Objet appelOffre={appelOffre} />
+            <Introduction projet={projet} appelOffre={appelOffre} demandeAbandon={demandeAbandon} />
 
-            <PassageConcernantAbandonDuCahierDesCharges />
+            <PassageConcernantAbandonDuCahierDesCharges appelOffre={appelOffre} />
 
             <View wrap={false}>
               <Text style={{ marginTop: 30 }}>
@@ -35,7 +76,7 @@ export const RéponseAbandonAvecRecandidature = () => {
                 distinguées.
               </Text>
 
-              <Signature />
+              <Signature instructeur={demandeAbandon.instructeur} />
             </View>
           </View>
         </View>

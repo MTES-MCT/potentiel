@@ -1,6 +1,9 @@
 import ReactPDF, { Font } from '@react-pdf/renderer';
 import dotenv from 'dotenv';
-import { RéponseAbandonAvecRecandidature } from './RéponseAbandonAvecRecandidature';
+import {
+  RéponseAbandonAvecRecandidature,
+  RéponseAbandonAvecRecandidatureProps,
+} from './RéponseAbandonAvecRecandidature';
 
 dotenv.config();
 
@@ -21,8 +24,10 @@ Font.register({
   ],
 });
 
-const buildDocument = (): Promise<NodeJS.ReadableStream> => {
-  const document = RéponseAbandonAvecRecandidature();
+const buildDocument = (
+  props: RéponseAbandonAvecRecandidatureProps,
+): Promise<NodeJS.ReadableStream> => {
+  const document = RéponseAbandonAvecRecandidature(props);
   return ReactPDF.renderToStream(document);
 };
 

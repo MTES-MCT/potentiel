@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
 
-export const Header = () => {
+type HeaderProps = {
+  dateCourrier: string;
+  dossierSuiviPar: string;
+  projet: {
+    potentielId: string;
+    nomReprésentantLégal: string;
+    nomCandidat: string;
+    email: string;
+  };
+};
+
+export const Header: FC<HeaderProps> = ({
+  dateCourrier,
+  dossierSuiviPar,
+  projet: { potentielId, nomReprésentantLégal, nomCandidat, email },
+}) => {
   return (
     <View style={{ paddingLeft: 15 }}>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -42,22 +57,20 @@ export const Header = () => {
             Direction générale de l’énergie et du climat
           </Text>
 
-          <Text style={{ fontSize: 10, marginBottom: 90 }}>
-            Paris, le [DATE_ACCORD_ABANDON (JJ/MM/AAAA)]
-          </Text>
+          <Text style={{ fontSize: 10, marginBottom: 90 }}>Paris, le {dateCourrier}</Text>
 
           <View style={{ fontSize: 10 }}>
-            <Text>[nomRepresentantLegal_PROJET]</Text>
-            <Text>[nomCandidat_PROJET]</Text>
-            <Text>[email_PROJET]</Text>
+            <Text>{nomReprésentantLégal}</Text>
+            <Text>{nomCandidat}</Text>
+            <Text>{email}</Text>
           </View>
         </View>
       </View>
 
       <View style={{ marginTop: 10 }}>
         <View style={{ fontSize: 8 }}>
-          <Text>Code Potentiel: [potentielId]</Text>
-          <Text>Dossier suivi par : [dossierSuiviPar]</Text>
+          <Text>Code Potentiel: {potentielId}</Text>
+          <Text>Dossier suivi par : {dossierSuiviPar}</Text>
         </View>
       </View>
     </View>
