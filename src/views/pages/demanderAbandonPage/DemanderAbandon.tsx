@@ -22,6 +22,7 @@ import {
   ChampsObligatoiresLégende,
   LabelDescription,
   Checkbox,
+  AlertBox,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -130,13 +131,40 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
             </div>
 
             {appelOffre.periode.abandonAvecRecandidature && (
-              <Checkbox
-                name="abandonAvecRecandidature"
-                id="abandonAvecRecandidature"
-                className="items-start mt-2"
-              >
-                Demande d'abandon pour re-candidature (optionnel) *
-              </Checkbox>
+              <>
+                <AlertBox>
+                  <div className="font-bold">Demande d'abandon avec recandidature</div>
+                  <div>
+                    <p className="m-0">
+                      Je m'engage sur l'honneur à ne pas avoir débuté mes travaux au sens du cahier
+                      des charges de l'AO associé et a abandonné mon statut de lauréat au profit
+                      d'une recandidature réalisée au plus tard le 31/12/2024. Je m'engage sur
+                      l'honneur à ce que cette recandidature respecte les conditions suivantes :
+                    </p>
+                    <ul className="mb-0">
+                      <li>
+                        Que le dossier soit complet et respecte les conditions d'éligibilité du
+                        cahier des charges concerné
+                      </li>
+                      <li>Le même lieu d'implantation que le projet abandonné</li>
+                      <li>Une puissance équivalente à plus ou moins 20% que le projet abandonné</li>
+                      <li>
+                        Un tarif équivalent au tarif du dernier lauréat retenu pour la période dont
+                        le projet était initialement lauréat (et le cas échéant de la famille
+                        concernée) indexé jusqu'à septembre 2023 selon la formule d'indexation du
+                        cahier des charges de la dernière période avant le 1er octobre 2023
+                      </li>
+                    </ul>
+                  </div>
+                  <Checkbox
+                    name="abandonAvecRecandidature"
+                    id="abandonAvecRecandidature"
+                    className="my-7 font-bold"
+                  >
+                    Abandon de mon projet avec recandidature
+                  </Checkbox>
+                </AlertBox>
+              </>
             )}
 
             <div className="mx-auto flex flex-col md:flex-row gap-4 items-center mt-4">
@@ -146,7 +174,6 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
               <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
             </div>
           </Form>
-          {appelOffre.periode.abandonAvecRecandidature && <InfoBoxChampAbandonAvecRecandidature />}
         </div>
       )}
     </LegacyPageTemplate>
