@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../../../projet.valueType';
-import { RéponseSignée } from '../abandon.valueType';
+import { AbandonRejetéRéponseSignée } from '../abandon.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
@@ -17,7 +17,7 @@ export type RejeterAbandonCommand = Message<
   'REJETER_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
-    réponseSignée: RéponseSignée;
+    réponseSignée: AbandonRejetéRéponseSignée;
     rejetéLe: DateTimeValueType;
   }
 >;
