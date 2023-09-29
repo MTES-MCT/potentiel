@@ -4,7 +4,7 @@ import { Project } from '../../projectionsNext';
 import { Op } from 'sequelize';
 
 export const getListLegacyIdsByIdentifiantsProjet = async (
-  identifiantsProjet: IdentifiantProjet[],
+  identifiantsProjet: ReadonlyArray<IdentifiantProjet>,
 ) => {
   if (!identifiantsProjet || !identifiantsProjet.length) {
     return [];
