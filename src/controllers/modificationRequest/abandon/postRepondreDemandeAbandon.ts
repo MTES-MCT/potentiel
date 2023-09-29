@@ -26,6 +26,43 @@ import {
 } from '@potentiel/domain';
 import { FileReadableStream } from '../../../helpers/fileReadableStream';
 import { none } from '@potentiel/monads';
+import { RéponseAbandonAvecRecandidatureProps } from '../../../views/certificates/abandon/RéponseAbandonAvecRecandidature';
+import { buildDocument } from '../../../views/certificates/abandon/buildDocument';
+
+const props: RéponseAbandonAvecRecandidatureProps = {
+  dateCourrier: 'JJ/MM/AAAA',
+  projet: {
+    potentielId: 'Eolien - 1 - 12 8da8c',
+    nomReprésentantLégal: 'Marcel Pagnol',
+    nomCandidat: 'Lili des Bellons',
+    email: 'marcel.pagnol@boulodrome-de-marseille.fr',
+    nom: 'Le Boulodrome de Marseille',
+    commune: 'Marseille',
+    codePostal: '13000',
+    dateDésignation: 'JJ/MM/AAAA',
+    puissance: 13,
+  },
+  appelOffre: {
+    nom: 'Eolien',
+    description:
+      'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
+    période: 'deuxième',
+    unitéPuissance: 'MW',
+    texteEngagementRéalisationEtModalitésAbandon: {
+      référenceParagraphe: '6.3 et 6.6',
+      dispositions: `Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du présent cahier des charges et conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.4).
+
+En cas de retrait de l’autorisation environnementale mentionnée au 3.3.3 par l’autorité compétente, d’annulation de cette autorisation à la suite d’un contentieux, ou, dans le cadre des première et troisième période, d’un rejet de sa demande pour cette même autorisation, le Candidat dont l’offre a été sélectionnée peut se désister. Il en fait la demande au ministre chargé de l’énergie sans délai et il est dans ce cas délié de ses obligations au titre du présent appel d’offres.`,
+    },
+  },
+  demandeAbandon: {
+    date: 'JJ/MM/AAAA',
+    instructeur: {
+      nom: 'Augustine Pagnol',
+      fonction: 'DGEC',
+    },
+  },
+};
 
 const schema = yup.object({
   body: yup.object({
@@ -57,12 +94,14 @@ v1Router.post(
         ),
     },
     async (request, response) => {
-      const { modificationRequestId, projectId, submitAccept, submitRefuse, submitConfirm } =
-        request.body;
-      const file = request.file && {
-        contents: fs.createReadStream(request.file.path),
-        filename: `${Date.now()}-${request.file.originalname}`,
-      };
+      const {
+        modificationRequestId,
+        projectId,
+        submitAccept,
+        submitRefuse,
+        submitConfirm,
+        abandonAvecRecandidature,
+      } = request.body;
 
       const estAccordé = typeof submitAccept === 'string';
       const estRejeté = typeof submitRefuse === 'string';
@@ -71,6 +110,34 @@ v1Router.post(
       const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
 
       if (estAccordé) {
+        const file = abandonAvecRecandidature
+          ? {
+              content: await buildDocument(props),
+              filename: `réponse-abandon-avec-recandidature.pdf`,
+              mimeType: 'application/pdf',
+            }
+          : request.file && {
+              content: fs.createReadStream(request.file.path),
+              filename: `${Date.now()}-${request.file.originalname}`,
+              mimeType: request.file.mimetype,
+            };
+
+        if (!file) {
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
+          });
+        }
+
+        const content = new ReadableStream({
+          start: async (controller) => {
+            controller.enqueue(file.content.read());
+            controller.close();
+          },
+        });
+
         await mediator.send<DomainUseCase>({
           type: 'ACCORDER_ABANDON_USECASE',
           data: {
@@ -82,8 +149,8 @@ v1Router.post(
             }),
             réponseSignée: {
               type: 'abandon-accordé',
-              format: request.file?.mimetype || '',
-              content: new FileReadableStream(request.file?.path || ''),
+              format: file.mimeType,
+              content,
             },
             dateAccordAbandon: convertirEnDateTime(new Date()),
           },
@@ -92,7 +159,10 @@ v1Router.post(
         accorderDemandeAbandon({
           user,
           demandeAbandonId: modificationRequestId,
-          fichierRéponse: file,
+          fichierRéponse: {
+            contents: file.content,
+            filename: file.filename,
+          },
         }).match(
           () => {
             return response.redirect(
@@ -120,6 +190,20 @@ v1Router.post(
       }
 
       if (estRejeté) {
+        if (!request.file) {
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
+          });
+        }
+
+        const file = {
+          contents: fs.createReadStream(request.file.path),
+          filename: `${Date.now()}-${request.file.originalname}`,
+        };
+
         await mediator.send<DomainUseCase>({
           type: 'REJETER_ABANDON_USECASE',
           data: {
@@ -131,8 +215,8 @@ v1Router.post(
             }),
             réponseSignée: {
               type: 'abandon-rejeté',
-              format: request.file?.mimetype || '',
-              content: new FileReadableStream(request.file?.path || ''),
+              format: request.file.mimetype,
+              content: new FileReadableStream(request.file.path),
             },
             dateRejetAbandon: convertirEnDateTime(new Date()),
           },
@@ -169,6 +253,20 @@ v1Router.post(
       }
 
       if (estConfirmationDemandée) {
+        if (!request.file) {
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
+          });
+        }
+
+        const file = {
+          contents: fs.createReadStream(request.file.path),
+          filename: `${Date.now()}-${request.file.originalname}`,
+        };
+
         await mediator.send<DomainUseCase>({
           type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
           data: {
@@ -180,8 +278,8 @@ v1Router.post(
             }),
             réponseSignée: {
               type: 'abandon-à-confirmer',
-              format: request.file?.mimetype || '',
-              content: new FileReadableStream(request.file?.path || ''),
+              format: request.file.mimetype,
+              content: new FileReadableStream(request.file.path),
             },
             dateDemandeConfirmationAbandon: convertirEnDateTime(new Date()),
           },
