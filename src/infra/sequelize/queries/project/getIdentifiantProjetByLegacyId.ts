@@ -2,10 +2,7 @@ import { Project } from '../../projectionsNext';
 
 export const getIdentifiantProjetByLegacyId = async (legacyId: Project['id']) => {
   try {
-    const projet = await Project.findOne({
-      where: {
-        id: legacyId,
-      },
+    const projet = await Project.findByPk(legacyId, {
       attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
       raw: true,
     });
