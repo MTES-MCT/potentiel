@@ -100,7 +100,7 @@ v1Router.post(
         submitAccept,
         submitRefuse,
         submitConfirm,
-        abandonAvecRecandidature,
+        recandidature,
       } = request.body;
 
       const estAccordé = typeof submitAccept === 'string';
@@ -110,7 +110,7 @@ v1Router.post(
       const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
 
       if (estAccordé) {
-        const file = abandonAvecRecandidature
+        const file = recandidature
           ? {
               content: await buildDocument(props),
               filename: `${Date.now()}-réponse-abandon-avec-recandidature.pdf`,
