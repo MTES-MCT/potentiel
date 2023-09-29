@@ -12,7 +12,7 @@ import {
   AbandonDéjàRejetéError,
   ConfirmationAbandonDéjàDemandéError,
 } from '../abandon.error';
-import { RéponseSignée } from '../abandon.valueType';
+import { ConfirmationAbandonDemandéRéponseSignée } from '../abandon.valueType';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
 
 export type DemanderConfirmationAbandonCommand = Message<
@@ -20,7 +20,7 @@ export type DemanderConfirmationAbandonCommand = Message<
   {
     identifiantProjet: IdentifiantProjetValueType;
     dateDemandeConfirmationAbandon: DateTimeValueType;
-    réponseSignée: RéponseSignée;
+    réponseSignée: ConfirmationAbandonDemandéRéponseSignée;
   }
 >;
 
