@@ -15,26 +15,75 @@ export type AbandonProjectorDependencies = {
   remove: Remove;
 };
 
-export const registerAbandonProjector = ({ upsert, remove }: AbandonProjectorDependencies) => {
+export const registerAbandonProjector = ({
+  upsert,
+  find,
+  remove,
+}: AbandonProjectorDependencies) => {
   const handler: MessageHandler<ExecuteAbandonProjector> = async ({ type, payload }) => {
     if (type === 'RebuildTriggered') {
       await remove<AbandonReadModel>(`abandon|${payload.id}`);
     } else {
+      const { appelOffre, famille, numéroCRE, période } = convertirEnIdentifiantProjet(
+        payload.identifiantProjet as `${string}#${string}#${string}#${string}`,
+      );
+
+      const abandon = await find<AbandonReadModel>(`abandon|${payload.identifiantProjet}`);
+
+      const abandonToUpsert: Omit<AbandonReadModel, 'type'> = isSome(abandon)
+        ? abandon
+        : {
+            appelOffre,
+            numéroCRE,
+            période,
+            famille: isSome(famille) ? famille : '',
+
+            demandeDemandéLe: '',
+            demandePiéceJustificativeFormat: '',
+            demandeRaison: '',
+            demandeRecandidature: false,
+            status: 'demandé',
+          };
+
       switch (type) {
         case 'AbandonDemandé-V1':
-          const { appelOffre, famille, numéroCRE, période } = convertirEnIdentifiantProjet(
-            payload.identifiantProjet as `${string}#${string}#${string}#${string}`,
-          );
           await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
-            appelOffre,
+            ...abandonToUpsert,
             demandePiéceJustificativeFormat: payload.piéceJustificative.format,
             demandeDemandéLe: payload.demandéLe,
             demandeRaison: payload.raison,
             demandeRecandidature: payload.recandidature,
-            numéroCRE,
-            période,
-            famille: isSome(famille) ? famille : '',
-            status: 'demandé',
+          });
+          break;
+        case 'AbandonAccordé-V1':
+          await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
+            ...abandonToUpsert,
+            accordAccordéLe: payload.acceptéLe,
+            accordRéponseSignéeFormat: payload.réponseSignée.format,
+            status: 'accordé',
+          });
+          break;
+        case 'AbandonRejeté-V1':
+          await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
+            ...abandonToUpsert,
+            rejetRejetéLe: payload.rejetéLe,
+            rejetRéponseSignéeFormat: payload.réponseSignée.format,
+            status: 'rejeté',
+          });
+          break;
+        case 'ConfirmationAbandonDemandé-V1':
+          await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
+            ...abandonToUpsert,
+            confirmationDemandéLe: payload.confirmationDemandéLe,
+            confirmationDemandéRéponseSignéeFormat: payload.réponseSignée.format,
+            status: 'à-confirmer',
+          });
+          break;
+        case 'AbandonConfirmé-V1':
+          await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
+            ...abandonToUpsert,
+            confirmationConfirméLe: payload.confirméLe,
+            status: 'confirmé',
           });
           break;
       }

@@ -18,10 +18,25 @@ export type AbandonReadModel = ReadModel<
     demandePiéceJustificativeFormat: string;
     demandeRecandidature: boolean;
     demandeDemandéLe: string;
+
+    accordRéponseSignéeFormat?: string;
+    accordAccordéLe?: string;
+
+    rejetRéponseSignéeFormat?: string;
+    rejetRejetéLe?: string;
+
+    confirmationDemandéLe?: string;
+    confirmationDemandéRéponseSignéeFormat?: string;
+    confirmationConfirméLe?: string;
   }
 >;
 
-export type PiéceJustificativeAbandonProjetReadModel = ReadModel<
-  'piéce-justificative-abandon-projet',
+export type PiéceJustificativeAbandonReadModel = ReadModel<
+  'piéce-justificative-abandon',
+  { format: string; content: ReadableStream }
+>;
+
+export type RéponseSignéeAbandonReadModel = ReadModel<
+  'réponse-signée-abandon',
   { format: string; content: ReadableStream }
 >;

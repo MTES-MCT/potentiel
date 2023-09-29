@@ -1,12 +1,12 @@
 import { DateTimeValueType, IdentifiantProjetValueType, RéponseSignée } from '@potentiel/domain';
 
-export type RécupérerPiéceJustificativeAbandonProjetPort = (options: {
+export type RécupérerPiéceJustificativeAbandonPort = (options: {
   identifiantProjet: IdentifiantProjetValueType;
   format: string;
   datePiéceJustificativeAbandon: DateTimeValueType;
 }) => Promise<ReadableStream | undefined>;
 
-export type RécupérerRéponseSignée = (options: {
+export type RécupérerRéponseSignéeAbandonPort = (options: {
   identifiantProjet: IdentifiantProjetValueType;
   type: RéponseSignée['type'];
   format: string;
