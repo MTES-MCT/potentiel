@@ -135,7 +135,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                 <AlertBox>
                   <div className="font-bold">Demande d'abandon avec recandidature</div>
                   <div>
-                    <p className="m-0">
+                    <p className="m-0 mt-4">
                       Je m'engage sur l'honneur à ne pas avoir débuté mes travaux au sens du cahier
                       des charges de l'AO associé et a abandonné mon statut de lauréat au profit
                       d'une recandidature réalisée au plus tard le 31/12/2024. Je m'engage sur
@@ -149,10 +149,10 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                       <li>Le même lieu d'implantation que le projet abandonné</li>
                       <li>Une puissance équivalente à plus ou moins 20% que le projet abandonné</li>
                       <li>
-                        Un tarif équivalent au tarif du dernier lauréat retenu pour la période dont
-                        le projet était initialement lauréat (et le cas échéant de la famille
-                        concernée) indexé jusqu'à septembre 2023 selon la formule d'indexation du
-                        cahier des charges de la dernière période avant le 1er octobre 2023
+                        Le tarif proposé ne doit pas être supérieur au prix plafond de la période
+                        dont le projet était initialement lauréat, indexé jusqu’à septembre 2023
+                        selon la formule d’indexation du prix de référence indiquée dans le cahier
+                        des charges concerné par la recandidature.
                       </li>
                     </ul>
                   </div>
@@ -161,7 +161,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                     id="abandonAvecRecandidature"
                     className="my-7 font-bold"
                   >
-                    Abandon de mon projet avec recandidature
+                    Abandon de mon projet avec recandidature (optionnel)
                   </Checkbox>
                 </AlertBox>
               </>
