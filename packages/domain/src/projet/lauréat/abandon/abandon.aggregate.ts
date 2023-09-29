@@ -97,6 +97,10 @@ const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events
         return updateAvecConfirmationAbandonDemandé(aggregate, payload);
       case 'AbandonConfirmé-V1':
         return updateAvecAbandonConfirmé(aggregate, payload);
+      case 'AbandonAnnulé-V1':
+        return {
+          ...getDefaultAggregate(),
+        };
       default:
         return {
           ...aggregate,
