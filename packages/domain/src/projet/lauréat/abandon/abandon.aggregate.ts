@@ -8,7 +8,7 @@ import {
   ConfirmationAbandonDemandéEvent,
   AbandonConfirméEvent,
 } from './abandon.event';
-import { StatusAbandon } from './abandon.valueType';
+import { StatutAbandon } from './abandon.valueType';
 import { DateTime, convertirEnDateTime } from '../../../common.valueType';
 
 type AbandonAggregateId = `abandon|${string}`;
@@ -22,7 +22,7 @@ export const createAbandonAggregateId = (
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
 export type Abandon = {
-  getStatus: () => StatusAbandon;
+  getStatut: () => StatutAbandon;
   demande: {
     raison: string;
     piéceJustificative: {
@@ -53,7 +53,7 @@ export type Abandon = {
 };
 
 const getDefaultAggregate = (): Abandon => ({
-  getStatus: function () {
+  getStatut: function () {
     if (this.rejet) {
       return 'rejeté';
     }
@@ -62,8 +62,8 @@ const getDefaultAggregate = (): Abandon => ({
       return 'accordé';
     }
 
-    if (this.demande.confirmation && !this.demande.confirmation.confirméLe) {
-      return 'à-confirmer';
+    if (this.demande.confirmation && !this.demande.confirmation.demandéLe) {
+      return 'confirmation-demandé';
     }
 
     if (this.demande.confirmation && this.demande.confirmation.confirméLe) {

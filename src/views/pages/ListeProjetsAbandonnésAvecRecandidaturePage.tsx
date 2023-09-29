@@ -69,9 +69,6 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
                           {abandon.appelOffre}-P{abandon.période}-F{abandon.famille}-
                           {abandon.numéroCRE}
                         </div>
-                        <div className="italic text-xs text-grey-425-base">
-                          Status: {abandon.status}
-                        </div>
                         {getStatutAbandon(abandon)}
                       </div>
 
@@ -118,7 +115,7 @@ export const ListeProjetsAbandonnésAvecRecandidature = ({
 };
 
 const getStatutAbandon = (abandon: AbandonReadModel) => {
-  switch (abandon.status) {
+  switch (abandon.statut) {
     case 'accordé':
       return (
         <>
@@ -146,7 +143,7 @@ const getStatutAbandon = (abandon: AbandonReadModel) => {
           </div>
         </>
       );
-    case 'à-confirmer':
+    case 'confirmation-demandé':
       return (
         <>
           <div className="italic text-xs text-grey-425-base">Statut : Confirmation demandée</div>
