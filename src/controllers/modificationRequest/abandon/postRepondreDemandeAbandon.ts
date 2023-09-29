@@ -34,6 +34,7 @@ const schema = yup.object({
     submitConfirm: yup.string().nullable(),
     modificationRequestId: yup.string().uuid().required(),
     projectId: yup.string().uuid().required(),
+    recandidature: yup.boolean().optional(),
   }),
 });
 
