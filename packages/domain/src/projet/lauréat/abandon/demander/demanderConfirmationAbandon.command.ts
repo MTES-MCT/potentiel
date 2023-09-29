@@ -47,7 +47,7 @@ export const registerDemanderConfirmationAbandonCommand = ({
       throw new DemandeAbandonInconnuErreur();
     }
 
-    const status = abandon.getStatus();
+    const status = abandon.getStatut();
 
     if (status !== 'demandé') {
       switch (status) {
@@ -57,7 +57,7 @@ export const registerDemanderConfirmationAbandonCommand = ({
           throw new AbandonDéjàRejetéError();
         case 'confirmé':
           throw new AbandonDéjàConfirméError();
-        case 'à-confirmer':
+        case 'confirmation-demandé':
           throw new ConfirmationAbandonDéjàDemandéError();
       }
     }

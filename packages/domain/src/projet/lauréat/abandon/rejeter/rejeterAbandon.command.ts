@@ -45,11 +45,11 @@ export const registerRejeterAbandonCommand = ({
       throw new DemandeAbandonInconnuErreur();
     }
 
-    if (abandon.getStatus() === 'accordé') {
+    if (abandon.getStatut() === 'accordé') {
       throw new AbandonDéjàAccordéError();
     }
 
-    if (abandon.getStatus() === 'rejeté') {
+    if (abandon.getStatut() === 'rejeté') {
       throw new AbandonDéjàRejetéError();
     }
 

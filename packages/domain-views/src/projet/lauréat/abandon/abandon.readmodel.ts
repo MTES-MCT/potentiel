@@ -1,12 +1,12 @@
 import { ReadModel } from '@potentiel/core-domain-views';
-import { RawIdentifiantProjet, StatusAbandon } from '@potentiel/domain';
+import { RawIdentifiantProjet, StatutAbandon } from '@potentiel/domain';
 
 export type AbandonReadModelKey = `abandon|${RawIdentifiantProjet}`;
 
 export type AbandonReadModel = ReadModel<
   'abandon',
   {
-    status: StatusAbandon;
+    statut: StatutAbandon;
 
     appelOffre: string;
     numéroCRE: string;

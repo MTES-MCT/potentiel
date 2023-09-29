@@ -42,7 +42,7 @@ export const registerAbandonProjector = ({
             demandePiéceJustificativeFormat: '',
             demandeRaison: '',
             demandeRecandidature: false,
-            status: 'demandé',
+            statut: 'demandé',
           };
 
       switch (type) {
@@ -60,7 +60,7 @@ export const registerAbandonProjector = ({
             ...abandonToUpsert,
             accordAccordéLe: payload.acceptéLe,
             accordRéponseSignéeFormat: payload.réponseSignée.format,
-            status: 'accordé',
+            statut: 'accordé',
           });
           break;
         case 'AbandonRejeté-V1':
@@ -68,7 +68,7 @@ export const registerAbandonProjector = ({
             ...abandonToUpsert,
             rejetRejetéLe: payload.rejetéLe,
             rejetRéponseSignéeFormat: payload.réponseSignée.format,
-            status: 'rejeté',
+            statut: 'rejeté',
           });
           break;
         case 'ConfirmationAbandonDemandé-V1':
@@ -76,14 +76,14 @@ export const registerAbandonProjector = ({
             ...abandonToUpsert,
             confirmationDemandéLe: payload.confirmationDemandéLe,
             confirmationDemandéRéponseSignéeFormat: payload.réponseSignée.format,
-            status: 'à-confirmer',
+            statut: 'confirmation-demandé',
           });
           break;
         case 'AbandonConfirmé-V1':
           await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             confirmationConfirméLe: payload.confirméLe,
-            status: 'confirmé',
+            statut: 'confirmé',
           });
           break;
       }
