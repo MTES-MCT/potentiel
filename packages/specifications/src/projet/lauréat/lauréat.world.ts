@@ -1,12 +1,12 @@
 import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain';
-import { ProjetReadModel } from '@potentiel/domain-views';
+import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
 import { none } from '@potentiel/monads';
 //import { AbandonWord } from './abandon/abandon.world';
 
 type LauréatFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet;
-  projet?: ProjetReadModel;
+  projet?: CandidatureLegacyReadModel;
 };
 
 export class LauréatWorld {

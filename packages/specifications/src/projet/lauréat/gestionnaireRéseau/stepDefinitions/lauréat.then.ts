@@ -2,7 +2,7 @@ import { Then as Alors } from '@cucumber/cucumber';
 
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
-import { ConsulterLegacyProjetQuery } from '@potentiel/domain-views';
+import { ConsulterGestionnaireRéseauLauréatQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
@@ -36,8 +36,8 @@ Alors(
     actualGestionnaireRéseau.codeEIC.should.equals(codeEIC);
 
     // Assert on read model
-    const résultat = await mediator.send<ConsulterLegacyProjetQuery>({
-      type: 'CONSULTER_LEGACY_PROJET',
+    const résultat = await mediator.send<ConsulterGestionnaireRéseauLauréatQuery>({
+      type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_LAURÉAT_QUERY',
       data: {
         identifiantProjet,
       },
