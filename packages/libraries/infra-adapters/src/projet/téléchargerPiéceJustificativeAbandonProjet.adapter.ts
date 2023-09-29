@@ -4,8 +4,13 @@ import { extension } from 'mime-types';
 import { join } from 'path';
 
 export const téléchargerPiéceJustificativeAbandonProjetAdapter: RécupérerPiéceJustificativeAbandonProjetPort =
-  async (identifiantProjet, format) => {
-    const filePath = join(identifiantProjet, `piéce-justificative-abandon.${extension(format)}`);
+  async ({ identifiantProjet, datePiéceJustificativeAbandon, format }) => {
+    const filePath = join(
+      identifiantProjet.formatter(),
+      'abandon',
+      'piéce-justificative',
+      `${datePiéceJustificativeAbandon.formatter()}.${extension(format)}`,
+    );
 
     try {
       return await download(filePath);

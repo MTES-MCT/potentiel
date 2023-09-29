@@ -4,8 +4,17 @@ import { extension } from 'mime-types';
 import { join } from 'path';
 
 export const téléverserPiéceJustificativeAbandonAdapter: EnregistrerPiéceJustificativeAbandonPort =
-  async ({ identifiantProjet, piéceJustificative: { content, format } }) => {
-    const filePath = join(identifiantProjet, `piéce-justificative-abandon.${extension(format)}`);
+  async ({
+    identifiantProjet,
+    piéceJustificative: { content, format },
+    datePiéceJustificativeAbandon,
+  }) => {
+    const filePath = join(
+      identifiantProjet.formatter(),
+      'abandon',
+      'piéce-justificative',
+      `${datePiéceJustificativeAbandon.formatter()}.${extension(format)}`,
+    );
 
     await upload(filePath, content);
   };

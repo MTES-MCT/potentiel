@@ -54,8 +54,9 @@ export const registerRejeterAbandonCommand = ({
     }
 
     await enregistrerRéponseSignée({
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantProjet,
       réponseSignée,
+      dateDocumentRéponseSignée: dateRejetAbandon,
     });
 
     const event: AbandonRejetéEvent = {

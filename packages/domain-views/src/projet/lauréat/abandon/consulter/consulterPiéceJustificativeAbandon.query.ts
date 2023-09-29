@@ -1,6 +1,7 @@
 import {
   IdentifiantProjet,
   RawIdentifiantProjet,
+  convertirEnDateTime,
   convertirEnIdentifiantProjet,
   estUnIdentifiantProjet,
 } from '@potentiel/domain';
@@ -47,10 +48,11 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
       return none;
     }
 
-    const content = await récupérerPiéceJustificativeAbandonProjet(
-      rawIdentifiantProjet,
-      abandon.demandePiéceJustificativeFormat || '',
-    );
+    const content = await récupérerPiéceJustificativeAbandonProjet({
+      datePiéceJustificativeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
+      format: abandon.demandePiéceJustificativeFormat,
+      identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+    });
 
     if (!content) {
       return none;

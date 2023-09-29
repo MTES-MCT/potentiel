@@ -46,8 +46,9 @@ export const registerDemanderAbandonCommand = ({
     }
 
     await enregistrerPiéceJustificativeAbandon({
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantProjet,
       piéceJustificative,
+      datePiéceJustificativeAbandon: dateDemandeAbandon,
     });
 
     const event: AbandonDemandéEvent = {
