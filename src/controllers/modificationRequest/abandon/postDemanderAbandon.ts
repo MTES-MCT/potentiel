@@ -18,6 +18,7 @@ import {
 } from '@potentiel/domain';
 import { FileReadableStream } from '../../../helpers/fileReadableStream';
 import { none } from '@potentiel/monads';
+import { InvalidOperationError } from '@potentiel/core-domain';
 
 const schema = yup.object({
   body: yup.object({
@@ -72,7 +73,20 @@ v1Router.post(
           },
         });
       } catch (error) {
+        if (error instanceof InvalidOperationError) {
+          return response.redirect(
+            addQueryParams(routes.GET_DEMANDER_ABANDON(projectId), {
+              error: error.message,
+            }),
+          );
+        }
+
         logger.error(error);
+        return errorResponse({
+          request,
+          response,
+          customMessage: `Il y a eu une erreur lors de la soumission de votre demande. Veuillez répéter l'opération ou contacter un administrateur.`,
+        });
       }
 
       return demanderAbandon({
