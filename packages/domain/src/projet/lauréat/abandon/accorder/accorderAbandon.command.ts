@@ -18,7 +18,7 @@ export type AccorderAbandonCommand = Message<
   {
     identifiantProjet: IdentifiantProjetValueType;
     réponseSignée: AbandonAccordéRéponseSignée;
-    acceptéLe: DateTimeValueType;
+    dateAccordAbandon: DateTimeValueType;
   }
 >;
 
@@ -37,7 +37,7 @@ export const registerAccorderAbandonCommand = ({
   const handler: MessageHandler<AccorderAbandonCommand> = async ({
     identifiantProjet,
     réponseSignée,
-    acceptéLe,
+    dateAccordAbandon,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -65,7 +65,7 @@ export const registerAccorderAbandonCommand = ({
         réponseSignée: {
           format: réponseSignée.format,
         },
-        acceptéLe: acceptéLe.formatter(),
+        acceptéLe: dateAccordAbandon.formatter(),
       },
     };
 

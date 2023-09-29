@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel/core-domain';
 export type AbandonDemandéEvent = DomainEvent<
   'AbandonDemandé-V1',
   {
-    dateAbandon: string;
+    demandéLe: string;
     identifiantProjet: string;
     raison: string;
     recandidature: boolean;

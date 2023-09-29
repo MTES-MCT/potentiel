@@ -9,14 +9,14 @@ export type RejeterAbandonUseCase = Message<'REJETER_ABANDON_USECASE', RejeterAb
 export const registerRejeterAbandonUseCase = () => {
   const runner: MessageHandler<RejeterAbandonUseCase> = async ({
     identifiantProjet,
-    rejetéLe,
+    dateRejetAbandon: rejetéLe,
     réponseSignée,
   }) => {
     await mediator.send<AbandonCommand>({
       type: 'REJETER_ABANDON_COMMAND',
       data: {
         identifiantProjet,
-        rejetéLe,
+        dateRejetAbandon: rejetéLe,
         réponseSignée,
       },
     });

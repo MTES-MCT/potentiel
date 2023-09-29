@@ -14,7 +14,7 @@ export const registerDemanderAbandonAvecRecandidatureUseCase = () => {
     identifiantProjet,
     piéceJustificative,
     raison,
-    dateAbandon,
+    dateDemandeAbandon: dateAbandon,
     recandidature,
   }) => {
     await mediator.send<AbandonCommand>({
@@ -23,7 +23,7 @@ export const registerDemanderAbandonAvecRecandidatureUseCase = () => {
         identifiantProjet,
         piéceJustificative,
         raison,
-        dateAbandon,
+        dateDemandeAbandon: dateAbandon,
         recandidature,
       },
     });

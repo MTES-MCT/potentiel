@@ -1,11 +1,10 @@
 import fs from 'fs';
 import * as yup from 'yup';
 
-import { demanderAbandon, ensureRole } from '../../../config';
+import { demanderAbandon, ensureRole, getIdentifiantProjetByLegacyId } from '../../../config';
 import { logger } from '../../../core/utils';
 import { UnauthorizedError } from '../../../modules/shared';
 import routes from '../../../routes';
-import { Project } from '../../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import { errorResponse, unauthorizedResponse } from '../../helpers';
 import { upload } from '../../upload';
@@ -51,31 +50,29 @@ v1Router.post(
         filename: `${Date.now()}-${request.file.originalname}`,
       };
 
-      const projet = await Project.findByPk(projectId, {
-        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
-      });
+      const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
 
       try {
         await mediator.send<DomainUseCase>({
           type: 'DEMANDER_ABANDON_USECASE',
           data: {
             identifiantProjet: convertirEnIdentifiantProjet({
-              appelOffre: projet?.appelOffreId || '',
-              famille: projet?.familleId || none,
-              numéroCRE: projet?.numeroCRE || '',
-              période: projet?.periodeId || '',
+              appelOffre: identifiantProjet?.appelOffre || '',
+              famille: identifiantProjet?.famille || none,
+              numéroCRE: identifiantProjet?.numéroCRE || '',
+              période: identifiantProjet?.période || '',
             }),
             piéceJustificative: {
               format: request.file?.mimetype || '',
               content: new FileReadableStream(request.file?.path || ''),
             },
-            dateAbandon: convertirEnDateTime(new Date()),
+            dateDemandeAbandon: convertirEnDateTime(new Date()),
             recandidature: !!abandonAvecRecandidature,
             raison: justification || '',
           },
         });
       } catch (error) {
-        console.log(error);
+        logger.error(error);
       }
 
       return demanderAbandon({
