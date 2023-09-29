@@ -1,7 +1,14 @@
 import { Text, View } from '@react-pdf/renderer';
-import React from 'react';
+import React, { FC } from 'react';
 
-export const Signature = () => (
+type SignatureProps = {
+  instructeur: {
+    nom: string;
+    fonction: string;
+  };
+};
+
+export const Signature: FC<SignatureProps> = ({ instructeur: { nom, fonction } }) => (
   <View
     style={{
       width: 200,
@@ -13,11 +20,9 @@ export const Signature = () => (
     }}
     wrap={false}
   >
-    <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>
-      [NOM_PRENOM_UTILISATEUR_QUI_ACCEPTE_LA_DEMANDE]
-    </Text>
+    <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>{nom}</Text>
     <Text style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}>
-      [FONCTION_UTILISATEUR_QUI_ACCEPTE_LA_DEMANDE]
+      {fonction}
     </Text>
     <Text style={{ fontSize: 9, marginTop: 10, textAlign: 'left', fontStyle: 'italic' }}>
       Validé électroniquement par la plateforme https://potentiel.beta.gouv.fr et conforme à

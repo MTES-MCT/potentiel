@@ -1,7 +1,27 @@
 import { Text, View } from '@react-pdf/renderer';
-import React from 'react';
+import React, { FC } from 'react';
 
-export const Introduction = () => {
+type IntroductionProps = {
+  projet: {
+    nom: string;
+    commune: string;
+    codePostal: string;
+    dateDésignation: string;
+    puissance: number;
+  };
+  appelOffre: {
+    unitéPuissance: string;
+  };
+  demandeAbandon: {
+    date: string;
+  };
+};
+
+export const Introduction: FC<IntroductionProps> = ({
+  projet: { dateDésignation, nom, commune, codePostal, puissance },
+  appelOffre: { unitéPuissance },
+  demandeAbandon: { date: dateDemandeAbandon },
+}) => {
   return (
     <>
       <Text
@@ -15,8 +35,8 @@ export const Introduction = () => {
       </Text>
 
       <Text style={{ fontSize: 10 }}>
-        Par courrier du [DATE_DESIGNATION (JJ/MM/AAAA)], il vous a été notifié la désignation du
-        projet ci-dessous comme lauréat de l’appel d’offres cité en objet.
+        Par courrier du {dateDésignation}, il vous a été notifié la désignation du projet ci-dessous
+        comme lauréat de l’appel d’offres cité en objet.
       </Text>
 
       <View
@@ -41,7 +61,7 @@ export const Introduction = () => {
           </Text>
           <View style={{ padding: 10, borderRight: '1px solid #000', width: 110 }}>
             <Text>Puissance</Text>
-            <Text>([UNITE_PUISSANCE_APPEL_OFFRE])</Text>
+            <Text>({unitéPuissance})</Text>
           </View>
           <View style={{ padding: 10, width: 110 }}>
             <Text>Commune</Text>
@@ -54,22 +74,21 @@ export const Introduction = () => {
             flexDirection: 'row',
           }}
         >
+          <Text style={{ padding: 10, borderRight: '1px solid #000', width: 110 }}>{nom}</Text>
           <Text style={{ padding: 10, borderRight: '1px solid #000', width: 110 }}>
-            [NOM DU PROJET]
+            {puissance}
           </Text>
-          <Text style={{ padding: 10, borderRight: '1px solid #000', width: 110 }}>
-            [PUISSANCE_PROJET]
+          <Text style={{ padding: 10, width: 110 }}>
+            {commune} ({codePostal})]
           </Text>
-          <Text style={{ padding: 10, width: 110 }}>[NOM DE LA COMMUNE (CODE POSTAL)]</Text>
         </View>
       </View>
 
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10, marginBottom: 10 }}>
-        Par votre demande reçue dans nos services le [DATE_DEMANDE_ABANDON (JJ/MM/AAAA)], vous
-        m’informez que votre société ne sera pas en mesure de réaliser ce projet du fait des
-        conditions économiques. Vous m’informez également que vous souhaitez abandonner votre statut
-        de lauréat afin de pouvoir candidater à une future période d’appel d’offres, avant le 31
-        décembre 2024.
+        Par votre demande reçue dans nos services le {dateDemandeAbandon}, vous m’informez que votre
+        société ne sera pas en mesure de réaliser ce projet du fait des conditions économiques. Vous
+        m’informez également que vous souhaitez abandonner votre statut de lauréat afin de pouvoir
+        candidater à une future période d’appel d’offres, avant le 31 décembre 2024.
       </Text>
     </>
   );
