@@ -63,8 +63,9 @@ export const registerDemanderConfirmationAbandonCommand = ({
     }
 
     await enregistrerRéponseSignée({
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantProjet,
       réponseSignée,
+      dateDocumentRéponseSignée: dateDemandeConfirmationAbandon,
     });
 
     const event: ConfirmationAbandonDemandéEvent = {

@@ -54,8 +54,9 @@ export const registerAccorderAbandonCommand = ({
     }
 
     await enregistrerRéponseSignée({
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantProjet,
       réponseSignée,
+      dateDocumentRéponseSignée: dateAccordAbandon,
     });
 
     const event: AbandonAccordéEvent = {

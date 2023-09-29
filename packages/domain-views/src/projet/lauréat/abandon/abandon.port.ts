@@ -1,12 +1,14 @@
-import { RawIdentifiantProjet, RéponseSignée } from '@potentiel/domain';
+import { DateTimeValueType, IdentifiantProjetValueType, RéponseSignée } from '@potentiel/domain';
 
-export type RécupérerPiéceJustificativeAbandonProjetPort = (
-  identifiantProjet: RawIdentifiantProjet,
-  format: string,
-) => Promise<ReadableStream | undefined>;
+export type RécupérerPiéceJustificativeAbandonProjetPort = (options: {
+  identifiantProjet: IdentifiantProjetValueType;
+  format: string;
+  datePiéceJustificativeAbandon: DateTimeValueType;
+}) => Promise<ReadableStream | undefined>;
 
-export type RécupérerRéponseSignée = (
-  IdentifiantProjet: RawIdentifiantProjet,
-  type: RéponseSignée['type'],
-  format: string,
-) => Promise<ReadableStream | undefined>;
+export type RécupérerRéponseSignée = (options: {
+  identifiantProjet: IdentifiantProjetValueType;
+  type: RéponseSignée['type'];
+  format: string;
+  dateRécupérerRéponseSignée: DateTimeValueType;
+}) => Promise<ReadableStream | undefined>;
