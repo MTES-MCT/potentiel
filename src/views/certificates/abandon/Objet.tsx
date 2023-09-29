@@ -4,9 +4,8 @@ import React from 'react';
 export const Objet = () => {
   return (
     <Text style={{ fontWeight: 'bold', marginTop: 30 }}>
-      Objet : Abandon d’un projet lauréat de la [XX] période de l’appel d’offres [XXXX] portant [sur
-      la réalisation et l’exploitation d’Installations de production d’électricité à partir de
-      l’énergie mécanique du vent implantées à terre]
+      Objet : Abandon d’un projet lauréat de la [NUMERO_PERIODE] période de l’appel d’offres
+      [NOM_APPEL_OFFRE] portant [DESCRIPTION_APPEL_OFFRE]
     </Text>
   );
 };

@@ -42,12 +42,14 @@ export const Header = () => {
             Direction générale de l’énergie et du climat
           </Text>
 
-          <Text style={{ fontSize: 10, marginBottom: 90 }}>Paris, le [JJ/MM/AAAA]</Text>
+          <Text style={{ fontSize: 10, marginBottom: 90 }}>
+            Paris, le [DATE_ACCORD_ABANDON (JJ/MM/AAAA)]
+          </Text>
 
           <View style={{ fontSize: 10 }}>
-            <Text>[nomRepresentantLegal]</Text>
-            <Text>[nomCandidat]</Text>
-            <Text>[email]</Text>
+            <Text>[nomRepresentantLegal_PROJET]</Text>
+            <Text>[nomCandidat_PROJET]</Text>
+            <Text>[email_PROJET]</Text>
           </View>
         </View>
       </View>

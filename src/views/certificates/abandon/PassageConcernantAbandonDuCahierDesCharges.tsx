@@ -5,24 +5,12 @@ export const PassageConcernantAbandonDuCahierDesCharges = () => {
   return (
     <>
       <Text style={{ fontSize: 10 }}>
-        [Le paragraphe 6.2 du cahier des charges de l’appel d’offres cité en objet indique :
+        Le paragraphe [REFERENCE_PARAGRAPHE_ABANDON] du cahier des charges de l’appel d’offres cité
+        en objet indique :
       </Text>
 
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-        « Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du
-        présent cahier des charges et conformément aux éléments du dossier de candidature (les
-        possibilités et modalités de modification sont indiquées au 5.2). Par exception, le Candidat
-        est délié de cette obligation : - en cas de retrait de l’autorisation environnementale par
-        l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les
-        retraits gracieux sur demande du candidat ne sont pas concernés. - en cas de non obtention
-        ou de retrait de toute autre autorisation administrative ou dérogation nécessaire à la
-        réalisation du projet. Il en informe dans ce cas le Préfet en joignant les pièces
-        justificatives. La garantie financière est alors levée. Le Candidat peut également être
-        délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite
-        d’une demande dûment justifiée. Le Ministre peut accompagner son accord de conditions ou du
-        prélèvement d’une part de la garantie inancière. Ni l’accord du Ministre, ni les conditions
-        imposées, ni le prélèvement de la garantie financière ne limitent la possibilité de recours
-        de l’Etat aux sanctions du 8.2. »]
+        « [TEXTE_PARAGRAPHE_ABANDON] »
       </Text>
 
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
@@ -57,9 +45,9 @@ export const PassageConcernantAbandonDuCahierDesCharges = () => {
         <View style={{ flexDirection: 'row', marginBottom: 10 }}>
           <Text style={{ marginHorizontal: 16 }}>-</Text>
           <Text>
-            Le tarif proposé ne doit pas être supérieur au tarif du dernier lauréat retenu pour la
-            période dont le projet était initialement lauréat (et le cas échéant de la famille
-            concernée) indexé jusqu'à septembre 2023.
+            Le tarif proposé ne doit pas être supérieur au prix plafond de la période dont le projet
+            était initialement lauréat, indexé jusqu’à septembre 2023 selon la formule d’indexation
+            du prix de référence indiquée dans le cahier des charges concerné par la recandidature.
           </Text>
         </View>
       </View>
