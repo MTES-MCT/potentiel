@@ -117,7 +117,7 @@ export const loadAbandonAggregateFactory = ({
 };
 
 const createAbandon = (aggregate: Abandon, payload: AbandonDemandéEvent['payload']) => {
-  const { recandidature, piéceJustificative, raison, dateAbandon } = payload;
+  const { recandidature, piéceJustificative, raison, demandéLe: dateAbandon } = payload;
   const newAggregate: Abandon = {
     ...aggregate,
     demande: {

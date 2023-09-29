@@ -18,7 +18,7 @@ export type RejeterAbandonCommand = Message<
   {
     identifiantProjet: IdentifiantProjetValueType;
     réponseSignée: AbandonRejetéRéponseSignée;
-    rejetéLe: DateTimeValueType;
+    dateRejetAbandon: DateTimeValueType;
   }
 >;
 
@@ -37,7 +37,7 @@ export const registerRejeterAbandonCommand = ({
   const handler: MessageHandler<RejeterAbandonCommand> = async ({
     identifiantProjet,
     réponseSignée,
-    rejetéLe,
+    dateRejetAbandon,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -65,7 +65,7 @@ export const registerRejeterAbandonCommand = ({
         réponseSignée: {
           format: réponseSignée.format,
         },
-        rejetéLe: rejetéLe.formatter(),
+        rejetéLe: dateRejetAbandon.formatter(),
       },
     };
 

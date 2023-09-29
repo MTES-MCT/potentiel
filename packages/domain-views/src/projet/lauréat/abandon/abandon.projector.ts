@@ -28,7 +28,7 @@ export const registerAbandonProjector = ({ upsert, remove }: AbandonProjectorDep
           await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
             appelOffre,
             demandePiéceJustificativeFormat: payload.piéceJustificative.format,
-            demandeDemandéLe: payload.dateAbandon,
+            demandeDemandéLe: payload.demandéLe,
             demandeRaison: payload.raison,
             demandeRecandidature: payload.recandidature,
             numéroCRE,

@@ -15,7 +15,7 @@ export type DemanderAbandonCommand = Message<
     identifiantProjet: IdentifiantProjetValueType;
     raison: string;
     piéceJustificative: PiéceJustificativeAbandon;
-    dateAbandon: DateTimeValueType;
+    dateDemandeAbandon: DateTimeValueType;
     recandidature: boolean;
   }
 >;
@@ -36,7 +36,7 @@ export const registerDemanderAbandonCommand = ({
     identifiantProjet,
     piéceJustificative,
     raison,
-    dateAbandon,
+    dateDemandeAbandon,
     recandidature,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
@@ -59,7 +59,7 @@ export const registerDemanderAbandonCommand = ({
           format: piéceJustificative.format,
         },
         raison,
-        dateAbandon: dateAbandon.formatter(),
+        demandéLe: dateDemandeAbandon.formatter(),
       },
     };
 
