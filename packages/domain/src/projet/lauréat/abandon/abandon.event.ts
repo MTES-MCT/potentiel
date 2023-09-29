@@ -13,6 +13,14 @@ export type AbandonDemandéEvent = DomainEvent<
   }
 >;
 
+export type AbandonAnnuléEvent = DomainEvent<
+  'AbandonAnnulé-V1',
+  {
+    annuléLe: string;
+    identifiantProjet: string;
+  }
+>;
+
 export type AbandonRejetéEvent = DomainEvent<
   'AbandonRejeté-V1',
   {
@@ -56,6 +64,7 @@ export type AbandonConfirméEvent = DomainEvent<
 
 export type AbandonEvent =
   | AbandonDemandéEvent
+  | AbandonAnnuléEvent
   | AbandonRejetéEvent
   | AbandonAccordéEvent
   | ConfirmationAbandonDemandéEvent
