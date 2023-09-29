@@ -63,7 +63,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     appelOffre: {},
     projet: {
       récupérerCandidature: récupérerCandidatureAdapter,
-      récupérerPiéceJustificativeAbandonProjet: téléchargerPiéceJustificativeAbandonProjetAdapter,
+      récupérerPiéceJustificativeAbandon: téléchargerPiéceJustificativeAbandonProjetAdapter,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:

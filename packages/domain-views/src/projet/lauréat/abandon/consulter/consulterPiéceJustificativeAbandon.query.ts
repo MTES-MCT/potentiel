@@ -9,11 +9,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option, isNone, none } from '@potentiel/monads';
 import { Find } from '@potentiel/core-domain-views';
-import { RécupérerPiéceJustificativeAbandonProjetPort } from '../abandon.port';
+import { RécupérerPiéceJustificativeAbandonPort } from '../abandon.port';
 import {
   AbandonReadModel,
   AbandonReadModelKey,
-  PiéceJustificativeAbandonProjetReadModel,
+  PiéceJustificativeAbandonReadModel,
 } from '../abandon.readmodel';
 
 export type ConsulterPiéceJustificativeAbandonProjetQuery = Message<
@@ -21,17 +21,17 @@ export type ConsulterPiéceJustificativeAbandonProjetQuery = Message<
   {
     identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
   },
-  Option<PiéceJustificativeAbandonProjetReadModel>
+  Option<PiéceJustificativeAbandonReadModel>
 >;
 
 export type ConsulterPiéceJustificativeAbandonProjetDependencies = {
   find: Find;
-  récupérerPiéceJustificativeAbandonProjet: RécupérerPiéceJustificativeAbandonProjetPort;
+  récupérerPiéceJustificativeAbandon: RécupérerPiéceJustificativeAbandonPort;
 };
 
 export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
   find,
-  récupérerPiéceJustificativeAbandonProjet,
+  récupérerPiéceJustificativeAbandon,
 }: ConsulterPiéceJustificativeAbandonProjetDependencies) => {
   const handler: MessageHandler<ConsulterPiéceJustificativeAbandonProjetQuery> = async ({
     identifiantProjet,
@@ -48,7 +48,7 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
       return none;
     }
 
-    const content = await récupérerPiéceJustificativeAbandonProjet({
+    const content = await récupérerPiéceJustificativeAbandon({
       datePiéceJustificativeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
       format: abandon.demandePiéceJustificativeFormat,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
@@ -59,10 +59,10 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
     }
 
     return {
-      type: 'piéce-justificative-abandon-projet',
-      format: abandon.demandePiéceJustificativeFormat || '',
+      type: 'piéce-justificative-abandon',
+      format: abandon.demandePiéceJustificativeFormat,
       content,
-    } satisfies PiéceJustificativeAbandonProjetReadModel;
+    } satisfies PiéceJustificativeAbandonReadModel;
   };
   mediator.register('CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET', handler);
 };

@@ -1,9 +1,9 @@
-import { RécupérerPiéceJustificativeAbandonProjetPort } from '@potentiel/domain-views';
+import { RécupérerPiéceJustificativeAbandonPort } from '@potentiel/domain-views';
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';
 
-export const téléchargerPiéceJustificativeAbandonProjetAdapter: RécupérerPiéceJustificativeAbandonProjetPort =
+export const téléchargerPiéceJustificativeAbandonProjetAdapter: RécupérerPiéceJustificativeAbandonPort =
   async ({ identifiantProjet, datePiéceJustificativeAbandon, format }) => {
     const filePath = join(
       identifiantProjet.formatter(),

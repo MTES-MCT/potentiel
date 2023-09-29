@@ -1,9 +1,9 @@
-import { RécupérerRéponseSignée } from '@potentiel/domain-views';
+import { RécupérerRéponseSignéeAbandonPort } from '@potentiel/domain-views';
 import { download } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';
 
-export const téléchargerRéponseSignéeAdapter: RécupérerRéponseSignée = async ({
+export const téléchargerRéponseSignéeAdapter: RécupérerRéponseSignéeAbandonPort = async ({
   identifiantProjet,
   dateRécupérerRéponseSignée,
   format,
