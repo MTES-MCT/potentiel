@@ -90,6 +90,7 @@ export const DemandeAbandonPourAdmin = ({
           <input type="hidden" name="modificationRequestId" value={demandeAbandon.id} />
           <input type="hidden" name="type" value={demandeAbandon.type} />
           <input type="hidden" name="versionDate" value={demandeAbandon.versionDate} />
+          <input type="hidden" name="projectId" value={demandeAbandon.project.id} />
 
           {!demandeAbandonAvecRecandidature && (
             <>
