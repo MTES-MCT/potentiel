@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { ProjectAppelOffre } from '../../../entities';
 import routes from '../../../routes';
 import { Request } from 'express';
@@ -32,35 +32,8 @@ type DemanderAbandonProps = {
   appelOffre: ProjectAppelOffre;
 };
 
-const InfoBoxChampAbandonAvecRecandidature = ({ ...props }: ComponentProps<'div'>) => (
-  <InfoBox className="flex md:w-1/3 md:mx-auto order-1 md:order-2" {...props}>
-    <div className="font-bold">* Demande d'abandon pour re-candidature</div>
-    <p className="m-0">
-      Je m'engage sur l'honneur à ne pas avoir débuté mes travaux au sens du cahier des charges de
-      l'AO associé et a abandonné mon statut de lauréat au profit d'une recandidature réalisée au
-      plus tard le 31/12/2024. Je m'engage sur l'honneur à ce que cette recandidature respecte les
-      conditions suivantes :
-      <ul className="mb-0">
-        <li>
-          Que le dossier soit complet et respecte les conditions d'éligibilité du cahier des charges
-          concerné
-        </li>
-        <li>Le même lieu d'implantation que le projet abandonné</li>
-        <li>Une puissance équivalente à plus ou moins 20% que le projet abandonné</li>
-        <li>
-          Un tarif équivalent au tarif du dernier lauréat retenu pour la période dont le projet
-          était initialement lauréat (et le cas échéant de la famille concernée) indexé jusqu'à
-          septembre 2023 selon la formule d'indexation du cahier des charges de la dernière période
-          avant le 1er octobre 2023
-        </li>
-      </ul>
-    </p>
-  </InfoBox>
-);
-
 export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbandonProps) => {
   const { error, success, justification } = (request.query as any) || {};
-
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
@@ -96,12 +69,12 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
             encType="multipart/form-data"
             className="order-2 md:order-1 md:mx-auto"
           >
+            {success && <SuccessBox title={success} />}
+            {error && <ErrorBox title={error} />}
             <div>
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} />
             </div>
-            {success && <SuccessBox title={success} />}
-            {error && <ErrorBox title={error} />}
 
             <ChampsObligatoiresLégende />
             <input type="hidden" name="projectId" value={project.id} />

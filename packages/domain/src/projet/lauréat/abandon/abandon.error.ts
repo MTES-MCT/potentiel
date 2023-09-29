@@ -14,7 +14,7 @@ export class DemandeAbandonInconnuErreur extends InvalidOperationError {
 
 export class AbandonDéjàAccordéError extends InvalidOperationError {
   constructor() {
-    super(`Abandon déjà accprdé`);
+    super(`Abandon déjà accordé`);
   }
 }
 
