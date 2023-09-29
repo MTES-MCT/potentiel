@@ -5,7 +5,4 @@ export type AbandonQuery =
   | ConsulterPiéceJustificativeAbandonProjetQuery
   | ListerAbandonAvecRecandidatureQuery;
 
-export {
-  ConsulterPiéceJustificativeAbandonProjetQuery,
-  ListerAbandonAvecRecandidatureQuery as ListerProjetEnAttenteRecandidatureQuery,
-};
+export { ConsulterPiéceJustificativeAbandonProjetQuery, ListerAbandonAvecRecandidatureQuery };
