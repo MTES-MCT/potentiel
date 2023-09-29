@@ -3,7 +3,6 @@ import { Image, Text, View } from '@react-pdf/renderer';
 
 type HeaderProps = {
   dateCourrier: string;
-  dossierSuiviPar: string;
   projet: {
     potentielId: string;
     nomReprésentantLégal: string;
@@ -14,7 +13,6 @@ type HeaderProps = {
 
 export const Header: FC<HeaderProps> = ({
   dateCourrier,
-  dossierSuiviPar,
   projet: { potentielId, nomReprésentantLégal, nomCandidat, email },
 }) => {
   return (
@@ -70,7 +68,7 @@ export const Header: FC<HeaderProps> = ({
       <View style={{ marginTop: 10 }}>
         <View style={{ fontSize: 8 }}>
           <Text>Code Potentiel: {potentielId}</Text>
-          <Text>Dossier suivi par : {dossierSuiviPar}</Text>
+          <Text>Dossier suivi par : aopv.dgec@developpement-durable.gouv.fr</Text>
         </View>
       </View>
     </View>
