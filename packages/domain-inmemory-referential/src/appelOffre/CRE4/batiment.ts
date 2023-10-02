@@ -1,8 +1,42 @@
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
 
 const garantieFinanciereEnMois = 36;
 
-const batiment: AppelOffre = {
+const CDCModifié30072021: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '30/07/2021',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
+  donnéesCourriersRéponse: {
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.4.4',
+      dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+ Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+ Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
+    },
+  },
+};
+
+const CDCModifié30082022: CahierDesChargesModifié = {
+  type: 'modifié',
+  paruLe: '30/08/2022',
+  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+  numéroGestionnaireRequis: true,
+  délaiApplicable: {
+    délaiEnMois: 18,
+    intervaleDateMiseEnService: {
+      min: new Date('2022-09-01'),
+      max: new Date('2024-12-31'),
+    },
+  },
+  seuilSupplémentaireChangementPuissance: {
+    ratios: {
+      min: 0.9,
+      max: 1.4,
+    },
+  },
+};
+
+export const batiment: AppelOffre = {
   id: 'CRE4 - Bâtiment',
   typeAppelOffre: 'batiment',
   title:
@@ -93,24 +127,9 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -125,18 +144,10 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -152,24 +163,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -184,18 +180,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -211,24 +199,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -243,18 +216,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -270,24 +235,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -302,18 +252,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -329,24 +271,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -361,18 +288,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -388,24 +307,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -420,18 +324,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -447,24 +343,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -479,18 +360,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -506,24 +379,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -538,18 +396,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -565,24 +415,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -597,18 +432,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -629,24 +456,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -661,18 +473,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -693,24 +497,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -725,18 +514,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -757,24 +538,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
+        CDCModifié30072021,
         {
-          type: 'modifié',
-          paruLe: '30/07/2021',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-          donnéesCourriersRéponse: {
-            texteChangementDePuissance: {
-              référenceParagraphe: '5.4.4',
-              dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
- Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
- Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
-            },
-          },
-        },
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -789,18 +555,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -822,10 +580,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
         {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-          numéroGestionnaireRequis: true,
+          ...CDCModifié30082022,
           donnéesCourriersRéponse: {
             texteChangementDePuissance: {
               référenceParagraphe: '5.4.4',
@@ -840,18 +595,10 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     -  vingt (20) mois à compter de la Date de désignation.
     -  deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
-    !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
+    En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.
     Des  dérogations  au  délai  d’Achèvement  sont  toutefois  possibles  dans  le  cas  où  des  contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux. 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.4 et au 7.1.1, pour la mise en service, laissés à l’appréciation du Préfet, peuvent  être  accordés  en  cas  d’événement  imprévisible à  la  Date  de  désignation  et  extérieur  au  Producteur, dûment justifié.
 `,
-            },
-          },
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01'),
-              max: new Date('2024-12-31'),
             },
           },
         },
@@ -871,7 +618,4 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
-  cahiersDesChargesModifiésDisponibles: [],
 };
-
-export { batiment };

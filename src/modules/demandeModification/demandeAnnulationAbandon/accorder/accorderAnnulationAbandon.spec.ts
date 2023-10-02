@@ -47,13 +47,15 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
 
   const getProjectAppelOffre = () =>
     ({
-      cahiersDesChargesModifiésDisponibles: [
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          délaiAnnulationAbandon: new Date(),
-        } as CahierDesChargesModifié,
-      ] as Readonly<Array<CahierDesChargesModifié>>,
+      periode: {
+        cahiersDesChargesModifiésDisponibles: [
+          {
+            type: 'modifié',
+            paruLe: '30/08/2022',
+            délaiAnnulationAbandon: new Date(),
+          } as CahierDesChargesModifié,
+        ] as Readonly<Array<CahierDesChargesModifié>>,
+      },
     } as ProjectAppelOffre);
 
   const fileRepo = fakeRepo<FileObject>();
@@ -129,13 +131,15 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
         alors il devrait être notifié que l'action est impossible en raison du CDC incompatible`, async () => {
       const getProjectAppelOffre = () =>
         ({
-          cahiersDesChargesModifiésDisponibles: [
-            {
-              type: 'modifié',
-              paruLe: '30/08/2022',
-              délaiAnnulationAbandon: undefined,
-            } as CahierDesChargesModifié,
-          ] as Readonly<Array<CahierDesChargesModifié>>,
+          periode: {
+            cahiersDesChargesModifiésDisponibles: [
+              {
+                type: 'modifié',
+                paruLe: '30/08/2022',
+                délaiAnnulationAbandon: undefined,
+              } as CahierDesChargesModifié,
+            ] as Readonly<Array<CahierDesChargesModifié>>,
+          },
         } as ProjectAppelOffre);
 
       const accorder = makeAccorderAnnulationAbandon({

@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel/domain-views';
 
-const neutrePPE2: AppelOffre = {
+export const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
   typeAppelOffre: 'neutre',
   title:
@@ -78,6 +78,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-neutre-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      cahiersDesChargesModifiésDisponibles: [],
     },
   ],
   familles: [
@@ -95,7 +96,4 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     //   soumisAuxGarantiesFinancieres: 'à la candidature',
     // },
   ],
-  cahiersDesChargesModifiésDisponibles: [],
 };
-
-export { neutrePPE2 };

@@ -25,13 +25,15 @@ describe(`Demander une annulation d'abandon`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
   const getProjectAppelOffre = () =>
     ({
-      cahiersDesChargesModifiésDisponibles: [
-        {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          délaiAnnulationAbandon: new Date(),
-        } as CahierDesChargesModifié,
-      ] as Readonly<Array<CahierDesChargesModifié>>,
+      periode: {
+        cahiersDesChargesModifiésDisponibles: [
+          {
+            type: 'modifié',
+            paruLe: '30/08/2022',
+            délaiAnnulationAbandon: new Date(),
+          } as CahierDesChargesModifié,
+        ] as Readonly<Array<CahierDesChargesModifié>>,
+      },
     } as ProjectAppelOffre);
 
   beforeEach(() => {
@@ -107,13 +109,15 @@ describe(`Demander une annulation d'abandon`, () => {
         shouldUserAccessProject: jest.fn(async () => true),
         getProjectAppelOffre: () =>
           ({
-            cahiersDesChargesModifiésDisponibles: [
-              {
-                type: 'modifié',
-                paruLe: '30/08/2022',
-                délaiAnnulationAbandon: undefined,
-              } as CahierDesChargesModifié,
-            ] as Readonly<Array<CahierDesChargesModifié>>,
+            periode: {
+              cahiersDesChargesModifiésDisponibles: [
+                {
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
+                  délaiAnnulationAbandon: undefined,
+                } as CahierDesChargesModifié,
+              ] as Readonly<Array<CahierDesChargesModifié>>,
+            },
           } as ProjectAppelOffre),
         projectRepo,
       });

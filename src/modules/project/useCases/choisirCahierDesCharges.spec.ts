@@ -7,19 +7,21 @@ import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { makeChoisirCahierDesCharges } from './choisirCahierDesCharges';
-import { PasDeChangementDeCDCPourCetAOError, CahierDesChargesChoisi, Project } from '..';
+import { CahierDesChargesChoisi, Project } from '..';
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import {
   NouveauCahierDesChargesDéjàSouscrit,
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
+  PasDeChangementDeCDCPourLaPériodeDeCetAOError,
 } from '../errors';
 import { AppelOffreRepo } from '../../../dataAccess';
 
 describe('Choisir un cahier des charges', () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
   const projetId = new UniqueEntityID().toString();
+  const periodeId = 'periodeId';
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
   const fakeProject = {
     ...makeFakeProject(),
@@ -34,13 +36,18 @@ describe('Choisir un cahier des charges', () => {
   const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
     ({
       id: 'appelOffreId',
-      periodes: [{ id: 'periodeId', type: 'notified' }],
+      periodes: [
+        {
+          id: periodeId,
+          type: 'notified',
+          cahiersDesChargesModifiésDisponibles: [
+            { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
+            { type: 'modifié', paruLe: '30/08/2022', url: 'url' },
+            { type: 'modifié', paruLe: '30/08/2022', url: 'url', alternatif: true },
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        },
+      ],
       familles: [{ id: 'familleId' }],
-      cahiersDesChargesModifiésDisponibles: [
-        { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
-        { type: 'modifié', paruLe: '30/08/2022', url: 'url' },
-        { type: 'modifié', paruLe: '30/08/2022', url: 'url', alternatif: true },
-      ] as ReadonlyArray<CahierDesChargesModifié>,
     } as AppelOffre);
 
   beforeEach(() => {
@@ -134,7 +141,9 @@ describe('Choisir un cahier des charges', () => {
           publishToEventStore,
           shouldUserAccessProject,
           projectRepo: fakeRepo({
-            ...makeFakeProject(),
+            ...makeFakeProject({
+              periodeId,
+            }),
             cahierDesCharges: cdcActuel,
           } as Project),
           findAppelOffreById,
@@ -152,20 +161,25 @@ describe('Choisir un cahier des charges', () => {
     }
   });
 
-  describe(`Impossible de souscrire à un CDC si l'AO n'a pas de CDC modifiés disponible`, () => {
+  describe(`Impossible de souscrire à un CDC si la période de l'AO n'a pas de CDC modifiés disponible`, () => {
     it(`Etant donné un utilisateur ayant les droits sur un projet
-        Et l'AO sans CDC modifié disponible
+        Et la période de l'AO sans CDC modifié disponible
         Lorsqu'il souscrit à un CDC
-        Alors l'utilisateur devrait être alerté que l'AO ne dispose pas de CDC modifiés disponible`, async () => {
+        Alors l'utilisateur devrait être alerté que la période de l'AO ne dispose pas de CDC modifiés disponible`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
 
       const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
         ({
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'notified' }],
+          periodes: [
+            {
+              id: periodeId,
+              type: 'notified',
+              cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
+            },
+          ],
           familles: [{ id: 'familleId' }],
           choisirNouveauCahierDesCharges: true,
-          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre);
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
@@ -184,14 +198,14 @@ describe('Choisir un cahier des charges', () => {
         },
       });
 
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(PasDeChangementDeCDCPourCetAOError);
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(PasDeChangementDeCDCPourLaPériodeDeCetAOError);
       expect(publishToEventStore).not.toHaveBeenCalled();
     });
   });
 
-  describe(`Impossible de souscrire à un CDC si celui-ci n'existe pas dans les CDC modifiés disponible de l'AO`, () => {
+  describe(`Impossible de souscrire à un CDC si celui-ci n'existe pas dans les CDC modifiés disponible de la période de l'AO`, () => {
     it(`Etant donné un utilisateur ayant les droits sur un projet
-        Et l'AO avec un CDC modifié paru le 30/08/2022
+        Et l'AO avec une période ayant un CDC modifié paru le 30/08/2022
         Lorsqu'il souscrit au CDC alternatif paru le 30/08/2022
         Alors l'utilisateur devrait être alerté que le CDC choisi n'est pas disponible pour l'AO`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
@@ -199,18 +213,27 @@ describe('Choisir un cahier des charges', () => {
       const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
         ({
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'notified' }],
+          periodes: [
+            {
+              id: periodeId,
+              type: 'notified',
+              cahiersDesChargesModifiésDisponibles: [
+                { type: 'modifié', paruLe: '30/08/2022', url: 'url' },
+              ] as ReadonlyArray<CahierDesChargesModifié>,
+            },
+          ],
           familles: [{ id: 'familleId' }],
           choisirNouveauCahierDesCharges: true,
-          cahiersDesChargesModifiésDisponibles: [
-            { type: 'modifié', paruLe: '30/08/2022', url: 'url' },
-          ] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre);
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
         publishToEventStore,
         shouldUserAccessProject,
-        projectRepo,
+        projectRepo: fakeRepo({
+          ...makeFakeProject({
+            periodeId,
+          }),
+        }),
         findAppelOffreById,
       });
 
@@ -229,11 +252,11 @@ describe('Choisir un cahier des charges', () => {
     });
   });
 
-  describe(`Impossible de souscrire au CDC initial si l'AO ne permet pas de faire ce choix`, () => {
+  describe(`Impossible de souscrire au CDC initial si la période de l'AO ne permet pas de faire ce choix`, () => {
     it(`Etant donné un utilisateur ayant les droits sur un projet
-        Et une AO ne permettant pas de choisir le CDC initial 
+        Et une AO avec une période ne permettant pas de choisir le CDC initial
         Lorsqu'il souscrit au CDC initial
-        Alors l'utilisateur devrait être alerté que l'AO ne permet pas de choisir ce cahier des charges`, async () => {
+        Alors l'utilisateur devrait être alerté que la période de l'AO ne permet pas de choisir ce cahier des charges`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
       const projectRepo = fakeRepo({
         ...makeFakeProject(),
@@ -244,12 +267,22 @@ describe('Choisir un cahier des charges', () => {
       const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
         ({
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'notified' }],
+          periodes: [
+            {
+              id: 'periodeId',
+              type: 'notified',
+              cahiersDesChargesModifiésDisponibles: [
+                {
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
+                  url: 'url',
+                  numéroGestionnaireRequis: true,
+                },
+              ] as ReadonlyArray<CahierDesChargesModifié>,
+            },
+          ],
           familles: [{ id: 'familleId' }],
           choisirNouveauCahierDesCharges: true,
-          cahiersDesChargesModifiésDisponibles: [
-            { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
-          ] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre);
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
@@ -316,7 +349,7 @@ describe('Choisir un cahier des charges', () => {
           publishToEventStore,
           shouldUserAccessProject,
           projectRepo: fakeRepo({
-            ...makeFakeProject(),
+            ...makeFakeProject({ periodeId }),
             cahierDesCharges: cdcActuel,
           } as Project),
           findAppelOffreById,
@@ -344,15 +377,17 @@ describe('Choisir un cahier des charges', () => {
     }
   });
 
-  describe(`Choix du CDC initial si l'AO le permet`, () => {
+  describe(`Choix du CDC initial si la période de l'AO le permet`, () => {
     it(`Etant donné un utilisateur ayant les droits sur le projet
         Et le cahier des charges du 30/08/2022 choisi pour le projet
-        Et un AO permettant de choisir le CDC initial
+        Et la période d'une AO permettant de choisir le CDC initial
         Lorsqu'il souscrit au CDC initial
         Alors le CDC du projet devrait être 'initial'`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
       const projectRepo = fakeRepo({
-        ...makeFakeProject(),
+        ...makeFakeProject({
+          periodeId,
+        }),
         cahierDesCharges: {
           paruLe: '30/08/2022',
         },
@@ -360,13 +395,23 @@ describe('Choisir un cahier des charges', () => {
       const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
         ({
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'notified' }],
+          periodes: [
+            {
+              id: periodeId,
+              type: 'notified',
+              cahiersDesChargesModifiésDisponibles: [
+                {
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
+                  url: 'url',
+                  numéroGestionnaireRequis: true,
+                },
+              ] as ReadonlyArray<CahierDesChargesModifié>,
+            },
+          ],
           familles: [{ id: 'familleId' }],
           choisirNouveauCahierDesCharges: true,
           doitPouvoirChoisirCDCInitial: true,
-          cahiersDesChargesModifiésDisponibles: [
-            { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
-          ] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre);
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({

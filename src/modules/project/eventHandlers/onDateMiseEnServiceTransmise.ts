@@ -65,26 +65,24 @@ export const makeOnDateMiseEnServiceTransmise =
               return okAsync(null);
             }
 
-            const cahiersDesChargesModifiésDisponibles =
-              projectAppelOffre?.periode &&
-              'cahiersDesChargesModifiésDisponibles' in projectAppelOffre?.periode
-                ? projectAppelOffre?.periode.cahiersDesChargesModifiésDisponibles
-                : projectAppelOffre?.cahiersDesChargesModifiésDisponibles;
+            const donnéesCDC = projectAppelOffre?.periode.cahiersDesChargesModifiésDisponibles.find(
+              (CDC) =>
+                CDC.type === 'modifié' &&
+                CDC.paruLe === '30/08/2022' &&
+                CDC.alternatif === cahierDesCharges.alternatif,
+            );
 
-            const donnéesCDC =
-              cahiersDesChargesModifiésDisponibles &&
-              cahiersDesChargesModifiésDisponibles.find(
-                (CDC) =>
-                  CDC.type === 'modifié' &&
-                  CDC.paruLe === '30/08/2022' &&
-                  CDC.alternatif === cahierDesCharges.alternatif,
-              );
-            if (!donnéesCDC || !donnéesCDC.délaiApplicable) {
+            if (!donnéesCDC) {
               logger.error(
                 `project eventHandler onDonnéesDeRaccordementRenseignées : données CDC modifié non trouvées. Projet ${projetId}`,
               );
               return okAsync(null);
             }
+
+            if (!donnéesCDC.délaiApplicable) {
+              return okAsync(null);
+            }
+
             if (
               new Date(dateMiseEnService).getTime() <
                 new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.min).getTime() ||
@@ -93,6 +91,7 @@ export const makeOnDateMiseEnServiceTransmise =
             ) {
               return okAsync(null);
             }
+
             const nouvelleDate = new Date(
               new Date(completionDueOn).setMonth(
                 new Date(completionDueOn).getMonth() + donnéesCDC.délaiApplicable.délaiEnMois,
