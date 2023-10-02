@@ -39,7 +39,6 @@ class routes {
   static POST_SIGNUP = '/signup';
 
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard';
-  static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
 
   static ADMIN_AO_PERIODE = '/admin/appels-offres.html';
   static IMPORT_AO_ACTION = '/admin/importAppelsOffres';
@@ -297,62 +296,6 @@ class routes {
   };
 
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project';
-
-  /* CRE4 GF */
-  static REMOVE_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/annuler-depot/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-  static SUBMIT_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/deposer/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
-  /* PPE2 GF */
-  static WITHDRAW_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/supprimer/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-  static UPLOAD_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/enregistrer/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
-  static ADD_GF_EXPIRATION_DATE = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/actualiser/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
-  static VALIDER_GF = (args?: { projetId: string }) => {
-    const route = '/projet/:projetId/valider/garanties-financieres';
-    if (args) {
-      const { projetId } = args;
-      return route.replace(':projetId', projetId);
-    } else return route;
-  };
-
-  static INVALIDER_GF = (args?: { projetId: string }) => {
-    const route = '/projet/:projetId/invalider/garanties-financieres';
-    if (args) {
-      const { projetId } = args;
-      return route.replace(':projetId', projetId);
-    } else return route;
-  };
 
   static TELECHARGER_MODELE_MISE_EN_DEMEURE_DEFAUT_GF_INITIALE = (projet?: {
     identifiantProjet: string;

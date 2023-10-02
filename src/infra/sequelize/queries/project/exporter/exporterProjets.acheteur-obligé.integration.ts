@@ -11,7 +11,6 @@ import {
   donnéesDeRaccordement,
   donnéesFournisseurs,
   financementCitoyen,
-  garantiesFinancières,
   identificationProjet,
   implantation,
   localisationProjet,
@@ -39,7 +38,6 @@ describe(`Export des projets en tant qu'utilisateur "acheteur-obligé"`, () => {
     ...prix,
     ...notes,
     ...modificationsAvantImport,
-    ...garantiesFinancières,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
   it(`Étant donné des projets notifiés et non notifiés,

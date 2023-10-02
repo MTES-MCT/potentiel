@@ -6,7 +6,6 @@ import {
   donnéesDeRaccordement,
   donnéesFournisseurs,
   financementCitoyen,
-  garantiesFinancières,
   identificationProjet,
   implantation,
   localisationProjet,
@@ -31,7 +30,6 @@ const colonnesÀExporter = [
   ...prix,
   ...notes,
   ...modificationsAvantImport,
-  ...garantiesFinancières,
 ];
 
 export const exporterProjetsPourAcheteurObligé = ({ filtres }: { filtres?: FiltreListeProjets }) =>

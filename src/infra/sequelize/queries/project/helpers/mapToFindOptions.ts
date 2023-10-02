@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '../../../projectionsNext';
 import { FiltreListeProjets } from '../../../../../modules/project/queries';
 import { Op, literal } from 'sequelize';
 
@@ -7,14 +6,11 @@ export const mapToFindOptions = ({
   appelOffre,
   classement,
   reclames,
-  garantiesFinancieres,
 }: FiltreListeProjets) => {
   const filtreRecherche = recherche ? construireFiltreRecherche(recherche) : undefined;
   const filtreAO = appelOffre && construireFiltreAppelOffre(appelOffre);
   const filtreClassement = classement && construireFiltreClassement(classement);
   const filtreReclames = reclames && construireFiltreRéclamé(reclames);
-  const filtreGarantiesFinancieres =
-    garantiesFinancieres && construireFiltreGarantiesFinancières(garantiesFinancieres);
 
   return {
     where: {
@@ -22,9 +18,7 @@ export const mapToFindOptions = ({
       ...filtreAO?.where,
       ...filtreClassement?.where,
       ...filtreReclames?.where,
-      ...filtreGarantiesFinancieres?.where,
     },
-    include: [...(filtreGarantiesFinancieres?.include ? filtreGarantiesFinancieres.include : [])],
   };
 };
 
@@ -61,31 +55,4 @@ const construireFiltreRéclamé = (reclames: NonNullable<FiltreListeProjets['rec
       id: { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) },
     }),
   },
-});
-
-const construireFiltreGarantiesFinancières = (
-  garantiesFinancières: NonNullable<FiltreListeProjets['garantiesFinancieres']>,
-) => ({
-  where: {
-    ...(garantiesFinancières === 'submitted' && {
-      '$garantiesFinancières.dateEnvoi$': { [Op.ne]: null },
-    }),
-    ...(garantiesFinancières === 'notSubmitted' && {
-      '$garantiesFinancières.dateLimiteEnvoi$': { [Op.ne]: null },
-      '$garantiesFinancières.dateEnvoi$': null,
-    }),
-    ...(garantiesFinancières === 'pastDue' && {
-      '$garantiesFinancières.dateLimiteEnvoi$': {
-        [Op.lte]: new Date(),
-        [Op.ne]: null,
-      },
-      '$garantiesFinancières.dateEnvoi$': null,
-    }),
-  },
-  include: [
-    {
-      model: GarantiesFinancières,
-      as: 'garantiesFinancières',
-    },
-  ],
 });

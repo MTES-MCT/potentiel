@@ -6,7 +6,6 @@ import { PaginatedList, Pagination } from '../modules/pagination';
 
 export interface ProjectFilters {
   isNotified?: boolean;
-  garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue';
   isClasse?: boolean;
   isClaimed?: boolean;
   isAbandoned?: boolean;
