@@ -35,42 +35,7 @@ import {
   ConsulterAppelOffreQuery,
   ConsulterCandidatureLegacyQuery,
 } from '@potentiel/domain-views';
-import { format , fr } from 'date-fns';
-
-const props: RéponseAbandonAvecRecandidatureProps = {
-  dateCourrier: 'JJ/MM/AAAA',
-  projet: {
-    potentielId: 'Eolien - 1 - 12 8da8c',
-    nomReprésentantLégal: 'Marcel Pagnol',
-    nomCandidat: 'Lili des Bellons',
-    email: 'marcel.pagnol@boulodrome-de-marseille.fr',
-    nom: 'Le Boulodrome de Marseille',
-    commune: 'Marseille',
-    codePostal: '13000',
-    dateDésignation: 'JJ/MM/AAAA',
-    puissance: 13,
-  },
-  appelOffre: {
-    nom: 'Eolien',
-    description:
-      'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
-    période: 'deuxième',
-    unitéPuissance: 'MW',
-    texteEngagementRéalisationEtModalitésAbandon: {
-      référenceParagraphe: '6.3 et 6.6',
-      dispositions: `Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du présent cahier des charges et conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.4).
-
-En cas de retrait de l’autorisation environnementale mentionnée au 3.3.3 par l’autorité compétente, d’annulation de cette autorisation à la suite d’un contentieux, ou, dans le cadre des première et troisième période, d’un rejet de sa demande pour cette même autorisation, le Candidat dont l’offre a été sélectionnée peut se désister. Il en fait la demande au ministre chargé de l’énergie sans délai et il est dans ce cas délié de ses obligations au titre du présent appel d’offres.`,
-    },
-  },
-  demandeAbandon: {
-    date: 'JJ/MM/AAAA',
-    instructeur: {
-      nom: 'Augustine Pagnol',
-      fonction: 'DGEC',
-    },
-  },
-};
+import { format } from 'date-fns';
 
 const schema = yup.object({
   body: yup.object({
@@ -81,10 +46,6 @@ const schema = yup.object({
     projectId: yup.string().uuid().required(),
   }),
 });
-
-const SUCCESS_MESSAGES = {
-  demanderConfirmation: 'La demande de confirmation a bien été prise en compte',
-};
 
 v1Router.post(
   routes.ADMIN_REPONDRE_DEMANDE_ABANDON,
@@ -161,7 +122,7 @@ v1Router.post(
           }
 
           const props: RéponseAbandonAvecRecandidatureProps = {
-            dateCourrier: format(new Date(), 'dd/MM/yyyy', { locale: fr }),
+            dateCourrier: format(new Date(), 'dd/MM/yyyy'),
             projet: {
               potentielId: projet.potentielIdentifier,
               nomReprésentantLégal: projet.nomReprésentantLégal,
@@ -170,7 +131,7 @@ v1Router.post(
               nom: projet.nom,
               commune: projet.localité.commune,
               codePostal: projet.localité.codePostal,
-              dateDésignation: projet.dateDésignation,
+              dateDésignation: format(new Date(projet.dateDésignation), 'dd/MM/yyyy'),
               puissance: projet.puissance,
             },
             appelOffre: {

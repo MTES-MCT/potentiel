@@ -17,7 +17,7 @@ const selectProjectQuery = `
     'localité', json_build_object(
         'commune', "communeProjet",
         'département', "departementProjet",
-        'région', "regionProjet"
+        'région', "regionProjet",
         'codePostal', "codePostalProjet"
     ),
     'statut', case
