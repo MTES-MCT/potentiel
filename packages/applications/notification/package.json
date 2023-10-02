@@ -1,0 +1,28 @@
+{
+  "name": "@potentiel/notification",
+  "version": "0.0.0",
+  "description": "Potentiel notification packages for the notification service application",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --config=jest.config.js --detectOpenHandles"
+  },
+  "dependencies": {
+    "@potentiel/core-domain": "*",
+    "@potentiel/domain": "*",
+    "@potentiel/domain-views": "*",
+    "@potentiel/email-sender": "*",
+    "@potentiel/infra-adapters": "*",
+    "@potentiel/monads": "*",
+    "@potentiel/pg-event-sourcing": "*",
+    "@potentiel/pg-helpers": "*",
+    "mediateur": "^0.1.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@potentiel/tsconfig": "*",
+    "wait-for-expect": "^3.0.2"
+  }
+}

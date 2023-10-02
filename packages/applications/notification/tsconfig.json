@@ -1,0 +1,34 @@
+{
+  "extends": "@potentiel/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "exclude": ["./__mocks__/*"],
+  "references": [
+    {
+      "path": "../../libraries/core-domain"
+    },
+    {
+      "path": "../../domain"
+    },
+    {
+      "path": "../../domain-views"
+    },
+    {
+      "path": "../../libraries/email-sender"
+    },
+    {
+      "path": "../../libraries/infra-adapters"
+    },
+    {
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/pg-event-sourcing"
+    },
+    {
+      "path": "../../libraries/pg-helpers"
+    }
+  ]
+}
