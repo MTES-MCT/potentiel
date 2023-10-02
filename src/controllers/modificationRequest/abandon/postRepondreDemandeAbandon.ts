@@ -112,17 +112,23 @@ v1Router.post(
       const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
 
       if (estAccordé) {
-        const file = recandidature
-          ? {
-              content: await buildDocument(props),
-              filename: `${Date.now()}-réponse-abandon-avec-recandidature.pdf`,
-              mimeType: 'application/pdf',
-            }
-          : request.file && {
-              content: fs.createReadStream(request.file.path),
-              filename: `${Date.now()}-${request.file.originalname}`,
-              mimeType: request.file.mimetype,
-            };
+        let file:
+          | { content: NodeJS.ReadableStream; filename: string; mimeType: string }
+          | undefined;
+
+        if (recandidature) {
+          file = {
+            content: await buildDocument(props),
+            filename: `${Date.now()}-réponse-abandon-avec-recandidature.pdf`,
+            mimeType: 'application/pdf',
+          };
+        } else if (request.file) {
+          file = {
+            content: fs.createReadStream(request.file.path),
+            filename: `${Date.now()}-${request.file.originalname}`,
+            mimeType: request.file.mimetype,
+          };
+        }
 
         if (!file) {
           return errorResponse({
