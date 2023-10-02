@@ -2,9 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { List, ListResult } from '@potentiel/core-domain-views';
 import { AbandonReadModel } from '../abandon.readmodel';
 
-export type ListerAbandonAvecRecandidatureQuery = Message<
-  'LISTER_ABANDON_AVEC_RECANDIDATURE_QUERY',
+export type ListerAbandonsQuery = Message<
+  'LISTER_ABANDONS_QUERY',
   {
+    recandidature: boolean;
     pagination: { page: number; itemsPerPage: number };
   },
   ListResult<AbandonReadModel>
@@ -17,14 +18,15 @@ export type ListerAbandonAvecRecandidatureDependencies = {
 export const registerListerAbandonAvecRecandidatureQuery = ({
   list,
 }: ListerAbandonAvecRecandidatureDependencies) => {
-  const handler: MessageHandler<ListerAbandonAvecRecandidatureQuery> = async ({
+  const handler: MessageHandler<ListerAbandonsQuery> = async ({
+    recandidature,
     pagination: { page, itemsPerPage },
   }) => {
     return await list<AbandonReadModel>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
       where: {
-        demandeRecandidature: true,
+        demandeRecandidature: recandidature,
       },
       orderBy: {
         property: 'demandeDemandéLe',
@@ -33,5 +35,5 @@ export const registerListerAbandonAvecRecandidatureQuery = ({
     });
   };
 
-  mediator.register('LISTER_ABANDON_AVEC_RECANDIDATURE_QUERY', handler);
+  mediator.register('LISTER_ABANDONS_QUERY', handler);
 };

@@ -5,7 +5,6 @@ export * from './getProjectFile';
 export * from './getProjectPage';
 export * from './getProjectsLaureatsCsv';
 export * from './getProjetsÀRéclamerPage';
-export * from './getListeProjetsAbandonnésAvecRecandidature';
 export * from './postAttacherFichier';
 export * from './postChoisirCahierDesCharges';
 export * from './postClaimProjects';

@@ -9,7 +9,7 @@ export const PermissionConsulterProjet = {
 /**
  * @deprecated
  */
-export const PermissionListerProjetsAbandonnésAvecRecandidature = {
-  nom: 'lister-projets-abandonnés-avec-recandidature',
-  description: 'Lister les projets abandonnés avec recandidature',
+export const PermissionListerAbandons = {
+  nom: 'lister-abandons',
+  description: 'Lister les abandons',
 };

@@ -1,10 +1,8 @@
+export * from './abandon';
 export * from './authN';
 export * from './changerFournisseurPage';
 export * from './changerProducteurPage';
 export * from './choisirCahierDesChargesPage';
-export * from './demandeAbandonPage';
-export * from './demandeAnnulationAbandonPage';
-export * from './demanderAbandonPage';
 export * from './demanderChangementPuissancePage';
 export * from './demanderDelaiPage';
 export * from './drealListPage';
@@ -41,4 +39,3 @@ export * from './StatistiquesPage';
 export * from './SuccèsOuErreurPage';
 export * from './UploadLegacyModificationFilesPage';
 export * from './raccordement';
-export * from './ListeProjetsAbandonnésAvecRecandidaturePage';

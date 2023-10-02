@@ -1,34 +1,35 @@
 import asyncHandler from '../helpers/asyncHandler';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
-import { ListeProjetsAbandonnésAvecRecandidaturePage } from '../../views';
+import { ListeAbandonsPage } from '../../views';
 import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
 import { getListLegacyIdsByIdentifiantsProjet } from '../../infra/sequelize/queries/project';
 import { getListModificationRequestIdsByLegacyIds } from '../../infra/sequelize/queries/modificationRequest';
 
 import {
-  PermissionListerProjetsAbandonnésAvecRecandidature,
-  ListerAbandonAvecRecandidatureQuery,
+  PermissionListerAbandons,
 } from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
 import { none } from '@potentiel/monads';
+import { ListerAbandonsQuery } from '@potentiel/domain-views/dist/projet/lauréat/abandon/lister/listerAbandon.query';
 
 v1Router.get(
-  routes.LISTE_PROJETS_ABANDONNÉS_AVEC_RECANDIDATURE,
-  vérifierPermissionUtilisateur(PermissionListerProjetsAbandonnésAvecRecandidature),
+  routes.LISTE_ABANDONS,
+  vérifierPermissionUtilisateur(PermissionListerAbandons),
   asyncHandler(async (request, response) => {
     const { page, pageSize: itemsPerPage } = getPagination(request);
 
-    const abandons = await mediator.send<ListerAbandonAvecRecandidatureQuery>({
-      type: 'LISTER_ABANDON_AVEC_RECANDIDATURE_QUERY',
+    const abandons = await mediator.send<ListerAbandonsQuery>({
+      type: 'LISTER_ABANDONS_QUERY',
       data: {
+        recandidature: true,
         pagination: { page, itemsPerPage },
       },
     });
 
     if (!abandons.items.length) {
       return response.send(
-        ListeProjetsAbandonnésAvecRecandidaturePage({
+        ListeAbandonsPage({
           request,
           abandons: {
             ...abandons,
@@ -52,7 +53,7 @@ v1Router.get(
     );
 
     return response.send(
-      ListeProjetsAbandonnésAvecRecandidaturePage({
+      ListeAbandonsPage({
         request,
         projetsLegacyIds,
         modificationsRequestIds,

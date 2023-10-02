@@ -11,36 +11,35 @@ import {
   PageListeTemplate,
   Pagination,
   Tile,
-} from '../components';
-import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
-import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+} from '../../components';
+import { afficherDateAvecHeure, hydrateOnClient } from '../../helpers';
+import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { AbandonReadModel } from '@potentiel/domain-views';
 import { ListResult } from '@potentiel/core-domain-views';
-import routes from '../../routes';
+import routes from '../../../routes';
 
-type ListeProjetsAbandonnésAvecRecandidatureProps = {
+type ListeAbandonsProps = {
+  abandons: ListResult<AbandonReadModel> & { currentUrl: string };
   request: Request;
   projetsLegacyIds?: string[];
   modificationsRequestIds?: string[];
-  abandons: ListResult<AbandonReadModel> & { currentUrl: string };
 };
 
-export const ListeProjetsAbandonnésAvecRecandidature = ({
+export const ListeAbandons = ({
   request,
   abandons,
   modificationsRequestIds,
   projetsLegacyIds,
-}: ListeProjetsAbandonnésAvecRecandidatureProps) => {
+}: ListeAbandonsProps) => {
   const utilisateur = request.user as UtilisateurReadModel;
 
   return (
     <PageListeTemplate
       user={utilisateur}
-      currentPage={'liste-projets-avec-recandidature'}
+      currentPage={'liste-abandons'}
       contentHeader={
         <Heading1 className="!text-white whitespace-nowrap">
-          Projets abandonnés avec recandidature{' '}
-          {abandons.totalItems > 0 && `(${abandons.totalItems})`}
+          Abandons avec recandidature {abandons.totalItems > 0 && `(${abandons.totalItems})`}
         </Heading1>
       }
     >
@@ -165,4 +164,4 @@ const getStatutAbandon = (abandon: AbandonReadModel) => {
   }
 };
 
-hydrateOnClient(ListeProjetsAbandonnésAvecRecandidature);
+hydrateOnClient(ListeAbandons);

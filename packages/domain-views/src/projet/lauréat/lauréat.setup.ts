@@ -7,7 +7,7 @@ import {
 import {
   ListerAbandonAvecRecandidatureDependencies,
   registerListerAbandonAvecRecandidatureQuery,
-} from './abandon/lister/listerAbandonAvecRecandidature.query';
+} from './abandon/lister/listerAbandon.query';
 import { AbandonEvent, GestionnaireRéseauProjetEvent } from '@potentiel/domain';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 import {

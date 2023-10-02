@@ -25,7 +25,7 @@ import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
   PermissionConsulterDossierRaccordement,
-  PermissionListerProjetsAbandonnésAvecRecandidature,
+  PermissionListerAbandons,
 } from '@potentiel/domain-views';
 
 export type Permission = {
@@ -47,7 +47,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
-        PermissionListerProjetsAbandonnésAvecRecandidature,
+        PermissionListerAbandons,
       ];
     case 'porteur-projet':
       return [
@@ -92,7 +92,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionTransmettreDateMiseEnService,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
-        PermissionListerProjetsAbandonnésAvecRecandidature,
+        PermissionListerAbandons,
       ];
     case 'dgec-validateur':
       return [
@@ -113,7 +113,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionTransmettreDateMiseEnService,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
-        PermissionListerProjetsAbandonnésAvecRecandidature,
+        PermissionListerAbandons,
       ];
     case 'acheteur-obligé':
       return [

@@ -1,14 +1,14 @@
 import { ConsulterAbandonQuery } from './consulter/consulterAbandon.query';
 import { ConsulterPiéceJustificativeAbandonProjetQuery } from './consulter/consulterPiéceJustificativeAbandon.query';
-import { ListerAbandonAvecRecandidatureQuery } from './lister/listerAbandonAvecRecandidature.query';
+import { ListerAbandonsQuery } from './lister/listerAbandon.query';
 
 export type AbandonQuery =
   | ConsulterAbandonQuery
   | ConsulterPiéceJustificativeAbandonProjetQuery
-  | ListerAbandonAvecRecandidatureQuery;
+  | ListerAbandonsQuery;
 
 export {
   ConsulterAbandonQuery,
   ConsulterPiéceJustificativeAbandonProjetQuery,
-  ListerAbandonAvecRecandidatureQuery,
+  ListerAbandonsQuery as ListerAbandonAvecRecandidatureQuery,
 };

@@ -70,13 +70,13 @@ const MenuAdmin = (currentPage?: string) => (
         href={routes.ADMIN_LIST_REQUESTS}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
-        Liste des demandes
+        Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.LISTE_PROJETS_ABANDONNÉS_AVEC_RECANDIDATURE}
-        {...(currentPage === 'liste-projets-avec-recandidature' && { isCurrent: true })}
+        href={routes.LISTE_ABANDONS}
+        {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
-        Liste des demandes d'abandon avec recandidature
+        Abandons avec recandidature
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Imports'}>
@@ -234,13 +234,13 @@ const MenuDreal = (currentPage?: string) => (
         href={routes.ADMIN_LIST_REQUESTS}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
-        Liste des demandes
+        Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.LISTE_PROJETS_ABANDONNÉS_AVEC_RECANDIDATURE}
-        {...(currentPage === 'liste-projets-avec-recandidature' && { isCurrent: true })}
+        href={routes.LISTE_ABANDONS}
+        {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
-        Liste des demandes d'abandon avec recandidature
+        Abandons avec recandidature
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem
