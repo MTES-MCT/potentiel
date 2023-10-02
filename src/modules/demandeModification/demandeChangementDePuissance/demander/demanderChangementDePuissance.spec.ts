@@ -3,7 +3,7 @@ import { Readable } from 'stream';
 import { PuissanceJustificationEtCourrierManquantError } from './PuissanceJustificationEtCourrierManquantError';
 import { DomainEvent, Repository } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
-import { makeUser } from '../../../../entities';
+import { ProjectAppelOffre, makeUser } from '../../../../entities';
 import { UnwrapForTest } from '../../../../types';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../../__tests__/fixtures/aggregates';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
@@ -12,6 +12,7 @@ import { Project } from '../../../project';
 import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { ModificationReceived, ModificationRequested } from '../../../modificationRequest/events';
 import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance';
+import { CahierDesChargesModifié } from '@potentiel/domain-views';
 
 describe('Commande requestPuissanceModification', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })));
@@ -33,6 +34,22 @@ describe('Commande requestPuissanceModification', () => {
   const file = { contents: Readable.from('test-content'), filename: 'myfilename.pdf' };
   const getPuissanceProjet = jest.fn((projectId: string) => okAsync(123));
 
+  const getProjectAppelOffre = jest.fn(
+    () =>
+      ({
+        typeAppelOffre: 'eolien',
+        changementPuissance: { ratios: { min: 0.8, max: 1.2 } },
+        periode: {
+          cahiersDesChargesModifiésDisponibles: [
+            {
+              type: 'modifié',
+              paruLe: '30/08/2022',
+            } as CahierDesChargesModifié,
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        },
+      } as ProjectAppelOffre),
+  );
+
   beforeEach(async () => {
     fakePublish.mockClear();
     fileRepo.save.mockClear();
@@ -48,6 +65,7 @@ describe('Commande requestPuissanceModification', () => {
       exceedsRatiosChangementPuissance: () => false,
       exceedsPuissanceMaxDuVolumeReserve: () => false,
       fileRepo: fileRepo as Repository<FileObject>,
+      getProjectAppelOffre,
     });
     const newPuissance = 89;
 
@@ -84,6 +102,7 @@ describe('Commande requestPuissanceModification', () => {
               exceedsRatiosChangementPuissance: () => true,
               exceedsPuissanceMaxDuVolumeReserve: () => false,
               fileRepo: fileRepo as Repository<FileObject>,
+              getProjectAppelOffre,
             });
 
             const newPuissance = 89;
@@ -119,6 +138,7 @@ describe('Commande requestPuissanceModification', () => {
               exceedsRatiosChangementPuissance: () => true,
               exceedsPuissanceMaxDuVolumeReserve: () => false,
               fileRepo: fileRepo as Repository<FileObject>,
+              getProjectAppelOffre,
             });
 
             const newPuissance = 89;
@@ -161,6 +181,7 @@ describe('Commande requestPuissanceModification', () => {
               exceedsRatiosChangementPuissance: () => true,
               exceedsPuissanceMaxDuVolumeReserve: () => false,
               fileRepo: fileRepo as Repository<FileObject>,
+              getProjectAppelOffre,
             });
             const res = await requestPuissanceModification({
               projectId: fakeProject.id.toString(),
@@ -212,6 +233,7 @@ describe('Commande requestPuissanceModification', () => {
           exceedsRatiosChangementPuissance: () => false,
           exceedsPuissanceMaxDuVolumeReserve: () => false,
           fileRepo: fileRepo as Repository<FileObject>,
+          getProjectAppelOffre,
         });
         const newPuissance = 105;
 
