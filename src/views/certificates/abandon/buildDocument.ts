@@ -24,11 +24,11 @@ Font.register({
   ],
 });
 
-const buildDocument = (
+const buildDocument = async (
   props: RéponseAbandonAvecRecandidatureProps,
 ): Promise<NodeJS.ReadableStream> => {
   const document = RéponseAbandonAvecRecandidature(props);
-  return ReactPDF.renderToStream(document);
+  return await ReactPDF.renderToStream(document);
 };
 
 export { buildDocument };

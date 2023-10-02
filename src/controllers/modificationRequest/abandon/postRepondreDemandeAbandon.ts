@@ -28,6 +28,7 @@ import { FileReadableStream } from '../../../helpers/fileReadableStream';
 import { none } from '@potentiel/monads';
 import { RéponseAbandonAvecRecandidatureProps } from '../../../views/certificates/abandon/RéponseAbandonAvecRecandidature';
 import { buildDocument } from '../../../views/certificates/abandon/buildDocument';
+import { convertNodeJSReadableStreamToReadableStream } from '../../helpers/convertNodeJSReadableStreamToReadableStream';
 
 const props: RéponseAbandonAvecRecandidatureProps = {
   dateCourrier: 'JJ/MM/AAAA',
@@ -132,13 +133,6 @@ v1Router.post(
           });
         }
 
-        const content = new ReadableStream({
-          start: async (controller) => {
-            controller.enqueue(file.content.read());
-            controller.close();
-          },
-        });
-
         await mediator.send<DomainUseCase>({
           type: 'ACCORDER_ABANDON_USECASE',
           data: {
@@ -151,7 +145,7 @@ v1Router.post(
             réponseSignée: {
               type: 'abandon-accordé',
               format: file.mimeType,
-              content,
+              content: await convertNodeJSReadableStreamToReadableStream(file.content),
             },
             dateAccordAbandon: convertirEnDateTime(new Date()),
           },
