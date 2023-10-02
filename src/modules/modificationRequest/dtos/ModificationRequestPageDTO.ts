@@ -72,7 +72,7 @@ type Variant =
   | { type: 'producteur'; producteur: string }
   | { type: 'puissance'; puissance: number; puissanceAuMomentDuDepot?: number }
   | { type: 'recours' }
-  | { type: 'abandon'; recandidature?: true }
+  | { type: 'abandon'; recandidature: boolean }
   | { type: 'annulation abandon' }
   | ({
       type: 'delai';

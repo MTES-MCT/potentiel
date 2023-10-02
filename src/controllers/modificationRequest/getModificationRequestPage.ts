@@ -8,12 +8,19 @@ import {
 } from '../../views';
 import routes from '../../routes';
 import { shouldUserAccessProject } from '../../config/useCases.config';
-import { getModificationRequestAuthority } from '../../infra/sequelize/queries';
+import {
+  getIdentifiantProjetByLegacyId,
+  getModificationRequestAuthority,
+} from '../../infra/sequelize/queries';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { ModificationRequest } from '../../infra/sequelize/projectionsNext';
+import { mediator } from 'mediateur';
+import { ConsulterAbandonQuery } from '@potentiel/domain-views';
+import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { isSome } from '@potentiel/monads';
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),
@@ -31,6 +38,10 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
+    const identifiantProjet = (await getIdentifiantProjetByLegacyId(
+      projectId,
+    )) as IdentifiantProjet;
+
     const userHasRightsToProject = await shouldUserAccessProject.check({
       user,
       projectId,
@@ -42,6 +53,15 @@ v1Router.get(
         customMessage: `Votre compte ne vous permet pas d'accéder à cette page.`,
       });
     }
+
+    const abandon = await mediator.send<ConsulterAbandonQuery>({
+      type: 'CONSULTER_ABANDON',
+      data: {
+        identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+      },
+    });
+
+    const recandidature = isSome(abandon) ? abandon.demandeRecandidature : false;
 
     const authority = await getModificationRequestAuthority(modificationRequestId);
 
@@ -61,7 +81,7 @@ v1Router.get(
           return response.send(
             DemandeAbandonPage({
               request,
-              demandeAbandon: { ...modificationRequest, recandidature: true },
+              demandeAbandon: { ...modificationRequest, recandidature },
             }),
           );
         }

@@ -102,6 +102,7 @@ v1Router.post(
         submitConfirm,
         recandidature,
       } = request.body;
+      const { user } = request;
 
       const estAccordé = typeof submitAccept === 'string';
       const estRejeté = typeof submitRefuse === 'string';

@@ -10,10 +10,7 @@ import { addQueryParams } from '../../../helpers/addQueryParams';
 import { UnauthorizedError } from '../../../modules/shared';
 import routes from '../../../routes';
 import { v1Router } from '../../v1Router';
-import {
-  errorResponse,
-  unauthorizedResponse,
-} from '../../helpers';
+import { errorResponse, unauthorizedResponse } from '../../helpers';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { mediator } from 'mediateur';
 import {
@@ -45,6 +42,7 @@ v1Router.post(
         ),
     },
     async (request, response) => {
+      const { user } = request;
       const { projectId, demandeAbandonId } = request.body;
 
       const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);

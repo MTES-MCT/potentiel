@@ -17,6 +17,7 @@ import {
 } from './gestionnaireRéseau/gestionnaireRéseau.projector';
 import { ConsulterPiéceJustificativeAbandonProjetDependencies } from './abandon/consulter/consulterPiéceJustificativeAbandon.query';
 import { ExecuteAbandonProjector, registerAbandonProjector } from './abandon/abandon.projector';
+import { registerConsulterAbandonQuery } from './abandon/consulter/consulterAbandon.query';
 
 type GestionnaireRéseauLauréatDependencies = ConsulterGestionnaireRéseauLauréatDependencies;
 type AbandonDependencies = ListerAbandonAvecRecandidatureDependencies &
@@ -28,6 +29,7 @@ export type LauréatDependencies = { subscribe: Subscribe } & GestionnaireRésea
   GestionnaireRéseauLauréatProjectorDependencies;
 
 export const setupLauréatViews = async (dependencies: LauréatDependencies) => {
+  registerConsulterAbandonQuery(dependencies);
   registerConsulterGestionnaireRéseauLauréatQuery(dependencies);
   registerListerAbandonAvecRecandidatureQuery(dependencies);
 
