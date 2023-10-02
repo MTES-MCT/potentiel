@@ -37,21 +37,14 @@ import {
   makeChangerProducteur,
 } from '../modules/modificationRequest';
 import {
-  makeAddGFExpirationDate,
   makeCorrectProjectData,
   makeGenerateCertificate,
   makeImportProjects,
   makeRegenerateCertificatesForPeriode,
-  makeRemoveGF,
   makeSignalerDemandeAbandon,
   makeSignalerDemandeDelai,
   makeSignalerDemandeRecours,
-  makeSubmitGF,
   makeChoisirCahierDesCharges,
-  makeUploadGF,
-  makeWithdrawGF,
-  makeValiderGF,
-  makeInvaliderGF,
 } from '../modules/project';
 import { makeClaimProject } from '../modules/projectClaim';
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '../modules/users';
@@ -143,45 +136,6 @@ export const confirmRequest = makeConfirmRequest({
 export const revokeUserRightsToProject = makeRevokeRightsToProject({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
-export const submitGF = makeSubmitGF({
-  fileRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const uploadGF = makeUploadGF({
-  fileRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const addGFExpirationDate = makeAddGFExpirationDate({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const removeGF = makeRemoveGF({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const withdrawGF = makeWithdrawGF({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const validerGF = makeValiderGF({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  publishToEventStore,
-  projectRepo,
-});
-
-export const invaliderGF = makeInvaliderGF({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  publishToEventStore,
-  projectRepo,
 });
 
 export const demanderChangementDePuissance = makeDemanderChangementDePuissance({

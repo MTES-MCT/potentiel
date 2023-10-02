@@ -7,7 +7,6 @@ export type FiltresConstruireQuery = {
   familleId?: Famille['id'];
   classement?: 'classés' | 'éliminés' | 'abandons';
   reclames?: 'réclamés' | 'non-réclamés';
-  garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue';
 };
 
 export const construireQuery = (filtres: FiltresConstruireQuery) => {
@@ -43,10 +42,6 @@ export const construireQuery = (filtres: FiltresConstruireQuery) => {
 
   if (filtres.reclames) {
     query.isClaimed = filtres.reclames === 'réclamés';
-  }
-
-  if (filtres.garantiesFinancieres) {
-    query.garantiesFinancieres = filtres.garantiesFinancieres;
   }
 
   return query;

@@ -6,7 +6,6 @@ export * from './donnéesAutoconsommation';
 export * from './donnéesDeRaccordement';
 export * from './donnéesFournisseurs';
 export * from './financementCitoyen';
-export * from './garantiesFinancières';
 export * from './identificationProjet';
 export * from './implantation';
 export * from './instruction';

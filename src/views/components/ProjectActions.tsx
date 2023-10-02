@@ -22,10 +22,6 @@ type Props = {
     };
     email: string;
     nomProjet: string;
-    garantiesFinancières?: {
-      id: string;
-      statut: 'à traiter' | 'validé' | 'en attente';
-    };
   };
   role: UserRole;
 };

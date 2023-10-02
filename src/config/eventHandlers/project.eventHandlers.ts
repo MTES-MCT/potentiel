@@ -117,7 +117,6 @@ subscribeToRedis(onDateMiseEnServiceTransmise, 'Project.onDateMiseEnServiceTrans
 const onAnnulationAbandonAccordéeHandler = makeOnAnnulationAbandonAccordée({
   projectRepo,
   publishToEventStore: eventStore.publish,
-  getProjectAppelOffre,
 });
 
 const onAnnulationAbandonAccordée = async (event: DomainEvent) => {

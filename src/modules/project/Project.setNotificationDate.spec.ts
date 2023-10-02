@@ -11,7 +11,6 @@ import {
   LegacyProjectSourced,
   ProjectCompletionDueDateSet,
   ProjectDCRDueDateSet,
-  ProjectGFDueDateSet,
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectNotified,
@@ -227,78 +226,6 @@ describe('Project.setNotificationDate()', () => {
         const targetEvent = project.pendingEvents.find(
           (item) => item.type === ProjectDCRDueDateSet.type,
         ) as ProjectDCRDueDateSet | undefined;
-        expect(targetEvent).not.toBeDefined();
-      });
-    });
-
-    describe('when project family warrants a garantie financiere', () => {
-      const fakeProjectData = makeFakeProject({
-        notifiedOn: 123,
-        appelOffreId: 'Fessenheim',
-        periodeId: '2',
-        familleId: '1',
-        classe: 'Classé',
-      });
-      const fakeHistory = makeFakeHistory(fakeProjectData);
-
-      it('should trigger ProjectGFDueDateSet', () => {
-        const project = UnwrapForTest(
-          makeProject({
-            projectId,
-            history: fakeHistory,
-            getProjectAppelOffre,
-            buildProjectIdentifier: () => '',
-          }),
-        );
-        const res = project.setNotificationDate(fakeUser, newNotifiedOn);
-
-        if (res.isErr()) logger.error(res.error);
-        expect(res.isOk()).toBe(true);
-        if (res.isErr()) return;
-
-        const targetEvent = project.pendingEvents.find(
-          (item) => item.type === ProjectGFDueDateSet.type,
-        ) as ProjectGFDueDateSet | undefined;
-        expect(targetEvent).toBeDefined();
-        if (!targetEvent) return;
-
-        expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-        expect(targetEvent.payload.garantiesFinancieresDueOn).toEqual(
-          add(new Date(newNotifiedOn), {
-            months: 2,
-          }).getTime(),
-        );
-      });
-    });
-
-    describe('when project family does not warrant a garantie financiere', () => {
-      const fakeProjectData = makeFakeProject({
-        notifiedOn: 123,
-        appelOffreId: 'Fessenheim',
-        periodeId: '2',
-        familleId: '3',
-        classe: 'Classé',
-      });
-      const fakeHistory = makeFakeHistory(fakeProjectData);
-
-      it('should not trigger ProjectGFDueDateSet', () => {
-        const project = UnwrapForTest(
-          makeProject({
-            projectId,
-            history: fakeHistory,
-            getProjectAppelOffre,
-            buildProjectIdentifier: () => '',
-          }),
-        );
-        const res = project.setNotificationDate(fakeUser, newNotifiedOn);
-
-        if (res.isErr()) logger.error(res.error);
-        expect(res.isOk()).toBe(true);
-        if (res.isErr()) return;
-
-        const targetEvent = project.pendingEvents.find(
-          (item) => item.type === ProjectGFDueDateSet.type,
-        ) as ProjectGFDueDateSet | undefined;
         expect(targetEvent).not.toBeDefined();
       });
     });
