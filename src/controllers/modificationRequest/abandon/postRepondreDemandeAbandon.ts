@@ -268,9 +268,9 @@ v1Router.post(
           () => {
             return response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
-                success: `La demande d'abandon a bien été rejetée.`,
-                redirectUrl: routes.GET_DEMANDER_ABANDON(projectId),
-                redirectTitle: 'Retourner sur la demande',
+                success: `Le rejet de l'abandon a bien été prise en compte.`,
+                redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+                redirectTitle: 'Retourner sur la page de la demande',
               }),
             );
           },

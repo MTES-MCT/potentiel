@@ -172,9 +172,8 @@ const RéponseValidateur = ({
           <input type="hidden" name="versionDate" value={versionDate} />
           <input type="hidden" name="projectId" value={project.id} />
 
-          {recandidature ? (
-            <input type="hidden" name="recandidature" value="true" />
-          ) : (
+          {recandidature && <input type="hidden" name="recandidature" value="true" />}
+          {!recandidature && (
             <>
               <div className="mb-4">
                 <DownloadLink
@@ -186,13 +185,15 @@ const RéponseValidateur = ({
                 <Label htmlFor="file">Réponse signée (fichier pdf)</Label>
                 <Input type="file" name="file" id="file" required={true} aria-required={true} />
               </div>
-              {!['en attente de confirmation', 'demande confirmée'].includes(status) && (
-                <PrimaryButton type="submit" name="submitConfirm" className="mt-2">
-                  Demander une confirmation au porteur de projet
-                </PrimaryButton>
-              )}
             </>
           )}
+
+          {!recandidature &&
+            !['en attente de confirmation', 'demande confirmée'].includes(status) && (
+              <PrimaryButton type="submit" name="submitConfirm" className="mt-2">
+                Demander une confirmation au porteur de projet
+              </PrimaryButton>
+            )}
 
           <PrimaryButton
             type="submit"
