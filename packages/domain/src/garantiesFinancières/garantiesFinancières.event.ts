@@ -1,9 +1,8 @@
 import { DomainEvent } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '../projet/projet.valueType';
 import {
-  TypeGarantiesFinancièresEnregistréEventV1,
-  AttestationGarantiesFinancièresEnregistréeEventV1,
-  GarantiesFinancièresComplètesEnregistréesEventV1,
+  GarantiesFinancièresEnregistréesEventV1,
+  TypeGarantiesFinancièresImportéEventV1,
 } from './actuelles/enregistrementGarantiesFinancières.event';
 import {
   GarantiesFinancièresDéposéesEventV1,
@@ -11,7 +10,6 @@ import {
   DépôtGarantiesFinancièresValidéEventV1,
   DépôtGarantiesFinancièresSuppriméEventV1,
 } from './dépôt/dépôtGarantiesFinancières.event';
-import { TypeGarantiesFinancières } from './garantiesFinancières.valueType';
 
 export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
   'GarantiesFinancièresSnapshot-v1',
@@ -19,12 +17,20 @@ export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
     identifiantProjet: RawIdentifiantProjet;
     aggregate: {
       actuelles?: {
-        typeGarantiesFinancières: TypeGarantiesFinancières | 'Type inconnu';
+        typeGarantiesFinancières:
+          | `avec date d'échéance`
+          | `consignation`
+          | `6 mois après achèvement`
+          | 'Type inconnu';
         dateÉchéance: string | 'Date inconnue';
         attestationConstitution: { format: string; date: string } | { attestationAbsente: true };
       };
       dépôt?: {
-        typeGarantiesFinancières: TypeGarantiesFinancières | 'Type inconnu';
+        typeGarantiesFinancières:
+          | `avec date d'échéance`
+          | `consignation`
+          | `6 mois après achèvement`
+          | 'Type inconnu';
         dateÉchéance: string | 'Date inconnue';
         attestationConstitution: { format: string; date: string };
         dateDépôt: string;
@@ -35,23 +41,22 @@ export type GarantiesFinancièresSnapshotEventV1 = DomainEvent<
 >;
 
 export type EnregistrementGarantiesFinancièresEvent =
-  | TypeGarantiesFinancièresEnregistréEventV1
-  | AttestationGarantiesFinancièresEnregistréeEventV1
-  | GarantiesFinancièresComplètesEnregistréesEventV1
-  | GarantiesFinancièresSnapshotEventV1;
+  | GarantiesFinancièresSnapshotEventV1
+  | TypeGarantiesFinancièresImportéEventV1
+  | GarantiesFinancièresEnregistréesEventV1;
 
 export type DépôtGarantiesFinancièresEvent =
+  | GarantiesFinancièresSnapshotEventV1
   | GarantiesFinancièresDéposéesEventV1
   | DépôtGarantiesFinancièresModifiéEventV1
-  | GarantiesFinancièresSnapshotEventV1
   | DépôtGarantiesFinancièresSuppriméEventV1
   | DépôtGarantiesFinancièresValidéEventV1;
 
 export type SuiviDépôtsGarantiesFinancièresEvent =
   | GarantiesFinancièresSnapshotEventV1
+  | GarantiesFinancièresDéposéesEventV1
   | DépôtGarantiesFinancièresValidéEventV1
-  | DépôtGarantiesFinancièresSuppriméEventV1
-  | GarantiesFinancièresDéposéesEventV1;
+  | DépôtGarantiesFinancièresSuppriméEventV1;
 
 export type GarantiesFinancièresEvent =
   | EnregistrementGarantiesFinancièresEvent

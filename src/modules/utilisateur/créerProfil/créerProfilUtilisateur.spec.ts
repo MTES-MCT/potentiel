@@ -35,7 +35,7 @@ describe(`Créer le profil d'un utilisateur`, () => {
   describe(`Création d'un nouveau profil`, () => {
     it(`Lorsque l'on crée un profil d'utilisateur inexistant
       Alors le profil de l'utilisateur devrait être créé avec toutes ces informations
-      et le rôle porteur par défaut`, async () => {
+      et le rôle porteur-projet par défaut`, async () => {
       const utilisateurRepo = fakeTransactionalRepo({} as Utilisateur);
       const publishToEventStore = jest.fn<EventStore['publish']>();
 

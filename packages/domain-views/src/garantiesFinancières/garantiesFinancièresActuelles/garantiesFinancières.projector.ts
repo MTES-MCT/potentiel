@@ -50,63 +50,30 @@ export const registerGarantiesFinancièresProjector = ({
           }
         }
         break;
-      case 'TypeGarantiesFinancièresEnregistré-v1':
+      case 'TypeGarantiesFinancièresImporté-v1':
         if (isNone(garantiesFinancières)) {
           await create<GarantiesFinancièresReadModel>(key, {
-            typeGarantiesFinancières:
-              'typeGarantiesFinancières' in event.payload
-                ? event.payload.typeGarantiesFinancières
-                : undefined,
-            dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
-          });
-        } else {
-          await update<GarantiesFinancièresReadModel>(key, {
-            ...garantiesFinancières,
-            typeGarantiesFinancières:
-              'typeGarantiesFinancières' in event.payload
-                ? event.payload.typeGarantiesFinancières
-                : undefined,
-            dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
-          });
-        }
-        break;
-      case 'AttestationGarantiesFinancièresEnregistrée-v1':
-        if (isNone(garantiesFinancières)) {
-          await create<GarantiesFinancièresReadModel>(key, {
-            attestationConstitution: {
-              format: event.payload.format,
-              date: event.payload.date,
-            },
-          });
-        } else {
-          await update<GarantiesFinancièresReadModel>(key, {
-            ...garantiesFinancières,
-            attestationConstitution: {
-              format: event.payload.format,
-              date: event.payload.date,
-            },
-          });
-        }
-        break;
-      case 'GarantiesFinancièresComplètesEnregistréesEvent-v1':
-        if (isNone(garantiesFinancières)) {
-          await create<GarantiesFinancièresReadModel>(key, {
-            attestationConstitution: {
-              format: event.payload.attestationConstitution.format,
-              date: event.payload.attestationConstitution.date,
-            },
-            typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
-            ...('dateÉchéance' in event.payload && { dateÉchéance: event.payload.dateÉchéance }),
-          });
-        } else {
-          await update<GarantiesFinancièresReadModel>(key, {
-            attestationConstitution: {
-              format: event.payload.attestationConstitution.format,
-              date: event.payload.attestationConstitution.date,
-            },
             typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
             dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
           });
+        } else {
+          //TODO : logger erreur > à l'import du projet il ne peut pas déjà avoir des GF
+        }
+        break;
+      case 'GarantiesFinancièresEnregistrées-v1':
+        const readModel = {
+          attestationConstitution: {
+            format: event.payload.attestationConstitution.format,
+            date: event.payload.attestationConstitution.date,
+          },
+          typeGarantiesFinancières: event.payload.typeGarantiesFinancières,
+          dateÉchéance: 'dateÉchéance' in event.payload ? event.payload.dateÉchéance : undefined,
+        };
+
+        if (isNone(garantiesFinancières)) {
+          await create<GarantiesFinancièresReadModel>(key, readModel);
+        } else {
+          await update<GarantiesFinancièresReadModel>(key, readModel);
         }
         break;
     }

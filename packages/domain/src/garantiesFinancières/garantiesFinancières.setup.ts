@@ -1,13 +1,12 @@
-import {
-  EnregistrerAttestationGarantiesFinancièresDependencies,
-  registerEnregistrerAttestationGarantiesFinancièresCommand,
-} from './actuelles/enregistrerAttestationGarantiesFinancières.command';
 import { registerEnregistrerGarantiesFinancièresUseCase } from './actuelles/enregistrerGarantiesFinancières.usecase';
-import { registerEnregistrerGarantiesFinancièresComplètesCommand } from './actuelles/enregistrerGarantiesFinancièresComplètes.command';
 import {
-  EnregistrerTypeGarantiesFinancièresDependencies,
-  registerEnregistrerTypeGarantiesFinancièresCommand,
-} from './actuelles/enregistrerTypeGarantiesFinancières.command';
+  EnregistrerGarantiesFinancièresDependencies,
+  registerEnregistrerGarantiesFinancièresCommand,
+} from './actuelles/enregistrerGarantiesFinancières.command';
+import {
+  ImporterTypeGarantiesFinancièresDependencies,
+  registerImporterTypeGarantiesFinancièresCommand,
+} from './actuelles/importerTypeGarantiesFinancières.command';
 import {
   DéposerGarantiesFinancièresDependencies,
   registerDéposerGarantiesFinancièresCommand,
@@ -28,28 +27,29 @@ import {
   registerValiderDépôtGarantiesFinancièresCommand,
 } from './dépôt/validerDépôtGarantiesFinancières.command';
 import { registerValiderDépôtGarantiesFinancièresUseCase } from './dépôt/validerDépôtGarantiesFinancières.usecase';
+import { registerImporterTypeGarantiesFinancièresUseCase } from './actuelles/importerTypeGarantiesFinancières.usecase';
 
-export type GarantiesFinancièresDependencies = DéposerGarantiesFinancièresDependencies &
+export type GarantiesFinancièresDependencies = EnregistrerGarantiesFinancièresDependencies &
+  ImporterTypeGarantiesFinancièresDependencies &
+  DéposerGarantiesFinancièresDependencies &
   ModifierDépôtGarantiesFinancièresDependencies &
-  EnregistrerTypeGarantiesFinancièresDependencies &
-  EnregistrerAttestationGarantiesFinancièresDependencies &
   ValiderDépôtarantiesFinancièresDependencies &
   SupprimerDépôtGarantiesFinancièresDependencies;
 
 export const setupGarantiesFinancières = async (dependencies: GarantiesFinancièresDependencies) => {
   // commands
+  registerEnregistrerGarantiesFinancièresCommand(dependencies);
+  registerImporterTypeGarantiesFinancièresCommand(dependencies);
   registerDéposerGarantiesFinancièresCommand(dependencies);
   registerModifierDépôtGarantiesFinancièresCommand(dependencies);
-  registerEnregistrerTypeGarantiesFinancièresCommand(dependencies);
-  registerEnregistrerAttestationGarantiesFinancièresCommand(dependencies);
-  registerEnregistrerGarantiesFinancièresComplètesCommand(dependencies);
   registerValiderDépôtGarantiesFinancièresCommand(dependencies);
   registerSupprimerDépôtGarantiesFinancièresCommand(dependencies);
 
   // usecases
+  registerEnregistrerGarantiesFinancièresUseCase();
+  registerImporterTypeGarantiesFinancièresUseCase();
   registerDéposerGarantiesFinancièresUseCase();
   registerModifierDépôtGarantiesFinancièresUseCase();
-  registerEnregistrerGarantiesFinancièresUseCase();
   registerValiderDépôtGarantiesFinancièresUseCase();
   registerSupprimerDépôtGarantiesFinancièresUseCase();
 };

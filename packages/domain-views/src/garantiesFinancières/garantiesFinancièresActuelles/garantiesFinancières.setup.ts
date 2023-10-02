@@ -40,11 +40,10 @@ export const setupGarantiesFinancièreViews = async (
     await subscribe({
       name: 'gf-projector',
       eventType: [
-        'AttestationGarantiesFinancièresEnregistrée-v1',
-        'GarantiesFinancièresSnapshot-v1',
-        'TypeGarantiesFinancièresEnregistré-v1',
         'RebuildTriggered',
-        'GarantiesFinancièresComplètesEnregistréesEvent-v1',
+        'GarantiesFinancièresSnapshot-v1',
+        'GarantiesFinancièresEnregistrées-v1',
+        'TypeGarantiesFinancièresImporté-v1',
       ],
       eventHandler: async (event: EnregistrementGarantiesFinancièresEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteGarantiesFinancièresProjector>({

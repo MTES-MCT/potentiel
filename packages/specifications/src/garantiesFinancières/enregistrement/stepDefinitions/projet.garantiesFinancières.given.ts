@@ -3,7 +3,6 @@ import { PotentielWorld } from '../../../potentiel.world';
 import {
   DomainUseCase,
   GarantiesFinancièresSnapshotEventV1,
-  TypeGarantiesFinancières,
   Utilisateur,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
@@ -16,13 +15,17 @@ import { publish } from '@potentiel/pg-event-sourcing';
 import { extension } from 'mime-types';
 import { join } from 'path';
 import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
+import { GarantiesFinancièresUseCase } from '@potentiel/domain/src/garantiesFinancières/garantiesFinancières.usecase';
 
 EtantDonné(
-  `des garanties financières (avec une attestation )(avec un type et une date d'échéance )(complètes )pour le projet {string} avec :`,
+  `des garanties financières pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
+    const typeGarantiesFinancières = exemple['type'] as
+      | 'consignation'
+      | "avec date d'échéance"
+      | '6 mois après achèvement';
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
     const dateConstitution = exemple[`date de constitution`];
@@ -30,23 +33,75 @@ EtantDonné(
 
     const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
 
+    if (
+      !['consignation', "avec date d'échéance", '6 mois après achèvement'].includes(
+        typeGarantiesFinancières,
+      )
+    ) {
+      throw new Error('le type renseigné dans le test est incorrect');
+    }
+
+    if (typeGarantiesFinancières === "avec date d'échéance" && !dateÉchéance) {
+      throw new Error("il manque une date d'échéance pour ce type de garanties financières");
+    }
+
     await mediator.send<DomainUseCase>({
       type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
       data: {
-        ...(format &&
-          dateConstitution && {
-            attestationConstitution: {
-              format,
-              date: convertirEnDateTime(dateConstitution),
-              content: contenuFichier,
-            },
-          }),
-        ...(typeGarantiesFinancières && {
-          typeGarantiesFinancières,
-          ...(dateÉchéance && { dateÉchéance: convertirEnDateTime(dateÉchéance) }),
-        }),
         utilisateur: { rôle: 'admin' } as Utilisateur,
         identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+        attestationConstitution: {
+          format,
+          date: convertirEnDateTime(dateConstitution),
+          content: contenuFichier,
+        },
+        ...(typeGarantiesFinancières === "avec date d'échéance"
+          ? {
+              typeGarantiesFinancières,
+              dateÉchéance: convertirEnDateTime(dateÉchéance),
+            }
+          : { typeGarantiesFinancières }),
+      },
+    });
+    await sleep(500);
+  },
+);
+
+EtantDonné(
+  `des garanties financières importées pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    const exemple = table.rowsHash();
+
+    const typeGarantiesFinancières = exemple['type'] as
+      | 'consignation'
+      | "avec date d'échéance"
+      | '6 mois après achèvement';
+    const dateÉchéance = exemple[`date d'échéance`];
+
+    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+
+    if (
+      !['consignation', "avec date d'échéance", '6 mois après achèvement'].includes(
+        typeGarantiesFinancières,
+      )
+    ) {
+      throw new Error('le type renseigné dans le test est incorrect');
+    }
+
+    if (typeGarantiesFinancières === "avec date d'échéance" && !dateÉchéance) {
+      throw new Error("il manque une date d'échéance pour ce type de garanties financières");
+    }
+
+    await mediator.send<GarantiesFinancièresUseCase>({
+      type: 'IMPORTER_TYPE_GARANTIES_FINANCIÈRES_USE_CASE',
+      data: {
+        identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+        ...(typeGarantiesFinancières === "avec date d'échéance"
+          ? {
+              typeGarantiesFinancières,
+              dateÉchéance: convertirEnDateTime(dateÉchéance),
+            }
+          : { typeGarantiesFinancières }),
       },
     });
     await sleep(500);
@@ -58,7 +113,10 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'] as TypeGarantiesFinancières;
+    const typeGarantiesFinancières = exemple['type'] as
+      | 'consignation'
+      | "avec date d'échéance"
+      | '6 mois après achèvement';
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
     const dateConstitution = exemple[`date de constitution`];

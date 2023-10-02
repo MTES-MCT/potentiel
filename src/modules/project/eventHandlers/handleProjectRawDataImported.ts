@@ -5,11 +5,8 @@ import { FindProjectByIdentifiers } from '..';
 import { ProjectRawDataImported } from '../events';
 import { Project } from '../Project';
 import { mediator } from 'mediateur';
-import {
-  DomainUseCase,
-  convertirEnDateTime,
-  convertirEnIdentifiantProjet,
-} from '@potentiel/domain';
+import { convertirEnDateTime, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { GarantiesFinancièresUseCase } from 'packages/domain/dist/garantiesFinancières/garantiesFinancières.usecase';
 
 export const handleProjectRawDataImported =
   (deps: {
@@ -58,19 +55,18 @@ export const handleProjectRawDataImported =
         numéroCRE: data.numeroCRE,
         période: data.periodeId,
       });
+
       try {
-        await mediator.send<DomainUseCase>({
-          type: 'ENREGISTRER_GARANTIES_FINANCIÈRES_USE_CASE',
+        await mediator.send<GarantiesFinancièresUseCase>({
+          type: 'IMPORTER_TYPE_GARANTIES_FINANCIÈRES_USE_CASE',
           data: {
-            utilisateur: {
-              rôle: 'admin',
-            },
             identifiantProjet,
-            typeGarantiesFinancières: data.garantiesFinancièresType,
-            dateÉchéance: data.garantiesFinancièresDateEchéance
-              ? convertirEnDateTime(data.garantiesFinancièresDateEchéance)
-              : undefined,
-            attestationConstitution: undefined,
+            ...(data.garantiesFinancièresType === `avec date d'échéance`
+              ? {
+                  dateÉchéance: convertirEnDateTime(data.garantiesFinancièresDateEchéance!),
+                  typeGarantiesFinancières: `avec date d'échéance`,
+                }
+              : { typeGarantiesFinancières: data.garantiesFinancièresType }),
           },
         });
       } catch (error) {

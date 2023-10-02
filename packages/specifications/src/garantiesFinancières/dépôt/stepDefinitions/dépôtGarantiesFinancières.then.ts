@@ -60,25 +60,31 @@ Alors(
 
     expect(actualAggregate.dépôt).not.to.be.undefined;
 
-    expect(actualAggregate.dépôt?.attestationConstitution?.format).to.be.deep.equal(
-      expectedDépôtAggregate.attestationConstitution?.format,
-    );
+    if (actualAggregate.dépôt) {
+      expect(actualAggregate.dépôt.attestationConstitution.format).to.be.deep.equal(
+        expectedDépôtAggregate.attestationConstitution?.format,
+      );
 
-    expect(actualAggregate.dépôt?.attestationConstitution?.date.date.getTime()).to.be.deep.equal(
-      expectedDépôtAggregate.attestationConstitution.date.date.getTime(),
-    );
+      expect(actualAggregate.dépôt.attestationConstitution.date.date.getTime()).to.be.deep.equal(
+        expectedDépôtAggregate.attestationConstitution.date.date.getTime(),
+      );
 
-    expect(actualAggregate.dépôt?.dateDépôt?.date.getTime()).to.be.deep.equal(
-      expectedDépôtAggregate.dateDépôt.date.getTime(),
-    );
+      expect(actualAggregate.dépôt.dateDépôt.date.getTime()).to.be.deep.equal(
+        expectedDépôtAggregate.dateDépôt.date.getTime(),
+      );
 
-    expect(actualAggregate.dépôt?.typeGarantiesFinancières).to.be.deep.equal(
-      expectedDépôtAggregate.typeGarantiesFinancières,
-    );
+      expect(actualAggregate.dépôt.typeGarantiesFinancières).to.be.deep.equal(
+        expectedDépôtAggregate.typeGarantiesFinancières,
+      );
 
-    expect(actualAggregate.dépôt?.dateÉchéance?.date.getTime()).to.be.deep.equal(
-      expectedDépôtAggregate.dateÉchéance?.date.getTime(),
-    );
+      if (dateÉchéance) {
+        expect('dateÉchéance' in actualAggregate.dépôt).to.be.true;
+        'dateÉchéance' in actualAggregate.dépôt &&
+          expect(actualAggregate.dépôt.dateÉchéance.date.getTime()).to.be.deep.equal(
+            expectedDépôtAggregate.dateÉchéance?.date.getTime(),
+          );
+      }
+    }
 
     // ASSERT ON READ MODEL
 

@@ -39,7 +39,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | 6 mois après achèvement |                 | application/pdf   | le contenu du fichier | 2021-12-02           | 2023-10-01    | 2023-11-01           |
 
     Scénario: Valider un dépôt pour un renouvellement de garanties financières
-        Etant donné des garanties financières complètes pour le projet "Centrale éolienne 20" avec :
+        Etant donné des garanties financières pour le projet "Centrale éolienne 20" avec :
             | type                 | avec date d'échéance  |
             | date d'échéance      | 2027-12-01            |
             | format               | application/pdf       |

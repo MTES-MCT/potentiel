@@ -36,12 +36,6 @@ export const EnregistrerGarantiesFinancières = ({
   const [typeSélectionné, sélectionnerType] = useState(
     (garantiesFinancières?.typeGarantiesFinancières as string) ?? '',
   );
-  const [isInfosConstitutionRequired, setInfosConstitutionRequired] = useState(
-    garantiesFinancières?.attestationConstitution?.format &&
-      garantiesFinancières.attestationConstitution.date
-      ? true
-      : false,
-  );
 
   return (
     <PageProjetTemplate titre={<TitreGarantiesFinancières />} user={user} résuméProjet={projet}>
@@ -105,9 +99,7 @@ export const EnregistrerGarantiesFinancières = ({
           )}
 
           <div>
-            <Label htmlFor="dateConstitution">
-              Date de constitution{!isInfosConstitutionRequired && ' (optionnel)'}
-            </Label>
+            <Label htmlFor="dateConstitution">Date de constitution</Label>
             <Input
               type="date"
               id="dateConstitution"
@@ -122,17 +114,12 @@ export const EnregistrerGarantiesFinancières = ({
                   ? user.role === 'porteur-projet'
                   : false
               }
-              onChange={(e) => {
-                e.currentTarget.value && setInfosConstitutionRequired(true);
-              }}
-              required={isInfosConstitutionRequired}
+              required
             />
           </div>
 
           <div>
-            <Label htmlFor="file">
-              Attestation de constitution{!isInfosConstitutionRequired && ' (optionnel)'}
-            </Label>
+            <Label htmlFor="file">Attestation de constitution</Label>
             <InputFile
               id="file"
               name="file"
@@ -146,11 +133,7 @@ export const EnregistrerGarantiesFinancières = ({
                   ? user.role === 'porteur-projet'
                   : false
               }
-              onFileChange={() => setInfosConstitutionRequired(true)}
-              required={
-                isInfosConstitutionRequired &&
-                !garantiesFinancières?.attestationConstitution?.format
-              }
+              required={!garantiesFinancières?.attestationConstitution?.format}
             />
           </div>
 
