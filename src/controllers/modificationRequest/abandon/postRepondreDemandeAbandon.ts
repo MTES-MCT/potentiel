@@ -11,7 +11,7 @@ import {
 import { logger } from '../../../core/utils';
 import { UnauthorizedError } from '../../../modules/shared';
 
-import { errorResponse, unauthorizedResponse } from '../../helpers';
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import routes from '../../../routes';
 import { upload } from '../../upload';
@@ -22,13 +22,20 @@ import { mediator } from 'mediateur';
 import {
   DomainUseCase,
   convertirEnDateTime,
+  convertirEnIdentifiantAppelOffre,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
 import { FileReadableStream } from '../../../helpers/fileReadableStream';
-import { none } from '@potentiel/monads';
+import { isNone, none } from '@potentiel/monads';
 import { RéponseAbandonAvecRecandidatureProps } from '../../../views/certificates/abandon/RéponseAbandonAvecRecandidature';
 import { buildDocument } from '../../../views/certificates/abandon/buildDocument';
 import { convertNodeJSReadableStreamToReadableStream } from '../../helpers/convertNodeJSReadableStreamToReadableStream';
+import {
+  ConsulterAbandonQuery,
+  ConsulterAppelOffreQuery,
+  ConsulterCandidatureLegacyQuery,
+} from '@potentiel/domain-views';
+import { format , fr } from 'date-fns';
 
 const props: RéponseAbandonAvecRecandidatureProps = {
   dateCourrier: 'JJ/MM/AAAA',
@@ -72,7 +79,6 @@ const schema = yup.object({
     submitConfirm: yup.string().nullable(),
     modificationRequestId: yup.string().uuid().required(),
     projectId: yup.string().uuid().required(),
-    recandidature: yup.boolean().optional(),
   }),
 });
 
@@ -96,27 +102,97 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        modificationRequestId,
-        projectId,
-        submitAccept,
-        submitRefuse,
-        submitConfirm,
-        recandidature,
-      } = request.body;
-      const { user } = request;
+        user,
+        body: { modificationRequestId, projectId, submitAccept, submitRefuse, submitConfirm },
+      } = request;
 
       const estAccordé = typeof submitAccept === 'string';
       const estRejeté = typeof submitRefuse === 'string';
       const estConfirmationDemandée = typeof submitConfirm === 'string';
 
       const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
+      if (!identifiantProjet) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
 
       if (estAccordé) {
         let file:
           | { content: NodeJS.ReadableStream; filename: string; mimeType: string }
           | undefined;
 
-        if (recandidature) {
+        const abandon = await mediator.send<ConsulterAbandonQuery>({
+          type: 'CONSULTER_ABANDON',
+          data: {
+            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+          },
+        });
+
+        if (isNone(abandon)) {
+          return notFoundResponse({ request, response, ressourceTitle: `Demande d'abandon` });
+        }
+
+        if (abandon.demandeRecandidature) {
+          const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
+            type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
+            data: {
+              identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+            },
+          });
+
+          if (isNone(projet)) {
+            return notFoundResponse({ request, response, ressourceTitle: `Projet` });
+          }
+
+          const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+            type: 'CONSULTER_APPEL_OFFRE_QUERY',
+            data: {
+              identifiantAppelOffre: convertirEnIdentifiantAppelOffre(projet.appelOffre),
+            },
+          });
+
+          if (isNone(appelOffre)) {
+            return notFoundResponse({ request, response, ressourceTitle: `Appel offre` });
+          }
+
+          const période = appelOffre.periodes.find((p) => p.id === projet.période);
+
+          if (!période) {
+            return notFoundResponse({ request, response, ressourceTitle: `Période` });
+          }
+
+          const props: RéponseAbandonAvecRecandidatureProps = {
+            dateCourrier: format(new Date(), 'dd/MM/yyyy', { locale: fr }),
+            projet: {
+              potentielId: projet.potentielIdentifier,
+              nomReprésentantLégal: projet.nomReprésentantLégal,
+              nomCandidat: projet.nomCandidat,
+              email: projet.email,
+              nom: projet.nom,
+              commune: projet.localité.commune,
+              codePostal: projet.localité.codePostal,
+              dateDésignation: projet.dateDésignation,
+              puissance: projet.puissance,
+            },
+            appelOffre: {
+              nom: appelOffre.shortTitle,
+              description: appelOffre.title,
+              période: période.title ?? projet.période,
+              unitéPuissance: appelOffre.unitePuissance,
+              texteEngagementRéalisationEtModalitésAbandon: appelOffre.donnéesCourriersRéponse
+                .texteEngagementRéalisationEtModalitésAbandon ?? {
+                référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
+                dispositions: '!!!CONTENU NON DISPONIBLE!!!',
+              },
+            },
+            demandeAbandon: {
+              date: abandon.demandeDemandéLe,
+              instructeur: {
+                nom: 'DGEC',
+                fonction: 'DGEC',
+              },
+            },
+          };
+
           file = {
             content: await buildDocument(props),
             filename: `${Date.now()}-réponse-abandon-avec-recandidature.pdf`,
@@ -143,10 +219,10 @@ v1Router.post(
           type: 'ACCORDER_ABANDON_USECASE',
           data: {
             identifiantProjet: convertirEnIdentifiantProjet({
-              appelOffre: identifiantProjet?.appelOffre || '',
-              famille: identifiantProjet?.famille || none,
-              numéroCRE: identifiantProjet?.numéroCRE || '',
-              période: identifiantProjet?.période || '',
+              appelOffre: identifiantProjet.appelOffre || '',
+              famille: identifiantProjet.famille || none,
+              numéroCRE: identifiantProjet.numéroCRE || '',
+              période: identifiantProjet.période || '',
             }),
             réponseSignée: {
               type: 'abandon-accordé',

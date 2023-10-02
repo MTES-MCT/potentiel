@@ -18,13 +18,20 @@ const selectProjectQuery = `
         'commune', "communeProjet",
         'département', "departementProjet",
         'région', "regionProjet"
+        'codePostal', "codePostalProjet"
     ),
     'statut', case
         when "notifiedOn" is null then 'non-notifié'
         when "abandonedOn" <> 0 then 'abandonné'
         when classe = 'Classé' then 'classé'
         else 'éliminé'
-    end
+    end,
+    'potentielIdentifier', "potentielIdentifier",
+    'nomReprésentantLégal', "nomRepresentantLegal",
+    'nomCandidat', "nomCandidat",
+    'email', "email",
+    'dateDésignation', to_timestamp("notifiedOn" / 1000)::timestamp::date,
+    'puissance', "puissance"
   ) as value
   from "projects"
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4

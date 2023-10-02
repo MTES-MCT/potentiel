@@ -18,6 +18,13 @@ export type CandidatureLegacyReadModel = ReadModel<
       commune: string;
       département: string;
       région: string;
+      codePostal: string;
     };
+    potentielIdentifier: string;
+    nomReprésentantLégal: string;
+    nomCandidat: string;
+    email: string;
+    dateDésignation: string;
+    puissance: number;
   }
 >;
