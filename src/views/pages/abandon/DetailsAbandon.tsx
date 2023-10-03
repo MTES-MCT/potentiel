@@ -133,18 +133,18 @@ const RéponsePorteur = ({
       <Form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
         <input type="hidden" name="demandeAbandonId" value={id} />
         <input type="hidden" name="projectId" value={projectId} />
-        <PrimaryButton type="submit" className="mt-4">
+        <PrimaryButton type="submit" className="mt-4 mr-4">
           Je confirme ma demande
         </PrimaryButton>
       </Form>
     )}
     {['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
-      <Form action={ROUTES.ANNULER_ABANDON} method="post" className="m-0">
+      <Form action={ROUTES.ANNULER_ABANDON} method="post" className="mt-2">
         <input type="hidden" name="modificationRequestId" value={id} />
         <input type="hidden" name="projectId" value={projectId} />
 
         <SecondaryButton
-          className="w-fit"
+          className="w-fit mt-4 mr-4"
           type="submit"
           name="submit"
           confirmation="Êtes-vous sur de vouloir annuler cette demande ?"
