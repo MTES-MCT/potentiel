@@ -78,7 +78,12 @@ v1Router.post(
 
       if (estAccordé) {
         let file:
-          | { content: NodeJS.ReadableStream; filename: string; mimeType: string }
+          | {
+              content: ReadableStream;
+              contentForLegacy: NodeJS.ReadableStream;
+              filename: string;
+              mimeType: string;
+            }
           | undefined;
 
         const abandon = await mediator.send<ConsulterAbandonQuery>({
@@ -155,13 +160,17 @@ v1Router.post(
           };
 
           file = {
-            content: await buildDocument(props),
+            content: await convertNodeJSReadableStreamToReadableStream(await buildDocument(props)),
+            contentForLegacy: await buildDocument(props),
             filename: `${Date.now()}-réponse-abandon-avec-recandidature.pdf`,
             mimeType: 'application/pdf',
           };
         } else if (request.file) {
           file = {
-            content: fs.createReadStream(request.file.path),
+            content: await convertNodeJSReadableStreamToReadableStream(
+              fs.createReadStream(request.file.path),
+            ),
+            contentForLegacy: fs.createReadStream(request.file.path),
             filename: `${Date.now()}-${request.file.originalname}`,
             mimeType: request.file.mimetype,
           };
@@ -188,7 +197,7 @@ v1Router.post(
             réponseSignée: {
               type: 'abandon-accordé',
               format: file.mimeType,
-              content: await convertNodeJSReadableStreamToReadableStream(file.content),
+              content: file.content,
             },
             dateAccordAbandon: convertirEnDateTime(new Date()),
           },
@@ -198,7 +207,7 @@ v1Router.post(
           user,
           demandeAbandonId: modificationRequestId,
           fichierRéponse: {
-            contents: file.content,
+            contents: file.contentForLegacy,
             filename: file.filename,
           },
         }).match(
