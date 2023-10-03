@@ -57,7 +57,15 @@ export const setupLauréatViews = async (dependencies: LauréatDependencies) => 
     }),
     await subscribe({
       name: 'projector',
-      eventType: ['AbandonDemandé-V1', 'RebuildTriggered'],
+      eventType: [
+        'AbandonDemandé-V1',
+        'AbandonAccordé-V1',
+        'AbandonAnnulé-V1',
+        'AbandonConfirmé-V1',
+        'AbandonRejeté-V1',
+        'ConfirmationAbandonDemandé-V1',
+        'RebuildTriggered',
+      ],
       eventHandler: async (event: AbandonEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteAbandonProjector>({
           type: 'EXECUTE_ABANDON_PROJECTOR',
