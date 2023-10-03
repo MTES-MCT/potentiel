@@ -18,6 +18,7 @@ import { ModificationRequested, ModificationReceived } from '../../../modificati
 
 import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers';
 import { PuissanceJustificationEtCourrierManquantError } from '.';
+import { GetProjectAppelOffre } from '../../../projectAppelOffre';
 
 type DemanderChangementDePuissance = (commande: {
   projectId: string;
@@ -43,6 +44,7 @@ type MakeDemanderChangementDePuissance = (dépendances: {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
   projectRepo: TransactionalRepository<Project>;
   fileRepo: Repository<FileObject>;
+  getProjectAppelOffre: GetProjectAppelOffre;
 }) => DemanderChangementDePuissance;
 
 export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissance =
@@ -54,6 +56,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
     shouldUserAccessProject,
     projectRepo,
     fileRepo,
+    getProjectAppelOffre,
   }) =>
   ({ projectId, requestedBy, newPuissance, justification, fichier }) => {
     return wrapInfra(shouldUserAccessProject({ projectId, user: requestedBy }))
@@ -86,9 +89,18 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
       )
       .andThen((fileId: string) => {
         return projectRepo.transaction(new UniqueEntityID(projectId), (project: Project) => {
+          const appelOffreProjet = getProjectAppelOffre({
+            appelOffreId: project.appelOffreId,
+            periodeId: project.periodeId,
+            familleId: project.familleId,
+          });
           const exceedsRatios = exceedsRatiosChangementPuissance({
             nouvellePuissance: newPuissance,
-            project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
+            project: {
+              ...project,
+              appelOffre: appelOffreProjet,
+              technologie: project.data?.technologie ?? 'N/A',
+            },
           });
           const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
             nouvellePuissance: newPuissance,
