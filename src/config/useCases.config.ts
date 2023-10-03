@@ -194,6 +194,7 @@ export const demanderChangementDePuissance = makeDemanderChangementDePuissance({
   projectRepo,
   fileRepo,
   getPuissanceProjet,
+  getProjectAppelOffre,
 });
 
 export const requestActionnaireModification = makeRequestActionnaireModification({
