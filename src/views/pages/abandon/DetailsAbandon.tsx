@@ -129,6 +129,15 @@ const RéponsePorteur = ({
   abandon: DemandeAbandonPageDTO;
 }) => (
   <>
+    {status === 'en attente de confirmation' && (
+      <Form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
+        <input type="hidden" name="demandeAbandonId" value={id} />
+        <input type="hidden" name="projectId" value={projectId} />
+        <PrimaryButton type="submit" className="mt-4">
+          Je confirme ma demande
+        </PrimaryButton>
+      </Form>
+    )}
     {['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
       <Form action={ROUTES.ANNULER_ABANDON} method="post" className="m-0">
         <input type="hidden" name="modificationRequestId" value={id} />

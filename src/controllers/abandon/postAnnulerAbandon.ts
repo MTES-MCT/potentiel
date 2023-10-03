@@ -18,7 +18,8 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
 } from '@potentiel/domain';
-import { none } from '@potentiel/monads';
+import { isSome, none } from '@potentiel/monads';
+import { ConsulterAbandonQuery } from '@potentiel/domain-views';
 
 const requestBodySchema = yup.object({
   modificationRequestId: yup.string().uuid().required(),
@@ -32,19 +33,36 @@ v1Router.post(
     const { projectId, modificationRequestId } = request.body;
 
     const sendToMediator = new Promise<void>(async (resolve) => {
-      const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
-      await mediator.send<DomainUseCase>({
-        type: 'ANNULER_ABANDON_USECASE',
+      const result = await getIdentifiantProjetByLegacyId(projectId);
+
+      const identifiantProjet = convertirEnIdentifiantProjet({
+        appelOffre: result?.appelOffre || '',
+        famille: result?.famille || none,
+        numéroCRE: result?.numéroCRE || '',
+        période: result?.période || '',
+      });
+
+      const abandon = await mediator.send<ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON',
         data: {
-          dateAnnulationAbandon: convertirEnDateTime(new Date()),
-          identifiantProjet: convertirEnIdentifiantProjet({
-            appelOffre: identifiantProjet?.appelOffre || '',
-            famille: identifiantProjet?.famille || none,
-            numéroCRE: identifiantProjet?.numéroCRE || '',
-            période: identifiantProjet?.période || '',
-          }),
+          identifiantProjet,
         },
       });
+
+      if (isSome(abandon)) {
+        await mediator.send<DomainUseCase>({
+          type: 'ANNULER_ABANDON_USECASE',
+          data: {
+            dateAnnulationAbandon: convertirEnDateTime(new Date()),
+            identifiantProjet: convertirEnIdentifiantProjet({
+              appelOffre: identifiantProjet?.appelOffre || '',
+              famille: identifiantProjet?.famille || none,
+              numéroCRE: identifiantProjet?.numéroCRE || '',
+              période: identifiantProjet?.période || '',
+            }),
+          },
+        });
+      }
 
       resolve();
     });
