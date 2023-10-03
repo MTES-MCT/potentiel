@@ -181,15 +181,6 @@ export const DemandeAbandonPage = (props: Parameters<typeof DétailsAbandon>[0])
     title: 'Demande abandon',
   });
 
-export const DemandeAnnulationAbandonPage = (
-  props: Parameters<typeof DemandeAnnulationAbandon>[0],
-) =>
-  makeHtml({
-    Component: DemandeAnnulationAbandon,
-    props,
-    title: 'Demande annulation abandon',
-  });
-
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>
   makeHtml({
     Component: ModificationRequestList,
@@ -469,4 +460,13 @@ export const ListeAbandonsPage = (props: Parameters<typeof ListeAbandons>[0]) =>
     Component: ListeAbandons,
     props,
     title: 'Lister les projets abandonnés avec recandidature',
+  });
+
+export const DemandeAnnulationAbandonPage = (
+  props: Parameters<typeof DemandeAnnulationAbandon>[0],
+) =>
+  makeHtml({
+    Component: DemandeAnnulationAbandon,
+    props,
+    title: 'Demande annulation abandon',
   });

@@ -6,9 +6,7 @@ import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '..
 import { getListLegacyIdsByIdentifiantsProjet } from '../../infra/sequelize/queries/project';
 import { getListModificationRequestIdsByLegacyIds } from '../../infra/sequelize/queries/modificationRequest';
 
-import {
-  PermissionListerAbandons,
-} from '@potentiel/domain-views';
+import { PermissionListerAbandons } from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
 import { none } from '@potentiel/monads';
 import { ListerAbandonsQuery } from '@potentiel/domain-views/dist/projet/lauréat/abandon/lister/listerAbandon.query';
@@ -22,7 +20,7 @@ v1Router.get(
     const abandons = await mediator.send<ListerAbandonsQuery>({
       type: 'LISTER_ABANDONS_QUERY',
       data: {
-        recandidature: true,
+        recandidature: false,
         pagination: { page, itemsPerPage },
       },
     });

@@ -148,13 +148,22 @@ const RéponsePorteur = ({
 );
 
 const RéponseValidateur = ({
-  abandon: { status, id, versionDate, project, type, recandidature },
+  abandon: {
+    status,
+    id,
+    versionDate,
+    project,
+    type,
+    recandidature,
+    project: { id: projectId },
+  },
 }: {
   abandon: DemandeAbandonPageDTO;
 }) => (
   <>
     {status === 'rejetée' && (
       <Form method="post" action={ROUTES.ADMIN_ANNULER_ABANDON_REJETE} className="m-0 mt-4">
+        <input type="hidden" name="projectId" value={projectId} />
         <SecondaryButton
           type="submit"
           value={id}

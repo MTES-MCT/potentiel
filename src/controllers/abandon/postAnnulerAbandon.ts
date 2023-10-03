@@ -59,9 +59,7 @@ v1Router.post(
           demandeAbandonId: modificationRequestId,
         }).map(() => modificationRequestId);
       })
-      .andThen(() => {
-        return wrapInfra(sendToMediator);
-      })
+      .andThen(() => wrapInfra(sendToMediator))
       .match(
         () =>
           response.redirect(

@@ -3,6 +3,7 @@ export * from './authN';
 export * from './changerFournisseurPage';
 export * from './changerProducteurPage';
 export * from './choisirCahierDesChargesPage';
+export * from './demandeAnnulationAbandonPage';
 export * from './demanderChangementPuissancePage';
 export * from './demanderDelaiPage';
 export * from './drealListPage';

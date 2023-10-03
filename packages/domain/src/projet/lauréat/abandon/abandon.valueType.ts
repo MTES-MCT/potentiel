@@ -26,4 +26,10 @@ export type RéponseSignée =
   | AbandonAccordéRéponseSignée
   | ConfirmationAbandonDemandéRéponseSignée;
 
-export type StatutAbandon = 'demandé' | 'rejeté' | 'confirmation-demandé' | 'confirmé' | 'accordé';
+export type StatutAbandon =
+  | 'demandé'
+  | 'rejeté'
+  | 'confirmation-demandé'
+  | 'confirmé'
+  | 'accordé'
+  | 'annulé';

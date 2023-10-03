@@ -50,10 +50,14 @@ export type Abandon = {
       format: string;
     };
   };
+  annuléLe?: DateTime;
 };
 
 const getDefaultAggregate = (): Abandon => ({
   getStatut: function () {
+    if (this.annuléLe) {
+      return 'annulé';
+    }
     if (this.rejet) {
       return 'rejeté';
     }
@@ -98,7 +102,9 @@ const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events
       case 'AbandonConfirmé-V1':
         return updateAvecAbandonConfirmé(aggregate, payload);
       case 'AbandonAnnulé-V1':
+        const { annuléLe } = payload;
         return {
+          annuléLe: convertirEnDateTime(annuléLe),
           ...getDefaultAggregate(),
         };
       default:

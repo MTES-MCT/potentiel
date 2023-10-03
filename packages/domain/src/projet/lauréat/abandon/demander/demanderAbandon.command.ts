@@ -41,7 +41,7 @@ export const registerDemanderAbandonCommand = ({
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
-    if (isSome(abandon)) {
+    if (isSome(abandon) && abandon.getStatut() !== 'annulé') {
       throw new DemandeAbandonEnCoursErreur();
     }
 

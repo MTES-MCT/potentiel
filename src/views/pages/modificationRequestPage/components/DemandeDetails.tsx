@@ -46,15 +46,6 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
 
       <DetailsByType modificationRequest={modificationRequest} />
 
-      {modificationRequest.type === 'abandon' && modificationRequest.recandidature && (
-        <>
-          <Heading3>Recandidature</Heading3>
-          <div>
-            Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
-          </div>
-        </>
-      )}
-
       {attachmentFile && (
         <div className="mt-4">
           <DownloadLink
