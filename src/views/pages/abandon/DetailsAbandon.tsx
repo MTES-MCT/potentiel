@@ -197,7 +197,7 @@ const RéponseValidateur = ({
           <input type="hidden" name="modificationRequestId" value={id} />
           <input type="hidden" name="type" value={type} />
           <input type="hidden" name="versionDate" value={versionDate} />
-          <input type="hidden" name="projectId" value={project.id} />
+          <input type="hidden" name="projectId" value={projectId} />
 
           {recandidature && <input type="hidden" name="recandidature" value="true" />}
           {!recandidature && (

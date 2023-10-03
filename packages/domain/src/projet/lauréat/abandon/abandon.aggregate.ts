@@ -66,7 +66,7 @@ const getDefaultAggregate = (): Abandon => ({
       return 'accordé';
     }
 
-    if (this.demande.confirmation && !this.demande.confirmation.demandéLe) {
+    if (this.demande.confirmation && !this.demande.confirmation.confirméLe) {
       return 'confirmation-demandé';
     }
 

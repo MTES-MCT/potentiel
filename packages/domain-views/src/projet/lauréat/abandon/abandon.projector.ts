@@ -85,6 +85,7 @@ export const registerAbandonProjector = ({
             confirmationConfirméLe: payload.confirméLe,
             statut: 'confirmé',
           });
+          break;
         case 'AbandonAnnulé-V1':
           await remove(`abandon|${payload.identifiantProjet}`);
           break;

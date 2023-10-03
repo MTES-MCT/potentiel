@@ -215,7 +215,7 @@ v1Router.post(
             return response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
                 success: `La demande d'abandon a bien été accordée.`,
-                redirectUrl: routes.GET_DEMANDER_ABANDON(projectId),
+                redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
                 redirectTitle: 'Retourner sur la demande',
               }),
             );
@@ -341,7 +341,7 @@ v1Router.post(
             return response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
                 success: `La demande de confirmation a bien été prise en compte.`,
-                redirectUrl: routes.GET_DEMANDER_ABANDON(projectId),
+                redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
                 redirectTitle: 'Retourner sur la demande',
               }),
             );
