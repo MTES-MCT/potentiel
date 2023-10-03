@@ -119,11 +119,20 @@ export const DétailsAbandon = ({ request, demandeAbandon }: DétailsAbandonProp
   );
 };
 
-const RéponsePorteur = ({ abandon: { status, id } }: { abandon: DemandeAbandonPageDTO }) => (
+const RéponsePorteur = ({
+  abandon: {
+    status,
+    id,
+    project: { id: projectId },
+  },
+}: {
+  abandon: DemandeAbandonPageDTO;
+}) => (
   <>
     {['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
-      <Form action={ROUTES.ANNULER_DEMANDE_ABANDON_ACTION} method="post" className="m-0">
+      <Form action={ROUTES.ANNULER_ABANDON} method="post" className="m-0">
         <input type="hidden" name="modificationRequestId" value={id} />
+        <input type="hidden" name="projectId" value={projectId} />
 
         <SecondaryButton
           className="w-fit"

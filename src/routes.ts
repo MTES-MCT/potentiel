@@ -271,7 +271,6 @@ class routes {
   static ANNULER_DEMANDE_ACTION = '/annuler-demande';
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
   static POST_DEMANDER_ABANDON = '/soumettre-demande-abandon';
-  static ANNULER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon';
   static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon';
 
   static POST_DEMANDER_ANNULATION_ABANDON = '/demander-annulation-abandon';
@@ -549,6 +548,7 @@ class routes {
   static GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE = `/admin/importer-dates-mise-en-service.html`;
   static POST_IMPORTER_DATES_MISE_EN_SERVICE = `/admin/importer-dates-mise-en-service`;
 
-  static LISTE_ABANDONS = `/admin/abandon`;
+  static LISTE_ABANDONS = `/abandons`;
+  static ANNULER_ABANDON = '/abandon/annuler';
 }
 export default routes;

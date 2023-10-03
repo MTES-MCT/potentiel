@@ -29,8 +29,16 @@ export const DemandeAnnulationAbandon = ({
 }: DemandeAnnulationAbandonProps) => {
   const { user } = request;
   const { error, success } = request.query as any;
-  const { id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
-    modificationRequest;
+  const {
+    id,
+    status,
+    respondedOn,
+    respondedBy,
+    cancelledOn,
+    cancelledBy,
+    responseFile,
+    project: { id: projectId },
+  } = modificationRequest;
 
   const isAdmin = userIs(['admin', 'dgec-validateur'])(user);
   const showFormulaireAdministrateur =
@@ -78,6 +86,7 @@ export const DemandeAnnulationAbandon = ({
             ['envoyée', 'en-instruction', 'en attente de confirmation'].includes(status) && (
               <Form action={ROUTES.POST_ANNULER_DEMANDE_ANNULATION_ABANDON} method="post">
                 <input type="hidden" name="demandeId" value={id} />
+                <input type="hidden" name="projectId" value={projectId} />
 
                 <SecondaryButton
                   className="w-fit"

@@ -39,6 +39,8 @@ import { registerRejeterAbandonUseCase } from './abandon/rejeter/rejeterAbandon.
 import { registerConfirmerAbandonUseCase } from './abandon/confirmer/confirmerAbandon.usecase';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../../raccordement/raccordement.event';
 import { mediator } from 'mediateur';
+import { registerAnnulerAbandonCommand } from './abandon/annuler/annulerAbandon.command';
+import { registerAnnulerAbandonUseCase } from './abandon/annuler/annulerAbandon.usecase';
 
 type GestionnaireRéseauLauréatDependencies = DéclarerGestionnaireRéseauProjetDependencies &
   ModifierGestionnaireRéseauProjetDependencies;
@@ -87,10 +89,12 @@ const registerAbandon = (dependencies: LauréatDependencies) => {
   registerConfirmerAbandonCommand(dependencies);
   registerDemanderConfirmationAbandonCommand(dependencies);
   registerRejeterAbandonCommand(dependencies);
+  registerAnnulerAbandonCommand(dependencies);
 
   registerDemanderAbandonAvecRecandidatureUseCase();
   registerAccorderAbandonUseCase();
   registerConfirmerAbandonUseCase();
   registerDemanderConfirmationAbandonUseCase();
   registerRejeterAbandonUseCase();
+  registerAnnulerAbandonUseCase();
 };
