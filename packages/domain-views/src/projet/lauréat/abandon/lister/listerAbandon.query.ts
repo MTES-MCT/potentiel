@@ -5,7 +5,7 @@ import { AbandonReadModel } from '../abandon.readmodel';
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
-    recandidature: boolean;
+    recandidature?: boolean;
     pagination: { page: number; itemsPerPage: number };
   },
   ListResult<AbandonReadModel>
@@ -25,9 +25,11 @@ export const registerListerAbandonAvecRecandidatureQuery = ({
     return await list<AbandonReadModel>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
-      where: {
-        demandeRecandidature: recandidature,
-      },
+      where: recandidature
+        ? {
+            demandeRecandidature: recandidature,
+          }
+        : undefined,
       orderBy: {
         property: 'demandeDemandéLe',
         ascending: false,
