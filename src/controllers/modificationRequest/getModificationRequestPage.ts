@@ -137,7 +137,7 @@ const getIdentifiantLegacyDemandeAbandon = async (
      and   p."periodeId" = $3
      and   p."familleId" = $4
      and   p."numeroCRE" = $5
-     order by mr."updatedAt" desc`,
+     order by mr."createdAt" desc`,
     typeDemande,
     appelOffre,
     période,
@@ -145,7 +145,7 @@ const getIdentifiantLegacyDemandeAbandon = async (
     numéroCRE,
   );
 
-  return modificationRequest[0].id ?? none;
+  return modificationRequest.length === 0 ? none : modificationRequest[0]?.id;
 };
 
 const _getProjectId = async (modificationRequestId) => {

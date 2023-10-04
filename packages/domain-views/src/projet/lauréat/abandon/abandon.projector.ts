@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AbandonEvent, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { AbandonEvent } from '@potentiel/domain';
 import { Find, RebuildTriggered, Remove, Upsert } from '@potentiel/core-domain-views';
 import { AbandonReadModel } from './abandon.readmodel';
 import { isSome } from '@potentiel/monads';
@@ -24,10 +24,6 @@ export const registerAbandonProjector = ({
     if (type === 'RebuildTriggered') {
       await remove<AbandonReadModel>(`abandon|${payload.id}`);
     } else {
-      const { appelOffre, famille, numéroCRE, période } = convertirEnIdentifiantProjet(
-        payload.identifiantProjet,
-      );
-
       const abandon = await find<AbandonReadModel>(`abandon|${payload.identifiantProjet}`);
 
       const abandonToUpsert: Omit<AbandonReadModel, 'type'> = isSome(abandon)
@@ -35,11 +31,6 @@ export const registerAbandonProjector = ({
         : {
             identifiantDemande: `abandon|${payload.identifiantProjet}`,
             identifiantProjet: payload.identifiantProjet,
-
-            appelOffre,
-            numéroCRE,
-            période,
-            famille: isSome(famille) ? famille : '',
 
             demandeDemandéLe: '',
             demandePiéceJustificativeFormat: '',

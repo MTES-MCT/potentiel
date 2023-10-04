@@ -28,7 +28,7 @@ type DétailsAbandonProps = {
   demandeAbandon: DemandeAbandonPageDTO;
 };
 
-export const DétailsAbandon = ({ request, demandeAbandon }: DétailsAbandonProps) => {
+export const DetailsAbandon = ({ request, demandeAbandon }: DétailsAbandonProps) => {
   const utilisateur = request.user as UtilisateurReadModel;
   const {
     requestedBy,
@@ -244,4 +244,4 @@ const RéponseValidateur = ({
   </>
 );
 
-hydrateOnClient(DétailsAbandon);
+hydrateOnClient(DetailsAbandon);

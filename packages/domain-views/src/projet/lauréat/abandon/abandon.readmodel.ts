@@ -15,11 +15,6 @@ export type AbandonReadModel = ReadModel<
 
     statut: StatutAbandon;
 
-    appelOffre: string;
-    numéroCRE: string;
-    famille?: string;
-    période: string;
-
     //flatten organization to optimize complex query. Will be revised soon
     demandeRaison: string;
     demandePiéceJustificativeFormat: string;

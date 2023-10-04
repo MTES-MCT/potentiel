@@ -1,3 +1,3 @@
-export * from './DemanderAbandon';
-export * from './ListeAbandons';
-export * from './DetailsAbandon';
+export * from './DemanderAbandonPage';
+export * from './ListeAbandonsPage';
+export * from './DetailsAbandonPage';

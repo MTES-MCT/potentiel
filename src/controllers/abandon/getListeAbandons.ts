@@ -4,9 +4,10 @@ import { v1Router } from '../v1Router';
 import { ListeAbandonsPage } from '../../views';
 import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
 
-import { PermissionListerAbandons } from '@potentiel/domain-views';
+import { ConsulterCandidatureLegacyQuery, PermissionListerAbandons } from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
 import { ListerAbandonsQuery } from '@potentiel/domain-views/dist/projet/lauréat/abandon/lister/listerAbandon.query';
+import { isSome } from '@potentiel/monads';
 
 v1Router.get(
   routes.LISTE_ABANDONS,
@@ -22,13 +23,30 @@ v1Router.get(
       },
     });
 
+    const abandonsWithProjet = await Promise.all(
+      abandons.items.map(async (a) => {
+        const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
+          type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
+          data: {
+            identifiantProjet: a.identifiantProjet,
+          },
+        });
+
+        return {
+          ...a,
+          projet: isSome(projet) ? projet : undefined,
+        };
+      }),
+    );
+
     return response.send(
       ListeAbandonsPage({
         request,
         abandons: {
           ...abandons,
-          currentUrl: getCurrentUrl(request),
+          items: abandonsWithProjet,
         },
+        currentUrl: getCurrentUrl(request),
       }),
     );
   }),

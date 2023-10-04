@@ -52,7 +52,7 @@ import {
   ModifierPropositionTechniqueEtFinancière,
   AucunDossierALister,
   ImporterDatesMiseEnService,
-  DétailsAbandon,
+  DetailsAbandon,
   ListeAbandons,
 } from './pages';
 
@@ -174,9 +174,9 @@ export const ChangerFournisseurPage = (props: Parameters<typeof ChangerFournisse
     title: 'Changer fournisseur',
   });
 
-export const DemandeAbandonPage = (props: Parameters<typeof DétailsAbandon>[0]) =>
+export const DemandeAbandonPage = (props: Parameters<typeof DetailsAbandon>[0]) =>
   makeHtml({
-    Component: DétailsAbandon,
+    Component: DetailsAbandon,
     props,
     title: 'Demande abandon',
   });
