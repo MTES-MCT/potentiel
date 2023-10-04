@@ -32,6 +32,8 @@ export type ModificationRequestDataForResponseTemplateDTO = {
   isEDFOA: string;
   isEDFSEI: string;
   isEDM: string;
+  isDrealAuthority: string;
+  isDgecAuthority: string;
 } & (
   | DelaiVariant
   | RecoursVariant
