@@ -18,7 +18,7 @@ import {
 } from '../abandon.readmodel';
 
 export type ConsulterRéponseSignéeAbandonQuery = Message<
-  'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
+  'CONSULTER_RÉPONSE_SIGNÉE_ABANDON_PROJET',
   {
     identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
     type: RéponseSignée['type'];
@@ -26,15 +26,15 @@ export type ConsulterRéponseSignéeAbandonQuery = Message<
   Option<RéponseSignéeAbandonReadModel>
 >;
 
-export type ConsulterRéponseSignéeDependencies = {
+export type ConsulterRéponseSignéeAbandonDependencies = {
   find: Find;
   récupérerRéponseSignée: RécupérerRéponseSignéeAbandonPort;
 };
 
-export const registerConsulterRéponseSignéeQuery = ({
+export const registerConsulterRéponseAbandonSignéeQuery = ({
   find,
   récupérerRéponseSignée,
-}: ConsulterRéponseSignéeDependencies) => {
+}: ConsulterRéponseSignéeAbandonDependencies) => {
   const handler: MessageHandler<ConsulterRéponseSignéeAbandonQuery> = async ({
     identifiantProjet,
     type,
@@ -86,5 +86,5 @@ export const registerConsulterRéponseSignéeQuery = ({
       content,
     } satisfies RéponseSignéeAbandonReadModel;
   };
-  mediator.register('CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET', handler);
+  mediator.register('CONSULTER_RÉPONSE_SIGNÉE_ABANDON_PROJET', handler);
 };

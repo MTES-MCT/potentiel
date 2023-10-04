@@ -11,7 +11,7 @@ export type AnnulerRejetAbandonUseCase = Message<
   AnnulerRejetAbandonUseCaseData
 >;
 
-export const registerAnnulerAbandonUseCase = () => {
+export const registerAnnulerRejetAbandonUseCase = () => {
   const runner: MessageHandler<AnnulerRejetAbandonUseCase> = async (data) => {
     await mediator.send<AbandonCommand>({
       type: 'ANNULER_ABANDON_COMMAND',
