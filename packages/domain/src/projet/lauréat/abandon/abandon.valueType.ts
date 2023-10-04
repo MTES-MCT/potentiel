@@ -1,3 +1,10 @@
+import { Option , isNone } from '@potentiel/monads';
+import {
+  RawIdentifiantProjet,
+  convertirEnIdentifiantProjet,
+  estUnIdentifiantProjet,
+} from '../../projet.valueType';
+
 export type PiéceJustificativeAbandon = {
   format: string;
   content: ReadableStream;
@@ -33,3 +40,53 @@ export type StatutAbandon =
   | 'confirmé'
   | 'accordé'
   | 'annulé';
+
+export type IdentifiantDemandeAbandon = {
+  typeDemande: 'abandon';
+  appelOffre: string;
+  période: string;
+  famille: Option<string>;
+  numéroCRE: string;
+};
+
+export type IdentifiantDemandeAbandonValueType = IdentifiantDemandeAbandon & {
+  formatter(): RawIdentifiantDemandeAbandon;
+};
+
+export type RawIdentifiantDemandeAbandon = `abandon|${RawIdentifiantProjet}`;
+
+export const estUnRawIdentifiantDemandeAbandon = (
+  value: string,
+): value is RawIdentifiantDemandeAbandon => {
+  const [typeDemande, rawIdentifiantProjet] = value.split('|');
+
+  return typeDemande === 'abandon' && estUnIdentifiantProjet(rawIdentifiantProjet);
+};
+
+const convertirRawIdentifiantDemandeAbandon = (
+  rawIdentifiant: RawIdentifiantDemandeAbandon,
+): IdentifiantDemandeAbandon => {
+  const [typeDemande, rawIdentifiantProjet] = rawIdentifiant.split('|');
+  const identifiantProjet = convertirEnIdentifiantProjet(
+    rawIdentifiantProjet as RawIdentifiantProjet,
+  );
+
+  return {
+    typeDemande: typeDemande as 'abandon',
+    ...identifiantProjet,
+  };
+};
+
+export const convertirEnIdentifiantDemandeAbandon = (
+  identifiantDemandeAbandon: RawIdentifiantDemandeAbandon,
+): IdentifiantDemandeAbandonValueType => {
+  // TODO: ajout validation
+  return {
+    ...convertirRawIdentifiantDemandeAbandon(identifiantDemandeAbandon),
+    formatter() {
+      return `abandon|${this.appelOffre}#${this.période}#${
+        isNone(this.famille) ? '' : this.famille
+      }#${this.numéroCRE}`;
+    },
+  };
+};

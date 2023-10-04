@@ -19,15 +19,30 @@ import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { ModificationRequest } from '../../infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
 import { ConsulterAbandonQuery } from '@potentiel/domain-views';
-import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import {
+  IdentifiantProjet,
+  RawIdentifiantDemandeAbandon,
+  convertirEnIdentifiantDemandeAbandon,
+  convertirEnIdentifiantProjet,
+  estUnRawIdentifiantDemandeAbandon,
+} from '@potentiel/domain';
 import { isSome } from '@potentiel/monads';
+import { executeSelect } from '@potentiel/pg-helpers';
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),
   ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'cre']),
   asyncHandler(async (request, response) => {
-    const { modificationRequestId } = request.params;
     const { user } = request;
+
+    if (estUnRawIdentifiantDemandeAbandon(request.params.modificationRequestId)) {
+      const modificationRequestId = await getIdentifiantLegacyDemandeAbandon(
+        request.params.modificationRequestId,
+      );
+      return response.redirect(routes.DEMANDE_PAGE_DETAILS(modificationRequestId));
+    }
+
+    const { modificationRequestId } = request.params;
 
     if (!validateUniqueId(modificationRequestId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
@@ -102,7 +117,33 @@ v1Router.get(
   }),
 );
 
-async function _getProjectId(modificationRequestId) {
+const getIdentifiantLegacyDemandeAbandon = async (
+  identifiantDemandeAbandon: RawIdentifiantDemandeAbandon,
+) => {
+  const { typeDemande, appelOffre, période, famille, numéroCRE } =
+    convertirEnIdentifiantDemandeAbandon(identifiantDemandeAbandon);
+
+  const modificationRequest = await executeSelect<{ id: string }>(
+    `select mr.id
+     from "modificationRequests" mr 
+     inner join "projects" p on mr."projectId" = p.id
+     where mr.type = $1
+     and   p."appelOffreId" = $2
+     and   p."periodeId" = $3
+     and   p."familleId" = $4
+     and   p."numeroCRE" = $5
+     order by mr."updatedAt" desc`,
+    typeDemande,
+    appelOffre,
+    période,
+    famille,
+    numéroCRE,
+  );
+
+  return modificationRequest[0].id;
+};
+
+const _getProjectId = async (modificationRequestId) => {
   const rawModificationRequest = await ModificationRequest.findOne({
     where: {
       id: modificationRequestId,
@@ -111,4 +152,4 @@ async function _getProjectId(modificationRequestId) {
   });
 
   return rawModificationRequest?.projectId;
-}
+};

@@ -5,7 +5,6 @@ import {
   Heading1,
   Link,
   LinkButton,
-  SecondaryLinkButton,
   ListeVide,
   MapPinIcon,
   PageListeTemplate,
@@ -21,16 +20,9 @@ import routes from '../../../routes';
 type ListeAbandonsProps = {
   abandons: ListResult<AbandonReadModel> & { currentUrl: string };
   request: Request;
-  projetsLegacyIds?: string[];
-  modificationsRequestIds?: string[];
 };
 
-export const ListeAbandons = ({
-  request,
-  abandons,
-  modificationsRequestIds,
-  projetsLegacyIds,
-}: ListeAbandonsProps) => {
+export const ListeAbandons = ({ request, abandons }: ListeAbandonsProps) => {
   const utilisateur = request.user as UtilisateurReadModel;
 
   return (
@@ -50,20 +42,15 @@ export const ListeAbandons = ({
           <>
             <ul className="p-0 m-0">
               {abandons.items.map((abandon, index) => (
-                <li
-                  className="list-none p-0 m-0"
-                  key={`${abandon.appelOffre}#${abandon.période}#${abandon.famille}#${abandon.numéroCRE}`}
-                >
+                <li className="list-none p-0 m-0" key={`${abandon.identifiantProjet}`}>
                   <Tile className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>
                       <div className="flex flex-col gap-2 mb-4">
-                        {projetsLegacyIds?.length && (
-                          <div className="flex flex-col md:flex-row gap-2">
-                            <Link href={routes.PROJECT_DETAILS(projetsLegacyIds[index])}>
-                              {/* {projet.nom} */}
-                            </Link>
-                          </div>
-                        )}
+                        <div className="flex flex-col md:flex-row gap-2">
+                          <Link href={routes.PROJECT_DETAILS(abandon.identifiantProjet)}>
+                            {/* {projet.nom} */}
+                          </Link>
+                        </div>
                         <div className="italic text-xs text-grey-425-base">
                           {abandon.appelOffre}-P{abandon.période}-F{abandon.famille}-
                           {abandon.numéroCRE}
@@ -80,22 +67,12 @@ export const ListeAbandons = ({
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      {projetsLegacyIds?.length && (
-                        <SecondaryLinkButton
-                          href={routes.PROJECT_DETAILS(projetsLegacyIds[index])}
-                          aria-label={`voir le projet`}
-                        >
-                          Voir le projet
-                        </SecondaryLinkButton>
-                      )}
-                      {modificationsRequestIds?.length && (
-                        <LinkButton
-                          href={routes.DEMANDE_PAGE_DETAILS(modificationsRequestIds[index])}
-                          aria-label={`Voir le détail de la demande d'abandon pour le projet`}
-                        >
-                          Voir la demande d'abandon
-                        </LinkButton>
-                      )}
+                      <LinkButton
+                        href={routes.DEMANDE_PAGE_DETAILS(abandon.identifiantDemande)}
+                        aria-label={`Voir le détail de la demande d'abandon pour le projet`}
+                      >
+                        Voir la demande d'abandon
+                      </LinkButton>
                     </div>
                   </Tile>
                 </li>

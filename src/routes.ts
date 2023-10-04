@@ -291,7 +291,7 @@ class routes {
   static DEMANDE_PAGE_DETAILS = (modificationRequestId?: string) => {
     const route = '/demande/:modificationRequestId/details.html';
     if (modificationRequestId) {
-      return route.replace(':modificationRequestId', modificationRequestId);
+      return route.replace(':modificationRequestId', encodeURIComponent(modificationRequestId));
     } else return route;
   };
 
