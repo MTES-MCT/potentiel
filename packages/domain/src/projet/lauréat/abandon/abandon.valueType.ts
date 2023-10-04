@@ -1,8 +1,8 @@
-import { Option , isNone } from '@potentiel/monads';
+import { Option, isNone } from '@potentiel/monads';
 import {
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
-  estUnIdentifiantProjet,
+  estUnRawIdentifiantProjet,
 } from '../../projet.valueType';
 
 export type PiéceJustificativeAbandon = {
@@ -60,7 +60,7 @@ export const estUnRawIdentifiantDemandeAbandon = (
 ): value is RawIdentifiantDemandeAbandon => {
   const [typeDemande, rawIdentifiantProjet] = value.split('|');
 
-  return typeDemande === 'abandon' && estUnIdentifiantProjet(rawIdentifiantProjet);
+  return typeDemande === 'abandon' && estUnRawIdentifiantProjet(rawIdentifiantProjet);
 };
 
 const convertirRawIdentifiantDemandeAbandon = (

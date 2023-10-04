@@ -26,7 +26,7 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantDemandeAbandon,
 } from '@potentiel/domain';
-import { isSome } from '@potentiel/monads';
+import { isSome, Option, none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
 v1Router.get(
@@ -39,7 +39,12 @@ v1Router.get(
       const modificationRequestId = await getIdentifiantLegacyDemandeAbandon(
         request.params.modificationRequestId,
       );
-      return response.redirect(routes.DEMANDE_PAGE_DETAILS(modificationRequestId));
+
+      if (isSome(modificationRequestId)) {
+        return response.redirect(routes.DEMANDE_PAGE_DETAILS(modificationRequestId));
+      }
+
+      return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
     const { modificationRequestId } = request.params;
@@ -119,12 +124,12 @@ v1Router.get(
 
 const getIdentifiantLegacyDemandeAbandon = async (
   identifiantDemandeAbandon: RawIdentifiantDemandeAbandon,
-) => {
+): Promise<Option<string>> => {
   const { typeDemande, appelOffre, période, famille, numéroCRE } =
     convertirEnIdentifiantDemandeAbandon(identifiantDemandeAbandon);
 
   const modificationRequest = await executeSelect<{ id: string }>(
-    `select mr.id
+    `select mr.id as "id"
      from "modificationRequests" mr 
      inner join "projects" p on mr."projectId" = p.id
      where mr.type = $1
@@ -136,11 +141,11 @@ const getIdentifiantLegacyDemandeAbandon = async (
     typeDemande,
     appelOffre,
     période,
-    famille,
+    isSome(famille) ? famille : '',
     numéroCRE,
   );
 
-  return modificationRequest[0].id;
+  return modificationRequest[0].id ?? none;
 };
 
 const _getProjectId = async (modificationRequestId) => {

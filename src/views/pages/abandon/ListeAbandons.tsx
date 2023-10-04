@@ -41,7 +41,7 @@ export const ListeAbandons = ({ request, abandons }: ListeAbandonsProps) => {
         ) : (
           <>
             <ul className="p-0 m-0">
-              {abandons.items.map((abandon, index) => (
+              {abandons.items.map((abandon) => (
                 <li className="list-none p-0 m-0" key={`${abandon.identifiantProjet}`}>
                   <Tile className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>

@@ -24,8 +24,8 @@ export const registerAbandonProjector = ({
     if (type === 'RebuildTriggered') {
       await remove<AbandonReadModel>(`abandon|${payload.id}`);
     } else {
-      const { appelOffre, famille, numéroCRE, période, formatter } = convertirEnIdentifiantProjet(
-        payload.identifiantProjet as `${string}#${string}#${string}#${string}`,
+      const { appelOffre, famille, numéroCRE, période } = convertirEnIdentifiantProjet(
+        payload.identifiantProjet,
       );
 
       const abandon = await find<AbandonReadModel>(`abandon|${payload.identifiantProjet}`);
@@ -33,8 +33,8 @@ export const registerAbandonProjector = ({
       const abandonToUpsert: Omit<AbandonReadModel, 'type'> = isSome(abandon)
         ? abandon
         : {
-            identifiantDemande: `abandon|${formatter()}`,
-            identifiantProjet: formatter(),
+            identifiantDemande: `abandon|${payload.identifiantProjet}`,
+            identifiantProjet: payload.identifiantProjet,
 
             appelOffre,
             numéroCRE,
