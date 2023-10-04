@@ -185,23 +185,27 @@ v1Router.post(
           });
         }
 
-        await mediator.send<DomainUseCase>({
-          type: 'ACCORDER_ABANDON_USECASE',
-          data: {
-            identifiantProjet: convertirEnIdentifiantProjet({
-              appelOffre: identifiantProjet.appelOffre || '',
-              famille: identifiantProjet.famille || none,
-              numéroCRE: identifiantProjet.numéroCRE || '',
-              période: identifiantProjet.période || '',
-            }),
-            réponseSignée: {
-              type: 'abandon-accordé',
-              format: file.mimeType,
-              content: file.content,
+        try {
+          await mediator.send<DomainUseCase>({
+            type: 'ACCORDER_ABANDON_USECASE',
+            data: {
+              identifiantProjet: convertirEnIdentifiantProjet({
+                appelOffre: identifiantProjet.appelOffre || '',
+                famille: identifiantProjet.famille || none,
+                numéroCRE: identifiantProjet.numéroCRE || '',
+                période: identifiantProjet.période || '',
+              }),
+              réponseSignée: {
+                type: 'abandon-accordé',
+                format: file.mimeType,
+                content: file.content,
+              },
+              dateAccordAbandon: convertirEnDateTime(new Date()),
             },
-            dateAccordAbandon: convertirEnDateTime(new Date()),
-          },
-        });
+          });
+        } catch (e) {
+          logger.error(e);
+        }
 
         accorderDemandeAbandon({
           user,
@@ -251,23 +255,27 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         };
 
-        await mediator.send<DomainUseCase>({
-          type: 'REJETER_ABANDON_USECASE',
-          data: {
-            identifiantProjet: convertirEnIdentifiantProjet({
-              appelOffre: identifiantProjet?.appelOffre || '',
-              famille: identifiantProjet?.famille || none,
-              numéroCRE: identifiantProjet?.numéroCRE || '',
-              période: identifiantProjet?.période || '',
-            }),
-            réponseSignée: {
-              type: 'abandon-rejeté',
-              format: request.file.mimetype,
-              content: new FileReadableStream(request.file.path),
+        try {
+          await mediator.send<DomainUseCase>({
+            type: 'REJETER_ABANDON_USECASE',
+            data: {
+              identifiantProjet: convertirEnIdentifiantProjet({
+                appelOffre: identifiantProjet?.appelOffre || '',
+                famille: identifiantProjet?.famille || none,
+                numéroCRE: identifiantProjet?.numéroCRE || '',
+                période: identifiantProjet?.période || '',
+              }),
+              réponseSignée: {
+                type: 'abandon-rejeté',
+                format: request.file.mimetype,
+                content: new FileReadableStream(request.file.path),
+              },
+              dateRejetAbandon: convertirEnDateTime(new Date()),
             },
-            dateRejetAbandon: convertirEnDateTime(new Date()),
-          },
-        });
+          });
+        } catch (e) {
+          logger.error(e);
+        }
 
         rejeterDemandeAbandon({
           user,
@@ -314,23 +322,27 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         };
 
-        await mediator.send<DomainUseCase>({
-          type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
-          data: {
-            identifiantProjet: convertirEnIdentifiantProjet({
-              appelOffre: identifiantProjet?.appelOffre || '',
-              famille: identifiantProjet?.famille || none,
-              numéroCRE: identifiantProjet?.numéroCRE || '',
-              période: identifiantProjet?.période || '',
-            }),
-            réponseSignée: {
-              type: 'abandon-à-confirmer',
-              format: request.file.mimetype,
-              content: new FileReadableStream(request.file.path),
+        try {
+          await mediator.send<DomainUseCase>({
+            type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+            data: {
+              identifiantProjet: convertirEnIdentifiantProjet({
+                appelOffre: identifiantProjet?.appelOffre || '',
+                famille: identifiantProjet?.famille || none,
+                numéroCRE: identifiantProjet?.numéroCRE || '',
+                période: identifiantProjet?.période || '',
+              }),
+              réponseSignée: {
+                type: 'abandon-à-confirmer',
+                format: request.file.mimetype,
+                content: new FileReadableStream(request.file.path),
+              },
+              dateDemandeConfirmationAbandon: convertirEnDateTime(new Date()),
             },
-            dateDemandeConfirmationAbandon: convertirEnDateTime(new Date()),
-          },
-        });
+          });
+        } catch (e) {
+          logger.error(e);
+        }
 
         demanderConfirmationAbandon({
           user,
@@ -364,94 +376,3 @@ v1Router.post(
     },
   ),
 );
-
-// v1Router.post(
-//   routes.ADMIN_REPONDRE_DEMANDE_ABANDON,
-//   ensureRole(['admin', 'dgec-validateur']),
-//   upload.single('file'),
-//   asyncHandler(async (request, response) => {
-//     validateRequestBodyForErrorArray(request.body, requestBodySchema)
-//       .asyncAndThen((body) => {
-//         const { modificationRequestId, submitAccept, submitConfirm } = body;
-//         const { user } = request;
-
-//         if (!request.file) {
-//           return errAsync(
-//             new RequestValidationErrorArray([
-//               "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
-//             ]),
-//           );
-//         }
-
-//         const file = request.file && {
-//           contents: fs.createReadStream(request.file.path),
-//           filename: `${Date.now()}-${request.file.originalname}`,
-//         };
-
-//         const estAccordé = typeof submitAccept === 'string';
-//         const demanderConfirmation = typeof submitConfirm === 'string';
-
-//         if (estAccordé) {
-//           return accorderDemandeAbandon({
-//             user,
-//             demandeAbandonId: modificationRequestId,
-//             fichierRéponse: file,
-//           }).map(() => ({ modificationRequestId, action: 'accorder' }));
-//         }
-
-//         if (demanderConfirmation) {
-//           return demanderConfirmationAbandon({
-//             user,
-//             demandeAbandonId: modificationRequestId,
-//             fichierRéponse: file,
-//           }).map(() => ({ modificationRequestId, action: 'demanderConfirmation' }));
-//         }
-
-//         return rejeterDemandeAbandon({
-//           user,
-//           demandeAbandonId: modificationRequestId,
-//           fichierRéponse: file,
-//         }).map(() => ({ modificationRequestId, action: 'rejeter' }));
-//       })
-//       .match(
-//         ({ modificationRequestId, action }) => {
-//           return response.redirect(
-//             routes.SUCCESS_OR_ERROR_PAGE({
-//               success: SUCCESS_MESSAGES[action],
-//               redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-//               redirectTitle: 'Retourner sur la page de la demande',
-//             }),
-//           );
-//         },
-//         (error) => {
-//           if (error instanceof AccorderDemandeAbandonError) {
-//             return errorResponse({
-//               request,
-//               response,
-//               customStatus: 400,
-//               customMessage: error.message,
-//             });
-//           }
-//           if (error instanceof UnauthorizedError) {
-//             return unauthorizedResponse({ request, response });
-//           }
-
-//           if (error instanceof RequestValidationErrorArray) {
-//             return response.redirect(
-//               addQueryParams(routes.DEMANDE_PAGE_DETAILS(request.body.modificationRequestId), {
-//                 error: `${error.message} ${error.errors.join(' ')}`,
-//               }),
-//             );
-//           }
-
-//           logger.error(error);
-//           return errorResponse({
-//             request,
-//             response,
-//             customMessage:
-//               'Il y a eu une erreur lors de la soumission de votre réponse. Merci de recommencer.',
-//           });
-//         },
-//       );
-//   }),
-// );

@@ -52,24 +52,28 @@ v1Router.post(
 
       const sendToMediator = new Promise<void>(async (resolve) => {
         const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
-        await mediator.send<DomainUseCase>({
-          type: 'DEMANDER_ABANDON_USECASE',
-          data: {
-            identifiantProjet: convertirEnIdentifiantProjet({
-              appelOffre: identifiantProjet?.appelOffre || '',
-              famille: identifiantProjet?.famille || none,
-              numéroCRE: identifiantProjet?.numéroCRE || '',
-              période: identifiantProjet?.période || '',
-            }),
-            piéceJustificative: {
-              format: request.file?.mimetype || '',
-              content: new FileReadableStream(request.file?.path || ''),
+        try {
+          await mediator.send<DomainUseCase>({
+            type: 'DEMANDER_ABANDON_USECASE',
+            data: {
+              identifiantProjet: convertirEnIdentifiantProjet({
+                appelOffre: identifiantProjet?.appelOffre || '',
+                famille: identifiantProjet?.famille || none,
+                numéroCRE: identifiantProjet?.numéroCRE || '',
+                période: identifiantProjet?.période || '',
+              }),
+              piéceJustificative: {
+                format: request.file?.mimetype || '',
+                content: new FileReadableStream(request.file?.path || ''),
+              },
+              dateDemandeAbandon: convertirEnDateTime(new Date()),
+              recandidature: !!abandonAvecRecandidature,
+              raison: justification || '',
             },
-            dateDemandeAbandon: convertirEnDateTime(new Date()),
-            recandidature: !!abandonAvecRecandidature,
-            raison: justification || '',
-          },
-        });
+          });
+        } catch (e) {
+          logger.error(e);
+        }
 
         resolve();
       });

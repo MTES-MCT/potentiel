@@ -59,18 +59,22 @@ v1Router.post(
         });
 
         if (isSome(abandon)) {
-          await mediator.send<DomainUseCase>({
-            type: 'CONFIRMER_ABANDON_USECASE',
-            data: {
-              dateConfirmationAbandon: convertirEnDateTime(new Date()),
-              identifiantProjet: convertirEnIdentifiantProjet({
-                appelOffre: identifiantProjet?.appelOffre || '',
-                famille: identifiantProjet?.famille || none,
-                numéroCRE: identifiantProjet?.numéroCRE || '',
-                période: identifiantProjet?.période || '',
-              }),
-            },
-          });
+          try {
+            await mediator.send<DomainUseCase>({
+              type: 'CONFIRMER_ABANDON_USECASE',
+              data: {
+                dateConfirmationAbandon: convertirEnDateTime(new Date()),
+                identifiantProjet: convertirEnIdentifiantProjet({
+                  appelOffre: identifiantProjet?.appelOffre || '',
+                  famille: identifiantProjet?.famille || none,
+                  numéroCRE: identifiantProjet?.numéroCRE || '',
+                  période: identifiantProjet?.période || '',
+                }),
+              },
+            });
+          } catch (e) {
+            logger.error(e);
+          }
         }
 
         resolve();

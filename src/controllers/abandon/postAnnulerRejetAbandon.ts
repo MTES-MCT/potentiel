@@ -62,17 +62,21 @@ v1Router.post(
             });
 
           if (isSome(abandon) && isSome(piéceJustificative)) {
-            await mediator.send<DomainUseCase>({
-              type: 'ANNULER_REJET_ABANDON_USECASE',
-              data: {
-                dateAnnulationAbandon: convertirEnDateTime(new Date()),
-                dateDemandeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
-                identifiantProjet,
-                piéceJustificative,
-                raison: abandon.demandeRaison,
-                recandidature: abandon.demandeRecandidature,
-              },
-            });
+            try {
+              await mediator.send<DomainUseCase>({
+                type: 'ANNULER_REJET_ABANDON_USECASE',
+                data: {
+                  dateAnnulationAbandon: convertirEnDateTime(new Date()),
+                  dateDemandeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
+                  identifiantProjet,
+                  piéceJustificative,
+                  raison: abandon.demandeRaison,
+                  recandidature: abandon.demandeRecandidature,
+                },
+              });
+            } catch (e) {
+              logger.error(e);
+            }
           }
 
           resolve();
