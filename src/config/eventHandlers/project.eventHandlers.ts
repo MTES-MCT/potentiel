@@ -20,7 +20,11 @@ import {
 } from '../../modules/project';
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';
-import { findProjectByIdentifiers, getUnnotifiedProjectsForPeriode } from '../queries.config';
+import {
+  findProjectByIdentifiers,
+  getUnnotifiedProjectsForPeriode,
+  récupérerDétailDossiersRaccordements,
+} from '../queries.config';
 import { getProjectAppelOffre } from '../queryProjectAO.config';
 import { projectRepo } from '../repos.config';
 import { generateCertificate } from '../useCases.config';
@@ -99,6 +103,7 @@ const onDateMiseEnServiceTransmiseHandler = makeOnDateMiseEnServiceTransmise({
   publishToEventStore: eventStore.publish,
   getProjectAppelOffre,
   findProjectByIdentifiers,
+  récupérerDétailDossiersRaccordements,
 });
 
 const onDateMiseEnServiceTransmise = async (event: DomainEvent) => {

@@ -1,15 +1,16 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
-import { logger, okAsync, err } from '../../../core/utils';
+import { err, logger, okAsync, ResultAsync } from '../../../core/utils';
 import { GetProjectAppelOffre } from '../../projectAppelOffre';
 import { DateMiseEnServiceTransmise, ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
-import { FindProjectByIdentifiers } from '../queries';
+import { FindProjectByIdentifiers, RécupérerDétailDossiersRaccordements } from '../queries';
 
 type Dépendances = {
   projectRepo: TransactionalRepository<Project>;
   publishToEventStore: EventStore['publish'];
   getProjectAppelOffre: GetProjectAppelOffre;
   findProjectByIdentifiers: FindProjectByIdentifiers;
+  récupérerDétailDossiersRaccordements: RécupérerDétailDossiersRaccordements;
 };
 
 export const makeOnDateMiseEnServiceTransmise =
@@ -18,17 +19,49 @@ export const makeOnDateMiseEnServiceTransmise =
     publishToEventStore,
     getProjectAppelOffre,
     findProjectByIdentifiers,
+    récupérerDétailDossiersRaccordements,
   }: Dépendances) =>
   ({ payload }: DateMiseEnServiceTransmise) => {
-    const { identifiantProjet, dateMiseEnService } = payload;
+    const { identifiantProjet, dateMiseEnService, référenceDossierRaccordement } = payload;
     const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
 
-    return findProjectByIdentifiers({
-      appelOffreId: appelOffre,
-      periodeId: période,
-      familleId: famille,
-      numeroCRE: numéroCRE,
-    })
+    return ResultAsync.fromPromise(
+      récupérerDétailDossiersRaccordements({
+        appelOffre,
+        période,
+        famille,
+        numéroCRE,
+      }),
+      () => {
+        logger.error(
+          `project eventHandler onDateMiseEnServiceTransmise : erreur lors de la lecture des dossiers de raccordement. Projet ${identifiantProjet}`,
+        );
+        return okAsync(null);
+      },
+    )
+      .andThen((raccordements) => {
+        if (!raccordements) {
+          logger.error(
+            `project eventHandler onDateMiseEnServiceTransmise : raccordements non trouvés. Projet ${identifiantProjet}`,
+          );
+          return okAsync(null);
+        }
+        if (
+          raccordements.find(
+            (dossier) =>
+              !dossier.miseEnService && dossier.référence !== référenceDossierRaccordement,
+          )
+        ) {
+          return okAsync(null);
+        }
+
+        return findProjectByIdentifiers({
+          appelOffreId: appelOffre,
+          periodeId: période,
+          familleId: famille,
+          numeroCRE: numéroCRE,
+        });
+      })
       .andThen((projetId) => {
         if (!projetId) {
           return err(new Error(`Projet non trouvé`));
@@ -60,12 +93,12 @@ export const makeOnDateMiseEnServiceTransmise =
             });
             if (!projectAppelOffre) {
               logger.error(
-                `project eventHandler onDonnéesDeRaccordementRenseignées : AO non trouvé. Projet ${projetId}`,
+                `project eventHandler onDateMiseEnServiceTransmise : AO non trouvé. Projet ${projetId}`,
               );
               return okAsync(null);
             }
 
-            const donnéesCDC = projectAppelOffre?.periode.cahiersDesChargesModifiésDisponibles.find(
+            const donnéesCDC = projectAppelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
               (CDC) =>
                 CDC.type === 'modifié' &&
                 CDC.paruLe === '30/08/2022' &&
@@ -74,7 +107,7 @@ export const makeOnDateMiseEnServiceTransmise =
 
             if (!donnéesCDC) {
               logger.error(
-                `project eventHandler onDonnéesDeRaccordementRenseignées : données CDC modifié non trouvées. Projet ${projetId}`,
+                `project eventHandler onDateMiseEnServiceTransmise : données CDC modifié non trouvées. Projet ${projetId}`,
               );
               return okAsync(null);
             }

@@ -27,10 +27,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     `,
     },
   },
-  // délaiApplicable: {
-  //   délaiEnMois: 18,
-  //   intervaleDateMiseEnService: { min: new Date('2022-06-01'), max: new Date('2024-09-30') },
-  // },
 };
 
 export const eolienPPE2: AppelOffre = {
