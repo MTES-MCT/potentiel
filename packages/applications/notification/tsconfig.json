@@ -4,7 +4,7 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "exclude": ["./__mocks__/*"],
+  "exclude": ["./__mocks__/*", "dist"],
   "references": [
     {
       "path": "../../libraries/core-domain"
