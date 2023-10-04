@@ -4,7 +4,6 @@ import { isEvent, Event } from '../event';
 import { getLogger } from '@potentiel/monitoring';
 import { acknowledge } from './acknowledgement/acknowledge';
 import { Client } from 'pg';
-import { getConnectionString } from '@potentiel/pg-helpers';
 import { rebuild } from './rebuild/rebuild';
 import format from 'pg-format';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
@@ -20,28 +19,16 @@ export class EventStreamEmitter extends EventEmitter {
   #client: Client;
   #subscriber: Subscriber;
 
-  constructor(subscriber: Subscriber) {
+  constructor(client: Client, subscriber: Subscriber) {
     super();
     this.setMaxListeners(3);
-    this.#client = new Client(getConnectionString());
     this.#subscriber = subscriber;
+    this.#client = client;
 
     this.#setupListener();
   }
 
-  async connect() {
-    return new Promise<void>((resolve, reject) => {
-      this.#client.connect((err) => {
-        if (!err) {
-          resolve();
-        } else {
-          reject(err);
-        }
-      });
-    });
-  }
-
-  async disconnect() {
+  async unlisten() {
     await this.#client.query(
       format(`unlisten "${this.#subscriber.streamCategory}|${this.#subscriber.name}"`),
     );
@@ -49,7 +36,6 @@ export class EventStreamEmitter extends EventEmitter {
     this.removeAllListeners('domain-event' satisfies ChannelName);
     this.removeAllListeners('unknown-event' satisfies ChannelName);
     this.removeAllListeners('rebuild' satisfies ChannelName);
-    await this.#client.end();
   }
 
   async listen() {
