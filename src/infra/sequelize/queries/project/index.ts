@@ -13,8 +13,6 @@ export * from './getProjectDataForSignalerDemandeDelaiPage';
 export * from './getProjectDataForSignalerDemandeRecoursPage';
 export * from './getIdentifiantProjetByLegacyId';
 export * from './getListIdentifiantsProjetByLegacyIds';
-export * from './getLegacyIdByIdentifiantProjet';
-export * from './getListLegacyIdsByIdentifiantsProjet';
 export * from './getProjectIdsForPeriode';
 export * from './getUnnotifiedProjectsForPeriode';
 export * from './hasDemandeDeMêmeTypeOuverte';
