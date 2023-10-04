@@ -14,7 +14,7 @@ export type DemanderAbandonCommand = Message<
   {
     identifiantProjet: IdentifiantProjetValueType;
     raison: string;
-    piéceJustificative: PiéceJustificativeAbandon;
+    piéceJustificative?: PiéceJustificativeAbandon;
     dateDemandeAbandon: DateTimeValueType;
     recandidature: boolean;
   }
@@ -45,18 +45,20 @@ export const registerDemanderAbandonCommand = ({
       throw new DemandeAbandonEnCoursErreur();
     }
 
-    await enregistrerPiéceJustificativeAbandon({
-      identifiantProjet,
-      piéceJustificative,
-      datePiéceJustificativeAbandon: dateDemandeAbandon,
-    });
+    if (piéceJustificative) {
+      await enregistrerPiéceJustificativeAbandon({
+        identifiantProjet,
+        piéceJustificative,
+        datePiéceJustificativeAbandon: dateDemandeAbandon,
+      });
+    }
 
     const event: AbandonDemandéEvent = {
       type: 'AbandonDemandé-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         recandidature,
-        piéceJustificative: {
+        piéceJustificative: piéceJustificative && {
           format: piéceJustificative.format,
         },
         raison,

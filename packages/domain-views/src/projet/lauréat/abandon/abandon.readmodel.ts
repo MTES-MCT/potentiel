@@ -17,7 +17,7 @@ export type AbandonReadModel = ReadModel<
 
     //flatten organization to optimize complex query. Will be revised soon
     demandeRaison: string;
-    demandePiéceJustificativeFormat: string;
+    demandePiéceJustificativeFormat?: string;
     demandeRecandidature: boolean;
     demandeDemandéLe: string;
 

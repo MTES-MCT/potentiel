@@ -43,7 +43,8 @@ export const registerAbandonProjector = ({
         case 'AbandonDemandé-V1':
           await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
-            demandePiéceJustificativeFormat: payload.piéceJustificative.format,
+            demandePiéceJustificativeFormat:
+              payload.piéceJustificative && payload.piéceJustificative.format,
             demandeDemandéLe: payload.demandéLe,
             demandeRaison: payload.raison,
             demandeRecandidature: payload.recandidature,

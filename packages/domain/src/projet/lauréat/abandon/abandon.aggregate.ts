@@ -25,7 +25,7 @@ export type Abandon = {
   getStatut: () => StatutAbandon;
   demande: {
     raison: string;
-    piéceJustificative: {
+    piéceJustificative?: {
       format: string;
     };
     recandidature: boolean;

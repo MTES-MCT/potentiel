@@ -44,7 +44,7 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
 
     const abandon = await find<AbandonReadModel>(key);
 
-    if (isNone(abandon)) {
+    if (isNone(abandon) || !abandon.demandePiéceJustificativeFormat) {
       return none;
     }
 

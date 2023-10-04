@@ -62,9 +62,9 @@ v1Router.post(
                 numéroCRE: identifiantProjet?.numéroCRE || '',
                 période: identifiantProjet?.période || '',
               }),
-              piéceJustificative: {
-                format: request.file?.mimetype || '',
-                content: new FileReadableStream(request.file?.path || ''),
+              piéceJustificative: request.file && {
+                format: request.file.mimetype,
+                content: new FileReadableStream(request.file.path),
               },
               dateDemandeAbandon: convertirEnDateTime(new Date()),
               recandidature: !!abandonAvecRecandidature,
