@@ -41,7 +41,7 @@ const migrerAbandonDemandé = async (
   famille: string,
   numeroCRE: string,
   occurredAt: string,
-  { justification, fichierId }: AbandonDemandéPayload,
+  { justification, fichierId, porteurId, demandeAbandonId }: AbandonDemandéPayload,
 ) => {
   let piéceJustificative: PiéceJustificativeAbandon | undefined;
 
@@ -69,21 +69,30 @@ const migrerAbandonDemandé = async (
     }
   }
 
-  await mediator.send<DomainUseCase>({
-    type: 'DEMANDER_ABANDON_USECASE',
-    data: {
-      dateDemandeAbandon: convertirEnDateTime(new Date(occurredAt)),
-      identifiantProjet: convertirEnIdentifiantProjet({
-        appelOffre,
-        famille,
-        numéroCRE: numeroCRE,
-        période: periode,
-      }),
-      raison: justification || '',
-      recandidature: false,
-      piéceJustificative,
-    },
-  });
+  const user = await executeSelect<{ email: string }>(
+    `SELECT email from "users" where id=$1`,
+    porteurId,
+  );
+
+  if (user.length > 0) {
+    await mediator.send<DomainUseCase>({
+      type: 'DEMANDER_ABANDON_USECASE',
+      data: {
+        dateDemandeAbandon: convertirEnDateTime(new Date(occurredAt)),
+        identifiantProjet: convertirEnIdentifiantProjet({
+          appelOffre,
+          famille,
+          numéroCRE: numeroCRE,
+          période: periode,
+        }),
+        raison: justification || '',
+        recandidature: false,
+        piéceJustificative,
+      },
+    });
+  } else {
+    console.log(`⚠ No user [demandeAbandonId=${demandeAbandonId}] [userId=${porteurId}`);
+  }
 };
 
 (async () => {
