@@ -33,3 +33,12 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Quand le porteur transmet la date de mise en service "2999-03-27" pour le dossier de raccordement ayant pour référence "OUE-RP-2022-000033"
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
+
+    Scénario: Impossible d'enregistrer une date de mise en service antérieure à la date de notification du projet
+        Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Quand le porteur transmet une date de mise en service antérieure à la date de notification du projet pour le dossier de raccordement ayant pour référence "OUE-RP-2022-000033"
+        Alors le porteur devrait être informé que "La date ne peut pas être antérieure à la date de notification du projet"    

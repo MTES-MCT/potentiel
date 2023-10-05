@@ -19,6 +19,8 @@ import {
 import { mediator } from 'mediateur';
 import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServiceApiResult';
 import { RechercherDossierRaccordementQuery } from '@potentiel/domain-views';
+import { Project } from '../../../infra/sequelize/projectionsNext';
+import { isSome } from '@potentiel/monads';
 
 const csvDataSchema = yup
   .array()
@@ -105,6 +107,30 @@ v1Router.post(
 
         for (const { identifiantProjet, référenceDossierRaccordement } of dossiers) {
           try {
+            const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
+
+            const projet = await Project.findOne({
+              where: {
+                appelOffreId: identifiantProjetValueType.appelOffre,
+                periodeId: identifiantProjetValueType.période,
+                familleId: isSome(identifiantProjetValueType.famille)
+                  ? identifiantProjetValueType.famille
+                  : '',
+                numeroCRE: identifiantProjetValueType.numéroCRE,
+              },
+              attributes: ['notifiedOn'],
+            });
+
+            if (!projet) {
+              result.push({
+                statut: 'échec',
+                référenceDossier: referenceDossier,
+                raison: 'Aucun projet correspondant',
+              });
+
+              continue;
+            }
+
             await mediator.send<DomainUseCase>({
               type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
               data: {
@@ -115,6 +141,7 @@ v1Router.post(
                 dateMiseEnService: convertirEnDateTime(
                   dateMiseEnService.split('/').reverse().join('-'),
                 ),
+                dateNotificationProjet: convertirEnDateTime(new Date(projet.notifiedOn)),
               },
             });
 

@@ -21,6 +21,8 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { mediator } from 'mediateur';
 import { DomainError } from '@potentiel/core-domain';
+import { Project } from '../../infra/sequelize/projectionsNext';
+import { isSome } from '@potentiel/monads';
 
 const schema = yup.object({
   params: yup.object({
@@ -70,6 +72,22 @@ v1Router.post(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
+      const projet = await Project.findOne({
+        where: {
+          appelOffreId: identifiantProjetValueType.appelOffre,
+          periodeId: identifiantProjetValueType.période,
+          familleId: isSome(identifiantProjetValueType.famille)
+            ? identifiantProjetValueType.famille
+            : '',
+          numeroCRE: identifiantProjetValueType.numéroCRE,
+        },
+        attributes: ['notifiedOn'],
+      });
+
+      if (!projet) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
       try {
         await mediator.send<DomainUseCase>({
           type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
@@ -77,6 +95,7 @@ v1Router.post(
             identifiantProjet: identifiantProjetValueType,
             référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
             dateMiseEnService: convertirEnDateTime(dateMiseEnService),
+            dateNotificationProjet: convertirEnDateTime(new Date(projet.notifiedOn)),
           },
         });
 
