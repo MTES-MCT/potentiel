@@ -9,7 +9,7 @@ import { DateTimeValueType } from '../../../../common.valueType';
 import { AbandonAccordéEvent } from '../abandon.event';
 import {
   AbandonDéjàAccordéError,
-  AbandonDéjàConfirméError,
+  AbandonDéjàRejetéError,
   DemandeAbandonInconnuErreur,
 } from '../abandon.error';
 import { IdentifiantUtilisateurValueType } from '../../../../domain.valueType';
@@ -53,7 +53,7 @@ export const registerAccorderAbandonCommand = ({
     }
 
     if (abandon.getStatut() === 'rejeté') {
-      throw new AbandonDéjàConfirméError();
+      throw new AbandonDéjàRejetéError();
     }
 
     await enregistrerRéponseSignée({

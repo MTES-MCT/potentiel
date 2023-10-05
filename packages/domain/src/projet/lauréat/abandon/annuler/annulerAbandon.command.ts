@@ -5,7 +5,7 @@ import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { DateTimeValueType } from '../../../../common.valueType';
 import { AbandonAnnuléEvent } from '../abandon.event';
-import { DemandeAbandonInconnuErreur } from '../abandon.error';
+import { AbandonDéjàAccordéError, DemandeAbandonInconnuErreur } from '../abandon.error';
 import { IdentifiantUtilisateurValueType } from '../../../../domain.valueType';
 
 export type AnnulerAbandonCommand = Message<
@@ -36,6 +36,10 @@ export const registerAnnulerAbandonCommand = ({
 
     if (isNone(abandon)) {
       throw new DemandeAbandonInconnuErreur();
+    }
+
+    if (abandon.getStatut() === 'accordé') {
+      throw new AbandonDéjàAccordéError();
     }
 
     const event: AbandonAnnuléEvent = {

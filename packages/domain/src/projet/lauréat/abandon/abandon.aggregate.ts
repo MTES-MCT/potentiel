@@ -138,6 +138,7 @@ const createAbandon = (aggregate: Abandon, payload: AbandonDemandéEvent['payloa
     },
     rejet: undefined,
     accord: undefined,
+    annuléLe: undefined,
   };
   return newAggregate;
 };
