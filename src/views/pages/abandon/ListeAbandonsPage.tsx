@@ -32,21 +32,21 @@ export const ListeAbandons = ({ request, abandons, currentUrl }: ListeAbandonsPr
       user={utilisateur}
       currentPage={'liste-abandons'}
       contentHeader={
-        <Heading1 className="!text-white whitespace-nowrap">
+        <Heading1>
           Abandons avec recandidature {abandons.totalItems > 0 && `(${abandons.totalItems})`}
         </Heading1>
       }
     >
       <PageListeTemplate.List sideBarOpen={false}>
         {abandons.totalItems === 0 ? (
-          <ListeVide titre="Aucun projet à lister" />
+          <ListeVide titre="Aucun abandon avec recandidature à lister" />
         ) : (
           <>
-            <ul className="p-0 m-0">
+            <ul className="flex flex-col p-0 m-0 gap-4">
               {abandons.items.map(
                 ({ identifiantProjet, identifiantDemande, statut, demandeDemandéLe, projet }) => (
                   <li className="list-none p-0 m-0" key={`${identifiantProjet}`}>
-                    <Tile className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
+                    <Tile className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                       <div className="flex flex-col gap-2">
                         <div className="flex flex-col md:flex-row gap-2">
                           <div>
@@ -55,17 +55,19 @@ export const ListeAbandons = ({ request, abandons, currentUrl }: ListeAbandonsPr
                           </div>
                           <StatusBadge statut={statut} />
                         </div>
-                        <div className="flex flex-col md:flex-row gap-1 text-sm italic items-center">
+                        <div className="flex flex-row gap-1 text-sm italic items-center">
                           <CalendarIcon title="Date de la demande pour l'abandon du projet" />
                           {afficherDate(new Date(demandeDemandéLe))}
                         </div>
                       </div>
-                      <Link
-                        href={routes.DEMANDE_PAGE_DETAILS(identifiantDemande)}
-                        aria-label={`Voir le détail de la demande d'abandon pour le projet`}
-                      >
-                        Voir
-                      </Link>
+                      <div className="flex ml-auto">
+                        <Link
+                          href={routes.DEMANDE_PAGE_DETAILS(identifiantDemande)}
+                          aria-label={`Voir le détail de la demande d'abandon pour le projet`}
+                        >
+                          Voir
+                        </Link>
+                      </div>
                     </Tile>
                   </li>
                 ),
