@@ -34,6 +34,10 @@ export const getRatiosChangementPuissance = (project: {
       cdcActuelInclusCdcModifiésDisponible.seuilSupplémentaireChangementPuissance
         .changementByTechnologie
     ) {
+      if (technologie === 'N/A') {
+        return defaultRatios;
+      }
+
       return cdcActuelInclusCdcModifiésDisponible.seuilSupplémentaireChangementPuissance.ratios[
         technologie
       ];

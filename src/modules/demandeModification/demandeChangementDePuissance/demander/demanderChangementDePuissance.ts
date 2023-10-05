@@ -98,6 +98,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             nouvellePuissance: newPuissance,
             project: {
               ...project,
+              cahierDesChargesActuel: project.cahierDesCharges,
               appelOffre: appelOffreProjet,
               technologie: project.data?.technologie ?? 'N/A',
             },
