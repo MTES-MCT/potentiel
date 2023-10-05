@@ -20,7 +20,7 @@ export type ModificationRequestPageDTO = {
   requestedBy: string;
 
   justification: string;
-  attachmentFile: {
+  attachmentFile?: {
     filename: string;
     id: string;
   };

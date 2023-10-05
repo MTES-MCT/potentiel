@@ -100,7 +100,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
               <LabelDescription>
                 Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
               </LabelDescription>
-              <Input type="file" name="file" id="file" required aria-required="true" />
+              <Input type="file" name="file" id="file" />
             </div>
 
             {appelOffre.periode.abandonAvecRecandidature && (

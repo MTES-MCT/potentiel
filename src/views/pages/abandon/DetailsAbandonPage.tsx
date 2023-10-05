@@ -82,13 +82,15 @@ export const DetailsAbandon = ({ request, demandeAbandon }: DétailsAbandonProps
           <p className="m-0 italic">{`"${justification || ''}"`}</p>
         </div>
       </div>
-      <div className="mt-4">
-        <DownloadLink
-          fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
-        >
-          Télécharger la pièce-jointe
-        </DownloadLink>
-      </div>
+      {attachmentFile && (
+        <div className="mt-4">
+          <DownloadLink
+            fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
+          >
+            Télécharger la pièce-jointe
+          </DownloadLink>
+        </div>
+      )}
 
       <StatutDemandeModification statutDemande={demandeAbandon.status} className="my-4">
         <span className="font-bold">{ModificationRequestStatusTitle[demandeAbandon.status]}</span>{' '}
