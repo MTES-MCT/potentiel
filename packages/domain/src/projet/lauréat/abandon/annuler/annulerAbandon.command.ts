@@ -6,12 +6,14 @@ import { isNone } from '@potentiel/monads';
 import { DateTimeValueType } from '../../../../common.valueType';
 import { AbandonAnnuléEvent } from '../abandon.event';
 import { DemandeAbandonInconnuErreur } from '../abandon.error';
+import { IdentifiantUtilisateurValueType } from '../../../../domain.valueType';
 
 export type AnnulerAbandonCommand = Message<
   'ANNULER_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
     dateAnnulationAbandon: DateTimeValueType;
+    annuléPar: IdentifiantUtilisateurValueType;
   }
 >;
 
@@ -28,6 +30,7 @@ export const registerAnnulerAbandonCommand = ({
   const handler: MessageHandler<AnnulerAbandonCommand> = async ({
     identifiantProjet,
     dateAnnulationAbandon,
+    annuléPar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -40,6 +43,7 @@ export const registerAnnulerAbandonCommand = ({
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         annuléLe: dateAnnulationAbandon.formatter(),
+        annuléPar: annuléPar.hash(),
       },
     };
 

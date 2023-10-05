@@ -2,6 +2,7 @@ import {
   DomainUseCase,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
+  convertirEnIdentifiantUtilisateur,
 } from '@potentiel/domain';
 import { isSome, none } from '@potentiel/monads';
 import { mediator } from 'mediateur';
@@ -72,6 +73,8 @@ v1Router.post(
                   piéceJustificative,
                   raison: abandon.demandeRaison,
                   recandidature: abandon.demandeRecandidature,
+                  annuléPar: convertirEnIdentifiantUtilisateur(request.user.email),
+                  demandéPar: convertirEnIdentifiantUtilisateur(request.user.email),
                 },
               });
             } catch (e) {

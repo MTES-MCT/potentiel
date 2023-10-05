@@ -10,22 +10,10 @@ export type DemanderAbandonAvecRecandidatureUseCase = Message<
 >;
 
 export const registerDemanderAbandonAvecRecandidatureUseCase = () => {
-  const runner: MessageHandler<DemanderAbandonAvecRecandidatureUseCase> = async ({
-    identifiantProjet,
-    piéceJustificative,
-    raison,
-    dateDemandeAbandon: dateAbandon,
-    recandidature,
-  }) => {
+  const runner: MessageHandler<DemanderAbandonAvecRecandidatureUseCase> = async (data) => {
     await mediator.send<AbandonCommand>({
       type: 'DEMANDER_ABANDON_COMMAND',
-      data: {
-        identifiantProjet,
-        piéceJustificative,
-        raison,
-        dateDemandeAbandon: dateAbandon,
-        recandidature,
-      },
+      data,
     });
   };
   mediator.register('DEMANDER_ABANDON_USECASE', runner);

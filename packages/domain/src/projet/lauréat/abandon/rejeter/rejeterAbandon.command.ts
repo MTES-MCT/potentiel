@@ -12,6 +12,7 @@ import {
   AbandonDéjàRejetéError,
   DemandeAbandonInconnuErreur,
 } from '../abandon.error';
+import { IdentifiantUtilisateurValueType } from '../../../../utilisateur/utilisateur.valueType';
 
 export type RejeterAbandonCommand = Message<
   'REJETER_ABANDON_COMMAND',
@@ -19,6 +20,7 @@ export type RejeterAbandonCommand = Message<
     identifiantProjet: IdentifiantProjetValueType;
     réponseSignée: AbandonRejetéRéponseSignée;
     dateRejetAbandon: DateTimeValueType;
+    rejetéPar: IdentifiantUtilisateurValueType;
   }
 >;
 
@@ -38,6 +40,7 @@ export const registerRejeterAbandonCommand = ({
     identifiantProjet,
     réponseSignée,
     dateRejetAbandon,
+    rejetéPar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -67,6 +70,7 @@ export const registerRejeterAbandonCommand = ({
           format: réponseSignée.format,
         },
         rejetéLe: dateRejetAbandon.formatter(),
+        rejetéPar: rejetéPar.hash(),
       },
     };
 

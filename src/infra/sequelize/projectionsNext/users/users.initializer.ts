@@ -41,6 +41,10 @@ export const initializeUserModel = (sequelize: Sequelize) => {
       },
 
       createdAt: DataTypes.DATE,
+      hash: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       sequelize,

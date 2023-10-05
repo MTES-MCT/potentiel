@@ -10,18 +10,10 @@ export type AccorderAbandonUseCase = Message<
 >;
 
 export const registerAccorderAbandonUseCase = () => {
-  const runner: MessageHandler<AccorderAbandonUseCase> = async ({
-    identifiantProjet,
-    dateAccordAbandon: acceptéLe,
-    réponseSignée,
-  }) => {
+  const runner: MessageHandler<AccorderAbandonUseCase> = async (data) => {
     await mediator.send<AbandonCommand>({
       type: 'ACCORDER_ABANDON_COMMAND',
-      data: {
-        identifiantProjet,
-        dateAccordAbandon: acceptéLe,
-        réponseSignée,
-      },
+      data,
     });
   };
   mediator.register('ACCORDER_ABANDON_USECASE', runner);

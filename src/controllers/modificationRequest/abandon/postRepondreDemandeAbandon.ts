@@ -24,6 +24,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantAppelOffre,
   convertirEnIdentifiantProjet,
+  convertirEnIdentifiantUtilisateur,
 } from '@potentiel/domain';
 import { FileReadableStream } from '../../../helpers/fileReadableStream';
 import { isNone, none } from '@potentiel/monads';
@@ -34,6 +35,7 @@ import {
   ConsulterAbandonQuery,
   ConsulterAppelOffreQuery,
   ConsulterCandidatureLegacyQuery,
+  ConsulterUtilisateurLegacyQuery,
 } from '@potentiel/domain-views';
 import { format } from 'date-fns';
 
@@ -126,6 +128,17 @@ v1Router.post(
             return notFoundResponse({ request, response, ressourceTitle: `Période` });
           }
 
+          const utilisateur = await mediator.send<ConsulterUtilisateurLegacyQuery>({
+            type: 'CONSULTER_UTILISATEUR_LEGACY_QUERY',
+            data: {
+              identifiantUtilisateur: convertirEnIdentifiantUtilisateur(request.user.email).hash(),
+            },
+          });
+
+          if (isNone(utilisateur)) {
+            return notFoundResponse({ request, response, ressourceTitle: `Utilisateur` });
+          }
+
           const props: RéponseAbandonAvecRecandidatureProps = {
             dateCourrier: format(new Date(), 'dd/MM/yyyy'),
             projet: {
@@ -153,8 +166,8 @@ v1Router.post(
             demandeAbandon: {
               date: abandon.demandeDemandéLe,
               instructeur: {
-                nom: 'DGEC',
-                fonction: 'DGEC',
+                nom: utilisateur.nomComplet,
+                fonction: utilisateur.fonction,
               },
             },
           };
@@ -201,6 +214,7 @@ v1Router.post(
                 content: file.content,
               },
               dateAccordAbandon: convertirEnDateTime(new Date()),
+              accordéPar: convertirEnIdentifiantUtilisateur(request.user.email),
             },
           });
         } catch (e) {
@@ -271,6 +285,7 @@ v1Router.post(
                 content: new FileReadableStream(request.file.path),
               },
               dateRejetAbandon: convertirEnDateTime(new Date()),
+              rejetéPar: convertirEnIdentifiantUtilisateur(request.user.email),
             },
           });
         } catch (e) {
@@ -338,6 +353,7 @@ v1Router.post(
                 content: new FileReadableStream(request.file.path),
               },
               dateDemandeConfirmationAbandon: convertirEnDateTime(new Date()),
+              confirmationDemandéePar: convertirEnIdentifiantUtilisateur(request.user.email),
             },
           });
         } catch (e) {

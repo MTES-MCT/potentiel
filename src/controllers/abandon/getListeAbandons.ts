@@ -8,11 +8,15 @@ import { ConsulterCandidatureLegacyQuery, PermissionListerAbandons } from '@pote
 import { mediator } from 'mediateur';
 import { ListerAbandonsQuery } from '@potentiel/domain-views/dist/projet/lauréat/abandon/lister/listerAbandon.query';
 import { isSome } from '@potentiel/monads';
+import { convertirEnIdentifiantUtilisateur } from '@potentiel/domain';
 
 v1Router.get(
   routes.LISTE_ABANDONS,
   vérifierPermissionUtilisateur(PermissionListerAbandons),
   asyncHandler(async (request, response) => {
+    const identifiantUtilisateur = convertirEnIdentifiantUtilisateur(request.user.email);
+    console.log(`${identifiantUtilisateur.email} = ${identifiantUtilisateur.hash()}`);
+
     const { page, pageSize: itemsPerPage } = getPagination(request);
 
     const abandons = await mediator.send<ListerAbandonsQuery>({

@@ -9,12 +9,14 @@ import {
   AucuneDemandeConfirmationAbandonError,
   DemandeAbandonInconnuErreur,
 } from '../abandon.error';
+import { IdentifiantUtilisateurValueType } from '../../../../utilisateur/utilisateur.valueType';
 
 export type ConfirmerAbandonCommand = Message<
   'CONFIRMER_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjetValueType;
     dateConfirmationAbandon: DateTimeValueType;
+    confirméPar: IdentifiantUtilisateurValueType;
   }
 >;
 
@@ -31,6 +33,7 @@ export const registerConfirmerAbandonCommand = ({
   const handler: MessageHandler<ConfirmerAbandonCommand> = async ({
     identifiantProjet,
     dateConfirmationAbandon,
+    confirméPar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -47,6 +50,7 @@ export const registerConfirmerAbandonCommand = ({
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         confirméLe: dateConfirmationAbandon.formatter(),
+        confirméPar: confirméPar.hash(),
       },
     };
 

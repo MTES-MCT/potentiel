@@ -1,3 +1,4 @@
+import { Unsubscribe } from '@potentiel/core-domain';
 import {
   ConsulterAppelOffreDependencies,
   registerConsulterAppelOffreQuery,
@@ -12,5 +13,5 @@ export const setupAppelOffreViews = async (dependencies: AppelOffreDependencies)
   // Queries
   registerConsulterAppelOffreQuery(dependencies);
 
-  return [];
+  return [] as Array<Unsubscribe>;
 };

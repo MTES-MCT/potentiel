@@ -10,16 +10,10 @@ export type ConfirmerAbandonUseCase = Message<
 >;
 
 export const registerConfirmerAbandonUseCase = () => {
-  const runner: MessageHandler<ConfirmerAbandonUseCase> = async ({
-    identifiantProjet,
-    dateConfirmationAbandon,
-  }) => {
+  const runner: MessageHandler<ConfirmerAbandonUseCase> = async (data) => {
     await mediator.send<AbandonCommand>({
       type: 'CONFIRMER_ABANDON_COMMAND',
-      data: {
-        identifiantProjet,
-        dateConfirmationAbandon,
-      },
+      data,
     });
   };
   mediator.register('CONFIRMER_ABANDON_USECASE', runner);

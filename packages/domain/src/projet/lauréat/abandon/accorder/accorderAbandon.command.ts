@@ -12,6 +12,7 @@ import {
   AbandonDéjàConfirméError,
   DemandeAbandonInconnuErreur,
 } from '../abandon.error';
+import { IdentifiantUtilisateurValueType } from '../../../../domain.valueType';
 
 export type AccorderAbandonCommand = Message<
   'ACCORDER_ABANDON_COMMAND',
@@ -19,6 +20,7 @@ export type AccorderAbandonCommand = Message<
     identifiantProjet: IdentifiantProjetValueType;
     réponseSignée: AbandonAccordéRéponseSignée;
     dateAccordAbandon: DateTimeValueType;
+    accordéPar: IdentifiantUtilisateurValueType;
   }
 >;
 
@@ -38,6 +40,7 @@ export const registerAccorderAbandonCommand = ({
     identifiantProjet,
     réponseSignée,
     dateAccordAbandon,
+    accordéPar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -67,6 +70,7 @@ export const registerAccorderAbandonCommand = ({
           format: réponseSignée.format,
         },
         acceptéLe: dateAccordAbandon.formatter(),
+        acceptéPar: accordéPar.hash(),
       },
     };
 

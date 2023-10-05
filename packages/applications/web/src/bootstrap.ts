@@ -17,6 +17,7 @@ import {
   téléchargerPiéceJustificativeAbandonProjetAdapter,
   récupérerCandidatureAdapter,
   téléchargerRéponseSignéeAdapter,
+  récupérerUtilisateurAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
@@ -71,6 +72,9 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
         téléchargerFichierDossierRaccordementAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
+    },
+    utilisateur: {
+      récupérerUtilisateur: récupérerUtilisateurAdapter,
     },
   });
 

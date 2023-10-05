@@ -1,3 +1,4 @@
+import { convertirEnIdentifiantUtilisateur } from '@potentiel/domain';
 import { QueryInterface } from 'sequelize';
 import { v4 } from 'uuid';
 
@@ -83,6 +84,7 @@ export default {
               createdAt: new Date(),
               updatedAt: new Date(),
               fonction: user.fonction,
+              hash: convertirEnIdentifiantUtilisateur(user.email).hash(),
             },
           ],
           {},

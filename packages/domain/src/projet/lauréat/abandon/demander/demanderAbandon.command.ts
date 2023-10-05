@@ -8,6 +8,7 @@ import { AbandonDemandéEvent } from '../abandon.event';
 import { EnregistrerPiéceJustificativeAbandonPort } from '../abandon.port';
 import { DateTimeValueType } from '../../../../common.valueType';
 import { DemandeAbandonEnCoursErreur } from '../abandon.error';
+import { IdentifiantUtilisateurValueType } from '../../../../utilisateur/utilisateur.valueType';
 
 export type DemanderAbandonCommand = Message<
   'DEMANDER_ABANDON_COMMAND',
@@ -17,6 +18,7 @@ export type DemanderAbandonCommand = Message<
     piéceJustificative?: PiéceJustificativeAbandon;
     dateDemandeAbandon: DateTimeValueType;
     recandidature: boolean;
+    demandéPar: IdentifiantUtilisateurValueType;
   }
 >;
 
@@ -38,6 +40,7 @@ export const registerDemanderAbandonCommand = ({
     raison,
     dateDemandeAbandon,
     recandidature,
+    demandéPar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -63,6 +66,7 @@ export const registerDemanderAbandonCommand = ({
         },
         raison,
         demandéLe: dateDemandeAbandon.formatter(),
+        demandéPar: demandéPar.hash(),
       },
     };
 

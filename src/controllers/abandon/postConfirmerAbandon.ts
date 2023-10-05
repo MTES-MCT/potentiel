@@ -13,6 +13,7 @@ import {
   DomainUseCase,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
+  convertirEnIdentifiantUtilisateur,
 } from '@potentiel/domain';
 import { isSome, none } from '@potentiel/monads';
 import { ConsulterAbandonQuery } from '@potentiel/domain-views';
@@ -64,6 +65,7 @@ v1Router.post(
               type: 'CONFIRMER_ABANDON_USECASE',
               data: {
                 dateConfirmationAbandon: convertirEnDateTime(new Date()),
+                confirméPar: convertirEnIdentifiantUtilisateur(request.user.email),
                 identifiantProjet: convertirEnIdentifiantProjet({
                   appelOffre: identifiantProjet?.appelOffre || '',
                   famille: identifiantProjet?.famille || none,

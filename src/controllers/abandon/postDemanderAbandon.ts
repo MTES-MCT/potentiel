@@ -15,6 +15,7 @@ import {
   DomainUseCase,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
+  convertirEnIdentifiantUtilisateur,
 } from '@potentiel/domain';
 import { FileReadableStream } from '../../helpers/fileReadableStream';
 import { none } from '@potentiel/monads';
@@ -69,6 +70,7 @@ v1Router.post(
               dateDemandeAbandon: convertirEnDateTime(new Date()),
               recandidature: !!abandonAvecRecandidature,
               raison: justification || '',
+              demandéPar: convertirEnIdentifiantUtilisateur(request.user.email),
             },
           });
         } catch (e) {

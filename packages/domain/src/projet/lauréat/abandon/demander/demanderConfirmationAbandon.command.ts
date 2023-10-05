@@ -14,6 +14,7 @@ import {
 } from '../abandon.error';
 import { ConfirmationAbandonDemandéRéponseSignée } from '../abandon.valueType';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
+import { IdentifiantUtilisateurValueType } from '../../../../utilisateur/utilisateur.valueType';
 
 export type DemanderConfirmationAbandonCommand = Message<
   'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
@@ -21,6 +22,7 @@ export type DemanderConfirmationAbandonCommand = Message<
     identifiantProjet: IdentifiantProjetValueType;
     dateDemandeConfirmationAbandon: DateTimeValueType;
     réponseSignée: ConfirmationAbandonDemandéRéponseSignée;
+    confirmationDemandéePar: IdentifiantUtilisateurValueType;
   }
 >;
 
@@ -40,6 +42,7 @@ export const registerDemanderConfirmationAbandonCommand = ({
     identifiantProjet,
     dateDemandeConfirmationAbandon,
     réponseSignée,
+    confirmationDemandéePar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
@@ -76,6 +79,7 @@ export const registerDemanderConfirmationAbandonCommand = ({
           format: réponseSignée.format,
         },
         confirmationDemandéLe: dateDemandeConfirmationAbandon.formatter(),
+        confirmationDemandéPar: confirmationDemandéePar.hash(),
       },
     };
 
