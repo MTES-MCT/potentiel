@@ -70,7 +70,7 @@ export const registerAccorderAbandonCommand = ({
           format: réponseSignée.format,
         },
         acceptéLe: dateAccordAbandon.formatter(),
-        acceptéPar: accordéPar.hash(),
+        acceptéPar: accordéPar.formatter(),
       },
     };
 

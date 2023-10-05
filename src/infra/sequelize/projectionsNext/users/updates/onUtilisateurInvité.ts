@@ -3,7 +3,6 @@ import { UserProjector } from '../user.projector';
 import { UtilisateurInvité } from '../../../../../modules/utilisateur';
 import { logger } from '../../../../../core/utils';
 import { ProjectionEnEchec } from '../../../../../modules/shared';
-import { convertirEnIdentifiantUtilisateur } from '@potentiel/domain';
 
 export default UserProjector.on(UtilisateurInvité, async (évènement, transaction) => {
   const { payload } = évènement;
@@ -16,7 +15,6 @@ export default UserProjector.on(UtilisateurInvité, async (évènement, transact
         role,
         état: 'invité',
         ...(role === 'dgec-validateur' && { fonction: payload.fonction }),
-        hash: convertirEnIdentifiantUtilisateur(email).hash(),
       },
       {
         transaction,

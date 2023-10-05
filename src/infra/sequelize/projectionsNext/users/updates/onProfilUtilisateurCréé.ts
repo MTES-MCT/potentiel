@@ -3,7 +3,6 @@ import { UserProjector } from '../user.projector';
 import { ProfilUtilisateurCréé } from '../../../../../modules/utilisateur';
 import { logger } from '../../../../../core/utils';
 import { ProjectionEnEchec } from '../../../../../modules/shared';
-import { convertirEnIdentifiantUtilisateur } from '@potentiel/domain';
 
 export default UserProjector.on(ProfilUtilisateurCréé, async (évènement, transaction) => {
   const {
@@ -19,7 +18,6 @@ export default UserProjector.on(ProfilUtilisateurCréé, async (évènement, tra
         fullName: `${prénom} ${nom}`,
         fonction,
         état: 'créé',
-        hash: convertirEnIdentifiantUtilisateur(email).hash(),
       },
       {
         transaction,

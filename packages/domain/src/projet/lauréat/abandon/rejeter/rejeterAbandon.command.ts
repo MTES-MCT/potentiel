@@ -70,7 +70,7 @@ export const registerRejeterAbandonCommand = ({
           format: réponseSignée.format,
         },
         rejetéLe: dateRejetAbandon.formatter(),
-        rejetéPar: rejetéPar.hash(),
+        rejetéPar: rejetéPar.formatter(),
       },
     };
 

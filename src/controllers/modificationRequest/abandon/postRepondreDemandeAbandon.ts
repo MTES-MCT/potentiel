@@ -131,7 +131,9 @@ v1Router.post(
           const utilisateur = await mediator.send<ConsulterUtilisateurLegacyQuery>({
             type: 'CONSULTER_UTILISATEUR_LEGACY_QUERY',
             data: {
-              identifiantUtilisateur: convertirEnIdentifiantUtilisateur(request.user.email).hash(),
+              identifiantUtilisateur: convertirEnIdentifiantUtilisateur(
+                request.user.email,
+              ).formatter(),
             },
           });
 

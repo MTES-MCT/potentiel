@@ -50,7 +50,7 @@ export const registerConfirmerAbandonCommand = ({
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         confirméLe: dateConfirmationAbandon.formatter(),
-        confirméPar: confirméPar.hash(),
+        confirméPar: confirméPar.formatter(),
       },
     };
 

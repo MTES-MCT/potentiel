@@ -10,10 +10,10 @@ const selectUtilisateurQuery = `
     'email', "email",
     'nomComplet', "fullName",
     'fonction', "fonction",
-    'identifiantUtilisateur', "hash"
+    'identifiantUtilisateur', "email"
   ) as value
   from "users"
-  where "hash" = $1
+  where "email" = $1
 `;
 
 export const récupérerUtilisateurAdapter: RécupérerUtilisateurLegacyPort = async (

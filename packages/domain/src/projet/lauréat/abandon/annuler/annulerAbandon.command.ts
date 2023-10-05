@@ -47,7 +47,7 @@ export const registerAnnulerAbandonCommand = ({
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         annuléLe: dateAnnulationAbandon.formatter(),
-        annuléPar: annuléPar.hash(),
+        annuléPar: annuléPar.formatter(),
       },
     };
 

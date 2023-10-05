@@ -79,7 +79,7 @@ export const registerDemanderConfirmationAbandonCommand = ({
           format: réponseSignée.format,
         },
         confirmationDemandéLe: dateDemandeConfirmationAbandon.formatter(),
-        confirmationDemandéPar: confirmationDemandéePar.hash(),
+        confirmationDemandéPar: confirmationDemandéePar.formatter(),
       },
     };
 

@@ -66,7 +66,7 @@ export const registerDemanderAbandonCommand = ({
         },
         raison,
         demandéLe: dateDemandeAbandon.formatter(),
-        demandéPar: demandéPar.hash(),
+        demandéPar: demandéPar.formatter(),
       },
     };
 

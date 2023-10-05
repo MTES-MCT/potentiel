@@ -1,10 +1,8 @@
-import { createHmac } from 'crypto';
-
 export type RawIdentifiantUtilisateur = string;
 
 export type IdentifiantUtilisateurValueType = {
   email: string;
-  hash: () => RawIdentifiantUtilisateur;
+  formatter: () => RawIdentifiantUtilisateur;
 };
 
 export const convertirEnIdentifiantUtilisateur = (
@@ -12,10 +10,8 @@ export const convertirEnIdentifiantUtilisateur = (
 ): IdentifiantUtilisateurValueType => {
   return {
     email,
-    hash() {
-      return createHmac('sha256', 'USERS_IDENTITY_SECRET')
-        .update(this.email, 'utf-8')
-        .digest('base64');
+    formatter() {
+      return this.email;
     },
   };
 };
