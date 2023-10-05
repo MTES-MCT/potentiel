@@ -39,13 +39,23 @@ import {
   registerConsulterAbandonQuery,
 } from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterAbandon.query';
 import {
+  ConsulterPiéceJustificativeAbandonProjetQuery,
+  registerConsulterPiéceJustificativeAbandonProjetQuery,
+} from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterPiéceJustificativeAbandon.query';
+
+import {
+  registerConsulterRéponseAbandonSignéeQuery,
+} from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterRéponseSignéeAbandon.query';
+
+import {
+  téléchargerPiéceJustificativeAbandonProjetAdapter,
+  téléchargerRéponseSignéeAdapter,
   téléverserPiéceJustificativeAbandonAdapter,
   téléverserRéponseSignéeAdapter,
 } from '@potentiel/infra-adapters';
 import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
 import { lookup } from 'mime-types';
-import { ConsulterPiéceJustificativeAbandonProjetQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 
 process.env.APPLICATION_NAME = 'potentiel-dev';
@@ -382,7 +392,7 @@ const migrerRejetAbandonAnnulé = async (
     },
   });
 
-  if (isNone(abandon) || isNone(piéceJustificative)) {
+  if (isNone(abandon)) {
     throw new Error('Abandon inconnu');
   }
 
@@ -401,13 +411,13 @@ const migrerRejetAbandonAnnulé = async (
       }),
       raison: abandon.demandeRaison,
       recandidature: abandon.demandeRecandidature,
-      piéceJustificative,
+      piéceJustificative: isNone(piéceJustificative) ? undefined : piéceJustificative,
     },
   });
 };
 
 (async () => {
-  const eventIdInError: Map<string, Error> = new Map();
+  const eventIdInError: Map<string, string> = new Map();
   const dependencies = {
     loadAggregate,
     publish,
@@ -428,8 +438,17 @@ const migrerRejetAbandonAnnulé = async (
   registerRejeterAbandonUseCase();
   registerAnnulerAbandonUseCase();
   registerAnnulerRejetAbandonUseCase();
+
   registerConsulterAbandonQuery({
     find: findProjection,
+  });
+  registerConsulterPiéceJustificativeAbandonProjetQuery({
+    find: findProjection,
+    récupérerPiéceJustificativeAbandon: téléchargerPiéceJustificativeAbandonProjetAdapter,
+  });
+  registerConsulterRéponseAbandonSignéeQuery({
+    find: findProjection,
+    récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
   });
 
   const legacyEvents = await executeSelect<{
@@ -576,7 +595,7 @@ const migrerRejetAbandonAnnulé = async (
       console.log(`✅ Done`);
       eventMigrated++;
     } catch (e) {
-      eventIdInError.set(id, e);
+      eventIdInError.set(id, e.message);
       console.log(
         `❌ ${e.message} - ${convertirEnIdentifiantProjet(
           identifiantProjet,
