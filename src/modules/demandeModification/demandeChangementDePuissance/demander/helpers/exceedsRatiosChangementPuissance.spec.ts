@@ -4,9 +4,10 @@ import { CahierDesChargesModifié, Periode } from '@potentiel/domain-views';
 import { exceedsRatiosChangementPuissance } from './exceedsRatiosChangementPuissance';
 
 describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, () => {
-  describe(`Quand le ratio est défini au niveau des règles du CDC modificatif au 30/08/2022 de la période`, () => {
+  describe(`Quand le ratio est défini au niveau des règles du CDC modificatif de la période`, () => {
     it(`
-      Étant donné un appel d'offre pour un projet qui a un ratio défini au niveau du cdc modifié de la période
+      Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio
+      Et un projet ayant ce cdc modiciatif comme cdc actuel
       Quand la nouvelle puissance est comprise dans ce ratio
       Alors la nouvelle puissance ne dépasse pas le ratio déterminé
     `, () => {
@@ -55,7 +56,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
     });
 
     it(`
-      Étant donné un appel d'offre pour un projet qui a un ratio défini au niveau du cdc modifié de la période
+      Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio
+      Et un projet ayant ce cdc modiciatif comme cdc actuel
       Quand la nouvelle puissance n'est pas comprise dans ce ratio
       Alors la nouvelle puissance dépasse le ratio déterminé
     `, () => {
@@ -103,57 +105,111 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
       ).toBe(true);
     });
 
-    // it(`
-    //   tant donné un appel d'offre pour un projet qui a un ratio défini au niveau du cdc modifié de la période et dépendant d'une technologie
-    //   Quand la nouvelle puissance est comprise dans ce ratio
-    //   Alors la nouvelle puissance ne dépasse pas le ratio déterminé
-    // `, () => {
-    //   const appelOffreRatio = {
-    //     min: 0.9,
-    //     max: 1.1,
-    //   };
+    it(`
+      Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
+      Et un projet ayant ce cdc modiciatif comme cdc actuel
+      Quand la nouvelle puissance est comprise dans ce ratio
+      Alors la nouvelle puissance ne dépasse pas le ratio déterminé
+    `, () => {
+      const appelOffreRatio = {
+        min: 0.9,
+        max: 1.1,
+      };
 
-    //   const ratio = {
-    //     min: 0.9,
-    //     max: 1.4,
-    //   };
+      const ratio = {
+        min: 0.9,
+        max: 1.4,
+      };
 
-    //   const CDCModifié = {
-    //     type: 'modifié',
-    //     paruLe: '30/08/2022',
-    //   } as CahierDesChargesModifié;
+      const CDCModifié = {
+        type: 'modifié',
+        paruLe: '30/08/2022',
+      } as CahierDesChargesModifié;
 
-    //   const appelOffre = {
-    //     changementPuissance: {
-    //       ratios: appelOffreRatio,
-    //     },
-    //     periode: {
-    //       cahiersDesChargesModifiésDisponibles: [
-    //         {
-    //           ...CDCModifié,
-    //           seuilSupplémentaireChangementPuissance: {
-    //             changementByTechnologie: true,
-    //             ratios: {
-    //               pv: ratio,
-    //             },
-    //           },
-    //         } as CahierDesChargesModifié,
-    //       ] as ReadonlyArray<CahierDesChargesModifié>,
-    //     } as Periode,
-    //   } as ProjectAppelOffre;
+      const appelOffre = {
+        changementPuissance: {
+          ratios: appelOffreRatio,
+        },
+        periode: {
+          cahiersDesChargesModifiésDisponibles: [
+            {
+              ...CDCModifié,
+              seuilSupplémentaireChangementPuissance: {
+                changementByTechnologie: true,
+                ratios: {
+                  pv: ratio,
+                },
+              },
+            } as CahierDesChargesModifié,
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        } as Periode,
+      } as ProjectAppelOffre;
 
-    //   expect(
-    //     exceedsRatiosChangementPuissance({
-    //       project: {
-    //         cahierDesChargesActuel: CDCModifié,
-    //         puissanceInitiale: 100,
-    //         appelOffre,
-    //         technologie: 'pv',
-    //       },
-    //       nouvellePuissance: 90,
-    //     }),
-    //   ).toBe(false);
-    // });
+      expect(
+        exceedsRatiosChangementPuissance({
+          project: {
+            cahierDesChargesActuel: CDCModifié,
+            puissanceInitiale: 100,
+            appelOffre,
+            technologie: 'pv',
+          },
+          nouvellePuissance: 90,
+        }),
+      ).toBe(false);
+    });
+
+    it(`
+      Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
+      Et un projet ayant ce cdc modiciatif comme cdc actuel
+      Quand la nouvelle puissance n'est pas comprise dans ce ratio
+      Alors la nouvelle puissance dépasse le ratio déterminé
+    `, () => {
+      const appelOffreRatio = {
+        min: 0.9,
+        max: 1.1,
+      };
+
+      const ratio = {
+        min: 0.9,
+        max: 1.4,
+      };
+
+      const CDCModifié = {
+        type: 'modifié',
+        paruLe: '30/08/2022',
+      } as CahierDesChargesModifié;
+
+      const appelOffre = {
+        changementPuissance: {
+          ratios: appelOffreRatio,
+        },
+        periode: {
+          cahiersDesChargesModifiésDisponibles: [
+            {
+              ...CDCModifié,
+              seuilSupplémentaireChangementPuissance: {
+                changementByTechnologie: true,
+                ratios: {
+                  pv: ratio,
+                },
+              },
+            } as CahierDesChargesModifié,
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        } as Periode,
+      } as ProjectAppelOffre;
+
+      expect(
+        exceedsRatiosChangementPuissance({
+          project: {
+            cahierDesChargesActuel: CDCModifié,
+            puissanceInitiale: 100,
+            appelOffre,
+            technologie: 'pv',
+          },
+          nouvellePuissance: 200,
+        }),
+      ).toBe(true);
+    });
   });
 });
 
