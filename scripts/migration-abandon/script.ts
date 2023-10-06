@@ -43,17 +43,15 @@ import {
   registerConsulterPiéceJustificativeAbandonProjetQuery,
 } from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterPiéceJustificativeAbandon.query';
 
-import {
-  registerConsulterRéponseAbandonSignéeQuery,
-} from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterRéponseSignéeAbandon.query';
-
+import { registerConsulterRéponseAbandonSignéeQuery } from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterRéponseSignéeAbandon.query';
+import { AbandonDemandéEvent } from '../../packages/domain/src/projet/lauréat/abandon/abandon.event';
 import {
   téléchargerPiéceJustificativeAbandonProjetAdapter,
   téléchargerRéponseSignéeAdapter,
   téléverserPiéceJustificativeAbandonAdapter,
   téléverserRéponseSignéeAdapter,
 } from '@potentiel/infra-adapters';
-import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
+import { publish, loadAggregate, loadFromStream } from '@potentiel/pg-event-sourcing';
 import { findProjection } from '@potentiel/pg-projections';
 import { lookup } from 'mime-types';
 import { isNone } from '@potentiel/monads';
@@ -396,12 +394,23 @@ const migrerRejetAbandonAnnulé = async (
     throw new Error('Abandon inconnu');
   }
 
+  const stream = await loadFromStream({
+    streamId: `abandon|${appelOffre}#${periode}#${famille}#${numeroCRE}`,
+  });
+
+  const abandonDemandé = stream.find((e) => e.type === 'AbandonDemandé-V1');
+
+  const demandéPar = abandonDemandé
+    ? (abandonDemandé as unknown as AbandonDemandéEvent).payload.demandéPar
+    : 'utilisateur inconnu';
+  console.log(`🌠 ${demandéPar}`);
+
   await mediator.send<DomainUseCase>({
     type: 'ANNULER_REJET_ABANDON_USECASE',
     data: {
       dateAnnulationAbandon: convertirEnDateTime(new Date(occurredAt)),
       dateDemandeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
-      demandéPar: convertirEnIdentifiantUtilisateur('TODO-demande-abandon-par'),
+      demandéPar: convertirEnIdentifiantUtilisateur(demandéPar),
       annuléPar: convertirEnIdentifiantUtilisateur(email),
       identifiantProjet: convertirEnIdentifiantProjet({
         appelOffre,
