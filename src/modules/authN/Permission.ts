@@ -10,7 +10,7 @@ import {
   PermissionListerProjets,
   PermissionExporterProjets,
 } from '../project';
-import { PermissionInviterDgecValidateur } from '../utilisateur';
+import { PermissionInviterDgecValidateur, PermissionInviterAdministrateur } from '../utilisateur';
 import { PermissionListerDemandesAdmin } from '../modificationRequest';
 import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
 import {
@@ -79,6 +79,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionUploaderGF,
         PermissionRetirerGF,
         PermissionInviterDgecValidateur,
+        PermissionInviterAdministrateur,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
         PermissionListerGestionnairesRéseau,
@@ -101,6 +102,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
+        PermissionInviterAdministrateur,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
         PermissionAjouterGestionnaireRéseau,

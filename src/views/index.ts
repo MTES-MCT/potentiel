@@ -39,6 +39,7 @@ import {
   AccèsNonAutorisé,
   DéclarationAccessibilité,
   InviterDgecValidateur,
+  InviterAdministrateur,
   AcheteurObligeStatistiques,
   CreStatistiques,
   ListeGestionnairesRéseau,
@@ -355,6 +356,13 @@ export const InviterDgecValidateurPage = (props: Parameters<typeof InviterDgecVa
     Component: InviterDgecValidateur,
     props,
     title: 'Inviter un utilisateur DGEC validateur',
+  });
+
+export const InviterAdministrateurPage = (props: Parameters<typeof InviterAdministrateur>[0]) =>
+  makeHtml({
+    Component: InviterAdministrateur,
+    props,
+    title: 'Inviter un utilisateur administrateur',
   });
 
 export const ListeGestionnairesRéseauPage = (

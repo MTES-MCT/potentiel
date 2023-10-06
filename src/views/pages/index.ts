@@ -12,6 +12,7 @@ export * from './garantiesFinancieresPage';
 export * from './gestionaireReseau';
 export * from './homePage';
 export * from './inviterDgecValidateurPage';
+export * from './inviterAdministrateurPage';
 export * from './modificationRequestListPage';
 export * from './modificationRequestPage';
 export * from './newModificationRequestPage';
