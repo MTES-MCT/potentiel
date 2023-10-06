@@ -36,7 +36,6 @@ export const InviterAdministrateur = ({
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
         <ChampsObligatoiresLégende />
-        <input type="hidden" name="role" value="admin" />
         <div>
           <Label htmlFor="email">Adresse email :</Label>
           <Input

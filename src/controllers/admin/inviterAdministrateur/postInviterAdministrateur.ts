@@ -18,11 +18,6 @@ import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 
 const schema = yup.object({
   body: yup.object({
-    role: yup
-      .mixed<'admin'>()
-      .oneOf(['admin'])
-      .required('Ce champ est obligatoire')
-      .typeError(`Le rôle n'est pas valide`),
     email: yup.string().email("L'email saisi est invalide").required('Ce champ est obligatoire'),
   }),
 });
@@ -42,8 +37,8 @@ v1Router.post(
         ),
     },
     async (request, response) => {
-      const { email, role } = request.body;
-      inviterUtilisateur({ email, role, invitéPar: request.user })
+      const { email } = request.body;
+      inviterUtilisateur({ email, role: 'admin', invitéPar: request.user })
         .map(() => ({
           email,
         }))
