@@ -16,9 +16,18 @@ type PuissanceFormProps = {
 
 export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
   const { project, puissance: nouvellePuissance } = modificationRequest;
-  const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance });
+  const exceedsRatios = exceedsRatiosChangementPuissance({
+    project: {
+      ...project,
+      cahierDesChargesActuel: project.cahierDesChargesActuel,
+    },
+    nouvellePuissance,
+  });
   const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance });
-  const ratios = getRatiosChangementPuissance(project);
+  const ratios = getRatiosChangementPuissance({
+    ...project,
+    cahierDesChargesActuel: project.cahierDesChargesActuel,
+  });
   const reservedVolume = project.appelOffre && getVolumeReserve(project.appelOffre);
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(

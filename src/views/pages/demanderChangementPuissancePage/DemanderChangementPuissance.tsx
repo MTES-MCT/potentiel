@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProjectAppelOffre } from '../../../entities';
-import { Technologie } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence, Technologie } from '@potentiel/domain-views';
 import { Request } from 'express';
 
 import {
@@ -24,7 +24,7 @@ import routes from '../../../routes';
 type DemanderChangementPuissanceProps = {
   request: Request;
   project: ProjectProps & {
-    cahierDesChargesActuel: string;
+    cahierDesChargesActuel: CahierDesChargesRéférence;
     technologie: Technologie;
     puissanceInitiale: number;
     puissance: number;
@@ -89,6 +89,7 @@ export const DemanderChangementPuissance = ({
           <ChangementPuissance
             {...{
               ...project,
+              cahierDesChargesActuel: project.cahierDesChargesActuel,
               justification,
               appelOffre,
               puissanceSaisie,

@@ -17,14 +17,14 @@ import {
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
 import { ProjectAppelOffre } from '../../../../entities';
-import { Technologie } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence, Technologie } from '@potentiel/domain-views';
 
 type ChangementPuissanceProps = {
   unitePuissance: string;
   puissance: number;
   puissanceInitiale: number;
   justification: string;
-  cahierDesChargesActuel: string;
+  cahierDesChargesActuel: CahierDesChargesRéférence;
   appelOffre: ProjectAppelOffre;
   technologie: Technologie;
   puissanceSaisie?: number;
@@ -49,7 +49,7 @@ export const ChangementPuissance = ({
     const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value);
     const nouvellePuissance = toNumber(e.target.value);
     const exceedsRatios = exceedsRatiosChangementPuissance({
-      project: { puissanceInitiale, appelOffre, technologie },
+      project: { puissanceInitiale, appelOffre, technologie, cahierDesChargesActuel },
       nouvellePuissance,
     });
     const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
@@ -106,7 +106,9 @@ export const ChangementPuissance = ({
       </div>
 
       {!CDC2022choisi && displayAlertHorsRatios && (
-        <AlertePuissanceHorsRatios {...{ project: { appelOffre, technologie } }} />
+        <AlertePuissanceHorsRatios
+          {...{ project: { appelOffre, technologie, cahierDesChargesActuel } }}
+        />
       )}
 
       {displayAlertPuissanceMaxVolumeReserve && (

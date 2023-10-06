@@ -127,9 +127,12 @@ describe('Commande requestPuissanceModification', () => {
             const fakeProject = {
               ...makeFakeProject(),
               puissanceInitiale: 100,
-              cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
-            };
-            const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+              cahierDesCharges: {
+                type: 'modifié',
+                paruLe: '30/08/2022',
+              },
+            } as Project;
+            const projectRepo = fakeTransactionalRepo<Project>(fakeProject);
             const requestPuissanceModification = makeDemanderChangementDePuissance({
               projectRepo,
               eventBus,

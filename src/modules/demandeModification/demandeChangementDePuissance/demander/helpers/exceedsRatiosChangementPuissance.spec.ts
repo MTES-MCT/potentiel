@@ -22,11 +22,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           max: 1.4,
         };
 
-        const CDCModifié = {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-        } as CahierDesChargesModifié;
-
         const appelOffre = {
           changementPuissance: {
             ratios: appelOffreRatio,
@@ -34,7 +29,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           periode: {
             cahiersDesChargesModifiésDisponibles: [
               {
-                ...CDCModifié,
+                type: 'modifié',
+                paruLe: '30/08/2022',
                 seuilSupplémentaireChangementPuissance: {
                   ratios,
                 },
@@ -46,7 +42,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         expect(
           exceedsRatiosChangementPuissance({
             project: {
-              cahierDesChargesActuel: CDCModifié,
+              cahierDesChargesActuel: '30/08/2022',
               puissanceInitiale: 100,
               appelOffre,
               technologie: 'pv',
@@ -72,11 +68,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           max: 1.4,
         };
 
-        const CDCModifié = {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-        } as CahierDesChargesModifié;
-
         const appelOffre = {
           changementPuissance: {
             ratios: appelOffreRatio,
@@ -84,7 +75,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           periode: {
             cahiersDesChargesModifiésDisponibles: [
               {
-                ...CDCModifié,
+                type: 'modifié',
+                paruLe: '30/08/2022',
                 seuilSupplémentaireChangementPuissance: {
                   ratios,
                 },
@@ -96,7 +88,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         expect(
           exceedsRatiosChangementPuissance({
             project: {
-              cahierDesChargesActuel: CDCModifié,
+              cahierDesChargesActuel: '30/08/2022',
               puissanceInitiale: 100,
               appelOffre,
               technologie: 'pv',
@@ -122,11 +114,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           max: 1.4,
         };
 
-        const CDCModifié = {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-        } as CahierDesChargesModifié;
-
         const appelOffre = {
           changementPuissance: {
             ratios: appelOffreRatio,
@@ -134,7 +121,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           periode: {
             cahiersDesChargesModifiésDisponibles: [
               {
-                ...CDCModifié,
+                type: 'modifié',
+                paruLe: '30/08/2022',
                 seuilSupplémentaireChangementPuissance: {
                   ratios: ratio,
                 },
@@ -146,7 +134,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         expect(
           exceedsRatiosChangementPuissance({
             project: {
-              cahierDesChargesActuel: CDCModifié,
+              cahierDesChargesActuel: '30/08/2022',
               puissanceInitiale: 100,
               appelOffre,
               technologie: 'pv',
@@ -177,11 +165,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             },
           };
 
-          const CDCModifié = {
-            type: 'modifié',
-            paruLe: '30/08/2022',
-          } as CahierDesChargesModifié;
-
           const appelOffre = {
             changementPuissance: {
               ratios: appelOffreRatio,
@@ -189,7 +172,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             periode: {
               cahiersDesChargesModifiésDisponibles: [
                 {
-                  ...CDCModifié,
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
                   seuilSupplémentaireChangementPuissance: {
                     changementByTechnologie: true,
                     ratios,
@@ -202,7 +186,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: CDCModifié,
+                cahierDesChargesActuel: '30/08/2022',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'pv',
@@ -230,11 +214,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             },
           };
 
-          const CDCModifié = {
-            type: 'modifié',
-            paruLe: '30/08/2022',
-          } as CahierDesChargesModifié;
-
           const appelOffre = {
             changementPuissance: {
               ratios: appelOffreRatio,
@@ -242,7 +221,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             periode: {
               cahiersDesChargesModifiésDisponibles: [
                 {
-                  ...CDCModifié,
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
                   seuilSupplémentaireChangementPuissance: {
                     changementByTechnologie: true,
                     ratios,
@@ -255,7 +235,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: CDCModifié,
+                cahierDesChargesActuel: '30/08/2022',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'pv',
@@ -283,11 +263,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             },
           };
 
-          const CDCModifié = {
-            type: 'modifié',
-            paruLe: '30/08/2022',
-          } as CahierDesChargesModifié;
-
           const appelOffre = {
             changementPuissance: {
               ratios: appelOffreRatio,
@@ -295,7 +270,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             periode: {
               cahiersDesChargesModifiésDisponibles: [
                 {
-                  ...CDCModifié,
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
                   seuilSupplémentaireChangementPuissance: {
                     changementByTechnologie: true,
                     ratios,
@@ -308,7 +284,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: CDCModifié,
+                cahierDesChargesActuel: '30/08/2022',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'pv',
@@ -339,11 +315,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             },
           };
 
-          const CDCModifié = {
-            type: 'modifié',
-            paruLe: '30/08/2022',
-          } as CahierDesChargesModifié;
-
           const appelOffre = {
             changementPuissance: {
               ratios: appelOffreRatio,
@@ -351,7 +322,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             periode: {
               cahiersDesChargesModifiésDisponibles: [
                 {
-                  ...CDCModifié,
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
                   seuilSupplémentaireChangementPuissance: {
                     changementByTechnologie: true,
                     ratios,
@@ -364,7 +336,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: CDCModifié,
+                cahierDesChargesActuel: '30/08/2022',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'N/A',
@@ -393,11 +365,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             },
           };
 
-          const CDCModifié = {
-            type: 'modifié',
-            paruLe: '30/08/2022',
-          } as CahierDesChargesModifié;
-
           const appelOffre = {
             changementPuissance: {
               ratios: appelOffreRatio,
@@ -405,7 +372,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             periode: {
               cahiersDesChargesModifiésDisponibles: [
                 {
-                  ...CDCModifié,
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
                   seuilSupplémentaireChangementPuissance: {
                     changementByTechnologie: true,
                     ratios,
@@ -418,7 +386,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: CDCModifié,
+                cahierDesChargesActuel: '30/08/2022',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'N/A',
@@ -447,11 +415,6 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             },
           };
 
-          const CDCModifié = {
-            type: 'modifié',
-            paruLe: '30/08/2022',
-          } as CahierDesChargesModifié;
-
           const appelOffre = {
             changementPuissance: {
               ratios: appelOffreRatio,
@@ -459,7 +422,8 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
             periode: {
               cahiersDesChargesModifiésDisponibles: [
                 {
-                  ...CDCModifié,
+                  type: 'modifié',
+                  paruLe: '30/08/2022',
                   seuilSupplémentaireChangementPuissance: {
                     changementByTechnologie: true,
                     ratios,
@@ -472,7 +436,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: CDCModifié,
+                cahierDesChargesActuel: '30/08/2022',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'N/A',
@@ -508,9 +472,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         expect(
           exceedsRatiosChangementPuissance({
             project: {
-              cahierDesChargesActuel: {
-                type: 'initial',
-              },
+              cahierDesChargesActuel: 'initial',
               puissanceInitiale: 100,
               appelOffre,
               technologie: 'pv',
@@ -541,9 +503,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         expect(
           exceedsRatiosChangementPuissance({
             project: {
-              cahierDesChargesActuel: {
-                type: 'initial',
-              },
+              cahierDesChargesActuel: 'initial',
               puissanceInitiale: 100,
               appelOffre,
               technologie: 'pv',
@@ -574,9 +534,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         expect(
           exceedsRatiosChangementPuissance({
             project: {
-              cahierDesChargesActuel: {
-                type: 'initial',
-              },
+              cahierDesChargesActuel: 'initial',
               puissanceInitiale: 100,
               appelOffre,
               technologie: 'pv',
@@ -613,9 +571,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: {
-                  type: 'initial',
-                },
+                cahierDesChargesActuel: 'initial',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'pv',
@@ -649,9 +605,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: {
-                  type: 'initial',
-                },
+                cahierDesChargesActuel: 'initial',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'pv',
@@ -685,9 +639,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: {
-                  type: 'initial',
-                },
+                cahierDesChargesActuel: 'initial',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'pv',
@@ -724,9 +676,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: {
-                  type: 'initial',
-                },
+                cahierDesChargesActuel: 'initial',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'N/A',
@@ -761,9 +711,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: {
-                  type: 'initial',
-                },
+                cahierDesChargesActuel: 'initial',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'N/A',
@@ -798,9 +746,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
           expect(
             exceedsRatiosChangementPuissance({
               project: {
-                cahierDesChargesActuel: {
-                  type: 'initial',
-                },
+                cahierDesChargesActuel: 'initial',
                 puissanceInitiale: 100,
                 appelOffre,
                 technologie: 'pv',
@@ -821,9 +767,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
       expect(
         exceedsRatiosChangementPuissance({
           project: {
-            cahierDesChargesActuel: {
-              type: 'initial',
-            },
+            cahierDesChargesActuel: 'initial',
             puissanceInitiale: 100,
             technologie: 'pv',
           },
@@ -839,9 +783,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
       expect(
         exceedsRatiosChangementPuissance({
           project: {
-            cahierDesChargesActuel: {
-              type: 'initial',
-            },
+            cahierDesChargesActuel: 'initial',
             puissanceInitiale: 100,
             technologie: 'pv',
           },
@@ -857,9 +799,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
       expect(
         exceedsRatiosChangementPuissance({
           project: {
-            cahierDesChargesActuel: {
-              type: 'initial',
-            },
+            cahierDesChargesActuel: 'initial',
             puissanceInitiale: 100,
             technologie: 'pv',
           },

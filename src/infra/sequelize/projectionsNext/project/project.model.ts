@@ -5,7 +5,7 @@ import {
   Model,
   NonAttribute,
 } from 'sequelize';
-import { Technologie } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence, Technologie } from '@potentiel/domain-views';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { User } from '../users/users.model';
 import { File } from '../file/file.model';
@@ -45,7 +45,7 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   abandonedOn: number;
   details?: { [key: string]: string };
   certificateFileId?: string | null;
-  cahierDesChargesActuel: string;
+  cahierDesChargesActuel: CahierDesChargesRéférence;
   potentielIdentifier: string;
   technologie?: Technologie;
   actionnariat: 'financement-collectif' | 'gouvernance-partagee' | '';

@@ -2,10 +2,11 @@ import React from 'react';
 import { ProjectAppelOffre } from '../../../../entities';
 import { getRatiosChangementPuissance } from '../../../../modules/demandeModification';
 import { AlertBox } from '../../../components';
-import { Technologie } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence, Technologie } from '@potentiel/domain-views';
 
 type AlertOnPuissanceOutsideRatiosProps = {
   project: {
+    cahierDesChargesActuel: CahierDesChargesRéférence;
     appelOffre: ProjectAppelOffre;
     technologie: Technologie;
   };

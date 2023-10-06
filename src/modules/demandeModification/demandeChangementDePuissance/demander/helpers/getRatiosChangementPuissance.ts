@@ -1,10 +1,10 @@
-import { CahierDesChargesRéférenceParsed, ProjectAppelOffre } from '../../../../../entities';
-import { Technologie } from '@potentiel/domain-views';
+import { ProjectAppelOffre, parseCahierDesChargesRéférence } from '../../../../../entities';
+import { CahierDesChargesRéférence, Technologie } from '@potentiel/domain-views';
 
 const defaultRatios = { min: 0.9, max: 1.1 };
 
 export const getRatiosChangementPuissance = (project: {
-  cahierDesChargesActuel: CahierDesChargesRéférenceParsed;
+  cahierDesChargesActuel: CahierDesChargesRéférence;
   appelOffre?: ProjectAppelOffre;
   technologie: Technologie;
 }): { min: number; max: number } => {
@@ -19,11 +19,13 @@ export const getRatiosChangementPuissance = (project: {
     periode: { cahiersDesChargesModifiésDisponibles },
   } = appelOffre;
 
+  const cahierDesChargesActuelParsed = parseCahierDesChargesRéférence(cahierDesChargesActuel);
+
   const cdcActuelInclusCdcModifiésDisponible = cahiersDesChargesModifiésDisponibles.find(
     (cdc) =>
-      cdc.type === cahierDesChargesActuel.type &&
-      cdc.paruLe === cahierDesChargesActuel.paruLe &&
-      cdc.alternatif === cahierDesChargesActuel.alternatif,
+      cdc.type === cahierDesChargesActuelParsed.type &&
+      cdc.paruLe === cahierDesChargesActuelParsed.paruLe &&
+      cdc.alternatif === cahierDesChargesActuelParsed.alternatif,
   );
 
   if (
