@@ -21,31 +21,23 @@ export const getRatiosChangementPuissance = (project: {
 
   const cahierDesChargesActuelParsed = parseCahierDesChargesRéférence(cahierDesChargesActuel);
 
-  const cdcActuelInclusCdcModifiésDisponible = cahiersDesChargesModifiésDisponibles.find(
+  const détailCDCActuelModifié = cahiersDesChargesModifiésDisponibles.find(
     (cdc) =>
       cdc.type === cahierDesChargesActuelParsed.type &&
       cdc.paruLe === cahierDesChargesActuelParsed.paruLe &&
       cdc.alternatif === cahierDesChargesActuelParsed.alternatif,
   );
 
-  if (
-    cdcActuelInclusCdcModifiésDisponible &&
-    cdcActuelInclusCdcModifiésDisponible.seuilSupplémentaireChangementPuissance
-  ) {
-    if (
-      cdcActuelInclusCdcModifiésDisponible.seuilSupplémentaireChangementPuissance
-        .changementByTechnologie
-    ) {
+  if (détailCDCActuelModifié && détailCDCActuelModifié.seuilSupplémentaireChangementPuissance) {
+    if (détailCDCActuelModifié.seuilSupplémentaireChangementPuissance.changementByTechnologie) {
       if (technologie === 'N/A') {
         return defaultRatios;
       }
 
-      return cdcActuelInclusCdcModifiésDisponible.seuilSupplémentaireChangementPuissance.ratios[
-        technologie
-      ];
+      return détailCDCActuelModifié.seuilSupplémentaireChangementPuissance.ratios[technologie];
     }
 
-    return cdcActuelInclusCdcModifiésDisponible.seuilSupplémentaireChangementPuissance.ratios;
+    return détailCDCActuelModifié.seuilSupplémentaireChangementPuissance.ratios;
   }
 
   if (changementPuissance.changementByTechnologie) {

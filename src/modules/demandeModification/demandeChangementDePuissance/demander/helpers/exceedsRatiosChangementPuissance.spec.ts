@@ -7,14 +7,14 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
   describe(`Quand le ratio est défini au niveau des règles du CDC modificatif de la période`, () => {
     describe(`Ratio classique`, () => {
       it(`
-        Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio
-        Et un projet ayant ce cdc modiciatif comme cdc actuel
+        Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio
+        Et un projet ayant ce cdc modificatif comme cdc actuel
         Quand la nouvelle puissance est comprise dans ce ratio
         Alors la nouvelle puissance ne dépasse pas le ratio déterminé
       `, () => {
         const appelOffreRatio = {
-          min: 0.9,
-          max: 1.1,
+          min: 0.8,
+          max: 1.2,
         };
 
         const ratios = {
@@ -53,14 +53,14 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
       });
 
       it(`
-        Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio
-        Et un projet ayant ce cdc modiciatif comme cdc actuel
+        Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio
+        Et un projet ayant ce cdc modificatif comme cdc actuel
         Quand la nouvelle puissance est inférieure au ratio
         Alors la nouvelle puissance dépasse le ratio déterminé
       `, () => {
         const appelOffreRatio = {
-          min: 0.9,
-          max: 1.1,
+          min: 0.8,
+          max: 1.2,
         };
 
         const ratios = {
@@ -99,17 +99,17 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
       });
 
       it(`
-        Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio
-        Et un projet ayant ce cdc modiciatif comme cdc actuel
+        Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio
+        Et un projet ayant ce cdc modificatif comme cdc actuel
         Quand la nouvelle puissance est supérieure au ratio
         Alors la nouvelle puissance dépasse le ratio déterminé
       `, () => {
         const appelOffreRatio = {
-          min: 0.9,
-          max: 1.1,
+          min: 0.8,
+          max: 1.2,
         };
 
-        const ratio = {
+        const ratios = {
           min: 0.9,
           max: 1.4,
         };
@@ -124,7 +124,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
                 type: 'modifié',
                 paruLe: '30/08/2022',
                 seuilSupplémentaireChangementPuissance: {
-                  ratios: ratio,
+                  ratios,
                 },
               } as CahierDesChargesModifié,
             ] as ReadonlyArray<CahierDesChargesModifié>,
@@ -148,14 +148,14 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
     describe(`Ratio défini par technologie`, () => {
       describe(`Technologie connue`, () => {
         it(`
-          Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
-          Et un projet ayant ce cdc modiciatif comme cdc actuel
+          Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
+          Et un projet ayant ce cdc modificatif comme cdc actuel
           Quand la nouvelle puissance est comprise dans ce ratio
           Alors la nouvelle puissance ne dépasse pas le ratio déterminé
         `, () => {
           const appelOffreRatio = {
-            min: 0.9,
-            max: 1.1,
+            min: 0.8,
+            max: 1.2,
           };
 
           const ratios = {
@@ -197,14 +197,14 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         });
 
         it(`
-          Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
-          Et un projet ayant ce cdc modiciatif comme cdc actuel
+          Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
+          Et un projet ayant ce cdc modificatif comme cdc actuel
           Quand la nouvelle puissance est inférieure au ratio
           Alors la nouvelle puissance dépasse le ratio déterminé
         `, () => {
           const appelOffreRatio = {
-            min: 0.9,
-            max: 1.1,
+            min: 0.8,
+            max: 1.2,
           };
 
           const ratios = {
@@ -246,14 +246,14 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         });
 
         it(`
-          Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
-          Et un projet ayant ce cdc modiciatif comme cdc actuel
+          Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
+          Et un projet ayant ce cdc modificatif comme cdc actuel
           Quand la nouvelle puissance est inférieure au ratio
           Alors la nouvelle puissance dépasse le ratio déterminé
         `, () => {
           const appelOffreRatio = {
-            min: 0.9,
-            max: 1.1,
+            min: 0.8,
+            max: 1.2,
           };
 
           const ratios = {
@@ -297,15 +297,15 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
 
       describe(`Technologie inconnue`, () => {
         it(`
-          Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
-          Et un projet ayant ce cdc modiciatif comme cdc actuel
+          Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
+          Et un projet ayant ce cdc modificatif comme cdc actuel
           Quand la technologie est inconnue
           Et que la nouvelle puissance est comprise dans le ratio par défaut
           Alors la nouvelle puissance ne dépasse pas le ratio déterminé
         `, () => {
           const appelOffreRatio = {
-            min: 0.9,
-            max: 1.1,
+            min: 0.8,
+            max: 1.2,
           };
 
           const ratios = {
@@ -347,15 +347,15 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         });
 
         it(`
-          Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
-          Et un projet ayant ce cdc modiciatif comme cdc actuel
+          Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
+          Et un projet ayant ce cdc modificatif comme cdc actuel
           Quand la technologie est inconnue
           Et que la nouvelle puissance est inférieure au ratio par défaut
           Alors la nouvelle puissance dépasse le ratio déterminé
         `, () => {
           const appelOffreRatio = {
-            min: 0.9,
-            max: 1.1,
+            min: 0.8,
+            max: 1.2,
           };
 
           const ratios = {
@@ -397,15 +397,15 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         });
 
         it(`
-          Étant donné un appel d'offre qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
-          Et un projet ayant ce cdc modiciatif comme cdc actuel
+          Étant donné un appel d'offres qui comporte une période ayant un cdc modificatif qui détermine un ratio dépendant d'une technologie
+          Et un projet ayant ce cdc modificatif comme cdc actuel
           Quand la technologie est inconnue
           Et que la nouvelle puissance est supérieure au ratio par défaut
           Alors la nouvelle puissance dépasse le ratio déterminé
         `, () => {
           const appelOffreRatio = {
-            min: 0.9,
-            max: 1.1,
+            min: 0.8,
+            max: 1.2,
           };
 
           const ratios = {
@@ -452,7 +452,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
   describe(`Quand le ratio est défini au niveau des règles de l'appel d'offre`, () => {
     describe(`Ratio classique`, () => {
       it(`
-        Étant donné un appel d'offre qui détermine un ratio
+        Étant donné un appel d'offres qui détermine un ratio
         Quand la nouvelle puissance est comprise dans ce ratio
         Alors la nouvelle puissance ne dépasse pas le ratio déterminé`, () => {
         const ratios = {
@@ -483,7 +483,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
       });
 
       it(`
-        Étant donné un appel d'offre qui détermine un ratio
+        Étant donné un appel d'offres qui détermine un ratio
         Quand la nouvelle puissance est inférieure au ratio
         Alors la nouvelle puissance dépasse le ratio déterminé`, () => {
         const ratios = {
@@ -514,7 +514,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
       });
 
       it(`
-        Étant donné un appel d'offre qui détermine un ratio
+        Étant donné un appel d'offres qui détermine un ratio
         Quand la nouvelle puissance est supérieure au ratio
         Alors la nouvelle puissance dépasse le ratio déterminé`, () => {
         const ratios = {
@@ -548,7 +548,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
     describe(`Ratio défini par technologie`, () => {
       describe(`Technologie connue`, () => {
         it(`
-          Étant donné un appel d'offre qui détermine un ratio dépendant d'une technologie
+          Étant donné un appel d'offres qui détermine un ratio dépendant d'une technologie
           Quand la nouvelle puissance est comprise dans ce ratio
           Alors la nouvelle puissance ne dépasse pas le ratio déterminé`, () => {
           const ratios = {
@@ -582,7 +582,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         });
 
         it(`
-          Étant donné un appel d'offre qui détermine un ratio dépendant d'une technologie
+          Étant donné un appel d'offres qui détermine un ratio dépendant d'une technologie
           Quand la nouvelle puissance est inférieure au ratio
           Alors la nouvelle puissance dépasse le ratio déterminé`, () => {
           const ratios = {
@@ -616,7 +616,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         });
 
         it(`
-          Étant donné un appel d'offre qui détermine un ratio dépendant d'une technologie
+          Étant donné un appel d'offres qui détermine un ratio dépendant d'une technologie
           Quand la nouvelle puissance est supérieure au ratio
           Alors la nouvelle puissance dépasse le ratio déterminé`, () => {
           const ratios = {
@@ -652,7 +652,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
 
       describe(`Technologie inconnue`, () => {
         it(`
-          Étant donné un appel d'offre qui détermine un ratio dépendant d'une technologie
+          Étant donné un appel d'offres qui détermine un ratio dépendant d'une technologie
           Quand la technologie est inconnue
           Et que la nouvelle puissance est comprise dans le ratio par défaut
           Alors la nouvelle puissance ne dépasse pas le ratio déterminé`, () => {
@@ -687,7 +687,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         });
 
         it(`
-          Étant donné un appel d'offre qui détermine un ratio dépendant d'une technologie
+          Étant donné un appel d'offres qui détermine un ratio dépendant d'une technologie
           Quand la technologie est inconnue
           Et que la nouvelle puissance est inférieure au ratio par défaut
           Alors la nouvelle puissance dépasse le ratio déterminé`, () => {
@@ -722,7 +722,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
         });
 
         it(`
-          Étant donné un appel d'offre qui détermine un ratio dépendant d'une technologie
+          Étant donné un appel d'offres qui détermine un ratio dépendant d'une technologie
           Quand la technologie est inconnue
           Et que la nouvelle puissance est supérieure au ratio par défaut
           Alors la nouvelle puissance dépasse le ratio déterminé`, () => {
@@ -761,7 +761,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
 
   describe(`Quand l'appel d'offre n'existe pas`, () => {
     it(`
-        ÉÉtant donné un appel d'offre inexistant
+        Étant donné un appel d'offres inexistant
         Quand la nouvelle puissance est comprise dans le ratio par défaut
         Alors la nouvelle puissance ne dépasse pas le ratio déterminé`, () => {
       expect(
@@ -777,7 +777,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
     });
 
     it(`
-        ÉÉtant donné un appel d'offre inexistant
+        Étant donné un appel d'offres inexistant
         Quand la nouvelle puissance est inférieure au ratio par défaut
         Alors la nouvelle puissance dépasse le ratio déterminé`, () => {
       expect(
@@ -793,7 +793,7 @@ describe(`Vérifier si une nouvelle puissance dépasse un ratio déterminé`, ()
     });
 
     it(`
-        ÉÉtant donné un appel d'offre inexistant
+        Étant donné un appel d'offres inexistant
         Quand la nouvelle puissance est supérieure au ratio par défaut
         Alors la nouvelle puissance dépasse le ratio déterminé`, () => {
       expect(
