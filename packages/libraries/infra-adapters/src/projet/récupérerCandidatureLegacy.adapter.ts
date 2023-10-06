@@ -14,6 +14,10 @@ const selectProjectQuery = `
     'période', "periodeId",
     'famille', "familleId",
     'numéroCRE', "numeroCRE",
+    'dateNotificationProjet', case
+        when "notifiedOn" is not null then TO_CHAR(TO_TIMESTAMP("notifiedOn"/1000), 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"')
+        else null
+        end,
     'localité', json_build_object(
         'commune', "communeProjet",
         'département', "departementProjet",
