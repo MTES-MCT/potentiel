@@ -1,4 +1,7 @@
-import { RécupérerDétailProjetPort, RécupérerPorteursProjetPort } from '@potentiel/domain-views';
+import {
+  RécupérerCandidatureLegacyPort,
+  RécupérerPorteursProjetPort,
+} from '@potentiel/domain-views';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { sendEmail } from '@potentiel/email-sender';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain';
@@ -11,18 +14,18 @@ export type ExecuteProjetNotification = Message<
 >;
 
 export type ProjetNotificationDependencies = {
-  récupérerDétailProjet: RécupérerDétailProjetPort;
+  récupérerCandidatureLegacy: RécupérerCandidatureLegacyPort;
   récupérerPorteursProjet: RécupérerPorteursProjetPort;
 };
 
 export const registerProjetNotification = ({
-  récupérerDétailProjet,
+  récupérerCandidatureLegacy,
   récupérerPorteursProjet,
 }: ProjetNotificationDependencies) => {
   const handler: MessageHandler<ExecuteProjetNotification> = async (event) => {
     switch (event.type) {
       case 'QuelqueChoseSestPassé':
-        const projet = await récupérerDétailProjet(
+        const projet = await récupérerCandidatureLegacy(
           convertirEnIdentifiantProjet(event.payload.identifiantProjet),
         );
 
