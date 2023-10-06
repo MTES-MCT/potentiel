@@ -13,6 +13,11 @@ export const PermissionInviterDgecValidateur: Permission = {
   description: 'Inviter un utilisateur dgec-validateur',
 };
 
+export const PermissionInviterAdministrateur: Permission = {
+  nom: 'inviter-administrateur-action',
+  description: 'Inviter un utilisateur administrateur',
+};
+
 type Dépendances = {
   utilisateurRepo: TransactionalRepository<Utilisateur>;
   publishToEventStore: EventStore['publish'];
@@ -38,9 +43,11 @@ export const makeInviterUtilisateur =
       new UniqueEntityID(commande.email),
       (utilisateur) => {
         const { email, role, invitéPar } = commande;
+
         if (
-          role === 'dgec-validateur' &&
-          !invitéPar.permissions.includes(PermissionInviterDgecValidateur)
+          (role === 'dgec-validateur' &&
+            !invitéPar.permissions.includes(PermissionInviterDgecValidateur)) ||
+          (role === 'admin' && !invitéPar.permissions.includes(PermissionInviterDgecValidateur))
         ) {
           return errAsync(new InvitationUtilisateurNonAutoriséeError({ email, role }));
         }

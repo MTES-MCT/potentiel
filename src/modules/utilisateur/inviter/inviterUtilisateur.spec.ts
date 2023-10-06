@@ -143,4 +143,31 @@ describe(`Inviter un utilisateur`, () => {
       expect(publishToEventStore).not.toHaveBeenCalled();
     });
   });
+
+  describe(`Un utilisateur sans la permission ne peut pas inviter un administrateur`, () => {
+    it(`Étant donné un utilisateur sans la permission d'inviter un administrateur
+          Lorsqu'il invite un utilisateur avec le rôle administrateur
+          Alors aucun évènement ne devrait être émis
+          Et il devrait être averti qu'il n'est pas autorisé à faire cette invitation`, async () => {
+      const utilisateurRepo = fakeTransactionalRepo({} as Utilisateur);
+      const publishToEventStore = jest.fn<EventStore['publish']>();
+
+      const inviterUtilisateur = makeInviterUtilisateur({
+        utilisateurRepo,
+        publishToEventStore,
+      });
+
+      const invitation = await inviterUtilisateur({
+        email: 'utilisateur@email.com',
+        role: 'admin',
+        invitéPar: {
+          permissions: [{ nom: 'une-autre-permission', description: 'Une autre permission' }],
+        },
+      });
+
+      expect(invitation.isErr()).toBe(true);
+      expect(invitation._unsafeUnwrapErr()).toBeInstanceOf(InvitationUtilisateurNonAutoriséeError);
+      expect(publishToEventStore).not.toHaveBeenCalled();
+    });
+  });
 });

@@ -32,7 +32,7 @@ export const InviterDgecValidateur = ({
       <Form
         action={routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION}
         method="post"
-        className="mx-auto"
+        className="mx-auto mt-8"
       >
         <ChampsObligatoiresLégende />
         <input type="hidden" name="role" value="dgec-validateur" />

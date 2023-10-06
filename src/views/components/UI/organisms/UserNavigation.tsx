@@ -145,6 +145,12 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Dgec validateurs
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE}
+        {...(currentPage === 'inviter-administrateur' && { isCurrent: true })}
+      >
+        Administrateurs
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
 
     <DropdownMenu buttonChildren={'Outils'}>
