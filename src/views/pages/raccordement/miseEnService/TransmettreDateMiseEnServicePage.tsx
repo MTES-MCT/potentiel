@@ -10,8 +10,9 @@ import {
   Link,
   PageProjetTemplate,
   Form,
+  InfoBox,
 } from '../../../components';
-import { formatDateForInput, hydrateOnClient } from '../../../helpers';
+import { afficherDate, formatDateForInput, hydrateOnClient } from '../../../helpers';
 import { CandidatureLegacyReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
@@ -52,10 +53,10 @@ export const TransmettreDateMiseEnService = ({
               name="dateMiseEnService"
               defaultValue={miseEnService && formatDateForInput(miseEnService.dateMiseEnService)}
               max={new Date().toISOString().split('T').shift()}
+              min={formatDateForInput(projet.dateNotificationProjet)}
               required
             />
           </div>
-
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>
             <Link
@@ -66,6 +67,10 @@ export const TransmettreDateMiseEnService = ({
             </Link>
           </div>
         </Form>
+        <InfoBox className='flex md:w-1/3 md:mx-auto"'>
+          La date de mise en service est comprise dans l'intervalle entre la date de notification du
+          projet ({afficherDate(new Date(projet.dateNotificationProjet))}) et ce jour.
+        </InfoBox>
       </div>
     </PageProjetTemplate>
   );

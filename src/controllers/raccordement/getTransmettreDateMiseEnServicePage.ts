@@ -8,7 +8,7 @@ import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
+import { errorResponse, notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettreDateMiseEnServicePage } from '../../views';
 import { mediator } from 'mediateur';
 import { isNone, isSome, none } from '@potentiel/monads';
@@ -60,6 +60,14 @@ v1Router.get(
           request,
           response,
           ressourceTitle: 'Projet',
+        });
+      }
+
+      if (projet.statut === 'non-notifié') {
+        return errorResponse({
+          request,
+          response,
+          customMessage: "Action indisponible car le projet n'est pas notifié",
         });
       }
 
