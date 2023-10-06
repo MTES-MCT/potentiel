@@ -32,7 +32,7 @@ Quand(
             référenceDossierRaccordement,
           ),
           dateMiseEnService: dateMiseEnServiceValueType,
-          dateNotificationProjet: convertirEnDateTime(new Date('2020-01-01')),
+          dateDésignation: convertirEnDateTime(new Date('2020-01-01')),
         },
       });
     } catch (e) {
@@ -45,7 +45,7 @@ Quand(
   `le porteur transmet une date de mise en service antérieure à la date de notification du projet pour le dossier de raccordement ayant pour référence {string}`,
   async function (this: PotentielWorld, référenceDossierRaccordement: string) {
     const dateMiseEnService = convertirEnDateTime(new Date('2017-01-01'));
-    const dateNotificationProjet = convertirEnDateTime(new Date('2020-01-01'));
+    const dateDésignation = convertirEnDateTime(new Date('2020-01-01'));
 
     this.raccordementWorld.dateMiseEnService = dateMiseEnService;
     this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
@@ -59,7 +59,7 @@ Quand(
             référenceDossierRaccordement,
           ),
           dateMiseEnService,
-          dateNotificationProjet,
+          dateDésignation,
         },
       });
     } catch (e) {

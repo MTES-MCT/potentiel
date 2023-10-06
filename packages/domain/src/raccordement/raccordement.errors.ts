@@ -44,8 +44,8 @@ export class DateDansLeFuturError extends InvalidOperationError {
   }
 }
 
-export class DateAntérieureDateNotificationProjetError extends InvalidOperationError {
+export class DateAntérieureDateDésignationProjetError extends InvalidOperationError {
   constructor() {
-    super(`La date ne peut pas être antérieure à la date de notification du projet`);
+    super(`La date ne peut pas être antérieure à la date de désignation du projet`);
   }
 }

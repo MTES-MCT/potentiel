@@ -53,7 +53,7 @@ export const TransmettreDateMiseEnService = ({
               name="dateMiseEnService"
               defaultValue={miseEnService && formatDateForInput(miseEnService.dateMiseEnService)}
               max={new Date().toISOString().split('T').shift()}
-              min={formatDateForInput(projet.dateNotificationProjet)}
+              min={formatDateForInput(projet.dateDésignation)}
               required
             />
           </div>
@@ -68,8 +68,8 @@ export const TransmettreDateMiseEnService = ({
           </div>
         </Form>
         <InfoBox className='flex md:w-1/3 md:mx-auto"'>
-          La date de mise en service est comprise dans l'intervalle entre la date de notification du
-          projet ({afficherDate(new Date(projet.dateNotificationProjet))}) et ce jour.
+          La date de mise en service est comprise dans l'intervalle entre la date de désignation du
+          projet ({afficherDate(new Date(projet.dateDésignation))}) et ce jour.
         </InfoBox>
       </div>
     </PageProjetTemplate>

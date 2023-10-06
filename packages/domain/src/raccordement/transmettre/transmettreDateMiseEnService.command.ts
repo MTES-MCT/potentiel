@@ -7,7 +7,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import {
-  DateAntérieureDateNotificationProjetError,
+  DateAntérieureDateDésignationProjetError,
   DateDansLeFuturError,
   DossierRaccordementNonRéférencéError,
 } from '../raccordement.errors';
@@ -26,7 +26,7 @@ export type TransmettreDateMiseEnServiceCommand = Message<
     dateMiseEnService: DateTimeValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordementValueType;
     identifiantProjet: IdentifiantProjetValueType;
-    dateNotificationProjet: DateTimeValueType;
+    dateDésignation: DateTimeValueType;
   }
 >;
 
@@ -41,14 +41,14 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
     dateMiseEnService,
     référenceDossierRaccordement,
     identifiantProjet,
-    dateNotificationProjet,
+    dateDésignation,
   }) => {
     if (dateMiseEnService.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
 
-    if (dateMiseEnService.date.getTime() < dateNotificationProjet.date.getTime()) {
-      throw new DateAntérieureDateNotificationProjetError();
+    if (dateMiseEnService.date.getTime() < dateDésignation.date.getTime()) {
+      throw new DateAntérieureDateDésignationProjetError();
     }
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);

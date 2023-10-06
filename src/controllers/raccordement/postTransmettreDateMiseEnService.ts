@@ -95,7 +95,7 @@ v1Router.post(
             identifiantProjet: identifiantProjetValueType,
             référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(reference),
             dateMiseEnService: convertirEnDateTime(dateMiseEnService),
-            dateNotificationProjet: convertirEnDateTime(new Date(projet.notifiedOn)),
+            dateDésignation: convertirEnDateTime(new Date(projet.notifiedOn)),
           },
         });
 

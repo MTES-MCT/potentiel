@@ -141,7 +141,7 @@ v1Router.post(
                 dateMiseEnService: convertirEnDateTime(
                   dateMiseEnService.split('/').reverse().join('-'),
                 ),
-                dateNotificationProjet: convertirEnDateTime(new Date(projet.notifiedOn)),
+                dateDésignation: convertirEnDateTime(new Date(projet.notifiedOn)),
               },
             });
 

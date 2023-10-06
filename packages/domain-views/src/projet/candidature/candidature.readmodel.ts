@@ -12,6 +12,7 @@ export type CandidatureLegacyReadModel = ReadModel<
     période: string;
     famille: string;
     numéroCRE: string;
+    statut: StatutProjet;
     nom: string;
     localité: {
       commune: string;
