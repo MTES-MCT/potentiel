@@ -27,14 +27,14 @@ export const InviterAdministrateur = ({
   return (
     <LegacyPageTemplate user={request.user} currentPage="inviter-administrateur">
       <Heading1>Ajouter un utilisateur ADMINISTRATEUR</Heading1>
-      {success && <SuccessBox title={success} />}
-      {error && <ErrorBox title={error} />}
 
       <Form
         action={routes.POST_INVITER_UTILISATEUR_ADMINISTRATEUR}
         method="post"
-        className="mx-auto"
+        className="mx-auto mt-8"
       >
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
         <ChampsObligatoiresLégende />
         <input type="hidden" name="role" value="admin" />
         <div>

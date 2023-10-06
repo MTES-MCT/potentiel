@@ -34,7 +34,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
       <Heading1>Gérer les utilisateurs DREAL</Heading1>
       <Heading2>Ajouter un utilisateur</Heading2>
 
-      <Form action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION} method="post" className="mx-auto">
+      <Form action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION} method="post" className="mx-auto mt-8">
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
         <ChampsObligatoiresLégende />
