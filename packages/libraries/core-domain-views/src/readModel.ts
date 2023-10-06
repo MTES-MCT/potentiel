@@ -15,7 +15,10 @@ export type Find = <TReadModel extends ReadModel>(
 
 export type ListOptions<TReadModel extends ReadModel> = {
   type: TReadModel['type'];
-  orderBy?: keyof TReadModel;
+  orderBy?: {
+    property: keyof TReadModel;
+    ascending: boolean;
+  };
   where?: Partial<TReadModel>;
   pagination?: {
     page: number;
@@ -54,4 +57,9 @@ export type Update = <TReadModel extends ReadModel>(
 
 export type Remove = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}|${string}`,
+) => Promise<void>;
+
+export type Upsert = <TReadModel extends ReadModel>(
+  id: `${TReadModel['type']}|${string}`,
+  readModel: Omit<TReadModel, 'type'>,
 ) => Promise<void>;

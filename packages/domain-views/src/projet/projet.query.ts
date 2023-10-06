@@ -1,6 +1,10 @@
-import { ConsulterProjetQuery } from './consulter/consulterProjet.query';
+import { AbandonQuery } from './lauréat/abandon/abandon.query';
+import { CandidatureQuery } from './candidature/candidature.query';
+import { GestionnaireRéseauLauréatQuery } from './lauréat/gestionnaireRéseau/gestionnaireRéseauLauréat.query';
 
 // Queries
-type ProjetQuery = ConsulterProjetQuery;
+export type ProjetQuery = AbandonQuery | GestionnaireRéseauLauréatQuery | CandidatureQuery;
 
-export { ProjetQuery, ConsulterProjetQuery };
+export * from './lauréat/abandon/abandon.query';
+export * from './lauréat/gestionnaireRéseau/gestionnaireRéseauLauréat.query';
+export * from './candidature/candidature.query';

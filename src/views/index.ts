@@ -21,7 +21,6 @@ import {
   UploadLegacyModificationFiles,
   ChangerProducteur,
   DemanderAbandon,
-  DemandeAbandon,
   DemandeAnnulationAbandon,
   DemanderChangementPuissance,
   ChoisirCahierDesCharges,
@@ -53,6 +52,8 @@ import {
   ModifierPropositionTechniqueEtFinancière,
   AucunDossierALister,
   ImporterDatesMiseEnService,
+  DetailsAbandon,
+  ListeAbandons,
 } from './pages';
 
 export { App } from './App';
@@ -173,20 +174,11 @@ export const ChangerFournisseurPage = (props: Parameters<typeof ChangerFournisse
     title: 'Changer fournisseur',
   });
 
-export const DemandeAbandonPage = (props: Parameters<typeof DemandeAbandon>[0]) =>
+export const DemandeAbandonPage = (props: Parameters<typeof DetailsAbandon>[0]) =>
   makeHtml({
-    Component: DemandeAbandon,
+    Component: DetailsAbandon,
     props,
     title: 'Demande abandon',
-  });
-
-export const DemandeAnnulationAbandonPage = (
-  props: Parameters<typeof DemandeAnnulationAbandon>[0],
-) =>
-  makeHtml({
-    Component: DemandeAnnulationAbandon,
-    props,
-    title: 'Demande annulation abandon',
   });
 
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>
@@ -461,4 +453,20 @@ export const ImporterDatesMiseEnServicePage = (
     Component: ImporterDatesMiseEnService,
     props,
     title: 'Importer des dates de mise en service',
+  });
+
+export const ListeAbandonsPage = (props: Parameters<typeof ListeAbandons>[0]) =>
+  makeHtml({
+    Component: ListeAbandons,
+    props,
+    title: 'Lister les projets abandonnés avec recandidature',
+  });
+
+export const DemandeAnnulationAbandonPage = (
+  props: Parameters<typeof DemandeAnnulationAbandon>[0],
+) =>
+  makeHtml({
+    Component: DemandeAnnulationAbandon,
+    props,
+    title: 'Demande annulation abandon',
   });

@@ -132,6 +132,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -170,6 +171,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -201,6 +203,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',

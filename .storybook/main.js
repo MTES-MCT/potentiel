@@ -1,8 +1,8 @@
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -14,19 +14,19 @@ module.exports = {
       },
     },
   ],
-  framework: '@storybook/react',
-  core: {
-    builder: '@storybook/builder-webpack5',
-  },
-  staticDirs: ['../src/public'],
+
+  framework: '@storybook/react-webpack5',
+
+  staticDirs: [{ from: '../src/public', to: '/' }],
+
   webpackFinal: async (config) => {
     return {
       ...config,
-      resolve: {
-        ...config.resolve,
-        plugins: [new TsconfigPathsPlugin()],
-      },
       plugins: [...config.plugins, new NodePolyfillPlugin()],
-    }
+    };
   },
-}
+
+  docs: {
+    autodocs: true,
+  },
+};

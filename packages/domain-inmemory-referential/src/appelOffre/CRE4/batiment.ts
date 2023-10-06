@@ -152,6 +152,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -188,6 +189,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -224,6 +226,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',
@@ -260,6 +263,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '5',
@@ -296,6 +300,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '6',
@@ -332,6 +337,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '7',
@@ -368,6 +374,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '8',
@@ -404,6 +411,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '9',
@@ -440,6 +448,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '10',
@@ -481,6 +490,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '11',
@@ -522,6 +532,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '12',
@@ -563,6 +574,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '13',
@@ -603,6 +615,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           },
         },
       ],
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [

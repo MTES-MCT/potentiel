@@ -190,6 +190,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023,
         CDCModifié07022023Alternatif,
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -225,6 +226,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023,
         CDCModifié07022023Alternatif,
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -258,6 +260,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023,
         CDCModifié07022023Alternatif,
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',
@@ -293,6 +296,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023,
         CDCModifié07022023Alternatif,
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '5',
@@ -321,6 +325,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023,
         CDCModifié07022023Alternatif,
       ],
+      abandonAvecRecandidature: true,
     },
     {
       id: '6',

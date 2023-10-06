@@ -7,11 +7,17 @@ import {
   removeProjection,
   searchProjection,
   updateProjection,
+  upsertProjection,
 } from '@potentiel/pg-projections';
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
-  récupérerDétailProjetAdapter,
+  téléverserPiéceJustificativeAbandonAdapter,
+  téléverserRéponseSignéeAdapter,
+  téléchargerPiéceJustificativeAbandonProjetAdapter,
+  récupérerCandidatureAdapter,
+  téléchargerRéponseSignéeAdapter,
+  récupérerUtilisateurAdapter,
 } from '@potentiel/infra-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
@@ -33,6 +39,10 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       publish,
       subscribe,
     },
+    projet: {
+      enregistrerPiéceJustificativeAbandon: téléverserPiéceJustificativeAbandonAdapter,
+      enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
+    },
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
         téléverserFichierDossierRaccordementAdapter,
@@ -50,15 +60,21 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       search: searchProjection,
       subscribe,
       update: updateProjection,
+      upsert: upsertProjection,
     },
     appelOffre: {},
     projet: {
-      récupérerDétailProjet: récupérerDétailProjetAdapter,
+      récupérerCandidature: récupérerCandidatureAdapter,
+      récupérerPiéceJustificativeAbandon: téléchargerPiéceJustificativeAbandonProjetAdapter,
+      récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
         téléchargerFichierDossierRaccordementAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
+    },
+    utilisateur: {
+      récupérerUtilisateur: récupérerUtilisateurAdapter,
     },
   });
 

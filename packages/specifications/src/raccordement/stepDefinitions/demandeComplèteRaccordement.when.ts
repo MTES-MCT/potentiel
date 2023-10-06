@@ -33,7 +33,7 @@ const demandeComplèteRaccordementParDéfaut: Omit<
 Quand(
   `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string}`,
   async function (this: PotentielWorld, raisonSociale: string, nomProjet: string) {
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await transmettreDemandeComplèteRaccordement(this, {
       ...demandeComplèteRaccordementParDéfaut,
@@ -53,7 +53,7 @@ Quand(
     const content = exemple[`Le contenu de l'accusé de réception`];
 
     await transmettreDemandeComplèteRaccordement(this, {
-      identifiantProjet: this.projetWorld.identifiantProjet,
+      identifiantProjet: this.lauréatWorld.identifiantProjet,
       raisonSociale,
       dateQualification,
       référenceDossierRaccordement,

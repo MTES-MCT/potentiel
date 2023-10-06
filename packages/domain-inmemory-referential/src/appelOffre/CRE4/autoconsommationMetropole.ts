@@ -102,6 +102,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '2',
@@ -136,6 +137,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '3',
@@ -170,6 +172,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '4',
@@ -204,6 +207,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '5',
@@ -238,6 +242,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '6',
@@ -272,6 +277,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '7',
@@ -307,6 +313,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '8',
@@ -342,6 +349,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '9',
@@ -377,6 +385,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
     {
       id: '10',
@@ -412,6 +421,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [],

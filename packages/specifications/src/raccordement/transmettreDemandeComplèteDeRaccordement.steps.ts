@@ -29,7 +29,7 @@ Quand(
       await mediator.send<DomainUseCase>({
         type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_PROJET_USE_CASE',
         data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
+          identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
           identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
         },
       });
@@ -45,7 +45,7 @@ Alors(
     const actual = await mediator.send<ListerDossiersRaccordementQuery>({
       type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
-        identifiantProjet: this.projetWorld.identifiantProjet,
+        identifiantProjet: this.lauréatWorld.identifiantProjet,
       },
     });
 
@@ -59,7 +59,7 @@ Alors(
     const actualDossierRaccordement = await mediator.send<ConsulterDossierRaccordementQuery>({
       type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
-        identifiantProjet: this.projetWorld.identifiantProjet,
+        identifiantProjet: this.lauréatWorld.identifiantProjet,
         référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       },
     });
@@ -81,7 +81,7 @@ Alors(
       await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
         type: 'CONSULTER_ACCUSÉ_RÉCEPTION_DEMANDE_COMPLÈTE_RACCORDEMENT',
         data: {
-          identifiantProjet: this.projetWorld.identifiantProjet,
+          identifiantProjet: this.lauréatWorld.identifiantProjet,
           référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
         },
       });
@@ -109,7 +109,7 @@ Alors(
     const actual = await mediator.send<ListerDossiersRaccordementQuery>({
       type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
       data: {
-        identifiantProjet: this.projetWorld.identifiantProjet,
+        identifiantProjet: this.lauréatWorld.identifiantProjet,
       },
     });
 

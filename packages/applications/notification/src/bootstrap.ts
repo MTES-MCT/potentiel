@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import {
-  récupérerDétailProjetAdapter,
+  récupérerCandidatureAdapter,
   récupérerPorteursProjetAdapter,
 } from '@potentiel/infra-adapters';
 
@@ -15,7 +15,7 @@ export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
   registerProjetNotification({
-    récupérerDétailProjet: récupérerDétailProjetAdapter,
+    récupérerCandidatureLegacy: récupérerCandidatureAdapter,
     récupérerPorteursProjet: récupérerPorteursProjetAdapter,
   });
 

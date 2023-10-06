@@ -37,7 +37,7 @@ EtantDonné(
     raisonSocialeGestionnaireRéseau: string,
     nomProjet: string,
   ) {
-    const { identifiantProjet } = this.projetWorld.rechercherProjetFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialeGestionnaireRéseau,
     );
@@ -101,7 +101,7 @@ EtantDonné(
     await mediator.send<DomainUseCase>({
       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
       data: {
-        identifiantProjet: convertirEnIdentifiantProjet(this.projetWorld.identifiantProjet),
+        identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
           référenceDossierRaccordement,

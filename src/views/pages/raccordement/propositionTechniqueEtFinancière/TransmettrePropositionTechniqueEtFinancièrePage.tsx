@@ -14,13 +14,13 @@ import {
   ChampsObligatoiresLégende,
 } from '../../../components';
 import { hydrateOnClient } from '../../../helpers';
-import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { CandidatureLegacyReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {
   user: UtilisateurReadModel;
-  projet: ProjetReadModel;
+  projet: CandidatureLegacyReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
 };

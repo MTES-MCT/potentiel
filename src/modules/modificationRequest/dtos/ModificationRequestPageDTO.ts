@@ -20,7 +20,7 @@ export type ModificationRequestPageDTO = {
   requestedBy: string;
 
   justification: string;
-  attachmentFile: {
+  attachmentFile?: {
     filename: string;
     id: string;
   };
@@ -72,7 +72,7 @@ type Variant =
   | { type: 'producteur'; producteur: string }
   | { type: 'puissance'; puissance: number; puissanceAuMomentDuDepot?: number }
   | { type: 'recours' }
-  | { type: 'abandon' }
+  | { type: 'abandon'; recandidature: boolean }
   | { type: 'annulation abandon' }
   | ({
       type: 'delai';
@@ -85,7 +85,9 @@ type Variant =
         }
     ));
 
-export type DemandeAbandonPageDTO = ModificationRequestPageDTO & { type: 'abandon' };
+export type DemandeAbandonPageDTO = ModificationRequestPageDTO & {
+  type: 'abandon';
+};
 export type DemandeAnnulationAbandonPageDTO = ModificationRequestPageDTO & {
   type: 'annulation abandon';
 };

@@ -25,6 +25,7 @@ import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
   PermissionConsulterDossierRaccordement,
+  PermissionListerAbandons,
 } from '@potentiel/domain-views';
 
 export type Permission = {
@@ -46,6 +47,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
+        PermissionListerAbandons,
       ];
     case 'porteur-projet':
       return [
@@ -90,6 +92,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionTransmettreDateMiseEnService,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
+        PermissionListerAbandons,
       ];
     case 'dgec-validateur':
       return [
@@ -110,6 +113,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionTransmettreDateMiseEnService,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
+        PermissionListerAbandons,
       ];
     case 'acheteur-obligé':
       return [

@@ -10,7 +10,11 @@ import {
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
-import { ConsulterProjetQuery, ListerGestionnaireRéseauQuery } from '@potentiel/domain-views';
+import {
+  ConsulterCandidatureLegacyQuery,
+  ConsulterGestionnaireRéseauLauréatQuery,
+  ListerGestionnaireRéseauQuery,
+} from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 import { getProjectAppelOffre } from '../../config';
 
@@ -40,14 +44,30 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterProjetQuery>({
-        type: 'CONSULTER_PROJET',
+      const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
+        type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },
       });
 
       if (isNone(projet)) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
+      const gestionnaireRéseauLauréat =
+        await mediator.send<ConsulterGestionnaireRéseauLauréatQuery>({
+          type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_LAURÉAT_QUERY',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+          },
+        });
+
+      if (isNone(gestionnaireRéseauLauréat)) {
         return notFoundResponse({
           request,
           response,
@@ -78,6 +98,7 @@ v1Router.get(
         TransmettreDemandeComplèteRaccordementPage({
           user,
           gestionnairesRéseau,
+          gestionnaireRéseauLauréat,
           projet,
           error: error as string,
           delaiDemandeDeRaccordementEnMois: appelOffre.periode.delaiDcrEnMois,

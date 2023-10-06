@@ -11,11 +11,12 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from '../../views';
 import { mediator } from 'mediateur';
-import { isNone, none } from '@potentiel/monads';
+import { isNone, isSome, none } from '@potentiel/monads';
 import {
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauQuery,
-  ConsulterProjetQuery,
+  ConsulterCandidatureLegacyQuery,
+  ConsulterGestionnaireRéseauLauréatQuery,
 } from '@potentiel/domain-views';
 
 const schema = yup.object({
@@ -47,8 +48,8 @@ v1Router.get(
 
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
-      const projet = await mediator.send<ConsulterProjetQuery>({
-        type: 'CONSULTER_PROJET',
+      const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
+        type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
         data: {
           identifiantProjet: identifiantProjetValueType,
         },
@@ -62,11 +63,19 @@ v1Router.get(
         });
       }
 
-      const gestionnaireRéseauActuel = projet.identifiantGestionnaire
+      const gestionnaireRéseauLauréat =
+        await mediator.send<ConsulterGestionnaireRéseauLauréatQuery>({
+          type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_LAURÉAT_QUERY',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+          },
+        });
+
+      const gestionnaireRéseauActuel = isSome(gestionnaireRéseauLauréat)
         ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
             type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
             data: {
-              identifiantGestionnaireRéseau: projet.identifiantGestionnaire,
+              identifiantGestionnaireRéseau: gestionnaireRéseauLauréat.identifiantGestionnaire,
             },
           })
         : none;

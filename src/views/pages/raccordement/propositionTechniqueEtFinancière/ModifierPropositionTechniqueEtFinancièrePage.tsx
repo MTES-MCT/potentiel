@@ -15,13 +15,13 @@ import {
   ChampsObligatoiresLégende,
 } from '../../../components';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
-import { ProjetReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { CandidatureLegacyReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 
 type ModifierPropositionTechniqueEtFinancièreProps = {
   user: UtilisateurReadModel;
-  projet: ProjetReadModel;
+  projet: CandidatureLegacyReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
 };

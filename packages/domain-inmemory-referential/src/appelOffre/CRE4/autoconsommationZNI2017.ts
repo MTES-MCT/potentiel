@@ -120,6 +120,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
+      abandonAvecRecandidature: true,
     },
   ],
   familles: [],
