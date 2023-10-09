@@ -20,7 +20,7 @@ import {
   AbandonRejetéRéponseSignée,
 } from '@potentiel/domain';
 import { GetObjectCommand, S3 } from '@aws-sdk/client-s3';
-import { extname } from 'path';
+import { extname, join } from 'path';
 import { registerDemanderAbandonCommand } from '../../packages/domain/src/projet/lauréat/abandon/demander/demanderAbandon.command';
 import { registerDemanderAbandonAvecRecandidatureUseCase } from '../../packages/domain/src/projet/lauréat/abandon/demander/demanderAbandon.usecase';
 import { registerDemanderConfirmationAbandonCommand } from '../../packages/domain/src/projet/lauréat/abandon/demander/demanderConfirmationAbandon.command';
@@ -55,11 +55,12 @@ import { publish, loadAggregate, loadFromStream } from '@potentiel/pg-event-sour
 import { findProjection } from '@potentiel/pg-projections';
 import { lookup } from 'mime-types';
 import { isNone } from '@potentiel/monads';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 
-const sourceEndPoint = process.env.SOURCE_ENDPOINT || '';
-const sourceAccessKeyId = process.env.SOURCE_ACCESS_KEY_ID || '';
-const sourceSecretAccessKey = process.env.SOURCE_SECRET_ACCESS_KEY || '';
-const sourceBucketName = process.env.SOURCE_BUCKET_NAME || '';
+const sourceEndPoint = '';
+const sourceAccessKeyId = '';
+const sourceSecretAccessKey = '';
+const sourceBucketName = '';
 
 const source = new S3({
   endpoint: sourceEndPoint,
@@ -437,6 +438,22 @@ const migrerRejetAbandonAnnulé = async (
     récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
   });
 
+  const historyPath = join(__dirname, 'history.json');
+  const historyExists = existsSync(historyPath);
+  let history: Array<string> = [];
+
+  if (!historyExists) {
+    writeFileSync(historyPath, JSON.stringify([]), {
+      encoding: 'utf-8',
+    });
+  } else {
+    history = JSON.parse(
+      readFileSync(historyPath, {
+        encoding: 'utf-8',
+      }),
+    ) as Array<string>;
+  }
+
   const legacyEvents = await executeSelect<{
     id: string;
     appelOffre: string;
@@ -496,97 +513,106 @@ const migrerRejetAbandonAnnulé = async (
     index++;
     console.log('----------------------------');
     console.log(`ℹ ${index}/${total} - ${type} - ${id}`);
-    const identifiantProjet = convertirEnIdentifiantProjet({
-      appelOffre,
-      famille,
-      numéroCRE: numeroCRE,
-      période: periode,
-    });
-    console.log(`ℹ ${identifiantProjet.formatter()}`);
-    try {
-      switch (type) {
-        case 'AbandonDemandé':
-          await migrerAbandonDemandé(
-            appelOffre,
-            periode,
-            famille,
-            numeroCRE,
-            occurredAt,
-            payload as AbandonDemandéPayload,
-          );
-          break;
-        case 'AbandonAccordé':
-          await migrerAbandonAccordé(
-            appelOffre,
-            periode,
-            famille,
-            numeroCRE,
-            occurredAt,
-            payload as AbandonAccordéPayload,
-          );
-          break;
-        case 'AbandonAnnulé':
-          await migrerAbandonAnnulé(
-            appelOffre,
-            periode,
-            famille,
-            numeroCRE,
-            occurredAt,
-            payload as AbandonAnnuléPayload,
-          );
-          break;
-        case 'ConfirmationAbandonDemandée':
-          await migrerConfirmationAbandonDemandée(
-            appelOffre,
-            periode,
-            famille,
-            numeroCRE,
-            occurredAt,
-            payload as ConfirmationAbandonDemandéePayload,
-          );
-          break;
-        case 'AbandonConfirmé':
-          await migrerAbandonConfirmé(
-            appelOffre,
-            periode,
-            famille,
-            numeroCRE,
-            occurredAt,
-            payload as AbandonConfirméPayload,
-          );
-          break;
-        case 'AbandonRejeté':
-          await migrerAbandonRejeté(
-            appelOffre,
-            periode,
-            famille,
-            numeroCRE,
-            occurredAt,
-            payload as AbandonRejetéPayload,
-          );
-          break;
-        case 'RejetAbandonAnnulé':
-          await migrerRejetAbandonAnnulé(
-            appelOffre,
-            periode,
-            famille,
-            numeroCRE,
-            occurredAt,
-            payload as RejetAbandonAnnuléPayload,
-          );
-          break;
-        default:
-          console.log(`⚠ Unknown type ${type}`);
+
+    if (history.includes(id)) {
+      console.log('ℹ Skipped, already migrated');
+    } else {
+      const identifiantProjet = convertirEnIdentifiantProjet({
+        appelOffre,
+        famille,
+        numéroCRE: numeroCRE,
+        période: periode,
+      });
+      console.log(`ℹ ${identifiantProjet.formatter()}`);
+      try {
+        switch (type) {
+          case 'AbandonDemandé':
+            await migrerAbandonDemandé(
+              appelOffre,
+              periode,
+              famille,
+              numeroCRE,
+              occurredAt,
+              payload as AbandonDemandéPayload,
+            );
+            break;
+          case 'AbandonAccordé':
+            await migrerAbandonAccordé(
+              appelOffre,
+              periode,
+              famille,
+              numeroCRE,
+              occurredAt,
+              payload as AbandonAccordéPayload,
+            );
+            break;
+          case 'AbandonAnnulé':
+            await migrerAbandonAnnulé(
+              appelOffre,
+              periode,
+              famille,
+              numeroCRE,
+              occurredAt,
+              payload as AbandonAnnuléPayload,
+            );
+            break;
+          case 'ConfirmationAbandonDemandée':
+            await migrerConfirmationAbandonDemandée(
+              appelOffre,
+              periode,
+              famille,
+              numeroCRE,
+              occurredAt,
+              payload as ConfirmationAbandonDemandéePayload,
+            );
+            break;
+          case 'AbandonConfirmé':
+            await migrerAbandonConfirmé(
+              appelOffre,
+              periode,
+              famille,
+              numeroCRE,
+              occurredAt,
+              payload as AbandonConfirméPayload,
+            );
+            break;
+          case 'AbandonRejeté':
+            await migrerAbandonRejeté(
+              appelOffre,
+              periode,
+              famille,
+              numeroCRE,
+              occurredAt,
+              payload as AbandonRejetéPayload,
+            );
+            break;
+          case 'RejetAbandonAnnulé':
+            await migrerRejetAbandonAnnulé(
+              appelOffre,
+              periode,
+              famille,
+              numeroCRE,
+              occurredAt,
+              payload as RejetAbandonAnnuléPayload,
+            );
+            break;
+          default:
+            console.log(`⚠ Unknown type ${type}`);
+        }
+        console.log(`✅ Done`);
+        eventMigrated++;
+      } catch (e) {
+        eventIdInError.set(id, e.message);
+        console.log(
+          `❌ ${e.message} - ${convertirEnIdentifiantProjet(
+            identifiantProjet,
+          ).formatter()} - EventId ${id}`,
+        );
       }
-      console.log(`✅ Done`);
-      eventMigrated++;
-    } catch (e) {
-      eventIdInError.set(id, e.message);
-      console.log(
-        `❌ ${e.message} - ${convertirEnIdentifiantProjet(
-          identifiantProjet,
-        ).formatter()} - EventId ${id}`,
-      );
+      history.push(id);
+      writeFileSync(historyPath, JSON.stringify(history), {
+        encoding: 'utf-8',
+      });
     }
     console.log('----------------------------');
   }
