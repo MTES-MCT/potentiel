@@ -11,7 +11,6 @@ import {
   AbandonDéjàAccordéError,
   AbandonDéjàRejetéError,
   DemandeAbandonInconnuErreur,
-  DemandeEnAttenteConfirmationError,
 } from '../abandon.error';
 import { IdentifiantUtilisateurValueType } from '../../../../utilisateur/utilisateur.valueType';
 
@@ -57,9 +56,9 @@ export const registerRejeterAbandonCommand = ({
       throw new AbandonDéjàRejetéError();
     }
 
-    if (abandon.estEnAttenteConfirmation()) {
-      throw new DemandeEnAttenteConfirmationError();
-    }
+    // if (abandon.estEnAttenteConfirmation()) {
+    //   throw new DemandeEnAttenteConfirmationError();
+    // }
 
     await enregistrerRéponseSignée({
       identifiantProjet,
