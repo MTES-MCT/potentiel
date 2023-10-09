@@ -43,6 +43,7 @@ export const ModifierDemandeComplèteRaccordement = ({
   dossierRaccordement: {
     référence,
     demandeComplèteRaccordement: { dateQualification, accuséRéception },
+    miseEnService,
   },
   gestionnaireRéseauActuel,
   delaiDemandeDeRaccordementEnMois,
@@ -95,6 +96,9 @@ export const ModifierDemandeComplèteRaccordement = ({
               id="referenceDossierRaccordement"
               name="referenceDossierRaccordement"
               placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
+              readOnly={
+                miseEnService?.dateMiseEnService && user.role === 'porteur-projet' ? true : false
+              }
               required
               defaultValue={référence ?? ''}
               pattern={expressionReguliere || undefined}

@@ -40,7 +40,6 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand le porteur modifie la demande complète de raccordement "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034"
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement
 
-    @select
     Scénario: Impossible de modifier une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau
         Etant donné un gestionnaire de réseau
             | Code EIC             | 17X0000009352859 |
@@ -67,7 +66,6 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand le porteur modifie la demande complète de raccordement "OUE-RP-2022-000034" avec la référence "OUE-RP-2022-000035"
         Alors le porteur devrait être informé que "Le dossier de raccordement n'est pas référencé"
 
-    @select
     Scénario: Impossible de modifier la référence pour un dossier de raccordement ayant déjà une date de mise en service
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
