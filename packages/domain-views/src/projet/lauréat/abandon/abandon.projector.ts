@@ -66,12 +66,12 @@ export const registerAbandonProjector = ({
             statut: 'rejeté',
           });
           break;
-        case 'ConfirmationAbandonDemandé-V1':
+        case 'ConfirmationAbandonDemandée-V1':
           await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
-            confirmationDemandéLe: payload.confirmationDemandéLe,
-            confirmationDemandéRéponseSignéeFormat: payload.réponseSignée.format,
-            statut: 'confirmation-demandé',
+            confirmationDemandéeLe: payload.confirmationDemandéeLe,
+            confirmationDemandéeRéponseSignéeFormat: payload.réponseSignée.format,
+            statut: 'confirmation-demandée',
           });
           break;
         case 'AbandonConfirmé-V1':

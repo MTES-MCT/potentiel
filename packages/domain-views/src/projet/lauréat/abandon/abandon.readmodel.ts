@@ -27,8 +27,8 @@ export type AbandonReadModel = ReadModel<
     rejetRéponseSignéeFormat?: string;
     rejetRejetéLe?: string;
 
-    confirmationDemandéLe?: string;
-    confirmationDemandéRéponseSignéeFormat?: string;
+    confirmationDemandéeLe?: string;
+    confirmationDemandéeRéponseSignéeFormat?: string;
     confirmationConfirméLe?: string;
   }
 >;

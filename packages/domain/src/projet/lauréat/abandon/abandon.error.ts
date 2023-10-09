@@ -41,3 +41,9 @@ export class AucuneDemandeConfirmationAbandonError extends InvalidOperationError
     super(`Aucune demande de confirmation d'abandon en attente`);
   }
 }
+
+export class DemandeEnAttenteConfirmationError extends InvalidOperationError {
+  constructor() {
+    super(`L'abandon est en attente de confirmation`);
+  }
+}

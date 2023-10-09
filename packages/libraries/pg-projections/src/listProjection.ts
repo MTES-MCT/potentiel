@@ -41,8 +41,9 @@ export const listProjection = async <TReadModel extends ReadModel>({
 
   const totalResult = pagination
     ? await executeSelect<{ totalItems: string }>(
-        'select count(key) as "totalItems" from domain_views.projection where key like $1',
+        `select count(key) as "totalItems" from domain_views.projection where key like $1 ${whereClause}`,
         `${type}|%`,
+        ...(where ? Object.values(where) : []),
       )
     : [{ totalItems: result.length.toString() }];
 

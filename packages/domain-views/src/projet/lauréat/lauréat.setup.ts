@@ -74,7 +74,7 @@ export const setupLauréatViews = async (dependencies: LauréatDependencies) => 
         'AbandonAnnulé-V1',
         'AbandonConfirmé-V1',
         'AbandonRejeté-V1',
-        'ConfirmationAbandonDemandé-V1',
+        'ConfirmationAbandonDemandée-V1',
         'RebuildTriggered',
       ],
       eventHandler: async (event: AbandonEvent | RebuildTriggered) => {

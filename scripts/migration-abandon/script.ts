@@ -56,33 +56,10 @@ import { findProjection } from '@potentiel/pg-projections';
 import { lookup } from 'mime-types';
 import { isNone } from '@potentiel/monads';
 
-process.env.APPLICATION_NAME = 'potentiel-dev';
-process.env.APPLICATION_STAGE = 'development';
-process.env.LOGGER_LEVEL = 'warning';
-
-// local
-process.env.EVENT_STORE_CONNECTION_STRING =
-  'postgres://potadmindb:localpwd@localhost:5432/potentiel';
-
-// local
-process.env.AWS_REGION = 'localhost';
-process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
-process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
-process.env.S3_ENDPOINT = 'http://localhost:9000';
-process.env.S3_BUCKET = 'potentiel';
-
-// local
-process.env.POSTGRESQL_ADDON_HOST = '127.0.0.1';
-process.env.POSTGRESQL_ADDON_PORT = '5432';
-process.env.POSTGRESQL_ADDON_USER = 'potadmindb';
-process.env.POSTGRESQL_ADDON_PASSWORD = 'localpwd';
-process.env.POSTGRESQL_ADDON_DB = 'potentiel';
-process.env.POSTGRESQL_POOL_MAX = '5';
-
-const sourceEndPoint = '';
-const sourceAccessKeyId = '';
-const sourceSecretAccessKey = '';
-const sourceBucketName = '';
+const sourceEndPoint = process.env.SOURCE_ENDPOINT || '';
+const sourceAccessKeyId = process.env.SOURCE_ACCESS_KEY_ID || '';
+const sourceSecretAccessKey = process.env.SOURCE_SECRET_ACCESS_KEY || '';
+const sourceBucketName = process.env.SOURCE_BUCKET_NAME || '';
 
 const source = new S3({
   endpoint: sourceEndPoint,

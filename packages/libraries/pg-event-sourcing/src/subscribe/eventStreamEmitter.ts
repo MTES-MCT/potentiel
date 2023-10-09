@@ -51,7 +51,11 @@ export class EventStreamEmitter extends EventEmitter {
           return;
         }
 
-        this.emit(this.#getChannelName(event.type), event);
+        if (
+          notification.channel === `${this.#subscriber.streamCategory}|${this.#subscriber.name}`
+        ) {
+          this.emit(this.#getChannelName(event.type), event);
+        }
       } catch (error) {
         getLogger().error(new NotificationPayloadParseError(), {
           error,
