@@ -48,13 +48,17 @@ export const registerRejeterAbandonCommand = ({
       throw new DemandeAbandonInconnuErreur();
     }
 
-    if (abandon.getStatut() === 'accordé') {
+    if (abandon.estAccordé()) {
       throw new AbandonDéjàAccordéError();
     }
 
-    if (abandon.getStatut() === 'rejeté') {
+    if (abandon.estRejeté()) {
       throw new AbandonDéjàRejetéError();
     }
+
+    // if (abandon.estEnAttenteConfirmation()) {
+    //   throw new DemandeEnAttenteConfirmationError();
+    // }
 
     await enregistrerRéponseSignée({
       identifiantProjet,

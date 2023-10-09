@@ -41,7 +41,7 @@ export const registerConfirmerAbandonCommand = ({
       throw new DemandeAbandonInconnuErreur();
     }
 
-    if (abandon.getStatut() !== 'confirmation-demandé') {
+    if (!abandon.estEnAttenteConfirmation()) {
       throw new AucuneDemandeConfirmationAbandonError();
     }
 

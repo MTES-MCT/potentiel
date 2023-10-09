@@ -38,7 +38,7 @@ export const registerAnnulerAbandonCommand = ({
       throw new DemandeAbandonInconnuErreur();
     }
 
-    if (abandon.getStatut() === 'accordé') {
+    if (abandon.estAccordé()) {
       throw new AbandonDéjàAccordéError();
     }
 

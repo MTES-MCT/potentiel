@@ -7,7 +7,7 @@ import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
 import { EnregistrerPiéceJustificativeAbandonPort } from '../abandon.port';
 import { DateTimeValueType } from '../../../../common.valueType';
-import { DemandeAbandonEnCoursErreur } from '../abandon.error';
+import { AbandonDéjàAccordéError, DemandeAbandonEnCoursErreur } from '../abandon.error';
 import { IdentifiantUtilisateurValueType } from '../../../../utilisateur/utilisateur.valueType';
 
 export type DemanderAbandonCommand = Message<
@@ -44,8 +44,14 @@ export const registerDemanderAbandonCommand = ({
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
-    if (isSome(abandon) && abandon.getStatut() !== 'annulé') {
-      throw new DemandeAbandonEnCoursErreur();
+    if (isSome(abandon)) {
+      if (abandon.estAccordé()) {
+        throw new AbandonDéjàAccordéError();
+      }
+
+      if (abandon.estEnCours()) {
+        throw new DemandeAbandonEnCoursErreur();
+      }
     }
 
     if (piéceJustificative) {

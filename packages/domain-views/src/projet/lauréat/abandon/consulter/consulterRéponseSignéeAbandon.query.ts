@@ -56,14 +56,14 @@ export const registerConsulterRéponseAbandonSignéeQuery = ({
         ? abandon.accordAccordéLe
         : type === 'abandon-rejeté'
         ? abandon.rejetRejetéLe
-        : abandon.confirmationDemandéLe;
+        : abandon.confirmationDemandéeLe;
 
     const format =
       type === 'abandon-accordé'
         ? abandon.accordRéponseSignéeFormat
         : type === 'abandon-rejeté'
         ? abandon.rejetRéponseSignéeFormat
-        : abandon.confirmationDemandéRéponseSignéeFormat;
+        : abandon.confirmationDemandéeRéponseSignéeFormat;
 
     if (!date || !format) {
       return none;

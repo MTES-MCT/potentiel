@@ -36,7 +36,7 @@ export type RéponseSignée =
 export type StatutAbandon =
   | 'demandé'
   | 'rejeté'
-  | 'confirmation-demandé'
+  | 'confirmation-demandée'
   | 'confirmé'
   | 'accordé'
   | 'annulé';
