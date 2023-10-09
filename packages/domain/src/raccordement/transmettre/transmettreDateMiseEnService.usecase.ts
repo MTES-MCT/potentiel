@@ -14,6 +14,7 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     dateMiseEnService,
     référenceDossierRaccordement,
     identifiantProjet,
+    dateDésignation,
   }) => {
     await mediator.send<RaccordementCommand>({
       type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
@@ -21,6 +22,7 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
         dateMiseEnService,
         identifiantProjet,
         référenceDossierRaccordement,
+        dateDésignation,
       },
     });
   };
