@@ -18,6 +18,7 @@ import {
   ConsulterGestionnaireRéseauLauréatQuery,
   ConsulterGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
+import { ProjectEvent } from '../../infra/sequelize/projectionsNext';
 
 const schema = yup.object({
   params: yup.object({
@@ -112,11 +113,20 @@ v1Router.get(
         });
       }
 
+      const délaiCDC2022Appliqué = await ProjectEvent.findOne({
+        where: {
+          type: 'ProjectCompletionDueDateSet',
+          'payload.reason': 'délaiCdc2022',
+          projectId: projet.legacyId,
+        },
+      });
+
       return response.send(
         TransmettreDateMiseEnServicePage({
           user,
           projet,
           dossierRaccordement,
+          ...(délaiCDC2022Appliqué && { délaiCDC2022Appliqué: true }),
           error: error as string,
         }),
       );

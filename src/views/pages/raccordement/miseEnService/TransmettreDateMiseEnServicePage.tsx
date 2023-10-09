@@ -22,6 +22,7 @@ type TransmettreDateMiseEnServiceProps = {
   projet: CandidatureLegacyReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
+  délaiCDC2022Appliqué?: true;
 };
 
 export const TransmettreDateMiseEnService = ({
@@ -29,6 +30,7 @@ export const TransmettreDateMiseEnService = ({
   dossierRaccordement: { référence, miseEnService },
   error,
   projet,
+  délaiCDC2022Appliqué,
 }: TransmettreDateMiseEnServiceProps) => {
   const { identifiantProjet } = projet;
 
@@ -57,7 +59,7 @@ export const TransmettreDateMiseEnService = ({
               required
             />
           </div>
-          <div className="flex flex-col md:flex-row gap-4 m-auto">
+          <div className="flex flex-col md:flex-row gap-4 md:mt-4">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>
             <Link
               href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
@@ -68,8 +70,20 @@ export const TransmettreDateMiseEnService = ({
           </div>
         </Form>
         <InfoBox className='flex md:w-1/3 md:mx-auto"'>
-          La date de mise en service est comprise dans l'intervalle entre la date de désignation du
-          projet ({afficherDate(new Date(projet.dateDésignation))}) et ce jour.
+          <ul>
+            <li>
+              La date de mise en service est comprise dans l'intervalle entre la date de désignation
+              du projet ({afficherDate(new Date(projet.dateDésignation))}) et ce jour.
+            </li>
+            {délaiCDC2022Appliqué && (
+              <li className="mt-4">
+                Ce projet a déjà bénéficié du délai supplémentaire relatif du cahier des charges
+                modification du 30/08/2022. Une modification de la date de mise en service peut
+                remettre en cause l'application de ce délai et entraîner une modification de la date
+                d'achèvement du projet.
+              </li>
+            )}
+          </ul>
         </InfoBox>
       </div>
     </PageProjetTemplate>
