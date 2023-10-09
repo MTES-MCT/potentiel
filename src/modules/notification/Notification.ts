@@ -243,6 +243,12 @@ type PP_DélaiCDC2022Appliqué = {
   variables: { nom_projet: string; projet_url: string };
 };
 
+type PP_DélaiCDC2022Annulé = {
+  type: 'pp-delai-cdc-2022-annulé';
+  context: { projetId: string; utilisateurId: string };
+  variables: { nom_projet: string; projet_url: string };
+};
+
 type Dreals_DélaiCDC2022Appliqué = {
   type: 'dreals-delai-cdc-2022-appliqué';
   context: { projetId: string; utilisateurId: string };
@@ -274,6 +280,7 @@ type NotificationVariants =
   | LegacyCandidateNotification
   | AccèsUtilisateurRévoqués
   | PP_DélaiCDC2022Appliqué
+  | PP_DélaiCDC2022Annulé
   | Dreals_DélaiCDC2022Appliqué
   | NouvellePériodeNotifiée;
 
