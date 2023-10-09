@@ -1243,7 +1243,12 @@ export const makeProject = (args: {
       case ProjectCompletionDueDateSet.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true;
         props.completionDueOn = event.payload.completionDueOn;
-        if (event.payload.reason === 'délaiCdc2022') props.délaiCDC2022appliqué = true;
+        if (event.payload.reason === 'délaiCdc2022') {
+          props.délaiCDC2022appliqué = true;
+        }
+        if (event.payload.reason === 'délaiCdc2022Annulé') {
+          props.délaiCDC2022appliqué = false;
+        }
         break;
       case CovidDelayGranted.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true;
