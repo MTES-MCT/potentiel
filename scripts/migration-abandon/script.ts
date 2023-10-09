@@ -57,10 +57,10 @@ import { lookup } from 'mime-types';
 import { isNone } from '@potentiel/monads';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 
-const sourceEndPoint = '';
-const sourceAccessKeyId = '';
-const sourceSecretAccessKey = '';
-const sourceBucketName = '';
+const sourceEndPoint = process.env.SOURCE_ENDPOINT || '';
+const sourceAccessKeyId = process.env.SOURCE_ACCESS_KEY_ID || '';
+const sourceSecretAccessKey = process.env.SOURCE_SECRET_ACCESS_KEY || '';
+const sourceBucketName = process.env.SOURCE_BUCKET_NAME || '';
 
 const source = new S3({
   endpoint: sourceEndPoint,
