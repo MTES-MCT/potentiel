@@ -3,7 +3,7 @@ import { IdentifiantProjetValueType } from '../../../projet.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { ConfirmationAbandonDemandéEvent } from '../abandon.event';
+import { ConfirmationAbandonDemandéeEvent } from '../abandon.event';
 import { DateTimeValueType } from '../../../../common.valueType';
 import {
   AbandonDéjàAccordéError,
@@ -50,19 +50,20 @@ export const registerDemanderConfirmationAbandonCommand = ({
       throw new DemandeAbandonInconnuErreur();
     }
 
-    const status = abandon.getStatut();
+    if (abandon.estAccordé()) {
+      throw new AbandonDéjàAccordéError();
+    }
 
-    if (status !== 'demandé') {
-      switch (status) {
-        case 'accordé':
-          throw new AbandonDéjàAccordéError();
-        case 'rejeté':
-          throw new AbandonDéjàRejetéError();
-        case 'confirmé':
-          throw new AbandonDéjàConfirméError();
-        case 'confirmation-demandé':
-          throw new ConfirmationAbandonDéjàDemandéError();
-      }
+    if (abandon.estRejeté()) {
+      throw new AbandonDéjàRejetéError();
+    }
+
+    if (abandon.estEnAttenteConfirmation()) {
+      throw new ConfirmationAbandonDéjàDemandéError();
+    }
+
+    if (abandon.estConfirmé()) {
+      throw new AbandonDéjàConfirméError();
     }
 
     await enregistrerRéponseSignée({
@@ -71,15 +72,15 @@ export const registerDemanderConfirmationAbandonCommand = ({
       dateDocumentRéponseSignée: dateDemandeConfirmationAbandon,
     });
 
-    const event: ConfirmationAbandonDemandéEvent = {
-      type: 'ConfirmationAbandonDemandé-V1',
+    const event: ConfirmationAbandonDemandéeEvent = {
+      type: 'ConfirmationAbandonDemandée-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         réponseSignée: {
           format: réponseSignée.format,
         },
-        confirmationDemandéLe: dateDemandeConfirmationAbandon.formatter(),
-        confirmationDemandéPar: confirmationDemandéePar.formatter(),
+        confirmationDemandéeLe: dateDemandeConfirmationAbandon.formatter(),
+        confirmationDemandéePar: confirmationDemandéePar.formatter(),
       },
     };
 

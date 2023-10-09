@@ -11,6 +11,7 @@ import {
   AbandonDéjàAccordéError,
   AbandonDéjàRejetéError,
   DemandeAbandonInconnuErreur,
+  DemandeEnAttenteConfirmationError,
 } from '../abandon.error';
 import { IdentifiantUtilisateurValueType } from '../../../../domain.valueType';
 
@@ -48,12 +49,16 @@ export const registerAccorderAbandonCommand = ({
       throw new DemandeAbandonInconnuErreur();
     }
 
-    if (abandon.getStatut() === 'accordé') {
+    if (abandon.estAccordé()) {
       throw new AbandonDéjàAccordéError();
     }
 
-    if (abandon.getStatut() === 'rejeté') {
+    if (abandon.estRejeté()) {
       throw new AbandonDéjàRejetéError();
+    }
+
+    if (abandon.estEnAttenteConfirmation()) {
+      throw new DemandeEnAttenteConfirmationError();
     }
 
     await enregistrerRéponseSignée({

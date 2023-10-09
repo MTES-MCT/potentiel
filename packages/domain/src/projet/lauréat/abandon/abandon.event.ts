@@ -49,11 +49,11 @@ export type AbandonAccordéEvent = DomainEvent<
   }
 >;
 
-export type ConfirmationAbandonDemandéEvent = DomainEvent<
-  'ConfirmationAbandonDemandé-V1',
+export type ConfirmationAbandonDemandéeEvent = DomainEvent<
+  'ConfirmationAbandonDemandée-V1',
   {
-    confirmationDemandéLe: string;
-    confirmationDemandéPar: RawIdentifiantUtilisateur;
+    confirmationDemandéeLe: string;
+    confirmationDemandéePar: RawIdentifiantUtilisateur;
     identifiantProjet: RawIdentifiantProjet;
     réponseSignée: {
       format: string;
@@ -75,5 +75,5 @@ export type AbandonEvent =
   | AbandonAnnuléEvent
   | AbandonRejetéEvent
   | AbandonAccordéEvent
-  | ConfirmationAbandonDemandéEvent
+  | ConfirmationAbandonDemandéeEvent
   | AbandonConfirméEvent;

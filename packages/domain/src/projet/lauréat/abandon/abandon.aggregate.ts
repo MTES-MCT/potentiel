@@ -5,7 +5,7 @@ import {
   AbandonEvent,
   AbandonAccordéEvent,
   AbandonRejetéEvent,
-  ConfirmationAbandonDemandéEvent,
+  ConfirmationAbandonDemandéeEvent,
   AbandonConfirméEvent,
 } from './abandon.event';
 import { StatutAbandon } from './abandon.valueType';
@@ -23,6 +23,11 @@ type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
 export type Abandon = {
   getStatut: () => StatutAbandon;
+  estAccordé: () => boolean;
+  estRejeté: () => boolean;
+  estEnAttenteConfirmation: () => boolean;
+  estConfirmé: () => boolean;
+  estEnCours: () => boolean;
   demande: {
     raison: string;
     piéceJustificative?: {
@@ -54,7 +59,23 @@ export type Abandon = {
 };
 
 const getDefaultAggregate = (): Abandon => ({
-  getStatut: function () {
+  estAccordé() {
+    return this.getStatut() === 'accordé';
+  },
+  estEnCours() {
+    const statusEnCours: Array<StatutAbandon> = ['confirmation-demandée', 'confirmé', 'demandé'];
+    return statusEnCours.includes(this.getStatut());
+  },
+  estRejeté() {
+    return this.getStatut() === 'rejeté';
+  },
+  estEnAttenteConfirmation() {
+    return this.getStatut() === 'confirmation-demandée';
+  },
+  estConfirmé() {
+    return this.getStatut() === 'confirmé';
+  },
+  getStatut() {
     if (this.annuléLe) {
       return 'annulé';
     }
@@ -67,7 +88,7 @@ const getDefaultAggregate = (): Abandon => ({
     }
 
     if (this.demande.confirmation && !this.demande.confirmation.confirméLe) {
-      return 'confirmation-demandé';
+      return 'confirmation-demandée';
     }
 
     if (this.demande.confirmation && this.demande.confirmation.confirméLe) {
@@ -97,8 +118,8 @@ const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events
         return updateAvecRejet(aggregate, payload);
       case 'AbandonAccordé-V1':
         return updateAvecAcceptation(aggregate, payload);
-      case 'ConfirmationAbandonDemandé-V1':
-        return updateAvecConfirmationAbandonDemandé(aggregate, payload);
+      case 'ConfirmationAbandonDemandée-V1':
+        return updateAvecConfirmationAbandonDemandée(aggregate, payload);
       case 'AbandonConfirmé-V1':
         return updateAvecAbandonConfirmé(aggregate, payload);
       case 'AbandonAnnulé-V1':
@@ -169,17 +190,17 @@ const updateAvecAcceptation = (aggregate: Abandon, payload: AbandonAccordéEvent
   return newAggregate;
 };
 
-const updateAvecConfirmationAbandonDemandé = (
+const updateAvecConfirmationAbandonDemandée = (
   aggregate: Abandon,
-  payload: ConfirmationAbandonDemandéEvent['payload'],
+  payload: ConfirmationAbandonDemandéeEvent['payload'],
 ) => {
-  const { confirmationDemandéLe, réponseSignée } = payload;
+  const { confirmationDemandéeLe, réponseSignée } = payload;
   let newAggregate: Abandon = {
     ...aggregate,
   };
 
   newAggregate.demande.confirmation = {
-    demandéLe: convertirEnDateTime(confirmationDemandéLe),
+    demandéLe: convertirEnDateTime(confirmationDemandéeLe),
     réponseSignée,
   };
 
