@@ -17,7 +17,8 @@ describe('onProjectCompletionDueDateSet', () => {
     await resetDatabase();
   });
 
-  it('should create a new project event of type ProjectCompletionDueDateSet', async () => {
+  it(`Si la raison n'est pas "délaiCdc2022Annulé" 
+      Alors un nouveau project event devrait être ajouté`, async () => {
     await onProjectCompletionDueDateSet(
       new ProjectCompletionDueDateSet({
         payload: {
@@ -39,5 +40,51 @@ describe('onProjectCompletionDueDateSet', () => {
       eventPublishedAt: occurredAt.getTime(),
       valueDate: completionDueOn,
     });
+  });
+
+  it(`Si la raison est "délaiCdc2022Annulé"
+      Alors le project event ProjectCompletionDueDateSet de raison "délaiCdc2022" devrait être supprimé`, async () => {
+    // Event initial
+    await onProjectCompletionDueDateSet(
+      new ProjectCompletionDueDateSet({
+        payload: {
+          projectId,
+          completionDueOn,
+          reason: 'délaiCdc2022',
+        } as ProjectCompletionDueDateSetPayload,
+        original: {
+          version: 1,
+          occurredAt,
+        },
+      }),
+    );
+
+    const eventInitial = await ProjectEvent.findOne({ where: { projectId } });
+    expect(eventInitial).not.toBeNull();
+    expect(eventInitial).toMatchObject({
+      projectId,
+      type: 'ProjectCompletionDueDateSet',
+      eventPublishedAt: occurredAt.getTime(),
+      valueDate: completionDueOn,
+      payload: { reason: 'délaiCdc2022' },
+    });
+
+    // Nouvel event
+    await onProjectCompletionDueDateSet(
+      new ProjectCompletionDueDateSet({
+        payload: {
+          projectId,
+          completionDueOn,
+          reason: 'délaiCdc2022Annulé',
+        } as ProjectCompletionDueDateSetPayload,
+        original: {
+          version: 1,
+          occurredAt,
+        },
+      }),
+    );
+
+    const projectEvent = await ProjectEvent.findOne({ where: { projectId } });
+    expect(projectEvent).toBeNull();
   });
 });
