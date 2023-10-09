@@ -8,10 +8,11 @@ import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { isNone } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import {
   DossierRaccordementNonRéférencéError,
   FormatRéférenceDossierRaccordementInvalideError,
+  RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
 } from '../raccordement.errors';
 import { RéférenceDossierRacordementModifiéeEventV1 } from '../raccordement.event';
@@ -75,6 +76,11 @@ export const registerModifierRéférenceDossierRaccordementCommand = ({
       !gestionnaireRéseau.validerRéférenceDossierRaccordement(nouvelleRéférenceDossierRaccordement)
     ) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
+    }
+
+    const dossier = raccordement.dossiers.get(référenceDossierRaccordementActuelle.formatter());
+    if (isSome(dossier?.miseEnService.dateMiseEnService)) {
+      throw new RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError();
     }
 
     await enregistrerAccuséRéceptionDemandeComplèteRaccordement({

@@ -49,3 +49,11 @@ export class DateAntérieureDateDésignationProjetError extends InvalidOperation
     super(`La date ne peut pas être antérieure à la date de désignation du projet`);
   }
 }
+
+export class RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
+  constructor() {
+    super(
+      `La référence du dossier de raccordement ne peut pas être modifié car le dossier dispose déjà d'une date de mise en service`,
+    );
+  }
+}
