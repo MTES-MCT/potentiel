@@ -7,7 +7,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import { DateDansLeFuturError, DossierRaccordementNonRéférencéError } from '../raccordement.errors';
-import { PropositionTechniqueEtFinancièreTransmiseEvent } from '../raccordement.event';
+import { PropositionTechniqueEtFinancièreTransmiseEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 import { DateTimeValueType } from '../../common.valueType';
 
@@ -47,9 +47,9 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = ({
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const propositionTechniqueEtFinancièreTransmise: PropositionTechniqueEtFinancièreTransmiseEvent =
+    const propositionTechniqueEtFinancièreTransmise: PropositionTechniqueEtFinancièreTransmiseEventV1 =
       {
-        type: 'PropositionTechniqueEtFinancièreTransmise',
+        type: 'PropositionTechniqueEtFinancièreTransmise-V1',
         payload: {
           dateSignature: dateSignature.formatter(),
           référenceDossierRaccordement: référenceDossierRaccordement.formatter(),

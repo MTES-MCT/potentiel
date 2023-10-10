@@ -12,7 +12,9 @@ import {
   FormatRéférenceDossierRaccordementInvalideError,
 } from '../raccordement.errors';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
-import { DemandeComplèteRaccordementModifiéeEventV1 } from '../raccordement.event';
+import {
+  DemandeComplèteRaccordementModifiéeEventV2,
+} from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 import { DateTimeValueType } from '../../common.valueType';
 
@@ -63,8 +65,8 @@ export const registerModifierDemandeComplèteRaccordementCommand = ({
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
-    const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEventV1 = {
-      type: 'DemandeComplèteRaccordementModifiée-V1',
+    const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEventV2 = {
+      type: 'DemandeComplèteRaccordementModifiée-V2',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),

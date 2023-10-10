@@ -5,14 +5,14 @@ import {
   convertirEnIdentifiantProjet,
 } from '../projet/projet.valueType';
 import {
-  AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
-  DateMiseEnServiceTransmiseEvent,
-  DemandeComplèteRaccordementModifiéeEventV0,
+  AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
+  DateMiseEnServiceTransmiseEventV1,
   DemandeComplèteRaccordementModifiéeEventV1,
-  DemandeComplèteRaccordementTransmiseEvent,
-  PropositionTechniqueEtFinancièreModifiéeEvent,
-  PropositionTechniqueEtFinancièreSignéeTransmiseEvent,
-  PropositionTechniqueEtFinancièreTransmiseEvent,
+  DemandeComplèteRaccordementModifiéeEventV2,
+  DemandeComplèteRaccordementTransmiseEventV1,
+  PropositionTechniqueEtFinancièreModifiéeEventV1,
+  PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
+  PropositionTechniqueEtFinancièreTransmiseEventV1,
   RaccordementEvent,
   RéférenceDossierRacordementModifiéeEventV1,
 } from './raccordement.event';
@@ -62,21 +62,21 @@ const raccordementAggregateFactory: AggregateFactory<Raccordement, RaccordementE
 ) => {
   return events.reduce((aggregate, event) => {
     switch (event.type) {
-      case 'DemandeComplèteDeRaccordementTransmise':
+      case 'DemandeComplèteDeRaccordementTransmise-V1':
         return ajouterDossier(aggregate, event, loadAggregate);
-      case 'AccuséRéceptionDemandeComplèteRaccordementTransmis':
+      case 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1':
         return ajouterAccuséRéceptionDemandeComplèteRaccordement(aggregate, event);
-      case 'PropositionTechniqueEtFinancièreSignéeTransmise':
+      case 'PropositionTechniqueEtFinancièreSignéeTransmise-V1':
         return ajouterPropositionTechniqueEtFinancièreSignée(aggregate, event);
-      case 'DateMiseEnServiceTransmise':
+      case 'DateMiseEnServiceTransmise-V1':
         return ajouterMiseEnService(aggregate, event);
-      case 'PropositionTechniqueEtFinancièreTransmise':
-      case 'PropositionTechniqueEtFinancièreModifiée':
+      case 'PropositionTechniqueEtFinancièreTransmise-V1':
+      case 'PropositionTechniqueEtFinancièreModifiée-V1':
         return modifierDateSignaturePropositionTechniqueEtFinancière(aggregate, event);
-      case 'DemandeComplèteRaccordementModifiée':
-        return modifierDemandeComplèteRaccordement(aggregate, event);
       case 'DemandeComplèteRaccordementModifiée-V1':
-        return modifierDemandeComplèteRaccordementV1(aggregate, event);
+        return modifierDemandeComplèteRaccordement(aggregate, event);
+      case 'DemandeComplèteRaccordementModifiée-V2':
+        return modifierDemandeComplèteRaccordementV2(aggregate, event);
       case 'RéférenceDossierRacordementModifiée-V1':
         return modifierRéférenceDossierRacordement(aggregate, event);
       default:
@@ -100,7 +100,7 @@ const ajouterDossier = (
   aggregate: Raccordement,
   {
     payload: { identifiantProjet, référenceDossierRaccordement, dateQualification },
-  }: DemandeComplèteRaccordementTransmiseEvent,
+  }: DemandeComplèteRaccordementTransmiseEventV1,
   loadAggregate: LoadAggregate,
 ): Raccordement => {
   aggregate.dossiers.set(référenceDossierRaccordement, {
@@ -141,7 +141,7 @@ const modifierDemandeComplèteRaccordement = (
   aggregate: Raccordement,
   {
     payload: { dateQualification, referenceActuelle, nouvelleReference },
-  }: DemandeComplèteRaccordementModifiéeEventV0,
+  }: DemandeComplèteRaccordementModifiéeEventV1,
 ): Raccordement => {
   const dossier = récupérerDossier(aggregate, referenceActuelle);
 
@@ -154,11 +154,11 @@ const modifierDemandeComplèteRaccordement = (
   return aggregate;
 };
 
-const modifierDemandeComplèteRaccordementV1 = (
+const modifierDemandeComplèteRaccordementV2 = (
   aggregate: Raccordement,
   {
     payload: { dateQualification, référenceDossierRaccordement },
-  }: DemandeComplèteRaccordementModifiéeEventV1,
+  }: DemandeComplèteRaccordementModifiéeEventV2,
 ): Raccordement => {
   const dossier = récupérerDossier(aggregate, référenceDossierRaccordement);
 
@@ -172,7 +172,7 @@ const ajouterAccuséRéceptionDemandeComplèteRaccordement = (
   aggregate: Raccordement,
   {
     payload: { format, référenceDossierRaccordement },
-  }: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent,
+  }: AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
 ): Raccordement => {
   const dossier = récupérerDossier(aggregate, référenceDossierRaccordement);
 
@@ -185,7 +185,7 @@ const ajouterPropositionTechniqueEtFinancièreSignée = (
   aggregate: Raccordement,
   {
     payload: { référenceDossierRaccordement, format },
-  }: PropositionTechniqueEtFinancièreSignéeTransmiseEvent,
+  }: PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
 ): Raccordement => {
   const dossier = récupérerDossier(aggregate, référenceDossierRaccordement);
 
@@ -196,7 +196,9 @@ const ajouterPropositionTechniqueEtFinancièreSignée = (
 
 const ajouterMiseEnService = (
   aggregate: Raccordement,
-  { payload: { dateMiseEnService, référenceDossierRaccordement } }: DateMiseEnServiceTransmiseEvent,
+  {
+    payload: { dateMiseEnService, référenceDossierRaccordement },
+  }: DateMiseEnServiceTransmiseEventV1,
 ): Raccordement => {
   const dossier = récupérerDossier(aggregate, référenceDossierRaccordement);
 
@@ -209,7 +211,9 @@ const modifierDateSignaturePropositionTechniqueEtFinancière = (
   aggregate: Raccordement,
   {
     payload: { dateSignature, référenceDossierRaccordement },
-  }: PropositionTechniqueEtFinancièreTransmiseEvent | PropositionTechniqueEtFinancièreModifiéeEvent,
+  }:
+    | PropositionTechniqueEtFinancièreTransmiseEventV1
+    | PropositionTechniqueEtFinancièreModifiéeEventV1,
 ): Raccordement => {
   const dossier = récupérerDossier(aggregate, référenceDossierRaccordement);
 

@@ -3,8 +3,8 @@ import { RawIdentifiantProjet } from '../projet/projet.valueType';
 import { RawRéférenceDossierRaccordement } from './raccordement.valueType';
 import { RawIdentifiantGestionnaireRéseau } from '../domain.valueType';
 
-export type AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = DomainEvent<
-  'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+export type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = DomainEvent<
+  'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
   {
     identifiantProjet: RawIdentifiantProjet;
     format: string;
@@ -12,8 +12,8 @@ export type AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = DomainE
   }
 >;
 
-export type PropositionTechniqueEtFinancièreSignéeTransmiseEvent = DomainEvent<
-  'PropositionTechniqueEtFinancièreSignéeTransmise',
+export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEvent<
+  'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
   {
     identifiantProjet: RawIdentifiantProjet;
     format: string;
@@ -24,8 +24,8 @@ export type PropositionTechniqueEtFinancièreSignéeTransmiseEvent = DomainEvent
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEventV1 et RéférenceDossierRacordementModifiéeEventV1 à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
-export type DemandeComplèteRaccordementModifiéeEventV0 = DomainEvent<
-  'DemandeComplèteRaccordementModifiée',
+export type DemandeComplèteRaccordementModifiéeEventV1 = DomainEvent<
+  'DemandeComplèteRaccordementModifiée-V1',
   {
     identifiantProjet: RawIdentifiantProjet;
     dateQualification: string;
@@ -34,9 +34,8 @@ export type DemandeComplèteRaccordementModifiéeEventV0 = DomainEvent<
   }
 >;
 
-//v1
-export type DemandeComplèteRaccordementModifiéeEventV1 = DomainEvent<
-  'DemandeComplèteRaccordementModifiée-V1',
+export type DemandeComplèteRaccordementModifiéeEventV2 = DomainEvent<
+  'DemandeComplèteRaccordementModifiée-V2',
   {
     identifiantProjet: RawIdentifiantProjet;
     référenceDossierRaccordement: RawRéférenceDossierRaccordement;
@@ -53,8 +52,8 @@ export type RéférenceDossierRacordementModifiéeEventV1 = DomainEvent<
   }
 >;
 
-export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
-  'PropositionTechniqueEtFinancièreModifiée',
+export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
+  'PropositionTechniqueEtFinancièreModifiée-V1',
   {
     identifiantProjet: RawIdentifiantProjet;
     dateSignature: string;
@@ -62,8 +61,8 @@ export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
   }
 >;
 
-export type DateMiseEnServiceTransmiseEvent = DomainEvent<
-  'DateMiseEnServiceTransmise',
+export type DateMiseEnServiceTransmiseEventV1 = DomainEvent<
+  'DateMiseEnServiceTransmise-V1',
   {
     dateMiseEnService: string;
     référenceDossierRaccordement: RawRéférenceDossierRaccordement;
@@ -71,8 +70,8 @@ export type DateMiseEnServiceTransmiseEvent = DomainEvent<
   }
 >;
 
-export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
-  'DemandeComplèteDeRaccordementTransmise',
+export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
+  'DemandeComplèteDeRaccordementTransmise-V1',
   {
     identifiantProjet: RawIdentifiantProjet;
     identifiantGestionnaireRéseau: RawIdentifiantGestionnaireRéseau;
@@ -81,8 +80,8 @@ export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
   }
 >;
 
-export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
-  'PropositionTechniqueEtFinancièreTransmise',
+export type PropositionTechniqueEtFinancièreTransmiseEventV1 = DomainEvent<
+  'PropositionTechniqueEtFinancièreTransmise-V1',
   {
     dateSignature: string;
     référenceDossierRaccordement: RawRéférenceDossierRaccordement;
@@ -91,12 +90,12 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
 >;
 
 export type RaccordementEvent =
-  | AccuséRéceptionDemandeComplèteRaccordementTransmisEvent
-  | DemandeComplèteRaccordementTransmiseEvent
-  | DemandeComplèteRaccordementModifiéeEventV0
+  | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
+  | DemandeComplèteRaccordementTransmiseEventV1
   | DemandeComplèteRaccordementModifiéeEventV1
+  | DemandeComplèteRaccordementModifiéeEventV2
   | RéférenceDossierRacordementModifiéeEventV1
-  | PropositionTechniqueEtFinancièreTransmiseEvent
-  | PropositionTechniqueEtFinancièreSignéeTransmiseEvent
-  | PropositionTechniqueEtFinancièreModifiéeEvent
-  | DateMiseEnServiceTransmiseEvent;
+  | PropositionTechniqueEtFinancièreTransmiseEventV1
+  | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
+  | PropositionTechniqueEtFinancièreModifiéeEventV1
+  | DateMiseEnServiceTransmiseEventV1;

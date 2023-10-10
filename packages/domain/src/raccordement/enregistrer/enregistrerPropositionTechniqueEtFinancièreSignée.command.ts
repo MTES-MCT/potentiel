@@ -5,7 +5,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
-import { PropositionTechniqueEtFinancièreSignéeTransmiseEvent } from '../raccordement.event';
+import { PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 } from '../raccordement.event';
 import { EnregistrerPropositionTechniqueEtFinancièreSignéePort } from '../raccordement.ports';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
@@ -62,9 +62,9 @@ export const registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand 
       référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
     });
 
-    const propositionTechniqueEtFinancièreSignéeTransmise: PropositionTechniqueEtFinancièreSignéeTransmiseEvent =
+    const propositionTechniqueEtFinancièreSignéeTransmise: PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 =
       {
-        type: 'PropositionTechniqueEtFinancièreSignéeTransmise',
+        type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
           format: propositionTechniqueEtFinancièreSignée.format,

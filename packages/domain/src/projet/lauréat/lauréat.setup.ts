@@ -37,7 +37,7 @@ import { registerAccorderAbandonUseCase } from './abandon/accorder/accorderAband
 import { registerDemanderConfirmationAbandonUseCase } from './abandon/demander/demanderConfirmationAbandon.usecase';
 import { registerRejeterAbandonUseCase } from './abandon/rejeter/rejeterAbandon.usecase';
 import { registerConfirmerAbandonUseCase } from './abandon/confirmer/confirmerAbandon.usecase';
-import { DemandeComplèteRaccordementTransmiseEvent } from '../../raccordement/raccordement.event';
+import { DemandeComplèteRaccordementTransmiseEventV1 } from '../../raccordement/raccordement.event';
 import { mediator } from 'mediateur';
 import { registerAnnulerAbandonCommand } from './abandon/annuler/annulerAbandon.command';
 import { registerAnnulerAbandonUseCase } from './abandon/annuler/annulerAbandon.usecase';
@@ -63,10 +63,10 @@ export const setupLauréat = async (dependencies: LauréatDependencies) => {
   const { subscribe } = dependencies;
 
   return [
-    await subscribe<DemandeComplèteRaccordementTransmiseEvent>({
+    await subscribe<DemandeComplèteRaccordementTransmiseEventV1>({
       name: 'saga-ajouter-gestionnaire-reseau-projet',
-      eventType: ['DemandeComplèteDeRaccordementTransmise'],
-      eventHandler: async (event: DemandeComplèteRaccordementTransmiseEvent) => {
+      eventType: ['DemandeComplèteDeRaccordementTransmise-V1'],
+      eventHandler: async (event: DemandeComplèteRaccordementTransmiseEventV1) => {
         await mediator.send<ExecuterAjouterGestionnaireRéseauProjetSaga>({
           type: 'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
           data: event,
