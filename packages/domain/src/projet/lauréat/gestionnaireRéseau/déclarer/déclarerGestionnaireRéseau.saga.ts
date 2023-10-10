@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DemandeComplèteRaccordementTransmiseEvent } from '../../../../raccordement/raccordement.event';
+import { DemandeComplèteRaccordementTransmiseEventV1 } from '../../../../raccordement/raccordement.event';
 import { ProjetCommand } from '../gestionnaireRéseauProjet.command';
 import {
   convertirEnIdentifiantGestionnaireRéseau,
@@ -8,7 +8,7 @@ import {
 
 export type ExecuterAjouterGestionnaireRéseauProjetSaga = Message<
   'EXECUTER_DÉCLARER_GESTIONNAIRE_RÉSEAU_PROJET_SAGA',
-  DemandeComplèteRaccordementTransmiseEvent
+  DemandeComplèteRaccordementTransmiseEventV1
 >;
 
 export const registerExecuterAjouterGestionnaireRéseauProjetSaga = () => {

@@ -15,7 +15,7 @@ import {
   RéférenceDossierRaccordementDéjàExistantPourLeProjetError,
 } from '../raccordement.errors';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
-import { DemandeComplèteRaccordementTransmiseEvent } from '../raccordement.event';
+import { DemandeComplèteRaccordementTransmiseEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 import { DateTimeValueType } from '../../common.valueType';
 
@@ -78,8 +78,8 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = ({
       }
     }
 
-    const demandeComplèteRaccordementTransmise: DemandeComplèteRaccordementTransmiseEvent = {
-      type: 'DemandeComplèteDeRaccordementTransmise',
+    const demandeComplèteRaccordementTransmise: DemandeComplèteRaccordementTransmiseEventV1 = {
+      type: 'DemandeComplèteDeRaccordementTransmise-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         dateQualification: dateQualification.formatter(),

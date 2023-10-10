@@ -11,7 +11,7 @@ import {
   DateDansLeFuturError,
   DossierRaccordementNonRéférencéError,
 } from '../raccordement.errors';
-import { DateMiseEnServiceTransmiseEvent } from '../raccordement.event';
+import { DateMiseEnServiceTransmiseEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 import { DateTimeValueType } from '../../common.valueType';
 
@@ -57,8 +57,8 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
-      type: 'DateMiseEnServiceTransmise',
+    const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEventV1 = {
+      type: 'DateMiseEnServiceTransmise-V1',
       payload: {
         dateMiseEnService: dateMiseEnService.formatter(),
         identifiantProjet: identifiantProjet.formatter(),

@@ -5,7 +5,7 @@ import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { AccuséRéceptionDemandeComplèteRaccordementTransmisEvent } from '../raccordement.event';
+import { AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 } from '../raccordement.event';
 import { EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort } from '../raccordement.ports';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
@@ -60,8 +60,8 @@ export const registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCom
       accuséRéception,
     });
 
-    const accuséRéceptionTransmis: AccuséRéceptionDemandeComplèteRaccordementTransmisEvent = {
-      type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis',
+    const accuséRéceptionTransmis: AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = {
+      type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),

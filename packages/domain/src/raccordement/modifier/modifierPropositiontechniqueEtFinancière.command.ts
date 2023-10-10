@@ -7,7 +7,7 @@ import {
 } from '../raccordement.aggregate';
 import { DateDansLeFuturError, DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';
-import { PropositionTechniqueEtFinancièreModifiéeEvent } from '../raccordement.event';
+import { PropositionTechniqueEtFinancièreModifiéeEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
 import { DateTimeValueType } from '../../common.valueType';
 
@@ -48,9 +48,9 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = ({
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    const propositionTechniqueEtFinancièreModifiée: PropositionTechniqueEtFinancièreModifiéeEvent =
+    const propositionTechniqueEtFinancièreModifiée: PropositionTechniqueEtFinancièreModifiéeEventV1 =
       {
-        type: 'PropositionTechniqueEtFinancièreModifiée',
+        type: 'PropositionTechniqueEtFinancièreModifiée-V1',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
           dateSignature: dateSignature.formatter(),
