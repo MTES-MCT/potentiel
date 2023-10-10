@@ -7,7 +7,7 @@ import {
 } from '../gestionnaireRéseau.aggregate';
 import { IdentifiantGestionnaireRéseauValueType } from '../gestionnaireRéseau.valueType';
 import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseau.error';
-import { GestionnaireRéseauModifiéEvent } from '../gestionnaireRéseau.event';
+import { GestionnaireRéseauModifiéEventV1 } from '../gestionnaireRéseau.event';
 
 export type ModifierGestionnaireRéseauCommand = Message<
   'MODIFIER_GESTIONNAIRE_RÉSEAU',
@@ -46,8 +46,8 @@ export const registerModifierGestionnaireRéseauCommand = ({
       throw new GestionnaireRéseauInconnuError();
     }
 
-    const event: GestionnaireRéseauModifiéEvent = {
-      type: 'GestionnaireRéseauModifié',
+    const event: GestionnaireRéseauModifiéEventV1 = {
+      type: 'GestionnaireRéseauModifié-V1',
       payload: {
         codeEIC: identifiantGestionnaireRéseau.formatter(),
         raisonSociale,

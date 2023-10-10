@@ -54,8 +54,8 @@ export const setupLauréatViews = async (dependencies: LauréatDependencies) => 
     await subscribe({
       name: 'projector-gestionnaire-reseau',
       eventType: [
-        'GestionnaireRéseauProjetDéclaré',
-        'GestionnaireRéseauProjetModifié',
+        'GestionnaireRéseauProjetDéclaré-V1',
+        'GestionnaireRéseauProjetModifié-V1',
         'RebuildTriggered',
       ],
       eventHandler: async (event: GestionnaireRéseauProjetEvent | RebuildTriggered) => {

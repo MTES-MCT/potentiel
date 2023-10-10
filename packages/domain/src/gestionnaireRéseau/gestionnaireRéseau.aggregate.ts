@@ -44,8 +44,8 @@ const gestionnaireRéseauAggregateFactory: AggregateFactory<
       },
     ) => {
       switch (type) {
-        case 'GestionnaireRéseauAjouté':
-        case 'GestionnaireRéseauModifié':
+        case 'GestionnaireRéseauAjouté-V1':
+        case 'GestionnaireRéseauModifié-V1':
           return {
             ...aggregate,
             codeEIC,
