@@ -30,7 +30,7 @@ export type Abandon = {
   estEnCours: () => boolean;
   demande: {
     raison: string;
-    piéceJustificative?: {
+    pièceJustificative?: {
       format: string;
     };
     recandidature: boolean;
@@ -99,7 +99,7 @@ const getDefaultAggregate = (): Abandon => ({
   },
   demande: {
     raison: '',
-    piéceJustificative: {
+    pièceJustificative: {
       format: '',
     },
     recandidature: false,
@@ -148,12 +148,12 @@ export const loadAbandonAggregateFactory = ({
 };
 
 const createAbandon = (aggregate: Abandon, payload: AbandonDemandéEvent['payload']) => {
-  const { recandidature, piéceJustificative, raison, demandéLe: dateAbandon } = payload;
+  const { recandidature, pièceJustificative, raison, demandéLe: dateAbandon } = payload;
   const newAggregate: Abandon = {
     ...aggregate,
     demande: {
       recandidature,
-      piéceJustificative,
+      pièceJustificative,
       raison,
       demandéLe: convertirEnDateTime(dateAbandon),
     },

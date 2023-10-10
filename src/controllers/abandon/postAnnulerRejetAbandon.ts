@@ -21,7 +21,7 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import {
   ConsulterAbandonQuery,
-  ConsulterPiéceJustificativeAbandonProjetQuery,
+  ConsulterPièceJustificativeAbandonProjetQuery,
 } from '@potentiel/domain-views';
 
 const requestBodySchema = yup.object({
@@ -54,15 +54,15 @@ v1Router.post(
             },
           });
 
-          const piéceJustificative =
-            await mediator.send<ConsulterPiéceJustificativeAbandonProjetQuery>({
+          const pièceJustificative =
+            await mediator.send<ConsulterPièceJustificativeAbandonProjetQuery>({
               type: 'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
               data: {
                 identifiantProjet,
               },
             });
 
-          if (isSome(abandon) && isSome(piéceJustificative)) {
+          if (isSome(abandon) && isSome(pièceJustificative)) {
             try {
               await mediator.send<DomainUseCase>({
                 type: 'ANNULER_REJET_ABANDON_USECASE',
@@ -70,7 +70,7 @@ v1Router.post(
                   dateAnnulationAbandon: convertirEnDateTime(new Date()),
                   dateDemandeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
                   identifiantProjet,
-                  piéceJustificative,
+                  pièceJustificative,
                   raison: abandon.demandeRaison,
                   recandidature: abandon.demandeRecandidature,
                   annuléPar: convertirEnIdentifiantUtilisateur(request.user.email),

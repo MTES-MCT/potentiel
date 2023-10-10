@@ -12,9 +12,9 @@ import {
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
-  téléverserPiéceJustificativeAbandonAdapter,
+  téléverserPièceJustificativeAbandonAdapter,
   téléverserRéponseSignéeAdapter,
-  téléchargerPiéceJustificativeAbandonProjetAdapter,
+  téléchargerPièceJustificativeAbandonProjetAdapter,
   récupérerCandidatureAdapter,
   téléchargerRéponseSignéeAdapter,
   récupérerUtilisateurAdapter,
@@ -40,7 +40,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       subscribe,
     },
     projet: {
-      enregistrerPiéceJustificativeAbandon: téléverserPiéceJustificativeAbandonAdapter,
+      enregistrerPièceJustificativeAbandon: téléverserPièceJustificativeAbandonAdapter,
       enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
     },
     raccordement: {
@@ -65,7 +65,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     appelOffre: {},
     projet: {
       récupérerCandidature: récupérerCandidatureAdapter,
-      récupérerPiéceJustificativeAbandon: téléchargerPiéceJustificativeAbandonProjetAdapter,
+      récupérerPièceJustificativeAbandon: téléchargerPièceJustificativeAbandonProjetAdapter,
       récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
     },
     raccordement: {
