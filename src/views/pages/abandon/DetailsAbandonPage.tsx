@@ -4,6 +4,7 @@ import { DemandeAbandonPageDTO } from '../../../modules/modificationRequest';
 import { ModificationRequestStatusTitle, afficherDate, hydrateOnClient } from '../../helpers';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
+  AlertBox,
   ChampsObligatoiresLégende,
   DownloadLink,
   ErrorBox,
@@ -80,6 +81,35 @@ export const DetailsAbandon = ({ request, demandeAbandon }: DétailsAbandonProps
           </ul>
           <Heading3 className="mb-2">Explications du porteur de projet</Heading3>
           <p className="m-0 italic">{`"${justification || ''}"`}</p>
+          {type === 'abandon' && recandidature && (
+            <>
+              <AlertBox>
+                <div className="font-bold">Demande d'abandon avec recandidature</div>
+                <div>
+                  <p className="m-0 mt-4">
+                    Le porteur s'engage sur l'honneur à ne pas avoir débuté ses travaux au sens du
+                    cahier des charges de l'AO associé et a abandonné son statut de lauréat au
+                    profit d'une recandidature réalisée au plus tard le 31/12/2024. Il s'engage sur
+                    l'honneur à ce que cette recandidature respecte les conditions suivantes :
+                  </p>
+                  <ul className="mb-0">
+                    <li>
+                      Que le dossier soit complet et respecte les conditions d'éligibilité du cahier
+                      des charges concerné
+                    </li>
+                    <li>Le même lieu d'implantation que le projet abandonné</li>
+                    <li>Une puissance équivalente à plus ou moins 20% que le projet abandonné</li>
+                    <li>
+                      Le tarif proposé ne doit pas être supérieur au prix plafond de la période dont
+                      le projet était initialement lauréat, indexé jusqu’à septembre 2023 selon la
+                      formule d’indexation du prix de référence indiquée dans le cahier des charges
+                      concerné par la recandidature.
+                    </li>
+                  </ul>
+                </div>
+              </AlertBox>
+            </>
+          )}
         </div>
       </div>
       {attachmentFile && (
@@ -232,14 +262,16 @@ const RéponseValidateur = ({
           >
             Accepter la demande d'abandon
           </PrimaryButton>
-          <PrimaryButton
-            className="bg-red-marianne-425-base hover:bg-red-marianne-425-hover focus:bg-red-marianne-425-active block mt-4"
-            type="submit"
-            confirmation={`Êtes-vous sur de vouloir rejeter la demande d'abandon ?`}
-            name="submitRefuse"
-          >
-            Rejeter la demande d'abandon
-          </PrimaryButton>
+          {!recandidature && (
+            <PrimaryButton
+              className="bg-red-marianne-425-base hover:bg-red-marianne-425-hover focus:bg-red-marianne-425-active block mt-4"
+              type="submit"
+              confirmation={`Êtes-vous sur de vouloir rejeter la demande d'abandon ?`}
+              name="submitRefuse"
+            >
+              Rejeter la demande d'abandon
+            </PrimaryButton>
+          )}
         </Form>
       </>
     )}
