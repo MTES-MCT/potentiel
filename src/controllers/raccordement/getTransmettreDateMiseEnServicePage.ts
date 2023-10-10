@@ -136,6 +136,10 @@ v1Router.get(
           familleId: projet.famille,
         });
 
+        if (!appelOffreProjet) {
+          return undefined;
+        }
+
         const détailsCDC = appelOffreProjet!.periode.cahiersDesChargesModifiésDisponibles.find(
           (CDC) =>
             CDC.type === cahierDesChargesParsé.type &&
