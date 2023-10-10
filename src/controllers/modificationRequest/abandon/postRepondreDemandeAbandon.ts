@@ -166,7 +166,7 @@ v1Router.post(
               },
             },
             demandeAbandon: {
-              date: abandon.demandeDemandéLe,
+              date: format(new Date(abandon.demandeDemandéLe), 'dd/MM/yyyy'),
               instructeur: {
                 nom: utilisateur.nomComplet,
                 fonction: utilisateur.fonction,
