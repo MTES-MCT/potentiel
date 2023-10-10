@@ -1,7 +1,7 @@
 import { DomainEvent } from '@potentiel/core-domain';
 
-export type GestionnaireRéseauAjoutéEvent = DomainEvent<
-  'GestionnaireRéseauAjouté',
+export type GestionnaireRéseauAjoutéEventV1 = DomainEvent<
+  'GestionnaireRéseauAjouté-V1',
   {
     raisonSociale: string;
     codeEIC: string;
@@ -13,8 +13,8 @@ export type GestionnaireRéseauAjoutéEvent = DomainEvent<
   }
 >;
 
-export type GestionnaireRéseauModifiéEvent = DomainEvent<
-  'GestionnaireRéseauModifié',
+export type GestionnaireRéseauModifiéEventV1 = DomainEvent<
+  'GestionnaireRéseauModifié-V1',
   {
     codeEIC: string;
     raisonSociale: string;
@@ -27,5 +27,5 @@ export type GestionnaireRéseauModifiéEvent = DomainEvent<
 >;
 
 export type GestionnaireRéseauEvent =
-  | GestionnaireRéseauModifiéEvent
-  | GestionnaireRéseauAjoutéEvent;
+  | GestionnaireRéseauModifiéEventV1
+  | GestionnaireRéseauAjoutéEventV1;

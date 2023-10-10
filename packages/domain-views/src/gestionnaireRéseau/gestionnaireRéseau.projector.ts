@@ -24,12 +24,12 @@ export const registerGestionnaireRéseauProjector = ({
       case 'RebuildTriggered':
         await remove<GestionnaireRéseauReadModel>(`gestionnaire-réseau|${event.payload.id}`);
         break;
-      case 'GestionnaireRéseauAjouté':
+      case 'GestionnaireRéseauAjouté-V1':
         await create<GestionnaireRéseauReadModel>(`gestionnaire-réseau|${event.payload.codeEIC}`, {
           ...event.payload,
         });
         break;
-      case 'GestionnaireRéseauModifié':
+      case 'GestionnaireRéseauModifié-V1':
         await update<GestionnaireRéseauReadModel>(`gestionnaire-réseau|${event.payload.codeEIC}`, {
           ...event.payload,
         });

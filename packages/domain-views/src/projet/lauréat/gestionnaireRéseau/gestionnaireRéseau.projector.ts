@@ -1,9 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { GestionnaireRéseauProjetEvent } from '@potentiel/domain';
 import { Find, RebuildTriggered, Remove, Upsert } from '@potentiel/core-domain-views';
-import {
-  GestionnaireRéseauLauréatLegacyReadModel,
-} from './gestionnaireRéseauLauréat.readmodel';
+import { GestionnaireRéseauLauréatLegacyReadModel } from './gestionnaireRéseauLauréat.readmodel';
 
 export type ExecuteGestionnaireRéseauLauréatProjector = Message<
   'EXECUTE_GESTIONNAIRE_RÉSEAU_LAURÉAT_PROJECTOR',
@@ -26,8 +24,8 @@ export const registerGestionnaireRéseauLauréatProjector = ({
       await remove<GestionnaireRéseauLauréatLegacyReadModel>(`projet|${event.payload.id}`);
     } else {
       switch (event.type) {
-        case 'GestionnaireRéseauProjetDéclaré':
-        case 'GestionnaireRéseauProjetModifié':
+        case 'GestionnaireRéseauProjetDéclaré-V1':
+        case 'GestionnaireRéseauProjetModifié-V1':
           await upsert<GestionnaireRéseauLauréatLegacyReadModel>(
             `projet|${
               event.payload.identifiantProjet as `${string}#${string}#${string}#${string}`

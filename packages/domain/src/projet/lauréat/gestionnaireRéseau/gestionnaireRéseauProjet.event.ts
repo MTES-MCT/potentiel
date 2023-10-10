@@ -1,15 +1,15 @@
 import { DomainEvent } from '@potentiel/core-domain';
 
-export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
-  'GestionnaireRéseauProjetModifié',
+export type GestionnaireRéseauProjetModifiéEventV1 = DomainEvent<
+  'GestionnaireRéseauProjetModifié-V1',
   {
     identifiantProjet: string;
     identifiantGestionnaireRéseau: string;
   }
 >;
 
-export type GestionnaireRéseauProjetDéclaréEvent = DomainEvent<
-  'GestionnaireRéseauProjetDéclaré',
+export type GestionnaireRéseauProjetDéclaréEventV1 = DomainEvent<
+  'GestionnaireRéseauProjetDéclaré-V1',
   {
     identifiantProjet: string;
     identifiantGestionnaireRéseau: string;
@@ -17,5 +17,5 @@ export type GestionnaireRéseauProjetDéclaréEvent = DomainEvent<
 >;
 
 export type GestionnaireRéseauProjetEvent =
-  | GestionnaireRéseauProjetModifiéEvent
-  | GestionnaireRéseauProjetDéclaréEvent;
+  | GestionnaireRéseauProjetModifiéEventV1
+  | GestionnaireRéseauProjetDéclaréEventV1;

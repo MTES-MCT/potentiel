@@ -1,7 +1,7 @@
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { isNone, isSome, none } from '@potentiel/monads';
-import { GestionnaireRéseauProjetDéclaréEvent } from '../gestionnaireRéseauProjet.event';
+import { GestionnaireRéseauProjetDéclaréEventV1 } from '../gestionnaireRéseauProjet.event';
 import { IdentifiantGestionnaireRéseauValueType } from '../../../../gestionnaireRéseau/gestionnaireRéseau.valueType';
 import { IdentifiantProjetValueType } from '../../../projet.valueType';
 import {
@@ -51,8 +51,8 @@ export const registerDéclarerGestionnaireRéseauProjetCommand = ({
     const gestionnaireRéseauProjet = isSome(projet) ? await projet.getGestionnaireRéseau() : none;
 
     if (isNone(gestionnaireRéseauProjet)) {
-      const event: GestionnaireRéseauProjetDéclaréEvent = {
-        type: 'GestionnaireRéseauProjetDéclaré',
+      const event: GestionnaireRéseauProjetDéclaréEventV1 = {
+        type: 'GestionnaireRéseauProjetDéclaré-V1',
         payload: {
           identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
           identifiantProjet: identifiantProjet.formatter(),

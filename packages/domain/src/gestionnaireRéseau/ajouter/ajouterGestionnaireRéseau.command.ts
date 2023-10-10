@@ -6,7 +6,7 @@ import {
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseau.error';
-import { GestionnaireRéseauAjoutéEvent } from '../gestionnaireRéseau.event';
+import { GestionnaireRéseauAjoutéEventV1 } from '../gestionnaireRéseau.event';
 import { IdentifiantGestionnaireRéseauValueType } from '../gestionnaireRéseau.valueType';
 
 export type AjouterGestionnaireRéseauCommand = Message<
@@ -46,8 +46,8 @@ export const registerAjouterGestionnaireRéseauCommand = ({
       throw new GestionnaireRéseauDéjàExistantError();
     }
 
-    const event: GestionnaireRéseauAjoutéEvent = {
-      type: 'GestionnaireRéseauAjouté',
+    const event: GestionnaireRéseauAjoutéEventV1 = {
+      type: 'GestionnaireRéseauAjouté-V1',
       payload: {
         codeEIC: identifiantGestionnaireRéseau.formatter(),
         raisonSociale,

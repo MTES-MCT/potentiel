@@ -38,7 +38,11 @@ export const setupGestionnaireRéseauViews = async (
   return [
     await subscribe({
       name: 'projector',
-      eventType: ['GestionnaireRéseauAjouté', 'GestionnaireRéseauModifié', 'RebuildTriggered'],
+      eventType: [
+        'GestionnaireRéseauAjouté-V1',
+        'GestionnaireRéseauModifié-V1',
+        'RebuildTriggered',
+      ],
       eventHandler: async (event: GestionnaireRéseauEvent | RebuildTriggered) => {
         await mediator.publish<ExecuteGestionnaireRéseauProjector>({
           type: 'EXECUTE_GESTIONNAIRE_RÉSEAU_PROJECTOR',

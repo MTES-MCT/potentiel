@@ -36,8 +36,8 @@ const gestionnaireRéseauProjetAggregateFactory: AggregateFactory<
 > = (events, loadAggregate) => {
   return events.reduce((aggregate, event) => {
     switch (event.type) {
-      case 'GestionnaireRéseauProjetDéclaré':
-      case 'GestionnaireRéseauProjetModifié':
+      case 'GestionnaireRéseauProjetDéclaré-V1':
+      case 'GestionnaireRéseauProjetModifié-V1':
         return {
           ...aggregate,
           getGestionnaireRéseau: async () => {
