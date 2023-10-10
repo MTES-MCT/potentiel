@@ -55,6 +55,7 @@ const makeAttachUserToRequestMiddleware =
               ...user,
               accountUrl: `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`,
               permissions: getPermissions(user),
+              rôle: user.role,
             };
           },
           (e: Error) => {
