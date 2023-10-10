@@ -9,21 +9,18 @@ import { NotificationService } from '../NotificationService';
 describe(`Notification handler onProjectCompletionDueDateSet`, () => {
   const sendNotification = jest.fn<NotificationService['sendNotification']>();
   const projetId = 'projetId';
-  const évènement = new ProjectCompletionDueDateSet({
-    payload: {
-      projectId: projetId,
-      completionDueOn: new Date('2025-01-01').getTime(),
-      reason: 'délaiCdc2022',
-    },
-  });
 
   beforeEach(() => {
     sendNotification.mockClear();
   });
 
-  describe(`Notifier les porteurs de l'application du délai de 18 mois relatif au CDC 2022`, () => {
-    it(`Etant donné un projet suivi par deux porteurs,
-    alors les deux profils devraient être notifiés`, async () => {
+  describe(`Notifier l'application du délai de 18 mois relatif au CDC 2022`, () => {
+    it(`Etant donné un projet suivi par deux utilisateurs "porteur-projet"
+        Et suivi par deux utilisateurs "dreal"
+        Quand un délai de 18 mois relatif au CDC 2022 est appliqué sur le projet
+        Alors les deux profils "porteur-projet" devraient être notifiés
+        Et les deux profils "dreal" devraient être notifiés
+        `, async () => {
       const porteur1 = makeFakeUser({
         email: 'email1@test.test',
         id: 'user-1',
@@ -34,18 +31,36 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
         id: 'user-2',
         fullName: 'nom_porteur2',
       });
+
       const onProjectCompletionDueDateSet = makeOnProjectCompletionDueDateSet({
         sendNotification,
         getProjectUsers: jest.fn(async () => [porteur1, porteur2]),
         getProjectById: jest.fn(async () =>
-          makeFakeProject({ id: projetId, nomProjet: 'nom_projet' }),
+          makeFakeProject({
+            id: projetId,
+            nomProjet: 'nom_projet',
+            regionProjet: 'regionA / regionB',
+          }),
         ),
-        findUsersForDreal: jest.fn(async () => []),
+        findUsersForDreal: (region: string) =>
+          Promise.resolve(
+            region === 'regionA'
+              ? [{ email: 'drealA@test.test', fullName: 'drealA', id: 'user-A' } as User]
+              : [{ email: 'drealB@test.test', fullName: 'drealB', id: 'user-B' } as User],
+          ),
+      });
+
+      const évènement = new ProjectCompletionDueDateSet({
+        payload: {
+          projectId: projetId,
+          completionDueOn: new Date('2025-01-01').getTime(),
+          reason: 'délaiCdc2022',
+        },
       });
 
       await onProjectCompletionDueDateSet(évènement);
 
-      expect(sendNotification).toHaveBeenCalledTimes(2);
+      expect(sendNotification).toHaveBeenCalledTimes(4);
 
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
@@ -80,36 +95,9 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
           }),
         }),
       );
-    });
-  });
-
-  describe(`Notifier les Dreals concernées 
-  de l'application du délai de 18 mois relatif au CDC 2022`, () => {
-    it(`Etant donné un projet suivi par deux Dreals,
-    alors les deux profils devraient être notifiés`, async () => {
-      const onProjectCompletionDueDateSet = makeOnProjectCompletionDueDateSet({
-        sendNotification,
-        getProjectUsers: jest.fn(async () => []),
-        getProjectById: jest.fn(async () =>
-          makeFakeProject({
-            id: projetId,
-            nomProjet: 'nom_projet',
-            regionProjet: 'regionA / regionB',
-          }),
-        ),
-        findUsersForDreal: (region: string) =>
-          Promise.resolve(
-            region === 'regionA'
-              ? [{ email: 'drealA@test.test', fullName: 'drealA', id: 'user-A' } as User]
-              : [{ email: 'drealB@test.test', fullName: 'drealB', id: 'user-B' } as User],
-          ),
-      });
-      await onProjectCompletionDueDateSet(évènement);
-
-      expect(sendNotification).toHaveBeenCalledTimes(2);
 
       expect(sendNotification).toHaveBeenNthCalledWith(
-        1,
+        3,
         expect.objectContaining({
           type: 'dreals-delai-cdc-2022-appliqué',
           context: expect.objectContaining({ projetId, utilisateurId: 'user-A' }),
@@ -126,7 +114,7 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
       );
 
       expect(sendNotification).toHaveBeenNthCalledWith(
-        2,
+        4,
         expect.objectContaining({
           type: 'dreals-delai-cdc-2022-appliqué',
           context: expect.objectContaining({ projetId, utilisateurId: 'user-B' }),
@@ -138,6 +126,124 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
             email: 'drealB@test.test',
             name: 'drealB',
             subject: `Potentiel - Nouveau délai appliqué pour le projet nom_projet`,
+          }),
+        }),
+      );
+    });
+  });
+
+  describe(`Notifier l'annulation du délai de 18 mois relatif au CDC 2022`, () => {
+    it(`Etant donné un projet suivi par deux utilisateurs "porteur-projet"
+        Et suivi par deux utilisateurs "dreal"
+        Quand un délai de 18 mois relatif au CDC 2022 est annulé sur le projet
+        Alors les deux profils "porteur-projet" devraient être notifiés
+        Et les deux profils "dreal" devraient être notifiés
+        `, async () => {
+      const porteur1 = makeFakeUser({
+        email: 'email1@test.test',
+        id: 'user-1',
+        fullName: 'nom_porteur1',
+      });
+      const porteur2 = makeFakeUser({
+        email: 'email2@test.test',
+        id: 'user-2',
+        fullName: 'nom_porteur2',
+      });
+
+      const onProjectCompletionDueDateSet = makeOnProjectCompletionDueDateSet({
+        sendNotification,
+        getProjectUsers: jest.fn(async () => [porteur1, porteur2]),
+        getProjectById: jest.fn(async () =>
+          makeFakeProject({
+            id: projetId,
+            nomProjet: 'nom_projet',
+            regionProjet: 'regionA / regionB',
+          }),
+        ),
+        findUsersForDreal: (region: string) =>
+          Promise.resolve(
+            region === 'regionA'
+              ? [{ email: 'drealA@test.test', fullName: 'drealA', id: 'user-A' } as User]
+              : [{ email: 'drealB@test.test', fullName: 'drealB', id: 'user-B' } as User],
+          ),
+      });
+
+      const évènement = new ProjectCompletionDueDateSet({
+        payload: {
+          projectId: projetId,
+          completionDueOn: new Date('2025-01-01').getTime(),
+          reason: 'délaiCdc2022Annulé',
+        },
+      });
+
+      await onProjectCompletionDueDateSet(évènement);
+
+      expect(sendNotification).toHaveBeenCalledTimes(4);
+
+      expect(sendNotification).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({
+          type: 'pp-delai-cdc-2022-annulé',
+          context: expect.objectContaining({ projetId, utilisateurId: 'user-1' }),
+          variables: expect.objectContaining({
+            nom_projet: 'nom_projet',
+            projet_url: expect.anything(),
+          }),
+          message: expect.objectContaining({
+            email: 'email1@test.test',
+            name: 'nom_porteur1',
+            subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet nom_projet`,
+          }),
+        }),
+      );
+
+      expect(sendNotification).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          type: 'pp-delai-cdc-2022-annulé',
+          context: expect.objectContaining({ projetId, utilisateurId: 'user-2' }),
+          variables: expect.objectContaining({
+            nom_projet: 'nom_projet',
+            projet_url: expect.anything(),
+          }),
+          message: expect.objectContaining({
+            email: 'email2@test.test',
+            name: 'nom_porteur2',
+            subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet nom_projet`,
+          }),
+        }),
+      );
+
+      expect(sendNotification).toHaveBeenNthCalledWith(
+        3,
+        expect.objectContaining({
+          type: 'dreals-delai-cdc-2022-annulé',
+          context: expect.objectContaining({ projetId, utilisateurId: 'user-A' }),
+          variables: expect.objectContaining({
+            nom_projet: 'nom_projet',
+            projet_url: expect.anything(),
+          }),
+          message: expect.objectContaining({
+            email: 'drealA@test.test',
+            name: 'drealA',
+            subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet nom_projet`,
+          }),
+        }),
+      );
+
+      expect(sendNotification).toHaveBeenNthCalledWith(
+        4,
+        expect.objectContaining({
+          type: 'dreals-delai-cdc-2022-annulé',
+          context: expect.objectContaining({ projetId, utilisateurId: 'user-B' }),
+          variables: expect.objectContaining({
+            nom_projet: 'nom_projet',
+            projet_url: expect.anything(),
+          }),
+          message: expect.objectContaining({
+            email: 'drealB@test.test',
+            name: 'drealB',
+            subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet nom_projet`,
           }),
         }),
       );

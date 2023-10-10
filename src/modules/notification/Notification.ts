@@ -255,6 +255,12 @@ type Dreals_DélaiCDC2022Appliqué = {
   variables: { nom_projet: string; projet_url: string };
 };
 
+type Dreals_DélaiCDC2022Annulé = {
+  type: 'dreals-delai-cdc-2022-annulé';
+  context: { projetId: string; utilisateurId: string };
+  variables: { nom_projet: string; projet_url: string };
+};
+
 type NouvellePériodeNotifiée = {
   type: 'tous-rôles-sauf-dgec-et-porteurs-nouvelle-periode-notifiée';
   context: { userId: string };
@@ -282,6 +288,7 @@ type NotificationVariants =
   | PP_DélaiCDC2022Appliqué
   | PP_DélaiCDC2022Annulé
   | Dreals_DélaiCDC2022Appliqué
+  | Dreals_DélaiCDC2022Annulé
   | NouvellePériodeNotifiée;
 
 export type NotificationProps = BaseNotification & NotificationVariants;

@@ -29,6 +29,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'dreals-delai-cdc-2022-appliqué': 4326138,
   'tous-rôles-sauf-dgec-et-porteurs-nouvelle-periode-notifiée': 3849728,
   'pp-delai-cdc-2022-annulé': 5166575,
+  'dreals-delai-cdc-2022-annulé': 5169667,
 };
 
 interface SendEmailFromMailjetDeps {

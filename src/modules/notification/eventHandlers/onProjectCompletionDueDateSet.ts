@@ -28,6 +28,7 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
     }
 
     const porteursEmails = await getProjectUsers({ projetId: projectId });
+    const regions = projet.regionProjet.split(' / ');
 
     if (reason === 'délaiCdc2022') {
       await Promise.all(
@@ -48,7 +49,6 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
         ),
       );
 
-      const regions = projet.regionProjet.split(' / ');
       await Promise.all(
         regions.map(async (region) => {
           const dreals = await findUsersForDreal(region);
@@ -91,6 +91,29 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
             },
           }),
         ),
+      );
+
+      await Promise.all(
+        regions.map(async (region) => {
+          const dreals = await findUsersForDreal(region);
+          Promise.all(
+            dreals.map(({ email, fullName, id }) =>
+              sendNotification({
+                type: 'dreals-delai-cdc-2022-annulé',
+                context: { projetId: projectId, utilisateurId: id },
+                variables: {
+                  nom_projet: projet.nomProjet,
+                  projet_url: routes.PROJECT_DETAILS(projectId),
+                },
+                message: {
+                  email,
+                  name: fullName,
+                  subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet ${projet.nomProjet}`,
+                },
+              }),
+            ),
+          );
+        }),
       );
       return;
     }
