@@ -67,14 +67,6 @@ v1Router.get(
           },
         });
 
-      if (isNone(gestionnaireRéseauLauréat)) {
-        return notFoundResponse({
-          request,
-          response,
-          ressourceTitle: 'Projet',
-        });
-      }
-
       const { items: gestionnairesRéseau } = await mediator.send<ListerGestionnaireRéseauQuery>({
         type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
         data: {},
@@ -90,7 +82,7 @@ v1Router.get(
         return notFoundResponse({
           request,
           response,
-          ressourceTitle: 'Projet',
+          ressourceTitle: `Appel d'offre`,
         });
       }
 
@@ -98,7 +90,9 @@ v1Router.get(
         TransmettreDemandeComplèteRaccordementPage({
           user,
           gestionnairesRéseau,
-          gestionnaireRéseauLauréat,
+          gestionnaireRéseauLauréat: isNone(gestionnaireRéseauLauréat)
+            ? undefined
+            : gestionnaireRéseauLauréat,
           projet,
           error: error as string,
           delaiDemandeDeRaccordementEnMois: appelOffre.periode.delaiDcrEnMois,
