@@ -64,6 +64,10 @@ Alors(
       },
     });
 
+    if (isNone(actualDossierRaccordement)) {
+      throw new Error('Dossier de raccordement non trouvé');
+    }
+
     const expectedDossierRaccordement: DossierRaccordementReadModel = {
       demandeComplèteRaccordement: {
         dateQualification: this.raccordementWorld.dateQualification.formatter(),
@@ -71,7 +75,7 @@ Alors(
           format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
         },
       },
-      ...(this.raccordementWorld.dateMiseEnService && {
+      ...(actualDossierRaccordement.miseEnService && {
         miseEnService: {
           dateMiseEnService: this.raccordementWorld.dateMiseEnService.formatter(),
         },
