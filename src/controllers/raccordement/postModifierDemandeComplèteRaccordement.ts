@@ -8,6 +8,7 @@ import {
   RawIdentifiantProjet,
   convertirEnDateTime,
   AccuséRéceptionDemandeComplèteRaccordement,
+  utilisateurEstPorteur,
 } from '@potentiel/domain';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
@@ -84,7 +85,6 @@ v1Router.post(
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
       let accuséRéception: AccuséRéceptionDemandeComplèteRaccordement;
-      console.log;
       if (!file) {
         const accuséRéceptionActuel =
           await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
@@ -94,8 +94,6 @@ v1Router.post(
               référenceDossierRaccordement: reference,
             },
           });
-
-        console.log(accuséRéceptionActuel);
 
         if (isNone(accuséRéceptionActuel)) {
           return response.redirect(
@@ -135,7 +133,7 @@ v1Router.post(
         });
       }
 
-      if (user.role === 'porteur-projet') {
+      if (utilisateurEstPorteur(user)) {
         const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
           where: { projectId: projet.id, userId: user.id },
         }));
@@ -167,6 +165,9 @@ v1Router.post(
               identifiantProjet: identifiantProjetValueType,
               nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordementValueType,
               référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle,
+              utilisateur: {
+                rôle: user.rôle,
+              },
             },
           });
         }

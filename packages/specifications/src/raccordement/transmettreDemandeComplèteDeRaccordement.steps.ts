@@ -71,6 +71,11 @@ Alors(
           format: this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement.format,
         },
       },
+      ...(this.raccordementWorld.dateMiseEnService && {
+        miseEnService: {
+          dateMiseEnService: this.raccordementWorld.dateMiseEnService.formatter(),
+        },
+      }),
       référence: this.raccordementWorld.référenceDossierRaccordement,
       type: 'dossier-raccordement',
     };

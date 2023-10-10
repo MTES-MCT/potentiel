@@ -11,18 +11,10 @@ export type ModifierRéférenceDossierRaccordementUseCase = Message<
 >;
 
 export const registerModifierRéférenceDossierRaccordementUseCase = () => {
-  const runner: MessageHandler<ModifierRéférenceDossierRaccordementUseCase> = async ({
-    identifiantProjet,
-    nouvelleRéférenceDossierRaccordement,
-    référenceDossierRaccordementActuelle,
-  }) => {
+  const runner: MessageHandler<ModifierRéférenceDossierRaccordementUseCase> = async (data) => {
     await mediator.send<RaccordementCommand>({
       type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND',
-      data: {
-        identifiantProjet,
-        nouvelleRéférenceDossierRaccordement,
-        référenceDossierRaccordementActuelle,
-      },
+      data,
     });
   };
 

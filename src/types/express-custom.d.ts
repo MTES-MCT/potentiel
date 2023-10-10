@@ -1,9 +1,10 @@
+import { Utilisateur } from '@potentiel/domain';
 import { UtilisateurReadModel } from '../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 declare module 'express-serve-static-core' {
   // eslint-disable-next-line
   interface Request {
-    user: UtilisateurReadModel;
+    user: UtilisateurReadModel & Utilisateur;
     kauth: any;
   }
 }

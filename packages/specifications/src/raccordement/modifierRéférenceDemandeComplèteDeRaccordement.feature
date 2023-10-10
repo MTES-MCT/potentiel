@@ -12,6 +12,17 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand le porteur modifie la demande complète de raccordement "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034"
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
+    
+    Scénario: Modifier en tant qu'administrateur la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service 
+        Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Et une date de mise en service "2022-01-12" pour le dossier de raccordement "OUE-RP-2022-000033"
+        Quand l'administrateur modifie la demande complète de raccordement "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034"
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
 
     Scénario: Modifier un dossier de raccordement suite à la modification de la référence
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
@@ -66,7 +77,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand le porteur modifie la demande complète de raccordement "OUE-RP-2022-000034" avec la référence "OUE-RP-2022-000035"
         Alors le porteur devrait être informé que "Le dossier de raccordement n'est pas référencé"
 
-    Scénario: Impossible de modifier la référence pour un dossier de raccordement ayant déjà une date de mise en service
+    Scénario: Impossible pour un porteur de modifier la référence pour un dossier de raccordement ayant déjà une date de mise en service
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
