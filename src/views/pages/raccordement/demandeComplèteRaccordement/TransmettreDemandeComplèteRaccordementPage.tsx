@@ -32,7 +32,7 @@ import {
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  gestionnaireRéseauLauréat: GestionnaireRéseauLauréatReadModel;
+  gestionnaireRéseauLauréat?: GestionnaireRéseauLauréatReadModel;
   projet: CandidatureLegacyReadModel;
   delaiDemandeDeRaccordementEnMois: InfoBoxFormulaireDCRProps['delaiDemandeDeRaccordementEnMois'];
   error?: string;
@@ -50,7 +50,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
 
   const gestionnaireRéseauActuel = gestionnairesRéseau.find(
     (gestionnaire) =>
-      gestionnaire.codeEIC === gestionnaireRéseauLauréat.identifiantGestionnaire?.codeEIC,
+      gestionnaire.codeEIC === gestionnaireRéseauLauréat?.identifiantGestionnaire?.codeEIC,
   );
 
   const [format, setFormat] = useState(
@@ -139,7 +139,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
           </div>
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <PrimaryButton type="submit">Transmettre</PrimaryButton>
-            {gestionnaireRéseauLauréat.identifiantGestionnaire ? (
+            {gestionnaireRéseauLauréat?.identifiantGestionnaire ? (
               <Link
                 href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}
                 className="m-auto"
