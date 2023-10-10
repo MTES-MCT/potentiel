@@ -160,7 +160,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
     describe(`Cahier des charges 2022 non souscrit`, () => {
       it(`Etant donné un projet éolien
           Et n'ayant pas souscrit au CDC 2022
-          Quandla date de mise en service transmise est comprise entre le 1er juin 2022 et le 30 septembre 2024
+          Quand la date de mise en service transmise est comprise entre le 1er juin 2022 et le 30 septembre 2024
           Alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
         const fakeProject = {
           ...makeFakeProjectAggregate(),
@@ -200,7 +200,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
     describe(`Cahier des charges souscrit mais délai de 18 mois non disponible pour la période`, () => {
       it(`Etant donné un projet PPE2 Bâtiment d'une période ne permettant pas les 18 mois (période 3)
           Et ayant souscrit au CDC 2022
-          Quand la date de mise en service transmiseest comprise entre le 1er juin 2022 et le 30 septembre 2024
+          Quand la date de mise en service transmise est comprise entre le 1er juin 2022 et le 30 septembre 2024
           Alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
         const fakeProject = {
           ...makeFakeProjectAggregate(),
@@ -353,9 +353,9 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
   describe(`Date hors intervalle du CDC pour le délai de 18 mois pour un projet ayant déjà bénéficié du délai`, () => {
     it(`Etant donné un projet éolien
         Et ayant souscrit au CDC 2022
-        Et ayant déjà bénéficié du délai
+        Et ayant déjà bénéficié du délai relatif au CDC 2022
         Quand une date de mise en service hors de l'intervalle est transmise
-        Alors le délai relatif du CDC 2022 appliqué devrait être annulé`, async () => {
+        Alors le délai relatif au CDC 2022 appliqué devrait être annulé`, async () => {
       const dateHorsIntervalle = new Date('2020-01-02');
 
       const nouvelleDateAchèvementAttendue = new Date(
