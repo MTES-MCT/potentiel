@@ -107,6 +107,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
               <>
                 <AlertBox>
                   <div className="font-bold">Demande d'abandon avec recandidature</div>
+                  <div className="font-bold">(procédure dérogatoire et facultative)</div>
                   <div>
                     <p className="m-0 mt-4">
                       Je m'engage sur l'honneur à ne pas avoir débuté mes travaux au sens du cahier
