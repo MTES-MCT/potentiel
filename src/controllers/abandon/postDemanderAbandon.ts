@@ -63,7 +63,7 @@ v1Router.post(
                 numéroCRE: identifiantProjet?.numéroCRE || '',
                 période: identifiantProjet?.période || '',
               }),
-              piéceJustificative: request.file && {
+              pièceJustificative: request.file && {
                 format: request.file.mimetype,
                 content: new FileReadableStream(request.file.path),
               },

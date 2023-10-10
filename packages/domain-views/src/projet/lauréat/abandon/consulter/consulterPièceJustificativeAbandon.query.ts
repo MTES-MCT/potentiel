@@ -9,31 +9,31 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option, isNone, none } from '@potentiel/monads';
 import { Find } from '@potentiel/core-domain-views';
-import { RécupérerPiéceJustificativeAbandonPort } from '../abandon.port';
+import { RécupérerPièceJustificativeAbandonPort } from '../abandon.port';
 import {
   AbandonReadModel,
   AbandonReadModelKey,
-  PiéceJustificativeAbandonReadModel,
+  PièceJustificativeAbandonReadModel,
 } from '../abandon.readmodel';
 
-export type ConsulterPiéceJustificativeAbandonProjetQuery = Message<
+export type ConsulterPièceJustificativeAbandonProjetQuery = Message<
   'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
   {
     identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
   },
-  Option<PiéceJustificativeAbandonReadModel>
+  Option<PièceJustificativeAbandonReadModel>
 >;
 
-export type ConsulterPiéceJustificativeAbandonProjetDependencies = {
+export type ConsulterPièceJustificativeAbandonProjetDependencies = {
   find: Find;
-  récupérerPiéceJustificativeAbandon: RécupérerPiéceJustificativeAbandonPort;
+  récupérerPièceJustificativeAbandon: RécupérerPièceJustificativeAbandonPort;
 };
 
-export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
+export const registerConsulterPièceJustificativeAbandonProjetQuery = ({
   find,
-  récupérerPiéceJustificativeAbandon,
-}: ConsulterPiéceJustificativeAbandonProjetDependencies) => {
-  const handler: MessageHandler<ConsulterPiéceJustificativeAbandonProjetQuery> = async ({
+  récupérerPièceJustificativeAbandon,
+}: ConsulterPièceJustificativeAbandonProjetDependencies) => {
+  const handler: MessageHandler<ConsulterPièceJustificativeAbandonProjetQuery> = async ({
     identifiantProjet,
   }) => {
     const rawIdentifiantProjet = estUnIdentifiantProjet(identifiantProjet)
@@ -44,13 +44,13 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
 
     const abandon = await find<AbandonReadModel>(key);
 
-    if (isNone(abandon) || !abandon.demandePiéceJustificativeFormat) {
+    if (isNone(abandon) || !abandon.demandePièceJustificativeFormat) {
       return none;
     }
 
-    const content = await récupérerPiéceJustificativeAbandon({
-      datePiéceJustificativeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
-      format: abandon.demandePiéceJustificativeFormat,
+    const content = await récupérerPièceJustificativeAbandon({
+      datePièceJustificativeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
+      format: abandon.demandePièceJustificativeFormat,
       identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
     });
 
@@ -59,10 +59,10 @@ export const registerConsulterPiéceJustificativeAbandonProjetQuery = ({
     }
 
     return {
-      type: 'piéce-justificative-abandon',
-      format: abandon.demandePiéceJustificativeFormat,
+      type: 'pièce-justificative-abandon',
+      format: abandon.demandePièceJustificativeFormat,
       content,
-    } satisfies PiéceJustificativeAbandonReadModel;
+    } satisfies PièceJustificativeAbandonReadModel;
   };
   mediator.register('CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET', handler);
 };

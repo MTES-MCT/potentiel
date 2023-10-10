@@ -8,7 +8,7 @@
 // import { ConsulterProjetQuery } from '@potentiel/domain-views/src/projet/consulter/consulterProjet.query';
 // import {
 //   ListerProjetEnAttenteRecandidatureQuery,
-//   ConsulterPiéceJustificativeAbandonProjetQuery,
+//   ConsulterPièceJustificativeAbandonProjetQuery,
 // } from '@potentiel/domain-views';
 // import { expect } from 'chai';
 // import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -38,29 +38,29 @@
 //       throw new Error('Projet non trouvée');
 //     }
 
-//     const piéceJustificativeAbandon =
-//       await mediator.send<ConsulterPiéceJustificativeAbandonProjetQuery>({
+//     const pièceJustificativeAbandon =
+//       await mediator.send<ConsulterPièceJustificativeAbandonProjetQuery>({
 //         type: 'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
 //         data: {
 //           identifiantProjet: lauréat.identifiantProjet,
 //         },
 //       });
 
-//     if (isNone(piéceJustificativeAbandon)) {
-//       throw new Error('Piéce justificative non trouvée');
+//     if (isNone(pièceJustificativeAbandon)) {
+//       throw new Error('Pièce justificative non trouvée');
 //     }
 
-//     const actualFormat = piéceJustificativeAbandon.format;
-//     const expectedFormat = this.lauréatWorld.abandonWorld.piéceJustificative.format;
+//     const actualFormat = pièceJustificativeAbandon.format;
+//     const expectedFormat = this.lauréatWorld.abandonWorld.pièceJustificative.format;
 //     actualFormat.should.be.equal(expectedFormat);
 
-//     const actualContent = await convertReadableStreamToString(piéceJustificativeAbandon.content);
-//     const expectedContent = this.lauréatWorld.abandonWorld.piéceJustificative.content;
+//     const actualContent = await convertReadableStreamToString(pièceJustificativeAbandon.content);
+//     const expectedContent = this.lauréatWorld.abandonWorld.pièceJustificative.content;
 //     actualContent.should.be.equal(expectedContent);
 
 //     const expected = {
 //       ...lauréat.projet,
-//       piéceJustificative: {
+//       pièceJustificative: {
 //         format: expectedFormat,
 //       },
 //       statut: 'abandonné',

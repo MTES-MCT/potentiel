@@ -13,7 +13,7 @@ import {
   ConfirmationAbandonDemandéRéponseSignée,
   AbandonAccordéRéponseSignée,
   DomainUseCase,
-  PiéceJustificativeAbandon,
+  PièceJustificativeAbandon,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnIdentifiantUtilisateur,
@@ -39,16 +39,16 @@ import {
   registerConsulterAbandonQuery,
 } from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterAbandon.query';
 import {
-  ConsulterPiéceJustificativeAbandonProjetQuery,
-  registerConsulterPiéceJustificativeAbandonProjetQuery,
-} from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterPiéceJustificativeAbandon.query';
+  ConsulterPièceJustificativeAbandonProjetQuery,
+  registerConsulterPièceJustificativeAbandonProjetQuery,
+} from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterPièceJustificativeAbandon.query';
 
 import { registerConsulterRéponseAbandonSignéeQuery } from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterRéponseSignéeAbandon.query';
 import { AbandonDemandéEvent } from '../../packages/domain/src/projet/lauréat/abandon/abandon.event';
 import {
-  téléchargerPiéceJustificativeAbandonProjetAdapter,
+  téléchargerPièceJustificativeAbandonProjetAdapter,
   téléchargerRéponseSignéeAdapter,
-  téléverserPiéceJustificativeAbandonAdapter,
+  téléverserPièceJustificativeAbandonAdapter,
   téléverserRéponseSignéeAdapter,
 } from '@potentiel/infra-adapters';
 import { publish, loadAggregate, loadFromStream } from '@potentiel/pg-event-sourcing';
@@ -134,12 +134,12 @@ const migrerAbandonDemandé = async (
 ) => {
   const email = await getEmail(porteurId);
 
-  let piéceJustificative: PiéceJustificativeAbandon | undefined;
+  let pièceJustificative: PièceJustificativeAbandon | undefined;
 
   if (fichierId) {
     const file = await getFile(fichierId);
     if (file) {
-      piéceJustificative = file;
+      pièceJustificative = file;
     }
   }
 
@@ -155,7 +155,7 @@ const migrerAbandonDemandé = async (
       }),
       raison: justification || '',
       recandidature: false,
-      piéceJustificative,
+      pièceJustificative,
       demandéPar: convertirEnIdentifiantUtilisateur(email),
     },
   });
@@ -361,7 +361,7 @@ const migrerRejetAbandonAnnulé = async (
     },
   });
 
-  const piéceJustificative = await mediator.send<ConsulterPiéceJustificativeAbandonProjetQuery>({
+  const pièceJustificative = await mediator.send<ConsulterPièceJustificativeAbandonProjetQuery>({
     type: 'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
     data: {
       identifiantProjet,
@@ -398,7 +398,7 @@ const migrerRejetAbandonAnnulé = async (
       }),
       raison: abandon.demandeRaison,
       recandidature: abandon.demandeRecandidature,
-      piéceJustificative: isNone(piéceJustificative) ? undefined : piéceJustificative,
+      pièceJustificative: isNone(pièceJustificative) ? undefined : pièceJustificative,
     },
   });
 };
@@ -408,7 +408,7 @@ const migrerRejetAbandonAnnulé = async (
   const dependencies = {
     loadAggregate,
     publish,
-    enregistrerPiéceJustificativeAbandon: téléverserPiéceJustificativeAbandonAdapter,
+    enregistrerPièceJustificativeAbandon: téléverserPièceJustificativeAbandonAdapter,
     enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
   };
   registerDemanderAbandonCommand(dependencies);
@@ -429,9 +429,9 @@ const migrerRejetAbandonAnnulé = async (
   registerConsulterAbandonQuery({
     find: findProjection,
   });
-  registerConsulterPiéceJustificativeAbandonProjetQuery({
+  registerConsulterPièceJustificativeAbandonProjetQuery({
     find: findProjection,
-    récupérerPiéceJustificativeAbandon: téléchargerPiéceJustificativeAbandonProjetAdapter,
+    récupérerPièceJustificativeAbandon: téléchargerPièceJustificativeAbandonProjetAdapter,
   });
   registerConsulterRéponseAbandonSignéeQuery({
     find: findProjection,

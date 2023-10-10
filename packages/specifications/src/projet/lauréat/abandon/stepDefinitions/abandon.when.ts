@@ -1,7 +1,7 @@
 // import { DataTable, When as Quand } from '@cucumber/cucumber';
 // import {
 //   DomainUseCase,
-//   PiéceJustificativeAbandon,
+//   PièceJustificativeAbandon,
 //   RéponseSignée,
 //   convertirEnDateTime,
 //   convertirEnIdentifiantProjet,
@@ -17,9 +17,9 @@
 //       const exemple = table.rowsHash();
 //       const raisonAbandon = exemple[`La raison de l'abandon`] ?? `La raison de l'abandon`;
 //       const format =
-//         exemple[`Le format de la piéce justificative`] ?? `Le format de la piéce justificative`;
+//         exemple[`Le format de la pièce justificative`] ?? `Le format de la pièce justificative`;
 //       const content =
-//         exemple[`Le contenu de la piéce justificative`] ?? `Le contenu de la piéce justificative`;
+//         exemple[`Le contenu de la pièce justificative`] ?? `Le contenu de la pièce justificative`;
 
 //       const recandidature = exemple[`Recandidature`] === 'oui';
 //       this.lauréatWorld.abandonWorld.recandidature = recandidature;
@@ -27,12 +27,12 @@
 //       const dateAbandon = new Date();
 //       this.lauréatWorld.abandonWorld.dateAbandon = dateAbandon;
 
-//       const piéceJustificative: PiéceJustificativeAbandon = {
+//       const pièceJustificative: PièceJustificativeAbandon = {
 //         format,
 //         content: convertStringToReadableStream(content),
 //       };
 
-//       this.lauréatWorld.abandonWorld.piéceJustificative = {
+//       this.lauréatWorld.abandonWorld.pièceJustificative = {
 //         format,
 //         content,
 //       };
@@ -44,7 +44,7 @@
 //         data: {
 //           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
 //           raison: raisonAbandon,
-//           piéceJustificative,
+//           pièceJustificative,
 //           recandidature,
 //           dateAbandon: convertirEnDateTime(dateAbandon),
 //         },
@@ -69,7 +69,7 @@
 //             période: 'périodeInconnue',
 //           }),
 //           raison: `La raison de l'abandon`,
-//           piéceJustificative: {
+//           pièceJustificative: {
 //             format: `Le format de l'accusé de réception`,
 //             content: convertStringToReadableStream(`Le contenu de l'accusé de réception`),
 //           },

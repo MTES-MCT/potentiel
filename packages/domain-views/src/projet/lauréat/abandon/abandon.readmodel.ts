@@ -17,7 +17,7 @@ export type AbandonReadModel = ReadModel<
 
     //flatten organization to optimize complex query. Will be revised soon
     demandeRaison: string;
-    demandePiéceJustificativeFormat?: string;
+    demandePièceJustificativeFormat?: string;
     demandeRecandidature: boolean;
     demandeDemandéLe: string;
 
@@ -33,8 +33,8 @@ export type AbandonReadModel = ReadModel<
   }
 >;
 
-export type PiéceJustificativeAbandonReadModel = ReadModel<
-  'piéce-justificative-abandon',
+export type PièceJustificativeAbandonReadModel = ReadModel<
+  'pièce-justificative-abandon',
   { format: string; content: ReadableStream }
 >;
 
