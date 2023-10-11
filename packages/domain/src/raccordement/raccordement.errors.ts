@@ -53,7 +53,7 @@ export class DateAntérieureDateDésignationProjetError extends InvalidOperation
 export class RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
   constructor() {
     super(
-      `La référence du dossier de raccordement ne peut pas être modifié car le dossier dispose déjà d'une date de mise en service`,
+      `La référence du dossier de raccordement ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service`,
     );
   }
 }

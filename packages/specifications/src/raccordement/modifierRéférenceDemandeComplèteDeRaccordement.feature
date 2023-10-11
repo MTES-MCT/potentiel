@@ -86,4 +86,4 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Et une date de mise en service "2022-01-12" pour le dossier de raccordement "OUE-RP-2022-000033"
         Quand l'utilisateur avec le rôle "porteur-projet" modifie la demande complète de raccordement "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034"
-        Alors le porteur devrait être informé que "La référence du dossier de raccordement ne peut pas être modifié car le dossier dispose déjà d'une date de mise en service"
+        Alors le porteur devrait être informé que "La référence du dossier de raccordement ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service"
