@@ -8,6 +8,7 @@ export type ProjectDataForChoisirCDCPage = {
   appelOffre: ProjectAppelOffre;
   cahierDesChargesActuel: CahierDesChargesRéférence;
   identifiantGestionnaireRéseau?: string;
+  délaiCDC2022Appliqué?: true;
 };
 
 export type GetProjectDataForChoisirCDCPage = (
