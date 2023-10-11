@@ -1,4 +1,5 @@
 import { Text, View } from '@react-pdf/renderer';
+import { format } from 'date-fns';
 import React, { FC } from 'react';
 
 type IntroductionProps = {
@@ -35,8 +36,8 @@ export const Introduction: FC<IntroductionProps> = ({
       </Text>
 
       <Text style={{ fontSize: 10 }}>
-        Par courrier du {dateDésignation}, il vous a été notifié la désignation du projet ci-dessous
-        comme lauréat de l’appel d’offres cité en objet.
+        Par courrier du {format(new Date(dateDésignation), 'dd/MM/yyyy')}, il vous a été notifié la
+        désignation du projet ci-dessous comme lauréat de l’appel d’offres cité en objet.
       </Text>
 
       <View
@@ -85,10 +86,11 @@ export const Introduction: FC<IntroductionProps> = ({
       </View>
 
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10, marginBottom: 10 }}>
-        Par votre demande reçue dans nos services le {dateDemandeAbandon}, vous m’informez que votre
-        société ne sera pas en mesure de réaliser ce projet du fait des conditions économiques. Vous
-        m’informez également que vous souhaitez abandonner votre statut de lauréat afin de pouvoir
-        candidater à une future période d’appel d’offres, avant le 31 décembre 2024.
+        Par votre demande reçue dans nos services le{' '}
+        {format(new Date(dateDemandeAbandon), 'dd/MM/yyyy')}, vous m’informez que votre société ne
+        sera pas en mesure de réaliser ce projet du fait des conditions économiques. Vous m’informez
+        également que vous souhaitez abandonner votre statut de lauréat afin de pouvoir candidater à
+        une future période d’appel d’offres, avant le 31 décembre 2024.
       </Text>
     </>
   );

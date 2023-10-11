@@ -30,7 +30,7 @@ const selectProjectQuery = `
     'nomReprésentantLégal', "nomRepresentantLegal",
     'nomCandidat', "nomCandidat",
     'email', "email",
-    'dateDésignation', to_timestamp("notifiedOn" / 1000)::timestamp::date,
+    'dateDésignation', to_char(to_timestamp("notifiedOn" / 1000)::timestamp at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
     'puissance', "puissance"
   ) as value
   from "projects"
