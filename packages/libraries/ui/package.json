@@ -1,0 +1,14 @@
+{
+  "name": "@potentiel/ui",
+  "version": "0.0.0",
+  "description": "UI package with atomic design methodology",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}
