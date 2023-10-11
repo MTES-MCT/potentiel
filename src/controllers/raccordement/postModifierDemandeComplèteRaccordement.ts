@@ -21,13 +21,14 @@ import {
   unauthorizedResponse,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
+import { UserProjects } from '../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { DomainError } from '@potentiel/core-domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from '@potentiel/domain-views';
+import { getLegacyIdByIdentifiantProjet } from '../../config';
 
 const schema = yup.object({
   params: yup.object({
@@ -84,7 +85,6 @@ v1Router.post(
       const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
 
       let accuséRéception: AccuséRéceptionDemandeComplèteRaccordement;
-      console.log;
       if (!file) {
         const accuséRéceptionActuel =
           await mediator.send<ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery>({
@@ -94,8 +94,6 @@ v1Router.post(
               référenceDossierRaccordement: reference,
             },
           });
-
-        console.log(accuséRéceptionActuel);
 
         if (isNone(accuséRéceptionActuel)) {
           return response.redirect(
@@ -115,19 +113,16 @@ v1Router.post(
         };
       }
 
-      const projet = await Project.findOne({
-        where: {
-          appelOffreId: identifiantProjetValueType.appelOffre,
-          periodeId: identifiantProjetValueType.période,
-          familleId: isSome(identifiantProjetValueType.famille)
-            ? identifiantProjetValueType.famille
-            : '',
-          numeroCRE: identifiantProjetValueType.numéroCRE,
-        },
-        attributes: ['id'],
+      const projectId = await getLegacyIdByIdentifiantProjet({
+        appelOffre: identifiantProjetValueType.appelOffre,
+        période: identifiantProjetValueType.période,
+        famille: isSome(identifiantProjetValueType.famille)
+          ? identifiantProjetValueType.famille
+          : '',
+        numéroCRE: identifiantProjetValueType.numéroCRE,
       });
 
-      if (!projet) {
+      if (!projectId) {
         return notFoundResponse({
           request,
           response,
@@ -135,9 +130,9 @@ v1Router.post(
         });
       }
 
-      if (user.role === 'porteur-projet') {
+      if (user!.role === 'porteur-projet') {
         const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
-          where: { projectId: projet.id, userId: user.id },
+          where: { projectId, userId: user!.id },
         }));
 
         if (!porteurAAccèsAuProjet) {
@@ -167,6 +162,7 @@ v1Router.post(
               identifiantProjet: identifiantProjetValueType,
               nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordementValueType,
               référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle,
+              rôleUtilisateur: user!.role,
             },
           });
         }
@@ -192,10 +188,7 @@ v1Router.post(
         if (error instanceof DomainError) {
           return response.redirect(
             addQueryParams(
-              routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
-                identifiantProjet,
-                referenceDossierRaccordement,
-              ),
+              routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet, reference),
               {
                 error: error.message,
               },

@@ -15,3 +15,13 @@ export const convertirEnIdentifiantUtilisateur = (
     },
   };
 };
+
+export type RôleUtilisateur =
+  | 'admin'
+  | 'porteur-projet'
+  | 'dreal'
+  | 'acheteur-obligé'
+  | 'ademe'
+  | 'dgec-validateur'
+  | 'cre'
+  | 'caisse-des-dépôts';

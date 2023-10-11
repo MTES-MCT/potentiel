@@ -2,16 +2,18 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import {
   IdentifiantProjetValueType,
   RéférenceDossierRaccordementValueType,
+  RôleUtilisateur,
 } from '../../domain.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
-import { isNone } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import {
   DossierRaccordementNonRéférencéError,
   FormatRéférenceDossierRaccordementInvalideError,
+  RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
 } from '../raccordement.errors';
 import { RéférenceDossierRacordementModifiéeEventV1 } from '../raccordement.event';
@@ -27,6 +29,7 @@ export type ModifierRéférenceDossierRaccordementCommand = Message<
     identifiantProjet: IdentifiantProjetValueType;
     référenceDossierRaccordementActuelle: RéférenceDossierRaccordementValueType;
     nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordementValueType;
+    rôleUtilisateur: RôleUtilisateur;
   }
 >;
 
@@ -51,6 +54,7 @@ export const registerModifierRéférenceDossierRaccordementCommand = ({
     identifiantProjet,
     référenceDossierRaccordementActuelle,
     nouvelleRéférenceDossierRaccordement,
+    rôleUtilisateur,
   }) => {
     if (nouvelleRéférenceDossierRaccordement.estÉgaleÀ(référenceDossierRaccordementActuelle)) {
       throw new RéférencesDossierRaccordementIdentiquesError();
@@ -75,6 +79,13 @@ export const registerModifierRéférenceDossierRaccordementCommand = ({
       !gestionnaireRéseau.validerRéférenceDossierRaccordement(nouvelleRéférenceDossierRaccordement)
     ) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
+    }
+
+    if (rôleUtilisateur === 'porteur-projet') {
+      const dossier = raccordement.dossiers.get(référenceDossierRaccordementActuelle.formatter());
+      if (isSome(dossier?.miseEnService.dateMiseEnService)) {
+        throw new RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError();
+      }
     }
 
     await enregistrerAccuséRéceptionDemandeComplèteRaccordement({

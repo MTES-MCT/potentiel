@@ -112,3 +112,29 @@ EtantDonné(
     });
   },
 );
+
+EtantDonné(
+  'une date de mise en service {string} pour le dossier de raccordement {string}',
+  async function (this: PotentielWorld, dateMiseEnService, référenceDossierRaccordement) {
+    const dateMiseEnServiceValueType = convertirEnDateTime(dateMiseEnService);
+
+    this.raccordementWorld.dateMiseEnService = dateMiseEnServiceValueType;
+    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+
+    try {
+      await mediator.send<DomainUseCase>({
+        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+        data: {
+          identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
+          référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
+            référenceDossierRaccordement,
+          ),
+          dateMiseEnService: dateMiseEnServiceValueType,
+          dateDésignation: convertirEnDateTime(new Date('2020-01-01')),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
