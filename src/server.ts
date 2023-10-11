@@ -30,11 +30,11 @@ export async function makeServer(port: number, sessionSecret: string) {
     // lorsque la notion de projet sera dispo en tant qu'aggregate dans le package domain
     await subscribe({
       name: 'saga-application-delais-dix-huit-mois',
-      eventType: ['DateMiseEnServiceTransmise'],
+      eventType: ['DateMiseEnServiceTransmise-V1'],
       eventHandler: (event) => {
         return new Promise<void>((resolve) => {
           logger.info('Executing saga-application-delais-dix-huit-mois');
-          if (event.type === 'DateMiseEnServiceTransmise') {
+          if (event.type === 'DateMiseEnServiceTransmise-V1') {
             publishToEventBus(
               new DateMiseEnServiceTransmise({
                 payload: {
