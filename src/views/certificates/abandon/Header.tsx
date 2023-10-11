@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
+import { format } from 'date-fns';
 
 type HeaderProps = {
   dateCourrier: string;
@@ -55,7 +56,9 @@ export const Header: FC<HeaderProps> = ({
             Direction générale de l’énergie et du climat
           </Text>
 
-          <Text style={{ fontSize: 10, marginBottom: 90 }}>Paris, le {dateCourrier}</Text>
+          <Text style={{ fontSize: 10, marginBottom: 90 }}>
+            Paris, le {format(new Date(dateCourrier), 'dd/MM/yyyy')}
+          </Text>
 
           <View style={{ fontSize: 10 }}>
             <Text>{nomReprésentantLégal}</Text>
