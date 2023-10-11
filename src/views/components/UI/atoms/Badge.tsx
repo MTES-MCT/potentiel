@@ -26,7 +26,11 @@ const badgeColorsByType: Record<BadgeType, { backgroundColor: string; textColor:
   },
 };
 
-export const Badge: FC<BadgeProps> = ({ type, className = '', children }) => {
+export const Badge: FC<BadgeProps & { children: React.ReactNode }> = ({
+  type,
+  className = '',
+  children,
+}) => {
   const { backgroundColor, textColor } = badgeColorsByType[type];
   return (
     <span

@@ -5,6 +5,7 @@ export const Etape: FC<{
   statut: 'étape validée' | 'étape à venir' | 'étape incomplète';
   titre: string;
   className?: string;
+  children: React.ReactNode;
 }> = ({ statut, titre, children, className = '' }) => {
   let icon;
   let borderColor;

@@ -4,6 +4,7 @@ import { LinkButton, FileDownloadIcon } from '../atoms';
 type DownloadLinkButtonProps = {
   className?: string;
   fileUrl: string;
+  children: React.ReactNode;
 };
 
 export const DownloadLinkButton: FC<DownloadLinkButtonProps> = ({
