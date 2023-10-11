@@ -3,14 +3,16 @@ import { PotentielWorld } from '../potentiel.world';
 import { mediator } from 'mediateur';
 import {
   DomainUseCase,
+  RôleUtilisateur,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
 
 Quand(
-  `le porteur modifie la demande complète de raccordement {string} avec la référence {string}`,
+  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement {string} avec la référence {string}`,
   async function (
     this: PotentielWorld,
+    rôleUtilisateur: RôleUtilisateur,
     référenceDossierRaccordementActuelle: string,
     nouvelleRéférenceDossierRaccordement: string,
   ) {
@@ -27,36 +29,7 @@ Quand(
           référenceDossierRaccordementActuelle: convertirEnRéférenceDossierRaccordement(
             référenceDossierRaccordementActuelle,
           ),
-          utilisateur: { rôle: 'porteur-projet' },
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
-  },
-);
-
-Quand(
-  `l'administrateur modifie la demande complète de raccordement {string} avec la référence {string}`,
-  async function (
-    this: PotentielWorld,
-    référenceDossierRaccordementActuelle: string,
-    nouvelleRéférenceDossierRaccordement: string,
-  ) {
-    this.raccordementWorld.référenceDossierRaccordement = nouvelleRéférenceDossierRaccordement;
-
-    try {
-      await mediator.send<DomainUseCase>({
-        type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
-        data: {
-          identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
-          nouvelleRéférenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-            nouvelleRéférenceDossierRaccordement,
-          ),
-          référenceDossierRaccordementActuelle: convertirEnRéférenceDossierRaccordement(
-            référenceDossierRaccordementActuelle,
-          ),
-          utilisateur: { rôle: 'admin' },
+          rôleUtilisateur,
         },
       });
     } catch (e) {

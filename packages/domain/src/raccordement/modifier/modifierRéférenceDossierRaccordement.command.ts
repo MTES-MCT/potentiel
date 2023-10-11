@@ -2,8 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import {
   IdentifiantProjetValueType,
   RéférenceDossierRaccordementValueType,
-  Utilisateur,
-  utilisateurEstPorteur,
+  RôleUtilisateur,
 } from '../../domain.valueType';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
@@ -30,7 +29,7 @@ export type ModifierRéférenceDossierRaccordementCommand = Message<
     identifiantProjet: IdentifiantProjetValueType;
     référenceDossierRaccordementActuelle: RéférenceDossierRaccordementValueType;
     nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordementValueType;
-    utilisateur: Utilisateur;
+    rôleUtilisateur: RôleUtilisateur;
   }
 >;
 
@@ -55,7 +54,7 @@ export const registerModifierRéférenceDossierRaccordementCommand = ({
     identifiantProjet,
     référenceDossierRaccordementActuelle,
     nouvelleRéférenceDossierRaccordement,
-    utilisateur,
+    rôleUtilisateur,
   }) => {
     if (nouvelleRéférenceDossierRaccordement.estÉgaleÀ(référenceDossierRaccordementActuelle)) {
       throw new RéférencesDossierRaccordementIdentiquesError();
@@ -82,7 +81,7 @@ export const registerModifierRéférenceDossierRaccordementCommand = ({
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
-    if (utilisateurEstPorteur(utilisateur)) {
+    if (rôleUtilisateur === 'porteur-projet') {
       const dossier = raccordement.dossiers.get(référenceDossierRaccordementActuelle.formatter());
       if (isSome(dossier?.miseEnService.dateMiseEnService)) {
         throw new RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError();

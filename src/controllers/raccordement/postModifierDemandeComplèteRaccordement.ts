@@ -8,7 +8,6 @@ import {
   RawIdentifiantProjet,
   convertirEnDateTime,
   AccuséRéceptionDemandeComplèteRaccordement,
-  utilisateurEstPorteur,
 } from '@potentiel/domain';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
@@ -22,13 +21,14 @@ import {
   unauthorizedResponse,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
+import { UserProjects } from '../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { DomainError } from '@potentiel/core-domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from '@potentiel/domain-views';
+import { getLegacyIdByIdentifiantProjet } from '../../config';
 
 const schema = yup.object({
   params: yup.object({
@@ -113,19 +113,16 @@ v1Router.post(
         };
       }
 
-      const projet = await Project.findOne({
-        where: {
-          appelOffreId: identifiantProjetValueType.appelOffre,
-          periodeId: identifiantProjetValueType.période,
-          familleId: isSome(identifiantProjetValueType.famille)
-            ? identifiantProjetValueType.famille
-            : '',
-          numeroCRE: identifiantProjetValueType.numéroCRE,
-        },
-        attributes: ['id'],
+      const projectId = await getLegacyIdByIdentifiantProjet({
+        appelOffre: identifiantProjetValueType.appelOffre,
+        période: identifiantProjetValueType.période,
+        famille: isSome(identifiantProjetValueType.famille)
+          ? identifiantProjetValueType.famille
+          : '',
+        numéroCRE: identifiantProjetValueType.numéroCRE,
       });
 
-      if (!projet) {
+      if (!projectId) {
         return notFoundResponse({
           request,
           response,
@@ -133,9 +130,9 @@ v1Router.post(
         });
       }
 
-      if (utilisateurEstPorteur(user)) {
+      if (user!.role === 'porteur-projet') {
         const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
-          where: { projectId: projet.id, userId: user.id },
+          where: { projectId, userId: user!.id },
         }));
 
         if (!porteurAAccèsAuProjet) {
@@ -165,9 +162,7 @@ v1Router.post(
               identifiantProjet: identifiantProjetValueType,
               nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordementValueType,
               référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle,
-              utilisateur: {
-                rôle: user.rôle,
-              },
+              rôleUtilisateur: user!.role,
             },
           });
         }
