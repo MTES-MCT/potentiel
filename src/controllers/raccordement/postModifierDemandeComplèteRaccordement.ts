@@ -188,10 +188,7 @@ v1Router.post(
         if (error instanceof DomainError) {
           return response.redirect(
             addQueryParams(
-              routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(
-                identifiantProjet,
-                referenceDossierRaccordement,
-              ),
+              routes.GET_MODIFIER_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(identifiantProjet, reference),
               {
                 error: error.message,
               },
