@@ -31,7 +31,8 @@ const selectProjectQuery = `
     'nomCandidat', "nomCandidat",
     'email', "email",
     'dateDésignation', TO_CHAR(TO_TIMESTAMP("notifiedOn" / 1000), 'YYYY-MM-DD"T"HH24:MI:SS"+00:00"'),
-    'puissance', "puissance"
+    'puissance', "puissance",
+    'cahierDesCharges', "cahierDesChargesActuel"
   ) as value
   from "projects"
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4

@@ -79,18 +79,12 @@ export const makeOnDateMiseEnServiceTransmise =
             délaiCDC2022appliqué,
             completionDueOn,
           }) => {
-            if (
-              cahierDesCharges.type !== 'modifié' ||
-              cahierDesCharges.paruLe !== '30/08/2022' ||
-              délaiCDC2022appliqué
-            ) {
-              return okAsync(null);
-            }
             const projectAppelOffre = getProjectAppelOffre({
               appelOffreId,
               periodeId,
               familleId,
             });
+
             if (!projectAppelOffre) {
               logger.error(
                 `project eventHandler onDateMiseEnServiceTransmise : AO non trouvé. Projet ${projetId}`,
@@ -100,9 +94,11 @@ export const makeOnDateMiseEnServiceTransmise =
 
             const donnéesCDC = projectAppelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
               (CDC) =>
-                CDC.type === 'modifié' &&
-                CDC.paruLe === '30/08/2022' &&
-                CDC.alternatif === cahierDesCharges.alternatif,
+                'alternatif' in cahierDesCharges
+                  ? CDC.type === 'modifié' &&
+                    CDC.paruLe === '30/08/2022' &&
+                    CDC.alternatif === cahierDesCharges.alternatif
+                  : CDC.type === 'modifié' && CDC.paruLe === '30/08/2022',
             );
 
             if (!donnéesCDC) {
@@ -116,26 +112,47 @@ export const makeOnDateMiseEnServiceTransmise =
               return okAsync(null);
             }
 
-            if (
+            const nouvelleDateHorsIntervalle =
               new Date(dateMiseEnService).getTime() <
                 new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.min).getTime() ||
               new Date(dateMiseEnService).getTime() >
-                new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.max).getTime()
+                new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.max).getTime();
+
+            if (délaiCDC2022appliqué && nouvelleDateHorsIntervalle) {
+              return publishToEventStore(
+                new ProjectCompletionDueDateSet({
+                  payload: {
+                    projectId: projetId,
+                    completionDueOn: new Date(
+                      new Date(completionDueOn).setMonth(
+                        new Date(completionDueOn).getMonth() -
+                          donnéesCDC.délaiApplicable.délaiEnMois,
+                      ),
+                    ).getTime(),
+                    reason: 'délaiCdc2022Annulé',
+                  },
+                }),
+              );
+            }
+
+            if (
+              nouvelleDateHorsIntervalle ||
+              (délaiCDC2022appliqué && !nouvelleDateHorsIntervalle) ||
+              cahierDesCharges.type !== 'modifié' ||
+              cahierDesCharges.paruLe !== '30/08/2022'
             ) {
               return okAsync(null);
             }
-
-            const nouvelleDate = new Date(
-              new Date(completionDueOn).setMonth(
-                new Date(completionDueOn).getMonth() + donnéesCDC.délaiApplicable.délaiEnMois,
-              ),
-            );
 
             return publishToEventStore(
               new ProjectCompletionDueDateSet({
                 payload: {
                   projectId: projetId,
-                  completionDueOn: nouvelleDate.getTime(),
+                  completionDueOn: new Date(
+                    new Date(completionDueOn).setMonth(
+                      new Date(completionDueOn).getMonth() + donnéesCDC.délaiApplicable.délaiEnMois,
+                    ),
+                  ).getTime(),
                   reason: 'délaiCdc2022',
                 },
               }),

@@ -13,11 +13,15 @@ import { TransmettreDateMiseEnServicePage } from '../../views';
 import { mediator } from 'mediateur';
 import { isNone, isSome, none } from '@potentiel/monads';
 import {
+  CandidatureLegacyReadModel,
   ConsulterCandidatureLegacyQuery,
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauLauréatQuery,
   ConsulterGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
+import { ProjectEvent } from '../../infra/sequelize/projectionsNext';
+import { getProjectAppelOffre } from '../../config/queryProjectAO.config';
+import { CahierDesChargesRéférenceParsed, parseCahierDesChargesRéférence } from '../../entities';
 
 const schema = yup.object({
   params: yup.object({
@@ -112,11 +116,55 @@ v1Router.get(
         });
       }
 
+      const délaiCDC2022Appliqué = await ProjectEvent.findOne({
+        where: {
+          type: 'ProjectCompletionDueDateSet',
+          'payload.reason': 'délaiCdc2022',
+          projectId: projet.legacyId,
+        },
+      });
+
+      const cahierDesChargesParsé = parseCahierDesChargesRéférence(projet.cahierDesCharges);
+
+      const récupérerIntervalleDatesMeSDélaiCDC2022 = (
+        projet: CandidatureLegacyReadModel,
+        cahierDesChargesParsé: CahierDesChargesRéférenceParsed,
+      ) => {
+        const appelOffreProjet = getProjectAppelOffre({
+          appelOffreId: projet.appelOffre,
+          periodeId: projet.période,
+          familleId: projet.famille,
+        });
+
+        if (!appelOffreProjet) {
+          return undefined;
+        }
+
+        const détailsCDC = appelOffreProjet!.periode.cahiersDesChargesModifiésDisponibles.find(
+          (CDC) =>
+            CDC.type === cahierDesChargesParsé.type &&
+            CDC.paruLe === cahierDesChargesParsé.paruLe &&
+            CDC.alternatif === cahierDesChargesParsé.alternatif,
+        );
+
+        return détailsCDC?.délaiApplicable?.intervaleDateMiseEnService;
+      };
+
+      const intervalleDatesMeSDélaiCDC2022 =
+        cahierDesChargesParsé.type === 'modifié' &&
+        cahierDesChargesParsé.paruLe === '30/08/2022' &&
+        récupérerIntervalleDatesMeSDélaiCDC2022(projet, cahierDesChargesParsé);
+
       return response.send(
         TransmettreDateMiseEnServicePage({
           user,
           projet,
           dossierRaccordement,
+          ...(délaiCDC2022Appliqué && { délaiCDC2022Appliqué: true }),
+          ...(délaiCDC2022Appliqué &&
+            intervalleDatesMeSDélaiCDC2022 && {
+              intervalleDatesMeSDélaiCDC2022,
+            }),
           error: error as string,
         }),
       );

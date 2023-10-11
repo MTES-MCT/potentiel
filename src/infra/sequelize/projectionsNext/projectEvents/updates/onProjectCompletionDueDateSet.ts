@@ -6,6 +6,14 @@ import { ProjectEventProjector } from '../projectEvent.projector';
 export default ProjectEventProjector.on(
   ProjectCompletionDueDateSet,
   async ({ payload: { projectId, completionDueOn, reason }, occurredAt }, transaction) => {
+    if (reason === 'délaiCdc2022Annulé') {
+      await ProjectEvent.destroy({
+        where: { type: ProjectCompletionDueDateSet.type, 'payload.reason': 'délaiCdc2022' },
+        transaction,
+      });
+      return;
+    }
+
     await ProjectEvent.create(
       {
         projectId,

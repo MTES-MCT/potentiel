@@ -26,5 +26,6 @@ export type CandidatureLegacyReadModel = ReadModel<
     email: string;
     dateDésignation: string;
     puissance: number;
+    cahierDesCharges: string;
   }
 >;
