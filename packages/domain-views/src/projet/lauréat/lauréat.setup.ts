@@ -16,9 +16,9 @@ import {
   registerGestionnaireRéseauLauréatProjector,
 } from './gestionnaireRéseau/gestionnaireRéseau.projector';
 import {
-  ConsulterPiéceJustificativeAbandonProjetDependencies,
-  registerConsulterPiéceJustificativeAbandonProjetQuery,
-} from './abandon/consulter/consulterPiéceJustificativeAbandon.query';
+  ConsulterPièceJustificativeAbandonProjetDependencies,
+  registerConsulterPièceJustificativeAbandonProjetQuery,
+} from './abandon/consulter/consulterPièceJustificativeAbandon.query';
 import { ExecuteAbandonProjector, registerAbandonProjector } from './abandon/abandon.projector';
 import { registerConsulterAbandonQuery } from './abandon/consulter/consulterAbandon.query';
 import {
@@ -29,7 +29,7 @@ import {
 type GestionnaireRéseauLauréatDependencies = ConsulterGestionnaireRéseauLauréatDependencies;
 
 type AbandonDependencies = ListerAbandonAvecRecandidatureDependencies &
-  ConsulterPiéceJustificativeAbandonProjetDependencies &
+  ConsulterPièceJustificativeAbandonProjetDependencies &
   ConsulterRéponseSignéeAbandonDependencies;
 
 // Setup
@@ -41,7 +41,7 @@ export const setupLauréatViews = async (dependencies: LauréatDependencies) => 
   registerConsulterAbandonQuery(dependencies);
   registerConsulterGestionnaireRéseauLauréatQuery(dependencies);
   registerListerAbandonAvecRecandidatureQuery(dependencies);
-  registerConsulterPiéceJustificativeAbandonProjetQuery(dependencies);
+  registerConsulterPièceJustificativeAbandonProjetQuery(dependencies);
   registerConsulterRéponseAbandonSignéeQuery(dependencies);
 
   // Projector

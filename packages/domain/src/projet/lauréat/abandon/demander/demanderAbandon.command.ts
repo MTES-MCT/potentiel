@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../../../projet.valueType';
-import { PiéceJustificativeAbandon } from '../abandon.valueType';
+import { PièceJustificativeAbandon } from '../abandon.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
-import { EnregistrerPiéceJustificativeAbandonPort } from '../abandon.port';
+import { EnregistrerPièceJustificativeAbandonPort } from '../abandon.port';
 import { DateTimeValueType } from '../../../../common.valueType';
 import { AbandonDéjàAccordéError, DemandeAbandonEnCoursErreur } from '../abandon.error';
 import { IdentifiantUtilisateurValueType } from '../../../../utilisateur/utilisateur.valueType';
@@ -15,7 +15,7 @@ export type DemanderAbandonCommand = Message<
   {
     identifiantProjet: IdentifiantProjetValueType;
     raison: string;
-    piéceJustificative?: PiéceJustificativeAbandon;
+    pièceJustificative?: PièceJustificativeAbandon;
     dateDemandeAbandon: DateTimeValueType;
     recandidature: boolean;
     demandéPar: IdentifiantUtilisateurValueType;
@@ -25,18 +25,18 @@ export type DemanderAbandonCommand = Message<
 export type DemanderAbandonDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
-  enregistrerPiéceJustificativeAbandon: EnregistrerPiéceJustificativeAbandonPort;
+  enregistrerPièceJustificativeAbandon: EnregistrerPièceJustificativeAbandonPort;
 };
 
 export const registerDemanderAbandonCommand = ({
   loadAggregate,
   publish,
-  enregistrerPiéceJustificativeAbandon,
+  enregistrerPièceJustificativeAbandon,
 }: DemanderAbandonDependencies) => {
   const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate });
   const handler: MessageHandler<DemanderAbandonCommand> = async ({
     identifiantProjet,
-    piéceJustificative,
+    pièceJustificative,
     raison,
     dateDemandeAbandon,
     recandidature,
@@ -54,11 +54,11 @@ export const registerDemanderAbandonCommand = ({
       }
     }
 
-    if (piéceJustificative) {
-      await enregistrerPiéceJustificativeAbandon({
+    if (pièceJustificative) {
+      await enregistrerPièceJustificativeAbandon({
         identifiantProjet,
-        piéceJustificative,
-        datePiéceJustificativeAbandon: dateDemandeAbandon,
+        pièceJustificative,
+        datePièceJustificativeAbandon: dateDemandeAbandon,
       });
     }
 
@@ -67,8 +67,8 @@ export const registerDemanderAbandonCommand = ({
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         recandidature,
-        piéceJustificative: piéceJustificative && {
-          format: piéceJustificative.format,
+        pièceJustificative: pièceJustificative && {
+          format: pièceJustificative.format,
         },
         raison,
         demandéLe: dateDemandeAbandon.formatter(),

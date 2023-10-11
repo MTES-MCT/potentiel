@@ -8,7 +8,7 @@ export class DemandeAbandonEnCoursErreur extends InvalidOperationError {
 
 export class DemandeAbandonInconnuErreur extends InvalidOperationError {
   constructor() {
-    super(`Demande d'abandon inconnu`);
+    super(`Demande d'abandon inconnue`);
   }
 }
 

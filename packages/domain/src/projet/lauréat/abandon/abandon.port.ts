@@ -1,11 +1,11 @@
 import { DateTimeValueType } from '../../../common.valueType';
 import { IdentifiantProjetValueType } from '../../projet.valueType';
-import { PiéceJustificativeAbandon, RéponseSignée } from './abandon.valueType';
+import { PièceJustificativeAbandon, RéponseSignée } from './abandon.valueType';
 
-export type EnregistrerPiéceJustificativeAbandonPort = (options: {
+export type EnregistrerPièceJustificativeAbandonPort = (options: {
   identifiantProjet: IdentifiantProjetValueType;
-  piéceJustificative: PiéceJustificativeAbandon;
-  datePiéceJustificativeAbandon: DateTimeValueType;
+  pièceJustificative: PièceJustificativeAbandon;
+  datePièceJustificativeAbandon: DateTimeValueType;
 }) => Promise<void>;
 
 export type EnregistrerRéponseSignéePort = (options: {

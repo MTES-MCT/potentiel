@@ -37,7 +37,6 @@ import {
   ConsulterCandidatureLegacyQuery,
   ConsulterUtilisateurLegacyQuery,
 } from '@potentiel/domain-views';
-import { format } from 'date-fns';
 
 const schema = yup.object({
   body: yup.object({
@@ -142,7 +141,7 @@ v1Router.post(
           }
 
           const props: RéponseAbandonAvecRecandidatureProps = {
-            dateCourrier: format(new Date(), 'dd/MM/yyyy'),
+            dateCourrier: new Date().toISOString(),
             projet: {
               potentielId: projet.potentielIdentifier,
               nomReprésentantLégal: projet.nomReprésentantLégal,
@@ -151,7 +150,7 @@ v1Router.post(
               nom: projet.nom,
               commune: projet.localité.commune,
               codePostal: projet.localité.codePostal,
-              dateDésignation: format(new Date(projet.dateDésignation), 'dd/MM/yyyy'),
+              dateDésignation: projet.dateDésignation,
               puissance: projet.puissance,
             },
             appelOffre: {

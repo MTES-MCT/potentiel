@@ -1,15 +1,15 @@
 // export class AbandonWord {
-//   #piéceJustificative!: { format: string; content: string };
+//   #pièceJustificative!: { format: string; content: string };
 
-//   get piéceJustificative(): { format: string; content: string } {
-//     if (!this.#piéceJustificative) {
-//       throw new Error('piéceJustificative not initialized');
+//   get pièceJustificative(): { format: string; content: string } {
+//     if (!this.#pièceJustificative) {
+//       throw new Error('pièceJustificative not initialized');
 //     }
-//     return this.#piéceJustificative;
+//     return this.#pièceJustificative;
 //   }
 
-//   set piéceJustificative(value: { format: string; content: string }) {
-//     this.#piéceJustificative = value;
+//   set pièceJustificative(value: { format: string; content: string }) {
+//     this.#pièceJustificative = value;
 //   }
 
 //   #réponseSignée!: { format: string; content: string };

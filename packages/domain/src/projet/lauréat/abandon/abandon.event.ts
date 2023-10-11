@@ -10,7 +10,7 @@ export type AbandonDemandéEvent = DomainEvent<
     identifiantProjet: RawIdentifiantProjet;
     raison: string;
     recandidature: boolean;
-    piéceJustificative?: {
+    pièceJustificative?: {
       format: string;
     };
   }

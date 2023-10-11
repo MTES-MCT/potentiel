@@ -5,7 +5,7 @@ import {
   estUnRawIdentifiantProjet,
 } from '../../projet.valueType';
 
-export type PiéceJustificativeAbandon = {
+export type PièceJustificativeAbandon = {
   format: string;
   content: ReadableStream;
 };
