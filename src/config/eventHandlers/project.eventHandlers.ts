@@ -17,6 +17,8 @@ import {
   ProjectRawDataImported,
   makeOnAnnulationAbandonAccordée,
   DateMiseEnServiceTransmise,
+  makeOnCahierDesChargesChoisi,
+  CahierDesChargesChoisi,
 } from '../../modules/project';
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';
@@ -137,6 +139,25 @@ const onAnnulationAbandonAccordée = async (event: DomainEvent) => {
 };
 
 subscribeToRedis(onAnnulationAbandonAccordée, 'Project');
+
+const onCahierDesChargesChoisiHandler = makeOnCahierDesChargesChoisi({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+  getProjectAppelOffre,
+});
+
+const onCahierDesChargesChoisi = async (event: DomainEvent) => {
+  if (!(event instanceof CahierDesChargesChoisi)) {
+    return Promise.resolve();
+  }
+
+  return onCahierDesChargesChoisiHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e),
+  );
+};
+
+subscribeToRedis(onCahierDesChargesChoisi, 'Project.onCahierDesChargesChoisi');
 
 console.log('Project Event Handlers Initialized');
 export const projectHandlersOk = true;
