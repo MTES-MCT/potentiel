@@ -1,4 +1,4 @@
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import * as yup from 'yup';
 import { v1Router } from '../../v1Router';
 import {

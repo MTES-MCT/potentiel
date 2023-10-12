@@ -3,7 +3,7 @@ import {
   ConsulterPropositionTechniqueEtFinancièreSignéeQuery,
   PermissionConsulterDossierRaccordement,
 } from '@potentiel/domain-views';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';

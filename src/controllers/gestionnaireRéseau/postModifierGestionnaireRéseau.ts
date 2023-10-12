@@ -1,4 +1,4 @@
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';

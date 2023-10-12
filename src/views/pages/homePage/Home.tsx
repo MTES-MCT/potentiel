@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { App, Header, Footer, ArrowRightWithCircle } from '@potentiel/ui';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components';

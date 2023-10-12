@@ -1,5 +1,5 @@
 import { addQueryParams } from '../../helpers/addQueryParams';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { inviteUserToProject, ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import { errorResponse, unauthorizedResponse } from '../helpers';

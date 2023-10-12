@@ -13,7 +13,7 @@ import {
   File,
 } from '../../../projectionsNext';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre, User } from '../../../../../entities';
-import routes from '../../../../../routes';
+import routes from '@potentiel/routes';
 import { CahierDesCharges } from '@potentiel/domain-views';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '../../../../../modules/users';

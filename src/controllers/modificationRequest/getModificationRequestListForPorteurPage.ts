@@ -2,7 +2,7 @@ import { getModificationRequestListForPorteur } from '../../config/queries.confi
 import { logger } from '../../core/utils';
 import { appelOffreRepo } from '../../dataAccess/inMemory';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { ModificationRequestListPage } from '../../views';
 import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';

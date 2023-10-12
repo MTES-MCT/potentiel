@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import React from 'react';
 import { appelsOffreStatic } from '../../dataAccess/inMemory';
-import ROUTES from '../../routes';
+import ROUTES from '@potentiel/routes';
 import {
   PrimaryButton,
   ErrorBox,

@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import React from 'react';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import {
   Footer,
   Header,

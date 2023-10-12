@@ -4,7 +4,7 @@ import { annulerDemandeAbandon, ensureRole, getIdentifiantProjetByLegacyId } fro
 import { logger, wrapInfra } from '../../core/utils';
 import asyncHandler from '../helpers/asyncHandler';
 import { EntityNotFoundError, UnauthorizedError } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import {
   errorResponse,
   notFoundResponse,

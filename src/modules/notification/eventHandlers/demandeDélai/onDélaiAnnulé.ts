@@ -1,7 +1,7 @@
 import { logger } from '../../../../core/utils';
 import { UserRepo } from '../../../../dataAccess';
 import { DélaiAnnulé } from '../../../demandeModification';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { NotificationService } from '../..';
 import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest';
 

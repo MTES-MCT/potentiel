@@ -2,7 +2,7 @@ import { getModificationRequestListForAdmin } from '../../config/queries.config'
 import { logger } from '../../core/utils';
 import { appelOffreRepo } from '../../dataAccess/inMemory';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { ModificationRequestListPage } from '../../views';
 import { v1Router } from '../v1Router';
 import { userIs } from '../../modules/users';

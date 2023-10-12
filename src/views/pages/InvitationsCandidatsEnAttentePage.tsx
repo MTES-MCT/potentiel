@@ -13,7 +13,7 @@ import {
 } from '@potentiel/ui';
 import { LegacyPageTemplate } from '../components';
 import { PendingCandidateInvitationDTO } from '../../modules/notificationCandidats';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { Request } from 'express';
 import React from 'react';
 import { PaginatedList } from '../../modules/pagination';

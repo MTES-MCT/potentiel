@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import {
+  UtilisateurReadModel,
+  convertirEnUtilisateurLegacyReadModel,
+} from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   Link,
   Tile,
@@ -16,7 +19,7 @@ import {
   CandidatureLegacyReadModel,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { userIs } from '../../../../modules/users';
 import { Dossier } from './components/Dossier';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';

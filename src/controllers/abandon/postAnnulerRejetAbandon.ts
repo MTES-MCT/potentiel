@@ -9,7 +9,7 @@ import { mediator } from 'mediateur';
 import { annulerRejetAbandon, ensureRole, getIdentifiantProjetByLegacyId } from '../../config';
 import { logger, wrapInfra } from '../../core/utils';
 import { EntityNotFoundError, UnauthorizedError } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import {
   errorResponse,
   notFoundResponse,

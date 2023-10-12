@@ -7,7 +7,7 @@ import {
   rejeterDemandeAnnulationAbandon,
 } from '../../../config';
 
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import { addQueryParams } from '../../../helpers/addQueryParams';

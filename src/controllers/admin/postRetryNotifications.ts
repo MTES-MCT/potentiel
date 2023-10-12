@@ -1,6 +1,6 @@
 import { retryFailedNotifications, ensureRole } from '../../config';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from '../v1Router';
 
 v1Router.post(

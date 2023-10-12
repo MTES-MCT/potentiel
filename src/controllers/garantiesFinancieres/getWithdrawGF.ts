@@ -1,6 +1,6 @@
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { withdrawGF } from '../../config/useCases.config';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';

@@ -1,5 +1,5 @@
 import React from 'react';
-import ROUTES from '../../routes';
+import ROUTES from '@potentiel/routes';
 import { Request } from 'express';
 import { PrimaryButton, ErrorBox, Heading1, Input, Label, SuccessBox, Form } from '@potentiel/ui';
 import { LegacyPageTemplate } from '../components';

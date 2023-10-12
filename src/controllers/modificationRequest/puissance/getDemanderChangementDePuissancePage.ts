@@ -1,6 +1,6 @@
 import { ensureRole, getProjectAppelOffre, shouldUserAccessProject } from '../../../config';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { notFoundResponse, unauthorizedResponse } from '../../helpers';
 import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';

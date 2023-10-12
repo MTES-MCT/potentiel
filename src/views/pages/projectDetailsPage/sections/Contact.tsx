@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Request } from 'express';
 
-import ROUTES from '../../../../routes';
+import ROUTES from '@potentiel/routes';
 import {
   PrimaryButton,
   Heading3,

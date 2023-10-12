@@ -2,7 +2,7 @@ import { Form, PrimaryButton } from '@potentiel/ui';
 import { ChampsObligatoiresLégende } from '../../../components';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import { UserRole } from '../../../../modules/users';
-import ROUTES from '../../../../routes';
+import ROUTES from '@potentiel/routes';
 import React from 'react';
 import { UploadResponseFile } from '.';
 import { ModificationRequestTitleByType } from '../../../helpers';

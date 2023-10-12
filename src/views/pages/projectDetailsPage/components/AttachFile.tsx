@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ROUTES from '../../../../routes';
+import ROUTES from '@potentiel/routes';
 import {
   PrimaryButton,
   SecondaryButton,

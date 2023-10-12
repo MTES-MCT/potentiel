@@ -1,5 +1,5 @@
 import React from 'react';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { Link } from '@potentiel/ui';
 import { afficherDate } from '../helpers/afficherDate';
 

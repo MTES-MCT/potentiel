@@ -2,7 +2,7 @@ import { invaliderGF } from '../../config';
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { UnauthorizedError } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { errorResponse, unauthorizedResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';

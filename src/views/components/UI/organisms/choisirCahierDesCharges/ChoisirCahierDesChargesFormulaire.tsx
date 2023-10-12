@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, PrimaryButton, SecondaryLinkButton } from '@potentiel/ui';
 import { ProjectDataForChoisirCDCPage } from '../../../../../modules/project';
-import routes from '../../../../../routes';
+import routes from '@potentiel/routes';
 import { formatCahierDesChargesRéférence } from '../../../../../entities/cahierDesCharges';
 
 import { CahierDesChargesInitial } from './CahierDesChargesInitial';

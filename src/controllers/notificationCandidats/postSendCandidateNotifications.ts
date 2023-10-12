@@ -4,7 +4,7 @@ import { eventStore, ensureRole } from '../../config';
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { PeriodeNotified } from '../../modules/project';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 

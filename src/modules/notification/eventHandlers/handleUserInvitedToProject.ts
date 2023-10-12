@@ -1,6 +1,6 @@
 import { NotificationService } from '..';
 import { ProjectRepo, UserRepo } from '../../../dataAccess';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { UserInvitedToProject } from '../../authZ';
 import { logger } from '../../../core/utils';
 

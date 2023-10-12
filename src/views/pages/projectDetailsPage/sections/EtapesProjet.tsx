@@ -4,8 +4,8 @@ import { CalendarIcon, Section, Link, InfoBox } from '@potentiel/ui';
 import { Timeline } from '../../../components/timeline';
 import { userIs } from '../../../../modules/users';
 import { ProjectEventListDTO } from '../../../../modules/frise';
-import routes from '../../../../routes';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
+import routes from '@potentiel/routes';
 
 type EtapesProjetProps = {
   project: {

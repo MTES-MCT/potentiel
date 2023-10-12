@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import { ensureRole, demanderAnnulationAbandon } from '../../../config';
 import { logger } from '../../../core/utils';
 import { UnauthorizedError } from '../../../modules/shared';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import { errorResponse, unauthorizedResponse } from '../../helpers';

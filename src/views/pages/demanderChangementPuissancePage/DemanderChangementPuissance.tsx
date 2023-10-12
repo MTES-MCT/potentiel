@@ -21,7 +21,7 @@ import {
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { ChangementPuissance } from './components/ChangementPuissance';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 
 type DemanderChangementPuissanceProps = {
   request: Request;

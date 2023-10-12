@@ -17,7 +17,7 @@ import { Request } from 'express';
 import React from 'react';
 import { PaginatedList } from '../../modules/pagination';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 type EmailsEnErreurProps = {
   request: Request;
   notifications: PaginatedList<FailedNotificationDTO>;

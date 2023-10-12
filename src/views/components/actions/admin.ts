@@ -1,4 +1,4 @@
-import ROUTES from '../../../routes';
+import ROUTES from '@potentiel/routes';
 
 const adminActions = (project: {
   id: string;
@@ -10,6 +10,7 @@ const adminActions = (project: {
   email: string;
   potentielIdentifier: string;
   isLegacy: boolean;
+  nomProjet: string;
 }) => {
   const canDownloadCertificate = !!project.certificateFile;
 
@@ -21,8 +22,6 @@ const adminActions = (project: {
       link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
         id: project.id,
         certificateFileId: project.certificateFile.id,
-        email: project.email,
-        potentielIdentifier: project.potentielIdentifier,
       }),
       isDownload: true,
       disabled: !canDownloadCertificate,

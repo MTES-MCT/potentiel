@@ -21,7 +21,7 @@ import {
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { ChangementActionnaire, DemandeRecours } from './components';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 
 type NewModificationRequestProps = {
   request: Request;

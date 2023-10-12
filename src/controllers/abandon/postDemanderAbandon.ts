@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { demanderAbandon, ensureRole, getIdentifiantProjetByLegacyId } from '../../config';
 import { logger, wrapInfra } from '../../core/utils';
 import { UnauthorizedError } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { errorResponse, unauthorizedResponse } from '../helpers';
 import { upload } from '../upload';

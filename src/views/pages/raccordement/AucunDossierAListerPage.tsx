@@ -1,10 +1,13 @@
 import React from 'react';
 
-import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import {
+  UtilisateurReadModel,
+  convertirEnUtilisateurLegacyReadModel,
+} from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { PageProjetTemplate, PlugIcon, ListeVide, Link } from '@potentiel/ui';
 import { hydrateOnClient } from '../../helpers';
 import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 
 type AucunDossierAListerProps = {
   user: UtilisateurReadModel;

@@ -20,7 +20,7 @@ import {
 import { RequestList, PageListeTemplate } from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { userIs } from '../../../modules/users';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ModificationRequestListProps = {

@@ -1,6 +1,6 @@
 import { NotificationService } from '../..';
 import { logger } from '../../../../core/utils';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest';
 import { AbandonAnnulé } from '../../../demandeModification';
 

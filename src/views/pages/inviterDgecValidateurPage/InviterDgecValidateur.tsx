@@ -1,6 +1,6 @@
 import React from 'react';
 import { Request } from 'express';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { PrimaryButton, Heading1, Input, Label, SuccessBox, Form } from '@potentiel/ui';
 import { LegacyPageTemplate, ChampsObligatoiresLégende } from '../../components';
 import { hydrateOnClient } from '../../helpers';

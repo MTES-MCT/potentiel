@@ -14,7 +14,7 @@ import {
 } from '@potentiel/ui';
 import { ProjectList, PageListeTemplate } from '../components';
 import { ProjectListItem } from '../../modules/project/queries';
-import ROUTES from '../../routes';
+import ROUTES from '@potentiel/routes';
 import { AppelOffre, Periode } from '@potentiel/domain-views';
 import { Request } from 'express';
 import querystring from 'querystring';

@@ -3,7 +3,7 @@ import { AbandonDemandé } from '../../../demandeModification';
 import { GetProjectInfoForModificationRequestedNotification } from '../../../modificationRequest/queries';
 
 import { NotificationService, NotifierPorteurChangementStatutDemande } from '../..';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 
 type OnAbandonDemandé = (evenement: AbandonDemandé) => Promise<void>;
 

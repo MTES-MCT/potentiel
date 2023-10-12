@@ -6,7 +6,7 @@ import { logger } from '../../core/utils';
 import { User } from '../../entities';
 import { EnsureRole, RegisterAuth } from '../../modules/authN';
 import { CreateUser, GetUserByEmail } from '../../modules/users';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
 import { miseAJourStatistiquesUtilisation } from '../../controllers/helpers';
 import { isDevEnv } from '../../config';

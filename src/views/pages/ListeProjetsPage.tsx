@@ -23,8 +23,11 @@ import { ProjectList, Dropdown, PageListeTemplate } from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '../../modules/project';
 import { userIs, userIsNot } from '../../modules/users';
-import routes from '../../routes';
-import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import routes from '@potentiel/routes';
+import {
+  UtilisateurReadModel,
+  convertirEnUtilisateurLegacyReadModel,
+} from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ListeProjetsProps = {
   request: Request;

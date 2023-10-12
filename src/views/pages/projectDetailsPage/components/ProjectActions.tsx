@@ -6,7 +6,7 @@ import {
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import React from 'react';
 
 type ProjectActionsProps = {
@@ -137,8 +137,6 @@ const AdminActions = ({
         fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({
           id: project.id,
           certificateFileId: project.certificateFile.id,
-          email: project.email,
-          potentielIdentifier: project.potentielIdentifier,
         })}
         className="m-auto"
       >

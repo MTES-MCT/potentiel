@@ -2,7 +2,7 @@ import { User } from '../../../../entities';
 import { GarantiesFinancièresStatut } from '../..';
 import { GarantiesFinancièresDTO } from '../../../../modules/frise';
 import { userIs } from '../../../../modules/users';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 
 type GarantiesFinancièresDonnéesPourDTO = {
   statut: GarantiesFinancièresStatut;

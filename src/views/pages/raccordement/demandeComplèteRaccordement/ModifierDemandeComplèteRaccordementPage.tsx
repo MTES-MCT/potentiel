@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import {
+  UtilisateurReadModel,
+  convertirEnUtilisateurLegacyReadModel,
+} from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -19,7 +22,7 @@ import {
   CandidatureLegacyReadModel,
   DossierRaccordementReadModel,
 } from '@potentiel/domain-views';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 import {

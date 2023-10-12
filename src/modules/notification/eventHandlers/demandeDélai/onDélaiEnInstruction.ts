@@ -1,6 +1,6 @@
 import { logger } from '../../../../core/utils';
 import { DélaiEnInstruction } from '../../../demandeModification';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { NotificationService } from '../..';
 import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification';
 

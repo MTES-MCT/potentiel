@@ -1,5 +1,5 @@
 import asyncHandler from '../../helpers/asyncHandler';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { ensureRole, getDreals } from '../../../config';
 import { v1Router } from '../../v1Router';
 import { DrealListPage } from '../../../views';

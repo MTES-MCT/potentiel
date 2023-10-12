@@ -1,4 +1,4 @@
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { vérifierPermissionUtilisateur } from '../helpers';
 import { v1Router } from '../v1Router';
 import { PermissionConsulterGestionnaireRéseau } from '@potentiel/domain-views';

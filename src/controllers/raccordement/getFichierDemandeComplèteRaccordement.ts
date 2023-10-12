@@ -6,7 +6,7 @@ import {
   ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
   PermissionConsulterDossierRaccordement,
 } from '@potentiel/domain-views';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { logger } from '../../core/utils';
 
 import { v1Router } from '../v1Router';

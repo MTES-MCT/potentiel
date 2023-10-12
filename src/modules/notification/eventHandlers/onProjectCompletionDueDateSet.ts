@@ -4,7 +4,7 @@ import {
   ProjectCompletionDueDateSet,
   RécupérerDonnéesPorteursParProjetQueryHandler,
 } from '../../project';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { NotificationService } from '../NotificationService';
 
 type OnProjectCompletionDueDateSet = (évènement: ProjectCompletionDueDateSet) => Promise<void>;

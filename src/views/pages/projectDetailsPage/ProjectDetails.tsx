@@ -26,8 +26,8 @@ import {
   ResultatsAppelOffreInnovation,
 } from './sections';
 import { ProjectHeader } from './components';
-import routes from '../../../routes';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
+import routes from '@potentiel/routes';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'

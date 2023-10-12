@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { makeDocumentUrl } from '../helpers';
 import { AttachedFileItemProps } from '../helpers/extractAttachedFileItemProps';
 import { DownloadLink, Form, SecondaryButton, TrashIcon } from '@potentiel/ui';

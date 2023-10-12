@@ -1,7 +1,7 @@
 import { NotificationService } from '../..';
 import { logger } from '../../../../core/utils';
 import { UserRepo } from '../../../../dataAccess';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import {
   GetProjectInfoForModificationReceivedNotification,
   ModificationReceived,

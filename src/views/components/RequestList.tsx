@@ -5,7 +5,7 @@ import {
   ModificationRequestTypes,
 } from '../../modules/modificationRequest';
 import { UserRole } from '../../modules/users';
-import ROUTES from '../../routes';
+import ROUTES from '@potentiel/routes';
 import React from 'react';
 import { PaginatedList } from '../../modules/pagination';
 import { afficherDate, ModificationRequestStatusTitle } from '../helpers';

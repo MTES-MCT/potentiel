@@ -3,7 +3,7 @@ import { okAsync } from '../../../../core/utils';
 import { DélaiDemandé } from '../../../demandeModification';
 import { makeOnDélaiDemandé } from './onDélaiDemandé';
 import { GetProjectInfoForModificationRequestedNotification } from '../../../modificationRequest';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { User } from '../../../../entities';
 import { NotificationService } from '../../NotificationService';
 import { UserRepo } from '../../../../dataAccess';

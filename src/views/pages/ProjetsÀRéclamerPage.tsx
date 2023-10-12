@@ -19,7 +19,7 @@ import {
 } from '@potentiel/ui';
 import { Dropdown, MissingOwnerProjectList, PageListeTemplate } from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { convertirEnUtilisateurLegacyReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ProjetsÀRéclamerProps = {

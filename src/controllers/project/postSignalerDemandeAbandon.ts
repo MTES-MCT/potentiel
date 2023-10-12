@@ -7,7 +7,7 @@ import {
   unauthorizedResponse,
 } from '../helpers';
 import { UnauthorizedError } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from '../v1Router';
 import { upload } from '../upload';
 import * as yup from 'yup';

@@ -2,7 +2,7 @@ import { NotificationService } from '..';
 import { ProjectRepo, UserRepo } from '../../../dataAccess';
 import { logger } from '../../../core/utils';
 import { CahierDesChargesChoisi } from '../../project';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 
 type OnCahierDesChargesChoisi = (dépendances: {
   sendNotification: NotificationService['sendNotification'];

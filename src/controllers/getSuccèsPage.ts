@@ -1,5 +1,5 @@
 import asyncHandler from './helpers/asyncHandler';
-import routes from '../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from './v1Router';
 import { SuccèsOuErreurPage } from '../views';
 

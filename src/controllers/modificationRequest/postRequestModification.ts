@@ -6,7 +6,7 @@ import {
   EntityNotFoundError,
   UnauthorizedError,
 } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { requestModification, shouldUserAccessProject } from '../../useCases';
 import fs from 'fs';
 import omit from 'lodash/omit';

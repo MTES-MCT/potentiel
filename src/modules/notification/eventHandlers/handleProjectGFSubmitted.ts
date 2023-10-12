@@ -1,7 +1,7 @@
 import { NotificationService } from '..';
 import moment from 'moment';
 import { ProjectRepo, UserRepo } from '../../../dataAccess';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { ProjectGFSubmitted } from '../../project/events';
 import { logger } from '../../../core/utils';
 

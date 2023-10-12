@@ -1,5 +1,5 @@
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from '../v1Router';
 import { ListeProjetsPage } from '../../views';
 import { userIs } from '../../modules/users';

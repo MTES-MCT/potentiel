@@ -1,7 +1,7 @@
 import { createUser, eventStore, ensureRole } from '../../../config';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import { DrealUserInvited } from '../../../modules/authZ';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from '../../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';

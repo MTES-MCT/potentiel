@@ -6,7 +6,7 @@ import {
   DemandeAnnulationAbandonPage,
   ModificationRequestPage,
 } from '../../views';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { shouldUserAccessProject } from '../../config/useCases.config';
 import {
   getIdentifiantProjetByLegacyId,

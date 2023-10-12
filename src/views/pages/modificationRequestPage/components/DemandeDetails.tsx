@@ -5,7 +5,7 @@ import {
 import { format } from 'date-fns';
 import moment from 'moment';
 import React, { ComponentProps } from 'react';
-import ROUTES from '../../../../routes';
+import ROUTES from '@potentiel/routes';
 import { DownloadLink, ExternalLink, Heading2, Heading3 } from '@potentiel/ui';
 import { afficherDate } from '../../../helpers';
 

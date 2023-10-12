@@ -4,7 +4,7 @@ import { annulerDemandeAnnulationAbandon, ensureRole } from '../../../config';
 import { logger } from '../../../core/utils';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { EntityNotFoundError, UnauthorizedError } from '../../../modules/shared';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers';
 import { v1Router } from '../../v1Router';
 import { addQueryParams } from '../../../helpers/addQueryParams';

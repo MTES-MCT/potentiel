@@ -3,7 +3,7 @@ import { ResultAsync, wrapInfra } from '../../../../core/utils';
 import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 import { userIs } from '../../../../modules/users';
 import { InfraNotAvailableError } from '../../../../modules/shared';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import {
   GarantiesFinancières,
   isKnownProjectEvent,

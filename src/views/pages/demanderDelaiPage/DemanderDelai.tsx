@@ -20,7 +20,7 @@ import {
   ProjectProps,
   ChampsObligatoiresLégende,
 } from '../../components';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { ProjectAppelOffre } from '../../../entities';
 
 import { Request } from 'express';

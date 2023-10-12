@@ -1,7 +1,7 @@
 import { ensureRole, requestFournisseurModification } from '../../../config';
 import { logger } from '../../../core/utils';
 import { CHAMPS_FOURNISSEURS, Fournisseur, isFournisseurKind } from '../../../modules/project';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import fs from 'fs';
 import { errorResponse, unauthorizedResponse } from '../../helpers';
 import { upload } from '../../upload';

@@ -20,7 +20,7 @@ import {
   SuccessBox,
 } from '@potentiel/ui';
 import { ProjectInfo, LegacyPageTemplate, ChampsObligatoiresLégende } from '../../components';
-import ROUTES from '../../../routes';
+import ROUTES from '@potentiel/routes';
 
 type DétailsAbandonProps = {
   request: Request;

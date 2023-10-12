@@ -1,7 +1,7 @@
 import { DownloadLink, Form, SecondaryButton, StatutDemandeModification } from '@potentiel/ui';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import { UserRole } from '../../../../modules/users';
-import ROUTES from '../../../../routes';
+import ROUTES from '@potentiel/routes';
 import React from 'react';
 import * as helpers from '../../../helpers';
 

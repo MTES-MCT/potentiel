@@ -1,5 +1,5 @@
 import { appelOffreRepo } from '../../dataAccess';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { listMissingOwnerProjects } from '../../useCases';
 import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';

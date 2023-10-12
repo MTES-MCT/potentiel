@@ -16,7 +16,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../../components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '../../../modules/project';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { afficherDate } from '../../helpers';
 import { Request } from 'express';
 import React, { useState } from 'react';

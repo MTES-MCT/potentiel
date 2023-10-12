@@ -16,7 +16,7 @@ import {
   TextArea,
   ChampsObligatoiresLégende,
 } from '../../components';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { ProjectDataForSignalerDemandeRecoursPage } from '../../../modules/project';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 

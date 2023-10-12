@@ -12,9 +12,12 @@ import {
   Dialog,
   Spinner,
 } from '@potentiel/ui';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { hydrateOnClient } from '../../../helpers';
-import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import {
+  UtilisateurReadModel,
+  convertirEnUtilisateurLegacyReadModel,
+} from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { CsvError } from '../../../../controllers/helpers/mapCsvYupValidationErrorToCsvErrors';
 
 type Réussi = {

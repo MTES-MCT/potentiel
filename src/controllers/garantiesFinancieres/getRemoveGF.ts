@@ -1,6 +1,6 @@
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { removeGF } from '../../config/useCases.config';
 import { UnauthorizedError } from '../../modules/shared';
 import { PermissionAnnulerGF } from '../../modules/project/useCases';

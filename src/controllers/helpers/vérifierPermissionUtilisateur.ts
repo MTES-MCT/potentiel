@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Permission } from '../../modules/authN';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { AccèsNonAutoriséPage } from '../../views';
 
 export const vérifierPermissionUtilisateur =

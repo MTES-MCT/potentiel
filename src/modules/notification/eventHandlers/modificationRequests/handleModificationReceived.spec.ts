@@ -4,7 +4,7 @@ import {
   GetProjectInfoForModificationReceivedNotification,
   ModificationReceived,
 } from '../../../modificationRequest';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { User } from '../../../../entities';
 import { handleModificationReceived } from './handleModificationReceived';
 import { NotificationService } from '../../NotificationService';

@@ -4,7 +4,7 @@ import { wrapInfra } from '../../../core/utils';
 import { User } from '../../../entities';
 import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events';
 import { Project } from '../../project/Project';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { RécupérerDonnéesPorteursParProjetQueryHandler } from '../../project/queries';
 
 export const handleProjectCertificateUpdatedOrRegenerated =

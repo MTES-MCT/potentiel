@@ -1,5 +1,5 @@
 import { exporterProjets } from '../../infra/sequelize/queries/project/exporter';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';

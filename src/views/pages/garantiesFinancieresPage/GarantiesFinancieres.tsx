@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { PaginatedList } from '../../../modules/pagination';
 import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {

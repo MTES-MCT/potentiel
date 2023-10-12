@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProjectAppelOffre } from '../../../entities';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { Request } from 'express';
 
 import {

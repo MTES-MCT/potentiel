@@ -2,7 +2,7 @@ import { SuccessBox, ErrorBox, Heading1, Heading2, PrimaryButton, Form } from '@
 import { ModificationRequestActionTitles, ProjectInfo, LegacyPageTemplate } from '../../components';
 import { ModificationRequestPageDTO } from '../../../modules/modificationRequest';
 import { userIs } from '../../../modules/users';
-import ROUTES from '../../../routes';
+import ROUTES from '@potentiel/routes';
 import { Request } from 'express';
 import moment from 'moment';
 import React from 'react';

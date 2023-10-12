@@ -1,4 +1,4 @@
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { Link, Tile } from '@potentiel/ui';
 import React, { FC } from 'react';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';

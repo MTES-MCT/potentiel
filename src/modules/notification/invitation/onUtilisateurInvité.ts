@@ -1,4 +1,4 @@
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { NotificationService } from '../NotificationService';
 import { UtilisateurInvité } from '../../utilisateur';
 

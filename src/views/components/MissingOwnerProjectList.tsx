@@ -13,7 +13,7 @@ import {
 } from '@potentiel/ui';
 import { logger } from '../../core/utils';
 import { Project, User } from '../../entities';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { PaginatedList } from '../../modules/pagination';
 
 type Columns =

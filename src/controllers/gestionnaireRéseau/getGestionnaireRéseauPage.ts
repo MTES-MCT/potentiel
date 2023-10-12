@@ -1,4 +1,4 @@
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { ConsulterGestionnairesRéseauPage } from '../../views';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';

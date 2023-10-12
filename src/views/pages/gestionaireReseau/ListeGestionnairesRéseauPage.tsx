@@ -4,7 +4,7 @@ import { LegacyPageTemplate } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import React from 'react';
 import { Liste } from './components/Liste';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 
 type ListeGestionnairesRéseauProps = {

@@ -10,10 +10,13 @@ import {
   LabelDescription,
 } from '@potentiel/ui';
 import { ChampsObligatoiresLégende } from '../../components';
-import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import {
+  UtilisateurReadModel,
+  convertirEnUtilisateurLegacyReadModel,
+} from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisieIdentifiant';
 
 type ModifierGestionnaireRéseauProps = {

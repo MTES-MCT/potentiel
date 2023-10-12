@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import routes from '../../../../../routes';
+import routes from '@potentiel/routes';
 import { DossierRaccordementReadModel } from '@potentiel/domain-views';
 import { CalendarIcon, DownloadLink, EditIcon, Link } from '@potentiel/ui';
 import { afficherDate } from '../../../../helpers';

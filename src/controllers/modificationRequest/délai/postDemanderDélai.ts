@@ -6,7 +6,7 @@ import { demanderDélai, ensureRole } from '../../../config';
 import { logger } from '../../../core/utils';
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '../../../modules/demandeModification/demandeDélai/demander';
 import { UnauthorizedError } from '../../../modules/shared';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import {

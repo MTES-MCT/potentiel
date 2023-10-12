@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import React from 'react';
 import { User } from '../../../entities';
-import ROUTES from '../../../routes';
+import ROUTES from '@potentiel/routes';
 import {
   PrimaryButton,
   Input,

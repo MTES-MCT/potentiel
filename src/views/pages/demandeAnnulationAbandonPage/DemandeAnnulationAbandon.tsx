@@ -10,7 +10,7 @@ import {
 } from '@potentiel/ui';
 import { ProjectInfo, LegacyPageTemplate } from '../../components';
 import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components';
-import ROUTES from '../../../routes';
+import ROUTES from '@potentiel/routes';
 import React from 'react';
 import { Request } from 'express';
 import { DemandeAnnulationAbandonPageDTO } from '../../../modules/modificationRequest';

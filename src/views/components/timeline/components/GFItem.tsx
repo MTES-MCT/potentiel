@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ContentArea, CurrentIcon, ItemDate, ItemTitle, PastIcon } from '.';
-import ROUTES from '../../../../routes';
+import ROUTES from '@potentiel/routes';
 import { InfoItem } from './InfoItem';
 import { WarningItem } from './WarningItem';
 import { WarningIcon } from './WarningIcon';

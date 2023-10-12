@@ -5,7 +5,7 @@ import { UniqueEntityID } from '../../core/domain';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { makeFileObject } from '../../modules/file';
 import { FileAttachedToProject, FileAttachedToProjectPayload } from '../../modules/file/events';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { iso8601DateToDateYupTransformation } from '../helpers';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';

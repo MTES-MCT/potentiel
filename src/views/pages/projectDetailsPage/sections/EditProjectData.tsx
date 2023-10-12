@@ -2,7 +2,7 @@ import { Request } from 'express';
 import React, { useState } from 'react';
 import { appelsOffreStatic } from '../../../../dataAccess/inMemory';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
-import ROUTES from '../../../../routes';
+import ROUTES from '@potentiel/routes';
 import {
   BuildingIcon,
   PrimaryButton,

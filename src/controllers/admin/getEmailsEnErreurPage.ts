@@ -1,7 +1,7 @@
 import { getFailedNotificationDetails, ensureRole } from '../../config';
 import { logger } from '../../core/utils';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from '../v1Router';
 import { EmailsEnErreurPage } from '../../views';
 import { getCurrentUrl, getPagination } from '../helpers';

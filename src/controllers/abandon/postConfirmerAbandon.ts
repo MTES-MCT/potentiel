@@ -4,7 +4,7 @@ import { confirmerDemandeAbandon, ensureRole, getIdentifiantProjetByLegacyId } f
 import { logger, wrapInfra } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { UnauthorizedError } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { v1Router } from '../v1Router';
 import { errorResponse, unauthorizedResponse } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';

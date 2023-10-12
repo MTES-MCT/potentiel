@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { adminActions } from '.';
 import makeFakeProject from '../../../__tests__/fixtures/project';
-import ROUTES from '../../../routes';
+import ROUTES from '@potentiel/routes';
 
 describe('adminActions', () => {
   describe('when project is notified and has a certificate file', () => {
@@ -17,8 +17,6 @@ describe('adminActions', () => {
         link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
           id: fakeProject.id,
           certificateFileId: fakeProject.certificateFile.id,
-          email: fakeProject.email,
-          potentielIdentifier: fakeProject.potentielIdentifier,
         }),
         isDownload: true,
       });

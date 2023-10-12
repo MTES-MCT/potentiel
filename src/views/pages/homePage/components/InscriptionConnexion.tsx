@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User } from '../../../../entities';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import {
   LinkButton,
   Container,

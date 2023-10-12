@@ -10,7 +10,7 @@ import {
   miseAJourStatistiquesUtilisation,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '../../modules/project';
 import { mediator } from 'mediateur';

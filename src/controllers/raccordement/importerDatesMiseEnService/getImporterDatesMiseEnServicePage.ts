@@ -1,5 +1,5 @@
-import routes from '../../../routes';
 import { PermissionTransmettreDateMiseEnService } from '@potentiel/legacy-permissions';
+import routes from '@potentiel/routes';
 
 import { v1Router } from '../../v1Router';
 import { ImporterDatesMiseEnServicePage } from '../../../views';

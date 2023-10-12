@@ -2,7 +2,7 @@ import { ensureRole } from '../../config';
 import { getProjectDataForSignalerDemandeDelaiPage } from '../../config/queries.config';
 import { shouldUserAccessProject } from '../../config/useCases.config';
 import { EntityNotFoundError } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { SignalerDemandeDelaiPage } from '../../views';
 import getValidationError from '../../helpers/getValidationError';
 import { validateUniqueId } from '../../helpers/validateUniqueId';

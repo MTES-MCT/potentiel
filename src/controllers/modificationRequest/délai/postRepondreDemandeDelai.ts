@@ -15,7 +15,7 @@ import {
   validateRequestBodyForErrorArray,
 } from '../../helpers';
 import { addQueryParams } from '../../../helpers/addQueryParams';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 

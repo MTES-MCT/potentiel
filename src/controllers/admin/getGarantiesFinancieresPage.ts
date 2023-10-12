@@ -1,6 +1,6 @@
 import { appelOffreRepo } from '../../dataAccess';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import { GarantiesFinancieresPage } from '../../views';

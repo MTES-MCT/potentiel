@@ -1,7 +1,7 @@
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { UnauthorizedError } from '../../modules/shared';
-import routes from '../../routes';
+import routes from '@potentiel/routes';
 import {
   errorResponse,
   unauthorizedResponse,

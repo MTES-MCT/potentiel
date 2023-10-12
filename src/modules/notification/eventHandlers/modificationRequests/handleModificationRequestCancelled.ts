@@ -1,7 +1,7 @@
 import { NotificationService } from '../..';
 import { logger, wrapInfra } from '../../../../core/utils';
 import { UserRepo } from '../../../../dataAccess';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestCancelled,

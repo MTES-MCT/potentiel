@@ -26,7 +26,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import routes from '../../../routes';
+import routes from '@potentiel/routes';
 
 type ChangerProducteurProps = {
   request: Request;

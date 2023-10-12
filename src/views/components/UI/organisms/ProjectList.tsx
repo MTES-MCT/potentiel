@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { ProjectListItem } from '../../../../modules/project';
 import { UserRole } from '../../../../modules/users';
-import routes from '../../../../routes';
+import routes from '@potentiel/routes';
 import { PaginatedList } from '../../../../modules/pagination';
 import {
   PowerIcon,

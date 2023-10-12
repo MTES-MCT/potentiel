@@ -1,5 +1,5 @@
 import { Project } from '../../../../entities';
-import ROUTES from '../../../../routes';
+import ROUTES from '@potentiel/routes';
 import {
   is,
   ProjectCertificateDTO,
@@ -79,8 +79,6 @@ const makeCertificateLink = (
     return ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
       id: projectId,
       certificateFileId,
-      email: latestCertificateEvent.email,
-      potentielIdentifier,
     });
   }
 
