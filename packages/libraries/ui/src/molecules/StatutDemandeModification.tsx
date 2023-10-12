@@ -1,0 +1,50 @@
+import React, { ComponentProps } from 'react';
+
+type Statut =
+  | 'envoyée'
+  | 'acceptée'
+  | 'rejetée'
+  | 'annulée'
+  | 'en instruction'
+  | 'en attente de confirmation'
+  | 'demande confirmée'
+  | 'information validée';
+
+type StatutDemandeModificationProps = ComponentProps<'div'> & {
+  statutDemande: Statut;
+};
+
+export const StatutDemandeModification = ({
+  statutDemande,
+  children,
+  className = '',
+  ...props
+}: StatutDemandeModificationProps) => {
+  const getColor = (statutDemande: Statut) => {
+    switch (statutDemande) {
+      case 'envoyée':
+        return 'info-425-base';
+      case 'rejetée':
+      case 'annulée':
+        return 'error-425-base';
+      case 'information validée':
+      case 'acceptée':
+        return 'success-425-base';
+      case 'demande confirmée':
+      case 'en attente de confirmation':
+      case 'en instruction':
+        return 'warning-425-base';
+    }
+  };
+
+  const couleur = getColor(statutDemande);
+
+  return (
+    <div
+      className={`m-0 p-4 border border-solid border-${couleur} rounded-[3px] text-${couleur} ${className}`}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
