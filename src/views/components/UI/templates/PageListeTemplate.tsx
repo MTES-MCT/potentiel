@@ -63,6 +63,7 @@ const List = ({ children, sideBarOpen }: ListProps) => (
   <div className={sideBarOpen ? 'lg:w-2/3' : 'lg:w-full'}>{children}</div>
 );
 
+/** @deprecated Avoir un template de page liste sous entends qu'une page avec une liste n'a rien d'autre or ceci n'est pas vrai et très restrictif. Il faut avoir un composant List qui inclu la logique avec filtre, etc... */
 export const PageListeTemplate: React.FC<PageTemplateProps> & {
   TopBar: typeof TopBar;
   SideBar: typeof SideBar;

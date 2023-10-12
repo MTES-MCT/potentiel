@@ -1,3 +1,4 @@
+export * from './App';
 export * from './Badge';
 export * from './Callout';
 export * from './Container';
