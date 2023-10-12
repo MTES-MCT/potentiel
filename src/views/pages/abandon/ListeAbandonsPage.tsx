@@ -1,18 +1,10 @@
 import { Request } from 'express';
 import React from 'react';
 
-import {
-  Badge,
-  CalendarIcon,
-  Heading1,
-  Link,
-  ListeVide,
-  PageListeTemplate,
-  Pagination,
-  Tile,
-} from '../../components';
+import { Badge, CalendarIcon, Heading1, Link, ListeVide, Pagination, Tile } from '@potentiel/ui';
+import { PageListeTemplate } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
-import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { AbandonReadModel, CandidatureLegacyReadModel } from '@potentiel/domain-views';
 import { ListResult } from '@potentiel/core-domain-views';
 import routes from '../../../routes';
@@ -29,7 +21,7 @@ export const ListeAbandons = ({ request, abandons, currentUrl }: ListeAbandonsPr
 
   return (
     <PageListeTemplate
-      user={utilisateur}
+      user={convertirEnUtilisateurLegacyReadModel(utilisateur)}
       currentPage={'liste-abandons'}
       contentHeader={
         <Heading1>

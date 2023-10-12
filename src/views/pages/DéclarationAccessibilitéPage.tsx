@@ -1,14 +1,7 @@
 import type { Request } from 'express';
 import React from 'react';
-import {
-  Link,
-  LegacyPageTemplate,
-  ExternalLink,
-  Heading1,
-  Heading2,
-  Heading3,
-  Heading4,
-} from '../components';
+import { Link, ExternalLink, Heading1, Heading2, Heading3, Heading4 } from '@potentiel/ui';
+import { LegacyPageTemplate } from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type DéclarationAccessibilitéProps = {

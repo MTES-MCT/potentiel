@@ -10,12 +10,12 @@ import {
   Label,
   Section,
   Select,
-  TextArea,
   ErrorBox,
   Radio,
   Checkbox,
   Form,
-} from '../../../components';
+} from '@potentiel/ui';
+import { TextArea } from '../../../components';
 import { afficherDate } from '../../../helpers';
 
 type EditProjectDataProps = {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -11,8 +11,8 @@ import {
   Link,
   PageProjetTemplate,
   Form,
-  ChampsObligatoiresLégende,
-} from '../../../components';
+} from '@potentiel/ui';
+import { ChampsObligatoiresLégende } from '../../../components';
 import { hydrateOnClient } from '../../../helpers';
 import { CandidatureLegacyReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
@@ -34,7 +34,11 @@ export const TransmettrePropositionTechniqueEtFinancière = ({
   const { identifiantProjet } = projet;
 
   return (
-    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
+    <PageProjetTemplate
+      titre={<TitrePageRaccordement />}
+      user={convertirEnUtilisateurLegacyReadModel(user)}
+      résuméProjet={projet}
+    >
       <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
       <div className="flex flex-col md:flex-row gap-4">
         <Form

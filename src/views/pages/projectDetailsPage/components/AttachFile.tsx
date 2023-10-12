@@ -4,13 +4,12 @@ import {
   PrimaryButton,
   SecondaryButton,
   Input,
-  TextArea,
   PaperClipIcon,
   Link,
   Label,
   Form,
-  ChampsObligatoiresLégende,
-} from '../../../components';
+} from '@potentiel/ui';
+import { TextArea, ChampsObligatoiresLégende } from '../../../components';
 
 type AttachFileProps = {
   projectId: string;

@@ -4,7 +4,6 @@ import { UserRole } from '../../../../modules/users';
 import routes from '../../../../routes';
 import { PaginatedList } from '../../../../modules/pagination';
 import {
-  ProjectActions,
   PowerIcon,
   EuroIcon,
   CloudIcon,
@@ -20,7 +19,8 @@ import {
   Checkbox,
   SecondaryLinkButton,
   ExcelFileIcon,
-} from '../..';
+} from '@potentiel/ui';
+import { ProjectActions } from '../../ProjectActions';
 import { afficherDate } from '../../../helpers';
 
 const Unit = ({ children }: { children: ReactNode }) => (

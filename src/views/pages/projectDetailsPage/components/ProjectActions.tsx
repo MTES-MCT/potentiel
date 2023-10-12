@@ -2,7 +2,7 @@ import {
   DownloadLinkButton,
   SecondaryLinkButton,
   DropdownMenuSecondaryButton,
-} from '../../../components';
+} from '@potentiel/ui';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';

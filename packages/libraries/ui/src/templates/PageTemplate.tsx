@@ -5,7 +5,7 @@ import { App, Container } from '../atoms';
 import { Footer, Header, UserNavigation } from '../organisms';
 
 export type PageTemplateProps = {
-  user: UtilisateurLegacyReadModel;
+  user: Omit<UtilisateurLegacyReadModel, 'type'>;
   children: React.ReactNode;
   currentPage?: string;
   contentHeader: ReactNode;

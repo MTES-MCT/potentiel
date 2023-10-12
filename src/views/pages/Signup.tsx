@@ -12,8 +12,8 @@ import {
   Form,
   ErrorIcon,
   SaveIcon,
-  ChampsObligatoiresLégende,
-} from '../components';
+} from '@potentiel/ui';
+import { ChampsObligatoiresLégende } from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type SignupProps = {

@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import moment from 'moment';
 import React, { ComponentProps } from 'react';
 import ROUTES from '../../../../routes';
-import { DownloadLink, ExternalLink, Heading2, Heading3 } from '../../../components';
+import { DownloadLink, ExternalLink, Heading2, Heading3 } from '@potentiel/ui';
 import { afficherDate } from '../../../helpers';
 
 type DemandeDetailsProps = ComponentProps<'div'> & {

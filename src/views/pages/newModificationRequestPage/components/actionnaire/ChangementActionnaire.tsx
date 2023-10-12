@@ -1,11 +1,5 @@
-import {
-  Input,
-  Label,
-  TextArea,
-  ChampsObligatoiresLégende,
-  Callout,
-  LabelDescription,
-} from '../../../../components';
+import { Input, Label, Callout, LabelDescription } from '@potentiel/ui';
+import { TextArea, ChampsObligatoiresLégende } from '../../../../components';
 import React from 'react';
 
 type ChangementActionnaireProps = {

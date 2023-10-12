@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import React from 'react';
-import { LinkButton, LegacyPageTemplate, SuccessBox, ErrorBox } from '../components';
+import { LinkButton, SuccessBox, ErrorBox } from '@potentiel/ui';
+import { LegacyPageTemplate } from '../components';
 import { hydrateOnClient } from '../helpers';
 
 interface SuccèsOuErreurProps {

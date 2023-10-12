@@ -1,16 +1,8 @@
 import React from 'react';
 import { Request } from 'express';
 import routes from '../../../routes';
-import {
-  PrimaryButton,
-  Heading1,
-  Input,
-  Label,
-  LegacyPageTemplate,
-  SuccessBox,
-  Form,
-  ChampsObligatoiresLégende,
-} from '../../components';
+import { PrimaryButton, Heading1, Input, Label, SuccessBox, Form } from '@potentiel/ui';
+import { LegacyPageTemplate, ChampsObligatoiresLégende } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
 type InviterDgecValidateurProps = {

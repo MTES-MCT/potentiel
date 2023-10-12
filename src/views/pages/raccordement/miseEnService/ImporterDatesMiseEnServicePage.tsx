@@ -11,10 +11,10 @@ import {
   SuccessBox,
   Dialog,
   Spinner,
-} from '../../../components';
+} from '@potentiel/ui';
 import routes from '../../../../routes';
 import { hydrateOnClient } from '../../../helpers';
-import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { CsvError } from '../../../../controllers/helpers/mapCsvYupValidationErrorToCsvErrors';
 
 type Réussi = {
@@ -51,7 +51,7 @@ export const ImporterDatesMiseEnService = ({
 
   return (
     <PageTemplate
-      user={user}
+      user={convertirEnUtilisateurLegacyReadModel(user)}
       currentPage="importer-dates-mise-en-service"
       contentHeader={<div className="text-3xl">Imports</div>}
     >

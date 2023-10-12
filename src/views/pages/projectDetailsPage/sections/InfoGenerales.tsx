@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
-import { BuildingIcon, Heading3, Link, Section } from '../../../components';
+import { BuildingIcon, Heading3, Link, Section } from '@potentiel/ui';
 import routes from '../../../../routes';
 import { UserRole } from '../../../../modules/users';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';

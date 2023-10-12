@@ -1,16 +1,8 @@
 import type { Request } from 'express';
 import React from 'react';
 import ROUTES from '../../routes';
-import {
-  ErrorBox,
-  PrimaryButton,
-  LegacyPageTemplate,
-  SuccessBox,
-  Heading1,
-  Label,
-  Input,
-  Form,
-} from '../components';
+import { ErrorBox, PrimaryButton, SuccessBox, Heading1, Label, Input, Form } from '@potentiel/ui';
+import { LegacyPageTemplate } from '../components';
 import { hydrateOnClient } from '../helpers/hydrateOnClient';
 
 export type UploadLegacyModificationFileResult =

@@ -10,7 +10,7 @@ import {
   LogoutBoxIcon,
   AccountIcon,
   LoginIcon,
-} from '../../../components';
+} from '@potentiel/ui';
 
 type InscriptionConnexionProps = {
   user: User;

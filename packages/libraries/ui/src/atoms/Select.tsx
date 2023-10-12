@@ -22,10 +22,9 @@ export const Select = ({
       <div className={`relative ${className}`}>
         <ArrowDownIcon
           aria-hidden
-          className={`absolute z-[1] right-2 pointer-events-none w-6 h-6 ${
+          className={`absolute z-[1] right-2 pointer-events-none w-6 h-6 top-1/2 -translate-y-1/2 ${
             disabled ? 'text-gray-600' : 'text-black'
           } `}
-          style={{ top: '50%', transform: 'translateY(-50%)' }}
         />
         <select
           {...props}

@@ -5,15 +5,8 @@ import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
 } from '../../../../modules/demandeModification';
-import {
-  ErrorBox,
-  Input,
-  Label,
-  TextArea,
-  ChampsObligatoiresLégende,
-  LabelDescription,
-  Callout,
-} from '../../../components';
+import { ErrorBox, Input, Label, LabelDescription, Callout } from '@potentiel/ui';
+import { TextArea, ChampsObligatoiresLégende } from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
 import { ProjectAppelOffre } from '../../../../entities';

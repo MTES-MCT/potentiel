@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   Link,
   Tile,
@@ -9,7 +9,7 @@ import {
   EditIcon,
   SecondaryLinkButton,
   ArrowLeftIcon,
-} from '../../../components';
+} from '@potentiel/ui';
 import { hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
@@ -37,7 +37,11 @@ export const ListeDossiersRaccordement = ({
   const { identifiantProjet } = projet;
 
   return (
-    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
+    <PageProjetTemplate
+      titre={<TitrePageRaccordement />}
+      user={convertirEnUtilisateurLegacyReadModel(user)}
+      résuméProjet={projet}
+    >
       <div className="my-2 md:my-4">
         <p className="mt-2 mb-4 p-0">
           Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}

@@ -7,7 +7,6 @@ import {
   Callout,
   Link,
   ExternalLink,
-  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   AlertBox,
@@ -15,7 +14,8 @@ import {
   InfoBox,
   Heading2,
   Form,
-} from '../../components';
+} from '@potentiel/ui';
+import { LegacyPageTemplate } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
   EtapesProjet,

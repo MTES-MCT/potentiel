@@ -8,7 +8,6 @@ import {
   Heading2,
   Input,
   ListeVide,
-  LegacyPageTemplate,
   Select,
   SuccessBox,
   Label,
@@ -16,8 +15,8 @@ import {
   Td,
   Th,
   Form,
-  ChampsObligatoiresLégende,
-} from '../../components';
+} from '@potentiel/ui';
+import { LegacyPageTemplate, ChampsObligatoiresLégende } from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { REGIONS, Région } from '../../../modules/dreal/région';
 

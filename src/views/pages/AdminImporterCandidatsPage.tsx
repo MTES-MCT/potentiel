@@ -1,16 +1,8 @@
 import React from 'react';
 import ROUTES from '../../routes';
 import { Request } from 'express';
-import {
-  PrimaryButton,
-  ErrorBox,
-  Heading1,
-  Input,
-  Label,
-  LegacyPageTemplate,
-  SuccessBox,
-  Form,
-} from '../components';
+import { PrimaryButton, ErrorBox, Heading1, Input, Label, SuccessBox, Form } from '@potentiel/ui';
+import { LegacyPageTemplate } from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type AdminImporterCandidatsProps = {

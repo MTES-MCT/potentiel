@@ -5,7 +5,6 @@ import { PaginatedList } from '../../modules/pagination';
 import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 
 import {
-  ProjectList,
   PrimaryButton,
   Input,
   Label,
@@ -18,15 +17,14 @@ import {
   ArrowRightIcon,
   BarreDeRecherche,
   Accordeon,
-  Dropdown,
   SecondaryLinkButton,
-  PageListeTemplate,
-} from '../components';
+} from '@potentiel/ui';
+import { ProjectList, Dropdown, PageListeTemplate } from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '../../modules/project';
 import { userIs, userIsNot } from '../../modules/users';
 import routes from '../../routes';
-import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ListeProjetsProps = {
   request: Request;
@@ -93,7 +91,7 @@ export const ListeProjets = ({
 
   return (
     <PageListeTemplate
-      user={utilisateur}
+      user={convertirEnUtilisateurLegacyReadModel(utilisateur)}
       currentPage={'list-projects'}
       contentHeader={
         <Heading1 className="!text-white whitespace-nowrap">

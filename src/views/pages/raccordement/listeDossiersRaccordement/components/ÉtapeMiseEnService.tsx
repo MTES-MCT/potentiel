@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import routes from '../../../../../routes';
-import { CalendarIcon, EditIcon, Link } from '../../../../components';
+import { CalendarIcon, EditIcon, Link } from '@potentiel/ui';
 import { afficherDate } from '../../../../helpers';
 
 import { Etape } from './Etape';

@@ -10,10 +10,9 @@ import {
   Link,
   UserIcon,
   Section,
-  Dropdown,
   Form,
-  ChampsObligatoiresLégende,
-} from '../../../components';
+} from '@potentiel/ui';
+import { Dropdown, ChampsObligatoiresLégende } from '../../../components';
 
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';

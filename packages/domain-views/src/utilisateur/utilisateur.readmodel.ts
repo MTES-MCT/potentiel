@@ -21,7 +21,7 @@ export type UtilisateurLegacyReadModel = ReadModel<
     role: Role;
     email: string;
     nomComplet: string;
-    fonction: string;
+    fonction?: string;
     accountUrl: string;
   }
 >;

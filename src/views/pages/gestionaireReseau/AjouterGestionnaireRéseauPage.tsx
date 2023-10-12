@@ -9,9 +9,9 @@ import {
   PageTemplate,
   Form,
   LabelDescription,
-  ChampsObligatoiresLégende,
-} from '../../components';
-import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+} from '@potentiel/ui';
+import { ChampsObligatoiresLégende } from '../../components';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
 import routes from '../../../routes';
 import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisieIdentifiant';
@@ -28,7 +28,7 @@ export const AjouterGestionnaireRéseau = ({
   erreurValidation,
 }: AjouterGestionnaireRéseauProps) => (
   <PageTemplate
-    user={utilisateur}
+    user={convertirEnUtilisateurLegacyReadModel(utilisateur)}
     currentPage={'liste-gestionnaires-réseau'}
     contentHeader={<div className="text-3xl">Outils</div>}
   >

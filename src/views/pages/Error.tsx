@@ -1,6 +1,7 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Heading2, LegacyPageTemplate } from '../components';
+import { Heading2 } from '@potentiel/ui';
+import { LegacyPageTemplate } from '../components';
 import { hydrateOnClient } from '../helpers';
 
 interface Props {

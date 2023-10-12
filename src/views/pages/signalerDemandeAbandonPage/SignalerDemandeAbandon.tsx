@@ -3,15 +3,17 @@ import { Request } from 'express';
 import {
   PrimaryButton,
   Input,
-  LegacyPageTemplate,
-  ProjectInfo,
   SecondaryLinkButton,
   ErrorBox,
   Heading1,
   Label,
-  TextArea,
   Radio,
   Form,
+} from '@potentiel/ui';
+import {
+  ProjectInfo,
+  LegacyPageTemplate,
+  TextArea,
   ChampsObligatoiresLégende,
 } from '../../components';
 import routes from '../../../routes';

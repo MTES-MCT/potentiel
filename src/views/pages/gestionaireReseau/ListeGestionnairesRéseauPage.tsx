@@ -1,5 +1,6 @@
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Heading1, LinkButton, ListeVide, LegacyPageTemplate, SuccessBox } from '../../components';
+import { Heading1, LinkButton, ListeVide, SuccessBox } from '@potentiel/ui';
+import { LegacyPageTemplate } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import React from 'react';
 import { Liste } from './components/Liste';

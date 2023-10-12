@@ -4,18 +4,20 @@ import { Technologie } from '@potentiel/domain-views';
 import { Request } from 'express';
 
 import {
-  ProjectInfo,
   PrimaryButton,
   SecondaryLinkButton,
   InfoBox,
-  ChoisirCahierDesChargesFormulaire,
-  InfoLienGuideUtilisationCDC,
-  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
-  ProjectProps,
   Form,
+} from '@potentiel/ui';
+import {
+  ProjectInfo,
+  ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
+  LegacyPageTemplate,
+  ProjectProps,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { ChangementPuissance } from './components/ChangementPuissance';

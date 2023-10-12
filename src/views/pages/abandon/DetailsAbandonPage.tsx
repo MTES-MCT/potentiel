@@ -5,7 +5,6 @@ import { ModificationRequestStatusTitle, afficherDate, hydrateOnClient } from '.
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   AlertBox,
-  ChampsObligatoiresLégende,
   DownloadLink,
   ErrorBox,
   ExternalLink,
@@ -15,13 +14,12 @@ import {
   Heading3,
   Input,
   Label,
-  LegacyPageTemplate,
   PrimaryButton,
-  ProjectInfo,
   SecondaryButton,
   StatutDemandeModification,
   SuccessBox,
-} from '../../components';
+} from '@potentiel/ui';
+import { ProjectInfo, LegacyPageTemplate, ChampsObligatoiresLégende } from '../../components';
 import ROUTES from '../../../routes';
 
 type DétailsAbandonProps = {

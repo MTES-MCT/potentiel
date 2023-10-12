@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from '../../../components';
+import { Container } from '@potentiel/ui';
 
 export const Benefices = () => (
   <section className="text-blue-france-sun-base mb-10">

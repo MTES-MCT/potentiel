@@ -1,10 +1,10 @@
 import type { Request } from 'express';
 import React from 'react';
 import routes from '../../../routes';
-import { Header, Footer, ArrowRightWithCircle } from '../../components';
+import { App, Header, Footer, ArrowRightWithCircle } from '@potentiel/ui';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components';
-import { App } from '../..';
+import { convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type HomeProps = {
   request: Request;
@@ -17,7 +17,7 @@ export const Home = (props: HomeProps) => {
 
   return (
     <App>
-      <Header {...{ user }}>
+      <Header user={convertirEnUtilisateurLegacyReadModel(user)}>
         {user && (
           <Header.MenuItem href={routes.REDIRECT_BASED_ON_ROLE}>
             <div className="flex flex-row items-center">
@@ -33,7 +33,7 @@ export const Home = (props: HomeProps) => {
         <InscriptionConnexion {...{ user }} />
         <Benefices />
       </main>
-      <Footer user={user} />
+      <Footer user={convertirEnUtilisateurLegacyReadModel(user)} />
     </App>
   );
 };

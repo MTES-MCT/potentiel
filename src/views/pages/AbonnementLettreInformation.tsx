@@ -11,9 +11,10 @@ import {
   Form,
   ErrorIcon,
   SaveIcon,
-  ChampsObligatoiresLégende,
-} from '../components';
+} from '@potentiel/ui';
+import { ChampsObligatoiresLégende } from '../components';
 import { hydrateOnClient } from '../helpers';
+import { convertirEnUtilisateurLegacyReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type AbonnementLettreInformationProps = {
   request: Request;
@@ -29,7 +30,7 @@ export const AbonnementLettreInformation = ({
   success,
 }: AbonnementLettreInformationProps) => (
   <>
-    <Header {...{ user }} />
+    <Header user={convertirEnUtilisateurLegacyReadModel(user)} />
 
     <main id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
       <section className="bg-blue-france-sun-base pb-0.5">
@@ -41,7 +42,7 @@ export const AbonnementLettreInformation = ({
       </section>
     </main>
 
-    <Footer user={user} />
+    <Footer user={convertirEnUtilisateurLegacyReadModel(user)} />
   </>
 );
 

@@ -1,4 +1,5 @@
-import { Heading1, Link, LegacyPageTemplate } from '../components';
+import { Heading1, Link } from '@potentiel/ui';
+import { LegacyPageTemplate } from '../components';
 import React from 'react';
 import { Request } from 'express';
 import { hydrateOnClient } from '../helpers';

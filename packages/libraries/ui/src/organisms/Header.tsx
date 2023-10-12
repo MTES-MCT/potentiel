@@ -18,7 +18,7 @@ import {
 import { Checkbox } from '../molecules';
 
 type HeaderProps = {
-  user?: UtilisateurLegacyReadModel;
+  user?: Omit<UtilisateurLegacyReadModel, 'type'>;
   children?: React.ReactNode;
 };
 
@@ -99,7 +99,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
 };
 
 type QuickAccessProps = {
-  user?: UtilisateurLegacyReadModel;
+  user?: Omit<UtilisateurLegacyReadModel, 'type'>;
 };
 const QuickAccess = ({ user }: QuickAccessProps) => (
   <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0">

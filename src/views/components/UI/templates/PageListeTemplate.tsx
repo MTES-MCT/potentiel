@@ -1,5 +1,5 @@
 import React, { Children, ReactElement, ReactNode } from 'react';
-import { ErrorBox, PageTemplate, PageTemplateProps, SuccessBox } from '../..';
+import { ErrorBox, PageTemplate, PageTemplateProps, SuccessBox } from '@potentiel/ui';
 
 /**
  * Fonction utilitaire permettant de trouver un nœud enfant correspondant à un type donné.

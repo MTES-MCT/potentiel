@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
-import { CogIcon, Section } from '../../../components';
+import { CogIcon, Section } from '@potentiel/ui';
 
 type MaterielsEtTechnologiesProps = {
   project: ProjectDataForProjectPage;

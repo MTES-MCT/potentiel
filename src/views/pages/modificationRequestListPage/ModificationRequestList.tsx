@@ -4,7 +4,6 @@ import { ModificationRequestListItemDTO } from '../../../modules/modificationReq
 import { PaginatedList } from '../../../modules/pagination';
 import { AppelOffre } from '@potentiel/domain-views';
 import {
-  RequestList,
   LinkButton,
   Heading1,
   BarreDeRecherche,
@@ -17,11 +16,12 @@ import {
   ArrowLeftIcon,
   Accordeon,
   SecondaryLinkButton,
-  PageListeTemplate,
-} from '../../components';
+} from '@potentiel/ui';
+import { RequestList, PageListeTemplate } from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { userIs } from '../../../modules/users';
 import routes from '../../../routes';
+import { convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type ModificationRequestListProps = {
   request: Request;
@@ -85,7 +85,7 @@ export const ModificationRequestList = ({
 
   return (
     <PageListeTemplate
-      user={request.user}
+      user={convertirEnUtilisateurLegacyReadModel(request.user)}
       currentPage="list-requests"
       contentHeader={
         <Heading1 className="!text-white whitespace-nowrap">

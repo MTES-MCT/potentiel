@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -12,7 +12,7 @@ import {
   Form,
   LabelDescription,
   InputFile,
-} from '../../../components';
+} from '@potentiel/ui';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
 import {
   GestionnaireRéseauReadModel,
@@ -54,7 +54,11 @@ export const ModifierDemandeComplèteRaccordement = ({
   } = gestionnaireRéseauActuel;
 
   return (
-    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
+    <PageProjetTemplate
+      titre={<TitrePageRaccordement />}
+      user={convertirEnUtilisateurLegacyReadModel(user)}
+      résuméProjet={projet}
+    >
       <div className="flex flex-col md:flex-row gap-4">
         <Form
           className="max-w-none w-full md:w-1/2 mx-0"

@@ -1,17 +1,19 @@
 import {
   PrimaryButton,
   SecondaryLinkButton,
-  ProjectInfo,
-  LegacyPageTemplate,
   ErrorBox,
   Heading1,
-  TextArea,
   Radio,
   Form,
-  ChampsObligatoiresLégende,
   Label,
   LabelDescription,
   Input,
+} from '@potentiel/ui';
+import {
+  ProjectInfo,
+  LegacyPageTemplate,
+  TextArea,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '../../../modules/project';
 import routes from '../../../routes';

@@ -6,7 +6,7 @@ import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon } from '../atoms'
 import { PageTemplate } from './PageTemplate';
 
 export const PageProjetTemplate: FC<{
-  user: UtilisateurLegacyReadModel;
+  user: Omit<UtilisateurLegacyReadModel, 'type'>;
   résuméProjet: CandidatureLegacyReadModel;
   titre: ReactNode;
 }> = ({ user, résuméProjet, titre, children }) => (

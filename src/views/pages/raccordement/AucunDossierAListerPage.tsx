@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { PageProjetTemplate, PlugIcon, ListeVide, Link } from '../../components';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { PageProjetTemplate, PlugIcon, ListeVide, Link } from '@potentiel/ui';
 import { hydrateOnClient } from '../../helpers';
 import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
@@ -19,7 +19,7 @@ export const AucunDossierALister = ({ user, projet }: AucunDossierAListerProps) 
         Raccordement
       </>
     }
-    user={user}
+    user={convertirEnUtilisateurLegacyReadModel(user)}
     résuméProjet={projet}
   >
     <ListeVide titre="Aucun dossier à lister" />

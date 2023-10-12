@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -12,7 +12,7 @@ import {
   Form,
   InfoBox,
   AlertBox,
-} from '../../../components';
+} from '@potentiel/ui';
 import { afficherDate, formatDateForInput, hydrateOnClient } from '../../../helpers';
 import { CandidatureLegacyReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
@@ -52,7 +52,11 @@ export const TransmettreDateMiseEnService = ({
   };
 
   return (
-    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
+    <PageProjetTemplate
+      titre={<TitrePageRaccordement />}
+      user={convertirEnUtilisateurLegacyReadModel(user)}
+      résuméProjet={projet}
+    >
       <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
       <Heading2 className="mb-0">Transmettre la date de mise en service</Heading2>
 

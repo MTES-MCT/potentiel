@@ -9,7 +9,7 @@ export const UserNavigation = ({
   user,
   currentPage,
 }: {
-  user: UtilisateurLegacyReadModel;
+  user: Omit<UtilisateurLegacyReadModel, 'type'>;
   currentPage?: string;
 }) => {
   switch (user.role) {

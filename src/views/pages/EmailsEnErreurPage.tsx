@@ -1,7 +1,6 @@
 import {
   Pagination,
   PrimaryButton,
-  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
@@ -11,7 +10,8 @@ import {
   Th,
   Form,
   Link,
-} from '../components';
+} from '@potentiel/ui';
+import { LegacyPageTemplate } from '../components';
 import { FailedNotificationDTO } from '../../modules/notification';
 import { Request } from 'express';
 import React from 'react';

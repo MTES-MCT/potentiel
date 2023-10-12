@@ -1,4 +1,4 @@
-import { ExternalLink, InfoBox } from '../../../components';
+import { ExternalLink, InfoBox } from '@potentiel/ui';
 import React, { ComponentProps } from 'react';
 
 export type InfoBoxFormulaireDCRProps = ComponentProps<'div'> & {

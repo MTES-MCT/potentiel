@@ -1,9 +1,4 @@
-import {
-  DownloadLink,
-  Form,
-  SecondaryButton,
-  StatutDemandeModification,
-} from '../../../components';
+import { DownloadLink, Form, SecondaryButton, StatutDemandeModification } from '@potentiel/ui';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import { UserRole } from '../../../../modules/users';
 import ROUTES from '../../../../routes';

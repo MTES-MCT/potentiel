@@ -1,7 +1,7 @@
 import React from 'react';
 import { DownloadResponseTemplate } from '.';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
-import { Input, Label } from '../../../components';
+import { Input, Label } from '@potentiel/ui';
 
 interface UploadResponseFileProps {
   modificationRequest: ModificationRequestPageDTO & { type: string };

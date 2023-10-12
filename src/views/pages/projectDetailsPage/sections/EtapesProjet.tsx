@@ -1,6 +1,7 @@
 import React from 'react';
 import { Request } from 'express';
-import { Timeline, CalendarIcon, Section, Link, InfoBox } from '../../../components';
+import { CalendarIcon, Section, Link, InfoBox } from '@potentiel/ui';
+import { Timeline } from '../../../components/timeline';
 import { userIs } from '../../../../modules/users';
 import { ProjectEventListDTO } from '../../../../modules/frise';
 import routes from '../../../../routes';

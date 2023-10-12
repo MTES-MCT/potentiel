@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from '../../../components';
+import { Container } from '@potentiel/ui';
 
 export const PropositionDeValeur = () => (
   <section className="bg-blue-france-sun-base text-white">

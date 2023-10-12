@@ -1,12 +1,7 @@
 import React from 'react';
 
-import {
-  Input,
-  Label,
-  TextArea,
-  ChampsObligatoiresLégende,
-  LabelDescription,
-} from '../../../../components';
+import { Input, Label, LabelDescription } from '@potentiel/ui';
+import { TextArea, ChampsObligatoiresLégende } from '../../../../components';
 
 type DemandeRecoursProps = {
   justification: string;

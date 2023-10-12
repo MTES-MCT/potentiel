@@ -2,7 +2,6 @@ import {
   ErrorBox,
   Heading1,
   ListeVide,
-  LegacyPageTemplate,
   Pagination,
   SecondaryButton,
   SuccessBox,
@@ -11,7 +10,8 @@ import {
   Th,
   Form,
   Link,
-} from '../components';
+} from '@potentiel/ui';
+import { LegacyPageTemplate } from '../components';
 import { PendingCandidateInvitationDTO } from '../../modules/notificationCandidats';
 import routes from '../../routes';
 import { Request } from 'express';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
-import { DownloadLink } from '../../../components';
+import { DownloadLink } from '@potentiel/ui';
 import ROUTES from '../../../../routes';
 
 interface DownloadResponseTemplateProps {

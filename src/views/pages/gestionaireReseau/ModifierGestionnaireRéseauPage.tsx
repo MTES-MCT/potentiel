@@ -8,9 +8,9 @@ import {
   Form,
   PageTemplate,
   LabelDescription,
-  ChampsObligatoiresLégende,
-} from '../../components';
-import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+} from '@potentiel/ui';
+import { ChampsObligatoiresLégende } from '../../components';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 import routes from '../../../routes';
@@ -32,7 +32,7 @@ export const ModifierGestionnaireRéseau = ({
   erreurValidation,
 }: ModifierGestionnaireRéseauProps) => (
   <PageTemplate
-    user={utilisateur}
+    user={convertirEnUtilisateurLegacyReadModel(utilisateur)}
     currentPage={'liste-gestionnaires-réseau'}
     contentHeader={<div className="text-3xl">Outils</div>}
   >

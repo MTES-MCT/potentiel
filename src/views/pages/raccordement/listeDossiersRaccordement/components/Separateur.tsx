@@ -1,4 +1,4 @@
-import { ArrowDownWithCircle, ArrowRightWithCircle } from '../../../../components';
+import { ArrowDownWithCircle, ArrowRightWithCircle } from '@potentiel/ui';
 import React, { FC } from 'react';
 
 export const Separateur: FC = () => (

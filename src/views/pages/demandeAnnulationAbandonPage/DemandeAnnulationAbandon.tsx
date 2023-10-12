@@ -4,12 +4,11 @@ import {
   Form,
   Heading1,
   Heading2,
-  LegacyPageTemplate,
-  ProjectInfo,
   SecondaryButton,
   StatutDemandeModification,
   SuccessBox,
-} from '../../components';
+} from '@potentiel/ui';
+import { ProjectInfo, LegacyPageTemplate } from '../../components';
 import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components';
 import ROUTES from '../../../routes';
 import React from 'react';

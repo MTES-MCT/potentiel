@@ -1,22 +1,24 @@
 import {
-  ProjectInfo,
-  TextArea,
   Input,
   PrimaryButton,
   SecondaryLinkButton,
   InfoBox,
-  ChoisirCahierDesChargesFormulaire,
-  InfoLienGuideUtilisationCDC,
-  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
-  ProjectProps,
   Label,
   Form,
   Callout,
-  ChampsObligatoiresLégende,
   LabelDescription,
+} from '@potentiel/ui';
+import {
+  ProjectInfo,
+  TextArea,
+  ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
+  LegacyPageTemplate,
+  ProjectProps,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectAppelOffre } from '../../../entities';

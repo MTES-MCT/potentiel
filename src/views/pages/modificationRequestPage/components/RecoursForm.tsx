@@ -1,4 +1,4 @@
-import { Label, Input } from '../../../components';
+import { Label, Input } from '@potentiel/ui';
 import { formatDateForInput } from '../../../helpers';
 import React from 'react';
 

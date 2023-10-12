@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -11,7 +11,7 @@ import {
   PlugIcon,
   Form,
   Label,
-} from '../../components';
+} from '@potentiel/ui';
 import { hydrateOnClient } from '../../helpers';
 import {
   GestionnaireRéseauReadModel,
@@ -50,7 +50,7 @@ export const ModifierGestionnaireRéseauProjet = ({
           Raccordement
         </>
       }
-      user={user}
+      user={convertirEnUtilisateurLegacyReadModel(user)}
       résuméProjet={projet}
     >
       <div className="flex flex-col md:flex-row gap-4">

@@ -5,25 +5,24 @@ import { PaginatedList } from '../../modules/pagination';
 import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {
   BarreDeRecherche,
-  Dropdown,
   Heading1,
   InfoBox,
   Label,
   LinkButton,
   ListeVide,
-  MissingOwnerProjectList,
   Select,
   Form,
-  PageListeTemplate,
   Accordeon,
   ArrowLeftIcon,
   ArrowRightIcon,
   SecondaryLinkButton,
-} from '../components';
+} from '@potentiel/ui';
+import { Dropdown, MissingOwnerProjectList, PageListeTemplate } from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import routes from '../../routes';
+import { convertirEnUtilisateurLegacyReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
-interface ProjetsÀRéclamerProps {
+type ProjetsÀRéclamerProps = {
   request: Request;
   projects?: PaginatedList<Project>;
   appelsOffre: Array<AppelOffre>;
@@ -31,7 +30,7 @@ interface ProjetsÀRéclamerProps {
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
   currentUrl: string;
-}
+};
 
 export const ProjetsÀRéclamer = ({
   request,
@@ -74,7 +73,7 @@ export const ProjetsÀRéclamer = ({
 
   return (
     <PageListeTemplate
-      user={request.user}
+      user={convertirEnUtilisateurLegacyReadModel(request.user)}
       currentPage={'list-missing-owner-projects'}
       contentHeader={
         <Heading1 className="!text-white whitespace-nowrap">

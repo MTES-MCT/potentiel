@@ -5,13 +5,15 @@ import {
   ErrorBox,
   Heading1,
   Input,
-  LegacyPageTemplate,
-  ProjectInfo,
   SecondaryLinkButton,
   Label,
-  TextArea,
   Radio,
   Form,
+} from '@potentiel/ui';
+import {
+  ProjectInfo,
+  LegacyPageTemplate,
+  TextArea,
   ChampsObligatoiresLégende,
 } from '../../components';
 import routes from '../../../routes';

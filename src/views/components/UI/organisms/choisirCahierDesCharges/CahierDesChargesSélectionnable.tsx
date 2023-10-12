@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio } from '../../..';
+import { Radio } from '@potentiel/ui';
 import { CahierDesChargesRéférence } from '@potentiel/domain-views';
 
 type CahierDesChargesSelectionnableProps = {

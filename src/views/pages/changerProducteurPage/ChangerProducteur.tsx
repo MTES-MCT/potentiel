@@ -3,25 +3,27 @@ import { ProjectAppelOffre } from '../../../entities';
 import { Request } from 'express';
 
 import {
-  ProjectInfo,
   PrimaryButton,
   Label,
   SecondaryLinkButton,
   Input,
-  TextArea,
   AlertBox,
   InfoBox,
-  ChoisirCahierDesChargesFormulaire,
-  InfoLienGuideUtilisationCDC,
-  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
-  ProjectProps,
   Form,
-  ChampsObligatoiresLégende,
   LabelDescription,
   Callout,
+} from '@potentiel/ui';
+import {
+  ProjectInfo,
+  TextArea,
+  ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
+  LegacyPageTemplate,
+  ProjectProps,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '../../../routes';

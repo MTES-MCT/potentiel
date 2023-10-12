@@ -8,14 +8,12 @@ import {
   Heading1,
   Input,
   Label,
-  LegacyPageTemplate,
   Select,
   SuccessBox,
-  TextArea,
   Form,
   InfoBox,
-  ChampsObligatoiresLégende,
-} from '../components';
+} from '@potentiel/ui';
+import { LegacyPageTemplate, TextArea, ChampsObligatoiresLégende } from '../components';
 import { hydrateOnClient, updateUrlParams } from '../helpers';
 
 type AdminRegénérerPeriodeAttestationsProps = {

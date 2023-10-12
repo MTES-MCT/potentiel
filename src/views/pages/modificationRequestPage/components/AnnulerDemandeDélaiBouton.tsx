@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ModificationRequestStatusDTO } from '../../../../modules/modificationRequest';
-import { Form, SecondaryButton } from '../../../components';
+import { Form, SecondaryButton } from '@potentiel/ui';
 
 interface CancelButtonProps {
   status: ModificationRequestStatusDTO;

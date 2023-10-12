@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { UtilisateurReadModel , convertirEnUtilisateurLegacyReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   PrimaryButton,
   ErrorBox,
@@ -12,8 +12,8 @@ import {
   Form,
   LabelDescription,
   InputFile,
-  ChampsObligatoiresLégende,
-} from '../../../components';
+} from '@potentiel/ui';
+import { ChampsObligatoiresLégende } from '../../../components';
 import {
   GestionnaireRéseauReadModel,
   CandidatureLegacyReadModel,
@@ -64,7 +64,11 @@ export const TransmettreDemandeComplèteRaccordement = ({
   );
 
   return (
-    <PageProjetTemplate titre={<TitrePageRaccordement />} user={user} résuméProjet={projet}>
+    <PageProjetTemplate
+      titre={<TitrePageRaccordement />}
+      user={convertirEnUtilisateurLegacyReadModel(user)}
+      résuméProjet={projet}
+    >
       <div className="flex flex-col md:flex-row gap-4">
         <Form
           className="max-w-none w-full md:w-1/2 mx-0"

@@ -5,8 +5,6 @@ import routes from '../../../routes';
 import { PaginatedList } from '../../../modules/pagination';
 import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
 import {
-  ProjectList,
-  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   LinkButton,
@@ -17,7 +15,8 @@ import {
   Select,
   Form,
   DownloadLink,
-} from '../../components';
+} from '@potentiel/ui';
+import { ProjectList, LegacyPageTemplate } from '../../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '../../../modules/project/queries';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';

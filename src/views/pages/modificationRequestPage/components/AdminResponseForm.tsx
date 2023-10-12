@@ -1,4 +1,5 @@
-import { ChampsObligatoiresLégende, Form, PrimaryButton } from '../../../components';
+import { Form, PrimaryButton } from '@potentiel/ui';
+import { ChampsObligatoiresLégende } from '../../../components';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import { UserRole } from '../../../../modules/users';
 import ROUTES from '../../../../routes';

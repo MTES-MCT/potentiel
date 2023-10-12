@@ -1,8 +1,7 @@
 import React from 'react';
+import { Heading1, InfoBox } from '@potentiel/ui';
 import {
   ChoisirCahierDesChargesFormulaire,
-  Heading1,
-  InfoBox,
   InfoLienGuideUtilisationCDC,
   LegacyPageTemplate,
 } from '../../components';

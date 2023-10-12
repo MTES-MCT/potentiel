@@ -1,4 +1,4 @@
-import { Input, Label } from '../../../components';
+import { Input, Label } from '@potentiel/ui';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import format from 'date-fns/format';
 import React from 'react';

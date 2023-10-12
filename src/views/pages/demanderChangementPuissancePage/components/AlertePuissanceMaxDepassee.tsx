@@ -1,7 +1,7 @@
 import React from 'react';
 import { getVolumeReserve } from '../../../../modules/demandeModification';
 import { ProjectAppelOffre } from '../../../../entities';
-import { AlertBox } from '../../../components';
+import { AlertBox } from '@potentiel/ui';
 
 type AlertOnPuissanceExceedMaxProps = {
   project: {

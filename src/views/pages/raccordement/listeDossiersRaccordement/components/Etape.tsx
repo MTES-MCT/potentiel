@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { ClockIcon, SuccessIcon, WarningIcon } from '../../../../components';
+import { ClockIcon, SuccessIcon, WarningIcon } from '@potentiel/ui';
 
 export const Etape: FC<{
   statut: 'étape validée' | 'étape à venir' | 'étape incomplète';

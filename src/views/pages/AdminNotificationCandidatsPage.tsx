@@ -5,15 +5,14 @@ import {
   Input,
   Label,
   ListeVide,
-  ProjectList,
   Select,
   Form,
   LinkButton,
   ArrowLeftIcon,
   ArrowRightIcon,
   SecondaryLinkButton,
-  PageListeTemplate,
-} from '../components';
+} from '@potentiel/ui';
+import { ProjectList, PageListeTemplate } from '../components';
 import { ProjectListItem } from '../../modules/project/queries';
 import ROUTES from '../../routes';
 import { AppelOffre, Periode } from '@potentiel/domain-views';
@@ -22,7 +21,7 @@ import querystring from 'querystring';
 import React, { useState } from 'react';
 import { PaginatedList } from '../../modules/pagination';
 import { afficherDate, hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
-import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { convertirEnUtilisateurLegacyReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type AdminNotificationCandidatsProps = {
   request: Request;
@@ -41,12 +40,10 @@ export const AdminNotificationCandidats = ({
   données,
   currentUrl,
 }: AdminNotificationCandidatsProps) => {
+  const { user } = request;
   const {
     query: { error, success, recherche, classement, appelOffreId, periodeId },
-    user,
   } = (request as any) || {};
-
-  const utilisateur = user as UtilisateurReadModel;
 
   const hasFilters = !!(classement || recherche || appelOffreId || periodeId);
 
@@ -54,12 +51,12 @@ export const AdminNotificationCandidats = ({
 
   return (
     <PageListeTemplate
-      user={utilisateur}
+      user={convertirEnUtilisateurLegacyReadModel(user)}
       currentPage="notify-candidates"
       contentHeader={
         <>
           <Heading1 className="!text-white whitespace-nowrap">Notifier les candidats</Heading1>
-          {utilisateur.role !== 'dgec-validateur' && (
+          {user.role !== 'dgec-validateur' && (
             <p className="text-white">
               Seules les personnes ayant délégation de signature sont habilitées à notifier un appel
               d'offres. <br />
@@ -163,7 +160,7 @@ export const AdminNotificationCandidats = ({
           </div>
 
           {!success &&
-            utilisateur.role === 'dgec-validateur' &&
+            user.role === 'dgec-validateur' &&
             données &&
             données.projetsPériodeSélectionnée.itemCount > 0 && (
               <>
@@ -214,7 +211,7 @@ export const AdminNotificationCandidats = ({
         {données && données.projetsPériodeSélectionnée.items.length > 0 ? (
           <ProjectList
             projects={données.projetsPériodeSélectionnée}
-            role={utilisateur?.role}
+            role={user?.role}
             currentUrl={currentUrl}
             exportListe={
               données.AOSélectionné &&

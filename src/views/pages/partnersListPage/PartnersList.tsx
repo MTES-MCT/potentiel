@@ -5,7 +5,6 @@ import ROUTES from '../../../routes';
 import {
   PrimaryButton,
   Input,
-  LegacyPageTemplate,
   Select,
   SuccessBox,
   ErrorBox,
@@ -17,8 +16,8 @@ import {
   Td,
   Th,
   Form,
-  ChampsObligatoiresLégende,
-} from '../../components';
+} from '@potentiel/ui';
+import { LegacyPageTemplate, ChampsObligatoiresLégende } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
 type PartnersListProps = {

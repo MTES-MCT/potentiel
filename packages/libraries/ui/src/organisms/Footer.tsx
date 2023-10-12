@@ -5,7 +5,7 @@ import routes from '@potentiel/routes';
 import { Link } from '../atoms';
 
 type FooterProps = {
-  user?: UtilisateurLegacyReadModel;
+  user?: Omit<UtilisateurLegacyReadModel, 'type'>;
 };
 
 const Footer: React.FC<FooterProps> = ({ user }) => (

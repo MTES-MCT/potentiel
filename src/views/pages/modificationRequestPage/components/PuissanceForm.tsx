@@ -6,7 +6,7 @@ import {
   getVolumeReserve,
 } from '../../../../modules/demandeModification/demandeChangementDePuissance';
 
-import { AlertBox, Checkbox } from '../../../components';
+import { AlertBox, Checkbox } from '@potentiel/ui';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest/dtos';
 import { UploadResponseFile } from './UploadResponseFile';
 

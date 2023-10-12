@@ -4,25 +4,27 @@ import routes from '../../../routes';
 import { Request } from 'express';
 
 import {
-  ProjectInfo,
   PrimaryButton,
   Label,
   InfoBox,
-  ChoisirCahierDesChargesFormulaire,
-  InfoLienGuideUtilisationCDC,
-  LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
   Heading1,
   SecondaryLinkButton,
-  ProjectProps,
   Input,
-  TextArea,
   Form,
-  ChampsObligatoiresLégende,
   LabelDescription,
   Checkbox,
   AlertBox,
+} from '@potentiel/ui';
+import {
+  ProjectInfo,
+  ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
+  LegacyPageTemplate,
+  ProjectProps,
+  TextArea,
+  ChampsObligatoiresLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 

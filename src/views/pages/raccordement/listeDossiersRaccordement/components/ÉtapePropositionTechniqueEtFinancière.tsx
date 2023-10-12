@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import routes from '../../../../../routes';
 import { DossierRaccordementReadModel } from '@potentiel/domain-views';
-import { CalendarIcon, DownloadLink, EditIcon, Link } from '../../../../components';
+import { CalendarIcon, DownloadLink, EditIcon, Link } from '@potentiel/ui';
 import { afficherDate } from '../../../../helpers';
 
 import { Etape } from './Etape';

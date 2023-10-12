@@ -1,14 +1,5 @@
-import {
-  ModificationRequestActionTitles,
-  ProjectInfo,
-  SuccessBox,
-  LegacyPageTemplate,
-  ErrorBox,
-  Heading1,
-  Heading2,
-  PrimaryButton,
-  Form,
-} from '../../components';
+import { SuccessBox, ErrorBox, Heading1, Heading2, PrimaryButton, Form } from '@potentiel/ui';
+import { ModificationRequestActionTitles, ProjectInfo, LegacyPageTemplate } from '../../components';
 import { ModificationRequestPageDTO } from '../../../modules/modificationRequest';
 import { userIs } from '../../../modules/users';
 import ROUTES from '../../../routes';
