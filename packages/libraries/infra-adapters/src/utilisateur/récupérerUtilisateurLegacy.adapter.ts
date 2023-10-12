@@ -10,7 +10,8 @@ const selectUtilisateurQuery = `
     'email', "email",
     'nomComplet', "fullName",
     'fonction', "fonction",
-    'identifiantUtilisateur', "email"
+    'identifiantUtilisateur', "email",
+    'role', "role"
   ) as value
   from "users"
   where "email" = $1
@@ -31,6 +32,9 @@ export const récupérerUtilisateurAdapter: RécupérerUtilisateurLegacyPort = a
 
   return {
     ...utilisateur,
+    accountUrl: `${process.env.KEYCLOAK_SERVER ?? ''}/realms/${
+      process.env.KEYCLOAK_REALM ?? ''
+    }/account`,
     type: 'utilisateur',
   };
 };
