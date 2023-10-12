@@ -25,6 +25,15 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
     okAsync<null, InfraNotAvailableError>(null),
   );
 
+  const récupérerDétailDossiersRaccordements = jest.fn(async () => [
+    {
+      référence: 'ref-du-dossier',
+      demandeComplèteRaccordement: {
+        dateQualification: new Date('2022-01-01').toISOString(),
+      },
+    },
+  ]);
+
   const getProjectAppelOffre = jest.fn(
     () =>
       ({
@@ -47,14 +56,6 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
       } as ProjectAppelOffre),
   );
 
-  const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-    {
-      référence: 'ref-du-dossier',
-      miseEnService: { dateMiseEnService: new Date().toISOString() },
-      demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
-    },
-  ]);
-
   beforeEach(async () => {
     publishToEventStore.mockClear();
   });
@@ -66,62 +67,14 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
   );
 
   describe(`Projet pouvant bénéficier du délai de 18 mois`, () => {
-    it(`Etant donné un projet éolien
-        Et ayant souscrit au CDC 2022 dont la période de l'appel d'offre permet le délai de 18 mois
+    describe(`Un seul point d'injection`, () => {
+      it(`Etant donné un projet éolien
+        Et ayant souscrit au CDC 2022 
+        Et dont la période de l'appel d'offre permet le délai de 18 mois
         Et n'ayant pas déjà bénéficié du délai
+        Et ayant un seul point d'injection
         Quand la date de mise en service transmise est comprise entre le 1er juin 2022 et le 30 septembre 2024
         Alors le délai de 18 mois en lien avec le CDC 2022 devrait être appliqué`, async () => {
-      const fakeProject = {
-        ...makeFakeProjectAggregate(),
-        cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
-        completionDueOn: dateAchèvementInitiale,
-        délaiCDC2022appliqué: false,
-        numeroCRE,
-        appelOffreId,
-        periodeId,
-        id: projetId,
-        familleId,
-      };
-      const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-
-      const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
-        projectRepo,
-        publishToEventStore,
-        getProjectAppelOffre,
-        findProjectByIdentifiers,
-        récupérerDétailDossiersRaccordements,
-      });
-
-      const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
-        payload: {
-          dateMiseEnService: new Date('01/01/2023').toISOString(),
-          référenceDossierRaccordement: 'ref-du-dossier',
-          identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
-        },
-      });
-
-      await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
-
-      expect(publishToEventStore).toHaveBeenCalledTimes(1);
-      const évènement = publishToEventStore.mock.calls[0][0];
-      expect(évènement.type).toEqual('ProjectCompletionDueDateSet');
-      expect(évènement.payload).toEqual(
-        expect.objectContaining({
-          projectId: fakeProject.id.toString(),
-          completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
-          reason: 'délaiCdc2022',
-        }),
-      );
-    });
-  });
-
-  describe(`Projets ne pouvant pas bénéficier du délai de 18 mois`, () => {
-    describe(`Date mise en service hors limites du CDC`, () => {
-      it(`Etant donné un projet éolien
-          Et ayant souscrit au CDC 2022
-          Et n'ayant pas déjà bénéficié du délai
-          Quand la date de mise en service n'est pas comprise entre le 1er juin 2022 et le 30 septembre 2024 
-          Alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
         const fakeProject = {
           ...makeFakeProjectAggregate(),
           cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
@@ -145,7 +98,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
 
         const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
           payload: {
-            dateMiseEnService: new Date('01/01/2021').toISOString(),
+            dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
             identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
           },
@@ -153,18 +106,108 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
 
         await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
 
-        expect(publishToEventStore).not.toHaveBeenCalled();
+        expect(publishToEventStore).toHaveBeenCalledTimes(1);
+        const évènement = publishToEventStore.mock.calls[0][0];
+        expect(évènement.type).toEqual('ProjectCompletionDueDateSet');
+        expect(évènement.payload).toEqual(
+          expect.objectContaining({
+            projectId: fakeProject.id.toString(),
+            completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
+            reason: 'délaiCdc2022',
+          }),
+        );
       });
     });
 
-    describe(`Cahier des charges 2022 non souscrit`, () => {
+    describe(`Plusieurs points d'injection`, () => {
       it(`Etant donné un projet éolien
-          Et n'ayant pas souscrit au CDC 2022
-          Quand la date de mise en service transmise est comprise entre le 1er juin 2022 et le 30 septembre 2024
-          Alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
+        Et ayant souscrit au CDC 2022 
+        Et dont la période de l'appel d'offre permet le délai de 18 mois
+        Et n'ayant pas déjà bénéficié du délai
+        Et ayant plusieurs point d'injection 
+        Et dont toutes les dates de mise en service sont comprises entre le 1er juin 2022 et le 30 septembre 2024
+        Quand la date de mise en service transmise est comprise entre le 1er juin 2022 et le 30 septembre 2024
+        Alors le délai de 18 mois en lien avec le CDC 2022 devrait être appliqué`, async () => {
         const fakeProject = {
           ...makeFakeProjectAggregate(),
-          cahierDesCharges: { type: 'initial' },
+          cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+          completionDueOn: dateAchèvementInitiale,
+          délaiCDC2022appliqué: false,
+          numeroCRE,
+          appelOffreId,
+          periodeId,
+          id: projetId,
+          familleId,
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
+          {
+            référence: 'ref-du-dossier',
+            demandeComplèteRaccordement: {
+              dateQualification: new Date('2022-01-01').toISOString(),
+            },
+          },
+          {
+            référence: 'ref-autre-dossier-en-service-1',
+            miseEnService: { dateMiseEnService: new Date('2023-01-01').toISOString() },
+            demandeComplèteRaccordement: {
+              dateQualification: new Date('2022-01-01').toISOString(),
+            },
+          },
+          {
+            référence: 'ref-autre-dossier-en-service-2',
+            miseEnService: { dateMiseEnService: new Date('2023-01-01').toISOString() },
+            demandeComplèteRaccordement: {
+              dateQualification: new Date('2022-01-01').toISOString(),
+            },
+          },
+        ]);
+
+        const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
+          projectRepo,
+          publishToEventStore,
+          getProjectAppelOffre,
+          findProjectByIdentifiers,
+          récupérerDétailDossiersRaccordements,
+        });
+
+        const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
+          payload: {
+            dateMiseEnService: new Date('2023-01-01').toISOString(),
+            référenceDossierRaccordement: 'ref-du-dossier',
+            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+          },
+        });
+
+        await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
+
+        expect(publishToEventStore).toHaveBeenCalledTimes(1);
+        const évènement = publishToEventStore.mock.calls[0][0];
+        expect(évènement.type).toEqual('ProjectCompletionDueDateSet');
+        expect(évènement.payload).toEqual(
+          expect.objectContaining({
+            projectId: fakeProject.id.toString(),
+            completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
+            reason: 'délaiCdc2022',
+          }),
+        );
+      });
+    });
+  });
+
+  describe(`Projets ne pouvant pas bénéficier du délai de 18 mois`, () => {
+    describe(`Date mise en service hors intervalle du CDC`, () => {
+      it(`Etant donné un projet éolien
+          Et ayant souscrit au CDC 2022
+          Et dont la période de l'appel d'offre permet le délai de 18 mois
+          Et n'ayant pas déjà bénéficié du délai
+          Quand la date de mise en service n'est pas comprise entre le 1er juin 2022 et le 30 septembre 2024
+          Alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
+        const dateHorsIntervalle = new Date('2021-01-01');
+        const fakeProject = {
+          ...makeFakeProjectAggregate(),
+          cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
           completionDueOn: dateAchèvementInitiale,
           délaiCDC2022appliqué: false,
           numeroCRE,
@@ -185,7 +228,48 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
 
         const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
           payload: {
-            dateMiseEnService: new Date('01/01/2023').toISOString(),
+            dateMiseEnService: dateHorsIntervalle.toISOString(),
+            référenceDossierRaccordement: 'ref-du-dossier',
+            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+          },
+        });
+
+        await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
+
+        expect(publishToEventStore).not.toHaveBeenCalled();
+      });
+    });
+
+    describe(`Cahier des charges 2022 non souscrit`, () => {
+      it(`Etant donné un projet éolien
+          Et n'ayant pas souscrit au CDC 2022
+          Quand la date de mise en service transmise est comprise entre le 1er juin 2022 et le 30 septembre 2024
+          Alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
+        const CDCActuel = { type: 'initial' };
+        const fakeProject = {
+          ...makeFakeProjectAggregate(),
+          cahierDesCharges: CDCActuel,
+          completionDueOn: dateAchèvementInitiale,
+          délaiCDC2022appliqué: false,
+          numeroCRE,
+          appelOffreId,
+          periodeId,
+          id: projetId,
+          familleId,
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
+          projectRepo,
+          publishToEventStore,
+          getProjectAppelOffre,
+          findProjectByIdentifiers,
+          récupérerDétailDossiersRaccordements,
+        });
+
+        const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
+          payload: {
+            dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
             identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
           },
@@ -198,7 +282,8 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
     });
 
     describe(`Cahier des charges souscrit mais délai de 18 mois non disponible pour la période`, () => {
-      it(`Etant donné un projet PPE2 Bâtiment d'une période ne permettant pas les 18 mois (période 3)
+      it(`Etant donné un projet PPE2 Bâtiment 
+          Et dont la période ne permet pas les 18 mois
           Et ayant souscrit au CDC 2022
           Quand la date de mise en service transmise est comprise entre le 1er juin 2022 et le 30 septembre 2024
           Alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
@@ -240,7 +325,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
 
         const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
           payload: {
-            dateMiseEnService: new Date('01/01/2023').toISOString(),
+            dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
             identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
           },
@@ -271,6 +356,22 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
+        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
+          {
+            référence: 'ref-du-dossier',
+            demandeComplèteRaccordement: {
+              dateQualification: new Date('2022-01-01').toISOString(),
+            },
+          },
+          {
+            référence: 'ref-autre-dossier',
+            miseEnService: { dateMiseEnService: new Date('2023-01-01').toISOString() },
+            demandeComplèteRaccordement: {
+              dateQualification: new Date('2022-01-01').toISOString(),
+            },
+          },
+        ]);
+
         const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
           projectRepo,
           publishToEventStore,
@@ -281,7 +382,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
 
         const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
           payload: {
-            dateMiseEnService: new Date('01/01/2023').toISOString(),
+            dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
             identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
           },
@@ -295,8 +396,8 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
 
     describe(`Tous les points d'injection du projet ne sont pas en service`, () => {
       it(`
-      Etant donné un projet éolien 
-      Et ayant souscrit au CDC 2022 
+      Etant donné un projet éolien
+      Et ayant souscrit au CDC 2022
       Et dont la période permet l'application du délai de 18 mois
       Et n'ayant pas déjà bénéficié du délai de 18 mois
       Et ayant plusieurs points d'injection pas encore mis en service
@@ -318,7 +419,6 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         const récupérerDétailDossiersRaccordements = jest.fn(async () => [
           {
             référence: 'ref-du-dossier',
-            miseEnService: { dateMiseEnService: new Date().toISOString() },
             demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
           },
           {
@@ -337,7 +437,70 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
 
         const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
           payload: {
-            dateMiseEnService: new Date('01/01/2023').toISOString(),
+            dateMiseEnService: new Date('2023-01-01').toISOString(),
+            référenceDossierRaccordement: 'ref-du-dossier',
+            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+          },
+        });
+
+        await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
+
+        expect(publishToEventStore).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe(`Les dates de mises en service du projet ne sont pas toutes dans l'intervalle du CDC pour application du délai`, () => {
+      it(`
+      Etant donné un projet éolien
+      Et ayant souscrit au CDC 2022
+      Et dont la période permet l'application du délai de 18 mois
+      Et n'ayant pas déjà bénéficié du délai de 18 mois
+      Et ayant plusieurs points d'injection mis en service
+      Et dont toutes les dates de mise en service ne sont pas dans l'intervalle du CDC pour le délai de 18 mois
+      Quand une date de mise en service est transmise pour un seul des points d'injection
+      Alors le délai de 18 mois en lien avec le CDC 2022 ne devrait pas être appliqué`, async () => {
+        const fakeProject = {
+          ...makeFakeProjectAggregate(),
+          cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+          completionDueOn: dateAchèvementInitiale,
+          délaiCDC2022appliqué: false,
+          numeroCRE,
+          appelOffreId,
+          periodeId,
+          id: projetId,
+          familleId,
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
+          {
+            référence: 'ref-du-dossier',
+            miseEnService: { dateMiseEnService: new Date('2023-01-02').toISOString() },
+            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
+          },
+          {
+            référence: 'réf-autre-dossier-avec-MeS-hors-intervalle-1',
+            miseEnService: { dateMiseEnService: new Date('2019-01-01').toISOString() },
+            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
+          },
+          {
+            référence: 'réf-autre-dossier-avec-MeS-hors-intervalle-2',
+            miseEnService: { dateMiseEnService: new Date('2019-01-01').toISOString() },
+            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
+          },
+        ]);
+
+        const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
+          projectRepo,
+          publishToEventStore,
+          getProjectAppelOffre,
+          findProjectByIdentifiers,
+          récupérerDétailDossiersRaccordements,
+        });
+
+        const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
+          payload: {
+            dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
             identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
           },
@@ -350,59 +513,66 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
     });
   });
 
-  describe(`Date hors intervalle du CDC pour le délai de 18 mois pour un projet ayant déjà bénéficié du délai`, () => {
-    it(`Etant donné un projet éolien
+  describe(`Projet pour lesquels le délai appliqué doit être annulé`, () => {
+    describe(`Date hors intervalle du CDC pour le délai de 18 mois pour un projet ayant déjà bénéficié du délai`, () => {
+      it(`Etant donné un projet éolien
         Et ayant souscrit au CDC 2022
         Et ayant déjà bénéficié du délai relatif au CDC 2022
         Quand une date de mise en service hors de l'intervalle est transmise
         Alors le délai relatif au CDC 2022 appliqué devrait être annulé`, async () => {
-      const dateHorsIntervalle = new Date('2020-01-02');
+        const dateHorsIntervalle = new Date('2020-01-02');
+        const nouvelleDateAchèvementAttendue = new Date(
+          new Date(dateAchèvementInitiale).setMonth(
+            new Date(dateAchèvementInitiale).getMonth() - 18,
+          ),
+        );
+        const fakeProject = {
+          ...makeFakeProjectAggregate(),
+          cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+          completionDueOn: dateAchèvementInitiale,
+          délaiCDC2022appliqué: true,
+          numeroCRE,
+          appelOffreId,
+          periodeId,
+          id: projetId,
+          familleId,
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-      const nouvelleDateAchèvementAttendue = new Date(
-        new Date(dateAchèvementInitiale).setMonth(new Date(dateAchèvementInitiale).getMonth() - 18),
-      );
+        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
+          {
+            référence: 'ref-du-dossier',
+            miseEnService: { dateMiseEnService: new Date('2023-01-02').toISOString() },
+            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
+          },
+        ]);
 
-      const fakeProject = {
-        ...makeFakeProjectAggregate(),
-        cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
-        completionDueOn: dateAchèvementInitiale,
-        délaiCDC2022appliqué: true,
-        numeroCRE,
-        appelOffreId,
-        periodeId,
-        id: projetId,
-        familleId,
-      };
-      const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-
-      const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
-        projectRepo,
-        publishToEventStore,
-        getProjectAppelOffre,
-        findProjectByIdentifiers,
-        récupérerDétailDossiersRaccordements,
+        const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
+          projectRepo,
+          publishToEventStore,
+          getProjectAppelOffre,
+          findProjectByIdentifiers,
+          récupérerDétailDossiersRaccordements,
+        });
+        const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
+          payload: {
+            dateMiseEnService: dateHorsIntervalle.toISOString(),
+            référenceDossierRaccordement: 'ref-du-dossier',
+            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+          },
+        });
+        await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
+        expect(publishToEventStore).toHaveBeenCalledTimes(1);
+        const évènement = publishToEventStore.mock.calls[0][0];
+        expect(évènement.type).toEqual('ProjectCompletionDueDateSet');
+        expect(évènement.payload).toEqual(
+          expect.objectContaining({
+            projectId: fakeProject.id.toString(),
+            completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
+            reason: 'délaiCdc2022Annulé',
+          }),
+        );
       });
-
-      const événementDateMiseEnServiceTransmise = new DateMiseEnServiceTransmise({
-        payload: {
-          dateMiseEnService: dateHorsIntervalle.toISOString(),
-          référenceDossierRaccordement: 'ref-du-dossier',
-          identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
-        },
-      });
-
-      await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);
-
-      expect(publishToEventStore).toHaveBeenCalledTimes(1);
-      const évènement = publishToEventStore.mock.calls[0][0];
-      expect(évènement.type).toEqual('ProjectCompletionDueDateSet');
-      expect(évènement.payload).toEqual(
-        expect.objectContaining({
-          projectId: fakeProject.id.toString(),
-          completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
-          reason: 'délaiCdc2022Annulé',
-        }),
-      );
     });
   });
 });
