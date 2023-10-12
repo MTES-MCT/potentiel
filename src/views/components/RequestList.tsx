@@ -1,13 +1,5 @@
-import {
-  Link,
-  LinkButton,
-  ListeVide,
-  ModificationRequestActionTitles,
-  Pagination,
-  Table,
-  Td,
-  Th,
-} from '.';
+import { Link, LinkButton, ListeVide, Pagination, Table, Td, Th } from '@potentiel/ui';
+import { ModificationRequestActionTitles } from '.';
 import {
   ModificationRequestListItemDTO,
   ModificationRequestTypes,

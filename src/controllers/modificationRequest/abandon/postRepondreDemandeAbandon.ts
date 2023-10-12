@@ -168,7 +168,7 @@ v1Router.post(
               date: abandon.demandeDemandéLe,
               instructeur: {
                 nom: utilisateur.nomComplet,
-                fonction: utilisateur.fonction,
+                fonction: utilisateur.fonction ?? '',
               },
             },
           };

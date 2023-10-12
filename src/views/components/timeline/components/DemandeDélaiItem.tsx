@@ -1,4 +1,4 @@
-import { Link } from '../..';
+import { Link } from '@potentiel/ui';
 import { DemandeDélaiDTO } from '../../../../modules/frise/dtos';
 import { format } from 'date-fns';
 import React from 'react';

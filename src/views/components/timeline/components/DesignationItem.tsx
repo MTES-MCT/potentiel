@@ -1,7 +1,7 @@
 import React from 'react';
+import { DownloadLink } from '@potentiel/ui';
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.';
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps';
-import { DownloadLink } from '../..';
 import { afficherDate } from '../../../helpers';
 
 export const DesignationItem = ({

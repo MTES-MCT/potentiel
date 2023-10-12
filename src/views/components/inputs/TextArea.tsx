@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ErrorIcon } from '../UI/atoms';
+import { ErrorIcon } from '@potentiel/ui';
 
 type TextAreaProps = React.HTMLAttributes<HTMLTextAreaElement> & {
   value?: string;

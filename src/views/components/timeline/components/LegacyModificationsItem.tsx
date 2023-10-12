@@ -1,8 +1,8 @@
 import React from 'react';
+import { DownloadLink } from '@potentiel/ui';
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.';
 import { LegacyModificationsItemProps, makeDocumentUrl } from '../helpers';
 import { CurrentIcon } from './CurrentIcon';
-import { DownloadLink } from '../..';
 import { afficherDate } from '../../../helpers';
 
 export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => {

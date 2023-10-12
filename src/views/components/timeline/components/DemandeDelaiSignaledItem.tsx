@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.';
 import { makeDocumentUrl } from '../helpers';
-import { DownloadLink } from '../..';
+import { DownloadLink } from '@potentiel/ui';
 import { afficherDate } from '../../../helpers';
 
 type DemandeDelaiSignaledItemProps = {

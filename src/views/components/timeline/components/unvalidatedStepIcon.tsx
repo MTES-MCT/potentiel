@@ -1,5 +1,5 @@
 import React from 'react';
-import { XIcon } from '../..';
+import { XIcon } from '@potentiel/ui';
 
 export const UnvalidatedStepIcon = () => (
   <div className="h-9 flex items-center" aria-hidden="true">

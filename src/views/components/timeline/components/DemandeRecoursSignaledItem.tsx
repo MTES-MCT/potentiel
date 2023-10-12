@@ -1,5 +1,5 @@
-import { DownloadLink } from '../..';
 import React from 'react';
+import { DownloadLink } from '@potentiel/ui';
 import { ItemDate, ItemTitle, ContentArea, UnvalidatedStepIcon, PastIcon } from '.';
 import { makeDocumentUrl } from '../helpers';
 

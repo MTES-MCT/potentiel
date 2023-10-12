@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { ClockIcon } from '../..';
+import { ClockIcon } from '@potentiel/ui';
 
 export const NextUpIcon = () => (
   <div className="h-9 flex items-center">

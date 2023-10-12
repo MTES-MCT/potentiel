@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserRole } from '../../modules/users';
 import { ACTION_BY_ROLE } from './actions';
-import { DropdownMenuSecondaryButton } from './UI';
+import { DropdownMenuSecondaryButton } from '@potentiel/ui';
 import { ProjectAppelOffre } from '../../entities';
 
 type Props = {

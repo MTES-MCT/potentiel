@@ -1,6 +1,6 @@
 import React from 'react';
 import routes from '../../routes';
-import { Link } from '.';
+import { Link } from '@potentiel/ui';
 import { afficherDate } from '../helpers/afficherDate';
 
 export type ProjectProps = {

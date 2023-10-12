@@ -4,7 +4,6 @@ export * from './dropdowns';
 export * from './forms';
 export * from './inputs';
 export * from './timeline';
-export * from './Container';
 export * from './DownloadIcon';
 export * from './InfoLienGuideUtilisationCDC';
 export * from './MissingOwnerProjectList';

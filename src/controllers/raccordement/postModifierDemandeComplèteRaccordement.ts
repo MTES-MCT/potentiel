@@ -162,7 +162,7 @@ v1Router.post(
               identifiantProjet: identifiantProjetValueType,
               nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordementValueType,
               référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle,
-              rôleUtilisateur: user!.role,
+              rôleUtilisateur: user.role,
             },
           });
         }

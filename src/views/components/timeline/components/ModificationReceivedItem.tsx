@@ -1,5 +1,5 @@
-import { Link } from '../..';
 import React from 'react';
+import { Link } from '@potentiel/ui';
 import { ItemDate, ItemTitle, ContentArea, PastIcon } from '.';
 import { ModificationReceivedItemProps } from '../helpers';
 export const ModificationReceivedItem = (props: ModificationReceivedItemProps) => {

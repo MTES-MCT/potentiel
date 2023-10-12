@@ -10,7 +10,7 @@ import {
   PastIcon,
   UnvalidatedStepIcon,
 } from '.';
-import { Link } from '../..';
+import { Link } from '@potentiel/ui';
 
 type DemandeAnnulationAbandonItemProps = DemandeAnnulationAbandonDTO;
 

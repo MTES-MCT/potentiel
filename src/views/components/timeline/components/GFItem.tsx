@@ -14,11 +14,10 @@ import {
   Input,
   Label,
   DownloadLink,
-  Dropdown,
   Link,
   Form,
-  ChampsObligatoiresLégende,
-} from '../..';
+} from '@potentiel/ui';
+import { Dropdown, ChampsObligatoiresLégende } from '../..';
 import { afficherDate } from '../../../helpers';
 
 type ComponentProps = GarantiesFinancièresDTO & {
