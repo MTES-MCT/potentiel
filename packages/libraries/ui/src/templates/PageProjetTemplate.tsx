@@ -9,6 +9,7 @@ export const PageProjetTemplate: FC<{
   user: Omit<UtilisateurLegacyReadModel, 'type'>;
   résuméProjet: CandidatureLegacyReadModel;
   titre: ReactNode;
+  children?: React.ReactNode;
 }> = ({ user, résuméProjet, titre, children }) => (
   <PageTemplate user={user} contentHeader={<EntêteProjet {...résuméProjet} />}>
     <Heading1 className="mb-6">{titre}</Heading1>
