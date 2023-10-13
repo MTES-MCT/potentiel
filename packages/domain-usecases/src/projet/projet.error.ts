@@ -1,4 +1,4 @@
-import { NotFoundError } from '@potentiel/core-domain';
+import { NotFoundError } from '@potentiel-domain/core';
 
 export class ProjetInconnuError extends NotFoundError {
   constructor() {

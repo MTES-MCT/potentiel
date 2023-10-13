@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { DomainEvent, AggregateFactory, Aggregate } from '@potentiel/core-domain';
+import { DomainEvent, AggregateFactory, Aggregate } from '@potentiel-domain/core';
 import { none } from '@potentiel/monads';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { loadAggregate } from './loadAggregate';

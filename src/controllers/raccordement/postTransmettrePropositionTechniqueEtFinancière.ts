@@ -25,7 +25,7 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { upload as uploadMiddleware } from '../upload';
 import { isSome } from '@potentiel/monads';
-import { DomainError } from '@potentiel/core-domain';
+import { DomainError } from '@potentiel-domain/core';
 
 const schema = yup.object({
   params: yup.object({

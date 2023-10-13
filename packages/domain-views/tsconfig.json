@@ -15,13 +15,13 @@
       "path": "../domain-usecases"
     },
     {
-      "path": "../libraries/core-domain"
+      "path": "../domain/core"
     },
     {
       "path": "../domain-inmemory-referential"
     },
     {
-      "path": "../libraries/core-domain-views"
+      "path": "../domain/core-views"
     }
   ]
 }

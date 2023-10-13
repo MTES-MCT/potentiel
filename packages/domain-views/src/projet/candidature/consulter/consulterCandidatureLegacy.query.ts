@@ -5,7 +5,7 @@ import {
 } from '@potentiel/domain-usecases';
 
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Find } from '@potentiel/core-domain-views';
+import { Find } from '@potentiel-domain/core-views';
 import { Option } from '@potentiel/monads';
 import { RécupérerCandidatureLegacyPort } from '../candidature.port';
 import { CandidatureLegacyReadModel } from '../candidature.readmodel';

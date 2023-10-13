@@ -2,7 +2,7 @@ import {
   InvalidOperationError,
   NotFoundError,
   OperationRejectedError,
-} from '@potentiel/core-domain';
+} from '@potentiel-domain/core';
 
 export class DossierRaccordementNonRéférencéError extends NotFoundError {
   constructor() {

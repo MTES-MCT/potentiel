@@ -1,5 +1,5 @@
 import { executeSelect } from '@potentiel/pg-helpers';
-import { ReadModel, ListOptions, ListResult } from '@potentiel/core-domain-views';
+import { ReadModel, ListOptions, ListResult } from '@potentiel-domain/core-views';
 import { KeyValuePair } from './keyValuePair';
 import format from 'pg-format';
 

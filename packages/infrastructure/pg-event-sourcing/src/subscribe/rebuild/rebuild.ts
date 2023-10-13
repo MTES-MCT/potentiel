@@ -1,6 +1,6 @@
-import { DomainEvent, Subscriber } from '@potentiel/core-domain';
+import { DomainEvent, Subscriber } from '@potentiel-domain/core';
 import { loadFromStream } from '../../load/loadFromStream';
-import { RebuildTriggered } from '@potentiel/core-domain-views';
+import { RebuildTriggered } from '@potentiel-domain/core-views';
 
 export const rebuild = async <TDomainEvent extends DomainEvent = DomainEvent>(
   rebuildTriggered: RebuildTriggered,

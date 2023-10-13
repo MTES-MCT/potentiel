@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/core-domain": "*",
+    "@potentiel-domain/core": "*",
     "@potentiel/monads": "*",
     "@potentiel/monitoring": "*",
     "@potentiel/pg-helpers": "*"

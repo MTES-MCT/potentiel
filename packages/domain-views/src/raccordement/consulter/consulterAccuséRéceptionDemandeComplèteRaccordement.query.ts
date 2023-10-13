@@ -16,7 +16,7 @@ import {
   AccuséRéceptionDemandeComplèteRaccordementReadModel,
 } from '../raccordement.readModel';
 import { RécupérerAccuséRéceptionDemandeComplèteRaccordementPort } from '../raccordement.ports';
-import { Find } from '@potentiel/core-domain-views';
+import { Find } from '@potentiel-domain/core-views';
 
 export type ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies = {
   find: Find;

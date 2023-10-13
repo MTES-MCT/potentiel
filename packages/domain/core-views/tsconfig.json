@@ -6,7 +6,10 @@
   },
   "references": [
     {
-      "path": "../monads"
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../domain/core"
     }
   ]
 }

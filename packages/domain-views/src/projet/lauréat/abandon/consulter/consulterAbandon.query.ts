@@ -7,7 +7,7 @@ import {
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel/monads';
-import { Find } from '@potentiel/core-domain-views';
+import { Find } from '@potentiel-domain/core-views';
 import { AbandonReadModel } from '../abandon.readmodel';
 
 export type ConsulterAbandonQuery = Message<

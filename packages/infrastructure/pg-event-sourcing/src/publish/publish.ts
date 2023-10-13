@@ -1,4 +1,4 @@
-import { Publish } from '@potentiel/core-domain';
+import { Publish } from '@potentiel-domain/core';
 import { executeQuery } from '@potentiel/pg-helpers';
 
 const insertEvent =

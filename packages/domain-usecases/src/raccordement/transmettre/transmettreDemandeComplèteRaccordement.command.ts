@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { LoadAggregate, Publish } from '@potentiel/core-domain';
+import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { isNone, isSome } from '@potentiel/monads';
 import { IdentifiantGestionnaireRéseauValueType } from '../../gestionnaireRéseau/gestionnaireRéseau.valueType';
 import { IdentifiantProjetValueType } from '../../projet/projet.valueType';

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { GestionnaireRéseauEvent } from '@potentiel/domain-usecases';
 import { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';
-import { Create, Update, Remove, RebuildTriggered } from '@potentiel/core-domain-views';
+import { Create, Update, Remove, RebuildTriggered } from '@potentiel-domain/core-views';
 
 export type ExecuteGestionnaireRéseauProjector = Message<
   'EXECUTE_GESTIONNAIRE_RÉSEAU_PROJECTOR',

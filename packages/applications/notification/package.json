@@ -10,7 +10,7 @@
     "test": "jest --config=jest.config.js --detectOpenHandles"
   },
   "dependencies": {
-    "@potentiel/core-domain": "*",
+    "@potentiel-domain/core": "*",
     "@potentiel/domain-usecases": "*",
     "@potentiel/domain-views": "*",
     "@potentiel/email-sender": "*",

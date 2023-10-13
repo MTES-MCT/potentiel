@@ -12,7 +12,7 @@ import {
 } from '@potentiel/domain-usecases';
 import { PermissionModifierGestionnaireRéseau } from '@potentiel/legacy-permissions';
 import { mediator } from 'mediateur';
-import { NotFoundError } from '@potentiel/core-domain';
+import { NotFoundError } from '@potentiel-domain/core';
 
 const schema = yup.object({
   body: yup.object({

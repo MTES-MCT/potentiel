@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { Subscribe } from '@potentiel/core-domain';
+import { Subscribe } from '@potentiel-domain/core';
 import {
   ConsulterGestionnaireRéseauLauréatDependencies,
   registerConsulterGestionnaireRéseauLauréatQuery,
@@ -9,7 +9,7 @@ import {
   registerListerAbandonAvecRecandidatureQuery,
 } from './abandon/lister/listerAbandon.query';
 import { AbandonEvent, GestionnaireRéseauProjetEvent } from '@potentiel/domain-usecases';
-import { RebuildTriggered } from '@potentiel/core-domain-views';
+import { RebuildTriggered } from '@potentiel-domain/core-views';
 import {
   ExecuteGestionnaireRéseauLauréatProjector,
   GestionnaireRéseauLauréatProjectorDependencies,

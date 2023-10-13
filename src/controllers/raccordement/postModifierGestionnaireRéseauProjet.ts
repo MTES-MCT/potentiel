@@ -19,7 +19,7 @@ import { Project, UserProjects } from '../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { mediator } from 'mediateur';
-import { NotFoundError } from '@potentiel/core-domain';
+import { NotFoundError } from '@potentiel-domain/core';
 import { isSome } from '@potentiel/monads';
 
 const schema = yup.object({

@@ -12,7 +12,7 @@ import {
 } from '@potentiel/domain-usecases';
 import { PermissionAjouterGestionnaireRéseau } from '@potentiel/legacy-permissions';
 
-import { InvalidOperationError } from '@potentiel/core-domain';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({

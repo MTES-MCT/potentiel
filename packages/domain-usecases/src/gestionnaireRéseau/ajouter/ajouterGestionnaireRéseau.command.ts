@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Publish, LoadAggregate } from '@potentiel/core-domain';
+import { Publish, LoadAggregate } from '@potentiel-domain/core';
 import { isSome } from '@potentiel/monads';
 import {
   createGestionnaireRéseauAggregateId,

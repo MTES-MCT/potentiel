@@ -1,4 +1,4 @@
-import { DomainEvent, Subscriber } from '@potentiel/core-domain';
+import { DomainEvent, Subscriber } from '@potentiel-domain/core';
 import { Event } from '../../event';
 import { acknowledge } from './acknowledge';
 import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';

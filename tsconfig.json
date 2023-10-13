@@ -48,7 +48,7 @@
       "path": "packages/domain-inmemory-referential"
     },
     {
-      "path": "packages/libraries/core-domain"
+      "path": "packages/domain/core"
     },
     {
       "path": "packages/libraries/monads"

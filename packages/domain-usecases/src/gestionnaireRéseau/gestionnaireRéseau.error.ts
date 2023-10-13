@@ -1,4 +1,4 @@
-import { InvalidOperationError, NotFoundError } from '@potentiel/core-domain';
+import { InvalidOperationError, NotFoundError } from '@potentiel-domain/core';
 
 export class GestionnaireRéseauDéjàExistantError extends InvalidOperationError {
   constructor() {
