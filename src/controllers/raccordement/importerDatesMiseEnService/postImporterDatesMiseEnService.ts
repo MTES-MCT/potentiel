@@ -11,11 +11,11 @@ import iconv from 'iconv-lite';
 import { setApiResult } from '../../helpers/apiResult';
 import {
   DomainUseCase,
-  PermissionTransmettreDateMiseEnService,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
 } from '@potentiel/domain';
+import { PermissionTransmettreDateMiseEnService } from '@potentiel/legacy-permissions';
 import { mediator } from 'mediateur';
 import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServiceApiResult';
 import { RechercherDossierRaccordementQuery } from '@potentiel/domain-views';

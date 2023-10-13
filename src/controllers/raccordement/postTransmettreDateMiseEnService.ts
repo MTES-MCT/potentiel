@@ -1,12 +1,12 @@
 import {
   DomainUseCase,
-  PermissionTransmettreDateMiseEnService,
   RawIdentifiantProjet,
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain';
+import { PermissionTransmettreDateMiseEnService } from '@potentiel/legacy-permissions';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';

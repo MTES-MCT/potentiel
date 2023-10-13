@@ -20,7 +20,7 @@ import {
   PermissionTransmettreDateMiseEnService,
   PermissionTransmettrePropositionTechniqueEtFinancière,
   PermissionModifierGestionnaireRéseauProjet,
-} from '@potentiel/domain';
+} from '@potentiel/legacy-permissions';
 import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,

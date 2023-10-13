@@ -71,5 +71,8 @@
     {
       "path": "packages/libraries/infra-adapters"
     },
+    {
+      "path": "packages/libraries/legacy-permissions"
+    }
   ],
 }

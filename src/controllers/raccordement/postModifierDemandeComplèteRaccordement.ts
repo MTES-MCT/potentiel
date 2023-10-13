@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
 import {
-  PermissionTransmettreDemandeComplèteRaccordement,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
@@ -9,6 +8,7 @@ import {
   convertirEnDateTime,
   AccuséRéceptionDemandeComplèteRaccordement,
 } from '@potentiel/domain';
+import { PermissionTransmettreDemandeComplèteRaccordement } from '@potentiel/legacy-permissions';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
