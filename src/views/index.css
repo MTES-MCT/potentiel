@@ -1,4 +1,4 @@
-/* @tailwind base;
+/*
 @tailwind components; */
 @font-face {
   font-family: Marianne;
@@ -72,6 +72,7 @@
   font-display: swap;
 }
 
+@tailwind base;
 @tailwind utilities;
 
 .list--action-menu {
