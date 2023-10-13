@@ -1,4 +1,4 @@
-import { EnregistrerPièceJustificativeAbandonPort } from '@potentiel/domain/src/projet/lauréat/abandon/abandon.port';
+import { EnregistrerPièceJustificativeAbandonPort } from '@potentiel/domain-usecases/src/projet/lauréat/abandon/abandon.port';
 import { upload } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';

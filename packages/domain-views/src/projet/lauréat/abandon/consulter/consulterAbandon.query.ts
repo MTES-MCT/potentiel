@@ -3,7 +3,7 @@ import {
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
   estUnIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel/monads';

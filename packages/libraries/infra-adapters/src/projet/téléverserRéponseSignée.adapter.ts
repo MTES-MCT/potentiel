@@ -1,4 +1,4 @@
-import { EnregistrerRéponseSignéePort } from '@potentiel/domain';
+import { EnregistrerRéponseSignéePort } from '@potentiel/domain-usecases';
 import { upload } from '@potentiel/file-storage';
 import { extension } from 'mime-types';
 import { join } from 'path';

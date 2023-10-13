@@ -8,7 +8,7 @@ import { Separateur } from './Separateur';
 import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';
 import { ÉtapePropositionTechniqueEtFinancière } from './ÉtapePropositionTechniqueEtFinancière';
 import { ÉtapeMiseEnService } from './ÉtapeMiseEnService';
-import { RawIdentifiantProjet } from '@potentiel/domain';
+import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
 
 export const Dossier: FC<{
   user: UtilisateurReadModel;

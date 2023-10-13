@@ -1,4 +1,4 @@
-import { IdentifiantProjetValueType } from '@potentiel/domain';
+import { IdentifiantProjetValueType } from '@potentiel/domain-usecases';
 import { Option } from '@potentiel/monads';
 import { CandidatureLegacyReadModel } from './candidature.readmodel';
 

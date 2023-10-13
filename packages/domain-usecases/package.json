@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/domain",
+  "name": "@potentiel/domain-usecases",
   "version": "0.0.0",
   "description": "Potentiel domain",
   "main": "dist/index.js",

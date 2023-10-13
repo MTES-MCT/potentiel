@@ -3,7 +3,7 @@ import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { BuildingIcon, Heading3, Link, Section } from '../../../components';
 import routes from '../../../../routes';
 import { UserRole } from '../../../../modules/users';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;

@@ -1,4 +1,4 @@
-import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
 import { none } from '@potentiel/monads';
 //import { AbandonWord } from './abandon/abandon.world';

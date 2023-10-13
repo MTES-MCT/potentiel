@@ -1,5 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain-views';
-import { RawIdentifiantProjet, RawRéférenceDossierRaccordement } from '@potentiel/domain';
+import { RawIdentifiantProjet, RawRéférenceDossierRaccordement } from '@potentiel/domain-usecases';
 
 export type DossierRaccordementReadModelKey =
   `dossier-raccordement|${RawIdentifiantProjet}#${RawRéférenceDossierRaccordement}`;

@@ -9,7 +9,10 @@ import {
 } from '@potentiel/domain-views';
 import { AucunDossierAListerPage } from '../../views';
 import { isNone } from '@potentiel/monads';
-import { convertirEnIdentifiantProjet, estUnRawIdentifiantProjet } from '@potentiel/domain';
+import {
+  convertirEnIdentifiantProjet,
+  estUnRawIdentifiantProjet,
+} from '@potentiel/domain-usecases';
 import { mediator } from 'mediateur';
 
 const schema = yup.object({

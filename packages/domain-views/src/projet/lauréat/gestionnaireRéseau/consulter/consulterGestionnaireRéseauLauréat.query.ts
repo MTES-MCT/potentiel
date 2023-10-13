@@ -2,7 +2,7 @@ import {
   IdentifiantProjet,
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '@potentiel/core-domain-views';

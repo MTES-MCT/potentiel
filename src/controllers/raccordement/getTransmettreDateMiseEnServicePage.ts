@@ -2,7 +2,7 @@ import {
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { PermissionTransmettreDateMiseEnService } from '@potentiel/legacy-permissions';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';

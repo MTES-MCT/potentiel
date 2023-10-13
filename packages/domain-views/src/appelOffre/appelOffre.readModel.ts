@@ -1,5 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain-views';
-import { RawIdentifiantAppelOffre } from '@potentiel/domain';
+import { RawIdentifiantAppelOffre } from '@potentiel/domain-usecases';
 
 type AppelOffreTypes =
   | 'autoconso'

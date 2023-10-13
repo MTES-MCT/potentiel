@@ -1,5 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain-views';
-import { RawIdentifiantGestionnaireRéseau } from '@potentiel/domain';
+import { RawIdentifiantGestionnaireRéseau } from '@potentiel/domain-usecases';
 
 export type GestionnaireRéseauReadModelKey =
   `gestionnaire-réseau|${RawIdentifiantGestionnaireRéseau}`;

@@ -5,7 +5,7 @@ import { CalendarIcon, EditIcon, Link } from '../../../../components';
 import { afficherDate } from '../../../../helpers';
 
 import { Etape } from './Etape';
-import { RawIdentifiantProjet } from '@potentiel/domain';
+import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
 
 type ÉtapeMiseEnServiceProps = {
   identifiantProjet: RawIdentifiantProjet;

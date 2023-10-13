@@ -6,7 +6,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { mediator } from 'mediateur';
 import { convertStringToReadableStream } from '../helpers/convertStringToReadable';
 import {

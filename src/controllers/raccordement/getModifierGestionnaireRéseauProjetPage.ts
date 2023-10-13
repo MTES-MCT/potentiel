@@ -1,4 +1,7 @@
-import { convertirEnIdentifiantProjet, estUnRawIdentifiantProjet } from '@potentiel/domain';
+import {
+  convertirEnIdentifiantProjet,
+  estUnRawIdentifiantProjet,
+} from '@potentiel/domain-usecases';
 import { PermissionModifierGestionnaireRéseauProjet } from '@potentiel/legacy-permissions';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';

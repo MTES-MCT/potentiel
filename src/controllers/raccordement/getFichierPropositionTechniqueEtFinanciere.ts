@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { logger } from '../../core/utils';
-import { estUnRawIdentifiantProjet } from '@potentiel/domain';
+import { estUnRawIdentifiantProjet } from '@potentiel/domain-usecases';
 import { isNone } from '@potentiel/monads';
 import { sendFile } from '../helpers/sendFile';
 

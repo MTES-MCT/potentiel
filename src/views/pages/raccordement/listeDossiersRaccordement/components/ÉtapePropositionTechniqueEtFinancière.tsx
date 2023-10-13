@@ -6,7 +6,7 @@ import { CalendarIcon, DownloadLink, EditIcon, Link } from '../../../../componen
 import { afficherDate } from '../../../../helpers';
 
 import { Etape } from './Etape';
-import { RawIdentifiantProjet } from '@potentiel/domain';
+import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
 
 type ÉtapePropositionTechniqueEtFinancièreProps = {
   identifiantProjet: RawIdentifiantProjet;

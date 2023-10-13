@@ -14,7 +14,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnIdentifiantUtilisateur,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { isSome, none } from '@potentiel/monads';
 import { ConsulterAbandonQuery } from '@potentiel/domain-views';
 

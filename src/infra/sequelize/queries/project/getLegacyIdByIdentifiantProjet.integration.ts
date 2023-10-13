@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { Project } from '../../projectionsNext';
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel/domain-usecases';
 import { getLegacyIdByIdentifiantProjet } from './getLegacyIdByIdentifiantProjet';
 
 describe('Query getLegacyIdByIdentifiantProjet', () => {

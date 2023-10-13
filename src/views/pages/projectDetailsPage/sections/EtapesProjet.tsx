@@ -4,7 +4,7 @@ import { Timeline, CalendarIcon, Section, Link, InfoBox } from '../../../compone
 import { userIs } from '../../../../modules/users';
 import { ProjectEventListDTO } from '../../../../modules/frise';
 import routes from '../../../../routes';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 
 type EtapesProjetProps = {
   project: {

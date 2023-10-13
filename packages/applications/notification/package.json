@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@potentiel/core-domain": "*",
-    "@potentiel/domain": "*",
+    "@potentiel/domain-usecases": "*",
     "@potentiel/domain-views": "*",
     "@potentiel/email-sender": "*",
     "@potentiel/infra-adapters": "*",

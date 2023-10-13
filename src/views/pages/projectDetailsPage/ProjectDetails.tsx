@@ -27,7 +27,7 @@ import {
 } from './sections';
 import { ProjectHeader } from './components';
 import routes from '../../../routes';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'

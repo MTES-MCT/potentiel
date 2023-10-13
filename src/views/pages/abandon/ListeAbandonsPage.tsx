@@ -16,7 +16,7 @@ import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/U
 import { AbandonReadModel, CandidatureLegacyReadModel } from '@potentiel/domain-views';
 import { ListResult } from '@potentiel/core-domain-views';
 import routes from '../../../routes';
-import { StatutAbandon } from '@potentiel/domain';
+import { StatutAbandon } from '@potentiel/domain-usecases';
 
 type ListeAbandonsProps = {
   abandons: ListResult<AbandonReadModel & { projet?: CandidatureLegacyReadModel }>;

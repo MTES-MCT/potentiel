@@ -7,7 +7,7 @@ import {
   RawIdentifiantProjet,
   RawRéférenceDossierRaccordement,
   convertirEnIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { Search } from '@potentiel/core-domain-views';
 
 export type RechercherDossierRaccordementQuery = Message<

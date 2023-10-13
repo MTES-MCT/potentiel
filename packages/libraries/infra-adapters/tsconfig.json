@@ -15,7 +15,7 @@
       "path": "../monitoring"
     },
     {
-      "path": "../../domain"
+      "path": "../../domain-usecases"
     },
     {
       "path": "../../domain-views"

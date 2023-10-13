@@ -1,4 +1,8 @@
-import { DateTimeValueType, IdentifiantProjetValueType, RéponseSignée } from '@potentiel/domain';
+import {
+  DateTimeValueType,
+  IdentifiantProjetValueType,
+  RéponseSignée,
+} from '@potentiel/domain-usecases';
 
 export type RécupérerPièceJustificativeAbandonPort = (options: {
   identifiantProjet: IdentifiantProjetValueType;

@@ -9,7 +9,7 @@ import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import {
   loadGestionnaireRéseauProjetAggregateFactory,
   convertirEnIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(

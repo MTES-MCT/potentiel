@@ -3,7 +3,7 @@ import {
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
   estUnIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ListeDossiersRaccordementReadModel } from '../raccordement.readModel';

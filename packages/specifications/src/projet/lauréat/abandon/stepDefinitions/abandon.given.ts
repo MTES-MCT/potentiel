@@ -9,7 +9,7 @@
 //   PièceJustificativeAbandon,
 //   convertirEnDateTime,
 //   convertirEnIdentifiantProjet,
-// } from '@potentiel/domain';
+// } from '@potentiel/domain-usecases';
 // import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 // EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {

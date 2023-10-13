@@ -1,4 +1,4 @@
-import { DateTimeValueType } from '@potentiel/domain';
+import { DateTimeValueType } from '@potentiel/domain-usecases';
 
 export class RaccordementWorld {
   #dateQualification!: DateTimeValueType;

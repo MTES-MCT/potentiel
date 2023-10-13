@@ -4,7 +4,7 @@ import { extension } from 'mime-types';
 import {
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort,
   EnregistrerPropositionTechniqueEtFinancièreSignéePort,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 
 type TéléverserFichierDossierRaccordementAdapter =
   EnregistrerAccuséRéceptionDemandeComplèteRaccordementPort &

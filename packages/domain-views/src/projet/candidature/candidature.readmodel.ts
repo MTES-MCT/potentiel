@@ -1,5 +1,5 @@
 import { ReadModel } from '@potentiel/core-domain-views';
-import { RawIdentifiantProjet } from '@potentiel/domain';
+import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
 
 export type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 

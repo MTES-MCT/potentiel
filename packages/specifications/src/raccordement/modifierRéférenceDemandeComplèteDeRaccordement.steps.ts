@@ -6,7 +6,7 @@ import {
   RôleUtilisateur,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 
 Quand(
   `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement {string} avec la référence {string}`,

@@ -16,7 +16,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnIdentifiantUtilisateur,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { FileReadableStream } from '../../helpers/fileReadableStream';
 import { none } from '@potentiel/monads';
 

@@ -4,7 +4,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   estUnIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option, isNone, none } from '@potentiel/monads';
