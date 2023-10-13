@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { RaccordementEvent } from '@potentiel/domain';
+import { RaccordementEvent } from '@potentiel/domain-usecases';
 import { isNone } from '@potentiel/monads';
 import {
   LegacyDossierRaccordementReadModel,

@@ -14,7 +14,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { PermissionTransmettreDateMiseEnService } from '@potentiel/legacy-permissions';
 import { mediator } from 'mediateur';
 import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServiceApiResult';

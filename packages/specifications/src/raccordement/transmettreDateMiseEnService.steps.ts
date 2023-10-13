@@ -5,7 +5,7 @@ import {
   convertirEnDateTime,
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import { ConsulterDossierRaccordementQuery } from '@potentiel/domain-views';

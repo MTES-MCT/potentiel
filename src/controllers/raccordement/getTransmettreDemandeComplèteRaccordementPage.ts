@@ -5,7 +5,10 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { TransmettreDemandeComplèteRaccordementPage } from '../../views';
 import { mediator } from 'mediateur';
-import { convertirEnIdentifiantProjet, estUnRawIdentifiantProjet } from '@potentiel/domain';
+import {
+  convertirEnIdentifiantProjet,
+  estUnRawIdentifiantProjet,
+} from '@potentiel/domain-usecases';
 import { PermissionTransmettreDemandeComplèteRaccordement } from '@potentiel/legacy-permissions';
 import {
   ConsulterCandidatureLegacyQuery,

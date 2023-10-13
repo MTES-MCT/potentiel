@@ -1,4 +1,4 @@
-import { RawIdentifiantUtilisateur } from '@potentiel/domain';
+import { RawIdentifiantUtilisateur } from '@potentiel/domain-usecases';
 import { Option } from '@potentiel/monads';
 import { UtilisateurLegacyReadModel } from './utilisateur.readmodel';
 

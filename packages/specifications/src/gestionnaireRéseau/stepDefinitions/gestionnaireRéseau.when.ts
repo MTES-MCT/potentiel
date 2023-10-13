@@ -5,7 +5,7 @@ import {
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnRéférenceDossierRaccordement,
   loadGestionnaireRéseauAggregateFactory,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';

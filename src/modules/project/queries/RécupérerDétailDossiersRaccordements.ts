@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel/domain-usecases';
 import { DossierRaccordementReadModel } from '@potentiel/domain-views';
 
 export type RécupérerDétailDossiersRaccordements = (

@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { GestionnaireRéseauEvent } from '@potentiel/domain';
+import { GestionnaireRéseauEvent } from '@potentiel/domain-usecases';
 import { GestionnaireRéseauReadModel } from './gestionnaireRéseau.readModel';
 import { Create, Update, Remove, RebuildTriggered } from '@potentiel/core-domain-views';
 

@@ -3,7 +3,7 @@ import { PotentielWorld } from '../../potentiel.world';
 import {
   convertirEnIdentifiantGestionnaireRéseau,
   loadGestionnaireRéseauAggregateFactory,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { isNone } from '@potentiel/monads';
 import {
   ConsulterGestionnaireRéseauQuery,

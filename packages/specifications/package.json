@@ -12,7 +12,7 @@
   "dependencies": {
     "@potentiel/web": "*",
     "@potentiel/core-domain": "^0.0.0",
-    "@potentiel/domain": "^0.0.0",
+    "@potentiel/domain-usecases": "^0.0.0",
     "@potentiel/domain-views": "^0.0.0",
     "@potentiel/file-storage": "^0.0.0",
     "@potentiel/infra-adapters": "^0.0.0",

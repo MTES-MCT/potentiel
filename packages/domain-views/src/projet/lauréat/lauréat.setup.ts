@@ -8,7 +8,7 @@ import {
   ListerAbandonAvecRecandidatureDependencies,
   registerListerAbandonAvecRecandidatureQuery,
 } from './abandon/lister/listerAbandon.query';
-import { AbandonEvent, GestionnaireRéseauProjetEvent } from '@potentiel/domain';
+import { AbandonEvent, GestionnaireRéseauProjetEvent } from '@potentiel/domain-usecases';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 import {
   ExecuteGestionnaireRéseauLauréatProjector,

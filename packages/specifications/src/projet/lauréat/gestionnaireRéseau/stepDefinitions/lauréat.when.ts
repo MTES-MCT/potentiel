@@ -3,7 +3,7 @@ import {
   DomainUseCase,
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { mediator } from 'mediateur';
 import { PotentielWorld } from '../../../../potentiel.world';
 

@@ -5,7 +5,7 @@ import {
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { PermissionTransmettreDemandeComplèteRaccordement } from '@potentiel/legacy-permissions';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';

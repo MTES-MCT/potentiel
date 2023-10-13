@@ -25,7 +25,7 @@ import {
   convertirEnIdentifiantDemandeAbandon,
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantDemandeAbandon,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { isSome, Option, none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 

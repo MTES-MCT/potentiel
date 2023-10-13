@@ -4,7 +4,10 @@ import {
   ListerDossiersRaccordementQuery,
 } from '@potentiel/domain-views';
 import { isSome } from '@potentiel/monads';
-import { IdentifiantProjet, convertirEnRéférenceDossierRaccordement } from '@potentiel/domain';
+import {
+  IdentifiantProjet,
+  convertirEnRéférenceDossierRaccordement,
+} from '@potentiel/domain-usecases';
 import { mediator } from 'mediateur';
 import { RécupérerDétailDossiersRaccordements } from '../../modules/project';
 

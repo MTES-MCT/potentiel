@@ -15,7 +15,7 @@ import {
   DomainUseCase,
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 
 // TODO: À supprimer lors de la reorg des step definitions et assertion sur les agrégat
 Quand(

@@ -23,7 +23,7 @@ import {
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
   estUnRawIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { Project } from '../../infra/sequelize';
 import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';

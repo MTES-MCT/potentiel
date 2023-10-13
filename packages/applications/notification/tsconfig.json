@@ -4,13 +4,16 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "exclude": ["./__mocks__/*", "dist"],
+  "exclude": [
+    "./__mocks__/*",
+    "dist"
+  ],
   "references": [
     {
       "path": "../../libraries/core-domain"
     },
     {
-      "path": "../../domain"
+      "path": "../../domain-usecases"
     },
     {
       "path": "../../domain-views"

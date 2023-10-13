@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel/domain-usecases';
 import { Project } from '../../projectionsNext';
 import { isSome } from '@potentiel/monads';
 

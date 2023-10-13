@@ -5,7 +5,7 @@
 //   RéponseSignée,
 //   convertirEnDateTime,
 //   convertirEnIdentifiantProjet,
-// } from '@potentiel/domain';
+// } from '@potentiel/domain-usecases';
 // import { mediator } from 'mediateur';
 // import { PotentielWorld } from '../../../../potentiel.world';
 // import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';

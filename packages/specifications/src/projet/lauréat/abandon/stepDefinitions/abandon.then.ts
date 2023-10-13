@@ -2,7 +2,7 @@
 
 // import { PotentielWorld } from '../../../../potentiel.world';
 // import { loadAggregate } from '@potentiel/pg-event-sourcing';
-// import { convertirEnIdentifiantProjet, loadAbandonAggregateFactory } from '@potentiel/domain';
+// import { convertirEnIdentifiantProjet, loadAbandonAggregateFactory } from '@potentiel/domain-usecases';
 // import { isNone, isSome } from '@potentiel/monads';
 // import { mediator } from 'mediateur';
 // import { ConsulterProjetQuery } from '@potentiel/domain-views/src/projet/consulter/consulterProjet.query';

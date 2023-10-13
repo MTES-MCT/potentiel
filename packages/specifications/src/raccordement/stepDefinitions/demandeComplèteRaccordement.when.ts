@@ -7,7 +7,7 @@ import {
   convertirEnIdentifiantGestionnaireRéseau,
   convertirEnRéférenceDossierRaccordement,
   IdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { mediator } from 'mediateur';
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 

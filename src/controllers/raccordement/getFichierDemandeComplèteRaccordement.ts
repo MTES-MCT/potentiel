@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import * as yup from 'yup';
 
-import { estUnRawIdentifiantProjet } from '@potentiel/domain';
+import { estUnRawIdentifiantProjet } from '@potentiel/domain-usecases';
 import {
   ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
   PermissionConsulterDossierRaccordement,

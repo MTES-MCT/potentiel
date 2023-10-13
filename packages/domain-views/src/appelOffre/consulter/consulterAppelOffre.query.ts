@@ -3,7 +3,7 @@ import {
   RawIdentifiantAppelOffre,
   convertirEnIdentifiantAppelOffre,
   estUnIdentifiantAppelOffre,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { Option, none } from '@potentiel/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AppelOffreReadModel, AppelOffreReadModelKey } from '../appelOffre.readModel';

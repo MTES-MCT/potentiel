@@ -3,7 +3,7 @@ import {
   RawIdentifiantDemandeAbandon,
   RawIdentifiantProjet,
   StatutAbandon,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 
 export type AbandonReadModelKey = `abandon|${RawIdentifiantProjet}`;
 

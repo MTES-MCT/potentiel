@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { Subscribe } from '@potentiel/core-domain';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
-import { GestionnaireRéseauEvent } from '@potentiel/domain';
+import { GestionnaireRéseauEvent } from '@potentiel/domain-usecases';
 import {
   ConsulterGestionnaireRéseauDependencies,
   registerConsulterGestionnaireRéseauQuery,

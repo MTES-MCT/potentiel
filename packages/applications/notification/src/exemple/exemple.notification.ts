@@ -4,7 +4,7 @@ import {
 } from '@potentiel/domain-views';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { sendEmail } from '@potentiel/email-sender';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 import { isSome } from '@potentiel/monads';
 import { QuelqueChoseSestPasséEvent } from './exemple.event';
 

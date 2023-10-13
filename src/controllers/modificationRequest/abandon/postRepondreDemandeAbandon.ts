@@ -25,7 +25,7 @@ import {
   convertirEnIdentifiantAppelOffre,
   convertirEnIdentifiantProjet,
   convertirEnIdentifiantUtilisateur,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { FileReadableStream } from '../../../helpers/fileReadableStream';
 import { isNone, none } from '@potentiel/monads';
 import { RéponseAbandonAvecRecandidatureProps } from '../../../views/certificates/abandon/RéponseAbandonAvecRecandidature';

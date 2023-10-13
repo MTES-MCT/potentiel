@@ -19,7 +19,7 @@ import {
   convertirEnIdentifiantProjet,
   convertirEnRéférenceDossierRaccordement,
   estUnRawIdentifiantProjet,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { isNone, isSome, none } from '@potentiel/monads';
 
 const schema = yup.object({

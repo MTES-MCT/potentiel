@@ -1,7 +1,10 @@
 import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { mediator } from 'mediateur';
-import { DomainUseCase, convertirEnIdentifiantGestionnaireRéseau } from '@potentiel/domain';
+import {
+  DomainUseCase,
+  convertirEnIdentifiantGestionnaireRéseau,
+} from '@potentiel/domain-usecases';
 import { sleep } from '../../helpers/sleep';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {

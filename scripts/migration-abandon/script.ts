@@ -18,22 +18,22 @@ import {
   convertirEnIdentifiantProjet,
   convertirEnIdentifiantUtilisateur,
   AbandonRejetéRéponseSignée,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 import { GetObjectCommand, S3 } from '@aws-sdk/client-s3';
 import { extname, join } from 'path';
-import { registerDemanderAbandonCommand } from '../../packages/domain/src/projet/lauréat/abandon/demander/demanderAbandon.command';
-import { registerDemanderAbandonAvecRecandidatureUseCase } from '../../packages/domain/src/projet/lauréat/abandon/demander/demanderAbandon.usecase';
-import { registerDemanderConfirmationAbandonCommand } from '../../packages/domain/src/projet/lauréat/abandon/demander/demanderConfirmationAbandon.command';
-import { registerDemanderConfirmationAbandonUseCase } from '../../packages/domain/src/projet/lauréat/abandon/demander/demanderConfirmationAbandon.usecase';
-import { registerAccorderAbandonCommand } from '../../packages/domain/src/projet/lauréat/abandon/accorder/accorderAbandon.command';
-import { registerAccorderAbandonUseCase } from '../../packages/domain/src/projet/lauréat/abandon/accorder/accorderAbandon.usecase';
-import { registerAnnulerAbandonCommand } from '../../packages/domain/src/projet/lauréat/abandon/annuler/annulerAbandon.command';
-import { registerAnnulerAbandonUseCase } from '../../packages/domain/src/projet/lauréat/abandon/annuler/annulerAbandon.usecase';
-import { registerAnnulerRejetAbandonUseCase } from '../../packages/domain/src/projet/lauréat/abandon/annuler/annulerRejetAbandon.usecase';
-import { registerConfirmerAbandonCommand } from '../../packages/domain/src/projet/lauréat/abandon/confirmer/confirmerAbandon.command';
-import { registerConfirmerAbandonUseCase } from '../../packages/domain/src/projet/lauréat/abandon/confirmer/confirmerAbandon.usecase';
-import { registerRejeterAbandonCommand } from '../../packages/domain/src/projet/lauréat/abandon/rejeter/rejeterAbandon.command';
-import { registerRejeterAbandonUseCase } from '../../packages/domain/src/projet/lauréat/abandon/rejeter/rejeterAbandon.usecase';
+import { registerDemanderAbandonCommand } from '../../packages/domain-usecases/src/projet/lauréat/abandon/demander/demanderAbandon.command';
+import { registerDemanderAbandonAvecRecandidatureUseCase } from '../../packages/domain-usecases/src/projet/lauréat/abandon/demander/demanderAbandon.usecase';
+import { registerDemanderConfirmationAbandonCommand } from '../../packages/domain-usecases/src/projet/lauréat/abandon/demander/demanderConfirmationAbandon.command';
+import { registerDemanderConfirmationAbandonUseCase } from '../../packages/domain-usecases/src/projet/lauréat/abandon/demander/demanderConfirmationAbandon.usecase';
+import { registerAccorderAbandonCommand } from '../../packages/domain-usecases/src/projet/lauréat/abandon/accorder/accorderAbandon.command';
+import { registerAccorderAbandonUseCase } from '../../packages/domain-usecases/src/projet/lauréat/abandon/accorder/accorderAbandon.usecase';
+import { registerAnnulerAbandonCommand } from '../../packages/domain-usecases/src/projet/lauréat/abandon/annuler/annulerAbandon.command';
+import { registerAnnulerAbandonUseCase } from '../../packages/domain-usecases/src/projet/lauréat/abandon/annuler/annulerAbandon.usecase';
+import { registerAnnulerRejetAbandonUseCase } from '../../packages/domain-usecases/src/projet/lauréat/abandon/annuler/annulerRejetAbandon.usecase';
+import { registerConfirmerAbandonCommand } from '../../packages/domain-usecases/src/projet/lauréat/abandon/confirmer/confirmerAbandon.command';
+import { registerConfirmerAbandonUseCase } from '../../packages/domain-usecases/src/projet/lauréat/abandon/confirmer/confirmerAbandon.usecase';
+import { registerRejeterAbandonCommand } from '../../packages/domain-usecases/src/projet/lauréat/abandon/rejeter/rejeterAbandon.command';
+import { registerRejeterAbandonUseCase } from '../../packages/domain-usecases/src/projet/lauréat/abandon/rejeter/rejeterAbandon.usecase';
 import {
   ConsulterAbandonQuery,
   registerConsulterAbandonQuery,
@@ -44,7 +44,7 @@ import {
 } from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterPièceJustificativeAbandon.query';
 
 import { registerConsulterRéponseAbandonSignéeQuery } from '../../packages/domain-views/src/projet/lauréat/abandon/consulter/consulterRéponseSignéeAbandon.query';
-import { AbandonDemandéEvent } from '../../packages/domain/src/projet/lauréat/abandon/abandon.event';
+import { AbandonDemandéEvent } from '../../packages/domain-usecases/src/projet/lauréat/abandon/abandon.event';
 import {
   téléchargerPièceJustificativeAbandonProjetAdapter,
   téléchargerRéponseSignéeAdapter,

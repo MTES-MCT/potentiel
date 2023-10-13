@@ -9,7 +9,7 @@
       "path": "../../domain-inmemory-referential"
     },
     {
-      "path": "../../domain"
+      "path": "../../domain-usecases"
     },
     {
       "path": "../../libraries/core-domain"

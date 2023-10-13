@@ -1,4 +1,4 @@
-import { IdentifiantProjetValueType } from '@potentiel/domain';
+import { IdentifiantProjetValueType } from '@potentiel/domain-usecases';
 
 export type RécupérerPorteursProjetPort = (
   identifiantProjet: IdentifiantProjetValueType,

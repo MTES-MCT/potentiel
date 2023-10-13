@@ -2,7 +2,7 @@ import { makeCertificateFilename } from './modules/project';
 import querystring from 'querystring';
 import sanitize from 'sanitize-filename';
 import type { Project } from './entities';
-import { RawIdentifiantProjet } from '@potentiel/domain';
+import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
 
 const withParams =
   <T extends Record<string, any>>(url: string) =>

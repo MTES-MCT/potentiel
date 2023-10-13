@@ -1,4 +1,4 @@
-import { convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 import {
   CandidatureLegacyReadModel,
   RécupérerCandidatureLegacyPort,

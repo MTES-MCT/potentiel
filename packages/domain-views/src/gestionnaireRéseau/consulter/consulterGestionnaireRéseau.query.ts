@@ -10,7 +10,7 @@ import {
   RawIdentifiantGestionnaireRéseau,
   convertirEnIdentifiantGestionnaireRéseau,
   estUnIdentifiantGestionnaireRéseau,
-} from '@potentiel/domain';
+} from '@potentiel/domain-usecases';
 
 export type ConsulterGestionnaireRéseauQuery = Message<
   'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',

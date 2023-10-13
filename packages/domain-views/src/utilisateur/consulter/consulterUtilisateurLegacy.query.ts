@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { RawIdentifiantUtilisateur } from '@potentiel/domain';
+import { RawIdentifiantUtilisateur } from '@potentiel/domain-usecases';
 import { Option } from '@potentiel/monads';
 
 import { RécupérerUtilisateurLegacyPort } from '../utilisateur.port';
