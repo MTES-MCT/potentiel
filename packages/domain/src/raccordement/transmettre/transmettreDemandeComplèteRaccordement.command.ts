@@ -17,7 +17,7 @@ import {
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
 import { DemandeComplèteRaccordementTransmiseEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
-import { DateTimeValueType } from '../../common.valueType';
+import { DateTimeValueType } from '../../common/common.valueType';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

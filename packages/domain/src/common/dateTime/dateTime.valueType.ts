@@ -4,6 +4,7 @@ export type DateTime = {
 
 export type DateTimeValueType = DateTime & {
   estDansLeFutur(): boolean;
+  estAntérieurÀ(dateTime: DateTime): boolean;
   formatter(): string;
 };
 
@@ -13,6 +14,9 @@ export const convertirEnDateTime = (date: string | Date) => {
     date: estUneDate(date) ? date : new Date(date),
     estDansLeFutur() {
       return this.date.getTime() > Date.now();
+    },
+    estAntérieurÀ(dateTime: DateTime) {
+      return this.date.getTime() < dateTime.date.getTime();
     },
     formatter() {
       return this.date.toISOString();

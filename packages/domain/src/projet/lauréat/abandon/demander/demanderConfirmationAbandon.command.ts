@@ -4,7 +4,7 @@ import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abando
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { ConfirmationAbandonDemandéeEvent } from '../abandon.event';
-import { DateTimeValueType } from '../../../../common.valueType';
+import { DateTimeValueType } from '../../../../common/common.valueType';
 import {
   AbandonDéjàAccordéError,
   AbandonDéjàConfirméError,

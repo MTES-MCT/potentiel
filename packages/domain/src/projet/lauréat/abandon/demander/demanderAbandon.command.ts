@@ -6,7 +6,7 @@ import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
 import { EnregistrerPièceJustificativeAbandonPort } from '../abandon.port';
-import { DateTimeValueType } from '../../../../common.valueType';
+import { DateTimeValueType } from '../../../../common/common.valueType';
 import { AbandonDéjàAccordéError, DemandeAbandonEnCoursErreur } from '../abandon.error';
 import { IdentifiantUtilisateurValueType } from '../../../../utilisateur/utilisateur.valueType';
 

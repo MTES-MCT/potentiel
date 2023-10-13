@@ -3,7 +3,7 @@ import { IdentifiantProjetValueType } from '../../../projet.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { DateTimeValueType } from '../../../../common.valueType';
+import { DateTimeValueType } from '../../../../common/common.valueType';
 import { AbandonAnnuléEvent } from '../abandon.event';
 import { AbandonDéjàAccordéError, DemandeAbandonInconnuErreur } from '../abandon.error';
 import { IdentifiantUtilisateurValueType } from '../../../../domain.valueType';
