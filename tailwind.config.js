@@ -1,5 +1,5 @@
 module.exports = {
-  content: ['./src/views/**/*.tsx', './src/views/**/*.html'],
+  content: ['**/*.tsx', './src/views/**/*.html'],
   darkMode: 'media', // or 'class'
   theme: {
     fontFamily: {

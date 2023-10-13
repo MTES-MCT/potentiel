@@ -1,7 +1,7 @@
 import { UtilisateurLegacyReadModel } from '@potentiel/domain-views';
 import { User } from '../../../entities';
 import { Permission } from '../../authN';
-import { convertirEnIdentifiantUtilisateur } from '@potentiel/domain';
+import { convertirEnIdentifiantUtilisateur } from '@potentiel/domain-usecases';
 
 export type UtilisateurReadModel = User & { accountUrl: string; permissions: Array<Permission> };
 
