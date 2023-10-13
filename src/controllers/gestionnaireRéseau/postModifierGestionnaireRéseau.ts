@@ -6,11 +6,8 @@ import * as yup from 'yup';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
-import {
-  DomainUseCase,
-  PermissionModifierGestionnaireRéseau,
-  convertirEnIdentifiantGestionnaireRéseau,
-} from '@potentiel/domain';
+import { DomainUseCase, convertirEnIdentifiantGestionnaireRéseau } from '@potentiel/domain';
+import { PermissionModifierGestionnaireRéseau } from '@potentiel/legacy-permissions';
 import { mediator } from 'mediateur';
 import { NotFoundError } from '@potentiel/core-domain';
 

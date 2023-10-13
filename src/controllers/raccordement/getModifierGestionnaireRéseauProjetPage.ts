@@ -1,8 +1,5 @@
-import {
-  PermissionModifierGestionnaireRéseauProjet,
-  convertirEnIdentifiantProjet,
-  estUnRawIdentifiantProjet,
-} from '@potentiel/domain';
+import { convertirEnIdentifiantProjet, estUnRawIdentifiantProjet } from '@potentiel/domain';
+import { PermissionModifierGestionnaireRéseauProjet } from '@potentiel/legacy-permissions';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';

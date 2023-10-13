@@ -1,0 +1,14 @@
+{
+  "name": "@potentiel/legacy-permissions",
+  "version": "0.0.0",
+  "description": "Legacy permissions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}
