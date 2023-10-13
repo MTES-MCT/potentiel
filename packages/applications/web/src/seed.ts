@@ -1,7 +1,10 @@
 import { appelsOffreData } from '@potentiel/domain-inmemory-referential';
 import { AppelOffreReadModelKey } from '@potentiel/domain-views';
 import { getLogger } from '@potentiel/monitoring';
-import { createProjection, removeProjectionByCategory } from '@potentiel/pg-projections';
+import {
+  createProjection,
+  removeProjectionByCategory,
+} from '@potentiel-infrastructure/pg-projections';
 
 export const seed = async () => {
   getLogger().info('Starting to seed referential data...');

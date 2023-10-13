@@ -10,7 +10,7 @@ import {
   GestionnaireRéseauReadModel,
   ListerGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
-import { loadAggregate } from '@potentiel/pg-event-sourcing';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { mediator } from 'mediateur';
 
 Alors(

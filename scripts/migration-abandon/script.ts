@@ -50,9 +50,13 @@ import {
   téléchargerRéponseSignéeAdapter,
   téléverserPièceJustificativeAbandonAdapter,
   téléverserRéponseSignéeAdapter,
-} from '@potentiel/infra-adapters';
-import { publish, loadAggregate, loadFromStream } from '@potentiel/pg-event-sourcing';
-import { findProjection } from '@potentiel/pg-projections';
+} from '@potentiel-infrastructure/domain-adapters';
+import {
+  publish,
+  loadAggregate,
+  loadFromStream,
+} from '@potentiel-infrastructure/pg-event-sourcing';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { lookup } from 'mime-types';
 import { isNone } from '@potentiel/monads';
 import { existsSync, readFileSync, writeFileSync } from 'fs';

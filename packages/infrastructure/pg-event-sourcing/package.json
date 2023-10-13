@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/pg-event-sourcing",
+  "name": "@potentiel-infrastructure/pg-event-sourcing",
   "version": "0.0.0",
   "description": "PostgreSQL Event Sourcing implementation",
   "main": "dist/index.js",

@@ -40,7 +40,7 @@ const executeScript = async (client: Sequelize, packageName: string, script: str
       '..',
       '..',
       'packages',
-      'libraries',
+      'infrastructure',
       packageName,
       'sql',
       script,

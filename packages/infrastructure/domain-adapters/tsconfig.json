@@ -1,0 +1,27 @@
+{
+  "extends": "@potentiel/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    {
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/file-storage"
+    },
+    {
+      "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../../libraries/pg-helpers"
+    },
+    {
+      "path": "../../domain-usecases"
+    },
+    {
+      "path": "../../domain-views"
+    }
+  ]
+}

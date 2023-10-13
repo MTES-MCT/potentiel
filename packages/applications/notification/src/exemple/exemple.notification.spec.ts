@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 import { afterAll, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import waitForExpect from 'wait-for-expect';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
-import { publish } from '@potentiel/pg-event-sourcing';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 import { UnsetupApp, bootstrap } from '../bootstrap';
 import { sendEmail } from '@potentiel/email-sender';

@@ -11,16 +11,14 @@
     "./packages/libraries/core-domain/",
     "./packages/libraries/core-domain-views/",
     "./packages/libraries/pg-helpers/",
-    "./packages/libraries/pg-event-sourcing/",
-    "./packages/libraries/pg-projections",
     "./packages/libraries/file-storage/",
     "./packages/libraries/email-sender/",
     "./packages/libraries/legacy-permissions",
     "./packages/domain-usecases/",
     "./packages/domain-views/",
-    "./packages/libraries/infra-adapters/",
     "./packages/specifications",
     "./packages/domain-inmemory-referential/",
+    "./packages/infrastructure/*",
     "./packages/applications/*"
   ],
   "scripts": {

@@ -57,19 +57,19 @@
       "path": "packages/libraries/monitoring"
     },
     {
-      "path": "packages/libraries/pg-event-sourcing"
+      "path": "packages/infrastructure/pg-event-sourcing"
     },
     {
       "path": "packages/libraries/pg-helpers"
     },
     {
-      "path": "packages/libraries/pg-projections"
+      "path": "packages/infrastructure/pg-projections"
     },
     {
       "path": "packages/libraries/file-storage"
     },
     {
-      "path": "packages/libraries/infra-adapters"
+      "path": "packages/infrastructure/domain-adapters"
     },
     {
       "path": "packages/libraries/legacy-permissions"
