@@ -1,4 +1,4 @@
-import { DateTimeValueType } from '../../../common.valueType';
+import { DateTimeValueType } from '../../../common/common.valueType';
 import { IdentifiantProjetValueType } from '../../projet.valueType';
 import { PièceJustificativeAbandon, RéponseSignée } from './abandon.valueType';
 

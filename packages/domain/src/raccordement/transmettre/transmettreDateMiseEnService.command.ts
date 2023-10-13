@@ -13,7 +13,7 @@ import {
 } from '../raccordement.errors';
 import { DateMiseEnServiceTransmiseEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
-import { DateTimeValueType } from '../../common.valueType';
+import { DateTimeValueType } from '../../common/common.valueType';
 
 export type TransmettreDateMiseEnServiceCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -47,7 +47,7 @@ export const registerTransmettreDateMiseEnServiceCommand = ({
       throw new DateDansLeFuturError();
     }
 
-    if (dateMiseEnService.date.getTime() < dateDésignation.date.getTime()) {
+    if (dateMiseEnService.estAntérieurÀ(dateDésignation)) {
       throw new DateAntérieureDateDésignationProjetError();
     }
 

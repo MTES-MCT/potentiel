@@ -9,7 +9,7 @@ import {
 import { DateDansLeFuturError, DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 import { PropositionTechniqueEtFinancièreTransmiseEventV1 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
-import { DateTimeValueType } from '../../common.valueType';
+import { DateTimeValueType } from '../../common/common.valueType';
 
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',

@@ -12,11 +12,9 @@ import {
   FormatRéférenceDossierRaccordementInvalideError,
 } from '../raccordement.errors';
 import { GestionnaireRéseauInconnuError } from '../../gestionnaireRéseau/gestionnaireRéseau.error';
-import {
-  DemandeComplèteRaccordementModifiéeEventV2,
-} from '../raccordement.event';
+import { DemandeComplèteRaccordementModifiéeEventV2 } from '../raccordement.event';
 import { RéférenceDossierRaccordementValueType } from '../raccordement.valueType';
-import { DateTimeValueType } from '../../common.valueType';
+import { DateTimeValueType } from '../../common/common.valueType';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',

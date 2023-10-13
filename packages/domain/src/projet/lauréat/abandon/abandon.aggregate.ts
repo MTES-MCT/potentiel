@@ -9,7 +9,7 @@ import {
   AbandonConfirméEvent,
 } from './abandon.event';
 import { StatutAbandon } from './abandon.valueType';
-import { DateTime, convertirEnDateTime } from '../../../common.valueType';
+import { DateTime, convertirEnDateTime } from '../../../common/common.valueType';
 
 type AbandonAggregateId = `abandon|${string}`;
 
