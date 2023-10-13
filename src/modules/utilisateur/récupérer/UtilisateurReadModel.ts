@@ -6,12 +6,8 @@ import { convertirEnIdentifiantUtilisateur } from '@potentiel/domain-usecases';
 export type UtilisateurReadModel = User & { accountUrl: string; permissions: Array<Permission> };
 
 export const convertirEnUtilisateurLegacyReadModel = (
-  user: UtilisateurReadModel | undefined,
-): Omit<UtilisateurLegacyReadModel, 'type'> | undefined => {
-  if (!user) {
-    return undefined;
-  }
-
+  user: UtilisateurReadModel,
+): Omit<UtilisateurLegacyReadModel, 'type'> => {
   const { accountUrl, email, fullName, role, fonction } = user;
   return {
     accountUrl,

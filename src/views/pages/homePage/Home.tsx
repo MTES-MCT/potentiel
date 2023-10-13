@@ -11,13 +11,13 @@ type HomeProps = {
 };
 
 export const Home = (props: HomeProps) => {
-  const {
-    request: { user },
-  } = props;
+  const { request } = props;
+
+  const user = request.user ? convertirEnUtilisateurLegacyReadModel(request.user) : undefined;
 
   return (
     <App>
-      <Header user={convertirEnUtilisateurLegacyReadModel(user)}>
+      <Header user={user}>
         {user && (
           <Header.MenuItem href={routes.REDIRECT_BASED_ON_ROLE}>
             <div className="flex flex-row items-center">
@@ -33,7 +33,7 @@ export const Home = (props: HomeProps) => {
         <InscriptionConnexion {...{ user }} />
         <Benefices />
       </main>
-      <Footer user={convertirEnUtilisateurLegacyReadModel(user)} />
+      <Footer user={user} />
     </App>
   );
 };

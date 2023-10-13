@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { User } from '../../../../entities';
 import routes from '@potentiel/routes';
 import {
   LinkButton,
@@ -11,9 +10,10 @@ import {
   AccountIcon,
   LoginIcon,
 } from '@potentiel/ui';
+import { UtilisateurLegacyReadModel } from '@potentiel/domain-views';
 
 type InscriptionConnexionProps = {
-  user: User;
+  user?: Omit<UtilisateurLegacyReadModel, 'type'>;
 };
 
 export const InscriptionConnexion = ({ user }: InscriptionConnexionProps) => (
@@ -38,12 +38,12 @@ export const InscriptionConnexion = ({ user }: InscriptionConnexionProps) => (
 );
 
 type BienvenueProps = {
-  user: User;
+  user: Omit<UtilisateurLegacyReadModel, 'type'>;
 };
 const Bienvenue = ({ user }: BienvenueProps) => (
   <div className="flex flex-col items-center md:mx-auto shadow-md bg-blue-france-975-base p-10">
     <p className="mt-0 text-2xl lg:text-3xl font-semibold text-blue-france-sun-base">
-      Bonjour {user.fullName}, nous sommes ravis de vous revoir.
+      Bonjour {user.nomComplet}, nous sommes ravis de vous revoir.
     </p>
     <div className="flex flex-col md:flex-row w-full md:w-fit gap-3">
       <LinkButton
