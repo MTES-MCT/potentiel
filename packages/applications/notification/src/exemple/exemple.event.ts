@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel/core-domain';
+import { DomainEvent } from '@potentiel-domain/core';
 import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
 
 export type QuelqueChoseSestPasséEvent = DomainEvent<

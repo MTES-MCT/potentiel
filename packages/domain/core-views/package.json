@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel/core-domain",
+  "name": "@potentiel-domain/core-views",
   "version": "0.0.0",
-  "description": "Core domain types and functions",
+  "description": "Core domain types",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "@potentiel/monads": "*",
-    "@potentiel/web": "*",
-    "mediateur": "^0.1.0"
+    "@potentiel-domain/core": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

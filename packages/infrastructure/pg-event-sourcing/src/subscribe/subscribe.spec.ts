@@ -8,7 +8,7 @@ import {
   jest,
   expect,
 } from '@jest/globals';
-import { DomainEvent, Unsubscribe } from '@potentiel/core-domain';
+import { DomainEvent, Unsubscribe } from '@potentiel-domain/core';
 import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
 import { registerSubscriber } from './subscriber/registerSubscriber';
@@ -18,7 +18,7 @@ import * as monitoring from '@potentiel/monitoring';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
 import { publish } from '../publish/publish';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
-import { RebuildTriggered } from '@potentiel/core-domain-views';
+import { RebuildTriggered } from '@potentiel-domain/core-views';
 import { executeRebuild } from './rebuild/executeRebuild';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';

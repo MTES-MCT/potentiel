@@ -1,4 +1,4 @@
-import { LoadAggregate, Publish, Subscribe } from '@potentiel/core-domain';
+import { LoadAggregate, Publish, Subscribe } from '@potentiel-domain/core';
 import { setupGestionnaireRéseau } from './gestionnaireRéseau/gestionnaireRéseau.setup';
 import { ProjetDependencies, setupProjet } from './projet/projet.setup';
 import { RaccordementDependencies, setupRaccordement } from './raccordement/raccordement.setup';

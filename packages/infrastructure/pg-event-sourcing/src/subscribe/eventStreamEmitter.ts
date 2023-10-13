@@ -1,12 +1,12 @@
 import { EventEmitter } from 'events';
-import { DomainEvent, Subscriber } from '@potentiel/core-domain';
+import { DomainEvent, Subscriber } from '@potentiel-domain/core';
 import { isEvent, Event } from '../event';
 import { getLogger } from '@potentiel/monitoring';
 import { acknowledge } from './acknowledgement/acknowledge';
 import { Client } from 'pg';
 import { rebuild } from './rebuild/rebuild';
 import format from 'pg-format';
-import { RebuildTriggered } from '@potentiel/core-domain-views';
+import { RebuildTriggered } from '@potentiel-domain/core-views';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
 import { RebuildFailedError } from './errors/RebuildFailed.error';

@@ -25,7 +25,7 @@ import { UserProjects } from '../../infra/sequelize/projectionsNext';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { upload as uploadMiddleware } from '../upload';
-import { DomainError } from '@potentiel/core-domain';
+import { DomainError } from '@potentiel-domain/core';
 import { isNone, isSome } from '@potentiel/monads';
 import { ConsulterAccuséRéceptionDemandeComplèteRaccordementQuery } from '@potentiel/domain-views';
 import { getLegacyIdByIdentifiantProjet } from '../../config';

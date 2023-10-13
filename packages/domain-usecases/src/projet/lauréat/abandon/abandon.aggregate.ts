@@ -1,4 +1,4 @@
-import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
+import { AggregateFactory, LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantProjetValueType } from '../../projet.valueType';
 import {
   AbandonDemandéEvent,

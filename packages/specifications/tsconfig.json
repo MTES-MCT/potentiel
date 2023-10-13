@@ -9,7 +9,7 @@
       "path": "../domain-usecases"
     },
     {
-      "path": "../libraries/core-domain"
+      "path": "../domain/core"
     },
     {
       "path": "../infrastructure/pg-event-sourcing"

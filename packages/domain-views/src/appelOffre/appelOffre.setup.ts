@@ -1,4 +1,4 @@
-import { Unsubscribe } from '@potentiel/core-domain';
+import { Unsubscribe } from '@potentiel-domain/core';
 import {
   ConsulterAppelOffreDependencies,
   registerConsulterAppelOffreQuery,

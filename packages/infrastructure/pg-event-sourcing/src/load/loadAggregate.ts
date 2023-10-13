@@ -1,4 +1,4 @@
-import { AggregateId, AggregateFactory, DomainEvent, LoadAggregate } from '@potentiel/core-domain';
+import { AggregateId, AggregateFactory, DomainEvent, LoadAggregate } from '@potentiel-domain/core';
 import { none } from '@potentiel/monads';
 import { loadFromStream } from './loadFromStream';
 

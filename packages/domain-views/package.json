@@ -9,8 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/core-domain": "*",
-    "@potentiel/core-domain-views": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/core-views": "*",
     "@potentiel/domain-usecases": "*",
     "@potentiel/monads": "*",
     "mediateur": "^0.1.0"

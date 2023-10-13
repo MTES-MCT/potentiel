@@ -1,4 +1,4 @@
-import { ReadModel } from '@potentiel/core-domain-views';
+import { ReadModel } from '@potentiel-domain/core-views';
 import { executeQuery } from '@potentiel/pg-helpers';
 
 export const upsertProjection = async <TReadModel extends ReadModel>(

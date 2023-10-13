@@ -14,7 +14,7 @@ import {
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { AbandonReadModel, CandidatureLegacyReadModel } from '@potentiel/domain-views';
-import { ListResult } from '@potentiel/core-domain-views';
+import { ListResult } from '@potentiel-domain/core-views';
 import routes from '../../../routes';
 import { StatutAbandon } from '@potentiel/domain-usecases';
 

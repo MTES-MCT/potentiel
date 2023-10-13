@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../../../projet.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
-import { LoadAggregate, Publish } from '@potentiel/core-domain';
+import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { isNone } from '@potentiel/monads';
 import { DateTimeValueType } from '../../../../common/common.valueType';
 import { AbandonAnnuléEvent } from '../abandon.event';

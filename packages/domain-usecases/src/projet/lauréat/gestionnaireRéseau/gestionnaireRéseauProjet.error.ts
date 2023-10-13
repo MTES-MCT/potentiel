@@ -1,4 +1,4 @@
-import { InvalidOperationError } from '@potentiel/core-domain';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 export class GestionnaireRéseauProjetDéjàDéclaréErreur extends InvalidOperationError {
   constructor() {

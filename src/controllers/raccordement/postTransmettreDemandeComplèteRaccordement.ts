@@ -25,7 +25,7 @@ import { logger } from '../../core/utils';
 import { upload as uploadMiddleware } from '../upload';
 
 import { mediator } from 'mediateur';
-import { DomainError } from '@potentiel/core-domain';
+import { DomainError } from '@potentiel-domain/core';
 import { isSome } from '@potentiel/monads';
 
 const schema = yup.object({

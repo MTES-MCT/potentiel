@@ -1,4 +1,4 @@
-import { Subscribe } from '@potentiel/core-domain';
+import { Subscribe } from '@potentiel-domain/core';
 import {
   ConsulterAccuséRéceptionDemandeComplèteRaccordementDependencies,
   registerConsulterAccuséRéceptionDemandeComplèteRaccordementQuery,
@@ -26,7 +26,7 @@ import {
 } from './raccordement.projector';
 import { RaccordementEvent } from '@potentiel/domain-usecases';
 import { mediator } from 'mediateur';
-import { RebuildTriggered } from '@potentiel/core-domain-views';
+import { RebuildTriggered } from '@potentiel-domain/core-views';
 
 // Setup
 type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &

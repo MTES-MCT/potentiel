@@ -9,13 +9,10 @@
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../libraries/pg-helpers"
-    },
-    {
       "path": "../../libraries/monitoring"
     },
     {
-      "path": "../../libraries/core-domain"
+      "path": "../../domain/core"
     }
   ]
 }

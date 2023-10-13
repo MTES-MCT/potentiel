@@ -9,7 +9,7 @@ import {
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option, isNone, none } from '@potentiel/monads';
-import { Find } from '@potentiel/core-domain-views';
+import { Find } from '@potentiel-domain/core-views';
 import { RécupérerRéponseSignéeAbandonPort } from '../abandon.port';
 import {
   AbandonReadModel,

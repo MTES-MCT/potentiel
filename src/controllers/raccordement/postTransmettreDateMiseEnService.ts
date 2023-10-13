@@ -20,7 +20,7 @@ import {
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '../../core/utils';
 import { mediator } from 'mediateur';
-import { DomainError } from '@potentiel/core-domain';
+import { DomainError } from '@potentiel-domain/core';
 import { Project } from '../../infra/sequelize/projectionsNext';
 import { isSome } from '@potentiel/monads';
 

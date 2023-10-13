@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/core-domain": "*",
+    "@potentiel-domain/core": "*",
     "@potentiel/web": "*",
     "mediateur": "^0.1.0"
   },

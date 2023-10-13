@@ -27,7 +27,7 @@ import { upload as uploadMiddleware } from '../upload';
 
 import { mediator } from 'mediateur';
 import { isNone, isSome } from '@potentiel/monads';
-import { DomainError } from '@potentiel/core-domain';
+import { DomainError } from '@potentiel-domain/core';
 import { ConsulterPropositionTechniqueEtFinancièreSignéeQuery } from '@potentiel/domain-views';
 
 const schema = yup.object({

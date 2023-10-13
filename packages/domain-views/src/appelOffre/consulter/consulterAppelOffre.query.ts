@@ -7,7 +7,7 @@ import {
 import { Option, none } from '@potentiel/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AppelOffreReadModel, AppelOffreReadModelKey } from '../appelOffre.readModel';
-import { Find } from '@potentiel/core-domain-views';
+import { Find } from '@potentiel-domain/core-views';
 
 export type ConsulterAppelOffreQuery = Message<
   'CONSULTER_APPEL_OFFRE_QUERY',

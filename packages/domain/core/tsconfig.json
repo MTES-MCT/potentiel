@@ -6,10 +6,7 @@
   },
   "references": [
     {
-      "path": "../monads"
-    },
-    {
-      "path": "../core-domain"
+      "path": "../../libraries/monads"
     }
   ]
 }

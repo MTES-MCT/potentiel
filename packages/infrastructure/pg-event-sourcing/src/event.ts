@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel/core-domain';
+import { DomainEvent } from '@potentiel-domain/core';
 
 export type Event = DomainEvent & {
   version: number;

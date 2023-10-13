@@ -10,7 +10,7 @@
   ],
   "references": [
     {
-      "path": "../../libraries/core-domain"
+      "path": "../../domain/core"
     },
     {
       "path": "../../domain-usecases"
