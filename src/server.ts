@@ -3,7 +3,7 @@ import * as LOCALE from 'date-fns/locale';
 import dotenv from 'dotenv';
 import express, { Request } from 'express';
 import helmet from 'helmet';
-import path from 'path';
+import path, { join } from 'path';
 import morgan from 'morgan';
 import * as Sentry from '@sentry/node';
 import { isDevEnv, registerAuth } from './config';
@@ -17,6 +17,7 @@ import {
 } from './modules/project';
 import { transformerISOStringEnDate } from './infra/helpers';
 import { publishToEventBus } from './config/eventBus.config';
+import next from 'next';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -160,13 +161,30 @@ export async function makeServer(port: number, sessionSecret: string) {
         );
     });
 
-    return new Promise((resolve) => {
-      const server = app.listen(port, () => {
-        process.env.start_datetime = new Date().getTime().toString();
-        logger.info(`Server listening on port ${port}!`);
-        logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
-        logger.info(`Version ${process.env.npm_package_version}`);
-        resolve(server);
+    const nextApp = next({
+      dev: false,
+      dir: join(__dirname, '..', 'packages', 'applications', 'ssr'),
+    });
+
+    const nextHandler = nextApp.getRequestHandler();
+
+    app.get('*', (req, res) => {
+      return nextHandler(req, res);
+    });
+
+    app.post('*', (req, res) => {
+      return nextHandler(req, res);
+    });
+
+    nextApp.prepare().then(() => {
+      return new Promise((resolve) => {
+        const server = app.listen(port, () => {
+          process.env.start_datetime = new Date().getTime().toString();
+          logger.info(`Server listening on port ${port}!`);
+          logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
+          logger.info(`Version ${process.env.npm_package_version}`);
+          resolve(server);
+        });
       });
     });
   } catch (error) {
