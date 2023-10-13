@@ -22,13 +22,13 @@
       "path": "../../libraries/email-sender"
     },
     {
-      "path": "../../libraries/infra-adapters"
+      "path": "../../infrastructure/domain-adapters"
     },
     {
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../libraries/pg-event-sourcing"
+      "path": "../../infrastructure/pg-event-sourcing"
     },
     {
       "path": "../../libraries/pg-helpers"

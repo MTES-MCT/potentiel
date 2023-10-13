@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
-import { subscribe } from '@potentiel/pg-event-sourcing';
+import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   récupérerCandidatureAdapter,
   récupérerPorteursProjetAdapter,
-} from '@potentiel/infra-adapters';
+} from '@potentiel-infrastructure/domain-adapters';
 
 import {
   ExecuteProjetNotification,

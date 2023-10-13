@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { ConsulterGestionnaireRéseauLauréatQuery } from '@potentiel/domain-views';
 import { isNone } from '@potentiel/monads';
 
-import { loadAggregate } from '@potentiel/pg-event-sourcing';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   loadGestionnaireRéseauProjetAggregateFactory,
   convertirEnIdentifiantProjet,

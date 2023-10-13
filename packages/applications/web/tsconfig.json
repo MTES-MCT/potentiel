@@ -15,13 +15,13 @@
       "path": "../../libraries/core-domain"
     },
     {
-      "path": "../../libraries/pg-event-sourcing"
+      "path": "../../infrastructure/pg-event-sourcing"
     },
     {
-      "path": "../../libraries/pg-projections"
+      "path": "../../infrastructure/pg-projections"
     },
     {
-      "path": "../../libraries/infra-adapters"
+      "path": "../../infrastructure/domain-adapters"
     }
   ]
 }

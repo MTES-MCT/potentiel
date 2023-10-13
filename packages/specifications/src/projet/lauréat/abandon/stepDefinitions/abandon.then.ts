@@ -1,7 +1,7 @@
 // import { Then as Alors } from '@cucumber/cucumber';
 
 // import { PotentielWorld } from '../../../../potentiel.world';
-// import { loadAggregate } from '@potentiel/pg-event-sourcing';
+// import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 // import { convertirEnIdentifiantProjet, loadAbandonAggregateFactory } from '@potentiel/domain-usecases';
 // import { isNone, isSome } from '@potentiel/monads';
 // import { mediator } from 'mediateur';

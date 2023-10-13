@@ -10,7 +10,7 @@ import { isDevEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap as bootstrapWebApp } from '@potentiel/web';
-import { subscribe } from '@potentiel/pg-event-sourcing';
+import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateMiseEnServiceTransmise } from './modules/project';
 import { transformerISOStringEnDate } from './infra/helpers';
 import { publishToEventBus } from './config/eventBus.config';

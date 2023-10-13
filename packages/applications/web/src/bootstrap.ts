@@ -1,5 +1,5 @@
 import { setupDomain } from '@potentiel/domain-usecases';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -8,7 +8,7 @@ import {
   searchProjection,
   updateProjection,
   upsertProjection,
-} from '@potentiel/pg-projections';
+} from '@potentiel-infrastructure/pg-projections';
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
@@ -18,7 +18,7 @@ import {
   récupérerCandidatureAdapter,
   téléchargerRéponseSignéeAdapter,
   récupérerUtilisateurAdapter,
-} from '@potentiel/infra-adapters';
+} from '@potentiel-infrastructure/domain-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { Message, mediator } from 'mediateur';
 import { logMiddleware } from './middlewares/log.middleware';

@@ -14,9 +14,9 @@
     "@potentiel/domain-usecases": "*",
     "@potentiel/domain-views": "*",
     "@potentiel/email-sender": "*",
-    "@potentiel/infra-adapters": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel/monads": "*",
-    "@potentiel/pg-event-sourcing": "*",
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel/pg-helpers": "*",
     "mediateur": "^0.1.0"
   },

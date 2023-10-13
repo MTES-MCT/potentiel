@@ -6,13 +6,10 @@
   },
   "references": [
     {
-      "path": "../monads"
+      "path": "../../libraries/core-domain"
     },
     {
-      "path": "../core-domain"
-    },
-    {
-      "path": "../pg-helpers"
+      "path": "../../libraries/pg-helpers"
     }
   ]
 }
