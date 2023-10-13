@@ -69,8 +69,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
         >
           {buttonChildren}
           <ArrowDownIcon
-            style={{ transform: visible ? 'rotate(180deg)' : '' }}
-            className={`ml-auto lg:ml-2 mr-2 lg:mr-0 transition`}
+            className={`ml-auto lg:ml-2 mr-2 lg:mr-0 transition ${visible ? 'rotate-180' : ''}`}
             title={`${visible ? 'Fermer' : 'Ouvrir'} le sous-menu`}
           />
         </div>

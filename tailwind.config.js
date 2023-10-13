@@ -159,4 +159,7 @@ module.exports = {
   variants: {
     extend: {},
   },
+  corePlugins: {
+    preflight: false,
+  },
 };
