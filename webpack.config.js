@@ -34,7 +34,7 @@ module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
     ...pageEntries,
-    shared: ['react', 'react-dom', 'moment', 'moment-timezone'],
+    shared: ['react', 'react-dom', '@potentiel/ui', 'moment', 'moment-timezone'],
   },
   target: 'web',
   resolve: {
