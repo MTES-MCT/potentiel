@@ -170,7 +170,7 @@ describe(`Pas d'effet`, () => {
   it(`
     Etant donné un projet sur le CDC initial
     Et n'ayant pas bénéficié du délai relatif au CDC du 30/08/2022
-    Lorsque le porteur choisit le CDC du 20/08/2022
+    Lorsque le porteur choisit le CDC du 30/08/2022
     Alors la date d'achèvement du projet ne devrait pas être modifiée
     `, async () => {
     const projetId = new UniqueEntityID();
