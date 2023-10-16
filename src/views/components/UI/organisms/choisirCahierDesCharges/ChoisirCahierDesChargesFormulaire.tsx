@@ -95,9 +95,9 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
         !['30/08/2022', '30/08/2022-alternatif'].includes(cdcChoisi) && (
           <AlertBox>
             Le cahier des charges que vous séléctionnez ne permet plus au projet de bénéficier du
-            délai relatif au cahier des charges du 30/08/2022.{' '}
+            délai relatif au cahier des charges modificatif du 30/08/2022.{' '}
             <span className="font-bold">
-              Si vous validez de changement cahier des charges, la date limite d'achèvement du
+              Si vous validez ce changement de cahier des charges, la date limite d'achèvement du
               projet sera impactée.
             </span>
           </AlertBox>
