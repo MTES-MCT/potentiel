@@ -172,7 +172,7 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
         payload: {
           projectId: projetId,
           completionDueOn: new Date('2025-01-01').getTime(),
-          reason: 'délaiCdc2022Annulé',
+          reason: 'DateMiseEnServiceAnnuleDélaiCdc2022',
         },
       });
 

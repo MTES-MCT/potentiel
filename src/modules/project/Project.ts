@@ -1246,7 +1246,12 @@ export const makeProject = (args: {
         if (event.payload.reason === 'délaiCdc2022') {
           props.délaiCDC2022appliqué = true;
         }
-        if (event.payload.reason === 'délaiCdc2022Annulé') {
+        if (
+          event.payload.reason &&
+          ['ChoixCDCAnnuleDélaiCdc2022', 'DateMiseEnServiceAnnuleDélaiCdc2022'].includes(
+            event.payload.reason,
+          )
+        ) {
           props.délaiCDC2022appliqué = false;
         }
         break;

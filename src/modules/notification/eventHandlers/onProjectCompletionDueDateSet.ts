@@ -74,7 +74,7 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
       return;
     }
 
-    if (reason === 'délaiCdc2022Annulé') {
+    if (reason === 'DateMiseEnServiceAnnuleDélaiCdc2022') {
       await Promise.all(
         porteursEmails.map(({ email, fullName, id }) =>
           sendNotification({

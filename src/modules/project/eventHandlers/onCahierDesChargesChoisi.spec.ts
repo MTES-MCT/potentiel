@@ -91,7 +91,7 @@ describe(`Retirer le délai relatif au CDC 2022`, () => {
       expect.objectContaining({
         projectId: fakeProject.id.toString(),
         completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
-        reason: 'délaiCdc2022Annulé',
+        reason: 'ChoixCDCAnnuleDélaiCdc2022',
       }),
     );
   });

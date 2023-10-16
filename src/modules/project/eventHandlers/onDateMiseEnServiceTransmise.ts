@@ -107,7 +107,7 @@ export const makeOnDateMiseEnServiceTransmise =
                             new Date(completionDueOn).getMonth() - délaiCDCApplicable.délaiEnMois,
                           ),
                         ).getTime(),
-                        reason: 'délaiCdc2022Annulé',
+                        reason: 'DateMiseEnServiceAnnuleDélaiCdc2022',
                       },
                     }),
                   )

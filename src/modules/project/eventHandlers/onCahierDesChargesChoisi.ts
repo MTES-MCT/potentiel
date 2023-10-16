@@ -60,7 +60,7 @@ export const makeOnCahierDesChargesChoisi =
                   new Date(completionDueOn).getMonth() - délaiCDC2022Applicable,
                 ),
               ).getTime(),
-              reason: 'délaiCdc2022Annulé',
+              reason: 'ChoixCDCAnnuleDélaiCdc2022',
             },
           }),
         );
