@@ -55,6 +55,7 @@ import {
   ImporterDatesMiseEnService,
   DetailsAbandon,
   ListeAbandons,
+  DetailsDemandeDelai,
 } from './pages';
 
 export { App } from './App';
@@ -136,6 +137,13 @@ export const ModificationRequestPage = (props: Parameters<typeof ModificationReq
     Component: ModificationRequest,
     props,
     title: 'Détails demande',
+  });
+
+export const DetailsDemandeDelaiPage = (props: Parameters<typeof DetailsDemandeDelai>[0]) =>
+  makeHtml({
+    Component: DetailsDemandeDelai,
+    props,
+    title: 'Détails demande délai',
   });
 
 export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>

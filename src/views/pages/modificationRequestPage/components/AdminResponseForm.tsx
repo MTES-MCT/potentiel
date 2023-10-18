@@ -14,8 +14,6 @@ interface AdminResponseFormProps {
 
 function getAdminRouteBasedOnType(type) {
   switch (type) {
-    case 'delai':
-      return ROUTES.ADMIN_REPONDRE_DEMANDE_DELAI;
     case 'abandon':
       return ROUTES.ADMIN_REPONDRE_DEMANDE_ABANDON;
     case 'annulation abandon':
