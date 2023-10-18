@@ -144,6 +144,7 @@ const onCahierDesChargesChoisiHandler = makeOnCahierDesChargesChoisi({
   projectRepo,
   publishToEventStore: eventStore.publish,
   getProjectAppelOffre,
+  récupérerDétailDossiersRaccordements,
 });
 
 const onCahierDesChargesChoisi = async (event: DomainEvent) => {
