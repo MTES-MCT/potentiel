@@ -21,8 +21,6 @@ import {
   Form,
   ChampsObligatoiresLégende,
   LabelDescription,
-  Checkbox,
-  AlertBox,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -105,7 +103,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
               <Input type="file" name="file" id="file" />
             </div>
 
-            {appelOffre.periode.abandonAvecRecandidature && (
+            {/* {appelOffre.periode.abandonAvecRecandidature && (
               <>
                 <AlertBox>
                   <div className="font-bold">Demande d'abandon avec recandidature</div>
@@ -144,7 +142,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   </Checkbox>
                 </AlertBox>
               </>
-            )}
+            )} */}
 
             <div className="mx-auto flex flex-col md:flex-row gap-4 items-center mt-4">
               <PrimaryButton type="submit" id="submit">
