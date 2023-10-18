@@ -1,26 +1,24 @@
 import { Option, isNone, none } from '@potentiel/monads';
 
-export type RawIdentifiantProjet = `${string}#${string}#${string}#${string}`;
+export type RawType = `${string}#${string}#${string}#${string}`;
 
-export type IdentifiantProjet = {
+export type PlainType = {
   appelOffre: string;
   période: string;
   famille: Option<string>;
   numéroCRE: string;
 };
 
-export type IdentifiantProjetValueType = IdentifiantProjet & {
-  formatter(): RawIdentifiantProjet;
+export type ValueType = PlainType & {
+  formatter(): RawType;
 };
 
-export const convertirEnIdentifiantProjet = (
-  identifiantProjet: RawIdentifiantProjet | IdentifiantProjet,
-): IdentifiantProjetValueType => {
+export const convertirEnValueType = (identifiantProjet: RawType | PlainType): ValueType => {
   // TODO: ajout validation
   return {
-    ...(estUnIdentifiantProjet(identifiantProjet)
+    ...(estUnPlainType(identifiantProjet)
       ? identifiantProjet
-      : convertirRawIdentifiantProjet(identifiantProjet)),
+      : convertirEnPlainType(identifiantProjet)),
     formatter() {
       return `${this.appelOffre}#${this.période}#${isNone(this.famille) ? '' : this.famille}#${
         this.numéroCRE
@@ -29,7 +27,7 @@ export const convertirEnIdentifiantProjet = (
   };
 };
 
-const convertirRawIdentifiantProjet = (rawIdentifiant: RawIdentifiantProjet): IdentifiantProjet => {
+const convertirEnPlainType = (rawIdentifiant: RawType): PlainType => {
   const [appelOffre, période, famille, numéroCRE] = rawIdentifiant.split('#');
 
   return {
@@ -40,7 +38,7 @@ const convertirRawIdentifiantProjet = (rawIdentifiant: RawIdentifiantProjet): Id
   };
 };
 
-export const estUnIdentifiantProjet = (value: any): value is IdentifiantProjet => {
+export const estUnPlainType = (value: any): value is PlainType => {
   return (
     typeof value.appelOffre === 'string' &&
     typeof value.numéroCRE === 'string' &&
@@ -49,7 +47,7 @@ export const estUnIdentifiantProjet = (value: any): value is IdentifiantProjet =
   );
 };
 
-export const estUnRawIdentifiantProjet = (value: string): value is RawIdentifiantProjet => {
+export const estUnRawType = (value: string): value is RawType => {
   const [appelOffre, période, famille, numéroCRE] = value.split('#');
 
   return (

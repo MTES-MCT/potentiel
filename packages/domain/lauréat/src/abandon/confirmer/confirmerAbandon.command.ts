@@ -1,22 +1,20 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
-import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { isNone } from '@potentiel/monads';
+import { LoadAggregate, Publish } from '@potentiel-domain/core';
+import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { AbandonConfirméEvent } from '../abandon.event';
+import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
 import {
   AucuneDemandeConfirmationAbandonError,
   DemandeAbandonInconnuErreur,
 } from '../abandon.error';
-import { IdentifiantProjetValueType } from '../../../common/projet.valueType';
-import { DateTimeValueType } from '../../../common/dateTime.valueType';
-import { IdentifiantUtilisateurValueType } from '../../../common/utilisateur.valueType';
 
 export type ConfirmerAbandonCommand = Message<
   'CONFIRMER_ABANDON_COMMAND',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    dateConfirmationAbandon: DateTimeValueType;
-    confirméPar: IdentifiantUtilisateurValueType;
+    identifiantProjet: IdentifiantProjet.ValueType;
+    dateConfirmationAbandon: DateTime.ValueType;
+    confirméPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 

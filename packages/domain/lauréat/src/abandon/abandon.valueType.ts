@@ -1,37 +1,5 @@
 import { Option, isNone } from '@potentiel/monads';
-import {
-  RawIdentifiantProjet,
-  convertirEnIdentifiantProjet,
-  estUnRawIdentifiantProjet,
-} from '../../common/projet.valueType';
-
-export type PièceJustificativeAbandon = {
-  format: string;
-  content: ReadableStream;
-};
-
-export type AbandonRejetéRéponseSignée = {
-  type: 'abandon-rejeté';
-  format: string;
-  content: ReadableStream;
-};
-
-export type AbandonAccordéRéponseSignée = {
-  type: 'abandon-accordé';
-  format: string;
-  content: ReadableStream;
-};
-
-export type ConfirmationAbandonDemandéRéponseSignée = {
-  type: 'abandon-à-confirmer';
-  format: string;
-  content: ReadableStream;
-};
-
-export type RéponseSignée =
-  | AbandonRejetéRéponseSignée
-  | AbandonAccordéRéponseSignée
-  | ConfirmationAbandonDemandéRéponseSignée;
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type StatutAbandon =
   | 'demandé'
@@ -53,22 +21,22 @@ export type IdentifiantDemandeAbandonValueType = IdentifiantDemandeAbandon & {
   formatter(): RawIdentifiantDemandeAbandon;
 };
 
-export type RawIdentifiantDemandeAbandon = `abandon|${RawIdentifiantProjet}`;
+export type RawIdentifiantDemandeAbandon = `abandon|${IdentifiantProjet.RawType}`;
 
 export const estUnRawIdentifiantDemandeAbandon = (
   value: string,
 ): value is RawIdentifiantDemandeAbandon => {
   const [typeDemande, rawIdentifiantProjet] = value.split('|');
 
-  return typeDemande === 'abandon' && estUnRawIdentifiantProjet(rawIdentifiantProjet);
+  return typeDemande === 'abandon' && IdentifiantProjet.estUnRawType(rawIdentifiantProjet);
 };
 
 const convertirRawIdentifiantDemandeAbandon = (
   rawIdentifiant: RawIdentifiantDemandeAbandon,
 ): IdentifiantDemandeAbandon => {
   const [typeDemande, rawIdentifiantProjet] = rawIdentifiant.split('|');
-  const identifiantProjet = convertirEnIdentifiantProjet(
-    rawIdentifiantProjet as RawIdentifiantProjet,
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+    rawIdentifiantProjet as IdentifiantProjet.RawType,
   );
 
   return {

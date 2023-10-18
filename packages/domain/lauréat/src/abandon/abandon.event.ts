@@ -1,13 +1,12 @@
+import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
-import { RawIdentifiantUtilisateur } from '../../common/utilisateur.valueType';
-import { RawIdentifiantProjet } from '../../common/projet.valueType';
 
 export type AbandonDemandéEvent = DomainEvent<
   'AbandonDemandé-V1',
   {
-    demandéLe: string;
-    demandéPar: RawIdentifiantUtilisateur;
-    identifiantProjet: RawIdentifiantProjet;
+    demandéLe: DateTime.RawType;
+    demandéPar: IdentifiantUtilisateur.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
     raison: string;
     recandidature: boolean;
     pièceJustificative?: {
@@ -19,18 +18,18 @@ export type AbandonDemandéEvent = DomainEvent<
 export type AbandonAnnuléEvent = DomainEvent<
   'AbandonAnnulé-V1',
   {
-    annuléLe: string;
-    annuléPar: RawIdentifiantUtilisateur;
-    identifiantProjet: RawIdentifiantProjet;
+    annuléLe: DateTime.RawType;
+    annuléPar: IdentifiantUtilisateur.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
 
 export type AbandonRejetéEvent = DomainEvent<
   'AbandonRejeté-V1',
   {
-    rejetéLe: string;
-    rejetéPar: RawIdentifiantUtilisateur;
-    identifiantProjet: RawIdentifiantProjet;
+    rejetéLe: DateTime.RawType;
+    rejetéPar: IdentifiantUtilisateur.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
     réponseSignée: {
       format: string;
     };
@@ -40,9 +39,9 @@ export type AbandonRejetéEvent = DomainEvent<
 export type AbandonAccordéEvent = DomainEvent<
   'AbandonAccordé-V1',
   {
-    acceptéLe: string;
-    acceptéPar: RawIdentifiantUtilisateur;
-    identifiantProjet: RawIdentifiantProjet;
+    acceptéLe: DateTime.RawType;
+    acceptéPar: IdentifiantUtilisateur.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
     réponseSignée: {
       format: string;
     };
@@ -52,9 +51,9 @@ export type AbandonAccordéEvent = DomainEvent<
 export type ConfirmationAbandonDemandéeEvent = DomainEvent<
   'ConfirmationAbandonDemandée-V1',
   {
-    confirmationDemandéeLe: string;
-    confirmationDemandéePar: RawIdentifiantUtilisateur;
-    identifiantProjet: RawIdentifiantProjet;
+    confirmationDemandéeLe: DateTime.RawType;
+    confirmationDemandéePar: IdentifiantUtilisateur.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
     réponseSignée: {
       format: string;
     };
@@ -64,9 +63,9 @@ export type ConfirmationAbandonDemandéeEvent = DomainEvent<
 export type AbandonConfirméEvent = DomainEvent<
   'AbandonConfirmé-V1',
   {
-    confirméLe: string;
-    confirméPar: RawIdentifiantUtilisateur;
-    identifiantProjet: RawIdentifiantProjet;
+    confirméLe: DateTime.RawType;
+    confirméPar: IdentifiantUtilisateur.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
 

@@ -41,13 +41,19 @@
   ],
   "references": [
     {
-      "path": "../../../packages/domain"
+      "path": "../../../packages/domain/core"
     },
     {
-      "path": "../../../packages/domain-views"
+      "path": "../../../packages/domain/common"
     },
     {
-      "path": "../../../packages/libraries/pg-projections"
+      "path": "../../../packages/domain/lauréat"
+    },
+    {
+      "path": "../../../packages/infrastructure/pg-projections"
+    },
+    {
+      "path": "../../../packages/infrastructure/pg-event-sourcing"
     }
   ],
 }

@@ -12,6 +12,18 @@ import {
 } from './confirmer/confirmerAbandon.command';
 import { registerConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import {
+  ConsulterAbandonDependencies,
+  registerConsulterAbandonQuery,
+} from './consulter/consulterAbandon.query';
+import {
+  ConsulterPièceJustificativeAbandonProjetDependencies,
+  registerConsulterPièceJustificativeAbandonProjetQuery,
+} from './consulter/consulterPièceJustificativeAbandon.query';
+import {
+  ConsulterRéponseSignéeAbandonDependencies,
+  registerConsulterRéponseAbandonSignéeQuery,
+} from './consulter/consulterRéponseSignéeAbandon.query';
+import {
   DemanderAbandonDependencies,
   registerDemanderAbandonCommand,
 } from './demander/demanderAbandon.command';
@@ -22,18 +34,27 @@ import {
 } from './demander/demanderConfirmationAbandon.command';
 import { registerDemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
 import {
+  ListerAbandonDependencies,
+  registerListerAbandonQuery,
+} from './lister/listerAbandon.query';
+import {
   RejeterAbandonDependencies,
   registerRejeterAbandonCommand,
 } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 
-export type AbandonDependencies = AccorderAbandonDependencies &
+export type AbandonUseCaseDependencies = AccorderAbandonDependencies &
   ConfirmerAbandonDependencies &
   DemanderAbandonDependencies &
   DemanderConfirmationAbandonDependencies &
   RejeterAbandonDependencies;
 
-export const registerAbandonUseCases = (dependencies: AbandonDependencies) => {
+export type AbandonQueryDependencies = ConsulterAbandonDependencies &
+  ConsulterPièceJustificativeAbandonProjetDependencies &
+  ConsulterRéponseSignéeAbandonDependencies &
+  ListerAbandonDependencies;
+
+export const registerAbandonUseCases = (dependencies: AbandonUseCaseDependencies) => {
   registerDemanderAbandonCommand(dependencies);
   registerAccorderAbandonCommand(dependencies);
   registerConfirmerAbandonCommand(dependencies);
@@ -48,4 +69,11 @@ export const registerAbandonUseCases = (dependencies: AbandonDependencies) => {
   registerRejeterAbandonUseCase();
   registerAnnulerAbandonUseCase();
   registerAnnulerRejetAbandonUseCase();
+};
+
+export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {
+  registerConsulterAbandonQuery(dependencies);
+  registerListerAbandonQuery(dependencies);
+  registerConsulterPièceJustificativeAbandonProjetQuery(dependencies);
+  registerConsulterRéponseAbandonSignéeQuery(dependencies);
 };

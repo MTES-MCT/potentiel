@@ -6,7 +6,7 @@ import { DemanderAbandonAvecRecandidatureUseCase } from './demander/demanderAban
 import { DemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 
-export type AbandonUsecase =
+export type AbandonUseCase =
   | DemanderAbandonAvecRecandidatureUseCase
   | AnnulerAbandonUseCase
   | AnnulerRejetAbandonUseCase

@@ -1,28 +1,28 @@
-import { DateTimeValueType } from '../../common/dateTime.valueType';
-import { IdentifiantProjetValueType } from '../../common/projet.valueType';
-import { PièceJustificativeAbandon, RéponseSignée } from './abandon.valueType';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { PièceJustificativeAbandonValueType } from './pièceJustificativeAbandon.valueType';
+import { RéponseSignéeValueType } from './réponseSignée.valueType';
 
 export type EnregistrerPièceJustificativeAbandonPort = (options: {
-  identifiantProjet: IdentifiantProjetValueType;
-  pièceJustificative: PièceJustificativeAbandon;
-  datePièceJustificativeAbandon: DateTimeValueType;
+  identifiantProjet: IdentifiantProjet.ValueType;
+  pièceJustificative: PièceJustificativeAbandonValueType;
+  datePièceJustificativeAbandon: DateTime.ValueType;
 }) => Promise<void>;
 
 export type EnregistrerRéponseSignéePort = (options: {
-  identifiantProjet: IdentifiantProjetValueType;
-  réponseSignée: RéponseSignée;
-  dateDocumentRéponseSignée: DateTimeValueType;
+  identifiantProjet: IdentifiantProjet.ValueType;
+  réponseSignée: RéponseSignéeValueType;
+  dateDocumentRéponseSignée: DateTime.ValueType;
 }) => Promise<void>;
 
 export type RécupérerPièceJustificativeAbandonPort = (options: {
-  identifiantProjet: IdentifiantProjetValueType;
+  identifiantProjet: IdentifiantProjet.ValueType;
   format: string;
-  datePièceJustificativeAbandon: DateTimeValueType;
+  datePièceJustificativeAbandon: DateTime.ValueType;
 }) => Promise<ReadableStream | undefined>;
 
 export type RécupérerRéponseSignéeAbandonPort = (options: {
-  identifiantProjet: IdentifiantProjetValueType;
-  type: RéponseSignée['type'];
+  identifiantProjet: IdentifiantProjet.ValueType;
+  type: RéponseSignéeValueType['type'];
   format: string;
-  dateRécupérerRéponseSignée: DateTimeValueType;
+  dateRécupérerRéponseSignée: DateTime.ValueType;
 }) => Promise<ReadableStream | undefined>;

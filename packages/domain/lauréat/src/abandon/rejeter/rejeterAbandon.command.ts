@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AbandonRejetéRéponseSignée } from '../abandon.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { isNone } from '@potentiel/monads';
@@ -10,17 +9,16 @@ import {
   AbandonDéjàRejetéError,
   DemandeAbandonInconnuErreur,
 } from '../abandon.error';
-import { IdentifiantProjetValueType } from '../../../common/projet.valueType';
-import { DateTimeValueType } from '../../../common/dateTime.valueType';
-import { IdentifiantUtilisateurValueType } from '../../../common/utilisateur.valueType';
+import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { AbandonRejetéRéponseSignéeValueType } from '../réponseSignée.valueType';
 
 export type RejeterAbandonCommand = Message<
   'REJETER_ABANDON_COMMAND',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    réponseSignée: AbandonRejetéRéponseSignée;
-    dateRejetAbandon: DateTimeValueType;
-    rejetéPar: IdentifiantUtilisateurValueType;
+    identifiantProjet: IdentifiantProjet.ValueType;
+    réponseSignée: AbandonRejetéRéponseSignéeValueType;
+    dateRejetAbandon: DateTime.ValueType;
+    rejetéPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 

@@ -1,25 +1,15 @@
-import { registerQueries } from '@potentiel/domain-views';
-import { getLogger } from '@potentiel/monitoring';
-import {
-  createProjection,
-  findProjection,
-  listProjection,
-  removeProjection,
-  searchProjection,
-  updateProjection,
-  upsertProjection,
-} from '@potentiel/pg-projections';
-import {
-  récupérerCandidatureAdapter,
-  téléchargerPièceJustificativeAbandonProjetAdapter,
-  téléchargerRéponseSignéeAdapter,
-  téléverserPièceJustificativeAbandonAdapter,
-  téléverserRéponseSignéeAdapter,
-} from '@potentiel/infra-adapters';
-import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
 import { Message, mediator } from 'mediateur';
 import { randomUUID } from 'crypto';
-import { registerUsecases as registerUseCases } from '@potentiel/domain';
+import { getLogger } from '@potentiel/monitoring';
+import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { publish, loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  téléverserPièceJustificativeAbandonAdapter,
+  téléverserRéponseSignéeAdapter,
+  téléchargerPièceJustificativeAbandonProjetAdapter,
+  téléchargerRéponseSignéeAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 let isBoostrapped = false;
 
@@ -45,33 +35,20 @@ export const bootstrap = () => {
       ],
     });
 
-    registerQueries({
-      common: {
-        create: createProjection,
-        find: findProjection,
-        list: listProjection,
-        remove: removeProjection,
-        search: searchProjection,
-        update: updateProjection,
-        upsert: upsertProjection,
-      },
-      projet: {
-        récupérerCandidature: récupérerCandidatureAdapter,
-        récupérerPièceJustificativeAbandon: téléchargerPièceJustificativeAbandonProjetAdapter,
-        récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
-      },
+    registerLauréatUseCases({
+      enregistrerPièceJustificativeAbandon: téléverserPièceJustificativeAbandonAdapter,
+      enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
+      loadAggregate,
+      publish,
     });
 
-    registerUseCases({
-      common: {
-        loadAggregate,
-        publish,
-      },
-      projet: {
-        enregistrerPièceJustificativeAbandon: téléverserPièceJustificativeAbandonAdapter,
-        enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
-      },
+    registerLauréatQueries({
+      find: findProjection,
+      list: listProjection,
+      récupérerPièceJustificativeAbandon: téléchargerPièceJustificativeAbandonProjetAdapter,
+      récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
     });
+
     isBoostrapped = true;
   }
 };

@@ -1,9 +1,9 @@
 'use client';
 import { SubmitButton } from '@/components/submit-button';
-import { AbandonReadModel } from '@potentiel/domain-views';
 import { useEffect, useState } from 'react';
 // @ts-ignore
 import { experimental_useFormState as useFormState } from 'react-dom';
+import { AbandonReadModel } from '@potentiel-domain/laureat';
 import { instructionAbandonAction } from './instructionAbandon.action';
 
 const initialState = {

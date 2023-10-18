@@ -10,19 +10,17 @@ import {
   AbandonDéjàRejetéError,
   ConfirmationAbandonDéjàDemandéError,
 } from '../abandon.error';
-import { ConfirmationAbandonDemandéRéponseSignée } from '../abandon.valueType';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
-import { IdentifiantProjetValueType } from '../../../common/projet.valueType';
-import { DateTimeValueType } from '../../../common/dateTime.valueType';
-import { IdentifiantUtilisateurValueType } from '../../../common/utilisateur.valueType';
+import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { ConfirmationAbandonDemandéRéponseSignéeValueType } from '../réponseSignée.valueType';
 
 export type DemanderConfirmationAbandonCommand = Message<
   'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    dateDemandeConfirmationAbandon: DateTimeValueType;
-    réponseSignée: ConfirmationAbandonDemandéRéponseSignée;
-    confirmationDemandéePar: IdentifiantUtilisateurValueType;
+    identifiantProjet: IdentifiantProjet.ValueType;
+    dateDemandeConfirmationAbandon: DateTime.ValueType;
+    réponseSignée: ConfirmationAbandonDemandéRéponseSignéeValueType;
+    confirmationDemandéePar: IdentifiantUtilisateur.ValueType;
   }
 >;
 

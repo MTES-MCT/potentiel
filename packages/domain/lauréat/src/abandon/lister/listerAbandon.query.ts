@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { QueryPorts } from '@potentiel-domain/common';
 import { AbandonReadModel } from '../abandon.readmodel';
-import { List, ListResult } from '../../../common/common.port';
 
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
@@ -8,16 +8,14 @@ export type ListerAbandonsQuery = Message<
     recandidature?: boolean;
     pagination: { page: number; itemsPerPage: number };
   },
-  ListResult<AbandonReadModel>
+  QueryPorts.ListResult<AbandonReadModel>
 >;
 
-export type ListerAbandonAvecRecandidatureDependencies = {
-  list: List;
+export type ListerAbandonDependencies = {
+  list: QueryPorts.List;
 };
 
-export const registerListerAbandonAvecRecandidatureQuery = ({
-  list,
-}: ListerAbandonAvecRecandidatureDependencies) => {
+export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
     pagination: { page, itemsPerPage },

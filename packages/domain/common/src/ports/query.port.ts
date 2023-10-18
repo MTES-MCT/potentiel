@@ -28,12 +28,3 @@ export type ListResult<TReadModel extends ReadModel> = {
 export type List = <TReadModel extends ReadModel>(
   options: ListOptions<TReadModel>,
 ) => Promise<ListResult<TReadModel>>;
-
-export type SearchResult<TReadModel extends ReadModel> = {
-  key: string;
-  readModel: TReadModel;
-};
-
-export type Search = <TReadModel extends ReadModel>(
-  searchKeyExpression: string,
-) => Promise<ReadonlyArray<SearchResult<TReadModel>>>;

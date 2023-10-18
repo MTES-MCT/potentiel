@@ -1,5 +1,5 @@
-export * from './ports/common.port';
+export * as QueryPorts from './ports/query.port';
 
-export * from './valueTypes/dateTime.valueType';
-export * from './valueTypes/projet.valueType';
-export * from './valueTypes/utilisateur.valueType';
+export * as DateTime from './valueTypes/dateTime.valueType';
+export * as IdentifiantProjet from './valueTypes/identifiantProjet.valueType';
+export * as IdentifiantUtilisateur from './valueTypes/identifiantUtilisateur.valueType';

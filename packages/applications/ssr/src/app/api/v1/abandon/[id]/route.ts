@@ -1,5 +1,5 @@
 import { bootstrap } from '@/infrastructure/bootstrap';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ConsulterAbandonQuery } from '@potentiel/domain-views';
 import { isSome } from '@potentiel/monads';
 import { mediator } from 'mediateur';
@@ -12,7 +12,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   const result = await mediator.send<ConsulterAbandonQuery>({
     type: 'CONSULTER_ABANDON',
     data: {
-      identifiantProjet: convertirEnIdentifiantProjet(id),
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(id),
     },
   });
 

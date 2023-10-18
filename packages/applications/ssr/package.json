@@ -7,6 +7,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/laureat": "*",
+    "@potentiel-infrastructure/pg-projections": "*",
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
     "mediateur": "^0.1.0",
     "next": "13.5.4",
     "react": "^18",

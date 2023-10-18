@@ -2,7 +2,7 @@ import { GestionnaireRéseauUseCase } from './gestionnaireRéseau/gestionnaireR�
 import { GestionnaireRéseauProjetUseCase } from './projet/lauréat/gestionnaireRéseau/gestionnaireRéseauProjet.usecase';
 import { RaccordementUsecase } from './raccordement/raccordement.usecase';
 import { AbandonUsecase } from './projet/lauréat/abandon/abandon.usecase';
-import { LoadAggregate, Publish } from '@potentiel/core-domain';
+import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { ProjetDependencies } from './projet/projet.setup';
 import { registerRejeterAbandonUseCase } from './projet/lauréat/abandon/rejeter/rejeterAbandon.usecase';
 import { registerAccorderAbandonCommand } from './projet/lauréat/abandon/accorder/accorderAbandon.command';

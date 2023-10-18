@@ -8,13 +8,12 @@ import {
   AbandonConfirméEvent,
 } from './abandon.event';
 import { StatutAbandon } from './abandon.valueType';
-import { IdentifiantProjetValueType } from '../../common/projet.valueType';
-import { DateTime, convertirEnDateTime } from '../../common/dateTime.valueType';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 type AbandonAggregateId = `abandon|${string}`;
 
 export const createAbandonAggregateId = (
-  identifiantProjet: IdentifiantProjetValueType,
+  identifiantProjet: IdentifiantProjet.ValueType,
 ): AbandonAggregateId => {
   return `abandon|${identifiantProjet.formatter()}`;
 };
@@ -34,28 +33,28 @@ export type Abandon = {
       format: string;
     };
     recandidature: boolean;
-    demandéLe: DateTime;
+    demandéLe: DateTime.ValueType;
     confirmation?: {
       réponseSignée: {
         format: string;
       };
-      demandéLe: DateTime;
-      confirméLe?: DateTime;
+      demandéLe: DateTime.ValueType;
+      confirméLe?: DateTime.ValueType;
     };
   };
   rejet?: {
-    rejetéLe: DateTime;
+    rejetéLe: DateTime.ValueType;
     réponseSignée: {
       format: string;
     };
   };
   accord?: {
-    accordéLe: DateTime;
+    accordéLe: DateTime.ValueType;
     réponseSignée: {
       format: string;
     };
   };
-  annuléLe?: DateTime;
+  annuléLe?: DateTime.ValueType;
 };
 
 const getDefaultAggregate = (): Abandon => ({
@@ -103,9 +102,7 @@ const getDefaultAggregate = (): Abandon => ({
       format: '',
     },
     recandidature: false,
-    demandéLe: {
-      date: new Date(),
-    },
+    demandéLe: DateTime.convertirEnValueType({ date: new Date() }),
   },
 });
 
@@ -125,7 +122,7 @@ const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events
       case 'AbandonAnnulé-V1':
         const { annuléLe } = payload;
         return {
-          annuléLe: convertirEnDateTime(annuléLe),
+          annuléLe: DateTime.convertirEnValueType(annuléLe),
           ...getDefaultAggregate(),
         };
       default:
@@ -139,7 +136,7 @@ const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events
 export const loadAbandonAggregateFactory = ({
   loadAggregate,
 }: LoadAggregateFactoryDependencies) => {
-  return async (identifiantProjet: IdentifiantProjetValueType) => {
+  return async (identifiantProjet: IdentifiantProjet.ValueType) => {
     return loadAggregate<Abandon, AbandonEvent>(
       createAbandonAggregateId(identifiantProjet),
       abandonAggregateFactory,
@@ -155,7 +152,7 @@ const createAbandon = (aggregate: Abandon, payload: AbandonDemandéEvent['payloa
       recandidature,
       pièceJustificative,
       raison,
-      demandéLe: convertirEnDateTime(dateAbandon),
+      demandéLe: DateTime.convertirEnValueType(dateAbandon),
     },
     rejet: undefined,
     accord: undefined,
@@ -169,7 +166,7 @@ const updateAvecRejet = (aggregate: Abandon, payload: AbandonRejetéEvent['paylo
   const newAggregate: Abandon = {
     ...aggregate,
     rejet: {
-      rejetéLe: convertirEnDateTime(rejetéLe),
+      rejetéLe: DateTime.convertirEnValueType(rejetéLe),
       réponseSignée,
     },
     accord: undefined,
@@ -183,7 +180,7 @@ const updateAvecAcceptation = (aggregate: Abandon, payload: AbandonAccordéEvent
     ...aggregate,
     rejet: undefined,
     accord: {
-      accordéLe: convertirEnDateTime(acceptéLe),
+      accordéLe: DateTime.convertirEnValueType(acceptéLe),
       réponseSignée,
     },
   };
@@ -200,7 +197,7 @@ const updateAvecConfirmationAbandonDemandée = (
   };
 
   newAggregate.demande.confirmation = {
-    demandéLe: convertirEnDateTime(confirmationDemandéeLe),
+    demandéLe: DateTime.convertirEnValueType(confirmationDemandéeLe),
     réponseSignée,
   };
 
@@ -217,7 +214,7 @@ const updateAvecAbandonConfirmé = (
   };
 
   if (newAggregate.demande.confirmation) {
-    newAggregate.demande.confirmation.confirméLe = convertirEnDateTime(confirméLe);
+    newAggregate.demande.confirmation.confirméLe = DateTime.convertirEnValueType(confirméLe);
   } else {
     // TODO: Log warning
   }

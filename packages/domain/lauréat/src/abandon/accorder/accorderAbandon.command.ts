@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { isNone } from '@potentiel/monads';
 import { LoadAggregate, Publish } from '@potentiel-domain/core';
+import { IdentifiantProjet, IdentifiantUtilisateur, DateTime } from '@potentiel-domain/common';
+
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
-import { AbandonAccordéRéponseSignée } from '../abandon.valueType';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
 import { AbandonAccordéEvent } from '../abandon.event';
 import {
@@ -10,17 +11,16 @@ import {
   AbandonDéjàRejetéError,
   DemandeAbandonInconnuErreur,
 } from '../abandon.error';
-import { IdentifiantProjetValueType } from '../../../common/projet.valueType';
-import { DateTimeValueType } from '../../../common/dateTime.valueType';
-import { IdentifiantUtilisateurValueType } from '../../../common/utilisateur.valueType';
+
+import { AbandonAccordéRéponseSignéeValueType } from '../réponseSignée.valueType';
 
 export type AccorderAbandonCommand = Message<
   'ACCORDER_ABANDON_COMMAND',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    réponseSignée: AbandonAccordéRéponseSignée;
-    dateAccordAbandon: DateTimeValueType;
-    accordéPar: IdentifiantUtilisateurValueType;
+    identifiantProjet: IdentifiantProjet.ValueType;
+    réponseSignée: AbandonAccordéRéponseSignéeValueType;
+    dateAccordAbandon: DateTime.ValueType;
+    accordéPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 

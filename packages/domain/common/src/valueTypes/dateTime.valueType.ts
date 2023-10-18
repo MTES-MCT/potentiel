@@ -1,20 +1,22 @@
-export type DateTime = {
+export type RawType = string;
+
+export type PlainType = {
   date: Date;
 };
 
-export type DateTimeValueType = DateTime & {
+export type ValueType = PlainType & {
   estDansLeFutur(): boolean;
-  estAntérieurÀ(dateTime: DateTime): boolean;
+  estAntérieurÀ(dateTime: PlainType): boolean;
   formatter(): string;
 };
 
-export const convertirEnDateTime = (date: string | Date) => {
+export const convertirEnValueType = (value: RawType | PlainType) => {
   return {
-    date: estUneDate(date) ? date : new Date(date),
+    date: estUnPlainType(value) ? value.date : new Date(value),
     estDansLeFutur() {
       return this.date.getTime() > Date.now();
     },
-    estAntérieurÀ(dateTime: DateTime) {
+    estAntérieurÀ(dateTime: PlainType) {
       return this.date.getTime() < dateTime.date.getTime();
     },
     formatter() {
@@ -23,6 +25,6 @@ export const convertirEnDateTime = (date: string | Date) => {
   };
 };
 
-const estUneDate = (value: unknown): value is Date => {
-  return value instanceof Date;
+const estUnPlainType = (value: any): value is PlainType => {
+  return value.date && value.date instanceof Date;
 };

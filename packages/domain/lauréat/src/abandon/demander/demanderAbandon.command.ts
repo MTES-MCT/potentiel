@@ -1,24 +1,22 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { PièceJustificativeAbandon } from '../abandon.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
 import { EnregistrerPièceJustificativeAbandonPort } from '../abandon.port';
 import { AbandonDéjàAccordéError, DemandeAbandonEnCoursErreur } from '../abandon.error';
-import { IdentifiantProjetValueType } from '../../../common/projet.valueType';
-import { DateTimeValueType } from '../../../common/dateTime.valueType';
-import { IdentifiantUtilisateurValueType } from '../../../common/utilisateur.valueType';
+import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { PièceJustificativeAbandonValueType } from '../pièceJustificativeAbandon.valueType';
 
 export type DemanderAbandonCommand = Message<
   'DEMANDER_ABANDON_COMMAND',
   {
-    identifiantProjet: IdentifiantProjetValueType;
+    identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
-    pièceJustificative?: PièceJustificativeAbandon;
-    dateDemandeAbandon: DateTimeValueType;
+    pièceJustificative?: PièceJustificativeAbandonValueType;
+    dateDemandeAbandon: DateTime.ValueType;
     recandidature: boolean;
-    demandéPar: IdentifiantUtilisateurValueType;
+    demandéPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 

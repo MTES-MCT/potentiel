@@ -7,27 +7,20 @@ import {
   AbandonReadModelKey,
   RéponseSignéeAbandonReadModel,
 } from '../abandon.readmodel';
-import { Find } from '../../../common/common.port';
-import { convertirEnDateTime } from '../../../common/dateTime.valueType';
-import {
-  RawIdentifiantProjet,
-  IdentifiantProjet,
-  estUnIdentifiantProjet,
-  convertirEnIdentifiantProjet,
-} from '../../../common/projet.valueType';
-import { RéponseSignée } from '../abandon.valueType';
+import { DateTime, IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
+import { RéponseSignéeValueType } from '../réponseSignée.valueType';
 
 export type ConsulterRéponseSignéeAbandonQuery = Message<
   'CONSULTER_RÉPONSE_SIGNÉE_ABANDON_PROJET',
   {
-    identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
-    type: RéponseSignée['type'];
+    identifiantProjet: IdentifiantProjet.RawType | IdentifiantProjet.PlainType;
+    type: RéponseSignéeValueType['type'];
   },
   Option<RéponseSignéeAbandonReadModel>
 >;
 
 export type ConsulterRéponseSignéeAbandonDependencies = {
-  find: Find;
+  find: QueryPorts.Find;
   récupérerRéponseSignée: RécupérerRéponseSignéeAbandonPort;
 };
 
@@ -39,8 +32,8 @@ export const registerConsulterRéponseAbandonSignéeQuery = ({
     identifiantProjet,
     type,
   }) => {
-    const rawIdentifiantProjet = estUnIdentifiantProjet(identifiantProjet)
-      ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
+    const rawIdentifiantProjet = IdentifiantProjet.estUnPlainType(identifiantProjet)
+      ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
       : identifiantProjet;
 
     const key: AbandonReadModelKey = `abandon|${rawIdentifiantProjet}`;
@@ -70,9 +63,9 @@ export const registerConsulterRéponseAbandonSignéeQuery = ({
     }
 
     const content = await récupérerRéponseSignée({
-      identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       type,
-      dateRécupérerRéponseSignée: convertirEnDateTime(date),
+      dateRécupérerRéponseSignée: DateTime.convertirEnValueType(date),
       format: format,
     });
 

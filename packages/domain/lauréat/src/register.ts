@@ -1,7 +1,17 @@
-import { AbandonDependencies, registerAbandonUseCases } from './abandon/abandon.register';
+import {
+  AbandonQueryDependencies,
+  AbandonUseCaseDependencies,
+  registerAbandonQueries,
+  registerAbandonUseCases,
+} from './abandon/abandon.register';
 
-export type LauréatDependencies = AbandonDependencies;
+export type LauréatUseCaseDependencies = AbandonUseCaseDependencies;
+export type LauréatQueryDependencies = AbandonQueryDependencies;
 
-export const registerLauréatUseCases = (dependencies: LauréatDependencies) => {
+export const registerLauréatUseCases = (dependencies: LauréatUseCaseDependencies) => {
   registerAbandonUseCases(dependencies);
+};
+
+export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
+  registerAbandonQueries(dependencies);
 };

@@ -7,25 +7,18 @@ import {
   AbandonReadModelKey,
   PièceJustificativeAbandonReadModel,
 } from '../abandon.readmodel';
-import {
-  IdentifiantProjet,
-  RawIdentifiantProjet,
-  convertirEnIdentifiantProjet,
-  estUnIdentifiantProjet,
-} from '../../../common/projet.valueType';
-import { Find } from '../../../common/common.port';
-import { convertirEnDateTime } from '../../../common/dateTime.valueType';
+import { DateTime, IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
 
 export type ConsulterPièceJustificativeAbandonProjetQuery = Message<
   'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
   {
-    identifiantProjet: RawIdentifiantProjet | IdentifiantProjet;
+    identifiantProjet: IdentifiantProjet.RawType | IdentifiantProjet.PlainType;
   },
   Option<PièceJustificativeAbandonReadModel>
 >;
 
 export type ConsulterPièceJustificativeAbandonProjetDependencies = {
-  find: Find;
+  find: QueryPorts.Find;
   récupérerPièceJustificativeAbandon: RécupérerPièceJustificativeAbandonPort;
 };
 
@@ -36,8 +29,8 @@ export const registerConsulterPièceJustificativeAbandonProjetQuery = ({
   const handler: MessageHandler<ConsulterPièceJustificativeAbandonProjetQuery> = async ({
     identifiantProjet,
   }) => {
-    const rawIdentifiantProjet = estUnIdentifiantProjet(identifiantProjet)
-      ? convertirEnIdentifiantProjet(identifiantProjet).formatter()
+    const rawIdentifiantProjet = IdentifiantProjet.estUnPlainType(identifiantProjet)
+      ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
       : identifiantProjet;
 
     const key: AbandonReadModelKey = `abandon|${rawIdentifiantProjet}`;
@@ -49,9 +42,9 @@ export const registerConsulterPièceJustificativeAbandonProjetQuery = ({
     }
 
     const content = await récupérerPièceJustificativeAbandon({
-      datePièceJustificativeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
+      datePièceJustificativeAbandon: DateTime.convertirEnValueType(abandon.demandeDemandéLe),
       format: abandon.demandePièceJustificativeFormat,
-      identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     });
 
     if (!content) {

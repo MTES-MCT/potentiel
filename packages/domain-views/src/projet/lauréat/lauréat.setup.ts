@@ -39,10 +39,10 @@ export type LauréatDependencies = { subscribe: Subscribe } & GestionnaireRésea
 
 export const setupLauréatViews = async (dependencies: LauréatDependencies) => {
   registerConsulterAbandonQuery(dependencies);
-  registerConsulterGestionnaireRéseauLauréatQuery(dependencies);
   registerListerAbandonAvecRecandidatureQuery(dependencies);
   registerConsulterPièceJustificativeAbandonProjetQuery(dependencies);
   registerConsulterRéponseAbandonSignéeQuery(dependencies);
+  registerConsulterGestionnaireRéseauLauréatQuery(dependencies);
 
   // Projector
   registerGestionnaireRéseauLauréatProjector(dependencies);

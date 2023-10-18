@@ -4,16 +4,14 @@ import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { isNone } from '@potentiel/monads';
 import { AbandonAnnuléEvent } from '../abandon.event';
 import { AbandonDéjàAccordéError, DemandeAbandonInconnuErreur } from '../abandon.error';
-import { IdentifiantProjetValueType } from '../../../common/projet.valueType';
-import { DateTimeValueType } from '../../../common/dateTime.valueType';
-import { IdentifiantUtilisateurValueType } from '../../../common/utilisateur.valueType';
+import { IdentifiantProjet, IdentifiantUtilisateur, DateTime } from '@potentiel-domain/common';
 
 export type AnnulerAbandonCommand = Message<
   'ANNULER_ABANDON_COMMAND',
   {
-    identifiantProjet: IdentifiantProjetValueType;
-    dateAnnulationAbandon: DateTimeValueType;
-    annuléPar: IdentifiantUtilisateurValueType;
+    identifiantProjet: IdentifiantProjet.ValueType;
+    dateAnnulationAbandon: DateTime.ValueType;
+    annuléPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 
