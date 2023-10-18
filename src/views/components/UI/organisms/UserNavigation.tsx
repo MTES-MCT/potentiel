@@ -65,7 +65,13 @@ const MenuAdmin = (currentPage?: string) => (
     >
       Projets
     </Header.MenuItem>
-    <DropdownMenu buttonChildren={'Demandes'}>
+    <Header.MenuItem
+      href={routes.ADMIN_LIST_REQUESTS}
+      {...(currentPage === 'list-requests' && { isCurrent: true })}
+    >
+      Demandes
+    </Header.MenuItem>
+    {/* <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_LIST_REQUESTS}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
@@ -78,7 +84,7 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Abandons avec recandidature
       </DropdownMenu.DropdownItem>
-    </DropdownMenu>
+    </DropdownMenu> */}
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
         href={routes.IMPORT_PROJECTS}
@@ -229,7 +235,13 @@ const MenuDreal = (currentPage?: string) => (
     >
       Projets
     </Header.MenuItem>
-    <DropdownMenu buttonChildren={'Demandes'}>
+    <Header.MenuItem
+      href={routes.ADMIN_LIST_REQUESTS}
+      {...(currentPage === 'list-requests' && { isCurrent: true })}
+    >
+      Demandes
+    </Header.MenuItem>
+    {/* <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_LIST_REQUESTS}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
@@ -242,7 +254,7 @@ const MenuDreal = (currentPage?: string) => (
       >
         Abandons avec recandidature
       </DropdownMenu.DropdownItem>
-    </DropdownMenu>
+    </DropdownMenu> */}
     <Header.MenuItem
       href={routes.ADMIN_GARANTIES_FINANCIERES}
       {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
