@@ -569,7 +569,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           expect.objectContaining({
             projectId: fakeProject.id.toString(),
             completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
-            reason: 'délaiCdc2022Annulé',
+            reason: 'DateMiseEnServiceAnnuleDélaiCdc2022',
           }),
         );
       });

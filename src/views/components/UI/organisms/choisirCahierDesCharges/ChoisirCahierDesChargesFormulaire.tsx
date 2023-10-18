@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, PrimaryButton, SecondaryLinkButton } from '../../..';
+import { AlertBox, Form, PrimaryButton, SecondaryLinkButton } from '../../..';
 import { ProjectDataForChoisirCDCPage } from '../../../../../modules/project';
 import routes from '../../../../../routes';
 import { formatCahierDesChargesRéférence } from '../../../../../entities/cahierDesCharges';
@@ -89,6 +89,19 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
           );
         })}
       </ul>
+
+      {projet.délaiCDC2022Appliqué &&
+        ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel) &&
+        !['30/08/2022', '30/08/2022-alternatif'].includes(cdcChoisi) && (
+          <AlertBox>
+            Le cahier des charges que vous séléctionnez ne permet plus au projet de bénéficier du
+            délai relatif au cahier des charges modificatif du 30/08/2022.{' '}
+            <span className="font-bold">
+              Si vous validez ce changement de cahier des charges, la date limite d'achèvement du
+              projet sera impactée.
+            </span>
+          </AlertBox>
+        )}
 
       <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
         <PrimaryButton type="submit" disabled={!peutEnregistrerLeChangement}>

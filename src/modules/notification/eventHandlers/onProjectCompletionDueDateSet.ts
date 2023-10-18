@@ -74,16 +74,25 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
       return;
     }
 
-    if (reason === 'délaiCdc2022Annulé') {
+    if (
+      reason &&
+      ['DateMiseEnServiceAnnuleDélaiCdc2022', 'ChoixCDCAnnuleDélaiCdc2022'].includes(reason)
+    ) {
+      const variables = {
+        nom_projet: projet.nomProjet,
+        projet_url: routes.PROJECT_DETAILS(projectId),
+      };
+      const type =
+        reason === 'DateMiseEnServiceAnnuleDélaiCdc2022'
+          ? 'date-mise-en-service-transmise-annule-delai-cdc-2022'
+          : 'changement-cdc-annule-delai-cdc-2022';
+
       await Promise.all(
         porteursEmails.map(({ email, fullName, id }) =>
           sendNotification({
-            type: 'pp-delai-cdc-2022-annulé',
+            type,
             context: { projetId: projectId, utilisateurId: id },
-            variables: {
-              nom_projet: projet.nomProjet,
-              projet_url: routes.PROJECT_DETAILS(projectId),
-            },
+            variables,
             message: {
               email,
               name: fullName,
@@ -99,12 +108,9 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
           Promise.all(
             dreals.map(({ email, fullName, id }) =>
               sendNotification({
-                type: 'dreals-delai-cdc-2022-annulé',
+                type,
                 context: { projetId: projectId, utilisateurId: id },
-                variables: {
-                  nom_projet: projet.nomProjet,
-                  projet_url: routes.PROJECT_DETAILS(projectId),
-                },
+                variables,
                 message: {
                   email,
                   name: fullName,
