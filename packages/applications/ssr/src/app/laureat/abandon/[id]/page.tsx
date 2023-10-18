@@ -17,7 +17,7 @@ export default function DetailsAbandonPage({ params: { id } }: { params: { id: s
   useEffect(() => {
     const fetchAbandon = async () => {
       console.log(id);
-      const response = await fetch(`/api/v1/abandon/${id}`);
+      const response = await fetch(`/api/v1/laureat/abandon/${id}`);
       const data = await response.json();
       setAbandon(data);
     };

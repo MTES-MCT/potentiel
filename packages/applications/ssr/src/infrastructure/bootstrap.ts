@@ -49,6 +49,7 @@ export const bootstrap = () => {
       récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
     });
 
+    getLogger().info('Application bootstrapped');
     isBoostrapped = true;
   }
 };

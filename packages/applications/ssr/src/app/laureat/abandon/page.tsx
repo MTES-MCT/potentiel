@@ -13,7 +13,7 @@ export default function ListeAbandonsPage() {
   });
   useEffect(() => {
     const fetchAbandons = async () => {
-      const response = await fetch('/api/v1/abandon?page=1&itemsPerPage=10');
+      const response = await fetch('/api/v1/laureat/abandon?page=1&itemsPerPage=10');
       const data = await response.json();
       console.table(data);
       setAbandons(data);
@@ -38,7 +38,7 @@ export default function ListeAbandonsPage() {
               </div>
               <div className="flex ml-auto">{statut}</div>
               <div>
-                <Link href={`/app/abandon/${encodeURIComponent(identifiantProjet)}`}>Voir</Link>
+                <Link href={`/laureat/abandon/${encodeURIComponent(identifiantProjet)}`}>Voir</Link>
               </div>
             </div>
           </li>

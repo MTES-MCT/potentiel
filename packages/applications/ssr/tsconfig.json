@@ -32,9 +32,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "../../../.next/types/**/*.ts",
-    "src/app/api/abandon/route"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel/monads';
-import { AbandonReadModel } from '../abandon.readmodel';
+import { AbandonReadModel, AbandonReadModelKey } from '../abandon.readmodel';
 
 import { IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
 
@@ -19,11 +19,11 @@ export type ConsulterAbandonDependencies = {
 
 export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependencies) => {
   const handler: MessageHandler<ConsulterAbandonQuery> = async ({ identifiantProjet }) => {
-    const rawIdentifiantProjet = IdentifiantProjet.estUnPlainType(identifiantProjet)
-      ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
-      : identifiantProjet;
+    const key: AbandonReadModelKey = `abandon|${IdentifiantProjet.convertirEnValueType(
+      identifiantProjet,
+    ).formatter()}`;
 
-    return await find<AbandonReadModel>(`abandon|${rawIdentifiantProjet}`);
+    return await find<AbandonReadModel>(key);
   };
   mediator.register('CONSULTER_ABANDON', handler);
 };
