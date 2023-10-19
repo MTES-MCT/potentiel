@@ -2,14 +2,14 @@ import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { RéponseSignéeValueType } from '../réponseSignée.valueType';
-import { AbandonAggregate, createAbandonAggregateId } from '../abandon.aggregate';
+import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type AbandonAccordéEvent = DomainEvent<
   'AbandonAccordé-V1',
   {
-    acceptéLe: DateTime.RawType;
-    acceptéPar: IdentifiantUtilisateur.RawType;
+    accordéLe: DateTime.RawType;
+    accordéPar: IdentifiantUtilisateur.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
     réponseSignée: {
       format: string;
@@ -38,10 +38,22 @@ export async function accorder(
       réponseSignée: {
         format: réponseSignée.format,
       },
-      acceptéLe: dateAccord.formatter(),
-      acceptéPar: accordéPar.formatter(),
+      accordéLe: dateAccord.formatter(),
+      accordéPar: accordéPar.formatter(),
     },
   };
 
-  await this.publish(createAbandonAggregateId(identifiantProjet), event);
+  await this.publish(event);
+}
+
+export function applyAbandonAccordé(
+  this: AbandonAggregate,
+  { payload: { accordéLe, réponseSignée } }: AbandonAccordéEvent,
+) {
+  this.statut = StatutAbandon.accordé;
+  this.rejet = undefined;
+  this.accord = {
+    accordéLe: DateTime.convertirEnValueType(accordéLe),
+    réponseSignée,
+  };
 }

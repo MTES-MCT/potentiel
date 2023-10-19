@@ -1,7 +1,7 @@
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { AbandonAggregate, createAbandonAggregateId } from '../abandon.aggregate';
+import { AbandonAggregate } from '../abandon.aggregate';
 
 import * as StatutAbandon from '../statutAbandon.valueType';
 
@@ -36,5 +36,16 @@ export async function confirmer(
     },
   };
 
-  await this.publish(createAbandonAggregateId(identifiantProjet), event);
+  await this.publish(event);
+}
+
+export function applyAbandonConfirmé(
+  this: AbandonAggregate,
+  { payload: { confirméLe } }: AbandonConfirméEvent,
+) {
+  this.statut = StatutAbandon.confirmé;
+
+  if (this.demande.confirmation) {
+    this.demande.confirmation.confirméLe = DateTime.convertirEnValueType(confirméLe);
+  }
 }

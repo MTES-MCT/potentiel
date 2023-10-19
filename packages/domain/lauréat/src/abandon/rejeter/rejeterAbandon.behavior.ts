@@ -1,6 +1,6 @@
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
-import { AbandonAggregate, createAbandonAggregateId } from '../abandon.aggregate';
+import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { RéponseSignéeValueType } from '../réponseSignée.valueType';
 
@@ -42,5 +42,18 @@ export async function rejeter(
     },
   };
 
-  await this.publish(createAbandonAggregateId(identifiantProjet), event);
+  await this.publish(event);
+}
+
+export function applyAbandonRejeté(
+  this: AbandonAggregate,
+  { payload: { rejetéLe, réponseSignée } }: AbandonRejetéEvent,
+) {
+  this.statut = StatutAbandon.rejeté;
+
+  this.rejet = {
+    rejetéLe: DateTime.convertirEnValueType(rejetéLe),
+    réponseSignée,
+  };
+  this.accord = undefined;
 }

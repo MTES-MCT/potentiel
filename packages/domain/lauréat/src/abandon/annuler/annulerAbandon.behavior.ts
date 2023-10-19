@@ -1,6 +1,6 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
-import { AbandonAggregate, createAbandonAggregateId } from '../abandon.aggregate';
+import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type AbandonAnnuléEvent = DomainEvent<
@@ -34,5 +34,16 @@ export async function annuler(
     },
   };
 
-  await this.publish(createAbandonAggregateId(identifiantProjet), event);
+  await this.publish(event);
+}
+
+export function applyAbandonAnnulé(
+  this: AbandonAggregate,
+  { payload: { annuléLe } }: AbandonAnnuléEvent,
+) {
+  this.statut = StatutAbandon.annulé;
+  this.annuléLe = DateTime.convertirEnValueType(annuléLe);
+  this.demande.confirmation = undefined;
+  this.accord = undefined;
+  this.rejet = undefined;
 }

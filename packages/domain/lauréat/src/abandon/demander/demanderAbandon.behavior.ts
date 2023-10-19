@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { PièceJustificativeAbandonValueType } from '../pièceJustificativeAbandon.valueType';
-import { AbandonAggregate, createAbandonAggregateId } from '../abandon.aggregate';
+import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type AbandonDemandéEvent = DomainEvent<
@@ -49,5 +49,22 @@ export async function demander(
     },
   };
 
-  await this.publish(createAbandonAggregateId(identifiantProjet), event);
+  await this.publish(event);
+}
+
+export function applyAbandonDemandé(
+  this: AbandonAggregate,
+  { payload: { demandéLe, raison, recandidature, pièceJustificative } }: AbandonDemandéEvent,
+) {
+  this.statut = StatutAbandon.demandé;
+
+  this.demande = {
+    recandidature,
+    pièceJustificative,
+    raison,
+    demandéLe: DateTime.convertirEnValueType(demandéLe),
+  };
+  this.rejet = undefined;
+  this.accord = undefined;
+  this.annuléLe = undefined;
 }

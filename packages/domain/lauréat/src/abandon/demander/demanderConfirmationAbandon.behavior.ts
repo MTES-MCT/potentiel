@@ -1,7 +1,7 @@
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { AbandonAggregate, createAbandonAggregateId } from '../abandon.aggregate';
+import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { RéponseSignéeValueType } from '../réponseSignée.valueType';
 
@@ -43,5 +43,17 @@ export async function demanderConfirmation(
     },
   };
 
-  await this.publish(createAbandonAggregateId(identifiantProjet), event);
+  await this.publish(event);
+}
+
+export function applyConfirmationAbandonDemandée(
+  this: AbandonAggregate,
+  { payload: { confirmationDemandéeLe, réponseSignée } }: ConfirmationAbandonDemandéeEvent,
+) {
+  this.statut = StatutAbandon.confirmationDemandée;
+
+  this.demande.confirmation = {
+    demandéLe: DateTime.convertirEnValueType(confirmationDemandéeLe),
+    réponseSignée,
+  };
 }
