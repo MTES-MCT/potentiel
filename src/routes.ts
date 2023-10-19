@@ -271,6 +271,7 @@ class routes {
   static CONFIRMER_DEMANDE_ABANDON = '/confirmer-demande-abandon';
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande';
+  static POST_ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
   static POST_DEMANDER_ABANDON = '/soumettre-demande-abandon';
   static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon';
@@ -294,6 +295,13 @@ class routes {
     const route = '/demande/:modificationRequestId/details.html';
     if (modificationRequestId) {
       return route.replace(':modificationRequestId', encodeURIComponent(modificationRequestId));
+    } else return route;
+  };
+
+  static GET_DETAILS_DEMANDE_DELAI_PAGE = (demandeDelaiId?: string) => {
+    const route = '/demande-delai/:demandeDelaiId/details.html';
+    if (demandeDelaiId) {
+      return route.replace(':demandeDelaiId', encodeURIComponent(demandeDelaiId));
     } else return route;
   };
 

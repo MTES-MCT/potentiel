@@ -104,7 +104,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         }),
         variables: expect.objectContaining({
           nom_projet: 'nom-du-projet',
-          modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
+          modification_request_url: routes.GET_DETAILS_DEMANDE_DELAI_PAGE('la-demande'),
           type_demande: 'délai',
           departement_projet: 'département-du-projet',
         }),
@@ -196,7 +196,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         }),
         variables: expect.objectContaining({
           nom_projet: 'nom-du-projet',
-          modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
+          modification_request_url: routes.GET_DETAILS_DEMANDE_DELAI_PAGE('la-demande'),
           type_demande: 'délai',
           departement_projet: 'département-du-projet',
         }),
@@ -217,7 +217,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         }),
         variables: expect.objectContaining({
           nom_projet: 'nom-du-projet',
-          modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
+          modification_request_url: routes.GET_DETAILS_DEMANDE_DELAI_PAGE('la-demande'),
           type_demande: 'délai',
           departement_projet: 'département-du-projet',
         }),
@@ -238,7 +238,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
         }),
         variables: expect.objectContaining({
           nom_projet: 'nom-du-projet',
-          modification_request_url: routes.DEMANDE_PAGE_DETAILS('la-demande'),
+          modification_request_url: routes.GET_DETAILS_DEMANDE_DELAI_PAGE('la-demande'),
           type_demande: 'délai',
           departement_projet: 'département-du-projet',
         }),

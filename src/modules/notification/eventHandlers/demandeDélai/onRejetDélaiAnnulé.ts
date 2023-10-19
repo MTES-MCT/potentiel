@@ -75,7 +75,7 @@ export const makeOnRejetDélaiAnnulé: MakeOnRejetDélaiAnnulé =
           nom_projet: nomProjet,
           type_demande: typeDemande,
           status,
-          modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+          modification_request_url: routes.GET_DETAILS_DEMANDE_DELAI_PAGE(modificationRequestId),
           document_absent: hasDocument ? undefined : '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
         },
       });

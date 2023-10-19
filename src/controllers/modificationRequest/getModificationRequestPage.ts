@@ -5,7 +5,6 @@ import {
   DemandeAbandonPage,
   DemandeAnnulationAbandonPage,
   ModificationRequestPage,
-  DetailsDemandeDelaiPage,
 } from '../../views';
 import routes from '../../routes';
 import { shouldUserAccessProject } from '../../config/useCases.config';
@@ -108,9 +107,6 @@ v1Router.get(
         }
         if (modificationRequest.type === 'annulation abandon') {
           return response.send(DemandeAnnulationAbandonPage({ request, modificationRequest }));
-        }
-        if (modificationRequest.type === 'delai') {
-          return response.send(DetailsDemandeDelaiPage({ request, modificationRequest }));
         }
         return response.send(ModificationRequestPage({ request, modificationRequest }));
       },
