@@ -53,7 +53,7 @@ export const registerAbandonProjector = ({
         case 'AbandonAccordé-V1':
           await upsert<AbandonReadModel>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
-            accordAccordéLe: payload.acceptéLe,
+            accordAccordéLe: payload.accordéLe,
             accordRéponseSignéeFormat: payload.réponseSignée.format,
             statut: 'accordé',
           });

@@ -40,8 +40,8 @@ export type AbandonRejetéEvent = DomainEvent<
 export type AbandonAccordéEvent = DomainEvent<
   'AbandonAccordé-V1',
   {
-    acceptéLe: string;
-    acceptéPar: RawIdentifiantUtilisateur;
+    accordéLe: string;
+    accordéPar: RawIdentifiantUtilisateur;
     identifiantProjet: RawIdentifiantProjet;
     réponseSignée: {
       format: string;
