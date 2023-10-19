@@ -3,10 +3,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { isNone } from '@potentiel/monads';
 import { DateTime, IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
 
-import { AbandonReadModel, PièceJustificativeAbandonReadModel } from '../abandon.readmodel';
 import * as Abandon from '../abandon.valueType';
 import { AbandonInconnuErreur } from '../abandonInconnu.error';
-import { NotFoundError } from '@potentiel-domain/core';
+import { NotFoundError, ReadModel } from '@potentiel-domain/core';
+import { AbandonReadModel } from './consulterAbandon.query';
+
+export type PièceJustificativeAbandonReadModel = ReadModel<
+  'pièce-justificative-abandon',
+  { format: string; content: ReadableStream }
+>;
 
 export type ConsulterPièceJustificativeAbandonProjetQuery = Message<
   'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',

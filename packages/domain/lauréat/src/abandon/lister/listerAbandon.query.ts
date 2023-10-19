@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { QueryPorts } from '@potentiel-domain/common';
-import { AbandonReadModel } from '../abandon.readmodel';
+import { AbandonReadModel } from '../consulter/consulterAbandon.query';
 
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',

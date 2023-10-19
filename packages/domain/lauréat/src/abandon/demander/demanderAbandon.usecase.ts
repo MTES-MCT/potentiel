@@ -3,13 +3,13 @@ import { DemanderAbandonCommand } from './demanderAbandon.command';
 
 type DemanderAbandonUseCaseData = DemanderAbandonCommand['data'];
 
-export type DemanderAbandonAvecRecandidatureUseCase = Message<
+export type DemanderAbandonUseCase = Message<
   'DEMANDER_ABANDON_USECASE',
   DemanderAbandonUseCaseData
 >;
 
-export const registerDemanderAbandonAvecRecandidatureUseCase = () => {
-  const runner: MessageHandler<DemanderAbandonAvecRecandidatureUseCase> = async (data) => {
+export const registerDemanderAbandonUseCase = () => {
+  const runner: MessageHandler<DemanderAbandonUseCase> = async (data) => {
     await mediator.send<DemanderAbandonCommand>({
       type: 'DEMANDER_ABANDON_COMMAND',
       data,

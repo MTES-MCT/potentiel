@@ -27,7 +27,7 @@ import {
   DemanderAbandonDependencies,
   registerDemanderAbandonCommand,
 } from './demander/demanderAbandon.command';
-import { registerDemanderAbandonAvecRecandidatureUseCase } from './demander/demanderAbandon.usecase';
+import { registerDemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import {
   DemanderConfirmationAbandonDependencies,
   registerDemanderConfirmationAbandonCommand,
@@ -62,7 +62,7 @@ export const registerAbandonUseCases = (dependencies: AbandonUseCaseDependencies
   registerRejeterAbandonCommand(dependencies);
   registerAnnulerAbandonCommand(dependencies);
 
-  registerDemanderAbandonAvecRecandidatureUseCase();
+  registerDemanderAbandonUseCase();
   registerAccorderAbandonUseCase();
   registerConfirmerAbandonUseCase();
   registerDemanderConfirmationAbandonUseCase();

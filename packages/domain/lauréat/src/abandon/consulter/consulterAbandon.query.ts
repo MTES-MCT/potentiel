@@ -1,10 +1,37 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
+import { IdentifiantProjet, DateTime, QueryPorts } from '@potentiel-domain/common';
+import { ReadModel } from '@potentiel-domain/core';
 
-import { AbandonReadModel, AbandonReadModelKey } from '../abandon.readmodel';
 import { AbandonInconnuErreur } from '../abandonInconnu.error';
+import * as Abandon from '../abandon.valueType';
+import * as StatutAbandon from '../statutAbandon.valueType';
+
+export type AbandonReadModel = ReadModel<
+  'abandon',
+  {
+    identifiantDemande: Abandon.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
+
+    statut: StatutAbandon.RawType;
+
+    demandeRaison: string;
+    demandePièceJustificativeFormat?: string;
+    demandeRecandidature: boolean;
+    demandeDemandéLe: DateTime.RawType;
+
+    accordRéponseSignéeFormat?: string;
+    accordAccordéLe?: DateTime.RawType;
+
+    rejetRéponseSignéeFormat?: string;
+    rejetRejetéLe?: DateTime.RawType;
+
+    confirmationDemandéeLe?: DateTime.RawType;
+    confirmationDemandéeRéponseSignéeFormat?: string;
+    confirmationConfirméLe?: DateTime.RawType;
+  }
+>;
 
 export type ConsulterAbandonQuery = Message<
   'CONSULTER_ABANDON',
@@ -20,11 +47,9 @@ export type ConsulterAbandonDependencies = {
 
 export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependencies) => {
   const handler: MessageHandler<ConsulterAbandonQuery> = async ({ identifiantProjet }) => {
-    const key: AbandonReadModelKey = `abandon|${IdentifiantProjet.convertirEnValueType(
-      identifiantProjet,
-    ).formatter()}`;
-
-    const result = await find<AbandonReadModel>(key);
+    const result = await find<AbandonReadModel>(
+      `abandon|${IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()}`,
+    );
 
     if (isNone(result)) {
       throw new AbandonInconnuErreur();

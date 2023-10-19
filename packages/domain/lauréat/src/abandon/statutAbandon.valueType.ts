@@ -150,31 +150,31 @@ class AbandonDéjàRejetéError extends InvalidOperationError {
   }
 }
 
-export class AbandonEnCoursErreur extends InvalidOperationError {
+class AbandonEnCoursErreur extends InvalidOperationError {
   constructor() {
     super(`Une demande d'abandon est déjà en cours pour le projet`);
   }
 }
 
-export class AbandonDéjàConfirméError extends InvalidOperationError {
+class AbandonDéjàConfirméError extends InvalidOperationError {
   constructor() {
     super(`Abandon déjà confirmé`);
   }
 }
 
-export class ConfirmationAbandonDéjàDemandéError extends InvalidOperationError {
+class ConfirmationAbandonDéjàDemandéError extends InvalidOperationError {
   constructor() {
     super(`Confirmation de l'abandon déjà demandé`);
   }
 }
 
-export class AucuneDemandeConfirmationAbandonError extends InvalidOperationError {
+class AucuneDemandeConfirmationAbandonError extends InvalidOperationError {
   constructor() {
     super(`Aucune demande de confirmation d'abandon en attente`);
   }
 }
 
-export class AbandonEnAttenteConfirmationError extends InvalidOperationError {
+class AbandonEnAttenteConfirmationError extends InvalidOperationError {
   constructor() {
     super(`L'abandon est en attente de confirmation`);
   }

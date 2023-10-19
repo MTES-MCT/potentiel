@@ -3,11 +3,16 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone, none } from '@potentiel/monads';
 import { DateTime, IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
 
-import { AbandonReadModel, RéponseSignéeAbandonReadModel } from '../abandon.readmodel';
-
 import * as Abandon from '../abandon.valueType';
 import { RéponseSignéeValueType } from '../réponseSignée.valueType';
 import { AbandonInconnuErreur } from '../abandonInconnu.error';
+import { ReadModel } from '@potentiel-domain/core';
+import { AbandonReadModel } from './consulterAbandon.query';
+
+export type RéponseSignéeAbandonReadModel = ReadModel<
+  'réponse-signée-abandon',
+  { format: string; content: ReadableStream }
+>;
 
 export type ConsulterRéponseSignéeAbandonQuery = Message<
   'CONSULTER_RÉPONSE_SIGNÉE_ABANDON_PROJET',
