@@ -96,7 +96,9 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
               />
             </div>
             <div>
-              <Label htmlFor="file">Pièce justificative</Label>
+              <Label htmlFor="file" optionnel>
+                Pièce justificative
+              </Label>
               <LabelDescription>
                 Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
               </LabelDescription>
