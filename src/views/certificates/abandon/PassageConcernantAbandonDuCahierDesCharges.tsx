@@ -51,8 +51,8 @@ export const PassageConcernantAbandonDuCahierDesCharges: FC<
         <View style={{ flexDirection: 'row', marginBottom: 10 }}>
           <Text style={{ marginHorizontal: 16 }}>-</Text>
           <Text>
-            Le projet doit être d’une puissance équivalente que le projet abandonné, à plus ou moins
-            20% ;
+            Le projet doit avoir la même autorisation préfectorale (numéro ICPE identique) que le
+            projet abandonné, nonobstant des portées à connaissance ultérieurs ;
           </Text>
         </View>
         <View style={{ flexDirection: 'row', marginBottom: 10 }}>
