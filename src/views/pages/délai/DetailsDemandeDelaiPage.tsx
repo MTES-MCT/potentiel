@@ -11,7 +11,6 @@ import {
   ExternalLink,
   DownloadLink,
   StatutDemandeModification,
-  SecondaryButton,
   ChampsObligatoiresLégende,
   Label,
   Input,
@@ -163,24 +162,6 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
         <StatutDemandeModification statutDemande={status}>
           <span className="font-bold">{ModificationRequestStatusTitle[status]}</span>{' '}
           {respondedOn && respondedBy && `par ${respondedBy} le ${afficherDate(respondedOn)}`}
-          {status === 'rejetée' && (
-            <Form
-              method="post"
-              action={ROUTES.ADMIN_ANNULER_DELAI_REJETE({
-                modificationRequestId: id,
-              })}
-              className="mt-4"
-            >
-              <SecondaryButton
-                type="submit"
-                value={modificationRequest.id}
-                name={'modificationRequestId'}
-                confirmation='Êtes-vous sûr de vouloir repasser la demande en statut "envoyée" ?'
-              >
-                Annuler le rejet de la demande
-              </SecondaryButton>
-            </Form>
-          )}
           {cancelledOn && cancelledBy && `par ${cancelledBy} le ${afficherDate(cancelledOn)}`}
           {acceptanceParams?.delayInMonths && (
             <div>
@@ -289,6 +270,7 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
             className="m-0"
           >
             <input type="hidden" name="modificationRequestId" value={id} />
+            <input type="hidden" name="type" value="delai" />
 
             <PrimaryButton
               className="w-fit"
@@ -297,6 +279,24 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
               confirmation={`Êtes-vous sûr de vouloir annuler cette demande de délai ?`}
             >
               Annuler la demande
+            </PrimaryButton>
+          </Form>
+        )}
+        {status === 'rejetée' && userIs(['admin', 'dgec-validateur', 'dreal'])(user) && (
+          <Form
+            method="post"
+            action={ROUTES.ADMIN_ANNULER_DELAI_REJETE({
+              modificationRequestId: id,
+            })}
+            className="mt-4"
+          >
+            <PrimaryButton
+              type="submit"
+              value={modificationRequest.id}
+              name={'modificationRequestId'}
+              confirmation='Êtes-vous sûr de vouloir repasser la demande en statut "envoyée" ?'
+            >
+              Annuler le rejet de la demande
             </PrimaryButton>
           </Form>
         )}
