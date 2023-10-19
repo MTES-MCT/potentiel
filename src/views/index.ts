@@ -56,6 +56,7 @@ import {
   DetailsAbandon,
   ListeAbandons,
   DetailsDemandeDelai,
+  CorrigerDelaiAccorde,
 } from './pages';
 
 export { App } from './App';
@@ -485,4 +486,11 @@ export const DemandeAnnulationAbandonPage = (
     Component: DemandeAnnulationAbandon,
     props,
     title: 'Demande annulation abandon',
+  });
+
+export const CorrigerDelaiAccordePage = (props: Parameters<typeof CorrigerDelaiAccorde>[0]) =>
+  makeHtml({
+    Component: CorrigerDelaiAccorde,
+    props,
+    title: 'Corriger un délai accordé',
   });

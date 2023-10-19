@@ -305,6 +305,13 @@ class routes {
     } else return route;
   };
 
+  static GET_CORRIGER_DELAI_ACCORDE_PAGE = (demandeDelaiId?: string) => {
+    const route = '/demande-delai/:demandeDelaiId/corriger.html';
+    if (demandeDelaiId) {
+      return route.replace(':demandeDelaiId', encodeURIComponent(demandeDelaiId));
+    } else return route;
+  };
+
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project';
 
   /* CRE4 GF */
