@@ -3,6 +3,9 @@ import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
 
 export type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 
+const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
+type Technologie = (typeof technologies)[number];
+
 export type CandidatureLegacyReadModel = ReadModel<
   'projet',
   {
@@ -12,6 +15,7 @@ export type CandidatureLegacyReadModel = ReadModel<
     période: string;
     famille: string;
     numéroCRE: string;
+    technologie: Technologie;
     statut: StatutProjet;
     nom: string;
     localité: {
