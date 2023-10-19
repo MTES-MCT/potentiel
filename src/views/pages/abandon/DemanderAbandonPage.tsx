@@ -125,7 +125,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                       <li>Le même lieu d'implantation que le projet abandonné</li>
                       <li>
                         La même autorisation préfectorale (numéro ICPE identifique) que le projet abandonné, 
-                        nonobstant des portées à connaissance ultérieurs
+                        nonobstant des porter à connaissance ultérieurs
                       </li>
                       <li>
                         Le tarif proposé ne doit pas être supérieur au prix plafond de la période
