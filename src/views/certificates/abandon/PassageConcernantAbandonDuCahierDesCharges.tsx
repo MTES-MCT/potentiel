@@ -52,7 +52,7 @@ export const PassageConcernantAbandonDuCahierDesCharges: FC<
           <Text style={{ marginHorizontal: 16 }}>-</Text>
           <Text>
             Le projet doit avoir la même autorisation préfectorale (numéro ICPE identique) que le
-            projet abandonné, nonobstant des portées à connaissance ultérieurs ;
+            projet abandonné, nonobstant des porter à connaissance ultérieurs ;
           </Text>
         </View>
         <View style={{ flexDirection: 'row', marginBottom: 10 }}>
