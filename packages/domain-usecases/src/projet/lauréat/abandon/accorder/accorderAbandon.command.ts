@@ -73,8 +73,8 @@ export const registerAccorderAbandonCommand = ({
         réponseSignée: {
           format: réponseSignée.format,
         },
-        acceptéLe: dateAccordAbandon.formatter(),
-        acceptéPar: accordéPar.formatter(),
+        accordéLe: dateAccordAbandon.formatter(),
+        accordéPar: accordéPar.formatter(),
       },
     };
 
