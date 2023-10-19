@@ -1,16 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { isNone } from '@potentiel/monads';
 import { LoadAggregate, Publish } from '@potentiel-domain/core';
-import { IdentifiantProjet, IdentifiantUtilisateur, DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 
-import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
+import { loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
-import { AbandonAccordéEvent } from '../abandon.event';
-import {
-  AbandonDéjàAccordéError,
-  AbandonDéjàRejetéError,
-  AbandonInconnuErreur,
-} from '../abandon.error';
 
 import { AbandonAccordéRéponseSignéeValueType } from '../réponseSignée.valueType';
 
@@ -19,7 +12,6 @@ export type AccorderAbandonCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: AbandonAccordéRéponseSignéeValueType;
-    dateAccordAbandon: DateTime.ValueType;
     accordéPar: IdentifiantUtilisateur.ValueType;
   }
 >;
@@ -35,50 +27,25 @@ export const registerAccorderAbandonCommand = ({
   publish,
   enregistrerRéponseSignée,
 }: AccorderAbandonDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate });
+  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate, publish });
   const handler: MessageHandler<AccorderAbandonCommand> = async ({
     identifiantProjet,
     réponseSignée,
-    dateAccordAbandon,
     accordéPar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
-    if (isNone(abandon)) {
-      throw new AbandonInconnuErreur();
-    }
-
-    if (abandon.estAccordé()) {
-      throw new AbandonDéjàAccordéError();
-    }
-
-    if (abandon.estRejeté()) {
-      throw new AbandonDéjàRejetéError();
-    }
-
-    // if (abandon.estEnAttenteConfirmation()) {
-    //   throw new DemandeEnAttenteConfirmationError();
-    // }
+    await abandon.accorder({
+      identifiantProjet,
+      réponseSignée,
+      accordéPar,
+    });
 
     await enregistrerRéponseSignée({
       identifiantProjet,
       réponseSignée,
-      dateDocumentRéponseSignée: dateAccordAbandon,
+      dateDocumentRéponseSignée: abandon.accord?.accordéLe!,
     });
-
-    const event: AbandonAccordéEvent = {
-      type: 'AbandonAccordé-V1',
-      payload: {
-        identifiantProjet: identifiantProjet.formatter(),
-        réponseSignée: {
-          format: réponseSignée.format,
-        },
-        acceptéLe: dateAccordAbandon.formatter(),
-        acceptéPar: accordéPar.formatter(),
-      },
-    };
-
-    await publish(createAbandonAggregateId(identifiantProjet), event);
   };
   mediator.register('ACCORDER_ABANDON_COMMAND', handler);
 };

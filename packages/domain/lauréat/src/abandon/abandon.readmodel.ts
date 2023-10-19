@@ -1,32 +1,32 @@
 import { ReadModel } from '@potentiel-domain/core';
-import { RawType } from './abandon.valueType';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { StatutAbandon } from './statusAbandon.valueType';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import * as Abandon from './abandon.valueType';
+import * as StatutAbandon from './statutAbandon.valueType';
 
 export type AbandonReadModelKey = `abandon|${IdentifiantProjet.RawType}`;
 
 export type AbandonReadModel = ReadModel<
   'abandon',
   {
-    identifiantDemande: RawType;
+    identifiantDemande: Abandon.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
 
-    statut: StatutAbandon;
+    statut: StatutAbandon.RawType;
 
     demandeRaison: string;
     demandePièceJustificativeFormat?: string;
     demandeRecandidature: boolean;
-    demandeDemandéLe: string;
+    demandeDemandéLe: DateTime.RawType;
 
     accordRéponseSignéeFormat?: string;
-    accordAccordéLe?: string;
+    accordAccordéLe?: DateTime.RawType;
 
     rejetRéponseSignéeFormat?: string;
-    rejetRejetéLe?: string;
+    rejetRejetéLe?: DateTime.RawType;
 
-    confirmationDemandéeLe?: string;
+    confirmationDemandéeLe?: DateTime.RawType;
     confirmationDemandéeRéponseSignéeFormat?: string;
-    confirmationConfirméLe?: string;
+    confirmationConfirméLe?: DateTime.RawType;
   }
 >;
 

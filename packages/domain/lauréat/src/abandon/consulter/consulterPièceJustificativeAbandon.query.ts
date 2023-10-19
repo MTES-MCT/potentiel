@@ -3,10 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { isNone } from '@potentiel/monads';
 import { DateTime, IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
 
-import { RécupérerPièceJustificativeAbandonPort } from '../abandon.port';
 import { AbandonReadModel, PièceJustificativeAbandonReadModel } from '../abandon.readmodel';
 import * as Abandon from '../abandon.valueType';
-import { AbandonInconnuErreur, PièceJustificativeAbandonInconnueErreur } from '../abandon.error';
+import { AbandonInconnuErreur } from '../abandonInconnu.error';
+import { NotFoundError } from '@potentiel-domain/core';
 
 export type ConsulterPièceJustificativeAbandonProjetQuery = Message<
   'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
@@ -16,10 +16,24 @@ export type ConsulterPièceJustificativeAbandonProjetQuery = Message<
   PièceJustificativeAbandonReadModel
 >;
 
+export type RécupérerPièceJustificativeAbandonPort = (options: {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  format: string;
+  datePièceJustificativeAbandon: DateTime.ValueType;
+}) => Promise<ReadableStream | undefined>;
+
 export type ConsulterPièceJustificativeAbandonProjetDependencies = {
   find: QueryPorts.Find;
   récupérerPièceJustificativeAbandon: RécupérerPièceJustificativeAbandonPort;
 };
+
+export class PièceJustificativeAbandonInconnueErreur extends NotFoundError {
+  constructor(raison: 'format' | 'contenu') {
+    super(`Pièce justificative abandon inconnue`, {
+      raison,
+    });
+  }
+}
 
 export const registerConsulterPièceJustificativeAbandonProjetQuery = ({
   find,

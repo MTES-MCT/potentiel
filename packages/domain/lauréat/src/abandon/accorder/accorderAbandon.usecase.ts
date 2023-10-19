@@ -1,6 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AccorderAbandonCommand } from './accorderAbandon.command';
-import { AbandonCommand } from '../abandon.command';
 
 type AccorderAbandonUseCaseData = AccorderAbandonCommand['data'];
 
@@ -11,7 +10,7 @@ export type AccorderAbandonUseCase = Message<
 
 export const registerAccorderAbandonUseCase = () => {
   const runner: MessageHandler<AccorderAbandonUseCase> = async (data) => {
-    await mediator.send<AbandonCommand>({
+    await mediator.send<AccorderAbandonCommand>({
       type: 'ACCORDER_ABANDON_COMMAND',
       data,
     });

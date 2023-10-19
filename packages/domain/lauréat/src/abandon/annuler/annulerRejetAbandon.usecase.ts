@@ -1,6 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AnnulerAbandonCommand } from './annulerAbandon.command';
-import { AbandonCommand } from '../abandon.command';
 import { DemanderAbandonCommand } from '../demander/demanderAbandon.command';
 
 type AnnulerRejetAbandonUseCaseData = AnnulerAbandonCommand['data'] &
@@ -13,7 +12,7 @@ export type AnnulerRejetAbandonUseCase = Message<
 
 export const registerAnnulerRejetAbandonUseCase = () => {
   const runner: MessageHandler<AnnulerRejetAbandonUseCase> = async (data) => {
-    await mediator.send<AbandonCommand>({
+    await mediator.send<AnnulerAbandonCommand>({
       type: 'ANNULER_ABANDON_COMMAND',
       data,
     });

@@ -1,14 +1,19 @@
-import { AggregateFactory, LoadAggregate } from '@potentiel-domain/core';
-import {
-  AbandonDemandéEvent,
-  AbandonEvent,
-  AbandonAccordéEvent,
-  AbandonRejetéEvent,
-  ConfirmationAbandonDemandéeEvent,
-  AbandonConfirméEvent,
-} from './abandon.event';
+import { AggregateFactory, LoadAggregate, Publish } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { StatutAbandon } from './statusAbandon.valueType';
+
+import * as StatutAbandon from './statutAbandon.valueType';
+
+import { AbandonDemandéEvent, demander } from './demander/demanderAbandon.behavior';
+import {
+  ConfirmationAbandonDemandéeEvent,
+  demanderConfirmation,
+} from './demander/demanderConfirmationAbandon.behavior';
+import { AbandonRejetéEvent, rejeter } from './rejeter/rejeterAbandon.behavior';
+import { isNone } from '@potentiel/monads';
+import { AbandonInconnuErreur } from './abandonInconnu.error';
+import { AbandonAccordéEvent, accorder } from './accorder/accorderAbandon.behavior';
+import { AbandonAnnuléEvent, annuler } from './annuler/annulerAbandon.behavior';
+import { AbandonConfirméEvent, confirmer } from './confirmer/confirmerAbandon.behavior';
 
 type AbandonAggregateId = `abandon|${string}`;
 
@@ -18,15 +23,11 @@ export const createAbandonAggregateId = (
   return `abandon|${identifiantProjet.formatter()}`;
 };
 
-type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
+type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate; publish: Publish };
 
-export type Abandon = {
-  getStatut: () => StatutAbandon;
-  estAccordé: () => boolean;
-  estRejeté: () => boolean;
-  estEnAttenteConfirmation: () => boolean;
-  estConfirmé: () => boolean;
-  estEnCours: () => boolean;
+export type AbandonAggregate = {
+  publish: Publish;
+  statut: StatutAbandon.ValueType;
   demande: {
     raison: string;
     pièceJustificative?: {
@@ -55,47 +56,25 @@ export type Abandon = {
     };
   };
   annuléLe?: DateTime.ValueType;
+  readonly accorder: typeof accorder;
+  readonly annuler: typeof annuler;
+  readonly confirmer: typeof confirmer;
+  readonly demander: typeof demander;
+  readonly demanderConfirmation: typeof demanderConfirmation;
+  readonly rejeter: typeof rejeter;
 };
 
-const getDefaultAggregate = (): Abandon => ({
-  estAccordé() {
-    return this.getStatut() === 'accordé';
-  },
-  estEnCours() {
-    const statusEnCours: Array<StatutAbandon> = ['confirmation-demandée', 'confirmé', 'demandé'];
-    return statusEnCours.includes(this.getStatut());
-  },
-  estRejeté() {
-    return this.getStatut() === 'rejeté';
-  },
-  estEnAttenteConfirmation() {
-    return this.getStatut() === 'confirmation-demandée';
-  },
-  estConfirmé() {
-    return this.getStatut() === 'confirmé';
-  },
-  getStatut() {
-    if (this.annuléLe) {
-      return 'annulé';
-    }
-    if (this.rejet) {
-      return 'rejeté';
-    }
+export type AbandonEvent =
+  | AbandonDemandéEvent
+  | AbandonAnnuléEvent
+  | AbandonRejetéEvent
+  | AbandonAccordéEvent
+  | ConfirmationAbandonDemandéeEvent
+  | AbandonConfirméEvent;
 
-    if (this.accord) {
-      return 'accordé';
-    }
-
-    if (this.demande.confirmation && !this.demande.confirmation.confirméLe) {
-      return 'confirmation-demandée';
-    }
-
-    if (this.demande.confirmation && this.demande.confirmation.confirméLe) {
-      return 'confirmé';
-    }
-
-    return 'demandé';
-  },
+const getDefaultAggregate = (): AbandonAggregate => ({
+  publish: () => Promise.resolve(),
+  statut: StatutAbandon.convertirEnValueType('demandé'),
   demande: {
     raison: '',
     pièceJustificative: {
@@ -104,9 +83,15 @@ const getDefaultAggregate = (): Abandon => ({
     recandidature: false,
     demandéLe: DateTime.convertirEnValueType(new Date()),
   },
+  accorder,
+  annuler,
+  confirmer,
+  demander,
+  demanderConfirmation,
+  rejeter,
 });
 
-const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events) => {
+const abandonAggregateFactory: AggregateFactory<AbandonAggregate, AbandonEvent> = (events) => {
   return events.reduce((aggregate, { type, payload }) => {
     switch (type) {
       case 'AbandonDemandé-V1':
@@ -114,17 +99,13 @@ const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events
       case 'AbandonRejeté-V1':
         return updateAvecRejet(aggregate, payload);
       case 'AbandonAccordé-V1':
-        return updateAvecAcceptation(aggregate, payload);
+        return updateAvecAccord(aggregate, payload);
       case 'ConfirmationAbandonDemandée-V1':
-        return updateAvecConfirmationAbandonDemandée(aggregate, payload);
+        return updateAvecConfirmationDemandée(aggregate, payload);
       case 'AbandonConfirmé-V1':
-        return updateAvecAbandonConfirmé(aggregate, payload);
+        return updateAvecConfirmation(aggregate, payload);
       case 'AbandonAnnulé-V1':
-        const { annuléLe } = payload;
-        return {
-          annuléLe: DateTime.convertirEnValueType(annuléLe),
-          ...getDefaultAggregate(),
-        };
+        return updateAvecAnnulation(getDefaultAggregate(), payload);
       default:
         return {
           ...aggregate,
@@ -135,19 +116,32 @@ const abandonAggregateFactory: AggregateFactory<Abandon, AbandonEvent> = (events
 
 export const loadAbandonAggregateFactory = ({
   loadAggregate,
+  publish,
 }: LoadAggregateFactoryDependencies) => {
-  return async (identifiantProjet: IdentifiantProjet.ValueType) => {
-    return loadAggregate<Abandon, AbandonEvent>(
+  return async (identifiantProjet: IdentifiantProjet.ValueType, throwIfNone: boolean = true) => {
+    const abandon = await loadAggregate<AbandonAggregate, AbandonEvent>(
       createAbandonAggregateId(identifiantProjet),
       abandonAggregateFactory,
     );
+
+    if (isNone(abandon)) {
+      if (throwIfNone) {
+        throw new AbandonInconnuErreur();
+      }
+      return abandonAggregateFactory([], loadAggregate);
+    }
+
+    abandon.publish = publish; // TODO move that in @potentiel-domain/core and @potentiel-infrastructure/pg-event-sourcing
+
+    return abandon;
   };
 };
 
-const createAbandon = (aggregate: Abandon, payload: AbandonDemandéEvent['payload']) => {
+const createAbandon = (aggregate: AbandonAggregate, payload: AbandonDemandéEvent['payload']) => {
   const { recandidature, pièceJustificative, raison, demandéLe: dateAbandon } = payload;
-  const newAggregate: Abandon = {
+  const newAggregate: AbandonAggregate = {
     ...aggregate,
+    statut: StatutAbandon.convertirEnValueType('demandé'),
     demande: {
       recandidature,
       pièceJustificative,
@@ -161,10 +155,11 @@ const createAbandon = (aggregate: Abandon, payload: AbandonDemandéEvent['payloa
   return newAggregate;
 };
 
-const updateAvecRejet = (aggregate: Abandon, payload: AbandonRejetéEvent['payload']) => {
+const updateAvecRejet = (aggregate: AbandonAggregate, payload: AbandonRejetéEvent['payload']) => {
   const { rejetéLe, réponseSignée } = payload;
-  const newAggregate: Abandon = {
+  const newAggregate: AbandonAggregate = {
     ...aggregate,
+    statut: StatutAbandon.convertirEnValueType('rejeté'),
     rejet: {
       rejetéLe: DateTime.convertirEnValueType(rejetéLe),
       réponseSignée,
@@ -174,10 +169,11 @@ const updateAvecRejet = (aggregate: Abandon, payload: AbandonRejetéEvent['paylo
   return newAggregate;
 };
 
-const updateAvecAcceptation = (aggregate: Abandon, payload: AbandonAccordéEvent['payload']) => {
+const updateAvecAccord = (aggregate: AbandonAggregate, payload: AbandonAccordéEvent['payload']) => {
   const { acceptéLe, réponseSignée } = payload;
-  const newAggregate: Abandon = {
+  const newAggregate: AbandonAggregate = {
     ...aggregate,
+    statut: StatutAbandon.convertirEnValueType('accordé'),
     rejet: undefined,
     accord: {
       accordéLe: DateTime.convertirEnValueType(acceptéLe),
@@ -187,13 +183,14 @@ const updateAvecAcceptation = (aggregate: Abandon, payload: AbandonAccordéEvent
   return newAggregate;
 };
 
-const updateAvecConfirmationAbandonDemandée = (
-  aggregate: Abandon,
+const updateAvecConfirmationDemandée = (
+  aggregate: AbandonAggregate,
   payload: ConfirmationAbandonDemandéeEvent['payload'],
 ) => {
   const { confirmationDemandéeLe, réponseSignée } = payload;
-  let newAggregate: Abandon = {
+  let newAggregate: AbandonAggregate = {
     ...aggregate,
+    statut: StatutAbandon.convertirEnValueType('confirmation-demandée'),
   };
 
   newAggregate.demande.confirmation = {
@@ -204,20 +201,33 @@ const updateAvecConfirmationAbandonDemandée = (
   return newAggregate;
 };
 
-const updateAvecAbandonConfirmé = (
-  aggregate: Abandon,
+const updateAvecConfirmation = (
+  aggregate: AbandonAggregate,
   payload: AbandonConfirméEvent['payload'],
 ) => {
   const { confirméLe } = payload;
-  let newAggregate: Abandon = {
+  let newAggregate: AbandonAggregate = {
     ...aggregate,
+    statut: StatutAbandon.convertirEnValueType('confirmé'),
   };
 
   if (newAggregate.demande.confirmation) {
     newAggregate.demande.confirmation.confirméLe = DateTime.convertirEnValueType(confirméLe);
-  } else {
-    // TODO: Log warning
   }
 
+  return newAggregate;
+};
+
+const updateAvecAnnulation = (
+  aggregate: AbandonAggregate,
+  payload: AbandonAnnuléEvent['payload'],
+) => {
+  const { annuléLe } = payload;
+
+  const newAggregate: AbandonAggregate = {
+    ...aggregate,
+    statut: StatutAbandon.convertirEnValueType('annulé'),
+    annuléLe: DateTime.convertirEnValueType(annuléLe),
+  };
   return newAggregate;
 };

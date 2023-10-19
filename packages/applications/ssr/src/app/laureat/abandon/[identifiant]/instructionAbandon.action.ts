@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { bootstrap } from '@/infrastructure/bootstrap';
 import { redirect } from 'next/navigation';
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { AbandonUseCase } from '@potentiel-domain/laureat';
 
 export async function instructionAbandonAction(prevState: any, formData: FormData) {
@@ -20,7 +20,6 @@ export async function instructionAbandonAction(prevState: any, formData: FormDat
     await mediator.send<AbandonUseCase>({
       type: 'REJETER_ABANDON_USECASE',
       data: {
-        dateRejetAbandon: DateTime.convertirEnValueType(new Date()),
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
         rejetéPar: IdentifiantUtilisateur.convertirEnValueType('pontoreau.sylvain@gmail.com'),
         réponseSignée: {

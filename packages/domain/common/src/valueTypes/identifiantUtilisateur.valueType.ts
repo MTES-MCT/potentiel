@@ -23,12 +23,14 @@ function estValide(value: string): asserts value is RawType {
   const isValid = regexEmail.test(value);
 
   if (!isValid) {
-    throw new EmailInvalideError();
+    throw new EmailInvalideError(value);
   }
 }
 
 class EmailInvalideError extends InvalidOperationError {
-  constructor() {
-    super(`L'email ne correspond pas à un format valide`);
+  constructor(value: string) {
+    super(`L'email ne correspond pas à un format valide`, {
+      value,
+    });
   }
 }

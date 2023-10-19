@@ -1,24 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
+
 import { LoadAggregate, Publish } from '@potentiel-domain/core';
-import { isNone } from '@potentiel/monads';
-import { ConfirmationAbandonDemandéeEvent } from '../abandon.event';
-import {
-  AbandonDéjàAccordéError,
-  AbandonDéjàConfirméError,
-  AbandonDéjàRejetéError,
-  ConfirmationAbandonDéjàDemandéError,
-  AbandonInconnuErreur,
-} from '../abandon.error';
+import { IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+
+import { loadAbandonAggregateFactory } from '../abandon.aggregate';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { ConfirmationAbandonDemandéRéponseSignéeValueType } from '../réponseSignée.valueType';
 
 export type DemanderConfirmationAbandonCommand = Message<
   'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    dateDemandeConfirmationAbandon: DateTime.ValueType;
     réponseSignée: ConfirmationAbandonDemandéRéponseSignéeValueType;
     confirmationDemandéePar: IdentifiantUtilisateur.ValueType;
   }
@@ -35,54 +27,25 @@ export const registerDemanderConfirmationAbandonCommand = ({
   publish,
   enregistrerRéponseSignée,
 }: DemanderConfirmationAbandonDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate });
+  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate, publish });
   const handler: MessageHandler<DemanderConfirmationAbandonCommand> = async ({
     identifiantProjet,
-    dateDemandeConfirmationAbandon,
     réponseSignée,
     confirmationDemandéePar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
-    if (isNone(abandon)) {
-      throw new AbandonInconnuErreur();
-    }
-
-    if (abandon.estAccordé()) {
-      throw new AbandonDéjàAccordéError();
-    }
-
-    if (abandon.estRejeté()) {
-      throw new AbandonDéjàRejetéError();
-    }
-
-    if (abandon.estEnAttenteConfirmation()) {
-      throw new ConfirmationAbandonDéjàDemandéError();
-    }
-
-    if (abandon.estConfirmé()) {
-      throw new AbandonDéjàConfirméError();
-    }
+    await abandon.demanderConfirmation({
+      identifiantProjet,
+      réponseSignée,
+      confirmationDemandéePar,
+    });
 
     await enregistrerRéponseSignée({
       identifiantProjet,
       réponseSignée,
-      dateDocumentRéponseSignée: dateDemandeConfirmationAbandon,
+      dateDocumentRéponseSignée: abandon.demande.confirmation?.confirméLe!,
     });
-
-    const event: ConfirmationAbandonDemandéeEvent = {
-      type: 'ConfirmationAbandonDemandée-V1',
-      payload: {
-        identifiantProjet: identifiantProjet.formatter(),
-        réponseSignée: {
-          format: réponseSignée.format,
-        },
-        confirmationDemandéeLe: dateDemandeConfirmationAbandon.formatter(),
-        confirmationDemandéePar: confirmationDemandéePar.formatter(),
-      },
-    };
-
-    await publish(createAbandonAggregateId(identifiantProjet), event);
   };
   mediator.register('DEMANDER_CONFIRMATION_ABANDON_COMMAND', handler);
 };

@@ -3,13 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone, none } from '@potentiel/monads';
 import { DateTime, IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
 
-import { RécupérerRéponseSignéeAbandonPort } from '../abandon.port';
-
 import { AbandonReadModel, RéponseSignéeAbandonReadModel } from '../abandon.readmodel';
 
 import * as Abandon from '../abandon.valueType';
-import { AbandonInconnuErreur } from '../abandon.error';
 import { RéponseSignéeValueType } from '../réponseSignée.valueType';
+import { AbandonInconnuErreur } from '../abandonInconnu.error';
 
 export type ConsulterRéponseSignéeAbandonQuery = Message<
   'CONSULTER_RÉPONSE_SIGNÉE_ABANDON_PROJET',
@@ -19,6 +17,13 @@ export type ConsulterRéponseSignéeAbandonQuery = Message<
   },
   Option<RéponseSignéeAbandonReadModel>
 >;
+
+export type RécupérerRéponseSignéeAbandonPort = (options: {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  type: RéponseSignéeValueType['type'];
+  format: string;
+  dateRécupérerRéponseSignée: DateTime.ValueType;
+}) => Promise<ReadableStream | undefined>;
 
 export type ConsulterRéponseSignéeAbandonDependencies = {
   find: QueryPorts.Find;

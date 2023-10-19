@@ -1,16 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { isNone } from '@potentiel/monads';
+
 import { LoadAggregate, Publish } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
-import { AbandonConfirméEvent } from '../abandon.event';
-import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
-import { AbandonInconnuErreur, AucuneDemandeConfirmationAbandonError } from '../abandon.error';
+import { IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+
+import { loadAbandonAggregateFactory } from '../abandon.aggregate';
 
 export type ConfirmerAbandonCommand = Message<
   'CONFIRMER_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    dateConfirmationAbandon: DateTime.ValueType;
     confirméPar: IdentifiantUtilisateur.ValueType;
   }
 >;
@@ -24,32 +22,17 @@ export const registerConfirmerAbandonCommand = ({
   loadAggregate,
   publish,
 }: ConfirmerAbandonDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate });
+  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate, publish });
   const handler: MessageHandler<ConfirmerAbandonCommand> = async ({
     identifiantProjet,
-    dateConfirmationAbandon,
     confirméPar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
-    if (isNone(abandon)) {
-      throw new AbandonInconnuErreur();
-    }
-
-    if (!abandon.estEnAttenteConfirmation()) {
-      throw new AucuneDemandeConfirmationAbandonError();
-    }
-
-    const event: AbandonConfirméEvent = {
-      type: 'AbandonConfirmé-V1',
-      payload: {
-        identifiantProjet: identifiantProjet.formatter(),
-        confirméLe: dateConfirmationAbandon.formatter(),
-        confirméPar: confirméPar.formatter(),
-      },
-    };
-
-    await publish(createAbandonAggregateId(identifiantProjet), event);
+    await abandon.confirmer({
+      confirméPar,
+      identifiantProjet,
+    });
   };
   mediator.register('CONFIRMER_ABANDON_COMMAND', handler);
 };

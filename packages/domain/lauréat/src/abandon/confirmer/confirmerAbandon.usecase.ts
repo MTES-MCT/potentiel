@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AbandonCommand } from '../abandon.command';
 import { ConfirmerAbandonCommand } from './confirmerAbandon.command';
 
 type ConfirmerAbandonUseCaseData = ConfirmerAbandonCommand['data'];
@@ -11,7 +10,7 @@ export type ConfirmerAbandonUseCase = Message<
 
 export const registerConfirmerAbandonUseCase = () => {
   const runner: MessageHandler<ConfirmerAbandonUseCase> = async (data) => {
-    await mediator.send<AbandonCommand>({
+    await mediator.send<ConfirmerAbandonCommand>({
       type: 'CONFIRMER_ABANDON_COMMAND',
       data,
     });

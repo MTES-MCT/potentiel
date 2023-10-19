@@ -13,16 +13,3 @@ export type EnregistrerRéponseSignéePort = (options: {
   réponseSignée: RéponseSignéeValueType;
   dateDocumentRéponseSignée: DateTime.ValueType;
 }) => Promise<void>;
-
-export type RécupérerPièceJustificativeAbandonPort = (options: {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  format: string;
-  datePièceJustificativeAbandon: DateTime.ValueType;
-}) => Promise<ReadableStream | undefined>;
-
-export type RécupérerRéponseSignéeAbandonPort = (options: {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  type: RéponseSignéeValueType['type'];
-  format: string;
-  dateRécupérerRéponseSignée: DateTime.ValueType;
-}) => Promise<ReadableStream | undefined>;

@@ -32,14 +32,17 @@ function estValide(value: string): asserts value is RawType {
   const isValid = regexIdentifiantProjet.test(value);
 
   if (!isValid) {
-    throw new IdentifiantProjetInvalideError();
+    throw new IdentifiantProjetInvalideError(value);
   }
 }
 
 class IdentifiantProjetInvalideError extends InvalidOperationError {
-  constructor() {
+  constructor(value: string) {
     super(
       `L'identifiant projet ne correspond pas au format suivant: '{appel offre}#{période}#{famille}#{numéro CRE}'`,
+      {
+        value,
+      },
     );
   }
 }

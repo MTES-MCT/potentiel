@@ -4,7 +4,7 @@ import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
 
 import { AbandonReadModel, AbandonReadModelKey } from '../abandon.readmodel';
-import { AbandonInconnuErreur } from '../abandon.error';
+import { AbandonInconnuErreur } from '../abandonInconnu.error';
 
 export type ConsulterAbandonQuery = Message<
   'CONSULTER_ABANDON',
