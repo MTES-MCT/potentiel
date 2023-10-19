@@ -1,59 +1,45 @@
-import { Option, isNone, none } from '@potentiel/monads';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 export type RawType = `${string}#${string}#${string}#${string}`;
 
-export type PlainType = {
+export type ValueType = {
   appelOffre: string;
   période: string;
-  famille: Option<string>;
+  famille: string;
   numéroCRE: string;
-};
-
-export type ValueType = PlainType & {
   formatter(): RawType;
 };
 
-export const convertirEnValueType = (identifiantProjet: RawType | PlainType): ValueType => {
-  // TODO: ajout validation
-  return {
-    ...(estUnPlainType(identifiantProjet)
-      ? identifiantProjet
-      : convertirEnPlainType(identifiantProjet)),
-    formatter() {
-      return `${this.appelOffre}#${this.période}#${isNone(this.famille) ? '' : this.famille}#${
-        this.numéroCRE
-      }`;
-    },
-  };
-};
+export const convertirEnValueType = (identifiantProjet: string): ValueType => {
+  estValide(identifiantProjet);
 
-const convertirEnPlainType = (rawIdentifiant: RawType): PlainType => {
-  const [appelOffre, période, famille, numéroCRE] = rawIdentifiant.split('#');
+  const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
 
   return {
     appelOffre,
     période,
-    famille: !famille ? none : famille,
+    famille,
     numéroCRE,
+    formatter() {
+      return `${this.appelOffre}#${this.période}#${this.famille}#${this.numéroCRE}`;
+    },
   };
 };
 
-export const estUnPlainType = (value: any): value is PlainType => {
-  return (
-    typeof value.appelOffre === 'string' &&
-    typeof value.numéroCRE === 'string' &&
-    typeof value.période === 'string' &&
-    (value.famille === none || typeof value.famille === 'string')
-  );
-};
+const regexIdentifiantProjet = /^[^#]+#[^#]+#[^#]+#[^#]+$/;
 
-export const estUnRawType = (value: string): value is RawType => {
-  const [appelOffre, période, famille, numéroCRE] = value.split('#');
+function estValide(value: string): asserts value is RawType {
+  const isValid = regexIdentifiantProjet.test(value);
 
-  return (
-    typeof appelOffre === 'string' &&
-    typeof numéroCRE === 'string' &&
-    typeof période === 'string' &&
-    typeof famille === 'string'
-  );
-};
+  if (!isValid) {
+    throw new IdentifiantProjetInvalideError();
+  }
+}
+
+class IdentifiantProjetInvalideError extends InvalidOperationError {
+  constructor() {
+    super(
+      `L'identifiant projet ne correspond pas au format suivant: '{appel offre}#{période}#{famille}#{numéro CRE}'`,
+    );
+  }
+}

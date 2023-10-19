@@ -6,9 +6,9 @@ import { ConfirmationAbandonDemandéeEvent } from '../abandon.event';
 import {
   AbandonDéjàAccordéError,
   AbandonDéjàConfirméError,
-  DemandeAbandonInconnuErreur,
   AbandonDéjàRejetéError,
   ConfirmationAbandonDéjàDemandéError,
+  AbandonInconnuErreur,
 } from '../abandon.error';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
@@ -45,7 +45,7 @@ export const registerDemanderConfirmationAbandonCommand = ({
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     if (isNone(abandon)) {
-      throw new DemandeAbandonInconnuErreur();
+      throw new AbandonInconnuErreur();
     }
 
     if (abandon.estAccordé()) {

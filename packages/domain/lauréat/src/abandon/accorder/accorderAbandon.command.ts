@@ -9,7 +9,7 @@ import { AbandonAccordéEvent } from '../abandon.event';
 import {
   AbandonDéjàAccordéError,
   AbandonDéjàRejetéError,
-  DemandeAbandonInconnuErreur,
+  AbandonInconnuErreur,
 } from '../abandon.error';
 
 import { AbandonAccordéRéponseSignéeValueType } from '../réponseSignée.valueType';
@@ -45,7 +45,7 @@ export const registerAccorderAbandonCommand = ({
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     if (isNone(abandon)) {
-      throw new DemandeAbandonInconnuErreur();
+      throw new AbandonInconnuErreur();
     }
 
     if (abandon.estAccordé()) {

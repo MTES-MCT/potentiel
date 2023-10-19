@@ -7,8 +7,8 @@ import {
   ConfirmationAbandonDemandéeEvent,
   AbandonConfirméEvent,
 } from './abandon.event';
-import { StatutAbandon } from './abandon.valueType';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { StatutAbandon } from './statusAbandon.valueType';
 
 type AbandonAggregateId = `abandon|${string}`;
 
@@ -102,7 +102,7 @@ const getDefaultAggregate = (): Abandon => ({
       format: '',
     },
     recandidature: false,
-    demandéLe: DateTime.convertirEnValueType({ date: new Date() }),
+    demandéLe: DateTime.convertirEnValueType(new Date()),
   },
 });
 

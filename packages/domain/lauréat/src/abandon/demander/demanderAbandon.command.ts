@@ -4,7 +4,7 @@ import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
 import { EnregistrerPièceJustificativeAbandonPort } from '../abandon.port';
-import { AbandonDéjàAccordéError, DemandeAbandonEnCoursErreur } from '../abandon.error';
+import { AbandonDéjàAccordéError, AbandonEnCoursErreur } from '../abandon.error';
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { PièceJustificativeAbandonValueType } from '../pièceJustificativeAbandon.valueType';
 
@@ -48,7 +48,7 @@ export const registerDemanderAbandonCommand = ({
       }
 
       if (abandon.estEnCours()) {
-        throw new DemandeAbandonEnCoursErreur();
+        throw new AbandonEnCoursErreur();
       }
     }
 

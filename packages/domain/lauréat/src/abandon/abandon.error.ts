@@ -1,14 +1,14 @@
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError, NotFoundError } from '@potentiel-domain/core';
 
-export class DemandeAbandonEnCoursErreur extends InvalidOperationError {
+export class AbandonEnCoursErreur extends InvalidOperationError {
   constructor() {
     super(`Une demande d'abandon est déjà en cours pour le projet`);
   }
 }
 
-export class DemandeAbandonInconnuErreur extends InvalidOperationError {
+export class AbandonInconnuErreur extends NotFoundError {
   constructor() {
-    super(`Demande d'abandon inconnue`);
+    super(`Abandon inconnu`);
   }
 }
 
@@ -42,8 +42,16 @@ export class AucuneDemandeConfirmationAbandonError extends InvalidOperationError
   }
 }
 
-export class DemandeEnAttenteConfirmationError extends InvalidOperationError {
+export class AbandonEnAttenteConfirmationError extends InvalidOperationError {
   constructor() {
     super(`L'abandon est en attente de confirmation`);
+  }
+}
+
+export class PièceJustificativeAbandonInconnueErreur extends NotFoundError {
+  constructor(raison: 'format' | 'contenu') {
+    super(`Pièce justificative abandon inconnue`, {
+      raison,
+    });
   }
 }

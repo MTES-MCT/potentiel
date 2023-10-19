@@ -1,30 +1,52 @@
-export type RawType = string;
+import { InvalidOperationError } from '@potentiel-domain/core';
 
-export type PlainType = {
+export type RawType = `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`;
+
+export type ValueType = {
   date: Date;
-};
-
-export type ValueType = PlainType & {
   estDansLeFutur(): boolean;
-  estAntérieurÀ(dateTime: PlainType): boolean;
-  formatter(): string;
+  estAntérieurÀ(dateTime: Date | ValueType): boolean;
+  formatter(): RawType;
 };
 
-export const convertirEnValueType = (value: RawType | PlainType) => {
+export const convertirEnValueType = (value: Date | string) => {
+  let date: Date | undefined;
+
+  if (typeof value === 'string') {
+    estValide(value);
+    date = new Date(value);
+  } else {
+    date = value;
+  }
+
   return {
-    date: estUnPlainType(value) ? value.date : new Date(value),
+    date,
     estDansLeFutur() {
       return this.date.getTime() > Date.now();
     },
-    estAntérieurÀ(dateTime: PlainType) {
-      return this.date.getTime() < dateTime.date.getTime();
+    estAntérieurÀ(dateTime: Date | ValueType) {
+      return this.date.getTime() < (dateTime instanceof Date ? dateTime : dateTime.date).getTime();
     },
     formatter() {
-      return this.date.toISOString();
+      return this.date.toISOString() as RawType;
     },
   };
 };
 
-const estUnPlainType = (value: any): value is PlainType => {
-  return value.date && value.date instanceof Date;
-};
+const regexDateISO8601 = /^[^#]+#[^#]+#[^#]+#[^#]+$/;
+
+function estValide(value: string): asserts value is RawType {
+  const isValid = regexDateISO8601.test(value);
+
+  if (!isValid) {
+    throw new DateTimeInvalideError();
+  }
+}
+
+class DateTimeInvalideError extends InvalidOperationError {
+  constructor() {
+    super(
+      `La date ne correspond pas au format ISO8601 sans décalage UTC ('{YYYY}-{MM}-{SS}T{HH}:{mm}:{ss}.{ms}Z`,
+    );
+  }
+}

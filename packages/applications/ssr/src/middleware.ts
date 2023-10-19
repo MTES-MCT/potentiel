@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export const middleware = (request: Request) => {
-  // TODO CORS + Rate Limiter
+  // TODO CORS + Rate Limiter + Authorization
   NextResponse.next();
 };
 

@@ -1,16 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel/monads';
-import { AbandonReadModel, AbandonReadModelKey } from '../abandon.readmodel';
-
+import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
+
+import { AbandonReadModel, AbandonReadModelKey } from '../abandon.readmodel';
+import { AbandonInconnuErreur } from '../abandon.error';
 
 export type ConsulterAbandonQuery = Message<
   'CONSULTER_ABANDON',
   {
-    identifiantProjet: IdentifiantProjet.RawType | IdentifiantProjet.PlainType;
+    identifiantProjet: string;
   },
-  Option<AbandonReadModel>
+  AbandonReadModel
 >;
 
 export type ConsulterAbandonDependencies = {
@@ -23,7 +24,13 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
       identifiantProjet,
     ).formatter()}`;
 
-    return await find<AbandonReadModel>(key);
+    const result = await find<AbandonReadModel>(key);
+
+    if (isNone(result)) {
+      throw new AbandonInconnuErreur();
+    }
+
+    return result;
   };
   mediator.register('CONSULTER_ABANDON', handler);
 };

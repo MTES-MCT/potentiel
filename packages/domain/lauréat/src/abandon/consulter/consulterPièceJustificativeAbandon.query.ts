@@ -1,20 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option, isNone, none } from '@potentiel/monads';
-import { RécupérerPièceJustificativeAbandonPort } from '../abandon.port';
-import {
-  AbandonReadModel,
-  AbandonReadModelKey,
-  PièceJustificativeAbandonReadModel,
-} from '../abandon.readmodel';
+import { isNone } from '@potentiel/monads';
 import { DateTime, IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
+
+import { RécupérerPièceJustificativeAbandonPort } from '../abandon.port';
+import { AbandonReadModel, PièceJustificativeAbandonReadModel } from '../abandon.readmodel';
+import * as Abandon from '../abandon.valueType';
+import { AbandonInconnuErreur, PièceJustificativeAbandonInconnueErreur } from '../abandon.error';
 
 export type ConsulterPièceJustificativeAbandonProjetQuery = Message<
   'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
   {
-    identifiantProjet: IdentifiantProjet.RawType | IdentifiantProjet.PlainType;
+    identifiantProjet: string;
   },
-  Option<PièceJustificativeAbandonReadModel>
+  PièceJustificativeAbandonReadModel
 >;
 
 export type ConsulterPièceJustificativeAbandonProjetDependencies = {
@@ -29,16 +28,16 @@ export const registerConsulterPièceJustificativeAbandonProjetQuery = ({
   const handler: MessageHandler<ConsulterPièceJustificativeAbandonProjetQuery> = async ({
     identifiantProjet,
   }) => {
-    const rawIdentifiantProjet = IdentifiantProjet.estUnPlainType(identifiantProjet)
-      ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
-      : identifiantProjet;
+    const identifiantAbandon = Abandon.convertirEnValueType(identifiantProjet);
 
-    const key: AbandonReadModelKey = `abandon|${rawIdentifiantProjet}`;
+    const abandon = await find<AbandonReadModel>(identifiantAbandon.formatter());
 
-    const abandon = await find<AbandonReadModel>(key);
+    if (isNone(abandon)) {
+      throw new AbandonInconnuErreur();
+    }
 
-    if (isNone(abandon) || !abandon.demandePièceJustificativeFormat) {
-      return none;
+    if (!abandon.demandePièceJustificativeFormat) {
+      throw new PièceJustificativeAbandonInconnueErreur('format');
     }
 
     const content = await récupérerPièceJustificativeAbandon({
@@ -48,7 +47,7 @@ export const registerConsulterPièceJustificativeAbandonProjetQuery = ({
     });
 
     if (!content) {
-      return none;
+      throw new PièceJustificativeAbandonInconnueErreur('contenu');
     }
 
     return {

@@ -7,7 +7,7 @@ import { AbandonRejetéEvent } from '../abandon.event';
 import {
   AbandonDéjàAccordéError,
   AbandonDéjàRejetéError,
-  DemandeAbandonInconnuErreur,
+  AbandonInconnuErreur,
 } from '../abandon.error';
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { AbandonRejetéRéponseSignéeValueType } from '../réponseSignée.valueType';
@@ -43,7 +43,7 @@ export const registerRejeterAbandonCommand = ({
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     if (isNone(abandon)) {
-      throw new DemandeAbandonInconnuErreur();
+      throw new AbandonInconnuErreur();
     }
 
     if (abandon.estAccordé()) {

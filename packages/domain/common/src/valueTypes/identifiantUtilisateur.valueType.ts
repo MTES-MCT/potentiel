@@ -1,22 +1,34 @@
+import { InvalidOperationError } from '@potentiel-domain/core';
+
 export type RawType = string;
 
-export type PlainType = {
+export type ValueType = {
   email: string;
-};
-
-export type ValueType = PlainType & {
   formatter: () => RawType;
 };
 
-export const convertirEnValueType = (value: RawType | PlainType): ValueType => {
+export const convertirEnValueType = (value: string): ValueType => {
+  estValide(value);
   return {
-    email: estUnPlainType(value) ? value.email : value,
+    email: value,
     formatter() {
       return this.email;
     },
   };
 };
 
-const estUnPlainType = (value: any): value is PlainType => {
-  return value.email && typeof value.email === 'string';
-};
+const regexEmail = /^[a-zA-Z0-9.+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+function estValide(value: string): asserts value is RawType {
+  const isValid = regexEmail.test(value);
+
+  if (!isValid) {
+    throw new EmailInvalideError();
+  }
+}
+
+class EmailInvalideError extends InvalidOperationError {
+  constructor() {
+    super(`L'email ne correspond pas à un format valide`);
+  }
+}

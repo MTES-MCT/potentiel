@@ -1,19 +1,20 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option, isNone, none } from '@potentiel/monads';
-import { RécupérerRéponseSignéeAbandonPort } from '../abandon.port';
-import {
-  AbandonReadModel,
-  AbandonReadModelKey,
-  RéponseSignéeAbandonReadModel,
-} from '../abandon.readmodel';
 import { DateTime, IdentifiantProjet, QueryPorts } from '@potentiel-domain/common';
+
+import { RécupérerRéponseSignéeAbandonPort } from '../abandon.port';
+
+import { AbandonReadModel, RéponseSignéeAbandonReadModel } from '../abandon.readmodel';
+
+import * as Abandon from '../abandon.valueType';
+import { AbandonInconnuErreur } from '../abandon.error';
 import { RéponseSignéeValueType } from '../réponseSignée.valueType';
 
 export type ConsulterRéponseSignéeAbandonQuery = Message<
   'CONSULTER_RÉPONSE_SIGNÉE_ABANDON_PROJET',
   {
-    identifiantProjet: IdentifiantProjet.RawType | IdentifiantProjet.PlainType;
+    identifiantProjet: string;
     type: RéponseSignéeValueType['type'];
   },
   Option<RéponseSignéeAbandonReadModel>
@@ -32,16 +33,12 @@ export const registerConsulterRéponseAbandonSignéeQuery = ({
     identifiantProjet,
     type,
   }) => {
-    const rawIdentifiantProjet = IdentifiantProjet.estUnPlainType(identifiantProjet)
-      ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
-      : identifiantProjet;
+    const identifiantAbandon = Abandon.convertirEnValueType(identifiantProjet);
 
-    const key: AbandonReadModelKey = `abandon|${rawIdentifiantProjet}`;
-
-    const abandon = await find<AbandonReadModel>(key);
+    const abandon = await find<AbandonReadModel>(identifiantAbandon.formatter());
 
     if (isNone(abandon)) {
-      return none;
+      throw new AbandonInconnuErreur();
     }
 
     const date =

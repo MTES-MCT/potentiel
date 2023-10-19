@@ -3,7 +3,7 @@ import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abando
 import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { isNone } from '@potentiel/monads';
 import { AbandonAnnuléEvent } from '../abandon.event';
-import { AbandonDéjàAccordéError, DemandeAbandonInconnuErreur } from '../abandon.error';
+import { AbandonDéjàAccordéError, AbandonInconnuErreur } from '../abandon.error';
 import { IdentifiantProjet, IdentifiantUtilisateur, DateTime } from '@potentiel-domain/common';
 
 export type AnnulerAbandonCommand = Message<
@@ -33,7 +33,7 @@ export const registerAnnulerAbandonCommand = ({
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     if (isNone(abandon)) {
-      throw new DemandeAbandonInconnuErreur();
+      throw new AbandonInconnuErreur();
     }
 
     if (abandon.estAccordé()) {

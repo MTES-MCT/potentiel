@@ -1,9 +1,8 @@
 import { InvalidOperationError, NotFoundError } from '@potentiel-domain/core';
 
-export const executeAction = async (action: () => Promise<unknown>) => {
+export const executeAction = async (action: () => Promise<Response>) => {
   try {
-    const result = await action();
-    return Response.json(result);
+    return await action();
   } catch (e) {
     if (e instanceof InvalidOperationError) {
       return mapTo400(e);
@@ -18,15 +17,13 @@ export const executeAction = async (action: () => Promise<unknown>) => {
 };
 
 const mapTo404 = (e: Error) => {
-  return Response.json(
-    {
-      message: 'An error as occured',
+  return new Response(null, {
+    status: 404,
+    statusText: 'Not Found',
+    headers: {
+      'content-type': 'text/plain',
     },
-    {
-      status: 404,
-      statusText: 'Not Found',
-    },
-  );
+  });
 };
 
 const mapTo400 = (e: Error) => {
@@ -42,13 +39,11 @@ const mapTo400 = (e: Error) => {
 };
 
 const mapTo500 = (e: Error) => {
-  return Response.json(
-    {
-      message: e.message,
+  return new Response(null, {
+    status: 500,
+    statusText: 'Internal Server Error',
+    headers: {
+      'content-type': 'text/plain',
     },
-    {
-      status: 500,
-      statusText: 'Internal Server Error',
-    },
-  );
+  });
 };

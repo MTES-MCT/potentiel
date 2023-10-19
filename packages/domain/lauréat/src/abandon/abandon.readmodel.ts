@@ -1,13 +1,14 @@
 import { ReadModel } from '@potentiel-domain/core';
-import { RawIdentifiantDemandeAbandon, StatutAbandon } from './abandon.valueType';
+import { RawType } from './abandon.valueType';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { StatutAbandon } from './statusAbandon.valueType';
 
 export type AbandonReadModelKey = `abandon|${IdentifiantProjet.RawType}`;
 
 export type AbandonReadModel = ReadModel<
   'abandon',
   {
-    identifiantDemande: RawIdentifiantDemandeAbandon;
+    identifiantDemande: RawType;
     identifiantProjet: IdentifiantProjet.RawType;
 
     statut: StatutAbandon;

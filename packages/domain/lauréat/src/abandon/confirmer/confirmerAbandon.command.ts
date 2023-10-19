@@ -4,10 +4,7 @@ import { LoadAggregate, Publish } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { AbandonConfirméEvent } from '../abandon.event';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
-import {
-  AucuneDemandeConfirmationAbandonError,
-  DemandeAbandonInconnuErreur,
-} from '../abandon.error';
+import { AbandonInconnuErreur, AucuneDemandeConfirmationAbandonError } from '../abandon.error';
 
 export type ConfirmerAbandonCommand = Message<
   'CONFIRMER_ABANDON_COMMAND',
@@ -36,7 +33,7 @@ export const registerConfirmerAbandonCommand = ({
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     if (isNone(abandon)) {
-      throw new DemandeAbandonInconnuErreur();
+      throw new AbandonInconnuErreur();
     }
 
     if (!abandon.estEnAttenteConfirmation()) {
