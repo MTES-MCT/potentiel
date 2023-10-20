@@ -1,17 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate, Publish } from '@potentiel-domain/core';
-import { IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import {
+  IdentifiantProjet,
+  IdentifiantUtilisateur,
+  DocumentProjet,
+} from '@potentiel-domain/common';
 
 import { loadAbandonAggregateFactory } from '../abandon.aggregate';
-import { EnregistrerRéponseSignéePort } from '../abandon.port';
-
-import { AbandonAccordéRéponseSignéeValueType } from '../réponseSignée.valueType';
 
 export type AccorderAbandonCommand = Message<
   'ACCORDER_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    réponseSignée: AbandonAccordéRéponseSignéeValueType;
+    réponseSignée: DocumentProjet.ValueType;
     accordéPar: IdentifiantUtilisateur.ValueType;
   }
 >;
@@ -19,13 +20,11 @@ export type AccorderAbandonCommand = Message<
 export type AccorderAbandonDependencies = {
   publish: Publish;
   loadAggregate: LoadAggregate;
-  enregistrerRéponseSignée: EnregistrerRéponseSignéePort;
 };
 
 export const registerAccorderAbandonCommand = ({
   loadAggregate,
   publish,
-  enregistrerRéponseSignée,
 }: AccorderAbandonDependencies) => {
   const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate, publish });
   const handler: MessageHandler<AccorderAbandonCommand> = async ({
@@ -39,12 +38,6 @@ export const registerAccorderAbandonCommand = ({
       identifiantProjet,
       réponseSignée,
       accordéPar,
-    });
-
-    await enregistrerRéponseSignée({
-      identifiantProjet,
-      réponseSignée,
-      dateDocumentRéponseSignée: abandon.accord?.accordéLe!,
     });
   };
   mediator.register('ACCORDER_ABANDON_COMMAND', handler);

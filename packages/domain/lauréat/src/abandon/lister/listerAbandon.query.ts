@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { QueryPorts } from '@potentiel-domain/common';
-import { AbandonReadModel } from '../consulter/consulterAbandon.query';
+import { AbandonProjection } from '../consulter/consulterAbandon.query';
 
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
@@ -8,7 +8,7 @@ export type ListerAbandonsQuery = Message<
     recandidature?: boolean;
     pagination: { page: number; itemsPerPage: number };
   },
-  QueryPorts.ListResult<AbandonReadModel>
+  QueryPorts.ListResult<AbandonProjection>
 >;
 
 export type ListerAbandonDependencies = {
@@ -20,7 +20,7 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
     recandidature,
     pagination: { page, itemsPerPage },
   }) => {
-    return await list<AbandonReadModel>({
+    return await list<AbandonProjection>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
       where: recandidature

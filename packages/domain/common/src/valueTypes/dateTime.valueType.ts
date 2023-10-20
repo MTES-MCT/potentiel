@@ -9,7 +9,7 @@ export type ValueType = Readonly<{
   formatter(): RawType;
 }>;
 
-export const convertirEnValueType = (value: Date | string) => {
+export const convertirEnValueType = (value: Date | string): ValueType => {
   let date: Date | undefined;
 
   if (typeof value === 'string') {

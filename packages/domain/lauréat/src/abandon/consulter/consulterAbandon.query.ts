@@ -1,17 +1,21 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, DateTime, QueryPorts } from '@potentiel-domain/common';
+import {
+  IdentifiantProjet,
+  DateTime,
+  QueryPorts,
+  DocumentProjet,
+  IdentifiantUtilisateur,
+} from '@potentiel-domain/common';
 import { ReadModel } from '@potentiel-domain/core';
 
 import { AbandonInconnuErreur } from '../abandonInconnu.error';
-import * as Abandon from '../abandon.valueType';
 import * as StatutAbandon from '../statutAbandon.valueType';
 
-export type AbandonReadModel = ReadModel<
+export type AbandonProjection = ReadModel<
   'abandon',
   {
-    identifiantDemande: Abandon.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
 
     statut: StatutAbandon.RawType;
@@ -33,12 +37,44 @@ export type AbandonReadModel = ReadModel<
   }
 >;
 
+export type ConsulterAbandonReadModel = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  statut: StatutAbandon.RawType;
+  demande: {
+    raison: string;
+    recandidature: boolean;
+    piéceJustificative?: DocumentProjet.RawType;
+    demandéLe: DateTime.RawType;
+    demandéPar: IdentifiantUtilisateur.RawType;
+    confirmation?: {
+      demandéLe: DateTime.RawType;
+      demandéPar: IdentifiantUtilisateur.RawType;
+      réponseSignée: DocumentProjet.RawType; // type: 'abandon-à-confirmer'
+      confirméLe?: DateTime.RawType;
+    };
+  };
+  accord?: {
+    accordéLe: DateTime.RawType;
+    accordéPar: IdentifiantUtilisateur.RawType;
+    réponseSignée: DocumentProjet.RawType; // type: 'abandon-accordé'
+  };
+  rejet?: {
+    rejetéLe: DateTime.RawType;
+    rejetéPar: IdentifiantUtilisateur.RawType;
+    réponseSignée: DocumentProjet.RawType; // type 'abandon-rejeté'
+  };
+  abandon?: {
+    abandonnéLe?: DateTime.RawType;
+    abandonnéPar: IdentifiantUtilisateur.RawType;
+  };
+};
+
 export type ConsulterAbandonQuery = Message<
   'CONSULTER_ABANDON',
   {
     identifiantProjet: string;
   },
-  AbandonReadModel
+  ConsulterAbandonReadModel
 >;
 
 export type ConsulterAbandonDependencies = {
@@ -47,7 +83,7 @@ export type ConsulterAbandonDependencies = {
 
 export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependencies) => {
   const handler: MessageHandler<ConsulterAbandonQuery> = async ({ identifiantProjet }) => {
-    const result = await find<AbandonReadModel>(
+    const result = await find<AbandonProjection>(
       `abandon|${IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()}`,
     );
 
