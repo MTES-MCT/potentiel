@@ -178,12 +178,12 @@ const updateAvecRejet = (aggregate: Abandon, payload: AbandonRejetéEvent['paylo
 };
 
 const updateAvecAcceptation = (aggregate: Abandon, payload: AbandonAccordéEvent['payload']) => {
-  const { acceptéLe, réponseSignée } = payload;
+  const { accordéLe, réponseSignée } = payload;
   const newAggregate: Abandon = {
     ...aggregate,
     rejet: undefined,
     accord: {
-      accordéLe: convertirEnDateTime(acceptéLe),
+      accordéLe: convertirEnDateTime(accordéLe),
       réponseSignée,
     },
   };

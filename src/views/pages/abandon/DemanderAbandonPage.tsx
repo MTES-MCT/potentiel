@@ -96,7 +96,9 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
               />
             </div>
             <div>
-              <Label htmlFor="file">Pièce justificative</Label>
+              <Label htmlFor="file" optionnel>
+                Pièce justificative
+              </Label>
               <LabelDescription>
                 Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
               </LabelDescription>
@@ -121,7 +123,10 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                         cahier des charges concerné
                       </li>
                       <li>Le même lieu d'implantation que le projet abandonné</li>
-                      <li>Une puissance équivalente à plus ou moins 20% que le projet abandonné</li>
+                      <li>
+                        La même autorisation préfectorale (numéro ICPE identifique) que le projet abandonné, 
+                        nonobstant des porter à connaissance ultérieurs
+                      </li>
                       <li>
                         Le tarif proposé ne doit pas être supérieur au prix plafond de la période
                         dont le projet était initialement lauréat, indexé jusqu’à septembre 2023
