@@ -2,7 +2,6 @@ import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-
 import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type AbandonConfirméEvent = DomainEvent<
@@ -15,24 +14,23 @@ export type AbandonConfirméEvent = DomainEvent<
 >;
 
 export type ConfirmerOptions = {
-  confirméPar: IdentifiantUtilisateur.ValueType;
+  dateConfirmation: DateTime.ValueType;
+  utilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export async function confirmer(
   this: AbandonAggregate,
-  { confirméPar, identifiantProjet }: ConfirmerOptions,
+  { dateConfirmation, utilisateur, identifiantProjet }: ConfirmerOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.confirmé);
-
-  const dateConfirmation = DateTime.now();
 
   const event: AbandonConfirméEvent = {
     type: 'AbandonConfirmé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       confirméLe: dateConfirmation.formatter(),
-      confirméPar: confirméPar.formatter(),
+      confirméPar: utilisateur.formatter(),
     },
   };
 

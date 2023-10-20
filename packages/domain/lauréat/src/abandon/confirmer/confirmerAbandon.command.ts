@@ -1,36 +1,34 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-
-import { LoadAggregate, Publish } from '@potentiel-domain/core';
-import { IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import {
+  DateTime,
+  IdentifiantProjet,
+  IdentifiantUtilisateur,
+  LoadAggregateDependencies,
+} from '@potentiel-domain/common';
 
 import { loadAbandonAggregateFactory } from '../abandon.aggregate';
 
 export type ConfirmerAbandonCommand = Message<
   'CONFIRMER_ABANDON_COMMAND',
   {
+    dateConfirmation: DateTime.ValueType;
+    utilisateur: IdentifiantUtilisateur.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
-    confirméPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 
-export type ConfirmerAbandonDependencies = {
-  publish: Publish;
-  loadAggregate: LoadAggregate;
-};
-
-export const registerConfirmerAbandonCommand = ({
-  loadAggregate,
-  publish,
-}: ConfirmerAbandonDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate, publish });
+export const registerConfirmerAbandonCommand = (dependencies: LoadAggregateDependencies) => {
+  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
   const handler: MessageHandler<ConfirmerAbandonCommand> = async ({
     identifiantProjet,
-    confirméPar,
+    dateConfirmation,
+    utilisateur,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     await abandon.confirmer({
-      confirméPar,
+      dateConfirmation,
+      utilisateur,
       identifiantProjet,
     });
   };

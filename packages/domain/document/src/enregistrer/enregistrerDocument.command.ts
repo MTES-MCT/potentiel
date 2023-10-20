@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DocumentProjet } from '@potentiel-domain/common';
+import * as DocumentProjet from '../documentProjet.valueType';
 
 export type EnregistrerDocumentProjetCommand = Message<
   'ENREGISTRER_DOCUMENT_PROJET_COMMAND',

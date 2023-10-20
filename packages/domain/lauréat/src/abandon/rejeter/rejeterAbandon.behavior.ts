@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-
 import { DomainEvent } from '@potentiel-domain/core';
 import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
-import { RéponseSignéeValueType } from '../réponseSignée.valueType';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 export type AbandonRejetéEvent = DomainEvent<
   'AbandonRejeté-V1',
@@ -17,18 +17,17 @@ export type AbandonRejetéEvent = DomainEvent<
 >;
 
 export type RejeterOptions = {
-  rejetéPar: IdentifiantUtilisateur.ValueType;
+  dateRejet: DateTime.ValueType;
+  utilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  réponseSignée: RéponseSignéeValueType;
+  réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function rejeter(
   this: AbandonAggregate,
-  { rejetéPar, identifiantProjet, réponseSignée }: RejeterOptions,
+  { utilisateur, dateRejet, identifiantProjet, réponseSignée }: RejeterOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.rejeté);
-
-  const dateRejet = DateTime.now();
 
   const event: AbandonRejetéEvent = {
     type: 'AbandonRejeté-V1',
@@ -38,7 +37,7 @@ export async function rejeter(
         format: réponseSignée.format,
       },
       rejetéLe: dateRejet.formatter(),
-      rejetéPar: rejetéPar.formatter(),
+      rejetéPar: utilisateur.formatter(),
     },
   };
 

@@ -1,50 +1,42 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { LoadAggregate, Publish } from '@potentiel-domain/core';
-import { IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import {
+  DateTime,
+  IdentifiantProjet,
+  IdentifiantUtilisateur,
+  LoadAggregateDependencies,
+} from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadAbandonAggregateFactory } from '../abandon.aggregate';
-import { EnregistrerRéponseSignéePort } from '../abandon.port';
-import { ConfirmationAbandonDemandéRéponseSignéeValueType } from '../réponseSignée.valueType';
 
 export type DemanderConfirmationAbandonCommand = Message<
   'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    réponseSignée: ConfirmationAbandonDemandéRéponseSignéeValueType;
-    confirmationDemandéePar: IdentifiantUtilisateur.ValueType;
+    réponseSignée: DocumentProjet.ValueType;
+    dateDemande: DateTime.ValueType;
+    utilisateur: IdentifiantUtilisateur.ValueType;
   }
 >;
 
-export type DemanderConfirmationAbandonDependencies = {
-  publish: Publish;
-  loadAggregate: LoadAggregate;
-  enregistrerRéponseSignée: EnregistrerRéponseSignéePort;
-};
-
-export const registerDemanderConfirmationAbandonCommand = ({
-  loadAggregate,
-  publish,
-  enregistrerRéponseSignée,
-}: DemanderConfirmationAbandonDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate, publish });
+export const registerDemanderConfirmationAbandonCommand = (
+  dependencies: LoadAggregateDependencies,
+) => {
+  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
   const handler: MessageHandler<DemanderConfirmationAbandonCommand> = async ({
     identifiantProjet,
     réponseSignée,
-    confirmationDemandéePar,
+    dateDemande,
+    utilisateur,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     await abandon.demanderConfirmation({
       identifiantProjet,
       réponseSignée,
-      confirmationDemandéePar,
-    });
-
-    await enregistrerRéponseSignée({
-      identifiantProjet,
-      réponseSignée,
-      dateDocumentRéponseSignée: abandon.demande.confirmation?.confirméLe!,
+      dateDemande,
+      utilisateur,
     });
   };
   mediator.register('DEMANDER_CONFIRMATION_ABANDON_COMMAND', handler);

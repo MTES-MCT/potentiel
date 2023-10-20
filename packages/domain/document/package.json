@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel-domain/laureat",
+  "name": "@potentiel-domain/document",
   "version": "0.0.0",
-  "description": "Domain Lauréat",
+  "description": "Domain document",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
@@ -11,8 +11,7 @@
   "dependencies": {
     "@potentiel/monads": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/core": "*",
-    "@potentiel-domain/document": "*"
+    "@potentiel-domain/core": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

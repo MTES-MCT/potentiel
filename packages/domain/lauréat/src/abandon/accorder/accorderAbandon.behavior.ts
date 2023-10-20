@@ -1,7 +1,11 @@
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+// Third party
 
-import { RéponseSignéeValueType } from '../réponseSignée.valueType';
+// Workspaces
+import { DomainEvent } from '@potentiel-domain/core';
+import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
+
+// Package
 import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 
@@ -18,18 +22,17 @@ export type AbandonAccordéEvent = DomainEvent<
 >;
 
 export type AccorderOptions = {
-  accordéPar: IdentifiantUtilisateur.ValueType;
+  dateAccord: DateTime.ValueType;
+  utilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  réponseSignée: RéponseSignéeValueType;
+  réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function accorder(
   this: AbandonAggregate,
-  { accordéPar, identifiantProjet, réponseSignée }: AccorderOptions,
+  { dateAccord, utilisateur, identifiantProjet, réponseSignée }: AccorderOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
-
-  const dateAccord = DateTime.now();
 
   const event: AbandonAccordéEvent = {
     type: 'AbandonAccordé-V1',
@@ -39,7 +42,7 @@ export async function accorder(
         format: réponseSignée.format,
       },
       accordéLe: dateAccord.formatter(),
-      accordéPar: accordéPar.formatter(),
+      accordéPar: utilisateur.formatter(),
     },
   };
 

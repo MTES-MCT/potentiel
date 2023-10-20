@@ -1,14 +1,13 @@
+import { LoadAggregateDependencies } from '@potentiel-domain/common';
 import {
   AbandonQueryDependencies,
-  AbandonUseCaseDependencies,
   registerAbandonQueries,
   registerAbandonUseCases,
 } from './abandon/abandon.register';
 
-export type LauréatUseCaseDependencies = AbandonUseCaseDependencies;
 export type LauréatQueryDependencies = AbandonQueryDependencies;
 
-export const registerLauréatUseCases = (dependencies: LauréatUseCaseDependencies) => {
+export const registerLauréatUseCases = (dependencies: LoadAggregateDependencies) => {
   registerAbandonUseCases(dependencies);
 };
 

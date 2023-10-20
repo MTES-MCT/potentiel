@@ -13,24 +13,23 @@ export type AbandonAnnuléEvent = DomainEvent<
 >;
 
 export type AnnulerOptions = {
-  annuléPar: IdentifiantUtilisateur.ValueType;
+  dateAnnulation: DateTime.ValueType;
+  utilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export async function annuler(
   this: AbandonAggregate,
-  { annuléPar, identifiantProjet }: AnnulerOptions,
+  { dateAnnulation, utilisateur, identifiantProjet }: AnnulerOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.annulé);
-
-  const dateAnnulation = DateTime.now();
 
   const event: AbandonAnnuléEvent = {
     type: 'AbandonAnnulé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       annuléLe: dateAnnulation.formatter(),
-      annuléPar: annuléPar.formatter(),
+      annuléPar: utilisateur.formatter(),
     },
   };
 

@@ -1,37 +1,36 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { LoadAggregate, Publish } from '@potentiel-domain/core';
-import { IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import {
+  DateTime,
+  IdentifiantProjet,
+  IdentifiantUtilisateur,
+  LoadAggregateDependencies,
+} from '@potentiel-domain/common';
 
 import { loadAbandonAggregateFactory } from '../abandon.aggregate';
 
 export type AnnulerAbandonCommand = Message<
   'ANNULER_ABANDON_COMMAND',
   {
+    dateAnnulation: DateTime.ValueType;
+    utilisateur: IdentifiantUtilisateur.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
-    annuléPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 
-export type AnnulerAbandonDependencies = {
-  publish: Publish;
-  loadAggregate: LoadAggregate;
-};
-
-export const registerAnnulerAbandonCommand = ({
-  loadAggregate,
-  publish,
-}: AnnulerAbandonDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory({ loadAggregate, publish });
+export const registerAnnulerAbandonCommand = (dependencies: LoadAggregateDependencies) => {
+  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
   const handler: MessageHandler<AnnulerAbandonCommand> = async ({
+    dateAnnulation,
+    utilisateur,
     identifiantProjet,
-    annuléPar,
   }) => {
     const abandon = await loadAbandonAggregate(identifiantProjet);
 
     await abandon.annuler({
+      dateAnnulation,
       identifiantProjet,
-      annuléPar,
+      utilisateur,
     });
   };
   mediator.register('ANNULER_ABANDON_COMMAND', handler);

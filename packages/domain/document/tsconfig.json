@@ -13,9 +13,6 @@
     },
     {
       "path": "../../domain/core"
-    },
-    {
-      "path": "../../domain/document"
     }
   ]
 }

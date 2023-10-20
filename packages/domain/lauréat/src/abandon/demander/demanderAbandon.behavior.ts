@@ -1,9 +1,9 @@
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { PièceJustificativeAbandonValueType } from '../pièceJustificativeAbandon.valueType';
 import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 export type AbandonDemandéEvent = DomainEvent<
   'AbandonDemandé-V1',
@@ -20,20 +20,26 @@ export type AbandonDemandéEvent = DomainEvent<
 >;
 
 export type DemanderOptions = {
-  demandéPar: IdentifiantUtilisateur.ValueType;
+  dateDemande: DateTime.ValueType;
+  utilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  pièceJustificative?: PièceJustificativeAbandonValueType;
+  pièceJustificative?: DocumentProjet.ValueType;
   recandidature: boolean;
   raison: string;
 };
 
 export async function demander(
   this: AbandonAggregate,
-  { demandéPar, identifiantProjet, pièceJustificative, raison, recandidature }: DemanderOptions,
+  {
+    utilisateur,
+    dateDemande,
+    identifiantProjet,
+    pièceJustificative,
+    raison,
+    recandidature,
+  }: DemanderOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
-
-  const dateDemande = DateTime.now();
 
   const event: AbandonDemandéEvent = {
     type: 'AbandonDemandé-V1',
@@ -45,7 +51,7 @@ export async function demander(
       },
       raison,
       demandéLe: dateDemande.formatter(),
-      demandéPar: demandéPar.formatter(),
+      demandéPar: utilisateur.formatter(),
     },
   };
 

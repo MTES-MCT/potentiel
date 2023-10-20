@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
-import { RéponseSignéeValueType } from '../réponseSignée.valueType';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 export type ConfirmationAbandonDemandéeEvent = DomainEvent<
   'ConfirmationAbandonDemandée-V1',
@@ -18,18 +18,17 @@ export type ConfirmationAbandonDemandéeEvent = DomainEvent<
 >;
 
 export type DemanderConfirmationOptions = {
-  confirmationDemandéePar: IdentifiantUtilisateur.ValueType;
+  dateDemande: DateTime.ValueType;
+  utilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  réponseSignée: RéponseSignéeValueType;
+  réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function demanderConfirmation(
   this: AbandonAggregate,
-  { confirmationDemandéePar, identifiantProjet, réponseSignée }: DemanderConfirmationOptions,
+  { dateDemande, utilisateur, identifiantProjet, réponseSignée }: DemanderConfirmationOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.confirmationDemandée);
-
-  const dateDemandeConfirmation = DateTime.now();
 
   const event: ConfirmationAbandonDemandéeEvent = {
     type: 'ConfirmationAbandonDemandée-V1',
@@ -38,8 +37,8 @@ export async function demanderConfirmation(
       réponseSignée: {
         format: réponseSignée.format,
       },
-      confirmationDemandéeLe: dateDemandeConfirmation.formatter(),
-      confirmationDemandéePar: confirmationDemandéePar.formatter(),
+      confirmationDemandéeLe: dateDemande.formatter(),
+      confirmationDemandéePar: utilisateur.formatter(),
     },
   };
 

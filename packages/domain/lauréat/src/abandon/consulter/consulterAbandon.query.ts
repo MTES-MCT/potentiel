@@ -5,37 +5,13 @@ import {
   IdentifiantProjet,
   DateTime,
   QueryPorts,
-  DocumentProjet,
   IdentifiantUtilisateur,
 } from '@potentiel-domain/common';
-import { ReadModel } from '@potentiel-domain/core';
 
 import { AbandonInconnuErreur } from '../abandonInconnu.error';
 import * as StatutAbandon from '../statutAbandon.valueType';
-
-export type AbandonProjection = ReadModel<
-  'abandon',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-
-    statut: StatutAbandon.RawType;
-
-    demandeRaison: string;
-    demandePièceJustificativeFormat?: string;
-    demandeRecandidature: boolean;
-    demandeDemandéLe: DateTime.RawType;
-
-    accordRéponseSignéeFormat?: string;
-    accordAccordéLe?: DateTime.RawType;
-
-    rejetRéponseSignéeFormat?: string;
-    rejetRejetéLe?: DateTime.RawType;
-
-    confirmationDemandéeLe?: DateTime.RawType;
-    confirmationDemandéeRéponseSignéeFormat?: string;
-    confirmationConfirméLe?: DateTime.RawType;
-  }
->;
+import { DocumentProjet } from '@potentiel-domain/document';
+import { AbandonProjection } from '../abandon.projection';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -49,30 +25,26 @@ export type ConsulterAbandonReadModel = {
     confirmation?: {
       demandéLe: DateTime.RawType;
       demandéPar: IdentifiantUtilisateur.RawType;
-      réponseSignée: DocumentProjet.RawType; // type: 'abandon-à-confirmer'
+      réponseSignée: DocumentProjet.RawType;
       confirméLe?: DateTime.RawType;
     };
   };
   accord?: {
     accordéLe: DateTime.RawType;
     accordéPar: IdentifiantUtilisateur.RawType;
-    réponseSignée: DocumentProjet.RawType; // type: 'abandon-accordé'
+    réponseSignée: DocumentProjet.RawType;
   };
   rejet?: {
     rejetéLe: DateTime.RawType;
     rejetéPar: IdentifiantUtilisateur.RawType;
-    réponseSignée: DocumentProjet.RawType; // type 'abandon-rejeté'
-  };
-  abandon?: {
-    abandonnéLe?: DateTime.RawType;
-    abandonnéPar: IdentifiantUtilisateur.RawType;
+    réponseSignée: DocumentProjet.RawType;
   };
 };
 
 export type ConsulterAbandonQuery = Message<
   'CONSULTER_ABANDON',
   {
-    identifiantProjet: string;
+    identifiantProjetValue: string;
   },
   ConsulterAbandonReadModel
 >;
@@ -82,16 +54,53 @@ export type ConsulterAbandonDependencies = {
 };
 
 export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependencies) => {
-  const handler: MessageHandler<ConsulterAbandonQuery> = async ({ identifiantProjet }) => {
-    const result = await find<AbandonProjection>(
-      `abandon|${IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()}`,
-    );
+  const handler: MessageHandler<ConsulterAbandonQuery> = async ({ identifiantProjetValue }) => {
+    const identifiantProjet =
+      IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter();
+    const result = await find<AbandonProjection>(`abandon|${identifiantProjet}`);
 
     if (isNone(result)) {
       throw new AbandonInconnuErreur();
     }
 
-    return result;
+    const demande: ConsulterAbandonReadModel['demande'] = {
+      demandéLe: result.demandeDemandéLe,
+      demandéPar: result.demandeDemandéPar,
+      raison: result.demandeRaison,
+      recandidature: result.demandeRecandidature,
+      confirmation: result.confirmationDemandéeLe
+        ? {
+            demandéLe: result.confirmationDemandéeLe!,
+            demandéPar: result.confirmationDemandéePar!,
+            réponseSignée: result.confirmationDemandéeRéponseSignée!,
+            confirméLe: result.confirmationConfirméLe,
+          }
+        : undefined,
+    };
+
+    const accord: ConsulterAbandonReadModel['accord'] = result.accordAccordéLe
+      ? {
+          accordéLe: result.accordAccordéLe!,
+          accordéPar: result.accordAccordéPar!,
+          réponseSignée: result.accordRéponseSignée!,
+        }
+      : undefined;
+
+    const rejet: ConsulterAbandonReadModel['rejet'] = result.rejetRejetéLe
+      ? {
+          rejetéLe: result.rejetRejetéLe!,
+          rejetéPar: result.rejetRejetéPar!,
+          réponseSignée: result.rejetRéponseSignée!,
+        }
+      : undefined;
+
+    return {
+      demande,
+      identifiantProjet,
+      statut: result.statut,
+      accord,
+      rejet,
+    };
   };
   mediator.register('CONSULTER_ABANDON', handler);
 };

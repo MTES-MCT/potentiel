@@ -1,5 +1,5 @@
-import { AggregateFactory, LoadAggregate, Publish } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { AggregateFactory } from '@potentiel-domain/core';
+import { DateTime, IdentifiantProjet, LoadAggregateDependencies } from '@potentiel-domain/common';
 
 import * as StatutAbandon from './statutAbandon.valueType';
 
@@ -27,8 +27,6 @@ import {
   applyAbandonConfirmé,
   confirmer,
 } from './confirmer/confirmerAbandon.behavior';
-
-type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate; publish: Publish };
 
 export type AbandonAggregate = {
   publish: (event: AbandonEvent) => Promise<void>; // TODO move that in @potentiel-domain/core
@@ -121,19 +119,19 @@ function apply(this: AbandonAggregate, event: AbandonEvent) {
   }
 }
 
+const abandonAggregateFactory: AggregateFactory<AbandonAggregate, AbandonEvent> = (events) => {
+  const aggregate = getDefaultAggregate();
+  for (const event of events) {
+    aggregate.apply(event);
+  }
+  return aggregate;
+};
+
 export const loadAbandonAggregateFactory = ({
   loadAggregate,
   publish,
-}: LoadAggregateFactoryDependencies) => {
+}: LoadAggregateDependencies) => {
   return async (identifiantProjet: IdentifiantProjet.ValueType, throwIfNone: boolean = true) => {
-    const abandonAggregateFactory: AggregateFactory<AbandonAggregate, AbandonEvent> = (events) => {
-      const aggregate = getDefaultAggregate();
-      for (const event of events) {
-        aggregate.apply(event);
-      }
-      return aggregate;
-    };
-
     const abandon = await loadAggregate<AbandonAggregate, AbandonEvent>(
       `abandon|${identifiantProjet.formatter()}`,
       abandonAggregateFactory,
@@ -148,7 +146,7 @@ export const loadAbandonAggregateFactory = ({
 
     // TODO move that in @potentiel-domain/core and @potentiel-infrastructure/pg-event-sourcing
     abandon.publish = async (event) => {
-      await publish(abandon.aggregateId);
+      await publish(abandon.aggregateId, event);
       abandon.apply(event);
     };
 

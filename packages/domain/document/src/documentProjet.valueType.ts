@@ -1,12 +1,13 @@
-import * as IdentifiantProjet from '../valueTypes/identifiantProjet.valueType';
-import * as DateTime from '../valueTypes/dateTime.valueType';
 import { join } from 'path';
 import { extension } from 'mime-types';
+
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 export type RawType = `${IdentifiantProjet.RawType}/${string}/${DateTime.RawType}.${string}`;
 
 export type ValueType = Readonly<{
+  format: string;
   formatter(): RawType;
 }>;
 
@@ -24,6 +25,7 @@ export const convertirEnValueType = (
   estUnTypeDeDocumentValide(typeDocumentValue);
 
   return {
+    format,
     formatter() {
       return join(
         identifiantProjet.formatter(),
