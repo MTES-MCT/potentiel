@@ -64,6 +64,7 @@ export const CorrigerDelaiAccorde = ({
               min={formatDateForInput(dateAchèvementInitiale)}
               id="dateAchevementAccordee"
               name="dateAchevementAccordee"
+              defaultValue={formatDateForInput(dateAchèvementActuelle)}
               required
               aria-required
             />
