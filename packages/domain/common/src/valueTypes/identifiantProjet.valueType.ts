@@ -26,7 +26,7 @@ export const convertirEnValueType = (identifiantProjet: string): ValueType => {
   };
 };
 
-const regexIdentifiantProjet = /^[^#]+#[^#]+#[^#]+#[^#]+$/;
+const regexIdentifiantProjet = /^[^#]+#[^#]+#([^#]+)?#[^#]+$/;
 
 function estValide(value: string): asserts value is RawType {
   const isValid = regexIdentifiantProjet.test(value);

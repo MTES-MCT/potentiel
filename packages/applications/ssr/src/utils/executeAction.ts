@@ -17,13 +17,18 @@ export const executeAction = async (action: () => Promise<Response>) => {
 };
 
 const mapTo404 = (e: Error) => {
-  return new Response(null, {
-    status: 404,
-    statusText: 'Not Found',
-    headers: {
-      'content-type': 'text/plain',
+  return Response.json(
+    {
+      message: e.message,
     },
-  });
+    {
+      status: 404,
+      statusText: 'Not Found',
+      headers: {
+        'content-type': 'text/plain',
+      },
+    },
+  );
 };
 
 const mapTo400 = (e: Error) => {
@@ -39,11 +44,16 @@ const mapTo400 = (e: Error) => {
 };
 
 const mapTo500 = (e: Error) => {
-  return new Response(null, {
-    status: 500,
-    statusText: 'Internal Server Error',
-    headers: {
-      'content-type': 'text/plain',
+  return Response.json(
+    {
+      message: 'Une erreur est survenue',
     },
-  });
+    {
+      status: 500,
+      statusText: 'Internal Server Error',
+      headers: {
+        'content-type': 'text/plain',
+      },
+    },
+  );
 };
