@@ -4,3 +4,4 @@ export * from './DélaiDemandé';
 export * from './DélaiEnInstruction';
 export * from './DélaiRejeté';
 export * from './RejetDélaiAnnulé';
+export * from './DélaiAccordéCorrigé';

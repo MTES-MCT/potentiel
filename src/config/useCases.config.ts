@@ -6,6 +6,7 @@ import {
   makeDemanderDélai,
   makeRejeterDemandeDélai,
   makePasserDemandeDélaiEnInstruction,
+  makeCorrigerDélaiAccordé,
 } from '../modules/demandeModification/demandeDélai';
 import {
   makeDemanderAbandon,
@@ -318,6 +319,14 @@ export const rejeterDemandeDélai = makeRejeterDemandeDélai({
 });
 
 export const accorderDemandeDélai = makeAccorderDemandeDélai({
+  fileRepo,
+  demandeDélaiRepo,
+  publishToEventStore,
+  projectRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+});
+
+export const corrigerDélaiAccordé = makeCorrigerDélaiAccordé({
   fileRepo,
   demandeDélaiRepo,
   publishToEventStore,
