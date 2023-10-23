@@ -1,6 +1,7 @@
 import { notificationEventSubscriber } from './notificationEventSubscriber';
 import {
   DélaiAccordé,
+  DélaiAccordéCorrigé,
   DélaiAnnulé,
   DélaiDemandé,
   DélaiEnInstruction,
@@ -9,6 +10,7 @@ import {
 } from '../../../modules/demandeModification';
 import {
   makeOnDélaiAccordé,
+  makeOnDélaiAccordéCorrigé,
   makeOnDélaiAnnulé,
   makeOnDélaiDemandé,
   makeOnDélaiRejeté,
@@ -39,6 +41,14 @@ notificationEventSubscriber(
 notificationEventSubscriber(
   DélaiAccordé,
   makeOnDélaiAccordé({
+    sendNotification,
+    getModificationRequestInfoForStatusNotification,
+  }),
+);
+
+notificationEventSubscriber(
+  DélaiAccordéCorrigé,
+  makeOnDélaiAccordéCorrigé({
     sendNotification,
     getModificationRequestInfoForStatusNotification,
   }),

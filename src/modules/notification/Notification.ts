@@ -113,6 +113,19 @@ type ModificationRequestStatusUpdate = {
   };
 };
 
+type PP_DélaiAccordéCorrigé = {
+  type: 'pp-délai-accordé-corrigé';
+  context: {
+    modificationRequestId: string;
+    userId: string;
+  };
+  variables: {
+    nom_projet: string;
+    modification_request_url: string;
+    explications?: string;
+  };
+};
+
 type DrealModificationReceived = {
   type: 'dreal-modification-received';
   context: {
@@ -295,7 +308,8 @@ type NotificationVariants =
   | Dreals_DélaiCDC2022Appliqué
   | NouvellePériodeNotifiée
   | ChangementCDCAnnuleDélaiCDC2022
-  | DateMiseEnServiceTransmiseAnnuleDélaiCDC2022;
+  | DateMiseEnServiceTransmiseAnnuleDélaiCDC2022
+  | PP_DélaiAccordéCorrigé;
 
 export type NotificationProps = BaseNotification & NotificationVariants;
 
