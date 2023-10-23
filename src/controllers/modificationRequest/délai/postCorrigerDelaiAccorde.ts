@@ -28,7 +28,7 @@ import { ModificationRequest } from '../../../infra/sequelize/projectionsNext';
 const schema = yup.object({
   body: yup.object({
     demandeDelaiId: yup.string().uuid().required(),
-    dataAchevementAccordee: yup
+    dateAchevementAccordee: yup
       .date()
       .required(`Vous devez renseigner la date limite d'achèvement à appliquer.`)
       .nullable()
@@ -55,7 +55,7 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        dataAchevementAccordee: dateAchèvementAccordée,
+        dateAchevementAccordee: dateAchèvementAccordée,
         demandeDelaiId: demandeDélaiId,
         explications,
       } = request.body;

@@ -42,10 +42,16 @@ export const CorrigerDelaiAccorde = ({
       résuméProjet={résuméProjet}
     >
       <div className="flex flex-col md:flex-row">
-        <Form className="my-4 flex flex-col gap-7 mx-auto">
+        <Form
+          className="my-4 flex flex-col gap-7 mx-auto"
+          action={routes.POST_CORRIGER_DELAI_ACCORDE}
+          method="post"
+          encType="multipart/form-data"
+        >
           <ChampsObligatoiresLégende />
           {error && <ErrorBox>{error}</ErrorBox>}
           <div>
+            <input type="hidden" name="demandeDelaiId" value={demandeDélai.id} />
             <Label htmlFor="dateAchevement">Nouvelle date limite d'achèvement</Label>
             <p className="text-sm italic m-0">
               La date saisie remplacera la date limite d'achèvement actuelle du projet.
@@ -56,8 +62,8 @@ export const CorrigerDelaiAccorde = ({
             <Input
               type="date"
               min={formatDateForInput(dateAchèvementInitiale)}
-              id="dateAchevement"
-              name="dateAchevement"
+              id="dateAchevementAccordee"
+              name="dateAchevementAccordee"
               required
               aria-required
             />

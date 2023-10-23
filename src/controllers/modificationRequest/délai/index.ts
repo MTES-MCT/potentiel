@@ -5,3 +5,4 @@ export * from './postAnnulerRejetDélai';
 export * from './postDemanderDélai';
 export * from './getDetailsDemandeDelaiPage';
 export * from './getCorrigerDelaiAccordePage';
+export * from './postCorrigerDelaiAccorde';
