@@ -1,11 +1,10 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { QueryPorts } from '@potentiel-domain/common';
-import { AbandonReadModel } from '@potentiel-domain/laureat';
+import { Abandon } from '@potentiel-domain/laureat';
 
 export default function ListeAbandonsPage() {
-  const [abandons, setAbandons] = useState<QueryPorts.ListResult<AbandonReadModel>>({
+  const [abandons, setAbandons] = useState<Abandon.ListerAbandonReadModel>({
     currentPage: 1,
     items: [],
     itemsPerPage: 10,

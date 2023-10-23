@@ -8,7 +8,7 @@ import {
 } from './consulter/consulterAbandon.query';
 import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { DemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
-import { ListerAbandonsQuery } from './lister/listerAbandon.query';
+import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandon.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 
 // Query
@@ -17,7 +17,7 @@ export type AbandonQuery = ConsulterAbandonQuery | ListerAbandonsQuery;
 export { ConsulterAbandonQuery, ListerAbandonsQuery };
 
 // ReadModel
-export { ConsulterAbandonReadModel };
+export { ConsulterAbandonReadModel, ListerAbandonReadModel };
 
 // UseCases
 export type AbandonUseCase =

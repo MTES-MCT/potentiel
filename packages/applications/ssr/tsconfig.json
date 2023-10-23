@@ -48,10 +48,16 @@
       "path": "../../../packages/domain/lauréat"
     },
     {
+      "path": "../../../packages/domain/document"
+    },
+    {
       "path": "../../../packages/infrastructure/pg-projections"
     },
     {
       "path": "../../../packages/infrastructure/pg-event-sourcing"
+    },
+    {
+      "path": "../../../packages/infrastructure/domain-adapters"
     }
   ],
 }

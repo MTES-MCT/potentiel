@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import * as DocumentProjet from '../documentProjet.valueType';
+import { DocumentProjet } from '..';
 
 export type EnregistrerDocumentProjetCommand = Message<
   'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
@@ -9,19 +9,16 @@ export type EnregistrerDocumentProjetCommand = Message<
   }
 >;
 
-export type EnregistrerDocumentPort = (
-  document: DocumentProjet.ValueType,
-  content: ReadableStream,
-) => Promise<void>;
+export type EnregistrerDocumentProjetPort = (key: string, content: ReadableStream) => Promise<void>;
 
 export type EnregistrerDocumentProjetDependencies = {
-  enregistrerDocument: EnregistrerDocumentPort;
+  enregistrerDocumentProjet: EnregistrerDocumentProjetPort;
 };
 
-export const registerAccorderAbandonCommand = ({
-  enregistrerDocument,
+export const registerEnregistrerDocumentCommand = ({
+  enregistrerDocumentProjet,
 }: EnregistrerDocumentProjetDependencies) => {
   const handler: MessageHandler<EnregistrerDocumentProjetCommand> = ({ documentProjet, content }) =>
-    enregistrerDocument(documentProjet, content);
+    enregistrerDocumentProjet(documentProjet.formatter(), content);
   mediator.register('ENREGISTRER_DOCUMENT_PROJET_COMMAND', handler);
 };

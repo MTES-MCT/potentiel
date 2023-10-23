@@ -1,5 +1,11 @@
-import { ConsulterDocumentProjetQuery } from './consulter/consulterDocumentProjet.query';
-import { EnregistrerDocumentProjetCommand } from './enregistrer/enregistrerDocument.command';
+import {
+  ConsulterDocumentProjetQuery,
+  RécupérerDocumentProjetPort,
+} from './consulter/consulterDocumentProjet.query';
+import {
+  EnregistrerDocumentProjetCommand,
+  EnregistrerDocumentProjetPort,
+} from './enregistrer/enregistrerDocument.command';
 
 // Query
 export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
@@ -16,3 +22,6 @@ export * from './register';
 
 // ValueType
 export * as DocumentProjet from './documentProjet.valueType';
+
+// Port
+export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort };

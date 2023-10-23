@@ -2,14 +2,13 @@ import { Message, mediator } from 'mediateur';
 import { randomUUID } from 'crypto';
 import { getLogger } from '@potentiel/monitoring';
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
+import {
+  registerDocumentProjetCommand,
+  registerDocumentProjetQueries,
+} from '@potentiel-domain/document';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { publish, loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  téléverserPièceJustificativeAbandonAdapter,
-  téléverserRéponseSignéeAdapter,
-  téléchargerPièceJustificativeAbandonProjetAdapter,
-  téléchargerRéponseSignéeAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 let isBoostrapped = false;
 
@@ -36,8 +35,6 @@ export const bootstrap = () => {
     });
 
     registerLauréatUseCases({
-      enregistrerPièceJustificativeAbandon: téléverserPièceJustificativeAbandonAdapter,
-      enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
       loadAggregate,
       publish,
     });
@@ -45,8 +42,14 @@ export const bootstrap = () => {
     registerLauréatQueries({
       find: findProjection,
       list: listProjection,
-      récupérerPièceJustificativeAbandon: téléchargerPièceJustificativeAbandonProjetAdapter,
-      récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
+    });
+
+    registerDocumentProjetQueries({
+      récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
+    });
+
+    registerDocumentProjetCommand({
+      enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
     });
 
     getLogger().info('Application bootstrapped');

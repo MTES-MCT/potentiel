@@ -3,7 +3,7 @@ import { SubmitButton } from '@/components/submit-button';
 import { useEffect, useState } from 'react';
 // @ts-ignore
 import { experimental_useFormState as useFormState } from 'react-dom';
-import { AbandonReadModel } from '@potentiel-domain/laureat';
+import { Abandon } from '@potentiel-domain/laureat';
 import { instructionAbandonAction } from './instructionAbandon.action';
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export default function DetailsAbandonPage({ params: { id } }: { params: { id: string } }) {
-  const [abandon, setAbandon] = useState<AbandonReadModel>();
+  const [abandon, setAbandon] = useState<Abandon.ConsulterAbandonReadModel>();
   const [needToUploadFile, setNeedToUploadFile] = useState(false);
   const [state, formAction] = useFormState(instructionAbandonAction, initialState);
   useEffect(() => {
@@ -28,12 +28,16 @@ export default function DetailsAbandonPage({ params: { id } }: { params: { id: s
   return (
     <>
       <ul className="flex flex-col p-0 m-0 gap-4">
-        <li className="list-none p-0 m-0">{abandon?.demandeDemandéLe}</li>
-        <li className="list-none p-0 m-0">{abandon?.demandeRaison}</li>
-        <li className="list-none p-0 m-0">{abandon?.demandeRecandidature}</li>
+        <li className="list-none p-0 m-0">{abandon?.demande.demandéLe}</li>
+        <li className="list-none p-0 m-0">{abandon?.demande.raison}</li>
+        <li className="list-none p-0 m-0">{abandon?.demande.recandidature}</li>
         <li className="list-none p-0 m-0">{abandon?.identifiantProjet}</li>
-        <li className="list-none p-0 m-0">{abandon?.identifiantDemande}</li>
       </ul>
+      {abandon?.demande.piéceJustificative && (
+        <a href={`/document/${encodeURI(abandon.demande.piéceJustificative)}`} target="blank">
+          Pièce Justificative
+        </a>
+      )}
 
       <form action={formAction}>
         <input type={'hidden'} value={abandon?.identifiantProjet} name="identifiantProjet" />

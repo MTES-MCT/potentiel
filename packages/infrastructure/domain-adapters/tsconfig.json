@@ -22,6 +22,9 @@
     },
     {
       "path": "../../domain-views"
+    },
+    {
+      "path": "../../domain/document"
     }
   ]
 }
