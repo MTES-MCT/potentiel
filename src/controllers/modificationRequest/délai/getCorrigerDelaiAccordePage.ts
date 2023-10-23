@@ -18,13 +18,17 @@ import { mediator } from 'mediateur';
 import { isNone, isSome } from '@potentiel/monads';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
+import { addQueryParams } from '../../../helpers/addQueryParams';
 
 v1Router.get(
   routes.GET_CORRIGER_DELAI_ACCORDE_PAGE(),
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
-    const { user } = request;
-    const { demandeDelaiId } = request.params;
+    const {
+      user,
+      params: { demandeDelaiId },
+      query: { error },
+    } = request;
 
     if (!validateUniqueId(demandeDelaiId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
@@ -65,6 +69,15 @@ v1Router.get(
 
     if (isNone(résuméProjet)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
+    }
+
+    if (résuméProjet.statut !== 'classé') {
+      return response.redirect(
+        addQueryParams(routes.GET_DETAILS_DEMANDE_DELAI_PAGE(request.body.demandeDelaiId), {
+          error:
+            'Vous ne pouvez pas corriger ce délai accordé car le projet doit être lauréat et actif.',
+        }),
+      );
     }
 
     const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
@@ -118,6 +131,7 @@ v1Router.get(
             dateAchèvementActuelle: new Date(
               dateAchèvementActuelle.dataValues.completionDueOn,
             ).toISOString(),
+            error: error as string,
           }),
         );
       },

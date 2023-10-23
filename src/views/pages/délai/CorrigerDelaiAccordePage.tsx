@@ -1,8 +1,8 @@
 import React from 'react';
-import { Request } from 'express';
 import {
   ArrowLeftIcon,
   ChampsObligatoiresLégende,
+  ErrorBox,
   Form,
   InfoBox,
   Input,
@@ -24,16 +24,16 @@ type CorrigerDelaiAccordeProps = {
   dateAchèvementInitiale: string;
   dateAchèvementActuelle: string;
   utilisateur: UtilisateurReadModel;
-  request: Request;
+  error?: string;
 };
 
 export const CorrigerDelaiAccorde = ({
-  request,
   demandeDélai,
   résuméProjet,
   utilisateur,
   dateAchèvementInitiale,
   dateAchèvementActuelle,
+  error,
 }: CorrigerDelaiAccordeProps) => {
   return (
     <PageProjetTemplate
@@ -44,6 +44,7 @@ export const CorrigerDelaiAccorde = ({
       <div className="flex flex-col md:flex-row">
         <Form className="my-4 flex flex-col gap-7 mx-auto">
           <ChampsObligatoiresLégende />
+          {error && <ErrorBox>{error}</ErrorBox>}
           <div>
             <Label htmlFor="dateAchevement">Nouvelle date limite d'achèvement</Label>
             <p className="text-sm italic m-0">

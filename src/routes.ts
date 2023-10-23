@@ -312,6 +312,8 @@ class routes {
     } else return route;
   };
 
+  static POST_CORRIGER_DELAI_ACCORDE = '/corriger-delai-accorde.html';
+
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project';
 
   /* CRE4 GF */
