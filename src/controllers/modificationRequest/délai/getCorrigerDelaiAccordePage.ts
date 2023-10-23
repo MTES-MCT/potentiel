@@ -123,7 +123,6 @@ v1Router.get(
         }
         return response.send(
           CorrigerDelaiAccordePage({
-            request,
             demandeDélai: modificationRequest,
             résuméProjet,
             utilisateur: user,
