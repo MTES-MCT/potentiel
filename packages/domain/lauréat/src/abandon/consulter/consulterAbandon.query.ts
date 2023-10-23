@@ -68,6 +68,7 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
       demandéPar: result.demandeDemandéPar,
       raison: result.demandeRaison,
       recandidature: result.demandeRecandidature,
+      piéceJustificative: result.demandePièceJustificative,
       confirmation: result.confirmationDemandéeLe
         ? {
             demandéLe: result.confirmationDemandéeLe!,

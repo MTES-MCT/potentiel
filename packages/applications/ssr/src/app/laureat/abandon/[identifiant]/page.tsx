@@ -17,7 +17,6 @@ export default function DetailsAbandonPage({ params: { identifiant } }: Identifi
   const [state, formAction] = useFormState(instructionAbandonAction, initialState);
   useEffect(() => {
     const fetchAbandon = async () => {
-      console.log(identifiant);
       const response = await fetch(`/api/v1/laureat/abandon/${identifiant}`);
       const data = await response.json();
       setAbandon(data);
@@ -35,7 +34,7 @@ export default function DetailsAbandonPage({ params: { identifiant } }: Identifi
         <li className="list-none p-0 m-0">{abandon?.identifiantProjet}</li>
       </ul>
       {abandon?.demande.piéceJustificative && (
-        <a href={`/document/${encodeURI(abandon.demande.piéceJustificative)}`} target="blank">
+        <a href={`/laureat/${identifiant}/piece-justificative`} target="blank">
           Pièce Justificative
         </a>
       )}
