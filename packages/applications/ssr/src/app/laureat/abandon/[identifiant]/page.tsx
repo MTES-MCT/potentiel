@@ -5,19 +5,20 @@ import { useEffect, useState } from 'react';
 import { experimental_useFormState as useFormState } from 'react-dom';
 import { Abandon } from '@potentiel-domain/laureat';
 import { instructionAbandonAction } from './instructionAbandon.action';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 const initialState = {
   message: null,
 };
 
-export default function DetailsAbandonPage({ params: { id } }: { params: { id: string } }) {
+export default function DetailsAbandonPage({ params: { identifiant } }: IdentifiantParameter) {
   const [abandon, setAbandon] = useState<Abandon.ConsulterAbandonReadModel>();
   const [needToUploadFile, setNeedToUploadFile] = useState(false);
   const [state, formAction] = useFormState(instructionAbandonAction, initialState);
   useEffect(() => {
     const fetchAbandon = async () => {
-      console.log(id);
-      const response = await fetch(`/api/v1/laureat/abandon/${id}`);
+      console.log(identifiant);
+      const response = await fetch(`/api/v1/laureat/abandon/${identifiant}`);
       const data = await response.json();
       setAbandon(data);
     };

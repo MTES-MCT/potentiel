@@ -13,7 +13,6 @@ export async function instructionAbandonAction(prevState: any, formData: FormDat
   const identifiantProjetValue = formData.get('identifiantProjet') as IdentifiantProjet.RawType;
 
   if (instruction === 'rejeter') {
-    console.log('rejet');
     const file = formData.get('reponse-signee') as File;
 
     await mediator.send<Abandon.AbandonUseCase>({

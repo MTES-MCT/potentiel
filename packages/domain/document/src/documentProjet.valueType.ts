@@ -42,7 +42,7 @@ function estUnFormatValide(value: string | false): asserts value is string {
   }
 }
 
-const nomRépertoireRegex = /^[^/?*:;{}\\]+$/;
+const nomRépertoireRegex = /^[^?*:;{}\\]+$/;
 
 const estUnTypeDeDocumentValide = (value: string) => {
   const isValid = nomRépertoireRegex.test(value);
