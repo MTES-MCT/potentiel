@@ -3,6 +3,7 @@ import { logger } from '../../../../../core/utils';
 import {
   AbandonAnnulé,
   DélaiAccordé,
+  DélaiAccordéCorrigé,
   DélaiAnnulé,
   DélaiDemandé,
   DélaiEnInstruction,
@@ -58,6 +59,7 @@ import {
   onDélaiAccordé,
   onRejetDélaiAnnulé,
   onDélaiEnInstruction,
+  onDélaiAccordéCorrigé,
 } from './délai';
 import { onModificationReceived } from './onModificationReceived';
 import { onModificationRequestAccepted } from './onModificationRequestAccepted';
@@ -88,6 +90,7 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(DélaiAnnulé.type, onDélaiAnnulé);
   eventBus.subscribe(DélaiRejeté.type, onDélaiRejeté);
   eventBus.subscribe(DélaiAccordé.type, onDélaiAccordé);
+  eventBus.subscribe(DélaiAccordéCorrigé.type, onDélaiAccordéCorrigé);
   eventBus.subscribe(RejetDélaiAnnulé.type, onRejetDélaiAnnulé);
   eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction);
 
