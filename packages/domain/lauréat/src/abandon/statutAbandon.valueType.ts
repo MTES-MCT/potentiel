@@ -6,7 +6,8 @@ export type RawType =
   | 'confirmation-demandée'
   | 'confirmé'
   | 'demandé'
-  | 'rejeté';
+  | 'rejeté'
+  | 'inconnu';
 
 const statuts: Array<RawType> = [
   'accordé',
@@ -15,6 +16,7 @@ const statuts: Array<RawType> = [
   'confirmé',
   'demandé',
   'rejeté',
+  'inconnu',
 ];
 const statutsEnCours: Array<RawType> = ['confirmation-demandée', 'confirmé', 'demandé'];
 
@@ -129,6 +131,7 @@ export const confirmationDemandée = convertirEnValueType('confirmation-demandé
 export const confirmé = convertirEnValueType('confirmé');
 export const demandé = convertirEnValueType('demandé');
 export const rejeté = convertirEnValueType('rejeté');
+export const inconnu = convertirEnValueType('inconnu');
 
 class StatutAbandonInvalideError extends InvalidOperationError {
   constructor(value: string) {

@@ -1,6 +1,6 @@
 import { InvalidOperationError, NotFoundError } from '@potentiel-domain/core';
 
-export const executeAction = async (action: () => Promise<Response>) => {
+export const apiAction = async (action: () => Promise<Response>) => {
   try {
     return await action();
   } catch (e) {

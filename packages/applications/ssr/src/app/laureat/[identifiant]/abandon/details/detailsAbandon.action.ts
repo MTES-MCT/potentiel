@@ -4,9 +4,9 @@ import { mediator } from 'mediateur';
 import { bootstrap } from '@/infrastructure/bootstrap';
 import { Abandon } from '@potentiel-domain/laureat';
 
-export async function instructionAbandonAction(prevState: any, formData: FormData) {
-  bootstrap();
+bootstrap();
 
+export async function instructionAbandonAction(prevState: any, formData: FormData) {
   const action = formData.get('action');
   const identifiantProjet = formData.get('identifiantProjet') as string;
 

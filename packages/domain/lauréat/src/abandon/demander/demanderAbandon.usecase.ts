@@ -9,7 +9,7 @@ export type DemanderAbandonUseCase = Message<
     dateDemandeValue: string;
     utilisateurValue: string;
     identifiantProjetValue: string;
-    pièceJustificativeValue: {
+    pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;
     };
@@ -22,29 +22,33 @@ export const registerDemanderAbandonUseCase = () => {
   const runner: MessageHandler<DemanderAbandonUseCase> = async ({
     dateDemandeValue,
     identifiantProjetValue,
-    pièceJustificativeValue: { format, content },
+    pièceJustificativeValue,
     utilisateurValue,
     raisonValue,
     recandidatureValue,
   }) => {
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      'abandon/pièce-justificative',
-      dateDemandeValue,
-      format,
-    );
-
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
-      data: {
-        content,
-        documentProjet: pièceJustificative,
-      },
-    });
+    const pièceJustificative = pièceJustificativeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          'abandon/pièce-justificative',
+          dateDemandeValue,
+          pièceJustificativeValue.format,
+        )
+      : undefined;
+
+    if (pièceJustificative) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+        data: {
+          content: pièceJustificativeValue!.content,
+          documentProjet: pièceJustificative,
+        },
+      });
+    }
 
     await mediator.send<DemanderAbandonCommand>({
       type: 'DEMANDER_ABANDON_COMMAND',

@@ -38,7 +38,7 @@ export default function ListeAbandonsPage() {
               <div className="flex ml-auto">{statut}</div>
               <div>
                 <Link
-                  href={`/laureat/abandon/${encodeURIComponent(identifiantProjet)}/instruction`}
+                  href={`/laureat/${encodeURIComponent(identifiantProjet)}/abandon/instruction`}
                 >
                   Voir
                 </Link>

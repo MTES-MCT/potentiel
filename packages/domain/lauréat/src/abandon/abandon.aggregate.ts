@@ -79,7 +79,7 @@ export type AbandonEvent =
 const getDefaultAggregate = (): AbandonAggregate => ({
   publish: () => Promise.resolve(),
   apply,
-  statut: StatutAbandon.convertirEnValueType('demandé'),
+  statut: StatutAbandon.convertirEnValueType('inconnu'),
   demande: {
     raison: '',
     pièceJustificative: {
@@ -146,6 +146,8 @@ export const loadAbandonAggregateFactory = ({
 
     // TODO move that in @potentiel-domain/core and @potentiel-infrastructure/pg-event-sourcing
     abandon.publish = async (event) => {
+      console.log('publish');
+      console.log(event);
       await publish(abandon.aggregateId, event);
       abandon.apply(event);
     };

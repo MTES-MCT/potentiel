@@ -118,7 +118,8 @@
     "utility-types": "^3.10.0",
     "uuid": "^9.0.0",
     "winston": "^3.10.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",

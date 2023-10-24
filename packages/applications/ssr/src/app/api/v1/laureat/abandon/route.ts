@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { bootstrap } from '@/infrastructure/bootstrap';
-import { executeAction } from '@/utils/executeAction';
+import { apiAction } from '@/utils/apiAction';
 import { getPagination } from '@/utils/getPagination';
 
 import { Abandon } from '@potentiel-domain/laureat';
@@ -9,11 +9,10 @@ import { Abandon } from '@potentiel-domain/laureat';
 bootstrap();
 
 export const GET = (request: Request) =>
-  executeAction(async () => {
+  apiAction(async () => {
     const result = await mediator.send<Abandon.ListerAbandonsQuery>({
       type: 'LISTER_ABANDONS_QUERY',
       data: {
-        recandidature: true,
         pagination: getPagination(request),
       },
     });
