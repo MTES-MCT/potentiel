@@ -139,6 +139,7 @@ eventStore.subscribe(
     getProjectUsers: récupérerDonnéesPorteursParProjetQueryHandler,
     getProjectById: oldProjectRepo.findById,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
+    dgecEmail: process.env.DGEC_EMAIL,
   }),
 );
 

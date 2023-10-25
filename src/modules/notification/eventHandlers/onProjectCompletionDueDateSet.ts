@@ -14,10 +14,11 @@ type MakeOnProjectCompletionDueDateSet = (dépendances: {
   getProjectUsers: RécupérerDonnéesPorteursParProjetQueryHandler;
   getProjectById: ProjectRepo['findById'];
   findUsersForDreal: UserRepo['findUsersForDreal'];
+  dgecEmail: string;
 }) => OnProjectCompletionDueDateSet;
 
 export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSet =
-  ({ sendNotification, getProjectUsers, getProjectById, findUsersForDreal }) =>
+  ({ sendNotification, getProjectUsers, getProjectById, findUsersForDreal, dgecEmail }) =>
   async ({ payload: { projectId, reason } }) => {
     const projet = await getProjectById(projectId);
     if (!projet) {
@@ -121,6 +122,18 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
           );
         }),
       );
-      return;
+
+      if (reason === 'DateMiseEnServiceAnnuleDélaiCdc2022') {
+        await sendNotification({
+          type,
+          context: { projetId: projectId, utilisateurId: '' },
+          variables,
+          message: {
+            email: dgecEmail,
+            name: 'DGEC',
+            subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet ${projet.nomProjet}`,
+          },
+        });
+      }
     }
   };
