@@ -15,6 +15,8 @@ import {
   InfoBox,
   Heading2,
   Form,
+  PrintHidden,
+  PrintShow,
 } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -51,37 +53,46 @@ export const ProjectDetails = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
+      <PrintShow>
+        <p className="font-semibold">
+          Les informations affichées sur cette page reflètent la situation du projet en fonction des
+          éléments fournis à Potentiel à date. Elles sont susceptibles de modifications ultérieures
+        </p>
+      </PrintShow>
       <ProjectHeader {...{ project, user }} />
-      {success && <SuccessBox title={success} />}
-      {error && <ErrorBox title={error} />}
+      <PrintHidden>
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
+      </PrintHidden>
       <div className="flex flex-col gap-3 mt-5">
-        {project.alerteAnnulationAbandon && userIs('porteur-projet')(user) && (
-          <AlerteAnnulationAbandonPossible
-            {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
-          />
-        )}
+        <PrintHidden className="flex flex-col gap-3">
+          {project.alerteAnnulationAbandon && userIs('porteur-projet')(user) && (
+            <AlerteAnnulationAbandonPossible
+              {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
+            />
+          )}
 
-        {alertesRaccordement && (
-          <AlerteBoxRaccordement
-            dcrDueOn={project.dcrDueOn}
-            alertes={alertesRaccordement}
-            identifiantProjet={convertirEnIdentifiantProjet({
-              appelOffre: project.appelOffreId,
-              période: project.periodeId,
-              famille: project.familleId,
-              numéroCRE: project.numeroCRE,
-            }).formatter()}
-          />
-        )}
-
-        <Callout>
-          <CDCInfo {...{ project, user }} />
-        </Callout>
+          {alertesRaccordement && (
+            <AlerteBoxRaccordement
+              dcrDueOn={project.dcrDueOn}
+              alertes={alertesRaccordement}
+              identifiantProjet={convertirEnIdentifiantProjet({
+                appelOffre: project.appelOffreId,
+                période: project.periodeId,
+                famille: project.familleId,
+                numéroCRE: project.numeroCRE,
+              }).formatter()}
+            />
+          )}
+          <Callout>
+            <CDCInfo {...{ project, user }} />
+          </Callout>
+        </PrintHidden>
         <div className="flex flex-col lg:flex-row gap-3">
           {!!projectEventList?.events.length && (
             <EtapesProjet {...{ project, user, projectEventList }} />
           )}
-          <div className={`flex flex-col flex-grow gap-3`}>
+          <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales {...{ project, role: user.role }} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />

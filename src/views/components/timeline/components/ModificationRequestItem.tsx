@@ -11,7 +11,7 @@ import {
 } from '.';
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps';
 import { CancelledStepIcon } from './cancelledStepIcon';
-import { DownloadLink, Link } from '../..';
+import { DownloadLink, Link, PrintHidden } from '../..';
 
 type ComponentProps = ModificationRequestItemProps & {
   projectStatus: ProjectStatus;
@@ -75,14 +75,16 @@ const Rejected = (props: RejectedProps) => {
       <ContentArea>
         <ItemDate date={date} />
         <Details {...props} />
-        {responseUrl && (
-          <DownloadLink
-            fileUrl={responseUrl}
-            aria-label={`Voir le courrier de réponse de la demande de type "${props.modificationType}" en statut "rejetée"`}
-          >
-            Voir le courrier de réponse
-          </DownloadLink>
-        )}
+        <PrintHidden>
+          {responseUrl && (
+            <DownloadLink
+              fileUrl={responseUrl}
+              aria-label={`Voir le courrier de réponse de la demande de type "${props.modificationType}" en statut "rejetée"`}
+            >
+              Voir le courrier de réponse
+            </DownloadLink>
+          )}
+        </PrintHidden>
       </ContentArea>
     </>
   );
@@ -100,14 +102,16 @@ const Accepted = (props: AcceptedProps) => {
       <ContentArea>
         <ItemDate date={date} />
         <Details {...props} />
-        {responseUrl && (
-          <DownloadLink
-            fileUrl={responseUrl}
-            aria-label={`Voir le courrier de réponse de la demande de type "${props.modificationType}" en statut "accordée"`}
-          >
-            Voir le courrier de réponse
-          </DownloadLink>
-        )}
+        <PrintHidden>
+          {responseUrl && (
+            <DownloadLink
+              fileUrl={responseUrl}
+              aria-label={`Voir le courrier de réponse de la demande de type "${props.modificationType}" en statut "accordée"`}
+            >
+              Voir le courrier de réponse
+            </DownloadLink>
+          )}
+        </PrintHidden>
       </ContentArea>
     </>
   );
@@ -184,14 +188,16 @@ const Details = (
           Puissance demandée : {props.puissance} {props.unitePuissance}
         </p>
       )}
-      {showDemandeButton() && (
-        <Link
-          href={detailsUrl}
-          aria-label={`Voir le détail de la demande de ${libelleTypeDemande[modificationType]} en statut "${libelleStatus[status]}"`}
-        >
-          Voir la demande
-        </Link>
-      )}
+      <PrintHidden>
+        {showDemandeButton() && (
+          <Link
+            href={detailsUrl}
+            aria-label={`Voir le détail de la demande de ${libelleTypeDemande[modificationType]} en statut "${libelleStatus[status]}"`}
+          >
+            Voir la demande
+          </Link>
+        )}
+      </PrintHidden>
     </>
   );
 };

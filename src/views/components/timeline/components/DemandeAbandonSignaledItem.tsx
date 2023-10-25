@@ -1,4 +1,4 @@
-import { DownloadLink } from '../..';
+import { DownloadLink, PrintHidden } from '../..';
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.';
 import { makeDocumentUrl } from '../helpers';
@@ -26,12 +26,14 @@ export const DemandeAbandonSignaledItem = ({
           {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
         </>
         {attachment && (
-          <DownloadLink
-            fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
-            aria-label={`Télécharger le courrier de réponse de la demande d'abandon en statut "${status}"`}
-          >
-            Voir le courrier de réponse
-          </DownloadLink>
+          <PrintHidden>
+            <DownloadLink
+              fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
+              aria-label={`Télécharger le courrier de réponse de la demande d'abandon en statut "${status}"`}
+            >
+              Voir le courrier de réponse
+            </DownloadLink>
+          </PrintHidden>
         )}
       </ContentArea>
     </>

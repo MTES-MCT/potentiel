@@ -2,6 +2,8 @@ import {
   DownloadLinkButton,
   SecondaryLinkButton,
   DropdownMenuSecondaryButton,
+  PrimaryButton,
+  PrintHidden,
 } from '../../../components';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
@@ -101,19 +103,22 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
       </DropdownMenuSecondaryButton>
     )}
 
-    {project.notifiedOn && project.certificateFile && (
-      <DownloadLinkButton
-        fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
-          id: project.id,
-          certificateFileId: project.certificateFile.id,
-          nomProjet: project.nomProjet,
-          potentielIdentifier: project.potentielIdentifier,
-        })}
-        className="m-auto"
-      >
-        Télécharger mon attestation
-      </DownloadLinkButton>
-    )}
+    <div className="flex flex-col">
+      {project.notifiedOn && project.certificateFile && (
+        <DownloadLinkButton
+          fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
+            id: project.id,
+            certificateFileId: project.certificateFile.id,
+            nomProjet: project.nomProjet,
+            potentielIdentifier: project.potentielIdentifier,
+          })}
+          className="m-auto mb-2"
+        >
+          Télécharger mon attestation
+        </DownloadLinkButton>
+      )}
+      <PrimaryButton onClick={() => window.print()}>Imprimer la page</PrimaryButton>
+    </div>
   </div>
 );
 
@@ -158,7 +163,7 @@ const AdminActions = ({
 );
 
 export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
-  <div className="whitespace-nowrap">
+  <PrintHidden className="whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && (
       <AdminActions
         {...{ project, signalementAbandonAutorisé: true, signalementRecoursAutorisé: true }}
@@ -166,5 +171,5 @@ export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
     )}
     {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
     {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
-  </div>
+  </PrintHidden>
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.';
 import { makeDocumentUrl } from '../helpers';
-import { DownloadLink } from '../..';
+import { DownloadLink, PrintHidden } from '../..';
 import { afficherDate } from '../../../helpers';
 
 type DemandeDelaiSignaledItemProps = {
@@ -47,12 +47,14 @@ const Rejected = ({ date, attachment, notes }: RejectedProps) => (
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <DownloadLink
-          fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
-          aria-label={`Télécharger le courrier de réponse de la demande de délai rejetée`}
-        >
-          Voir le courrier de réponse
-        </DownloadLink>
+        <PrintHidden>
+          <DownloadLink
+            fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
+            aria-label={`Télécharger le courrier de réponse de la demande de délai rejetée`}
+          >
+            Voir le courrier de réponse
+          </DownloadLink>
+        </PrintHidden>
       )}
     </ContentArea>
   </>
@@ -70,12 +72,14 @@ const AccordPrincipe = ({ date, attachment, notes }: AccordPrincipeProps) => (
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <DownloadLink
-          fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
-          aria-label={`Télécharger le courrier de réponse de la demande de délai en "accord de principe"`}
-        >
-          Voir le courrier de réponse
-        </DownloadLink>
+        <PrintHidden>
+          <DownloadLink
+            fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
+            aria-label={`Télécharger le courrier de réponse de la demande de délai en "accord de principe"`}
+          >
+            Voir le courrier de réponse
+          </DownloadLink>
+        </PrintHidden>
       )}
     </ContentArea>
   </>
@@ -107,12 +111,14 @@ const Accepted = ({
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <DownloadLink
-          fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
-          aria-label={`Télécharger le courrier de réponse de la demande de délai accordée`}
-        >
-          Voir le courrier de réponse
-        </DownloadLink>
+        <PrintHidden>
+          <DownloadLink
+            fileUrl={makeDocumentUrl(attachment.id, attachment.name)}
+            aria-label={`Télécharger le courrier de réponse de la demande de délai accordée`}
+          >
+            Voir le courrier de réponse
+          </DownloadLink>
+        </PrintHidden>
       )}
     </ContentArea>
   </>

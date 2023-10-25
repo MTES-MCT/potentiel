@@ -1,4 +1,4 @@
-import { Link } from '../..';
+import { Link, PrintHidden } from '../..';
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon } from '.';
 import { ModificationReceivedItemProps } from '../helpers';
@@ -48,14 +48,16 @@ const Details = (props: ModificationReceivedItemProps) => {
           ))}
         </ul>
       )}
-      {detailsUrl && (
-        <Link
-          href={detailsUrl}
-          aria-label={`Voir le détail de la modification de type "${libelleTypeDemande[modificationType]}"`}
-        >
-          Voir la demande
-        </Link>
-      )}
+      <PrintHidden>
+        {detailsUrl && (
+          <Link
+            href={detailsUrl}
+            aria-label={`Voir le détail de la modification de type "${libelleTypeDemande[modificationType]}"`}
+          >
+            Voir la demande
+          </Link>
+        )}
+      </PrintHidden>
     </>
   );
 };

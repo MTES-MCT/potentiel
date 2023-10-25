@@ -10,7 +10,7 @@ import {
   PastIcon,
   UnvalidatedStepIcon,
 } from '.';
-import { Link } from '../..';
+import { Link, PrintHidden } from '../..';
 
 type DemandeAbandonItemProps = DemandeAbandonDTO;
 
@@ -46,12 +46,14 @@ export const DemandeAbandonItem = (props: DemandeAbandonItemProps) => {
           <ItemTitle title={titre} />
           <p className="p-0 m-0">
             {demandeUrl && (
-              <Link
-                href={demandeUrl}
-                aria-label={`Voir le détail de la demande d'abandon en statut "${statut}"`}
-              >
-                Voir la demande
-              </Link>
+              <PrintHidden>
+                <Link
+                  href={demandeUrl}
+                  aria-label={`Voir le détail de la demande d'abandon en statut "${statut}"`}
+                >
+                  Voir la demande
+                </Link>
+              </PrintHidden>
             )}
           </p>
         </>
