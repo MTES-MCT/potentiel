@@ -6,3 +6,4 @@ export * from './events';
 export * from './passerEnInstruction';
 export * from './rejeter';
 export * from './DemandeDélai';
+export * from './corrigerDélaiAccordé';

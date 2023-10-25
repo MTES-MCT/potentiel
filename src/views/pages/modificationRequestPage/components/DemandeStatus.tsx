@@ -21,10 +21,6 @@ function getAdminAnulerRejetDemandeRoute({ type, id }) {
   }
 
   switch (type) {
-    case 'delai':
-      return ROUTES.ADMIN_ANNULER_DELAI_REJETE({
-        modificationRequestId: id,
-      });
     case 'recours':
       return ROUTES.ADMIN_ANNULER_RECOURS_REJETE({
         modificationRequestId: id,
@@ -50,7 +46,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
   const afficherBoutonAnnulerRejet =
     (['admin', 'dgec-validateur'].includes(role) ||
       (role === 'dreal' && authority && authority === role)) &&
-    ['delai', 'recours', 'puissance'].includes(type) &&
+    ['recours', 'puissance'].includes(type) &&
     status === 'rejetée';
 
   return (
@@ -74,7 +70,6 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         </Form>
       )}
       {cancelledOn && cancelledBy && `par ${cancelledBy} le ${helpers.afficherDate(cancelledOn)}`}
-      <StatusForDelai modificationRequest={modificationRequest} />
       {responseFile && (
         <div className="mt-4">
           <DownloadLink
@@ -86,46 +81,4 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
       )}
     </StatutDemandeModification>
   );
-};
-
-interface StatusForDelaiProps {
-  modificationRequest: ModificationRequestPageDTO;
-}
-const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
-  const { project } = modificationRequest;
-  if (
-    modificationRequest.type === 'delai' &&
-    modificationRequest.status === 'acceptée' &&
-    modificationRequest.acceptanceParams
-  ) {
-    const {
-      acceptanceParams: { delayInMonths, dateAchèvementAccordée },
-    } = modificationRequest;
-
-    if (delayInMonths) {
-      return (
-        <div>
-          L‘administration vous accorde un délai{' '}
-          <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date d'achèvement
-          théorique est actuellement au <b>{helpers.afficherDate(project.completionDueOn)}</b>.
-        </div>
-      );
-    }
-
-    if (dateAchèvementAccordée) {
-      return (
-        <div>
-          L‘administration vous accorde un report de date limite d'achèvement au{' '}
-          <span className="font-bold">
-            {helpers.afficherDate(new Date(dateAchèvementAccordée))}
-          </span>
-          .
-        </div>
-      );
-    }
-
-    return null;
-  }
-
-  return null;
 };

@@ -23,6 +23,11 @@ export const handleModificationRequestCancelled =
     } = deps;
     return getModificationRequestInfoForStatusNotification(modificationRequestId).match(
       ({ nomProjet, departementProjet, regionProjet, type, autorité, appelOffreId, périodeId }) => {
+        const demandeUrl =
+          type === 'delai'
+            ? routes.GET_DETAILS_DEMANDE_DELAI_PAGE(modificationRequestId)
+            : routes.DEMANDE_PAGE_DETAILS(modificationRequestId);
+
         if (autorité === 'dreal') {
           const regions = regionProjet.split(' / ');
           return wrapInfra(
@@ -46,8 +51,7 @@ export const handleModificationRequestCancelled =
                         nom_projet: nomProjet,
                         type_demande: type,
                         departement_projet: departementProjet,
-                        modification_request_url:
-                          routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+                        modification_request_url: demandeUrl,
                       },
                     }),
                   ),
@@ -70,7 +74,7 @@ export const handleModificationRequestCancelled =
               nom_projet: nomProjet,
               type_demande: type,
               departement_projet: departementProjet,
-              modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+              modification_request_url: demandeUrl,
             },
           });
         }

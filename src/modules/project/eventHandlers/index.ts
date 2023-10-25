@@ -7,3 +7,4 @@ export * from './onAnnulationAbandonAccordée';
 export * from './onDateMiseEnServiceTransmise';
 export * from './onDélaiAccordé';
 export * from './onCahierDesChargesChoisi';
+export * from './onDélaiAccordéCorrigé';

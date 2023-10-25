@@ -2,8 +2,6 @@ import {
   DemandeAbandonPageDTO,
   ModificationRequestPageDTO,
 } from '../../../../modules/modificationRequest';
-import { format } from 'date-fns';
-import moment from 'moment';
 import React, { ComponentProps } from 'react';
 import ROUTES from '../../../../routes';
 import { DownloadLink, ExternalLink, Heading2, Heading3 } from '../../../components';
@@ -65,8 +63,6 @@ interface DetailsByTypeProps {
 
 const DetailsByType = ({ modificationRequest }: DetailsByTypeProps) => {
   switch (modificationRequest.type) {
-    case 'delai':
-      return <DelaiDetails modificationRequest={modificationRequest} />;
     case 'puissance':
       return <PuissanceDetails modificationRequest={modificationRequest} />;
     case 'actionnaire':
@@ -78,55 +74,6 @@ const DetailsByType = ({ modificationRequest }: DetailsByTypeProps) => {
     default:
       return null;
   }
-};
-
-interface DelaiDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'delai' };
-}
-const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
-  const {
-    project: { completionDueOn },
-    status,
-    delayInMonths,
-    dateAchèvementDemandée,
-  } = modificationRequest;
-
-  const dateDemandée = dateAchèvementDemandée
-    ? new Date(dateAchèvementDemandée)
-    : moment(completionDueOn).add(delayInMonths, 'month').toDate();
-
-  return (
-    <div>
-      <Heading3 className="mb-2">Nouveau délai</Heading3>
-      {['envoyée, en instruction'].includes(status) ? (
-        <div>
-          La date d'achèvement théorique est au{' '}
-          <b>{format(new Date(completionDueOn), 'dd/MM/yyyy')}</b>
-          .
-          <br />
-          Le porteur demande un délai pour une nouvelle date limite d'achèvement le{' '}
-          <span className="font-bold">{format(dateDemandée, 'dd/MM/yyyy')}</span>.
-        </div>
-      ) : (
-        <div>
-          {delayInMonths && (
-            <>
-              Le porteur a demandé un délai de{' '}
-              <span className="font-bold">{delayInMonths} mois</span>.
-            </>
-          )}
-          {dateAchèvementDemandée && (
-            <>
-              Le porteur a demandé un délai pour une nouvelle date d'achèvement le{' '}
-              <span className="font-bold">
-                {format(new Date(dateAchèvementDemandée), 'dd/MM/yyyy')}
-              </span>
-            </>
-          )}
-        </div>
-      )}
-    </div>
-  );
 };
 
 interface PuissanceDetailsProps {

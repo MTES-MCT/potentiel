@@ -85,6 +85,8 @@ type Variant =
         }
     ));
 
+export type DetailDemandeDelaiPageDTO = ModificationRequestPageDTO & { type: 'delai' };
+
 export type DemandeAbandonPageDTO = ModificationRequestPageDTO & {
   type: 'abandon';
 };

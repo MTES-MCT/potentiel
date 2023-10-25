@@ -1,7 +1,5 @@
 export * from './ActionnaireForm';
 export * from './AdminResponseForm';
-export * from './AdminRéponseDélaiForm';
-export * from './AnnulerDemandeDélaiBouton';
 export * from './CancelButton';
 export * from './DemandeDetails';
 export * from './DemandeStatus';

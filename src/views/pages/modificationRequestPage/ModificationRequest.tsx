@@ -6,12 +6,9 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
-  PrimaryButton,
-  Form,
 } from '../../components';
 import { ModificationRequestPageDTO } from '../../../modules/modificationRequest';
 import { userIs } from '../../../modules/users';
-import ROUTES from '../../../routes';
 import { Request } from 'express';
 import moment from 'moment';
 import React from 'react';
@@ -19,8 +16,6 @@ import { hydrateOnClient } from '../../helpers';
 import {
   ActionnaireForm,
   AdminResponseForm,
-  AdminRéponseDélaiForm,
-  AnnulerDemandeDélaiBouton,
   CancelButton,
   DemandeDetails,
   DemandeStatus,
@@ -49,9 +44,6 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
     !modificationRequest.cancelledOn &&
     status !== 'information validée';
 
-  const showPasserEnInstructionButton =
-    showFormulaireAdministrateur && type === 'delai' && status === 'envoyée';
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <Heading1>
@@ -68,33 +60,12 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
 
         <DemandeDetails modificationRequest={modificationRequest} className="mb-5" />
         <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
-        {showPasserEnInstructionButton && (
-          <Form
-            method="post"
-            action={ROUTES.ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION({
-              modificationRequestId: modificationRequest.id,
-            })}
-          >
-            <PrimaryButton
-              type="submit"
-              name="modificationRequestId"
-              value={modificationRequest.id}
-              confirmation='Êtes-vous sûr de vouloir passer le statut de la demande "en instruction" ?'
-            >
-              Passer le statut en instruction
-            </PrimaryButton>
-          </Form>
-        )}
 
         {showFormulaireAdministrateur && (
           <div>
             <Heading2>Répondre à la demande</Heading2>
 
             <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-              {type === 'delai' && (
-                <AdminRéponseDélaiForm modificationRequest={modificationRequest} />
-              )}
-
               {type === 'recours' && <RecoursForm />}
 
               {type === 'puissance' && <PuissanceForm modificationRequest={modificationRequest} />}
@@ -109,20 +80,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
           </div>
         )}
 
-        {userIs('porteur-projet')(user) &&
-          (type === 'delai' ? (
-            <AnnulerDemandeDélaiBouton
-              status={status}
-              id={id}
-              route={
-                modificationRequest.delayInMonths
-                  ? ROUTES.ANNULER_DEMANDE_ACTION
-                  : ROUTES.ANNULER_DEMANDE_DELAI
-              }
-            />
-          ) : (
-            <CancelButton status={status} id={id} />
-          ))}
+        {userIs('porteur-projet')(user) && <CancelButton status={status} id={id} />}
       </div>
     </LegacyPageTemplate>
   );

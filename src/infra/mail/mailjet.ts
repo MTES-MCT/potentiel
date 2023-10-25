@@ -15,6 +15,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'dreal-gf-notification': 1528696,
   'pp-certificate-updated': 1765851,
   'modification-request-status-update': 2046625,
+  'pp-délai-accordé-corrigé': 4554290,
   'user-invitation': 2814281,
   'modification-request-confirmed': 2807220,
   'modification-request-cancelled': 2060611,

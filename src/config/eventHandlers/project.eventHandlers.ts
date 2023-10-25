@@ -3,6 +3,7 @@ import {
   DélaiAccordé,
   AbandonAccordé,
   AnnulationAbandonAccordée,
+  DélaiAccordéCorrigé,
 } from '../../modules/demandeModification';
 import { LegacyModificationImported } from '../../modules/modificationRequest';
 import {
@@ -12,6 +13,7 @@ import {
   handleProjectRawDataImported,
   makeOnDateMiseEnServiceTransmise,
   makeOnDélaiAccordé,
+  makeOnDélaiAccordéCorrigé,
   PeriodeNotified,
   ProjectCertificateObsolete,
   ProjectRawDataImported,
@@ -82,6 +84,23 @@ const onDélaiAccordé = async (event: DomainEvent) => {
   );
 };
 subscribeToRedis(onDélaiAccordé, 'Project.onDélaiAccordé');
+
+const onDélaiAccordéCorrigéHandler = makeOnDélaiAccordéCorrigé({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+});
+
+const onDélaiAccordéCorrigé = async (event: DomainEvent) => {
+  if (!(event instanceof DélaiAccordéCorrigé)) {
+    return Promise.resolve();
+  }
+
+  return onDélaiAccordéCorrigéHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e),
+  );
+};
+subscribeToRedis(onDélaiAccordéCorrigé, 'Project.onDélaiAccordéCorrigé');
 
 const onAbandonAccordéHandler = makeOnAbandonAccordé({
   projectRepo,

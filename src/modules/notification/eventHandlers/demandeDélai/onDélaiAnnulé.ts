@@ -50,7 +50,7 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
                   nom_projet: nomProjet,
                   type_demande: 'délai',
                   status: 'annulée',
-                  modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+                  modification_request_url: routes.GET_DETAILS_DEMANDE_DELAI_PAGE(demandeDélaiId),
                   document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
                 },
               });
@@ -79,7 +79,8 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
                       nom_projet: nomProjet,
                       type_demande: 'délai',
                       departement_projet: departementProjet,
-                      modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+                      modification_request_url:
+                        routes.GET_DETAILS_DEMANDE_DELAI_PAGE(demandeDélaiId),
                     },
                   });
                 }),
@@ -101,7 +102,7 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
               nom_projet: nomProjet,
               type_demande: 'délai',
               departement_projet: departementProjet,
-              modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+              modification_request_url: routes.GET_DETAILS_DEMANDE_DELAI_PAGE(demandeDélaiId),
             },
           });
         }

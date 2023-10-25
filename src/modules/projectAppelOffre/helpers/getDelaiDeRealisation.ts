@@ -1,8 +1,8 @@
 import { ProjectAppelOffre } from '../../../entities';
-import { Technologie } from '@potentiel/domain-views';
+import { AppelOffreReadModel, Technologie } from '@potentiel/domain-views';
 
 export const getDelaiDeRealisation = (
-  appelOffre: ProjectAppelOffre,
+  appelOffre: ProjectAppelOffre | AppelOffreReadModel,
   technologie: Technologie,
 ): number | null => {
   if (appelOffre.decoupageParTechnologie) {

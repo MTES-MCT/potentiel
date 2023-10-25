@@ -667,7 +667,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           'acheteur-obligé',
                         ])(user) ||
                           (userIs('dreal')(user) && autorité === 'dreal')) && {
-                          demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                          demandeUrl: routes.GET_DETAILS_DEMANDE_DELAI_PAGE(id),
                         }),
                       });
                     }
@@ -693,7 +693,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           'cre',
                         ])(user) ||
                           (userIs('dreal')(user) && autorité === 'dreal')) && {
-                          demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                          demandeUrl: routes.GET_DETAILS_DEMANDE_DELAI_PAGE(id),
                         }),
                       });
                     }

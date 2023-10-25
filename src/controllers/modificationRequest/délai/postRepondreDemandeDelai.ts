@@ -90,7 +90,7 @@ v1Router.post(
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `La demande de délai a bien été ${estAccordé ? 'accordée' : 'rejetée'}.`,
-              redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+              redirectUrl: routes.GET_DETAILS_DEMANDE_DELAI_PAGE(modificationRequestId),
               redirectTitle: 'Retourner sur la page de la demande',
             }),
           );
@@ -102,9 +102,12 @@ v1Router.post(
 
           if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
-              addQueryParams(routes.DEMANDE_PAGE_DETAILS(request.body.modificationRequestId), {
-                error: `${error.message} ${error.errors.join(' ')}`,
-              }),
+              addQueryParams(
+                routes.GET_DETAILS_DEMANDE_DELAI_PAGE(request.body.modificationRequestId),
+                {
+                  error: `${error.message} ${error.errors.join(' ')}`,
+                },
+              ),
             );
           }
 

@@ -25,7 +25,10 @@ v1Router.post(
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: 'Votre demande a bien été annulée.',
-            redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+            redirectUrl:
+              request.body.type === 'delai'
+                ? routes.GET_DETAILS_DEMANDE_DELAI_PAGE(modificationRequestId)
+                : routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
             redirectTitle: 'Retourner à la demande',
           }),
         );
