@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../../../projet.valueType';
 import { AbandonRejetéRéponseSignée } from '../abandon.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
-import { LoadAggregate, Publish } from '@potentiel-domain/core';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { EnregistrerRéponseSignéePort } from '../abandon.port';
 import { DateTimeValueType } from '../../../../common/common.valueType';

@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { List, ListResult } from '@potentiel-domain/core-views';
+import { List, ListResult } from '@potentiel/core-domain-views';
 import { AbandonReadModel } from '../abandon.readmodel';
 
 export type ListerAbandonsQuery = Message<

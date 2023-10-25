@@ -1,4 +1,4 @@
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel/core-domain';
 
 export class DemandeAbandonEnCoursErreur extends InvalidOperationError {
   constructor() {

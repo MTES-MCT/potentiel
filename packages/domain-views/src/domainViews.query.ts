@@ -1,4 +1,4 @@
-import { Create, Find, List, Remove, Search, Update, Upsert } from '@potentiel-domain/core-views';
+import { Create, Find, List, Remove, Search, Update, Upsert } from '@potentiel/core-domain-views';
 import { registerConsulterAbandonQuery } from './projet/lauréat/abandon/consulter/consulterAbandon.query';
 import { registerConsulterPièceJustificativeAbandonProjetQuery } from './projet/lauréat/abandon/consulter/consulterPièceJustificativeAbandon.query';
 import { registerListerAbandonAvecRecandidatureQuery } from './projet/lauréat/abandon/lister/listerAbandon.query';

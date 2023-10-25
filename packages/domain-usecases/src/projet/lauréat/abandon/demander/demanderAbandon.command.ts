@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjetValueType } from '../../../projet.valueType';
 import { PièceJustificativeAbandon } from '../abandon.valueType';
 import { createAbandonAggregateId, loadAbandonAggregateFactory } from '../abandon.aggregate';
-import { LoadAggregate, Publish } from '@potentiel-domain/core';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import { AbandonDemandéEvent } from '../abandon.event';
 import { EnregistrerPièceJustificativeAbandonPort } from '../abandon.port';

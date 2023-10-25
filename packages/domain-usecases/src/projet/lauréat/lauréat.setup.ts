@@ -1,4 +1,4 @@
-import { Subscribe } from '@potentiel-domain/core';
+import { Subscribe } from '@potentiel/core-domain';
 import {
   DéclarerGestionnaireRéseauProjetDependencies,
   registerDéclarerGestionnaireRéseauProjetCommand,

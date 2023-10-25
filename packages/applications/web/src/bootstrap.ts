@@ -1,5 +1,5 @@
 import { setupDomain } from '@potentiel/domain-usecases';
-import { loadAggregate, publish, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,

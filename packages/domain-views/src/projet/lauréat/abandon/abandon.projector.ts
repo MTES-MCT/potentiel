@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonEvent } from '@potentiel/domain-usecases';
-import { Find, RebuildTriggered, Remove, Upsert } from '@potentiel-domain/core-views';
+import { Find, RebuildTriggered, Remove, Upsert } from '@potentiel/core-domain-views';
 import { AbandonReadModel } from './abandon.readmodel';
 import { isSome } from '@potentiel/monads';
 

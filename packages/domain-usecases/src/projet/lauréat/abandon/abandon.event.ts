@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '../../projet.valueType';
 import { RawIdentifiantUtilisateur } from '../../../utilisateur/utilisateur.valueType';
 

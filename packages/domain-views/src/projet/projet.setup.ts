@@ -1,4 +1,4 @@
-import { Subscribe } from '@potentiel-domain/core';
+import { Subscribe } from '@potentiel/core-domain';
 import { CandidatureDependencies, setupCandidatureViews } from './candidature/candidature.setup';
 import { LauréatDependencies, setupLauréatViews } from './lauréat/lauréat.setup';
 

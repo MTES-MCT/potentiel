@@ -8,7 +8,7 @@ import {
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option, isNone, none } from '@potentiel/monads';
-import { Find } from '@potentiel-domain/core-views';
+import { Find } from '@potentiel/core-domain-views';
 import { RécupérerPièceJustificativeAbandonPort } from '../abandon.port';
 import {
   AbandonReadModel,
