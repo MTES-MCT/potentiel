@@ -1,7 +1,7 @@
 'use server';
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
-import { bootstrap } from '@/infrastructure/bootstrap';
+import { bootstrap } from '@/bootstrap';
 import { redirect } from 'next/navigation';
 import { Abandon } from '@potentiel-domain/laureat';
 import { FormState } from '@/utils/formAction';

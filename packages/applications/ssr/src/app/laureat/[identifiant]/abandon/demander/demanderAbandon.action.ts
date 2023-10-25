@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 
 import { Abandon } from '@potentiel-domain/laureat';
 
-import { bootstrap } from '@/infrastructure/bootstrap';
+import { bootstrap } from '@/bootstrap';
 import { FormState } from '@/utils/formAction';
 
 bootstrap();

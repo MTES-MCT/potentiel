@@ -7,7 +7,7 @@ import { DetailsAbandon } from '@/components/laureat/abandon/DetailsAbandon';
 import { StatutAbandonBadge } from '@/components/laureat/abandon/StatutAbandonBadge';
 
 import { InstructionAbandonForm } from './instructionAbandon.form';
-import { bootstrap } from '@/infrastructure/bootstrap';
+import { bootstrap } from '@/bootstrap';
 
 bootstrap();
 

@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { bootstrap } from '@/infrastructure/bootstrap';
+import { bootstrap } from '@/bootstrap';
 import { apiAction } from '@/utils/apiAction';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 

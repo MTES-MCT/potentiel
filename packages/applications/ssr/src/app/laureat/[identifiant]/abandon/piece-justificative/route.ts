@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
-import { bootstrap } from '@/infrastructure/bootstrap';
+import { bootstrap } from '@/bootstrap';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 
