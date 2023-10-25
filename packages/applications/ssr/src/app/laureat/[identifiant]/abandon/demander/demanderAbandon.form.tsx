@@ -12,9 +12,10 @@ import { Highlight } from '@codegouvfr/react-dsfr/Highlight';
 import { ButtonsGroup } from '@codegouvfr/react-dsfr/ButtonsGroup';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 
-import { demanderAbandonAction, DemandeAbandonState } from './demanderAbandon.action';
+import { demanderAbandonAction } from './demanderAbandon.action';
+import { FormState } from '@/utils/formAction';
 
-const initialState: DemandeAbandonState = {
+const initialState: FormState = {
   error: undefined,
   validationErrors: [],
 };
