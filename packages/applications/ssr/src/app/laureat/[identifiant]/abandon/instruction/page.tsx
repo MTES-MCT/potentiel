@@ -31,7 +31,7 @@ export default async function InstructionAbandonPage({
       {abandon && (
         <div className="flex flex-col gap-4">
           <div>
-            Status de l'abandon : <StatutAbandonBadge statut={abandon.statut} />
+            <StatutAbandonBadge statut={abandon.statut} />
           </div>
           <div>
             <h2 className="mb-2">Convernant le projet :</h2>

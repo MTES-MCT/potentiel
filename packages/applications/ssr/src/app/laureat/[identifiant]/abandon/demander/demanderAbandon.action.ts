@@ -44,7 +44,7 @@ export async function demanderAbandonAction(
         recandidatureValue: recandidature || false,
       },
     });
-    return redirect(`/laureat/abandon/${encodeURIComponent(identifiantProjet)}/abandon/demander`);
+    return redirect(`/laureat/abandon/${encodeURIComponent(identifiantProjet)}/abandon/details`);
   } catch (e) {
     if (e instanceof zod.ZodError) {
       return {

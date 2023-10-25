@@ -109,7 +109,7 @@ export const DemanderAbandonForm = ({ identifiantProjet }: DemanderAbandonFormPr
               },
             },
             {
-              children: 'Annuler',
+              children: 'Retour',
               linkProps: {
                 href: '/projects.html',
               },

@@ -1,34 +1,53 @@
-'use client';
-import { useEffect, useState } from 'react';
-// @ts-ignore
+import { mediator } from 'mediateur';
 import { Abandon } from '@potentiel-domain/laureat';
+
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { DetailsCandidature } from '@/components/candidature/DetailsCandidature';
+import { DetailsAbandon } from '@/components/laureat/abandon/DetailsAbandon';
+import { StatutAbandonBadge } from '@/components/laureat/abandon/StatutAbandonBadge';
 
-const initialState = {
-  message: null,
-};
+import { DetailsAbandonForm } from './detailsAbandon.form';
+import { bootstrap } from '@/infrastructure/bootstrap';
+import { redirect } from 'next/navigation';
 
-export default function DetailsAbandonPage({ params: { identifiant } }: IdentifiantParameter) {
-  const [abandon, setAbandon] = useState<Abandon.ConsulterAbandonReadModel>();
+bootstrap();
 
-  useEffect(() => {
-    const fetchAbandon = async () => {
-      const response = await fetch(`/api/v1/laureat/abandon/${identifiant}`);
-      const data = await response.json();
-      setAbandon(data);
-    };
+export default async function InstructionAbandonPage({
+  params: { identifiant },
+}: IdentifiantParameter) {
+  const identifiantProjet = decodeURIComponent(identifiant);
 
-    fetchAbandon();
-  }, []);
+  const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+    type: 'CONSULTER_ABANDON',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+    },
+  });
+
+  if (abandon.statut === 'rejeté') {
+    redirect(`/laureat/${identifiant}/abandon/demander`);
+  }
+
+  const réponsePossible = abandon.statut === 'accordé';
 
   return (
-    <>
-      <ul className="flex flex-col p-0 m-0 gap-4">
-        <li className="list-none p-0 m-0">{abandon?.demande.demandéLe}</li>
-        <li className="list-none p-0 m-0">{abandon?.demande.raison}</li>
-        <li className="list-none p-0 m-0">{abandon?.demande.recandidature}</li>
-        <li className="list-none p-0 m-0">{abandon?.identifiantProjet}</li>
-      </ul>
-    </>
+    <div className="flex flex-col md:flex-row gap-4">
+      <h1 className="mb-10">Votre demande d'abandon</h1>
+      {abandon && (
+        <div className="flex flex-col gap-4">
+          <div>
+            <StatutAbandonBadge statut={abandon.statut} />
+          </div>
+          <div>
+            <h2 className="mb-2">Convernant le projet :</h2>
+            <DetailsCandidature identifiantProjet={identifiantProjet} />
+          </div>
+
+          <DetailsAbandon abandon={abandon} />
+
+          {réponsePossible && <DetailsAbandonForm abandon={abandon} />}
+        </div>
+      )}
+    </div>
   );
 }

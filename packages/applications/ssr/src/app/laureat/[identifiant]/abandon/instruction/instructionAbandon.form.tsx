@@ -101,44 +101,6 @@ export const InstructionAbandonForm = ({
           ]}
         />
       </form>
-      {/* {needToUploadFile && (
-            <>
-              <input type={'file'} id="reponse-signee" name="reponse-signee" />
-              <br />
-            </>
-          )}
-          <input
-            type={'radio'}
-            id="accorder"
-            name="instruction"
-            value="accorder"
-            onClick={() => setNeedToUploadFile(!abandon?.demande.recandidature)}
-          />
-          <label htmlFor="accorder">Accorder</label>
-          <br />
-          {demandeConfirmationPossible() && (
-            <>
-              <input
-                type={'radio'}
-                id="demander-confirmation"
-                name="instruction"
-                value="demander-confirmation"
-                onClick={() => setNeedToUploadFile(true)}
-              />
-              <label htmlFor="rejeter">Demander confirmation</label>
-              <br />
-            </>
-          )}
-          <input
-            type={'radio'}
-            id="rejeter"
-            name="instruction"
-            value="rejeter"
-            onClick={() => setNeedToUploadFile(true)}
-          />
-          <label htmlFor="rejeter">Rejeter</label>
-          <br />
-          <SubmitButton /> */}
     </>
   );
 };
