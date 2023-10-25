@@ -92,7 +92,7 @@ export const InstructionAbandonForm = ({
               },
             },
             {
-              children: 'Annuler',
+              children: 'Retour',
               linkProps: {
                 href: '/laureat/abandon',
               },
