@@ -47,7 +47,7 @@ export const makeInviterUtilisateur =
         if (
           (role === 'dgec-validateur' &&
             !invitéPar.permissions.includes(PermissionInviterDgecValidateur)) ||
-          (role === 'admin' && !invitéPar.permissions.includes(PermissionInviterDgecValidateur))
+          (role === 'admin' && !invitéPar.permissions.includes(PermissionInviterAdministrateur))
         ) {
           return errAsync(new InvitationUtilisateurNonAutoriséeError({ email, role }));
         }
