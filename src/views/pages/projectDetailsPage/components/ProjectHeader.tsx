@@ -1,7 +1,7 @@
 import React from 'react';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
-import { Badge, Heading1 } from '../../../components';
+import { Badge, Heading1, PrintShow } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 
 type ProjectHeaderProps = {
@@ -11,7 +11,7 @@ type ProjectHeaderProps = {
 
 export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 lg:flex justify-between gap-2">
-    <div className="pl-3 mb-3">
+    <div className="pl-3 mb-3 text-sm">
       <div
         className="flex justify-start items-center
       "
@@ -29,10 +29,18 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
           )}
         </Heading1>
       </div>
-      <p className="text-sm font-medium text-gray-500 p-0 mt-3 mb-0">
+      <div className="font-medium mt-3">
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
-      </p>
-      <div className="text-sm">{project.potentielIdentifier}</div>
+      </div>
+      <div>{project.potentielIdentifier}</div>
+      <PrintShow>
+        Instruction selon le cahier des charges{' '}
+        {project.cahierDesChargesActuel.type === 'initial'
+          ? 'initial (en vigueur à la candidature)'
+          : `${
+              project.cahierDesChargesActuel.alternatif ? 'alternatif' : ''
+            } modifié rétroactivement et publié le ${project.cahierDesChargesActuel.paruLe}`}
+      </PrintShow>
     </div>
 
     <div className="px-3">
