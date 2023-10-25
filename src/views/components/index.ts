@@ -13,3 +13,4 @@ export * from './ProjectActions';
 export * from './ProjectInfo';
 export * from './RequestList';
 export * from './LegacyPageTemplate';
+export * from './print';
