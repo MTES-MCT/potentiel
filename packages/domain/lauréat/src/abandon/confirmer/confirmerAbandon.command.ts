@@ -5,8 +5,7 @@ import {
   IdentifiantUtilisateur,
   LoadAggregateDependencies,
 } from '@potentiel-domain/common';
-
-import { loadAbandonAggregateFactory } from '../abandon.aggregate';
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type ConfirmerAbandonCommand = Message<
   'CONFIRMER_ABANDON_COMMAND',
@@ -17,14 +16,14 @@ export type ConfirmerAbandonCommand = Message<
   }
 >;
 
-export const registerConfirmerAbandonCommand = (dependencies: LoadAggregateDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
+export const registerConfirmerAbandonCommand = ({ loadAggregate }: LoadAggregateDependencies) => {
+  const loadAbandon = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<ConfirmerAbandonCommand> = async ({
     identifiantProjet,
     dateConfirmation,
     utilisateur,
   }) => {
-    const abandon = await loadAbandonAggregate(identifiantProjet);
+    const abandon = await loadAbandon(identifiantProjet);
 
     await abandon.confirmer({
       dateConfirmation,

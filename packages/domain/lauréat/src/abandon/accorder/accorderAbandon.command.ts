@@ -9,9 +9,7 @@ import {
   LoadAggregateDependencies,
 } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-
-// Package
-import { loadAbandonAggregateFactory } from '../abandon.aggregate';
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type AccorderAbandonCommand = Message<
   'ACCORDER_ABANDON_COMMAND',
@@ -23,15 +21,15 @@ export type AccorderAbandonCommand = Message<
   }
 >;
 
-export const registerAccorderAbandonCommand = (dependencies: LoadAggregateDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
+export const registerAccorderAbandonCommand = ({ loadAggregate }: LoadAggregateDependencies) => {
+  const load = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<AccorderAbandonCommand> = async ({
     dateAccord,
     utilisateur,
     identifiantProjet,
     réponseSignée,
   }) => {
-    const abandon = await loadAbandonAggregate(identifiantProjet);
+    const abandon = await load(identifiantProjet);
 
     await abandon.accorder({
       dateAccord,

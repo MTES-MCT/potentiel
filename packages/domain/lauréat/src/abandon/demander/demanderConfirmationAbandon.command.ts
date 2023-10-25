@@ -8,7 +8,7 @@ import {
 } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { loadAbandonAggregateFactory } from '../abandon.aggregate';
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type DemanderConfirmationAbandonCommand = Message<
   'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
@@ -20,17 +20,17 @@ export type DemanderConfirmationAbandonCommand = Message<
   }
 >;
 
-export const registerDemanderConfirmationAbandonCommand = (
-  dependencies: LoadAggregateDependencies,
-) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
+export const registerDemanderConfirmationAbandonCommand = ({
+  loadAggregate,
+}: LoadAggregateDependencies) => {
+  const loadAbandon = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<DemanderConfirmationAbandonCommand> = async ({
     identifiantProjet,
     réponseSignée,
     dateDemande,
     utilisateur,
   }) => {
-    const abandon = await loadAbandonAggregate(identifiantProjet);
+    const abandon = await loadAbandon(identifiantProjet);
 
     await abandon.demanderConfirmation({
       identifiantProjet,

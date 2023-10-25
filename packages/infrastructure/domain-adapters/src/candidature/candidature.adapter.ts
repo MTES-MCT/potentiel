@@ -3,6 +3,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
+// MERCI DE NE PAS TOUCHER CETTE QUERY
 const selectCandidatureQuery = `
   select json_build_object(
     'nom', "nomProjet",

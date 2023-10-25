@@ -6,8 +6,7 @@ import {
   IdentifiantUtilisateur,
   LoadAggregateDependencies,
 } from '@potentiel-domain/common';
-
-import { loadAbandonAggregateFactory } from '../abandon.aggregate';
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type AnnulerAbandonCommand = Message<
   'ANNULER_ABANDON_COMMAND',
@@ -18,14 +17,14 @@ export type AnnulerAbandonCommand = Message<
   }
 >;
 
-export const registerAnnulerAbandonCommand = (dependencies: LoadAggregateDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
+export const registerAnnulerAbandonCommand = ({ loadAggregate }: LoadAggregateDependencies) => {
+  const loadAbandon = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<AnnulerAbandonCommand> = async ({
     dateAnnulation,
     utilisateur,
     identifiantProjet,
   }) => {
-    const abandon = await loadAbandonAggregate(identifiantProjet);
+    const abandon = await loadAbandon(identifiantProjet);
 
     await abandon.annuler({
       dateAnnulation,

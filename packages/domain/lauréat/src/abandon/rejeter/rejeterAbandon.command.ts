@@ -7,8 +7,7 @@ import {
   LoadAggregateDependencies,
 } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-
-import { loadAbandonAggregateFactory } from '../abandon.aggregate';
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type RejeterAbandonCommand = Message<
   'REJETER_ABANDON_COMMAND',
@@ -20,15 +19,15 @@ export type RejeterAbandonCommand = Message<
   }
 >;
 
-export const registerRejeterAbandonCommand = (dependencies: LoadAggregateDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
+export const registerRejeterAbandonCommand = ({ loadAggregate }: LoadAggregateDependencies) => {
+  const loadAbandon = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<RejeterAbandonCommand> = async ({
     identifiantProjet,
     réponseSignée,
     dateRejet,
     utilisateur,
   }) => {
-    const abandon = await loadAbandonAggregate(identifiantProjet);
+    const abandon = await loadAbandon(identifiantProjet);
 
     await abandon.rejeter({
       dateRejet,

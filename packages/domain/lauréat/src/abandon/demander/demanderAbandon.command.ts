@@ -8,7 +8,7 @@ import {
 } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { loadAbandonAggregateFactory } from '../abandon.aggregate';
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type DemanderAbandonCommand = Message<
   'DEMANDER_ABANDON_COMMAND',
@@ -22,8 +22,8 @@ export type DemanderAbandonCommand = Message<
   }
 >;
 
-export const registerDemanderAbandonCommand = (dependencies: LoadAggregateDependencies) => {
-  const loadAbandonAggregate = loadAbandonAggregateFactory(dependencies);
+export const registerDemanderAbandonCommand = ({ loadAggregate }: LoadAggregateDependencies) => {
+  const loadAbandon = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<DemanderAbandonCommand> = async ({
     identifiantProjet,
     pièceJustificative,
@@ -32,7 +32,7 @@ export const registerDemanderAbandonCommand = (dependencies: LoadAggregateDepend
     utilisateur,
     dateDemande,
   }) => {
-    const abandon = await loadAbandonAggregate(identifiantProjet, false);
+    const abandon = await loadAbandon(identifiantProjet, false);
 
     await abandon.demander({
       identifiantProjet,
