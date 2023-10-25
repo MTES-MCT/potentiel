@@ -1,4 +1,4 @@
-import { AggregateFactory } from '@potentiel-domain/core';
+import { AggregateFactory, AggregateId } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet, LoadAggregateDependencies } from '@potentiel-domain/common';
 
 import * as StatutAbandon from './statutAbandon.valueType';
@@ -77,7 +77,9 @@ export type AbandonEvent =
   | AbandonConfirméEvent;
 
 const getDefaultAggregate = (): AbandonAggregate => ({
-  publish: () => Promise.resolve(),
+  publish: async () => {
+    throw new AggregateNotLoadedError();
+  },
   apply,
   statut: StatutAbandon.convertirEnValueType('inconnu'),
   demande: {
@@ -132,26 +134,30 @@ export const loadAbandonAggregateFactory = ({
   publish,
 }: LoadAggregateDependencies) => {
   return async (identifiantProjet: IdentifiantProjet.ValueType, throwIfNone: boolean = true) => {
-    const abandon = await loadAggregate<AbandonAggregate, AbandonEvent>(
-      `abandon|${identifiantProjet.formatter()}`,
+    const aggregateId: AggregateId = `abandon|${identifiantProjet.formatter()}`;
+    let result = await loadAggregate<AbandonAggregate, AbandonEvent>(
+      aggregateId,
       abandonAggregateFactory,
     );
 
-    if (isNone(abandon)) {
-      if (throwIfNone) {
-        throw new AbandonInconnuErreur();
-      }
-      return abandonAggregateFactory([], loadAggregate);
+    if (isNone(result) && throwIfNone) {
+      throw new AbandonInconnuErreur();
     }
+
+    const abandon = isNone(result) ? abandonAggregateFactory([], loadAggregate) : result;
 
     // TODO move that in @potentiel-domain/core and @potentiel-infrastructure/pg-event-sourcing
     abandon.publish = async (event) => {
-      console.log('publish');
-      console.log(event);
-      await publish(abandon.aggregateId, event);
+      await publish(aggregateId, event);
       abandon.apply(event);
     };
 
     return abandon;
   };
 };
+
+class AggregateNotLoadedError extends Error {
+  constructor() {
+    super('Aggrégat non chargé');
+  }
+}
