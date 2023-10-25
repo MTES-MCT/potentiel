@@ -15,6 +15,7 @@
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/document": "*",
+    "@potentiel-domain/candidature": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",

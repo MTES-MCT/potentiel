@@ -1,6 +1,7 @@
 import { Message, mediator } from 'mediateur';
 import { randomUUID } from 'crypto';
 import { getLogger } from '@potentiel/monitoring';
+import { registerCandidatureQueries } from '@potentiel-domain/candidature';
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import {
   registerDocumentProjetCommand,
@@ -8,7 +9,7 @@ import {
 } from '@potentiel-domain/document';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { publish, loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 let isBoostrapped = false;
 
@@ -32,6 +33,10 @@ export const bootstrap = () => {
           }
         },
       ],
+    });
+
+    registerCandidatureQueries({
+      récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
     });
 
     registerLauréatUseCases({

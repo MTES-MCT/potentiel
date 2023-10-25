@@ -14,6 +14,8 @@
     "./packages/libraries/file-storage/",
     "./packages/libraries/email-sender/",
     "./packages/libraries/legacy-permissions",
+    "./packages/domain/core",
+    "./packages/domain/common",
     "./packages/domain/*",
     "./packages/domain-usecases/",
     "./packages/domain-views/",

@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { Abandon } from '@potentiel-domain/laureat';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { DetailsCandidature } from '@/components/candidature/DetailsCandidature';
@@ -16,6 +17,13 @@ export default async function InstructionAbandonPage({
   params: { identifiant },
 }: IdentifiantParameter) {
   const identifiantProjet = decodeURIComponent(identifiant);
+
+  const candidature = await mediator.send<ConsulterCandidatureQuery>({
+    type: 'CONSULTER_CANDIDATURE',
+    data: {
+      identifiantProjet,
+    },
+  });
 
   const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
     type: 'CONSULTER_ABANDON',
@@ -40,7 +48,7 @@ export default async function InstructionAbandonPage({
           </div>
           <div>
             <h2 className="mb-2">Convernant le projet :</h2>
-            <DetailsCandidature identifiantProjet={identifiantProjet} />
+            <DetailsCandidature candidature={candidature} />
           </div>
 
           <DetailsAbandon abandon={abandon} />
