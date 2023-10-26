@@ -1,13 +1,16 @@
 import React from 'react';
 
-import { ClockIcon } from '../..';
+import { ClockIcon, PrintShow } from '../..';
 
 export const NextUpIcon = () => (
-  <div className="h-9 flex items-center">
+  <div className="flex flex-col print:min-w-[90px]" title="étape à venir">
+    <PrintShow className="text-xs mb-2 whitespace-nowrap">étape à venir</PrintShow>
     <span
-      className={'relative z-2 w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full'}
+      className={
+        'relative z-2 w-8 h-8 flex items-center justify-center bg-gray-300 print:bg-none print:border-solid print:border-2 print:border-gray-400 rounded-full'
+      }
     >
-      <ClockIcon className="h-5 w-5 text-white" title="étape à venir" />
+      <ClockIcon className="h-5 w-5 text-white print:text-gray-400" />
     </span>
   </div>
 );
