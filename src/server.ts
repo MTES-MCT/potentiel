@@ -10,6 +10,7 @@ import { isDevEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap as bootstrapWebApp } from '@potentiel/web';
+import { bootstrap } from '@potentiel-application/bootstrap';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   DateMiseEnServiceTransmise,
@@ -161,6 +162,7 @@ export async function makeServer(port: number, sessionSecret: string) {
         );
     });
 
+    /////// Custom server next
     const nextApp = next({
       dev: false,
       dir: join(__dirname, '..', 'packages', 'applications', 'ssr'),
@@ -176,17 +178,15 @@ export async function makeServer(port: number, sessionSecret: string) {
       return nextHandler(req, res);
     });
 
-    nextApp.prepare().then(() => {
-      return new Promise((resolve) => {
-        const server = app.listen(port, () => {
-          process.env.start_datetime = new Date().getTime().toString();
-          logger.info(`Server listening on port ${port}!`);
-          logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
-          logger.info(`Version ${process.env.npm_package_version}`);
-          resolve(server);
-        });
-      });
+    await nextApp.prepare();
+    await bootstrap();
+    app.listen(port, () => {
+      process.env.start_datetime = new Date().getTime().toString();
+      logger.info(`Server listening on port ${port}!`);
+      logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
+      logger.info(`Version ${process.env.npm_package_version}`);
     });
+    ///////
   } catch (error) {
     logger.error(error);
   }

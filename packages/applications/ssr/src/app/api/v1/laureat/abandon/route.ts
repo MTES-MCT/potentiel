@@ -4,9 +4,6 @@ import { apiAction } from '@/utils/apiAction';
 import { getPagination } from '@/utils/getPagination';
 
 import { Abandon } from '@potentiel-domain/laureat';
-import { bootstrap } from '@potentiel-application/bootstrap';
-
-bootstrap();
 
 export const GET = (request: Request) =>
   apiAction(async () => {

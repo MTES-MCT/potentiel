@@ -1,12 +1,8 @@
 import { mediator } from 'mediateur';
-
-import { bootstrap } from '@potentiel-application/bootstrap';
 import { apiAction } from '@/utils/apiAction';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 import { Abandon } from '@potentiel-domain/laureat';
-
-bootstrap();
 
 export const GET = async (request: Request, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(async () => {

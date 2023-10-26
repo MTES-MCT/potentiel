@@ -1,3 +1,4 @@
+'use server';
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { Abandon } from '@potentiel-domain/laureat';
 

@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
-import { bootstrap } from '@potentiel-application/bootstrap';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { DetailsCandidature } from '@/components/candidature/DetailsCandidature';
@@ -10,8 +9,6 @@ import { StatutAbandonBadge } from '@/components/laureat/abandon/StatutAbandonBa
 
 import { DetailsAbandonForm } from './detailsAbandon.form';
 import { redirect } from 'next/navigation';
-
-bootstrap();
 
 export default async function DetailsAbandonPage({
   params: { identifiant },
@@ -50,7 +47,12 @@ export default async function DetailsAbandonPage({
 
         <DetailsAbandon abandon={abandon} />
 
-        {!abandon.statut.estAccordé() && <DetailsAbandonForm abandon={abandon} />}
+        {!abandon.statut.estAccordé() && (
+          <DetailsAbandonForm
+            estEnCours={abandon.statut.estEnCours()}
+            identifiantProjet={abandon.identifiantProjet.formatter()}
+          />
+        )}
       </div>
     </div>
   );

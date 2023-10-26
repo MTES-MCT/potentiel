@@ -1,3 +1,4 @@
+'use server';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Download } from '@codegouvfr/react-dsfr/Download';
 
@@ -27,7 +28,7 @@ export const DetailsAbandon = ({ abandon }: { abandon: Abandon.ConsulterAbandonR
           linkProps={{
             href: `/laureat/${encodeURIComponent(
               abandon.identifiantProjet.formatter(),
-            )}/piece-justificative`,
+            )}/abandon/piece-justificative`,
           }}
         />
       )}

@@ -5,7 +5,6 @@ import {
   //@ts-ignore
   experimental_useFormStatus as useFormStatus,
 } from 'react-dom';
-import { Abandon } from '@potentiel-domain/laureat';
 import { InstructionAbandonState, instructionAbandonAction } from './instructionAbandon.action';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
@@ -17,12 +16,18 @@ const initialState: InstructionAbandonState = {
   validationErrors: [],
 };
 
+type InstructionAbandonFormProps = {
+  abandonDemandé: boolean;
+  recandidature: boolean;
+  identifiantProjet: string;
+};
+
 export const InstructionAbandonForm = ({
-  abandon,
-}: {
-  abandon: Abandon.ConsulterAbandonReadModel;
-}) => {
-  const demandeConfirmationPossible = abandon.statut.estDemandé() && !abandon.demande.recandidature;
+  abandonDemandé,
+  identifiantProjet,
+  recandidature,
+}: InstructionAbandonFormProps) => {
+  const demandeConfirmationPossible = abandonDemandé && !recandidature;
 
   const [needToUploadFile, setNeedToUploadFile] = useState(true);
   const { pending } = useFormStatus();
@@ -34,11 +39,7 @@ export const InstructionAbandonForm = ({
       <form action={formAction}>
         {state.error && <Alert severity="error" title={state.error} />}
 
-        <input
-          type={'hidden'}
-          value={abandon?.identifiantProjet.formatter()}
-          name="identifiantProjet"
-        />
+        <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
         {needToUploadFile && (
           <Upload
             label="Réponse signée"
@@ -69,7 +70,7 @@ export const InstructionAbandonForm = ({
               label: 'Accorder',
               nativeInputProps: {
                 value: 'accorder',
-                onClick: () => setNeedToUploadFile(!abandon.demande.recandidature),
+                onClick: () => setNeedToUploadFile(!recandidature),
               },
             },
             {

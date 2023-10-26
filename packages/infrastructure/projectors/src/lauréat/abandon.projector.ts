@@ -44,6 +44,7 @@ export const registerAbandonProjector = () => {
             demandePièceJustificativeFormat:
               payload.pièceJustificative && payload.pièceJustificative.format,
             demandeDemandéLe: payload.demandéLe,
+            demandeDemandéPar: payload.demandéPar,
             demandeRaison: payload.raison,
             demandeRecandidature: payload.recandidature,
           });
@@ -52,6 +53,7 @@ export const registerAbandonProjector = () => {
           await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             accordAccordéLe: payload.accordéLe,
+            accordAccordéPar: payload.accordéPar,
             accordRéponseSignéeFormat: payload.réponseSignée.format,
             statut: 'accordé',
           });
@@ -60,6 +62,7 @@ export const registerAbandonProjector = () => {
           await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             rejetRejetéLe: payload.rejetéLe,
+            rejetRejetéPar: payload.rejetéPar,
             rejetRéponseSignéeFormat: payload.réponseSignée.format,
             statut: 'rejeté',
           });
@@ -68,6 +71,7 @@ export const registerAbandonProjector = () => {
           await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             confirmationDemandéeLe: payload.confirmationDemandéeLe,
+            confirmationConfirméPar: payload.confirmationDemandéePar,
             confirmationDemandéeRéponseSignéeFormat: payload.réponseSignée.format,
             statut: 'confirmation-demandée',
           });
@@ -76,6 +80,7 @@ export const registerAbandonProjector = () => {
           await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             confirmationConfirméLe: payload.confirméLe,
+            confirmationConfirméPar: payload.confirméPar,
             statut: 'confirmé',
           });
           break;

@@ -20,23 +20,23 @@ export const convertirEnValueType = (
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
   const dateCréation = DateTime.convertirEnValueType(dateCréationValue);
 
-  const format = extension(formatValue);
-  estUnFormatValide(format);
+  const extensionFichier = extension(formatValue);
+  estUneExtensionFichierValide(extensionFichier);
   estUnTypeDeDocumentValide(typeDocumentValue);
 
   return {
-    format,
+    format: formatValue,
     formatter() {
       return join(
         identifiantProjet.formatter(),
         typeDocumentValue,
-        `${dateCréation.formatter()}.${format}`,
+        `${dateCréation.formatter()}.${extensionFichier}`,
       ) as RawType;
     },
   };
 };
 
-function estUnFormatValide(value: string | false): asserts value is string {
+function estUneExtensionFichierValide(value: string | false): asserts value is string {
   if (!value) {
     throw new FormatDocumentInvalideError();
   }
