@@ -11,7 +11,6 @@ import {
   handlePeriodeNotified,
   handleProjectCertificateObsolete,
   handleProjectRawDataImported,
-  makeOnDateMiseEnServiceTransmise,
   makeOnDélaiAccordé,
   makeOnDélaiAccordéCorrigé,
   PeriodeNotified,
@@ -21,6 +20,9 @@ import {
   DateMiseEnServiceTransmise,
   makeOnCahierDesChargesChoisi,
   CahierDesChargesChoisi,
+  makeOnDateMiseEnServiceTransmise,
+  makeOnDemandeComplèteRaccordementTransmise,
+  DemandeComplèteRaccordementTransmise,
 } from '../../modules/project';
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';
@@ -119,27 +121,6 @@ const onAbandonAccordé = async (event: DomainEvent) => {
 };
 subscribeToRedis(onAbandonAccordé, 'Project.onAbandonAccordé');
 
-const onDateMiseEnServiceTransmiseHandler = makeOnDateMiseEnServiceTransmise({
-  projectRepo,
-  publishToEventStore: eventStore.publish,
-  getProjectAppelOffre,
-  findProjectByIdentifiers,
-  récupérerDétailDossiersRaccordements,
-});
-
-const onDateMiseEnServiceTransmise = async (event: DomainEvent) => {
-  if (!(event instanceof DateMiseEnServiceTransmise)) {
-    return Promise.resolve();
-  }
-
-  return onDateMiseEnServiceTransmiseHandler(event).match(
-    () => Promise.resolve(),
-    (e) => Promise.reject(e),
-  );
-};
-
-subscribeToRedis(onDateMiseEnServiceTransmise, 'Project.onDateMiseEnServiceTransmise');
-
 const onAnnulationAbandonAccordéeHandler = makeOnAnnulationAbandonAccordée({
   projectRepo,
   publishToEventStore: eventStore.publish,
@@ -178,6 +159,50 @@ const onCahierDesChargesChoisi = async (event: DomainEvent) => {
 };
 
 subscribeToRedis(onCahierDesChargesChoisi, 'Project.onCahierDesChargesChoisi');
+
+const onDateMiseEnServiceTransmiseHandler = makeOnDateMiseEnServiceTransmise({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+  getProjectAppelOffre,
+  findProjectByIdentifiers,
+  récupérerDétailDossiersRaccordements,
+});
+
+const onDateMiseEnServiceTransmise = async (event: DomainEvent) => {
+  if (!(event instanceof DateMiseEnServiceTransmise)) {
+    return Promise.resolve();
+  }
+
+  return onDateMiseEnServiceTransmiseHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e),
+  );
+};
+
+subscribeToRedis(onDateMiseEnServiceTransmise, 'Project.onDateMiseEnServiceTransmise');
+
+const onDemandeComplèteRaccordementTransmiseHandler = makeOnDemandeComplèteRaccordementTransmise({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+  getProjectAppelOffre,
+  findProjectByIdentifiers,
+});
+
+const onDemandeComplèteRaccordementTransmise = async (event: DomainEvent) => {
+  if (!(event instanceof DemandeComplèteRaccordementTransmise)) {
+    return Promise.resolve();
+  }
+
+  return onDemandeComplèteRaccordementTransmiseHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e),
+  );
+};
+
+subscribeToRedis(
+  onDemandeComplèteRaccordementTransmise,
+  'Project.onDemandeComplèteRaccordementTransmise',
+);
 
 console.log('Project Event Handlers Initialized');
 export const projectHandlersOk = true;

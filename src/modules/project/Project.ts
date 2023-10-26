@@ -1248,9 +1248,11 @@ export const makeProject = (args: {
         }
         if (
           event.payload.reason &&
-          ['ChoixCDCAnnuleDélaiCdc2022', 'DateMiseEnServiceAnnuleDélaiCdc2022'].includes(
-            event.payload.reason,
-          )
+          [
+            'ChoixCDCAnnuleDélaiCdc2022',
+            'DateMiseEnServiceAnnuleDélaiCdc2022',
+            'DemandeComplèteRaccordementTransmiseAnnuleDélaiCdc2022',
+          ].includes(event.payload.reason)
         ) {
           props.délaiCDC2022appliqué = false;
         }
