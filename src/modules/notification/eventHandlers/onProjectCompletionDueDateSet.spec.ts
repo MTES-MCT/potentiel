@@ -390,5 +390,124 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
         );
       });
     });
+
+    describe(`Nouveau dossier de raccordement`, () => {
+      it(`Etant donné un projet suivi par deux utilisateurs "porteur-projet"
+        Et suivi par deux utilisateurs "dreal"
+        Quand un délai de 18 mois relatif au CDC 2022 est annulé sur le projet suite à l'ajout d'un dossier de raccordement 
+        Alors les deux profils "porteur-projet" devraient être notifiés
+        Et les deux profils "dreal" devraient être notifiés
+        `, async () => {
+        const porteur1 = makeFakeUser({
+          email: 'email1@test.test',
+          id: 'user-1',
+          fullName: 'nom_porteur1',
+        });
+        const porteur2 = makeFakeUser({
+          email: 'email2@test.test',
+          id: 'user-2',
+          fullName: 'nom_porteur2',
+        });
+
+        const onProjectCompletionDueDateSet = makeOnProjectCompletionDueDateSet({
+          sendNotification,
+          getProjectUsers: jest.fn(async () => [porteur1, porteur2]),
+          getProjectById: jest.fn(async () =>
+            makeFakeProject({
+              id: projetId,
+              nomProjet: 'nom_projet',
+              regionProjet: 'regionA / regionB',
+            }),
+          ),
+          findUsersForDreal: (region: string) =>
+            Promise.resolve(
+              region === 'regionA'
+                ? [{ email: 'drealA@test.test', fullName: 'drealA', id: 'user-A' } as User]
+                : [{ email: 'drealB@test.test', fullName: 'drealB', id: 'user-B' } as User],
+            ),
+          dgecEmail,
+        });
+
+        const évènement = new ProjectCompletionDueDateSet({
+          payload: {
+            projectId: projetId,
+            completionDueOn: new Date('2025-01-01').getTime(),
+            reason: 'DemandeComplèteRaccordementTransmiseAnnuleDélaiCdc2022',
+          },
+        });
+
+        await onProjectCompletionDueDateSet(évènement);
+
+        expect(sendNotification).toHaveBeenCalledTimes(4);
+
+        expect(sendNotification).toHaveBeenNthCalledWith(
+          1,
+          expect.objectContaining({
+            type: 'demande-complete-raccordement-transmise-annule-delai-Cdc-2022',
+            context: expect.objectContaining({ projetId, utilisateurId: 'user-1' }),
+            variables: expect.objectContaining({
+              nom_projet: 'nom_projet',
+              projet_url: expect.anything(),
+            }),
+            message: expect.objectContaining({
+              email: 'email1@test.test',
+              name: 'nom_porteur1',
+              subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet nom_projet`,
+            }),
+          }),
+        );
+
+        expect(sendNotification).toHaveBeenNthCalledWith(
+          2,
+          expect.objectContaining({
+            type: 'demande-complete-raccordement-transmise-annule-delai-Cdc-2022',
+            context: expect.objectContaining({ projetId, utilisateurId: 'user-2' }),
+            variables: expect.objectContaining({
+              nom_projet: 'nom_projet',
+              projet_url: expect.anything(),
+            }),
+            message: expect.objectContaining({
+              email: 'email2@test.test',
+              name: 'nom_porteur2',
+              subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet nom_projet`,
+            }),
+          }),
+        );
+
+        expect(sendNotification).toHaveBeenNthCalledWith(
+          3,
+          expect.objectContaining({
+            type: 'demande-complete-raccordement-transmise-annule-delai-Cdc-2022',
+            context: expect.objectContaining({ projetId, utilisateurId: 'user-A' }),
+            variables: expect.objectContaining({
+              nom_projet: 'nom_projet',
+              projet_url: expect.anything(),
+            }),
+            message: expect.objectContaining({
+              email: 'drealA@test.test',
+              name: 'drealA',
+              subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet nom_projet`,
+            }),
+          }),
+        );
+
+        expect(sendNotification).toHaveBeenNthCalledWith(
+          4,
+          expect.objectContaining({
+            type: 'demande-complete-raccordement-transmise-annule-delai-Cdc-2022',
+            context: expect.objectContaining({ projetId, utilisateurId: 'user-B' }),
+            variables: expect.objectContaining({
+              nom_projet: 'nom_projet',
+              projet_url: expect.anything(),
+            }),
+            message: expect.objectContaining({
+              email: 'drealB@test.test',
+              name: 'drealB',
+              subject: `Potentiel - Date d'achèvement théorique mise à jour pour le projet nom_projet`,
+            }),
+          }),
+        );
+      });
+    });
   });
 });

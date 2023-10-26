@@ -77,7 +77,11 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
 
     if (
       reason &&
-      ['DateMiseEnServiceAnnuleDélaiCdc2022', 'ChoixCDCAnnuleDélaiCdc2022'].includes(reason)
+      [
+        'DateMiseEnServiceAnnuleDélaiCdc2022',
+        'ChoixCDCAnnuleDélaiCdc2022',
+        'DemandeComplèteRaccordementTransmiseAnnuleDélaiCdc2022',
+      ].includes(reason)
     ) {
       const variables = {
         nom_projet: projet.nomProjet,
@@ -86,7 +90,9 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
       const type =
         reason === 'DateMiseEnServiceAnnuleDélaiCdc2022'
           ? 'date-mise-en-service-transmise-annule-delai-cdc-2022'
-          : 'changement-cdc-annule-delai-cdc-2022';
+          : reason === 'ChoixCDCAnnuleDélaiCdc2022'
+          ? 'changement-cdc-annule-delai-cdc-2022'
+          : 'demande-complete-raccordement-transmise-annule-delai-Cdc-2022';
 
       await Promise.all(
         porteursEmails.map(({ email, fullName, id }) =>
