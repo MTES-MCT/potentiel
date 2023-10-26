@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbandon.command';
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 export type DemanderConfirmationAbandonUseCase = Message<
   'DEMANDER_CONFIRMATION_ABANDON_USECASE',
@@ -27,7 +28,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      'abandon/abandon-à-confirmer',
+      TypeDocumentAbandon.abandonÀConfirmer.formatter(),
       dateDemandeValue,
       format,
     );

@@ -1,0 +1,20 @@
+{
+  "name": "@potentiel/projector",
+  "version": "0.0.0",
+  "description": "Potentiel website packages for the new project organization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel-domain/laureat": "*",
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel-infrastructure/pg-projections": "*",
+    "mediateur": "^0.1.0"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { RejeterAbandonCommand } from './rejeterAbandon.command';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 export type RejeterAbandonUseCase = Message<
   'REJETER_ABANDON_USECASE',
@@ -25,7 +26,7 @@ export const registerRejeterAbandonUseCase = () => {
   }) => {
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      'abandon/abandon-rejeté',
+      TypeDocumentAbandon.abandonRejeté.formatter(),
       dateRejetValue,
       format,
     );

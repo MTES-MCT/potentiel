@@ -39,8 +39,11 @@ export {
   RejeterAbandonUseCase,
 };
 
+// Event
+export { AbandonEvent } from './abandon.aggregate';
+
 // Register
-export * from './abandon.register';
+export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
 
 // ValueTypes
 export * as StatutAbandon from './statutAbandon.valueType';

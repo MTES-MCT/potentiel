@@ -1,33 +1,30 @@
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { Projection } from '@potentiel-libraries/projection';
-import * as StatutAbandon from './statutAbandon.valueType';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 export type AbandonProjection = Projection<
   'abandon',
   {
-    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantProjet: string;
 
-    statut: StatutAbandon.RawType;
+    statut: string;
 
     demandeRaison: string;
-    demandePièceJustificative?: DocumentProjet.RawType;
+    demandePièceJustificativeFormat?: string;
     demandeRecandidature: boolean;
-    demandeDemandéPar: IdentifiantUtilisateur.RawType;
-    demandeDemandéLe: DateTime.RawType;
+    demandeDemandéPar: string;
+    demandeDemandéLe: string;
 
-    accordRéponseSignée?: DocumentProjet.RawType;
-    accordAccordéPar?: IdentifiantUtilisateur.RawType;
-    accordAccordéLe?: DateTime.RawType;
+    accordRéponseSignéeFormat?: string;
+    accordAccordéPar?: string;
+    accordAccordéLe?: string;
 
-    rejetRéponseSignée?: DocumentProjet.RawType;
-    rejetRejetéPar?: IdentifiantUtilisateur.RawType;
-    rejetRejetéLe?: DateTime.RawType;
+    rejetRéponseSignéeFormat?: string;
+    rejetRejetéPar?: string;
+    rejetRejetéLe?: string;
 
-    confirmationDemandéePar?: IdentifiantUtilisateur.RawType;
-    confirmationDemandéeLe?: DateTime.RawType;
-    confirmationDemandéeRéponseSignée?: DocumentProjet.RawType;
-    confirmationConfirméLe?: DateTime.RawType;
-    confirmationConfirméPar?: IdentifiantUtilisateur.RawType;
+    confirmationDemandéePar?: string;
+    confirmationDemandéeLe?: string;
+    confirmationDemandéeRéponseSignéeFormat?: string;
+    confirmationConfirméLe?: string;
+    confirmationConfirméPar?: string;
   }
 >;

@@ -7,6 +7,7 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 
 // Package
 import { AccorderAbandonCommand } from './accorderAbandon.command';
+import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 export type AccorderAbandonUseCase = Message<
   'ACCORDER_ABANDON_USECASE',
@@ -30,7 +31,7 @@ export const registerAccorderAbandonUseCase = () => {
   }) => {
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      'abandon/abandon-accordé',
+      TypeDocumentAbandon.abandonAccordé.formatter(),
       dateAccordValue,
       format,
     );

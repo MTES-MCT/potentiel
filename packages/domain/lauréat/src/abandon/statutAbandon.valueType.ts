@@ -18,6 +18,7 @@ const statuts: Array<RawType> = [
   'rejeté',
   'inconnu',
 ];
+
 const statutsEnCours: Array<RawType> = ['confirmation-demandée', 'confirmé', 'demandé'];
 
 export type ValueType = Readonly<{

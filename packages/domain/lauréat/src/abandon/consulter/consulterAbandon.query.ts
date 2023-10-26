@@ -8,32 +8,33 @@ import * as StatutAbandon from '../statutAbandon.valueType';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { AbandonProjection } from '../abandon.projection';
 import { Find } from '@potentiel-libraries/projection';
+import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 export type ConsulterAbandonReadModel = {
-  identifiantProjet: IdentifiantProjet.RawType;
-  statut: StatutAbandon.RawType;
+  identifiantProjet: IdentifiantProjet.ValueType;
+  statut: StatutAbandon.ValueType;
   demande: {
     raison: string;
     recandidature: boolean;
-    piéceJustificative?: DocumentProjet.RawType;
-    demandéLe: DateTime.RawType;
-    demandéPar: IdentifiantUtilisateur.RawType;
+    piéceJustificative?: DocumentProjet.ValueType;
+    demandéLe: DateTime.ValueType;
+    demandéPar: IdentifiantUtilisateur.ValueType;
     confirmation?: {
-      demandéLe: DateTime.RawType;
-      demandéPar: IdentifiantUtilisateur.RawType;
-      réponseSignée: DocumentProjet.RawType;
-      confirméLe?: DateTime.RawType;
+      demandéLe: DateTime.ValueType;
+      demandéPar: IdentifiantUtilisateur.ValueType;
+      réponseSignée: DocumentProjet.ValueType;
+      confirméLe?: DateTime.ValueType;
     };
   };
   accord?: {
-    accordéLe: DateTime.RawType;
-    accordéPar: IdentifiantUtilisateur.RawType;
-    réponseSignée: DocumentProjet.RawType;
+    accordéLe: DateTime.ValueType;
+    accordéPar: IdentifiantUtilisateur.ValueType;
+    réponseSignée: DocumentProjet.ValueType;
   };
   rejet?: {
-    rejetéLe: DateTime.RawType;
-    rejetéPar: IdentifiantUtilisateur.RawType;
-    réponseSignée: DocumentProjet.RawType;
+    rejetéLe: DateTime.ValueType;
+    rejetéPar: IdentifiantUtilisateur.ValueType;
+    réponseSignée: DocumentProjet.ValueType;
   };
 };
 
@@ -51,50 +52,75 @@ export type ConsulterAbandonDependencies = {
 
 export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependencies) => {
   const handler: MessageHandler<ConsulterAbandonQuery> = async ({ identifiantProjetValue }) => {
-    const identifiantProjet =
-      IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter();
-    const result = await find<AbandonProjection>(`abandon|${identifiantProjet}`);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const result = await find<AbandonProjection>(`abandon|${identifiantProjet.formatter()}`);
 
     if (isNone(result)) {
       throw new AbandonInconnuErreur();
     }
 
     const demande: ConsulterAbandonReadModel['demande'] = {
-      demandéLe: result.demandeDemandéLe,
-      demandéPar: result.demandeDemandéPar,
+      demandéLe: DateTime.convertirEnValueType(result.demandeDemandéLe),
+      demandéPar: IdentifiantUtilisateur.convertirEnValueType(result.demandeDemandéPar),
       raison: result.demandeRaison,
       recandidature: result.demandeRecandidature,
-      piéceJustificative: result.demandePièceJustificative,
+      piéceJustificative: result.demandePièceJustificativeFormat
+        ? DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            TypeDocumentAbandon.pièceJustificative.formatter(),
+            DateTime.convertirEnValueType(result.demandeDemandéLe).formatter(),
+            result.demandePièceJustificativeFormat,
+          )
+        : undefined,
       confirmation: result.confirmationDemandéeLe
         ? {
-            demandéLe: result.confirmationDemandéeLe!,
-            demandéPar: result.confirmationDemandéePar!,
-            réponseSignée: result.confirmationDemandéeRéponseSignée!,
-            confirméLe: result.confirmationConfirméLe,
+            demandéLe: DateTime.convertirEnValueType(result.confirmationDemandéeLe!),
+            demandéPar: IdentifiantUtilisateur.convertirEnValueType(
+              result.confirmationDemandéePar!,
+            ),
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              identifiantProjet.formatter(),
+              TypeDocumentAbandon.abandonÀConfirmer.formatter(),
+              DateTime.convertirEnValueType(result.confirmationDemandéeLe!).formatter(),
+              result.confirmationDemandéeRéponseSignéeFormat!,
+            ),
+            confirméLe: result.confirmationConfirméLe
+              ? DateTime.convertirEnValueType(result.confirmationConfirméLe)
+              : undefined,
           }
         : undefined,
     };
 
     const accord: ConsulterAbandonReadModel['accord'] = result.accordAccordéLe
       ? {
-          accordéLe: result.accordAccordéLe!,
-          accordéPar: result.accordAccordéPar!,
-          réponseSignée: result.accordRéponseSignée!,
+          accordéLe: DateTime.convertirEnValueType(result.accordAccordéLe!),
+          accordéPar: IdentifiantUtilisateur.convertirEnValueType(result.accordAccordéPar!),
+          réponseSignée: DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            TypeDocumentAbandon.abandonAccordé.formatter(),
+            DateTime.convertirEnValueType(result.accordAccordéLe!).formatter(),
+            result.accordRéponseSignéeFormat!,
+          ),
         }
       : undefined;
 
     const rejet: ConsulterAbandonReadModel['rejet'] = result.rejetRejetéLe
       ? {
-          rejetéLe: result.rejetRejetéLe!,
-          rejetéPar: result.rejetRejetéPar!,
-          réponseSignée: result.rejetRéponseSignée!,
+          rejetéLe: DateTime.convertirEnValueType(result.rejetRejetéLe!),
+          rejetéPar: IdentifiantUtilisateur.convertirEnValueType(result.rejetRejetéPar!),
+          réponseSignée: DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            TypeDocumentAbandon.abandonRejeté.formatter(),
+            DateTime.convertirEnValueType(result.rejetRejetéLe!).formatter(),
+            result.rejetRéponseSignéeFormat!,
+          ),
         }
       : undefined;
 
     return {
       demande,
       identifiantProjet,
-      statut: result.statut,
+      statut: StatutAbandon.convertirEnValueType(result.statut),
       accord,
       rejet,
     };
