@@ -5,10 +5,7 @@ import { redirect } from 'next/navigation';
 
 import { Abandon } from '@potentiel-domain/laureat';
 
-import { bootstrap } from '@/bootstrap';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-
-bootstrap();
 
 const schema = zod.object({
   identifiantProjet: zod.string(),

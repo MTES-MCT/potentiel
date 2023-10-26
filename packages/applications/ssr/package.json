@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/ssr",
+  "name": "@potentiel-application/ssr",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,6 +21,7 @@
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
     "@potentiel-libraries/mediateur-middlewares": "*",
+    "@potentiel-application/bootstrap": "*",
     "mediateur": "^0.1.0",
     "next": "13.5.4",
     "react": "^18",

@@ -4,7 +4,7 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { DetailsCandidature } from '@/components/candidature/DetailsCandidature';
-import { bootstrap } from '@/bootstrap';
+import { bootstrap } from '@potentiel-application/bootstrap';
 
 import { DemanderAbandonForm } from './demanderAbandon.form';
 

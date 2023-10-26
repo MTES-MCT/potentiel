@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel/projector",
+  "name": "@potentiel-infrastructure/projectors",
   "version": "0.0.0",
-  "description": "Potentiel website packages for the new project organization",
+  "description": "Potentiel projectors",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,

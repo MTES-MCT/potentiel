@@ -1,0 +1,26 @@
+{
+  "name": "@potentiel-application/bootstrap",
+  "version": "0.0.0",
+  "description": "Potentiel projector",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/document": "*",
+    "@potentiel-domain/laureat": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-infrastructure/projectors": "*",
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel-infrastructure/pg-projections": "*",
+    "@potentiel-libraries/mediateur-middlewares": "*",
+    "@potentiel/pg-helpers": "*",
+    "mediateur": "^0.1.0"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

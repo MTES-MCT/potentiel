@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 
+import { bootstrap } from '@potentiel-application/bootstrap';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 
@@ -7,7 +8,6 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { DetailsCandidature } from '@/components/candidature/DetailsCandidature';
 import { DetailsAbandon } from '@/components/laureat/abandon/DetailsAbandon';
 import { StatutAbandonBadge } from '@/components/laureat/abandon/StatutAbandonBadge';
-import { bootstrap } from '@/bootstrap';
 
 import { InstructionAbandonForm } from './instructionAbandon.form';
 

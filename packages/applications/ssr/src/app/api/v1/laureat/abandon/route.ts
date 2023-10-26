@@ -1,10 +1,10 @@
 import { mediator } from 'mediateur';
 
-import { bootstrap } from '@/bootstrap';
 import { apiAction } from '@/utils/apiAction';
 import { getPagination } from '@/utils/getPagination';
 
 import { Abandon } from '@potentiel-domain/laureat';
+import { bootstrap } from '@potentiel-application/bootstrap';
 
 bootstrap();
 
