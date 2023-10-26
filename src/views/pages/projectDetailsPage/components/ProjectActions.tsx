@@ -4,6 +4,7 @@ import {
   DropdownMenuSecondaryButton,
   PrimaryButton,
   PrintHidden,
+  PrintIcon,
 } from '../../../components';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
@@ -117,7 +118,10 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
           Télécharger mon attestation
         </DownloadLinkButton>
       )}
-      <PrimaryButton onClick={() => window.print()}>Imprimer la page</PrimaryButton>
+      <PrimaryButton onClick={() => window.print()}>
+        <PrintIcon className="text-white mr-2" aria-hidden />
+        Imprimer la page
+      </PrimaryButton>
     </div>
   </div>
 );

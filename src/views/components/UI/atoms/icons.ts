@@ -33,6 +33,7 @@ export {
   RiDashboardLine as DashboardIcon,
   RiAddLine as AddIcon,
   RiSubtractLine as SubtractIcon,
+  RiPrinterLine as PrintIcon,
 } from 'react-icons/ri';
 export {
   HiOutlineTrash as TrashIcon,
