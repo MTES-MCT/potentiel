@@ -8,7 +8,11 @@ export default ProjectEventProjector.on(
   async ({ payload: { projectId, completionDueOn, reason }, occurredAt }, transaction) => {
     if (
       reason &&
-      ['ChoixCDCAnnuleDélaiCdc2022', 'DateMiseEnServiceAnnuleDélaiCdc2022'].includes(reason)
+      [
+        'ChoixCDCAnnuleDélaiCdc2022',
+        'DateMiseEnServiceAnnuleDélaiCdc2022',
+        'DemandeComplèteRaccordementTransmiseAnnuleDélaiCdc2022',
+      ].includes(reason)
     ) {
       await ProjectEvent.destroy({
         where: { type: ProjectCompletionDueDateSet.type, 'payload.reason': 'délaiCdc2022' },
