@@ -14,7 +14,6 @@ import {
   Label,
   Container,
   AccountIcon,
-  PrintHidden,
   PrintShow,
 } from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
@@ -39,34 +38,32 @@ const LogoAndTitle = () => (
         </div>
       </div>
     </PrintShow>
-    <PrintHidden>
-      <Link
-        className="no-underline hover:no-underline focus:no-underline visited:no-underline"
-        href={routes.HOME}
-        title="Retour à l'accueil"
-        aria-label="Retour à l'accueil"
-      >
-        <div className="flex items-center">
-          <div className="flex flex-col">
-            <div className="lg:mb-1 logo-before" />
-            <div className="hidden lg:block font-bold leading-none tracking-tighter text-black">
-              RÉPUBLIQUE
-              <br />
-              FRANÇAISE
-            </div>
-            <div className="hidden lg:block logo-after" />
+    <Link
+      className="no-underline hover:no-underline focus:no-underline visited:no-underline"
+      href={routes.HOME}
+      title="Retour à l'accueil"
+      aria-label="Retour à l'accueil"
+    >
+      <div className="flex items-center">
+        <div className="flex flex-col">
+          <div className="lg:mb-1 logo-before" />
+          <div className="hidden lg:block font-bold leading-none tracking-tighter text-black">
+            RÉPUBLIQUE
+            <br />
+            FRANÇAISE
           </div>
-          <div className="ml-2 lg:ml-8 no-underline">
-            <div className="font-bold lg:text-xl text-black">Potentiel</div>
-            <div className="hidden lg:block text-base text-black">
-              Facilite le parcours des producteurs
-              <br />
-              d'énergies renouvelables électriques
-            </div>
+          <div className="hidden lg:block logo-after" />
+        </div>
+        <div className="ml-2 lg:ml-8 no-underline">
+          <div className="font-bold lg:text-xl text-black">Potentiel</div>
+          <div className="hidden lg:block text-base text-black">
+            Facilite le parcours des producteurs
+            <br />
+            d'énergies renouvelables électriques
           </div>
         </div>
-      </Link>
-    </PrintHidden>
+      </div>
+    </Link>
   </>
 );
 
@@ -208,7 +205,7 @@ type MainMenuProps = {
   children: React.ReactNode;
 };
 const MainMenu = ({ children }: MainMenuProps) => (
-  <PrintHidden>
+  <div className="print:hidden">
     <Checkbox id="menu-toggle" className="hidden" />
     <Label className="absolute top-3 right-2 text-xl lg:hidden" htmlFor="menu-toggle">
       <MenuIcon className="menu-open" />
@@ -222,7 +219,7 @@ const MainMenu = ({ children }: MainMenuProps) => (
         {children}
       </ul>
     </nav>
-  </PrintHidden>
+  </div>
 );
 
 type MenuItemProps = {
@@ -253,25 +250,23 @@ Header.MenuItem = MenuItem;
 
 type MenuAccèsRapidesProps = { menuDisponible: boolean };
 const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
-  <PrintHidden>
-    <nav role="navigation" aria-label="Accès rapide" className="bg-grey-950-base">
-      <Container>
-        <ul className="flex row list-none justify-start px-0 py-4 gap-4 my-0">
+  <nav role="navigation" aria-label="Accès rapide" className="print:hidden bg-grey-950-base">
+    <Container>
+      <ul className="flex row list-none justify-start px-0 py-4 gap-4 my-0">
+        <li>
+          <Link href="#contenu">Accéder au contenu</Link>
+        </li>
+        {menuDisponible && (
           <li>
-            <Link href="#contenu">Accéder au contenu</Link>
+            <Link href="#menu-principal">Accéder au menu</Link>
           </li>
-          {menuDisponible && (
-            <li>
-              <Link href="#menu-principal">Accéder au menu</Link>
-            </li>
-          )}
-          <li>
-            <Link href="#pied-de-page">Accéder au pied de page</Link>
-          </li>
-        </ul>
-      </Container>
-    </nav>
-  </PrintHidden>
+        )}
+        <li>
+          <Link href="#pied-de-page">Accéder au pied de page</Link>
+        </li>
+      </ul>
+    </Container>
+  </nav>
 );
 
 export { Header };

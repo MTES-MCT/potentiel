@@ -3,7 +3,6 @@ import {
   SecondaryLinkButton,
   DropdownMenuSecondaryButton,
   PrimaryButton,
-  PrintHidden,
   PrintIcon,
 } from '../../../components';
 import { User } from '../../../../entities';
@@ -165,7 +164,7 @@ const AdminActions = ({
 );
 
 export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
-  <PrintHidden className="whitespace-nowrap">
+  <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && (
       <AdminActions
         {...{ project, signalementAbandonAutorisé: true, signalementRecoursAutorisé: true }}
@@ -173,5 +172,5 @@ export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
     )}
     {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
     {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
-  </PrintHidden>
+  </div>
 );

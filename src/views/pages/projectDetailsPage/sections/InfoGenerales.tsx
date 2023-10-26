@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
-import { BuildingIcon, Heading3, Link, PrintHidden, Section } from '../../../components';
+import { BuildingIcon, Heading3, Link, Section } from '../../../components';
 import routes from '../../../../routes';
 import { UserRole } from '../../../../modules/users';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
@@ -33,7 +33,7 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
       ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
         role,
       ) && (
-        <PrintHidden className="mb-3">
+        <div className="print:hidden mb-3">
           <Heading3 className="mb-0">Raccordement au réseau</Heading3>
           <Link
             href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
@@ -47,7 +47,7 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
           >
             Mettre à jour ou consulter les données de raccordement
           </Link>
-        </PrintHidden>
+        </div>
       )}
   </Section>
 );

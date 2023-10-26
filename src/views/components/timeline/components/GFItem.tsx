@@ -18,7 +18,6 @@ import {
   Link,
   Form,
   ChampsObligatoiresLégende,
-  PrintHidden,
 } from '../..';
 import { afficherDate } from '../../../helpers';
 
@@ -106,29 +105,27 @@ const EnAttente = ({
               Attestation de constitution de garanties financières en attente
             </p>
           </div>
-          <PrintHidden>
-            {actionPossible && (
-              <Formulaire
-                projetId={projectId}
-                garantieFinanciereEnMois={garantieFinanciereEnMois}
-                action={actionPossible}
-                role={variant}
-                dateEchéance={dateEchéance}
-              />
-            )}
-            {utilisateurEstAdmin && statut === 'en retard' && (
-              <p className="m-0">
-                <DownloadLink
-                  fileUrl={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({
-                    id: projectId,
-                    nomProjet,
-                  })}
-                >
-                  Télécharger le modèle de mise en demeure
-                </DownloadLink>
-              </p>
-            )}
-          </PrintHidden>
+          {actionPossible && (
+            <Formulaire
+              projetId={projectId}
+              garantieFinanciereEnMois={garantieFinanciereEnMois}
+              action={actionPossible}
+              role={variant}
+              dateEchéance={dateEchéance}
+            />
+          )}
+          {utilisateurEstAdmin && statut === 'en retard' && (
+            <p className="m-0">
+              <DownloadLink
+                fileUrl={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({
+                  id: projectId,
+                  nomProjet,
+                })}
+              >
+                Télécharger le modèle de mise en demeure
+              </DownloadLink>
+            </p>
+          )}
         </div>
       </ContentArea>
     </>
@@ -259,7 +256,7 @@ const ATraiter = ({
         {typeGarantiesFinancières && (
           <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
         )}
-        <PrintHidden>
+        <div className="print:hidden">
           <DateEchéance
             dateEchéance={dateEchéance}
             projetId={project.id}
@@ -276,7 +273,7 @@ const ATraiter = ({
             )}
           </div>
           {retraitDépôtPossible && <AnnulerDépôt projetId={project.id} />}
-        </PrintHidden>
+        </div>
       </ContentArea>
     </>
   );
@@ -400,7 +397,7 @@ const Validé = ({
         {typeGarantiesFinancières && (
           <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
         )}
-        <PrintHidden>
+        <div className="print:hidden">
           <DateEchéance
             dateEchéance={dateEchéance}
             projetId={project.id}
@@ -426,7 +423,7 @@ const Validé = ({
           {envoyéesPar === 'admin' && (
             <p className="m-0 italic">Ce document a été ajouté par la DGEC</p>
           )}
-        </PrintHidden>
+        </div>
       </ContentArea>
     </>
   );

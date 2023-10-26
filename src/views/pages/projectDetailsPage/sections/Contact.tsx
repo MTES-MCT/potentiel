@@ -13,7 +13,6 @@ import {
   Dropdown,
   Form,
   ChampsObligatoiresLégende,
-  PrintHidden,
 } from '../../../components';
 
 import { ProjectDataForProjectPage } from '../../../../modules/project';
@@ -82,44 +81,42 @@ type InvitationFormProps = {
 const InvitationForm = ({ project }: InvitationFormProps) => {
   const [displayForm, showForm] = useState(false);
   return (
-    <PrintHidden>
-      <Dropdown
-        design="link"
-        text={`Donner accès à un autre utilisateur`}
-        isOpen={displayForm}
-        changeOpenState={(isOpen) => showForm(isOpen)}
-        className="mt-4"
+    <Dropdown
+      design="link"
+      text={`Donner accès à un autre utilisateur`}
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
+      className="mt-4"
+    >
+      <Form
+        action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+        method="post"
+        name="form"
+        className="invitationForm"
       >
-        <Form
-          action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-          method="post"
-          name="form"
-          className="invitationForm"
-        >
-          <Heading3 className="mb-1 mt-2">Gestion des accès à ce projet</Heading3>
-          <ChampsObligatoiresLégende />
-          <input type="hidden" name="projectId" id="projectId" value={project.id} />
-          <div>
-            <Label htmlFor="email">
-              Courrier électronique de la personne habilitée à suivre ce projet
-            </Label>
-            <Input type="email" name="email" id="email" required aria-required="true" />
-          </div>
-          <div className="flex flex-col md:flex-row gap-4 mx-auto items-center">
-            <PrimaryButton className="mt-2 mr-3" type="submit" name="submit" id="submit">
-              Accorder les droits sur ce projet
-            </PrimaryButton>
-            <Link
-              onClick={(e) => {
-                e.preventDefault();
-                showForm(false);
-              }}
-            >
-              Annuler
-            </Link>
-          </div>
-        </Form>
-      </Dropdown>
-    </PrintHidden>
+        <Heading3 className="mb-1 mt-2">Gestion des accès à ce projet</Heading3>
+        <ChampsObligatoiresLégende />
+        <input type="hidden" name="projectId" id="projectId" value={project.id} />
+        <div>
+          <Label htmlFor="email">
+            Courrier électronique de la personne habilitée à suivre ce projet
+          </Label>
+          <Input type="email" name="email" id="email" required aria-required="true" />
+        </div>
+        <div className="flex flex-col md:flex-row gap-4 mx-auto items-center">
+          <PrimaryButton className="mt-2 mr-3" type="submit" name="submit" id="submit">
+            Accorder les droits sur ce projet
+          </PrimaryButton>
+          <Link
+            onClick={(e) => {
+              e.preventDefault();
+              showForm(false);
+            }}
+          >
+            Annuler
+          </Link>
+        </div>
+      </Form>
+    </Dropdown>
   );
 };

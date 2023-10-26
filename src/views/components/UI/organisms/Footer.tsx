@@ -1,7 +1,7 @@
 import routes from '../../../../routes';
 import React from 'react';
 
-import { Link, PrintHidden } from '../..';
+import { Link } from '../..';
 
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -10,7 +10,7 @@ type FooterProps = {
 };
 
 const Footer: React.FC<FooterProps> = ({ user }) => (
-  <PrintHidden className="mt-auto">
+  <div className="print:hidden mt-auto">
     <footer
       className="pt-10 border-0 border-t-2 border-solid border-blue-france-sun-base"
       id="pied-de-page"
@@ -136,6 +136,6 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
         </div>
       </div>
     </footer>
-  </PrintHidden>
+  </div>
 );
 export { Footer };

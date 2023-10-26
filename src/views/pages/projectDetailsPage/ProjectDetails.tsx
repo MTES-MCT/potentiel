@@ -15,7 +15,6 @@ import {
   InfoBox,
   Heading2,
   Form,
-  PrintHidden,
   PrintShow,
 } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
@@ -60,12 +59,12 @@ export const ProjectDetails = ({
         </p>
       </PrintShow>
       <ProjectHeader {...{ project, user }} />
-      <PrintHidden>
+      <div className="print:hidden">
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
-      </PrintHidden>
+      </div>
       <div className="flex flex-col gap-3 mt-5">
-        <PrintHidden className="flex flex-col gap-3">
+        <div className="print:hidden flex flex-col gap-3">
           {project.alerteAnnulationAbandon && userIs('porteur-projet')(user) && (
             <AlerteAnnulationAbandonPossible
               {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
@@ -87,7 +86,7 @@ export const ProjectDetails = ({
           <Callout>
             <CDCInfo {...{ project, user }} />
           </Callout>
-        </PrintHidden>
+        </div>
         <div className="flex flex-col lg:flex-row gap-3">
           {!!projectEventList?.events.length && (
             <EtapesProjet {...{ project, user, projectEventList }} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.';
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps';
-import { DownloadLink, PrintHidden } from '../..';
+import { DownloadLink } from '../..';
 import { afficherDate } from '../../../helpers';
 
 export const DesignationItem = ({
@@ -16,9 +16,7 @@ export const DesignationItem = ({
       <ItemDate date={date} />
       <ItemTitle title="Notification des résultats" />
       {certificate ? (
-        <PrintHidden>
-          <Certificate {...{ certificate, role, projectStatus }} />
-        </PrintHidden>
+        <Certificate {...{ certificate, role, projectStatus }} />
       ) : (
         role === 'porteur-projet' && <span>Votre attestation sera disponible sous 24h</span>
       )}

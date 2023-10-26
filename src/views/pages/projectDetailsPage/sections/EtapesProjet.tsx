@@ -1,6 +1,6 @@
 import React from 'react';
 import { Request } from 'express';
-import { Timeline, CalendarIcon, Section, Link, InfoBox, PrintHidden } from '../../../components';
+import { Timeline, CalendarIcon, Section, Link, InfoBox } from '../../../components';
 import { userIs } from '../../../../modules/users';
 import { ProjectEventListDTO } from '../../../../modules/frise';
 import routes from '../../../../routes';
@@ -36,24 +36,22 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
       userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'])(
         user,
       ) && (
-        <PrintHidden>
-          <InfoBox>
-            Les données de raccordement du projet sont dorénavant consultables et modifiables sur{' '}
-            <Link
-              href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
-                convertirEnIdentifiantProjet({
-                  appelOffre: project.appelOffreId,
-                  période: project.periodeId,
-                  famille: project.familleId,
-                  numéroCRE: project.numeroCRE,
-                }).formatter(),
-              )}
-              aria-label="Accéder aux données de raccordement"
-            >
-              cette page dédiée.
-            </Link>
-          </InfoBox>
-        </PrintHidden>
+        <InfoBox className="print:hidden">
+          Les données de raccordement du projet sont dorénavant consultables et modifiables sur{' '}
+          <Link
+            href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+              convertirEnIdentifiantProjet({
+                appelOffre: project.appelOffreId,
+                période: project.periodeId,
+                famille: project.familleId,
+                numéroCRE: project.numeroCRE,
+              }).formatter(),
+            )}
+            aria-label="Accéder aux données de raccordement"
+          >
+            cette page dédiée.
+          </Link>
+        </InfoBox>
       )}
     {/* on teste si cette fonctionnalité est utlisée
      {userIs(['admin', 'dgec-validateur', 'dreal'])(user) && <AttachFile projectId={project.id} />} */}

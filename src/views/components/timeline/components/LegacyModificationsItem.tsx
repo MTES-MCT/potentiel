@@ -2,7 +2,7 @@ import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.';
 import { LegacyModificationsItemProps, makeDocumentUrl } from '../helpers';
 import { CurrentIcon } from './CurrentIcon';
-import { DownloadLink, PrintHidden } from '../..';
+import { DownloadLink } from '../..';
 import { afficherDate } from '../../../helpers';
 
 export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => {
@@ -34,14 +34,12 @@ const LegacyModificationContainer = (
         <ItemDate date={date} />
         {children}
         {courrier && (
-          <PrintHidden>
-            <DownloadLink
-              fileUrl={makeDocumentUrl(courrier.id, courrier.name)}
-              aria-label={`Télécharger le courrier de la demande de type "${props.modificationType}"`}
-            >
-              Télécharger le courrier
-            </DownloadLink>
-          </PrintHidden>
+          <DownloadLink
+            fileUrl={makeDocumentUrl(courrier.id, courrier.name)}
+            aria-label={`Télécharger le courrier de la demande de type "${props.modificationType}"`}
+          >
+            Télécharger le courrier
+          </DownloadLink>
         )}
       </ContentArea>
     </>
