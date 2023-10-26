@@ -8,7 +8,7 @@ import {
 } from '@potentiel/domain-usecases';
 import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { isNone } from '@potentiel/monads';
 
 Quand(
