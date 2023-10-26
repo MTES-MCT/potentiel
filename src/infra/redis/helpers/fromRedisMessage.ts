@@ -16,7 +16,10 @@ import * as UtilisateurEvents from '../../../modules/utilisateur/events';
 import { RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
-import { DateMiseEnServiceTransmise } from '../../../modules/project/events';
+import {
+  DateMiseEnServiceTransmise,
+  DemandeComplèteRaccordementTransmise,
+} from '../../../modules/project/events';
 import { logger } from '../../../core/utils';
 
 interface EventProps {
@@ -48,6 +51,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeChangementDePuissanceEvents,
   ...UtilisateurEvents,
   DateMiseEnServiceTransmise,
+  DemandeComplèteRaccordementTransmise,
 };
 
 export const fromRedisMessage = (message: RedisMessage): DomainEvent | null => {

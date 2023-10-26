@@ -11,7 +11,10 @@ import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap as bootstrapWebApp } from '@potentiel/web';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { DateMiseEnServiceTransmise } from './modules/project';
+import {
+  DateMiseEnServiceTransmise,
+  DemandeComplèteRaccordementTransmise,
+} from './modules/project';
 import { transformerISOStringEnDate } from './infra/helpers';
 import { publishToEventBus } from './config/eventBus.config';
 
@@ -26,7 +29,7 @@ export async function makeServer(port: number, sessionSecret: string) {
     // TODO : activer le bootstrap de l'application de notifications quand un cas sera implémenter
     // await bootstrapNotifcationApp();
 
-    // TODO : Subscribe à supprimer et saga à reimplémenter côté nouveau socle
+    // TODO : Deux subscribe à supprimer et sagas à reimplémenter côté nouveau socle
     // lorsque la notion de projet sera dispo en tant qu'aggregate dans le package domain
     await subscribe({
       name: 'saga-application-delais-dix-huit-mois',
@@ -37,6 +40,29 @@ export async function makeServer(port: number, sessionSecret: string) {
           if (event.type === 'DateMiseEnServiceTransmise-V1') {
             publishToEventBus(
               new DateMiseEnServiceTransmise({
+                payload: {
+                  ...transformerISOStringEnDate(event.payload),
+                  streamId: event.stream_id,
+                },
+              }),
+            ).map(() => {
+              resolve();
+            });
+          }
+          resolve();
+        });
+      },
+      streamCategory: 'raccordement',
+    });
+    await subscribe({
+      name: 'saga-annulation-delais-dix-huit-mois',
+      eventType: ['DemandeComplèteDeRaccordementTransmise-V1'],
+      eventHandler: (event) => {
+        return new Promise<void>((resolve) => {
+          logger.info('Executing saga-application-delais-dix-huit-mois');
+          if (event.type === 'DemandeComplèteDeRaccordementTransmise-V1') {
+            publishToEventBus(
+              new DemandeComplèteRaccordementTransmise({
                 payload: {
                   ...transformerISOStringEnDate(event.payload),
                   streamId: event.stream_id,
