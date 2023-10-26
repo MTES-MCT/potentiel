@@ -1,8 +1,5 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel/core-domain';
 
-/**
- * @deprecated
- */
 export type RebuildTriggered = DomainEvent<
   'RebuildTriggered',
   {

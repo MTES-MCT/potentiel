@@ -10,9 +10,6 @@
     },
     {
       "path": "../../libraries/monitoring"
-    },
-    {
-      "path": "../../domain/core"
     }
   ]
 }

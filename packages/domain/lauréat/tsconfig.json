@@ -9,6 +9,9 @@
       "path": "../../libraries/monads"
     },
     {
+      "path": "../../libraries/projection"
+    },
+    {
       "path": "../../domain/common"
     },
     {

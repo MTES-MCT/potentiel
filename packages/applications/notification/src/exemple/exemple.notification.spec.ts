@@ -6,7 +6,6 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 import { UnsetupApp, bootstrap } from '../bootstrap';
 import { sendEmail } from '@potentiel/email-sender';
-import { QuelqueChoseSestPasséEvent } from './exemple.event';
 
 let unsetupNotification: UnsetupApp;
 
@@ -191,7 +190,7 @@ describe(`Notification`, () => {
         numéroCRE: '27',
       });
 
-      const event: QuelqueChoseSestPasséEvent = {
+      const event = {
         type: 'QuelqueChoseSestPassé',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),

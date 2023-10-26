@@ -1,9 +1,9 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
 import { loadFromStream } from './loadFromStream';
-import { RebuildTriggered } from '@potentiel-domain/core-views';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { publish } from '../publish/publish';
 import { DomainEvent } from '@potentiel-domain/core';
+import { RebuildTriggered } from '../subscribe/rebuild/rebuildTriggered.event';
 
 describe(`loadFromStream`, () => {
   beforeAll(() => {

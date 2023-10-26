@@ -1,14 +1,14 @@
 import { executeSelect } from '@potentiel/pg-helpers';
-import { ReadModel, ListOptions, ListResult } from '@potentiel-domain/core-views';
 import { KeyValuePair } from './keyValuePair';
 import format from 'pg-format';
+import { Projection, ListOptions, ListResult } from '@potentiel-libraries/projection';
 
-export const listProjection = async <TReadModel extends ReadModel>({
+export const listProjection = async <TProjection extends Projection>({
   type,
   orderBy,
   where,
   pagination,
-}: ListOptions<TReadModel>): Promise<ListResult<TReadModel>> => {
+}: ListOptions<TProjection>): Promise<ListResult<TProjection>> => {
   const baseQuery = `select key, value from domain_views.projection where key like $1`;
 
   const orderByClause = orderBy
@@ -33,7 +33,7 @@ export const listProjection = async <TReadModel extends ReadModel>({
     : '';
 
   const query = `${baseQuery} ${whereClause} ${orderByClause} ${paginationClause}`;
-  const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
+  const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(
     query,
     `${type}|%`,
     ...(where ? Object.values(where) : []),
@@ -56,7 +56,7 @@ export const listProjection = async <TReadModel extends ReadModel>({
         ({
           type: key.split('|')[0],
           ...value,
-        } as TReadModel),
+        } as TProjection),
     ),
   };
 };

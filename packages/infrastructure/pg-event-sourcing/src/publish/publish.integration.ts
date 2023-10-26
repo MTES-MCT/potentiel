@@ -15,7 +15,7 @@ describe(`publish`, () => {
     alors l'événement devrait être présent dans le stream`, async () => {
     const streamId = 'string|string';
 
-    const event: DomainEvent = {
+    const event = {
       type: 'Un-événement-métier-est-survenu',
       payload: { test: 'propriété-test' },
     };

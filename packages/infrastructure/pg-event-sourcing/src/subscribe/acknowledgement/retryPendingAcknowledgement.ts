@@ -1,23 +1,22 @@
-import { DomainEvent, Subscriber } from '@potentiel-domain/core';
-import { Event } from '../../event';
-import { acknowledge } from './acknowledge';
-import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';
 import { getLogger } from '@potentiel/monitoring';
 
-export async function retryPendingAcknowledgement<TDomainEvent extends DomainEvent = Event>({
+import { Event } from '../../event';
+import { Subscriber } from '../subscriber/subscriber';
+import { acknowledge } from './acknowledge';
+import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';
+
+export async function retryPendingAcknowledgement<TEvent extends Event = Event>({
   streamCategory,
   name,
   eventHandler,
-}: Subscriber<TDomainEvent>) {
+}: Subscriber<TEvent>) {
   const events = await getEventsWithPendingAcknowledgement(streamCategory, name);
 
   try {
-    for (const { stream_id, created_at, version, type, payload } of events) {
-      await eventHandler({
-        type,
-        payload,
-      } as TDomainEvent);
+    for (const event of events) {
+      await eventHandler(event as TEvent);
 
+      const { created_at, stream_id, version } = event;
       await acknowledge({
         stream_category: streamCategory,
         subscriber_name: name,

@@ -7,7 +7,7 @@ import {
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import { publish, loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { logMiddleware } from '@potentiel-libraries/mediateur-middlewares';
 
@@ -25,7 +25,6 @@ export const bootstrap = () => {
 
     registerLauréatUseCases({
       loadAggregate,
-      publish,
     });
 
     registerLauréatQueries({

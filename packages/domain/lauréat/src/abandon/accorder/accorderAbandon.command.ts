@@ -2,13 +2,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
-import {
-  IdentifiantProjet,
-  IdentifiantUtilisateur,
-  DateTime,
-  LoadAggregateDependencies,
-} from '@potentiel-domain/common';
+import { IdentifiantProjet, IdentifiantUtilisateur, DateTime } from '@potentiel-domain/common';
+import { LoadAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+
+// Package
 import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type AccorderAbandonCommand = Message<
@@ -21,7 +19,7 @@ export type AccorderAbandonCommand = Message<
   }
 >;
 
-export const registerAccorderAbandonCommand = ({ loadAggregate }: LoadAggregateDependencies) => {
+export const registerAccorderAbandonCommand = (loadAggregate: LoadAggregate) => {
   const load = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<AccorderAbandonCommand> = async ({
     dateAccord,

@@ -1,9 +1,9 @@
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
-import { ReadModel } from '@potentiel-domain/core';
-import { StatutAbandon } from '.';
+import { Projection } from '@potentiel-libraries/projection';
+import * as StatutAbandon from './statutAbandon.valueType';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-export type AbandonProjection = ReadModel<
+export type AbandonProjection = Projection<
   'abandon',
   {
     identifiantProjet: IdentifiantProjet.RawType;

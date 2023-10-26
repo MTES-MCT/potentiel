@@ -1,4 +1,4 @@
-import { LoadAggregateDependencies } from '@potentiel-domain/common';
+import { LoadAggregate } from '@potentiel-domain/core';
 import { registerAccorderAbandonCommand } from './accorder/accorderAbandon.command';
 import { registerAccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { registerAnnulerAbandonCommand } from './annuler/annulerAbandon.command';
@@ -22,14 +22,17 @@ import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command'
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 
 export type AbandonQueryDependencies = ConsulterAbandonDependencies & ListerAbandonDependencies;
+export type AbandonCommandDependencies = {
+  loadAggregate: LoadAggregate;
+};
 
-export const registerAbandonUseCases = (dependencies: LoadAggregateDependencies) => {
-  registerDemanderAbandonCommand(dependencies);
-  registerAccorderAbandonCommand(dependencies);
-  registerConfirmerAbandonCommand(dependencies);
-  registerDemanderConfirmationAbandonCommand(dependencies);
-  registerRejeterAbandonCommand(dependencies);
-  registerAnnulerAbandonCommand(dependencies);
+export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDependencies) => {
+  registerDemanderAbandonCommand(loadAggregate);
+  registerAccorderAbandonCommand(loadAggregate);
+  registerConfirmerAbandonCommand(loadAggregate);
+  registerDemanderConfirmationAbandonCommand(loadAggregate);
+  registerRejeterAbandonCommand(loadAggregate);
+  registerAnnulerAbandonCommand(loadAggregate);
 
   registerDemanderAbandonUseCase();
   registerAccorderAbandonUseCase();

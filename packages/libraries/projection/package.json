@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel-domain/core-views",
+  "name": "@potentiel-libraries/projection",
   "version": "0.0.0",
-  "description": "Core domain types",
+  "description": "Projection types",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
@@ -9,8 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
-    "@potentiel-domain/core": "*"
+    "@potentiel/monads": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

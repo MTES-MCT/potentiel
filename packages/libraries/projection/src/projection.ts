@@ -1,4 +1,4 @@
-export type ReadModel<
+export type Projection<
   TType extends string = string,
   TData extends Record<string, unknown> = {},
 > = Readonly<

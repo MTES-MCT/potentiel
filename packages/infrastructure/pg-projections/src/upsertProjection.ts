@@ -1,9 +1,9 @@
-import { ReadModel } from '@potentiel-domain/core-views';
+import { Projection } from '@potentiel-libraries/projection';
 import { executeQuery } from '@potentiel/pg-helpers';
 
-export const upsertProjection = async <TReadModel extends ReadModel>(
-  id: `${TReadModel['type']}|${string}`,
-  readModel: Omit<TReadModel, 'type'>,
+export const upsertProjection = async <TProjection extends Projection>(
+  id: `${TProjection['type']}|${string}`,
+  readModel: Omit<TProjection, 'type'>,
 ): Promise<void> => {
   await executeQuery(
     `

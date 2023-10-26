@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { QueryPorts } from '@potentiel-domain/common';
 import { AbandonProjection } from '../abandon.projection';
+import { List } from '@potentiel-libraries/projection';
 
 export type ListerAbandonReadModel = {
   items: ReadonlyArray<any>; // need type here
@@ -19,7 +19,7 @@ export type ListerAbandonsQuery = Message<
 >;
 
 export type ListerAbandonDependencies = {
-  list: QueryPorts.List;
+  list: List;
 };
 
 export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) => {

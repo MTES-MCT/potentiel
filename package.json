@@ -16,6 +16,7 @@
     "./packages/libraries/email-sender/",
     "./packages/libraries/legacy-permissions",
     "./packages/libraries/mediateur-middlewares",
+    "./packages/libraries/projection",
     "./packages/domain/core",
     "./packages/domain/core-views/",
     "./packages/domain/common",

@@ -1,17 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { isNone } from '@potentiel/monads';
-import {
-  IdentifiantProjet,
-  DateTime,
-  QueryPorts,
-  IdentifiantUtilisateur,
-} from '@potentiel-domain/common';
+import { IdentifiantProjet, DateTime, IdentifiantUtilisateur } from '@potentiel-domain/common';
 
 import { AbandonInconnuErreur } from '../abandonInconnu.error';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { AbandonProjection } from '../abandon.projection';
+import { Find } from '@potentiel-libraries/projection';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -50,7 +46,7 @@ export type ConsulterAbandonQuery = Message<
 >;
 
 export type ConsulterAbandonDependencies = {
-  find: QueryPorts.Find;
+  find: Find;
 };
 
 export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependencies) => {

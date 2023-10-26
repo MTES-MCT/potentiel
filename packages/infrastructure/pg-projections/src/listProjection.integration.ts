@@ -1,10 +1,10 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { ReadModel } from '@potentiel-domain/core-views';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
+import { Projection } from '@potentiel-libraries/projection';
 import { listProjection } from './listProjection';
 
 describe(`listProjection`, () => {
-  type ProjectionReadModel = ReadModel<'projection', { target: string }>;
+  type ProjectionReadModel = Projection<'projection', { target: string }>;
 
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';

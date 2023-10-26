@@ -1,13 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import {
-  DateTime,
-  IdentifiantProjet,
-  IdentifiantUtilisateur,
-  LoadAggregateDependencies,
-} from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { loadAbandonFactory } from '../abandon.aggregate';
+import { LoadAggregate } from '@potentiel-domain/core';
 
 export type RejeterAbandonCommand = Message<
   'REJETER_ABANDON_COMMAND',
@@ -19,7 +15,7 @@ export type RejeterAbandonCommand = Message<
   }
 >;
 
-export const registerRejeterAbandonCommand = ({ loadAggregate }: LoadAggregateDependencies) => {
+export const registerRejeterAbandonCommand = (loadAggregate: LoadAggregate) => {
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<RejeterAbandonCommand> = async ({
     identifiantProjet,
