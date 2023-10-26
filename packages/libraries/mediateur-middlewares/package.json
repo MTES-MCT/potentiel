@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel-libraries/mediateur-middlewares",
+  "version": "0.0.0",
+  "description": "Potentiel mediateur middlewares",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel-domain/core": "*",
+    "@potentiel/monitoring": "*",
+    "mediateur": "^0.1.0"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

@@ -15,6 +15,7 @@
     "./packages/libraries/file-storage/",
     "./packages/libraries/email-sender/",
     "./packages/libraries/legacy-permissions",
+    "./packages/libraries/mediateur-middlewares",
     "./packages/domain/core",
     "./packages/domain/core-views/",
     "./packages/domain/common",

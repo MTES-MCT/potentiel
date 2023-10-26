@@ -1,5 +1,4 @@
 import { Message, mediator } from 'mediateur';
-import { randomUUID } from 'crypto';
 import { getLogger } from '@potentiel/monitoring';
 import { registerCandidatureQueries } from '@potentiel-domain/candidature';
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
@@ -10,29 +9,14 @@ import {
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { publish, loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { logMiddleware } from '@potentiel-libraries/mediateur-middlewares';
 
 let isBoostrapped = false;
 
 export const bootstrap = () => {
   if (!isBoostrapped) {
     mediator.use<Message>({
-      middlewares: [
-        async (message, next) => {
-          const correlationId = randomUUID();
-          getLogger().info('Executing message', {
-            message: JSON.stringify(message),
-            correlationId,
-          });
-          try {
-            const result = await next();
-            getLogger().info('Message executed', { result: JSON.stringify(result), correlationId });
-            return result;
-          } catch (e) {
-            getLogger().error(e as Error, { result: JSON.stringify(e), correlationId });
-            throw e;
-          }
-        },
-      ],
+      middlewares: [logMiddleware],
     });
 
     registerCandidatureQueries({

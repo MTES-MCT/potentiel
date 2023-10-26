@@ -1,3 +1,5 @@
+import { Message, mediator } from 'mediateur';
+
 import { setupDomain } from '@potentiel/domain-usecases';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
@@ -20,8 +22,7 @@ import {
   récupérerUtilisateurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
-import { Message, mediator } from 'mediateur';
-import { logMiddleware } from './middlewares/log.middleware';
+import { logMiddleware } from '@potentiel-libraries/mediateur-middlewares';
 import { seed } from './seed';
 
 export type UnsetupApp = () => Promise<void>;
