@@ -2,6 +2,9 @@ import { DomainEvent, Subscriber } from '@potentiel/core-domain';
 import { loadFromStream } from '../../load/loadFromStream';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 export const rebuild = async <TDomainEvent extends DomainEvent = DomainEvent>(
   rebuildTriggered: RebuildTriggered,
   { eventType, eventHandler }: Subscriber<TDomainEvent>,

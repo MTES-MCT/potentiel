@@ -2,11 +2,17 @@ import { executeSelect } from '@potentiel/pg-helpers';
 import { Event } from '../event';
 import format from 'pg-format';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 export type LoadFromStreamOptions = {
   streamId: string;
   eventTypes?: Array<string>;
 };
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 export const loadFromStream = async ({
   streamId,
   eventTypes,

@@ -6,9 +6,15 @@ import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAckno
 import { Client } from 'pg';
 import { getConnectionString } from '@potentiel/pg-helpers';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 let client: Client | undefined;
 const subscribers = new Set<string>();
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   subscriber: Subscriber<TDomainEvent>,
 ): Promise<Unsubscribe> => {

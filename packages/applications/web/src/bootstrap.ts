@@ -27,6 +27,9 @@ import { seed } from './seed';
 
 export type UnsetupApp = () => Promise<void>;
 
+/**
+ * @deprecated Cette fonction sera bientôt remplacer par celle contenu dans le package @potentiel-application/bootstrap;
+ */
 export const bootstrap = async (): Promise<UnsetupApp> => {
   await seed();
 

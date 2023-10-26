@@ -8,7 +8,7 @@ import {
   ListerAbandonAvecRecandidatureDependencies,
   registerListerAbandonAvecRecandidatureQuery,
 } from './abandon/lister/listerAbandon.query';
-import { AbandonEvent, GestionnaireRéseauProjetEvent } from '@potentiel/domain-usecases';
+import { GestionnaireRéseauProjetEvent } from '@potentiel/domain-usecases';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 import {
   ExecuteGestionnaireRéseauLauréatProjector,
@@ -19,7 +19,7 @@ import {
   ConsulterPièceJustificativeAbandonProjetDependencies,
   registerConsulterPièceJustificativeAbandonProjetQuery,
 } from './abandon/consulter/consulterPièceJustificativeAbandon.query';
-import { ExecuteAbandonProjector, registerAbandonProjector } from './abandon/abandon.projector';
+import { registerAbandonProjector } from './abandon/abandon.projector';
 import { registerConsulterAbandonQuery } from './abandon/consulter/consulterAbandon.query';
 import {
   ConsulterRéponseSignéeAbandonDependencies,
@@ -65,25 +65,6 @@ export const setupLauréatViews = async (dependencies: LauréatDependencies) => 
         });
       },
       streamCategory: 'projet',
-    }),
-    await subscribe({
-      name: 'projector',
-      eventType: [
-        'AbandonDemandé-V1',
-        'AbandonAccordé-V1',
-        'AbandonAnnulé-V1',
-        'AbandonConfirmé-V1',
-        'AbandonRejeté-V1',
-        'ConfirmationAbandonDemandée-V1',
-        'RebuildTriggered',
-      ],
-      eventHandler: async (event: AbandonEvent | RebuildTriggered) => {
-        await mediator.publish<ExecuteAbandonProjector>({
-          type: 'EXECUTE_ABANDON_PROJECTOR',
-          data: event,
-        });
-      },
-      streamCategory: 'abandon',
     }),
   ];
 };

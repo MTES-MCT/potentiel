@@ -12,7 +12,7 @@ export const bootstrap = async (): Promise<() => Promise<void>> => {
     const unsetupLauréat = await setupLauréat();
 
     unsetup = async () => {
-      await unsetupLauréat();
+      //await unsetupLauréat();
     };
   }
 

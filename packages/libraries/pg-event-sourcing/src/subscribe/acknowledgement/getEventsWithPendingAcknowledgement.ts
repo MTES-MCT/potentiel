@@ -1,6 +1,9 @@
 import { executeSelect } from '@potentiel/pg-helpers';
 import { Event } from '../../event';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 const selectEventsWithPendingAcknowledgement = `
    select 
       es.stream_id,

@@ -4,6 +4,9 @@ import { acknowledge } from './acknowledge';
 import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';
 import { getLogger } from '@potentiel/monitoring';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 export async function retryPendingAcknowledgement<TDomainEvent extends DomainEvent = Event>({
   streamCategory,
   name,

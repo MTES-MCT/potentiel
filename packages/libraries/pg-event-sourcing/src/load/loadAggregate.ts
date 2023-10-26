@@ -2,6 +2,9 @@ import { AggregateId, AggregateFactory, DomainEvent, LoadAggregate } from '@pote
 import { none } from '@potentiel/monads';
 import { loadFromStream } from './loadFromStream';
 
+/**
+ * @deprecated un nouveau systéme de permission va être implémenter dans la nouvelle stack technique
+ */
 export const loadAggregate: LoadAggregate = async <
   TAggregate extends Record<string, unknown>,
   TDomainEvent extends DomainEvent,

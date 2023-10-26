@@ -1,6 +1,9 @@
 import { executeQuery } from '@potentiel/pg-helpers';
 import { Acknowledgement } from './acknowledgement';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 const deletePendingAcknowledgementQuery = `
   delete 
   from event_store.pending_acknowledgement 
@@ -10,6 +13,9 @@ const deletePendingAcknowledgementQuery = `
         created_at = $4 and 
         version = $5`;
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 export const acknowledge = async ({
   subscriber_name,
   stream_category,

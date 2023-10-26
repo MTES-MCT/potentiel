@@ -1,3 +1,6 @@
+/**
+ * @deprecated en faveur de l'implémentation dans le package @pontentiel-domain/core
+ */
 export abstract class DomainError extends Error {
   get key() {
     return this.name.replace('Error', '');
@@ -15,8 +18,17 @@ export abstract class DomainError extends Error {
   }
 }
 
+/**
+ * @deprecated en faveur de l'implémentation dans le package @pontentiel-domain/core
+ */
 export class NotFoundError extends DomainError {}
 
+/**
+ * @deprecated en faveur de l'implémentation dans le package @pontentiel-domain/core
+ */
 export class InvalidOperationError extends DomainError {}
 
+/**
+ * @deprecated en faveur de l'implémentation dans le package @pontentiel-domain/core
+ */
 export class OperationRejectedError extends DomainError {}

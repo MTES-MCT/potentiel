@@ -13,8 +13,14 @@ import { RebuildFailedError } from './errors/RebuildFailed.error';
 import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error';
 import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 export class EventStreamEmitter extends EventEmitter {
   #client: Client;
   #subscriber: Subscriber;

@@ -1,6 +1,9 @@
 import { executeSelect } from '@potentiel/pg-helpers';
 import { Acknowledgement } from './acknowledgement';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 const selectAcknowledgement = `
   select 
     stream_category,

@@ -2,6 +2,9 @@ import { executeQuery } from '@potentiel/pg-helpers';
 import { SubscriberConfiguration } from './subscriberConfiguration';
 import { checkSubscriberName } from './checkSubscriberName';
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 const upsertSubscriberQuery = `
   insert into event_store.subscriber 
   values($1, $2, $3)
@@ -9,6 +12,9 @@ const upsertSubscriberQuery = `
   do update set filter = $3
 `;
 
+/**
+ * @deprecated en faveur du package @potentiel-infrastructure/pg-event-sourcing
+ */
 export const registerSubscriber = async ({
   eventType,
   name,
