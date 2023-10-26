@@ -1,7 +1,7 @@
 import { registerCandidatureQueries } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
-export const setupDocumentProjet = () => {
+export const setupCandidature = () => {
   registerCandidatureQueries({
     récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
   });

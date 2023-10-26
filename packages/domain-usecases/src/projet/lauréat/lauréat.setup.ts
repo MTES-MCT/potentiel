@@ -57,7 +57,7 @@ export type LauréatDependencies = { subscribe: Subscribe } & GestionnaireRésea
 
 export const setupLauréat = async (dependencies: LauréatDependencies) => {
   registerGestionnaireRéseauLauréat(dependencies);
-  registerAbandon(dependencies);
+  //registerAbandon(dependencies);
 
   // Subscribe
   const { subscribe } = dependencies;

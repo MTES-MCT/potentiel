@@ -1,4 +1,5 @@
 import { InvalidOperationError, NotFoundError } from '@potentiel-domain/core';
+import { getLogger } from '@potentiel/monitoring';
 
 export const apiAction = async (action: () => Promise<Response>) => {
   try {
@@ -44,6 +45,7 @@ const mapTo400 = (e: Error) => {
 };
 
 const mapTo500 = (e: Error) => {
+  getLogger().error(e);
   return Response.json(
     {
       message: 'Une erreur est survenue',

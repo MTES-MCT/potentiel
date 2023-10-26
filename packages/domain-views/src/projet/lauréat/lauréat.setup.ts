@@ -4,10 +4,7 @@ import {
   ConsulterGestionnaireRéseauLauréatDependencies,
   registerConsulterGestionnaireRéseauLauréatQuery,
 } from './gestionnaireRéseau/consulter/consulterGestionnaireRéseauLauréat.query';
-import {
-  ListerAbandonAvecRecandidatureDependencies,
-  registerListerAbandonAvecRecandidatureQuery,
-} from './abandon/lister/listerAbandon.query';
+import { ListerAbandonAvecRecandidatureDependencies } from './abandon/lister/listerAbandon.query';
 import { GestionnaireRéseauProjetEvent } from '@potentiel/domain-usecases';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 import {
@@ -20,7 +17,6 @@ import {
   registerConsulterPièceJustificativeAbandonProjetQuery,
 } from './abandon/consulter/consulterPièceJustificativeAbandon.query';
 import { registerAbandonProjector } from './abandon/abandon.projector';
-import { registerConsulterAbandonQuery } from './abandon/consulter/consulterAbandon.query';
 import {
   ConsulterRéponseSignéeAbandonDependencies,
   registerConsulterRéponseAbandonSignéeQuery,
@@ -38,8 +34,6 @@ export type LauréatDependencies = { subscribe: Subscribe } & GestionnaireRésea
   GestionnaireRéseauLauréatProjectorDependencies;
 
 export const setupLauréatViews = async (dependencies: LauréatDependencies) => {
-  registerConsulterAbandonQuery(dependencies);
-  registerListerAbandonAvecRecandidatureQuery(dependencies);
   registerConsulterPièceJustificativeAbandonProjetQuery(dependencies);
   registerConsulterRéponseAbandonSignéeQuery(dependencies);
   registerConsulterGestionnaireRéseauLauréatQuery(dependencies);
