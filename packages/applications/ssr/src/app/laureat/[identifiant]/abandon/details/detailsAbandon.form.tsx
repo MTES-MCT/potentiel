@@ -10,17 +10,18 @@ const initialState: DetailsAbandonState = {
 };
 
 export const DetailsAbandonForm = ({ abandon }: { abandon: Abandon.ConsulterAbandonReadModel }) => {
-  const confirmationPossible = abandon.statut === 'confirmation-demandée';
-  const annulationPossible = abandon.statut !== 'rejeté' && abandon.statut !== 'accordé';
-
   const [state, formAction] = useFormState(detailsAbandonAction, initialState);
 
-  return confirmationPossible || annulationPossible ? (
+  return abandon.statut.estEnCours() ? (
     <>
       <h2>Gérer votre demande</h2>
       <form action={formAction}>
         {state.error && <Alert severity="error" title={state.error} />}
-        <input type={'hidden'} value={abandon?.identifiantProjet} name="identifiantProjet" />
+        <input
+          type={'hidden'}
+          value={abandon?.identifiantProjet.formatter()}
+          name="identifiantProjet"
+        />
       </form>
     </>
   ) : null;

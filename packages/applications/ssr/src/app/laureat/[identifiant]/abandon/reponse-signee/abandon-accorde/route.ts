@@ -18,7 +18,7 @@ export const GET = async (request: Request, { params: { identifiant } }: Identif
   const result = await mediator.send<ConsulterDocumentProjetQuery>({
     type: 'CONSULTER_DOCUMENT_PROJET',
     data: {
-      documentKey: abandon.accord?.réponseSignée || '',
+      documentKey: abandon.accord?.réponseSignée.formatter() || '',
     },
   });
 

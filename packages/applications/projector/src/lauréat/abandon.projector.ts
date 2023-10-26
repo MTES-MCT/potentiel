@@ -2,13 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { isSome } from '@potentiel/monads';
 import { Abandon } from '@potentiel-domain/laureat';
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  findProjection,
-  removeProjection,
-  upsertProjection,
-} from '@potentiel-infrastructure/pg-projections';
+import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { AbandonProjection } from '@potentiel-domain/laureat/src/abandon/abandon.projection';
+
+import { removeProjection } from '../utils/removeProjection';
+import { upsertProjection } from '../utils/upsertProjection';
+
+export type AbandonEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
 
 export type ExecuteAbandonProjector = Message<
   'EXECUTE_ABANDON_PROJECTOR',

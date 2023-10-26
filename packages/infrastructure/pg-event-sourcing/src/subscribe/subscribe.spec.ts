@@ -20,7 +20,6 @@ import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEvents
 import { executeRebuild } from './rebuild/executeRebuild';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
-import { RebuildTriggered } from './rebuild/rebuildTriggered.event';
 import { Unsubscribe } from './subscriber/subscriber';
 
 describe(`subscribe`, () => {
@@ -254,7 +253,7 @@ describe(`subscribe`, () => {
 
     await waitForExpect(async () => {
       // Assert
-      const rebuildTriggered: RebuildTriggered = {
+      const rebuildTriggered = {
         type: 'RebuildTriggered',
         payload: {
           category,
@@ -319,7 +318,7 @@ describe(`subscribe`, () => {
 
     await waitForExpect(async () => {
       // Assert
-      const rebuildTriggered: RebuildTriggered = {
+      const rebuildTriggered = {
         type: 'RebuildTriggered',
         payload: {
           category,

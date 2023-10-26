@@ -14,5 +14,8 @@
     {
       "path": "../../infrastructure/pg-projections"
     },
+    {
+      "path": "../../libraries/pg-helpers"
+    }
   ]
 }

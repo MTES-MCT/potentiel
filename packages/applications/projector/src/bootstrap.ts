@@ -1,77 +1,31 @@
-
-import { setupDomain } from '@potentiel/domain-usecases';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
-import {
-  createProjection,
-  findProjection,
-  listProjection,
-  removeProjection,
-  searchProjection,
-  updateProjection,
-  upsertProjection,
-} from '@potentiel-infrastructure/pg-projections';
-import {
-  téléverserFichierDossierRaccordementAdapter,
-  téléchargerFichierDossierRaccordementAdapter,
-  téléverserPièceJustificativeAbandonAdapter,
-  téléverserRéponseSignéeAdapter,
-  téléchargerPièceJustificativeAbandonProjetAdapter,
-  récupérerCandidatureAdapter,
-  téléchargerRéponseSignéeAdapter,
-  récupérerUtilisateurAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
-import { setupDomainViews } from '@potentiel/domain-views';
+import { mediator } from 'mediateur';
+import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { AbandonEvent, ExecuteAbandonProjector } from './lauréat/abandon.projector';
 
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
-  const unsetupDomain = await setupDomain({
-    common: {
-      loadAggregate,
-      publish,
-      subscribe,
+  const unsubscribeAbandonProjector = await subscribe<AbandonEvent>({
+    name: 'projector',
+    eventType: [
+      'AbandonDemandé-V1',
+      'AbandonAccordé-V1',
+      'AbandonAnnulé-V1',
+      'AbandonConfirmé-V1',
+      'AbandonRejeté-V1',
+      'ConfirmationAbandonDemandée-V1',
+      'RebuildTriggered',
+    ],
+    eventHandler: async (event) => {
+      await mediator.publish<ExecuteAbandonProjector>({
+        type: 'EXECUTE_ABANDON_PROJECTOR',
+        data: event,
+      });
     },
-    projet: {
-      enregistrerPièceJustificativeAbandon: téléverserPièceJustificativeAbandonAdapter,
-      enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
-    },
-    raccordement: {
-      enregistrerAccuséRéceptionDemandeComplèteRaccordement:
-        téléverserFichierDossierRaccordementAdapter,
-      enregistrerPropositionTechniqueEtFinancièreSignée:
-        téléverserFichierDossierRaccordementAdapter,
-    },
-  });
-
-  const unsetupDomainViews = await setupDomainViews({
-    common: {
-      create: createProjection,
-      find: findProjection,
-      list: listProjection,
-      remove: removeProjection,
-      search: searchProjection,
-      subscribe,
-      update: updateProjection,
-      upsert: upsertProjection,
-    },
-    appelOffre: {},
-    projet: {
-      récupérerCandidature: récupérerCandidatureAdapter,
-      récupérerPièceJustificativeAbandon: téléchargerPièceJustificativeAbandonProjetAdapter,
-      récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
-    },
-    raccordement: {
-      récupérerAccuséRéceptionDemandeComplèteRaccordement:
-        téléchargerFichierDossierRaccordementAdapter,
-      récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
-    },
-    utilisateur: {
-      récupérerUtilisateur: récupérerUtilisateurAdapter,
-    },
+    streamCategory: 'abandon',
   });
 
   return async () => {
-    await unsetupDomain();
-    await unsetupDomainViews();
+    await unsubscribeAbandonProjector();
   };
 };

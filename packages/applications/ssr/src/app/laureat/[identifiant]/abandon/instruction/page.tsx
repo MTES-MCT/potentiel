@@ -32,8 +32,6 @@ export default async function InstructionAbandonPage({
     },
   });
 
-  const instructionPossible = !['accordé', 'rejeté'].includes(abandon?.statut || '');
-
   return (
     <div className="flex flex-col md:flex-row gap-4">
       <h1 className="mb-10">Intruction de la demande d'abandon</h1>
@@ -48,7 +46,7 @@ export default async function InstructionAbandonPage({
 
         <DetailsAbandon abandon={abandon} />
 
-        {instructionPossible && <InstructionAbandonForm abandon={abandon} />}
+        {abandon.statut.estEnCours() && <InstructionAbandonForm abandon={abandon} />}
       </div>
     </div>
   );

@@ -7,21 +7,16 @@ export type StatutAbandonBadgeProps = {
 
 export const StatutAbandonBadge = ({ statut }: StatutAbandonBadgeProps) => {
   const severity: BadgeProps['severity'] = (() => {
-    switch (statut) {
-      case 'accordé':
-        return 'success';
-      case 'rejeté':
-        return 'error';
-      case 'confirmation-demandée':
-        return 'warning';
-      default:
-        return 'info';
-    }
+    if (statut.estAccordé()) return 'success';
+    if (statut.estRejeté()) return 'error';
+    if (statut.estConfirmationDemandée()) return 'warning';
+
+    return 'info';
   })();
 
   return (
     <Badge noIcon severity={severity}>
-      {statut.replace('-', ' ').toLocaleUpperCase()}
+      {statut.libellé()}
     </Badge>
   );
 };

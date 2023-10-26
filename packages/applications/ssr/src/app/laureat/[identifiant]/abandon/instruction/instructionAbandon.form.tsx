@@ -22,8 +22,7 @@ export const InstructionAbandonForm = ({
 }: {
   abandon: Abandon.ConsulterAbandonReadModel;
 }) => {
-  const demandeConfirmationPossible =
-    abandon.statut === 'demandé' && !abandon.demande.recandidature;
+  const demandeConfirmationPossible = abandon.statut.estDemandé() && !abandon.demande.recandidature;
 
   const [needToUploadFile, setNeedToUploadFile] = useState(true);
   const { pending } = useFormStatus();
@@ -35,7 +34,11 @@ export const InstructionAbandonForm = ({
       <form action={formAction}>
         {state.error && <Alert severity="error" title={state.error} />}
 
-        <input type={'hidden'} value={abandon?.identifiantProjet} name="identifiantProjet" />
+        <input
+          type={'hidden'}
+          value={abandon?.identifiantProjet.formatter()}
+          name="identifiantProjet"
+        />
         {needToUploadFile && (
           <Upload
             label="Réponse signée"

@@ -1,9 +1,9 @@
-import { DomainEvent } from '@potentiel/core-domain';
+import { Event } from '../../event';
 
-export type RebuildTriggered = DomainEvent<
-  'RebuildTriggered',
-  {
+export type RebuildTriggered = Event & {
+  type: 'RebuildTriggered';
+  payload: {
     category: string;
     id: string;
-  }
->;
+  };
+};

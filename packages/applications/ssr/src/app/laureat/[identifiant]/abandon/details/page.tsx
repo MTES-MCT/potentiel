@@ -32,11 +32,9 @@ export default async function DetailsAbandonPage({
     },
   });
 
-  if (abandon.statut === 'rejeté') {
+  if (abandon.statut.estRejeté()) {
     redirect(`/laureat/${identifiant}/abandon/demander`);
   }
-
-  const réponsePossible = abandon.statut !== 'accordé';
 
   return (
     <div className="flex flex-col md:flex-row gap-4">
@@ -52,7 +50,7 @@ export default async function DetailsAbandonPage({
 
         <DetailsAbandon abandon={abandon} />
 
-        {réponsePossible && <DetailsAbandonForm abandon={abandon} />}
+        {!abandon.statut.estAccordé() && <DetailsAbandonForm abandon={abandon} />}
       </div>
     </div>
   );

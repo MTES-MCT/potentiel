@@ -8,8 +8,9 @@ export const DetailsAbandon = ({ abandon }: { abandon: Abandon.ConsulterAbandonR
       <h3 className="mb-2">Contexte</h3>
       <ul>
         <li>
-          Demande déposée par <span className="font-bold">{abandon.demande.demandéPar}</span> le{' '}
-          <span className="font-bold">{abandon.demande.demandéLe}</span>
+          Demande déposée par{' '}
+          <span className="font-bold">{abandon.demande.demandéPar.formatter()}</span> le{' '}
+          <span className="font-bold">{abandon.demande.demandéLe.formatter()}</span>
         </li>
         {abandon.demande.recandidature && (
           <li>
@@ -24,7 +25,9 @@ export const DetailsAbandon = ({ abandon }: { abandon: Abandon.ConsulterAbandonR
           details=""
           label="Télécharger la pièce justificative"
           linkProps={{
-            href: `/laureat/${encodeURIComponent(abandon.identifiantProjet)}/piece-justificative`,
+            href: `/laureat/${encodeURIComponent(
+              abandon.identifiantProjet.formatter(),
+            )}/piece-justificative`,
           }}
         />
       )}

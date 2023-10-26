@@ -32,6 +32,7 @@ export type ValueType = Readonly<{
   estDemandé: () => boolean;
   estConfirmationDemandée: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
+  libellé: () => string;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -63,6 +64,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estConfirmationDemandée() {
       return this.statut === 'confirmation-demandée';
+    },
+    libellé() {
+      return this.statut.replace('-', ' ').toLocaleUpperCase();
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (nouveauStatut.estAccordé()) {
