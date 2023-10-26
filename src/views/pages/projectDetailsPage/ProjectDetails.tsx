@@ -15,7 +15,6 @@ import {
   InfoBox,
   Heading2,
   Form,
-  PrintShow,
 } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -52,12 +51,10 @@ export const ProjectDetails = ({
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
-      <PrintShow>
-        <p className="font-semibold">
-          Les informations affichées sur cette page reflètent la situation du projet en fonction des
-          éléments fournis à Potentiel à date. Elles sont susceptibles de modifications ultérieures
-        </p>
-      </PrintShow>
+      <p className="hidden print:block font-semibold">
+        Les informations affichées sur cette page reflètent la situation du projet en fonction des
+        éléments fournis à Potentiel à date. Elles sont susceptibles de modifications ultérieures
+      </p>
       <ProjectHeader {...{ project, user }} />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}

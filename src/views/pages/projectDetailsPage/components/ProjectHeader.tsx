@@ -1,7 +1,7 @@
 import React from 'react';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
-import { Badge, Heading1, PrintShow } from '../../../components';
+import { Badge, Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 
 type ProjectHeaderProps = {
@@ -33,14 +33,14 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
       </div>
       <div>{project.potentielIdentifier}</div>
-      <PrintShow>
+      <div className="hidden print:block">
         Instruction selon le cahier des charges{' '}
         {project.cahierDesChargesActuel.type === 'initial'
           ? 'initial (en vigueur à la candidature)'
           : `${
               project.cahierDesChargesActuel.alternatif ? 'alternatif' : ''
             } modifié rétroactivement et publié le ${project.cahierDesChargesActuel.paruLe}`}
-      </PrintShow>
+      </div>
     </div>
 
     <div className="px-3">

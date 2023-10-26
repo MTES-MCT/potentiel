@@ -14,7 +14,6 @@ import {
   Label,
   Container,
   AccountIcon,
-  PrintShow,
 } from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -25,19 +24,17 @@ type HeaderProps = {
 
 const LogoAndTitle = () => (
   <>
-    <PrintShow>
-      <div className="flex items-center">
-        <img src="/images/logo-republique-francaise.svg" className="w-[100px]" />
-        <div className="ml-4 no-underline">
-          <div className="font-bold text-xl text-black">Potentiel</div>
-          <div className="text-base text-black">
-            Facilite le parcours des producteurs
-            <br />
-            d'énergies renouvelables électriques
-          </div>
+    <div className="hidden print:flex items-center">
+      <img src="/images/logo-republique-francaise.svg" className="w-[100px]" />
+      <div className="ml-4 no-underline">
+        <div className="font-bold text-xl text-black">Potentiel</div>
+        <div className="text-base text-black">
+          Facilite le parcours des producteurs
+          <br />
+          d'énergies renouvelables électriques
         </div>
       </div>
-    </PrintShow>
+    </div>
     <Link
       className="no-underline hover:no-underline focus:no-underline visited:no-underline"
       href={routes.HOME}

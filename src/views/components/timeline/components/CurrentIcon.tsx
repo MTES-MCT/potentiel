@@ -1,9 +1,8 @@
 import React from 'react';
-import { PrintShow } from '../..';
 
 export const CurrentIcon = () => (
   <div className="flex flex-col print:min-w-[90px]" title="étape à valider">
-    <PrintShow className="text-xs mb-2 whitespace-nowrap">étape à valider</PrintShow>
+    <div className="hidden print:block text-xs mb-2 whitespace-nowrap">étape à valider</div>
     <span
       className={
         'relative z-2 w-8 h-8 flex items-center justify-center bg-white print:bg-none border-2 border-solid rounded-full border-blue-700 group-hover:border-blue-900'
