@@ -21,6 +21,8 @@ import {
   Form,
   ChampsObligatoiresLégende,
   LabelDescription,
+  AlertBox,
+  Checkbox,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -103,7 +105,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
               <Input type="file" name="file" id="file" />
             </div>
 
-            {/* {appelOffre.periode.abandonAvecRecandidature && (
+            {appelOffre.periode.abandonAvecRecandidature && (
               <>
                 <AlertBox>
                   <div className="font-bold">Demande d'abandon avec recandidature</div>
@@ -122,8 +124,8 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                       </li>
                       <li>Le même lieu d'implantation que le projet abandonné</li>
                       <li>
-                        La même autorisation préfectorale (numéro ICPE identifique) que le projet abandonné, 
-                        nonobstant des porter à connaissance ultérieurs
+                        La même autorisation préfectorale (numéro ICPE identifique) que le projet
+                        abandonné, nonobstant des porter à connaissance ultérieurs
                       </li>
                       <li>
                         Le tarif proposé ne doit pas être supérieur au prix plafond de la période
@@ -142,7 +144,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   </Checkbox>
                 </AlertBox>
               </>
-            )} */}
+            )}
 
             <div className="mx-auto flex flex-col md:flex-row gap-4 items-center mt-4">
               <PrimaryButton type="submit" id="submit">

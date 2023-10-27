@@ -4,6 +4,7 @@ import { DemandeAbandonPageDTO } from '../../../modules/modificationRequest';
 import { ModificationRequestStatusTitle, afficherDate, hydrateOnClient } from '../../helpers';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
+  AlertBox,
   ChampsObligatoiresLégende,
   DownloadLink,
   ErrorBox,
@@ -80,7 +81,7 @@ export const DetailsAbandon = ({ request, demandeAbandon }: DétailsAbandonProps
           </ul>
           <Heading3 className="mb-2">Explications du porteur de projet</Heading3>
           <p className="m-0 italic">{`"${justification || ''}"`}</p>
-          {/* {type === 'abandon' && recandidature && (
+          {type === 'abandon' && recandidature && (
             <>
               <AlertBox>
                 <div className="font-bold">Demande d'abandon avec recandidature</div>
@@ -98,8 +99,8 @@ export const DetailsAbandon = ({ request, demandeAbandon }: DétailsAbandonProps
                     </li>
                     <li>Le même lieu d'implantation que le projet abandonné</li>
                     <li>
-                      La même autorisation préfectorale (numéro ICPE identifique) que le projet abandonné, 
-                      nonobstant des porter à connaissance ultérieurs
+                      La même autorisation préfectorale (numéro ICPE identifique) que le projet
+                      abandonné, nonobstant des porter à connaissance ultérieurs
                     </li>
                     <li>
                       Le tarif proposé ne doit pas être supérieur au prix plafond de la période dont
@@ -111,7 +112,7 @@ export const DetailsAbandon = ({ request, demandeAbandon }: DétailsAbandonProps
                 </div>
               </AlertBox>
             </>
-          )} */}
+          )}
         </div>
       </div>
       {attachmentFile && (
