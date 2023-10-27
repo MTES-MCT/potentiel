@@ -14,11 +14,7 @@ import {
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
-  téléverserPièceJustificativeAbandonAdapter,
-  téléverserRéponseSignéeAdapter,
-  téléchargerPièceJustificativeAbandonProjetAdapter,
   récupérerCandidatureAdapter,
-  téléchargerRéponseSignéeAdapter,
   récupérerUtilisateurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
@@ -43,10 +39,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       publish,
       subscribe,
     },
-    projet: {
-      enregistrerPièceJustificativeAbandon: téléverserPièceJustificativeAbandonAdapter,
-      enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
-    },
+    projet: {},
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
         téléverserFichierDossierRaccordementAdapter,
@@ -69,8 +62,6 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     appelOffre: {},
     projet: {
       récupérerCandidature: récupérerCandidatureAdapter,
-      récupérerPièceJustificativeAbandon: téléchargerPièceJustificativeAbandonProjetAdapter,
-      récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:

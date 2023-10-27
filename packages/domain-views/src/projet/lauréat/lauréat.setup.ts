@@ -1,10 +1,6 @@
 import { mediator } from 'mediateur';
 import { Subscribe } from '@potentiel/core-domain';
-import {
-  ConsulterGestionnaireRéseauLauréatDependencies,
-  registerConsulterGestionnaireRéseauLauréatQuery,
-} from './gestionnaireRéseau/consulter/consulterGestionnaireRéseauLauréat.query';
-import { ListerAbandonAvecRecandidatureDependencies } from './abandon/lister/listerAbandon.query';
+import { ConsulterGestionnaireRéseauLauréatDependencies } from './gestionnaireRéseau/consulter/consulterGestionnaireRéseauLauréat.query';
 import { GestionnaireRéseauProjetEvent } from '@potentiel/domain-usecases';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 import {
@@ -12,35 +8,16 @@ import {
   GestionnaireRéseauLauréatProjectorDependencies,
   registerGestionnaireRéseauLauréatProjector,
 } from './gestionnaireRéseau/gestionnaireRéseau.projector';
-import {
-  ConsulterPièceJustificativeAbandonProjetDependencies,
-  registerConsulterPièceJustificativeAbandonProjetQuery,
-} from './abandon/consulter/consulterPièceJustificativeAbandon.query';
-import { registerAbandonProjector } from './abandon/abandon.projector';
-import {
-  ConsulterRéponseSignéeAbandonDependencies,
-  registerConsulterRéponseAbandonSignéeQuery,
-} from './abandon/consulter/consulterRéponseSignéeAbandon.query';
 
 type GestionnaireRéseauLauréatDependencies = ConsulterGestionnaireRéseauLauréatDependencies;
 
-type AbandonDependencies = ListerAbandonAvecRecandidatureDependencies &
-  ConsulterPièceJustificativeAbandonProjetDependencies &
-  ConsulterRéponseSignéeAbandonDependencies;
-
 // Setup
 export type LauréatDependencies = { subscribe: Subscribe } & GestionnaireRéseauLauréatDependencies &
-  AbandonDependencies &
   GestionnaireRéseauLauréatProjectorDependencies;
 
 export const setupLauréatViews = async (dependencies: LauréatDependencies) => {
-  registerConsulterPièceJustificativeAbandonProjetQuery(dependencies);
-  registerConsulterRéponseAbandonSignéeQuery(dependencies);
-  registerConsulterGestionnaireRéseauLauréatQuery(dependencies);
-
   // Projector
   registerGestionnaireRéseauLauréatProjector(dependencies);
-  registerAbandonProjector(dependencies);
 
   // Subscribes
   const { subscribe } = dependencies;
