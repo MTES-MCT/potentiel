@@ -10,8 +10,8 @@ type ProjectHeaderProps = {
 };
 
 export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
-  <div className="w-full pt-3 md:pt-0 lg:flex justify-between gap-2">
-    <div className="pl-3 mb-3 text-sm">
+  <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
+    <div className="pl-3 print:pl-0 mb-3 text-sm">
       <div
         className="flex justify-start items-center
       "
