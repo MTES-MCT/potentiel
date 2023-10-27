@@ -1,5 +1,5 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
 
 import * as StatutAbandon from './statutAbandon.valueType';
 
@@ -26,6 +26,8 @@ import {
   confirmer,
 } from './confirmer/confirmerAbandon.behavior';
 import { AbandonInconnuErreur } from './abandonInconnu.error';
+import { annulerRejet } from './annuler/annulerRejetAbandon.behavior';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 export type AbandonEvent =
   | AbandonDemandéEvent
@@ -39,11 +41,10 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   statut: StatutAbandon.ValueType;
   demande: {
     raison: string;
-    pièceJustificative?: {
-      format: string;
-    };
+    pièceJustificative?: DocumentProjet.ValueType;
     recandidature: boolean;
     demandéLe: DateTime.ValueType;
+    demandéPar: IdentifiantUtilisateur.ValueType;
     confirmation?: {
       réponseSignée: {
         format: string;
@@ -66,6 +67,7 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   };
   annuléLe?: DateTime.ValueType;
   readonly accorder: typeof accorder;
+  readonly annulerRejet: typeof annulerRejet;
   readonly annuler: typeof annuler;
   readonly confirmer: typeof confirmer;
   readonly demander: typeof demander;
@@ -81,14 +83,13 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   statut: StatutAbandon.convertirEnValueType('inconnu'),
   demande: {
     raison: '',
-    pièceJustificative: {
-      format: '',
-    },
+    demandéPar: IdentifiantUtilisateur.convertirEnValueType('unknown-user@unknown-email.com'),
     recandidature: false,
     demandéLe: DateTime.convertirEnValueType(new Date()),
   },
   accorder,
   annuler,
+  annulerRejet,
   confirmer,
   demander,
   demanderConfirmation,

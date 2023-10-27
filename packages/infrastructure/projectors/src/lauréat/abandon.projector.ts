@@ -71,7 +71,7 @@ export const registerAbandonProjector = () => {
           await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             confirmationDemandéeLe: payload.confirmationDemandéeLe,
-            confirmationConfirméPar: payload.confirmationDemandéePar,
+            confirmationDemandéePar: payload.confirmationDemandéePar,
             confirmationDemandéeRéponseSignéeFormat: payload.réponseSignée.format,
             statut: 'confirmation-demandée',
           });

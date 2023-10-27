@@ -20,6 +20,7 @@ import {
 } from './lister/listerAbandon.query';
 import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
+import { registerAnnulerRejetAbandonCommand } from './annuler/annulerRejetAbandon.command';
 
 export type AbandonQueryDependencies = ConsulterAbandonDependencies & ListerAbandonDependencies;
 export type AbandonCommandDependencies = {
@@ -33,6 +34,7 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerDemanderConfirmationAbandonCommand(loadAggregate);
   registerRejeterAbandonCommand(loadAggregate);
   registerAnnulerAbandonCommand(loadAggregate);
+  registerAnnulerRejetAbandonCommand(loadAggregate);
 
   registerDemanderAbandonUseCase();
   registerAccorderAbandonUseCase();
