@@ -25,7 +25,7 @@ type HeaderProps = {
 const LogoAndTitle = () => (
   <>
     <div className="hidden print:flex items-center">
-      <img src="/images/logo-republique-francaise.svg" className="w-[100px]" />
+      <img src="/images/logo-ministere-de-la-transition-energetique.png" className="w-[150px]" />
       <div className="ml-4 no-underline">
         <div className="font-bold text-xl text-black">Potentiel</div>
         <div className="text-base text-black">
