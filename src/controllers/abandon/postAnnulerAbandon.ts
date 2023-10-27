@@ -13,14 +13,8 @@ import {
 } from '../helpers';
 import { v1Router } from '../v1Router';
 import { mediator } from 'mediateur';
-import {
-  DomainUseCase,
-  convertirEnDateTime,
-  convertirEnIdentifiantProjet,
-  convertirEnIdentifiantUtilisateur,
-} from '@potentiel/domain-usecases';
-import { isSome, none } from '@potentiel/monads';
-import { ConsulterAbandonQuery } from '@potentiel/domain-views';
+import { isSome } from '@potentiel/monads';
+import { Abandon } from '@potentiel-domain/laureat';
 
 const requestBodySchema = yup.object({
   modificationRequestId: yup.string().uuid().required(),
@@ -35,41 +29,29 @@ v1Router.post(
 
     const sendToMediator = new Promise<void>(async (resolve) => {
       const result = await getIdentifiantProjetByLegacyId(projectId);
+      const identifiantProjetValue = result?.identifiantProjetValue || '';
 
-      const identifiantProjet = convertirEnIdentifiantProjet({
-        appelOffre: result?.appelOffre || '',
-        famille: result?.famille || none,
-        numéroCRE: result?.numéroCRE || '',
-        période: result?.période || '',
-      });
-
-      const abandon = await mediator.send<ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON',
         data: {
-          identifiantProjet,
+          identifiantProjetValue,
         },
       });
 
       if (isSome(abandon)) {
         try {
-          await mediator.send<DomainUseCase>({
+          await mediator.send<Abandon.AbandonUseCase>({
             type: 'ANNULER_ABANDON_USECASE',
             data: {
-              dateAnnulationAbandon: convertirEnDateTime(new Date()),
-              annuléPar: convertirEnIdentifiantUtilisateur(request.user.email),
-              identifiantProjet: convertirEnIdentifiantProjet({
-                appelOffre: identifiantProjet?.appelOffre || '',
-                famille: identifiantProjet?.famille || none,
-                numéroCRE: identifiantProjet?.numéroCRE || '',
-                période: identifiantProjet?.période || '',
-              }),
+              dateAnnulationValue: new Date().toISOString(),
+              identifiantProjetValue,
+              utilisateurValue: request.user.email,
             },
           });
         } catch (e) {
           logger.error(e);
         }
       }
-
       resolve();
     });
 

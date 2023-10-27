@@ -16,6 +16,7 @@ export const getIdentifiantProjetByLegacyId = async (legacyId: Project['id']) =>
       période: projet.periodeId,
       famille: projet.familleId,
       numéroCRE: projet.numeroCRE,
+      identifiantProjetValue: `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
     };
   } catch (error) {
     throw new Error(error);

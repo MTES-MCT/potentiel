@@ -11,14 +11,8 @@ import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { mediator } from 'mediateur';
-import {
-  DomainUseCase,
-  convertirEnDateTime,
-  convertirEnIdentifiantProjet,
-  convertirEnIdentifiantUtilisateur,
-} from '@potentiel/domain-usecases';
 import { FileReadableStream } from '../../helpers/fileReadableStream';
-import { none } from '@potentiel/monads';
+import { Abandon } from '@potentiel-domain/laureat';
 
 const schema = yup.object({
   body: yup.object({
@@ -52,25 +46,21 @@ v1Router.post(
       };
 
       const sendToMediator = new Promise<void>(async (resolve) => {
-        const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
+        const result = await getIdentifiantProjetByLegacyId(projectId);
+        const identifiantProjetValue = result?.identifiantProjetValue || '';
         try {
-          await mediator.send<DomainUseCase>({
+          await mediator.send<Abandon.AbandonUseCase>({
             type: 'DEMANDER_ABANDON_USECASE',
             data: {
-              identifiantProjet: convertirEnIdentifiantProjet({
-                appelOffre: identifiantProjet?.appelOffre || '',
-                famille: identifiantProjet?.famille || none,
-                numéroCRE: identifiantProjet?.numéroCRE || '',
-                période: identifiantProjet?.période || '',
-              }),
-              pièceJustificative: request.file && {
+              identifiantProjetValue,
+              pièceJustificativeValue: request.file && {
                 format: request.file.mimetype,
                 content: new FileReadableStream(request.file.path),
               },
-              dateDemandeAbandon: convertirEnDateTime(new Date()),
-              recandidature: !!abandonAvecRecandidature,
-              raison: justification || '',
-              demandéPar: convertirEnIdentifiantUtilisateur(request.user.email),
+              dateDemandeValue: new Date().toISOString(),
+              raisonValue: justification || '',
+              recandidatureValue: !!abandonAvecRecandidature,
+              utilisateurValue: request.user.email,
             },
           });
         } catch (e) {
