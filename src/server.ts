@@ -3,14 +3,13 @@ import * as LOCALE from 'date-fns/locale';
 import dotenv from 'dotenv';
 import express, { Request } from 'express';
 import helmet from 'helmet';
-import path, { join } from 'path';
+import path from 'path';
 import morgan from 'morgan';
 import * as Sentry from '@sentry/node';
 import { isDevEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap as bootstrapWebApp } from '@potentiel/web';
-import { bootstrap } from '@potentiel-application/bootstrap';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   DateMiseEnServiceTransmise,
@@ -18,7 +17,7 @@ import {
 } from './modules/project';
 import { transformerISOStringEnDate } from './infra/helpers';
 import { publishToEventBus } from './config/eventBus.config';
-import next from 'next';
+import { bootstrap } from '@potentiel-application/bootstrap';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -28,6 +27,7 @@ const FILE_SIZE_LIMIT_MB = 50;
 export async function makeServer(port: number, sessionSecret: string) {
   try {
     await bootstrapWebApp();
+    await bootstrap();
     // TODO : activer le bootstrap de l'application de notifications quand un cas sera implémenter
     // await bootstrapNotifcationApp();
 
@@ -162,31 +162,15 @@ export async function makeServer(port: number, sessionSecret: string) {
         );
     });
 
-    /////// Custom server next
-    const nextApp = next({
-      dev: false,
-      dir: join(__dirname, '..', 'packages', 'applications', 'ssr'),
+    return new Promise((resolve) => {
+      const server = app.listen(port, () => {
+        process.env.start_datetime = new Date().getTime().toString();
+        logger.info(`Server listening on port ${port}!`);
+        logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
+        logger.info(`Version ${process.env.npm_package_version}`);
+        resolve(server);
+      });
     });
-
-    const nextHandler = nextApp.getRequestHandler();
-
-    app.get('*', (req, res) => {
-      return nextHandler(req, res);
-    });
-
-    app.post('*', (req, res) => {
-      return nextHandler(req, res);
-    });
-
-    await nextApp.prepare();
-    await bootstrap();
-    app.listen(port, () => {
-      process.env.start_datetime = new Date().getTime().toString();
-      logger.info(`Server listening on port ${port}!`);
-      logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
-      logger.info(`Version ${process.env.npm_package_version}`);
-    });
-    ///////
   } catch (error) {
     logger.error(error);
   }
