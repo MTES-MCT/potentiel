@@ -280,6 +280,15 @@ type DateMiseEnServiceTransmiseAnnuleDélaiCDC2022 = {
   };
 };
 
+type DemandeComplèteRaccordementTransmiseAnnuleDélaiCDC2022 = {
+  type: 'demande-complete-raccordement-transmise-annule-delai-Cdc-2022';
+  context: { projetId: string; utilisateurId: string };
+  variables: {
+    nom_projet: string;
+    projet_url: string;
+  };
+};
+
 type NouvellePériodeNotifiée = {
   type: 'tous-rôles-sauf-dgec-et-porteurs-nouvelle-periode-notifiée';
   context: { userId: string };
@@ -309,6 +318,7 @@ type NotificationVariants =
   | NouvellePériodeNotifiée
   | ChangementCDCAnnuleDélaiCDC2022
   | DateMiseEnServiceTransmiseAnnuleDélaiCDC2022
+  | DemandeComplèteRaccordementTransmiseAnnuleDélaiCDC2022
   | PP_DélaiAccordéCorrigé;
 
 export type NotificationProps = BaseNotification & NotificationVariants;

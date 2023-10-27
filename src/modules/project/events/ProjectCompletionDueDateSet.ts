@@ -4,7 +4,11 @@ export interface ProjectCompletionDueDateSetPayload {
   projectId: string;
   completionDueOn: number;
   setBy?: string;
-  reason?: 'délaiCdc2022' | 'ChoixCDCAnnuleDélaiCdc2022' | 'DateMiseEnServiceAnnuleDélaiCdc2022';
+  reason?:
+    | 'délaiCdc2022'
+    | 'ChoixCDCAnnuleDélaiCdc2022'
+    | 'DateMiseEnServiceAnnuleDélaiCdc2022'
+    | 'DemandeComplèteRaccordementTransmiseAnnuleDélaiCdc2022';
 }
 export class ProjectCompletionDueDateSet
   extends BaseDomainEvent<ProjectCompletionDueDateSetPayload>
