@@ -160,17 +160,6 @@ const Details = (
     'en instruction': `en instruction`,
   };
 
-  function showDemandeButton() {
-    if (
-      !authority ||
-      ['admin', 'dgec-validateur', 'porteur-projet', 'cre', 'acheteur-obligé'].includes(role)
-    ) {
-      return true;
-    }
-
-    return role === authority;
-  }
-
   return (
     <>
       <ItemTitle title={`${libelleTypeDemande[modificationType]} ${libelleStatus[status]}`} />
@@ -184,7 +173,9 @@ const Details = (
           Puissance demandée : {props.puissance} {props.unitePuissance}
         </p>
       )}
-      {showDemandeButton() && (
+      {['admin', 'dgec-validateur', 'porteur-projet', 'cre', 'acheteur-obligé', 'dreal'].includes(
+        role,
+      ) && (
         <Link
           href={detailsUrl}
           aria-label={`Voir le détail de la demande de ${libelleTypeDemande[modificationType]} en statut "${libelleStatus[status]}"`}
