@@ -89,14 +89,6 @@ v1Router.get(
 
     return modificationRequestResult.match(
       (modificationRequest) => {
-        if (
-          user?.role === 'dreal' &&
-          authority !== 'dreal' &&
-          modificationRequest.type !== 'abandon'
-        ) {
-          return unauthorizedResponse({ request, response });
-        }
-
         if (modificationRequest.type === 'abandon') {
           return response.send(
             DemandeAbandonPage({
