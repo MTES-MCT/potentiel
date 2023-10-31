@@ -172,12 +172,13 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
   describe('when user is dreal', () => {
     const fakeDreal = _creerDreal();
     const fakePorteur = _creerPorteurProjet();
+    const targetDreal = 'Bretagne';
 
     beforeAll(async () => {
       // Create the tables and remove all data
       await resetDatabase();
 
-      await Project.create(makeFakeProject({ id: projectId, regionProjet: 'Bretagne' }));
+      await Project.create(makeFakeProject({ id: projectId, regionProjet: targetDreal }));
 
       const outsideRegionProjectId = new UniqueEntityID().toString();
       await Project.create(
@@ -191,7 +192,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       await UserDreal.create({
         userId: fakeDreal.id,
-        dreal: 'Bretagne',
+        dreal: targetDreal,
       });
 
       const baseRequest = {
@@ -204,21 +205,18 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       await ModificationRequest.bulkCreate([
         {
-          // inside scope because of authority
           ...baseRequest,
           id: new UniqueEntityID().toString(),
           type: 'producteur',
           authority: 'dreal',
         },
         {
-          // inside scope because of type
           ...baseRequest,
           id: new UniqueEntityID().toString(),
           type: 'abandon',
           authority: 'dgec',
         },
         {
-          // outside of scope because of authority
           ...baseRequest,
           id: new UniqueEntityID().toString(),
           type: 'recours',
@@ -235,9 +233,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
       ]);
     });
 
-    it(`should return all modification requests that match these constraints : 
-        - project in dreal user's region
-        - modification under dreal authority of type "abandon"`, async () => {
+    it(`should return all modification requests of projects from the user's region`, async () => {
       const res = await getModificationRequestListForAdmin({
         user: fakeDreal,
         pagination: { page: 0, pageSize: 10 },
@@ -245,22 +241,29 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       expect(res.isOk()).toBe(true);
 
-      expect(res._unsafeUnwrap().itemCount).toEqual(2);
+      expect(res._unsafeUnwrap().itemCount).toEqual(3);
 
-      expect(res._unsafeUnwrap().items.length).toEqual(2);
+      expect(res._unsafeUnwrap().items.length).toEqual(3);
 
       expect(res._unsafeUnwrap().items[0]).toMatchObject({
         authority: 'dreal',
         status: 'envoyée',
         type: 'producteur',
-        project: expect.objectContaining({ regionProjet: 'Bretagne' }),
+        project: expect.objectContaining({ regionProjet: targetDreal }),
       });
 
       expect(res._unsafeUnwrap().items[1]).toMatchObject({
         authority: 'dgec',
         status: 'envoyée',
         type: 'abandon',
-        project: expect.objectContaining({ regionProjet: 'Bretagne' }),
+        project: expect.objectContaining({ regionProjet: targetDreal }),
+      });
+
+      expect(res._unsafeUnwrap().items[2]).toMatchObject({
+        authority: 'dgec',
+        status: 'envoyée',
+        type: 'recours',
+        project: expect.objectContaining({ regionProjet: targetDreal }),
       });
     });
   });

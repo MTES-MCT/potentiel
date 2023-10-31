@@ -36,10 +36,12 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
   const { error, success } = request.query as any;
   const { type, id, status } = modificationRequest;
 
-  const userIsAdmin = userIs(['admin', 'dgec-validateur', 'dreal'])(user);
+  const userIsDgec = userIs(['admin', 'dgec-validateur'])(user);
+  const userIsDrealWithAuthority =
+    userIs(['dreal'])(user) && modificationRequest.authority === 'dreal';
 
   const showFormulaireAdministrateur =
-    userIsAdmin &&
+    (userIsDgec || userIsDrealWithAuthority) &&
     !modificationRequest.respondedOn &&
     !modificationRequest.cancelledOn &&
     status !== 'information validée';
