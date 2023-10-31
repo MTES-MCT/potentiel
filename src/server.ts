@@ -3,7 +3,7 @@ import * as LOCALE from 'date-fns/locale';
 import dotenv from 'dotenv';
 import express, { Request } from 'express';
 import helmet from 'helmet';
-import path from 'path';
+import path, { join } from 'path';
 import morgan from 'morgan';
 import * as Sentry from '@sentry/node';
 import { isDevEnv, registerAuth } from './config';
@@ -18,6 +18,7 @@ import {
 import { transformerISOStringEnDate } from './infra/helpers';
 import { publishToEventBus } from './config/eventBus.config';
 import { bootstrap } from '@potentiel-application/bootstrap';
+import next from 'next';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -27,7 +28,6 @@ const FILE_SIZE_LIMIT_MB = 50;
 export async function makeServer(port: number, sessionSecret: string) {
   try {
     await bootstrapWebApp();
-    await bootstrap();
     // TODO : activer le bootstrap de l'application de notifications quand un cas sera implémenter
     // await bootstrapNotifcationApp();
 
@@ -162,15 +162,31 @@ export async function makeServer(port: number, sessionSecret: string) {
         );
     });
 
-    return new Promise((resolve) => {
-      const server = app.listen(port, () => {
-        process.env.start_datetime = new Date().getTime().toString();
-        logger.info(`Server listening on port ${port}!`);
-        logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
-        logger.info(`Version ${process.env.npm_package_version}`);
-        resolve(server);
-      });
+    /////// Custom server next
+    const nextApp = next({
+      dev: false,
+      dir: join(__dirname, isDevEnv ? '../' : '../..', 'packages', 'applications', 'ssr'),
     });
+
+    const nextHandler = nextApp.getRequestHandler();
+
+    app.get('*', (req, res) => {
+      return nextHandler(req, res);
+    });
+
+    app.post('*', (req, res) => {
+      return nextHandler(req, res);
+    });
+
+    await nextApp.prepare();
+    await bootstrap();
+    app.listen(port, () => {
+      process.env.start_datetime = new Date().getTime().toString();
+      logger.info(`Server listening on port ${port}!`);
+      logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
+      logger.info(`Version ${process.env.npm_package_version}`);
+    });
+    ///////
   } catch (error) {
     logger.error(error);
   }
