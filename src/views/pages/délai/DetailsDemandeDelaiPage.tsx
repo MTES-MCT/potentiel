@@ -15,7 +15,7 @@ import {
   Label,
   Input,
   LinkButton,
-  InfoBox,
+  AlertBox,
 } from '../../components';
 import { DetailDemandeDelaiPageDTO } from '../../../modules/modificationRequest';
 import { userIs } from '../../../modules/users';
@@ -215,7 +215,7 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
             <div>
               <Heading2>Répondre à la demande</Heading2>
 
-              <InfoBox className="mb-4">
+              <AlertBox className="mb-4">
                 Attention : les demandes de prolongation de délai aux motifs de l'application du{' '}
                 <span className="font-bold">délai exceptionnel relatif à la crise du covid-19</span>{' '}
                 (accordé par la note de la DGEC du 15 mai 2020 adressée à EDF OA), ou en lien avec
@@ -227,7 +227,7 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
                 . Ces délais sont{' '}
                 <span className="font-bold">appliqués automatiquement par Potentiel</span> dès lors
                 que le projet est éligible à leur application.
-              </InfoBox>
+              </AlertBox>
 
               <Form
                 action={ROUTES.ADMIN_REPONDRE_DEMANDE_DELAI}
