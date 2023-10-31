@@ -137,12 +137,19 @@ export async function makeServer(port: number, sessionSecret: string) {
       }),
     );
 
-    app.use(
-      express.urlencoded({
-        extended: false,
-        limit: FILE_SIZE_LIMIT_MB + 'mb',
-      }),
-    );
+    app.use((req, res, next) => {
+      // Cas permettant d'avoir l'authentification keycloak fonctionnelle
+      // pour l'application next. À terme ce code disparaîtra une fois l'intégralité
+      // de l'app custom framework legacy migrée dans l'application Next
+      if (req.originalUrl.indexOf(`/api/auth/`) > -1) {
+        next();
+      } else {
+        express.urlencoded({
+          extended: false,
+          limit: FILE_SIZE_LIMIT_MB + 'mb',
+        })(req, res, next);
+      }
+    });
     app.use(express.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }));
 
     registerAuth({ app, sessionSecret, router: v1Router });

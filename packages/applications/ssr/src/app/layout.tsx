@@ -1,5 +1,6 @@
+import './global.css';
+
 import { DsfrHead } from '@codegouvfr/react-dsfr/next-appdir/DsfrHead';
-import { DsfrProvider } from '@codegouvfr/react-dsfr/next-appdir/DsfrProvider';
 import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes';
 import { StartDsfr } from './StartDsfr';
 import { defaultColorScheme } from './defaultColorScheme';
@@ -7,6 +8,7 @@ import Link from 'next/link';
 import { Header } from '@codegouvfr/react-dsfr/Header';
 import { Footer } from '@codegouvfr/react-dsfr/Footer';
 import { fr } from '@codegouvfr/react-dsfr';
+import Providers from './Providers';
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"
@@ -17,7 +19,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
         <DsfrHead Link={Link} />
       </head>
       <body className="flex flex-col min-h-screen">
-        <DsfrProvider>
+        <Providers>
           <Header
             brandTop={
               <>
@@ -103,7 +105,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
               },
             ]}
           />
-        </DsfrProvider>
+        </Providers>
       </body>
     </html>
   );
