@@ -9,6 +9,7 @@ import { Header } from '@codegouvfr/react-dsfr/Header';
 import { Footer } from '@codegouvfr/react-dsfr/Footer';
 import { fr } from '@codegouvfr/react-dsfr';
 import Providers from './Providers';
+import { UserHeaderQuickAccessItem } from '@/components/UserHeaderQuickAccessItem';
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
               title: "Accueil - Nom de l’entité (ministère, secrétariat d'état, gouvernement)",
             }}
             quickAccessItems={[
+              <UserHeaderQuickAccessItem key={0} />,
               {
                 iconId: 'ri-question-line',
                 linkProps: {
