@@ -1,9 +1,8 @@
 import { getServerSession } from 'next-auth/next';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
-import { authConfiguration } from '@/config/authConfiguration';
 
 export async function UserHeaderQuickAccessItem() {
-  const session = await getServerSession(authConfiguration);
+  const session = await getServerSession();
 
   return session?.user ? (
     <>

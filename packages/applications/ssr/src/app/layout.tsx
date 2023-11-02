@@ -10,6 +10,7 @@ import { Footer } from '@codegouvfr/react-dsfr/Footer';
 import { fr } from '@codegouvfr/react-dsfr';
 import Providers from './Providers';
 import { UserHeaderQuickAccessItem } from '@/components/UserHeaderQuickAccessItem';
+import { UserNavigation } from '@/components/UserNavigation';
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
                 text: 'Aide',
               },
             ]}
+            navigation={<UserNavigation />}
           />
           <div
             style={{
