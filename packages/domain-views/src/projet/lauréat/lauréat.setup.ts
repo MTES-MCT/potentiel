@@ -1,6 +1,9 @@
 import { mediator } from 'mediateur';
 import { Subscribe } from '@potentiel/core-domain';
-import { ConsulterGestionnaireRéseauLauréatDependencies } from './gestionnaireRéseau/consulter/consulterGestionnaireRéseauLauréat.query';
+import {
+  ConsulterGestionnaireRéseauLauréatDependencies,
+  registerConsulterGestionnaireRéseauLauréatQuery,
+} from './gestionnaireRéseau/consulter/consulterGestionnaireRéseauLauréat.query';
 import { GestionnaireRéseauProjetEvent } from '@potentiel/domain-usecases';
 import { RebuildTriggered } from '@potentiel/core-domain-views';
 import {
@@ -16,6 +19,9 @@ export type LauréatDependencies = { subscribe: Subscribe } & GestionnaireRésea
   GestionnaireRéseauLauréatProjectorDependencies;
 
 export const setupLauréatViews = async (dependencies: LauréatDependencies) => {
+  // Query
+  registerConsulterGestionnaireRéseauLauréatQuery(dependencies);
+
   // Projector
   registerGestionnaireRéseauLauréatProjector(dependencies);
 
