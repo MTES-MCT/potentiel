@@ -19,7 +19,7 @@ export async function UserHeaderQuickAccessItem() {
         quickAccessItem={{
           iconId: 'ri-logout-box-line',
           linkProps: {
-            href: '/logout',
+            href: '/auth/signOut',
           },
           text: 'Me déconnecter',
         }}
