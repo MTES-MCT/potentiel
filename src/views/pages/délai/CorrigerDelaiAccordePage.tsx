@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AlertBox,
   ArrowLeftIcon,
   ChampsObligatoiresLégende,
   ErrorBox,
@@ -88,12 +89,20 @@ export const CorrigerDelaiAccorde = ({
               </li>
             </ol>
           </div>
+          <AlertBox>
+            Attention : une fois ce délai corrigé, nous ne pourrez plus le corriger de nouveau.
+          </AlertBox>
           <div className="flex flex-col md:flex-row gap-4 mx-auto">
             <SecondaryLinkButton href={routes.GET_DETAILS_DEMANDE_DELAI_PAGE(demandeDélai.id)}>
               <ArrowLeftIcon aria-hidden className="w-5 h-5 mr-2" />
               Retour vers la demande
             </SecondaryLinkButton>
-            <PrimaryButton type="submit">Enregistrer la correction</PrimaryButton>
+            <PrimaryButton
+              type="submit"
+              confirmation={`Vous ne pouvez corriger un délai accordé qu'une seule fois. Êtes-vous sûr de vouloir corriger le délai accordé ?`}
+            >
+              Enregistrer la correction
+            </PrimaryButton>
           </div>
         </Form>
         <InfoBox className="md:w-1/3 md:mx-auto">

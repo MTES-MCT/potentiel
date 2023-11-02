@@ -321,13 +321,15 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
             </PrimaryButton>
           </Form>
         )}
-        {status === 'acceptée' && userIs(['admin', 'dgec-validateur', 'dreal'])(user) && (
-          <div>
-            <LinkButton href={ROUTES.GET_CORRIGER_DELAI_ACCORDE_PAGE(id)}>
-              Corriger le délai accordé
-            </LinkButton>
-          </div>
-        )}
+        {!délaiAccordéCorrigéLe &&
+          status === 'acceptée' &&
+          userIs(['admin', 'dgec-validateur', 'dreal'])(user) && (
+            <div>
+              <LinkButton href={ROUTES.GET_CORRIGER_DELAI_ACCORDE_PAGE(id)}>
+                Corriger le délai accordé
+              </LinkButton>
+            </div>
+          )}
       </div>
     </LegacyPageTemplate>
   );
