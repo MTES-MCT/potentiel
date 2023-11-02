@@ -37,7 +37,10 @@ describe('Query getIdentifiantProjetByLegacyId', () => {
 
       const résultat = await getIdentifiantProjetByLegacyId(projetLegacyId);
 
-      expect(résultat).toStrictEqual(identifiantNaturel);
+      expect(résultat).toStrictEqual({
+        ...identifiantNaturel,
+        identifiantProjetValue: 'CRE4 - Bâtiment#1#1#PROJETA',
+      });
     });
   });
 

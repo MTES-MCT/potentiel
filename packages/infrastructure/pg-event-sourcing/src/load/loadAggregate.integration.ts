@@ -70,7 +70,7 @@ describe(`loadAggregate`, () => {
     });
 
     // Assert
-    expect(onNone).toBeCalledTimes(0);
+    expect(onNone).toBeCalledTimes(1);
   });
 
   it(`Lorsqu'on charge un agrégat avec des évènements
@@ -116,6 +116,6 @@ describe(`loadAggregate`, () => {
       secondePropriété: 'seconde-propriété',
     };
 
-    expect(actual).toContain(expect.objectContaining(expected));
+    expect(actual).toEqual(expect.objectContaining(expected));
   });
 });
