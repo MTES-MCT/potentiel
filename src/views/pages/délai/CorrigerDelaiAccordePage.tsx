@@ -78,7 +78,7 @@ export const CorrigerDelaiAccorde = ({
             <Input type="text" id="explications" name="explications" />
           </div>
           <div>
-            <Label htmlFor="file">Nouvelle réponse signée (fichier pdf)</Label>
+            <Label htmlFor="file">Nouvelle réponse signée (fichier pdf)*</Label>
             <ol>
               <li>
                 <DownloadResponseTemplate modificationRequest={demandeDélai} />
@@ -120,9 +120,14 @@ export const CorrigerDelaiAccorde = ({
                 {afficherDate(new Date(demandeDélai.acceptanceParams.dateAchèvementAccordée))}.
               </li>
             )}
-            <li className="m-0">
+            <li className="mb-4">
               La date limite d'achèvement actuelle du projet est le{' '}
               {afficherDate(new Date(dateAchèvementActuelle))}.
+            </li>
+            <li>
+              * Il est nécéssaire de joindre un nouveau courrier de réponse pour valider la
+              correction. La DREAL/DEAL reste libre d'adapter le modèle de réponse fourni en
+              fonction de la situation.
             </li>
           </ul>
         </InfoBox>
