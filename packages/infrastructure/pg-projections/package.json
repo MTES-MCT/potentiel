@@ -9,8 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/core": "*",
-    "@potentiel-domain/core-views": "*",
+    "@potentiel-libraries/projection": "*",
     "@potentiel/pg-helpers": "*",
     "pg-format": "^1.0.4"
   },

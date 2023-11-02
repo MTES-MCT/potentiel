@@ -1,4 +1,4 @@
-import { ReadModel } from '@potentiel-domain/core-views';
+import { ReadModel } from '@potentiel/core-domain-views';
 
 /**
  * @deprecated le nom initial du stream n'est pas le bon

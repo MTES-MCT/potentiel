@@ -1,12 +1,13 @@
 import { executeSelect } from '@potentiel/pg-helpers';
-import { ReadModel } from '@potentiel-domain/core-views';
 import { none, Option } from '@potentiel/monads';
+import { Projection } from '@potentiel-libraries/projection';
+
 import { KeyValuePair } from './keyValuePair';
 
-export const findProjection = async <TReadModel extends ReadModel>(
-  id: `${TReadModel['type']}|${string}`,
-): Promise<Option<TReadModel>> => {
-  const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
+export const findProjection = async <TProjection extends Projection>(
+  id: `${TProjection['type']}|${string}`,
+): Promise<Option<TProjection>> => {
+  const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(
     `select key, value from domain_views.projection where key = $1`,
     id,
   );
@@ -17,7 +18,7 @@ export const findProjection = async <TReadModel extends ReadModel>(
 
   const [{ key, value }] = result;
   return {
-    type: key.split('|')[0] as TReadModel['type'],
+    type: key.split('|')[0] as TProjection['type'],
     ...value,
-  } as TReadModel;
+  } as TProjection;
 };

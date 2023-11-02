@@ -1,0 +1,21 @@
+{
+  "name": "@potentiel-domain/laureat",
+  "version": "0.0.0",
+  "description": "Domain Lauréat",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel/monads": "*",
+    "@potentiel-libraries/projection": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/document": "*"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

@@ -19,24 +19,23 @@ import { v1Router } from '../../v1Router';
 
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { mediator } from 'mediateur';
-import {
-  DomainUseCase,
-  convertirEnDateTime,
-  convertirEnIdentifiantAppelOffre,
-  convertirEnIdentifiantProjet,
-  convertirEnIdentifiantUtilisateur,
-} from '@potentiel/domain-usecases';
 import { FileReadableStream } from '../../../helpers/fileReadableStream';
-import { isNone, none } from '@potentiel/monads';
+import { isNone } from '@potentiel/monads';
 import { RéponseAbandonAvecRecandidatureProps } from '../../../views/certificates/abandon/RéponseAbandonAvecRecandidature';
 import { buildDocument } from '../../../views/certificates/abandon/buildDocument';
 import { convertNodeJSReadableStreamToReadableStream } from '../../helpers/convertNodeJSReadableStreamToReadableStream';
+import { Abandon } from '@potentiel-domain/laureat';
 import {
-  ConsulterAbandonQuery,
-  ConsulterAppelOffreQuery,
   ConsulterCandidatureLegacyQuery,
+  ConsulterAppelOffreQuery,
   ConsulterUtilisateurLegacyQuery,
 } from '@potentiel/domain-views';
+import {
+  RawIdentifiantProjet,
+  convertirEnIdentifiantProjet,
+  convertirEnIdentifiantAppelOffre,
+  convertirEnIdentifiantUtilisateur,
+} from '@potentiel/domain-usecases';
 
 const schema = yup.object({
   body: yup.object({
@@ -72,8 +71,9 @@ v1Router.post(
       const estRejeté = typeof submitRefuse === 'string';
       const estConfirmationDemandée = typeof submitConfirm === 'string';
 
-      const identifiantProjet = await getIdentifiantProjetByLegacyId(projectId);
-      if (!identifiantProjet) {
+      const result = await getIdentifiantProjetByLegacyId(projectId);
+      const identifiantProjetValue = result?.identifiantProjetValue || '';
+      if (!result) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
@@ -87,10 +87,10 @@ v1Router.post(
             }
           | undefined;
 
-        const abandon = await mediator.send<ConsulterAbandonQuery>({
+        const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
           type: 'CONSULTER_ABANDON',
           data: {
-            identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+            identifiantProjetValue,
           },
         });
 
@@ -98,11 +98,13 @@ v1Router.post(
           return notFoundResponse({ request, response, ressourceTitle: `Demande d'abandon` });
         }
 
-        if (abandon.demandeRecandidature) {
+        if (abandon.demande.recandidature) {
           const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
             type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
             data: {
-              identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
+              identifiantProjet: convertirEnIdentifiantProjet(
+                identifiantProjetValue as RawIdentifiantProjet,
+              ),
             },
           });
 
@@ -165,7 +167,7 @@ v1Router.post(
               },
             },
             demandeAbandon: {
-              date: abandon.demandeDemandéLe,
+              date: abandon.demande.demandéLe.date.toISOString(),
               instructeur: {
                 nom: utilisateur.nomComplet,
                 fonction: utilisateur.fonction,
@@ -200,22 +202,16 @@ v1Router.post(
         }
 
         try {
-          await mediator.send<DomainUseCase>({
+          await mediator.send<Abandon.AccorderAbandonUseCase>({
             type: 'ACCORDER_ABANDON_USECASE',
             data: {
-              identifiantProjet: convertirEnIdentifiantProjet({
-                appelOffre: identifiantProjet.appelOffre || '',
-                famille: identifiantProjet.famille || none,
-                numéroCRE: identifiantProjet.numéroCRE || '',
-                période: identifiantProjet.période || '',
-              }),
-              réponseSignée: {
-                type: 'abandon-accordé',
+              identifiantProjetValue,
+              dateAccordValue: new Date().toISOString(),
+              réponseSignéeValue: {
                 format: file.mimeType,
                 content: file.content,
               },
-              dateAccordAbandon: convertirEnDateTime(new Date()),
-              accordéPar: convertirEnIdentifiantUtilisateur(request.user.email),
+              utilisateurValue: request.user.email,
             },
           });
         } catch (e) {
@@ -271,22 +267,16 @@ v1Router.post(
         };
 
         try {
-          await mediator.send<DomainUseCase>({
+          await mediator.send<Abandon.AbandonUseCase>({
             type: 'REJETER_ABANDON_USECASE',
             data: {
-              identifiantProjet: convertirEnIdentifiantProjet({
-                appelOffre: identifiantProjet?.appelOffre || '',
-                famille: identifiantProjet?.famille || none,
-                numéroCRE: identifiantProjet?.numéroCRE || '',
-                période: identifiantProjet?.période || '',
-              }),
-              réponseSignée: {
-                type: 'abandon-rejeté',
+              identifiantProjetValue,
+              réponseSignéeValue: {
                 format: request.file.mimetype,
                 content: new FileReadableStream(request.file.path),
               },
-              dateRejetAbandon: convertirEnDateTime(new Date()),
-              rejetéPar: convertirEnIdentifiantUtilisateur(request.user.email),
+              dateRejetValue: new Date().toISOString(),
+              utilisateurValue: request.user.email,
             },
           });
         } catch (e) {
@@ -339,22 +329,16 @@ v1Router.post(
         };
 
         try {
-          await mediator.send<DomainUseCase>({
+          await mediator.send<Abandon.AbandonUseCase>({
             type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
             data: {
-              identifiantProjet: convertirEnIdentifiantProjet({
-                appelOffre: identifiantProjet?.appelOffre || '',
-                famille: identifiantProjet?.famille || none,
-                numéroCRE: identifiantProjet?.numéroCRE || '',
-                période: identifiantProjet?.période || '',
-              }),
-              réponseSignée: {
-                type: 'abandon-à-confirmer',
+              identifiantProjetValue,
+              réponseSignéeValue: {
                 format: request.file.mimetype,
                 content: new FileReadableStream(request.file.path),
               },
-              dateDemandeConfirmationAbandon: convertirEnDateTime(new Date()),
-              confirmationDemandéePar: convertirEnIdentifiantUtilisateur(request.user.email),
+              dateDemandeValue: new Date().toISOString(),
+              utilisateurValue: request.user.email,
             },
           });
         } catch (e) {

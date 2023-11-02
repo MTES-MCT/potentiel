@@ -1,17 +1,17 @@
 import { EventEmitter } from 'events';
-import { DomainEvent, Subscriber } from '@potentiel-domain/core';
 import { isEvent, Event } from '../event';
 import { getLogger } from '@potentiel/monitoring';
 import { acknowledge } from './acknowledgement/acknowledge';
 import { Client } from 'pg';
 import { rebuild } from './rebuild/rebuild';
 import format from 'pg-format';
-import { RebuildTriggered } from '@potentiel-domain/core-views';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
 import { RebuildFailedError } from './errors/RebuildFailed.error';
 import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error';
 import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error';
+import { RebuildTriggered } from './rebuild/rebuildTriggered.event';
+import { Subscriber } from './subscriber/subscriber';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 
@@ -123,10 +123,7 @@ export class EventStreamEmitter extends EventEmitter {
   #setupDomainEventListener() {
     this.on('domain-event' satisfies ChannelName, async (event: Event) => {
       try {
-        await this.#subscriber.eventHandler({
-          type: event.type,
-          payload: event.payload,
-        } as DomainEvent);
+        await this.#subscriber.eventHandler(event);
         await acknowledge({
           stream_category: this.#subscriber.streamCategory,
           subscriber_name: this.#subscriber.name,

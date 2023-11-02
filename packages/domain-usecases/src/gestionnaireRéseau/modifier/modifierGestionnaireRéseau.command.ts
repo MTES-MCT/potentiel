@@ -1,4 +1,4 @@
-import { LoadAggregate, Publish } from '@potentiel-domain/core';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import {

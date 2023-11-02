@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel/core-domain';
 
 export type GestionnaireRéseauProjetModifiéEventV1 = DomainEvent<
   'GestionnaireRéseauProjetModifié-V1',

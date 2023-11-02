@@ -13,13 +13,12 @@ import {
 } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { AbandonReadModel, CandidatureLegacyReadModel } from '@potentiel/domain-views';
-import { ListResult } from '@potentiel-domain/core-views';
+import { ListResult } from '@potentiel/core-domain-views';
 import routes from '../../../routes';
-import { StatutAbandon } from '@potentiel/domain-usecases';
+import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
 
 type ListeAbandonsProps = {
-  abandons: ListResult<AbandonReadModel & { projet?: CandidatureLegacyReadModel }>;
+  abandons: ListResult<any & { projet?: CandidatureLegacyReadModel }>;
   currentUrl: string;
   request: Request;
 };
@@ -43,35 +42,33 @@ export const ListeAbandons = ({ request, abandons, currentUrl }: ListeAbandonsPr
         ) : (
           <>
             <ul className="flex flex-col p-0 m-0 gap-4">
-              {abandons.items.map(
-                ({ identifiantProjet, identifiantDemande, statut, demandeDemandéLe, projet }) => (
-                  <li className="list-none p-0 m-0" key={`${identifiantProjet}`}>
-                    <Tile className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                      <div className="flex flex-col gap-2">
-                        <div className="flex flex-col md:flex-row gap-2">
-                          <div>
-                            <span>Abandon du projet </span>
-                            <span className="font-bold">{projet?.nom}</span>
-                          </div>
-                          <StatusBadge statut={statut} />
+              {abandons.items.map(({ identifiantProjet, statut, demandeDemandéLe, projet }) => (
+                <li className="list-none p-0 m-0" key={`${identifiantProjet}`}>
+                  <Tile className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex flex-col md:flex-row gap-2">
+                        <div>
+                          <span>Abandon du projet </span>
+                          <span className="font-bold">{projet?.nom}</span>
                         </div>
-                        <div className="flex flex-row gap-1 text-sm italic items-center">
-                          <CalendarIcon title="Date de la demande pour l'abandon du projet" />
-                          {afficherDate(new Date(demandeDemandéLe))}
-                        </div>
+                        <StatusBadge statut={statut} />
                       </div>
-                      <div className="flex ml-auto">
-                        <Link
-                          href={routes.DEMANDE_PAGE_DETAILS(identifiantDemande)}
-                          aria-label={`Voir le détail de la demande d'abandon pour le projet`}
-                        >
-                          Voir
-                        </Link>
+                      <div className="flex flex-row gap-1 text-sm italic items-center">
+                        <CalendarIcon title="Date de la demande pour l'abandon du projet" />
+                        {afficherDate(new Date(demandeDemandéLe))}
                       </div>
-                    </Tile>
-                  </li>
-                ),
-              )}
+                    </div>
+                    <div className="flex ml-auto">
+                      <Link
+                        href={routes.DEMANDE_PAGE_DETAILS(identifiantProjet)}
+                        aria-label={`Voir le détail de la demande d'abandon pour le projet`}
+                      >
+                        Voir
+                      </Link>
+                    </div>
+                  </Tile>
+                </li>
+              ))}
             </ul>
             <Pagination
               currentPage={abandons.currentPage}
@@ -85,7 +82,7 @@ export const ListeAbandons = ({ request, abandons, currentUrl }: ListeAbandonsPr
   );
 };
 
-const StatusBadge = ({ statut }: { statut: StatutAbandon }) => {
+const StatusBadge = ({ statut }: { statut: string }) => {
   switch (statut) {
     case 'rejeté':
       return <Badge type="error">{statut}</Badge>;

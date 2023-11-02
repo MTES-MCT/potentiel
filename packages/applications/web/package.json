@@ -12,8 +12,9 @@
     "@potentiel/domain-usecases": "^0.0.0",
     "@potentiel/domain-inmemory-referential": "^0.0.0",
     "@potentiel-infrastructure/domain-adapters": "^0.0.0",
-    "@potentiel-infrastructure/pg-event-sourcing": "^0.0.0",
+    "@potentiel/pg-event-sourcing": "^0.0.0",
     "@potentiel-infrastructure/pg-projections": "^0.0.0",
+    "@potentiel-libraries/mediateur-middlewares": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {

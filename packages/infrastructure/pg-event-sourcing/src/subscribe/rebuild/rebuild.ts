@@ -1,10 +1,11 @@
-import { DomainEvent, Subscriber } from '@potentiel-domain/core';
+import { Event } from '../../event';
 import { loadFromStream } from '../../load/loadFromStream';
-import { RebuildTriggered } from '@potentiel-domain/core-views';
+import { Subscriber } from '../subscriber/subscriber';
+import { RebuildTriggered } from './rebuildTriggered.event';
 
-export const rebuild = async <TDomainEvent extends DomainEvent = DomainEvent>(
+export const rebuild = async <TEvent extends Event = Event>(
   rebuildTriggered: RebuildTriggered,
-  { eventType, eventHandler }: Subscriber<TDomainEvent>,
+  { eventType, eventHandler }: Subscriber<TEvent>,
 ) => {
   const streamId = `${rebuildTriggered.payload.category}|${rebuildTriggered.payload.id}`;
 
@@ -17,12 +18,12 @@ export const rebuild = async <TDomainEvent extends DomainEvent = DomainEvent>(
   await eventHandler({
     type: rebuildTriggered.type,
     payload: rebuildTriggered.payload,
-  } as unknown as TDomainEvent);
+  } as unknown as TEvent);
 
   for (const event of events) {
     await eventHandler({
       type: event.type,
       payload: event.payload,
-    } as TDomainEvent);
+    } as TEvent);
   }
 };

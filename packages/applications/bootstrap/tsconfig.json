@@ -1,0 +1,36 @@
+{
+  "extends": "@potentiel/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    {
+      "path": "../../domain/lauréat"
+    },
+    {
+      "path": "../../domain/candidature"
+    },
+    {
+      "path": "../../domain/document"
+    },
+    {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
+      "path": "../../infrastructure/pg-event-sourcing"
+    },
+    {
+      "path": "../../infrastructure/pg-projections"
+    },
+    {
+      "path": "../../infrastructure/projectors"
+    },
+    {
+      "path": "../../libraries/pg-helpers"
+    },
+    {
+      "path": "../../libraries/mediateur-middlewares"
+    }
+  ]
+}

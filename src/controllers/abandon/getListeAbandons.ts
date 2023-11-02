@@ -6,7 +6,7 @@ import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '..
 
 import { ConsulterCandidatureLegacyQuery, PermissionListerAbandons } from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
-import { ListerAbandonsQuery } from '@potentiel/domain-views/dist/projet/lauréat/abandon/lister/listerAbandon.query';
+import { Abandon } from '@potentiel-domain/laureat';
 import { isSome } from '@potentiel/monads';
 
 v1Router.get(
@@ -15,7 +15,7 @@ v1Router.get(
   asyncHandler(async (request, response) => {
     const { page, pageSize: itemsPerPage } = getPagination(request);
 
-    const abandons = await mediator.send<ListerAbandonsQuery>({
+    const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
       type: 'LISTER_ABANDONS_QUERY',
       data: {
         recandidature: true,

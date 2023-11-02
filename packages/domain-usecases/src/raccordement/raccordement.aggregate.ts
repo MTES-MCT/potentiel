@@ -1,5 +1,5 @@
 import { Option, isSome, none } from '@potentiel/monads';
-import { AggregateFactory, LoadAggregate } from '@potentiel-domain/core';
+import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
 import {
   IdentifiantProjetValueType,
   convertirEnIdentifiantProjet,

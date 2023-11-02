@@ -1,10 +1,5 @@
-import {
-  DomainUseCase,
-  convertirEnDateTime,
-  convertirEnIdentifiantProjet,
-  convertirEnIdentifiantUtilisateur,
-} from '@potentiel/domain-usecases';
-import { isSome, none } from '@potentiel/monads';
+
+
 import { mediator } from 'mediateur';
 import { annulerRejetAbandon, ensureRole, getIdentifiantProjetByLegacyId } from '../../config';
 import { logger, wrapInfra } from '../../core/utils';
@@ -19,10 +14,7 @@ import {
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
-import {
-  ConsulterAbandonQuery,
-  ConsulterPièceJustificativeAbandonProjetQuery,
-} from '@potentiel/domain-views';
+import { Abandon } from '@potentiel-domain/laureat';
 
 const requestBodySchema = yup.object({
   demandeAbandonId: yup.string().uuid().required(),
@@ -40,48 +32,20 @@ v1Router.post(
 
         const sendToMediator = new Promise<void>(async (resolve) => {
           const result = await getIdentifiantProjetByLegacyId(projectId);
-          const identifiantProjet = convertirEnIdentifiantProjet({
-            appelOffre: result?.appelOffre || '',
-            famille: result?.famille || none,
-            numéroCRE: result?.numéroCRE || '',
-            période: result?.période || '',
-          });
+          const identifiantProjetValue = result?.identifiantProjetValue || '';
 
-          const abandon = await mediator.send<ConsulterAbandonQuery>({
-            type: 'CONSULTER_ABANDON',
-            data: {
-              identifiantProjet,
-            },
-          });
-
-          const pièceJustificative =
-            await mediator.send<ConsulterPièceJustificativeAbandonProjetQuery>({
-              type: 'CONSULTER_PIECE_JUSTIFICATIVE_ABANDON_PROJET',
+          try {
+            await mediator.send<Abandon.AbandonUseCase>({
+              type: 'ANNULER_REJET_ABANDON_USECASE',
               data: {
-                identifiantProjet,
+                identifiantProjetValue,
+                dateAnnulationValue: new Date().toISOString(),
+                utilisateurValue: request.user.email,
               },
             });
-
-          if (isSome(abandon) && isSome(pièceJustificative)) {
-            try {
-              await mediator.send<DomainUseCase>({
-                type: 'ANNULER_REJET_ABANDON_USECASE',
-                data: {
-                  dateAnnulationAbandon: convertirEnDateTime(new Date()),
-                  dateDemandeAbandon: convertirEnDateTime(abandon.demandeDemandéLe),
-                  identifiantProjet,
-                  pièceJustificative,
-                  raison: abandon.demandeRaison,
-                  recandidature: abandon.demandeRecandidature,
-                  annuléPar: convertirEnIdentifiantUtilisateur(request.user.email),
-                  demandéPar: convertirEnIdentifiantUtilisateur(request.user.email),
-                },
-              });
-            } catch (e) {
-              logger.error(e);
-            }
+          } catch (e) {
+            logger.error(e);
           }
-
           resolve();
         });
 

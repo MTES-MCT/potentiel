@@ -1,5 +1,5 @@
 /**
- * @deprecated
+ * @deprecated un nouveau systéme de permission va être implémenter dans la nouvelle stack technique
  */
 export const PermissionModifierGestionnaireRéseau = {
   nom: 'modifier-gestionnaire-réseau',
@@ -7,7 +7,7 @@ export const PermissionModifierGestionnaireRéseau = {
 };
 
 /**
- * @deprecated
+ * @deprecated un nouveau systéme de permission va être implémenter dans la nouvelle stack technique
  */
 export const PermissionAjouterGestionnaireRéseau = {
   nom: 'ajouter-gestionnaire-réseau',

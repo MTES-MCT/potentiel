@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '../projet/projet.valueType';
 import { RawRéférenceDossierRaccordement } from './raccordement.valueType';
 import { RawIdentifiantGestionnaireRéseau } from '../domain.valueType';

@@ -1,4 +1,4 @@
-import { AggregateFactory, LoadAggregate } from '@potentiel-domain/core';
+import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
 import {
   GestionnaireRéseau,
   loadGestionnaireRéseauAggregateFactory,

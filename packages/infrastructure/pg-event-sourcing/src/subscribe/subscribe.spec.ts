@@ -8,7 +8,6 @@ import {
   jest,
   expect,
 } from '@jest/globals';
-import { DomainEvent, Unsubscribe } from '@potentiel-domain/core';
 import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
 import { subscribe } from './subscribe';
 import { registerSubscriber } from './subscriber/registerSubscriber';
@@ -18,10 +17,10 @@ import * as monitoring from '@potentiel/monitoring';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
 import { publish } from '../publish/publish';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
-import { RebuildTriggered } from '@potentiel-domain/core-views';
 import { executeRebuild } from './rebuild/executeRebuild';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
+import { Unsubscribe } from './subscriber/subscriber';
 
 describe(`subscribe`, () => {
   let unsubscribes: Array<Unsubscribe> = [];
@@ -98,7 +97,7 @@ describe(`subscribe`, () => {
     });
     unsubscribes.push(unsubscribe2);
 
-    const event1: DomainEvent = {
+    const event1 = {
       type: eventType,
       payload,
     };
@@ -146,7 +145,7 @@ describe(`subscribe`, () => {
     });
     unsubscribes.push(unsubscribe);
 
-    const event: DomainEvent = {
+    const event = {
       type: eventType,
       payload,
     };
@@ -188,7 +187,7 @@ describe(`subscribe`, () => {
       streamCategory: category,
     });
 
-    const event: DomainEvent = {
+    const event = {
       type: eventType,
       payload,
     };
@@ -223,14 +222,14 @@ describe(`subscribe`, () => {
     const category = 'category';
     const id = 'id';
 
-    const event1: DomainEvent = {
+    const event1 = {
       type: 'event-1',
       payload: {
         propriété: 'propriété1',
       },
     };
 
-    const event2: DomainEvent = {
+    const event2 = {
       type: 'event-1',
       payload: {
         propriété: 'propriété2',
@@ -239,7 +238,7 @@ describe(`subscribe`, () => {
 
     await publish(`${category}|${id}`, event1, event2);
 
-    const eventHandler = jest.fn((event: DomainEvent) => Promise.resolve());
+    const eventHandler = jest.fn((event) => Promise.resolve());
 
     const unsubscribe1 = await subscribe({
       name: 'event-handler',
@@ -254,7 +253,7 @@ describe(`subscribe`, () => {
 
     await waitForExpect(async () => {
       // Assert
-      const rebuildTriggered: RebuildTriggered = {
+      const rebuildTriggered = {
         type: 'RebuildTriggered',
         payload: {
           category,
@@ -288,14 +287,14 @@ describe(`subscribe`, () => {
     const category = 'category';
     const id = 'id';
 
-    const event1: DomainEvent = {
+    const event1 = {
       type: 'event-1',
       payload: {
         propriété: 'propriété1',
       },
     };
 
-    const event2: DomainEvent = {
+    const event2 = {
       type: 'event-1',
       payload: {
         propriété: 'propriété2',
@@ -304,7 +303,7 @@ describe(`subscribe`, () => {
 
     await publish(`${category}|${id}`, event1, event2);
 
-    const eventHandler = jest.fn((event: DomainEvent) => Promise.resolve());
+    const eventHandler = jest.fn((event) => Promise.resolve());
 
     const unsubscribe1 = await subscribe({
       name: 'event-handler',
@@ -319,7 +318,7 @@ describe(`subscribe`, () => {
 
     await waitForExpect(async () => {
       // Assert
-      const rebuildTriggered: RebuildTriggered = {
+      const rebuildTriggered = {
         type: 'RebuildTriggered',
         payload: {
           category,
@@ -473,7 +472,7 @@ describe(`subscribe`, () => {
       propriété: 'propriété',
     };
 
-    const event: DomainEvent = {
+    const event = {
       type: 'event-1',
       payload,
     };

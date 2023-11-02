@@ -1,0 +1,21 @@
+{
+  "name": "@potentiel-infrastructure/projectors",
+  "version": "0.0.0",
+  "description": "Potentiel projectors",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel-domain/laureat": "*",
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel-infrastructure/pg-projections": "*",
+    "@potentiel/pg-helpers": "*",
+    "mediateur": "^0.1.0"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

@@ -17,6 +17,7 @@ import {
 } from './modules/project';
 import { transformerISOStringEnDate } from './infra/helpers';
 import { publishToEventBus } from './config/eventBus.config';
+import { bootstrap } from '@potentiel-application/bootstrap';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -26,6 +27,7 @@ const FILE_SIZE_LIMIT_MB = 50;
 export async function makeServer(port: number, sessionSecret: string) {
   try {
     await bootstrapWebApp();
+    await bootstrap();
     // TODO : activer le bootstrap de l'application de notifications quand un cas sera implémenter
     // await bootstrapNotifcationApp();
 

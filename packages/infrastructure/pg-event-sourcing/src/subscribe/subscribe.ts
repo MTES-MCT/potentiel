@@ -1,16 +1,16 @@
-import { DomainEvent, Subscriber, Unsubscribe } from '@potentiel-domain/core';
 import { Event } from '../event';
 import { registerSubscriber } from './subscriber/registerSubscriber';
 import { EventStreamEmitter } from './eventStreamEmitter';
 import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 import { Client } from 'pg';
 import { getConnectionString } from '@potentiel/pg-helpers';
+import { Subscriber, Unsubscribe } from './subscriber/subscriber';
 
 let client: Client | undefined;
 const subscribers = new Set<string>();
 
-export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
-  subscriber: Subscriber<TDomainEvent>,
+export const subscribe = async <TEvent extends Event = Event>(
+  subscriber: Subscriber<TEvent>,
 ): Promise<Unsubscribe> => {
   if (!client) {
     await connect();
@@ -18,7 +18,7 @@ export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
 
   subscribers.add(`${subscriber.streamCategory}-${subscriber.name}`);
 
-  await retryPendingAcknowledgement<TDomainEvent>(subscriber);
+  await retryPendingAcknowledgement<TEvent>(subscriber);
   await registerSubscriber(subscriber);
 
   const eventStreamEmitter = new EventStreamEmitter(client!, {

@@ -9,7 +9,7 @@
   ],
   "references": [
     {
-      "path": "../domain/core"
+      "path": "../libraries/core-domain"
     }
   ]
 }

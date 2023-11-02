@@ -1,4 +1,4 @@
-import { LoadAggregate, Publish } from '@potentiel-domain/core';
+import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { isNone, isSome, none } from '@potentiel/monads';
 import { GestionnaireRéseauProjetDéclaréEventV1 } from '../gestionnaireRéseauProjet.event';

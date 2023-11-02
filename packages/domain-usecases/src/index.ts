@@ -6,4 +6,3 @@ export * from './domain.valueType';
 
 export * from './gestionnaireRéseau/gestionnaireRéseau.aggregate';
 export * from './projet/lauréat/gestionnaireRéseau/gestionnaireRéseauProjet.aggregate';
-export * from './projet/lauréat/abandon/abandon.aggregate';

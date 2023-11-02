@@ -12,7 +12,7 @@ import {
   Remove,
   Search,
   Update,
-} from '@potentiel-domain/core-views';
+} from '@potentiel/core-domain-views';
 
 export type ExecuteRaccordementProjector = Message<
   'EXECUTE_RACCORDEMENT_PROJECTOR',

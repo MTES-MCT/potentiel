@@ -1,5 +1,5 @@
 /**
- * @deprecated
+ * @deprecated un nouveau systéme de permission va être implémenter dans la nouvelle stack technique
  */
 export const PermissionTransmettreDemandeComplèteRaccordement = {
   nom: 'transmettre-demande-complète-raccordement',
@@ -7,7 +7,7 @@ export const PermissionTransmettreDemandeComplèteRaccordement = {
 };
 
 /**
- * @deprecated
+ * @deprecated un nouveau systéme de permission va être implémenter dans la nouvelle stack technique
  */
 export const PermissionTransmettreDateMiseEnService = {
   nom: 'transmettre-date-mise-en-service',
@@ -15,7 +15,7 @@ export const PermissionTransmettreDateMiseEnService = {
 };
 
 /**
- * @deprecated
+ * @deprecated un nouveau systéme de permission va être implémenter dans la nouvelle stack technique
  */
 export const PermissionTransmettrePropositionTechniqueEtFinancière = {
   nom: 'transmettre-proposition-technique-et-financière',

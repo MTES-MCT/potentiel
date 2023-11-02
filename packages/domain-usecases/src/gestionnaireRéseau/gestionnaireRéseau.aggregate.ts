@@ -1,4 +1,4 @@
-import { AggregateFactory, LoadAggregate } from '@potentiel-domain/core';
+import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
 import { IdentifiantGestionnaireRéseauValueType } from './gestionnaireRéseau.valueType';
 import { RéférenceDossierRaccordementValueType } from '../raccordement/raccordement.valueType';

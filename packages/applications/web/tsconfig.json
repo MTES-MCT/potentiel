@@ -15,7 +15,10 @@
       "path": "../../domain/core"
     },
     {
-      "path": "../../infrastructure/pg-event-sourcing"
+      "path": "../../libraries/pg-event-sourcing"
+    },
+    {
+      "path": "../../libraries/mediateur-middlewares"
     },
     {
       "path": "../../infrastructure/pg-projections"

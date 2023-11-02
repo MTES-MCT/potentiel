@@ -1,18 +1,18 @@
 import { executeSelect } from '@potentiel/pg-helpers';
-import { ReadModel } from '@potentiel-domain/core-views';
 import { KeyValuePair } from './keyValuePair';
+import { Projection } from '@potentiel-libraries/projection';
 
-export const searchProjection = async <TReadModel extends ReadModel>(
+export const searchProjection = async <TProjection extends Projection>(
   searchKeyExpression: string,
 ): Promise<
   ReadonlyArray<{
     key: string;
-    readModel: TReadModel;
+    readModel: TProjection;
   }>
 > => {
   const query = `select key, value from domain_views.projection where key like $1`;
 
-  const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
+  const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(
     query,
     searchKeyExpression,
   );
@@ -22,6 +22,6 @@ export const searchProjection = async <TReadModel extends ReadModel>(
     readModel: {
       type: key.split('|')[0],
       ...value,
-    } as TReadModel,
+    } as TProjection,
   }));
 };

@@ -21,7 +21,7 @@
       "path": "../domain-inmemory-referential"
     },
     {
-      "path": "../domain/core-views"
+      "path": "../libraries/core-domain-views"
     }
   ]
 }

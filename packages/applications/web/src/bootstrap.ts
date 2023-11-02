@@ -1,5 +1,7 @@
+import { Message, mediator } from 'mediateur';
+
 import { setupDomain } from '@potentiel/domain-usecases';
-import { loadAggregate, publish, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -12,20 +14,18 @@ import {
 import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
-  téléverserPièceJustificativeAbandonAdapter,
-  téléverserRéponseSignéeAdapter,
-  téléchargerPièceJustificativeAbandonProjetAdapter,
   récupérerCandidatureAdapter,
-  téléchargerRéponseSignéeAdapter,
   récupérerUtilisateurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
-import { Message, mediator } from 'mediateur';
-import { logMiddleware } from './middlewares/log.middleware';
+import { logMiddleware } from '@potentiel-libraries/mediateur-middlewares';
 import { seed } from './seed';
 
 export type UnsetupApp = () => Promise<void>;
 
+/**
+ * @deprecated Cette fonction sera bientôt remplacer par celle contenu dans le package @potentiel-application/bootstrap;
+ */
 export const bootstrap = async (): Promise<UnsetupApp> => {
   await seed();
 
@@ -39,10 +39,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       publish,
       subscribe,
     },
-    projet: {
-      enregistrerPièceJustificativeAbandon: téléverserPièceJustificativeAbandonAdapter,
-      enregistrerRéponseSignée: téléverserRéponseSignéeAdapter,
-    },
+    projet: {},
     raccordement: {
       enregistrerAccuséRéceptionDemandeComplèteRaccordement:
         téléverserFichierDossierRaccordementAdapter,
@@ -65,8 +62,6 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     appelOffre: {},
     projet: {
       récupérerCandidature: récupérerCandidatureAdapter,
-      récupérerPièceJustificativeAbandon: téléchargerPièceJustificativeAbandonProjetAdapter,
-      récupérerRéponseSignée: téléchargerRéponseSignéeAdapter,
     },
     raccordement: {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:

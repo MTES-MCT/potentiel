@@ -18,14 +18,7 @@ import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { ModificationRequest } from '../../infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
-import { ConsulterAbandonQuery } from '@potentiel/domain-views';
-import {
-  IdentifiantProjet,
-  RawIdentifiantDemandeAbandon,
-  convertirEnIdentifiantDemandeAbandon,
-  convertirEnIdentifiantProjet,
-  estUnRawIdentifiantDemandeAbandon,
-} from '@potentiel/domain-usecases';
+import { Abandon } from '@potentiel-domain/laureat';
 import { isSome, Option, none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
@@ -35,16 +28,10 @@ v1Router.get(
   asyncHandler(async (request, response) => {
     const { user } = request;
 
-    if (estUnRawIdentifiantDemandeAbandon(request.params.modificationRequestId)) {
-      const modificationRequestId = await getIdentifiantLegacyDemandeAbandon(
-        request.params.modificationRequestId,
-      );
+    const legacyId = await getIdentifiantLegacyDemandeAbandon(request.params.modificationRequestId);
 
-      if (isSome(modificationRequestId)) {
-        return response.redirect(routes.DEMANDE_PAGE_DETAILS(modificationRequestId));
-      }
-
-      return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
+    if (isSome(legacyId)) {
+      return response.redirect(routes.DEMANDE_PAGE_DETAILS(legacyId));
     }
 
     const { modificationRequestId } = request.params;
@@ -58,9 +45,7 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    const identifiantProjet = (await getIdentifiantProjetByLegacyId(
-      projectId,
-    )) as IdentifiantProjet;
+    const result = await getIdentifiantProjetByLegacyId(projectId);
 
     const userHasRightsToProject = await shouldUserAccessProject.check({
       user,
@@ -74,14 +59,19 @@ v1Router.get(
       });
     }
 
-    const abandon = await mediator.send<ConsulterAbandonQuery>({
-      type: 'CONSULTER_ABANDON',
-      data: {
-        identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
-      },
-    });
+    let recandidature = false;
 
-    const recandidature = isSome(abandon) ? abandon.demandeRecandidature : false;
+    try {
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON',
+        data: {
+          identifiantProjetValue: result?.identifiantProjetValue || '',
+        },
+      });
+      recandidature = abandon.demande.recandidature;
+    } catch (e) {
+      logger.error(e);
+    }
 
     const authority = await getModificationRequestAuthority(modificationRequestId);
 
@@ -115,22 +105,20 @@ v1Router.get(
 );
 
 const getIdentifiantLegacyDemandeAbandon = async (
-  identifiantDemandeAbandon: RawIdentifiantDemandeAbandon,
+  identifiantDemandeAbandon: string,
 ): Promise<Option<string>> => {
-  const { typeDemande, appelOffre, période, famille, numéroCRE } =
-    convertirEnIdentifiantDemandeAbandon(identifiantDemandeAbandon);
+  const [appelOffre, période, famille, numéroCRE] = identifiantDemandeAbandon.split('#');
 
   const modificationRequest = await executeSelect<{ id: string }>(
     `select mr.id as "id"
      from "modificationRequests" mr 
      inner join "projects" p on mr."projectId" = p.id
-     where mr.type = $1
-     and   p."appelOffreId" = $2
-     and   p."periodeId" = $3
-     and   p."familleId" = $4
-     and   p."numeroCRE" = $5
+     where mr.type = 'abandon'
+     and   p."appelOffreId" = $1
+     and   p."periodeId" = $2
+     and   p."familleId" = $3
+     and   p."numeroCRE" = $4
      order by mr."createdAt" desc`,
-    typeDemande,
     appelOffre,
     période,
     isSome(famille) ? famille : '',

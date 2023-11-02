@@ -1,9 +1,36 @@
-import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { DomainEvent, AggregateFactory, Aggregate } from '@potentiel-domain/core';
-import { none } from '@potentiel/monads';
+import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { DomainEvent, Aggregate, GetDefaultAggregateState } from '@potentiel-domain/core';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { loadAggregate } from './loadAggregate';
 import { publish } from '../publish/publish';
+
+type CustomEvent1 = DomainEvent<'event-1', { propriété: string }>;
+type CustomEvent2 = DomainEvent<'event-2', { secondePropriété: string }>;
+
+type CustomEvent = CustomEvent1 | CustomEvent2;
+
+type CustomAggregate = Aggregate<CustomEvent> & {
+  propriété: string;
+  secondePropriété: string;
+};
+
+function apply(this: CustomAggregate, event: CustomEvent) {
+  switch (event.type) {
+    case 'event-1':
+      this.propriété = event.payload.propriété;
+      break;
+    case 'event-2':
+      this.secondePropriété = event.payload.secondePropriété;
+  }
+}
+
+const getDefaultAggregate: GetDefaultAggregateState<CustomAggregate, CustomEvent> = () => {
+  return {
+    propriété: 'unknownPropriété',
+    secondePropriété: 'unknownSecondePropriété',
+    apply,
+  };
+};
 
 describe(`loadAggregate`, () => {
   beforeAll(() => {
@@ -13,15 +40,37 @@ describe(`loadAggregate`, () => {
   beforeEach(() => executeQuery(`delete from event_store.event_stream`));
 
   it(`Lorsqu'on charge un agrégat sans évènement
-      Alors aucun agrégat ne devrait être chargé`, async () => {
+      Alors l'agrégat par défaut devrais être chargé`, async () => {
     // Arrange
     const aggregateId = 'aggregateCategory|aggregateId';
 
     // Act
-    const result = await loadAggregate(aggregateId, () => ({}));
+    const result = await loadAggregate({
+      aggregateId,
+      getDefaultAggregate,
+    });
 
     // Assert
-    expect(result).toBe(none);
+    expect(result.propriété).toBe('unknownPropriété');
+    expect(result.secondePropriété).toBe('unknownSecondePropriété');
+  });
+
+  it(`Lorsqu'on charge un agrégat sans évènement mais avec une fonction de callback onNone
+      Alors la fonction de callback doit être appelé`, async () => {
+    // Arrange
+    const aggregateId = 'aggregateCategory|aggregateId';
+
+    const onNone = jest.fn();
+
+    // Act
+    const result = await loadAggregate({
+      aggregateId,
+      getDefaultAggregate,
+      onNone,
+    });
+
+    // Assert
+    expect(onNone).toBeCalledTimes(1);
   });
 
   it(`Lorsqu'on charge un agrégat avec des évènements
@@ -53,31 +102,20 @@ describe(`loadAggregate`, () => {
       secondePropriété?: string;
     };
 
-    const aggregateStateFactory: AggregateFactory<AggregateState, Event1 | Event2> = (events) =>
-      events.reduce((state, event) => {
-        switch (event.type) {
-          case 'event-1':
-            return { ...state, propriété: event.payload.propriété };
-
-          case 'event-2':
-            return { ...state, secondePropriété: event.payload.secondePropriété };
-
-          default:
-            return { ...state };
-        }
-      }, {});
-
     // Act
-    const actual = await loadAggregate(aggregateId, aggregateStateFactory);
+    const actual = await loadAggregate({
+      aggregateId,
+      getDefaultAggregate,
+    });
 
     // Assert
-    const expected: Aggregate & AggregateState = {
+    const expected = {
       aggregateId,
       version: 2,
       propriété: 'première-propriété',
       secondePropriété: 'seconde-propriété',
     };
 
-    expect(actual).toEqual(expected);
+    expect(actual).toEqual(expect.objectContaining(expected));
   });
 });

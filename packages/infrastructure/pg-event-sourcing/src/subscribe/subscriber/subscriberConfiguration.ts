@@ -1,3 +1,3 @@
-import { Subscriber } from '@potentiel-domain/core';
+import { Subscriber } from './subscriber';
 
 export type SubscriberConfiguration = Omit<Subscriber, 'eventHandler'>;
