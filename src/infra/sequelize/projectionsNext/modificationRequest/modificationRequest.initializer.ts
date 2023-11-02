@@ -134,6 +134,18 @@ export const initializeModificationRequestModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      délaiAccordéCorrigéLe: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      délaiAccordéCorrigéPar: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      dateAchèvementAprèsCorrectionDélaiAccordé: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       sequelize,
