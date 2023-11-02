@@ -15,7 +15,7 @@ export default {
       },
     );
     await queryInterface.addColumn('modificationRequests', 'délaiAccordéCorrigéPar', {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: true,
     });
   },

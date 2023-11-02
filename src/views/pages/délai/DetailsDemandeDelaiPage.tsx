@@ -54,6 +54,9 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
     acceptanceParams,
     responseFile,
     versionDate,
+    délaiAccordéCorrigéLe,
+    délaiAccordéCorrigéPar,
+    dateAchèvementAprèsCorrectionDélaiAccordé,
   } = modificationRequest;
 
   const dateDemandée = dateAchèvementDemandée
@@ -180,6 +183,23 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
               .
             </div>
           )}
+          {délaiAccordéCorrigéLe &&
+            délaiAccordéCorrigéPar &&
+            dateAchèvementAprèsCorrectionDélaiAccordé && (
+              <div className="mt-4">
+                <div>
+                  <span className="font-bold">Correction du délai accordé</span> par{' '}
+                  {délaiAccordéCorrigéPar} le {afficherDate(new Date(délaiAccordéCorrigéLe))}
+                </div>
+                <div>
+                  L'administration vous accorde un report de date limite d'achèvement au{' '}
+                  <span className="font-bold">
+                    {afficherDate(new Date(dateAchèvementAprèsCorrectionDélaiAccordé))}
+                  </span>
+                  .
+                </div>
+              </div>
+            )}
           {responseFile && (
             <div className="mt-4">
               <DownloadLink
