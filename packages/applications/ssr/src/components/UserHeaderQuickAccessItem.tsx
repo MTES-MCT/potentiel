@@ -3,6 +3,7 @@ import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 
 export async function UserHeaderQuickAccessItem() {
   const user = await getUser();
+  const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 
   return user ? (
     <>
@@ -10,7 +11,7 @@ export async function UserHeaderQuickAccessItem() {
         quickAccessItem={{
           iconId: 'ri-user-line',
           linkProps: {
-            href: '/account',
+            href: accountUrl,
           },
           text: user.name,
         }}
