@@ -13,7 +13,6 @@ import {
 } from '../helpers';
 import { v1Router } from '../v1Router';
 import { mediator } from 'mediateur';
-import { isSome } from '@potentiel/monads';
 import { Abandon } from '@potentiel-domain/laureat';
 
 const requestBodySchema = yup.object({
@@ -31,26 +30,17 @@ v1Router.post(
       const result = await getIdentifiantProjetByLegacyId(projectId);
       const identifiantProjetValue = result?.identifiantProjetValue || '';
 
-      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
-        data: {
-          identifiantProjetValue,
-        },
-      });
-
-      if (isSome(abandon)) {
-        try {
-          await mediator.send<Abandon.AbandonUseCase>({
-            type: 'ANNULER_ABANDON_USECASE',
-            data: {
-              dateAnnulationValue: new Date().toISOString(),
-              identifiantProjetValue,
-              utilisateurValue: request.user.email,
-            },
-          });
-        } catch (e) {
-          logger.error(e);
-        }
+      try {
+        await mediator.send<Abandon.AbandonUseCase>({
+          type: 'ANNULER_ABANDON_USECASE',
+          data: {
+            dateAnnulationValue: new Date().toISOString(),
+            identifiantProjetValue,
+            utilisateurValue: request.user.email,
+          },
+        });
+      } catch (e) {
+        logger.error(e);
       }
       resolve();
     });

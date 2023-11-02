@@ -10,7 +10,6 @@ import { errorResponse, unauthorizedResponse } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { mediator } from 'mediateur';
 
-import { isSome } from '@potentiel/monads';
 import { Abandon } from '@potentiel-domain/laureat';
 
 const schema = yup.object({
@@ -28,7 +27,7 @@ v1Router.post(
       schema,
       onError: ({ request, response, error }) =>
         response.redirect(
-          addQueryParams(routes.GET_DEMANDER_ABANDON(request.body.projectId), {
+          addQueryParams(routes.GET_DEMANDER_ABANDON(request.body.demandeAbandonId), {
             ...error.errors,
           }),
         ),
@@ -41,26 +40,17 @@ v1Router.post(
         const result = await getIdentifiantProjetByLegacyId(projectId);
         const identifiantProjetValue = result?.identifiantProjetValue || '';
 
-        const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-          type: 'CONSULTER_ABANDON',
-          data: {
-            identifiantProjetValue,
-          },
-        });
-
-        if (isSome(abandon)) {
-          try {
-            await mediator.send<Abandon.AbandonUseCase>({
-              type: 'CONFIRMER_ABANDON_USECASE',
-              data: {
-                dateConfirmationValue: new Date().toISOString(),
-                identifiantProjetValue,
-                utilisateurValue: request.user.email,
-              },
-            });
-          } catch (e) {
-            logger.error(e);
-          }
+        try {
+          await mediator.send<Abandon.AbandonUseCase>({
+            type: 'CONFIRMER_ABANDON_USECASE',
+            data: {
+              dateConfirmationValue: new Date().toISOString(),
+              identifiantProjetValue,
+              utilisateurValue: request.user.email,
+            },
+          });
+        } catch (e) {
+          logger.error(e);
         }
 
         resolve();
