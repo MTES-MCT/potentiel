@@ -1,10 +1,10 @@
-import { getServerSession } from 'next-auth/next';
+import { getUser } from '@/utils/getUser';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 
 export async function UserHeaderQuickAccessItem() {
-  const session = await getServerSession();
+  const user = await getUser();
 
-  return session?.user ? (
+  return user ? (
     <>
       <HeaderQuickAccessItem
         quickAccessItem={{
@@ -12,7 +12,7 @@ export async function UserHeaderQuickAccessItem() {
           linkProps: {
             href: '/account',
           },
-          text: session.user.name,
+          text: user.name,
         }}
       />
       <HeaderQuickAccessItem

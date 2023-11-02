@@ -3,7 +3,13 @@ import { cookies } from 'next/headers';
 
 const NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token';
 
-export const getUserRole = async () => {
+type User = {
+  name: string;
+  email: string;
+  role?: string;
+};
+
+export const getUser = async (): Promise<User | null> => {
   const cookiesContent = await cookies();
   const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value;
 
@@ -13,11 +19,17 @@ export const getUserRole = async () => {
   });
 
   if (decoded?.accessToken) {
-    const keycloakToken = mapToKeycloakToken(decoded.accessToken);
-    const role = USER_ROLES.find((role) => keycloakToken.realm_access.roles.includes(role));
+    const {
+      realm_access: { roles },
+      name,
+      email,
+    } = mapToKeycloakToken(decoded.accessToken);
+    const role = USER_ROLES.find((role) => roles.includes(role));
 
-    return role;
+    return { role, name, email };
   }
+
+  return null;
 };
 
 const mapToKeycloakToken = (accessToken: string) => {
@@ -25,6 +37,8 @@ const mapToKeycloakToken = (accessToken: string) => {
 };
 
 type KeycloakToken = {
+  name: string;
+  email: string;
   realm_access: {
     roles: Array<string>;
   };

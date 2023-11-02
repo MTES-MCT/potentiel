@@ -1,10 +1,10 @@
-import { getUserRole } from '@/utils/getUserRole';
+import { getUser } from '@/utils/getUser';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 
 export async function UserNavigation() {
-  const userRole = await getUserRole();
+  const user = await getUser();
 
-  const navigationItems = userRole ? getNavigationItemsBasedOnRole(userRole) : [];
+  const navigationItems = user?.role ? getNavigationItemsBasedOnRole(user.role) : [];
 
   return (
     <>
