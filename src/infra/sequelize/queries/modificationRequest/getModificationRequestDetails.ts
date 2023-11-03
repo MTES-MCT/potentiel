@@ -63,6 +63,11 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
           as: 'cancelledByUser',
           attributes: ['fullName'],
         },
+        {
+          model: User,
+          as: 'delaiCorrigeParUser',
+          attributes: ['fullName'],
+        },
       ],
     }),
   ).andThen((modificationRequestRaw: any) => {
@@ -93,6 +98,9 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       dateAchèvementDemandée,
       authority,
       cahierDesCharges: cahierDesChargesRéférence,
+      délaiAccordéCorrigéLe,
+      delaiCorrigeParUser,
+      dateAchèvementAprèsCorrectionDélaiAccordé,
     } = modificationRequestRaw.get();
 
     const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get();
@@ -136,6 +144,9 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         appelOffre && cahierDesChargesRéférence
           ? formatCahierDesCharges({ appelOffre, cahierDesChargesRéférence })
           : undefined,
+      délaiAccordéCorrigéLe,
+      délaiAccordéCorrigéPar: delaiCorrigeParUser?.get().fullName,
+      dateAchèvementAprèsCorrectionDélaiAccordé,
     });
   });
 };

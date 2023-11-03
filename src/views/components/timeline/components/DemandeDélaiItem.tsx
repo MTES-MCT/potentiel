@@ -23,6 +23,8 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
       ? 'Délai supplémentaire demandé'
       : statut === 'en-instruction'
       ? 'Demande de délai supplémentaire en instruction'
+      : statut === 'accordée-corrigée'
+      ? 'Correction du délai accordé'
       : `Demande de délai supplémentaire ${statut}`;
 
   return (
@@ -30,7 +32,7 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
       {['envoyée', 'en-instruction'].includes(statut) && <CurrentIcon />}
       {statut === 'annulée' && <CancelledStepIcon />}
       {statut === 'rejetée' && <UnvalidatedStepIcon />}
-      {statut === 'accordée' && <PastIcon />}
+      {['accordée', 'accordée-corrigée'].includes(statut) && <PastIcon />}
 
       <ContentArea>
         <div className="flex">
@@ -46,7 +48,13 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
         <>
           <ItemTitle title={titre} />
           <p className="p-0 m-0">
-            {statut !== 'accordée' ? <DélaiDemandé {...props} /> : <DélaiAccordé {...props} />}
+            {statut === 'accordée' ? (
+              <DélaiAccordé {...props} />
+            ) : statut === 'accordée-corrigée' ? (
+              <DélaiAccordéCorrigé {...props} />
+            ) : (
+              <DélaiDemandé {...props} />
+            )}
             {demandeUrl && (
               <>
                 <br />
@@ -66,7 +74,8 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
 };
 
 const DélaiDemandé = (
-  props: DemandeDélaiItemProps & Exclude<DemandeDélaiItemProps, { statut: 'demandée' }>,
+  props: DemandeDélaiItemProps &
+    Exclude<DemandeDélaiItemProps, { statut: 'accordée-corrigée' | 'accordée' }>,
 ) =>
   props.dateAchèvementDemandée ? (
     <>
@@ -96,3 +105,10 @@ const DélaiAccordé = (props: DemandeDélaiItemProps & { statut: 'accordée' })
 
   return null;
 };
+
+const DélaiAccordéCorrigé = (props: DemandeDélaiItemProps & { statut: 'accordée-corrigée' }) => (
+  <>
+    Nouvelle date limite d'achèvement :{' '}
+    {format(new Date(props.dateAchèvementAccordée), 'dd/MM/yyyy')}
+  </>
+);

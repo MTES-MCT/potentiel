@@ -432,6 +432,10 @@ export type DemandeDélaiDTO = {
           délaiEnMoisAccordé: number;
         }
     ))
+  | {
+      statut: 'accordée-corrigée';
+      dateAchèvementAccordée: string;
+    }
 );
 
 export type DemandeAbandonDTO = {

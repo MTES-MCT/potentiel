@@ -14,6 +14,7 @@ import { DélaiAccordéCorrigé } from '../events';
 import { CorrectionDélaiImpossibleCarProjetNonClasséError } from './CorrectionDélaiImpossibleCarProjetNonClasséError';
 import { CorrectionDélaiNonAccordéImpossibleError } from './CorrectionDélaiNonAccordéImpossibleError';
 import { DateAntérieureDateAchèvementInitialeError } from './DateAntérieureDateAchèvementInitialeError';
+import { NouvelleCorrectionDélaiAccordéImpossible } from './NouvelleCorrectionDélaiAccordéImpossibleError';
 
 type Dependencies = {
   publishToEventStore: EventStore['publish'];
@@ -76,10 +77,14 @@ export const makeCorrigerDélaiAccordé =
             return demandeDélaiRepo.transaction(
               new UniqueEntityID(demandeDélaiId),
               (demandeDélai) => {
-                const { statut } = demandeDélai;
+                const { statut, correctionDélaiAccordé } = demandeDélai;
 
                 if (statut !== 'accordée') {
                   return errAsync(new CorrectionDélaiNonAccordéImpossibleError());
+                }
+
+                if (correctionDélaiAccordé) {
+                  return errAsync(new NouvelleCorrectionDélaiAccordéImpossible());
                 }
 
                 return makeAndSaveFile({

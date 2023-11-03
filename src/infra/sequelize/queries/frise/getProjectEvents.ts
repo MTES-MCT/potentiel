@@ -644,7 +644,25 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     ])(user)
                   ) {
                     const { statut, autorité } = payload;
-                    if (payload.dateAchèvementDemandée) {
+                    if (statut === 'accordée-corrigée') {
+                      events.push({
+                        statut: 'accordée-corrigée',
+                        type,
+                        date: valueDate,
+                        variant: user.role,
+                        dateAchèvementAccordée: payload.dateAchèvementAccordée,
+                        ...((userIs([
+                          'porteur-projet',
+                          'admin',
+                          'dgec-validateur',
+                          'cre',
+                          'acheteur-obligé',
+                        ])(user) ||
+                          (userIs('dreal')(user) && autorité === 'dreal')) && {
+                          demandeUrl: routes.GET_DETAILS_DEMANDE_DELAI_PAGE(id),
+                        }),
+                      });
+                    } else if (payload.dateAchèvementDemandée) {
                       const { dateAchèvementDemandée } = payload;
                       events.push({
                         type,
@@ -670,9 +688,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           demandeUrl: routes.GET_DETAILS_DEMANDE_DELAI_PAGE(id),
                         }),
                       });
-                    }
-
-                    if (payload.délaiEnMoisDemandé) {
+                    } else if (payload.délaiEnMoisDemandé) {
                       const { délaiEnMoisDemandé } = payload;
                       events.push({
                         type,
