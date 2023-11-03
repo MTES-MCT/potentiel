@@ -32,7 +32,7 @@ export const Footer = () => (
       {
         text: 'Statistiques',
         linkProps: {
-          href: '/statistiques.html',
+          href: '/stats.html',
         },
       },
       {
