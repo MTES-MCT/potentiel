@@ -73,7 +73,7 @@ const MenuAdmin = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.LISTE_ABANDONS}
+        href="/laureat/abandon"
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
         Abandons avec recandidature

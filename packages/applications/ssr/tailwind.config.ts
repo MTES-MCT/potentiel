@@ -12,6 +12,13 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        'blue-france-sun': {
+          base: '#000091',
+          hover: '#1212ff',
+          active: '#2323ff',
+        },
+      },
     },
   },
   plugins: [],
