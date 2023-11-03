@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import path, { join } from 'path';
 import morgan from 'morgan';
 import * as Sentry from '@sentry/node';
-import { isDevEnv, registerAuth } from './config';
+import { isLocalEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap as bootstrapWebApp } from '@potentiel/web';
@@ -85,7 +85,7 @@ export async function makeServer(port: number, sessionSecret: string) {
     // Always first middleware
     app.use(Sentry.Handlers.requestHandler());
 
-    if (!isDevEnv) {
+    if (!isLocalEnv) {
       app.use(
         helmet({
           // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
@@ -172,7 +172,7 @@ export async function makeServer(port: number, sessionSecret: string) {
     /////// Custom server next
     const nextApp = next({
       dev: false,
-      dir: join(__dirname, isDevEnv ? '../' : '../..', 'packages', 'applications', 'ssr'),
+      dir: join(__dirname, isLocalEnv ? '../' : '../..', 'packages', 'applications', 'ssr'),
     });
 
     const nextHandler = nextApp.getRequestHandler();
