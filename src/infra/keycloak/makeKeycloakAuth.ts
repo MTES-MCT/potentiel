@@ -9,7 +9,7 @@ import { CreateUser, GetUserByEmail } from '../../modules/users';
 import routes from '../../routes';
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
 import { miseAJourStatistiquesUtilisation } from '../../controllers/helpers';
-import { isDevEnv } from '../../config';
+import { isLocalEnv } from '../../config';
 
 export interface KeycloakAuthDeps {
   sequelizeInstance: any;
@@ -85,7 +85,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
         resave: false,
         proxy: true,
         saveUninitialized: false,
-        ...(!isDevEnv && {
+        ...(!isLocalEnv && {
           cookie: {
             secure: true,
             httpOnly: true,
