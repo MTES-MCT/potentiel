@@ -1,7 +1,7 @@
 import { decode } from 'next-auth/jwt';
 import { cookies } from 'next/headers';
 
-const NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token';
+const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
 
 type User = {
   name: string;
