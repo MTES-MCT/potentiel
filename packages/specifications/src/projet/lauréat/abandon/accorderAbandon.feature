@@ -18,3 +18,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
       Etant donné une demande d'abandon rejeté pour le projet lauréat "Du boulodrome de Marseille"
       Quand le DGEC validateur accorde l'abandon pour le projet lauréat "Du boulodrome de Marseille"
       Alors le DGEC validateur devrait être informé que "L'abandon déjà été rejeté"
+
+    Scénario: Impossible d'accorder l'abandon d'un projet lauréat si aucun abandon n'a été demandé
+      Quand le DGEC validateur accorde l'abandon pour le projet lauréat "Du boulodrome de Marseille"
+      Alors le DGEC validateur devrait être informé que "Aucun abandon n'a été demandé"
