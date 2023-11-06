@@ -105,17 +105,17 @@ Note : l'équipe utilise `gitmoji` pour les commits, donc merci de bien sélecti
 
 ## <a id="faire-un-hotfix"></a> Faire un hotfix
 
-1. Créer une nouvelle branche à partir de la branche release actuellement en production
+1. Créer une nouvelle branche à partir de la branche release actuellement en production. Pour rappel, les branches release doivent suivre ce format : \release/x.xx\
 
 2. Implémenter vos changements
 
 3. Une fois les changemements terminés ouvrir une PR qui pointe vers la branche release en production
 
-4. Une fois mergée, créer une PR de la release actuellement en production vers master. ⚠️ Au moment du merge, bien penser à faire un **merge commit** plutôt qu'un squash) en ajoutant le message générique suivant : ":twisted_rightwards_arrows: Intégration des dernières modification de la version X.XX"
+4. Une fois mergée, créer une PR de la release actuellement en production vers master. ⚠️ Au moment du merge, bien penser à faire un **merge commit** plutôt qu'un squash) en ajoutant le message générique suivant : "🔀 Intégration des dernières modification de la version X.XX"
 
 5. Une fois la PR mergée, penser à **restaurer la branche release** qui a été supprimé automatiquement
 
-6. Faire ensuite une PR depuis la branche release+1 sur master pour récupérer les dernières modifications
+6. Si il existe une branche pour la prochaine release, alors il faudra que celle-ci récupère le hotfix. Pour se faire, faire PR depuis la prochaine branche de release sur master.
 
 ## <a id="approche-methode"></a> Approche/Méthode
 
