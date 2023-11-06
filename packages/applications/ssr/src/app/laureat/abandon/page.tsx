@@ -26,7 +26,7 @@ export default async function ListeAbandonsPage() {
   });
   if (!abandons.items.length) {
     return (
-      <PageTemplate heading1="Demandes d'abandon">
+      <PageTemplate heading="Demandes d'abandon">
         <div>Aucune demande à afficher</div>
       </PageTemplate>
     );
@@ -48,7 +48,7 @@ export default async function ListeAbandonsPage() {
 
   return (
     <PageTemplate
-      heading1={`Demandes d'abandon${
+      heading={`Demandes d'abandon${
         searchParams.get('recandidature') === 'true' ? ' avec recandidature' : ''
       } (${liste.length})`}
     >

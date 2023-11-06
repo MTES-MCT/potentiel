@@ -1,5 +1,6 @@
 'use client';
 
+import { PageTemplate } from '@/components/templates/PageTemplate';
 import { signOut } from 'next-auth/react';
 import { useEffect } from 'react';
 
@@ -15,9 +16,11 @@ export default function SignIn() {
   });
 
   return (
-    <div className="flex m-auto">
-      <div className="font-bold text-2xl">Déconnexion en cours, merci de patienter ...</div>
-    </div>
+    <PageTemplate>
+      <div className="flex m-auto">
+        <div className="font-bold text-2xl">Déconnexion en cours, merci de patienter ...</div>
+      </div>
+    </PageTemplate>
   );
 }
 
