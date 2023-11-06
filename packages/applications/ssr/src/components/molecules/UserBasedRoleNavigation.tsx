@@ -34,9 +34,15 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
               },
             },
             {
+              text: 'Abandons',
+              linkProps: {
+                href: '/laureat/abandon',
+              },
+            },
+            {
               text: 'Abandons avec recandidature',
               linkProps: {
-                href: '/abandons',
+                href: '/laureat/abandon/option-recandidature',
               },
             },
           ],

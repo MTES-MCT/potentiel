@@ -73,6 +73,12 @@ const MenuAdmin = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
+        href="/laureat/abandon"
+        {...(currentPage === 'liste-abandons' && { isCurrent: true })}
+      >
+        Abandons
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
         href="/laureat/abandon/option-recandidature"
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
