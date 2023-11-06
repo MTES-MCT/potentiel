@@ -88,7 +88,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
         ...(!isLocalEnv && {
           cookie: {
             secure: true,
-            httpOnly: true,
           },
         }),
       }),
