@@ -1,4 +1,3 @@
-import { Heading1 } from '@/components/atoms/headings';
 import { Tile } from '@/components/organisms/Tile';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { displayDate } from '@/utils/displayDate';
@@ -8,6 +7,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
 import { isSome } from '@potentiel/monads';
 import { mediator } from 'mediateur';
+import { PageTemplate } from '@/components/templates/PageTemplate';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,10 +22,9 @@ export default async function ListeAbandonsOptionRecandidaturePage() {
 
   if (!abandons.items.length) {
     return (
-      <>
-        <Heading1>Demandes d'abandon avec option recandidature</Heading1>
-        <div>Aucune demande à afficher</div>
-      </>
+      <PageTemplate heading1="Demandes d'abandon avec option recandidature">
+        <span>Aucune demande à afficher</span>
+      </PageTemplate>
     );
   }
 
@@ -46,9 +45,8 @@ export default async function ListeAbandonsOptionRecandidaturePage() {
   );
 
   return (
-    <>
-      <Heading1>Demandes d'abandon avec option recandidature</Heading1>
-      <ul className="mt-10">
+    <PageTemplate heading1={`Demandes d'abandon avec option recandidature (${liste.length})`}>
+      <ul>
         {liste.map(
           ({
             identifiantProjet,
@@ -115,6 +113,6 @@ export default async function ListeAbandonsOptionRecandidaturePage() {
           ),
         )}
       </ul>
-    </>
+    </PageTemplate>
   );
 }

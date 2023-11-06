@@ -1,4 +1,3 @@
-import { Heading1 } from '@/components/atoms/headings';
 import { Tile } from '@/components/organisms/Tile';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { displayDate } from '@/utils/displayDate';
@@ -8,6 +7,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
 import { isSome } from '@potentiel/monads';
 import { mediator } from 'mediateur';
+import { PageTemplate } from '@/components/templates/PageTemplate';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,16 +18,13 @@ export default async function ListeAbandonsPage() {
       pagination: { page: 1, itemsPerPage: 10 },
     },
   });
-
   if (!abandons.items.length) {
     return (
-      <>
-        <Heading1>Demandes d'abandon</Heading1>
+      <PageTemplate heading1="Demandes d'abandon">
         <div>Aucune demande à afficher</div>
-      </>
+      </PageTemplate>
     );
   }
-
   const liste = await Promise.all(
     abandons.items.map(async (a) => {
       const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
@@ -36,18 +33,15 @@ export default async function ListeAbandonsPage() {
           identifiantProjet: a.identifiantProjet,
         },
       });
-
       return {
         ...a,
         projet: isSome(projet) ? projet : undefined,
       };
     }),
   );
-
   return (
-    <>
-      <Heading1>Demandes d'abandon</Heading1>
-      <ul className="mt-10">
+    <PageTemplate heading1={`Demandes d'abandon (${liste.length})`}>
+      <ul>
         {liste.map(
           ({
             identifiantProjet,
@@ -114,6 +108,6 @@ export default async function ListeAbandonsPage() {
           ),
         )}
       </ul>
-    </>
+    </PageTemplate>
   );
 }
