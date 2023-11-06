@@ -24,30 +24,12 @@
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"],
-  "references": [    
-    {
-      "path": "../../../packages/domain/core"
-    },
-    {
-      "path": "../../../packages/domain/common"
-    },
+  "references": [
     {
       "path": "../../../packages/domain/lauréat"
     },
     {
       "path": "../../../packages/domain/candidature"
-    },
-    {
-      "path": "../../../packages/domain/document"
-    },
-    {
-      "path": "../../../packages/infrastructure/pg-projections"
-    },
-    {
-      "path": "../../../packages/infrastructure/pg-event-sourcing"
-    },
-    {
-      "path": "../../../packages/infrastructure/domain-adapters"
     }
   ]
 }
