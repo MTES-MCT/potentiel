@@ -1,6 +1,9 @@
 import NextAuth from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 
+const FIFTEEN_MINUTES = 15 * 60;
+const ONE_DAY = 24 * 60 * 60;
+
 const handler = NextAuth({
   providers: [
     KeycloakProvider({
@@ -11,6 +14,8 @@ const handler = NextAuth({
   ],
   session: {
     strategy: 'jwt',
+    maxAge: ONE_DAY,
+    updateAge: FIFTEEN_MINUTES,
   },
   callbacks: {
     jwt({ token, account }) {

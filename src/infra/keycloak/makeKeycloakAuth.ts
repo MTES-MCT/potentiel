@@ -88,7 +88,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
         ...(!isLocalEnv && {
           cookie: {
             secure: true,
-            httpOnly: true,
           },
         }),
       }),
@@ -121,7 +120,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
           logger.error(
             `Found user keycloak auth but not user in database for id ${req.kauth?.grant?.access_token?.content?.sub}`,
           );
-          res.redirect('/logout');
+          res.redirect(routes.LOGOUT_ACTION);
           return;
         }
 
