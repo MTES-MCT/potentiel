@@ -180,7 +180,6 @@
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2",
     "wait-for-expect": "^3.0.2",
-    "watch": "^1.0.2",
     "webpack": "^5.88.2",
     "webpack-cli": "^4.10.0"
   },
