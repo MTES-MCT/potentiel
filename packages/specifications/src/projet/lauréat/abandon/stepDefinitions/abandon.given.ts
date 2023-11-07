@@ -8,8 +8,8 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 EtantDonné(
-  `une demande d'abandon en cours pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  /un abandon en cours(.*)pour le projet lauréat "(.*)"/,
+  async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
@@ -21,7 +21,7 @@ EtantDonné(
           content: convertStringToReadableStream(`Le contenu de l'accusé de réception`),
         },
         raisonValue: `La raison de l'abandon`,
-        recandidatureValue: false,
+        recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
         utilisateurValue: 'porteur@test.test',
       },
@@ -30,8 +30,8 @@ EtantDonné(
 );
 
 EtantDonné(
-  `un abandon accordé pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  /un abandon accordé(.*)pour le projet lauréat "(.*)"/,
+  async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
@@ -43,7 +43,7 @@ EtantDonné(
           content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
         },
         raisonValue: `La raison de l'abandon`,
-        recandidatureValue: false,
+        recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
         utilisateurValue: 'porteur@test.test',
       },
