@@ -9,7 +9,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 
 Alors(
-  `la demande d'abandon du projet lauréat {string} devrait être consultable dans la liste des projets lauréat abandonnés`,
+  `l'abandon du projet lauréat {string} devrait être consultable dans la liste des projets lauréat abandonnés`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -57,6 +57,24 @@ Alors(
         const actualContent = await convertReadableStreamToString(result.content);
         actualContent.should.be.equal(content);
       }
+    });
+  },
+);
+
+Alors(
+  `l'abandon du projet lauréat {string} ne devrait plus exister`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      try {
+        const actual = await mediator.send<Abandon.ConsulterAbandonQuery>({
+          type: 'CONSULTER_ABANDON',
+          data: {
+            identifiantProjetValue: identitiantProjetValueType.formatter(),
+          },
+        });
+      } catch (e) {}
     });
   },
 );

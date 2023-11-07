@@ -151,7 +151,7 @@ class StatutAbandonInvalideError extends InvalidOperationError {
 
 class AbandonDéjàAccordéError extends InvalidOperationError {
   constructor() {
-    super(`Abandon déjà accordé`);
+    super(`L'abandon a déjà été accordé`);
   }
 }
 
