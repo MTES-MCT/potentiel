@@ -1,12 +1,15 @@
 # Flow de développement
 
 ## Table des matières
-- [Organisation du code source](#organisation-du-code-source)
-- [Scripts NPM](#scripts-npm)
-- [Environnements](#environnements)
-- [Déploiement](#deploy)
-- [Apporter des changements](#apporter-des-changements)
-- [Approche/Méthode](#approche-methode)
+- [Flow de développement](#flow-de-développement)
+  - [Table des matières](#table-des-matières)
+  - [ Organisation du code source](#-organisation-du-code-source)
+  - [ Scripts NPM](#-scripts-npm)
+  - [ Environnements](#-environnements)
+  - [ Déploiement](#-déploiement)
+  - [ Apporter des changements](#-apporter-des-changements)
+  - [ Faire un hotfix](#-faire-un-hotfix)
+  - [ Approche/Méthode](#-approcheméthode)
 
 ## <a id="organisation-du-code-source"></a> Organisation du code source
 
@@ -99,6 +102,18 @@ Pour plus de détail vous pouvez consulter les diagrammes [release flow](./docs/
 4. Une fois que la PR est approuvée et que les changements demandés ont été apportés, la PR peut être mergée.
 
 Note : l'équipe utilise `gitmoji` pour les commits, donc merci de bien sélectionner l'emoji correspondant pour chaque commit avec un message clair en français. Cela facilite grandement la revue du code.
+
+## <a id="faire-un-hotfix"></a> Faire un hotfix
+
+1. Créer une nouvelle branche à partir de la branche release actuellement en production. Pour rappel, les branches release doivent suivre ce format : \release/x.xx\
+
+2. Implémenter vos changements
+
+3. Une fois les changemements terminés ouvrir une PR qui pointe vers la branche release en production
+
+4. Une fois mergée, créer une PR de la release actuellement en production vers master. ⚠️ Au moment du merge, bien penser à faire un **merge commit** plutôt qu'un squash) en ajoutant le message générique suivant : "🔀 Intégration des dernières modification de la version X.XX"
+
+5. Une fois la PR mergée, penser à **restaurer la branche release** qui a été supprimé automatiquement
 
 ## <a id="approche-methode"></a> Approche/Méthode
 
