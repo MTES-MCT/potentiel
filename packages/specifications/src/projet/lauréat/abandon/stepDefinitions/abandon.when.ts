@@ -52,7 +52,7 @@ Quand(
 );
 
 Quand(
-  `un porteur demande l'abandon pour le projet lauréat {string}`,
+  `le porteur demande l'abandon pour le projet lauréat {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const raison = `La raison de l'abandon`;
