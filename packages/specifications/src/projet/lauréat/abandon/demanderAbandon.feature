@@ -28,7 +28,7 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
       Alors le porteur devrait être informé que "Une demande d'abandon est déjà en cours"
 
     @NotImplemented
-    Scénario: Impossible d'abandonné un projet si l'abandon est accordé
+    Scénario: Impossible d'abandonner un projet si l'abandon est accordé
       Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
       Quand un porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
       | La raison de l'abandon                | Une raison donnée par le porteur concernant l'abandon du projet lauréat                   |
