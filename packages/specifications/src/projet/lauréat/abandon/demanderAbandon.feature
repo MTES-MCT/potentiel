@@ -35,5 +35,5 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
       | Le format de la pièce justificative   | application/pdf                                                                           |
       | Le contenu de la pièce justificative  | Le contenu de la pièce justificative expliquant la raison de l'abandon du projet lauréat  |
       | Recandidature                         | oui                                                                                       |
-      Alors le porteur devrait être informé que "L'abandon a déjà accordé"
+      Alors le porteur devrait être informé que "L'abandon a déjà été accordé"
         
