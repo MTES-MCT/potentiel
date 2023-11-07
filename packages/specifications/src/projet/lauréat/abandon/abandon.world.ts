@@ -14,6 +14,19 @@ export class AbandonWord {
     this.#pièceJustificative = value;
   }
 
+  #réponseSignée!: { format: string; content: string };
+
+  get réponseSignée(): { format: string; content: string } {
+    if (!this.#réponseSignée) {
+      throw new Error('réponseSignée not initialized');
+    }
+    return this.#réponseSignée;
+  }
+
+  set réponseSignée(value: { format: string; content: string }) {
+    this.#réponseSignée = value;
+  }
+
   #dateDemande!: DateTime.ValueType;
 
   get dateDemande(): DateTime.ValueType {
@@ -38,6 +51,19 @@ export class AbandonWord {
 
   set dateAnnulation(value: DateTime.ValueType) {
     this.#dateAnnulation = value;
+  }
+
+  #dateRejet!: DateTime.ValueType;
+
+  get dateRejet(): DateTime.ValueType {
+    if (!this.#dateRejet) {
+      throw new Error('dateRejet not initialized');
+    }
+    return this.#dateRejet;
+  }
+
+  set dateRejet(value: DateTime.ValueType) {
+    this.#dateRejet = value;
   }
 
   #raison!: string;
