@@ -6,118 +6,107 @@ import { displayDate } from '@/utils/displayDate';
 import { KeyIcon } from '@/components/atoms/icons';
 
 import { Abandon } from '@potentiel-domain/laureat';
-import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
-import { isSome } from '@potentiel/monads';
-import { mediator } from 'mediateur';
 import { PageTemplate } from '@/components/templates/PageTemplate';
 import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-export const dynamic = 'force-dynamic';
+//export const dynamic = 'force-dynamic';
 
-export default async function ListeAbandonsPage() {
+export default function ListeAbandonsPage() {
   const searchParams = useSearchParams();
 
-  const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
-    type: 'LISTER_ABANDONS_QUERY',
-    data: {
-      pagination: { page: 1, itemsPerPage: 10 },
-      ...(searchParams.get('recandidature') === 'true' && { recandidature: true }),
-    },
+  const [abandons, setAbandons] = useState<Abandon.ListerAbandonReadModel>({
+    currentPage: 1,
+    items: [],
+    itemsPerPage: 10,
+    totalItems: 0,
   });
-  if (!abandons.items.length) {
-    return (
-      <PageTemplate heading="Demandes d'abandon">
-        <div>Aucune demande à afficher</div>
-      </PageTemplate>
-    );
-  }
-  const liste = await Promise.all(
-    abandons.items.map(async (a) => {
-      const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
-        type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
-        data: {
-          identifiantProjet: a.identifiantProjet,
-        },
-      });
-      return {
-        ...a,
-        projet: isSome(projet) ? projet : undefined,
-      };
-    }),
-  );
+
+  useEffect(() => {
+    const fetchAbandons = async () => {
+      const response = await fetch('/api/v1/laureat/abandon?page=1&itemsPerPage=10');
+      const data = await response.json();
+      console.table(data);
+      setAbandons(data);
+    };
+
+    fetchAbandons();
+  }, []);
 
   return (
     <PageTemplate
       heading={`Demandes d'abandon${
         searchParams.get('recandidature') === 'true' ? ' avec recandidature' : ''
-      } (${liste.length})`}
+      } (${abandons.items.length})`}
     >
       <ul>
-        {liste.map(
-          ({
-            identifiantProjet,
-            statut,
-            demandeDemandéLe,
-            accordAccordéLe,
-            rejetRejetéLe,
-            confirmationDemandéeLe,
-            confirmationConfirméLe,
-            projet,
-          }) => (
-            <li className="mb-6" key={`abandon-projet-${identifiantProjet}`}>
-              <Tile className="flex flex-col md:flex-row md:justify-between">
-                <div>
-                  <h2>
-                    Abandon du projet <span className="font-bold">{projet.nomProjet}</span>
-                    <Badge
-                      noIcon
-                      severity={
-                        statut === 'demandé'
-                          ? 'new'
-                          : statut === 'accordé'
-                          ? 'success'
-                          : statut === 'rejeté'
-                          ? 'warning'
-                          : 'info'
-                      }
-                      small
-                      className="sm:ml-3"
-                    >
-                      {statut}
-                    </Badge>
-                  </h2>
-                  <div className="flex flex-row italic text-sm mt-2 sm:mt-0">
-                    <div className="self-center">
-                      <KeyIcon aria-hidden />
+        {abandons.items.length &&
+          abandons.items.map(
+            ({
+              identifiantProjet,
+              statut,
+              demandeDemandéLe,
+              accordAccordéLe,
+              rejetRejetéLe,
+              confirmationDemandéeLe,
+              confirmationConfirméLe,
+              projet,
+            }) => (
+              <li className="mb-6" key={`abandon-projet-${identifiantProjet}`}>
+                <Tile className="flex flex-col md:flex-row md:justify-between">
+                  <div>
+                    <h2>
+                      Abandon du projet <span className="font-bold">{projet.nomProjet}</span>
+                      <Badge
+                        noIcon
+                        severity={
+                          statut === 'demandé'
+                            ? 'new'
+                            : statut === 'accordé'
+                            ? 'success'
+                            : statut === 'rejeté'
+                            ? 'warning'
+                            : 'info'
+                        }
+                        small
+                        className="sm:ml-3"
+                      >
+                        {statut}
+                      </Badge>
+                    </h2>
+                    <div className="flex flex-row italic text-sm mt-2 sm:mt-0">
+                      <div className="self-center">
+                        <KeyIcon aria-hidden />
+                      </div>
+                      <div>{identifiantProjet.replace(/#/g, ' - ')}</div>
                     </div>
-                    <div>{identifiantProjet.replace(/#/g, ' - ')}</div>
                   </div>
-                </div>
-                <div className="flex flex-col justify-between mt-2 sm:mt-0">
-                  <p className="italic text-sm">
-                    dernière mise à jour le{' '}
-                    {displayDate(
-                      new Date(
-                        rejetRejetéLe ??
-                          accordAccordéLe ??
-                          confirmationConfirméLe ??
-                          confirmationDemandéeLe ??
-                          demandeDemandéLe,
-                      ),
-                    )}
-                  </p>
-                  <a
-                    href={`/demande/${encodeURIComponent(projet.identifiantProjet)}/details.html`}
-                    className="self-end"
-                    aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${projet.nomProjet}`}
-                  >
-                    voir le détail
-                  </a>
-                </div>
-              </Tile>
-            </li>
-          ),
-        )}
+                  <div className="flex flex-col justify-between mt-2 sm:mt-0">
+                    <p className="italic text-sm">
+                      dernière mise à jour le{' '}
+                      {displayDate(
+                        new Date(
+                          rejetRejetéLe ??
+                            accordAccordéLe ??
+                            confirmationConfirméLe ??
+                            confirmationDemandéeLe ??
+                            demandeDemandéLe,
+                        ),
+                      )}
+                    </p>
+                    <a
+                      href={`/demande/${encodeURIComponent(projet.identifiantProjet)}/details.html`}
+                      className="self-end"
+                      aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${projet.nomProjet}`}
+                    >
+                      voir le détail
+                    </a>
+                  </div>
+                </Tile>
+              </li>
+            ),
+          )}
+        {!abandons.items.length && <div>Aucune demande à afficher</div>}
       </ul>
     </PageTemplate>
   );
