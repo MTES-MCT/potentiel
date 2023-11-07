@@ -3,7 +3,7 @@ import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
 
 export type ListerAbandonReadModel = {
-  items: ReadonlyArray<any>; // need type here
+  items: ReadonlyArray<AbandonProjection>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;

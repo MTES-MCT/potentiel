@@ -4,6 +4,7 @@ export type AbandonProjection = Projection<
   'abandon',
   {
     identifiantProjet: string;
+    nomProjet: string;
 
     statut: string;
 

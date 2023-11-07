@@ -1,13 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { isSome } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import { Abandon } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { AbandonProjection } from '@potentiel-domain/laureat/src/abandon/abandon.projection';
+import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { removeProjection } from '../utils/removeProjection';
 import { upsertProjection } from '../utils/upsertProjection';
+import { getLogger } from '@potentiel/monitoring';
 
 export type AbandonEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
 
@@ -21,14 +23,15 @@ export const registerAbandonProjector = () => {
     if (type === 'RebuildTriggered') {
       await removeProjection<AbandonProjection>(`abandon|${payload.id}`);
     } else {
-      const abandon = await findProjection<AbandonProjection>(
-        `abandon|${payload.identifiantProjet}`,
-      );
+      const { identifiantProjet } = payload;
+
+      const abandon = await findProjection<AbandonProjection>(`abandon|${identifiantProjet}`);
 
       const abandonToUpsert: Omit<AbandonProjection, 'type'> = isSome(abandon)
         ? abandon
         : {
-            identifiantProjet: payload.identifiantProjet,
+            identifiantProjet,
+            nomProjet: '',
             demandeDemandéLe: '',
             demandeDemandéPar: '',
             demandePièceJustificativeFormat: '',
@@ -39,8 +42,15 @@ export const registerAbandonProjector = () => {
 
       switch (type) {
         case 'AbandonDemandé-V1':
+          const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
+
+          if (isNone(projet)) {
+            getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet });
+          }
+
           await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
+            nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
             demandePièceJustificativeFormat:
               payload.pièceJustificative && payload.pièceJustificative.format,
             demandeDemandéLe: payload.demandéLe,

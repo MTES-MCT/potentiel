@@ -39,20 +39,19 @@ export default async function ListeAbandonsPage({ searchParams }: PageProps) {
           abandons.items.map(
             ({
               identifiantProjet,
+              nomProjet,
               statut,
               demandeDemandéLe,
               accordAccordéLe,
               rejetRejetéLe,
               confirmationDemandéeLe,
               confirmationConfirméLe,
-              // projet,
             }) => (
               <li className="mb-6" key={`abandon-projet-${identifiantProjet}`}>
                 <Tile className="flex flex-col md:flex-row md:justify-between">
                   <div>
                     <h2>
-                      Abandon du projet
-                      {/* <span className="font-bold">{projet.nomProjet}</span> */}
+                      Abandon du projet <span className="font-bold">{nomProjet}</span>
                       <Badge
                         noIcon
                         severity={
@@ -90,13 +89,13 @@ export default async function ListeAbandonsPage({ searchParams }: PageProps) {
                         ),
                       )}
                     </p>
-                    {/* <a
-                      href={`/demande/${encodeURIComponent(projet.identifiantProjet)}/details.html`}
+                    <a
+                      href={`/demande/${encodeURIComponent(identifiantProjet)}/details.html`}
                       className="self-end"
-                      aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${projet.nomProjet}`}
+                      aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${nomProjet}`}
                     >
                       voir le détail
-                    </a> */}
+                    </a>
                   </div>
                 </Tile>
               </li>
