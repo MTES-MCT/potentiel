@@ -13,7 +13,7 @@ Fonctionnalité: Conformer l'abandon d'un projet lauréat
     Scénario: Impossible de confirmer l'abandon d'un projet lauréat si la confirmation d'abandon n'a pas été demandé
       Etant donné une demande d'abandon en cours pour le projet lauréat "Du boulodrome de Marseille"
       Quand le porteur confirme l'abandon pour le projet lauréat "Du boulodrome de Marseille"
-      Alors le porteur devrait être informé que "Aucune confirmation d'abandon n'a été demandé"
+      Alors le porteur devrait être informé que "Aucune confirmation d'abandon n'a été demandée"
 
     @NotImplemented
     Scénario: Impossible de confirmer l'abandon d'un projet lauréat si l'abandon a déjà été accordé
