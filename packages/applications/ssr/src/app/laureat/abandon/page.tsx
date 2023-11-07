@@ -96,7 +96,7 @@ export default async function ListeAbandonsPage() {
                     )}
                   </p>
                   <a
-                    href="http://"
+                    href={`/demande/${encodeURIComponent(projet.identifiantProjet)}/details.html`}
                     className="self-end"
                     aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${projet.nomProjet}`}
                   >
