@@ -1,11 +1,17 @@
-import { IdentifiantProjet, convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
+import {
+  IdentifiantProjet,
+  IdentifiantProjetValueType,
+  convertirEnIdentifiantProjet,
+} from '@potentiel/domain-usecases';
 import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
+import { IdentifiantProjet as IdentifiantProjetCommon } from '@potentiel-domain/common';
 import { none } from '@potentiel/monads';
-//import { AbandonWord } from './abandon/abandon.world';
+import { AbandonWord } from './abandon/abandon.world';
 
 type LauréatFixture = {
   nom: string;
-  identifiantProjet: IdentifiantProjet;
+  identifiantProjet: IdentifiantProjetValueType;
+  identitiantProjetValueType: IdentifiantProjetCommon.ValueType;
   projet?: CandidatureLegacyReadModel;
 };
 
@@ -30,14 +36,14 @@ export class LauréatWorld {
     return this.#identifiantProjet;
   }
 
-  // #abandonWorld!: AbandonWord;
+  #abandonWorld!: AbandonWord;
 
-  // get abandonWorld() {
-  //   return this.#abandonWorld;
-  // }
+  get abandonWorld() {
+    return this.#abandonWorld;
+  }
 
   constructor() {
-    //this.#abandonWorld = new AbandonWord();
+    this.#abandonWorld = new AbandonWord();
 
     this.#identifiantProjet = convertirEnIdentifiantProjet({
       appelOffre: 'PPE2 - Eolien',

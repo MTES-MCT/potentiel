@@ -12,7 +12,8 @@ import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
-import { bootstrap, UnsetupApp } from '@potentiel/web';
+import { bootstrap as bootstrapWeb, UnsetupApp } from '@potentiel/web';
+import { bootstrap } from '@potentiel-application/bootstrap';
 import { clear } from 'mediateur';
 import {
   CreateBucketCommand,
@@ -30,6 +31,7 @@ setDefaultTimeout(5000);
 const bucketName = 'potentiel';
 
 let unsetupApp: UnsetupApp | undefined;
+let unsetup: (() => Promise<void>) | undefined;
 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
@@ -54,7 +56,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetupApp = await bootstrap();
+  unsetupApp = await bootstrapWeb();
+  unsetup = await bootstrap();
 });
 
 After(async () => {
@@ -84,6 +87,11 @@ After(async () => {
     await unsetupApp();
   }
   unsetupApp = undefined;
+
+  if (unsetup) {
+    await unsetup();
+  }
+  unsetup = undefined;
 });
 
 AfterAll(async () => {

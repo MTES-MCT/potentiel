@@ -25,6 +25,9 @@
     },
     {
       "path": "../applications/web"
+    },
+    {
+      "path": "../applications/bootstrap"
     }
   ]
 }

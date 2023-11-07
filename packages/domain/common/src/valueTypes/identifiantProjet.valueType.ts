@@ -1,14 +1,14 @@
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = `${string}#${string}#${string}#${string}`;
 
-export type ValueType = {
+export type ValueType = ReadonlyValueType<{
   appelOffre: string;
   période: string;
   famille: string;
   numéroCRE: string;
   formatter(): RawType;
-};
+}>;
 
 export const convertirEnValueType = (identifiantProjet: string): ValueType => {
   estValide(identifiantProjet);
@@ -22,6 +22,9 @@ export const convertirEnValueType = (identifiantProjet: string): ValueType => {
     numéroCRE,
     formatter() {
       return `${this.appelOffre}#${this.période}#${this.famille}#${this.numéroCRE}`;
+    },
+    estÉgaleÀ(valueType) {
+      return valueType.formatter() === this.formatter();
     },
   };
 };

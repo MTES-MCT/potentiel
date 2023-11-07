@@ -13,7 +13,6 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
     
-    @select
     Scénario: Modifier en tant qu'administrateur la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service 
         Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |

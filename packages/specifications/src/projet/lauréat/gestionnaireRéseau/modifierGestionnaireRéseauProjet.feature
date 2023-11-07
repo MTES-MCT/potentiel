@@ -3,7 +3,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un projet
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le gestionnaire de réseau "Arc Energies Maurienne"
-        Et le projet "Du boulodrome de Marseille"
+        Et le projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un projet
         Etant donné une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" pour le projet "Du boulodrome de Marseille"

@@ -1,53 +1,68 @@
-// export class AbandonWord {
-//   #pièceJustificative!: { format: string; content: string };
+import { DateTime, IdentifiantUtilisateur } from '@potentiel-domain/common';
 
-//   get pièceJustificative(): { format: string; content: string } {
-//     if (!this.#pièceJustificative) {
-//       throw new Error('pièceJustificative not initialized');
-//     }
-//     return this.#pièceJustificative;
-//   }
+export class AbandonWord {
+  #pièceJustificative!: { format: string; content: string };
 
-//   set pièceJustificative(value: { format: string; content: string }) {
-//     this.#pièceJustificative = value;
-//   }
+  get pièceJustificative(): { format: string; content: string } {
+    if (!this.#pièceJustificative) {
+      throw new Error('pièceJustificative not initialized');
+    }
+    return this.#pièceJustificative;
+  }
 
-//   #réponseSignée!: { format: string; content: string };
+  set pièceJustificative(value: { format: string; content: string }) {
+    this.#pièceJustificative = value;
+  }
 
-//   get réponseSignée(): { format: string; content: string } {
-//     if (!this.#réponseSignée) {
-//       throw new Error('réponseSignée not initialized');
-//     }
-//     return this.#réponseSignée;
-//   }
+  #dateDemande!: DateTime.ValueType;
 
-//   set réponseSignée(value: { format: string; content: string }) {
-//     this.#réponseSignée = value;
-//   }
+  get dateDemande(): DateTime.ValueType {
+    if (!this.#dateDemande) {
+      throw new Error('dateDemandeExpected not initialized');
+    }
+    return this.#dateDemande;
+  }
 
-//   #dateAbandon!: Date;
+  set dateDemande(value: DateTime.ValueType) {
+    this.#dateDemande = value;
+  }
 
-//   get dateAbandon(): Date {
-//     if (!this.#dateAbandon) {
-//       throw new Error('dateAbandon not initialized');
-//     }
-//     return this.#dateAbandon;
-//   }
+  #raison!: string;
 
-//   set dateAbandon(value: Date) {
-//     this.#dateAbandon = value;
-//   }
+  get raison(): string {
+    if (!this.#raison) {
+      throw new Error('raison not initialized');
+    }
+    return this.#raison;
+  }
 
-//   #recandidature!: boolean;
+  set raison(value: string) {
+    this.#raison = value;
+  }
 
-//   get recandidature(): boolean {
-//     if (!this.#recandidature) {
-//       throw new Error('recandidature not initialized');
-//     }
-//     return this.#recandidature;
-//   }
+  #recandidature!: boolean;
 
-//   set recandidature(value: boolean) {
-//     this.#recandidature = value;
-//   }
-// }
+  get recandidature(): boolean {
+    if (!this.#recandidature) {
+      throw new Error('recandidature not initialized');
+    }
+    return this.#recandidature;
+  }
+
+  set recandidature(value: boolean) {
+    this.#recandidature = value;
+  }
+
+  #utilisateur!: IdentifiantUtilisateur.ValueType;
+
+  get utilisateur(): IdentifiantUtilisateur.ValueType {
+    if (!this.#utilisateur) {
+      throw new Error('utilisateur not initialized');
+    }
+    return this.#utilisateur;
+  }
+
+  set utilisateur(value: IdentifiantUtilisateur.ValueType) {
+    this.#utilisateur = value;
+  }
+}

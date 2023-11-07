@@ -1,11 +1,11 @@
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = string;
 
-export type ValueType = {
+export type ValueType = ReadonlyValueType<{
   email: string;
   formatter: () => RawType;
-};
+}>;
 
 export const convertirEnValueType = (value: string): ValueType => {
   estValide(value);
@@ -13,6 +13,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     email: value,
     formatter() {
       return this.email;
+    },
+    estÉgaleÀ(valueType) {
+      return valueType.email === this.email;
     },
   };
 };
