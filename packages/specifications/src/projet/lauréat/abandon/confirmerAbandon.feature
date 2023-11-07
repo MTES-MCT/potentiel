@@ -19,7 +19,7 @@ Fonctionnalité: Conformer l'abandon d'un projet lauréat
     Scénario: Impossible de confirmer l'abandon d'un projet lauréat si l'abandon a déjà été accordé
       Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
       Quand le porteur confirme l'abandon pour le projet lauréat "Du boulodrome de Marseille"
-      Alors le porteur devrait être informé que "L'abandon a déjà accordé"
+      Alors le porteur devrait être informé que "L'abandon a déjà été accordé"
 
     @NotImplemented
     Scénario: Impossible de confirmer l'abandon d'un projet lauréat si l'abandon a déjà été rejeté
