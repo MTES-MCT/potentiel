@@ -7,6 +7,8 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
+import { NotFoundError } from '@potentiel-domain/core';
+import { expect } from 'chai';
 
 Alors(
   `l'abandon du projet lauréat {string} devrait être consultable dans la liste des projets lauréat abandonnés`,
@@ -68,13 +70,63 @@ Alors(
 
     await waitForExpect(async () => {
       try {
-        const actual = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        const result = await mediator.send<Abandon.ConsulterAbandonQuery>({
           type: 'CONSULTER_ABANDON',
           data: {
             identifiantProjetValue: identitiantProjetValueType.formatter(),
           },
         });
-      } catch (e) {}
+        result.should.be.undefined;
+      } catch (e) {
+        (e as Error).should.be.instanceOf(NotFoundError);
+      }
+    });
+  },
+);
+
+Alors(
+  `l'abandon du projet lauréat {string} devrait être rejetée`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const {
+        statut: actualStatut,
+        identifiantProjet: actualIdentifiantProjet,
+        rejet,
+      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+        },
+      });
+
+      const {
+        dateRejet,
+        utilisateur,
+        réponseSignée: { content },
+      } = this.lauréatWorld.abandonWorld;
+
+      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.rejeté).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      expect(rejet).to.be.not.undefined;
+
+      const actualDateRejet = rejet!.rejetéLe;
+      const actualUtilisateur = rejet!.rejetéPar;
+      const actualRéponseSignée = rejet!.réponseSignée;
+
+      actualDateRejet.estÉgaleÀ(dateRejet).should.be.true;
+      actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'CONSULTER_DOCUMENT_PROJET',
+        data: {
+          documentKey: actualRéponseSignée.formatter(),
+        },
+      });
+
+      const actualContent = await convertReadableStreamToString(result.content);
+      actualContent.should.be.equal(content);
     });
   },
 );
