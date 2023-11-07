@@ -115,8 +115,6 @@ Note : l'équipe utilise `gitmoji` pour les commits, donc merci de bien sélecti
 
 5. Une fois la PR mergée, penser à **restaurer la branche release** qui a été supprimé automatiquement
 
-6. Si il existe une branche pour la prochaine release, alors il faudra que celle-ci récupère le hotfix. Pour se faire, faire PR depuis la prochaine branche de release sur master.
-
 ## <a id="approche-methode"></a> Approche/Méthode
 
 - [**B**ehavior **D**riven **D**velopment](https://fr.wikipedia.org/wiki/Programmation_pilot%C3%A9e_par_le_comportement)
