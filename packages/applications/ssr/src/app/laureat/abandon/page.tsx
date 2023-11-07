@@ -1,5 +1,3 @@
-'use client';
-
 import { Tile } from '@/components/organisms/Tile';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { displayDate } from '@/utils/displayDate';
@@ -7,37 +5,34 @@ import { KeyIcon } from '@/components/atoms/icons';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageTemplate } from '@/components/templates/PageTemplate';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { mediator } from 'mediateur';
 
-//export const dynamic = 'force-dynamic';
+type PageProps = {
+  params?: Record<string, string>;
+  searchParams?: Record<string, string>;
+};
 
-export default function ListeAbandonsPage() {
-  const searchParams = useSearchParams();
+export default async function ListeAbandonsPage({ searchParams }: PageProps) {
+  const recandidature =
+    searchParams?.recandidature === 'true'
+      ? true
+      : searchParams?.recandidature === 'false'
+      ? false
+      : undefined;
 
-  const [abandons, setAbandons] = useState<Abandon.ListerAbandonReadModel>({
-    currentPage: 1,
-    items: [],
-    itemsPerPage: 10,
-    totalItems: 0,
+  const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
+    type: 'LISTER_ABANDONS_QUERY',
+    data: {
+      pagination: { page: 1, itemsPerPage: 10 },
+      recandidature,
+    },
   });
-
-  useEffect(() => {
-    const fetchAbandons = async () => {
-      const response = await fetch('/api/v1/laureat/abandon?page=1&itemsPerPage=10');
-      const data = await response.json();
-      console.table(data);
-      setAbandons(data);
-    };
-
-    fetchAbandons();
-  }, []);
 
   return (
     <PageTemplate
-      heading={`Demandes d'abandon${
-        searchParams.get('recandidature') === 'true' ? ' avec recandidature' : ''
-      } (${abandons.items.length})`}
+      heading={`Demandes d'abandon${recandidature ? ' avec recandidature' : ''} (${
+        abandons.items.length
+      })`}
     >
       <ul>
         {abandons.items.length &&
@@ -50,13 +45,14 @@ export default function ListeAbandonsPage() {
               rejetRejetéLe,
               confirmationDemandéeLe,
               confirmationConfirméLe,
-              projet,
+              // projet,
             }) => (
               <li className="mb-6" key={`abandon-projet-${identifiantProjet}`}>
                 <Tile className="flex flex-col md:flex-row md:justify-between">
                   <div>
                     <h2>
-                      Abandon du projet <span className="font-bold">{projet.nomProjet}</span>
+                      Abandon du projet
+                      {/* <span className="font-bold">{projet.nomProjet}</span> */}
                       <Badge
                         noIcon
                         severity={
@@ -94,13 +90,13 @@ export default function ListeAbandonsPage() {
                         ),
                       )}
                     </p>
-                    <a
+                    {/* <a
                       href={`/demande/${encodeURIComponent(projet.identifiantProjet)}/details.html`}
                       className="self-end"
                       aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${projet.nomProjet}`}
                     >
                       voir le détail
-                    </a>
+                    </a> */}
                   </div>
                 </Tile>
               </li>

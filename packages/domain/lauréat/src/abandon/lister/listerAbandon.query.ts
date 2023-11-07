@@ -30,11 +30,12 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
     return await list<AbandonProjection>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
-      where: recandidature
-        ? {
-            demandeRecandidature: recandidature,
-          }
-        : undefined,
+      where:
+        recandidature !== undefined
+          ? {
+              demandeRecandidature: recandidature,
+            }
+          : undefined,
       orderBy: {
         property: 'demandeDemandéLe',
         ascending: false,
