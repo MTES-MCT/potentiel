@@ -36,13 +36,13 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureat/abandon',
+                href: '/laureat/abandon?recandidature=false',
               },
             },
             {
               text: 'Abandons avec recandidature',
               linkProps: {
-                href: '/laureat/abandon/option-recandidature',
+                href: '/laureat/abandon?recandidature=true',
               },
             },
           ],
@@ -164,9 +164,15 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
               },
             },
             {
+              text: 'Abandons',
+              linkProps: {
+                href: '/laureat/abandon?recandidature=false',
+              },
+            },
+            {
               text: 'Abandons avec recandidature',
               linkProps: {
-                href: '/abandons',
+                href: '/laureat/abandon?recandidature=true',
               },
             },
           ],
@@ -178,7 +184,6 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
           },
         },
       ];
-
     case 'porteur-projet':
       return [
         {
@@ -188,10 +193,27 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
           },
         },
         {
-          text: 'Mes demandes',
-          linkProps: {
-            href: '/mes-demandes.html',
-          },
+          text: 'Demandes',
+          menuLinks: [
+            {
+              text: 'Mes demandes',
+              linkProps: {
+                href: '/mes-demandes.html',
+              },
+            },
+            {
+              text: 'Abandons',
+              linkProps: {
+                href: '/laureat/abandon?recandidature=false',
+              },
+            },
+            {
+              text: 'Abandons avec recandidature',
+              linkProps: {
+                href: '/laureat/abandon?recandidature=true',
+              },
+            },
+          ],
         },
         {
           text: 'Projets à réclamer',
@@ -200,7 +222,6 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
           },
         },
       ];
-
     case 'caisse-des-dépôts':
       return [
         {
@@ -210,7 +231,6 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
           },
         },
       ];
-
     case 'cre':
       return [
         {
@@ -226,7 +246,6 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
           },
         },
       ];
-
     case 'ademe':
       return [
         {
@@ -242,7 +261,6 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
           },
         },
       ];
-
     case 'acheteur-obligé':
       return [
         {

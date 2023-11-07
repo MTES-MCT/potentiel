@@ -1,3 +1,5 @@
+'use client';
+
 import { Tile } from '@/components/organisms/Tile';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { displayDate } from '@/utils/displayDate';
@@ -8,14 +10,18 @@ import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
 import { isSome } from '@potentiel/monads';
 import { mediator } from 'mediateur';
 import { PageTemplate } from '@/components/templates/PageTemplate';
+import { useSearchParams } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ListeAbandonsPage() {
+  const searchParams = useSearchParams();
+
   const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
     type: 'LISTER_ABANDONS_QUERY',
     data: {
       pagination: { page: 1, itemsPerPage: 10 },
+      ...(searchParams.get('recandidature') === 'true' && { recandidature: true }),
     },
   });
   if (!abandons.items.length) {
@@ -39,8 +45,13 @@ export default async function ListeAbandonsPage() {
       };
     }),
   );
+
   return (
-    <PageTemplate heading1={`Demandes d'abandon (${liste.length})`}>
+    <PageTemplate
+      heading1={`Demandes d'abandon${
+        searchParams.get('recandidature') === 'true' ? ' avec recandidature' : ''
+      } (${liste.length})`}
+    >
       <ul>
         {liste.map(
           ({
