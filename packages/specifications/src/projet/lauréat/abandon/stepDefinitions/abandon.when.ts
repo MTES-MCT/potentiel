@@ -6,7 +6,7 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 import { DateTime, IdentifiantUtilisateur } from '@potentiel-domain/common';
 
 Quand(
-  `un porteur demande l'abandon pour le projet lauréat {string} avec :`,
+  `le porteur demande l'abandon pour le projet lauréat {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     try {
       const exemple = table.rowsHash();
@@ -52,7 +52,7 @@ Quand(
 );
 
 Quand(
-  `un porteur demande l'abandon pour le projet lauréat {string}`,
+  `le porteur demande l'abandon pour le projet lauréat {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const raison = `La raison de l'abandon`;
@@ -75,6 +75,33 @@ Quand(
           raisonValue: raison,
           recandidatureValue: recandidature,
           dateDemandeValue: dateDemande.toISOString(),
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `le porteur annule l'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const dateAnnulation = new Date();
+      const utilisateur = 'porteur@test.test';
+
+      this.lauréatWorld.abandonWorld.dateAnnulation = DateTime.convertirEnValueType(dateAnnulation);
+      this.lauréatWorld.abandonWorld.utilisateur =
+        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'ANNULER_ABANDON_USECASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateAnnulationValue: dateAnnulation.toISOString(),
           utilisateurValue: utilisateur,
         },
       });

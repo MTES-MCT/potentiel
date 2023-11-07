@@ -27,6 +27,19 @@ export class AbandonWord {
     this.#dateDemande = value;
   }
 
+  #dateAnnulation!: DateTime.ValueType;
+
+  get dateAnnulation(): DateTime.ValueType {
+    if (!this.#dateAnnulation) {
+      throw new Error('dateDemandeExpected not initialized');
+    }
+    return this.#dateAnnulation;
+  }
+
+  set dateAnnulation(value: DateTime.ValueType) {
+    this.#dateAnnulation = value;
+  }
+
   #raison!: string;
 
   get raison(): string {

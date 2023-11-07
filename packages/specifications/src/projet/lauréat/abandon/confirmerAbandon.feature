@@ -7,7 +7,7 @@ Fonctionnalité: Conformer l'abandon d'un projet lauréat
     Scénario: Un porteur confirme l'abandon d'un projet lauréat
       Etant donné une confirmation d'abandon demandé pour le projet lauréat "Du boulodrome de Marseille"
       Quand le porteur confirme l'abandon pour le projet lauréat "Du boulodrome de Marseille"
-      Alors la demande d'abandon du projet lauréat "Du boulodrome de Marseille" est confirmée
+      Alors l'abandon du projet lauréat "Du boulodrome de Marseille" est confirmée
 
     @NotImplemented
     Scénario: Impossible de confirmer l'abandon d'un projet lauréat si la confirmation d'abandon n'a pas été demandé
