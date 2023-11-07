@@ -1,4 +1,4 @@
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType =
   | 'accordé'
@@ -21,7 +21,7 @@ const statuts: Array<RawType> = [
 
 const statutsEnCours: Array<RawType> = ['confirmation-demandée', 'confirmé', 'demandé'];
 
-export type ValueType = Readonly<{
+export type ValueType = ReadonlyValueType<{
   statut: RawType;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
@@ -67,6 +67,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     libellé() {
       return this.statut.replace('-', ' ').toLocaleUpperCase();
+    },
+    estÉgaleÀ(valueType) {
+      return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (nouveauStatut.estAccordé()) {
@@ -160,7 +163,7 @@ class AbandonDéjàRejetéError extends InvalidOperationError {
 
 class AbandonEnCoursErreur extends InvalidOperationError {
   constructor() {
-    super(`Une demande d'abandon est déjà en cours pour le projet`);
+    super(`Une demande d'abandon est déjà en cours`);
   }
 }
 

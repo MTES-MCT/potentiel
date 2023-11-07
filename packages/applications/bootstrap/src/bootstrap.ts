@@ -4,25 +4,20 @@ import { setupLauréat } from './setupLauréat';
 import { getLogger } from '@potentiel/monitoring';
 import { setupCandidature } from './setupCandidature';
 import { setupDocumentProjet } from './setupDocumentProjet';
-let unsetup: () => Promise<void>;
 
 export const bootstrap = async (): Promise<() => Promise<void>> => {
-  if (!unsetup) {
-    mediator.use({
-      middlewares: [logMiddleware],
-    });
+  mediator.use({
+    middlewares: [logMiddleware],
+  });
 
-    setupCandidature();
-    setupDocumentProjet();
+  setupCandidature();
+  setupDocumentProjet();
 
-    const unsetupLauréat = await setupLauréat();
+  const unsetupLauréat = await setupLauréat();
 
-    unsetup = async () => {
-      await unsetupLauréat();
-    };
+  getLogger().info('Application bootstrapped');
 
-    getLogger().info('Application bootstrapped');
-  }
-
-  return unsetup;
+  return async () => {
+    await unsetupLauréat();
+  };
 };

@@ -1,121 +1,51 @@
-// import { DataTable, When as Quand } from '@cucumber/cucumber';
-// import {
-//   DomainUseCase,
-//   PièceJustificativeAbandon,
-//   RéponseSignée,
-//   convertirEnDateTime,
-//   convertirEnIdentifiantProjet,
-// } from '@potentiel/domain-usecases';
-// import { mediator } from 'mediateur';
-// import { PotentielWorld } from '../../../../potentiel.world';
-// import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { mediator } from 'mediateur';
+import { Abandon } from '@potentiel-domain/laureat';
+import { PotentielWorld } from '../../../../potentiel.world';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
+import { DateTime, IdentifiantUtilisateur } from '@potentiel-domain/common';
 
-// Quand(
-//   `un porteur demande l'abandon du projet {string} avec :`,
-//   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
-//     try {
-//       const exemple = table.rowsHash();
-//       const raisonAbandon = exemple[`La raison de l'abandon`] ?? `La raison de l'abandon`;
-//       const format =
-//         exemple[`Le format de la pièce justificative`] ?? `Le format de la pièce justificative`;
-//       const content =
-//         exemple[`Le contenu de la pièce justificative`] ?? `Le contenu de la pièce justificative`;
+Quand(
+  `un porteur demande l'abandon pour le projet lauréat {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    try {
+      const exemple = table.rowsHash();
+      const raison = exemple[`La raison de l'abandon`] ?? `La raison de l'abandon`;
+      const format = exemple[`Le format de la pièce justificative`] ?? `text/plain`;
+      const content =
+        exemple[`Le contenu de la pièce justificative`] ?? `Le contenu de la pièce justificative`;
+      const recandidature = exemple[`Recandidature`] === 'oui';
+      const dateDemande = new Date();
+      const utilisateur = 'porteur@test.test';
 
-//       const recandidature = exemple[`Recandidature`] === 'oui';
-//       this.lauréatWorld.abandonWorld.recandidature = recandidature;
+      this.lauréatWorld.abandonWorld.raison = raison;
+      this.lauréatWorld.abandonWorld.recandidature = recandidature;
+      this.lauréatWorld.abandonWorld.dateDemande = DateTime.convertirEnValueType(dateDemande);
+      this.lauréatWorld.abandonWorld.pièceJustificative = {
+        format,
+        content,
+      };
+      this.lauréatWorld.abandonWorld.utilisateur =
+        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
 
-//       const dateAbandon = new Date();
-//       this.lauréatWorld.abandonWorld.dateAbandon = dateAbandon;
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-//       const pièceJustificative: PièceJustificativeAbandon = {
-//         format,
-//         content: convertStringToReadableStream(content),
-//       };
-
-//       this.lauréatWorld.abandonWorld.pièceJustificative = {
-//         format,
-//         content,
-//       };
-
-//       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-//       await mediator.send<DomainUseCase>({
-//         type: 'DEMANDER_ABANDON_USECASE',
-//         data: {
-//           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
-//           raison: raisonAbandon,
-//           pièceJustificative,
-//           recandidature,
-//           dateAbandon: convertirEnDateTime(dateAbandon),
-//         },
-//       });
-//     } catch (error) {
-//       this.error = error as Error;
-//     }
-//   },
-// );
-
-// Quand(
-//   `un porteur demande l'abandon avec recandidature pour un projet qui n'existe pas`,
-//   async function (this: PotentielWorld) {
-//     try {
-//       await mediator.send<DomainUseCase>({
-//         type: 'DEMANDER_ABANDON_USECASE',
-//         data: {
-//           identifiantProjet: convertirEnIdentifiantProjet({
-//             appelOffre: 'appelOffreInconnu',
-//             famille: 'familleInconnue',
-//             numéroCRE: 'numéroCREInconnu',
-//             période: 'périodeInconnue',
-//           }),
-//           raison: `La raison de l'abandon`,
-//           pièceJustificative: {
-//             format: `Le format de l'accusé de réception`,
-//             content: convertStringToReadableStream(`Le contenu de l'accusé de réception`),
-//           },
-//           recandidature: false,
-//           dateAbandon: convertirEnDateTime(new Date()),
-//         },
-//       });
-//     } catch (error) {
-//       this.error = error as Error;
-//     }
-//   },
-// );
-
-// Quand(
-//   `le DGEC validateur rejette l'abandon pour le projet {string} avec :`,
-//   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
-//     const exemple = table.rowsHash();
-//     const format = exemple['Le format de la réponse signée'] ?? 'Le format de la réponse signée';
-//     const content = exemple['Le contenu de la réponse signée'] ?? 'Le contenu de la réponse signée';
-
-//     const dateRejet = new Date();
-//     this.lauréatWorld.abandonWorld.dateAbandon = dateRejet;
-
-//     const réponseSignée: RéponseSignée = {
-//       format,
-//       content: convertStringToReadableStream(content),
-//     };
-
-//     this.lauréatWorld.abandonWorld.réponseSignée = {
-//       format,
-//       content,
-//     };
-
-//     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-//     try {
-//       await mediator.send<DomainUseCase>({
-//         type: 'REJETER_ABANDON_USECASE',
-//         data: {
-//           identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
-//           réponseSignée,
-//           rejetéLe: convertirEnDateTime(dateRejet),
-//         },
-//       });
-//     } catch (error) {
-//       this.error = error as Error;
-//     }
-//   },
-// );
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'DEMANDER_ABANDON_USECASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          raisonValue: raison,
+          pièceJustificativeValue: {
+            content: convertStringToReadableStream(content),
+            format,
+          },
+          recandidatureValue: recandidature,
+          dateDemandeValue: dateDemande.toISOString(),
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

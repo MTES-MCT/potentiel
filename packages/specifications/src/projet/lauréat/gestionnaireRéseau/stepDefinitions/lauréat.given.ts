@@ -3,8 +3,10 @@ import { none } from '@potentiel/monads';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { randomUUID } from 'crypto';
 import { PotentielWorld } from '../../../../potentiel.world';
+import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
-EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProjet: string) {
+EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   await executeQuery(
     `
       insert into "projects" (
@@ -79,11 +81,12 @@ EtantDonné('le projet {string}', async function (this: PotentielWorld, nomProje
 
   this.lauréatWorld.lauréatFixtures.set(nomProjet, {
     nom: nomProjet,
-    identifiantProjet: {
+    identitiantProjetValueType: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
+    identifiantProjet: convertirEnIdentifiantProjet({
       appelOffre: 'PPE2 - Eolien',
       période: '1',
       famille: none,
       numéroCRE: '23',
-    },
+    }),
   });
 });
