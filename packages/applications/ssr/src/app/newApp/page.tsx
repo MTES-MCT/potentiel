@@ -1,8 +1,9 @@
 import { Heading1 } from '@/components/atoms/headings';
+import { PageTemplate } from '@/components/templates/PageTemplate';
 
 export default function NewApp() {
   return (
-    <>
+    <PageTemplate>
       <Heading1>This is the new page</Heading1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -52,6 +53,6 @@ export default function NewApp() {
         ultricies mi. Pellentesque diam volutpat commodo sed egestas egestas. Neque viverra justo
         nec ultrices dui.
       </p>
-    </>
+    </PageTemplate>
   );
 }
