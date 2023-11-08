@@ -24,7 +24,7 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
       Alors le DGEC validateur devrait être informé que "L'abandon a déjà été rejeté"
 
     Scénario: Impossible de demande une confirmation d'abandon d'un projet lauréat si la confirmation d'abandon a déjà été demandé
-      Etant donné une confirmation d'abandon demandé pour le projet lauréat "Du boulodrome de Marseille"
+      Etant donné une confirmation d'abandon demandée pour le projet lauréat "Du boulodrome de Marseille"
       Quand le DGEC validateur demande une confirmation d'abandon pour le projet lauréat "Du boulodrome de Marseille"
       Alors le DGEC validateur devrait être informé que "La confirmation de l'abandon a déjà été demandée"
     

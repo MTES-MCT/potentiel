@@ -100,7 +100,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  `une confirmation d'abandon demandé pour le projet lauréat {string}`,
+  `une confirmation d'abandon demandée pour le projet lauréat {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

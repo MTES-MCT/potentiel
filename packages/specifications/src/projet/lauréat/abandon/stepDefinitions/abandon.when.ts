@@ -340,3 +340,31 @@ Quand(
     }
   },
 );
+
+Quand(
+  `le porteur confirme l'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const dateConfirmation = new Date();
+      const utilisateur = 'porteur@test.test';
+
+      this.lauréatWorld.abandonWorld.dateConfirmation =
+        DateTime.convertirEnValueType(dateConfirmation);
+      this.lauréatWorld.abandonWorld.utilisateur =
+        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'CONFIRMER_ABANDON_USECASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateConfirmationValue: dateConfirmation.toISOString(),
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

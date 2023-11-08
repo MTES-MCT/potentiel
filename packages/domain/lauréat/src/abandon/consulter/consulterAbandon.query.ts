@@ -24,6 +24,7 @@ export type ConsulterAbandonReadModel = {
       demandéPar: IdentifiantUtilisateur.ValueType;
       réponseSignée: DocumentProjet.ValueType;
       confirméLe?: DateTime.ValueType;
+      confirméPar?: IdentifiantUtilisateur.ValueType;
     };
   };
   accord?: {
@@ -86,6 +87,9 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
             ),
             confirméLe: result.confirmationConfirméLe
               ? DateTime.convertirEnValueType(result.confirmationConfirméLe)
+              : undefined,
+            confirméPar: result.confirmationConfirméPar
+              ? IdentifiantUtilisateur.convertirEnValueType(result.confirmationConfirméPar)
               : undefined,
           }
         : undefined,

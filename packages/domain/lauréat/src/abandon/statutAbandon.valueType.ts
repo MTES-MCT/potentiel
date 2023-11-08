@@ -85,6 +85,17 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new AbandonDéjàAccordéError();
         }
       } else if (nouveauStatut.estConfirmé()) {
+        if (this.estAccordé()) {
+          throw new AbandonDéjàAccordéError();
+        }
+
+        if (this.estRejeté()) {
+          throw new AbandonDéjàRejetéError();
+        }
+
+        if (this.estConfirmé()) {
+          throw new AbandonDéjàConfirméError();
+        }
         if (!this.estEnAttenteConfirmation()) {
           throw new AucuneDemandeConfirmationAbandonError();
         }

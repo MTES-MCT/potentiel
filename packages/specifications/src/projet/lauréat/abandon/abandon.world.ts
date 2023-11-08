@@ -53,6 +53,19 @@ export class AbandonWord {
     this.#dateDemandeConfirmation = value;
   }
 
+  #dateConfirmation!: DateTime.ValueType;
+
+  get dateConfirmation(): DateTime.ValueType {
+    if (!this.#dateConfirmation) {
+      throw new Error('dateConfirmation not initialized');
+    }
+    return this.#dateConfirmation;
+  }
+
+  set dateConfirmation(value: DateTime.ValueType) {
+    this.#dateConfirmation = value;
+  }
+
   #dateAnnulation!: DateTime.ValueType;
 
   get dateAnnulation(): DateTime.ValueType {
