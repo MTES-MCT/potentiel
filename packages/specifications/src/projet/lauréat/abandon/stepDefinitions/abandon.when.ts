@@ -264,3 +264,79 @@ Quand(
     }
   },
 );
+
+Quand(
+  `le DGEC validateur demande une confirmation d'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const dateDemandeConfirmation = new Date();
+      const utilisateur = 'validateur@test.test';
+
+      this.lauréatWorld.abandonWorld.dateDemandeConfirmation =
+        DateTime.convertirEnValueType(dateDemandeConfirmation);
+      this.lauréatWorld.abandonWorld.réponseSignée = {
+        format: 'text/plain',
+        content: `Le contenu de la réponse signée`,
+      };
+      this.lauréatWorld.abandonWorld.utilisateur =
+        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+
+      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          dateDemandeValue: dateDemandeConfirmation.toISOString(),
+          réponseSignéeValue: {
+            content: convertStringToReadableStream(`Le contenu de la réponse signée`),
+            format: `text/plain`,
+          },
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `le DGEC validateur demande une confirmation d'abandon pour le projet lauréat {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    try {
+      const exemple = table.rowsHash();
+      const format = exemple[`Le format de la réponse signée`] ?? `Le format de la réponse signée`;
+      const content =
+        exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
+      const dateDemandeConfirmation = new Date();
+      const utilisateur = 'validateur@test.test';
+
+      this.lauréatWorld.abandonWorld.dateDemandeConfirmation =
+        DateTime.convertirEnValueType(dateDemandeConfirmation);
+      this.lauréatWorld.abandonWorld.réponseSignée = {
+        format,
+        content,
+      };
+      this.lauréatWorld.abandonWorld.utilisateur =
+        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+
+      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          dateDemandeValue: dateDemandeConfirmation.toISOString(),
+          réponseSignéeValue: {
+            content: convertStringToReadableStream(content),
+            format,
+          },
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

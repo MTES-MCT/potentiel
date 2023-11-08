@@ -169,13 +169,13 @@ class AbandonEnCoursErreur extends InvalidOperationError {
 
 class AbandonDéjàConfirméError extends InvalidOperationError {
   constructor() {
-    super(`Abandon déjà confirmé`);
+    super(`L'abandon a déjà été confirmé`);
   }
 }
 
 class ConfirmationAbandonDéjàDemandéError extends InvalidOperationError {
   constructor() {
-    super(`Confirmation de l'abandon déjà demandé`);
+    super(`La confirmation de l'abandon déjà demandé`);
   }
 }
 

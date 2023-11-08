@@ -201,3 +201,49 @@ Alors(
     });
   },
 );
+
+Alors(
+  `la confirmation d'abandon du projet lauréat {string} devrait être demandée`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const {
+        statut: actualStatut,
+        identifiantProjet: actualIdentifiantProjet,
+        demande,
+      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+        },
+      });
+
+      const {
+        dateDemandeConfirmation,
+        utilisateur,
+        réponseSignée: { content },
+      } = this.lauréatWorld.abandonWorld;
+
+      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.confirmationDemandée).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+
+      expect(demande.confirmation).to.be.not.undefined;
+
+      const actualRéponseSignée = demande.confirmation!.réponseSignée;
+
+      demande.confirmation!.demandéLe.estÉgaleÀ(dateDemandeConfirmation).should.be.true;
+      demande.confirmation!.demandéPar.estÉgaleÀ(utilisateur).should.be.true;
+
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'CONSULTER_DOCUMENT_PROJET',
+        data: {
+          documentKey: actualRéponseSignée.formatter(),
+        },
+      });
+
+      const actualContent = await convertReadableStreamToString(result.content);
+      actualContent.should.be.equal(content);
+    });
+  },
+);

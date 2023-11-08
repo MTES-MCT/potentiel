@@ -98,3 +98,82 @@ EtantDonné(
     });
   },
 );
+
+EtantDonné(
+  `une confirmation d'abandon demandé pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await mediator.send<Abandon.AbandonUseCase>({
+      type: 'DEMANDER_ABANDON_USECASE',
+      data: {
+        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        pièceJustificativeValue: {
+          format: `text/plain`,
+          content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
+        },
+        raisonValue: `La raison de l'abandon`,
+        recandidatureValue: false,
+        dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
+        utilisateurValue: 'porteur@test.test',
+      },
+    });
+
+    await mediator.send<Abandon.AbandonUseCase>({
+      type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+      data: {
+        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        réponseSignéeValue: {
+          format: `text/plain`,
+          content: convertStringToReadableStream(`Le contenu de la réponse signée`),
+        },
+        dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
+        utilisateurValue: 'validateur@test.test',
+      },
+    });
+  },
+);
+
+EtantDonné(
+  `un abandon confirmé pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await mediator.send<Abandon.AbandonUseCase>({
+      type: 'DEMANDER_ABANDON_USECASE',
+      data: {
+        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        pièceJustificativeValue: {
+          format: `text/plain`,
+          content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
+        },
+        raisonValue: `La raison de l'abandon`,
+        recandidatureValue: false,
+        dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
+        utilisateurValue: 'porteur@test.test',
+      },
+    });
+
+    await mediator.send<Abandon.AbandonUseCase>({
+      type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+      data: {
+        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        réponseSignéeValue: {
+          format: `text/plain`,
+          content: convertStringToReadableStream(`Le contenu de la réponse signée`),
+        },
+        dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
+        utilisateurValue: 'validateur@test.test',
+      },
+    });
+
+    await mediator.send<Abandon.AbandonUseCase>({
+      type: 'CONFIRMER_ABANDON_USECASE',
+      data: {
+        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        dateConfirmationValue: DateTime.convertirEnValueType(new Date()).formatter(),
+        utilisateurValue: 'porteur@test.test',
+      },
+    });
+  },
+);
