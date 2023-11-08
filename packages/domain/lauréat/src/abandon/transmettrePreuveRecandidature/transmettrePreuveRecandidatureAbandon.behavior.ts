@@ -21,6 +21,8 @@ export async function transmettrePreuveRecandidature(
   this: AbandonAggregate,
   { identifiantProjet, preuveRecandidature }: TransmettrePreuveRecandidatureOptions,
 ) {
+  this.statut.vérifierQueStatutPermetDeTransmettrePreuveRecandidature();
+
   const event: PreuveRecandidatureTransmiseEvent = {
     type: 'PreuveRecandidatureTransmise-V1',
     payload: {
