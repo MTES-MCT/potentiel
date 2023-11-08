@@ -8,7 +8,7 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
       Etant donné une demande d'abandon en cours pour le projet lauréat "Du boulodrome de Marseille"
       Quand le DGEC validateur demande une confirmation d'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
         | Le format de la réponse signée   | application/pdf                                                              |
-        | Le contenu de la réponse signée  | Le contenu de la la réponse signée expliquant de la demande de confirmation par la DGEC |
+        | Le contenu de la réponse signée  | Le contenu de la la réponse signée expliquant la demande de confirmation par la DGEC |
       Alors la confirmation d'abandon du projet lauréat "Du boulodrome de Marseille" devrait être demandée
 
     @select
@@ -37,4 +37,4 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
     @select
     Scénario: Impossible de demande une confirmation d'abandon d'un projet lauréat si aucun abandon n'a été demandé
       Quand le DGEC validateur demande une confirmation d'abandon pour le projet lauréat "Du boulodrome de Marseille"
-      Alors le DGEC validateur devrait être informé que "Abandon inconnu"
+      Alors le DGEC validateur devrait être informé que "Aucun abandon n'est en cours"

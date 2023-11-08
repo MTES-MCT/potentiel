@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, DateTime, IdentifiantUtilisateur } from '@potentiel-domain/common';
 
-import { AbandonInconnuErreur } from '../abandonInconnu.error';
+import { AucunAbandonEnCours } from '../aucunAbandonEnCours.error';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { AbandonProjection } from '../abandon.projection';
@@ -57,7 +57,7 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
     const result = await find<AbandonProjection>(`abandon|${identifiantProjet.formatter()}`);
 
     if (isNone(result)) {
-      throw new AbandonInconnuErreur();
+      throw new AucunAbandonEnCours();
     }
 
     const demande: ConsulterAbandonReadModel['demande'] = {

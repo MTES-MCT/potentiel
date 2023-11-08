@@ -179,7 +179,7 @@ Alors(
 );
 
 Alors(
-  `l'abandon du projet lauréat {string} est de nouveau demandé`,
+  `l'abandon du projet lauréat {string} devrait être de nouveau demandé`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

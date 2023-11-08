@@ -36,4 +36,4 @@ Fonctionnalité: Conformer l'abandon d'un projet lauréat
     @select
     Scénario: Impossible de confirmer l'abandon d'un projet lauréat si aucun abandon n'a été demandé
       Quand le porteur confirme l'abandon pour le projet lauréat "Du boulodrome de Marseille"
-      Alors le porteur devrait être informé que "Abandon inconnu"
+      Alors le porteur devrait être informé que "Aucun abandon n'est en cours"

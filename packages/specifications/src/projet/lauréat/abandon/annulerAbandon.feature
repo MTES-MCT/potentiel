@@ -18,4 +18,4 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
 @select
     Scénario: Impossible d'annuler l'abandon d'un projet lauréat si aucun abandon n'a été demandé
       Quand le porteur annule l'abandon pour le projet lauréat "Du boulodrome de Marseille"
-      Alors le porteur devrait être informé que "Abandon inconnu"
+      Alors le porteur devrait être informé que "Aucun abandon n'est en cours"

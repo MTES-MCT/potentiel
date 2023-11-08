@@ -20,4 +20,4 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 @select
     Scénario: Impossible de rejetter l'abandon d'un projet lauréat si aucun abandon n'a été demandé
       Quand le DGEC validateur rejette l'abandon pour le projet lauréat "Du boulodrome de Marseille"
-      Alors le DGEC validateur devrait être informé que "Abandon inconnu"
+      Alors le DGEC validateur devrait être informé que "Aucun abandon n'est en cours"
