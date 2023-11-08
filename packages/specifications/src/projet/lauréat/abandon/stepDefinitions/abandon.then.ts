@@ -85,7 +85,7 @@ Alors(
 );
 
 Alors(
-  `l'abandon du projet lauréat {string} devrait être rejetée`,
+  `l'abandon du projet lauréat {string} devrait être rejeté`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -116,6 +116,53 @@ Alors(
       const actualRéponseSignée = rejet!.réponseSignée;
 
       actualDateRejet.estÉgaleÀ(dateRejet).should.be.true;
+      actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'CONSULTER_DOCUMENT_PROJET',
+        data: {
+          documentKey: actualRéponseSignée.formatter(),
+        },
+      });
+
+      const actualContent = await convertReadableStreamToString(result.content);
+      actualContent.should.be.equal(content);
+    });
+  },
+);
+
+Alors(
+  `l'abandon du projet lauréat {string} devrait être accordé`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const {
+        statut: actualStatut,
+        identifiantProjet: actualIdentifiantProjet,
+        accord,
+      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+        },
+      });
+
+      const {
+        dateAccord,
+        utilisateur,
+        réponseSignée: { content },
+      } = this.lauréatWorld.abandonWorld;
+
+      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.accordé).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      expect(accord).to.be.not.undefined;
+
+      const actualDateRejet = accord!.accordéLe;
+      const actualUtilisateur = accord!.accordéPar;
+      const actualRéponseSignée = accord!.réponseSignée;
+
+      actualDateRejet.estÉgaleÀ(dateAccord).should.be.true;
       actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
 
       const result = await mediator.send<ConsulterDocumentProjetQuery>({

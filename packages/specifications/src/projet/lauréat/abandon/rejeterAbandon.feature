@@ -9,7 +9,7 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
       Quand le DGEC validateur rejette l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
         | Le format de la réponse signée   | application/pdf                                                              |
         | Le contenu de la réponse signée  | Le contenu de la la réponse signée expliquant la raison du rejet par la DGEC |
-      Alors l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être rejetée
+      Alors l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être rejeté
 
 @select
     Scénario: Impossible de rejetter l'abandon d'un projet lauréat si l'abandon a déjà été accordé

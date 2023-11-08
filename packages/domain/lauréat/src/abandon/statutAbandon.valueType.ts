@@ -157,7 +157,7 @@ class AbandonDéjàAccordéError extends InvalidOperationError {
 
 class AbandonDéjàRejetéError extends InvalidOperationError {
   constructor() {
-    super(`Abandon déjà rejeté`);
+    super(`L'abandon a déjà été rejeté`);
   }
 }
 

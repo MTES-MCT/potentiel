@@ -66,6 +66,19 @@ export class AbandonWord {
     this.#dateRejet = value;
   }
 
+  #dateAccord!: DateTime.ValueType;
+
+  get dateAccord(): DateTime.ValueType {
+    if (!this.#dateAccord) {
+      throw new Error('dateAccord not initialized');
+    }
+    return this.#dateAccord;
+  }
+
+  set dateAccord(value: DateTime.ValueType) {
+    this.#dateAccord = value;
+  }
+
   #raison!: string;
 
   get raison(): string {
