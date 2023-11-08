@@ -177,3 +177,27 @@ Alors(
     });
   },
 );
+
+Alors(
+  `l'abandon du projet lauréat {string} est de nouveau demandé`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const {
+        statut: actualStatut,
+        identifiantProjet: actualIdentifiantProjet,
+        rejet,
+      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+        },
+      });
+
+      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.demandé).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      expect(rejet).to.be.undefined;
+    });
+  },
+);

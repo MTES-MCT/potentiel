@@ -239,3 +239,28 @@ Quand(
     }
   },
 );
+
+Quand(
+  `le DGEC validateur annule le rejet de l'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const dateAnnulation = new Date();
+      const utilisateur = 'validateur@test.test';
+
+      this.lauréatWorld.abandonWorld.dateAnnulation = DateTime.convertirEnValueType(dateAnnulation);
+
+      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'ANNULER_REJET_ABANDON_USECASE',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          dateAnnulationValue: dateAnnulation.toISOString(),
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
