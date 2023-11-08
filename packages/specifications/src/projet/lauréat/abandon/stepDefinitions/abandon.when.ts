@@ -303,6 +303,41 @@ Quand(
 );
 
 Quand(
+  `le porteur transmet le projet éliminé {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
+  async function (
+    this: PotentielWorld,
+    preuveRecandidature: string,
+    projetAbandonné: string,
+    table: DataTable,
+  ) {
+    try {
+      const exemple = table.rowsHash();
+      const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
+
+      const { identitiantProjetValueType: identifiantProjetAbandonné } =
+        this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
+      const { identitiantProjetValueType: identifiantProjetPreuveRecandidature } =
+        this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
+      const utilisateur = 'validateur@test.test';
+
+      this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
+        data: {
+          dateNotificationValue: new Date(dateNotificationProjet).toISOString(),
+          identifiantProjetValue: identifiantProjetAbandonné.formatter(),
+          preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   `le DGEC validateur demande une confirmation d'abandon pour le projet lauréat {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     try {
@@ -361,6 +396,41 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateConfirmationValue: dateConfirmation.toISOString(),
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `le porteur transmet le projet lauréat {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
+  async function (
+    this: PotentielWorld,
+    preuveRecandidature: string,
+    projetAbandonné: string,
+    table: DataTable,
+  ) {
+    try {
+      const exemple = table.rowsHash();
+      const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
+
+      const { identitiantProjetValueType: identifiantProjetAbandonné } =
+        this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
+      const { identitiantProjetValueType: identifiantProjetPreuveRecandidature } =
+        this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
+      const utilisateur = 'validateur@test.test';
+
+      this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
+        data: {
+          dateNotificationValue: new Date(dateNotificationProjet).toISOString(),
+          identifiantProjetValue: identifiantProjetAbandonné.formatter(),
+          preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
           utilisateurValue: utilisateur,
         },
       });

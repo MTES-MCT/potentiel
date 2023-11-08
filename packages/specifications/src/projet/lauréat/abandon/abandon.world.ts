@@ -1,4 +1,4 @@
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export class AbandonWord {
@@ -130,6 +130,20 @@ export class AbandonWord {
 
   set recandidature(value: boolean) {
     this.#recandidature = value;
+  }
+
+  #preuveRecandidature!: IdentifiantProjet.ValueType;
+
+  get preuveRecandidature(): IdentifiantProjet.ValueType {
+    if (!this.#preuveRecandidature) {
+      throw new Error('preuveRecandidature not initialized');
+    }
+
+    return this.#preuveRecandidature;
+  }
+
+  set preuveRecandidature(value: IdentifiantProjet.ValueType) {
+    this.#preuveRecandidature = value;
   }
 
   #utilisateur!: IdentifiantUtilisateur.ValueType;

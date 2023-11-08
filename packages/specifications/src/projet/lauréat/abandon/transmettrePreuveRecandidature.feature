@@ -3,23 +3,21 @@ Fonctionnalité: Transmettre une preuve de recandidature
     Contexte:
       Etant donné le projet lauréat "Du boulodrome de Marseille"
 
-    @NotImplemented
+    @select
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet éliminé
       Etant donné le projet éliminé "MIOS"
       Et un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
-      Quand le porteur transmet comme preuve de recandidature le projet "MIOS" avec :
+      Quand le porteur transmet le projet éliminé "MIOS" comme preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" avec :
       | La date de notification du projet | 01/12/2024 |
-      Alors la preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" devrait être le projet "MIOS"
-      Et le porteur devrait être informé que "La preuve de recandidature a bien été prise en compte"
+      Alors le projet "MIOS" devrait être la preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille"
 
-    @NotImplemented
+    @select
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet lauréat
       Etant donné le projet lauréat "Boulodrome Sainte Livrade"
       Et un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
-      Quand le porteur transmet comme preuve de recandidature le projet "Boulodrome Sainte Livrade" avec :
+      Quand le porteur transmet le projet lauréat "Boulodrome Sainte Livrade" comme preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" avec :
       | La date de notification du projet | 01/12/2024 |
-      Alors la preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" devrait être le projet "Boulodrome Sainte Livrade"
-      Et le porteur devrait être informé que "La preuve de recandidature a bien été prise en compte"     
+      Alors le projet "Boulodrome Sainte Livrade" devrait être la preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille"
 
     @NotImplemented
     Scénario: Impossibble de transmettre une preuve de recandidature pour un abandon rejeté

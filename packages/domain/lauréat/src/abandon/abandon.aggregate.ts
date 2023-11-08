@@ -27,6 +27,11 @@ import {
 } from './confirmer/confirmerAbandon.behavior';
 import { AucunAbandonEnCours } from './aucunAbandonEnCours.error';
 import { annulerRejet } from './annuler/annulerRejetAbandon.behavior';
+import {
+  transmettrePreuveRecandidature,
+  PreuveRecandidatureTransmiseEvent,
+  applyPreuveRecandidatureTransmise,
+} from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.behavior';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 export type AbandonEvent =
@@ -35,7 +40,8 @@ export type AbandonEvent =
   | AbandonRejetéEvent
   | AbandonAccordéEvent
   | ConfirmationAbandonDemandéeEvent
-  | AbandonConfirméEvent;
+  | AbandonConfirméEvent
+  | PreuveRecandidatureTransmiseEvent;
 
 export type AbandonAggregate = Aggregate<AbandonEvent> & {
   statut: StatutAbandon.ValueType;
@@ -43,6 +49,7 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
     raison: string;
     pièceJustificative?: DocumentProjet.ValueType;
     recandidature: boolean;
+    preuveRecandidature?: IdentifiantProjet.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: IdentifiantUtilisateur.ValueType;
     confirmation?: {
@@ -73,6 +80,7 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   readonly demander: typeof demander;
   readonly demanderConfirmation: typeof demanderConfirmation;
   readonly rejeter: typeof rejeter;
+  readonly transmettrePreuveRecandidature: typeof transmettrePreuveRecandidature;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -94,6 +102,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   demander,
   demanderConfirmation,
   rejeter,
+  transmettrePreuveRecandidature,
 });
 
 function apply(this: AbandonAggregate, event: AbandonEvent) {
@@ -116,6 +125,8 @@ function apply(this: AbandonAggregate, event: AbandonEvent) {
     case 'ConfirmationAbandonDemandée-V1':
       applyConfirmationAbandonDemandée.bind(this)(event);
       break;
+    case 'PreuveRecandidatureTransmise-V1':
+      applyPreuveRecandidatureTransmise.bind(this)(event);
   }
 }
 
