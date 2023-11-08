@@ -85,6 +85,17 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new AbandonDéjàAccordéError();
         }
       } else if (nouveauStatut.estConfirmé()) {
+        if (this.estAccordé()) {
+          throw new AbandonDéjàAccordéError();
+        }
+
+        if (this.estRejeté()) {
+          throw new AbandonDéjàRejetéError();
+        }
+
+        if (this.estConfirmé()) {
+          throw new AbandonDéjàConfirméError();
+        }
         if (!this.estEnAttenteConfirmation()) {
           throw new AucuneDemandeConfirmationAbandonError();
         }
@@ -169,13 +180,13 @@ class AbandonEnCoursErreur extends InvalidOperationError {
 
 class AbandonDéjàConfirméError extends InvalidOperationError {
   constructor() {
-    super(`Abandon déjà confirmé`);
+    super(`L'abandon a déjà été confirmé`);
   }
 }
 
 class ConfirmationAbandonDéjàDemandéError extends InvalidOperationError {
   constructor() {
-    super(`Confirmation de l'abandon déjà demandé`);
+    super(`La confirmation de l'abandon a déjà été demandée`);
   }
 }
 

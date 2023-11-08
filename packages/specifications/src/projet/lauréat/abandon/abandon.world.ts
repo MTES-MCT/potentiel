@@ -40,6 +40,32 @@ export class AbandonWord {
     this.#dateDemande = value;
   }
 
+  #dateDemandeConfirmation!: DateTime.ValueType;
+
+  get dateDemandeConfirmation(): DateTime.ValueType {
+    if (!this.#dateDemandeConfirmation) {
+      throw new Error('dateDemandeConfirmation not initialized');
+    }
+    return this.#dateDemandeConfirmation;
+  }
+
+  set dateDemandeConfirmation(value: DateTime.ValueType) {
+    this.#dateDemandeConfirmation = value;
+  }
+
+  #dateConfirmation!: DateTime.ValueType;
+
+  get dateConfirmation(): DateTime.ValueType {
+    if (!this.#dateConfirmation) {
+      throw new Error('dateConfirmation not initialized');
+    }
+    return this.#dateConfirmation;
+  }
+
+  set dateConfirmation(value: DateTime.ValueType) {
+    this.#dateConfirmation = value;
+  }
+
   #dateAnnulation!: DateTime.ValueType;
 
   get dateAnnulation(): DateTime.ValueType {

@@ -25,7 +25,7 @@ import {
   applyAbandonConfirmé,
   confirmer,
 } from './confirmer/confirmerAbandon.behavior';
-import { AbandonInconnuErreur } from './abandonInconnu.error';
+import { AucunAbandonEnCours } from './aucunAbandonEnCours.error';
 import { annulerRejet } from './annuler/annulerRejetAbandon.behavior';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -127,7 +127,7 @@ export const loadAbandonFactory =
       getDefaultAggregate: getDefaultAbandonAggregate,
       onNone: throwOnNone
         ? () => {
-            throw new AbandonInconnuErreur();
+            throw new AucunAbandonEnCours();
           }
         : undefined,
     });
