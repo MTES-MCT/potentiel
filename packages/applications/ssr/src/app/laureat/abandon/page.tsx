@@ -1,11 +1,11 @@
 import { Tile } from '@/components/organisms/Tile';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { displayDate } from '@/utils/displayDate';
-import { KeyIcon } from '@/components/atoms/icons';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageTemplate } from '@/components/templates/PageTemplate';
 import { mediator } from 'mediateur';
+import { FC } from 'react';
 
 type PageProps = {
   params?: Record<string, string>;
@@ -34,75 +34,91 @@ export default async function ListeAbandonsPage({ searchParams }: PageProps) {
         abandons.items.length
       })`}
     >
-      <ul>
-        {abandons.items.length &&
-          abandons.items.map(
-            ({
-              identifiantProjet,
-              nomProjet,
-              statut,
-              demandeDemandéLe,
-              accordAccordéLe,
-              rejetRejetéLe,
-              confirmationDemandéeLe,
-              confirmationConfirméLe,
-            }) => (
-              <li className="mb-6" key={`abandon-projet-${identifiantProjet}`}>
-                <Tile className="flex flex-col md:flex-row md:justify-between">
-                  <div>
-                    <h2>
-                      Abandon du projet <span className="font-bold">{nomProjet}</span>
-                      <Badge
-                        noIcon
-                        severity={
-                          statut === 'demandé'
-                            ? 'new'
-                            : statut === 'accordé'
-                            ? 'success'
-                            : statut === 'rejeté'
-                            ? 'warning'
-                            : 'info'
-                        }
-                        small
-                        className="sm:ml-3"
-                      >
-                        {statut}
-                      </Badge>
-                    </h2>
-                    <div className="flex flex-row italic text-sm mt-2 sm:mt-0">
-                      <div className="self-center">
-                        <KeyIcon aria-hidden />
-                      </div>
-                      <div>{identifiantProjet.replace(/#/g, ' - ')}</div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-between mt-2 sm:mt-0">
-                    <p className="italic text-sm">
-                      dernière mise à jour le{' '}
-                      {displayDate(
-                        new Date(
-                          rejetRejetéLe ??
-                            accordAccordéLe ??
-                            confirmationConfirméLe ??
-                            confirmationDemandéeLe ??
-                            demandeDemandéLe,
-                        ),
-                      )}
-                    </p>
-                    <a
-                      href={`/demande/${encodeURIComponent(identifiantProjet)}/details.html`}
-                      className="self-end"
-                      aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${nomProjet}`}
-                    >
-                      voir le détail
-                    </a>
-                  </div>
-                </Tile>
-              </li>
-            ),
-          )}
-        {!abandons.items.length && <div>Aucune demande à afficher</div>}
-      </ul>
+      {abandons.items.length ? (
+        <ul>
+          {abandons.items.map((abandon) => (
+            <li className="mb-6" key={`abandon-projet-${abandon.identifiantProjet.formatter()}`}>
+              <Tile className="flex flex-col md:flex-row md:justify-between">
+                <AbandonListItem abandon={abandon} />
+              </Tile>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div>Aucune demande à afficher</div>
+      )}
     </PageTemplate>
   );
 }
+
+type AbandonListItemProps = {
+  abandon: Abandon.ListerAbandonReadModel['items'][0];
+};
+
+const AbandonListItem: FC<AbandonListItemProps> = ({
+  abandon: { identifiantProjet, nomProjet, statut, misÀJourLe, recandidature },
+}) => (
+  <>
+    <div>
+      <div className="flex flex-col md:flex-row gap-3">
+        <h2>
+          Abandon du projet <span className="font-bold">{nomProjet}</span>
+        </h2>
+        <div className="flex flex-col md:flex-row gap-2 py-2">
+          <BadgeStatut statut={statut} />
+          {recandidature && (
+            <Badge noIcon small severity="info">
+              avec recandidature
+            </Badge>
+          )}
+        </div>
+      </div>
+      <div className="flex flex-col md:flex-row gap-2 italic text-sm mt-2 sm:mt-0">
+        <div>
+          Appel d'offre : {identifiantProjet.appelOffre}
+          <span className="hidden md:inline-block">,</span>
+        </div>
+        <div>Période : {identifiantProjet.période}</div>
+        {identifiantProjet.famille && (
+          <div>
+            <span className="hidden md:inline-block">, Famille </span>
+            {identifiantProjet.famille}
+          </div>
+        )}
+      </div>
+    </div>
+    <div className="flex flex-col justify-between mt-4 md:mt-2">
+      <p className="italic text-sm">dernière mise à jour le {displayDate(misÀJourLe.date)}</p>
+      <a
+        href={`/demande/${encodeURIComponent(identifiantProjet.formatter())}/details.html`}
+        className="self-end mt-2"
+        aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${nomProjet}`}
+      >
+        voir le détail
+      </a>
+    </div>
+  </>
+);
+
+type BadgeStatutProps = {
+  statut: string;
+};
+
+const BadgeStatut: FC<BadgeStatutProps> = ({ statut }) => (
+  <Badge
+    noIcon
+    severity={
+      statut === 'demandé'
+        ? 'new'
+        : statut === 'accordé'
+        ? 'success'
+        : statut === 'rejeté'
+        ? 'warning'
+        : 'info'
+    }
+    small
+    className="sm:ml-3"
+  >
+    {statut}
+  </Badge>
+);

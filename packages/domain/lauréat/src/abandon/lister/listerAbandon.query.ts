@@ -1,28 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 type AbandonListItem = {
-  identifiantProjet: IdentifiantProjet.RawType;
+  identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: string;
-  demandeRaison: string;
-  demandePièceJustificativeFormat?: string;
-  demandeRecandidature: boolean;
-  demandeDemandéPar: string;
-  demandeDemandéLe: string;
-  accordRéponseSignéeFormat?: string;
-  accordAccordéPar?: string;
-  accordAccordéLe?: string;
-  rejetRéponseSignéeFormat?: string;
-  rejetRejetéPar?: string;
-  rejetRejetéLe?: string;
-  confirmationDemandéePar?: string;
-  confirmationDemandéeLe?: string;
-  confirmationDemandéeRéponseSignéeFormat?: string;
-  confirmationConfirméLe?: string;
-  confirmationConfirméPar?: string;
+  recandidature: boolean;
+  misÀJourLe: DateTime.ValueType;
 };
 
 export type ListerAbandonReadModel = {
@@ -60,7 +46,7 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
             }
           : undefined,
       orderBy: {
-        property: 'demandeDemandéLe',
+        property: 'misÀJourLe',
         ascending: false,
       },
     });
@@ -77,8 +63,8 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
 const mapToReadModel = (projection: AbandonProjection): AbandonListItem => {
   return {
     ...projection,
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(
-      projection.identifiantProjet,
-    ).formatter(),
+    recandidature: projection.demandeRecandidature,
+    misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
   };
 };

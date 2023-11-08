@@ -7,6 +7,7 @@ export type AbandonProjection = Projection<
     nomProjet: string;
 
     statut: string;
+    misÀJourLe: string;
 
     demandeRaison: string;
     demandePièceJustificativeFormat?: string;
