@@ -8,7 +8,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 EtantDonné(
-  /un abandon en cours(.*)pour le projet lauréat "(.*)"/,
+  /une demande d'abandon en cours(.*)pour le projet lauréat "(.*)"/,
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
