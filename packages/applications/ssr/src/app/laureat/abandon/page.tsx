@@ -56,7 +56,13 @@ type AbandonListItemProps = {
 };
 
 const AbandonListItem: FC<AbandonListItemProps> = ({
-  abandon: { identifiantProjet, nomProjet, statut, misÀJourLe, recandidature },
+  abandon: {
+    identifiantProjet,
+    nomProjet,
+    statut: { statut },
+    misÀJourLe,
+    recandidature,
+  },
 }) => (
   <>
     <div>
@@ -101,7 +107,7 @@ const AbandonListItem: FC<AbandonListItemProps> = ({
 );
 
 type BadgeStatutProps = {
-  statut: string;
+  statut: Abandon.StatutAbandon.RawType;
 };
 
 const BadgeStatut: FC<BadgeStatutProps> = ({ statut }) => (

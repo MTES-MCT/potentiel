@@ -2,17 +2,18 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { StatutAbandon } from '..';
 
-type AbandonListItem = {
+type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  statut: string;
+  statut: StatutAbandon.ValueType;
   recandidature: boolean;
   misÀJourLe: DateTime.ValueType;
 };
 
 export type ListerAbandonReadModel = {
-  items: ReadonlyArray<AbandonListItem>;
+  items: ReadonlyArray<AbandonListItemReadModel>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
@@ -60,9 +61,10 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
   mediator.register('LISTER_ABANDONS_QUERY', handler);
 };
 
-const mapToReadModel = (projection: AbandonProjection): AbandonListItem => {
+const mapToReadModel = (projection: AbandonProjection): AbandonListItemReadModel => {
   return {
     ...projection,
+    statut: StatutAbandon.convertirEnValueType(projection.statut),
     recandidature: projection.demandeRecandidature,
     misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),

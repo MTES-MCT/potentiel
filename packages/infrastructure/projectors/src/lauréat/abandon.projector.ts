@@ -20,7 +20,9 @@ export type ExecuteAbandonProjector = Message<
 >;
 
 export const registerAbandonProjector = () => {
-  const handler: MessageHandler<ExecuteAbandonProjector> = async ({ type, payload }) => {
+  const handler: MessageHandler<ExecuteAbandonProjector> = async (event) => {
+    const { type, payload } = event;
+
     if (type === 'RebuildTriggered') {
       await removeProjection<AbandonProjection>(`abandon|${payload.id}`);
     } else {
@@ -47,7 +49,7 @@ export const registerAbandonProjector = () => {
           const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
 
           if (isNone(projet)) {
-            getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet });
+            getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
           }
 
           await upsertProjection<AbandonProjection>(`abandon|${identifiantProjet}`, {
