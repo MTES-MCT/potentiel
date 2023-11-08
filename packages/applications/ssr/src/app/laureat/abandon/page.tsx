@@ -1,5 +1,6 @@
 import { Tile } from '@/components/organisms/Tile';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import { Pagination } from '@codegouvfr/react-dsfr/Pagination';
 import { displayDate } from '@/utils/displayDate';
 
 import { Abandon } from '@potentiel-domain/laureat';
@@ -47,6 +48,15 @@ export default async function ListeAbandonsPage({ searchParams }: PageProps) {
       ) : (
         <div>Aucune demande à afficher</div>
       )}
+      <Pagination
+        count={Math.ceil(abandons.totalItems / abandons.itemsPerPage)}
+        defaultPage={searchParams?.page ? parseInt(searchParams.page) : 1}
+        getPageLinkProps={(pageNumber) => ({
+          href: `/laureat/abandon?recandidature=${
+            recandidature ? 'true' : 'false'
+          }&page=${pageNumber}`,
+        })}
+      />
     </PageTemplate>
   );
 }
