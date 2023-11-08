@@ -6,7 +6,8 @@ import { StartDsfr } from './StartDsfr';
 import { defaultColorScheme } from './defaultColorScheme';
 import Link from 'next/link';
 import Providers from './Providers';
-import { Layout } from '@/components/templates/Layout';
+import { Header } from '@/components/organisms/Header';
+import { Footer } from '@/components/organisms/Footer';
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"
@@ -18,7 +19,11 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
       </head>
       <body className="flex flex-col min-h-screen">
         <Providers>
-          <Layout>{children}</Layout>
+          <Header />
+          <main id="contenu" className="flex-1">
+            {children}
+          </main>
+          <Footer />
         </Providers>
       </body>
     </html>

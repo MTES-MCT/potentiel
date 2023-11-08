@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: { webpackBuildWorker: true },
   webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.woff2$/,

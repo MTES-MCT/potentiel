@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^0.78.2",
+    "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/laureat": "*",
+    "mediateur": "^0.1.0",
     "next": "^14.0.1",
     "react": "^18",
     "react-dom": "^18"

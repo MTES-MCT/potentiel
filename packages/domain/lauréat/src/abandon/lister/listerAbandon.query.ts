@@ -1,9 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { StatutAbandon } from '..';
+
+type AbandonListItemReadModel = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  nomProjet: string;
+  statut: StatutAbandon.ValueType;
+  recandidature: boolean;
+  misÀJourLe: DateTime.ValueType;
+};
 
 export type ListerAbandonReadModel = {
-  items: ReadonlyArray<any>; // need type here
+  items: ReadonlyArray<AbandonListItemReadModel>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
@@ -27,20 +37,36 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
     recandidature,
     pagination: { page, itemsPerPage },
   }) => {
-    return await list<AbandonProjection>({
+    const result = await list<AbandonProjection>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
-      where: recandidature
-        ? {
-            demandeRecandidature: recandidature,
-          }
-        : undefined,
+      where:
+        recandidature !== undefined
+          ? {
+              demandeRecandidature: recandidature,
+            }
+          : undefined,
       orderBy: {
-        property: 'demandeDemandéLe',
+        property: 'misÀJourLe',
         ascending: false,
       },
     });
+
+    return {
+      ...result,
+      items: result.items.map((item) => mapToReadModel(item)),
+    };
   };
 
   mediator.register('LISTER_ABANDONS_QUERY', handler);
+};
+
+const mapToReadModel = (projection: AbandonProjection): AbandonListItemReadModel => {
+  return {
+    ...projection,
+    statut: StatutAbandon.convertirEnValueType(projection.statut),
+    recandidature: projection.demandeRecandidature,
+    misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
+  };
 };

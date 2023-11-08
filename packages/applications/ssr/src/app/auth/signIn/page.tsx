@@ -1,5 +1,6 @@
 'use client';
 
+import { PageTemplate } from '@/components/templates/PageTemplate';
 import { signIn, useSession } from 'next-auth/react';
 import { redirect, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -26,9 +27,11 @@ export default function SignIn() {
   }, [status, params]);
 
   return (
-    <div className="flex m-auto">
-      <div className="font-bold text-2xl">Authentification en cours, merci de patienter ...</div>
-    </div>
+    <PageTemplate>
+      <div className="flex m-auto">
+        <div className="font-bold text-2xl">Authentification en cours, merci de patienter ...</div>
+      </div>
+    </PageTemplate>
   );
 }
 
