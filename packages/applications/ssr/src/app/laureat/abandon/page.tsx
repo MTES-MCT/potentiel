@@ -81,7 +81,7 @@ const AbandonListItem: FC<AbandonListItemProps> = ({
       </div>
       <div className="flex flex-col md:flex-row gap-2 italic text-sm mt-2 sm:mt-0">
         <div>
-          Appel d'offre : {identifiantProjet.appelOffre}
+          Appel d'offres : {identifiantProjet.appelOffre}
           <span className="hidden md:inline-block">,</span>
         </div>
         <div>Période : {identifiantProjet.période}</div>
