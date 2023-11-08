@@ -186,7 +186,7 @@ class AbandonDéjàConfirméError extends InvalidOperationError {
 
 class ConfirmationAbandonDéjàDemandéError extends InvalidOperationError {
   constructor() {
-    super(`La confirmation de l'abandon déjà demandé`);
+    super(`La confirmation de l'abandon a déjà été demandée`);
   }
 }
 
