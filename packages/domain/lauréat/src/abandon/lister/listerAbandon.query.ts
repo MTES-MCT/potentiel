@@ -23,6 +23,7 @@ export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
     recandidature?: boolean;
+    statut?: StatutAbandon.RawType;
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
@@ -35,17 +36,18 @@ export type ListerAbandonDependencies = {
 export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
+    statut,
     pagination: { page, itemsPerPage },
   }) => {
+    const whereOptions = {
+      ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
+      ...(statut && { statut }),
+    };
+
     const result = await list<AbandonProjection>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
-      where:
-        recandidature !== undefined
-          ? {
-              demandeRecandidature: recandidature,
-            }
-          : undefined,
+      where: whereOptions,
       orderBy: {
         property: 'misÀJourLe',
         ascending: false,
