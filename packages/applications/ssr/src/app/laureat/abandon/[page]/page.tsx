@@ -6,13 +6,16 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { PageTemplate } from '@/components/templates/PageTemplate';
 import { mediator } from 'mediateur';
 import { FC } from 'react';
+import { Pagination } from '@/components/organisms/Pagination';
 
 type PageProps = {
   params?: Record<string, string>;
   searchParams?: Record<string, string>;
 };
 
-export default async function ListeAbandonsPage({ searchParams }: PageProps) {
+export default async function ListeAbandonsPage({ params, searchParams }: PageProps) {
+  const page = params?.page ? parseInt(params.page) : 1;
+
   const recandidature =
     searchParams?.recandidature === 'true'
       ? true
@@ -23,16 +26,14 @@ export default async function ListeAbandonsPage({ searchParams }: PageProps) {
   const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
     type: 'LISTER_ABANDONS_QUERY',
     data: {
-      pagination: { page: 1, itemsPerPage: 10 },
+      pagination: { page, itemsPerPage: 10 },
       recandidature,
     },
   });
 
   return (
     <PageTemplate
-      heading={`Demandes d'abandon${recandidature ? ' avec recandidature' : ''} (${
-        abandons.items.length
-      })`}
+      heading={`Abandon ${recandidature ? 'avec recandidature' : ''} (${abandons.items.length})`}
     >
       {abandons.items.length ? (
         <ul>
@@ -47,6 +48,14 @@ export default async function ListeAbandonsPage({ searchParams }: PageProps) {
       ) : (
         <div>Aucune demande à afficher</div>
       )}
+      <Pagination
+        getPageUrl={(pageNumber) => {
+          const urlSearchParams = new URLSearchParams(searchParams).toString();
+          return `/laureat/abandon/${pageNumber}${urlSearchParams ? `?${searchParams}` : ''}`;
+        }}
+        currentPage={page}
+        pageCount={Math.ceil(abandons.totalItems / abandons.itemsPerPage)}
+      />
     </PageTemplate>
   );
 }
