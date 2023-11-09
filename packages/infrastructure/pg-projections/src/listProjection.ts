@@ -20,7 +20,7 @@ export const listProjection = async <TProjection extends Projection>({
         Object.keys(where)
           .map((_, index) => `and value ->> %L = $${index + 2}`)
           .join(' '),
-        Object.keys(where),
+        ...Object.keys(where),
       )
     : '';
 
