@@ -16,12 +16,6 @@
     },
     {
       "path": "../../domain/core"
-    },
-    {
-      "path": "../../domain/document"
-    },
-    {
-      "path": "../../domain/utilisateur"
     }
   ]
 }

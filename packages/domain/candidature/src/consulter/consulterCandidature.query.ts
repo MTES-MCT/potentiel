@@ -3,7 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option, isNone } from '@potentiel/monads';
 
 import { CandidatureProjection } from '../candidature.projection';
-import { DateTime, IdentifiantUtilisateur, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { CandidatureInconnueErreur } from '../candidatureInconnue.error';
 
 export type ConsulterCandidatureReadModel = {

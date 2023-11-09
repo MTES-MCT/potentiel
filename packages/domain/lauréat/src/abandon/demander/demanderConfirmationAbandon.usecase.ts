@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbandon.command';
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 

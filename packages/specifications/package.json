@@ -13,6 +13,7 @@
     "@potentiel/web": "*",
     "@potentiel-application/bootstrap": "*",
     "@potentiel-domain/laureat": "*",
+    "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/core": "^0.0.0",
     "@potentiel/domain-usecases": "^0.0.0",
     "@potentiel/domain-views": "^0.0.0",

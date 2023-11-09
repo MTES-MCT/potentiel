@@ -1,10 +1,13 @@
-import { getUser } from '@/utils/getUser';
+import { getAccessToken } from '@/utils/getAccessToken';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 export async function UserBasedRoleNavigation() {
-  const user = await getUser();
+  const accessToken = await getAccessToken();
 
-  const navigationItems = user?.role ? getNavigationItemsBasedOnRole(user.role) : [];
+  const navigationItems = accessToken
+    ? getNavigationItemsBasedOnRole(Utilisateur.convertirEnValueType(accessToken).role.nom)
+    : [];
 
   return (
     <>
