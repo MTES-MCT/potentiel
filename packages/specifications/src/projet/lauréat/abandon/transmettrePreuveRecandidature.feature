@@ -48,7 +48,7 @@ Fonctionnalité: Transmettre une preuve de recandidature
       | La date de notification du projet | 01/12/2024 |
       Alors le porteur devrait être informé que "Il est impossible de transmettre une preuve de recandidature pour un abandon non accordé"
  
-   @select
+  @select
     Scénario: Impossible de transmettre une preuve de recandidature pour une demande d'abandon à confirmer
       Etant donné le projet lauréat "Boulodrome Sainte Livrade"
       Et une confirmation d'abandon demandée avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
@@ -57,16 +57,18 @@ Fonctionnalité: Transmettre une preuve de recandidature
       Alors le porteur devrait être informé que "Il est impossible de transmettre une preuve de recandidature pour un abandon non accordé"         
 
     
-    @NotImplemented
+  @select
     Scénario: Impossible de transmettre comme preuve de recandidature un projet dont la date de notification est antérieure au 15/12/2023
-      Etant donné un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"                                                                               |
-      Quand le porteur transmet comme preuve de recandidature le projet "MIOS" avec :
+      Etant donné le projet lauréat "Boulodrome Sainte Livrade"
+      Et un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"                                                                               
+      Quand le porteur transmet le projet lauréat "Boulodrome Sainte Livrade" comme preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" avec :
       | La date de notification du projet | 14/12/2023 |
-      Alors le porteur devrait être informé que "Le projet faisant preuve de recandidature ne doit pas avoir comme doit pas avoir été notifié avant le 15/12/2023"
+      Alors le porteur devrait être informé que "Il est impossible de transmettre comme preuve de recandidature un projet ayant été notifié avant le 15/12/2023"
 
-    @NotImplemented
-    Scénario: Impossible de transmettre comme preuve de recandidature un projet dont la date de notification est supérieure au 31/03/2024
-      Etant donné un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
-      Quand le porteur transmet comme preuve de recandidature le projet "MIOS" avec :
+  @select
+    Scénario: Impossible de transmettre comme preuve de recandidature un projet dont la date de notification est ultérieure au 31/03/2024
+      Etant donné le projet lauréat "Boulodrome Sainte Livrade"
+      Et un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
+      Quand le porteur transmet le projet lauréat "Boulodrome Sainte Livrade" comme preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" avec :
       | La date de notification du projet | 02/04/2024 |
-      Alors le porteur devrait être informé que "Le projet faisant preuve de recandidature ne doit pas avoir comme doit pas avoir été notifié après le 31/03/2024"
+      Alors le porteur devrait être informé que "Il est impossible de transmettre comme preuve de recandidature un projet ayant été notifié après le 31/03/2024"

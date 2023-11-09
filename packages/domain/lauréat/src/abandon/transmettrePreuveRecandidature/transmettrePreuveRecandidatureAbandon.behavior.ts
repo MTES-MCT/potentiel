@@ -24,6 +24,22 @@ class TranmissionPreuveRecandidatureImpossibleError extends InvalidOperationErro
   }
 }
 
+class ProjetNotifiéAvantLaDateMinimumError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Il est impossible de transmettre comme preuve de recandidature un projet ayant été notifié avant le 15/12/2023`,
+    );
+  }
+}
+
+class ProjetNotifiéAprèsLaDateMaximumError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Il est impossible de transmettre comme preuve de recandidature un projet ayant été notifié après le 31/03/2024`,
+    );
+  }
+}
+
 export type TransmettrePreuveRecandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   preuveRecandidature: IdentifiantProjet.ValueType;
@@ -33,7 +49,11 @@ export type TransmettrePreuveRecandidatureOptions = {
 
 export async function transmettrePreuveRecandidature(
   this: AbandonAggregate,
-  { identifiantProjet, preuveRecandidature }: TransmettrePreuveRecandidatureOptions,
+  {
+    identifiantProjet,
+    preuveRecandidature,
+    dateNotification,
+  }: TransmettrePreuveRecandidatureOptions,
 ) {
   if (!this.demande.recandidature) {
     throw new AbandonPasDansUnContexteDeRecandidatureError();
@@ -41,6 +61,14 @@ export async function transmettrePreuveRecandidature(
 
   if (!this.statut.estAccordé()) {
     throw new TranmissionPreuveRecandidatureImpossibleError();
+  }
+
+  if (dateNotification.estAntérieurÀ(new Date('15/12/2023'))) {
+    throw new ProjetNotifiéAvantLaDateMinimumError();
+  }
+
+  if (dateNotification.estUltérieureÀ(new Date('31/03/2024'))) {
+    throw new ProjetNotifiéAprèsLaDateMaximumError();
   }
 
   const event: PreuveRecandidatureTransmiseEvent = {

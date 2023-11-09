@@ -1,4 +1,4 @@
-import { ReadonlyValueType , InvalidOperationError } from '@potentiel-domain/core';
+import { ReadonlyValueType, InvalidOperationError } from '@potentiel-domain/core';
 
 export type RawType = `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`;
 
@@ -6,6 +6,7 @@ export type ValueType = ReadonlyValueType<{
   date: Date;
   estDansLeFutur(): boolean;
   estAntérieurÀ(dateTime: Date | ValueType): boolean;
+  estUltérieureÀ(dateTime: Date | ValueType): boolean;
   formatter(): RawType;
 }>;
 
@@ -26,6 +27,9 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     },
     estAntérieurÀ(dateTime: Date | ValueType) {
       return this.date.getTime() < (dateTime instanceof Date ? dateTime : dateTime.date).getTime();
+    },
+    estUltérieureÀ(dateTime: Date | ValueType) {
+      return this.date.getTime() > (dateTime instanceof Date ? dateTime : dateTime.date).getTime();
     },
     formatter() {
       return this.date.toISOString() as RawType;
