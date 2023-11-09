@@ -3,6 +3,7 @@ import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { StatutAbandon } from '..';
+import { RawType } from '../statutAbandon.valueType';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -23,6 +24,7 @@ export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
     recandidature?: boolean;
+    statut?: RawType;
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
@@ -35,15 +37,17 @@ export type ListerAbandonDependencies = {
 export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
+    statut,
     pagination: { page, itemsPerPage },
   }) => {
     const result = await list<AbandonProjection>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
       where:
-        recandidature !== undefined
+        statut || recandidature !== undefined
           ? {
-              demandeRecandidature: recandidature,
+              ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
+              ...(statut && { statut }),
             }
           : undefined,
       orderBy: {
