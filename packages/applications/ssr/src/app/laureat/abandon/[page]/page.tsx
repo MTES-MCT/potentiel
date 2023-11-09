@@ -24,11 +24,16 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
       ? false
       : undefined;
 
+  const statut = searchParams?.statut || undefined;
+
   const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
     type: 'LISTER_ABANDONS_QUERY',
     data: {
       pagination: { page, itemsPerPage: 10 },
       recandidature,
+      ...(statut !== undefined && {
+        statut: Abandon.StatutAbandon.convertirEnValueType(statut).statut,
+      }),
     },
   });
 
