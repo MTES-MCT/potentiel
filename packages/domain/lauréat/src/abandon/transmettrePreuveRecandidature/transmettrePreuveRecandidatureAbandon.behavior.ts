@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { AbandonAggregate } from '../abandon.aggregate';
 
 export type PreuveRecandidatureTransmiseEvent = DomainEvent<
@@ -9,6 +9,20 @@ export type PreuveRecandidatureTransmiseEvent = DomainEvent<
     preuveRecandidature: IdentifiantProjet.RawType;
   }
 >;
+
+class AbandonPasDansUnContexteDeRecandidatureError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de transmettre une preuve pour un abandon sans recandidature`);
+  }
+}
+
+class TranmissionPreuveRecandidatureImpossibleError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Il est impossible de transmettre une preuve de recandidature pour un abandon non accordé`,
+    );
+  }
+}
 
 export type TransmettrePreuveRecandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -21,7 +35,13 @@ export async function transmettrePreuveRecandidature(
   this: AbandonAggregate,
   { identifiantProjet, preuveRecandidature }: TransmettrePreuveRecandidatureOptions,
 ) {
-  this.statut.vérifierQueStatutPermetDeTransmettrePreuveRecandidature();
+  if (!this.demande.recandidature) {
+    throw new AbandonPasDansUnContexteDeRecandidatureError();
+  }
+
+  if (!this.statut.estAccordé()) {
+    throw new TranmissionPreuveRecandidatureImpossibleError();
+  }
 
   const event: PreuveRecandidatureTransmiseEvent = {
     type: 'PreuveRecandidatureTransmise-V1',

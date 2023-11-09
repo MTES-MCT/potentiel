@@ -32,7 +32,6 @@ export type ValueType = ReadonlyValueType<{
   estDemandé: () => boolean;
   estConfirmationDemandée: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
-  vérifierQueStatutPermetDeTransmettrePreuveRecandidature: () => void;
   libellé: () => string;
 }>;
 
@@ -134,11 +133,6 @@ export const convertirEnValueType = (value: string): ValueType => {
         }
       }
     },
-    vérifierQueStatutPermetDeTransmettrePreuveRecandidature() {
-      if (!this.estAccordé()) {
-        throw new StatutAbandonIncompatibleAvecTranmissionPreuveRecandidatureError();
-      }
-    },
   };
 };
 
@@ -205,13 +199,5 @@ class AucuneDemandeConfirmationAbandonError extends InvalidOperationError {
 class AbandonEnAttenteConfirmationError extends InvalidOperationError {
   constructor() {
     super(`L'abandon est en attente de confirmation`);
-  }
-}
-
-class StatutAbandonIncompatibleAvecTranmissionPreuveRecandidatureError extends InvalidOperationError {
-  constructor() {
-    super(
-      `Il est impossible de transmettre une preuve de recandidature pour un projet non abandonné`,
-    );
   }
 }
