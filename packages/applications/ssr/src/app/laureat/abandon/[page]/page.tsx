@@ -17,6 +17,21 @@ type PageProps = {
 export default async function ListeAbandonsPage({ params, searchParams }: PageProps) {
   const page = params?.page ? parseInt(params.page) : 1;
 
+  const getPageUrlForDismissedSearchParam = (dismissedSearchParam: string) => {
+    const redirectionSearchParams = { ...searchParams };
+    delete redirectionSearchParams[dismissedSearchParam];
+    return `/laureat/abandon/${page}${
+      redirectionSearchParams
+        ? `?${Object.keys(redirectionSearchParams)
+            .map(
+              (key) =>
+                `${encodeURIComponent(key)}=${encodeURIComponent(redirectionSearchParams[key])}`,
+            )
+            .join('&')}`
+        : ''
+    }`;
+  };
+
   const recandidature =
     searchParams?.recandidature === 'true'
       ? true
@@ -41,22 +56,34 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
     <PageTemplate heading="Abandon">
       {abandons.items.length ? (
         <>
-          {recandidature !== undefined && (
-            <Tag
-              linkProps={{
-                href: `/laureat/abandon/${page}`,
-              }}
-              className="fr-tag--dismiss"
-            >
-              {recandidature ? 'avec' : 'sans'} recandidature
-            </Tag>
-          )}
+          <div className="flex flex-row gap-4">
+            {statut !== undefined && (
+              <Tag
+                linkProps={{
+                  href: getPageUrlForDismissedSearchParam('statut'),
+                }}
+                className="fr-tag--dismiss"
+              >
+                {statut}
+              </Tag>
+            )}
+            {recandidature !== undefined && (
+              <Tag
+                linkProps={{
+                  href: getPageUrlForDismissedSearchParam('recandidature'),
+                }}
+                className="fr-tag--dismiss"
+              >
+                {recandidature ? 'avec' : 'sans'} recandidature
+              </Tag>
+            )}
+          </div>
           <p className="my-4 md:text-right font-semibold">
             {abandons.items.length} {abandons.items.length > 1 ? 'demandes' : 'demande'} d'abandon
             {recandidature === true
               ? ' avec recandidature'
               : recandidature === false
-              ? 'sans recandidature'
+              ? ' sans recandidature'
               : ''}
           </p>
           <ul>
