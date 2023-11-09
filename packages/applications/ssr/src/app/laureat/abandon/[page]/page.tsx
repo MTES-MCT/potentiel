@@ -1,5 +1,6 @@
 import { Tile } from '@/components/organisms/Tile';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import Tag from '@codegouvfr/react-dsfr/Tag';
 import { displayDate } from '@/utils/displayDate';
 
 import { Abandon } from '@potentiel-domain/laureat';
@@ -32,19 +33,37 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
   });
 
   return (
-    <PageTemplate
-      heading={`Abandon ${recandidature ? 'avec recandidature' : ''} (${abandons.items.length})`}
-    >
+    <PageTemplate heading="Abandon">
       {abandons.items.length ? (
-        <ul>
-          {abandons.items.map((abandon) => (
-            <li className="mb-6" key={`abandon-projet-${abandon.identifiantProjet.formatter()}`}>
-              <Tile className="flex flex-col md:flex-row md:justify-between">
-                <AbandonListItem abandon={abandon} />
-              </Tile>
-            </li>
-          ))}
-        </ul>
+        <>
+          {recandidature !== undefined && (
+            <Tag
+              linkProps={{
+                href: `/laureat/abandon/${page}`,
+              }}
+              className="fr-tag--dismiss"
+            >
+              {recandidature ? 'avec' : 'sans'} recandidature
+            </Tag>
+          )}
+          <p className="my-4 md:text-right font-semibold">
+            {abandons.items.length} {abandons.items.length > 1 ? 'demandes' : 'demande'} d'abandon
+            {recandidature === true
+              ? ' avec recandidature'
+              : recandidature === false
+              ? 'sans recandidature'
+              : ''}
+          </p>
+          <ul>
+            {abandons.items.map((abandon) => (
+              <li className="mb-6" key={`abandon-projet-${abandon.identifiantProjet.formatter()}`}>
+                <Tile className="flex flex-col md:flex-row md:justify-between">
+                  <AbandonListItem abandon={abandon} />
+                </Tile>
+              </li>
+            ))}
+          </ul>
+        </>
       ) : (
         <div>Aucune demande à afficher</div>
       )}
