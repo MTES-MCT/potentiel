@@ -39,13 +39,10 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
     statut,
     pagination: { page, itemsPerPage },
   }) => {
-    const whereOptions =
-      statut || recandidature !== undefined
-        ? {
-            ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
-            ...(statut && { statut }),
-          }
-        : undefined;
+    const whereOptions = {
+      ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
+      ...(statut && { statut }),
+    };
 
     const result = await list<AbandonProjection>({
       type: 'abandon',
