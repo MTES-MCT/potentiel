@@ -87,7 +87,7 @@ describe(`listProjection`, () => {
       });
     });
     it(`Étant donné plusieurs projections dont une seule avec dans son payload la propriété "target" contenant la valeur "yes" et la propriété "autreTarget" contenant la propriété "ok"
-      Lorsqu'on liste les projections en filtrant celle avec la propriété "target" avec la valeur "yes"
+      Lorsqu'on liste les projections en filtrant celle avec la propriété "target" avec la valeur "yes" et la propriété "autreTarget" avec la valeur "ok"
       Alors un seul résultat devrait être récupéré`, async () => {
       // Arrange
       await executeQuery(
