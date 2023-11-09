@@ -4,7 +4,7 @@ import { Projection } from '@potentiel-libraries/projection';
 import { listProjection } from './listProjection';
 
 describe(`listProjection`, () => {
-  type ProjectionReadModel = Projection<'projection', { target: string }>;
+  type ProjectionReadModel = Projection<'projection', { target: string; autreTarget?: string }>;
 
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
@@ -20,7 +20,7 @@ describe(`listProjection`, () => {
     // Arrange
     for (let time = 1; time <= 20; time++) {
       await executeQuery(
-        `insert 
+        `insert
             into domain_views.projection
             values ($1, $2)`,
         `projection|random-${time}`,
@@ -49,14 +49,14 @@ describe(`listProjection`, () => {
       Alors un seul résultat devrait être récupéré`, async () => {
       // Arrange
       await executeQuery(
-        `insert 
+        `insert
        into domain_views.projection
        values ($1, $2)`,
         'projection|another-one',
         { type: 'projection', target: 'a random value' },
       );
       await executeQuery(
-        `insert 
+        `insert
        into domain_views.projection
        values ($1, $2)`,
         'projection|another-one-2',
@@ -64,7 +64,7 @@ describe(`listProjection`, () => {
       );
 
       await executeQuery(
-        `insert 
+        `insert
        into domain_views.projection
        values ($1, $2)`,
         'projection|the-expected-one',
@@ -86,6 +86,50 @@ describe(`listProjection`, () => {
         target: 'yes',
       });
     });
+    it(`Étant donné plusieurs projections dont une seule avec dans son payload la propriété "target" contenant la valeur "yes" et la propriété "autreTarget" contenant la propriété "ok"
+      Lorsqu'on liste les projections en filtrant celle avec la propriété "target" avec la valeur "yes"
+      Alors un seul résultat devrait être récupéré`, async () => {
+      // Arrange
+      await executeQuery(
+        `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+        'projection|another-one',
+        { type: 'projection', target: 'a random value' },
+      );
+      await executeQuery(
+        `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+        'projection|another-one-2',
+        { type: 'projection', target: 'yes', autreTarget: 'a randome value' },
+      );
+
+      await executeQuery(
+        `insert 
+       into domain_views.projection
+       values ($1, $2)`,
+        'projection|the-expected-one',
+        { type: 'projection', target: 'yes', autreTarget: 'ok' },
+      );
+
+      // Act
+      const result = await listProjection<ProjectionReadModel>({
+        type: 'projection',
+        where: {
+          target: 'yes',
+          autreTarget: 'ok',
+        },
+      });
+
+      // Assert
+      expect(result.items).toHaveLength(1);
+      expect(result.items).toContainEqual({
+        type: 'projection',
+        target: 'yes',
+        autreTarget: 'ok',
+      });
+    });
   });
 
   describe(`paginate`, () => {
@@ -95,7 +139,7 @@ describe(`listProjection`, () => {
       // Arrange
       for (let time = 1; time <= 20; time++) {
         await executeQuery(
-          `insert 
+          `insert
             into domain_views.projection
             values ($1, $2)`,
           `projection|random-${time}`,
@@ -149,7 +193,7 @@ describe(`listProjection`, () => {
       // Arrange
       for (let time = 1; time <= 20; time++) {
         await executeQuery(
-          `insert 
+          `insert
             into domain_views.projection
             values ($1, $2)`,
           `projection|random-${time}`,
@@ -203,14 +247,14 @@ describe(`listProjection`, () => {
       Alors la liste devrait être ordonnée`, async () => {
       // Arrange
       await executeQuery(
-        `insert 
+        `insert
        into domain_views.projection
        values ($1, $2)`,
         'projection|another-one',
         { type: 'projection', target: 'B' },
       );
       await executeQuery(
-        `insert 
+        `insert
        into domain_views.projection
        values ($1, $2)`,
         'projection|another-one-2',
@@ -218,7 +262,7 @@ describe(`listProjection`, () => {
       );
 
       await executeQuery(
-        `insert 
+        `insert
        into domain_views.projection
        values ($1, $2)`,
         'projection|the-expected-one',
