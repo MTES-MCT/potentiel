@@ -52,7 +52,7 @@ export const ProjectDetails = ({
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <p className="hidden print:block m-0 mb-2 font-semibold">
-        Ce document a été imprimé le {afficherDate(new Date())}. <br />
+        Ce document a été édité le {afficherDate(new Date())}. <br />
         Les informations affichées sur cette page reflètent la situation du projet en fonction des
         éléments fournis à Potentiel à date. Elles sont susceptibles de modifications ultérieures.
       </p>
