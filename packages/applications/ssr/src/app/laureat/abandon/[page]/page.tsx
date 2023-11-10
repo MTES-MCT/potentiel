@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { Abandon } from '@potentiel-domain/laureat';
 
-import { ListeAbandonsPage } from '@/components/pages/abandon/ListeAbandonsPage';
+import { AbandonListPage } from '@/components/pages/abandon/AbandonListPage';
 import { displayDate } from '@/utils/displayDate';
 
 // import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
@@ -57,12 +57,12 @@ export default async function Page({ params, searchParams }: PageProps) {
     },
   });
 
-  return <ListeAbandonsPage abandons={mapToProps(abandons)} />;
+  return <AbandonListPage abandons={mapToProps(abandons)} />;
 }
 
 const mapToProps = (
   readModel: Abandon.ListerAbandonReadModel,
-): Parameters<typeof ListeAbandonsPage>[0]['abandons'] => {
+): Parameters<typeof AbandonListPage>[0]['abandons'] => {
   return {
     ...readModel,
     items: readModel.items.map(
