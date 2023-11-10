@@ -13,7 +13,10 @@ export const AbandonListHeader: FC<AbandonListHeaderProps> = ({ count }) => {
 
   const searchParams = useSearchParams();
   const statut = searchParams.get('statut') ?? undefined;
-  const recandidature = searchParams.get('recandidature') ?? undefined;
+
+  const recandidature = searchParams.has('recandidature')
+    ? !!(searchParams.get('recandidature') === 'true')
+    : undefined;
 
   const onClick = (tagName: string) => {
     const urlSearchParams = new URLSearchParams(searchParams);
@@ -47,11 +50,11 @@ export const AbandonListHeader: FC<AbandonListHeaderProps> = ({ count }) => {
       )}
       <p className="md:ml-auto my-2 font-semibold">
         {count} abandon{count > 1 ? 's' : ''}
-        {recandidature === 'true'
+        {recandidature === undefined
+          ? ''
+          : recandidature
           ? ' avec recandidature'
-          : recandidature === 'false'
-          ? ' sans recandidature'
-          : ''}
+          : ' sans recandidature'}
       </p>
     </>
   );
