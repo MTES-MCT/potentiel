@@ -14,7 +14,6 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const recandidature =
     searchParams?.recandidature !== undefined ? searchParams.recandidature === 'true' : undefined;
-  console.log(`RECANDIDATURE : ${recandidature}`);
 
   const statut = searchParams?.statut
     ? Abandon.StatutAbandon.convertirEnValueType(searchParams.statut).statut
