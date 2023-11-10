@@ -2,8 +2,8 @@
 import { FC } from 'react';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
-import { Pagination } from '../organisms/Pagination';
-import { Tile } from '../organisms/Tile';
+import { Pagination } from './Pagination';
+import { Tile } from './Tile';
 
 type ListProps<TItem> = {
   items: Array<TItem & { key: string }>;

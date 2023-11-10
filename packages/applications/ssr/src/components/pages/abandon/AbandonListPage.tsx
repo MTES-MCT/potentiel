@@ -3,12 +3,9 @@
 import { FC } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { PageTemplate } from '../../templates/PageTemplate';
-import { ListHeader } from '../../molecules/ListHeader';
-import { List } from '../../molecules/List';
-import { ListFilters } from '../../molecules/ListFilters';
 import { Abandon } from '@potentiel-domain/laureat';
 import { AbandonListItem } from '@/components/molecules/abandon/AbandonListItem';
+import { ListPageTemplate } from '@/components/templates/ListPageTemplate';
 
 type AbandonListPageProps = {
   items: Array<Parameters<typeof AbandonListItem>[0]>;
@@ -24,7 +21,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
   const searchParams = useSearchParams();
   const statut = searchParams.get('statut') ?? undefined;
   const recandidature = searchParams.has('recandidature')
-    ? !!(searchParams.get('recandidature') === 'true')
+    ? searchParams.get('recandidature') === 'true'
     : undefined;
 
   const tagFilters = [
@@ -40,33 +37,18 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
   ];
 
   return (
-    <PageTemplate heading="Abandon">
-      <div className="flex flex-col md:flex-row gap-5 md:gap-10">
-        <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0">
-          <ListFilters filters={filters} />
-        </div>
-
-        {abandons.length ? (
-          <div className="flex flex-col gap-3 flex-grow">
-            <div className="flex flex-col md:flex-row md:items-center gap-3">
-              <ListHeader tagFilters={tagFilters} totalCount={totalItems} />
-            </div>
-
-            <List
-              items={abandons.map((abandon) => ({
-                ...abandon,
-                key: abandon.identifiantProjet,
-              }))}
-              totalItems={totalItems}
-              itemsPerPage={itemsPerPage}
-              ItemComponent={AbandonListItem}
-            />
-          </div>
-        ) : (
-          <div className="flex flex-grow">Aucun abandon à afficher</div>
-        )}
-      </div>
-    </PageTemplate>
+    <ListPageTemplate
+      heading="Abandon"
+      items={abandons.map((abandon) => ({
+        ...abandon,
+        key: abandon.identifiantProjet,
+      }))}
+      totalItems={totalItems}
+      itemsPerPage={itemsPerPage}
+      ItemComponent={AbandonListItem}
+      tagFilters={tagFilters}
+      filters={filters}
+    />
   );
 };
 

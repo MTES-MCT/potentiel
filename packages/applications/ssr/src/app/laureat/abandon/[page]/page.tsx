@@ -13,7 +13,9 @@ export default async function Page({ params, searchParams }: PageProps) {
   const page = params?.page ? parseInt(params.page) : 1;
 
   const recandidature =
-    searchParams?.recandidature !== undefined ? !!searchParams.recandidature : undefined;
+    searchParams?.recandidature !== undefined ? searchParams.recandidature === 'true' : undefined;
+  console.log(`RECANDIDATURE : ${recandidature}`);
+
   const statut = searchParams?.statut
     ? Abandon.StatutAbandon.convertirEnValueType(searchParams.statut).statut
     : undefined;
@@ -22,7 +24,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     type: 'LISTER_ABANDONS_QUERY',
     data: {
       pagination: { page, itemsPerPage: 10 },
-      recandidature: recandidature,
+      recandidature,
       statut,
     },
   });
