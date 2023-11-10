@@ -17,6 +17,14 @@ type PageProps = {
 export default async function ListeAbandonsPage({ params, searchParams }: PageProps) {
   const page = params?.page ? parseInt(params.page) : 1;
 
+  const getPageUrlForDismissedSearchParam = (dismissedSearchParam: string) => {
+    const redirectionSearchParams = { ...searchParams };
+    delete redirectionSearchParams[dismissedSearchParam];
+    return `/laureat/abandon/${page}${
+      redirectionSearchParams ? `?${new URLSearchParams(redirectionSearchParams).toString()}` : ''
+    }`;
+  };
+
   const recandidature =
     searchParams?.recandidature === 'true'
       ? true
@@ -24,11 +32,16 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
       ? false
       : undefined;
 
+  const statut = searchParams?.statut || undefined;
+
   const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
     type: 'LISTER_ABANDONS_QUERY',
     data: {
       pagination: { page, itemsPerPage: 10 },
       recandidature,
+      ...(statut !== undefined && {
+        statut: Abandon.StatutAbandon.convertirEnValueType(statut).statut,
+      }),
     },
   });
 
@@ -36,22 +49,34 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
     <PageTemplate heading="Abandon">
       {abandons.items.length ? (
         <>
-          {recandidature !== undefined && (
-            <Tag
-              linkProps={{
-                href: `/laureat/abandon/${page}`,
-              }}
-              className="fr-tag--dismiss"
-            >
-              {recandidature ? 'avec' : 'sans'} recandidature
-            </Tag>
-          )}
+          <div className="flex flex-row gap-4">
+            {statut !== undefined && (
+              <Tag
+                linkProps={{
+                  href: getPageUrlForDismissedSearchParam('statut'),
+                }}
+                className="fr-tag--dismiss"
+              >
+                {statut}
+              </Tag>
+            )}
+            {recandidature !== undefined && (
+              <Tag
+                linkProps={{
+                  href: getPageUrlForDismissedSearchParam('recandidature'),
+                }}
+                className="fr-tag--dismiss"
+              >
+                {recandidature ? 'avec' : 'sans'} recandidature
+              </Tag>
+            )}
+          </div>
           <p className="my-4 md:text-right font-semibold">
-            {abandons.items.length} {abandons.items.length > 1 ? 'demandes' : 'demande'} d'abandon
+            {abandons.totalItems} {abandons.totalItems > 1 ? 'demandes' : 'demande'} d'abandon
             {recandidature === true
               ? ' avec recandidature'
               : recandidature === false
-              ? 'sans recandidature'
+              ? ' sans recandidature'
               : ''}
           </p>
           <ul>
@@ -70,7 +95,7 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
       <Pagination
         getPageUrl={(pageNumber) => {
           const urlSearchParams = new URLSearchParams(searchParams).toString();
-          return `/laureat/abandon/${pageNumber}${urlSearchParams ? `?${searchParams}` : ''}`;
+          return `/laureat/abandon/${pageNumber}${urlSearchParams ? `?${urlSearchParams}` : ''}`;
         }}
         currentPage={page}
         pageCount={Math.ceil(abandons.totalItems / abandons.itemsPerPage)}
