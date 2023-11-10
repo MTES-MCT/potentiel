@@ -21,14 +21,7 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
     const redirectionSearchParams = { ...searchParams };
     delete redirectionSearchParams[dismissedSearchParam];
     return `/laureat/abandon/${page}${
-      redirectionSearchParams
-        ? `?${Object.keys(redirectionSearchParams)
-            .map(
-              (key) =>
-                `${encodeURIComponent(key)}=${encodeURIComponent(redirectionSearchParams[key])}`,
-            )
-            .join('&')}`
-        : ''
+      redirectionSearchParams ? `?${new URLSearchParams(redirectionSearchParams).toString()}` : ''
     }`;
   };
 
@@ -79,7 +72,7 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
             )}
           </div>
           <p className="my-4 md:text-right font-semibold">
-            {abandons.items.length} {abandons.items.length > 1 ? 'demandes' : 'demande'} d'abandon
+            {abandons.totalItems} {abandons.totalItems > 1 ? 'demandes' : 'demande'} d'abandon
             {recandidature === true
               ? ' avec recandidature'
               : recandidature === false
@@ -102,7 +95,7 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
       <Pagination
         getPageUrl={(pageNumber) => {
           const urlSearchParams = new URLSearchParams(searchParams).toString();
-          return `/laureat/abandon/${pageNumber}${urlSearchParams ? `?${searchParams}` : ''}`;
+          return `/laureat/abandon/${pageNumber}${urlSearchParams ? `?${urlSearchParams}` : ''}`;
         }}
         currentPage={page}
         pageCount={Math.ceil(abandons.totalItems / abandons.itemsPerPage)}
