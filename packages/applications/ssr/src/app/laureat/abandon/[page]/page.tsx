@@ -1,6 +1,8 @@
 import { Tile } from '@/components/organisms/Tile';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import Tag from '@codegouvfr/react-dsfr/Tag';
+import Select from '@codegouvfr/react-dsfr/Select';
+import Button from '@codegouvfr/react-dsfr/Button';
 import { displayDate } from '@/utils/displayDate';
 
 import { Abandon } from '@potentiel-domain/laureat';
@@ -8,6 +10,7 @@ import { PageTemplate } from '@/components/templates/PageTemplate';
 import { mediator } from 'mediateur';
 import { FC } from 'react';
 import { Pagination } from '@/components/organisms/Pagination';
+import { Heading2 } from '@/components/atoms/headings';
 
 type PageProps = {
   params?: Record<string, string>;
@@ -47,59 +50,111 @@ export default async function ListeAbandonsPage({ params, searchParams }: PagePr
 
   return (
     <PageTemplate heading="Abandon">
-      {abandons.items.length ? (
-        <>
-          <div className="flex flex-row gap-4">
-            {statut !== undefined && (
-              <Tag
-                linkProps={{
-                  href: getPageUrlForDismissedSearchParam('statut'),
-                }}
-                className="fr-tag--dismiss"
-              >
-                {statut}
-              </Tag>
-            )}
-            {recandidature !== undefined && (
-              <Tag
-                linkProps={{
-                  href: getPageUrlForDismissedSearchParam('recandidature'),
-                }}
-                className="fr-tag--dismiss"
-              >
-                {recandidature ? 'avec' : 'sans'} recandidature
-              </Tag>
-            )}
+      <div className="flex flex-col md:flex-row gap-5 md:gap-10">
+        <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0">
+          <Heading2 className="mt-1 mb-6">Affiner la recherche</Heading2>
+          <form method="GET" action={`/laureat/abandon/${page}`}>
+            <Select
+              label="Recandidature"
+              id="recandidature"
+              nativeSelectProps={{
+                name: 'recandidature',
+                defaultValue: searchParams?.recandidature,
+              }}
+            >
+              <option value="">Tous</option>
+              <option value="true">Avec recandidature</option>
+              <option value="false">Sans recandidature</option>
+            </Select>
+            <Select
+              label="Statut"
+              id="statut"
+              nativeSelectProps={{
+                name: 'statut',
+                defaultValue: statut,
+              }}
+            >
+              <option value="">Filtrer par statut</option>
+              <option value={Abandon.StatutAbandon.accordé.statut}>
+                {Abandon.StatutAbandon.accordé.libellé().toLocaleLowerCase()}
+              </option>
+              <option value={Abandon.StatutAbandon.annulé.statut}>
+                {Abandon.StatutAbandon.annulé.libellé().toLocaleLowerCase()}
+              </option>
+              <option value={Abandon.StatutAbandon.confirmationDemandée.statut}>
+                {Abandon.StatutAbandon.confirmationDemandée.libellé().toLocaleLowerCase()}
+              </option>
+              <option value={Abandon.StatutAbandon.confirmé.statut}>
+                {Abandon.StatutAbandon.confirmé.libellé().toLocaleLowerCase()}
+              </option>
+              <option value={Abandon.StatutAbandon.demandé.statut}>
+                {Abandon.StatutAbandon.demandé.libellé().toLocaleLowerCase()}
+              </option>
+              <option value={Abandon.StatutAbandon.rejeté.statut}>
+                {Abandon.StatutAbandon.rejeté.libellé().toLocaleLowerCase()}
+              </option>
+            </Select>
+            <Button className="mb-4">Filtrer</Button>
+          </form>
+        </div>
+        {abandons.items.length ? (
+          <div className="flex flex-col gap-3 flex-grow">
+            <div className="flex flex-col md:flex-row md:items-center gap-3">
+              {statut !== undefined && (
+                <Tag
+                  linkProps={{
+                    href: getPageUrlForDismissedSearchParam('statut'),
+                  }}
+                  className="fr-tag--dismiss"
+                >
+                  {statut}
+                </Tag>
+              )}
+              {recandidature !== undefined && (
+                <Tag
+                  linkProps={{
+                    href: getPageUrlForDismissedSearchParam('recandidature'),
+                  }}
+                  className="fr-tag--dismiss"
+                >
+                  {recandidature ? 'avec' : 'sans'} recandidature
+                </Tag>
+              )}
+              <p className="md:ml-auto my-2 font-semibold">
+                {abandons.items.length} {abandons.items.length > 1 ? 'demandes' : 'demande'}{' '}
+                d'abandon
+                {recandidature === true
+                  ? ' avec recandidature'
+                  : recandidature === false
+                  ? ' sans recandidature'
+                  : ''}
+              </p>
+            </div>
+            <ul>
+              {abandons.items.map((abandon) => (
+                <li
+                  className="mb-6"
+                  key={`abandon-projet-${abandon.identifiantProjet.formatter()}`}
+                >
+                  <Tile className="flex flex-col md:flex-row md:justify-between">
+                    <AbandonListItem abandon={abandon} />
+                  </Tile>
+                </li>
+              ))}
+            </ul>
+            <Pagination
+              getPageUrl={(pageNumber) => {
+                const urlSearchParams = new URLSearchParams(searchParams).toString();
+                return `/laureat/abandon/${pageNumber}${urlSearchParams ? `?${searchParams}` : ''}`;
+              }}
+              currentPage={page}
+              pageCount={Math.ceil(abandons.totalItems / abandons.itemsPerPage)}
+            />
           </div>
-          <p className="my-4 md:text-right font-semibold">
-            {abandons.totalItems} {abandons.totalItems > 1 ? 'demandes' : 'demande'} d'abandon
-            {recandidature === true
-              ? ' avec recandidature'
-              : recandidature === false
-              ? ' sans recandidature'
-              : ''}
-          </p>
-          <ul>
-            {abandons.items.map((abandon) => (
-              <li className="mb-6" key={`abandon-projet-${abandon.identifiantProjet.formatter()}`}>
-                <Tile className="flex flex-col md:flex-row md:justify-between">
-                  <AbandonListItem abandon={abandon} />
-                </Tile>
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <div>Aucune demande à afficher</div>
-      )}
-      <Pagination
-        getPageUrl={(pageNumber) => {
-          const urlSearchParams = new URLSearchParams(searchParams).toString();
-          return `/laureat/abandon/${pageNumber}${urlSearchParams ? `?${urlSearchParams}` : ''}`;
-        }}
-        currentPage={page}
-        pageCount={Math.ceil(abandons.totalItems / abandons.itemsPerPage)}
-      />
+        ) : (
+          <div className="flex flex-grow">Aucun abandons à afficher</div>
+        )}
+      </div>
     </PageTemplate>
   );
 }
