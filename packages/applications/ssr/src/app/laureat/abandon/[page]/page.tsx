@@ -4,36 +4,6 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { AbandonListPage } from '@/components/pages/abandon/AbandonListPage';
 import { displayDate } from '@/utils/displayDate';
 
-// import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-// const abandons: Abandon.ListerAbandonReadModel = {
-//   currentPage: 1,
-//   totalItems: 3,
-//   itemsPerPage: 10,
-//   items: [
-//     {
-//       identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 Toto#1#2#3'),
-//       misÀJourLe: DateTime.convertirEnValueType(new Date().toISOString()),
-//       nomProjet: 'Projet',
-//       recandidature: false,
-//       statut: Abandon.StatutAbandon.convertirEnValueType('demandé'),
-//     },
-//     {
-//       identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 Toto#1#2#4'),
-//       misÀJourLe: DateTime.convertirEnValueType(new Date().toISOString()),
-//       nomProjet: 'Projet',
-//       recandidature: false,
-//       statut: Abandon.StatutAbandon.convertirEnValueType('demandé'),
-//     },
-//     {
-//       identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 Toto#1##5'),
-//       misÀJourLe: DateTime.convertirEnValueType(new Date().toISOString()),
-//       nomProjet: 'Projet',
-//       recandidature: true,
-//       statut: Abandon.StatutAbandon.convertirEnValueType('demandé'),
-//     },
-//   ],
-// };
-
 type PageProps = {
   params?: Record<string, string>;
   searchParams?: Record<string, string>;
@@ -57,25 +27,28 @@ export default async function Page({ params, searchParams }: PageProps) {
     },
   });
 
-  return <AbandonListPage abandons={mapToProps(abandons)} />;
+  return (
+    <AbandonListPage
+      items={mapToProps(abandons)}
+      totalItems={abandons.totalItems}
+      itemsPerPage={abandons.itemsPerPage}
+    />
+  );
 }
 
 const mapToProps = (
   readModel: Abandon.ListerAbandonReadModel,
-): Parameters<typeof AbandonListPage>[0]['abandons'] => {
-  return {
-    ...readModel,
-    items: readModel.items.map(
-      ({ identifiantProjet, nomProjet, statut: { statut }, misÀJourLe, recandidature }) => ({
-        identifiantProjet: identifiantProjet.formatter(),
-        nomProjet,
-        appelOffre: identifiantProjet.appelOffre,
-        période: identifiantProjet.période,
-        famille: identifiantProjet.famille,
-        statut,
-        misÀJourLe: displayDate(misÀJourLe.date),
-        recandidature,
-      }),
-    ),
-  };
+): Parameters<typeof AbandonListPage>[0]['items'] => {
+  return readModel.items.map(
+    ({ identifiantProjet, nomProjet, statut: { statut }, misÀJourLe, recandidature }) => ({
+      identifiantProjet: identifiantProjet.formatter(),
+      nomProjet,
+      appelOffre: identifiantProjet.appelOffre,
+      période: identifiantProjet.période,
+      famille: identifiantProjet.famille,
+      statut,
+      misÀJourLe: displayDate(misÀJourLe.date),
+      recandidature,
+    }),
+  );
 };

@@ -5,13 +5,22 @@ import { useSearchParams } from 'next/navigation';
 
 import { PageTemplate } from '../../templates/PageTemplate';
 import { ListHeader } from '../../molecules/ListHeader';
-import { AbandonList } from '../../molecules/abandon/AbandonList';
+import { List } from '../../molecules/List';
 import { ListFilters } from '../../molecules/ListFilters';
 import { Abandon } from '@potentiel-domain/laureat';
+import { AbandonListItem } from '@/components/molecules/abandon/AbandonListItem';
 
-type AbandonListPageProps = Parameters<typeof AbandonList>[0];
+type AbandonListPageProps = {
+  items: Array<Parameters<typeof AbandonListItem>[0]>;
+  totalItems: number;
+  itemsPerPage: number;
+};
 
-export const AbandonListPage: FC<AbandonListPageProps> = ({ abandons }) => {
+export const AbandonListPage: FC<AbandonListPageProps> = ({
+  items: abandons,
+  totalItems,
+  itemsPerPage,
+}) => {
   const searchParams = useSearchParams();
   const statut = searchParams.get('statut') ?? undefined;
   const recandidature = searchParams.has('recandidature')
@@ -37,13 +46,21 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({ abandons }) => {
           <ListFilters filters={filters} />
         </div>
 
-        {abandons.items.length ? (
+        {abandons.length ? (
           <div className="flex flex-col gap-3 flex-grow">
             <div className="flex flex-col md:flex-row md:items-center gap-3">
-              <ListHeader tagFilters={tagFilters} totalCount={abandons.totalItems} />
+              <ListHeader tagFilters={tagFilters} totalCount={totalItems} />
             </div>
 
-            <AbandonList abandons={abandons} />
+            <List
+              items={abandons.map((abandon) => ({
+                ...abandon,
+                key: abandon.identifiantProjet,
+              }))}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+              ItemComponent={AbandonListItem}
+            />
           </div>
         ) : (
           <div className="flex flex-grow">Aucun abandon à afficher</div>

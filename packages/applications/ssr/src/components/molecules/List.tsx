@@ -2,25 +2,26 @@
 import { FC } from 'react';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
-import { Pagination } from '../../organisms/Pagination';
-import { Tile } from '../../organisms/Tile';
-import { AbandonListItem } from './AbandonListItem';
+import { Pagination } from '../organisms/Pagination';
+import { Tile } from '../organisms/Tile';
 
-type AbandonListProps = {
-  abandons: {
-    items: Array<Parameters<typeof AbandonListItem>[0]>;
-    totalItems: number;
-    itemsPerPage: number;
-  };
+type ListProps<TItem> = {
+  items: Array<TItem & { key: string }>;
+  totalItems: number;
+  itemsPerPage: number;
+  ItemComponent: FC<TItem>;
 };
 
-export const AbandonList: FC<AbandonListProps> = ({ abandons }) => {
+export const List = <TItem,>({
+  items,
+  totalItems,
+  itemsPerPage,
+  ItemComponent,
+}: ListProps<TItem>) => {
   const pathname = usePathname();
   const currentPage = +useParams<{ page: string }>().page;
-
   const searchParams = useSearchParams();
-
-  const pageCount = Math.ceil(abandons.totalItems / abandons.itemsPerPage);
+  const pageCount = Math.ceil(totalItems / itemsPerPage);
 
   const getPageUrl = (pageToGo: number): string => {
     const urlSearchParams = new URLSearchParams(searchParams).toString();
@@ -32,10 +33,10 @@ export const AbandonList: FC<AbandonListProps> = ({ abandons }) => {
   return (
     <>
       <ul>
-        {abandons.items.map((abandon) => (
-          <li className="mb-6" key={`abandon-projet-${abandon.identifiantProjet}`}>
+        {items.map((item) => (
+          <li className="mb-6" key={`abandon-projet-${item.key}`}>
             <Tile className="flex flex-col md:flex-row md:justify-between">
-              <AbandonListItem {...abandon} />
+              <ItemComponent {...item} />
             </Tile>
           </li>
         ))}
