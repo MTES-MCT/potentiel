@@ -63,11 +63,11 @@ export async function transmettrePreuveRecandidature(
     throw new TranmissionPreuveRecandidatureImpossibleError();
   }
 
-  if (dateNotification.estAntérieurÀ(new Date('15/12/2023'))) {
+  if (dateNotification.estAntérieurÀ(new Date('2023-12-15'))) {
     throw new ProjetNotifiéAvantLaDateMinimumError();
   }
 
-  if (dateNotification.estUltérieureÀ(new Date('31/03/2024'))) {
+  if (dateNotification.estUltérieureÀ(new Date('2024-03-31'))) {
     throw new ProjetNotifiéAprèsLaDateMaximumError();
   }
 
