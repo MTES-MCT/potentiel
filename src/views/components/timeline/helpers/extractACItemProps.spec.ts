@@ -30,7 +30,7 @@ describe('extractACItemProps', () => {
     } as ProjectEventListDTO['project'];
 
     describe('when there are ProjectCompletionDueDateSet events', () => {
-      it('should return the latest due date', () => {
+      it('should return the due date of the latest event', () => {
         const events = [
           {
             type: 'ProjectCompletionDueDateSet',
@@ -42,11 +42,16 @@ describe('extractACItemProps', () => {
             date: new Date('2025-01-01').getTime(),
             variant: 'admin',
           } as ProjectCompletionDueDateSetDTO,
+          {
+            type: 'ProjectCompletionDueDateSet',
+            date: new Date('2023-01-01').getTime(),
+            variant: 'admin',
+          } as ProjectCompletionDueDateSetDTO,
         ];
         const result = extractACItemProps(events, project);
         expect(result).toMatchObject({
           type: 'attestation-de-conformite',
-          date: new Date('2025-01-01').getTime(),
+          date: new Date('2023-01-01').getTime(),
         });
       });
     });

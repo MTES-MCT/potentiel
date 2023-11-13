@@ -207,6 +207,12 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       ...(payload?.reason === 'délaiCdc2022' && { délaiCDC2022Appliqué: true }),
+                      ...(payload?.reason &&
+                        [
+                          'ChoixCDCAnnuleDélaiCdc2022',
+                          'DateMiseEnServiceAnnuleDélaiCdc2022',
+                          'DemandeComplèteRaccordementTransmiseAnnuleDélaiCdc2022',
+                        ].includes(payload.reason) && { délaiCDC2022Annulé: true }),
                     });
                   }
                   break;
