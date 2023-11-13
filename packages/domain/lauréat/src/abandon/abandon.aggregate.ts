@@ -1,6 +1,6 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
-
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import * as StatutAbandon from './statutAbandon.valueType';
 
 import {

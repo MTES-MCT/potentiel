@@ -1,7 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, DateTime, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { AucunAbandonEnCours } from '../aucunAbandonEnCours.error';
 import * as StatutAbandon from '../statutAbandon.valueType';
@@ -40,7 +41,7 @@ export type ConsulterAbandonReadModel = {
 };
 
 export type ConsulterAbandonQuery = Message<
-  'CONSULTER_ABANDON',
+  'CONSULTER_ABANDON_QUERY',
   {
     identifiantProjetValue: string;
   },
@@ -129,5 +130,5 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
       rejet,
     };
   };
-  mediator.register('CONSULTER_ABANDON', handler);
+  mediator.register('CONSULTER_ABANDON_QUERY', handler);
 };

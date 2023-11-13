@@ -1,4 +1,5 @@
-import { DateTime, IdentifiantUtilisateur, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type CandidatureProjection = {
   appelOffre: string;

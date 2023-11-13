@@ -3,7 +3,8 @@ import { mediator } from 'mediateur';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
-import { DateTime, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 Quand(
   `le porteur demande l'abandon pour le projet lauréat {string} avec :`,

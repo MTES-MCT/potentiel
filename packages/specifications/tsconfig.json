@@ -12,6 +12,12 @@
       "path": "../domain/core"
     },
     {
+      "path": "../domain/lauréat"
+    },
+    {
+      "path": "../domain/utilisateur"
+    },
+    {
       "path": "../infrastructure/pg-event-sourcing"
     },
     {

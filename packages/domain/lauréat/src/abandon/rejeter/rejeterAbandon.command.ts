@@ -1,9 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { loadAbandonFactory } from '../abandon.aggregate';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type RejeterAbandonCommand = Message<
   'REJETER_ABANDON_COMMAND',

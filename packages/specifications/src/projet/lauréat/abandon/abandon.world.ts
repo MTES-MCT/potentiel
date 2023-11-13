@@ -1,4 +1,5 @@
-import { DateTime, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export class AbandonWord {
   #pièceJustificative!: { format: string; content: string };

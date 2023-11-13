@@ -1,4 +1,5 @@
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { AbandonAggregate } from '../abandon.aggregate';

@@ -63,7 +63,7 @@ v1Router.get(
 
     try {
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
+        type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: result?.identifiantProjetValue || '',
         },

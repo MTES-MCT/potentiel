@@ -27,7 +27,7 @@ Alors(
           piéceJustificative: actualPiéceJustificative,
         },
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
+        type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
         },
@@ -71,7 +71,7 @@ Alors(
     await waitForExpect(async () => {
       try {
         const result = await mediator.send<Abandon.ConsulterAbandonQuery>({
-          type: 'CONSULTER_ABANDON',
+          type: 'CONSULTER_ABANDON_QUERY',
           data: {
             identifiantProjetValue: identitiantProjetValueType.formatter(),
           },
@@ -95,7 +95,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         rejet,
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
+        type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
         },
@@ -142,7 +142,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         accord,
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
+        type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
         },
@@ -189,7 +189,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         rejet,
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
+        type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
         },
@@ -213,7 +213,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         demande,
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
+        type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
         },
@@ -259,7 +259,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         demande,
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
+        type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
         },
