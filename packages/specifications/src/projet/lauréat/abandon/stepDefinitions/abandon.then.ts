@@ -293,18 +293,16 @@ Alors(
       this.lauréatWorld.rechercherLauréatFixture(nomProjetPreuveRecandidature);
 
     await waitForExpect(async () => {
-      const {
-        demande: { preuveRecandidature: actualPreuveRecandidature },
-      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON',
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identifiantProjetAbandonnéValueType.formatter(),
         },
       });
 
-      expect(actualPreuveRecandidature).to.be.not.undefined;
+      expect(abandon.demande.preuveRecandidature).to.be.not.undefined;
 
-      actualPreuveRecandidature!.estÉgaleÀ(preuveRecandidatureValueType).should.be.true;
+      abandon.demande.preuveRecandidature!.estÉgaleÀ(preuveRecandidatureValueType).should.be.true;
     });
   },
 );
