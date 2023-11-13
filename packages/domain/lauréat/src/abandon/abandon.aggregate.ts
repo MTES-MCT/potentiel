@@ -31,7 +31,7 @@ import {
   transmettrePreuveRecandidature,
   PreuveRecandidatureTransmiseEvent,
   applyPreuveRecandidatureTransmise,
-} from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.behavior';
+} from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 export type AbandonEvent =
