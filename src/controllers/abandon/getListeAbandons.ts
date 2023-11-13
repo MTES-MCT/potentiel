@@ -23,21 +23,27 @@ v1Router.get(
       },
     });
 
-    const abandonsWithProjet = await Promise.all(
-      abandons.items.map(async (a) => {
-        const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
-          type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
-          data: {
-            identifiantProjet: a.identifiantProjet,
-          },
-        });
+    const abandonsWithProjet: Parameters<typeof ListeAbandonsPage>[0]['abandons']['items'] =
+      await Promise.all(
+        abandons.items.map(async (a) => {
+          const projet = await mediator.send<ConsulterCandidatureLegacyQuery>({
+            type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
+            data: {
+              identifiantProjet: a.identifiantProjet,
+            },
+          });
 
-        return {
-          ...a,
-          projet: isSome(projet) ? projet : undefined,
-        };
-      }),
-    );
+          return {
+            type: 'abandon',
+            identifiantProjet: a.identifiantProjet.formatter(),
+            nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
+            recandidature: a.recandidature,
+            misÀJourLe: a.misÀJourLe.formatter(),
+            statut: a.statut.statut,
+            projet: isSome(projet) ? projet : undefined,
+          };
+        }),
+      );
 
     return response.send(
       ListeAbandonsPage({

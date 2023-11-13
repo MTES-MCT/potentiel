@@ -18,7 +18,16 @@ import routes from '../../../routes';
 import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
 
 type ListeAbandonsProps = {
-  abandons: ListResult<any & { projet?: CandidatureLegacyReadModel }>;
+  abandons: ListResult<
+    {
+      type: 'abandon';
+      identifiantProjet: string;
+      nomProjet: string;
+      statut: string;
+      recandidature: boolean;
+      misÀJourLe: string;
+    } & { projet?: CandidatureLegacyReadModel }
+  >;
   currentUrl: string;
   request: Request;
 };
@@ -42,7 +51,7 @@ export const ListeAbandons = ({ request, abandons, currentUrl }: ListeAbandonsPr
         ) : (
           <>
             <ul className="flex flex-col p-0 m-0 gap-4">
-              {abandons.items.map(({ identifiantProjet, statut, demandeDemandéLe, projet }) => (
+              {abandons.items.map(({ identifiantProjet, statut, misÀJourLe, projet }) => (
                 <li className="list-none p-0 m-0" key={`${identifiantProjet}`}>
                   <Tile className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div className="flex flex-col gap-2">
@@ -55,7 +64,7 @@ export const ListeAbandons = ({ request, abandons, currentUrl }: ListeAbandonsPr
                       </div>
                       <div className="flex flex-row gap-1 text-sm italic items-center">
                         <CalendarIcon title="Date de la demande pour l'abandon du projet" />
-                        {afficherDate(new Date(demandeDemandéLe))}
+                        {afficherDate(new Date(misÀJourLe))}
                       </div>
                     </div>
                     <div className="flex ml-auto">
