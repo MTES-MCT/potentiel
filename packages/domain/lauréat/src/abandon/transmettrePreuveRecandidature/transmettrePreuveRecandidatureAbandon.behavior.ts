@@ -36,7 +36,7 @@ class ProjetNotifiéAvantLaDateMinimumError extends InvalidOperationError {
 class ProjetNotifiéAprèsLaDateMaximumError extends InvalidOperationError {
   constructor() {
     super(
-      `Il est impossible de transmettre comme preuve de recandidature un projet ayant été notifié après le 31/03/2024`,
+      `Il est impossible de transmettre comme preuve de recandidature un projet ayant été notifié après le 31/03/2025`,
     );
   }
 }
@@ -68,7 +68,7 @@ export async function transmettrePreuveRecandidature(
     throw new ProjetNotifiéAvantLaDateMinimumError();
   }
 
-  if (dateNotification.estUltérieureÀ(new Date('2024-03-31'))) {
+  if (dateNotification.estUltérieureÀ(new Date('2025-03-31'))) {
     throw new ProjetNotifiéAprèsLaDateMaximumError();
   }
 
