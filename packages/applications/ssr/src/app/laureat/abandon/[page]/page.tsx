@@ -28,19 +28,13 @@ export default async function Page({ params, searchParams }: PageProps) {
     },
   });
 
-  return (
-    <AbandonListPage
-      items={mapToProps(abandons)}
-      totalItems={abandons.totalItems}
-      itemsPerPage={abandons.itemsPerPage}
-    />
-  );
+  return <AbandonListPage list={mapToListProps(abandons)} filters={getFilters()} />;
 }
 
-const mapToProps = (
+const mapToListProps = (
   readModel: Abandon.ListerAbandonReadModel,
-): Parameters<typeof AbandonListPage>[0]['items'] => {
-  return readModel.items.map(
+): Parameters<typeof AbandonListPage>[0]['list'] => {
+  const items = readModel.items.map(
     ({ identifiantProjet, nomProjet, statut: { statut }, misÀJourLe, recandidature }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -52,4 +46,37 @@ const mapToProps = (
       recandidature,
     }),
   );
+
+  return {
+    items,
+    itemsPerPage: readModel.itemsPerPage,
+    totalItems: readModel.totalItems,
+  };
 };
+
+const getFilters = () => [
+  {
+    label: 'Recandidature',
+    searchParamKey: 'recandidature',
+    options: [
+      {
+        label: 'Avec recandidature',
+        value: 'true',
+      },
+      {
+        label: 'Sans recandidature',
+        value: 'false',
+      },
+    ],
+  },
+  {
+    label: 'Statut',
+    searchParamKey: 'statut',
+    options: Abandon.StatutAbandon.statuts
+      .filter((s) => s !== 'inconnu')
+      .map((statut) => ({
+        label: statut.replace('-', ' ').toLocaleLowerCase(),
+        value: statut,
+      })),
+  },
+];
