@@ -14,7 +14,6 @@ import {
   ChampsObligatoiresLégende,
   Label,
   Input,
-  LinkButton,
 } from '../../components';
 import { DetailDemandeDelaiPageDTO } from '../../../modules/modificationRequest';
 import { userIs } from '../../../modules/users';
@@ -321,7 +320,7 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
             </PrimaryButton>
           </Form>
         )}
-        {!délaiAccordéCorrigéLe &&
+        {/* {!délaiAccordéCorrigéLe &&
           status === 'acceptée' &&
           userIs(['admin', 'dgec-validateur', 'dreal'])(user) && (
             <div>
@@ -329,7 +328,7 @@ export const DetailsDemandeDelai = ({ request, modificationRequest }: DetailsDem
                 Corriger le délai accordé
               </LinkButton>
             </div>
-          )}
+          )} */}
       </div>
     </LegacyPageTemplate>
   );
