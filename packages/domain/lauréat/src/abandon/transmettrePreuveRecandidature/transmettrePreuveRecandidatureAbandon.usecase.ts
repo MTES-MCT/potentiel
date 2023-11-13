@@ -1,5 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { TransmettrePreuveRecandidatureCommand } from './transmettrePreuveRecandidatureAbandon.command';
 
 export type TransmettrePreuveRecandidatureAbandonUseCase = Message<

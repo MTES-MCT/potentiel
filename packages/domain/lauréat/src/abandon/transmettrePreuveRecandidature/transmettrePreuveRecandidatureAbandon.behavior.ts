@@ -1,5 +1,6 @@
-import { DateTime, IdentifiantProjet, IdentifiantUtilisateur } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AbandonAggregate } from '../abandon.aggregate';
 
 export type PreuveRecandidatureTransmiseEvent = DomainEvent<
