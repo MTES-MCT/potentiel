@@ -278,3 +278,31 @@ Alors(
     });
   },
 );
+
+Alors(
+  `le projet {string} devrait être la preuve de recandidature suite à l'abandon du projet {string}`,
+  async function (
+    this: PotentielWorld,
+    nomProjetPreuveRecandidature: string,
+    nomProjetAbandonné: string,
+  ) {
+    const { identitiantProjetValueType: identifiantProjetAbandonnéValueType } =
+      this.lauréatWorld.rechercherLauréatFixture(nomProjetAbandonné);
+
+    const { identitiantProjetValueType: preuveRecandidatureValueType } =
+      this.lauréatWorld.rechercherLauréatFixture(nomProjetPreuveRecandidature);
+
+    await waitForExpect(async () => {
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON_QUERY',
+        data: {
+          identifiantProjetValue: identifiantProjetAbandonnéValueType.formatter(),
+        },
+      });
+
+      expect(abandon.demande.preuveRecandidature).to.be.not.undefined;
+
+      abandon.demande.preuveRecandidature!.estÉgaleÀ(preuveRecandidatureValueType).should.be.true;
+    });
+  },
+);

@@ -21,6 +21,8 @@ import {
 import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { registerAnnulerRejetAbandonCommand } from './annuler/annulerRejetAbandon.command';
+import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettre/transmettrePreuveRecandidatureAbandon.command';
+import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 
 export type AbandonQueryDependencies = ConsulterAbandonDependencies & ListerAbandonDependencies;
 export type AbandonCommandDependencies = {
@@ -35,6 +37,7 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerRejeterAbandonCommand(loadAggregate);
   registerAnnulerAbandonCommand(loadAggregate);
   registerAnnulerRejetAbandonCommand(loadAggregate);
+  registerTransmettrePreuveRecandidatureAbandonCommand(loadAggregate);
 
   registerDemanderAbandonUseCase();
   registerAccorderAbandonUseCase();
@@ -43,6 +46,7 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerRejeterAbandonUseCase();
   registerAnnulerAbandonUseCase();
   registerAnnulerRejetAbandonUseCase();
+  registerTransmettrePreuveRecandidatureAbandonUseCase();
 };
 
 export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {

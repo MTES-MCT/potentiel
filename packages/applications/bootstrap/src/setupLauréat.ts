@@ -28,6 +28,7 @@ export const setupLauréat = async () => {
       'AbandonAnnulé-V1',
       'AbandonConfirmé-V1',
       'AbandonRejeté-V1',
+      'PreuveRecandidatureTransmise-V1',
       'ConfirmationAbandonDemandée-V1',
       'RebuildTriggered',
     ],
