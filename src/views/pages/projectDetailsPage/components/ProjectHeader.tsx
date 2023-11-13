@@ -10,8 +10,8 @@ type ProjectHeaderProps = {
 };
 
 export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
-  <div className="w-full pt-3 md:pt-0 lg:flex justify-between gap-2">
-    <div className="pl-3 mb-3">
+  <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
+    <div className="pl-3 print:pl-0 mb-3 text-sm">
       <div
         className="flex justify-start items-center
       "
@@ -29,10 +29,18 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
           )}
         </Heading1>
       </div>
-      <p className="text-sm font-medium text-gray-500 p-0 mt-3 mb-0">
+      <div className="font-medium mt-3">
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
-      </p>
-      <div className="text-sm">{project.potentielIdentifier}</div>
+      </div>
+      <div>{project.potentielIdentifier}</div>
+      <div className="hidden print:block">
+        Instruction selon le cahier des charges{' '}
+        {project.cahierDesChargesActuel.type === 'initial'
+          ? 'initial (en vigueur à la candidature)'
+          : `${
+              project.cahierDesChargesActuel.alternatif ? 'alternatif' : ''
+            } modifié rétroactivement et publié le ${project.cahierDesChargesActuel.paruLe}`}
+      </div>
     </div>
 
     <div className="px-3">

@@ -256,22 +256,24 @@ const ATraiter = ({
         {typeGarantiesFinancières && (
           <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
         )}
-        <DateEchéance
-          dateEchéance={dateEchéance}
-          projetId={project.id}
-          modificationAutorisée={modificationAutorisée}
-          garantieFinanciereEnMois={project.garantieFinanciereEnMois}
-        />
-        <div className="flex">
-          {url ? (
-            <DownloadLink fileUrl={url}>
-              Télécharger l'attestation de garanties financières
-            </DownloadLink>
-          ) : (
-            <span>Pièce-jointe introuvable</span>
-          )}
+        <div className="print:hidden">
+          <DateEchéance
+            dateEchéance={dateEchéance}
+            projetId={project.id}
+            modificationAutorisée={modificationAutorisée}
+            garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+          />
+          <div className="flex">
+            {url ? (
+              <DownloadLink fileUrl={url}>
+                Télécharger l'attestation de garanties financières
+              </DownloadLink>
+            ) : (
+              <span>Pièce-jointe introuvable</span>
+            )}
+          </div>
+          {retraitDépôtPossible && <AnnulerDépôt projetId={project.id} />}
         </div>
-        {retraitDépôtPossible && <AnnulerDépôt projetId={project.id} />}
       </ContentArea>
     </>
   );
@@ -395,31 +397,33 @@ const Validé = ({
         {typeGarantiesFinancières && (
           <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
         )}
-        <DateEchéance
-          dateEchéance={dateEchéance}
-          projetId={project.id}
-          modificationAutorisée={modificationAutorisée}
-          garantieFinanciereEnMois={project.garantieFinanciereEnMois}
-        />
-        <div>
-          {url ? (
-            <>
-              <DownloadLink fileUrl={url}>
-                Télécharger l'attestation de garanties financières
-              </DownloadLink>
-              <span>&nbsp;(validée)</span>
-            </>
-          ) : (
-            <span>Pièce-jointe introuvable</span>
+        <div className="print:hidden">
+          <DateEchéance
+            dateEchéance={dateEchéance}
+            projetId={project.id}
+            modificationAutorisée={modificationAutorisée}
+            garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+          />
+          <div>
+            {url ? (
+              <>
+                <DownloadLink fileUrl={url}>
+                  Télécharger l'attestation de garanties financières
+                </DownloadLink>
+                <span>&nbsp;(validée)</span>
+              </>
+            ) : (
+              <span>Pièce-jointe introuvable</span>
+            )}
+          </div>
+          {retraitDépôtPossible && <RetirerDocument projetId={project.id} />}
+          {envoyéesPar === 'dreal' && (
+            <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
+          )}
+          {envoyéesPar === 'admin' && (
+            <p className="m-0 italic">Ce document a été ajouté par la DGEC</p>
           )}
         </div>
-        {retraitDépôtPossible && <RetirerDocument projetId={project.id} />}
-        {envoyéesPar === 'dreal' && (
-          <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
-        )}
-        {envoyéesPar === 'admin' && (
-          <p className="m-0 italic">Ce document a été ajouté par la DGEC</p>
-        )}
       </ContentArea>
     </>
   );

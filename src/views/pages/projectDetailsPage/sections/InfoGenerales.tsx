@@ -29,25 +29,25 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => (
       </p>
     </div>
     {project.isClasse &&
-    !project.isAbandoned &&
-    ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
-      role,
-    ) ? (
-      <div className="mb-3">
-        <Heading3 className="mb-0">Raccordement au réseau</Heading3>
-        <Link
-          href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
-            convertirEnIdentifiantProjet({
-              appelOffre: project.appelOffreId,
-              période: project.periodeId,
-              famille: project.familleId,
-              numéroCRE: project.numeroCRE,
-            }).formatter(),
-          )}
-        >
-          Mettre à jour ou consulter les données de raccordement
-        </Link>
-      </div>
-    ) : null}
+      !project.isAbandoned &&
+      ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
+        role,
+      ) && (
+        <div className="print:hidden mb-3">
+          <Heading3 className="mb-0">Raccordement au réseau</Heading3>
+          <Link
+            href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
+              convertirEnIdentifiantProjet({
+                appelOffre: project.appelOffreId,
+                période: project.periodeId,
+                famille: project.familleId,
+                numéroCRE: project.numeroCRE,
+              }).formatter(),
+            )}
+          >
+            Mettre à jour ou consulter les données de raccordement
+          </Link>
+        </div>
+      )}
   </Section>
 );

@@ -58,7 +58,7 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
       tabIndex={0}
       aria-haspopup="true"
       onKeyDown={(event) => handleKeyDown(event)}
-      className={`flex flex-col w-fit ${className}`}
+      className={`print:hidden flex flex-col w-fit ${className}`}
       {...props}
     >
       {button}

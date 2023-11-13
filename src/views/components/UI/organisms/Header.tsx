@@ -23,30 +23,45 @@ type HeaderProps = {
 };
 
 const LogoAndTitle = () => (
-  <Link
-    className="flex items-center no-underline hover:no-underline focus:no-underline visited:no-underline"
-    href={routes.HOME}
-    title="Retour à l'accueil"
-    aria-label="Retour à l'accueil"
-  >
-    <div className="flex flex-col">
-      <div className="lg:mb-1 logo-before" />
-      <div className="hidden lg:block font-bold leading-none tracking-tighter text-black">
-        RÉPUBLIQUE
-        <br />
-        FRANÇAISE
-      </div>
-      <div className="hidden lg:block logo-after" />
-    </div>
-    <div className="ml-2 lg:ml-8 no-underline">
-      <div className="font-bold lg:text-xl text-black">Potentiel</div>
-      <div className="hidden lg:block text-base text-black">
-        Facilite le parcours des producteurs
-        <br />
-        d'énergies renouvelables électriques
+  <>
+    <div className="hidden print:flex items-center">
+      <img src="/images/logo-ministere-de-la-transition-energetique.png" className="w-[150px]" />
+      <div className="ml-4 no-underline">
+        <div className="font-bold text-xl text-black">Potentiel</div>
+        <div className="text-base text-black">
+          Facilite le parcours des producteurs
+          <br />
+          d'énergies renouvelables électriques
+        </div>
       </div>
     </div>
-  </Link>
+    <Link
+      className="no-underline hover:no-underline focus:no-underline visited:no-underline"
+      href={routes.HOME}
+      title="Retour à l'accueil"
+      aria-label="Retour à l'accueil"
+    >
+      <div className="flex items-center">
+        <div className="flex flex-col">
+          <div className="lg:mb-1 logo-before" />
+          <div className="hidden lg:block font-bold leading-none tracking-tighter text-black">
+            RÉPUBLIQUE
+            <br />
+            FRANÇAISE
+          </div>
+          <div className="hidden lg:block logo-after" />
+        </div>
+        <div className="ml-2 lg:ml-8 no-underline">
+          <div className="font-bold lg:text-xl text-black">Potentiel</div>
+          <div className="hidden lg:block text-base text-black">
+            Facilite le parcours des producteurs
+            <br />
+            d'énergies renouvelables électriques
+          </div>
+        </div>
+      </div>
+    </Link>
+  </>
 );
 
 const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
@@ -69,13 +84,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
 
   return (
     <>
-      <header
-        className="py-2 lg:py-0 text-lg"
-        style={{
-          fontFamily: 'Marianne, arial, sans-serif',
-          boxShadow: '0 8px 8px 0 rgb(0 0 0 / 10%)',
-        }}
-      >
+      <header className="py-2 lg:py-0 text-lg shadow-md print:shadow-none">
         {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
         <Container>
           <div className="flex flex-row pb-1 lg:py-4 items-center">
@@ -102,7 +111,7 @@ type QuickAccessProps = {
   user?: UtilisateurReadModel;
 };
 const QuickAccess = ({ user }: QuickAccessProps) => (
-  <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0">
+  <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0 print:hidden">
     {user ? (
       <>
         <li className="flex items-center">
@@ -193,7 +202,7 @@ type MainMenuProps = {
   children: React.ReactNode;
 };
 const MainMenu = ({ children }: MainMenuProps) => (
-  <>
+  <div className="print:hidden">
     <Checkbox id="menu-toggle" className="hidden" />
     <Label className="absolute top-3 right-2 text-xl lg:hidden" htmlFor="menu-toggle">
       <MenuIcon className="menu-open" />
@@ -207,7 +216,7 @@ const MainMenu = ({ children }: MainMenuProps) => (
         {children}
       </ul>
     </nav>
-  </>
+  </div>
 );
 
 type MenuItemProps = {
@@ -238,7 +247,7 @@ Header.MenuItem = MenuItem;
 
 type MenuAccèsRapidesProps = { menuDisponible: boolean };
 const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
-  <nav role="navigation" aria-label="Accès rapide" className="bg-grey-950-base">
+  <nav role="navigation" aria-label="Accès rapide" className="print:hidden bg-grey-950-base">
     <Container>
       <ul className="flex row list-none justify-start px-0 py-4 gap-4 my-0">
         <li>

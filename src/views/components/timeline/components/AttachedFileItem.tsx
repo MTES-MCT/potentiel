@@ -16,7 +16,7 @@ export const AttachedFileItem = (props: AttachedFileItemProps) => {
         </div>
         <ItemTitle title={title} />
         {description && <span>{description}</span>}
-        <ul className="list-none pl-0 mt-1">
+        <ul className="print:hidden list-none pl-0 mt-1">
           {files.map(({ id, name }) => (
             <li key={`fichier_${id}`}>
               <DownloadLink fileUrl={makeDocumentUrl(id, name)}>{name}</DownloadLink>

@@ -3,7 +3,7 @@ import React, { ComponentProps } from 'react';
 type FormProps = ComponentProps<'form'>;
 
 export const Form = ({ children, className = '', ...props }: FormProps) => (
-  <form {...props} className={`max-w-xl flex flex-col gap-4 ${className}`}>
+  <form {...props} className={`print:hidden max-w-xl flex flex-col gap-4 ${className}`}>
     {children}
   </form>
 );

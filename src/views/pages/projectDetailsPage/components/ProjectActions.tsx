@@ -2,6 +2,8 @@ import {
   DownloadLinkButton,
   SecondaryLinkButton,
   DropdownMenuSecondaryButton,
+  PrimaryButton,
+  PrintIcon,
 } from '../../../components';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
@@ -73,7 +75,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
     )}
 
     {project.isClasse && (
-      <DropdownMenuSecondaryButton buttonChildren="Faire une demande">
+      <DropdownMenuSecondaryButton buttonChildren="Faire une demande" className="w-fit">
         <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
           <span>Demander un délai</span>
         </DropdownMenuSecondaryButton.DropdownItem>
@@ -103,17 +105,21 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
 
     {project.notifiedOn && project.certificateFile && (
       <DownloadLinkButton
+        className="w-fit"
         fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           nomProjet: project.nomProjet,
           potentielIdentifier: project.potentielIdentifier,
         })}
-        className="m-auto"
       >
         Télécharger mon attestation
       </DownloadLinkButton>
     )}
+    <PrimaryButton onClick={() => window.print()}>
+      <PrintIcon className="text-white mr-2" aria-hidden />
+      Imprimer la page
+    </PrimaryButton>
   </div>
 );
 
@@ -158,7 +164,7 @@ const AdminActions = ({
 );
 
 export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
-  <div className="whitespace-nowrap">
+  <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && (
       <AdminActions
         {...{ project, signalementAbandonAutorisé: true, signalementRecoursAutorisé: true }}
