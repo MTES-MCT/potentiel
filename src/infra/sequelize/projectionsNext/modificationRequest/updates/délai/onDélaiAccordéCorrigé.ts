@@ -15,14 +15,11 @@ export const onDélaiAccordéCorrigé = ModificationRequestProjector.on(
 
       await ModificationRequest.update(
         {
-          status: 'acceptée',
-          respondedOn: occurredAt.getTime(),
-          respondedBy: corrigéPar,
           versionDate: occurredAt,
           responseFileId: fichierRéponseId,
-          acceptanceParams: {
-            dateAchèvementAccordée: dateAchèvementAccordée,
-          },
+          dateAchèvementAprèsCorrectionDélaiAccordé: new Date(dateAchèvementAccordée).toISOString(),
+          délaiAccordéCorrigéLe: new Date(occurredAt).toISOString(),
+          délaiAccordéCorrigéPar: corrigéPar,
         },
         {
           where: {

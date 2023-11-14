@@ -77,6 +77,9 @@ type Variant =
   | ({
       type: 'delai';
       acceptanceParams?: { delayInMonths: number; dateAchèvementAccordée?: string };
+      délaiAccordéCorrigéLe?: string;
+      délaiAccordéCorrigéPar?: string;
+      dateAchèvementAprèsCorrectionDélaiAccordé?: string;
     } & (
       | { delayInMonths: number; dateAchèvementDemandée?: undefined }
       | {

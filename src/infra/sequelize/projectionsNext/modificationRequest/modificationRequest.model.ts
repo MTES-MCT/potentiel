@@ -51,6 +51,9 @@ export class ModificationRequest extends Model<
   cancelledOn?: number;
   isLegacy: CreationOptional<boolean | null>;
   cahierDesCharges?: string;
+  délaiAccordéCorrigéLe?: string;
+  délaiAccordéCorrigéPar?: string;
+  dateAchèvementAprèsCorrectionDélaiAccordé?: string;
 
   project: NonAttribute<Project>;
   requestedBy: NonAttribute<{ email: string; fullName: string }>;

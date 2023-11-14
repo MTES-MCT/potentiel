@@ -134,6 +134,18 @@ export const initializeModificationRequestModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      délaiAccordéCorrigéLe: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      délaiAccordéCorrigéPar: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      dateAchèvementAprèsCorrectionDélaiAccordé: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       sequelize,
@@ -180,6 +192,11 @@ export const initializeModificationRequestModelAssociations = () => {
   ModificationRequest.belongsTo(User, {
     foreignKey: 'cancelledBy',
     as: 'cancelledByUser',
+    constraints: false,
+  });
+  ModificationRequest.belongsTo(User, {
+    foreignKey: 'délaiAccordéCorrigéPar',
+    as: 'delaiCorrigeParUser',
     constraints: false,
   });
 };

@@ -8,6 +8,7 @@ export const makeFakeDemandeDélai = (overide?: {
   ancienneDateThéoriqueAchèvement?: string;
   dateAchèvementAccordée?: string;
   délaiEnMoisAccordé?: number;
+  correctionDélaiAccordé?: { dateCorrection: string; dateAchèvementAccordée: string };
 }): DemandeDélai => ({
   pendingEvents: [],
   id: new UniqueEntityID(overide?.id) || new UniqueEntityID(),
@@ -16,4 +17,5 @@ export const makeFakeDemandeDélai = (overide?: {
   ancienneDateThéoriqueAchèvement: overide?.ancienneDateThéoriqueAchèvement,
   dateAchèvementAccordée: overide?.dateAchèvementAccordée,
   délaiEnMoisAccordé: overide?.délaiEnMoisAccordé,
+  correctionDélaiAccordé: overide?.correctionDélaiAccordé,
 });

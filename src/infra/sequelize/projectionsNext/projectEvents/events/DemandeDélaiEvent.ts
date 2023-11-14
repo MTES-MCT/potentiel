@@ -46,10 +46,19 @@ type PayloadDemandeDélaiAvecDateEvent = {
     }
 );
 
+type PayloadDélaiAccordéCorrigé = {
+  statut: 'accordée-corrigée';
+  dateAchèvementAccordée: string;
+} & ({ ancienneDateThéoriqueAchèvement: string } | { délaiEnMoisDemandé: number });
+
 export type DemandeDélaiEvent = ProjectEvent & {
   type: 'DemandeDélai';
   payload: {
     autorité: 'dgec' | 'dreal';
     demandeDélaiId: string;
-  } & (PayloadDemandeDélaiAvecDateEvent | PayloadDemandeDélaiEnMoisEvent);
+  } & (
+    | PayloadDemandeDélaiAvecDateEvent
+    | PayloadDemandeDélaiEnMoisEvent
+    | PayloadDélaiAccordéCorrigé
+  );
 };
