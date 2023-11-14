@@ -175,6 +175,18 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       cahiersDesChargesModifiésDisponibles: [],
     },
+    {
+      id: '5',
+      title: 'cinquième',
+      certificateTemplate: 'ppe2.v2',
+      noteThreshold: 14.22,
+      cahierDesCharges: {
+        référence: '2023/S 183-570186',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cdc-eolien-ppe2-cahier-des-charges-5eme-periode ',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      cahiersDesChargesModifiésDisponibles: [],
+    },
   ],
   familles: [],
 };
