@@ -90,7 +90,7 @@ export const CorrigerDelaiAccorde = ({
             </ol>
           </div>
           <AlertBox>
-            Attention : une fois ce délai corrigé, nous ne pourrez plus le corriger de nouveau.
+            Attention : une fois ce délai corrigé, vous ne pourrez plus le corriger de nouveau.
           </AlertBox>
           <div className="flex flex-col md:flex-row gap-4 mx-auto">
             <SecondaryLinkButton href={routes.GET_DETAILS_DEMANDE_DELAI_PAGE(demandeDélai.id)}>
