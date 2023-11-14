@@ -2,6 +2,7 @@ import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../../core/
 import { ok, Result } from '../../../core/utils';
 import {
   DélaiAccordé,
+  DélaiAccordéCorrigé,
   DélaiAnnulé,
   DélaiDemandé,
   DélaiEnInstruction,
@@ -39,6 +40,7 @@ export type DemandeDélai = EventStoreAggregate & {
   ancienneDateThéoriqueAchèvement: string | undefined;
   dateAchèvementAccordée: string | undefined;
   délaiEnMoisAccordé: number | undefined;
+  correctionDélaiAccordé?: { dateCorrection: string; dateAchèvementAccordée: string };
 };
 
 export const makeDemandeDélai = (
@@ -91,6 +93,14 @@ export const makeDemandeDélai = (
         return { ...agregat, statut: 'en instruction' };
       case RejetDélaiAnnulé.type:
         return { ...agregat, statut: 'envoyée' };
+      case DélaiAccordéCorrigé.type:
+        return {
+          ...agregat,
+          correctionDélaiAccordé: {
+            dateCorrection: event.occurredAt.toISOString(),
+            dateAchèvementAccordée: event.payload.dateAchèvementAccordée,
+          },
+        };
       default:
         return agregat;
     }

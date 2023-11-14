@@ -1,11 +1,10 @@
-import { or } from '../../../../core/utils';
-import { is, ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
+import { ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 
 export type ACItemProps = {
   type: 'attestation-de-conformite';
   date: number;
-  covidDelay?: true;
-  délaiCDC2022Appliqué?: true;
+  covidDelay: boolean;
+  délaiCDC2022Appliqué: boolean;
 };
 
 export const extractACItemProps = (
@@ -17,25 +16,25 @@ export const extractACItemProps = (
   }
 
   const completionDueOnEvents = events.filter(
-    or(is('ProjectCompletionDueDateSet'), is('CovidDelayGranted')),
+    (event) => event.type === 'ProjectCompletionDueDateSet' || event.type == 'CovidDelayGranted',
   );
 
-  const latestEvent = completionDueOnEvents.pop();
+  const initialProps: ACItemProps = {
+    type: 'attestation-de-conformite',
+    date: 0,
+    covidDelay: false,
+    délaiCDC2022Appliqué: false,
+  };
 
-  const hasCovidDelay = events.some(is('CovidDelayGranted'));
-
-  const hasDélaiCDC2022Appliqué = events.some(
-    (event) => event.type === 'ProjectCompletionDueDateSet' && event.délaiCDC2022Appliqué,
-  );
-
-  if (latestEvent) {
+  const props = completionDueOnEvents.reduce((props, currentEvent) => {
     return {
-      type: 'attestation-de-conformite',
-      date: latestEvent.date,
-      ...(hasCovidDelay && { covidDelay: true }),
-      ...(hasDélaiCDC2022Appliqué && { délaiCDC2022Appliqué: true }),
+      ...props,
+      ...('date' in currentEvent && { date: currentEvent.date }),
+      ...('délaiCDC2022Appliqué' in currentEvent && { délaiCDC2022Appliqué: true }),
+      ...('délaiCDC2022Annulé' in currentEvent && { délaiCDC2022Appliqué: false }),
+      ...(currentEvent.type === 'CovidDelayGranted' && { covidDelay: true }),
     };
-  }
+  }, initialProps);
 
-  return null;
+  return props.date > 0 ? props : null;
 };

@@ -157,6 +157,7 @@ export type ProjectCompletionDueDateSetDTO = {
     | 'cre'
     | 'caisse-des-dépôts';
   délaiCDC2022Appliqué?: true;
+  délaiCDC2022Annulé?: true;
 };
 
 export type ModificationRequestedDTO = {
@@ -432,6 +433,10 @@ export type DemandeDélaiDTO = {
           délaiEnMoisAccordé: number;
         }
     ))
+  | {
+      statut: 'accordée-corrigée';
+      dateAchèvementAccordée: string;
+    }
 );
 
 export type DemandeAbandonDTO = {

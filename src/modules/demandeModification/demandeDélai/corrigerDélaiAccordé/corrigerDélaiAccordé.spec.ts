@@ -16,6 +16,7 @@ import { statutsDemandeDélai } from '../DemandeDélai';
 import { CorrectionDélaiNonAccordéImpossibleError } from './CorrectionDélaiNonAccordéImpossibleError';
 import { CorrectionDélaiImpossibleCarProjetNonClasséError } from './CorrectionDélaiImpossibleCarProjetNonClasséError';
 import { DateAntérieureDateAchèvementInitialeError } from './DateAntérieureDateAchèvementInitialeError';
+import { NouvelleCorrectionDélaiAccordéImpossible } from './NouvelleCorrectionDélaiAccordéImpossibleError';
 
 describe(`Use-case corriger un délai accordé`, () => {
   const dateAchèvementActuelle = new Date('2026-01-01');
@@ -280,6 +281,54 @@ describe(`Use-case corriger un délai accordé`, () => {
         expect(résultat.isErr()).toBe(true);
         expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(
           DateAntérieureDateAchèvementInitialeError,
+        );
+        expect(fileRepo.save).not.toHaveBeenCalled();
+        expect(publishToEventStore).not.toHaveBeenCalled();
+      });
+    });
+    describe(`Erreur si le délai accordé a déjà été corrigé`, () => {
+      it(`
+        Etant donné un projet lauréat
+        Et une demande de délai accordée
+        Et une correction du délai accordé
+        Lorsqu'un utilisateur 'admin' corrige le délai accordé
+        Alors l'utilisateur devrait être informé qu'il ne peut pas corriger plusieurs fois le même délai accordé
+        `, async () => {
+        const demandeDélai = makeFakeDemandeDélai({
+          id: demandeDélaiId,
+          statut: 'accordée',
+          projetId: projetId.toString(),
+          correctionDélaiAccordé: {
+            dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
+            dateCorrection: new Date('2023-10-31').toISOString(),
+          },
+        });
+        const demandeDélaiRepo = {
+          ...fakeTransactionalRepo(demandeDélai),
+          ...fakeRepo(demandeDélai),
+        };
+
+        const corrigerDélaiAccordé = makeCorrigerDélaiAccordé({
+          publishToEventStore,
+          fileRepo,
+          projectRepo,
+          demandeDélaiRepo,
+          shouldUserAccessProject,
+        });
+
+        const résultat = await corrigerDélaiAccordé({
+          demandeDélaiId,
+          fichierRéponse,
+          explications,
+          dateAchèvementAccordée,
+          user,
+          dateAchèvementProjetInitiale,
+          projectLegacyId: projetId.toString(),
+        });
+
+        expect(résultat.isErr()).toBe(true);
+        expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(
+          NouvelleCorrectionDélaiAccordéImpossible,
         );
         expect(fileRepo.save).not.toHaveBeenCalled();
         expect(publishToEventStore).not.toHaveBeenCalled();

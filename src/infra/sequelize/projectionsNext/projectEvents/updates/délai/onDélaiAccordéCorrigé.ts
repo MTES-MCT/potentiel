@@ -29,7 +29,8 @@ export default ProjectEventProjector.on(DélaiAccordéCorrigé, async (évèneme
         eventPublishedAt: occurredAt.getTime(),
         payload: {
           ...projectEvent.payload,
-          corrigéPar,
+          statut: 'accordée-corrigée',
+          accordéPar: corrigéPar,
           dateAchèvementAccordée: new Date(dateAchèvementAccordée).toISOString(),
         },
       },
