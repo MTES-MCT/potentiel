@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
-import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { subscribe, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
+  CandidatureAdapter,
   récupérerCandidatureAdapter,
   récupérerPorteursProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
@@ -10,12 +11,22 @@ import {
   registerProjetNotification,
 } from './exemple/exemple.notification';
 import { QuelqueChoseSestPasséEvent } from './exemple/exemple.event';
+import {
+  ExecuteLauréatAbandonNotification,
+  registerLauréatAbandonNotification,
+} from './lauréat/abandon/accorder/accorderAbandon.notification';
+import { Abandon } from '@potentiel-domain/laureat';
 
 export type UnsetupApp = () => Promise<void>;
 
 export const bootstrap = async (): Promise<UnsetupApp> => {
   registerProjetNotification({
     récupérerCandidatureLegacy: récupérerCandidatureAdapter,
+    récupérerPorteursProjet: récupérerPorteursProjetAdapter,
+  });
+
+  registerLauréatAbandonNotification({
+    récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
     récupérerPorteursProjet: récupérerPorteursProjetAdapter,
   });
 
@@ -32,5 +43,20 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
     },
   });
 
-  return unsubscribeNotifications;
+  const unsubscribeLauréatAbandonNotifications = await subscribe<Abandon.AbandonEvent & Event>({
+    name: 'notifications',
+    streamCategory: 'abandon',
+    eventType: ['AbandonAccordé-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<ExecuteLauréatAbandonNotification>({
+        type: 'EXECUTE_LAUREAT_ABANDON_NOTIFICATION',
+        data: event,
+      });
+    },
+  });
+
+  return async () => {
+    await unsubscribeNotifications();
+    await unsubscribeLauréatAbandonNotifications();
+  };
 };
