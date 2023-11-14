@@ -5,8 +5,8 @@ export type RawType = `${number}-${number}-${number}T${number}:${number}:${numbe
 export type ValueType = ReadonlyValueType<{
   date: Date;
   estDansLeFutur(): boolean;
-  estAntérieurÀ(dateTime: Date | ValueType): boolean;
-  estUltérieureÀ(dateTime: Date | ValueType): boolean;
+  estAntérieurÀ(dateTime: ValueType): boolean;
+  estUltérieureÀ(dateTime: ValueType): boolean;
   formatter(): RawType;
 }>;
 
@@ -25,11 +25,11 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     estDansLeFutur() {
       return this.date.getTime() > Date.now();
     },
-    estAntérieurÀ(dateTime: Date | ValueType) {
-      return this.date.getTime() < (dateTime instanceof Date ? dateTime : dateTime.date).getTime();
+    estAntérieurÀ(dateTime: ValueType) {
+      return this.date.getTime() < dateTime.date.getTime();
     },
-    estUltérieureÀ(dateTime: Date | ValueType) {
-      return this.date.getTime() > (dateTime instanceof Date ? dateTime : dateTime.date).getTime();
+    estUltérieureÀ(dateTime: ValueType) {
+      return this.date.getTime() > dateTime.date.getTime();
     },
     formatter() {
       return this.date.toISOString() as RawType;
