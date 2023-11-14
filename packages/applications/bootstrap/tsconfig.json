@@ -6,6 +6,9 @@
   },
   "references": [
     {
+      "path": "../../domain/appel-offres"
+    },
+    {
       "path": "../../domain/lauréat"
     },
     {

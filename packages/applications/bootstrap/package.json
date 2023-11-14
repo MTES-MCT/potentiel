@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-domain/appel-offres": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/laureat": "*",

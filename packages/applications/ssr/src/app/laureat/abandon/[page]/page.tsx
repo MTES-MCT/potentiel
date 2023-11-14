@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import {} from '@potentiel-domain/appel-offres';
 import { Abandon } from '@potentiel-domain/laureat';
 
 import { AbandonListPage } from '@/components/pages/abandon/AbandonListPage';
@@ -27,6 +28,8 @@ export default async function Page({ params, searchParams }: PageProps) {
       statut,
     },
   });
+
+  const appelOffres = await mediator.send<AppelOffres>({});
 
   return <AbandonListPage list={mapToListProps(abandons)} filters={getFilters()} />;
 }
