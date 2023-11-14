@@ -1,13 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { sendEmail } from '@potentiel/email-sender';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { isSome } from '@potentiel/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  RécupérerCandidatureLegacyPort,
-  RécupérerPorteursProjetPort,
-} from '@potentiel/domain-views';
+import { RécupérerPorteursProjetPort } from '@potentiel/domain-views';
 import { Abandon } from '@potentiel-domain/laureat';
+import { RécupérerCandidaturePort } from '@potentiel-domain/candidature';
 
 export type ExecuteLauréatAbandonNotification = Message<
   'EXECUTE_LAUREAT_ABANDON_NOTIFICATION',
@@ -15,28 +13,27 @@ export type ExecuteLauréatAbandonNotification = Message<
 >;
 
 export type AbandonNotificationDependencies = {
-  récupérerCandidatureLegacy: RécupérerCandidatureLegacyPort;
+  récupérerCandidature: RécupérerCandidaturePort;
   récupérerPorteursProjet: RécupérerPorteursProjetPort;
 };
 
 export const registerLauréatAbandonNotification = ({
-  récupérerCandidatureLegacy,
+  récupérerCandidature,
   récupérerPorteursProjet,
 }: AbandonNotificationDependencies) => {
   const handler: MessageHandler<ExecuteLauréatAbandonNotification> = async (event) => {
     switch (event.type) {
       case 'AbandonAccordé-V1':
-        const projet = await récupérerCandidatureLegacy(
-          convertirEnIdentifiantProjet(event.payload.identifiantProjet),
+        const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+          event.payload.identifiantProjet,
         );
+        const projet = await récupérerCandidature(identifiantProjet.formatter());
 
         if (isSome(projet)) {
-          const urlTransmettrePreuveRecandidature = `/projet/${encodeURIComponent(
-            projet.legacyId,
-          )}/transmettre-preuve-recandidature`;
-          const porteurs = await récupérerPorteursProjet(
-            convertirEnIdentifiantProjet(event.payload.identifiantProjet),
-          );
+          const urlTransmettrePreuveRecandidature = `/laureat/${encodeURIComponent(
+            identifiantProjet.formatter(),
+          )}/abandon/preuve-recandidature`;
+          const porteurs = await récupérerPorteursProjet(identifiantProjet);
 
           sendEmail({
             templateId: '5308275',

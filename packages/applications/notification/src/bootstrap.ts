@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import { subscribe, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
+  CandidatureAdapter,
   récupérerCandidatureAdapter,
   récupérerPorteursProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
@@ -25,7 +26,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
   });
 
   registerLauréatAbandonNotification({
-    récupérerCandidatureLegacy: récupérerCandidatureAdapter,
+    récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
     récupérerPorteursProjet: récupérerPorteursProjetAdapter,
   });
 

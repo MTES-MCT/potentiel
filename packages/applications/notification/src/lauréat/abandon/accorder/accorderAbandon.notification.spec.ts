@@ -247,9 +247,9 @@ describe(`Notification`, () => {
               { fullName: porteurs[1].nom, email: porteurs[1].email },
             ]),
             variables: expect.objectContaining({
-              lien_transmettre_preuve_recandidature: `/projet/${encodeURIComponent(
-                projectLegacyId,
-              )}/transmettre-preuve-recandidature`,
+              lien_transmettre_preuve_recandidature: `/laureat/${encodeURIComponent(
+                identifiantProjet.formatter(),
+              )}/abandon/preuve-recandidature`,
             }),
           }),
         );
