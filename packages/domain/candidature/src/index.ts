@@ -4,16 +4,28 @@ import {
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query';
 
-// Query
-export type CandidatureQuery = ConsulterCandidatureQuery;
+import {
+  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+  RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort,
+  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel,
+} from './lister/listerCandidaturesNotifiéesEtNonAbandonnéesParPorteur.query';
 
-export { ConsulterCandidatureQuery, ConsulterCandidatureReadModel };
+// Query
+export type CandidatureQuery =
+  | ConsulterCandidatureQuery
+  | ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery;
+
+export {
+  ConsulterCandidatureQuery,
+  ConsulterCandidatureReadModel,
+  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel,
+};
 
 // Register
 export * from './register';
 
 // Port
-export { RécupérerCandidaturePort };
+export { RécupérerCandidaturePort, RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort };
 
 // Projection
 export * from './candidature.projection';

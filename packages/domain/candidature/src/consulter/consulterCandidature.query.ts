@@ -30,7 +30,7 @@ export type ConsulterCandidatureReadModel = {
 };
 
 export type ConsulterCandidatureQuery = Message<
-  'CONSULTER_CANDIDATURE',
+  'CONSULTER_CANDIDATURE_QUERY',
   {
     identifiantProjet: string;
   },
@@ -45,7 +45,7 @@ export type ConsulterCandidatureDependencies = {
   récupérerCandidature: RécupérerCandidaturePort;
 };
 
-export const registerConsulterDocumentProjetQuery = ({
+export const registerConsulterCandidatureQuery = ({
   récupérerCandidature,
 }: ConsulterCandidatureDependencies) => {
   const handler: MessageHandler<ConsulterCandidatureQuery> = async ({ identifiantProjet }) => {
@@ -58,7 +58,7 @@ export const registerConsulterDocumentProjetQuery = ({
     return mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_CANDIDATURE', handler);
+  mediator.register('CONSULTER_CANDIDATURE_QUERY', handler);
 };
 
 const mapToReadModel = ({
