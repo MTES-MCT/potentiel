@@ -74,16 +74,14 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   >
     <>
       <DetailDemandeAbandon demande={demande} identifiantProjet={identifiantProjet} />
-      {confirmation ||
-        rejet ||
-        (accord && (
-          <InstructionAbandon
-            identifiantProjet={identifiantProjet}
-            confirmation={confirmation}
-            rejet={rejet}
-            accord={accord}
-          />
-        ))}
+      {(confirmation || rejet || accord) && (
+        <InstructionAbandon
+          identifiantProjet={identifiantProjet}
+          confirmation={confirmation}
+          rejet={rejet}
+          accord={accord}
+        />
+      )}
       <FormulaireReponseDemandeAbandon
         recandidature={demande.recandidature}
         statut={statut}
