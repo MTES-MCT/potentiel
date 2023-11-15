@@ -458,3 +458,24 @@ Quand(
     }
   },
 );
+
+Quand(
+  `le DGEC validateur relance le proteur du projet {string} pour qu'il transmettre une preuve de recandidature`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const dateRelance = DateTime.convertirEnValueType(new Date());
+      this.lauréatWorld.abandonWorld.dateRelance = dateRelance;
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_USECASE',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          dateRelanceValue: dateRelance.formatter(),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

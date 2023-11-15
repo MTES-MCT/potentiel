@@ -106,6 +106,19 @@ export class AbandonWord {
     this.#dateAccord = value;
   }
 
+  #dateRelance!: DateTime.ValueType;
+
+  get dateRelance(): DateTime.ValueType {
+    if (!this.#dateRelance) {
+      throw new Error('dateRelance not initialized');
+    }
+    return this.#dateRelance;
+  }
+
+  set dateRelance(value: DateTime.ValueType) {
+    this.#dateRelance = value;
+  }
+
   #raison!: string;
 
   get raison(): string {
