@@ -33,6 +33,7 @@ import {
   applyPreuveRecandidatureTransmise,
 } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { relancerTransmissionPreuveRecandidature } from './relancer/relancerTransmissionPreuveRecandidatureAbandon.behavior';
 
 export type AbandonEvent =
   | AbandonDemandéEvent
@@ -81,6 +82,7 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   readonly demanderConfirmation: typeof demanderConfirmation;
   readonly rejeter: typeof rejeter;
   readonly transmettrePreuveRecandidature: typeof transmettrePreuveRecandidature;
+  readonly relancerTransmissionPreuveRecandidature: typeof relancerTransmissionPreuveRecandidature;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -103,6 +105,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   demanderConfirmation,
   rejeter,
   transmettrePreuveRecandidature,
+  relancerTransmissionPreuveRecandidature,
 });
 
 function apply(this: AbandonAggregate, event: AbandonEvent) {

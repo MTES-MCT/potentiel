@@ -449,7 +449,7 @@ Quand(
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_USECASE',
         data: {
-          identifantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
           dateRelanceValue: new Date(dateDeRelance).toISOString(),
         },
       });

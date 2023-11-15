@@ -1,36 +1,29 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { loadAbandonFactory } from '../abandon.aggregate';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-export type TransmettrePreuveRecandidatureCommand = Message<
-  'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
+export type RelancerTransmissionPreuveRecandidatureCommand = Message<
+  'RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_COMMAND',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    preuveRecandidature: IdentifiantProjet.ValueType;
-    dateNotification: DateTime.ValueType;
-    utilisateur: IdentifiantUtilisateur.ValueType;
+    dateRelance: DateTime.ValueType;
   }
 >;
 
-export const registerTransmettrePreuveRecandidatureAbandonCommand = (
+export const registerRelancerTransmissionPreuveRecandidatureCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadAbandon = loadAbandonFactory(loadAggregate);
-  const handler: MessageHandler<TransmettrePreuveRecandidatureCommand> = async ({
+  const handler: MessageHandler<RelancerTransmissionPreuveRecandidatureCommand> = async ({
     identifiantProjet,
-    preuveRecandidature,
-    dateNotification,
-    utilisateur,
+    dateRelance,
   }) => {
     const abandon = await loadAbandon(identifiantProjet);
-    await abandon.transmettrePreuveRecandidature({
+    await abandon.relancerTransmissionPreuveRecandidature({
       identifiantProjet,
-      preuveRecandidature,
-      dateNotification,
-      utilisateur,
+      dateRelance,
     });
   };
-  mediator.register('TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND', handler);
+  mediator.register('RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_COMMAND', handler);
 };

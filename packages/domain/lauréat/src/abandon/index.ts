@@ -10,6 +10,7 @@ import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { DemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
 import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandon.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
+import { RelancerTransmissionPreuveRecandidatureAbandonUseCase } from './relancer/relancerTransmissionPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 
 // Query
@@ -29,7 +30,8 @@ export type AbandonUseCase =
   | DemanderAbandonUseCase
   | DemanderConfirmationAbandonUseCase
   | RejeterAbandonUseCase
-  | TransmettrePreuveRecandidatureAbandonUseCase;
+  | TransmettrePreuveRecandidatureAbandonUseCase
+  | RelancerTransmissionPreuveRecandidatureAbandonUseCase;
 
 export {
   AccorderAbandonUseCase,

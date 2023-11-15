@@ -1,4 +1,6 @@
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { RelancerTransmissionPreuveRecandidatureCommand } from './relancerTransmissionPreuveRecandidatureAbandon.command';
 
 export type RelancerTransmissionPreuveRecandidatureAbandonUseCase = Message<
   'RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_USECASE',
@@ -13,19 +15,16 @@ export const registerRelancerTransmissionPreuveRecandidatureAbandonUseCase = () 
     identifiantProjetValue,
     dateRelanceValue,
   }) => {
-    // const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    // const preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidatureValue);
-    // const dateNotification = DateTime.convertirEnValueType(dateNotificationValue);
-    // const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
-    // await mediator.send<TransmettrePreuveRecandidatureCommand>({
-    //   type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
-    //   data: {
-    //     identifiantProjet,
-    //     preuveRecandidature,
-    //     dateNotification,
-    //     utilisateur,
-    //   },
-    // });
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const dateRelance = DateTime.convertirEnValueType(dateRelanceValue);
+
+    await mediator.send<RelancerTransmissionPreuveRecandidatureCommand>({
+      type: 'RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_COMMAND',
+      data: {
+        identifiantProjet,
+        dateRelance,
+      },
+    });
   };
   mediator.register('RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_USECASE', runner);
 };
