@@ -31,7 +31,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
           Abandon du projet <span className="font-bold">{nomProjet}</span>
         </h2>
         <div className="flex flex-col md:flex-row gap-2 py-2">
-          <StatutDemandeBadge statut={statut} />
+          <StatutDemandeBadge statut={statut} small />
           {recandidature && (
             <Badge noIcon small severity="info">
               avec recandidature

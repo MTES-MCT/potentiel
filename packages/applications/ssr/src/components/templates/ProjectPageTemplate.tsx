@@ -3,7 +3,7 @@ import { PageTemplate } from '@/components/templates/PageTemplate';
 import { Heading1 } from '../atoms/headings';
 
 type ProjectPageTemplate = {
-  heading: string;
+  heading: React.ReactNode;
   candidature: {
     statut: 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
     nom: string;
