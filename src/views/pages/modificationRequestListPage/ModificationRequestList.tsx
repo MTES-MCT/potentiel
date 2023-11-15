@@ -289,7 +289,7 @@ export const ModificationRequestList = ({
                 <option value="acceptée">Acceptée</option>
                 <option value="rejetée">Rejetée</option>
                 <option value="annulée">Annulée</option>
-                <option value="information validée">Information validée</option>
+                <option value="information validée">Information enregistrée</option>
               </Select>
             </div>
           </Form>
