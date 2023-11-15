@@ -439,3 +439,22 @@ Quand(
     }
   },
 );
+
+Quand(
+  `le DGEC validateur relance à la date du {string} le porteur du projet {string} pour qu'il transmettre une preuve de recandidature`,
+  async function (this: PotentielWorld, dateDeRelance: string, nomProjet: string) {
+    try {
+      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_USECASE',
+        data: {
+          identifantProjetValue: identitiantProjetValueType.formatter(),
+          dateRelanceValue: new Date(dateDeRelance).toISOString(),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

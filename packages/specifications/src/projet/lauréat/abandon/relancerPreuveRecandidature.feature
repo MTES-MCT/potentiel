@@ -19,3 +19,8 @@ Fonctionnalité: Relancer un porteur pour qu'il transmette une preuve de recandi
       | 11          | n'a pas été relancé |
       | 15          | a été relancé       |
   
+  @select
+  Scénario: Impossible de relancer un porteur de projet si la date de relance dépasse le 31/03/2025
+  Etant donné un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
+  Quand le DGEC validateur relance à la date du "2025-04-01" le porteur du projet "Du boulodrome de Marseille" pour qu'il transmettre une preuve de recandidature
+  Alors le DGEC validateur devrait être informé que "Impossible de relancer le porteur après la date légale du 31/03/2025"
