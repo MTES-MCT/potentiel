@@ -33,7 +33,11 @@ import {
   applyPreuveRecandidatureTransmise,
 } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { relancerTransmissionPreuveRecandidature } from './relancer/relancerTransmissionPreuveRecandidatureAbandon.behavior';
+import {
+  PreuveRecandidatureDemandéeEvent,
+  applyPreuveRecandidatureDemandée,
+  demanderPreuveRecandidature,
+} from './demander/demanderPreuveRecandidatureAbandon.behavior';
 
 export type AbandonEvent =
   | AbandonDemandéEvent
@@ -42,7 +46,8 @@ export type AbandonEvent =
   | AbandonAccordéEvent
   | ConfirmationAbandonDemandéeEvent
   | AbandonConfirméEvent
-  | PreuveRecandidatureTransmiseEvent;
+  | PreuveRecandidatureTransmiseEvent
+  | PreuveRecandidatureDemandéeEvent;
 
 export type AbandonAggregate = Aggregate<AbandonEvent> & {
   statut: StatutAbandon.ValueType;
@@ -51,6 +56,7 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
     pièceJustificative?: DocumentProjet.ValueType;
     recandidature: boolean;
     preuveRecandidature?: IdentifiantProjet.ValueType;
+    preuveRecandidatureDemandéeLe?: DateTime.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: IdentifiantUtilisateur.ValueType;
     confirmation?: {
@@ -82,7 +88,7 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   readonly demanderConfirmation: typeof demanderConfirmation;
   readonly rejeter: typeof rejeter;
   readonly transmettrePreuveRecandidature: typeof transmettrePreuveRecandidature;
-  readonly relancerTransmissionPreuveRecandidature: typeof relancerTransmissionPreuveRecandidature;
+  readonly demanderPreuveRecandidature: typeof demanderPreuveRecandidature;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -105,7 +111,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   demanderConfirmation,
   rejeter,
   transmettrePreuveRecandidature,
-  relancerTransmissionPreuveRecandidature,
+  demanderPreuveRecandidature,
 });
 
 function apply(this: AbandonAggregate, event: AbandonEvent) {
@@ -130,6 +136,10 @@ function apply(this: AbandonAggregate, event: AbandonEvent) {
       break;
     case 'PreuveRecandidatureTransmise-V1':
       applyPreuveRecandidatureTransmise.bind(this)(event);
+      break;
+    case 'PreuveRecandidatureDemandée-V1':
+      applyPreuveRecandidatureDemandée.bind(this)(event);
+      break;
   }
 }
 

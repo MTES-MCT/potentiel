@@ -23,8 +23,8 @@ import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase'
 import { registerAnnulerRejetAbandonCommand } from './annuler/annulerRejetAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettre/transmettrePreuveRecandidatureAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
-import { registerRelancerTransmissionPreuveRecandidatureAbandonUseCase } from './relancer/relancerTransmissionPreuveRecandidatureAbandon.usecase';
-import { registerRelancerTransmissionPreuveRecandidatureCommand } from './relancer/relancerTransmissionPreuveRecandidatureAbandon.command';
+import { registerDemanderPreuveRecandidatureAbandonCommand } from './demander/demanderPreuveRecandidatureAbandon.command';
+import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
 
 export type AbandonQueryDependencies = ConsulterAbandonDependencies & ListerAbandonDependencies;
 export type AbandonCommandDependencies = {
@@ -40,7 +40,7 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerAnnulerAbandonCommand(loadAggregate);
   registerAnnulerRejetAbandonCommand(loadAggregate);
   registerTransmettrePreuveRecandidatureAbandonCommand(loadAggregate);
-  registerRelancerTransmissionPreuveRecandidatureCommand(loadAggregate);
+  registerDemanderPreuveRecandidatureAbandonCommand(loadAggregate);
 
   registerDemanderAbandonUseCase();
   registerAccorderAbandonUseCase();
@@ -50,7 +50,7 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerAnnulerAbandonUseCase();
   registerAnnulerRejetAbandonUseCase();
   registerTransmettrePreuveRecandidatureAbandonUseCase();
-  registerRelancerTransmissionPreuveRecandidatureAbandonUseCase();
+  registerDemanderPreuveRecandidatureAbandonUseCase();
 };
 
 export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {

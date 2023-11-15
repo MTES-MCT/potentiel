@@ -46,7 +46,7 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
   const unsubscribeLauréatAbandonNotifications = await subscribe<Abandon.AbandonEvent & Event>({
     name: 'notifications',
     streamCategory: 'abandon',
-    eventType: ['AbandonAccordé-V1'],
+    eventType: ['PreuveRecandidatureDemandée-V1'],
     eventHandler: async (event) => {
       await mediator.publish<ExecuteLauréatAbandonNotification>({
         type: 'EXECUTE_LAUREAT_ABANDON_NOTIFICATION',

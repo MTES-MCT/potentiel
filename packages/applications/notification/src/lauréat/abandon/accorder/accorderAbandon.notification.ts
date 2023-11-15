@@ -23,7 +23,7 @@ export const registerLauréatAbandonNotification = ({
 }: AbandonNotificationDependencies) => {
   const handler: MessageHandler<ExecuteLauréatAbandonNotification> = async (event) => {
     switch (event.type) {
-      case 'AbandonAccordé-V1':
+      case 'PreuveRecandidatureDemandée-V1':
         const identifiantProjet = IdentifiantProjet.convertirEnValueType(
           event.payload.identifiantProjet,
         );

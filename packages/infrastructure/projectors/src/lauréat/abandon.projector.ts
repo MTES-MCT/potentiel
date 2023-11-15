@@ -115,6 +115,12 @@ export const registerAbandonProjector = () => {
             preuveRecandidature: payload.preuveRecandidature,
           });
           break;
+        case 'PreuveRecandidatureDemandée-V1':
+          await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
+            ...abandonToUpsert,
+            preuveRecandidatureDemandéeLe: payload.demandéeLe,
+          });
+          break;
         case 'AbandonAnnulé-V1':
           await removeProjection(`abandon|${identifiantProjet}`);
           break;

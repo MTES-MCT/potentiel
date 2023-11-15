@@ -447,10 +447,10 @@ Quand(
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
-        type: 'RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_USECASE',
+        type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
-          dateRelanceValue: new Date(dateDeRelance).toISOString(),
+          dateDemandeValue: new Date(dateDeRelance).toISOString(),
         },
       });
     } catch (error) {
@@ -468,10 +468,10 @@ Quand(
       this.lauréatWorld.abandonWorld.dateRelance = dateRelance;
 
       await mediator.send<Abandon.AbandonUseCase>({
-        type: 'RELANCER_TRANSMISSION_PREUVE_RECANDIDATURE_USECASE',
+        type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
-          dateRelanceValue: dateRelance.formatter(),
+          dateDemandeValue: dateRelance.formatter(),
         },
       });
     } catch (error) {

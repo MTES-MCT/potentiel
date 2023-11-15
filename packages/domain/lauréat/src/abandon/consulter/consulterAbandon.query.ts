@@ -18,6 +18,7 @@ export type ConsulterAbandonReadModel = {
     raison: string;
     recandidature: boolean;
     preuveRecandidature?: IdentifiantProjet.ValueType;
+    preuveRecandidatureDemandéeLe?: DateTime.ValueType;
     piéceJustificative?: DocumentProjet.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: IdentifiantUtilisateur.ValueType;
@@ -69,6 +70,9 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
       recandidature: result.demandeRecandidature,
       preuveRecandidature: result.preuveRecandidature
         ? IdentifiantProjet.convertirEnValueType(result.preuveRecandidature)
+        : undefined,
+      preuveRecandidatureDemandéeLe: result.preuveRecandidatureDemandéeLe
+        ? DateTime.convertirEnValueType(result.preuveRecandidatureDemandéeLe)
         : undefined,
       piéceJustificative: result.demandePièceJustificativeFormat
         ? DocumentProjet.convertirEnValueType(

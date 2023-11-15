@@ -321,11 +321,11 @@ Alors(
       });
 
       if (aÉtéRelancé === "n'a pas été relancé") {
-        expect(abandon.demande.preuveRecandidatureRelancéLe).to.be.undefined;
+        expect(abandon.demande.preuveRecandidatureDemandéeLe).to.be.undefined;
       } else {
-        abandon.demande.preuveRecandidatureRelancéLe!.estÉgaleÀ(
+        abandon.demande.preuveRecandidatureDemandéeLe!.estÉgaleÀ(
           this.lauréatWorld.abandonWorld.dateRelance,
-        );
+        ).should.to.be.true;
       }
     });
   },
