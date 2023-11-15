@@ -1,8 +1,7 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { ConsulterCandidatureReadModel } from '@potentiel-domain/candidature';
 import { FC } from 'react';
 
-type ProjectStatusBadgeProps = { statut: ConsulterCandidatureReadModel['statut'] };
+type ProjectStatusBadgeProps = { statut: 'non-notifié' | 'abandonné' | 'classé' | 'éliminé' };
 
 export const ProjectStatusBadge: FC<ProjectStatusBadgeProps> = ({ statut }) => (
   <Badge

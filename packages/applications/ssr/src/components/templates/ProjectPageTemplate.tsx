@@ -1,45 +1,37 @@
-import { FC } from 'react';
-import { ConsulterCandidatureReadModel } from '@potentiel-domain/candidature';
-import { ProjectStatusBadge } from '@/components/molecules/ProjectStatusBadge';
-import { displayDate } from '@/utils/displayDate';
+import { RésuméCandidatureBanner } from '@/components/organisms/ResumeCandidatureBanner';
+import { PageTemplate } from '@/components/templates/PageTemplate';
+import { Heading1 } from '../atoms/headings';
 
 type ProjectPageTemplate = {
-  children: React.ReactNode;
-  candidature: ConsulterCandidatureReadModel;
+  heading: string;
+  candidature: {
+    statut: 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
+    nom: string;
+    appelOffre: string;
+    période: string;
+    famille: string;
+    localité: {
+      commune: string;
+      département: string;
+      région: string;
+      codePostal: string;
+    };
+    dateDésignation: string;
+  };
   identifiantProjet: string;
+  children: React.ReactNode;
 };
 
-export const ProjectPageTemplate: FC<ProjectPageTemplate> = ({
-  children,
+export const ProjectPageTemplate = ({
+  heading,
+  candidature,
   identifiantProjet,
-  candidature: { statut, nom, appelOffre, période, famille, numéroCRE, localité, dateDésignation },
-}) => {
+  children,
+}: ProjectPageTemplate) => {
   return (
-    <>
-      <aside className="bg-blue-france-sun-base text-white py-6 mb-3">
-        <div className="fr-container lg:flex justify-between gap-2">
-          <div className="mb-3">
-            <div className="flex justify-start items-center">
-              <a
-                href={`/projet/${encodeURIComponent(identifiantProjet)}/details.html`}
-                className="text-xl font-bold !text-white mr-2"
-              >
-                {nom}
-              </a>
-              <ProjectStatusBadge statut={statut} />
-            </div>
-            <p className="text-sm font-medium p-0 m-0 mt-2">
-              {localité.commune}, {localité.département}, {localité.région}
-            </p>
-            <div>
-              désigné le {displayDate(new Date(dateDésignation))} pour la période {appelOffre}{' '}
-              {période}
-              {famille ? `, famille ${famille}` : ''}
-            </div>
-          </div>
-        </div>
-      </aside>
-      <div className="fr-container my-10">{children}</div>
-    </>
+    <PageTemplate banner={<RésuméCandidatureBanner {...{ ...candidature, identifiantProjet }} />}>
+      <Heading1>{heading}</Heading1>
+      <div>{children}</div>
+    </PageTemplate>
   );
 };

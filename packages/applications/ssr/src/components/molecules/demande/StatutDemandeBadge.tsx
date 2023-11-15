@@ -2,10 +2,11 @@ import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { Abandon } from '@potentiel-domain/laureat';
 
-type StatutAbandonBadgeProps = {
+type StatutDemandeBadgeProps = {
   statut: Abandon.StatutAbandon.RawType;
+  className?: string;
 };
-export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({ statut }) => (
+export const StatutDemandeBadge: FC<StatutDemandeBadgeProps> = ({ statut, className = '' }) => (
   <Badge
     noIcon
     severity={
@@ -18,7 +19,7 @@ export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({ statut }) => (
         : 'info'
     }
     small
-    className="sm:ml-3"
+    className={`sm:ml-3 ${className}`}
   >
     {statut}
   </Badge>
