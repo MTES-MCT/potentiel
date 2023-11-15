@@ -5,7 +5,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 
 export const GET = async (request: Request, { params: { identifiant } }: IdentifiantParameter) => {
   const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-    type: 'CONSULTER_ABANDON',
+    type: 'CONSULTER_ABANDON_QUERY',
     data: {
       identifiantProjetValue: identifiant,
     },
