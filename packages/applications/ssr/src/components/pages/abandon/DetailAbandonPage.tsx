@@ -71,6 +71,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   <ProjectPageTemplate
     candidature={candidature}
     identifiantProjet={identifiantProjet}
+    retour={{ title: 'retour vers la liste', url: '/laureat/abandon/1' }}
     heading={
       <>
         <span>Abandon</span> <StatutDemandeBadge statut={statut} className="align-middle" />

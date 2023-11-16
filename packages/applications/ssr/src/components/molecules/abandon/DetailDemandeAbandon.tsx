@@ -19,7 +19,7 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
   identifiantProjet,
   demande: { demandéPar, demandéLe, recandidature, raison, pièceJustificativeDisponible },
 }) => (
-  <div>
+  <div className="mb-7">
     <CallOut>
       <ul className="text-[16px]">
         <li>
