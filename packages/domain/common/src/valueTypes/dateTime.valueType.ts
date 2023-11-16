@@ -8,7 +8,7 @@ export type ValueType = ReadonlyValueType<{
   estDansLeFutur(): boolean;
   estAntérieurÀ(dateTime: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
-  nombreMoisÉcartAvec(dateTime: ValueType): number;
+  nombreMoisCompletÉcartAvec(dateTime: ValueType): number;
   formatter(): RawType;
 }>;
 
@@ -39,7 +39,7 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     estÉgaleÀ(valueType) {
       return valueType.formatter() === this.formatter();
     },
-    nombreMoisÉcartAvec(dateTime) {
+    nombreMoisCompletÉcartAvec(dateTime) {
       const écart = differenceInMonths(this.date, dateTime.date);
       return Math.abs(écart); // Peu importe si la date est avant ou aprés, on veut l'écart positif.
     },

@@ -5,6 +5,7 @@ import {
   AbandonEvent,
   ExecuteAbandonAvecRecandidatureSansPreuveProjector,
   ExecuteAbandonProjector,
+  registerAbandonAvecRecandidatureSansPreuveProjector,
   registerAbandonProjector,
 } from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
@@ -20,6 +21,7 @@ export const setupLauréat = async () => {
   });
 
   registerAbandonProjector();
+  registerAbandonAvecRecandidatureSansPreuveProjector();
 
   return await subscribe<AbandonEvent>({
     name: 'projector',

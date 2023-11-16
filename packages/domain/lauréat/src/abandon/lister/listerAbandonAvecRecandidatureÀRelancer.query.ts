@@ -16,13 +16,13 @@ export type ListerAbandonsAvecRecandidatureÀRelancerQuery = Message<
   AbandonsAvecRecandidatureÀRelancerReadModel
 >;
 
-export type ListerAbandonDependencies = {
+export type ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies = {
   list: List;
 };
 
 export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
   list,
-}: ListerAbandonDependencies) => {
+}: ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies) => {
   const handler: MessageHandler<ListerAbandonsAvecRecandidatureÀRelancerQuery> = async ({}) => {
     const result = await list<AbandonAvecRecandidatureSansPreuveProjection>({
       type: 'abandon-avec-recandidature-sans-preuve',
@@ -34,7 +34,7 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
           identifiantProjet: IdentifiantProjet.convertirEnValueType(item.identifiantProjet),
           demandéeLe: DateTime.convertirEnValueType(item.demandéeLe),
         }))
-        .filter(({ demandéeLe }) => demandéeLe.nombreMoisÉcartAvec(DateTime.now()) === 3),
+        .filter(({ demandéeLe }) => demandéeLe.nombreMoisCompletÉcartAvec(DateTime.now()) >= 2),
     };
   };
 

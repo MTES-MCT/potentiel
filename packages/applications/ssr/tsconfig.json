@@ -36,6 +36,13 @@
     },
     {
       "path": "../../../packages/domain/utilisateur"
+<<<<<<< HEAD
     }
+=======
+    },
+    {
+      "path": "../../../packages/libraries/monitoring"
+    },
+>>>>>>> 849b943f6 (🚧 API endpoint)
   ]
 }

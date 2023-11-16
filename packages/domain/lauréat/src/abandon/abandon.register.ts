@@ -25,9 +25,14 @@ import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmet
 import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { registerDemanderPreuveRecandidatureAbandonCommand } from './demander/demanderPreuveRecandidatureAbandon.command';
 import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
-import { registerListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
+import {
+  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
+  registerListerAbandonsAvecRecandidatureÀRelancerQuery,
+} from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
 
-export type AbandonQueryDependencies = ConsulterAbandonDependencies & ListerAbandonDependencies;
+export type AbandonQueryDependencies = ConsulterAbandonDependencies &
+  ListerAbandonDependencies &
+  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies;
 export type AbandonCommandDependencies = {
   loadAggregate: LoadAggregate;
 };

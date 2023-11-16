@@ -12,11 +12,19 @@ import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAban
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
+import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
 
 // Query
-export type AbandonQuery = ConsulterAbandonQuery | ListerAbandonsQuery;
+export type AbandonQuery =
+  | ConsulterAbandonQuery
+  | ListerAbandonsQuery
+  | ListerAbandonsAvecRecandidatureÀRelancerQuery;
 
-export { ConsulterAbandonQuery, ListerAbandonsQuery };
+export {
+  ConsulterAbandonQuery,
+  ListerAbandonsQuery,
+  ListerAbandonsAvecRecandidatureÀRelancerQuery,
+};
 
 // ReadModel
 export { ConsulterAbandonReadModel, ListerAbandonReadModel };
