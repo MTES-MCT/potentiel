@@ -36,3 +36,10 @@ export type AbandonProjection = Projection<
     confirmationConfirméPar?: string;
   }
 >;
+
+export type AbandonAvecRecandidatureSansPreuveProjection = Projection<
+  'abandon-avec-recandidature-sans-preuve',
+  {
+    identifiantProjet: string;
+  }
+>;

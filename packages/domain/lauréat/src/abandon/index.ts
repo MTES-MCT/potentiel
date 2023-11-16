@@ -45,6 +45,8 @@ export {
 
 // Event
 export { AbandonEvent } from './abandon.aggregate';
+export { PreuveRecandidatureDemandéeEvent } from './demander/demanderPreuveRecandidatureAbandon.behavior';
+export { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
@@ -53,3 +55,6 @@ export { registerAbandonQueries, registerAbandonUseCases } from './abandon.regis
 export * as StatutAbandon from './statutAbandon.valueType';
 export * as Abandon from './abandon.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
+
+// Projections
+export * from './abandon.projection';
