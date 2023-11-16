@@ -1,6 +1,5 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { subMonths } from 'date-fns';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 
@@ -30,20 +29,29 @@ EtantDonné(
 );
 
 EtantDonné(
-  /un abandon accordé(.*)pour le projet lauréat "(.*)"/,
-  async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
+  /un abandon accordé(.*)(.*)pour le projet lauréat "(.*)"/,
+  async function (
+    this: PotentielWorld,
+    avecRecandidature: string,
+    avecPreuve: string,
+    nomProjet: string,
+  ) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const identifiantProjet = identitiantProjetValueType.formatter();
+    const recandidature = avecRecandidature.trim() === 'avec recandidature';
+    const preuve = avecPreuve.trim() === 'avec preuve transmise';
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet,
         pièceJustificativeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
         },
         raisonValue: `La raison de l'abandon`,
-        recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
+        recandidatureValue: recandidature,
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
         utilisateurValue: 'porteur@test.test',
       },
@@ -52,7 +60,7 @@ EtantDonné(
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'ACCORDER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet,
         réponseSignéeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
@@ -61,55 +69,8 @@ EtantDonné(
         utilisateurValue: 'validateur@test.test',
       },
     });
-  },
-);
 
-EtantDonné(
-  /un abandon accordé(.*) il y a "(.*)" mois (.*) pour le projet lauréat "(.*)"/,
-  async function (
-    this: PotentielWorld,
-    avecRecandidature: string,
-    nombreDeMois: string,
-    preuveTransmise: string,
-    nomProjet: string,
-  ) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    const dateAccord = subMonths(new Date(), +nombreDeMois);
-    const identifiantProjet = identitiantProjetValueType.formatter();
-
-    await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_ABANDON_USECASE',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        pièceJustificativeValue: {
-          format: `text/plain`,
-          content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
-        },
-        raisonValue: `La raison de l'abandon`,
-        recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
-        dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'porteur@test.test',
-      },
-    });
-
-    await mediator.send<Abandon.AbandonUseCase>({
-      type: 'ACCORDER_ABANDON_USECASE',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        réponseSignéeValue: {
-          format: `text/plain`,
-          content: convertStringToReadableStream(`Le contenu de la réponse signée`),
-        },
-        dateAccordValue: DateTime.convertirEnValueType(dateAccord).formatter(),
-        utilisateurValue: 'validateur@test.test',
-      },
-    });
-
-    if (
-      avecRecandidature.trim() === 'avec recandidature' &&
-      preuveTransmise.trim() === 'avec preuve transmise'
-    ) {
+    if (recandidature && preuve) {
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
         data: {

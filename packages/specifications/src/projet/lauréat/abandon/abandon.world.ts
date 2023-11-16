@@ -106,17 +106,17 @@ export class AbandonWord {
     this.#dateAccord = value;
   }
 
-  #dateRelance!: DateTime.ValueType;
+  #dateDemandePreuveRecandidature!: DateTime.ValueType;
 
-  get dateRelance(): DateTime.ValueType {
-    if (!this.#dateRelance) {
-      throw new Error('dateRelance not initialized');
+  get dateDemandePreuveRecandidature(): DateTime.ValueType {
+    if (!this.#dateDemandePreuveRecandidature) {
+      throw new Error('dateDemandePreuveRecandidature not initialized');
     }
-    return this.#dateRelance;
+    return this.#dateDemandePreuveRecandidature;
   }
 
-  set dateRelance(value: DateTime.ValueType) {
-    this.#dateRelance = value;
+  set dateDemandePreuveRecandidature(value: DateTime.ValueType) {
+    this.#dateDemandePreuveRecandidature = value;
   }
 
   #raison!: string;

@@ -308,8 +308,8 @@ Alors(
 );
 
 Alors(
-  `le porteur {string} concernant la transmission de la preuve de recandidature`,
-  async function (this: PotentielWorld, nomProjet: string, aÉtéRelancé: string) {
+  `la preuve de recandidature a été demandée au porteur du projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
@@ -320,13 +320,9 @@ Alors(
         },
       });
 
-      if (aÉtéRelancé === "n'a pas été relancé") {
-        expect(abandon.demande.preuveRecandidatureDemandéeLe).to.be.undefined;
-      } else {
-        abandon.demande.preuveRecandidatureDemandéeLe!.estÉgaleÀ(
-          this.lauréatWorld.abandonWorld.dateRelance,
-        ).should.to.be.true;
-      }
+      abandon.demande.preuveRecandidatureDemandéeLe!.estÉgaleÀ(
+        this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature,
+      ).should.to.be.true;
     });
   },
 );

@@ -17,7 +17,7 @@ export type PreuveRecandidatureDemandéeEvent = DomainEvent<
 class DateLégaleTransmissionPreuveRecandidatureDépasséeError extends InvalidOperationError {
   constructor() {
     super(
-      'Impossible de transmettre une preuve de recandidature après la date légale du 31/03/2025',
+      'Impossible de demander la preuve de recandidature au porteur après la date légale du 31/03/2025',
     );
   }
 }
@@ -33,6 +33,10 @@ export async function demanderPreuveRecandidature(
 ) {
   if (dateDemande.estUltérieureÀ(dateLégaleTransimissionPreuveRecandidature)) {
     throw new DateLégaleTransmissionPreuveRecandidatureDépasséeError();
+  }
+
+  if (this.demande.preuveRecandidature) {
+    throw new Error('erreur');
   }
 
   // si pas de preuve de recandidure et diff entre la date du jour et la date d'accord de l'abandon est à 3 mois
