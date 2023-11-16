@@ -183,16 +183,17 @@ Quand(
       const format = exemple[`Le format de la réponse signée`] ?? `Le format de la réponse signée`;
       const content =
         exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
-      const dateAccord = new Date();
+      const dateAccord = DateTime.now();
       const utilisateur = 'validateur@test.test';
 
-      this.lauréatWorld.abandonWorld.dateAccord = DateTime.convertirEnValueType(dateAccord);
+      this.lauréatWorld.abandonWorld.dateAccord = dateAccord;
       this.lauréatWorld.abandonWorld.réponseSignée = {
         format,
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+      this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature = dateAccord;
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -200,7 +201,7 @@ Quand(
         type: 'ACCORDER_ABANDON_USECASE',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
-          dateAccordValue: dateAccord.toISOString(),
+          dateAccordValue: dateAccord.formatter(),
           réponseSignéeValue: {
             content: convertStringToReadableStream(content),
             format,
