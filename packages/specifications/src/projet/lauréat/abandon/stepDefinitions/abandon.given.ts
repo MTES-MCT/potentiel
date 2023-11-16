@@ -29,18 +29,13 @@ EtantDonné(
 );
 
 EtantDonné(
-  /un abandon accordé(.*)(.*)pour le projet lauréat "(.*)"/,
-  async function (
-    this: PotentielWorld,
-    avecRecandidature: string,
-    avecPreuve: string,
-    nomProjet: string,
-  ) {
+  /un abandon accordé(.*)pour le projet lauréat "(.*)"/,
+  async function (this: PotentielWorld, etat: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     const identifiantProjet = identitiantProjetValueType.formatter();
-    const recandidature = avecRecandidature.trim() === 'avec recandidature';
-    const preuve = avecPreuve.trim() === 'avec preuve transmise';
+    const recandidature = etat.includes('avec recandidature');
+    const preuve = etat.includes('avec preuve transmise');
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
@@ -52,7 +47,7 @@ EtantDonné(
         },
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: recandidature,
-        dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
+        dateDemandeValue: DateTime.now().formatter(),
         utilisateurValue: 'porteur@test.test',
       },
     });
@@ -71,11 +66,16 @@ EtantDonné(
     });
 
     if (recandidature && preuve) {
+      const dateMininum = DateTime.convertirEnValueType(new Date('2023-12-15'));
+
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
         data: {
           identifiantProjetValue: identifiantProjet,
-          dateNotificationValue: DateTime.convertirEnValueType(new Date()).formatter(),
+          dateNotificationValue: (DateTime.now().estAntérieurÀ(dateMininum)
+            ? dateMininum
+            : DateTime.now()
+          ).formatter(),
           preuveRecandidatureValue: IdentifiantProjet.convertirEnValueType(
             'PPE2 - Bâtiment#1##test-51',
           ).formatter(),

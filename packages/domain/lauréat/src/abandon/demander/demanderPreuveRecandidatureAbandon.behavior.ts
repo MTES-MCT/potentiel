@@ -22,6 +22,12 @@ class DateLégaleTransmissionPreuveRecandidatureDépasséeError extends InvalidO
   }
 }
 
+class DemandePreuveRecandidautreDéjàTransmise extends InvalidOperationError {
+  constructor() {
+    super('La preuve de recandidature a déjà été transmise');
+  }
+}
+
 export type DemanderPreuveRecandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateDemande: DateTime.ValueType;
@@ -36,10 +42,9 @@ export async function demanderPreuveRecandidature(
   }
 
   if (this.demande.preuveRecandidature) {
-    throw new Error('erreur');
+    throw new DemandePreuveRecandidautreDéjàTransmise();
   }
 
-  // si pas de preuve de recandidure et diff entre la date du jour et la date d'accord de l'abandon est à 3 mois
   const event: PreuveRecandidatureDemandéeEvent = {
     type: 'PreuveRecandidatureDemandée-V1',
     payload: {
