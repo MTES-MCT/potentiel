@@ -29,9 +29,7 @@ export const registerAbandonAvecRecandidatureSansPreuveProjector = () => {
         case 'PreuveRecandidatureDemandée-V1':
           await upsertProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
             `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,
-            {
-              identifiantProjet,
-            },
+            payload,
           );
           break;
         case 'PreuveRecandidatureTransmise-V1':

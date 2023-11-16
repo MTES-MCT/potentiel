@@ -41,5 +41,6 @@ export type AbandonAvecRecandidatureSansPreuveProjection = Projection<
   'abandon-avec-recandidature-sans-preuve',
   {
     identifiantProjet: string;
+    demandéeLe: string;
   }
 >;
