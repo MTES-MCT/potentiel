@@ -171,22 +171,25 @@ export async function makeServer(port: number, sessionSecret: string) {
     });
 
     /////// Custom server next
-    const nextApp = next({
-      dev: false,
-      dir: join(__dirname, isLocalEnv ? '../' : '../..', 'packages', 'applications', 'ssr'),
-    });
+    if (process.env.NEXT_APP_ACTIVATED === 'true') {
+      const nextApp = next({
+        dev: false,
+        dir: join(__dirname, isLocalEnv ? '../' : '../..', 'packages', 'applications', 'ssr'),
+      });
 
-    const nextHandler = nextApp.getRequestHandler();
+      const nextHandler = nextApp.getRequestHandler();
 
-    app.get('*', (req, res) => {
-      return nextHandler(req, res);
-    });
+      app.get('*', (req, res) => {
+        return nextHandler(req, res);
+      });
 
-    app.post('*', (req, res) => {
-      return nextHandler(req, res);
-    });
+      app.post('*', (req, res) => {
+        return nextHandler(req, res);
+      });
 
-    await nextApp.prepare();
+      await nextApp.prepare();
+    }
+
     await bootstrap();
     app.listen(port, () => {
       process.env.start_datetime = new Date().getTime().toString();
