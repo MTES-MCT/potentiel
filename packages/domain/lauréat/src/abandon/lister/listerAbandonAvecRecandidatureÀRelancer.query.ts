@@ -34,7 +34,7 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
           identifiantProjet: IdentifiantProjet.convertirEnValueType(item.identifiantProjet),
           demandéeLe: DateTime.convertirEnValueType(item.demandéeLe),
         }))
-        .filter(({ demandéeLe }) => demandéeLe.nombreMoisCompletÉcartAvec(DateTime.now()) >= 2),
+        .filter(({ demandéeLe }) => demandéeLe.nombreJoursÉcartAvec(DateTime.now()) >= 90),
     };
   };
 

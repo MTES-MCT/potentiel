@@ -3,9 +3,7 @@ import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sou
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import {
   AbandonEvent,
-  ExecuteAbandonAvecRecandidatureSansPreuveProjector,
   ExecuteAbandonProjector,
-  registerAbandonAvecRecandidatureSansPreuveProjector,
   registerAbandonProjector,
 } from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
@@ -21,7 +19,6 @@ export const setupLauréat = async () => {
   });
 
   registerAbandonProjector();
-  registerAbandonAvecRecandidatureSansPreuveProjector();
 
   return await subscribe<AbandonEvent>({
     name: 'projector',
@@ -41,17 +38,6 @@ export const setupLauréat = async () => {
         type: 'EXECUTE_ABANDON_PROJECTOR',
         data: event,
       });
-
-      if (
-        event.type === 'PreuveRecandidatureDemandée-V1' ||
-        event.type === 'PreuveRecandidatureTransmise-V1' ||
-        event.type === 'RebuildTriggered'
-      ) {
-        await mediator.send<ExecuteAbandonAvecRecandidatureSansPreuveProjector>({
-          type: 'EXECUTE_ABANDON_AVEC_RECANDIDATURE_SANS_PREUVE_PROJECTOR',
-          data: event,
-        });
-      }
     },
     streamCategory: 'abandon',
   });

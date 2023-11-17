@@ -1,5 +1,5 @@
 import { ReadonlyValueType, InvalidOperationError } from '@potentiel-domain/core';
-import { differenceInMonths } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 
 export type RawType = `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`;
 
@@ -8,7 +8,7 @@ export type ValueType = ReadonlyValueType<{
   estDansLeFutur(): boolean;
   estAntérieurÀ(dateTime: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
-  nombreMoisCompletÉcartAvec(dateTime: ValueType): number;
+  nombreJoursÉcartAvec(dateTime: ValueType): number;
   formatter(): RawType;
 }>;
 
@@ -39,8 +39,8 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     estÉgaleÀ(valueType) {
       return valueType.formatter() === this.formatter();
     },
-    nombreMoisCompletÉcartAvec(dateTime) {
-      const écart = differenceInMonths(this.date, dateTime.date);
+    nombreJoursÉcartAvec(dateTime) {
+      const écart = differenceInDays(this.date, dateTime.date);
       return Math.abs(écart); // Peu importe si la date est avant ou aprés, on veut l'écart positif.
     },
   };
