@@ -19,7 +19,7 @@ type ListFiltersProps = {
 
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [searchParams, setSearchParams] = useState(new URLSearchParams(useSearchParams()));
 
   const buildUrl = (pathname: string, searchParams: string) =>
     `${pathname}${searchParams ? `?${searchParams}` : ''}`;
@@ -43,18 +43,18 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             nativeSelectProps={{
               onChange: (e) => {
                 const value = e.currentTarget.value;
-                const urlSearchParams = new URLSearchParams(searchParams);
 
                 if (value === '') {
-                  urlSearchParams.delete(searchParamKey);
+                  searchParams.delete(searchParamKey);
                 } else {
                   const option = options.find((option) => option.value === value);
                   if (option) {
-                    urlSearchParams.set(searchParamKey, option.value);
+                    searchParams.set(searchParamKey, option.value);
                   }
                 }
 
-                setUrl(buildUrl(pathname, urlSearchParams.toString()));
+                setSearchParams(searchParams);
+                setUrl(buildUrl(pathname, searchParams.toString()));
               },
             }}
             options={options.map(({ label, value, isSelected }) => ({
