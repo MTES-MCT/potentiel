@@ -1,7 +1,6 @@
 import { DetailDemandeAbandon } from '@/components/molecules/abandon/DetailDemandeAbandon';
 import { InstructionAbandon } from '@/components/molecules/abandon/InstructionAbandon';
 import { StatutDemandeBadge } from '@/components/molecules/demande/StatutDemandeBadge';
-import { FormulaireReponseDemandeAbandon } from '@/components/organisms/FormulaireReponseDemandeAbandon';
 import { ProjectPageTemplate } from '@/components/templates/ProjectPageTemplate';
 import { FC } from 'react';
 
@@ -88,11 +87,6 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
           accord={accord}
         />
       )}
-      <FormulaireReponseDemandeAbandon
-        recandidature={demande.recandidature}
-        statut={statut}
-        utilisateur={utilisateur}
-      />
     </>
   </ProjectPageTemplate>
 );

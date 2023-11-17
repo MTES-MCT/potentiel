@@ -52,7 +52,7 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
     </CallOut>
     {recandidature && (
       <Alert
-        className="mt-4"
+        className="my-4"
         severity="warning"
         title="Demande d'abandon pour recandidature"
         description={
