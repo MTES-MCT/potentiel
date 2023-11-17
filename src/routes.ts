@@ -34,7 +34,7 @@ class routes {
   static ABONNEMENT_LETTRE_INFORMATION = '/abonnement-lettre-information.html';
   static POST_SINSCRIRE_LETTRE_INFORMATION = '/s-inscrire-a-la-lettre-d-information';
   static DECLARATION_ACCESSIBILITE = '/accessibilite.html';
-  static LOGOUT_ACTION = process.env.NEXT_APP_ACTIVATED === 'true' ? '/auth/signOut' : '/logout';
+  static LOGOUT_ACTION = '/signout';
   static SIGNUP = '/signup.html';
   static POST_SIGNUP = '/signup';
 
