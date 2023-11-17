@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^0.78.6",
-    "@potentiel-domain/appel-offres": "*",
+    "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/utilisateur": "*",

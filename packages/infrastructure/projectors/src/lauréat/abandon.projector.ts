@@ -35,7 +35,9 @@ export const registerAbandonProjector = () => {
         : {
             identifiantProjet,
             nomProjet: '',
-            appelOffres: '',
+            appelOffre: '',
+            période: '',
+            famille: undefined,
             demandeDemandéLe: '',
             demandeDemandéPar: '',
             demandePièceJustificativeFormat: '',
@@ -56,7 +58,9 @@ export const registerAbandonProjector = () => {
           await upsertProjection<AbandonProjection>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
             nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
-            appelOffres: isSome(projet) ? projet.appelOffre : `Appel d'offres inconnu`,
+            appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
+            période: isSome(projet) ? projet.période : `N/A`,
+            famille: isSome(projet) ? projet.famille : undefined,
             demandePièceJustificativeFormat:
               payload.pièceJustificative && payload.pièceJustificative.format,
             demandeDemandéLe: payload.demandéLe,

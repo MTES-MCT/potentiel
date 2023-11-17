@@ -4,14 +4,14 @@ import { setupLauréat } from './setupLauréat';
 import { getLogger } from '@potentiel/monitoring';
 import { setupCandidature } from './setupCandidature';
 import { setupDocumentProjet } from './setupDocumentProjet';
-import { setupAppelOffres } from './setupAppelOffres';
+import { setupAppelOffre } from './setupAppelOffre';
 
 export const bootstrap = async (): Promise<() => Promise<void>> => {
   mediator.use({
     middlewares: [logMiddleware],
   });
 
-  setupAppelOffres();
+  setupAppelOffre();
   setupCandidature();
   setupDocumentProjet();
 

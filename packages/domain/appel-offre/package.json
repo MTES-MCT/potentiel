@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel-domain/appel-offres",
+  "name": "@potentiel-domain/appel-offre",
   "version": "0.0.0",
-  "description": "Domain appel offres",
+  "description": "Domain appel offre",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
