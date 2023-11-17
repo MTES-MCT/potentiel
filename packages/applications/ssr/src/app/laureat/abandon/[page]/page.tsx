@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import {} from '@potentiel-domain/appel-offres';
+import { AppelOffresQuery } from '@potentiel-domain/appel-offres';
 import { Abandon } from '@potentiel-domain/laureat';
 
 import { AbandonListPage } from '@/components/pages/abandon/AbandonListPage';
@@ -20,18 +20,59 @@ export default async function Page({ params, searchParams }: PageProps) {
     ? Abandon.StatutAbandon.convertirEnValueType(searchParams.statut).statut
     : undefined;
 
+  const appelOffres = searchParams?.appelOffres;
+
   const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
     type: 'LISTER_ABANDONS_QUERY',
     data: {
       pagination: { page, itemsPerPage: 10 },
       recandidature,
       statut,
+      appelOffres,
     },
   });
 
-  const appelOffres = await mediator.send<AppelOffres>({});
+  const appelsOffres = await mediator.send<AppelOffresQuery>({
+    type: 'LISTER_APPEL_OFFRES_QUERY',
+    data: {},
+  });
 
-  return <AbandonListPage list={mapToListProps(abandons)} filters={getFilters()} />;
+  const filters = [
+    {
+      label: `Appel d'offres`,
+      searchParamKey: 'appelOffres',
+      options: appelsOffres.items.map((appelOffres) => ({
+        label: appelOffres.id,
+        value: appelOffres.id,
+      })),
+    },
+    {
+      label: 'Recandidature',
+      searchParamKey: 'recandidature',
+      options: [
+        {
+          label: 'Avec recandidature',
+          value: 'true',
+        },
+        {
+          label: 'Sans recandidature',
+          value: 'false',
+        },
+      ],
+    },
+    {
+      label: 'Statut',
+      searchParamKey: 'statut',
+      options: Abandon.StatutAbandon.statuts
+        .filter((s) => s !== 'inconnu')
+        .map((statut) => ({
+          label: statut.replace('-', ' ').toLocaleLowerCase(),
+          value: statut,
+        })),
+    },
+  ];
+
+  return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
 }
 
 const mapToListProps = (
@@ -56,30 +97,3 @@ const mapToListProps = (
     totalItems: readModel.totalItems,
   };
 };
-
-const getFilters = () => [
-  {
-    label: 'Recandidature',
-    searchParamKey: 'recandidature',
-    options: [
-      {
-        label: 'Avec recandidature',
-        value: 'true',
-      },
-      {
-        label: 'Sans recandidature',
-        value: 'false',
-      },
-    ],
-  },
-  {
-    label: 'Statut',
-    searchParamKey: 'statut',
-    options: Abandon.StatutAbandon.statuts
-      .filter((s) => s !== 'inconnu')
-      .map((statut) => ({
-        label: statut.replace('-', ' ').toLocaleLowerCase(),
-        value: statut,
-      })),
-  },
-];

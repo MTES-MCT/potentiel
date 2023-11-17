@@ -24,12 +24,16 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
   filters,
 }) => {
   const searchParams = useSearchParams();
+  const appelOffres = searchParams.get('appelOffres') ?? undefined;
   const statut = searchParams.get('statut') ?? undefined;
   const recandidature = searchParams.has('recandidature')
     ? searchParams.get('recandidature') === 'true'
     : undefined;
 
   const tagFilters = [
+    ...(appelOffres
+      ? [{ label: `appel d'offres : ${appelOffres}`, searchParamKey: 'appelOffres' }]
+      : []),
     ...(statut ? [{ label: `statut : ${statut}`, searchParamKey: 'statut' }] : []),
     ...(recandidature !== undefined
       ? [

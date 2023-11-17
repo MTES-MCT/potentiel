@@ -26,7 +26,7 @@ export const registerListerAppelOffresQuery = ({ list }: ListerAppelOffresDepend
       type: 'appel-offre',
       orderBy: {
         property: 'id',
-        ascending: false,
+        ascending: true,
       },
     });
 

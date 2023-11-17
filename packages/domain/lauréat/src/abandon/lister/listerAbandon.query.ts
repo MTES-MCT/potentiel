@@ -24,6 +24,7 @@ export type ListerAbandonsQuery = Message<
   {
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
+    appelOffres?: string;
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
@@ -37,11 +38,13 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
     statut,
+    appelOffres,
     pagination: { page, itemsPerPage },
   }) => {
     const whereOptions = {
       ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
       ...(statut && { statut }),
+      ...(appelOffres && { appelOffres }),
     };
 
     const result = await list<AbandonProjection>({
