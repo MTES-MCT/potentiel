@@ -35,7 +35,7 @@ export default async function DetailsAbandonPage({
   }
 
   const detailAbandonPageProps: DetailAbandonPageProps = {
-    utilisateur: { rôle: utilisateur.role.nom },
+    utilisateur: { rôle: utilisateur.role.nom, email: utilisateur.identifiantUtilisateur.email },
     identifiantProjet,
     candidature,
     statut: statut.statut,
