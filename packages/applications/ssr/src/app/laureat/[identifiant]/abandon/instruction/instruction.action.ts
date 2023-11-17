@@ -9,8 +9,7 @@ export type InstructionAbandonState = FormState;
 
 const instructionAbandonSchema = zod.object({
   identifiantProjet: zod.string(),
-  instruction: zod.enum(['accorder', 'rejeter', 'demander-confirmation']),
-  // TODO : cas où le fichier doit être autogénéré (abandon accordé pour recandidature)
+  instruction: zod.enum(['demander-confirmation']),
   reponseSignee: zod.instanceof(Blob),
   utilisateurValue: zod.string().email(),
 });
@@ -24,34 +23,38 @@ export async function instructionAbandonAction(
       instructionAbandonSchema.parse(Object.fromEntries(formData));
 
     switch (instruction) {
-      case 'rejeter':
-        await mediator.send<Abandon.AbandonUseCase>({
-          type: 'REJETER_ABANDON_USECASE',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            utilisateurValue,
-            dateRejetValue: new Date().toISOString(),
-            réponseSignéeValue: {
-              content: reponseSignee.stream(),
-              format: reponseSignee.type,
-            },
-          },
-        });
-        break;
-      case 'accorder':
-        await mediator.send<Abandon.AbandonUseCase>({
-          type: 'ACCORDER_ABANDON_USECASE',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            utilisateurValue,
-            dateAccordValue: new Date().toISOString(),
-            réponseSignéeValue: {
-              content: reponseSignee.stream(),
-              format: reponseSignee.type,
-            },
-          },
-        });
-        break;
+      // case 'rejeter':
+      //   await mediator.send<Abandon.AbandonUseCase>({
+      //     type: 'REJETER_ABANDON_USECASE',
+      //     data: {
+      //       identifiantProjetValue: identifiantProjet,
+      //       utilisateurValue,
+      //       dateRejetValue: new Date().toISOString(),
+      //       réponseSignéeValue: {
+      //         content: reponseSignee.stream(),
+      //         format: reponseSignee.type,
+      //       },
+      //     },
+      //   });
+      //   break;
+      // TODO : pour débloquer la partie accorder il faut :
+      // - pouvoir générer le document "accord abandon avec recandidature"
+      // - pouvoir mettre à jour le projet legacy
+
+      // case 'accorder':
+      //   await mediator.send<Abandon.AbandonUseCase>({
+      //     type: 'ACCORDER_ABANDON_USECASE',
+      //     data: {
+      //       identifiantProjetValue: identifiantProjet,
+      //       utilisateurValue,
+      //       dateAccordValue: new Date().toISOString(),
+      //       réponseSignéeValue: {
+      //         content: reponseSignee.stream(),
+      //         format: reponseSignee.type,
+      //       },
+      //     },
+      //   });
+      //   break;
       case 'demander-confirmation':
         await mediator.send<Abandon.AbandonUseCase>({
           type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',

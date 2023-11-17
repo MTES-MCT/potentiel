@@ -92,6 +92,7 @@ export const FormulaireInstructionAbandon = ({
                   nativeInputProps: {
                     value: 'accorder',
                     onClick: () => setNeedToUploadFile(!recandidature),
+                    disabled: true,
                   },
                 },
                 {
@@ -99,6 +100,7 @@ export const FormulaireInstructionAbandon = ({
                   nativeInputProps: {
                     value: 'rejeter',
                     onClick: () => setNeedToUploadFile(true),
+                    disabled: true,
                   },
                 },
               ]}
