@@ -10,7 +10,6 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         | Le contenu de la réponse signée  | Le contenu de la la réponse signée expliquant la raison de l'accord par la DGEC |
       Alors l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être accordé
 
-@select
     Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé
       Etant donné une demande d'abandon en cours avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
       Quand le DGEC validateur accorde l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
