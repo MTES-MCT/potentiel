@@ -1,44 +1,29 @@
 'use client';
+
 import { useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import {
-  InstructionAbandonState,
+  DemanderConfirmationAbandonState,
   instructionAbandonAction,
-} from '@/app/laureat/[identifiant]/abandon/instruction/instruction.action';
+} from '@/app/laureat/[identifiant]/abandon/instruction/demanderConfirmation.action';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import { Heading2 } from '../../atoms/headings';
+import { StatutDemandeBadgeProps } from '../demande/StatutDemandeBadge';
+import { Utilisateur } from '@/utils/Utilisateur';
 
-const initialState: InstructionAbandonState = {
+const initialState: DemanderConfirmationAbandonState = {
   error: undefined,
   validationErrors: [],
 };
 
 type FormulaireInstructionAbandonProps = {
-  statut:
-    | 'accordé'
-    | 'annulé'
-    | 'confirmation-demandée'
-    | 'confirmé'
-    | 'demandé'
-    | 'rejeté'
-    | 'inconnu';
+  statut: StatutDemandeBadgeProps['statut'];
   recandidature: boolean;
   identifiantProjet: string;
-  utilisateur: {
-    rôle:
-      | 'admin'
-      | 'porteur-projet'
-      | 'dreal'
-      | 'acheteur-obligé'
-      | 'ademe'
-      | 'dgec-validateur'
-      | 'caisse-des-dépôts'
-      | 'cre';
-    email: string;
-  };
+  utilisateur: Utilisateur;
 };
 
 export const FormulaireInstructionAbandon = ({
@@ -57,6 +42,7 @@ export const FormulaireInstructionAbandon = ({
   const demandeConfirmationPossible = statut === 'demandé' && !recandidature;
 
   const [needToUploadFile, setNeedToUploadFile] = useState(true);
+  const [instruction, setInstruction] = useState('demander-confirmation');
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(instructionAbandonAction, initialState);
 
@@ -82,7 +68,10 @@ export const FormulaireInstructionAbandon = ({
                         label: 'demander une confirmation',
                         nativeInputProps: {
                           value: 'demander-confirmation',
-                          onClick: () => setNeedToUploadFile(true),
+                          onClick: () => {
+                            setNeedToUploadFile(true);
+                            setInstruction('demander-confirmation');
+                          },
                         },
                       },
                     ]
@@ -91,7 +80,10 @@ export const FormulaireInstructionAbandon = ({
                   label: 'accorder',
                   nativeInputProps: {
                     value: 'accorder',
-                    onClick: () => setNeedToUploadFile(!recandidature),
+                    onClick: () => {
+                      setNeedToUploadFile(!recandidature);
+                      setInstruction('accorder');
+                    },
                     disabled: true,
                   },
                 },
@@ -99,7 +91,10 @@ export const FormulaireInstructionAbandon = ({
                   label: 'rejeter',
                   nativeInputProps: {
                     value: 'rejeter',
-                    onClick: () => setNeedToUploadFile(true),
+                    onClick: () => {
+                      setNeedToUploadFile(true);
+                      setInstruction('rejeter');
+                    },
                     disabled: true,
                   },
                 },
