@@ -4,5 +4,7 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 export const setupCandidature = () => {
   registerCandidatureQueries({
     récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
+    récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteur:
+      CandidatureAdapter.récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurAdapter,
   });
 };

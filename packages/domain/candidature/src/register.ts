@@ -1,10 +1,16 @@
 import {
   ConsulterCandidatureDependencies,
-  registerConsulterDocumentProjetQuery,
+  registerConsulterCandidatureQuery,
 } from './consulter/consulterCandidature.query';
+import {
+  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurDependencies,
+  registerListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+} from './lister/listerCandidaturesNotifiéesEtNonAbandonnéesParPorteur.query';
 
-type CandidatureQueryDependencies = ConsulterCandidatureDependencies;
+type CandidatureQueryDependencies = ConsulterCandidatureDependencies &
+  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurDependencies;
 
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
-  registerConsulterDocumentProjetQuery(dependencies);
+  registerConsulterCandidatureQuery(dependencies);
+  registerListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery(dependencies);
 };

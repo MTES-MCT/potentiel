@@ -1,4 +1,8 @@
-import { CandidatureProjection, RécupérerCandidaturePort } from '@potentiel-domain/candidature';
+import {
+  CandidatureProjection,
+  RécupérerCandidaturePort,
+  RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort,
+} from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
@@ -51,3 +55,53 @@ export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (
 
   return result[0].value;
 };
+
+// MERCI DE NE PAS TOUCHER CETTE QUERY
+const selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery = `
+   select json_build_object(
+    'nom', p."nomProjet",
+    'appelOffre', p."appelOffreId",
+    'période', p."periodeId",
+    'famille', p."familleId",
+    'numéroCRE', p."numeroCRE",
+    'localité', json_build_object(
+        'commune', p."communeProjet",
+        'département', p."departementProjet",
+        'région', p."regionProjet",
+        'codePostal', p."codePostalProjet"
+    ),
+    'statut', case
+        when p."notifiedOn" = 0 then 'non-notifié'
+        when p."abandonedOn" <> 0 then 'abandonné'
+        when p.classe = 'Classé' then 'classé'
+        else 'éliminé'
+    end,
+    'nomReprésentantLégal', p."nomRepresentantLegal",
+    'nomCandidat', p."nomCandidat",
+    'email', p."email",
+    'cahierDesCharges', p."cahierDesChargesActuel",
+    'dateDésignation', to_char(to_timestamp(p."notifiedOn" / 1000)::timestamp at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
+    'puissance', p."puissance"
+  ) as value
+  from "projects" p
+  inner join "UserProjects" up on p.id = up."projectId"
+  inner join "users" u on up."userId" = u.id
+  where p."notifiedOn" > 0 and u."email" = $1
+  order by "nomProjet"
+`;
+
+export const récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurAdapter: RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort =
+  async (identifiantUtilisateur) => {
+    const { appelOffre, famille, numéroCRE, période } =
+      IdentifiantProjet.convertirEnValueType(identifiantUtilisateur);
+
+    const results = await executeSelect<{ value: CandidatureProjection }>(
+      selectCandidatureQuery,
+      appelOffre,
+      période,
+      numéroCRE,
+      famille,
+    );
+
+    return results.map((result) => result.value);
+  };
