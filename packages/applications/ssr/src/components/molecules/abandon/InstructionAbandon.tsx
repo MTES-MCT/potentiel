@@ -35,9 +35,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps & { identifiantProje
                 details=""
                 label="Télécharger la demande de confirmation"
                 linkProps={{
-                  href: `/laureat/${encodeURIComponent(
-                    identifiantProjet,
-                  )}/abandon/instruction/reponse-signee/demande-confirmation`,
+                  href: `/laureat/document/${encodeURIComponent(confirmation.réponseSignée)}`,
                 }}
                 className="mb-0 pb-0"
               />
@@ -59,9 +57,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps & { identifiantProje
                 details=""
                 label="Télécharger le courrier de réponse"
                 linkProps={{
-                  href: `/laureat/${encodeURIComponent(
-                    identifiantProjet,
-                  )}/abandon/instruction/reponse-signee/accord`,
+                  href: `/laureat/document/${encodeURIComponent(accord.réponseSignée)}`,
                 }}
                 className="mb-0 pb-0"
               />
@@ -77,9 +73,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps & { identifiantProje
                 details=""
                 label="Télécharger le courrier de réponse"
                 linkProps={{
-                  href: `/laureat/${encodeURIComponent(
-                    identifiantProjet,
-                  )}/abandon/instruction/reponse-signee/rejet`,
+                  href: `/laureat/document/${encodeURIComponent(rejet.réponseSignée)}`,
                 }}
                 className="mb-0 pb-0"
               />
