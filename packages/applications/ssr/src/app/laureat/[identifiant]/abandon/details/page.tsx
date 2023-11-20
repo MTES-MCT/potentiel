@@ -14,7 +14,7 @@ export default async function DetailsAbandonPage({
   const identifiantProjet = decodeURIComponent(identifiant);
 
   const candidature = await mediator.send<ConsulterCandidatureQuery>({
-    type: 'CONSULTER_CANDIDATURE',
+    type: 'CONSULTER_CANDIDATURE_QUERY',
     data: {
       identifiantProjet,
     },

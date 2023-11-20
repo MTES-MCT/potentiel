@@ -16,10 +16,7 @@ export type DetailDemandeAbandonProps = {
 
 export const DetailDemandeAbandon: FC<
   DetailDemandeAbandonProps & { identifiantProjet: string }
-> = ({
-  identifiantProjet,
-  demande: { demandéPar, demandéLe, recandidature, raison, pièceJustificative },
-}) => (
+> = ({ demande: { demandéPar, demandéLe, recandidature, raison, pièceJustificative } }) => (
   <div className="mb-7">
     <CallOut>
       <ul className="text-[16px]">

@@ -2,14 +2,7 @@ import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
 export type StatutDemandeBadgeProps = {
-  statut:
-    | 'accordé'
-    | 'annulé'
-    | 'confirmation-demandée'
-    | 'confirmé'
-    | 'demandé'
-    | 'rejeté'
-    | 'inconnu';
+  statut: string;
   className?: string;
   small?: true;
 };

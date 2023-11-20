@@ -18,7 +18,6 @@ export type InstructionAbandonProps = {
 };
 
 export const InstructionAbandon: FC<InstructionAbandonProps & { identifiantProjet: string }> = ({
-  identifiantProjet,
   instruction: { confirmation, accord, rejet },
 }) => {
   return (
