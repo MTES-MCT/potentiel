@@ -6,12 +6,11 @@ import { AbandonListPage } from '@/components/pages/abandon/AbandonListPage';
 import { displayDate } from '@/utils/displayDate';
 
 type PageProps = {
-  params?: Record<string, string>;
   searchParams?: Record<string, string>;
 };
 
-export default async function Page({ params, searchParams }: PageProps) {
-  const page = params?.page ? parseInt(params.page) : 1;
+export default async function Page({ searchParams }: PageProps) {
+  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
   const recandidature =
     searchParams?.recandidature !== undefined ? searchParams.recandidature === 'true' : undefined;
@@ -105,6 +104,7 @@ const mapToListProps = (
 
   return {
     items,
+    currentPage: readModel.currentPage,
     itemsPerPage: readModel.itemsPerPage,
     totalItems: readModel.totalItems,
   };

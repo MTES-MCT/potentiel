@@ -9,6 +9,7 @@ import { ListPageTemplate } from '@/components/templates/ListPageTemplate';
 type AbandonListPageProps = {
   list: {
     items: Array<Parameters<typeof AbandonListItem>[0]>;
+    currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
@@ -16,7 +17,7 @@ type AbandonListPageProps = {
 };
 
 export const AbandonListPage: FC<AbandonListPageProps> = ({
-  list: { items: abandons, totalItems, itemsPerPage },
+  list: { items: abandons, currentPage, totalItems, itemsPerPage },
   filters,
 }) => {
   const searchParams = useSearchParams();
@@ -48,6 +49,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
         ...abandon,
         key: abandon.identifiantProjet,
       }))}
+      currentPage={currentPage}
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
       ItemComponent={AbandonListItem}
