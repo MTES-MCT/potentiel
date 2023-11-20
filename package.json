@@ -31,7 +31,11 @@
     "./packages/domain-views/",
     "./packages/specifications",
     "./packages/domain-inmemory-referential/",
-    "./packages/infrastructure/*",
+    "./packages/infrastructure/pg-event-sourcing",
+    "./packages/infrastructure/pg-projections",
+    "./packages/infrastructure/domain-adapters",
+    "./packages/infrastructure/notifications",
+    "./packages/infrastructure/projectors",
     "./packages/applications/*"
   ],
   "scripts": {
