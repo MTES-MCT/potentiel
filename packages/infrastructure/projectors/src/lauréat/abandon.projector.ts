@@ -12,19 +12,19 @@ import { upsertProjection } from '../utils/upsertProjection';
 import { getLogger } from '@potentiel/monitoring';
 import { DateTime } from '@potentiel-domain/common';
 
-export type AbandonEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
 
-export type ExecuteAbandonProjector = Message<
-  'EXECUTE_ABANDON_PROJECTOR',
-  Abandon.AbandonEvent | RebuildTriggered
->;
+export type Execute = Message<'EXECUTE_ABANDON_PROJECTOR', SubscriptionEvent>;
 
-export const registerAbandonProjector = () => {
-  const handler: MessageHandler<ExecuteAbandonProjector> = async (event) => {
+export const register = () => {
+  const handler: MessageHandler<Execute> = async (event) => {
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
       await removeProjection<AbandonProjection>(`abandon|${payload.id}`);
+      await removeProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
+        `abandon-avec-recandidature-sans-preuve|${payload.id}`,
+      );
     } else {
       const { identifiantProjet } = payload;
 
@@ -114,6 +114,19 @@ export const registerAbandonProjector = () => {
             ...abandonToUpsert,
             preuveRecandidature: payload.preuveRecandidature,
           });
+          await removeProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
+            `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,
+          );
+          break;
+        case 'PreuveRecandidatureDemandée-V1':
+          await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
+            ...abandonToUpsert,
+            preuveRecandidatureDemandéeLe: payload.demandéeLe,
+          });
+          await upsertProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
+            `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,
+            payload,
+          );
           break;
         case 'AbandonAnnulé-V1':
           await removeProjection(`abandon|${identifiantProjet}`);

@@ -23,8 +23,16 @@ import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase'
 import { registerAnnulerRejetAbandonCommand } from './annuler/annulerRejetAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettre/transmettrePreuveRecandidatureAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
+import { registerDemanderPreuveRecandidatureAbandonCommand } from './demander/demanderPreuveRecandidatureAbandon.command';
+import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
+import {
+  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
+  registerListerAbandonsAvecRecandidatureÀRelancerQuery,
+} from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
 
-export type AbandonQueryDependencies = ConsulterAbandonDependencies & ListerAbandonDependencies;
+export type AbandonQueryDependencies = ConsulterAbandonDependencies &
+  ListerAbandonDependencies &
+  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies;
 export type AbandonCommandDependencies = {
   loadAggregate: LoadAggregate;
 };
@@ -38,6 +46,7 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerAnnulerAbandonCommand(loadAggregate);
   registerAnnulerRejetAbandonCommand(loadAggregate);
   registerTransmettrePreuveRecandidatureAbandonCommand(loadAggregate);
+  registerDemanderPreuveRecandidatureAbandonCommand(loadAggregate);
 
   registerDemanderAbandonUseCase();
   registerAccorderAbandonUseCase();
@@ -47,9 +56,11 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerAnnulerAbandonUseCase();
   registerAnnulerRejetAbandonUseCase();
   registerTransmettrePreuveRecandidatureAbandonUseCase();
+  registerDemanderPreuveRecandidatureAbandonUseCase();
 };
 
 export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {
   registerConsulterAbandonQuery(dependencies);
   registerListerAbandonQuery(dependencies);
+  registerListerAbandonsAvecRecandidatureÀRelancerQuery(dependencies);
 };

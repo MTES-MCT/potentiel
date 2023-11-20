@@ -306,3 +306,23 @@ Alors(
     });
   },
 );
+
+Alors(
+  `la preuve de recandidature a été demandée au porteur du projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON_QUERY',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+        },
+      });
+
+      abandon.demande.preuveRecandidatureDemandéeLe!.estÉgaleÀ(
+        this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature,
+      ).should.to.be.true;
+    });
+  },
+);

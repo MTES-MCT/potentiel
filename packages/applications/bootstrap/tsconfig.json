@@ -30,6 +30,9 @@
       "path": "../../infrastructure/projectors"
     },
     {
+      "path": "../../infrastructure/notifications"
+    },    
+    {
       "path": "../../libraries/pg-helpers"
     },
     {

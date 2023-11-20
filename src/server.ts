@@ -10,7 +10,6 @@ import { isLocalEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap as bootstrapWebApp } from '@potentiel/web';
-import { bootstrap as boostrapNotificationApp } from '@potentiel/notification';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   DateMiseEnServiceTransmise,
@@ -29,8 +28,6 @@ const FILE_SIZE_LIMIT_MB = 50;
 export async function makeServer(port: number, sessionSecret: string) {
   try {
     await bootstrapWebApp();
-    // TODO : activer le bootstrap de l'application de notifications quand un cas sera implémenter
-    await boostrapNotificationApp();
 
     // TODO : Deux subscribe à supprimer et sagas à reimplémenter côté nouveau socle
     // lorsque la notion de projet sera dispo en tant qu'aggregate dans le package domain

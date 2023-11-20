@@ -183,16 +183,17 @@ Quand(
       const format = exemple[`Le format de la réponse signée`] ?? `Le format de la réponse signée`;
       const content =
         exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
-      const dateAccord = new Date();
+      const dateAccord = DateTime.now();
       const utilisateur = 'validateur@test.test';
 
-      this.lauréatWorld.abandonWorld.dateAccord = DateTime.convertirEnValueType(dateAccord);
+      this.lauréatWorld.abandonWorld.dateAccord = dateAccord;
       this.lauréatWorld.abandonWorld.réponseSignée = {
         format,
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+      this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature = dateAccord;
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -200,7 +201,7 @@ Quand(
         type: 'ACCORDER_ABANDON_USECASE',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
-          dateAccordValue: dateAccord.toISOString(),
+          dateAccordValue: dateAccord.formatter(),
           réponseSignéeValue: {
             content: convertStringToReadableStream(content),
             format,
@@ -432,6 +433,48 @@ Quand(
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
           utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `le DGEC validateur relance à la date du {string} le porteur du projet {string} pour qu'il transmettre une preuve de recandidature`,
+  async function (this: PotentielWorld, dateDeRelance: string, nomProjet: string) {
+    try {
+      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          dateDemandeValue: new Date(dateDeRelance).toISOString(),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  /le DGEC validateur demande au porteur du projet "(.*)" de transmettre une preuve de recandidature(.*)/,
+  async function (this: PotentielWorld, nomProjet: string, dateLimite: string) {
+    try {
+      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const dateDemande = DateTime.convertirEnValueType(
+        dateLimite.trim() === 'à la date du 01/04/2025' ? new Date('2025-04-01') : new Date(),
+      );
+      this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature = dateDemande;
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
+        data: {
+          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          dateDemandeValue: dateDemande.formatter(),
         },
       });
     } catch (error) {

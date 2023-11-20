@@ -48,6 +48,13 @@ export async function accorder(
   };
 
   await this.publish(event);
+
+  if (this.demande.recandidature) {
+    await this.demanderPreuveRecandidature({
+      identifiantProjet,
+      dateDemande: dateAccord,
+    });
+  }
 }
 
 export function applyAbandonAccordé(

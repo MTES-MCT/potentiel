@@ -1,0 +1,20 @@
+{
+  "name": "@potentiel-infrastructure/notifications",
+  "version": "0.0.0",
+  "description": "Potentiel notifications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel-domain/laureat": "*",
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel/email-sender": "*",
+    "mediateur": "^0.1.0"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

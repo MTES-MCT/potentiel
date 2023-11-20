@@ -7,23 +7,19 @@ import { RécupérerPorteursProjetPort } from '@potentiel/domain-views';
 import { Abandon } from '@potentiel-domain/laureat';
 import { RécupérerCandidaturePort } from '@potentiel-domain/candidature';
 
-export type ExecuteLauréatAbandonNotification = Message<
-  'EXECUTE_LAUREAT_ABANDON_NOTIFICATION',
-  Abandon.AbandonEvent & Event
->;
+export type SubscriptionEvent = Abandon.PreuveRecandidatureDemandéeEvent & Event;
 
-export type AbandonNotificationDependencies = {
+export type Execute = Message<'EXECUTE_LAUREAT_ABANDON_NOTIFICATION', SubscriptionEvent>;
+
+type Dependencies = {
   récupérerCandidature: RécupérerCandidaturePort;
   récupérerPorteursProjet: RécupérerPorteursProjetPort;
 };
 
-export const registerLauréatAbandonNotification = ({
-  récupérerCandidature,
-  récupérerPorteursProjet,
-}: AbandonNotificationDependencies) => {
-  const handler: MessageHandler<ExecuteLauréatAbandonNotification> = async (event) => {
+export const register = ({ récupérerCandidature, récupérerPorteursProjet }: Dependencies) => {
+  const handler: MessageHandler<Execute> = async (event) => {
     switch (event.type) {
-      case 'AbandonAccordé-V1':
+      case 'PreuveRecandidatureDemandée-V1':
         const identifiantProjet = IdentifiantProjet.convertirEnValueType(
           event.payload.identifiantProjet,
         );

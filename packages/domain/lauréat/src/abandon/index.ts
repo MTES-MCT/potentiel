@@ -10,12 +10,21 @@ import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { DemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
 import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandon.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
+import { DemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
+import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
 
 // Query
-export type AbandonQuery = ConsulterAbandonQuery | ListerAbandonsQuery;
+export type AbandonQuery =
+  | ConsulterAbandonQuery
+  | ListerAbandonsQuery
+  | ListerAbandonsAvecRecandidatureÀRelancerQuery;
 
-export { ConsulterAbandonQuery, ListerAbandonsQuery };
+export {
+  ConsulterAbandonQuery,
+  ListerAbandonsQuery,
+  ListerAbandonsAvecRecandidatureÀRelancerQuery,
+};
 
 // ReadModel
 export { ConsulterAbandonReadModel, ListerAbandonReadModel };
@@ -29,7 +38,8 @@ export type AbandonUseCase =
   | DemanderAbandonUseCase
   | DemanderConfirmationAbandonUseCase
   | RejeterAbandonUseCase
-  | TransmettrePreuveRecandidatureAbandonUseCase;
+  | TransmettrePreuveRecandidatureAbandonUseCase
+  | DemanderPreuveRecandidatureAbandonUseCase;
 
 export {
   AccorderAbandonUseCase,
@@ -43,6 +53,8 @@ export {
 
 // Event
 export { AbandonEvent } from './abandon.aggregate';
+export { PreuveRecandidatureDemandéeEvent } from './demander/demanderPreuveRecandidatureAbandon.behavior';
+export { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
@@ -51,3 +63,6 @@ export { registerAbandonQueries, registerAbandonUseCases } from './abandon.regis
 export * as StatutAbandon from './statutAbandon.valueType';
 export * as Abandon from './abandon.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
+
+// Projections
+export * from './abandon.projection';

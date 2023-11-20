@@ -16,6 +16,7 @@
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/utilisateur": "*",
+    "@potentiel/monitoring": "*",
     "mediateur": "^0.1.0",
     "next": "^14.0.1",
     "react": "^18",

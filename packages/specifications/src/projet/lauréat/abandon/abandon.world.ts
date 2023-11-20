@@ -106,6 +106,19 @@ export class AbandonWord {
     this.#dateAccord = value;
   }
 
+  #dateDemandePreuveRecandidature!: DateTime.ValueType;
+
+  get dateDemandePreuveRecandidature(): DateTime.ValueType {
+    if (!this.#dateDemandePreuveRecandidature) {
+      throw new Error('dateDemandePreuveRecandidature not initialized');
+    }
+    return this.#dateDemandePreuveRecandidature;
+  }
+
+  set dateDemandePreuveRecandidature(value: DateTime.ValueType) {
+    this.#dateDemandePreuveRecandidature = value;
+  }
+
   #raison!: string;
 
   get raison(): string {
