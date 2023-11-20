@@ -4,20 +4,21 @@ import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-type DetailDemandeAbandonProps = {
-  identifiantProjet: string;
+export type DetailDemandeAbandonProps = {
   demande: {
     demandéPar: string;
     demandéLe: string;
     recandidature: boolean;
     raison: string;
-    pièceJustificativeDisponible: boolean;
+    pièceJustificative?: string;
   };
 };
 
-export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
+export const DetailDemandeAbandon: FC<
+  DetailDemandeAbandonProps & { identifiantProjet: string }
+> = ({
   identifiantProjet,
-  demande: { demandéPar, demandéLe, recandidature, raison, pièceJustificativeDisponible },
+  demande: { demandéPar, demandéLe, recandidature, raison, pièceJustificative },
 }) => (
   <div className="mb-7">
     <CallOut>
@@ -34,7 +35,7 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
         <li className="flex flex-col md:flex-row md: gap-3">
           Explications du porteur de projet : <span className="italic">"{raison}"</span>
         </li>
-        {pièceJustificativeDisponible && (
+        {pièceJustificative && (
           <li>
             <Download
               details=""

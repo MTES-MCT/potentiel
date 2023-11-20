@@ -3,24 +3,23 @@ import { displayDate } from '@/utils/displayDate';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
-type InstructionAbandonProps = {
-  identifiantProjet: string;
-  confirmation?: {
-    demandéLe: string;
-    demandéPar: string;
-    réponseSignéeDisponible: boolean;
-    confirméLe?: string;
-    confirméPar?: string;
+export type InstructionAbandonProps = {
+  instruction: {
+    confirmation?: {
+      demandéLe: string;
+      demandéPar: string;
+      réponseSignée: string;
+      confirméLe?: string;
+      confirméPar?: string;
+    };
+    accord?: { accordéPar: string; accordéLe: string; réponseSignée: string };
+    rejet?: { rejetéPar: string; rejetéLe: string; réponseSignée: string };
   };
-  accord?: { accordéPar: string; accordéLe: string; réponseSignéeDisponible: boolean };
-  rejet?: { rejetéPar: string; rejetéLe: string; réponseSignéeDisponible: boolean };
 };
 
-export const InstructionAbandon: FC<InstructionAbandonProps> = ({
+export const InstructionAbandon: FC<InstructionAbandonProps & { identifiantProjet: string }> = ({
   identifiantProjet,
-  confirmation,
-  accord,
-  rejet,
+  instruction: { confirmation, accord, rejet },
 }) => {
   return (
     <div>
@@ -31,7 +30,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps> = ({
           <p>
             Confirmation demandée le {displayDate(new Date(confirmation.demandéLe))} par{' '}
             {confirmation.demandéPar}
-            {confirmation.réponseSignéeDisponible && (
+            {confirmation.réponseSignée && (
               <Download
                 details=""
                 label="Télécharger la demande de confirmation"
@@ -55,7 +54,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps> = ({
           <p className="font-bold">
             Demande d'abandon accordée le {displayDate(new Date(accord.accordéLe))} par{' '}
             {accord.accordéPar}
-            {accord.réponseSignéeDisponible && (
+            {accord.réponseSignée && (
               <Download
                 details=""
                 label="Télécharger le courrier de réponse"
@@ -73,7 +72,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps> = ({
           <p className="font-bold">
             Demande d'abandon rejetée le {displayDate(new Date(rejet.rejetéLe))} par{' '}
             {rejet.rejetéPar}
-            {rejet.réponseSignéeDisponible && (
+            {rejet.réponseSignée && (
               <Download
                 details=""
                 label="Télécharger le courrier de réponse"

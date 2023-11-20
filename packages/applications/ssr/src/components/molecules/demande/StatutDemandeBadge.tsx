@@ -1,9 +1,15 @@
 import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { Abandon } from '@potentiel-domain/laureat';
 
-type StatutDemandeBadgeProps = {
-  statut: Abandon.StatutAbandon.RawType;
+export type StatutDemandeBadgeProps = {
+  statut:
+    | 'accordé'
+    | 'annulé'
+    | 'confirmation-demandée'
+    | 'confirmé'
+    | 'demandé'
+    | 'rejeté'
+    | 'inconnu';
   className?: string;
   small?: true;
 };

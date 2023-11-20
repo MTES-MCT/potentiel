@@ -44,31 +44,35 @@ export default async function DetailsAbandonPage({
       demandéLe: demande.demandéLe.formatter(),
       recandidature: demande.recandidature,
       raison: demande.raison,
-      pièceJustificativeDisponible: demande.piéceJustificative ? true : false,
+      ...(demande.piéceJustificative && {
+        pièceJustificative: demande.piéceJustificative.formatter(),
+      }),
     },
-    ...(demande.confirmation && {
-      confirmation: {
-        demandéLe: demande.confirmation.demandéLe.formatter(),
-        demandéPar: demande.confirmation.demandéPar.formatter(),
-        réponseSignéeDisponible: demande.confirmation.réponseSignée ? true : false,
-        confirméLe: demande.confirmation.confirméLe?.formatter(),
-        confirméPar: demande.confirmation.confirméPar?.formatter(),
-      },
-    }),
-    ...(accord && {
-      accord: {
-        accordéPar: accord.accordéPar.formatter(),
-        accordéLe: accord.accordéLe.formatter(),
-        réponseSignéeDisponible: accord.réponseSignée ? true : false,
-      },
-    }),
-    ...(rejet && {
-      rejet: {
-        rejetéLe: rejet.rejetéLe.formatter(),
-        rejetéPar: rejet.rejetéPar.formatter(),
-        réponseSignéeDisponible: rejet.réponseSignée ? true : false,
-      },
-    }),
+    instruction: {
+      ...(demande.confirmation && {
+        confirmation: {
+          demandéLe: demande.confirmation.demandéLe.formatter(),
+          demandéPar: demande.confirmation.demandéPar.formatter(),
+          réponseSignée: demande.confirmation.réponseSignée.formatter(),
+          confirméLe: demande.confirmation.confirméLe?.formatter(),
+          confirméPar: demande.confirmation.confirméPar?.formatter(),
+        },
+      }),
+      ...(accord && {
+        accord: {
+          accordéPar: accord.accordéPar.formatter(),
+          accordéLe: accord.accordéLe.formatter(),
+          réponseSignée: accord.réponseSignée.formatter(),
+        },
+      }),
+      ...(rejet && {
+        rejet: {
+          rejetéLe: rejet.rejetéLe.formatter(),
+          rejetéPar: rejet.rejetéPar.formatter(),
+          réponseSignée: rejet.réponseSignée.formatter(),
+        },
+      }),
+    },
   };
 
   return <DetailAbandonPage {...{ ...detailAbandonPageProps }} />;
