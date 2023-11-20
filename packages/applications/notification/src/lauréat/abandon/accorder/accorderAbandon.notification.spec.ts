@@ -221,7 +221,22 @@ describe(`Notification`, () => {
         numéroCRE: '27',
       });
 
-      const event: Abandon.AbandonEvent = {
+      const aggregateId: `${string}|${string}` = `abandon|${identifiantProjet}`;
+      const event1: Abandon.AbandonEvent = {
+        type: 'AbandonDemandé-V1',
+        payload: {
+          identifiantProjet: identifiantProjet.formatter(),
+          raison: 'Une raison',
+          recandidature: true,
+          demandéLe: DateTime.convertirEnValueType(new Date()).formatter(),
+          demandéPar: IdentifiantUtilisateur.convertirEnValueType(admin.email).formatter(),
+        },
+      };
+      await publish(aggregateId, event1);
+
+      await sleep(200);
+
+      const event2: Abandon.AbandonEvent = {
         type: 'AbandonAccordé-V1',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -232,9 +247,7 @@ describe(`Notification`, () => {
           accordéPar: IdentifiantUtilisateur.convertirEnValueType(admin.email).formatter(),
         },
       };
-
-      const aggregateId: `${string}|${string}` = `abandon|${identifiantProjet}`;
-      await publish(aggregateId, event);
+      await publish(aggregateId, event2);
 
       // ASSERT
       await waitForExpect(() => {
@@ -257,3 +270,7 @@ describe(`Notification`, () => {
     });
   });
 });
+
+export const sleep = async (ms: number) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};
