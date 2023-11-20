@@ -1,12 +1,17 @@
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { registerLauréatAbandonNotification } from '@potentiel-infrastructure/notifications';
 import {
   AbandonEvent,
   ExecuteAbandonProjector,
   registerAbandonProjector,
 } from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
+import {
+  CandidatureAdapter,
+  récupérerPorteursProjetAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 export const setupLauréat = async () => {
   registerLauréatUseCases({
@@ -16,6 +21,11 @@ export const setupLauréat = async () => {
   registerLauréatQueries({
     find: findProjection,
     list: listProjection,
+  });
+
+  registerLauréatAbandonNotification({
+    récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
+    récupérerPorteursProjet: récupérerPorteursProjetAdapter,
   });
 
   registerAbandonProjector();
