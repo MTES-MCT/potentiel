@@ -3,14 +3,9 @@ import Badge from '@codegouvfr/react-dsfr/Badge';
 
 export type StatutAbandonBadgeProps = {
   statut: string;
-  className?: string;
   small?: true;
 };
-export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({
-  statut,
-  className = '',
-  small,
-}) => (
+export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({ statut, small }) => (
   <Badge
     noIcon
     severity={
@@ -23,7 +18,6 @@ export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({
         : 'info'
     }
     small={small}
-    className={`sm:ml-3 ${className}`}
   >
     {statut}
   </Badge>
