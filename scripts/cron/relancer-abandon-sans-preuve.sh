@@ -1,14 +1,14 @@
 #! /bin/bash -l
 
-if [ "$APPLICATION_STAGE" != "production" ]
+if [ "$APPLICATION_STAGE" != "production" ] && [ "$APPLICATION_STAGE" != "development" ]
 then
-        echo "No backup for $APPLICATION_STAGE environment"
+        echo "This job can't be exeucted on $APPLICATION_STAGE environment"
         exit 0
 fi
 
-if [ -z $EVENT_STORE_CONNECTION_STRING ] || [ -z $MJ_APIKEY_PUBLIC ] || [ -z $MJ_APIKEY_PRIVATE ]
+if [ -z $EVENT_STORE_CONNECTION_STRING ]
 then
-    echo "An environment variable is missing !!"
+    echo "Connection is missing!"
     exit 1
 fi
 
