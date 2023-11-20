@@ -1,1 +1,1 @@
-export * from './lauréat/abandon.projector';
+export * as AbandonProjector from './lauréat/abandon.projector';

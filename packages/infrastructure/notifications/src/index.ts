@@ -1,1 +1,1 @@
-export * from './lauréat/abandon.notification';
+export * as AbandonNotification from './lauréat/abandon.notification';

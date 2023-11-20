@@ -1,12 +1,11 @@
-import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
+import {
+  registerLauréatQueries,
+  registerLauréatUseCases,
+} from '@potentiel-domain/laureat';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import { registerLauréatAbandonNotification } from '@potentiel-infrastructure/notifications';
-import {
-  AbandonEvent,
-  ExecuteAbandonProjector,
-  registerAbandonProjector,
-} from '@potentiel-infrastructure/projectors';
+import { AbandonNotification } from '@potentiel-infrastructure/notifications';
+import { AbandonProjector } from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
 import {
   CandidatureAdapter,
@@ -23,14 +22,26 @@ export const setupLauréat = async () => {
     list: listProjection,
   });
 
-  registerLauréatAbandonNotification({
+  AbandonNotification.register({
     récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
     récupérerPorteursProjet: récupérerPorteursProjetAdapter,
   });
 
-  registerAbandonProjector();
+  AbandonProjector.register();
 
-  return await subscribe<AbandonEvent>({
+  const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
+    name: 'notifications',
+    streamCategory: 'abandon',
+    eventType: ['PreuveRecandidatureDemandée-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<AbandonNotification.Execute>({
+        type: 'EXECUTE_LAUREAT_ABANDON_NOTIFICATION',
+        data: event,
+      });
+    },
+  });
+
+  const unsubscribeAbandonProjector = await subscribe<AbandonProjector.SubscriptionEvent>({
     name: 'projector',
     eventType: [
       'AbandonDemandé-V1',
@@ -44,11 +55,13 @@ export const setupLauréat = async () => {
       'RebuildTriggered',
     ],
     eventHandler: async (event) => {
-      await mediator.send<ExecuteAbandonProjector>({
+      await mediator.send<AbandonProjector.Execute>({
         type: 'EXECUTE_ABANDON_PROJECTOR',
         data: event,
       });
     },
     streamCategory: 'abandon',
   });
+
+  return async () => Promise.all([unsubscribeAbandonNotification, unsubscribeAbandonProjector]);
 };

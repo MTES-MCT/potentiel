@@ -12,15 +12,12 @@ import { upsertProjection } from '../utils/upsertProjection';
 import { getLogger } from '@potentiel/monitoring';
 import { DateTime } from '@potentiel-domain/common';
 
-export type AbandonEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
 
-export type ExecuteAbandonProjector = Message<
-  'EXECUTE_ABANDON_PROJECTOR',
-  Abandon.AbandonEvent | RebuildTriggered
->;
+export type Execute = Message<'EXECUTE_ABANDON_PROJECTOR', SubscriptionEvent>;
 
-export const registerAbandonProjector = () => {
-  const handler: MessageHandler<ExecuteAbandonProjector> = async (event) => {
+export const register = () => {
+  const handler: MessageHandler<Execute> = async (event) => {
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
