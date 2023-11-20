@@ -11,14 +11,12 @@ type FilterProps = {
 export const Filter: FC<FilterProps> = ({ label, options, defaultValue, onValueSelected }) => {
   const [value, setValue] = useState(defaultValue);
 
-  const changeSelectedValue = (value: string) => {
+  useEffect(() => {
     if (onValueSelected) {
-      onValueSelected(value);
+      onValueSelected(defaultValue);
     }
-    setValue(value);
-  };
-
-  useEffect(() => changeSelectedValue(defaultValue), [defaultValue, changeSelectedValue]);
+    setValue(defaultValue);
+  }, [defaultValue, onValueSelected, setValue]);
 
   return (
     <SelectNext
@@ -28,7 +26,11 @@ export const Filter: FC<FilterProps> = ({ label, options, defaultValue, onValueS
         value,
         onChange: (e) => {
           const value = e.currentTarget.value;
-          changeSelectedValue(value);
+
+          if (onValueSelected) {
+            onValueSelected(value);
+          }
+          setValue(value);
         },
       }}
       options={options}

@@ -75,8 +75,6 @@ export default async function Page({ params, searchParams }: PageProps) {
     },
   ];
 
-  console.table(filters);
-
   return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
 }
 
