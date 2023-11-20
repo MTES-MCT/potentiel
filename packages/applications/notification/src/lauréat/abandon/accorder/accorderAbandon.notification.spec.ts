@@ -8,7 +8,6 @@ import { UnsetupApp, bootstrap } from '../../../bootstrap';
 import { sendEmail } from '@potentiel/email-sender';
 import { Abandon } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 let unsetupNotification: UnsetupApp;
 
@@ -219,35 +218,18 @@ describe(`Notification`, () => {
         période: '1',
         famille: '',
         numéroCRE: '27',
-      });
+      }).formatter();
 
       const aggregateId: `${string}|${string}` = `abandon|${identifiantProjet}`;
-      const event1: Abandon.AbandonEvent = {
-        type: 'AbandonDemandé-V1',
+
+      const event: Abandon.AbandonEvent = {
+        type: 'PreuveRecandidatureDemandée-V1',
         payload: {
-          identifiantProjet: identifiantProjet.formatter(),
-          raison: 'Une raison',
-          recandidature: true,
-          demandéLe: DateTime.convertirEnValueType(new Date()).formatter(),
-          demandéPar: IdentifiantUtilisateur.convertirEnValueType(admin.email).formatter(),
+          identifiantProjet,
+          demandéeLe: DateTime.convertirEnValueType(new Date()).formatter(),
         },
       };
-      await publish(aggregateId, event1);
-
-      await sleep(200);
-
-      const event2: Abandon.AbandonEvent = {
-        type: 'AbandonAccordé-V1',
-        payload: {
-          identifiantProjet: identifiantProjet.formatter(),
-          réponseSignée: {
-            format: 'application/pdf',
-          },
-          accordéLe: DateTime.convertirEnValueType(new Date()).formatter(),
-          accordéPar: IdentifiantUtilisateur.convertirEnValueType(admin.email).formatter(),
-        },
-      };
-      await publish(aggregateId, event2);
+      await publish(aggregateId, event);
 
       // ASSERT
       await waitForExpect(() => {
@@ -261,7 +243,7 @@ describe(`Notification`, () => {
             ]),
             variables: expect.objectContaining({
               lien_transmettre_preuve_recandidature: `/laureat/${encodeURIComponent(
-                identifiantProjet.formatter(),
+                identifiantProjet,
               )}/abandon/preuve-recandidature`,
             }),
           }),
