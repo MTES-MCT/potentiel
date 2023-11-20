@@ -1,11 +1,9 @@
-import { DateTime } from '@potentiel-domain/common';
-import { Abandon } from '@potentiel-domain/laureat';
-import { getLogger } from '@potentiel/monitoring';
 import { mediator } from 'mediateur';
+import { Abandon } from '@potentiel-domain/laureat';
+import { DateTime } from '@potentiel-domain/common';
+import { getLogger } from '@potentiel/monitoring';
 
-export const dynamic = 'force-dynamic';
-
-export const GET = async () => {
+(async () => {
   const abandonsÀRelancer =
     await mediator.send<Abandon.ListerAbandonsAvecRecandidatureÀRelancerQuery>({
       type: 'LISTER_ABANDONS_AVEC_RECANDIDATURE_À_RELANCER_QUERY',
@@ -25,9 +23,4 @@ export const GET = async () => {
       getLogger().error(e as Error);
     }
   }
-
-  return new Response(null, {
-    status: 200,
-    statusText: 'Ok',
-  });
-};
+})();
