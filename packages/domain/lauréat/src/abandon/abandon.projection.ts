@@ -6,6 +6,10 @@ export type AbandonProjection = Projection<
     identifiantProjet: string;
     nomProjet: string;
 
+    appelOffre: string;
+    période: string;
+    famille?: string;
+
     statut: string;
     misÀJourLe: string;
 

@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import { AppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
 
 import { AbandonListPage } from '@/components/pages/abandon/AbandonListPage';
@@ -19,37 +20,92 @@ export default async function Page({ params, searchParams }: PageProps) {
     ? Abandon.StatutAbandon.convertirEnValueType(searchParams.statut).statut
     : undefined;
 
+  const appelOffre = searchParams?.appelOffre;
+
   const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
     type: 'LISTER_ABANDONS_QUERY',
     data: {
       pagination: { page, itemsPerPage: 10 },
       recandidature,
       statut,
+      appelOffre,
     },
   });
 
-  return (
-    <AbandonListPage
-      items={mapToProps(abandons)}
-      totalItems={abandons.totalItems}
-      itemsPerPage={abandons.itemsPerPage}
-    />
-  );
+  const appelOffres = await mediator.send<AppelOffreQuery>({
+    type: 'LISTER_APPEL_OFFRE_QUERY',
+    data: {},
+  });
+
+  const filters = [
+    {
+      label: `Appel d'offres`,
+      searchParamKey: 'appelOffre',
+      defaultValue: appelOffre,
+      options: appelOffres.items.map((appelOffre) => ({
+        label: appelOffre.id,
+        value: appelOffre.id,
+      })),
+    },
+    {
+      label: 'Recandidature',
+      searchParamKey: 'recandidature',
+      defaultValue: searchParams?.recandidature,
+      options: [
+        {
+          label: 'Avec recandidature',
+          value: 'true',
+        },
+        {
+          label: 'Sans recandidature',
+          value: 'false',
+        },
+      ],
+    },
+    {
+      label: 'Statut',
+      searchParamKey: 'statut',
+      defaultValue: statut,
+      options: Abandon.StatutAbandon.statuts
+        .filter((s) => s !== 'inconnu')
+        .map((statut) => ({
+          label: statut.replace('-', ' ').toLocaleLowerCase(),
+          value: statut,
+        })),
+    },
+  ];
+
+  return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
 }
 
-const mapToProps = (
+const mapToListProps = (
   readModel: Abandon.ListerAbandonReadModel,
-): Parameters<typeof AbandonListPage>[0]['items'] => {
-  return readModel.items.map(
-    ({ identifiantProjet, nomProjet, statut: { statut }, misÀJourLe, recandidature }) => ({
+): Parameters<typeof AbandonListPage>[0]['list'] => {
+  const items = readModel.items.map(
+    ({
+      identifiantProjet,
+      appelOffre,
+      période,
+      famille,
+      nomProjet,
+      statut: { statut },
+      misÀJourLe,
+      recandidature,
+    }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
-      appelOffre: identifiantProjet.appelOffre,
-      période: identifiantProjet.période,
-      famille: identifiantProjet.famille,
+      appelOffre,
+      période,
+      famille,
       statut,
       misÀJourLe: displayDate(misÀJourLe.date),
       recandidature,
     }),
   );
+
+  return {
+    items,
+    itemsPerPage: readModel.itemsPerPage,
+    totalItems: readModel.totalItems,
+  };
 };

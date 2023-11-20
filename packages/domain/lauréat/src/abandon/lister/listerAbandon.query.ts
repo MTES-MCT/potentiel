@@ -6,6 +6,9 @@ import { StatutAbandon } from '..';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
+  appelOffre: string;
+  période: string;
+  famille?: string;
   nomProjet: string;
   statut: StatutAbandon.ValueType;
   recandidature: boolean;
@@ -24,6 +27,7 @@ export type ListerAbandonsQuery = Message<
   {
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
+    appelOffre?: string;
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
@@ -37,11 +41,13 @@ export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) 
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
     statut,
+    appelOffre,
     pagination: { page, itemsPerPage },
   }) => {
     const whereOptions = {
       ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
       ...(statut && { statut }),
+      ...(appelOffre && { appelOffre }),
     };
 
     const result = await list<AbandonProjection>({

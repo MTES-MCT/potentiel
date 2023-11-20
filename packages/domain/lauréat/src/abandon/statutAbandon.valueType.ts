@@ -1,15 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export type RawType =
-  | 'accordé'
-  | 'annulé'
-  | 'confirmation-demandée'
-  | 'confirmé'
-  | 'demandé'
-  | 'rejeté'
-  | 'inconnu';
-
-const statuts: Array<RawType> = [
+export const statuts = [
   'accordé',
   'annulé',
   'confirmation-demandée',
@@ -18,6 +9,8 @@ const statuts: Array<RawType> = [
   'rejeté',
   'inconnu',
 ];
+
+export type RawType = (typeof statuts)[number];
 
 const statutsEnCours: Array<RawType> = ['confirmation-demandée', 'confirmé', 'demandé'];
 
@@ -32,7 +25,6 @@ export type ValueType = ReadonlyValueType<{
   estDemandé: () => boolean;
   estConfirmationDemandée: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
-  libellé: () => string;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -64,9 +56,6 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estConfirmationDemandée() {
       return this.statut === 'confirmation-demandée';
-    },
-    libellé() {
-      return this.statut.replace('-', ' ').toLocaleUpperCase();
     },
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;
