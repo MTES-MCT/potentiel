@@ -38,6 +38,7 @@ type ProjectDetailsProps = {
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
   alertesRaccordement?: AlerteRaccordement[];
+  abandonEnInstruction?: { statut: 'demandé' | 'en attente de confirmation' | 'confirmé' };
 };
 
 export const ProjectDetails = ({
@@ -45,6 +46,7 @@ export const ProjectDetails = ({
   project,
   projectEventList,
   alertesRaccordement,
+  abandonEnInstruction,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -63,6 +65,13 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
+          {abandonEnInstruction && (
+            <AlertBox title="Abandon en instruction">
+              <a href={`/demande/${encodeURIComponent(project.id)}/details.html`}>
+                Voir l'abandon {abandonEnInstruction.statut}
+              </a>
+            </AlertBox>
+          )}
           {project.alerteAnnulationAbandon && userIs('porteur-projet')(user) && (
             <AlerteAnnulationAbandonPossible
               {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}

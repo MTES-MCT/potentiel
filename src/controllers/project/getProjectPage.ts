@@ -28,6 +28,7 @@ import { Project } from '../../infra/sequelize';
 import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Abandon } from '@potentiel-domain/laureat';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -77,22 +78,28 @@ v1Router.get(
 
       const projet = rawProjet.value;
 
-      const alertesRaccordement = await getAlertesRaccordement({
-        userRole: user.role,
-        identifiantProjet: {
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        },
-        CDC2022Choisi:
-          projet.cahierDesChargesActuel.type === 'modifié' &&
-          projet.cahierDesChargesActuel.paruLe === '30/08/2022',
-        projet: {
-          isClasse: projet.isClasse,
-          isAbandonned: projet.isAbandoned,
-        },
-      });
+      const identifiantProjet = {
+        appelOffre: projet.appelOffreId,
+        période: projet.periodeId,
+        famille: projet.familleId,
+        numéroCRE: projet.numeroCRE,
+      };
+
+      const abandonEnInstruction = await getAbandonEnInstruction(identifiantProjet);
+
+      const alertesRaccordement = !abandonEnInstruction
+        ? await getAlertesRaccordement({
+            userRole: user.role,
+            identifiantProjet,
+            CDC2022Choisi:
+              projet.cahierDesChargesActuel.type === 'modifié' &&
+              projet.cahierDesChargesActuel.paruLe === '30/08/2022',
+            projet: {
+              isClasse: projet.isClasse,
+              isAbandonned: projet.isAbandoned,
+            },
+          })
+        : undefined;
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
@@ -119,11 +126,37 @@ v1Router.get(
           project: projet,
           projectEventList: rawProjectEventList.value,
           alertesRaccordement,
+          ...(abandonEnInstruction && { abandonEnInstruction }),
         }),
       );
     },
   ),
 );
+
+type AbandonEnInstructionProps =
+  | { statut: 'demandé' | 'en attente de confirmation' | 'confirmé' }
+  | undefined;
+const getAbandonEnInstruction = async (
+  identifiantProjet: IdentifiantProjet,
+): Promise<AbandonEnInstructionProps> => {
+  try {
+    const { statut } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      type: 'CONSULTER_ABANDON_QUERY',
+      data: { identifiantProjetValue: convertirEnIdentifiantProjet(identifiantProjet).formatter() },
+    });
+    return statut.estDemandé()
+      ? { statut: 'demandé' }
+      : statut.estConfirmé()
+      ? { statut: 'confirmé' }
+      : statut.estConfirmationDemandée() || statut.estEnAttenteConfirmation()
+      ? {
+          statut: 'en attente de confirmation',
+        }
+      : undefined;
+  } catch (error) {
+    return;
+  }
+};
 
 const getIdentifiantLegacyProjet = async (identifiantProjet: RawIdentifiantProjet) => {
   const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
