@@ -1,7 +1,4 @@
-import {
-  registerLauréatQueries,
-  registerLauréatUseCases,
-} from '@potentiel-domain/laureat';
+import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { AbandonNotification } from '@potentiel-infrastructure/notifications';
@@ -63,5 +60,8 @@ export const setupLauréat = async () => {
     streamCategory: 'abandon',
   });
 
-  return async () => Promise.all([unsubscribeAbandonNotification, unsubscribeAbandonProjector]);
+  return async () => {
+    await unsubscribeAbandonNotification();
+    await unsubscribeAbandonProjector();
+  };
 };
