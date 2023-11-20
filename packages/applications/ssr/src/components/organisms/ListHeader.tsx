@@ -13,15 +13,16 @@ type ListHeaderProps = {
 
 export const ListHeader: FC<ListHeaderProps> = ({ tagFilters, totalCount }) => {
   const searchParams = useSearchParams();
+
   const pathname = usePathname();
   const router = useRouter();
 
   const onClick = (tagName: string) => {
     const urlSearchParams = new URLSearchParams(searchParams);
+    urlSearchParams.delete('page');
     urlSearchParams.delete(tagName);
-    const url = `${pathname}${
-      urlSearchParams.toString() !== '' ? `?${urlSearchParams.toString()}` : ''
-    }`;
+
+    const url = `${pathname}${urlSearchParams.size > 0 ? `?${urlSearchParams.toString()}` : ''}`;
     router.push(url);
   };
 
