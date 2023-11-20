@@ -12,11 +12,7 @@ type AbandonListPageProps = {
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: Array<{
-    label: string;
-    searchParamKey: string;
-    options: Array<{ label: string; value: string }>;
-  }>;
+  filters: Parameters<typeof ListPageTemplate>[0]['filters'];
 };
 
 export const AbandonListPage: FC<AbandonListPageProps> = ({
@@ -56,18 +52,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
       itemsPerPage={itemsPerPage}
       ItemComponent={AbandonListItem}
       tagFilters={tagFilters}
-      filters={mapToListFiltersProps(filters)}
+      filters={filters}
     />
   );
-};
-const mapToListFiltersProps = (
-  filters: AbandonListPageProps['filters'],
-): Parameters<typeof ListPageTemplate>[0]['filters'] => {
-  return filters.map((filter) => ({
-    ...filter,
-    options: filter.options.map((option) => ({
-      ...option,
-      isSelected: (value: string) => value === option.value,
-    })),
-  }));
 };

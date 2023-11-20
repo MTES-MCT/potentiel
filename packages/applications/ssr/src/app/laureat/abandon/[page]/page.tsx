@@ -41,6 +41,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     {
       label: `Appel d'offres`,
       searchParamKey: 'appelOffre',
+      defaultValue: appelOffre,
       options: appelOffres.items.map((appelOffre) => ({
         label: appelOffre.id,
         value: appelOffre.id,
@@ -49,6 +50,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     {
       label: 'Recandidature',
       searchParamKey: 'recandidature',
+      defaultValue: searchParams?.recandidature,
       options: [
         {
           label: 'Avec recandidature',
@@ -63,6 +65,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     {
       label: 'Statut',
       searchParamKey: 'statut',
+      defaultValue: statut,
       options: Abandon.StatutAbandon.statuts
         .filter((s) => s !== 'inconnu')
         .map((statut) => ({
@@ -71,6 +74,8 @@ export default async function Page({ params, searchParams }: PageProps) {
         })),
     },
   ];
+
+  console.table(filters);
 
   return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
 }
