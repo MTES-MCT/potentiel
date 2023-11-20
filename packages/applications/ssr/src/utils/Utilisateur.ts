@@ -8,4 +8,5 @@ export type Utilisateur = {
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
     | 'cre';
+  email: string;
 };
