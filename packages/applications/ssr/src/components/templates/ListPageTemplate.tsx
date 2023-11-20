@@ -6,6 +6,7 @@ import { PageTemplate } from './PageTemplate';
 import { ListHeader } from '../organisms/ListHeader';
 import { List } from '../organisms/List';
 import { ListFilters } from '../organisms/ListFilters';
+import { useSearchParams } from 'next/navigation';
 
 type ListPageTemplateProps<TItem> = {
   heading: string;
@@ -25,29 +26,38 @@ export const ListPageTemplate = <TItem,>({
   itemsPerPage,
   tagFilters,
   totalItems,
-}: ListPageTemplateProps<TItem>) => (
-  <PageTemplate heading={heading}>
-    <div className="flex flex-col md:flex-row gap-5 md:gap-10">
-      <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
-        <ListFilters filters={filters} />
-      </div>
+}: ListPageTemplateProps<TItem>) => {
+  /**
+   * Use search params as key for the ListFilters component
+   * This will force react to mount again this component
+   * when the search params changed
+   */
+  const listFiltersKey = new URLSearchParams(useSearchParams()).toString();
 
-      <div className="flex flex-col gap-3 flex-grow md:w-3/4">
-        <div className="flex flex-col md:flex-row md:items-center gap-3">
-          <ListHeader tagFilters={tagFilters} totalCount={totalItems} />
+  return (
+    <PageTemplate heading={heading}>
+      <div className="flex flex-col md:flex-row gap-5 md:gap-10">
+        <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
+          <ListFilters key={listFiltersKey} filters={filters} />
         </div>
 
-        {items.length ? (
-          <List
-            items={items}
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            ItemComponent={ItemComponent}
-          />
-        ) : (
-          <div className="flex flex-grow">Aucun résultat à afficher</div>
-        )}
+        <div className="flex flex-col gap-3 flex-grow md:w-3/4">
+          <div className="flex flex-col md:flex-row md:items-center gap-3">
+            <ListHeader tagFilters={tagFilters} totalCount={totalItems} />
+          </div>
+
+          {items.length ? (
+            <List
+              items={items}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+              ItemComponent={ItemComponent}
+            />
+          ) : (
+            <div className="flex flex-grow">Aucun résultat à afficher</div>
+          )}
+        </div>
       </div>
-    </div>
-  </PageTemplate>
-);
+    </PageTemplate>
+  );
+};

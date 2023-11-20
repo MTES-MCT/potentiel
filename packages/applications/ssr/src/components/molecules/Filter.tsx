@@ -1,6 +1,6 @@
 'use client';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
 type FilterProps = {
   label: string;
@@ -8,32 +8,19 @@ type FilterProps = {
   defaultValue: string;
   onValueSelected?: (value: string | undefined) => void;
 };
-export const Filter: FC<FilterProps> = ({ label, options, defaultValue, onValueSelected }) => {
-  const [value, setValue] = useState(defaultValue);
-
-  useEffect(() => {
-    if (onValueSelected) {
-      onValueSelected(defaultValue);
-    }
-    setValue(defaultValue);
-  }, [defaultValue, onValueSelected, setValue]);
-
-  return (
-    <SelectNext
-      label={label}
-      placeholder={`Filtrer par ${label.toLocaleLowerCase()}`}
-      nativeSelectProps={{
-        value,
-        onChange: (e) => {
-          const value = e.currentTarget.value;
-
-          if (onValueSelected) {
-            onValueSelected(value);
-          }
-          setValue(value);
-        },
-      }}
-      options={options}
-    />
-  );
-};
+export const Filter: FC<FilterProps> = ({ label, options, defaultValue, onValueSelected }) => (
+  <SelectNext
+    label={label}
+    placeholder={`Filtrer par ${label.toLocaleLowerCase()}`}
+    nativeSelectProps={{
+      defaultValue,
+      onChange: (e) => {
+        const value = e.currentTarget.value;
+        if (onValueSelected) {
+          onValueSelected(value);
+        }
+      },
+    }}
+    options={options}
+  />
+);
