@@ -38,7 +38,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
       <>
         {successMessage && <Alert severity="success" title={successMessage} className="my-4" />}
         <DetailDemandeAbandon {...demande} />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
           {(instruction.accord || instruction.confirmation || instruction.rejet) && (
             <DetailInstructionAbandon {...instruction} />
           )}

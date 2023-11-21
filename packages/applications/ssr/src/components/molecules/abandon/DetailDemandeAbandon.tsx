@@ -22,24 +22,26 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
   pièceJustificative,
 }) => (
   <div className="mb-7">
-    <CallOut style={{ fontSize: '16px' }}>
-      Demande déposée par <span className="font-bold">{demandéPar}</span> le{' '}
-      <span className="font-bold">{displayDate(new Date(demandéLe))}</span>
-      <br />
-      Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
-      <br />
-      Explications du porteur de projet : <span className="italic">"{raison}"</span>
-      <br />
-      {pièceJustificative && (
-        <Download
-          details=""
-          label="Télécharger la pièce justificative"
-          linkProps={{
-            href: `/documents/${encodeURIComponent(pièceJustificative)}`,
-          }}
-          className="mb-0 pb-0"
-        />
-      )}
+    <CallOut>
+      <span style={{ fontSize: '16px' }}>
+        Demande déposée par <span className="font-bold">{demandéPar}</span> le{' '}
+        <span className="font-bold">{displayDate(new Date(demandéLe))}</span>
+        <br />
+        Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
+        <br />
+        Explications du porteur de projet : <span className="italic">"{raison}"</span>
+        <br />
+        {pièceJustificative && (
+          <Download
+            details=""
+            label="Télécharger la pièce justificative"
+            linkProps={{
+              href: `/documents/${encodeURIComponent(pièceJustificative)}`,
+            }}
+            className="mb-0 pb-0"
+          />
+        )}
+      </span>
     </CallOut>
     {recandidature && (
       <Alert
