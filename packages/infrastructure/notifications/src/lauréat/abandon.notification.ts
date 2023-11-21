@@ -105,12 +105,64 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           });
         }
         break;
+      case 'ConfirmationAbandonDemandée-V1':
+        const confirmation_abandon_demandée_url = `/laureat/${encodeURIComponent(
+          identifiantProjet.formatter(),
+        )}/abandon`;
+        await sendEmail({
+          templateId: templateId.abandon.demanderConfirmation.porteur,
+          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          recipients: porteurs,
+          variables: {
+            nom_projet: projet.nom,
+            confirmation_abandon_demandée_url,
+          },
+        });
+        break;
+      case 'AbandonConfirmé-V1':
+        const abandon_confirmé_url = `/laureat/${encodeURIComponent(
+          identifiantProjet.formatter(),
+        )}/abandon`;
+        await sendEmail({
+          templateId: templateId.abandon.confirmer.porteur,
+          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          recipients: porteurs,
+          variables: {
+            nom_projet: projet.nom,
+            abandon_confirmé_url,
+          },
+        });
+
+        await sendEmail({
+          templateId: templateId.abandon.confirmer.admin,
+          messageSubject: `Potentiel - Demande d'abandon confirmée pour un projet ${projet.appelOffre} période ${projet.période}`,
+          recipients: admins,
+          variables: {
+            nom_projet: projet.nom,
+            departement_projet: projet.localité.département,
+            abandon_confirmé_url,
+          },
+        });
+
+        if (chargésAffaire.length > 0) {
+          await sendEmail({
+            templateId: templateId.abandon.confirmer.chargéAffaire,
+            messageSubject: `Potentiel - Demande d'abandon confirmée pour un projet ${projet.appelOffre} période ${projet.période}`,
+            recipients: chargésAffaire,
+            variables: {
+              nom_projet: projet.nom,
+              departement_projet: projet.localité.département,
+              abandon_confirmé_url,
+            },
+          });
+        }
+        break;
       case 'AbandonAccordé-V1':
         const abandon_accordé_url = `/laureat/${encodeURIComponent(
           identifiantProjet.formatter(),
         )}/abandon`;
         await sendEmail({
-          templateId: templateId.abandon.accorder,
+          templateId: templateId.abandon.accorder.porteur,
           messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
@@ -124,7 +176,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           identifiantProjet.formatter(),
         )}/abandon`;
         await sendEmail({
-          templateId: templateId.abandon.rejeter,
+          templateId: templateId.abandon.rejeter.porteur,
           messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
@@ -135,7 +187,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
         break;
       case 'PreuveRecandidatureDemandée-V1':
         await sendEmail({
-          templateId: templateId.abandon.demanderPreuveRecandidature,
+          templateId: templateId.abandon.demanderPreuveRecandidature.porteur,
           messageSubject: `Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom}`,
           recipients: porteurs,
           variables: {

@@ -27,21 +27,31 @@
 
 export const templateId = {
   abandon: {
-    accorder: '5330091',
+    accorder: {
+      porteur: '5330091',
+    },
     annuler: {
       porteur: '5330331',
       admin: '5330344',
-      chargéAffaire: '',
+      chargéAffaire: '5330344',
     },
-    annulerRejet: '',
-    confirmer: '',
+    annulerRejet: {
+      porteur: '',
+    },
+    confirmer: {
+      porteur: '5330500',
+      admin: '5330535',
+      chargéAffaire: '5330535',
+    },
     demander: {
       porteur: '5330166',
       admin: '5330210',
     },
-    demanderConfirmation: '',
-    demanderPreuveRecandidature: '',
-    rejeter: '5330129',
-    transmetrePreuveRecandidature: '5308275',
+    demanderConfirmation: { porteur: '5330451' },
+    demanderPreuveRecandidature: {
+      porteur: '',
+    },
+    rejeter: { porteur: '5330129' },
+    transmetrePreuveRecandidature: { porteur: '5308275' },
   },
 };
