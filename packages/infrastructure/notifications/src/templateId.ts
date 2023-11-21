@@ -27,7 +27,7 @@
 
 export const templateId = {
   abandon: {
-    accorder: '2046625',
+    accorder: '5330091',
     annuler: '',
     annulerRejet: '',
     confirmer: '',
@@ -37,7 +37,7 @@ export const templateId = {
     },
     demanderConfirmation: '',
     demanderPreuveRecandidature: '',
-    rejeter: '2046625',
+    rejeter: '5330129',
     transmetrePreuveRecandidature: '5308275',
   },
 };
