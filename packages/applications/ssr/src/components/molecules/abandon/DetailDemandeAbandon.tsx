@@ -22,7 +22,7 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
   pièceJustificative,
 }) => (
   <div className="mb-7">
-    <CallOut>
+    <CallOut style={{ fontSize: '16px' }}>
       Demande déposée par <span className="font-bold">{demandéPar}</span> le{' '}
       <span className="font-bold">{displayDate(new Date(demandéLe))}</span>
       <br />

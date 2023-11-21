@@ -6,9 +6,17 @@ import {
   DetailAbandonPage,
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
+import { getUser } from '@/utils/getUtilisateur';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   const identifiantProjet = decodeURIComponent(identifiant);
+
+  const utilisateur = await getUser();
+
+  if (!utilisateur) {
+    //TODO : redirect to home / signup
+    return;
+  }
 
   const candidature = await mediator.send<ConsulterCandidatureQuery>({
     type: 'CONSULTER_CANDIDATURE_QUERY',
@@ -27,6 +35,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   // TODO: extract the logic in a dedicated function mapToProps
   // identifiantProjet must come from the readmodel as a value type
   const detailAbandonPageProps: DetailAbandonPageProps = {
+    utilisateur: { rôle: utilisateur.role.nom, email: utilisateur.identifiantUtilisateur.email },
     projet: { ...candidature, identifiantProjet },
     statut: statut.statut,
     demande: {
