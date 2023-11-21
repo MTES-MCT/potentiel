@@ -5,18 +5,20 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 export type DetailDemandeAbandonProps = {
-  demande: {
-    demandéPar: string;
-    demandéLe: string;
-    recandidature: boolean;
-    raison: string;
-    pièceJustificative?: string;
-  };
+  demandéPar: string;
+  demandéLe: string;
+  recandidature: boolean;
+  raison: string;
+  pièceJustificative?: string;
 };
 
-export const DetailDemandeAbandon: FC<
-  DetailDemandeAbandonProps & { identifiantProjet: string }
-> = ({ demande: { demandéPar, demandéLe, recandidature, raison, pièceJustificative } }) => (
+export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
+  demandéPar,
+  demandéLe,
+  recandidature,
+  raison,
+  pièceJustificative,
+}) => (
   <div className="mb-7">
     <CallOut>
       <ul className="text-[16px]">

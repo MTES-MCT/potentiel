@@ -13,8 +13,9 @@ import { FC } from 'react';
 export type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
-} & DetailDemandeAbandonProps &
-  InstructionAbandonProps;
+  demande: DetailDemandeAbandonProps;
+  instruction: InstructionAbandonProps;
+};
 
 export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   projet,
@@ -32,12 +33,9 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
     }
   >
     <>
-      <DetailDemandeAbandon demande={demande} identifiantProjet={projet.identifiantProjet} />
-      {instruction && (
-        <InstructionAbandon
-          identifiantProjet={projet.identifiantProjet}
-          instruction={instruction}
-        />
+      <DetailDemandeAbandon {...demande} />
+      {(instruction.accord || instruction.confirmation || instruction.rejet) && (
+        <InstructionAbandon {...instruction} />
       )}
     </>
   </ProjetPageTemplate>
