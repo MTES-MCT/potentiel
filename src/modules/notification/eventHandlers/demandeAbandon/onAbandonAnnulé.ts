@@ -4,6 +4,9 @@ import routes from '../../../../routes';
 import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest';
 import { AbandonAnnulé } from '../../../demandeModification';
 
+/**
+ * @deprecated
+ */
 export const makeOnAbandonAnnulé =
   (deps: {
     sendNotification: NotificationService['sendNotification'];

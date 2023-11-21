@@ -28,7 +28,11 @@
 export const templateId = {
   abandon: {
     accorder: '5330091',
-    annuler: '',
+    annuler: {
+      porteur: '5330331',
+      admin: '5330344',
+      chargéAffaire: '',
+    },
     annulerRejet: '',
     confirmer: '',
     demander: {

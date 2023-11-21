@@ -30,6 +30,15 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
       return;
     }
 
+    const admins = [
+      {
+        email: process.env.DGEC_EMAIL,
+        fullName: 'DGEC',
+      },
+    ];
+
+    const chargésAffaire = porteurs.filter((porteur) => porteur.email === projet.email);
+
     switch (event.type) {
       case 'AbandonDemandé-V1':
         const abandon_demandé_url = `/laureat/${encodeURIComponent(
@@ -49,18 +58,52 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
         await sendEmail({
           templateId: templateId.abandon.demander.admin,
           messageSubject: `Potentiel - Nouvelle demande de type abandon pour un projet ${projet.appelOffre} période ${projet.période}`,
-          recipients: [
-            {
-              email: process.env.DGEC_EMAIL,
-              fullName: 'DGEC',
-            },
-          ],
+          recipients: admins,
           variables: {
             nom_projet: projet.nom,
             departement_projet: projet.localité.département,
             abandon_demandé_url,
           },
         });
+        break;
+      case 'AbandonAnnulé-V1':
+        const abandon_annulé_url = `/laureat/${encodeURIComponent(
+          identifiantProjet.formatter(),
+        )}/abandon`;
+
+        await sendEmail({
+          templateId: templateId.abandon.annuler.porteur,
+          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          recipients: porteurs,
+          variables: {
+            nom_projet: projet.nom,
+            abandon_annulé_url,
+          },
+        });
+
+        await sendEmail({
+          templateId: templateId.abandon.annuler.admin,
+          messageSubject: `Potentiel - Demande d'abandon annulée pour un projet ${projet.appelOffre} période ${projet.période}`,
+          recipients: admins,
+          variables: {
+            nom_projet: projet.nom,
+            departement_projet: projet.localité.département,
+            abandon_annulé_url,
+          },
+        });
+
+        if (chargésAffaire.length > 0) {
+          await sendEmail({
+            templateId: templateId.abandon.annuler.chargéAffaire,
+            messageSubject: `Potentiel - Demande d'abandon annulée pour un projet ${projet.appelOffre} période ${projet.période}`,
+            recipients: chargésAffaire,
+            variables: {
+              nom_projet: projet.nom,
+              departement_projet: projet.localité.département,
+              abandon_annulé_url,
+            },
+          });
+        }
         break;
       case 'AbandonAccordé-V1':
         const abandon_accordé_url = `/laureat/${encodeURIComponent(
