@@ -4,27 +4,26 @@ import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
 export type InstructionAbandonProps = {
-  instruction: {
-    confirmation?: {
-      demandéLe: string;
-      demandéPar: string;
-      réponseSignée: string;
-      confirméLe?: string;
-      confirméPar?: string;
-    };
-    accord?: { accordéPar: string; accordéLe: string; réponseSignée: string };
-    rejet?: { rejetéPar: string; rejetéLe: string; réponseSignée: string };
+  confirmation?: {
+    demandéLe: string;
+    demandéPar: string;
+    réponseSignée: string;
+    confirméLe?: string;
+    confirméPar?: string;
   };
+  accord?: { accordéPar: string; accordéLe: string; réponseSignée: string };
+  rejet?: { rejetéPar: string; rejetéLe: string; réponseSignée: string };
 };
 
-export const InstructionAbandon: FC<InstructionAbandonProps & { identifiantProjet: string }> = ({
-  instruction: { confirmation, accord, rejet },
+export const InstructionAbandon: FC<InstructionAbandonProps> = ({
+  confirmation,
+  accord,
+  rejet,
 }) => {
   return (
     <div>
       <Heading2 className="mb-2">Instruction</Heading2>
       <div className="flex gap-3 flex-col">
-        {' '}
         {confirmation?.demandéLe && (
           <p>
             Confirmation demandée le {displayDate(new Date(confirmation.demandéLe))} par{' '}

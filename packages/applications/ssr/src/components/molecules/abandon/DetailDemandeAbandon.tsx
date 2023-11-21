@@ -1,3 +1,5 @@
+'use client';
+
 import { displayDate } from '@/utils/displayDate';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
@@ -5,46 +7,39 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 export type DetailDemandeAbandonProps = {
-  demande: {
-    demandéPar: string;
-    demandéLe: string;
-    recandidature: boolean;
-    raison: string;
-    pièceJustificative?: string;
-  };
+  demandéPar: string;
+  demandéLe: string;
+  recandidature: boolean;
+  raison: string;
+  pièceJustificative?: string;
 };
 
-export const DetailDemandeAbandon: FC<
-  DetailDemandeAbandonProps & { identifiantProjet: string }
-> = ({ demande: { demandéPar, demandéLe, recandidature, raison, pièceJustificative } }) => (
+export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
+  demandéPar,
+  demandéLe,
+  recandidature,
+  raison,
+  pièceJustificative,
+}) => (
   <div className="mb-7">
     <CallOut>
-      <ul className="text-[16px]">
-        <li>
-          Demande déposée par <span className="font-bold">{demandéPar}</span> le{' '}
-          <span className="font-bold">{displayDate(new Date(demandéLe))}</span>
-        </li>
-        {recandidature && (
-          <li>
-            Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
-          </li>
-        )}
-        <li className="flex flex-col md:flex-row md: gap-3">
-          Explications du porteur de projet : <span className="italic">"{raison}"</span>
-        </li>
-        {pièceJustificative && (
-          <li>
-            <Download
-              details=""
-              label="Télécharger la pièce justificative"
-              linkProps={{
-                href: `/documents/${encodeURIComponent(pièceJustificative)}`,
-              }}
-              className="mb-0 pb-0"
-            />
-          </li>
-        )}
-      </ul>
+      Demande déposée par <span className="font-bold">{demandéPar}</span> le{' '}
+      <span className="font-bold">{displayDate(new Date(demandéLe))}</span>
+      <br />
+      Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
+      <br />
+      Explications du porteur de projet : <span className="italic">"{raison}"</span>
+      <br />
+      {pièceJustificative && (
+        <Download
+          details=""
+          label="Télécharger la pièce justificative"
+          linkProps={{
+            href: `/documents/${encodeURIComponent(pièceJustificative)}`,
+          }}
+          className="mb-0 pb-0"
+        />
+      )}
     </CallOut>
     {recandidature && (
       <Alert

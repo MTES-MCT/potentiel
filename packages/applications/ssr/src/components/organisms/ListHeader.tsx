@@ -12,16 +12,22 @@ type ListHeaderProps = {
 };
 
 export const ListHeader: FC<ListHeaderProps> = ({ tagFilters, totalCount }) => {
-  const searchParams = useSearchParams();
+  const currentSearchParams = useSearchParams();
+  const searchParams = tagFilters.reduce((urlSearchParams, { searchParamKey }) => {
+    if (currentSearchParams.has(searchParamKey)) {
+      urlSearchParams.set(searchParamKey, currentSearchParams.get(searchParamKey) ?? '');
+    }
+
+    return urlSearchParams;
+  }, new URLSearchParams());
+
   const pathname = usePathname();
   const router = useRouter();
 
   const onClick = (tagName: string) => {
-    const urlSearchParams = new URLSearchParams(searchParams);
-    urlSearchParams.delete(tagName);
-    const url = `${pathname}${
-      urlSearchParams.toString() !== '' ? `?${urlSearchParams.toString()}` : ''
-    }`;
+    searchParams.delete(tagName);
+
+    const url = `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;
     router.push(url);
   };
 

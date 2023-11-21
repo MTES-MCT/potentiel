@@ -26,11 +26,24 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
 }) => (
   <>
     <div>
-      <div className="flex flex-col md:flex-row gap-3">
-        <h2>
+      <div className="flex flex-col gap-1">
+        <h2 className="leading-4">
           Abandon du projet <span className="font-bold">{nomProjet}</span>
         </h2>
-        <div className="flex flex-col md:flex-row gap-2 py-2">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
+          <div>
+            Appel d'offres : {appelOffre}
+            <span className="hidden md:inline-block mr-2">,</span>
+          </div>
+          <div>Période : {période}</div>
+          {famille && (
+            <div>
+              <span className="hidden md:inline-block mr-2">,</span>
+              Famille : {famille}
+            </div>
+          )}
+        </div>
+        <div className="flex flex-col md:flex-row gap-2 mt-3">
           <StatutAbandonBadge statut={statut} small />
           {recandidature && (
             <Badge noIcon small severity="info">
@@ -38,19 +51,6 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
             </Badge>
           )}
         </div>
-      </div>
-      <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-sm mt-2 sm:mt-0">
-        <div>
-          Appel d'offres : {appelOffre}
-          <span className="hidden md:inline-block mr-2">,</span>
-        </div>
-        <div>Période : {période}</div>
-        {famille && (
-          <div>
-            <span className="hidden md:inline-block mr-2">,</span>
-            Famille : {famille}
-          </div>
-        )}
       </div>
     </div>
 

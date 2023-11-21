@@ -1,5 +1,5 @@
 'use client';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { Heading2 } from '../atoms/headings';
 import { FC, useState } from 'react';
@@ -19,12 +19,8 @@ type ListFiltersProps = {
 
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const pathname = usePathname();
-  const [searchParams, setSearchParams] = useState(new URLSearchParams(useSearchParams()));
-
-  const buildUrl = (pathname: string, searchParams: string) =>
-    `${pathname}${searchParams ? `?${searchParams}` : ''}`;
-
-  const [url, setUrl] = useState(buildUrl(pathname, searchParams.toString()));
+  const [searchParams, setSearchParams] = useState(mapToURLSearchParams(filters));
+  const [url, setUrl] = useState(buildUrl(pathname, searchParams));
 
   return (
     <>
@@ -45,7 +41,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
               }
             }
             setSearchParams(searchParams);
-            setUrl(buildUrl(pathname, searchParams.toString()));
+            setUrl(buildUrl(pathname, searchParams));
           }}
         />
       ))}
@@ -56,3 +52,16 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
     </>
   );
 };
+
+const mapToURLSearchParams = (filters: ListFiltersProps['filters']): URLSearchParams => {
+  return filters.reduce((searchParams, filter) => {
+    if (filter.defaultValue) {
+      searchParams.set(filter.searchParamKey, filter.defaultValue);
+    }
+
+    return searchParams;
+  }, new URLSearchParams());
+};
+
+const buildUrl = (pathname: string, searchParams: URLSearchParams) =>
+  `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;

@@ -13,6 +13,7 @@ type ListPageTemplateProps<TItem> = {
   heading: string;
   filters: Parameters<typeof ListFilters>[0]['filters'];
   tagFilters: Parameters<typeof ListHeader>[0]['tagFilters'];
+  currentPage: number;
   totalItems: number;
   itemsPerPage: number;
   items: Array<TItem & { key: string }>;
@@ -24,6 +25,7 @@ export const ListPageTemplate = <TItem,>({
   ItemComponent,
   filters,
   items,
+  currentPage,
   itemsPerPage,
   tagFilters,
   totalItems,
@@ -50,6 +52,7 @@ export const ListPageTemplate = <TItem,>({
           {items.length ? (
             <List
               items={items}
+              currentPage={currentPage}
               totalItems={totalItems}
               itemsPerPage={itemsPerPage}
               ItemComponent={ItemComponent}
