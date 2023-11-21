@@ -48,7 +48,11 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           },
         });
 
-        // notifier un admin, en se basant sur une variable d'environnement pour le mail ? wtf dude
+        /**
+         * @todo
+         * Voir comment on gère la notif aux admins ??
+         * notifier un admin, en se basant sur une variable d'environnement pour le mail ? wtf dude
+         */
         await sendEmail({
           templateId: templateId.abandon.demander.admin,
           messageSubject: `Potentiel - Nouvelle demande de type abandon pour un projet ${projet.appelOffre} période ${projet.période}`,
