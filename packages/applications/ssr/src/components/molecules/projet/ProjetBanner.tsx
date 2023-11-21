@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { ProjectStatusBadge } from '@/components/molecules/ProjectStatusBadge';
+import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { displayDate } from '@/utils/displayDate';
 
 type ProjetBannerProps = {
-  statut: 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
+  statut: Parameters<typeof StatutProjetBadge>[0]['statut'];
   nom: string;
   appelOffre: string;
   période: string;
@@ -37,7 +37,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = ({
         >
           {nom}
         </a>
-        <ProjectStatusBadge statut={statut} />
+        <StatutProjetBadge statut={statut} />
       </div>
       <p className="text-sm font-medium p-0 m-0 mt-2">
         {localité.commune}, {localité.département}, {localité.région}

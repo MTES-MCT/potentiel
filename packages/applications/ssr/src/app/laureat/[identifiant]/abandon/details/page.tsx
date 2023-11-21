@@ -7,9 +7,7 @@ import {
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
 
-export default async function DetailsAbandonPage({
-  params: { identifiant },
-}: IdentifiantParameter) {
+export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   const identifiantProjet = decodeURIComponent(identifiant);
 
   const candidature = await mediator.send<ConsulterCandidatureQuery>({
@@ -26,6 +24,8 @@ export default async function DetailsAbandonPage({
     },
   });
 
+  // TODO: extract the logic in a dedicated function mapToProps
+  // identifiantProjet must come from the readmodel as a value type
   const detailAbandonPageProps: DetailAbandonPageProps = {
     projet: { ...candidature, identifiantProjet },
     statut: statut.statut,
