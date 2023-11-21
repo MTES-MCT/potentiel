@@ -7,9 +7,9 @@ import {
   InstructionAbandonProps,
 } from '@/components/molecules/abandon/InstructionAbandon';
 import {
-  StatutDemandeBadge,
-  StatutDemandeBadgeProps,
-} from '@/components/molecules/demande/StatutDemandeBadge';
+  StatutAbandonBadge,
+  StatutAbandonBadgeProps,
+} from '@/components/molecules/abandon/StatutAbandonBadge';
 import { ProjectPageTemplate } from '@/components/templates/ProjectPageTemplate';
 import { Candidature } from '@/utils/Candidature';
 import { Utilisateur } from '@/utils/Utilisateur';
@@ -19,7 +19,7 @@ export type DetailAbandonPageProps = {
   identifiantProjet: string;
   utilisateur: Utilisateur;
   candidature: Candidature;
-  statut: StatutDemandeBadgeProps['statut'];
+  statut: StatutAbandonBadgeProps['statut'];
 } & DetailDemandeAbandonProps &
   InstructionAbandonProps;
 
@@ -37,7 +37,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
     retour={{ title: 'retour vers la liste', url: '/laureat/abandon/1' }}
     heading={
       <>
-        <span>Abandon</span> <StatutDemandeBadge statut={statut} className="align-middle" />
+        <span>Abandon</span> <StatutAbandonBadge statut={statut} className="align-middle" />
       </>
     }
   >

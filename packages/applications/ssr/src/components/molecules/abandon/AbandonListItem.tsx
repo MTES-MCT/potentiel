@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { Abandon } from '@potentiel-domain/laureat';
-import { StatutDemandeBadge } from '../demande/StatutDemandeBadge';
+import { StatutAbandonBadge } from './StatutAbandonBadge';
 
 type AbandonListItemProps = {
   identifiantProjet: string;
@@ -31,7 +31,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
           Abandon du projet <span className="font-bold">{nomProjet}</span>
         </h2>
         <div className="flex flex-col md:flex-row gap-2 py-2">
-          <StatutDemandeBadge statut={statut} small />
+          <StatutAbandonBadge statut={statut} small />
           {recandidature && (
             <Badge noIcon small severity="info">
               avec recandidature

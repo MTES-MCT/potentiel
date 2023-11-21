@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
-export type StatutDemandeBadgeProps = {
+export type StatutAbandonBadgeProps = {
   statut: string;
   className?: string;
   small?: true;
 };
-export const StatutDemandeBadge: FC<StatutDemandeBadgeProps> = ({
+export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({
   statut,
   className = '',
   small,
