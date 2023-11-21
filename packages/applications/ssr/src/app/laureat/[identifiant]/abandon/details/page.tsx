@@ -6,7 +6,6 @@ import {
   DetailAbandonPage,
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
-import { getUser } from '@/utils/getUser';
 
 export default async function DetailsAbandonPage({
   params: { identifiant },
@@ -27,15 +26,7 @@ export default async function DetailsAbandonPage({
     },
   });
 
-  const utilisateur = await getUser();
-
-  if (!utilisateur) {
-    // TODO : rediriger sur la page d'accueil
-    return;
-  }
-
   const detailAbandonPageProps: DetailAbandonPageProps = {
-    utilisateur: { rôle: utilisateur.role.nom },
     identifiantProjet,
     candidature,
     statut: statut.statut,

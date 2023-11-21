@@ -12,12 +12,10 @@ import {
 } from '@/components/molecules/abandon/StatutAbandonBadge';
 import { ProjectPageTemplate } from '@/components/templates/ProjectPageTemplate';
 import { Candidature } from '@/utils/Candidature';
-import { Utilisateur } from '@/utils/Utilisateur';
 import { FC } from 'react';
 
 export type DetailAbandonPageProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
   candidature: Candidature;
   statut: StatutAbandonBadgeProps['statut'];
 } & DetailDemandeAbandonProps &
@@ -26,7 +24,6 @@ export type DetailAbandonPageProps = {
 export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   candidature,
   identifiantProjet,
-  utilisateur,
   statut,
   demande,
   instruction,
