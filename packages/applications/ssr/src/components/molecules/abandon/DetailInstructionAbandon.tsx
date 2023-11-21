@@ -25,7 +25,7 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
       <Heading2 className="mb-2">Instruction</Heading2>
       <div className="flex gap-3 flex-col">
         {confirmation?.demandéLe && (
-          <p>
+          <div>
             Confirmation demandée le {displayDate(new Date(confirmation.demandéLe))} par{' '}
             {confirmation.demandéPar}
             {confirmation.réponseSignée && (
@@ -38,7 +38,7 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
                 className="mb-0 pb-0"
               />
             )}
-          </p>
+          </div>
         )}
         {confirmation?.confirméLe && confirmation.confirméPar && (
           <p>
@@ -47,7 +47,7 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
           </p>
         )}
         {accord && (
-          <p className="font-bold">
+          <div className="font-bold">
             Demande d'abandon accordée le {displayDate(new Date(accord.accordéLe))} par{' '}
             {accord.accordéPar}
             {accord.réponseSignée && (
@@ -60,10 +60,10 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
                 className="mb-0 pb-0"
               />
             )}
-          </p>
+          </div>
         )}
         {rejet && (
-          <p className="font-bold">
+          <div className="font-bold">
             Demande d'abandon rejetée le {displayDate(new Date(rejet.rejetéLe))} par{' '}
             {rejet.rejetéPar}
             {rejet.réponseSignée && (
@@ -76,7 +76,7 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
                 className="mb-0 pb-0"
               />
             )}
-          </p>
+          </div>
         )}
       </div>
     </div>
