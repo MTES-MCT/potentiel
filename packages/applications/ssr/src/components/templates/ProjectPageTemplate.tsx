@@ -19,7 +19,6 @@ type ProjectPageTemplate = {
     dateDésignation: string;
   };
   identifiantProjet: string;
-  retour?: { title: string; url: string };
   children: React.ReactNode;
 };
 
@@ -27,14 +26,10 @@ export const ProjectPageTemplate = ({
   heading,
   candidature,
   identifiantProjet,
-  retour,
   children,
 }: ProjectPageTemplate) => {
   return (
-    <PageTemplate
-      retour={retour}
-      banner={<RésuméCandidatureBanner {...{ ...candidature, identifiantProjet }} />}
-    >
+    <PageTemplate banner={<RésuméCandidatureBanner {...{ ...candidature, identifiantProjet }} />}>
       <Heading1 className="mt-0 mb-8">{heading}</Heading1>
       <div>{children}</div>
     </PageTemplate>

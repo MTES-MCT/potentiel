@@ -2,11 +2,10 @@ import { FC } from 'react';
 
 type PageTemplateProps = {
   banner?: React.ReactNode;
-  retour?: { title: string; url: string };
   children: React.ReactNode;
 };
 
-export const PageTemplate: FC<PageTemplateProps> = ({ banner, retour, children }) => {
+export const PageTemplate: FC<PageTemplateProps> = ({ banner, children }) => {
   return (
     <>
       {banner && (
@@ -14,14 +13,7 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, retour, children }
           <div className="fr-container">{banner}</div>
         </div>
       )}
-      <div className="fr-container my-10">
-        {retour && (
-          <div className="flex justify-end">
-            <a href={retour.url}>{retour.title}</a>
-          </div>
-        )}
-        {children}
-      </div>
+      <div className="fr-container my-10">{children}</div>
     </>
   );
 };
