@@ -38,7 +38,7 @@ export const DetailDemandeAbandon: FC<
               details=""
               label="Télécharger la pièce justificative"
               linkProps={{
-                href: `/laureat/document/${encodeURIComponent(pièceJustificative)}`,
+                href: `/documents/${encodeURIComponent(pièceJustificative)}`,
               }}
               className="mb-0 pb-0"
             />
