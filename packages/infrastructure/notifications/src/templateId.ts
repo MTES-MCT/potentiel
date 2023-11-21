@@ -31,7 +31,10 @@ export const templateId = {
     annuler: '',
     annulerRejet: '',
     confirmer: '',
-    demander: '',
+    demander: {
+      porteur: '2046625',
+      admin: '2047347',
+    },
     demanderConfirmation: '',
     demanderPreuveRecandidature: '',
     rejeter: '2046625',
