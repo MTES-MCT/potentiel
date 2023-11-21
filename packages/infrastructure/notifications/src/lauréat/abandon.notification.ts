@@ -45,6 +45,21 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           },
         });
         break;
+      case 'AbandonRejeté-V1':
+        sendEmail({
+          templateId: templateId.abandon.rejeter,
+          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          recipients: porteurs,
+          variables: {
+            nom_projet: projet.nom,
+            type_demande: 'abandon',
+            status: 'rejetée',
+            modification_request_url: `/laureat/${encodeURIComponent(
+              identifiantProjet.formatter(),
+            )}/abandon`,
+          },
+        });
+        break;
       case 'PreuveRecandidatureDemandée-V1':
         sendEmail({
           templateId: templateId.abandon.demanderPreuveRecandidature,

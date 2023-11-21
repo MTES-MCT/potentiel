@@ -34,7 +34,7 @@ export const templateId = {
     demander: '',
     demanderConfirmation: '',
     demanderPreuveRecandidature: '',
-    rejeter: '',
+    rejeter: '2046625',
     transmetrePreuveRecandidature: '5308275',
   },
 };
