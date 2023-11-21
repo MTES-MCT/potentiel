@@ -6,6 +6,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { RécupérerPorteursProjetPort } from '@potentiel/domain-views';
 import { Abandon } from '@potentiel-domain/laureat';
 import { RécupérerCandidaturePort } from '@potentiel-domain/candidature';
+import { templateId } from '../templateId';
 
 export type SubscriptionEvent = Abandon.PreuveRecandidatureDemandéeEvent & Event;
 
@@ -32,7 +33,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           const porteurs = await récupérerPorteursProjet(identifiantProjet);
 
           sendEmail({
-            templateId: '5308275',
+            templateId: templateId.transmetrePreuveRecandidature,
             messageSubject: `Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom}`,
             recipients: porteurs,
             variables: {
