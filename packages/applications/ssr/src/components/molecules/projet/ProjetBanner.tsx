@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { ProjectStatusBadge } from '@/components/molecules/ProjectStatusBadge';
 import { displayDate } from '@/utils/displayDate';
 
-type RésuméCandidatureBannerProps = {
+type ProjetBannerProps = {
   statut: 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
   nom: string;
   appelOffre: string;
@@ -18,7 +18,7 @@ type RésuméCandidatureBannerProps = {
   identifiantProjet: string;
 };
 
-export const RésuméCandidatureBanner: FC<RésuméCandidatureBannerProps> = ({
+export const ProjetBanner: FC<ProjetBannerProps> = ({
   identifiantProjet,
   statut,
   nom,

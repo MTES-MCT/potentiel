@@ -27,8 +27,7 @@ export default async function DetailsAbandonPage({
   });
 
   const detailAbandonPageProps: DetailAbandonPageProps = {
-    identifiantProjet,
-    candidature,
+    projet: { ...candidature, identifiantProjet },
     statut: statut.statut,
     demande: {
       demandéPar: demande.demandéPar.formatter(),

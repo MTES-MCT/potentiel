@@ -6,31 +6,24 @@ import {
   InstructionAbandon,
   InstructionAbandonProps,
 } from '@/components/molecules/abandon/InstructionAbandon';
-import {
-  StatutAbandonBadge,
-  StatutAbandonBadgeProps,
-} from '@/components/molecules/abandon/StatutAbandonBadge';
-import { ProjectPageTemplate } from '@/components/templates/ProjectPageTemplate';
-import { Candidature } from '@/utils/Candidature';
+import { StatutAbandonBadge } from '@/components/molecules/abandon/StatutAbandonBadge';
+import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
 
 export type DetailAbandonPageProps = {
-  identifiantProjet: string;
-  candidature: Candidature;
-  statut: StatutAbandonBadgeProps['statut'];
+  statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
+  projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
 } & DetailDemandeAbandonProps &
   InstructionAbandonProps;
 
 export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
-  candidature,
-  identifiantProjet,
-  statut,
+  projet,
   demande,
   instruction,
+  statut,
 }) => (
-  <ProjectPageTemplate
-    candidature={candidature}
-    identifiantProjet={identifiantProjet}
+  <ProjetPageTemplate
+    projet={projet}
     heading={
       <>
         <span>Abandon</span> <StatutAbandonBadge statut={statut} className="align-middle" />
@@ -38,10 +31,13 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
     }
   >
     <>
-      <DetailDemandeAbandon demande={demande} identifiantProjet={identifiantProjet} />
+      <DetailDemandeAbandon demande={demande} identifiantProjet={projet.identifiantProjet} />
       {instruction && (
-        <InstructionAbandon identifiantProjet={identifiantProjet} instruction={instruction} />
+        <InstructionAbandon
+          identifiantProjet={projet.identifiantProjet}
+          instruction={instruction}
+        />
       )}
     </>
-  </ProjectPageTemplate>
+  </ProjetPageTemplate>
 );
