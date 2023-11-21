@@ -31,7 +31,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
           Abandon du projet <span className="font-bold">{nomProjet}</span>
         </h2>
         <div className="flex flex-col md:flex-row gap-2 py-2">
-          <StatutAbandonBadge statut={statut} />
+          <StatutAbandonBadge statut={statut} small />
           {recandidature && (
             <Badge noIcon small severity="info">
               avec recandidature
@@ -57,9 +57,9 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
     <div className="flex flex-col justify-between mt-4 md:mt-2">
       <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
       <a
-        href={`/demande/${encodeURIComponent(identifiantProjet)}/details.html`}
+        href={`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`}
         className="self-end mt-2"
-        aria-label={`voir le détail de la demande d'abandon en statut ${statut} pour le projet ${nomProjet}`}
+        aria-label={`voir le détail de l'abandon en statut ${statut} pour le projet ${nomProjet}`}
       >
         voir le détail
       </a>
