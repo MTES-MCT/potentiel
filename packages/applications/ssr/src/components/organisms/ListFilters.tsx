@@ -56,7 +56,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 const mapToURLSearchParams = (filters: ListFiltersProps['filters']): URLSearchParams => {
   return filters.reduce((searchParams, filter) => {
     if (filter.defaultValue) {
-      searchParams.set(filter.searchParamKey, filter.defaultValue ?? '');
+      searchParams.set(filter.searchParamKey, filter.defaultValue);
     }
 
     return searchParams;
