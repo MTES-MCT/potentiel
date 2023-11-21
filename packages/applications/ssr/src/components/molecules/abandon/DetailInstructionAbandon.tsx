@@ -3,7 +3,7 @@ import { displayDate } from '@/utils/displayDate';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
-export type InstructionAbandonProps = {
+type DetailInstructionAbandonProps = {
   confirmation?: {
     demandéLe: string;
     demandéPar: string;
@@ -15,7 +15,7 @@ export type InstructionAbandonProps = {
   rejet?: { rejetéPar: string; rejetéLe: string; réponseSignée: string };
 };
 
-export const InstructionAbandon: FC<InstructionAbandonProps> = ({
+export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
   confirmation,
   accord,
   rejet,

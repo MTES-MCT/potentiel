@@ -1,11 +1,5 @@
-import {
-  DetailDemandeAbandon,
-  DetailDemandeAbandonProps,
-} from '@/components/molecules/abandon/DetailDemandeAbandon';
-import {
-  InstructionAbandon,
-  InstructionAbandonProps,
-} from '@/components/molecules/abandon/InstructionAbandon';
+import { DetailDemandeAbandon } from '@/components/molecules/abandon/DetailDemandeAbandon';
+import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailInstructionAbandon';
 import { StatutAbandonBadge } from '@/components/molecules/abandon/StatutAbandonBadge';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
@@ -13,8 +7,8 @@ import { FC } from 'react';
 export type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
-  demande: DetailDemandeAbandonProps;
-  instruction: InstructionAbandonProps;
+  demande: Parameters<typeof DetailDemandeAbandon>[0];
+  instruction: Parameters<typeof DetailInstructionAbandon>[0];
 };
 
 export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
@@ -35,7 +29,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
     <>
       <DetailDemandeAbandon {...demande} />
       {(instruction.accord || instruction.confirmation || instruction.rejet) && (
-        <InstructionAbandon {...instruction} />
+        <DetailInstructionAbandon {...instruction} />
       )}
     </>
   </ProjetPageTemplate>

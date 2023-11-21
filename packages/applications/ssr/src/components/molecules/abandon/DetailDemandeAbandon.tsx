@@ -6,7 +6,7 @@ import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-export type DetailDemandeAbandonProps = {
+type DetailDemandeAbandonProps = {
   demandéPar: string;
   demandéLe: string;
   recandidature: boolean;
