@@ -30,63 +30,63 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
       return;
     }
 
-    const abandon_url = `/laureat/${encodeURIComponent(identifiantProjet.formatter())}/abandon`;
-
     switch (event.type) {
       case 'AbandonDemandé-V1':
-        // await sendEmail({
-        //   templateId: templateId.abandon.demander.porteur,
-        //   messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
-        //   recipients: porteurs,
-        //   variables: {
-        //     nom_projet: projet.nom,
-        //     type_demande: 'abandon',
-        //     status: 'envoyée',
-        //     modification_request_url,
-        //   },
-        // });
+        const abandon_demandé_url = `/laureat/${encodeURIComponent(
+          identifiantProjet.formatter(),
+        )}/abandon`;
 
-        /**
-         * @todo
-         * Voir comment on gère la notif aux admins ??
-         * notifier un admin, en se basant sur une variable d'environnement pour le mail ? wtf dude
-         */
-        // await sendEmail({
-        //   templateId: templateId.abandon.demander.admin,
-        //   messageSubject: `Potentiel - Nouvelle demande de type abandon pour un projet ${projet.appelOffre} période ${projet.période}`,
-        //   recipients: [
-        //     {
-        //       email: process.env.DGEC_EMAIL,
-        //       fullName: '???????',
-        //     },
-        //   ],
-        //   variables: {
-        //     nom_projet: projet.nom,
-        //     departement_projet: projet.localité.département,
-        //     type_demande: `abandon`,
-        //     modification_request_url,
-        //   },
-        // });
+        await sendEmail({
+          templateId: templateId.abandon.demander.porteur,
+          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          recipients: porteurs,
+          variables: {
+            nom_projet: projet.nom,
+            abandon_demandé_url,
+          },
+        });
+
+        await sendEmail({
+          templateId: templateId.abandon.demander.admin,
+          messageSubject: `Potentiel - Nouvelle demande de type abandon pour un projet ${projet.appelOffre} période ${projet.période}`,
+          recipients: [
+            {
+              email: process.env.DGEC_EMAIL,
+              fullName: 'DGEC',
+            },
+          ],
+          variables: {
+            nom_projet: projet.nom,
+            departement_projet: projet.localité.département,
+            abandon_demandé_url,
+          },
+        });
         break;
       case 'AbandonAccordé-V1':
+        const abandon_accordé_url = `/laureat/${encodeURIComponent(
+          identifiantProjet.formatter(),
+        )}/abandon`;
         await sendEmail({
           templateId: templateId.abandon.accorder,
           messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
-            abandon_url,
+            abandon_accordé_url,
           },
         });
         break;
       case 'AbandonRejeté-V1':
+        const abandon_rejeté_url = `/laureat/${encodeURIComponent(
+          identifiantProjet.formatter(),
+        )}/abandon`;
         await sendEmail({
           templateId: templateId.abandon.rejeter,
           messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
-            abandon_url,
+            abandon_rejeté_url,
           },
         });
         break;
