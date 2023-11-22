@@ -130,7 +130,7 @@ export const InstructionAbandonForm = ({
                 {
                   children: 'Retour à la liste',
                   linkProps: {
-                    href: '/laureat/abandon/1',
+                    href: '/laureat/abandon',
                   },
                   priority: 'secondary',
                 },
