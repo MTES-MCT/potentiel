@@ -14,6 +14,9 @@ type MakeOnAbandonDemandé = (dépendances: {
   dgecEmail: string;
 }) => OnAbandonDemandé;
 
+/**
+ * @deprecated
+ */
 export const makeOnAbandonDemandé: MakeOnAbandonDemandé =
   ({
     notifierPorteurChangementStatutDemande,

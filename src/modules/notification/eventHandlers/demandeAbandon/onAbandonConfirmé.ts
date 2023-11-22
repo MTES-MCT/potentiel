@@ -4,6 +4,9 @@ import routes from '../../../../routes';
 import { GetDataForStatutDemandeAbandonModifiéNotification } from '../../../modificationRequest/queries';
 import { AbandonConfirmé } from '../../../demandeModification';
 
+/**
+ * @deprecated
+ */
 export const makeOnAbandonConfirmé =
   (deps: {
     sendNotification: NotificationService['sendNotification'];

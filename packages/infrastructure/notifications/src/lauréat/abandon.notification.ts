@@ -47,7 +47,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
 
         await sendEmail({
           templateId: templateId.abandon.demander.porteur,
-          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          messageSubject: `Votre demande d'abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
@@ -57,7 +57,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
 
         await sendEmail({
           templateId: templateId.abandon.demander.admin,
-          messageSubject: `Potentiel - Nouvelle demande de type abandon pour un projet ${projet.appelOffre} période ${projet.période}`,
+          messageSubject: `Potentiel - Nouvelle demande d'abandon pour un projet ${projet.appelOffre} période ${projet.période}`,
           recipients: admins,
           variables: {
             nom_projet: projet.nom,
@@ -73,7 +73,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
 
         await sendEmail({
           templateId: templateId.abandon.annuler.porteur,
-          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          messageSubject: `Votre demande d'abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
@@ -111,7 +111,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
         )}/abandon`;
         await sendEmail({
           templateId: templateId.abandon.demanderConfirmation.porteur,
-          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          messageSubject: `Votre demande d'abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
@@ -125,7 +125,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
         )}/abandon`;
         await sendEmail({
           templateId: templateId.abandon.confirmer.porteur,
-          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          messageSubject: `Votre demande d'abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
@@ -163,7 +163,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
         )}/abandon`;
         await sendEmail({
           templateId: templateId.abandon.accorder.porteur,
-          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          messageSubject: `Votre demande d'abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
@@ -177,7 +177,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
         )}/abandon`;
         await sendEmail({
           templateId: templateId.abandon.rejeter.porteur,
-          messageSubject: `Votre demande de type abandon pour le projet ${projet.nom}`,
+          messageSubject: `Votre demande d'abandon pour le projet ${projet.nom}`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
