@@ -1,0 +1,21 @@
+{
+  "extends": "@potentiel/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    {
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/projection"
+    },
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/core"
+    }
+  ]
+}
