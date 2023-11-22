@@ -19,8 +19,6 @@ const action: FormAction<FormState, typeof schema> = async (
   previousState,
   { identifiantProjet, reponseSignee, utilisateur },
 ) => {
-  await sleep(1500);
-
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
     data: {
@@ -38,7 +36,3 @@ const action: FormAction<FormState, typeof schema> = async (
 };
 
 export const demanderConfirmationAbandonAction = formAction(action, schema);
-
-export const sleep = async (ms: number) => {
-  await new Promise((resolve) => setTimeout(resolve, ms));
-};
