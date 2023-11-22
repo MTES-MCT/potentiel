@@ -42,7 +42,7 @@ export async function ajouter(
   this: TâcheAggregate,
   { identifiantProjet, typeTâche }: AjouterOptions,
 ) {
-  let event: TâcheAjoutéeEvent | TâcheRelancéeEvent | TâcheRenouvelléeEvent = this.type.estÉgaleÀ(
+  const event: TâcheAjoutéeEvent | TâcheRelancéeEvent | TâcheRenouvelléeEvent = this.type.estÉgaleÀ(
     TypeTâche.inconnue,
   )
     ? {
@@ -72,7 +72,7 @@ export async function ajouter(
   await this.publish(event);
 }
 
-export function applyTâcheRelancée(this: TâcheAggregate, { payload: { type } }: TâcheAjoutéeEvent) {
+export function applyTâcheAjoutée(this: TâcheAggregate, { payload: { type } }: TâcheAjoutéeEvent) {
   this.type = TypeTâche.convertirEnValueType(type);
   this.achevée = false;
 }

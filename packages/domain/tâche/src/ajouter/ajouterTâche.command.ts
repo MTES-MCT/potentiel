@@ -15,7 +15,7 @@ export type AjouterTâcheCommand = Message<
 export const registerAjouterTâcheCommand = (loadAggregate: LoadAggregate) => {
   const loadTâche = loadTâcheAggregateFactory(loadAggregate);
   const handler: MessageHandler<AjouterTâcheCommand> = async ({ identifiantProjet, typeTâche }) => {
-    const tâche = await loadTâche(typeTâche, identifiantProjet);
+    const tâche = await loadTâche(typeTâche, identifiantProjet, false);
     await tâche.ajouter({
       typeTâche,
       identifiantProjet,

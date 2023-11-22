@@ -5,27 +5,24 @@ import {
   TâcheRenouvelléeEvent,
   TâcheAjoutéeEvent,
   ajouter,
-  applyTâcheRelancée,
+  applyTâcheRenouvellée,
+  applyTâcheAjoutée,
   TâcheRelancéeEvent,
 } from './ajouter/ajouterTâche.behavior';
-import {
-  TâcheSuppriméeEvent,
-  applyTâcheSupprimée,
-  supprimer,
-} from './supprimer/supprimerTâche.behavior';
+import { TâcheAchevéeEvent, applyTâcheAchevée, achever } from './achever/acheverTâche.behavior';
 import { TâcheInconnueError } from './tâcheInconnue.error';
 
 export type TâcheEvent =
   | TâcheAjoutéeEvent
   | TâcheRenouvelléeEvent
   | TâcheRelancéeEvent
-  | TâcheSuppriméeEvent;
+  | TâcheAchevéeEvent;
 
 export type TâcheAggregate = Aggregate<TâcheEvent> & {
   type: TypeTâche.ValueType;
   achevée: boolean;
   ajouter: typeof ajouter;
-  supprimer: typeof supprimer;
+  achever: typeof achever;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -36,16 +33,19 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   type: TypeTâche.convertirEnValueType('inconnu'),
   achevée: false,
   ajouter,
-  supprimer,
+  achever,
 });
 
 function apply(this: TâcheAggregate, event: TâcheEvent) {
   switch (event.type) {
     case 'TâcheAjoutée-V1':
-      applyTâcheRelancée.bind(this)(event);
+      applyTâcheAjoutée.bind(this)(event);
       break;
-    case 'TâcheSupprimée-V1':
-      applyTâcheSupprimée.bind(this)(event);
+    case 'TâcheAchevée-V1':
+      applyTâcheAchevée.bind(this)(event);
+      break;
+    case 'TâcheRenouvellée-V1':
+      applyTâcheRenouvellée.bind(this)(event);
       break;
   }
 }

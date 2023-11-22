@@ -12,7 +12,8 @@
     "@potentiel/monads": "*",
     "@potentiel-libraries/projection": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/core": "*"
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/laureat": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

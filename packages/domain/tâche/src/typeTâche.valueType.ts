@@ -1,6 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = ['inconnu'];
+export const types = ['inconnu', 'abandon.confirmer', 'abandon.transmettre-preuve-recandidature'];
 
 export type RawType = (typeof types)[number];
 
@@ -27,6 +27,10 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const inconnue = convertirEnValueType('inconnue');
+export const abandonConfirmer = convertirEnValueType('abandon.confirmer');
+export const abandonTransmettrePreuveRecandidature = convertirEnValueType(
+  'abandon.transmettre-preuve-recandidature',
+);
 
 class TypeTâcheInvalideError extends InvalidOperationError {
   constructor(value: string) {

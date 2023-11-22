@@ -53,6 +53,10 @@ export {
 
 // Event
 export { AbandonEvent } from './abandon.aggregate';
+export { AbandonAnnuléEvent } from './annuler/annulerAbandon.behavior';
+export { ConfirmationAbandonDemandéeEvent } from './demander/demanderConfirmationAbandon.behavior';
+export { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
+export { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
 export { PreuveRecandidatureDemandéeEvent } from './demander/demanderPreuveRecandidatureAbandon.behavior';
 export { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 
