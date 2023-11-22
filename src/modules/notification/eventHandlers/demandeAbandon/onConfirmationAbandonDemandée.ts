@@ -10,6 +10,9 @@ type MakeOnConfirmationAbandonDemandée = (dépendances: {
   notifierPorteurChangementStatutDemande: NotifierPorteurChangementStatutDemande;
 }) => OnConfirmationAbandonDemandée;
 
+/**
+ * @deprecated
+ */
 export const makeOnConfirmationAbandonDemandée: MakeOnConfirmationAbandonDemandée =
   ({ notifierPorteurChangementStatutDemande, getModificationRequestInfoForStatusNotification }) =>
   async ({ payload }: ConfirmationAbandonDemandée) => {

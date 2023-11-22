@@ -10,6 +10,9 @@ type MakeOnAbandonRejeté = (dépendances: {
   notifierPorteurChangementStatutDemande: NotifierPorteurChangementStatutDemande;
 }) => OnAbandonRejeté;
 
+/**
+ * @deprecated
+ */
 export const makeOnAbandonRejeté: MakeOnAbandonRejeté =
   ({ notifierPorteurChangementStatutDemande, getModificationRequestInfoForStatusNotification }) =>
   async ({ payload }: AbandonRejeté) => {
