@@ -8,7 +8,7 @@ import {
   DemanderConfirmationAbandonState,
   demanderConfirmationAbandonAction,
 } from '@/app/laureat/[identifiant]/abandon/instruire/demanderConfirmation.action';
-import { Utilisateur } from '@/utils/utilisateur';
+import { Utilisateur } from '@/utils/getUtilisateur';
 
 const initialState: DemanderConfirmationAbandonState = {
   error: undefined,

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import { Heading2 } from '../../atoms/headings';
 import { StatutAbandonBadge } from './StatutAbandonBadge';
-import { Utilisateur } from '@/utils/utilisateur';
+import { Utilisateur } from '@/utils/getUtilisateur';
 import { DemanderConfirmationAbandonForm } from './DemanderConfirmationAbandonForm';
 
 type InstructionAbandonFormProps = {
