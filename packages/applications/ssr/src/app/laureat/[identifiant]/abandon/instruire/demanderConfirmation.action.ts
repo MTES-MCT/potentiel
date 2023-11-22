@@ -1,4 +1,5 @@
 'use server';
+
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 import { redirect } from 'next/navigation';
@@ -13,7 +14,7 @@ const demanderConfirmationAbandonSchema = zod.object({
   utilisateurValue: zod.string().email(),
 });
 
-export async function instructionAbandonAction(
+export async function demanderConfirmationAbandonAction(
   previousState: DemanderConfirmationAbandonState,
   formData: FormData,
 ) {

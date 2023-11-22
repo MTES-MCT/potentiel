@@ -10,7 +10,7 @@ import { Heading2 } from '../../atoms/headings';
 import { StatutAbandonBadge } from './StatutAbandonBadge';
 import {
   DemanderConfirmationAbandonState,
-  instructionAbandonAction,
+  demanderConfirmationAbandonAction,
 } from '@/app/laureat/[identifiant]/abandon/instruire/demanderConfirmation.action';
 import { Utilisateur } from '@/utils/utilisateur';
 
@@ -44,7 +44,7 @@ export const InstructionAbandonForm = ({
   const [needToUploadFile, setNeedToUploadFile] = useState(true);
   const [instruction, setInstruction] = useState('demander-confirmation');
   const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(instructionAbandonAction, initialState);
+  const [state, formAction] = useFormState(demanderConfirmationAbandonAction, initialState);
 
   return (
     <>
