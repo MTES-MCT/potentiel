@@ -3,7 +3,7 @@ import { displayDate } from '@/utils/displayDate';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
-export type InstructionAbandonProps = {
+type DetailInstructionAbandonProps = {
   confirmation?: {
     demandéLe: string;
     demandéPar: string;
@@ -15,7 +15,7 @@ export type InstructionAbandonProps = {
   rejet?: { rejetéPar: string; rejetéLe: string; réponseSignée: string };
 };
 
-export const InstructionAbandon: FC<InstructionAbandonProps> = ({
+export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
   confirmation,
   accord,
   rejet,
@@ -25,7 +25,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps> = ({
       <Heading2 className="mb-2">Instruction</Heading2>
       <div className="flex gap-3 flex-col">
         {confirmation?.demandéLe && (
-          <p>
+          <div>
             Confirmation demandée le {displayDate(new Date(confirmation.demandéLe))} par{' '}
             {confirmation.demandéPar}
             {confirmation.réponseSignée && (
@@ -38,7 +38,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps> = ({
                 className="mb-0 pb-0"
               />
             )}
-          </p>
+          </div>
         )}
         {confirmation?.confirméLe && confirmation.confirméPar && (
           <p>
@@ -47,7 +47,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps> = ({
           </p>
         )}
         {accord && (
-          <p className="font-bold">
+          <div className="font-bold">
             Demande d'abandon accordée le {displayDate(new Date(accord.accordéLe))} par{' '}
             {accord.accordéPar}
             {accord.réponseSignée && (
@@ -60,10 +60,10 @@ export const InstructionAbandon: FC<InstructionAbandonProps> = ({
                 className="mb-0 pb-0"
               />
             )}
-          </p>
+          </div>
         )}
         {rejet && (
-          <p className="font-bold">
+          <div className="font-bold">
             Demande d'abandon rejetée le {displayDate(new Date(rejet.rejetéLe))} par{' '}
             {rejet.rejetéPar}
             {rejet.réponseSignée && (
@@ -76,7 +76,7 @@ export const InstructionAbandon: FC<InstructionAbandonProps> = ({
                 className="mb-0 pb-0"
               />
             )}
-          </p>
+          </div>
         )}
       </div>
     </div>
