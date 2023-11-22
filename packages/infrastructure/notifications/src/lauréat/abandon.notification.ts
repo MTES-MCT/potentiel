@@ -17,6 +17,11 @@ type Dependencies = {
   récupérerPorteursProjet: RécupérerPorteursProjetPort;
 };
 
+/**
+ *
+ * @todo vérifier les urls de redirection des mails vers les différentes pages abandons
+ */
+
 export const register = ({ récupérerCandidature, récupérerPorteursProjet }: Dependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
