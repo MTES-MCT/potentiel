@@ -5,8 +5,6 @@ import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailI
 import { InstructionAbandonForm } from '@/components/molecules/abandon/InstructionAbandonForm';
 import { StatutAbandonBadge } from '@/components/molecules/abandon/StatutAbandonBadge';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 export type DetailAbandonPageProps = {
@@ -24,7 +22,6 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   statut,
   utilisateur,
 }) => {
-  const successMessage = useSearchParams().get('success');
   return (
     <ProjetPageTemplate
       projet={projet}
@@ -36,7 +33,6 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
       }
     >
       <>
-        {successMessage && <Alert severity="success" title={successMessage} className="my-4" />}
         <DetailDemandeAbandon {...demande} />
         <div className="flex flex-col gap-6">
           {(instruction.accord || instruction.confirmation || instruction.rejet) && (

@@ -3,6 +3,7 @@ import { getLogger } from '@potentiel/monitoring';
 import * as zod from 'zod';
 
 export type FormState = {
+  success?: true;
   error?: string;
   validationErrors: string[];
 };
@@ -24,8 +25,7 @@ export const formAction =
         : Object.fromEntries(formData);
       await action(previousState, data);
       return {
-        ...previousState,
-        error: '',
+        success: true as const,
         validationErrors: [],
       };
     } catch (e) {

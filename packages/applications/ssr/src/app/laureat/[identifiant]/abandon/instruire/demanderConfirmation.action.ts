@@ -2,61 +2,43 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
-import { redirect } from 'next/navigation';
 import { Abandon } from '@potentiel-domain/laureat';
-import { FormState } from '@/utils/formAction';
+import { FormAction, FormState, formAction } from '@/utils/formAction';
 
 export type DemanderConfirmationAbandonState = FormState;
 
-const demanderConfirmationAbandonSchema = zod.object({
+const schema = zod.object({
   identifiantProjet: zod.string(),
-  utilisateurValue: zod.string().email(),
+  utilisateur: zod.string().email(),
   reponseSignee: zod.instanceof(Blob).refine((data) => data.size > 0, {
     message: 'Vous devez joindre une réponse signée.',
   }),
 });
 
-export async function demanderConfirmationAbandonAction(
-  previousState: DemanderConfirmationAbandonState,
-  formData: FormData,
-) {
-  try {
-    const { identifiantProjet, reponseSignee, utilisateurValue } =
-      demanderConfirmationAbandonSchema.parse(Object.fromEntries(formData));
+const action: FormAction<FormState, typeof schema> = async (
+  previousState,
+  { identifiantProjet, reponseSignee, utilisateur },
+) => {
+  await sleep(1500);
 
-    await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        utilisateurValue,
-        dateDemandeValue: new Date().toISOString(),
-        réponseSignéeValue: {
-          content: reponseSignee.stream(),
-          format: reponseSignee.type,
-        },
+  await mediator.send<Abandon.AbandonUseCase>({
+    type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      utilisateurValue: utilisateur,
+      dateDemandeValue: new Date().toISOString(),
+      réponseSignéeValue: {
+        content: reponseSignee.stream(),
+        format: reponseSignee.type,
       },
-    });
-  } catch (e) {
-    if (e instanceof zod.ZodError) {
-      return {
-        error: `Impossible d'envoyer une demande de confirmation d'abandon.`,
-        validationErrors: e.issues.map((issue) => (issue.path.pop() || '').toString()),
-      };
-    }
+    },
+  });
 
-    return {
-      error: (e as Error).message,
-      validationErrors: [],
-    };
-  }
+  return previousState;
+};
 
-  const queryParams = new URLSearchParams({
-    success: `Votre demande de confirmation d'abandon a bien été transmise.`,
-  }).toString();
+export const demanderConfirmationAbandonAction = formAction(action, schema);
 
-  redirect(
-    `/laureat/${encodeURIComponent(
-      demanderConfirmationAbandonSchema.parse(Object.fromEntries(formData)).identifiantProjet,
-    )}/abandon?${queryParams}`,
-  );
-}
+export const sleep = async (ms: number) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};
