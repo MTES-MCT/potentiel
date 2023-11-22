@@ -7,6 +7,7 @@ import { StatutAbandonBadge } from './StatutAbandonBadge';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { DemanderConfirmationAbandonForm } from './DemanderConfirmationAbandonForm';
 import { RejeterAbandonForm } from './RejeterAbandonForm';
+import { AccorderAbandonForm } from './AccorderAbandonForm';
 
 type InstructionAbandonFormProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
@@ -29,9 +30,14 @@ export const InstructionAbandonForm = ({
     utilisateur.rôle === 'dgec-validateur' || (utilisateur.rôle === 'admin' && !recandidature);
   const demandeConfirmationPossible = statut === 'demandé' && !recandidature;
 
-  const [instruction, setInstruction] = useState(
-    statut === 'demandé' ? 'demander-confirmation' : 'rejeter',
-  );
+  // TODO : à mettre à jour quand l'accord sera disponible pour les abandons avec recandidature
+  const initialInstruction = recandidature
+    ? 'rejeter'
+    : statut === 'demandé' && !recandidature
+    ? 'demander-confirmation'
+    : 'accorder';
+
+  const [instruction, setInstruction] = useState(initialInstruction);
 
   return (
     <>
@@ -65,7 +71,8 @@ export const InstructionAbandonForm = ({
                     onClick: () => {
                       setInstruction('accorder');
                     },
-                    disabled: true,
+                    checked: instruction === 'accorder',
+                    disabled: recandidature,
                   },
                 },
                 {
@@ -89,6 +96,9 @@ export const InstructionAbandonForm = ({
           )}
           {instruction === 'rejeter' && (
             <RejeterAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
+          )}
+          {instruction === 'accorder' && (
+            <AccorderAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
           )}
         </>
       ) : (
