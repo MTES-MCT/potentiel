@@ -6,6 +6,7 @@ import { Heading2 } from '../../atoms/headings';
 import { StatutAbandonBadge } from './StatutAbandonBadge';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { DemanderConfirmationAbandonForm } from './DemanderConfirmationAbandonForm';
+import { RejeterAbandonForm } from './RejeterAbandonForm';
 
 type InstructionAbandonFormProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
@@ -28,7 +29,9 @@ export const InstructionAbandonForm = ({
     utilisateur.rôle === 'dgec-validateur' || (utilisateur.rôle === 'admin' && !recandidature);
   const demandeConfirmationPossible = statut === 'demandé' && !recandidature;
 
-  const [instruction, setInstruction] = useState('demander-confirmation');
+  const [instruction, setInstruction] = useState(
+    statut === 'demandé' ? 'demander-confirmation' : 'rejeter',
+  );
 
   return (
     <>
@@ -50,7 +53,7 @@ export const InstructionAbandonForm = ({
                           onClick: () => {
                             setInstruction('demander-confirmation');
                           },
-                          checked: true,
+                          checked: instruction === 'demander-confirmation',
                         },
                       },
                     ]
@@ -72,7 +75,7 @@ export const InstructionAbandonForm = ({
                     onClick: () => {
                       setInstruction('rejeter');
                     },
-                    disabled: true,
+                    checked: instruction === 'rejeter',
                   },
                 },
               ]}
@@ -83,6 +86,9 @@ export const InstructionAbandonForm = ({
               identifiantProjet={identifiantProjet}
               utilisateur={utilisateur}
             />
+          )}
+          {instruction === 'rejeter' && (
+            <RejeterAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
           )}
         </>
       ) : (

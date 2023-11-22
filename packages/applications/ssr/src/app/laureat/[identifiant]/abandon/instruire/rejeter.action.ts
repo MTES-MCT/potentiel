@@ -5,7 +5,7 @@ import * as zod from 'zod';
 import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 
-export type DemanderConfirmationAbandonState = FormState;
+export type RejeterAbandonState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
@@ -20,11 +20,11 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, reponseSignee, utilisateur },
 ) => {
   await mediator.send<Abandon.AbandonUseCase>({
-    type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+    type: 'REJETER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
       utilisateurValue: utilisateur,
-      dateDemandeValue: new Date().toISOString(),
+      dateRejetValue: new Date().toISOString(),
       réponseSignéeValue: {
         content: reponseSignee.stream(),
         format: reponseSignee.type,
@@ -35,4 +35,4 @@ const action: FormAction<FormState, typeof schema> = async (
   return previousState;
 };
 
-export const demanderConfirmationAbandonAction = formAction(action, schema);
+export const rejeterAbandonAction = formAction(action, schema);
