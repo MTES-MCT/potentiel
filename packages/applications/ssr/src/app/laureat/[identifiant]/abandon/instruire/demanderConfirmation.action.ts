@@ -10,8 +10,10 @@ export type DemanderConfirmationAbandonState = FormState;
 
 const demanderConfirmationAbandonSchema = zod.object({
   identifiantProjet: zod.string(),
-  reponseSignee: zod.instanceof(Blob),
   utilisateurValue: zod.string().email(),
+  reponseSignee: zod.instanceof(Blob).refine((data) => data.size > 0, {
+    message: 'Vous devez joindre une réponse signée.',
+  }),
 });
 
 export async function demanderConfirmationAbandonAction(
