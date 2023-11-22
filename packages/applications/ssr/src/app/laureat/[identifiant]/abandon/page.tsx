@@ -7,15 +7,14 @@ import {
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
 import { getUser } from '@/utils/getUtilisateur';
+import { redirect } from 'next/navigation';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   const identifiantProjet = decodeURIComponent(identifiant);
 
   const utilisateur = await getUser();
-
   if (!utilisateur) {
-    //TODO : redirect to home / signup
-    return;
+    redirect('/login.html');
   }
 
   const candidature = await mediator.send<ConsulterCandidatureQuery>({
