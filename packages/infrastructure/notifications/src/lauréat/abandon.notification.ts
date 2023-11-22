@@ -5,7 +5,7 @@ import { isNone } from '@potentiel/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { RécupérerPorteursProjetPort } from '@potentiel/domain-views';
 import { Abandon } from '@potentiel-domain/laureat';
-import { RécupérerCandidaturePort } from '@potentiel-domain/candidature';
+import { CandidatureProjection, RécupérerCandidaturePort } from '@potentiel-domain/candidature';
 import { templateId } from '../templateId';
 
 export type SubscriptionEvent = Abandon.AbandonEvent & Event;
@@ -16,6 +16,37 @@ type Dependencies = {
   récupérerCandidature: RécupérerCandidaturePort;
   récupérerPorteursProjet: RécupérerPorteursProjetPort;
 };
+
+const sendEmailAbandonChangementDeStatut = async ({
+  identifiantProjet,
+  statut,
+  templateId,
+  recipients,
+  projet,
+}: {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  statut:
+    | 'envoyée'
+    | 'annulée'
+    | 'en attente de confirmation'
+    | 'confirmée'
+    | 'accordée'
+    | 'rejetée';
+  templateId: string;
+  recipients: Array<{ email: string; fullName: string }>;
+  projet: CandidatureProjection;
+}) =>
+  await sendEmail({
+    templateId,
+    messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
+    recipients,
+    variables: {
+      nom_projet: projet.nom,
+      departement_projet: projet.localité.département,
+      nouveau_statut: statut,
+      abandon_url: `/laureat/${encodeURIComponent(identifiantProjet.formatter())}/abandon`,
+    },
+  });
 
 /**
  *
@@ -41,85 +72,59 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
       },
     ];
 
-    const abandon_url = `/laureat/${encodeURIComponent(identifiantProjet.formatter())}/abandon`;
-
     switch (event.type) {
       case 'AbandonDemandé-V1':
-        await sendEmail({
+        await sendEmailAbandonChangementDeStatut({
+          statut: 'envoyée',
           templateId: templateId.abandon.demander,
-          messageSubject: `Potentiel - Demande d'abandon envoyée pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
           recipients: [...porteurs, ...admins],
-          variables: {
-            nom_projet: projet.nom,
-            departement_projet: projet.localité.département,
-            nouveau_statut: 'envoyée',
-            abandon_url,
-          },
+          identifiantProjet,
+          projet,
         });
         break;
       case 'AbandonAnnulé-V1':
-        await sendEmail({
+        await sendEmailAbandonChangementDeStatut({
+          statut: 'annulée',
           templateId: templateId.abandon.annuler,
-          messageSubject: `Potentiel - Demande d'abandon annulée pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
           recipients: [...porteurs, ...admins],
-          variables: {
-            nom_projet: projet.nom,
-            departement_projet: projet.localité.département,
-            nouveau_statut: 'annulée',
-            abandon_url,
-          },
+          identifiantProjet,
+          projet,
         });
         break;
       case 'ConfirmationAbandonDemandée-V1':
-        await sendEmail({
+        await sendEmailAbandonChangementDeStatut({
+          statut: 'en attente de confirmation',
           templateId: templateId.abandon.demanderConfirmation,
-          messageSubject: `Potentiel - Demande d'abandon en attente de confirmation pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
           recipients: porteurs,
-          variables: {
-            nom_projet: projet.nom,
-            departement_projet: projet.localité.département,
-            nouveau_statut: 'en attente de confirmation',
-            abandon_url,
-          },
+          identifiantProjet,
+          projet,
         });
         break;
       case 'AbandonConfirmé-V1':
-        await sendEmail({
-          templateId: templateId.abandon.confirmer,
-          messageSubject: `Potentiel - Demande d'abandon confirmée pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
+        await sendEmailAbandonChangementDeStatut({
+          statut: 'confirmée',
+          templateId: templateId.abandon.demanderConfirmation,
           recipients: [...porteurs, ...admins],
-          variables: {
-            nom_projet: projet.nom,
-            departement_projet: projet.localité.département,
-            nouveau_statut: 'confirmée',
-            abandon_url,
-          },
+          identifiantProjet,
+          projet,
         });
         break;
       case 'AbandonAccordé-V1':
-        await sendEmail({
+        await sendEmailAbandonChangementDeStatut({
+          statut: 'accordée',
           templateId: templateId.abandon.accorder,
-          messageSubject: `Potentiel - Demande d'abandon accordée pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
-          recipients: [...porteurs, ...admins],
-          variables: {
-            nom_projet: projet.nom,
-            departement_projet: projet.localité.département,
-            nouveau_statut: 'accordée',
-            abandon_url,
-          },
+          recipients: porteurs,
+          identifiantProjet,
+          projet,
         });
         break;
       case 'AbandonRejeté-V1':
-        await sendEmail({
-          templateId: templateId.abandon.accorder,
-          messageSubject: `Potentiel - Demande d'abandon rejetée pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
-          recipients: [...porteurs, ...admins],
-          variables: {
-            nom_projet: projet.nom,
-            departement_projet: projet.localité.département,
-            nouveau_statut: 'rejetée',
-            abandon_url,
-          },
+        await sendEmailAbandonChangementDeStatut({
+          statut: 'rejetée',
+          templateId: templateId.abandon.rejeter,
+          recipients: porteurs,
+          identifiantProjet,
+          projet,
         });
         break;
       case 'PreuveRecandidatureDemandée-V1':
