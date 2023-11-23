@@ -1,5 +1,6 @@
 'use client';
 
+import { AnnulerAbandonForm } from '@/components/molecules/abandon/AnnulerAbandonForm';
 import { DetailDemandeAbandon } from '@/components/molecules/abandon/DetailDemandeAbandon';
 import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailInstructionAbandon';
 import { InstructionAbandonForm } from '@/components/molecules/abandon/InstructionAbandonForm';
@@ -45,6 +46,13 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
             identifiantProjet={projet.identifiantProjet}
           />
         </div>
+        {utilisateur.rôle === 'porteur-projet' &&
+          ['demandé', 'confirmation-demandée'].includes(statut) && (
+            <AnnulerAbandonForm
+              identifiantProjet={projet.identifiantProjet}
+              utilisateur={utilisateur}
+            />
+          )}
       </>
     </ProjetPageTemplate>
   );
