@@ -30,7 +30,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   TâcheEvent
 > = () => ({
   apply,
-  type: TypeTâche.convertirEnValueType('inconnu'),
+  type: TypeTâche.convertirEnValueType('inconnue'),
   achevée: false,
   ajouter,
   achever,

@@ -22,8 +22,10 @@ export const registerConsulterNombreTâchesQuery = ({
   récupérerNombreTâche,
 }: ConsulterNombreTâchesQueryDependencies) => {
   const handler: MessageHandler<ConsulterNombreTâchesQuery> = async ({ email }) => {
+    const nombreTâches = await récupérerNombreTâche(email);
+    console.log(nombreTâches);
     return {
-      nombreTâches: await récupérerNombreTâche(email),
+      nombreTâches,
     };
   };
   mediator.register('CONSULTER_NOMBRE_TÂCHES_QUERY', handler);

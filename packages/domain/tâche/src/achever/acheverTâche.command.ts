@@ -16,8 +16,7 @@ export const registerAcheverTâcheCommand = (loadAggregate: LoadAggregate) => {
   const loadTâche = loadTâcheAggregateFactory(loadAggregate);
   const handler: MessageHandler<AcheverTâcheCommand> = async ({ identifiantProjet, typeTâche }) => {
     const tâche = await loadTâche(typeTâche, identifiantProjet);
-    await tâche.ajouter({
-      typeTâche,
+    await tâche.achever({
       identifiantProjet,
     });
   };
