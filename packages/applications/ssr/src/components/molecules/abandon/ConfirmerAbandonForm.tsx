@@ -43,8 +43,8 @@ export const ConfirmerAbandonForm = ({
         nativeButtonProps={{
           'aria-disabled': pending,
           disabled: pending,
-          onClick: () => {
-            confirm("Êtes-vous sûr de vouloir confirmer l'abandon ?");
+          onClick: (event) => {
+            confirm("Êtes-vous sûr de vouloir confirmer l'abandon ?") || event.preventDefault();
           },
         }}
         className="bg-blue-france-sun-base text-white"
