@@ -30,14 +30,7 @@ export const InstructionAbandonForm = ({
     utilisateur.rôle === 'dgec-validateur' || (utilisateur.rôle === 'admin' && !recandidature);
   const demandeConfirmationPossible = statut === 'demandé' && !recandidature;
 
-  // TODO : à mettre à jour quand l'accord sera disponible pour les abandons avec recandidature
-  const initialInstruction = recandidature
-    ? 'rejeter'
-    : statut === 'demandé' && !recandidature
-    ? 'demander-confirmation'
-    : 'accorder';
-
-  const [instruction, setInstruction] = useState(initialInstruction);
+  const [instruction, setInstruction] = useState('');
 
   return (
     <>
@@ -72,7 +65,6 @@ export const InstructionAbandonForm = ({
                       setInstruction('accorder');
                     },
                     checked: instruction === 'accorder',
-                    disabled: recandidature,
                   },
                 },
                 {

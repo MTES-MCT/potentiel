@@ -25,3 +25,6 @@ export * as DocumentProjet from './documentProjet.valueType';
 
 // Port
 export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort };
+
+// Just for testing
+export { buildDocument } from './abandon/générer/buildDocument';

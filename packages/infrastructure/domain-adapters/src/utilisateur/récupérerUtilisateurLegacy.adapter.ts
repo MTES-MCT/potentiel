@@ -1,7 +1,4 @@
-import {
-  UtilisateurLegacyReadModel,
-  RécupérerUtilisateurLegacyPort,
-} from '@potentiel/domain-views';
+import { RécupérerUtilisateurPort, UtilisateurProjection } from '@potentiel-domain/utilisateur';
 import { none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
@@ -16,21 +13,16 @@ const selectUtilisateurQuery = `
   where "email" = $1
 `;
 
-export const récupérerUtilisateurAdapter: RécupérerUtilisateurLegacyPort = async (
+export const récupérerUtilisateurAdapter: RécupérerUtilisateurPort = async (
   identifiantUtilisateur,
 ) => {
   const utilisateurs = await executeSelect<{
-    value: Omit<UtilisateurLegacyReadModel, 'type'>;
+    value: UtilisateurProjection;
   }>(selectUtilisateurQuery, identifiantUtilisateur);
 
   if (!utilisateurs.length) {
     return none;
   }
 
-  const utilisateur = utilisateurs[0].value;
-
-  return {
-    ...utilisateur,
-    type: 'utilisateur',
-  };
+  return utilisateurs[0].value;
 };

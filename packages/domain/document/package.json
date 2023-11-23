@@ -9,9 +9,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/core": "*"
+    "@potentiel-domain/core": "*",
+    "@potentiel/monads": "*",
+    "@react-pdf/renderer": "^3.1.14"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

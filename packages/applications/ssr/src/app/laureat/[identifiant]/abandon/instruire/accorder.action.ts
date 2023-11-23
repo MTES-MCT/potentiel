@@ -2,9 +2,13 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { mapToReadableStream } from '@/utils/mapToReadableStream';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { buildDocument } from '@potentiel-domain/document';
 
 export type AccorderAbandonState = FormState;
 
@@ -13,10 +17,18 @@ const schema = zod.object({
   utilisateur: zod.string().email(),
   reponseSignee: zod
     .instanceof(Blob)
-    .refine((data) => data.size > 0, {
-      message: 'Vous devez joindre une réponse signée.',
-    })
-    .optional(),
+    .optional()
+    .refine(
+      (data) => {
+        if (!data) {
+          return true;
+        }
+        return data.size > 0;
+      },
+      {
+        message: 'Vous devez joindre une réponse signée.',
+      },
+    ),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -33,7 +45,7 @@ const action: FormAction<FormState, typeof schema> = async (
   let réponseSignéeValue: Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue'];
 
   if (abandon.demande.recandidature) {
-    réponseSignéeValue = buildReponseSignee();
+    réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
   } else {
     if (!reponseSignee) {
       return {
@@ -47,44 +59,6 @@ const action: FormAction<FormState, typeof schema> = async (
       format: reponseSignee.type,
     };
   }
-
-  const props: RéponseAbandonAvecRecandidatureProps = {
-    dateCourrier: new Date().toISOString(),
-    projet: {
-      potentielId: projet.potentielIdentifier,
-      nomReprésentantLégal: projet.nomReprésentantLégal,
-      nomCandidat: projet.nomCandidat,
-      email: projet.email,
-      nom: projet.nom,
-      commune: projet.localité.commune,
-      codePostal: projet.localité.codePostal,
-      dateDésignation: projet.dateDésignation,
-      puissance: projet.puissance,
-    },
-    appelOffre: {
-      nom: appelOffre.shortTitle,
-      description: appelOffre.title,
-      période: période.title ?? projet.période,
-      unitéPuissance: appelOffre.unitePuissance,
-      texteEngagementRéalisationEtModalitésAbandon: appelOffre.donnéesCourriersRéponse
-        .texteEngagementRéalisationEtModalitésAbandon ?? {
-        référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
-        dispositions: '!!!CONTENU NON DISPONIBLE!!!',
-      },
-    },
-    demandeAbandon: {
-      date: abandon.demande.demandéLe.date.toISOString(),
-      instructeur: {
-        nom: utilisateur.nomComplet,
-        fonction: utilisateur.fonction,
-      },
-    },
-  };
-
-  const content = recandidature
-    ? await mapToReadableStream(await buildDocument(props))
-    : reponseSignee.stream();
-  const mimeType = 'application/pdf';
 
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'ACCORDER_ABANDON_USECASE',
@@ -101,36 +75,69 @@ const action: FormAction<FormState, typeof schema> = async (
 
 export const accorderAbandonAction = formAction(action, schema);
 
-type RéponseAbandonAvecRecandidatureProps = {
-  dateCourrier: string;
-  projet: {
-    potentielId: string;
-    nomReprésentantLégal: string;
-    nomCandidat: string;
-    email: string;
-    nom: string;
-    commune: string;
-    codePostal: string;
-    dateDésignation: string;
-    puissance: number;
+const buildReponseSignee = async (
+  abandon: Abandon.ConsulterAbandonReadModel,
+  identifiantUtilisateur: string,
+): Promise<Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
+  const projet = await mediator.send<ConsulterCandidatureQuery>({
+    data: { identifiantProjet: abandon.identifiantProjet.formatter() },
+    type: 'CONSULTER_CANDIDATURE_QUERY',
+  });
+
+  const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+    type: 'CONSULTER_APPEL_OFFRE_QUERY',
+    data: {
+      identifiantAppelOffre: projet.appelOffre,
+    },
+  });
+
+  const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
+    type: 'CONSULTER_UTILISATEUR_QUERY',
+    data: {
+      identifiantUtilisateur,
+    },
+  });
+
+  const période = appelOffre.periodes.find((p) => p.id === projet.période);
+
+  const props: Parameters<typeof buildDocument>[0] = {
+    dateCourrier: new Date().toISOString(),
+    projet: {
+      identifiantProjet: abandon.identifiantProjet.formatter(),
+      nomReprésentantLégal: projet.candidat.représentantLégal,
+      nomCandidat: projet.candidat.nom,
+      email: projet.candidat.contact,
+      nom: projet.nom,
+      commune: projet.localité.commune,
+      codePostal: projet.localité.codePostal,
+      dateDésignation: projet.dateDésignation,
+      puissance: projet.puissance,
+    },
+    appelOffre: {
+      nom: appelOffre.shortTitle,
+      description: appelOffre.title,
+      période: période?.title ?? projet.période,
+      unitéPuissance: appelOffre.unitePuissance,
+      texteEngagementRéalisationEtModalitésAbandon: appelOffre.donnéesCourriersRéponse
+        .texteEngagementRéalisationEtModalitésAbandon ?? {
+        référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
+        dispositions: '!!!CONTENU NON DISPONIBLE!!!',
+      },
+    },
+    demandeAbandon: {
+      date: abandon.demande.demandéLe.date.toISOString(),
+      instructeur: {
+        nom: utilisateur.nomComplet,
+        fonction: utilisateur.fonction,
+      },
+    },
   };
-  appelOffre: {
-    nom: string;
-    description: string;
-    période: string;
-    unitéPuissance: string;
-    texteEngagementRéalisationEtModalitésAbandon: {
-      référenceParagraphe: string;
-      dispositions: string;
-    };
-  };
-  demandeAbandon: {
-    date: string;
-    instructeur: {
-      nom: string;
-      fonction: string;
-    };
+
+  const content = await mapToReadableStream(await buildDocument(props));
+  const mimeType = 'application/pdf';
+
+  return {
+    content,
+    format: mimeType,
   };
 };
-
-const buildReponseSignee = (abandon: Abandon.ConsulterAbandonReadModel) => {};

@@ -1,5 +1,4 @@
 import { appelsOffreData } from '@potentiel/domain-inmemory-referential';
-import { AppelOffreReadModelKey } from '@potentiel/domain-views';
 import { getLogger } from '@potentiel/monitoring';
 import {
   createProjection,
@@ -17,7 +16,7 @@ export const seed = async () => {
   getLogger().info('Add all appel offre in memory data as projections...');
 
   for (const appelOffre of appelsOffreData) {
-    const appelOffreReadModelKey: AppelOffreReadModelKey = `appel-offre|${appelOffre.id}`;
+    const appelOffreReadModelKey: `${string}|${string}` = `appel-offre|${appelOffre.id}`;
     await createProjection(appelOffreReadModelKey, appelOffre);
   }
 };

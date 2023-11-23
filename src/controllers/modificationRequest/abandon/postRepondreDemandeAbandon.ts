@@ -25,16 +25,13 @@ import { RéponseAbandonAvecRecandidatureProps } from '../../../views/certificat
 import { buildDocument } from '../../../views/certificates/abandon/buildDocument';
 import { convertNodeJSReadableStreamToReadableStream } from '../../helpers/convertNodeJSReadableStreamToReadableStream';
 import { Abandon } from '@potentiel-domain/laureat';
-import {
-  ConsulterCandidatureLegacyQuery,
-  ConsulterAppelOffreQuery,
-  ConsulterUtilisateurLegacyQuery,
-} from '@potentiel/domain-views';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
 import {
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
   convertirEnIdentifiantAppelOffre,
-  convertirEnIdentifiantUtilisateur,
 } from '@potentiel/domain-usecases';
 
 const schema = yup.object({
@@ -129,12 +126,10 @@ v1Router.post(
             return notFoundResponse({ request, response, ressourceTitle: `Période` });
           }
 
-          const utilisateur = await mediator.send<ConsulterUtilisateurLegacyQuery>({
-            type: 'CONSULTER_UTILISATEUR_LEGACY_QUERY',
+          const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
+            type: 'CONSULTER_UTILISATEUR_QUERY',
             data: {
-              identifiantUtilisateur: convertirEnIdentifiantUtilisateur(
-                request.user.email,
-              ).formatter(),
+              identifiantUtilisateur: request.user.email,
             },
           });
 
