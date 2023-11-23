@@ -30,19 +30,21 @@ export const registerAbandonProjector = () => {
 
       const abandon = await findProjection<AbandonProjection>(`abandon|${identifiantProjet}`);
 
+      const abandonDefaultValue = {
+        identifiantProjet,
+        nomProjet: '',
+        demandeDemandéLe: '',
+        demandeDemandéPar: '',
+        demandePièceJustificativeFormat: '',
+        demandeRaison: '',
+        demandeRecandidature: false,
+        statut: 'demandé',
+        misÀJourLe: DateTime.now().formatter(),
+      };
+
       const abandonToUpsert: Omit<AbandonProjection, 'type'> = isSome(abandon)
-        ? { ...abandon }
-        : {
-            identifiantProjet,
-            nomProjet: '',
-            demandeDemandéLe: '',
-            demandeDemandéPar: '',
-            demandePièceJustificativeFormat: '',
-            demandeRaison: '',
-            demandeRecandidature: false,
-            statut: 'demandé',
-            misÀJourLe: DateTime.now().formatter(),
-          };
+        ? abandon
+        : abandonDefaultValue;
 
       switch (type) {
         case 'AbandonDemandé-V1':
@@ -53,7 +55,7 @@ export const registerAbandonProjector = () => {
           }
 
           await upsertProjection<AbandonProjection>(`abandon|${identifiantProjet}`, {
-            ...abandonToUpsert,
+            ...abandonDefaultValue,
             nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
             demandePièceJustificativeFormat:
               payload.pièceJustificative && payload.pièceJustificative.format,
@@ -61,6 +63,7 @@ export const registerAbandonProjector = () => {
             demandeDemandéPar: payload.demandéPar,
             demandeRaison: payload.raison,
             demandeRecandidature: payload.recandidature,
+            statut: 'demandé',
             misÀJourLe: payload.demandéLe,
           });
           break;
