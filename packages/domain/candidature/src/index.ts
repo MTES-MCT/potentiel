@@ -17,6 +17,7 @@ export type CandidatureQuery =
 
 export {
   ConsulterCandidatureQuery,
+  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
   ConsulterCandidatureReadModel,
   ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel,
 };

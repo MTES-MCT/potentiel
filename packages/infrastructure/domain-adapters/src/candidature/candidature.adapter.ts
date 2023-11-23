@@ -92,15 +92,9 @@ const selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery = `
 
 export const récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurAdapter: RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort =
   async (identifiantUtilisateur) => {
-    const { appelOffre, famille, numéroCRE, période } =
-      IdentifiantProjet.convertirEnValueType(identifiantUtilisateur);
-
     const results = await executeSelect<{ value: CandidatureProjection }>(
-      selectCandidatureQuery,
-      appelOffre,
-      période,
-      numéroCRE,
-      famille,
+      selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+      identifiantUtilisateur,
     );
 
     return results.map((result) => result.value);
