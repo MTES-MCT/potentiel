@@ -40,8 +40,8 @@ export const AnnulerAbandonForm = ({ identifiantProjet, utilisateur }: AnnulerAb
         nativeButtonProps={{
           'aria-disabled': pending,
           disabled: pending,
-          onClick: () => {
-            confirm('Êtes-vous sûr de vouloir annuler cet abandon ? ');
+          onClick: (event) => {
+            confirm('Êtes-vous sûr de vouloir annuler cet abandon ? ') || event.preventDefault();
           },
         }}
         className="bg-blue-france-sun-base text-white mt-6"
