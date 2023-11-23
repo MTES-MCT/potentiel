@@ -45,6 +45,9 @@
       "path": "../../../packages/domain/lauréat"
     },
     {
+      "path": "../../../packages/domain/tâche"
+    },
+    {
       "path": "../../../packages/domain/candidature"
     },
     {

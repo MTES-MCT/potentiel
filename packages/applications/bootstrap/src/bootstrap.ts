@@ -5,6 +5,7 @@ import { getLogger } from '@potentiel/monitoring';
 import { setupCandidature } from './setupCandidature';
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
+import { setupTâche } from './setupTâche';
 
 export const bootstrap = async (): Promise<() => Promise<void>> => {
   mediator.use({
@@ -14,6 +15,7 @@ export const bootstrap = async (): Promise<() => Promise<void>> => {
   setupAppelOffre();
   setupCandidature();
   setupDocumentProjet();
+  setupTâche();
 
   const unsetupLauréat = await setupLauréat();
 

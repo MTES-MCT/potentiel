@@ -7,15 +7,23 @@ export type ConsulterNombreTâchesReadModel = {
 export type ConsulterNombreTâchesQuery = Message<
   'CONSULTER_NOMBRE_TÂCHES_QUERY',
   {
-    identifiantProjetValue: string;
+    email: string;
   },
   ConsulterNombreTâchesReadModel
 >;
 
-export const registerConsulterNombreTâchesQuery = () => {
-  const handler: MessageHandler<ConsulterNombreTâchesQuery> = async () => {
+export type RécupérerNombreTâchePort = (email: string) => Promise<number>;
+
+export type ConsulterNombreTâchesQueryDependencies = {
+  récupérerNombreTâche: RécupérerNombreTâchePort;
+};
+
+export const registerConsulterNombreTâchesQuery = ({
+  récupérerNombreTâche,
+}: ConsulterNombreTâchesQueryDependencies) => {
+  const handler: MessageHandler<ConsulterNombreTâchesQuery> = async ({ email }) => {
     return {
-      nombreTâches: 0,
+      nombreTâches: await récupérerNombreTâche(email),
     };
   };
   mediator.register('CONSULTER_NOMBRE_TÂCHES_QUERY', handler);

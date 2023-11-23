@@ -1,6 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = ['inconnu', 'abandon.confirmer', 'abandon.transmettre-preuve-recandidature'];
+export const types = ['inconnue', 'abandon.confirmer', 'abandon.transmettre-preuve-recandidature'];
 
 export type RawType = (typeof types)[number];
 
