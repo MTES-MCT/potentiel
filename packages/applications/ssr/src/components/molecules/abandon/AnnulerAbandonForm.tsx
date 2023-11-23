@@ -30,7 +30,7 @@ export const AnnulerAbandonForm = ({ identifiantProjet, utilisateur }: AnnulerAb
   }
 
   return (
-    <form action={formAction} method="post" encType="multipart/form-data">
+    <form action={formAction} method="post">
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
