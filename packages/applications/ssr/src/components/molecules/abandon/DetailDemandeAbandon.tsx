@@ -26,8 +26,12 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
       <span style={{ fontSize: '16px' }}>
         Demande déposée par <span className="font-bold">{demandéPar}</span> le{' '}
         <span className="font-bold">{displayDate(new Date(demandéLe))}</span>
-        <br />
-        Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
+        {recandidature && (
+          <>
+            <br />
+            Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
+          </>
+        )}
         <br />
         Explications du porteur de projet : <span className="italic">"{raison}"</span>
         <br />
