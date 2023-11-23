@@ -73,6 +73,12 @@ export const convertirEnValueType = (value: string): ValueType => {
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
         }
+        if (this.estRejeté()) {
+          throw new AbandonDéjàRejetéError();
+        }
+        if (this.estConfirmé()) {
+          throw new AbandonDéjàConfirméError();
+        }
       } else if (nouveauStatut.estConfirmé()) {
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
