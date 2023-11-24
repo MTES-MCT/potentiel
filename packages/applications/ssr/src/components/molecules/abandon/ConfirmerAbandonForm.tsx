@@ -52,7 +52,7 @@ export const ConfirmerAbandonForm = ({
       <modal.Component title="Confirmer">
         {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
         <div className="flex flex-col gap-5">
-          <p className="mt-3">Êtes-vous sûr de vouloir confirmer l'annulation de cet abandon ?</p>
+          <p className="mt-3">Êtes-vous sûr de vouloir confirmer cet abandon ?</p>
           <form action={formAction} method="post">
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
