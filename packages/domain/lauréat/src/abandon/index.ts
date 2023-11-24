@@ -1,6 +1,6 @@
 import { AccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { AnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
-import { AnnulerRejetAbandonUseCase } from './annuler/annulerRejetAbandon.usecase';
+import { AnnulerRejetAbandonUseCase } from './annulerRejet/annulerRejetAbandon.usecase';
 import { ConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import {
   ConsulterAbandonQuery,

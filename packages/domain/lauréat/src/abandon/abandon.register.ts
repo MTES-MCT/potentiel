@@ -3,7 +3,7 @@ import { registerAccorderAbandonCommand } from './accorder/accorderAbandon.comma
 import { registerAccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { registerAnnulerAbandonCommand } from './annuler/annulerAbandon.command';
 import { registerAnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
-import { registerAnnulerRejetAbandonUseCase } from './annuler/annulerRejetAbandon.usecase';
+import { registerAnnulerRejetAbandonUseCase } from './annulerRejet/annulerRejetAbandon.usecase';
 import { registerConfirmerAbandonCommand } from './confirmer/confirmerAbandon.command';
 import { registerConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import {
@@ -20,7 +20,7 @@ import {
 } from './lister/listerAbandon.query';
 import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
-import { registerAnnulerRejetAbandonCommand } from './annuler/annulerRejetAbandon.command';
+import { registerAnnulerRejetAbandonCommand } from './annulerRejet/annulerRejetAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettre/transmettrePreuveRecandidatureAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { registerDemanderPreuveRecandidatureAbandonCommand } from './demander/demanderPreuveRecandidatureAbandon.command';
