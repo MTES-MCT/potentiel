@@ -47,7 +47,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
             identifiantProjet={projet.identifiantProjet}
           />
         </div>
-        <div className="flex flex-col md:flex-row md:gap-6 mt-6">
+        <div className="flex flex-col md:flex-row gap-6 mt-6">
           {utilisateur.rôle === 'porteur-projet' &&
             ['demandé', 'confirmation-demandée'].includes(statut) && (
               <AnnulerAbandonForm

@@ -38,11 +38,7 @@ export const AnnulerAbandonForm = ({ identifiantProjet, utilisateur }: AnnulerAb
 
   return (
     <>
-      <Button
-        priority="primary"
-        onClick={() => modal.open()}
-        className="bg-blue-france-sun-base text-white mt-6"
-      >
+      <Button priority="secondary" onClick={() => modal.open()}>
         Annuler l'abandon
       </Button>
 
