@@ -26,7 +26,7 @@ import {
   confirmer,
 } from './confirmer/confirmerAbandon.behavior';
 import { AucunAbandonEnCours } from './aucunAbandonEnCours.error';
-import { annulerRejet } from './annuler/annulerRejetAbandon.behavior';
+import { annulerRejet } from './annulerRejet/annulerRejetAbandon.behavior';
 import {
   transmettrePreuveRecandidature,
   PreuveRecandidatureTransmiseEvent,
