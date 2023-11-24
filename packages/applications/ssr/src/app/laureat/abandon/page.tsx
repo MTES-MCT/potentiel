@@ -66,7 +66,7 @@ export default async function Page({ searchParams }: PageProps) {
       searchParamKey: 'statut',
       defaultValue: statut,
       options: Abandon.StatutAbandon.statuts
-        .filter((s) => s !== 'inconnu')
+        .filter((s) => s !== 'inconnu' && s !== 'annulé')
         .map((statut) => ({
           label: statut.replace('-', ' ').toLocaleLowerCase(),
           value: statut,
