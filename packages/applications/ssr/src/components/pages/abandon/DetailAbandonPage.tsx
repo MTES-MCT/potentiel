@@ -1,6 +1,7 @@
 'use client';
 
 import { AnnulerAbandonForm } from '@/components/molecules/abandon/AnnulerAbandonForm';
+import { ConfirmerAbandonForm } from '@/components/molecules/abandon/ConfirmerAbandonForm';
 import { DetailDemandeAbandon } from '@/components/molecules/abandon/DetailDemandeAbandon';
 import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailInstructionAbandon';
 import { InstructionAbandonForm } from '@/components/molecules/abandon/InstructionAbandonForm';
@@ -46,13 +47,21 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
             identifiantProjet={projet.identifiantProjet}
           />
         </div>
-        {utilisateur.rôle === 'porteur-projet' &&
-          ['demandé', 'confirmation-demandée'].includes(statut) && (
-            <AnnulerAbandonForm
+        <div className="flex flex-col md:flex-row gap-6 mt-6">
+          {utilisateur.rôle === 'porteur-projet' &&
+            ['demandé', 'confirmation-demandée'].includes(statut) && (
+              <AnnulerAbandonForm
+                identifiantProjet={projet.identifiantProjet}
+                utilisateur={utilisateur}
+              />
+            )}
+          {utilisateur.rôle === 'porteur-projet' && statut === 'confirmation-demandée' && (
+            <ConfirmerAbandonForm
               identifiantProjet={projet.identifiantProjet}
               utilisateur={utilisateur}
             />
           )}
+        </div>
       </>
     </ProjetPageTemplate>
   );
