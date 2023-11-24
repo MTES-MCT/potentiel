@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Image, Text, View } from '@react-pdf/renderer';
+import { Text, View } from '@react-pdf/renderer';
 import { format } from 'date-fns';
 
 type HeaderProps = {
@@ -26,10 +26,7 @@ export const Header: FC<HeaderProps> = ({
             flexDirection: 'column',
           }}
         >
-          <Image
-            style={{ width: 135, height: 91, marginBottom: 40 }}
-            src={`${process.env.BASE_URL}/images/logo-ministere-de-la-transition-energetique.png`}
-          />
+          <View style={{ width: 135, height: 91, marginBottom: 40 }}>LOGO</View>
 
           <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>
             <Text>Direction de l’énergie</Text>

@@ -1,4 +1,8 @@
 import {
+  GénérerRéponseAccordAbandonAvecRecandidaturePort,
+  GénérerRéponseAccordAbandonAvecRecandidatureQuery,
+} from './abandon/générerRéponseAccordAbandonAvecRecandidature.query';
+import {
   ConsulterDocumentProjetQuery,
   RécupérerDocumentProjetPort,
 } from './consulter/consulterDocumentProjet.query';
@@ -8,9 +12,11 @@ import {
 } from './enregistrer/enregistrerDocument.command';
 
 // Query
-export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
+export type DocumentProjetQuery =
+  | ConsulterDocumentProjetQuery
+  | GénérerRéponseAccordAbandonAvecRecandidatureQuery;
 
-export { ConsulterDocumentProjetQuery };
+export { ConsulterDocumentProjetQuery, GénérerRéponseAccordAbandonAvecRecandidatureQuery };
 
 // Command
 export type DocumentProjetCommand = EnregistrerDocumentProjetCommand;
@@ -24,7 +30,8 @@ export * from './register';
 export * as DocumentProjet from './documentProjet.valueType';
 
 // Port
-export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort };
-
-// Just for testing
-export { buildDocument } from './abandon/générer/buildDocument';
+export {
+  RécupérerDocumentProjetPort,
+  EnregistrerDocumentProjetPort,
+  GénérerRéponseAccordAbandonAvecRecandidaturePort,
+};

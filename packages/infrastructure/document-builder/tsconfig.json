@@ -1,18 +1,16 @@
 {
   "extends": "@potentiel/tsconfig/tsconfig.base.json",
   "compilerOptions": {
+    "jsx": "react",
     "outDir": "dist",
     "rootDir": "src"
   },
   "references": [
     {
-      "path": "../../libraries/monads"
+      "path": "../../domain/document"
     },
     {
-      "path": "../../domain/common"
-    },
-    {
-      "path": "../../domain/core"
+      "path": "../../libraries/monitoring"
     }
   ]
 }

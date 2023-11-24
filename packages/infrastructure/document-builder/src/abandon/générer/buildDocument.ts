@@ -4,6 +4,8 @@ import {
   RéponseAbandonAvecRecandidature,
   RéponseAbandonAvecRecandidatureProps,
 } from './RéponseAbandonAvecRecandidature';
+import { GénérerRéponseAccordAbandonAvecRecandidaturePort } from '@potentiel-domain/document';
+import { mapToReadableStream } from '../../mapToReadableStream';
 
 dotenv.config();
 
@@ -24,11 +26,12 @@ Font.register({
   ],
 });
 
-const buildDocument = async (
+const buildDocument: GénérerRéponseAccordAbandonAvecRecandidaturePort = async (
   props: RéponseAbandonAvecRecandidatureProps,
-): Promise<NodeJS.ReadableStream> => {
+): Promise<ReadableStream> => {
   const document = RéponseAbandonAvecRecandidature(props);
-  return await ReactPDF.renderToStream(document);
+
+  return await mapToReadableStream(await ReactPDF.renderToStream(document));
 };
 
 export { buildDocument };

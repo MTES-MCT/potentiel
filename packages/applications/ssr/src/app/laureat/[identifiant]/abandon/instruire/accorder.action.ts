@@ -5,10 +5,12 @@ import * as zod from 'zod';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { mapToReadableStream } from '@/utils/mapToReadableStream';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { buildDocument } from '@potentiel-domain/document';
+import {
+  GénérerRéponseAccordAbandonAvecRecandidaturePort,
+  GénérerRéponseAccordAbandonAvecRecandidatureQuery,
+} from '@potentiel-domain/document';
 
 export type AccorderAbandonState = FormState;
 
@@ -100,7 +102,7 @@ const buildReponseSignee = async (
 
   const période = appelOffre.periodes.find((p) => p.id === projet.période);
 
-  const props: Parameters<typeof buildDocument>[0] = {
+  const props: Parameters<GénérerRéponseAccordAbandonAvecRecandidaturePort>[0] = {
     dateCourrier: new Date().toISOString(),
     projet: {
       identifiantProjet: abandon.identifiantProjet.formatter(),
@@ -133,11 +135,10 @@ const buildReponseSignee = async (
     },
   };
 
-  const content = await mapToReadableStream(await buildDocument(props));
-  const mimeType = 'application/pdf';
+  const réponseSignée = await mediator.send<GénérerRéponseAccordAbandonAvecRecandidatureQuery>({
+    type: 'GENERER_REPONSE_ACCORD_ABANDON_AVEC_RECANDIDATURE_QUERY',
+    data: props,
+  });
 
-  return {
-    content,
-    format: mimeType,
-  };
+  return réponseSignée;
 };

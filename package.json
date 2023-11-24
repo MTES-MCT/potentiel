@@ -34,6 +34,7 @@
     "./packages/domain-inmemory-referential/",
     "./packages/infrastructure/pg-event-sourcing",
     "./packages/infrastructure/pg-projections",
+    "./packages/infrastructure/document-builder",
     "./packages/infrastructure/domain-adapters",
     "./packages/infrastructure/notifications",
     "./packages/infrastructure/projectors",

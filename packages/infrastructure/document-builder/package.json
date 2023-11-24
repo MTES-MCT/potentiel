@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel-domain/document",
+  "name": "@potentiel-infrastructure/document-builder",
   "version": "0.0.0",
-  "description": "Domain document",
+  "description": "Document builder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
@@ -9,9 +9,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/core": "*",
-    "@potentiel/monads": "*"
+    "@potentiel-domain/document": "*",
+    "@potentiel/monitoring": "*",
+    "@react-pdf/renderer": "^3.1.14"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
