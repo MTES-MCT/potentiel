@@ -123,11 +123,11 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                     <div className="font-bold">(procédure dérogatoire et facultative)</div>
                     <div>
                       <p className="m-0 mt-4">
-                        Je m'engage sur l'honneur à ne pas avoir débuté mes travaux au sens du
-                        cahier des charges de l'AO associé et a abandonné mon statut de lauréat au
-                        profit d'une recandidature réalisée au plus tard le 31/12/2024. Je m'engage
-                        sur l'honneur à ce que cette recandidature respecte les conditions suivantes
-                        :
+                        Par cette demande d'abandon avec recandidature, je m'engage sur l'honneur à
+                        ne pas avoir débuté mes travaux au sens du cahier des charges de l'AO
+                        associé et a abandonné mon statut de lauréat au profit d'une recandidature
+                        réalisée au plus tard le 31/12/2024. Je m'engage sur l'honneur à ce que
+                        cette recandidature respecte les conditions suivantes :
                       </p>
                       <ul className="mb-0">
                         <li>
