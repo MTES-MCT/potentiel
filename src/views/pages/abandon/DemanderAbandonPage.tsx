@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ProjectAppelOffre } from '../../../entities';
 import routes from '../../../routes';
 import { Request } from 'express';
@@ -36,6 +36,8 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
   const { error, success, justification } = (request.query as any) || {};
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
+
+  const [displayRecandidatureAlert, setDisplayRecandidatureAlert] = useState(false);
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
@@ -107,42 +109,46 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
 
             {appelOffre.periode.abandonAvecRecandidature && (
               <>
-                <AlertBox>
-                  <div className="font-bold">Demande d'abandon avec recandidature</div>
-                  <div className="font-bold">(procédure dérogatoire et facultative)</div>
-                  <div>
-                    <p className="m-0 mt-4">
-                      Je m'engage sur l'honneur à ne pas avoir débuté mes travaux au sens du cahier
-                      des charges de l'AO associé et a abandonné mon statut de lauréat au profit
-                      d'une recandidature réalisée au plus tard le 31/12/2024. Je m'engage sur
-                      l'honneur à ce que cette recandidature respecte les conditions suivantes :
-                    </p>
-                    <ul className="mb-0">
-                      <li>
-                        Que le dossier soit complet et respecte les conditions d'éligibilité du
-                        cahier des charges concerné
-                      </li>
-                      <li>Le même lieu d'implantation que le projet abandonné</li>
-                      <li>
-                        La même autorisation préfectorale (numéro ICPE identifique) que le projet
-                        abandonné, nonobstant des porter à connaissance ultérieurs
-                      </li>
-                      <li>
-                        Le tarif proposé ne doit pas être supérieur au prix plafond de la période
-                        dont le projet était initialement lauréat, indexé jusqu’à septembre 2023
-                        selon la formule d’indexation du prix de référence indiquée dans le cahier
-                        des charges concerné par la recandidature.
-                      </li>
-                    </ul>
-                  </div>
-                  <Checkbox
-                    name="abandonAvecRecandidature"
-                    id="abandonAvecRecandidature"
-                    className="my-7 font-bold"
-                  >
-                    Abandon de mon projet avec recandidature (optionnel)
-                  </Checkbox>
-                </AlertBox>
+                <Checkbox
+                  name="abandonAvecRecandidature"
+                  id="abandonAvecRecandidature"
+                  className="my-7 font-bold"
+                  onChange={() => setDisplayRecandidatureAlert(!displayRecandidatureAlert)}
+                >
+                  Je fais une demande d'abandon de mon projet avec recandidature
+                </Checkbox>
+                {displayRecandidatureAlert && (
+                  <AlertBox>
+                    <div className="font-bold">Demande d'abandon avec recandidature</div>
+                    <div className="font-bold">(procédure dérogatoire et facultative)</div>
+                    <div>
+                      <p className="m-0 mt-4">
+                        Par cette demande d'abandon avec recandidature, je m'engage sur l'honneur à
+                        ne pas avoir débuté mes travaux au sens du cahier des charges de l'AO
+                        associé et a abandonné mon statut de lauréat au profit d'une recandidature
+                        réalisée au plus tard le 31/12/2024. Je m'engage sur l'honneur à ce que
+                        cette recandidature respecte les conditions suivantes :
+                      </p>
+                      <ul className="mb-0">
+                        <li>
+                          Que le dossier soit complet et respecte les conditions d'éligibilité du
+                          cahier des charges concerné
+                        </li>
+                        <li>Le même lieu d'implantation que le projet abandonné</li>
+                        <li>
+                          La même autorisation préfectorale (numéro ICPE identifique) que le projet
+                          abandonné, nonobstant des porter à connaissance ultérieurs
+                        </li>
+                        <li>
+                          Le tarif proposé ne doit pas être supérieur au prix plafond de la période
+                          dont le projet était initialement lauréat, indexé jusqu’à septembre 2023
+                          selon la formule d’indexation du prix de référence indiquée dans le cahier
+                          des charges concerné par la recandidature.
+                        </li>
+                      </ul>
+                    </div>
+                  </AlertBox>
+                )}
               </>
             )}
 
