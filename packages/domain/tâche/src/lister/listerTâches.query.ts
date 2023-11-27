@@ -28,6 +28,7 @@ export type ListerTâcheQuery = Message<
   'LISTER_TÂCHES_QUERY',
   {
     identifiantProjet: string;
+    pagination: { page: number; itemsPerPage: number };
   },
   ListerTâcheReadModel
 >;
