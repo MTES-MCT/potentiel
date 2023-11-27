@@ -38,7 +38,10 @@ export const TransmettrePreuveRecandidatureForm = ({
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(transmettrePreuveRecandidatureAction, initialState);
 
-  const [projetSélectionné, setProjetSélectionné] = useState<ProjetÀSélectionner>();
+  const [projetSélectionné, setProjetSélectionné] = useState<{
+    identifiantProjet: ProjetÀSélectionner['identifiantProjet'];
+    dateDésignation: ProjetÀSélectionner['dateDésignation'];
+  }>();
 
   if (state.success) {
     router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`);
@@ -52,9 +55,16 @@ export const TransmettrePreuveRecandidatureForm = ({
         placeholder={`Sélectionner un projet`}
         nativeSelectProps={{
           onChange: ({ currentTarget: { value } }) => {
-            setProjetSélectionné(
-              projetsÀSélectionner.find((projet) => projet.identifiantProjet === value),
+            const projet = projetsÀSélectionner.find(
+              (projet) => projet.identifiantProjet === value,
             );
+
+            if (projet) {
+              setProjetSélectionné({
+                identifiantProjet: projet.identifiantProjet,
+                dateDésignation: projet.dateDésignation,
+              });
+            }
           },
         }}
         options={projetsÀSélectionner.map((projet) => ({
@@ -69,12 +79,12 @@ export const TransmettrePreuveRecandidatureForm = ({
           <>
             <input
               type={'hidden'}
-              value={projetsÀSélectionner[0].identifiantProjet}
+              value={projetSélectionné.identifiantProjet}
               name="preuveRecandidature"
             />
             <input
               type={'hidden'}
-              value={projetsÀSélectionner[0].dateDésignation}
+              value={projetSélectionné.dateDésignation}
               name="dateDesignation"
             />
           </>
