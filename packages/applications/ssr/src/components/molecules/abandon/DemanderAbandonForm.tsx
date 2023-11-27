@@ -10,7 +10,7 @@ import {
   DemanderAbandonState,
   demanderAbandonAction,
 } from '@/app/laureat/[identifiant]/abandon/demander/demander.action';
-import { FormTemplate } from '@/components/templates/FormTemplate';
+import { Form } from '@/components/molecules/Form';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useState } from 'react';
@@ -39,7 +39,7 @@ export const DemanderAbandonForm = ({
   }
 
   return (
-    <FormTemplate action={formAction} method="post" encType="multipart/form-data">
+    <Form action={formAction} method="post" encType="multipart/form-data">
       <>
         {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
 
@@ -132,6 +132,6 @@ export const DemanderAbandonForm = ({
           Envoyer
         </Button>
       </>
-    </FormTemplate>
+    </Form>
   );
 };
