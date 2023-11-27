@@ -2,6 +2,7 @@
 Fonctionnalité: Transmettre une preuve de recandidature
     Contexte:
       Etant donné le projet lauréat "Du boulodrome de Marseille"
+
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet éliminé
       Etant donné le projet éliminé "MIOS"
       Et un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
@@ -16,13 +17,21 @@ Fonctionnalité: Transmettre une preuve de recandidature
       | La date de notification du projet | 2024-01-01 |
       Alors le projet "Boulodrome Sainte Livrade" devrait être la preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille"
     
+    @select
+    Scénario: Impossible de transmettre si une preuve de recandidature a déjà été saisie
+      Etant donné le projet lauréat "Boulodrome Sainte Livrade"
+      Et un abandon accordé avec recandidature avec preuve transmise pour le projet lauréat "Du boulodrome de Marseille"
+      Quand le porteur transmet le projet lauréat "Boulodrome Sainte Livrade" comme preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" avec :
+      | La date de notification du projet | 2024-01-01 |
+      Alors le porteur devrait être informé que "La preuve de recandidature a déjà été transmise"  
+
     Scénario: Impossible de transmettre une preuve pour un abandon accordé sans recandidature
       Etant donné le projet lauréat "Boulodrome Sainte Livrade"
       Et un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
       Quand le porteur transmet le projet lauréat "Boulodrome Sainte Livrade" comme preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" avec :
       | La date de notification du projet | 2024-01-01 |
       Alors le porteur devrait être informé que "Il est impossible de transmettre une preuve pour un abandon sans recandidature"
-    
+
     Scénario: Impossible de transmettre une preuve de recandidature pour un abandon rejeté
       Etant donné le projet lauréat "Boulodrome Sainte Livrade"
       Et un abandon rejeté avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
