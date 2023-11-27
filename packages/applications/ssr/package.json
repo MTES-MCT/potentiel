@@ -19,6 +19,7 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel/monitoring": "*",
+    "@potentiel-infrastructure/document-builder": "*",
     "mediateur": "^0.1.0",
     "next": "^14.0.1",
     "react": "^18",

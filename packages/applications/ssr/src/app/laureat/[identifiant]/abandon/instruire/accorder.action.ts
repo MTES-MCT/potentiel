@@ -7,10 +7,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import {
-  GénérerRéponseAccordAbandonAvecRecandidaturePort,
-  GénérerRéponseAccordAbandonAvecRecandidatureQuery,
-} from '@potentiel-domain/document';
+import { buildDocument } from '@potentiel-infrastructure/document-builder';
 
 export type AccorderAbandonState = FormState;
 
@@ -20,17 +17,9 @@ const schema = zod.object({
   reponseSignee: zod
     .instanceof(Blob)
     .optional()
-    .refine(
-      (data) => {
-        if (!data) {
-          return true;
-        }
-        return data.size > 0;
-      },
-      {
-        message: 'Vous devez joindre une réponse signée.',
-      },
-    ),
+    .refine(() => true, {
+      message: 'Vous devez joindre une réponse signée.',
+    }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -49,11 +38,8 @@ const action: FormAction<FormState, typeof schema> = async (
   if (abandon.demande.recandidature) {
     réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
   } else {
-    if (!reponseSignee) {
-      return {
-        error: '',
-        validationErrors: [],
-      };
+    if (!reponseSignee || reponseSignee.size <= 0) {
+      throw new Error();
     }
 
     réponseSignéeValue = {
@@ -102,7 +88,7 @@ const buildReponseSignee = async (
 
   const période = appelOffre.periodes.find((p) => p.id === projet.période);
 
-  const props: Parameters<GénérerRéponseAccordAbandonAvecRecandidaturePort>[0] = {
+  const props: Parameters<typeof buildDocument>[0] = {
     dateCourrier: new Date().toISOString(),
     projet: {
       identifiantProjet: abandon.identifiantProjet.formatter(),
@@ -135,10 +121,8 @@ const buildReponseSignee = async (
     },
   };
 
-  const réponseSignée = await mediator.send<GénérerRéponseAccordAbandonAvecRecandidatureQuery>({
-    type: 'GENERER_REPONSE_ACCORD_ABANDON_AVEC_RECANDIDATURE_QUERY',
-    data: props,
-  });
-
-  return réponseSignée;
+  return {
+    content: await buildDocument(props),
+    format: 'application/pdf',
+  };
 };

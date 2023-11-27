@@ -4,7 +4,6 @@ import {
   RéponseAbandonAvecRecandidature,
   RéponseAbandonAvecRecandidatureProps,
 } from './RéponseAbandonAvecRecandidature';
-import { GénérerRéponseAccordAbandonAvecRecandidaturePort } from '@potentiel-domain/document';
 import { mapToReadableStream } from '../../mapToReadableStream';
 
 dotenv.config();
@@ -25,6 +24,42 @@ Font.register({
     },
   ],
 });
+
+export type GénérerRéponseAccordAbandonAvecRecandidaturePort = (
+  données: DonnéesDocument,
+) => Promise<ReadableStream>;
+
+type DonnéesDocument = {
+  dateCourrier: string;
+  projet: {
+    identifiantProjet: string;
+    nomReprésentantLégal: string;
+    nomCandidat: string;
+    email: string;
+    nom: string;
+    commune: string;
+    codePostal: string;
+    dateDésignation: string;
+    puissance: number;
+  };
+  appelOffre: {
+    nom: string;
+    description: string;
+    période: string;
+    unitéPuissance: string;
+    texteEngagementRéalisationEtModalitésAbandon: {
+      référenceParagraphe: string;
+      dispositions: string;
+    };
+  };
+  demandeAbandon: {
+    date: string;
+    instructeur: {
+      nom: string;
+      fonction: string;
+    };
+  };
+};
 
 const buildDocument: GénérerRéponseAccordAbandonAvecRecandidaturePort = async (
   props: RéponseAbandonAvecRecandidatureProps,

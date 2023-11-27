@@ -1,8 +1,4 @@
 import {
-  GénérerRéponseAccordAbandonAvecRecandidatureDependencies,
-  registerGénérerRéponseAccordAbandonAvecRecandidatureQuery,
-} from './abandon/générerRéponseAccordAbandonAvecRecandidature.query';
-import {
   ConsulterDocumentProjetDependencies,
   registerConsulterDocumentProjetQuery,
 } from './consulter/consulterDocumentProjet.query';
@@ -11,13 +7,11 @@ import {
   registerEnregistrerDocumentCommand,
 } from './enregistrer/enregistrerDocument.command';
 
-type DocumentProjetQueryDependencies = ConsulterDocumentProjetDependencies &
-  GénérerRéponseAccordAbandonAvecRecandidatureDependencies;
+type DocumentProjetQueryDependencies = ConsulterDocumentProjetDependencies;
 type DocumentProjetCommandDependencies = EnregistrerDocumentProjetDependencies;
 
 export const registerDocumentProjetQueries = (dependencies: DocumentProjetQueryDependencies) => {
   registerConsulterDocumentProjetQuery(dependencies);
-  registerGénérerRéponseAccordAbandonAvecRecandidatureQuery(dependencies);
 };
 
 export const registerDocumentProjetCommand = (dependencies: DocumentProjetCommandDependencies) => {
