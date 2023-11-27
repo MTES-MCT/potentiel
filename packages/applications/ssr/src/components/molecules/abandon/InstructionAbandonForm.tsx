@@ -22,7 +22,7 @@ export const InstructionAbandonForm = ({
   recandidature,
   utilisateur,
 }: InstructionAbandonFormProps) => {
-  const réponseAttendue = ['demandé', 'confirmé'].includes(statut);
+  const instructionEnCours = !['accordé', 'rejeté'].includes(statut);
   {
     /* TODO : l'autorité pour répondre aux demandes par type doit être retournée par la query */
   }
@@ -41,7 +41,7 @@ export const InstructionAbandonForm = ({
 
   return (
     <>
-      {réponseAttendue && réponsePermise ? (
+      {instructionEnCours && réponsePermise ? (
         <>
           <Heading2>Instruire la demande</Heading2>
           <form>
