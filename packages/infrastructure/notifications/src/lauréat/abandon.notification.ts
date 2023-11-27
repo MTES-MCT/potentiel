@@ -135,7 +135,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           variables: {
             lien_transmettre_preuve_recandidature: `/laureat/${encodeURIComponent(
               identifiantProjet.formatter(),
-            )}/abandon/preuve-recandidature`,
+            )}/abandon/transmettre-preuve-recandidature`,
           },
         });
         break;

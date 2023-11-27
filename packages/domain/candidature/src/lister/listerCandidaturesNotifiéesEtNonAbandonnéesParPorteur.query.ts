@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { CandidatureProjection } from '../candidature.projection';
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
 export type ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel = Array<{
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutProjet.ValueType;
   nom: string;
+  dateDésignation: DateTime.RawType;
 }>;
 
 export type RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort = (
@@ -48,6 +49,7 @@ const mapToReadModel = ({
   numéroCRE,
   période,
   statut,
+  dateDésignation,
 }: CandidatureProjection): ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel[number] => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(
@@ -55,5 +57,6 @@ const mapToReadModel = ({
     ),
     nom,
     statut: StatutProjet.convertirEnValueType(statut),
+    dateDésignation,
   };
 };

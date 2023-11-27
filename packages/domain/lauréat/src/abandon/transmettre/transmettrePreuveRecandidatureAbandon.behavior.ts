@@ -11,6 +11,12 @@ export type PreuveRecandidatureTransmiseEvent = DomainEvent<
   }
 >;
 
+class PreuveRecandidautreDéjàTransmise extends InvalidOperationError {
+  constructor() {
+    super('La preuve de recandidature a déjà été transmise');
+  }
+}
+
 class AbandonPasDansUnContexteDeRecandidatureError extends InvalidOperationError {
   constructor() {
     super(`Il est impossible de transmettre une preuve pour un abandon sans recandidature`);
@@ -58,6 +64,10 @@ export async function transmettrePreuveRecandidature(
 ) {
   if (!this.demande.recandidature) {
     throw new AbandonPasDansUnContexteDeRecandidatureError();
+  }
+
+  if (this.demande.preuveRecandidature) {
+    throw new PreuveRecandidautreDéjàTransmise();
   }
 
   if (!this.statut.estAccordé()) {
