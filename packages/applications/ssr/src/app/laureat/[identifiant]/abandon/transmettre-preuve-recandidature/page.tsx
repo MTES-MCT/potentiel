@@ -39,11 +39,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       ...candidature,
       identifiantProjet,
     },
-    projetsÀSélectionner: projetsÀSélectionner.map((projet) => ({
-      ...projet,
-      statut: projet.statut.statut,
-      identifiantProjet: projet.identifiantProjet.formatter(),
-    })),
+    projetsÀSélectionner: projetsÀSélectionner
+      .filter((p) => p.identifiantProjet.formatter() !== identifiantProjet)
+      .map((projet) => ({
+        ...projet,
+        statut: projet.statut.statut,
+        identifiantProjet: projet.identifiantProjet.formatter(),
+      })),
     utilisateur,
   };
 

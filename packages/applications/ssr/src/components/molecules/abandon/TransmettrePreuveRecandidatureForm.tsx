@@ -45,14 +45,15 @@ export const TransmettrePreuveRecandidatureForm = ({
 
   return (
     <>
-      {state.success && (
+      {state.success ? (
         <Alert
           severity="success"
           title={'La preuve de recandidature a bien été ajoutée'}
           className="mb-4"
         />
+      ) : (
+        state.error && <Alert severity="error" title={state.error} className="mb-4" />
       )}
-      {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <SelectNext
         label="Choisir un projet comme preuve de recandidature"
         placeholder={`Sélectionner un projet`}
