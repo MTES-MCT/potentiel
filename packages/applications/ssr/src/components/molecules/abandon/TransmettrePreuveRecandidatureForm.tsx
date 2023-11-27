@@ -1,16 +1,17 @@
 'use client';
 
+import { useState } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
+
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { useRouter } from 'next/navigation';
-import { useFormState, useFormStatus } from 'react-dom';
+import Button from '@codegouvfr/react-dsfr/Button';
+
 import {
   TransmettrePreuveRecandidatureState,
   transmettrePreuveRecandidatureAction,
 } from '@/app/laureat/[identifiant]/abandon/transmettre-preuve-recandidature/transmettrePreuveRecandidature.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
-import Button from '@codegouvfr/react-dsfr/Button';
-import { useState } from 'react';
 
 type ProjetÀSélectionner = {
   identifiantProjet: string;
@@ -34,7 +35,6 @@ export const TransmettrePreuveRecandidatureForm = ({
   projetsÀSélectionner,
   utilisateur,
 }: TransmettrePreuveRecandidatureFormProps) => {
-  const router = useRouter();
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(transmettrePreuveRecandidatureAction, initialState);
 
@@ -43,12 +43,15 @@ export const TransmettrePreuveRecandidatureForm = ({
     dateDésignation: ProjetÀSélectionner['dateDésignation'];
   }>();
 
-  if (state.success) {
-    router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`);
-  }
-
   return (
     <>
+      {state.success && (
+        <Alert
+          severity="success"
+          title={'La preuve de recandidature a bien été ajoutée'}
+          className="mb-4"
+        />
+      )}
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <SelectNext
         label="Choisir un projet comme preuve de recandidature"
