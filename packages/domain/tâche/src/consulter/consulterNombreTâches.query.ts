@@ -23,7 +23,6 @@ export const registerConsulterNombreTâchesQuery = ({
 }: ConsulterNombreTâchesQueryDependencies) => {
   const handler: MessageHandler<ConsulterNombreTâchesQuery> = async ({ email }) => {
     const nombreTâches = await récupérerNombreTâche(email);
-    console.log(nombreTâches);
     return {
       nombreTâches,
     };
