@@ -10,16 +10,10 @@ export type TâcheProjection = Projection<
     appelOffre: string;
     période: string;
     famille?: string;
-    numéroCRE?: string;
+    numéroCRE: string;
 
+    typeTâche: string;
     misÀJourLe: string;
-    tâches: Array<{
-      type: string;
-      achevée: boolean;
-      achevéeLe: string;
-      ajoutéeLe: string;
-      relancéeLe: string;
-    }>;
   }
 >;
 

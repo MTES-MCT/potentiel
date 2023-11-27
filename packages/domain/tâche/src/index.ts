@@ -21,7 +21,7 @@ export * as TâcheSaga from './tâche.saga';
 export * from './register';
 
 // ValueTypes
-export * as Tâche from './typeTâche.valueType';
+export * as TypeTâche from './typeTâche.valueType';
 
 // Projections
 export * from './tâche.projection';

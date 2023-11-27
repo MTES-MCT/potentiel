@@ -6,12 +6,14 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 // Package
 import { TâcheAggregate } from '../tâche.aggregate';
+import { TypeTâche } from '..';
 
 export type TâcheAchevéeEvent = DomainEvent<
   'TâcheAchevée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     achevéeLe: DateTime.RawType;
+    typeTâche: TypeTâche.RawType;
   }
 >;
 
@@ -26,6 +28,7 @@ export async function achever(this: TâcheAggregate, { identifiantProjet }: Ache
       payload: {
         achevéeLe: DateTime.now().formatter(),
         identifiantProjet: identifiantProjet.formatter(),
+        typeTâche: this.typeTâche.type,
       },
     };
 

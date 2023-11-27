@@ -19,7 +19,7 @@ export type TâcheEvent =
   | TâcheAchevéeEvent;
 
 export type TâcheAggregate = Aggregate<TâcheEvent> & {
-  type: TypeTâche.ValueType;
+  typeTâche: TypeTâche.ValueType;
   achevée: boolean;
   ajouter: typeof ajouter;
   achever: typeof achever;
@@ -30,7 +30,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   TâcheEvent
 > = () => ({
   apply,
-  type: TypeTâche.convertirEnValueType('inconnue'),
+  typeTâche: TypeTâche.convertirEnValueType('inconnue'),
   achevée: false,
   ajouter,
   achever,
