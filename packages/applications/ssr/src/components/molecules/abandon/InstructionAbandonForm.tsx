@@ -7,7 +7,8 @@ import { StatutAbandonBadge } from './StatutAbandonBadge';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { DemanderConfirmationAbandonForm } from './DemanderConfirmationAbandonForm';
 import { RejeterAbandonForm } from './RejeterAbandonForm';
-import { AccorderAbandonForm } from './AccorderAbandonForm';
+import { AccorderAbandonSansRecandidatureForm } from './AccorderAbandonSansRecandidatureForm';
+import { AccorderAbandonAvecRecandidatureForm } from './AccorderAbandonAvecRecandidatureForm';
 
 type InstructionAbandonFormProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
@@ -80,18 +81,29 @@ export const InstructionAbandonForm = ({
               ]}
             />
           </form>
+
           {instruction === 'demander-confirmation' && (
             <DemanderConfirmationAbandonForm
               identifiantProjet={identifiantProjet}
               utilisateur={utilisateur}
             />
           )}
+
           {instruction === 'rejeter' && (
             <RejeterAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
           )}
-          {instruction === 'accorder' && (
-            <AccorderAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
-          )}
+
+          {instruction === 'accorder' && recandidature ? (
+            <AccorderAbandonAvecRecandidatureForm
+              identifiantProjet={identifiantProjet}
+              utilisateur={utilisateur}
+            />
+          ) : instruction === 'accorder' && !recandidature ? (
+            <AccorderAbandonSansRecandidatureForm
+              identifiantProjet={identifiantProjet}
+              utilisateur={utilisateur}
+            />
+          ) : null}
         </>
       ) : (
         ''

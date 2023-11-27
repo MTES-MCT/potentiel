@@ -9,22 +9,16 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument } from '@potentiel-infrastructure/document-builder';
 
-export type AccorderAbandonState = FormState;
+export type AccorderAbandonAvecRecandidatureState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
   utilisateur: zod.string().email(),
-  reponseSignee: zod
-    .instanceof(Blob)
-    .optional()
-    .refine(() => true, {
-      message: 'Vous devez joindre une réponse signée.',
-    }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, reponseSignee, utilisateur },
+  { identifiantProjet, utilisateur },
 ) => {
   const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
     type: 'CONSULTER_ABANDON_QUERY',
@@ -33,20 +27,7 @@ const action: FormAction<FormState, typeof schema> = async (
     },
   });
 
-  let réponseSignéeValue: Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue'];
-
-  if (abandon.demande.recandidature) {
-    réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
-  } else {
-    if (!reponseSignee || reponseSignee.size <= 0) {
-      throw new Error();
-    }
-
-    réponseSignéeValue = {
-      content: reponseSignee.stream(),
-      format: reponseSignee.type,
-    };
-  }
+  const réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
 
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'ACCORDER_ABANDON_USECASE',
@@ -61,7 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
   return previousState;
 };
 
-export const accorderAbandonAction = formAction(action, schema);
+export const accorderAbandonAvecRecandidatureAction = formAction(action, schema);
 
 const buildReponseSignee = async (
   abandon: Abandon.ConsulterAbandonReadModel,
