@@ -10,6 +10,7 @@ import {
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { encodeParameter } from '@/utils/encodeParameter';
 
 const initialState: DemanderConfirmationAbandonState = {
   error: undefined,
@@ -30,7 +31,7 @@ export const DemanderConfirmationAbandonForm = ({
   const [state, formAction] = useFormState(demanderConfirmationAbandonAction, initialState);
 
   if (state.success) {
-    router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`);
+    router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
   }
 
   return (

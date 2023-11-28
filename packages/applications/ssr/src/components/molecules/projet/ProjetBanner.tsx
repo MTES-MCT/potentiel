@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { displayDate } from '@/utils/displayDate';
+import { encodeParameter } from '@/utils/encodeParameter';
 
 type ProjetBannerProps = {
   statut: Parameters<typeof StatutProjetBadge>[0]['statut'];
@@ -32,7 +33,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = ({
     <aside className="mb-3">
       <div className="flex justify-start items-center">
         <a
-          href={`/projet/${encodeURIComponent(identifiantProjet)}/details.html`}
+          href={`/projet/${encodeParameter(identifiantProjet)}/details.html`}
           className="text-xl font-bold !text-white mr-2"
         >
           {nom}
