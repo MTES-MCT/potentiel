@@ -5,6 +5,10 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
+// TODO :
+// Pour tout type de demande, il faut vérifier que le CDC le permet une demande via Potentiel
+// nous avons besoin du CDC actuel et de l'AO pour vérifier cela
+
 export type DemanderAbandonUseCase = Message<
   'DEMANDER_ABANDON_USECASE',
   {
