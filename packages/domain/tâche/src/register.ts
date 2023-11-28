@@ -6,19 +6,19 @@ import {
   registerConsulterNombreTâchesQuery,
 } from './consulter/consulterNombreTâches.query';
 import {
-  ListerTâcheQueryDependencies,
-  registerListerTâcheQuery,
+  ListerTâchesQueryDependencies,
+  registerListerTâchesQuery,
 } from './lister/listerTâches.query';
 
 export type TâcheQueryDependencies = ConsulterNombreTâchesQueryDependencies &
-  ListerTâcheQueryDependencies;
+  ListerTâchesQueryDependencies;
 export type TâcheCommandDependencies = {
   loadAggregate: LoadAggregate;
 };
 
 export const registerTâcheQuery = (dependencies: TâcheQueryDependencies) => {
   registerConsulterNombreTâchesQuery(dependencies);
-  registerListerTâcheQuery(dependencies);
+  registerListerTâchesQuery(dependencies);
 };
 
 export const registerTâcheCommand = ({ loadAggregate }: TâcheCommandDependencies) => {

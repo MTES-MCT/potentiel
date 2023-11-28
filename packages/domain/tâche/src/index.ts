@@ -3,14 +3,18 @@ import {
   ConsulterNombreTâchesReadModel,
   RécupérerNombreTâchePort,
 } from './consulter/consulterNombreTâches.query';
-import { ListerTâcheQuery, ListerTâcheReadModel } from './lister/listerTâches.query';
+import {
+  ListerTâchesQuery,
+  ListerTâchesReadModel,
+  RécupérerTâchesPort,
+} from './lister/listerTâches.query';
 
 // Query
-export type TâcheQuery = ConsulterNombreTâchesQuery | ListerTâcheQuery;
-export { ConsulterNombreTâchesQuery, ListerTâcheQuery };
+export type TâcheQuery = ConsulterNombreTâchesQuery | ListerTâchesQuery;
+export { ConsulterNombreTâchesQuery, ListerTâchesQuery as ListerTâcheQuery };
 
 // ReadModel
-export { ConsulterNombreTâchesReadModel, ListerTâcheReadModel };
+export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel as ListerTâcheReadModel };
 
 // Event
 export { TâcheEvent } from './tâche.aggregate';
@@ -29,3 +33,4 @@ export * from './tâche.projection';
 
 // Port
 export { RécupérerNombreTâchePort };
+export { RécupérerTâchesPort };

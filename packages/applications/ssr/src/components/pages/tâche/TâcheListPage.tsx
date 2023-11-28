@@ -29,7 +29,7 @@ export const TâcheListPage: FC<AbandonListPageProps> = ({
 
   return (
     <ListPageTemplate
-      heading="Abandon"
+      heading="Tâches"
       items={tâches.map((tâche) => ({
         ...tâche,
         key: tâche.identifiantProjet,

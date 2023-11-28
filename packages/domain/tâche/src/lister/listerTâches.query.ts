@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import * as TypeTâche from '../typeTâche.valueType';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-libraries/projection';
 import { TâcheProjection } from '../tâche.projection';
 
 type TâcheListItem = {
@@ -17,41 +16,57 @@ type TâcheListItem = {
   misÀJourLe: DateTime.ValueType;
 };
 
-export type ListerTâcheReadModel = {
+export type ListerTâchesReadModel = {
   items: Array<TâcheListItem>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
 };
 
-export type ListerTâcheQuery = Message<
+export type ListerTâchesQuery = Message<
   'LISTER_TÂCHES_QUERY',
   {
-    identifiantProjet: string;
+    email: string;
+    appelOffre?: string;
     pagination: { page: number; itemsPerPage: number };
   },
-  ListerTâcheReadModel
+  ListerTâchesReadModel
 >;
 
-export type ListerTâcheQueryDependencies = {
-  list: List;
+export type RécupérerTâchesPort = (
+  email: string,
+  filters: {
+    appelOffre?: string;
+  },
+  pagination: {
+    page: number;
+    itemsPerPage: number;
+  },
+) => Promise<{
+  items: ReadonlyArray<TâcheProjection>;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+}>;
+
+export type ListerTâchesQueryDependencies = {
+  récupérerTâches: RécupérerTâchesPort;
 };
 
-export const registerListerTâcheQuery = ({ list }: ListerTâcheQueryDependencies) => {
-  const handler: MessageHandler<ListerTâcheQuery> = async ({ identifiantProjet }) => {
-    const result = await list<TâcheProjection>({
-      type: 'tâche',
-      where: {
-        identifiantProjet,
+export const registerListerTâchesQuery = ({ récupérerTâches }: ListerTâchesQueryDependencies) => {
+  const handler: MessageHandler<ListerTâchesQuery> = async ({ email, pagination, appelOffre }) => {
+    const { items, currentPage, itemsPerPage, totalItems } = await récupérerTâches(
+      email,
+      {
+        appelOffre,
       },
-      orderBy: {
-        property: 'misÀJourLe',
-        ascending: false,
-      },
-    });
+      pagination,
+    );
     return {
-      ...result,
-      items: result.items.map(mapToReadModel),
+      items: items.map(mapToReadModel),
+      currentPage,
+      itemsPerPage,
+      totalItems,
     };
   };
   mediator.register('LISTER_TÂCHES_QUERY', handler);
