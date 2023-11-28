@@ -16,11 +16,3 @@ export type TâcheProjection = Projection<
     misÀJourLe: string;
   }
 >;
-
-export type NombreTâchesProjection = Projection<
-  'nombre-de-tâches',
-  {
-    identifiantProjet: string;
-    nombreTâches: number;
-  }
->;

@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { NombreTâchesProjection, TâcheEvent, TâcheProjection } from '@potentiel-domain/tache';
+import { TâcheEvent, TâcheProjection } from '@potentiel-domain/tache';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { removeProjection } from '../utils/removeProjection';
@@ -21,21 +21,12 @@ export const register = () => {
 
     if (type === 'RebuildTriggered') {
       await removeProjection<TâcheProjection>(`tâche|${payload.id}`);
-      await removeProjection<NombreTâchesProjection>(`nombre-de-tâches|${payload.id}`);
     } else {
-      const { identifiantProjet } = payload;
+      const { identifiantProjet, typeTâche } = payload;
 
-      const nombreTâchesProjection = await findProjection<NombreTâchesProjection>(
-        `nombre-de-tâches|${identifiantProjet}`,
+      const tâche = await findProjection<TâcheProjection>(
+        `tâche|${payload.typeTâche}#${identifiantProjet}`,
       );
-
-      const nombreTâchesDefaultValue = 0;
-
-      const nombreTâchesToUpsert = isSome(nombreTâchesProjection)
-        ? nombreTâchesProjection.nombreTâches
-        : nombreTâchesDefaultValue;
-
-      const tâche = await findProjection<TâcheProjection>(`tâche|${identifiantProjet}`);
 
       const tâcheDefaultValue = {
         identifiantProjet,
@@ -60,23 +51,14 @@ export const register = () => {
 
       switch (type) {
         case 'TâcheAchevée-V1':
-          await upsertProjection<NombreTâchesProjection>(`nombre-de-tâches|${identifiantProjet}`, {
-            identifiantProjet,
-            nombreTâches: nombreTâchesToUpsert - 1,
-          });
           await removeProjection<TâcheProjection>(
-            `tâche|${identifiantProjet}#${payload.typeTâche}`,
+            `tâche|${payload.typeTâche}#${identifiantProjet}`,
           );
           break;
         case 'TâcheAjoutée-V1':
         case 'TâcheRenouvellée-V1':
-          await upsertProjection<NombreTâchesProjection>(`nombre-de-tâches|${identifiantProjet}`, {
-            identifiantProjet,
-            nombreTâches: nombreTâchesToUpsert + 1,
-          });
-
           await upsertProjection<TâcheProjection>(
-            `tâche|${identifiantProjet}#${payload.typeTâche}`,
+            `tâche|${payload.typeTâche}#${identifiantProjet}`,
             {
               ...tâcheToUpsert,
               nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
@@ -91,7 +73,7 @@ export const register = () => {
           break;
         case 'TâcheRelancée-V1':
           await upsertProjection<TâcheProjection>(
-            `tâche|${identifiantProjet}#${payload.typeTâche}`,
+            `tâche|${payload.typeTâche}#${identifiantProjet}`,
             {
               ...tâcheToUpsert,
               typeTâche: payload.typeTâche,

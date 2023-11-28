@@ -7,46 +7,27 @@ import {
 import { executeSelect } from '@potentiel/pg-helpers';
 import { récupérerIdentifiantProjectsParPorteurAdapter } from '../projet/récupérerIdentifiantProjectsParPorteur';
 
-const countNombreTâcheQuery = `
-  select json_build_object(
-    'nombreTâches', 
-    sum(CAST(value->'nombreTâches' as numeric))
-  ) as value 
-  from domain_views.projection 
-  where 
-    key = any($1) and 
-    CAST(value->'nombreTâches' as numeric) > 0;
-`;
-
-export const récupérerNombreTâcheAdapter: RécupérerNombreTâchePort = async (email) => {
-  const projects = await récupérerIdentifiantProjectsParPorteurAdapter(email);
-
-  const identifiants = projects.map(
-    ({ appelOffre, numéroCRE, période, famille }) =>
-      `nombre-de-tâches|${appelOffre}#${période}#${famille}#${numéroCRE}`,
-  );
-
-  const nombreTâches = await executeSelect<{
-    value: {
-      nombreTâches: number;
-    };
-  }>(countNombreTâcheQuery, identifiants);
-
-  if (!nombreTâches.length) {
-    return 0;
-  }
-
-  return nombreTâches[0].value.nombreTâches ?? 0;
-};
-
-const getTâchesQuery = `
-  select value
+const countTâchesQuery = `
+  select count(key) as "totalItems"
   from domain_views.projection 
   where key like 'tâche|%' and value->>'identifiantProjet' = any($1)
 `;
 
-const countTâchesQuery = `
-  select count(key) as "totalItems"
+export const récupérerNombreTâcheAdapter: RécupérerNombreTâchePort = async (email) => {
+  const identifiants = await récupérerIdentifiantProjectsParPorteurAdapter(email);
+
+  const countResult = await executeSelect<{ totalItems: string }>(
+    countTâchesQuery,
+    identifiants.map(
+      ({ appelOffre, numéroCRE, période, famille }) =>
+        `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+    ),
+  );
+  return parseInt(countResult[0].totalItems);
+};
+
+const getTâchesQuery = `
+  select value
   from domain_views.projection 
   where key like 'tâche|%' and value->>'identifiantProjet' = any($1)
 `;
