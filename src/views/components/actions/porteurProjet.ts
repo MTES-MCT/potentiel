@@ -87,10 +87,6 @@ const porteurProjetActions = (project: {
         title: 'Changer de puissance',
         link: ROUTES.DEMANDER_CHANGEMENT_PUISSANCE(project.id),
       },
-      {
-        title: 'Demander un abandon',
-        link: ROUTES.GET_DEMANDER_ABANDON(project.id),
-      },
     ],
   );
 
