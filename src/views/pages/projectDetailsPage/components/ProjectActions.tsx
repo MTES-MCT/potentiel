@@ -4,6 +4,7 @@ import {
   DropdownMenuSecondaryButton,
   PrimaryButton,
   PrintIcon,
+  LinkButton,
 } from '../../../components';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
@@ -67,65 +68,84 @@ type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
 };
 const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
-  <div className="flex flex-col xl:flex-row gap-2">
-    {!project.isClasse && (
-      <SecondaryLinkButton href={routes.DEPOSER_RECOURS(project.id)}>
-        Faire une demande de recours
-      </SecondaryLinkButton>
-    )}
-
+  <div className="flex flex-col gap-3">
     {project.isClasse && (
-      <DropdownMenuSecondaryButton buttonChildren="Faire une demande" className="w-fit">
-        <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
-          <span>Demander un délai</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-        {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
-          <DropdownMenuSecondaryButton.DropdownItem
-            href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
-          >
-            <span>Changer de producteur</span>
-          </DropdownMenuSecondaryButton.DropdownItem>
-        )}
-        <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
-          <span>Changer de fournisseur</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-        <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_ACTIONNAIRE(project.id)}>
-          <span>Changer d'actionnaire</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-        <DropdownMenuSecondaryButton.DropdownItem
-          href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
-        >
-          <span>Changer de puissance</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-        <DropdownMenuSecondaryButton.DropdownItem
+      <div
+        className="flex justify-end"
+        {...(project.cahierDesChargesActuel.type === 'initial' &&
+          project.appelOffre.choisirNouveauCahierDesCharges && {
+            style: { cursor: 'not-allowed' },
+            title:
+              'Vous devez changer de cahier des charges pour accéder à la fonctionnalité abandon',
+          })}
+      >
+        <LinkButton
+          className="bg-red-marianne-425-base hover:bg-red-marianne-425-hover focus:bg-red-marianne-425-active block mt-4"
           href={`/laureat/${encodeURIComponent(
             `${project.appelOffreId}#${project.periodeId}#${project.familleId || ''}#${
               project.numeroCRE
             }`,
           )}/abandon/demander`}
+          {...(project.cahierDesChargesActuel.type === 'initial' &&
+            project.appelOffre.choisirNouveauCahierDesCharges && {
+              style: { pointerEvents: 'none' },
+            })}
         >
-          <span>Demander un abandon</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      </DropdownMenuSecondaryButton>
+          Demander un abandon
+        </LinkButton>
+      </div>
     )}
+    <div className="flex flex-col xl:flex-row gap-2">
+      {!project.isClasse && (
+        <SecondaryLinkButton href={routes.DEPOSER_RECOURS(project.id)}>
+          Faire une demande de recours
+        </SecondaryLinkButton>
+      )}
 
-    {project.notifiedOn && project.certificateFile && (
-      <DownloadLinkButton
-        className="w-fit"
-        fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
-          id: project.id,
-          certificateFileId: project.certificateFile.id,
-          nomProjet: project.nomProjet,
-          potentielIdentifier: project.potentielIdentifier,
-        })}
-      >
-        Télécharger mon attestation
-      </DownloadLinkButton>
-    )}
-    <PrimaryButton onClick={() => window.print()}>
-      <PrintIcon className="text-white mr-2" aria-hidden />
-      Imprimer la page
-    </PrimaryButton>
+      {project.isClasse && (
+        <DropdownMenuSecondaryButton buttonChildren="Faire une demande" className="w-fit">
+          <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
+            <span>Demander un délai</span>
+          </DropdownMenuSecondaryButton.DropdownItem>
+          {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
+            >
+              <span>Changer de producteur</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
+          )}
+          <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
+            <span>Changer de fournisseur</span>
+          </DropdownMenuSecondaryButton.DropdownItem>
+          <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_ACTIONNAIRE(project.id)}>
+            <span>Changer d'actionnaire</span>
+          </DropdownMenuSecondaryButton.DropdownItem>
+          <DropdownMenuSecondaryButton.DropdownItem
+            href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
+          >
+            <span>Changer de puissance</span>
+          </DropdownMenuSecondaryButton.DropdownItem>
+        </DropdownMenuSecondaryButton>
+      )}
+
+      {project.notifiedOn && project.certificateFile && (
+        <DownloadLinkButton
+          className="w-fit"
+          fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
+            id: project.id,
+            certificateFileId: project.certificateFile.id,
+            nomProjet: project.nomProjet,
+            potentielIdentifier: project.potentielIdentifier,
+          })}
+        >
+          Télécharger mon attestation
+        </DownloadLinkButton>
+      )}
+      <PrimaryButton onClick={() => window.print()}>
+        <PrintIcon className="text-white mr-2" aria-hidden />
+        Imprimer la page
+      </PrimaryButton>
+    </div>
   </div>
 );
 
