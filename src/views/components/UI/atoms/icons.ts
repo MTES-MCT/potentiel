@@ -34,6 +34,8 @@ export {
   RiAddLine as AddIcon,
   RiSubtractLine as SubtractIcon,
   RiPrinterLine as PrintIcon,
+  RiMailUnreadLine as TasksToDo,
+  RiMailCheckLine as TasksDone,
 } from 'react-icons/ri';
 export {
   HiOutlineTrash as TrashIcon,

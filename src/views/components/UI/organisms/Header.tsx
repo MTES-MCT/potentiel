@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import routes from '../../../../routes';
 
 import {
@@ -14,6 +15,8 @@ import {
   Label,
   Container,
   AccountIcon,
+  TasksToDo,
+  TasksDone,
 } from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -128,6 +131,8 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
                 {user.fullName ? user.fullName : user.email}
               </span>
             </Link>
+          ) : user.role === 'porteur-projet' ? (
+            <CentreDesTâches />
           ) : (
             <span
               className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
@@ -265,5 +270,41 @@ const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
     </Container>
   </nav>
 );
+
+const CentreDesTâches = () => {
+  const [nombreTâches, setNombreDeTâches] = useState(0);
+  const [showLink, setShowLink] = useState(false);
+  useEffect(() => {
+    const récupérerLeNombreDeTâches = async () => {
+      try {
+        const response = await fetch('/api/v1/tache');
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+
+        const { nombreTâches } = await response.json();
+        setNombreDeTâches(nombreTâches);
+        setShowLink(true);
+      } catch (error) {
+        console.error('Erreur lors de la récupération du nombre de tâches : ', error);
+      }
+    };
+
+    récupérerLeNombreDeTâches();
+  }, []);
+  return (
+    <Link
+      href="/taches"
+      className={`no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base ${
+        !showLink && 'hidden'
+      }`}
+    >
+      {nombreTâches > 0 ? <TasksToDo aria-hidden /> : <TasksDone aria-hidden />}
+      <span className="hidden lg:block mx-1 text-blue-france-sun-base">
+        Tâches ({nombreTâches})
+      </span>
+    </Link>
+  );
+};
 
 export { Header };
