@@ -17,7 +17,6 @@ Fonctionnalité: Transmettre une preuve de recandidature
       | La date de notification du projet | 2024-01-01 |
       Alors le projet "Boulodrome Sainte Livrade" devrait être la preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille"
     
-    @select
     Scénario: Impossible de transmettre si une preuve de recandidature a déjà été saisie
       Etant donné le projet lauréat "Boulodrome Sainte Livrade"
       Et un abandon accordé avec recandidature avec preuve transmise pour le projet lauréat "Du boulodrome de Marseille"
