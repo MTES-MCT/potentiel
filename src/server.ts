@@ -10,15 +10,9 @@ import { isLocalEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import { bootstrap as bootstrapWebApp } from '@potentiel/web';
-import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  DateMiseEnServiceTransmise,
-  DemandeComplèteRaccordementTransmise,
-} from './modules/project';
-import { transformerISOStringEnDate } from './infra/helpers';
-import { publishToEventBus } from './config/eventBus.config';
 import { bootstrap } from '@potentiel-application/bootstrap';
 import next from 'next';
+import { registerSagas } from './sagas/registerSagas';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -28,55 +22,7 @@ const FILE_SIZE_LIMIT_MB = 50;
 export async function makeServer(port: number, sessionSecret: string) {
   try {
     await bootstrapWebApp();
-
-    // TODO : Deux subscribe à supprimer et sagas à reimplémenter côté nouveau socle
-    // lorsque la notion de projet sera dispo en tant qu'aggregate dans le package domain
-    await subscribe({
-      name: 'saga-application-delais-dix-huit-mois',
-      eventType: ['DateMiseEnServiceTransmise-V1'],
-      eventHandler: (event) => {
-        return new Promise<void>((resolve) => {
-          logger.info('Executing saga-application-delais-dix-huit-mois');
-          if (event.type === 'DateMiseEnServiceTransmise-V1') {
-            publishToEventBus(
-              new DateMiseEnServiceTransmise({
-                payload: {
-                  ...transformerISOStringEnDate(event.payload),
-                  streamId: event.stream_id,
-                },
-              }),
-            ).map(() => {
-              resolve();
-            });
-          }
-          resolve();
-        });
-      },
-      streamCategory: 'raccordement',
-    });
-    await subscribe({
-      name: 'saga-annulation-delais-dix-huit-mois',
-      eventType: ['DemandeComplèteDeRaccordementTransmise-V1'],
-      eventHandler: (event) => {
-        return new Promise<void>((resolve) => {
-          logger.info('Executing saga-application-delais-dix-huit-mois');
-          if (event.type === 'DemandeComplèteDeRaccordementTransmise-V1') {
-            publishToEventBus(
-              new DemandeComplèteRaccordementTransmise({
-                payload: {
-                  ...transformerISOStringEnDate(event.payload),
-                  streamId: event.stream_id,
-                },
-              }),
-            ).map(() => {
-              resolve();
-            });
-          }
-          resolve();
-        });
-      },
-      streamCategory: 'raccordement',
-    });
+    await registerSagas();
 
     const app = express();
 
