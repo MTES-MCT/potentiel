@@ -63,6 +63,15 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
+          {project.cahierDesChargesActuel.type === 'initial' &&
+            project.appelOffre.choisirNouveauCahierDesCharges && (
+              <InfoBox>
+                Vous devez changer le cahier des charges applicable au projet afin d'accéder aux
+                fonctionnalités dématérialisées de Potentiel : signaler un changement au Préfet
+                (fournisseur, producteur, actionnaire, puissance installée), déposer une demande
+                auprès de la DGEC ou DREAL/DEAL (recours, abandon, délai).
+              </InfoBox>
+            )}
           {project.alerteAnnulationAbandon && userIs('porteur-projet')(user) && (
             <AlerteAnnulationAbandonPossible
               {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
