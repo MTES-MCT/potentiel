@@ -6,6 +6,7 @@ import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Heading2 } from '@/components/atoms/headings';
+import { encodeParameter } from '@/utils/encodeParameter';
 
 type DetailDemandeAbandonProps = {
   demandéPar: string;
@@ -43,7 +44,7 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
             details=""
             label="Télécharger la pièce justificative"
             linkProps={{
-              href: `/documents/${encodeURIComponent(pièceJustificative)}`,
+              href: `/documents/${encodeParameter(pièceJustificative)}`,
             }}
             className="mb-0 pb-0"
           />
@@ -56,7 +57,7 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
         <p>
           Le porteur a bien transmis un{' '}
           <a
-            href={`/projet/${encodeURIComponent(preuveRecandidature)}/details.html`}
+            href={`/projet/${encodeParameter(preuveRecandidature)}/details.html`}
             aria-label={`voir le projet faisant office de preuve de recandidature`}
           >
             projet comme preuve de recandidature

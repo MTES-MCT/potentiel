@@ -1,5 +1,6 @@
 import { Heading2 } from '@/components/atoms/headings';
 import { displayDate } from '@/utils/displayDate';
+import { encodeParameter } from '@/utils/encodeParameter';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
@@ -33,7 +34,7 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
                 details=""
                 label="Télécharger la demande de confirmation"
                 linkProps={{
-                  href: `/documents/${encodeURIComponent(confirmation.réponseSignée)}`,
+                  href: `/documents/${encodeParameter(confirmation.réponseSignée)}`,
                 }}
                 className="mb-0 pb-0"
               />
@@ -55,7 +56,7 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
                 details=""
                 label="Télécharger le courrier de réponse"
                 linkProps={{
-                  href: `/documents/${encodeURIComponent(accord.réponseSignée)}`,
+                  href: `/documents/${encodeParameter(accord.réponseSignée)}`,
                 }}
                 className="mb-0 pb-0"
               />
@@ -71,7 +72,7 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
                 details=""
                 label="Télécharger le courrier de réponse"
                 linkProps={{
-                  href: `/documents/${encodeURIComponent(rejet.réponseSignée)}`,
+                  href: `/documents/${encodeParameter(rejet.réponseSignée)}`,
                 }}
                 className="mb-0 pb-0"
               />

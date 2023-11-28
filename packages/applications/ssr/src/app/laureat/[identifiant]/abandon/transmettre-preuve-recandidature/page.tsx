@@ -10,9 +10,10 @@ import {
   TransmettrePreuveRecandidaturePage,
   TransmettrePreuveRecandidaturePageProps,
 } from '@/components/pages/abandon/transmettre-preuve-recandidature/TransmettrePreuveRecandidaturePage';
+import { decodeParameter } from '@/utils/decodeParameter';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  const identifiantProjet = decodeURIComponent(identifiant);
+  const identifiantProjet = decodeParameter(identifiant);
 
   const utilisateur = await getUser();
   if (!utilisateur) {
