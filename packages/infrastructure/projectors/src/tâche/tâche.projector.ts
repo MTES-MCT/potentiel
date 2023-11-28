@@ -1,10 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import {
-  NombreTâchesProjection,
-  TâcheEvent,
-  TâcheProjection,
-} from '@potentiel-domain/tache';
+import { NombreTâchesProjection, TâcheEvent, TâcheProjection } from '@potentiel-domain/tache';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { removeProjection } from '../utils/removeProjection';
@@ -64,6 +60,10 @@ export const register = () => {
 
       switch (type) {
         case 'TâcheAchevée-V1':
+          await upsertProjection<NombreTâchesProjection>(`nombre-de-tâches|${identifiantProjet}`, {
+            identifiantProjet,
+            nombreTâches: nombreTâchesToUpsert - 1,
+          });
           await removeProjection<TâcheProjection>(
             `tâche|${identifiantProjet}#${payload.typeTâche}`,
           );
@@ -85,7 +85,7 @@ export const register = () => {
               famille: isSome(projet) ? projet.famille : undefined,
               numéroCRE: isSome(projet) ? projet.numéroCRE : `N/A`,
               typeTâche: payload.typeTâche,
-              misÀJourLe: DateTime.now().formatter(),
+              misÀJourLe: payload.ajoutéeLe,
             },
           );
           break;
@@ -95,7 +95,7 @@ export const register = () => {
             {
               ...tâcheToUpsert,
               typeTâche: payload.typeTâche,
-              misÀJourLe: DateTime.now().formatter(),
+              misÀJourLe: event.payload.relancéeLe,
             },
           );
       }
