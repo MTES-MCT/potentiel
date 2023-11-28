@@ -4,6 +4,9 @@ import * as AbandonSaga from './abandon.saga';
 import { mediator } from 'mediateur';
 
 export const registerSagas = async () => {
+  RaccordementSaga.register();
+  AbandonSaga.register();
+
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
     eventType: ['DateMiseEnServiceTransmise-V1', 'DemandeComplèteDeRaccordementTransmise-V1'],
