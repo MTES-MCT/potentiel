@@ -15,7 +15,7 @@ export const bootstrap = async (): Promise<() => Promise<void>> => {
   setupAppelOffre();
   setupCandidature();
   setupDocumentProjet();
-  setupTâche();
+  const unsetupTâche = await setupTâche();
 
   const unsetupLauréat = await setupLauréat();
 
@@ -23,5 +23,6 @@ export const bootstrap = async (): Promise<() => Promise<void>> => {
 
   return async () => {
     await unsetupLauréat();
+    await unsetupTâche();
   };
 };
