@@ -54,13 +54,14 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
       <>
         <Heading2 className="mb-2">Preuve de recandidature</Heading2>
         <p>
-          Le porteur a bien transmis un projet comme preuve de recandidature.{' '}
+          Le porteur a bien transmis un{' '}
           <a
             href={`/projet/${encodeURIComponent(preuveRecandidature)}/details.html`}
             aria-label={`voir le projet faisant office de preuve de recandidature`}
           >
-            voir la preuve de recandidature
+            projet comme preuve de recandidature
           </a>
+          .
         </p>
       </>
     ) : (
