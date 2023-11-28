@@ -12,6 +12,7 @@ export type Utilisateur = {
     | 'caisse-des-dépôts'
     | 'cre';
   email: string;
+  nom: string;
 };
 
 export const getUser = async (): Promise<Utilisateur | undefined> => {
@@ -20,5 +21,5 @@ export const getUser = async (): Promise<Utilisateur | undefined> => {
     return;
   }
   const rawUser = Utilisateur.convertirEnValueType(accessToken);
-  return { rôle: rawUser.role.nom, email: rawUser.identifiantUtilisateur.email };
+  return { rôle: rawUser.role.nom, email: rawUser.identifiantUtilisateur.email, nom: rawUser.nom };
 };
