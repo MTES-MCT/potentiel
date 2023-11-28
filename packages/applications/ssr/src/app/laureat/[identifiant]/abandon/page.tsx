@@ -11,8 +11,8 @@ import { redirect } from 'next/navigation';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   const identifiantProjet = decodeURIComponent(identifiant);
-
   const utilisateur = await getUser();
+
   if (!utilisateur) {
     redirect('/login.html');
   }
@@ -44,6 +44,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       raison: demande.raison,
       ...(demande.piéceJustificative && {
         pièceJustificative: demande.piéceJustificative.formatter(),
+      }),
+      ...(demande.preuveRecandidature && {
+        preuveRecandidature: demande.preuveRecandidature.formatter(),
       }),
     },
     instruction: {
