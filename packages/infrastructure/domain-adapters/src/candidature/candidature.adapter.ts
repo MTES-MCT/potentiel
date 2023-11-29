@@ -90,6 +90,10 @@ const selectCandidaturesEligiblesPreuveRecanditureQuery = `
   order by "nomProjet"
 `;
 
+const selectPreuveRecandidature = `
+  select value->>'preuveRecandidature'::text as "identifiantProjet" 
+  from domain_views.projection where value->>'preuveRecandidature' = any ($1) group by value->>'preuveRecandidature'`;
+
 export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: RécupérerCandidaturesEligiblesPreuveRecanditurePort =
   async (identifiantUtilisateur) => {
     const results = await executeSelect<{ value: CandidatureProjection }>(
@@ -97,5 +101,21 @@ export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: Récupér
       identifiantUtilisateur,
     );
 
-    return results.map((result) => result.value);
+    const identifiantProjets = results.map(
+      ({ value: { appelOffre, période, famille, numéroCRE } }) =>
+        `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+    );
+    const preuves = await executeSelect<{ identifiantProjet: string }>(
+      selectPreuveRecandidature,
+      identifiantProjets,
+    );
+
+    return results
+      .map((result) => result.value)
+      .filter(
+        ({ appelOffre, période, famille, numéroCRE }) =>
+          !preuves
+            .map((preuve) => preuve.identifiantProjet)
+            .includes(`${appelOffre}#${période}#${famille}#${numéroCRE}`),
+      );
   };
