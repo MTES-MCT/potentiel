@@ -140,9 +140,19 @@ const getAbandonEnInstruction = async (
   identifiantProjet: IdentifiantProjet,
 ): Promise<AbandonEnInstructionProps> => {
   try {
+    const identifiantProjetValue = convertirEnIdentifiantProjet(identifiantProjet).formatter();
+    const abandonDétecté = await mediator.send<Abandon.DétecterAbandonQuery>({
+      type: 'DÉTECTER_ABANDON_QUERY',
+      data: { identifiantProjetValue },
+    });
+
+    if (!abandonDétecté) {
+      return;
+    }
+
     const { statut } = await mediator.send<Abandon.ConsulterAbandonQuery>({
       type: 'CONSULTER_ABANDON_QUERY',
-      data: { identifiantProjetValue: convertirEnIdentifiantProjet(identifiantProjet).formatter() },
+      data: { identifiantProjetValue },
     });
     return statut.estDemandé()
       ? { statut: 'demandé' }
