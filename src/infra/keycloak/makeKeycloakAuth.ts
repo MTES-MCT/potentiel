@@ -149,7 +149,9 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
       const queryString = QueryString.stringify(req.query);
 
       /**
-       * @todo supprimer cette ligne une fois la migration complète
+       * @todo
+       * supprimer cette redirection une fois la migration complète, on redirige vers la route d'auth next (le cookie de session est ajouté)
+       * puis on redirige vers le listing des projets (comportement initial)
        */
       res.redirect(`auth/signIn?callbackUrl=${routes.LISTE_PROJETS + '?' + queryString}`);
     });
