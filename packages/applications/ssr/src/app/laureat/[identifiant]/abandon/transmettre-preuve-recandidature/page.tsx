@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import {
   ConsulterCandidatureQuery,
-  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+  ListerCandidaturesEligiblesPreuveRecanditureQuery,
 } from '@potentiel-domain/candidature';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getUser } from '@/utils/getUtilisateur';
@@ -28,8 +28,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   });
 
   const projetsÀSélectionner =
-    await mediator.send<ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery>({
-      type: 'LISTER_CANDIDATURES_NOTIFIÉES_ET_NON_ABANDONNÉES_PAR_PORTEUR_QUERY',
+    await mediator.send<ListerCandidaturesEligiblesPreuveRecanditureQuery>({
+      type: 'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
       data: {
         identifiantUtilisateur: utilisateur.email,
       },

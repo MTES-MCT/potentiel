@@ -8,7 +8,7 @@ import {
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
   RécupérerCandidaturesEligiblesPreuveRecanditurePort,
   ListerCandidaturesEligiblesPreuveRecanditureReadModel,
-} from './lister/listerCandidaturesNotifiéesEtNonAbandonnéesParPorteur.query';
+} from './lister/listerCandidaturesEligiblesPreuveRecanditure.query';
 
 // Query
 export type CandidatureQuery =
@@ -17,19 +17,16 @@ export type CandidatureQuery =
 
 export {
   ConsulterCandidatureQuery,
-  ListerCandidaturesEligiblesPreuveRecanditureQuery as ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+  ListerCandidaturesEligiblesPreuveRecanditureQuery,
   ConsulterCandidatureReadModel,
-  ListerCandidaturesEligiblesPreuveRecanditureReadModel as ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel,
+  ListerCandidaturesEligiblesPreuveRecanditureReadModel,
 };
 
 // Register
 export * from './register';
 
 // Port
-export {
-  RécupérerCandidaturePort,
-  RécupérerCandidaturesEligiblesPreuveRecanditurePort as RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort,
-};
+export { RécupérerCandidaturePort, RécupérerCandidaturesEligiblesPreuveRecanditurePort };
 
 // Projection
 export * from './candidature.projection';

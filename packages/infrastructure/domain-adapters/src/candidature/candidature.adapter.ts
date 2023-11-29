@@ -1,7 +1,7 @@
 import {
   CandidatureProjection,
   RécupérerCandidaturePort,
-  RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort,
+  RécupérerCandidaturesEligiblesPreuveRecanditurePort,
 } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { none } from '@potentiel/monads';
@@ -90,7 +90,7 @@ const selectCandidaturesEligiblesPreuveRecanditureQuery = `
   order by "nomProjet"
 `;
 
-export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort =
+export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: RécupérerCandidaturesEligiblesPreuveRecanditurePort =
   async (identifiantUtilisateur) => {
     const results = await executeSelect<{ value: CandidatureProjection }>(
       selectCandidaturesEligiblesPreuveRecanditureQuery,

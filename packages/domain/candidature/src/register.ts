@@ -5,7 +5,7 @@ import {
 import {
   ListerCandidaturesEligiblesPreuveRecanditureDependencies,
   registerCandidaturesEligiblesPreuveRecanditureQuery,
-} from './lister/listerCandidaturesNotifiéesEtNonAbandonnéesParPorteur.query';
+} from './lister/listerCandidaturesEligiblesPreuveRecanditure.query';
 
 type CandidatureQueryDependencies = ConsulterCandidatureDependencies &
   ListerCandidaturesEligiblesPreuveRecanditureDependencies;
