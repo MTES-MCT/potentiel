@@ -5,6 +5,7 @@ import express, { Request } from 'express';
 import helmet from 'helmet';
 import path, { join } from 'path';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/node';
 import { isLocalEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
@@ -80,6 +81,8 @@ export async function makeServer(port: number, sessionSecret: string) {
           req.path === '/',
       }),
     );
+
+    app.use(cookieParser());
 
     app.use((req, res, next) => {
       // Cas permettant d'avoir l'authentification keycloak fonctionnelle
