@@ -51,6 +51,10 @@ export const ProjectDetails = ({
   const { user } = request;
   const { error, success } = (request.query as any) || {};
 
+  const identifiantProjet = convertirEnIdentifiantProjet(
+    `${project.appelOffreId}#${project.periodeId}#${project.familleId || ''}#${project.numeroCRE}`,
+  ).formatter();
+
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <p className="hidden print:block m-0 mb-2 font-semibold">
@@ -66,8 +70,8 @@ export const ProjectDetails = ({
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
           {abandonEnInstruction && (
-            <AlertBox title="Abandon en instruction">
-              <a href={`/demande/${encodeURIComponent(project.id)}/details.html`}>
+            <AlertBox title="Abandon en cours">
+              <a href={`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`}>
                 Voir l'abandon {abandonEnInstruction.statut}
               </a>
             </AlertBox>
