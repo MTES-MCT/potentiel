@@ -273,7 +273,7 @@ const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
 
 const CentreDesTâches = () => {
   const [nombreTâches, setNombreDeTâches] = useState(0);
-  const [showLink, setShowLink] = useState(false);
+  const [showNombreDeTâches, setShowNombreDeTâches] = useState(false);
   useEffect(() => {
     const récupérerLeNombreDeTâches = async () => {
       try {
@@ -284,7 +284,7 @@ const CentreDesTâches = () => {
 
         const { nombreTâches } = await response.json();
         setNombreDeTâches(nombreTâches);
-        setShowLink(true);
+        setShowNombreDeTâches(true);
       } catch (error) {
         console.error('Erreur lors de la récupération du nombre de tâches : ', error);
       }
@@ -295,13 +295,11 @@ const CentreDesTâches = () => {
   return (
     <Link
       href="/taches"
-      className={`no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base ${
-        !showLink && 'hidden'
-      }`}
+      className={`no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base`}
     >
       {nombreTâches > 0 ? <TasksToDo aria-hidden /> : <TasksDone aria-hidden />}
       <span className="hidden lg:block mx-1 text-blue-france-sun-base">
-        Tâches ({nombreTâches})
+        Tâches ({!showNombreDeTâches ? 'chargement en cours...' : nombreTâches})
       </span>
     </Link>
   );
