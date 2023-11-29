@@ -6,6 +6,7 @@ import { AbandonProjector } from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
 import {
   CandidatureAdapter,
+  consulterCahierDesChargesAdapter,
   récupérerPorteursProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
@@ -17,6 +18,7 @@ export const setupLauréat = async () => {
   registerLauréatQueries({
     find: findProjection,
     list: listProjection,
+    consulterCahierDesChargesAdapter: consulterCahierDesChargesAdapter,
   });
 
   AbandonNotification.register({

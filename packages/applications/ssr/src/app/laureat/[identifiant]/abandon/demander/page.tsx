@@ -7,6 +7,8 @@ import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
 } from '@/components/pages/abandon/DemanderAbandonPage';
+// import { CahierDesCharges } from '@potentiel-domain/laureat';
+// import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   const identifiantProjet = decodeURIComponent(identifiant);
@@ -15,6 +17,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   if (!utilisateur) {
     redirect('/login.html');
   }
+
+  // const cahierDesCharges = await mediator.send<CahierDesCharges.ConsulterCahierDesChargesQuery>({
+  //   type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+  //   data: {
+  //     identifiantProjetValue: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+  //   },
+  // });
+
+  // if (cahierDesCharges.type === 'initial') {
+  //   redirect(`/projet/${encodeURIComponent(identifiantProjet)}/details.html`);
+  // }
 
   const candidature = await mediator.send<ConsulterCandidatureQuery>({
     type: 'CONSULTER_CANDIDATURE_QUERY',
