@@ -12,6 +12,8 @@ import {
   transmettrePreuveRecandidatureAction,
 } from '@/app/laureat/[identifiant]/abandon/transmettre-preuve-recandidature/transmettrePreuveRecandidature.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
+import { useRouter } from 'next/navigation';
+import { encodeParameter } from '@/utils/encodeParameter';
 
 type ProjetÀSélectionner = {
   identifiantProjet: string;
@@ -35,8 +37,13 @@ export const TransmettrePreuveRecandidatureForm = ({
   projetsÀSélectionner,
   utilisateur,
 }: TransmettrePreuveRecandidatureFormProps) => {
+  const router = useRouter();
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(transmettrePreuveRecandidatureAction, initialState);
+
+  if (state.success) {
+    router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
+  }
 
   const [projetSélectionné, setProjetSélectionné] = useState<{
     identifiantProjet: ProjetÀSélectionner['identifiantProjet'];
@@ -45,15 +52,7 @@ export const TransmettrePreuveRecandidatureForm = ({
 
   return (
     <>
-      {state.success ? (
-        <Alert
-          severity="success"
-          title={'La preuve de recandidature a bien été ajoutée'}
-          className="mb-4"
-        />
-      ) : (
-        state.error && <Alert severity="error" title={state.error} className="mb-4" />
-      )}
+      {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <SelectNext
         label="Choisir un projet comme preuve de recandidature"
         placeholder={`Sélectionner un projet`}
