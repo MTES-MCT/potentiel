@@ -7,8 +7,9 @@ import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
 } from '@/components/pages/abandon/DemanderAbandonPage';
-// import { CahierDesCharges } from '@potentiel-domain/laureat';
-// import { IdentifiantProjet } from '@potentiel-domain/common';
+import { CahierDesCharges } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   const identifiantProjet = decodeURIComponent(identifiant);
@@ -18,23 +19,28 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     redirect('/login.html');
   }
 
-  // const cahierDesCharges = await mediator.send<CahierDesCharges.ConsulterCahierDesChargesQuery>({
-  //   type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
-  //   data: {
-  //     identifiantProjetValue: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-  //   },
-  // });
-
-  // if (cahierDesCharges.type === 'initial') {
-  //   redirect(`/projet/${encodeURIComponent(identifiantProjet)}/details.html`);
-  // }
-
   const candidature = await mediator.send<ConsulterCandidatureQuery>({
     type: 'CONSULTER_CANDIDATURE_QUERY',
     data: {
       identifiantProjet,
     },
   });
+
+  const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+    type: 'CONSULTER_APPEL_OFFRE_QUERY',
+    data: { identifiantAppelOffre: candidature.appelOffre },
+  });
+
+  const cahierDesCharges = await mediator.send<CahierDesCharges.ConsulterCahierDesChargesQuery>({
+    type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+    data: {
+      identifiantProjetValue: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+    },
+  });
+
+  if (appelOffres.choisirNouveauCahierDesCharges && cahierDesCharges.type === 'initial') {
+    redirect(`/projet/${encodeURIComponent(identifiantProjet)}/details.html`);
+  }
 
   // TODO: extract the logic in a dedicated function mapToProps
   // identifiantProjet must come from the readmodel as a value type
