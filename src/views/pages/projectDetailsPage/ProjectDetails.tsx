@@ -63,7 +63,8 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
-          {project.cahierDesChargesActuel.type === 'initial' &&
+          {userIs('porteur-projet')(user) &&
+            project.cahierDesChargesActuel.type === 'initial' &&
             project.appelOffre.choisirNouveauCahierDesCharges && (
               <InfoBox>
                 Vous devez changer le cahier des charges applicable au projet afin d'accéder aux
