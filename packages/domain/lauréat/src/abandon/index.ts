@@ -17,14 +17,17 @@ import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
+import { DétecterAbandonQuery } from './détecter/détecterAbandon.query';
 
 // Query
 export type AbandonQuery =
+  | DétecterAbandonQuery
   | ConsulterAbandonQuery
   | ListerAbandonsQuery
   | ListerAbandonsAvecRecandidatureÀRelancerQuery;
 
 export {
+  DétecterAbandonQuery,
   ConsulterAbandonQuery,
   ListerAbandonsQuery,
   ListerAbandonsAvecRecandidatureÀRelancerQuery,
