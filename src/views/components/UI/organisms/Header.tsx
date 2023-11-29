@@ -131,21 +131,22 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
                 {user.fullName ? user.fullName : user.email}
               </span>
             </Link>
-          ) : user.role === 'porteur-projet' ? (
-            <CentreDesTâches />
           ) : (
-            <span
-              className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
-              style={{ color: 'var(--text-default-grey)' }}
-            >
-              <UserIcon aria-hidden />
+            <>
+              {user.role === 'porteur-projet' && <CentreDesTâches />}
               <span
-                className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
-                title={user.fullName ? user.fullName : user.email}
+                className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+                style={{ color: 'var(--text-default-grey)' }}
               >
-                {user.fullName ? user.fullName : user.email}
+                <UserIcon aria-hidden />
+                <span
+                  className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
+                  title={user.fullName ? user.fullName : user.email}
+                >
+                  {user.fullName ? user.fullName : user.email}
+                </span>
               </span>
-            </span>
+            </>
           )}
         </li>
         <li className="flex items-center">
