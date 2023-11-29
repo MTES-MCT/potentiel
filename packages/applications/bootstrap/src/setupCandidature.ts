@@ -5,6 +5,6 @@ export const setupCandidature = () => {
   registerCandidatureQueries({
     récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
     récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteur:
-      CandidatureAdapter.récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurAdapter,
+      CandidatureAdapter.récupérerCandidaturesEligiblesPreuveRecanditureAdapter,
   });
 };

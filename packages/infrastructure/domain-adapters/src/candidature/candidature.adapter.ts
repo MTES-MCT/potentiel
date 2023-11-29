@@ -57,7 +57,7 @@ export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (
 };
 
 // MERCI DE NE PAS TOUCHER CETTE QUERY
-const selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery = `
+const selectCandidaturesEligiblesPreuveRecanditureQuery = `
    select json_build_object(
     'nom', p."nomProjet",
     'appelOffre', p."appelOffreId",
@@ -86,14 +86,14 @@ const selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery = `
   from "projects" p
   inner join "UserProjects" up on p.id = up."projectId"
   inner join "users" u on up."userId" = u.id
-  where p."notifiedOn" > 0 and u."email" = $1
+  where p."notifiedOn" > 1702598400000 and p."abandonedOn" = 0 and u."email" = $1
   order by "nomProjet"
 `;
 
-export const récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurAdapter: RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort =
+export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort =
   async (identifiantUtilisateur) => {
     const results = await executeSelect<{ value: CandidatureProjection }>(
-      selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+      selectCandidaturesEligiblesPreuveRecanditureQuery,
       identifiantUtilisateur,
     );
 
