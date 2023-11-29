@@ -70,7 +70,7 @@ async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur) {
     return (
       <HeaderQuickAccessItem
         quickAccessItem={{
-          iconId: nombreTâches > 0 ? 'ri-mail-unread-line' : 'ri-mail-line',
+          iconId: nombreTâches > 0 ? 'ri-mail-unread-line' : 'ri-mail-check-line',
           linkProps: {
             href: '/taches',
           },

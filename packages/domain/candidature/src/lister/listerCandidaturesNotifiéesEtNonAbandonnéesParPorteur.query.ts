@@ -3,43 +3,41 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { CandidatureProjection } from '../candidature.projection';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
-export type ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel = Array<{
+export type ListerCandidaturesEligiblesPreuveRecanditureReadModel = Array<{
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutProjet.ValueType;
   nom: string;
   dateDésignation: DateTime.RawType;
 }>;
 
-export type RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort = (
+export type RécupérerCandidaturesEligiblesPreuveRecanditurePort = (
   identifiantUtilisateur: string,
 ) => Promise<ReadonlyArray<CandidatureProjection>>;
 
-export type ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurDependencies = {
-  récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteur: RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort;
+export type ListerCandidaturesEligiblesPreuveRecanditureDependencies = {
+  récupérerCandidaturesEligiblesPreuveRecanditure: RécupérerCandidaturesEligiblesPreuveRecanditurePort;
 };
 
-export type ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery = Message<
-  'LISTER_CANDIDATURES_NOTIFIÉES_ET_NON_ABANDONNÉES_PAR_PORTEUR_QUERY',
+export type ListerCandidaturesEligiblesPreuveRecanditureQuery = Message<
+  'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
   {
     identifiantUtilisateur: string;
   },
-  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel
+  ListerCandidaturesEligiblesPreuveRecanditureReadModel
 >;
 
-export const registerListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery = ({
-  récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteur,
-}: ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurDependencies) => {
-  const handler: MessageHandler<
-    ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery
-  > = async ({ identifiantUtilisateur }) => {
-    const result = await récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteur(
-      identifiantUtilisateur,
-    );
+export const registerCandidaturesEligiblesPreuveRecanditureQuery = ({
+  récupérerCandidaturesEligiblesPreuveRecanditure,
+}: ListerCandidaturesEligiblesPreuveRecanditureDependencies) => {
+  const handler: MessageHandler<ListerCandidaturesEligiblesPreuveRecanditureQuery> = async ({
+    identifiantUtilisateur,
+  }) => {
+    const result = await récupérerCandidaturesEligiblesPreuveRecanditure(identifiantUtilisateur);
 
     return result.map(mapToReadModel);
   };
 
-  mediator.register('LISTER_CANDIDATURES_NOTIFIÉES_ET_NON_ABANDONNÉES_PAR_PORTEUR_QUERY', handler);
+  mediator.register('LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY', handler);
 };
 
 const mapToReadModel = ({
@@ -50,7 +48,7 @@ const mapToReadModel = ({
   période,
   statut,
   dateDésignation,
-}: CandidatureProjection): ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel[number] => {
+}: CandidatureProjection): ListerCandidaturesEligiblesPreuveRecanditureReadModel[number] => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(
       `${appelOffre}#${période}#${famille}#${numéroCRE}`,

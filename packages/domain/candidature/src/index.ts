@@ -5,28 +5,31 @@ import {
 } from './consulter/consulterCandidature.query';
 
 import {
-  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
-  RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort,
-  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel,
+  ListerCandidaturesEligiblesPreuveRecanditureQuery,
+  RécupérerCandidaturesEligiblesPreuveRecanditurePort,
+  ListerCandidaturesEligiblesPreuveRecanditureReadModel,
 } from './lister/listerCandidaturesNotifiéesEtNonAbandonnéesParPorteur.query';
 
 // Query
 export type CandidatureQuery =
   | ConsulterCandidatureQuery
-  | ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery;
+  | ListerCandidaturesEligiblesPreuveRecanditureQuery;
 
 export {
   ConsulterCandidatureQuery,
-  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+  ListerCandidaturesEligiblesPreuveRecanditureQuery as ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
   ConsulterCandidatureReadModel,
-  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel,
+  ListerCandidaturesEligiblesPreuveRecanditureReadModel as ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurReadModel,
 };
 
 // Register
 export * from './register';
 
 // Port
-export { RécupérerCandidaturePort, RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort };
+export {
+  RécupérerCandidaturePort,
+  RécupérerCandidaturesEligiblesPreuveRecanditurePort as RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort,
+};
 
 // Projection
 export * from './candidature.projection';

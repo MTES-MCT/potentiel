@@ -3,14 +3,14 @@ import {
   registerConsulterCandidatureQuery,
 } from './consulter/consulterCandidature.query';
 import {
-  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurDependencies,
-  registerListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+  ListerCandidaturesEligiblesPreuveRecanditureDependencies,
+  registerCandidaturesEligiblesPreuveRecanditureQuery,
 } from './lister/listerCandidaturesNotifiéesEtNonAbandonnéesParPorteur.query';
 
 type CandidatureQueryDependencies = ConsulterCandidatureDependencies &
-  ListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurDependencies;
+  ListerCandidaturesEligiblesPreuveRecanditureDependencies;
 
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
   registerConsulterCandidatureQuery(dependencies);
-  registerListerCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery(dependencies);
+  registerCandidaturesEligiblesPreuveRecanditureQuery(dependencies);
 };
