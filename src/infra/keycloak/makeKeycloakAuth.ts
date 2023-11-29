@@ -148,7 +148,10 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
       // @ts-ignore
       const queryString = QueryString.stringify(req.query);
 
-      res.redirect(routes.LISTE_PROJETS + '?' + queryString);
+      /**
+       * @todo supprimer cette ligne une fois la migration complète
+       */
+      res.redirect(`auth/signIn?callbackUrl=${routes.LISTE_PROJETS + '?' + queryString}`);
     });
   };
 
