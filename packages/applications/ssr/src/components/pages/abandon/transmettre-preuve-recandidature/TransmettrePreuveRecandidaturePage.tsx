@@ -33,7 +33,7 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
           utilisateur={utilisateur}
         />
       ) : (
-        <p>Vous ne disposez d'aucun autre projet</p>
+        <p>Vous ne disposez d'aucun projet éligible avec une preuve de recandidature</p>
       )}
     </ProjetPageTemplate>
   );
