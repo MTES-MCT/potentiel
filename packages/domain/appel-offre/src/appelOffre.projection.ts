@@ -1,4 +1,5 @@
 import { Projection } from '@potentiel-libraries/projection';
+import { ConsulterAppelOffreReadModel } from './consulter/ConsulterAppelOffre.query';
 
 type AppelOffreTypes =
   | 'autoconso'

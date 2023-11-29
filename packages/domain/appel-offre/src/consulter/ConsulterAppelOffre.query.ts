@@ -20,7 +20,20 @@ export type ConsulterAppelOffreReadModel = {
     id: string;
     title: string;
   }>;
-};
+} & DelaiRealisation;
+
+const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
+export type Technologie = (typeof technologies)[number];
+
+type DelaiRealisation =
+  | {
+      delaiRealisationEnMois: number;
+      decoupageParTechnologie: false;
+    }
+  | {
+      delaiRealisationEnMoisParTechnologie: { [key in Exclude<Technologie, 'N/A'>]: number };
+      decoupageParTechnologie: true;
+    };
 
 export type ConsulterAppelOffreQuery = Message<
   'CONSULTER_APPEL_OFFRE_QUERY',
