@@ -2,7 +2,7 @@ import React from 'react';
 import { ProjectAppelOffre } from '../../../../entities';
 import { getRatiosChangementPuissance } from '../../../../modules/demandeModification';
 import { AlertBox } from '../../../components';
-import { Technologie } from '@potentiel/domain-views';
+import { Technologie } from '@potentiel-domain/appel-offre';
 
 type AlertOnPuissanceOutsideRatiosProps = {
   project: {

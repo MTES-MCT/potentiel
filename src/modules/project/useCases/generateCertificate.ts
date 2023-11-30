@@ -14,7 +14,7 @@ import { User } from '../../../entities';
 import { GetUserById } from '../../../infra/sequelize/queries/users';
 import { ProjectDataForCertificate } from '..';
 import { Validateur } from '../../../views/certificates';
-import { CertificateTemplate } from '@potentiel/domain-views';
+import { CertificateTemplate } from '@potentiel-domain/appel-offre';
 
 export type GenerateCertificate = (args: {
   projectId: string;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { ProjectAppelOffre } from '../../../../../entities';
-import { Periode } from '@potentiel/domain-views';
+import { Periode } from '@potentiel-domain/appel-offre';
 import { exceedsPuissanceMaxDuVolumeReserve } from './exceedsPuissanceMaxDuVolumeReserve';
 
 describe('exceedsPuissanceMaxDuVolumeReserve', () => {

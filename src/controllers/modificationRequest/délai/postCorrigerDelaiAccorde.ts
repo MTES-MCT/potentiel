@@ -19,7 +19,8 @@ import { UnauthorizedError } from '../../../modules/shared';
 import { logger } from '../../../core/utils';
 import { DomainError } from '../../../core/domain';
 import { mediator } from 'mediateur';
-import { ConsulterAppelOffreQuery, ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
 import { isNone, isSome } from '@potentiel/monads';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
@@ -101,7 +102,7 @@ v1Router.post(
 
       const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
         type: 'CONSULTER_APPEL_OFFRE_QUERY',
-        data: { identifiantAppelOffre: { appelOffreId: résuméProjet.appelOffre } },
+        data: { identifiantAppelOffre: résuméProjet.appelOffre },
       });
       if (isNone(appelOffre)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });

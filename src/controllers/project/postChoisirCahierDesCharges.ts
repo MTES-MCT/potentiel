@@ -14,7 +14,10 @@ import {
 import { ModificationRequestType } from '../../modules/modificationRequest';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { parseCahierDesChargesRéférence } from '../../entities';
-import { CahierDesChargesRéférence, cahiersDesChargesRéférences } from '@potentiel/domain-views';
+import {
+  CahierDesChargesRéférence,
+  cahiersDesChargesRéférences,
+} from '@potentiel-domain/appel-offre';
 
 export type TypeDeModification = ModificationRequestType | 'delai';
 

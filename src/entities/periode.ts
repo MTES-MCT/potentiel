@@ -1,4 +1,4 @@
-import { Periode, NotifiedPeriode } from '@potentiel/domain-views';
+import { Periode, NotifiedPeriode } from '@potentiel-domain/appel-offre';
 
 export const isNotifiedPeriode = (periode: Periode): periode is Periode & NotifiedPeriode => {
   return (

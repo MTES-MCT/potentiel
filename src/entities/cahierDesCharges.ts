@@ -1,7 +1,7 @@
 import {
   CahierDesChargesRéférence,
   DateParutionCahierDesChargesModifié,
-} from '@potentiel/domain-views';
+} from '@potentiel-domain/appel-offre';
 
 export type CahierDesChargesRéférenceParsed =
   | { type: 'initial' }

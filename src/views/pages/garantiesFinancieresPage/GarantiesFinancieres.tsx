@@ -3,7 +3,7 @@ import querystring from 'querystring';
 import React from 'react';
 import routes from '../../../routes';
 import { PaginatedList } from '../../../modules/pagination';
-import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
+import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
 import {
   ProjectList,
   LegacyPageTemplate,

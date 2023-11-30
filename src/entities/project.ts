@@ -23,7 +23,7 @@ import {
   technologies,
   Territoire,
   territoires,
-} from '@potentiel/domain-views';
+} from '@potentiel-domain/appel-offre';
 import { isNotifiedPeriode } from './periode';
 import { logger } from '../core/utils';
 

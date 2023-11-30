@@ -1,6 +1,6 @@
 import { stableStringify } from '../../../core/utils';
 import { Project } from '../../../entities';
-import { Periode, AppelOffre } from '@potentiel/domain-views';
+import { Periode, AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const makeCandidateNotificationId = (args: {
   appelOffreId: AppelOffre['id'];

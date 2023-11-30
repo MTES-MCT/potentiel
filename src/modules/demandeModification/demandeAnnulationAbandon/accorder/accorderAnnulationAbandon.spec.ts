@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../../../../core/domain';
 import { okAsync } from '../../../../core/utils';
 import { ProjectAppelOffre, User } from '../../../../entities';
 import { InfraNotAvailableError } from '../../../shared';
-import { CahierDesChargesModifié } from '@potentiel/domain-views';
+import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import {
   DemandeAnnulationAbandon,
   statutsDemandeAnnulationAbandon,

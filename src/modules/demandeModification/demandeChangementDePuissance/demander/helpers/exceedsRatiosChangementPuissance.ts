@@ -1,5 +1,5 @@
 import { ProjectAppelOffre } from '../../../../../entities';
-import { Technologie } from '@potentiel/domain-views';
+import { Technologie } from '@potentiel-domain/appel-offre';
 import { getRatiosChangementPuissance } from './getRatiosChangementPuissance';
 
 export type ExceedsRatiosChangementPuissance = (arg: {

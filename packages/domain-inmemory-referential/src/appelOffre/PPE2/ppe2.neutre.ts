@@ -1,4 +1,4 @@
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',

@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { CahierDesChargesModifié, Periode } from '@potentiel/domain-views';
+import { CahierDesChargesModifié, Periode } from '@potentiel-domain/appel-offre';
 import { ProjectAppelOffre } from './appelOffre';
 import { getDonnéesCourriersRéponse } from './donnéesCourriersRéponse';
 

@@ -6,7 +6,7 @@ import {
 } from '../../../__tests__/fixtures/aggregates';
 import { DomainEvent, UniqueEntityID } from '../../../core/domain';
 import { ProjectAppelOffre } from '../../../entities';
-import { CahierDesChargesModifié } from '@potentiel/domain-views';
+import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import { Project } from '../Project';
 import { DemandeComplèteRaccordementTransmise } from '../events';
 import { jest, describe, it, beforeEach, expect } from '@jest/globals';

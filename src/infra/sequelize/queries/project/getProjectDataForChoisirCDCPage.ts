@@ -3,7 +3,7 @@ import { EntityNotFoundError } from '../../../../modules/shared';
 import { GetProjectDataForChoisirCDCPage } from '../../../../modules/project';
 import { Project, ProjectEvent } from '../../projectionsNext';
 import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
-import { CahierDesChargesRéférence } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
 
 export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) =>
   wrapInfra(

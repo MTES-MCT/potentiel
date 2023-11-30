@@ -1,7 +1,7 @@
 import { EventStore, Repository, UniqueEntityID } from '../../../core/domain';
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
 import { User, CahierDesChargesRéférenceParsed } from '../../../entities';
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { CahierDesChargesChoisi } from '../events';
 import { Project } from '../Project';

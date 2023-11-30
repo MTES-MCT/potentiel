@@ -11,7 +11,7 @@ import { ProjectAppelOffre, User, CahierDesChargesRéférenceParsed } from '../.
 import { isNotifiedPeriode } from '../../entities/periode';
 import { ProjetDéjàClasséError } from '../modificationRequest';
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '../projectAppelOffre';
-import { CertificateTemplate, Technologie } from '@potentiel/domain-views';
+import { CertificateTemplate, Technologie } from '@potentiel-domain/appel-offre';
 import { add, isSameDay, sub } from 'date-fns';
 import remove from 'lodash/remove';
 import sanitize from 'sanitize-filename';

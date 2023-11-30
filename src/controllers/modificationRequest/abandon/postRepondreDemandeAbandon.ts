@@ -31,7 +31,6 @@ import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
 import {
   RawIdentifiantProjet,
   convertirEnIdentifiantProjet,
-  convertirEnIdentifiantAppelOffre,
 } from '@potentiel/domain-usecases';
 
 const schema = yup.object({
@@ -112,7 +111,7 @@ v1Router.post(
           const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
             type: 'CONSULTER_APPEL_OFFRE_QUERY',
             data: {
-              identifiantAppelOffre: convertirEnIdentifiantAppelOffre(projet.appelOffre),
+              identifiantAppelOffre: projet.appelOffre,
             },
           });
 

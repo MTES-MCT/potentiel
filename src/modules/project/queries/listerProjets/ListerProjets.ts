@@ -1,7 +1,7 @@
 import { UtilisateurReadModel } from '../../../utilisateur/récupérer/UtilisateurReadModel';
 import { ProjectAppelOffre } from '../../../../entities';
 import { PaginatedList, Pagination } from '../../../pagination';
-import { AppelOffre, Periode, Famille } from '@potentiel/domain-views';
+import { AppelOffre, Periode, Famille } from '@potentiel-domain/appel-offre';
 
 export const PermissionListerProjets = {
   nom: 'lister-projets',

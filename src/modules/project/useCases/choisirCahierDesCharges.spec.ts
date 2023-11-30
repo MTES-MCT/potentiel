@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../../../core/domain';
 import { okAsync } from '../../../core/utils';
 import { UnwrapForTest } from '../../../types';
 import { CahierDesChargesRéférenceParsed, makeUser } from '../../../entities';
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { makeChoisirCahierDesCharges } from './choisirCahierDesCharges';

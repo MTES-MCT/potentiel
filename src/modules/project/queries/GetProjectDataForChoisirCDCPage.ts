@@ -1,7 +1,7 @@
 import { ResultAsync } from '../../../core/utils';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 import { ProjectAppelOffre } from '../../../entities';
-import { CahierDesChargesRéférence } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
 
 export type ProjectDataForChoisirCDCPage = {
   id: string;

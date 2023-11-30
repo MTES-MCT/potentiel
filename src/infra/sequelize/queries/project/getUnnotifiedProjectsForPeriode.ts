@@ -1,7 +1,7 @@
 import { wrapInfra } from '../../../../core/utils';
 import { GetUnnotifiedProjectsForPeriode } from '../../../../modules/project';
 import { Project } from '../../projectionsNext';
-import { AppelOffre, Periode } from '@potentiel/domain-views';
+import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
 
 export const getUnnotifiedProjectsForPeriode: GetUnnotifiedProjectsForPeriode = (
   appelOffreId: AppelOffre['id'],

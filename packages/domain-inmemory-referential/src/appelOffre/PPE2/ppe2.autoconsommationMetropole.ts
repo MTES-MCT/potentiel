@@ -1,4 +1,4 @@
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel/domain-views';
+import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',

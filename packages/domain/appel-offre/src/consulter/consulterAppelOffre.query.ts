@@ -1,25 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '@potentiel-libraries/projection';
-import { AppelOffreProjection } from '../appelOffre.projection';
+import { AppelOffre, AppelOffreProjection } from '../appelOffre.projection';
 import { isNone } from '@potentiel/monads';
 import { AppelOffreInconnuErreur } from '../appelOffreInconnu.error';
 
-export type ConsulterAppelOffreReadModel = {
-  id: string;
-  shortTitle: string;
-  title: string;
-  unitePuissance: string;
-  donnéesCourriersRéponse: {
-    texteEngagementRéalisationEtModalitésAbandon?: {
-      référenceParagraphe: string;
-      dispositions: string;
-    };
-  };
-  periodes: Array<{
-    id: string;
-    title: string;
-  }>;
-};
+export type ConsulterAppelOffreReadModel = AppelOffre;
 
 export type ConsulterAppelOffreQuery = Message<
   'CONSULTER_APPEL_OFFRE_QUERY',

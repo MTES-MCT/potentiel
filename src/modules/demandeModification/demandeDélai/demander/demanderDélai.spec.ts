@@ -15,7 +15,7 @@ import {
   DemanderDateAchèvementAntérieureDateThéoriqueError,
   NouveauCahierDesChargesNonChoisiError,
 } from '.';
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' });

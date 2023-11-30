@@ -16,7 +16,7 @@ import {
 } from '../components';
 import { ProjectListItem } from '../../modules/project/queries';
 import ROUTES from '../../routes';
-import { AppelOffre, Periode } from '@potentiel/domain-views';
+import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
