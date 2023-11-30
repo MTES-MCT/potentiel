@@ -101,7 +101,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2021 S 176-457518',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-bat-cahier-des-charges-applicable-pour-la-1ere-periode-publie-le-05-10-2021',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
