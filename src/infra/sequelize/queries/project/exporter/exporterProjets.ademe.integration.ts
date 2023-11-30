@@ -6,17 +6,26 @@ import { resetDatabase } from '../../../../../dataAccess';
 
 import {
   contenuLocal,
+  coordonnéesCandidat,
+  coordonnéesGéodésiques,
   coûtInvestissement,
   donnéesAutoconsommation,
+  donnéesDeRaccordement,
   donnéesFournisseurs,
   financementCitoyen,
+  garantiesFinancières,
   identificationProjet,
   implantation,
+  instruction,
   localisationProjet,
   modificationsAvantImport,
   noteInnovation,
   noteInnovationSensible,
+  notes,
   potentielSolaire,
+  prix,
+  référencesCandidature,
+  résultatInstructionSensible,
   évaluationCarbone,
 } from './colonnesParCatégorie';
 import { User } from '../../../../../entities';
@@ -26,18 +35,27 @@ describe(`Export des projets en tant qu'utilisateur "ademe"`, () => {
 
   const colonnesÀExporter = [
     ...identificationProjet,
+    ...coordonnéesCandidat,
     ...financementCitoyen,
     ...contenuLocal,
     ...localisationProjet,
+    ...coordonnéesGéodésiques,
     ...coûtInvestissement,
     ...donnéesAutoconsommation,
+    ...donnéesDeRaccordement,
     ...donnéesFournisseurs,
     ...évaluationCarbone,
     ...potentielSolaire,
     ...implantation,
+    ...prix,
+    ...référencesCandidature,
+    ...instruction,
+    ...résultatInstructionSensible,
     ...noteInnovation,
     ...noteInnovationSensible,
+    ...notes,
     ...modificationsAvantImport,
+    ...garantiesFinancières,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
   it(`
