@@ -1,6 +1,7 @@
-import { OperationRejectedError, ReadonlyValueType } from '@potentiel-domain/core';
+import { ReadonlyValueType } from '@potentiel-domain/core';
 import * as Role from './role.valueType';
 import { IdentifiantUtilisateur } from '.';
+import { EmptyTokenError, TokenInvalideError } from './token.error';
 
 export type ValueType = ReadonlyValueType<{
   nom: string;
@@ -62,16 +63,3 @@ const parseToken = (token: string) => {
     throw new TokenInvalideError(e as Error);
   }
 };
-
-class TokenInvalideError extends OperationRejectedError {
-  constructor(cause: Error) {
-    super(`Le format du token utilisateur n'est pas valide.`);
-    this.cause = cause;
-  }
-}
-
-class EmptyTokenError extends Error {
-  constructor() {
-    super(`Token vide`);
-  }
-}

@@ -89,7 +89,11 @@ const permissions: Record<RawType, string[]> = {
   ademe: [],
   'caisse-des-dépôts': [],
   cre: [],
-  dreal: [],
+  dreal: [
+    //QUERY
+    'CONSULTER_ABANDON_QUERY',
+    'LISTER_ABANDONS_QUERY',
+  ],
   'dgec-validateur': [
     //QUERY
     'CONSULTER_ABANDON_QUERY',

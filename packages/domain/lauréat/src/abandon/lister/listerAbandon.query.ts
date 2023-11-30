@@ -51,6 +51,7 @@ export type ListerAbandonsQuery = Message<
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
     pagination: { page: number; itemsPerPage: number };
+    utilisateurValue: string;
   },
   ListerAbandonReadModel
 >;

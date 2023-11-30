@@ -20,3 +20,4 @@ export { RécupérerUtilisateurPort };
 
 // Projection
 export * from './utilisateur.projection';
+export { permissionMiddleware } from './middleware/permission.middleware';
