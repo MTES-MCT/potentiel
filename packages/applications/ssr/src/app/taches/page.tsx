@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { AppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tache';
 
 import { displayDate } from '@/utils/displayDate';
@@ -20,7 +20,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
   const utilisateur = await getUser();
 
   if (utilisateur) {
-    const appelOffres = await mediator.send<AppelOffreQuery>({
+    const appelOffres = await mediator.send<ListerAppelOffreQuery>({
       type: 'LISTER_APPEL_OFFRE_QUERY',
       data: {},
     });
