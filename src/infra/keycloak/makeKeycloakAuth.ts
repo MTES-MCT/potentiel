@@ -17,6 +17,7 @@ export interface KeycloakAuthDeps {
   KEYCLOAK_REALM: string | undefined;
   KEYCLOAK_USER_CLIENT_ID: string | undefined;
   KEYCLOAK_USER_CLIENT_SECRET: string | undefined;
+  NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME: string | undefined;
   getUserByEmail: GetUserByEmail;
   createUser: CreateUser;
 }
@@ -28,6 +29,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     KEYCLOAK_REALM,
     KEYCLOAK_USER_CLIENT_ID,
     KEYCLOAK_USER_CLIENT_SECRET,
+    NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME,
     getUserByEmail,
     createUser,
   } = deps;
@@ -42,6 +44,10 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     process.exit(1);
   }
 
+  if (!NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME) {
+    console.error('Missing NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME env var');
+    process.exit(1);
+  }
   const SequelizeStore = makeSequelizeStore(session.Store);
 
   const store = new SequelizeStore({
@@ -148,7 +154,20 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
       // @ts-ignore
       const queryString = QueryString.stringify(req.query);
 
-      res.redirect(routes.LISTE_PROJETS + '?' + queryString);
+      /**
+       * @todo Code à revoir quand on aura basculé toute l'app sur Next
+       *
+       * Le code ci-dessous fait les actiosn suivantes :
+       * - Si j'ai un cookie qui a le nom de la variable d'env NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME, alors je suis déjà authentifié sur l'app next,
+       * alors je retourne directement la liste des projets
+       * - Sinon je m'authentifie déjà sur next, puis je suis redirigé sur la liste des projets
+       *
+       */
+      if (req.cookies[NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME]) {
+        return res.redirect(`${routes.LISTE_PROJETS}?${queryString}`);
+      }
+
+      return res.redirect(`auth/signIn?callbackUrl=${routes.LISTE_PROJETS}?${queryString}`);
     });
   };
 

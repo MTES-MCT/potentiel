@@ -1,15 +1,17 @@
-import { getAccessToken } from '@/utils/getAccessToken';
+import { Utilisateur, getUser } from '@/utils/getUtilisateur';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
+import { Role } from '@potentiel-domain/utilisateur';
+import { mediator } from 'mediateur';
 
 export async function UserHeaderQuickAccessItem() {
-  const accessToken = await getAccessToken();
+  const utilisateur = await getUser();
   const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 
-  if (accessToken) {
-    const utilisateur = Utilisateur.convertirEnValueType(accessToken);
+  if (utilisateur) {
     return (
       <>
+        {await getTâcheHeaderQuickAccessItem(utilisateur)}
         <HeaderQuickAccessItem
           quickAccessItem={{
             iconId: 'ri-user-line',
@@ -19,6 +21,7 @@ export async function UserHeaderQuickAccessItem() {
             text: utilisateur.nom,
           }}
         />
+
         <HeaderQuickAccessItem
           quickAccessItem={{
             iconId: 'ri-logout-box-line',
@@ -52,6 +55,28 @@ export async function UserHeaderQuickAccessItem() {
           }}
         />
       </>
+    );
+  }
+}
+async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur) {
+  if (Role.convertirEnValueType(utilisateur.rôle).estÉgaleÀ(Role.porteur)) {
+    const { nombreTâches } = await mediator.send<ConsulterNombreTâchesQuery>({
+      type: 'CONSULTER_NOMBRE_TÂCHES_QUERY',
+      data: {
+        email: utilisateur.email,
+      },
+    });
+
+    return (
+      <HeaderQuickAccessItem
+        quickAccessItem={{
+          iconId: nombreTâches > 0 ? 'ri-mail-unread-line' : 'ri-mail-check-line',
+          linkProps: {
+            href: '/taches',
+          },
+          text: `Tâches (${nombreTâches})`,
+        }}
+      />
     );
   }
 }

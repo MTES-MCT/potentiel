@@ -59,6 +59,8 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
+export const porteur = convertirEnValueType('porteur-projet');
+
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
     super(`Le role ne correspond à aucune valeur connue`, {

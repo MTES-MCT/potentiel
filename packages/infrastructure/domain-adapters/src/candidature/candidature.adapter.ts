@@ -1,7 +1,7 @@
 import {
   CandidatureProjection,
   RécupérerCandidaturePort,
-  RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort,
+  RécupérerCandidaturesEligiblesPreuveRecanditurePort,
 } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { none } from '@potentiel/monads';
@@ -57,7 +57,7 @@ export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (
 };
 
 // MERCI DE NE PAS TOUCHER CETTE QUERY
-const selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery = `
+const selectCandidaturesEligiblesPreuveRecanditureQuery = `
    select json_build_object(
     'nom', p."nomProjet",
     'appelOffre', p."appelOffreId",
@@ -86,16 +86,36 @@ const selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery = `
   from "projects" p
   inner join "UserProjects" up on p.id = up."projectId"
   inner join "users" u on up."userId" = u.id
-  where p."notifiedOn" > 0 and u."email" = $1
+  where p."notifiedOn" > 1702598400000 and p."abandonedOn" = 0 and u."email" = $1
   order by "nomProjet"
 `;
 
-export const récupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurAdapter: RécupérerCandidaturesNotifiéesEtNonAbandonnéesParPorteurPort =
+const selectPreuveRecandidature = `
+  select value->>'preuveRecandidature'::text as "identifiantProjet" 
+  from domain_views.projection where value->>'preuveRecandidature' = any ($1) group by value->>'preuveRecandidature'`;
+
+export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: RécupérerCandidaturesEligiblesPreuveRecanditurePort =
   async (identifiantUtilisateur) => {
     const results = await executeSelect<{ value: CandidatureProjection }>(
-      selectCandidaturesNotifiéesEtNonAbandonnéesParPorteurQuery,
+      selectCandidaturesEligiblesPreuveRecanditureQuery,
       identifiantUtilisateur,
     );
 
-    return results.map((result) => result.value);
+    const identifiantProjets = results.map(
+      ({ value: { appelOffre, période, famille, numéroCRE } }) =>
+        `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+    );
+    const preuves = await executeSelect<{ identifiantProjet: string }>(
+      selectPreuveRecandidature,
+      identifiantProjets,
+    );
+
+    return results
+      .map((result) => result.value)
+      .filter(
+        ({ appelOffre, période, famille, numéroCRE }) =>
+          !preuves
+            .map((preuve) => preuve.identifiantProjet)
+            .includes(`${appelOffre}#${période}#${famille}#${numéroCRE}`),
+      );
   };

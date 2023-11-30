@@ -12,6 +12,9 @@
       "path": "../../domain/lauréat"
     },
     {
+      "path": "../../domain/tâche"
+    },
+    {
       "path": "../../domain/candidature"
     },
     {
@@ -31,7 +34,7 @@
     },
     {
       "path": "../../infrastructure/notifications"
-    },    
+    },
     {
       "path": "../../libraries/pg-helpers"
     },

@@ -28,6 +28,12 @@
     },
     {
       "path": "../../domain/candidature"
+    },
+    {
+      "path": "../../domain/lauréat"
+    },
+    {
+      "path": "../../domain/tâche"
     }
   ]
 }

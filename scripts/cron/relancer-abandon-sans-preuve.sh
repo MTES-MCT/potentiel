@@ -14,6 +14,6 @@ fi
 
 echo "Launching job [RELANCER ABANDON SANS PREUVE]"
 
-npm exec ts-node-dev ./scripts/cron/relancer-abandon-sans-preuve.ts"
+npm exec ts-node-dev ./scripts/cron/relancer-abandon-sans-preuve.ts
 
 exit 0
