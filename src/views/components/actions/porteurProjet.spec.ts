@@ -55,7 +55,7 @@ describe('porteurProjetActions', () => {
         appelOffre: { changementProducteurPossibleAvantAchèvement: true },
       });
       const result = porteurProjetActions(fakeProject);
-      expect(result).toHaveLength(5);
+      expect(result).toHaveLength(6);
       expect(result).toEqual([
         {
           title: 'Demander un délai',
@@ -77,6 +77,10 @@ describe('porteurProjetActions', () => {
           title: 'Changer de puissance',
           link: ROUTES.DEMANDER_CHANGEMENT_PUISSANCE(fakeProject.id),
         },
+        {
+          title: 'Demander un abandon',
+          link: ROUTES.GET_DEMANDER_ABANDON(fakeProject.id),
+        },
       ]);
     });
     describe('when project has a certificate file', () => {
@@ -90,7 +94,7 @@ describe('porteurProjetActions', () => {
           },
         });
         const result = porteurProjetActions(fakeProject);
-        expect(result).toHaveLength(6);
+        expect(result).toHaveLength(7);
         expect(result[0]).toMatchObject({
           title: 'Télécharger mon attestation',
           link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
@@ -110,7 +114,7 @@ describe('porteurProjetActions', () => {
           appelOffre: { changementProducteurPossibleAvantAchèvement: false },
         });
         const result = porteurProjetActions(fakeProject);
-        expect(result).toHaveLength(4);
+        expect(result).toHaveLength(5);
         expect(result).toEqual([
           {
             title: 'Demander un délai',
@@ -127,6 +131,10 @@ describe('porteurProjetActions', () => {
           {
             title: 'Changer de puissance',
             link: ROUTES.DEMANDER_CHANGEMENT_PUISSANCE(fakeProject.id),
+          },
+          {
+            title: 'Demander un abandon',
+            link: ROUTES.GET_DEMANDER_ABANDON(fakeProject.id),
           },
         ]);
       });

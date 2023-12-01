@@ -81,11 +81,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
       >
         <LinkButton
           className="bg-red-marianne-425-base hover:bg-red-marianne-425-hover focus:bg-red-marianne-425-active block mt-4"
-          href={`/laureat/${encodeURIComponent(
-            `${project.appelOffreId}#${project.periodeId}#${project.familleId || ''}#${
-              project.numeroCRE
-            }`,
-          )}/abandon/demander`}
+          href={routes.GET_DEMANDER_ABANDON(project.id)}
           {...(project.cahierDesChargesActuel.type === 'initial' &&
             project.appelOffre.choisirNouveauCahierDesCharges && {
               style: { pointerEvents: 'none', backgroundColor: '#a8a8a8' },
