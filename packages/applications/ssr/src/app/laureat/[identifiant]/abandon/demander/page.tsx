@@ -31,14 +31,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     data: { identifiantAppelOffre: candidature.appelOffre },
   });
 
-  const cahierDesCharges = await mediator.send<CahierDesCharges.ConsulterCahierDesChargesQuery>({
-    type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
-    data: {
-      identifiantProjetValue: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-    },
-  });
+  const { cahierDesChargesChoisi } =
+    await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+      type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+      data: {
+        identifiantProjetValue:
+          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      },
+    });
 
-  if (appelOffres.choisirNouveauCahierDesCharges && cahierDesCharges.type === 'initial') {
+  if (appelOffres.choisirNouveauCahierDesCharges && cahierDesChargesChoisi === 'initial') {
     redirect(`/projet/${encodeURIComponent(identifiantProjet)}/details.html`);
   }
 

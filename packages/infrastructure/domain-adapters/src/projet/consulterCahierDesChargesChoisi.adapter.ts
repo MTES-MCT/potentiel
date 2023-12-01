@@ -11,7 +11,7 @@ const selectProjectQuery = `
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4
 `;
 
-export const consulterCahierDesChargesAdapter: CahierDesCharges.ConsulterCahierDesChargesPort =
+export const consulterCahierDesChargesChoisiAdapter: CahierDesCharges.ConsulterCahierDesChargesChoisiPort =
   async ({ appelOffre, période, famille, numéroCRE }) => {
     const projets = await executeSelect<{
       value: Omit<CandidatureLegacyReadModel, 'type' | 'identifiantProjet'>;

@@ -5,11 +5,12 @@ import {
   registerAbandonUseCases,
 } from './abandon/abandon.register';
 import {
-  CahierDesChargesQueryDependencies,
-  registerCahierDesChargesQueries,
-} from './cahierDesCharges/cahierDesCharges.register';
+  CahierDesChargesChoisiQueryDependencies,
+  registerCahierDesChargesChoisiQueries,
+} from './cahierDesChargesChoisi/cahierDesChargesChoisi.register';
 
-export type LauréatQueryDependencies = AbandonQueryDependencies & CahierDesChargesQueryDependencies;
+export type LauréatQueryDependencies = AbandonQueryDependencies &
+  CahierDesChargesChoisiQueryDependencies;
 export type LauréatCommandDependencies = AbandonCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
@@ -18,5 +19,5 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
   registerAbandonQueries(dependencies);
-  registerCahierDesChargesQueries(dependencies);
+  registerCahierDesChargesChoisiQueries(dependencies);
 };
