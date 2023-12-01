@@ -70,7 +70,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       <TransmettrePreuveRecandidaturePage {...{ ...transmettrePreuveRecandidaturePageProps }} />
     );
   } catch (e) {
-    console.log(e);
     redirect('/404');
   }
 }
