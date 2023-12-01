@@ -1,0 +1,17 @@
+{
+  "name": "@potentiel-librairies/keycloak-cjs",
+  "version": "0.0.0",
+  "description": "Potentiel custom keycloak librairies rebundle with CommonJS support",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/index.ts --platform=node --bundle --format=cjs --outfile=dist/index.js"
+  },
+  "dependencies": {
+    "@keycloak/keycloak-admin-client": "^21.1.2"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

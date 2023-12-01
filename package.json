@@ -6,6 +6,7 @@
   "main": "index.js",
   "workspaces": [
     "./packages/libraries/tsconfig/",
+    "./packages/libraries/keycloak-cjs/",
     "./packages/libraries/monitoring/",
     "./packages/libraries/monads/",
     "./packages/libraries/core-domain/",

@@ -1,4 +1,4 @@
-import KeycloakAdmin from '@keycloak/keycloak-admin-client';
+import { KeycloakAdmin } from '@potentiel-librairies/keycloak-cjs';
 
 let keycloakAdmin: KeycloakAdmin | undefined = undefined;
 
