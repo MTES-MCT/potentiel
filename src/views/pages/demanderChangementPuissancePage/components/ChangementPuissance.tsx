@@ -17,7 +17,7 @@ import {
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
 import { ProjectAppelOffre } from '../../../../entities';
-import { Technologie } from '@potentiel/domain-views';
+import { Technologie } from '@potentiel-domain/appel-offre';
 
 type ChangementPuissanceProps = {
   unitePuissance: string;

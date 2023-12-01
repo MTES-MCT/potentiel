@@ -2,7 +2,7 @@ import { Request } from 'express';
 import React, { ChangeEvent, useState } from 'react';
 import { ModificationRequestListItemDTO } from '../../../modules/modificationRequest';
 import { PaginatedList } from '../../../modules/pagination';
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import {
   RequestList,
   LinkButton,

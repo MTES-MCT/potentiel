@@ -1,7 +1,7 @@
 import { ResultAsync } from '../../../core/utils';
 import { User } from '../../../entities';
 import { PaginatedList, Pagination } from '../../pagination';
-import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
+import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
 import { InfraNotAvailableError } from '../../shared';
 import {
   ModificationRequestListItemDTO,

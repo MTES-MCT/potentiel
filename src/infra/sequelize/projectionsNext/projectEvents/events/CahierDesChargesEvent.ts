@@ -1,4 +1,4 @@
-import { DateParutionCahierDesChargesModifié } from '@potentiel/domain-views';
+import { DateParutionCahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import { ProjectEvent } from '../projectEvent.model';
 
 export type CahierDesChargesEvent = ProjectEvent & {

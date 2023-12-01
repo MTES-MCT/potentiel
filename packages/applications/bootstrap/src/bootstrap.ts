@@ -6,6 +6,7 @@ import { setupCandidature } from './setupCandidature';
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
+import { setupUtilisateur } from './setupUtilisateur';
 
 export const bootstrap = async (): Promise<() => Promise<void>> => {
   mediator.use({
@@ -16,6 +17,7 @@ export const bootstrap = async (): Promise<() => Promise<void>> => {
   setupCandidature();
   setupDocumentProjet();
   const unsetupTâche = await setupTâche();
+  setupUtilisateur();
 
   const unsetupLauréat = await setupLauréat();
 

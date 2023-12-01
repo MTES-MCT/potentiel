@@ -10,7 +10,7 @@ import { makeDemanderAnnulationAbandon } from './demanderAnnulationAbandon';
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError';
 import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError';
 import { ProjectAppelOffre } from '../../../../entities';
-import { CahierDesChargesModifié } from '@potentiel/domain-views';
+import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 
 describe(`Demander une annulation d'abandon`, () => {
   const user = makeFakeUser({ role: 'porteur-projet' });

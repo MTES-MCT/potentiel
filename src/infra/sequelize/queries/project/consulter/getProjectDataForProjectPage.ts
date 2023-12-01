@@ -14,7 +14,7 @@ import {
 } from '../../../projectionsNext';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre, User } from '../../../../../entities';
 import routes from '../../../../../routes';
-import { CahierDesCharges } from '@potentiel/domain-views';
+import { CahierDesCharges } from '@potentiel-domain/appel-offre';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '../../../../../modules/users';
 

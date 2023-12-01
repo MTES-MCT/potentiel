@@ -2,7 +2,7 @@ import { Optional } from 'utility-types';
 import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '../../core/domain';
 import { ok, Result } from '../../core/utils';
 import { Région } from '../dreal/région';
-import { DateParutionCahierDesChargesModifié } from '@potentiel/domain-views';
+import { DateParutionCahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 
 type BaseNotification = {
   message: {

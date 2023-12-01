@@ -1,6 +1,6 @@
 import React from 'react';
 import { Radio } from '../../..';
-import { CahierDesChargesRéférence } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
 
 type CahierDesChargesSelectionnableProps = {
   id: CahierDesChargesRéférence;

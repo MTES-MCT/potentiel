@@ -2,7 +2,7 @@ import { Attributes, literal, Op } from 'sequelize';
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
 import { logger } from '../../core/utils';
 import { Project, User } from '../../entities';
-import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
+import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../infra/sequelize/queries/pagination';
 import { mapExceptError } from '../../helpers/results';
 import { Err, Ok, ResultAsync } from '../../types';

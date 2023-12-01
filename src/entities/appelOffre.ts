@@ -1,4 +1,4 @@
-import { AppelOffre, Periode, Famille } from '@potentiel/domain-views';
+import { AppelOffre, Periode, Famille } from '@potentiel-domain/appel-offre';
 
 export type ProjectAppelOffre = AppelOffre & {
   periode: Periode;

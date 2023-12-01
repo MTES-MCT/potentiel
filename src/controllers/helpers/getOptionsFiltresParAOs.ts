@@ -1,6 +1,6 @@
 import { projectRepo, ContextSpecificProjectListFilter, userRepo } from '../../dataAccess';
 import { Request } from 'express';
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const getOptionsFiltresParAOs = async ({
   user,

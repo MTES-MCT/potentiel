@@ -21,6 +21,9 @@
       "path": "../../domain/document"
     },
     {
+      "path": "../../infrastructure/document-builder"
+    },
+    {
       "path": "../../infrastructure/domain-adapters"
     },
     {

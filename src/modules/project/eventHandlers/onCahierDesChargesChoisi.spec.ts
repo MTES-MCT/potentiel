@@ -3,7 +3,7 @@ import { CahierDesChargesChoisi } from '../events';
 import { DomainEvent, UniqueEntityID } from '../../../core/domain';
 import { InfraNotAvailableError } from '../../shared/errors';
 import { okAsync } from '../../../core/utils';
-import { CahierDesChargesModifié } from '@potentiel/domain-views';
+import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import { ProjectAppelOffre } from '../../../entities';
 import {
   fakeTransactionalRepo,

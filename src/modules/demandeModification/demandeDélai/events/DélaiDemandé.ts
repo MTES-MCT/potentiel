@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../../core/domain';
-import { CahierDesChargesRéférence } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
 
 export type DélaiDemandéPayload = {
   demandeDélaiId: string;

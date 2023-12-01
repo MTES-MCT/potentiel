@@ -1,4 +1,4 @@
-import { AppelOffre, Periode } from '@potentiel/domain-views';
+import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
 import { ResultAsync } from '../../../core/utils';
 import { InfraNotAvailableError } from '../../shared';
 

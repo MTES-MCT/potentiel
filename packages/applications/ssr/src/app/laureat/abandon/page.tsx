@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { AppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
 
 import { AbandonListPage } from '@/components/pages/abandon/AbandonListPage';
@@ -31,7 +31,7 @@ export default async function Page({ searchParams }: PageProps) {
     },
   });
 
-  const appelOffres = await mediator.send<AppelOffreQuery>({
+  const appelOffres = await mediator.send<ListerAppelOffreQuery>({
     type: 'LISTER_APPEL_OFFRE_QUERY',
     data: {},
   });

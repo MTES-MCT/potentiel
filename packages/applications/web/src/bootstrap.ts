@@ -15,7 +15,6 @@ import {
   téléverserFichierDossierRaccordementAdapter,
   téléchargerFichierDossierRaccordementAdapter,
   récupérerCandidatureAdapter,
-  récupérerUtilisateurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { setupDomainViews } from '@potentiel/domain-views';
 import { logMiddleware } from '@potentiel-libraries/mediateur-middlewares';
@@ -59,7 +58,6 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       update: updateProjection,
       upsert: upsertProjection,
     },
-    appelOffre: {},
     projet: {
       récupérerCandidature: récupérerCandidatureAdapter,
     },
@@ -67,9 +65,6 @@ export const bootstrap = async (): Promise<UnsetupApp> => {
       récupérerAccuséRéceptionDemandeComplèteRaccordement:
         téléchargerFichierDossierRaccordementAdapter,
       récupérerPropositionTechniqueEtFinancièreSignée: téléchargerFichierDossierRaccordementAdapter,
-    },
-    utilisateur: {
-      récupérerUtilisateur: récupérerUtilisateurAdapter,
     },
   });
 

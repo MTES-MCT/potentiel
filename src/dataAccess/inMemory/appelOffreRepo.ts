@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode } from '@potentiel/domain-views';
+import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { errAsync, okAsync } from '../../core/utils';

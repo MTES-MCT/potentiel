@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProjectAppelOffre } from '../../../entities';
-import { Technologie } from '@potentiel/domain-views';
+import { Technologie } from '@potentiel-domain/appel-offre';
 import { Request } from 'express';
 
 import {

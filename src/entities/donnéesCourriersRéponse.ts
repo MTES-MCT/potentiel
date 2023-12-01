@@ -1,4 +1,4 @@
-import { CahierDesChargesRéférence, DonnéesCourriersRéponse } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence, DonnéesCourriersRéponse } from '@potentiel-domain/appel-offre';
 import { ProjectAppelOffre } from './appelOffre';
 import { parseCahierDesChargesRéférence } from './cahierDesCharges';
 

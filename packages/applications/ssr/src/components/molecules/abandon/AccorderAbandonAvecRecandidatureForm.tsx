@@ -2,36 +2,34 @@
 
 import { useFormState, useFormStatus } from 'react-dom';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import {
-  AccorderAbandonState,
-  accorderAbandonAction,
-} from '@/app/laureat/[identifiant]/abandon/instruire/accorder.action';
+  AccorderAbandonAvecRecandidatureState,
+  accorderAbandonAvecRecandidatureAction,
+} from '@/app/laureat/[identifiant]/abandon/instruire/accorderAvecRecandidature.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { encodeParameter } from '@/utils/encodeParameter';
 
-const initialState: AccorderAbandonState = {
+const initialState: AccorderAbandonAvecRecandidatureState = {
   error: undefined,
   validationErrors: [],
 };
 
-type AccorderAbandonFormProps = {
+type AccorderAbandonAvecRecandidatureFormProps = {
   identifiantProjet: string;
   utilisateur: Utilisateur;
 };
 
-export const AccorderAbandonForm = ({
+export const AccorderAbandonAvecRecandidatureForm = ({
   identifiantProjet,
   utilisateur,
-}: AccorderAbandonFormProps) => {
+}: AccorderAbandonAvecRecandidatureFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(accorderAbandonAction, initialState);
+  const [state, formAction] = useFormState(accorderAbandonAvecRecandidatureAction, initialState);
 
   if (state.success) {
-    router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
+    router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`);
   }
 
   return (
@@ -39,17 +37,7 @@ export const AccorderAbandonForm = ({
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-      <Upload
-        label="Téléverser une réponse signée"
-        hint="au format pdf"
-        state={state.validationErrors.includes('reponseSignee') ? 'error' : 'default'}
-        stateRelatedMessage="Réponse signée obligatoire"
-        nativeInputProps={{
-          name: 'reponseSignee',
-          disabled: pending,
-        }}
-        className="mb-4"
-      />
+
       <Button
         type="submit"
         priority="primary"

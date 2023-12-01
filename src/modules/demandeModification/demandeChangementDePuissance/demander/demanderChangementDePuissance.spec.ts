@@ -12,7 +12,7 @@ import { Project } from '../../../project';
 import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { ModificationReceived, ModificationRequested } from '../../../modificationRequest/events';
 import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance';
-import { CahierDesChargesModifié } from '@potentiel/domain-views';
+import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 
 describe('Commande requestPuissanceModification', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })));

@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,20 +19,17 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "../../domain/document/src/abandon/mapToReadableStream.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "references": [
     {
       "path": "../../../packages/domain/appel-offre"
@@ -51,7 +44,13 @@
       "path": "../../../packages/domain/candidature"
     },
     {
+      "path": "../../../packages/domain/document"
+    },
+    {
       "path": "../../../packages/domain/utilisateur"
+    },
+    {
+      "path": "../../../packages/infrastructure/document-builder"
     }
   ]
 }

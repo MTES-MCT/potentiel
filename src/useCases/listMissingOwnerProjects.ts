@@ -1,7 +1,7 @@
 import { Project, User } from '../entities';
 import { ProjectRepo, ProjectFilters } from '../dataAccess';
 import { PaginatedList, Pagination } from '../modules/pagination';
-import { AppelOffre, Periode, Famille } from '@potentiel/domain-views';
+import { AppelOffre, Periode, Famille } from '@potentiel-domain/appel-offre';
 
 interface MakeUseCaseProps {
   searchAllMissingOwner: ProjectRepo['searchAllMissingOwner'];

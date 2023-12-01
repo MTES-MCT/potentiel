@@ -1,5 +1,5 @@
 import { GetPeriodeTitle, GetFamille } from '../modules/appelOffre';
-import { AppelOffre } from '@potentiel/domain-views';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type AppelOffreRepo = {
   findAll: () => Promise<AppelOffre[]>;

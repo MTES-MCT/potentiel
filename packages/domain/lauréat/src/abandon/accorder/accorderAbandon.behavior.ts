@@ -49,6 +49,11 @@ export async function accorder(
 
   await this.publish(event);
 
+  // TODO: Il faut attendre un peu ici car sinon l'exécution des projecteurs risque se faire en même temps
+  // et générer des projections avec des données erronées
+  // Idéalement il ne faudrait pas avoir des projecteur qui s'exécute en parallèle
+  await sleep(100);
+
   if (this.demande.recandidature) {
     await this.demanderPreuveRecandidature({
       identifiantProjet,
@@ -68,3 +73,7 @@ export function applyAbandonAccordé(
     réponseSignée,
   };
 }
+
+export const sleep = async (ms: number) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};

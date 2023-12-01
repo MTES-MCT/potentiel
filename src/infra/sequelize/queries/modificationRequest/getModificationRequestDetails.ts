@@ -6,7 +6,7 @@ import {
 } from '../../../../modules/modificationRequest';
 import { EntityNotFoundError } from '../../../../modules/shared';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre } from '../../../../entities';
-import { CahierDesChargesRéférence } from '@potentiel/domain-views';
+import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
 import { ModificationRequest, Project, User, File } from '../..';
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (

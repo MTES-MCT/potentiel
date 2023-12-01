@@ -2,7 +2,7 @@ import { or } from '../../../core/utils';
 import { Project } from '../../../entities';
 import { LegacyModificationStatus } from '../../modificationRequest';
 import { Fournisseur } from '../../project';
-import { DateParutionCahierDesChargesModifié } from '@potentiel/domain-views';
+import { DateParutionCahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import {
   DemandeAbandonEventStatus,
   DemandeAnnulationAbandonEventStatus,

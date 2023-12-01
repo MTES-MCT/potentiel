@@ -7,7 +7,8 @@ import { StatutAbandonBadge } from './StatutAbandonBadge';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { DemanderConfirmationAbandonForm } from './DemanderConfirmationAbandonForm';
 import { RejeterAbandonForm } from './RejeterAbandonForm';
-import { AccorderAbandonForm } from './AccorderAbandonForm';
+import { AccorderAbandonSansRecandidatureForm } from './AccorderAbandonSansRecandidatureForm';
+import { AccorderAbandonAvecRecandidatureForm } from './AccorderAbandonAvecRecandidatureForm';
 
 type InstructionAbandonFormProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
@@ -30,14 +31,7 @@ export const InstructionAbandonForm = ({
     utilisateur.rôle === 'dgec-validateur' || (utilisateur.rôle === 'admin' && !recandidature);
   const demandeConfirmationPossible = statut === 'demandé' && !recandidature;
 
-  // TODO : à mettre à jour quand l'accord sera disponible pour les abandons avec recandidature
-  const initialInstruction = recandidature
-    ? 'rejeter'
-    : statut === 'demandé' && !recandidature
-    ? 'demander-confirmation'
-    : 'accorder';
-
-  const [instruction, setInstruction] = useState(initialInstruction);
+  const [instruction, setInstruction] = useState('');
 
   return (
     <>
@@ -72,7 +66,6 @@ export const InstructionAbandonForm = ({
                       setInstruction('accorder');
                     },
                     checked: instruction === 'accorder',
-                    disabled: recandidature,
                   },
                 },
                 {
@@ -88,18 +81,29 @@ export const InstructionAbandonForm = ({
               ]}
             />
           </form>
+
           {instruction === 'demander-confirmation' && (
             <DemanderConfirmationAbandonForm
               identifiantProjet={identifiantProjet}
               utilisateur={utilisateur}
             />
           )}
+
           {instruction === 'rejeter' && (
             <RejeterAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
           )}
-          {instruction === 'accorder' && (
-            <AccorderAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
-          )}
+
+          {instruction === 'accorder' && recandidature ? (
+            <AccorderAbandonAvecRecandidatureForm
+              identifiantProjet={identifiantProjet}
+              utilisateur={utilisateur}
+            />
+          ) : instruction === 'accorder' && !recandidature ? (
+            <AccorderAbandonSansRecandidatureForm
+              identifiantProjet={identifiantProjet}
+              utilisateur={utilisateur}
+            />
+          ) : null}
         </>
       ) : (
         ''
