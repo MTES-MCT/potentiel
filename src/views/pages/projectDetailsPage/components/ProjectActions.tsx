@@ -88,7 +88,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
           )}/abandon/demander`}
           {...(project.cahierDesChargesActuel.type === 'initial' &&
             project.appelOffre.choisirNouveauCahierDesCharges && {
-              style: { pointerEvents: 'none' },
+              style: { pointerEvents: 'none', backgroundColor: '#a8a8a8' },
             })}
         >
           Demander un abandon
