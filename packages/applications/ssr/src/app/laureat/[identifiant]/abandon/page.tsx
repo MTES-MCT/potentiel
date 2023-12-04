@@ -1,16 +1,19 @@
 import { mediator } from 'mediateur';
+import { redirect } from 'next/navigation';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { getUser } from '@/utils/getUtilisateur';
+import { decodeParameter } from '@/utils/decodeParameter';
+
 import {
   DetailAbandonPage,
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
-import { getUser } from '@/utils/getUtilisateur';
-import { redirect } from 'next/navigation';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  const identifiantProjet = decodeURIComponent(identifiant);
+  const identifiantProjet = decodeParameter(identifiant);
   const utilisateur = await getUser();
 
   if (!utilisateur) {

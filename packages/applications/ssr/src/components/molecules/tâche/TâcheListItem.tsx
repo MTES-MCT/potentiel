@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { encodeParameter } from '@/utils/encodeParameter';
 
 type TâcheListItemProps = {
   identifiantProjet: string;
@@ -67,7 +68,7 @@ const getDescriptionTâche = (typeTâche: string, identifiantProjet: string) => 
       return {
         titre: `Confirmer votre demande d'abandon`,
         description: `La DGEC vous demande de confirmer votre demande d'abandon.`,
-        lien: `/laureat/${encodeURIComponent(identifiantProjet)}/abandon`,
+        lien: `/laureat/${encodeParameter(identifiantProjet)}/abandon`,
         action: 'Confirmer',
         aria: `Confirmer votre demande d'abandon`,
       };
@@ -75,7 +76,7 @@ const getDescriptionTâche = (typeTâche: string, identifiantProjet: string) => 
       return {
         titre: 'Transmettre votre preuve de recandidature',
         description: `Suite à l'accord de votre demande d'abandon avec recandidature convernant ce projet, vous devez sélectionner un de vos projet comme preuve avant l'échéance du 31 mars 2025.`,
-        lien: `/laureat/${encodeURIComponent(
+        lien: `/laureat/${encodeParameter(
           identifiantProjet,
         )}/abandon/transmettre-preuve-recandidature`,
         action: 'Transmettre',
