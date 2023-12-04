@@ -18,6 +18,10 @@ v1Router.get(
     const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
       type: 'LISTER_ABANDONS_QUERY',
       data: {
+        utilisateur: {
+          email: request.user?.email,
+          rôle: request.user?.role,
+        },
         recandidature: true,
         pagination: { page, itemsPerPage },
       },

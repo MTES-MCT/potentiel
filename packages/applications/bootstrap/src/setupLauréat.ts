@@ -8,8 +8,9 @@ import {
   CandidatureAdapter,
   consulterCahierDesChargesChoisiAdapter,
   récupérerPorteursProjetAdapter,
+  listerIdentifiantsProjetsParPorteurAdapter,
+  AbandonAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { listerIdentifiantsProjetsParPorteurAdapter } from '@potentiel-infrastructure/domain-adapters/src/projet/listerIdentifiantsProjetsParPorteur.adapter';
 
 export const setupLauréat = async () => {
   registerLauréatUseCases({
@@ -21,7 +22,7 @@ export const setupLauréat = async () => {
     list: listProjection,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
     listerIdentifiantsProjetsParPorteurPort: listerIdentifiantsProjetsParPorteurAdapter,
-    //listerAbandonsParProjetsPort,
+    listerAbandonsParProjetsPort: AbandonAdapter.listerAbandonParProjetsAdapter,
   });
 
   AbandonNotification.register({
