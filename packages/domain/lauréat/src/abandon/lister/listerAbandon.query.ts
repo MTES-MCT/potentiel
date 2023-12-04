@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
-import { DateTime, IdentifiantProjet , Ports } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, Ports } from '@potentiel-domain/common';
 import { StatutAbandon } from '..';
 
 type AbandonListItemReadModel = {
@@ -58,12 +58,14 @@ export type ListerAbandonsQuery = Message<
 export type ListerAbandonDependencies = {
   list: List;
   listerIdentifiantsProjetsParPorteurPort: Ports.ListerIdentifiantsProjetsParPorteurPort;
+  listerIdentifiantsProjetsParDrealAdapter: Ports.ListerIdentifiantsProjetsParPorteurPort;
   listerAbandonsParProjetsPort: ListerAbandonsParProjetsPort;
 };
 
 export const registerListerAbandonQuery = ({
   list,
   listerIdentifiantsProjetsParPorteurPort,
+  listerIdentifiantsProjetsParDrealAdapter,
   listerAbandonsParProjetsPort,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
@@ -81,6 +83,25 @@ export const registerListerAbandonQuery = ({
 
     if (rôle === 'porteur-projet') {
       const identifiantsProjets = await listerIdentifiantsProjetsParPorteurPort(email);
+      const abandons = await listerAbandonsParProjetsPort(
+        identifiantsProjets.map(
+          ({ appelOffre, période, famille = '', numéroCRE }) =>
+            `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+        ),
+        filters,
+        {
+          page,
+          itemsPerPage,
+        },
+      );
+      return {
+        ...abandons,
+        items: abandons.items.map((abandon) => mapToReadModel(abandon)),
+      };
+    }
+
+    if (rôle === 'dreal') {
+      const identifiantsProjets = await listerIdentifiantsProjetsParDrealAdapter(email);
       const abandons = await listerAbandonsParProjetsPort(
         identifiantsProjets.map(
           ({ appelOffre, période, famille = '', numéroCRE }) =>
