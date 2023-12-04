@@ -81,22 +81,20 @@ export const registerListerAbandonQuery = ({
       ...(appelOffre && { appelOffre }),
     };
 
-    if (rôle === 'porteur-projet') {
-      const identifiantsProjets = await listerIdentifiantsProjetsParPorteur(email);
-      const abandons = await listerAbandonsParProjets(
-        identifiantsProjets.map(
-          ({ appelOffre, période, famille = '', numéroCRE }) =>
-            `${appelOffre}#${période}#${famille}#${numéroCRE}`,
-        ),
-        filters,
-        {
-          page,
-          itemsPerPage,
+    if (['admin', 'dgec-validateur'].includes(rôle)) {
+      const result = await list<AbandonProjection>({
+        type: 'abandon',
+        pagination: { page, itemsPerPage },
+        where: filters,
+        orderBy: {
+          property: 'misÀJourLe',
+          ascending: false,
         },
-      );
+      });
+
       return {
-        ...abandons,
-        items: abandons.items.map((abandon) => mapToReadModel(abandon)),
+        ...result,
+        items: result.items.map((item) => mapToReadModel(item)),
       };
     }
 
@@ -119,19 +117,21 @@ export const registerListerAbandonQuery = ({
       };
     }
 
-    const result = await list<AbandonProjection>({
-      type: 'abandon',
-      pagination: { page, itemsPerPage },
-      where: filters,
-      orderBy: {
-        property: 'misÀJourLe',
-        ascending: false,
+    const identifiantsProjets = await listerIdentifiantsProjetsParPorteur(email);
+    const abandons = await listerAbandonsParProjets(
+      identifiantsProjets.map(
+        ({ appelOffre, période, famille = '', numéroCRE }) =>
+          `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+      ),
+      filters,
+      {
+        page,
+        itemsPerPage,
       },
-    });
-
+    );
     return {
-      ...result,
-      items: result.items.map((item) => mapToReadModel(item)),
+      ...abandons,
+      items: abandons.items.map((abandon) => mapToReadModel(abandon)),
     };
   };
 
