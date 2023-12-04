@@ -85,21 +85,22 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
 
-      const abandonEnInstruction = await getAbandonEnInstruction(identifiantProjet);
+      const abandon = await getAbandon(identifiantProjet);
 
-      const alertesRaccordement = !abandonEnInstruction
-        ? await getAlertesRaccordement({
-            userRole: user.role,
-            identifiantProjet,
-            CDC2022Choisi:
-              projet.cahierDesChargesActuel.type === 'modifié' &&
-              projet.cahierDesChargesActuel.paruLe === '30/08/2022',
-            projet: {
-              isClasse: projet.isClasse,
-              isAbandonned: projet.isAbandoned,
-            },
-          })
-        : undefined;
+      const alertesRaccordement =
+        !abandon || abandon.statut === 'rejeté'
+          ? await getAlertesRaccordement({
+              userRole: user.role,
+              identifiantProjet,
+              CDC2022Choisi:
+                projet.cahierDesChargesActuel.type === 'modifié' &&
+                projet.cahierDesChargesActuel.paruLe === '30/08/2022',
+              projet: {
+                isClasse: projet.isClasse,
+                isAbandonned: projet.isAbandoned,
+              },
+            })
+          : undefined;
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
@@ -126,17 +127,15 @@ v1Router.get(
           project: projet,
           projectEventList: rawProjectEventList.value,
           alertesRaccordement,
-          ...(abandonEnInstruction && { abandonEnInstruction }),
+          ...(abandon && { abandon }),
         }),
       );
     },
   ),
 );
 
-type AbandonEnInstructionProps =
-  | { statut: 'demandé' | 'en attente de confirmation' | 'confirmé' }
-  | undefined;
-const getAbandonEnInstruction = async (
+type AbandonEnInstructionProps = { statut: string } | undefined;
+const getAbandon = async (
   identifiantProjet: IdentifiantProjet,
 ): Promise<AbandonEnInstructionProps> => {
   try {
@@ -154,15 +153,18 @@ const getAbandonEnInstruction = async (
       type: 'CONSULTER_ABANDON_QUERY',
       data: { identifiantProjetValue },
     });
-    return statut.estDemandé()
-      ? { statut: 'demandé' }
-      : statut.estConfirmé()
-      ? { statut: 'confirmé' }
-      : statut.estConfirmationDemandée() || statut.estEnAttenteConfirmation()
-      ? {
-          statut: 'en attente de confirmation',
-        }
-      : undefined;
+
+    switch (statut.statut) {
+      case 'demandé':
+      case 'confirmé':
+      case 'accordé':
+      case 'rejeté':
+        return { statut: statut.statut };
+      case 'confirmation-demandée':
+        return { statut: 'à confirmer' };
+      default:
+        return;
+    }
   } catch (error) {
     return;
   }
