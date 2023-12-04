@@ -22,7 +22,14 @@ export type ListerAbandonReadModel = {
   totalItems: number;
 };
 
-export type ListerIdentifiantsProjectsParPorteurPort = (email: string) => Promise<Array<string>>;
+export type ListerIdentifiantsProjetsParPorteurPort = (email: string) => Promise<
+  Array<{
+    appelOffre: string;
+    période: string;
+    famille?: string;
+    numéroCRE: string;
+  }>
+>;
 
 export type ListerAbandonsParProjetsPort = (
   identifiantsProjets: Array<string>,
@@ -59,7 +66,7 @@ export type ListerAbandonsQuery = Message<
 
 export type ListerAbandonDependencies = {
   list: List;
-  listerIdentifiantsProjetsParPorteurPort: ListerIdentifiantsProjectsParPorteurPort;
+  listerIdentifiantsProjetsParPorteurPort: ListerIdentifiantsProjetsParPorteurPort;
   listerAbandonsParProjetsPort: ListerAbandonsParProjetsPort;
 };
 

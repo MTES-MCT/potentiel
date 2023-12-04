@@ -13,7 +13,7 @@ const getIdentifiantProjetByEmailUtilisateurQuery = `
   where p."notifiedOn" > 0 and u."email" = $1
 `;
 
-export const récupérerIdentifiantProjectsParPorteurAdapter = async (email: string) => {
+export const listerIdentifiantsProjetsParPorteurAdapter = async (email: string) => {
   const results = await executeSelect<{
     value: {
       appelOffre: string;
