@@ -98,10 +98,11 @@ const DropdownItem = ({ children, href, isCurrent, download, disabled }: Dropdow
   >
     {isCurrent && <div className="h-[24px] w-[2px] bg-blue-france-sun-base" />}
     <a
-      className="flex-1 px-4 py-3 block no-underline whitespace-nowrap"
+      className={`flex-1 px-4 py-3 block no-underline whitespace-nowrap ${
+        disabled && 'pointer-events-none'
+      }`}
       href={href}
       {...(download && { download: true })}
-      {...(disabled && { style: { pointerEvents: 'none' } })}
       {...(isCurrent
         ? { 'aria-current': 'page', style: { color: '#000091' } }
         : { style: { color: 'black' } })}

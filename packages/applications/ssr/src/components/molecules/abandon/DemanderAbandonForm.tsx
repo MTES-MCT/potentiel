@@ -14,6 +14,7 @@ import { Form } from '@/components/molecules/Form';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useState } from 'react';
+import { encodeParameter } from '@/utils/encodeParameter';
 
 const initialState: DemanderAbandonState = {
   error: undefined,
@@ -35,7 +36,7 @@ export const DemanderAbandonForm = ({
   const [recandidature, setRecandidature] = useState(false);
 
   if (state.success) {
-    router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`);
+    router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
   }
 
   return (

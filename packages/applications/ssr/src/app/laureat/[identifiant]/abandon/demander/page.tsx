@@ -8,11 +8,11 @@ import {
   DemanderAbandonPageProps,
 } from '@/components/pages/abandon/DemanderAbandonPage';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { decodeParameter } from '@/utils/decodeParameter';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  const identifiantProjet = decodeURIComponent(identifiant);
+  const identifiantProjet = decodeParameter(identifiant);
 
   const utilisateur = await getUser();
   if (!utilisateur) {
@@ -35,8 +35,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
       type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
       data: {
-        identifiantProjetValue:
-          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+        identifiantProjet,
       },
     });
 

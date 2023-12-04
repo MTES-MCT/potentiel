@@ -8,7 +8,7 @@ export type ConsulterCahierDesChargesChoisiReadmodel = { cahierDesChargesChoisi:
 export type ConsulterCahierDesChargesChoisiQuery = Message<
   'CONSULTER_CAHIER_DES_CHARGES_QUERY',
   {
-    identifiantProjetValue: string;
+    identifiantProjet: string;
   },
   ConsulterCahierDesChargesChoisiReadmodel
 >;
@@ -25,10 +25,12 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
   consulterCahierDesChargesAdapter,
 }: ConsulterCahierDesChargesChoisiDependencies) => {
   const handler: MessageHandler<ConsulterCahierDesChargesChoisiQuery> = async ({
-    identifiantProjetValue,
+    identifiantProjet,
   }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const cahierDesChargesChoisi = await consulterCahierDesChargesAdapter(identifiantProjet);
+    const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+    const cahierDesChargesChoisi = await consulterCahierDesChargesAdapter(
+      identifiantProjetValueType,
+    );
 
     if (isNone(cahierDesChargesChoisi)) {
       throw new AucunCahierDesChargesChoisiTrouvéError();

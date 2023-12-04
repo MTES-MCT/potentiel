@@ -4,7 +4,6 @@ import {
   DropdownMenuSecondaryButton,
   PrimaryButton,
   PrintIcon,
-  LinkButton,
 } from '../../../components';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
@@ -69,28 +68,6 @@ type PorteurProjetActionsProps = {
 };
 const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
   <div className="flex flex-col gap-3">
-    {project.isClasse && (
-      <div
-        className="flex justify-end"
-        {...(project.cahierDesChargesActuel.type === 'initial' &&
-          project.appelOffre.choisirNouveauCahierDesCharges && {
-            style: { cursor: 'not-allowed' },
-            title:
-              'Vous devez changer de cahier des charges pour accéder à la fonctionnalité abandon',
-          })}
-      >
-        <LinkButton
-          className="bg-red-marianne-425-base hover:bg-red-marianne-425-hover focus:bg-red-marianne-425-active block mt-4"
-          href={routes.GET_DEMANDER_ABANDON(project.id)}
-          {...(project.cahierDesChargesActuel.type === 'initial' &&
-            project.appelOffre.choisirNouveauCahierDesCharges && {
-              style: { pointerEvents: 'none', backgroundColor: '#a8a8a8' },
-            })}
-        >
-          Demander un abandon
-        </LinkButton>
-      </div>
-    )}
     <div className="flex flex-col xl:flex-row gap-2">
       {!project.isClasse && (
         <SecondaryLinkButton href={routes.DEPOSER_RECOURS(project.id)}>
@@ -120,6 +97,9 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
           >
             <span>Changer de puissance</span>
+          </DropdownMenuSecondaryButton.DropdownItem>
+          <DropdownMenuSecondaryButton.DropdownItem href={routes.GET_DEMANDER_ABANDON(project.id)}>
+            <span>Demander un abandon</span>
           </DropdownMenuSecondaryButton.DropdownItem>
         </DropdownMenuSecondaryButton>
       )}
