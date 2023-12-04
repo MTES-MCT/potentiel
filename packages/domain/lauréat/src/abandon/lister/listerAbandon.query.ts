@@ -22,9 +22,33 @@ export type ListerAbandonReadModel = {
   totalItems: number;
 };
 
+export type ListerIdentifiantsProjectsParPorteurPort = (email: string) => Promise<Array<string>>;
+
+export type ListerAbandonsParProjetsPort = (
+  identifiantsProjets: Array<string>,
+  filters: {
+    recandidature?: boolean;
+    statut?: StatutAbandon.RawType;
+    appelOffre?: string;
+  },
+  pagination: {
+    page: number;
+    itemsPerPage: number;
+  },
+) => Promise<{
+  items: ReadonlyArray<AbandonProjection>;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+}>;
+
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
+    utilisateur: {
+      rôle: string;
+      email: string;
+    };
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
@@ -35,9 +59,15 @@ export type ListerAbandonsQuery = Message<
 
 export type ListerAbandonDependencies = {
   list: List;
+  listerIdentifiantsProjetsParPorteurPort: ListerIdentifiantsProjectsParPorteurPort;
+  listerAbandonsParProjetsPort: ListerAbandonsParProjetsPort;
 };
 
-export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) => {
+export const registerListerAbandonQuery = ({
+  list,
+  listerIdentifiantsProjetsParPorteurPort,
+  listerAbandonsParProjetsPort,
+}: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
     statut,

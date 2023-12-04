@@ -4,12 +4,19 @@ import { Abandon } from '@potentiel-domain/laureat';
 
 import { AbandonListPage } from '@/components/pages/abandon/AbandonListPage';
 import { displayDate } from '@/utils/displayDate';
+import { getUser } from '@/utils/getUtilisateur';
+import { redirect } from 'next/navigation';
 
 type PageProps = {
   searchParams?: Record<string, string>;
 };
 
 export default async function Page({ searchParams }: PageProps) {
+  const utilisateur = await getUser();
+  if (!utilisateur) {
+    redirect('/login.html');
+  }
+
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
   const recandidature =
@@ -24,6 +31,10 @@ export default async function Page({ searchParams }: PageProps) {
   const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
     type: 'LISTER_ABANDONS_QUERY',
     data: {
+      utilisateur: {
+        email: utilisateur.email,
+        rôle: utilisateur.rôle,
+      },
       pagination: { page, itemsPerPage: 10 },
       recandidature,
       statut,
