@@ -1,4 +1,4 @@
-import { RequiredActionAlias } from '@keycloak/keycloak-admin-client/lib/defs/requiredActionProviderRepresentation';
+import { requiredAction } from '@potentiel-librairies/keycloak-cjs';
 import { authorizedTestEmails, isProdEnv } from '../../config';
 import { logger, ResultAsync } from '../../core/utils';
 import { CreateUserCredentials } from '../../modules/authN';
@@ -51,9 +51,9 @@ export const createUserCredentials: CreateUserCredentials = (args) => {
 
       id = newUser.id;
 
-      const actions = [RequiredActionAlias.UPDATE_PASSWORD];
+      const actions = [requiredAction.UPDATE_PASSWORD];
 
-      if (!fullName) actions.push(RequiredActionAlias.UPDATE_PROFILE);
+      if (!fullName) actions.push(requiredAction.UPDATE_PROFILE);
 
       if (isProdEnv || authorizedTestEmails.includes(email)) {
         await keycloakAdminClient.users.executeActionsEmail({
