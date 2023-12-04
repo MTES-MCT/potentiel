@@ -5,7 +5,7 @@ import {
   TâcheProjection,
 } from '@potentiel-domain/tache';
 import { executeSelect } from '@potentiel/pg-helpers';
-import { récupérerIdentifiantProjectsParPorteurAdapter } from '../projet/récupérerIdentifiantProjectsParPorteur';
+import { listerIdentifiantsProjetsParPorteurAdapter } from '../projet/listerIdentifiantsProjetsParPorteur.adapter';
 
 const countTâchesQuery = `
   select count(key) as "totalItems"
@@ -14,7 +14,7 @@ const countTâchesQuery = `
 `;
 
 export const récupérerNombreTâcheAdapter: RécupérerNombreTâchePort = async (email) => {
-  const identifiants = await récupérerIdentifiantProjectsParPorteurAdapter(email);
+  const identifiants = await listerIdentifiantsProjetsParPorteurAdapter(email);
 
   const countResult = await executeSelect<{ totalItems: string }>(
     countTâchesQuery,
@@ -33,7 +33,7 @@ const getTâchesQuery = `
 `;
 
 export const récupérerTâchesAdapter: RécupérerTâchesPort = async (email, filters, pagination) => {
-  const identifiants = await récupérerIdentifiantProjectsParPorteurAdapter(email);
+  const identifiants = await listerIdentifiantsProjetsParPorteurAdapter(email);
 
   const whereClause = filters.appelOffre ? `and value->>'appelOffre' =  $2` : '';
 

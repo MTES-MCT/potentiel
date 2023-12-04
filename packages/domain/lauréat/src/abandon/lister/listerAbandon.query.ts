@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet , Ports } from '@potentiel-domain/common';
 import { StatutAbandon } from '..';
 
 type AbandonListItemReadModel = {
@@ -22,9 +22,31 @@ export type ListerAbandonReadModel = {
   totalItems: number;
 };
 
+export type ListerAbandonsParProjetsPort = (
+  identifiantsProjets: Array<string>,
+  filters: {
+    recandidature?: boolean;
+    statut?: StatutAbandon.RawType;
+    appelOffre?: string;
+  },
+  pagination: {
+    page: number;
+    itemsPerPage: number;
+  },
+) => Promise<{
+  items: ReadonlyArray<AbandonProjection>;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+}>;
+
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
+    utilisateur: {
+      rôle: string;
+      email: string;
+    };
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
@@ -35,25 +57,51 @@ export type ListerAbandonsQuery = Message<
 
 export type ListerAbandonDependencies = {
   list: List;
+  listerIdentifiantsProjetsParPorteurPort: Ports.ListerIdentifiantsProjetsParPorteurPort;
+  listerAbandonsParProjetsPort: ListerAbandonsParProjetsPort;
 };
 
-export const registerListerAbandonQuery = ({ list }: ListerAbandonDependencies) => {
+export const registerListerAbandonQuery = ({
+  list,
+  listerIdentifiantsProjetsParPorteurPort,
+  listerAbandonsParProjetsPort,
+}: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
     statut,
     appelOffre,
+    utilisateur: { email, rôle },
     pagination: { page, itemsPerPage },
   }) => {
-    const whereOptions = {
+    const filters = {
       ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
       ...(statut && { statut }),
       ...(appelOffre && { appelOffre }),
     };
 
+    if (rôle === 'porteur-projet') {
+      const identifiantsProjets = await listerIdentifiantsProjetsParPorteurPort(email);
+      const abandons = await listerAbandonsParProjetsPort(
+        identifiantsProjets.map(
+          ({ appelOffre, période, famille = '', numéroCRE }) =>
+            `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+        ),
+        filters,
+        {
+          page,
+          itemsPerPage,
+        },
+      );
+      return {
+        ...abandons,
+        items: abandons.items.map((abandon) => mapToReadModel(abandon)),
+      };
+    }
+
     const result = await list<AbandonProjection>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
-      where: whereOptions,
+      where: filters,
       orderBy: {
         property: 'misÀJourLe',
         ascending: false,

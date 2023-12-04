@@ -8,6 +8,8 @@ import {
   CandidatureAdapter,
   consulterCahierDesChargesChoisiAdapter,
   récupérerPorteursProjetAdapter,
+  listerIdentifiantsProjetsParPorteurAdapter,
+  AbandonAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
 export const setupLauréat = async () => {
@@ -19,6 +21,8 @@ export const setupLauréat = async () => {
     find: findProjection,
     list: listProjection,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
+    listerIdentifiantsProjetsParPorteurPort: listerIdentifiantsProjetsParPorteurAdapter,
+    listerAbandonsParProjetsPort: AbandonAdapter.listerAbandonParProjetsAdapter,
   });
 
   AbandonNotification.register({

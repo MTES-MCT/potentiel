@@ -8,7 +8,11 @@ import {
 } from './consulter/consulterAbandon.query';
 import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { DemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
-import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandon.query';
+import {
+  ListerAbandonsQuery,
+  ListerAbandonReadModel,
+  ListerAbandonsParProjetsPort,
+} from './lister/listerAbandon.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
@@ -70,3 +74,6 @@ export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 
 // Projections
 export * from './abandon.projection';
+
+// Ports
+export { ListerAbandonsParProjetsPort };
