@@ -14,7 +14,7 @@ const getIdentifiantProjetByEmailUtilisateurQuery = `
   where p."notifiedOn" > 0 and u."email" = $1
 `;
 
-export const listerIdentifiantsProjetsParPorteurAdapter: Ports.ListerIdentifiantsProjetsParPorteurPort =
+export const listerIdentifiantsProjetsParPorteurAdapter: Ports.ListerIdentifiantsProjetsAccessiblesPort =
   async (email) => {
     const results = await executeSelect<{
       value: {

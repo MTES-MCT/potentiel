@@ -22,9 +22,9 @@ export const setupLauréat = async () => {
     find: findProjection,
     list: listProjection,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-    listerIdentifiantsProjetsParPorteurPort: listerIdentifiantsProjetsParPorteurAdapter,
-    listerAbandonsParProjetsPort: AbandonAdapter.listerAbandonParProjetsAdapter,
-    listerIdentifiantsProjetsParDrealAdapter: listerIdentifiantsProjetsParDrealAdapter,
+    listerIdentifiantsProjetsParPorteur: listerIdentifiantsProjetsParPorteurAdapter,
+    listerAbandonsParProjets: AbandonAdapter.listerAbandonParProjetsAdapter,
+    listerIdentifiantsProjetsParDreal: listerIdentifiantsProjetsParDrealAdapter,
   });
 
   AbandonNotification.register({

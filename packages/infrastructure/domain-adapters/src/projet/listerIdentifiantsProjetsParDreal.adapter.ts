@@ -19,7 +19,7 @@ const getIdentifiantsProjetByRégionQuery = `
   where p."regionProjet" like '%' || $1 || '%';
 `;
 
-export const listerIdentifiantsProjetsParDrealAdapter: Ports.ListerIdentifiantsProjetsParPorteurPort =
+export const listerIdentifiantsProjetsParDrealAdapter: Ports.ListerIdentifiantsProjetsAccessiblesPort =
   async (email) => {
     const dreal = await executeSelect<{ value: { région: string } }>(getDrealRégionQuery, email);
     const results = await executeSelect<{

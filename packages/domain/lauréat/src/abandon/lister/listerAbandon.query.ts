@@ -57,16 +57,16 @@ export type ListerAbandonsQuery = Message<
 
 export type ListerAbandonDependencies = {
   list: List;
-  listerIdentifiantsProjetsParPorteurPort: Ports.ListerIdentifiantsProjetsParPorteurPort;
-  listerIdentifiantsProjetsParDrealAdapter: Ports.ListerIdentifiantsProjetsParPorteurPort;
-  listerAbandonsParProjetsPort: ListerAbandonsParProjetsPort;
+  listerIdentifiantsProjetsParPorteur: Ports.ListerIdentifiantsProjetsAccessiblesPort;
+  listerIdentifiantsProjetsParDreal: Ports.ListerIdentifiantsProjetsAccessiblesPort;
+  listerAbandonsParProjets: ListerAbandonsParProjetsPort;
 };
 
 export const registerListerAbandonQuery = ({
   list,
-  listerIdentifiantsProjetsParPorteurPort,
-  listerIdentifiantsProjetsParDrealAdapter,
-  listerAbandonsParProjetsPort,
+  listerIdentifiantsProjetsParPorteur,
+  listerIdentifiantsProjetsParDreal,
+  listerAbandonsParProjets,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
@@ -82,8 +82,8 @@ export const registerListerAbandonQuery = ({
     };
 
     if (rôle === 'porteur-projet') {
-      const identifiantsProjets = await listerIdentifiantsProjetsParPorteurPort(email);
-      const abandons = await listerAbandonsParProjetsPort(
+      const identifiantsProjets = await listerIdentifiantsProjetsParPorteur(email);
+      const abandons = await listerAbandonsParProjets(
         identifiantsProjets.map(
           ({ appelOffre, période, famille = '', numéroCRE }) =>
             `${appelOffre}#${période}#${famille}#${numéroCRE}`,
@@ -101,8 +101,8 @@ export const registerListerAbandonQuery = ({
     }
 
     if (rôle === 'dreal') {
-      const identifiantsProjets = await listerIdentifiantsProjetsParDrealAdapter(email);
-      const abandons = await listerAbandonsParProjetsPort(
+      const identifiantsProjets = await listerIdentifiantsProjetsParDreal(email);
+      const abandons = await listerAbandonsParProjets(
         identifiantsProjets.map(
           ({ appelOffre, période, famille = '', numéroCRE }) =>
             `${appelOffre}#${période}#${famille}#${numéroCRE}`,
