@@ -79,18 +79,38 @@ export const registerListerAbandonQuery = ({
     recandidature,
     statut,
     appelOffre,
+    utilisateur: { email, rôle },
     pagination: { page, itemsPerPage },
   }) => {
-    const whereOptions = {
+    const filters = {
       ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
       ...(statut && { statut }),
       ...(appelOffre && { appelOffre }),
     };
 
+    if (rôle === 'porteur-projet') {
+      const identifiantsProjets = await listerIdentifiantsProjetsParPorteurPort(email);
+      const abandons = await listerAbandonsParProjetsPort(
+        identifiantsProjets.map(
+          ({ appelOffre, période, famille = '', numéroCRE }) =>
+            `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+        ),
+        filters,
+        {
+          page,
+          itemsPerPage,
+        },
+      );
+      return {
+        ...abandons,
+        items: abandons.items.map((abandon) => mapToReadModel(abandon)),
+      };
+    }
+
     const result = await list<AbandonProjection>({
       type: 'abandon',
       pagination: { page, itemsPerPage },
-      where: whereOptions,
+      where: filters,
       orderBy: {
         property: 'misÀJourLe',
         ascending: false,
