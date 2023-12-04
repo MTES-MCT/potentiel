@@ -1,3 +1,4 @@
+import { Ports } from '@potentiel-domain/common';
 import { executeSelect } from '@potentiel/pg-helpers';
 
 const getIdentifiantProjetByEmailUtilisateurQuery = `
@@ -13,15 +14,16 @@ const getIdentifiantProjetByEmailUtilisateurQuery = `
   where p."notifiedOn" > 0 and u."email" = $1
 `;
 
-export const listerIdentifiantsProjetsParPorteurAdapter = async (email: string) => {
-  const results = await executeSelect<{
-    value: {
-      appelOffre: string;
-      période: string;
-      famille?: string;
-      numéroCRE: string;
-    };
-  }>(getIdentifiantProjetByEmailUtilisateurQuery, email);
+export const listerIdentifiantsProjetsParPorteurAdapter: Ports.ListerIdentifiantsProjetsParPorteurPort =
+  async (email) => {
+    const results = await executeSelect<{
+      value: {
+        appelOffre: string;
+        période: string;
+        famille?: string;
+        numéroCRE: string;
+      };
+    }>(getIdentifiantProjetByEmailUtilisateurQuery, email);
 
-  return results.map((result) => result.value);
-};
+    return results.map((result) => result.value);
+  };

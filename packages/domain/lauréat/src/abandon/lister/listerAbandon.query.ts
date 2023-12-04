@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet , Ports } from '@potentiel-domain/common';
 import { StatutAbandon } from '..';
 
 type AbandonListItemReadModel = {
@@ -21,15 +21,6 @@ export type ListerAbandonReadModel = {
   itemsPerPage: number;
   totalItems: number;
 };
-
-export type ListerIdentifiantsProjetsParPorteurPort = (email: string) => Promise<
-  Array<{
-    appelOffre: string;
-    période: string;
-    famille?: string;
-    numéroCRE: string;
-  }>
->;
 
 export type ListerAbandonsParProjetsPort = (
   identifiantsProjets: Array<string>,
@@ -66,7 +57,7 @@ export type ListerAbandonsQuery = Message<
 
 export type ListerAbandonDependencies = {
   list: List;
-  listerIdentifiantsProjetsParPorteurPort: ListerIdentifiantsProjetsParPorteurPort;
+  listerIdentifiantsProjetsParPorteurPort: Ports.ListerIdentifiantsProjetsParPorteurPort;
   listerAbandonsParProjetsPort: ListerAbandonsParProjetsPort;
 };
 
