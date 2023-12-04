@@ -1,4 +1,4 @@
-export type ListerIdentifiantsProjetsParPorteurPort = (email: string) => Promise<
+export type ListerIdentifiantsProjetsAccessiblesPort = (email: string) => Promise<
   Array<{
     appelOffre: string;
     période: string;

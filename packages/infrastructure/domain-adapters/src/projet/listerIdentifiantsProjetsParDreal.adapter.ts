@@ -1,7 +1,14 @@
 import { Ports } from '@potentiel-domain/common';
 import { executeSelect } from '@potentiel/pg-helpers';
 
-const getIdentifiantProjetByEmailUtilisateurQuery = `
+const getDrealRégionQuery = `
+select json_build_object('région', ud.dreal) as value
+from users u 
+inner join "userDreals" ud on u.id = ud."userId"
+where u.email = $1;
+`;
+
+const getIdentifiantsProjetByRégionQuery = `
   select json_build_object(
     'appelOffre', p."appelOffreId",
     'période', p."periodeId",
@@ -9,13 +16,12 @@ const getIdentifiantProjetByEmailUtilisateurQuery = `
     'numéroCRE', p."numeroCRE"
   ) as value
   from "projects" p
-  inner join "UserProjects" up on p.id = up."projectId"
-  inner join "users" u on up."userId" = u.id
-  where p."notifiedOn" > 0 and u."email" = $1
+  where p."regionProjet" like '%' || $1 || '%';
 `;
 
-export const listerIdentifiantsProjetsParPorteurAdapter: Ports.ListerIdentifiantsProjetsAccessiblesPort =
+export const listerIdentifiantsProjetsParDrealAdapter: Ports.ListerIdentifiantsProjetsAccessiblesPort =
   async (email) => {
+    const dreal = await executeSelect<{ value: { région: string } }>(getDrealRégionQuery, email);
     const results = await executeSelect<{
       value: {
         appelOffre: string;
@@ -23,7 +29,7 @@ export const listerIdentifiantsProjetsParPorteurAdapter: Ports.ListerIdentifiant
         famille?: string;
         numéroCRE: string;
       };
-    }>(getIdentifiantProjetByEmailUtilisateurQuery, email);
+    }>(getIdentifiantsProjetByRégionQuery, dreal[0].value.région);
 
     return results.map((result) => result.value);
   };
