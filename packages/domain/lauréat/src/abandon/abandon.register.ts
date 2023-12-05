@@ -29,8 +29,13 @@ import {
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
 } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
+import {
+  DétecterAbandonDependencies,
+  registerDétecterAbandonQuery,
+} from './détecter/détecterAbandon.query';
 
-export type AbandonQueryDependencies = ConsulterAbandonDependencies &
+export type AbandonQueryDependencies = DétecterAbandonDependencies &
+  ConsulterAbandonDependencies &
   ListerAbandonDependencies &
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies;
 export type AbandonCommandDependencies = {
@@ -63,4 +68,5 @@ export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) =
   registerConsulterAbandonQuery(dependencies);
   registerListerAbandonQuery(dependencies);
   registerListerAbandonsAvecRecandidatureÀRelancerQuery(dependencies);
+  registerDétecterAbandonQuery(dependencies);
 };

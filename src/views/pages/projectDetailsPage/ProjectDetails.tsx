@@ -38,6 +38,9 @@ type ProjectDetailsProps = {
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
   alertesRaccordement?: AlerteRaccordement[];
+  abandon?: {
+    statut: string;
+  };
 };
 
 export const ProjectDetails = ({
@@ -45,9 +48,14 @@ export const ProjectDetails = ({
   project,
   projectEventList,
   alertesRaccordement,
+  abandon,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
+
+  const identifiantProjet = convertirEnIdentifiantProjet(
+    `${project.appelOffreId}#${project.periodeId}#${project.familleId || ''}#${project.numeroCRE}`,
+  ).formatter();
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -63,6 +71,13 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
+          {abandon && (
+            <AlertBox title="Abandon">
+              <a href={`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`}>
+                Voir l'abandon {abandon.statut}
+              </a>
+            </AlertBox>
+          )}
           {project.alerteAnnulationAbandon && userIs('porteur-projet')(user) && (
             <AlerteAnnulationAbandonPossible
               {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
