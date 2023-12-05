@@ -1,1 +1,1 @@
-export { buildDocument } from './abandon/générer/buildDocument';
+export { buildDocument } from './abandon/accordAbandonAvecRecandidature/buildDocument';
