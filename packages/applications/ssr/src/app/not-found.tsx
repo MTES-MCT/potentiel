@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Heading1 } from '@/components/atoms/headings';
 
-export default async function NotFound() {
+export default async function PageIntrouvable() {
   return (
     <div className="fr-container">
       <div className="fr-my-7w fr-mt-md-12w fr-mb-md-10w fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-grid-row--center">
@@ -17,7 +17,8 @@ export default async function NotFound() {
             Dans ce cas, pour continuer votre visite vous pouvez consulter notre page d’accueil, ou
             effectuer une recherche avec notre moteur de recherche en haut de page.
             <br />
-            Sinon contactez-nous pour que l’on puisse vous rediriger vers la bonne information.
+            Sinon contactez-nous via notre outil crisp (bouton en bas à droite de l'écran) pour que
+            l’on puisse vous rediriger vers la bonne information.
           </p>
           <ul className="fr-btns-group fr-btns-group--inline-md">
             <li>
