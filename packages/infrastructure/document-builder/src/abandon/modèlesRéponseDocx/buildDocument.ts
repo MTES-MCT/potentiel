@@ -5,7 +5,45 @@ import Docxtemplater from 'docxtemplater';
 
 type getModèleRéponseAbandonProps = {
   aprèsConfirmation: boolean;
-  data: {};
+  data: {
+    suiviPar: string; // user qui édite le document
+    suiviParEmail: string; // email dgec var env
+    refPotentiel: string; // identifiantProjet
+
+    dreal: string; // région projet
+
+    status: string;
+
+    nomRepresentantLegal: string;
+    nomCandidat: string;
+    adresseCandidat: string;
+    email: string;
+
+    titrePeriode: string;
+    titreAppelOffre: string;
+    familles: 'yes' | '';
+    titreFamille: string;
+    dateNotification: string;
+
+    nomProjet: string;
+    codePostalProjet: string;
+    communeProjet: string;
+    puissance: string;
+    unitePuissance: string;
+
+    dateDemande: string;
+    justificationDemande: string;
+
+    referenceParagrapheAbandon: string;
+    contenuParagrapheAbandon: string;
+
+    dateDemandeConfirmation: string;
+    dateConfirmation: string;
+
+    isEDFOA: string;
+    isEDFSEI: string;
+    isEDM: string;
+  };
 };
 
 export const getModèleRéponseAbandon = async ({
