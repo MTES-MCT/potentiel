@@ -117,10 +117,12 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
         codePostalProjet: candidature.localité.codePostal,
         communeProjet: candidature.localité.commune,
         contenuParagrapheAbandon: dispositionCDC.dispositions,
-        dateConfirmation: abandon.demande.confirmation?.confirméLe?.formatter() || '',
-        dateDemande: abandon.demande.demandéLe.formatter(),
-        dateDemandeConfirmation: abandon.demande.confirmation?.demandéLe.formatter() || '',
-        dateNotification: candidature.dateDésignation,
+        dateConfirmation:
+          abandon.demande.confirmation?.confirméLe?.date.toLocaleDateString('fr-FR') || '',
+        dateDemande: abandon.demande.demandéLe.date.toLocaleDateString('fr-FR'),
+        dateDemandeConfirmation:
+          abandon.demande.confirmation?.demandéLe.date.toLocaleDateString('fr-FR') || '',
+        dateNotification: new Date(candidature.dateDésignation).toLocaleDateString('fr-FR'),
         dreal: candidature.localité.région,
         email: '',
         familles: candidature.famille ? 'yes' : '',
