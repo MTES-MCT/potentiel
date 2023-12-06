@@ -3,7 +3,6 @@
 import { useFormState, useFormStatus } from 'react-dom';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import {
@@ -23,13 +22,9 @@ const initialState: DemanderAbandonState = {
 
 type DemanderAbandonFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
 };
 
-export const DemanderAbandonForm = ({
-  identifiantProjet,
-  utilisateur,
-}: DemanderAbandonFormProps) => {
+export const DemanderAbandonForm = ({ identifiantProjet }: DemanderAbandonFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(demanderAbandonAction, initialState);
@@ -45,7 +40,6 @@ export const DemanderAbandonForm = ({
         {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
 
         <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-        <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
         <Input
           textArea
           label="Raison"
