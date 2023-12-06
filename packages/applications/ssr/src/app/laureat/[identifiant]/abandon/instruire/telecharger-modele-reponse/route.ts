@@ -49,7 +49,7 @@ export const GET = async (request: Request, { params: { identifiant } }: Identif
       adresseCandidat: '!!!!!! DONNEE MANQUANTE !!!!!!',
       codePostalProjet: candidature.localité.codePostal,
       communeProjet: candidature.localité.commune,
-      contenuParagrapheAbandon: dispositionCDC.contenuParagrapheAbandon,
+      contenuParagrapheAbandon: dispositionCDC.dispositions,
       dateConfirmation: abandon.demande.confirmation?.confirméLe?.formatter() || '',
       dateDemande: abandon.demande.demandéLe.formatter(),
       dateDemandeConfirmation: abandon.demande.confirmation?.demandéLe.formatter() || '',
@@ -63,7 +63,7 @@ export const GET = async (request: Request, { params: { identifiant } }: Identif
       nomProjet: candidature.nom,
       nomRepresentantLegal: candidature.candidat.représentantLégal,
       puissance: candidature.puissance.toString(),
-      referenceParagrapheAbandon: dispositionCDC.referenceParagrapheAbandon,
+      referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
       refPotentiel: identifiantProjet,
       status: abandon.statut.statut,
       suiviPar: utilisateur?.nom || '',
@@ -117,10 +117,35 @@ function getCDCAbandonRefs({
   cahierDesChargesChoisi: string;
 }) {
   const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
+  const cdc = parseCahierDesChargesChoisi(cahierDesChargesChoisi);
+  const cahierDesChargesModifié = périodeDetails?.cahiersDesChargesModifiésDisponibles.find(
+    (c) => cdc.type === 'modifié' && c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif,
+  );
+
   // Convertir le CDC en value type pour rechercher le CDC modifié dispo par type et date de parution
   // Vérifier les dispositions du CDC si existantes
   // sinon, vérifier les dispositions de la période
   // sinon, vérifier les dispositions de l'AO
 
-  // return { contenuParagrapheAbandon: '', referenceParagrapheAbandon: '' };
+  return {
+    référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
+    dispositions: '!!!CONTENU NON DISPONIBLE!!!',
+    ...appelOffres.donnéesCourriersRéponse.texteEngagementRéalisationEtModalitésAbandon,
+    ...périodeDetails?.donnéesCourriersRéponse?.texteEngagementRéalisationEtModalitésAbandon,
+    ...(cahierDesChargesModifié &&
+      cahierDesChargesModifié.donnéesCourriersRéponse
+        ?.texteEngagementRéalisationEtModalitésAbandon),
+  };
 }
+
+const parseCahierDesChargesChoisi = (référence: string) => {
+  if (référence === 'initial') {
+    return { type: 'initial' };
+  }
+
+  return {
+    type: 'modifié',
+    paruLe: référence.replace('-alternatif', ''),
+    alternatif: référence.search('-alternatif') === -1 ? undefined : true,
+  };
+};
