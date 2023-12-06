@@ -1,5 +1,3 @@
-'use client';
-
 import { FC } from 'react';
 import Image from 'next/image';
 import { Heading1 } from '@/components/atoms/headings';

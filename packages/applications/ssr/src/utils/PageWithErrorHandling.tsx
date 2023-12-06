@@ -1,3 +1,5 @@
+'use server';
+
 import {
   InvalidOperationError,
   NotFoundError,
@@ -6,7 +8,7 @@ import {
 
 import { CustomErrorPage } from '@/components/pages/custom-error/CustomErrorPage';
 
-export const pageErrorHandling = async (
+export const PageWithErrorHandling = async (
   action: () => Promise<JSX.Element>,
 ): Promise<JSX.Element> => {
   try {

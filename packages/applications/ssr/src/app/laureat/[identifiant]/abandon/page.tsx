@@ -11,17 +11,16 @@ import {
   DetailAbandonPage,
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
-import { pageErrorHandling } from '@/utils/pageWithErrorHandling';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  const identifiantProjet = decodeParameter(identifiant);
-  const utilisateur = await getUser();
+  return PageWithErrorHandling(async () => {
+    const identifiantProjet = decodeParameter(identifiant);
+    const utilisateur = await getUser();
 
-  if (!utilisateur) {
-    return redirect('/login.html');
-  }
-
-  return pageErrorHandling(async () => {
+    if (!utilisateur) {
+      return redirect('/login.html');
+    }
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'CONSULTER_CANDIDATURE_QUERY',
       data: {
