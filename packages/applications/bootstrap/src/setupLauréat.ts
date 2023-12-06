@@ -12,6 +12,7 @@ import {
   AbandonAdapter,
   listerIdentifiantsProjetsParDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
+import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
 
 export const setupLauréat = async () => {
   registerLauréatUseCases({
@@ -25,6 +26,7 @@ export const setupLauréat = async () => {
     listerIdentifiantsProjetsParPorteur: listerIdentifiantsProjetsParPorteurAdapter,
     listerAbandonsParProjets: AbandonAdapter.listerAbandonParProjetsAdapter,
     listerIdentifiantsProjetsParDreal: listerIdentifiantsProjetsParDrealAdapter,
+    buildModèleRéponseAbandon: getModèleRéponseAbandon,
   });
 
   AbandonNotification.register({

@@ -2,6 +2,7 @@
 
 import { useFormState, useFormStatus } from 'react-dom';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { Download } from '@codegouvfr/react-dsfr/Download';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import {
   AccorderAbandonSansRecandidatureState,
@@ -39,6 +40,16 @@ export const AccorderAbandonSansRecandidatureForm = ({
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+
+      <Download
+        linkProps={{
+          href: `/laureat/${encodeParameter(
+            identifiantProjet,
+          )}/abandon/instruire/telecharger-modele-reponse`,
+        }}
+        details="docx"
+        label="Télécharger le modèle de réponse"
+      />
 
       <Upload
         label="Téléverser une réponse signée"

@@ -11,6 +11,7 @@ import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { encodeParameter } from '@/utils/encodeParameter';
+import Download from '@codegouvfr/react-dsfr/Download';
 
 const initialState: RejeterAbandonState = {
   error: undefined,
@@ -36,6 +37,17 @@ export const RejeterAbandonForm = ({ identifiantProjet, utilisateur }: RejeterAb
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+
+      <Download
+        linkProps={{
+          href: `/laureat/${encodeParameter(
+            identifiantProjet,
+          )}/abandon/instruire/telecharger-modele-reponse`,
+        }}
+        details="docx"
+        label="Télécharger le modèle de réponse"
+      />
+
       <Upload
         label="Téléverser une réponse signée"
         hint="au format pdf"

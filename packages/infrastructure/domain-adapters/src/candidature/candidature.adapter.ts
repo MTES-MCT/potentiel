@@ -32,7 +32,8 @@ const selectCandidatureQuery = `
     'email', "email",
     'cahierDesCharges', "cahierDesChargesActuel",
     'dateDésignation', to_char(to_timestamp("notifiedOn" / 1000)::timestamp at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
-    'puissance', "puissance"
+    'puissance', "puissance",
+    'adressePostaleCandidat', "details"->>'Adresse postale du contact'
   ) as value
   from "projects"
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4

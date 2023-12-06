@@ -21,4 +21,5 @@ export type CandidatureProjection = {
   dateDésignation: DateTime.RawType;
   puissance: number;
   cahierDesCharges: string;
+  adressePostaleCandidat: string;
 };

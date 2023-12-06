@@ -21,6 +21,12 @@
       "path": "../../domain/document"
     },
     {
+      "path": "../../domain/candidature"
+    },
+    {
+      "path": "../../domain/appel-offre"
+    },
+    {
       "path": "../../domain/utilisateur"
     }
   ]

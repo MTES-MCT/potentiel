@@ -18,23 +18,30 @@ import { DemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPr
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
 import { DétecterAbandonQuery } from './détecter/détecterAbandon.query';
+import {
+  BuildModèleRéponseAbandonPort,
+  GénérerModèleRéponseAbandonQuery,
+  GénérerModèleRéponseAbandonReadModel,
+} from './générerModèleRéponse/générerModèleRéponseAbandon.query';
 
 // Query
 export type AbandonQuery =
   | DétecterAbandonQuery
   | ConsulterAbandonQuery
   | ListerAbandonsQuery
-  | ListerAbandonsAvecRecandidatureÀRelancerQuery;
+  | ListerAbandonsAvecRecandidatureÀRelancerQuery
+  | GénérerModèleRéponseAbandonQuery;
 
 export {
   DétecterAbandonQuery,
   ConsulterAbandonQuery,
   ListerAbandonsQuery,
   ListerAbandonsAvecRecandidatureÀRelancerQuery,
+  GénérerModèleRéponseAbandonQuery,
 };
 
 // ReadModel
-export { ConsulterAbandonReadModel, ListerAbandonReadModel };
+export { ConsulterAbandonReadModel, ListerAbandonReadModel, GénérerModèleRéponseAbandonReadModel };
 
 // UseCases
 export type AbandonUseCase =
@@ -79,4 +86,4 @@ export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 export * from './abandon.projection';
 
 // Ports
-export { ListerAbandonsParProjetsPort };
+export { ListerAbandonsParProjetsPort, BuildModèleRéponseAbandonPort };

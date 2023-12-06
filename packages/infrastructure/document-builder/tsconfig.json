@@ -10,6 +10,9 @@
       "path": "../../domain/document"
     },
     {
+      "path": "../../domain/lauréat"
+    },
+    {
       "path": "../../libraries/monitoring"
     }
   ]

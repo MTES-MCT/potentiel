@@ -6,14 +6,18 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && copyfiles -f src/abandon/modèlesRéponseDocx/*.docx dist/abandon/modèlesRéponseDocx"
   },
   "dependencies": {
+    "@potentiel-domain/laureat": "*",
     "@potentiel-domain/document": "*",
     "@potentiel/monitoring": "*",
-    "@react-pdf/renderer": "^3.1.14"
+    "@react-pdf/renderer": "^3.1.14",
+    "docxtemplater": "^3.42.3",
+    "pizzip": "^3.1.4"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel/tsconfig": "*",
+    "copyfiles": "^2.4.1"
   }
 }
