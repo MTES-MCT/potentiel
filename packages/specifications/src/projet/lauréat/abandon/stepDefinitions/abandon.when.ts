@@ -8,8 +8,8 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { createToken } from '../../../../helpers/createToken';
 
 Quand(
-  `le porteur demande l'abandon pour le projet lauréat {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+  `{string} demande l'abandon pour le projet lauréat {string} avec :`,
+  async function (this: PotentielWorld, role: string, nomProjet: string, table: DataTable) {
     try {
       const exemple = table.rowsHash();
       const raison = exemple[`La raison de l'abandon`] ?? `La raison de l'abandon`;
@@ -17,7 +17,12 @@ Quand(
       const content = exemple[`Le contenu de la pièce justificative`] ?? undefined;
       const recandidature = exemple[`Recandidature`] === 'oui';
       const dateDemande = new Date();
-      const utilisateur = 'porteur@test.test';
+      const email = 'porteur@test.test';
+
+      const accessToken = createToken({
+        email: 'porteur@test.test',
+        role,
+      });
 
       this.lauréatWorld.abandonWorld.raison = raison;
       this.lauréatWorld.abandonWorld.recandidature = recandidature;
@@ -27,7 +32,8 @@ Quand(
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
+      this.accessToken = accessToken;
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -44,7 +50,7 @@ Quand(
             : undefined,
           recandidatureValue: recandidature,
           dateDemandeValue: dateDemande.toISOString(),
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {
@@ -54,10 +60,17 @@ Quand(
 );
 
 Quand(
-  `le porteur demande l'abandon pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `{string} demande l'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, role: string, nomProjet: string) {
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      const accessToken = createToken({
+        email: 'porteur@test.test',
+        role,
+      });
+
+      this.accessToken = accessToken;
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'DEMANDER_ABANDON_USECASE',
@@ -66,7 +79,7 @@ Quand(
           raisonValue: `La raison de l'abandon`,
           recandidatureValue: false,
           dateDemandeValue: new Date().toISOString(),
-          utilisateurValue: 'porteur@test.test',
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {
