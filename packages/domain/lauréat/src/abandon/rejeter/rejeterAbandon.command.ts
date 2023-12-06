@@ -12,7 +12,7 @@ export type RejeterAbandonCommand = Message<
     dateRejet: DateTime.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
-    utilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   }
 >;
 
@@ -22,14 +22,14 @@ export const registerRejeterAbandonCommand = (loadAggregate: LoadAggregate) => {
     identifiantProjet,
     réponseSignée,
     dateRejet,
-    utilisateur,
+    identifiantUtilisateur,
   }) => {
     const abandon = await loadAbandon(identifiantProjet);
 
     await abandon.rejeter({
       dateRejet,
       identifiantProjet,
-      utilisateur,
+      identifiantUtilisateur,
       réponseSignée,
     });
   };

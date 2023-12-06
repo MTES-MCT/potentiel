@@ -90,7 +90,7 @@ export const InstructionAbandonForm = ({
           )}
 
           {instruction === 'rejeter' && (
-            <RejeterAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
+            <RejeterAbandonForm identifiantProjet={identifiantProjet} />
           )}
 
           {instruction === 'accorder' && recandidature ? (

@@ -7,7 +7,6 @@ import {
   RejeterAbandonState,
   rejeterAbandonAction,
 } from '@/app/laureat/[identifiant]/abandon/instruire/rejeter.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { encodeParameter } from '@/utils/encodeParameter';
@@ -20,10 +19,9 @@ const initialState: RejeterAbandonState = {
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
 };
 
-export const RejeterAbandonForm = ({ identifiantProjet, utilisateur }: RejeterAbandonFormProps) => {
+export const RejeterAbandonForm = ({ identifiantProjet }: RejeterAbandonFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(rejeterAbandonAction, initialState);
@@ -36,7 +34,6 @@ export const RejeterAbandonForm = ({ identifiantProjet, utilisateur }: RejeterAb
     <form action={formAction} method="post" encType="multipart/form-data">
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
 
       <Download
         linkProps={{

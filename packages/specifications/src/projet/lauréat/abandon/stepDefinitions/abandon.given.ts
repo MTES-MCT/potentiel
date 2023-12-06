@@ -107,9 +107,14 @@ EtantDonné(
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const accessToken = createToken({
+    const porteurAccessToken = createToken({
       email: 'porteur@test.test',
       role: 'le porteur',
+    });
+
+    const validateurAccessToken = createToken({
+      email: 'validateur@test.test',
+      role: 'le DGEC validateur',
     });
 
     await mediator.send<Abandon.AbandonUseCase>({
@@ -123,7 +128,7 @@ EtantDonné(
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: accessToken,
+        utilisateurValue: porteurAccessToken,
       },
     });
 
@@ -136,7 +141,7 @@ EtantDonné(
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
         },
         dateRejetValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'validateur@test.test',
+        utilisateurValue: validateurAccessToken,
       },
     });
   },

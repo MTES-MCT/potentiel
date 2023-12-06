@@ -19,14 +19,14 @@ export type AbandonRejetéEvent = DomainEvent<
 
 export type RejeterOptions = {
   dateRejet: DateTime.ValueType;
-  utilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function rejeter(
   this: AbandonAggregate,
-  { utilisateur, dateRejet, identifiantProjet, réponseSignée }: RejeterOptions,
+  { identifiantUtilisateur, dateRejet, identifiantProjet, réponseSignée }: RejeterOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.rejeté);
 
@@ -38,7 +38,7 @@ export async function rejeter(
         format: réponseSignée.format,
       },
       rejetéLe: dateRejet.formatter(),
-      rejetéPar: utilisateur.formatter(),
+      rejetéPar: identifiantUtilisateur.formatter(),
     },
   };
 

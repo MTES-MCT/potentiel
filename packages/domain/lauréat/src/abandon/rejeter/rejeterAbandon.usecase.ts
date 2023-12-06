@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { RejeterAbandonCommand } from './rejeterAbandon.command';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
@@ -35,7 +35,7 @@ export const registerRejeterAbandonUseCase = () => {
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const { identifiantUtilisateur } = Utilisateur.convertirEnValueType(utilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
@@ -51,7 +51,7 @@ export const registerRejeterAbandonUseCase = () => {
         dateRejet,
         identifiantProjet,
         réponseSignée,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
   };
