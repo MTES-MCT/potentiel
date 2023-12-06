@@ -71,7 +71,7 @@ class RoleRefuséError extends OperationRejectedError {
 
 class AccésFonctionnalitéRefuséError extends OperationRejectedError {
   constructor(fonctionnalité: string, role: string) {
-    super('Accés à la fonctionnalité refusé', {
+    super(`L'accés à cette fonctionnalité n'est pas autorisé`, {
       fonctionnalité,
       role,
     });

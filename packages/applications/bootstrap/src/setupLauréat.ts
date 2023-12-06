@@ -13,8 +13,18 @@ import {
   listerIdentifiantsProjetsParDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
+import { permissionMiddleware } from '@potentiel-domain/utilisateur';
 
 export const setupLauréat = async () => {
+  mediator.use({
+    messageType: 'ACCORDER_ABANDON_USECASE',
+    middlewares: [permissionMiddleware],
+  });
+  mediator.use({
+    messageType: 'CONSULTER_ABANDON_QUERY',
+    middlewares: [permissionMiddleware],
+  });
+
   registerLauréatUseCases({
     loadAggregate,
   });

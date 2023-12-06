@@ -101,7 +101,6 @@ export const InstructionAbandonForm = ({
           ) : instruction === 'accorder' && !recandidature ? (
             <AccorderAbandonSansRecandidatureForm
               identifiantProjet={identifiantProjet}
-              utilisateur={utilisateur}
             />
           ) : null}
         </>

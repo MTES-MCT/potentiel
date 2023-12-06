@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 // Package
@@ -39,9 +39,7 @@ export const registerAccorderAbandonUseCase = () => {
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
-
-    // utilisateur.àLaPermission('ACCORDER_ABANDON_USECASE');
+    const utilisateur = Utilisateur.convertirEnValueType(utilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
@@ -55,7 +53,7 @@ export const registerAccorderAbandonUseCase = () => {
       type: 'ACCORDER_ABANDON_COMMAND',
       data: {
         dateAccord,
-        utilisateur,
+        utilisateur: utilisateur.identifiantUtilisateur,
         identifiantProjet,
         réponseSignée,
       },

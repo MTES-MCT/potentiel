@@ -14,7 +14,7 @@ export type DemanderAbandonCommand = Message<
     raison: string;
     pièceJustificative?: DocumentProjet.ValueType;
     recandidature: boolean;
-    utilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     dateDemande: DateTime.ValueType;
   }
 >;
@@ -26,7 +26,7 @@ export const registerDemanderAbandonCommand = (loadAggregate: LoadAggregate) => 
     pièceJustificative,
     raison,
     recandidature,
-    utilisateur,
+    identifiantUtilisateur,
     dateDemande,
   }) => {
     const abandon = await loadAbandon(identifiantProjet, false);
@@ -35,7 +35,7 @@ export const registerDemanderAbandonCommand = (loadAggregate: LoadAggregate) => 
       identifiantProjet,
       pièceJustificative,
       raison,
-      utilisateur,
+      identifiantUtilisateur,
       dateDemande,
       recandidature,
     });

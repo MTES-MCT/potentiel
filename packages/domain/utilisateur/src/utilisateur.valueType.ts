@@ -28,6 +28,8 @@ export const convertirEnValueType = (value: string): ValueType => {
 const convertToken = (token: string) => {
   const { email, nom, roles } = parseToken(token);
 
+  console.log(email);
+
   const role = roles.find((r) => Role.estUnRoleValide(r));
 
   return {

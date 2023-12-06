@@ -30,6 +30,7 @@ Alors(
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
+          utilisateurValue: this.accessToken,
         },
       });
 
@@ -74,6 +75,7 @@ Alors(
           type: 'CONSULTER_ABANDON_QUERY',
           data: {
             identifiantProjetValue: identitiantProjetValueType.formatter(),
+            utilisateurValue: this.accessToken,
           },
         });
         result.should.be.undefined;
@@ -98,6 +100,7 @@ Alors(
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
+          utilisateurValue: this.accessToken,
         },
       });
 
@@ -145,6 +148,7 @@ Alors(
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
+          utilisateurValue: this.accessToken,
         },
       });
 
@@ -192,6 +196,7 @@ Alors(
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
+          utilisateurValue: this.accessToken,
         },
       });
 
@@ -216,6 +221,7 @@ Alors(
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
+          utilisateurValue: this.accessToken,
         },
       });
 
@@ -262,6 +268,7 @@ Alors(
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
+          utilisateurValue: this.accessToken,
         },
       });
 
@@ -297,6 +304,7 @@ Alors(
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identifiantProjetAbandonnéValueType.formatter(),
+          utilisateurValue: this.accessToken,
         },
       });
 
@@ -317,6 +325,7 @@ Alors(
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
+          utilisateurValue: this.accessToken,
         },
       });
 

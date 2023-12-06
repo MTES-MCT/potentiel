@@ -28,6 +28,8 @@
     "@cucumber/pretty-formatter": "^1.0.0",
     "@potentiel/tsconfig": "*",
     "@types/chai": "^4.3.5",
-    "chai": "^4.3.8"
+    "@types/jsonwebtoken": "^9.0.5",
+    "chai": "^4.3.8",
+    "jsonwebtoken": "^9.0.2"
   }
 }

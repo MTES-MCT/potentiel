@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DemanderAbandonCommand } from './demanderAbandon.command';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 // TODO :
@@ -35,7 +35,7 @@ export const registerDemanderAbandonUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const { identifiantUtilisateur } = Utilisateur.convertirEnValueType(utilisateurValue);
 
     const pièceJustificative = pièceJustificativeValue
       ? DocumentProjet.convertirEnValueType(
@@ -63,7 +63,7 @@ export const registerDemanderAbandonUseCase = () => {
         raison: raisonValue,
         recandidature: recandidatureValue,
         identifiantProjet,
-        utilisateur,
+        identifiantUtilisateur,
         pièceJustificative,
       },
     });

@@ -23,7 +23,7 @@ export type AbandonDemandéEvent = DomainEvent<
 
 export type DemanderOptions = {
   dateDemande: DateTime.ValueType;
-  utilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   pièceJustificative?: DocumentProjet.ValueType;
   recandidature: boolean;
@@ -33,7 +33,7 @@ export type DemanderOptions = {
 export async function demander(
   this: AbandonAggregate,
   {
-    utilisateur,
+    identifiantUtilisateur,
     dateDemande,
     identifiantProjet,
     pièceJustificative,
@@ -53,7 +53,7 @@ export async function demander(
       },
       raison,
       demandéLe: dateDemande.formatter(),
-      demandéPar: utilisateur.formatter(),
+      demandéPar: identifiantUtilisateur.formatter(),
     },
   };
 

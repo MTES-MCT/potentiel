@@ -32,7 +32,7 @@ export async function annulerRejet(
     identifiantProjet,
     raison: this.demande.raison,
     recandidature: this.demande.recandidature,
-    utilisateur: this.demande.demandéPar,
+    identifiantUtilisateur: this.demande.demandéPar,
     pièceJustificative: this.demande.pièceJustificative,
   });
 }

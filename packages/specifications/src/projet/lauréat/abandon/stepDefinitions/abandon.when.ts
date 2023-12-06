@@ -5,6 +5,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { createToken } from '../../../../helpers/createToken';
 
 Quand(
   `le porteur demande l'abandon pour le projet lauréat {string} avec :`,
@@ -176,15 +177,20 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur accorde l'abandon pour le projet lauréat {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+  `{string} accorde l'abandon pour le projet lauréat {string} avec :`,
+  async function (this: PotentielWorld, role: string, nomProjet: string, table: DataTable) {
     try {
       const exemple = table.rowsHash();
       const format = exemple[`Le format de la réponse signée`] ?? `Le format de la réponse signée`;
       const content =
         exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
       const dateAccord = DateTime.now();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
+
+      const accessToken = createToken({
+        email,
+        role,
+      });
 
       this.lauréatWorld.abandonWorld.dateAccord = dateAccord;
       this.lauréatWorld.abandonWorld.réponseSignée = {
@@ -192,7 +198,8 @@ Quand(
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
+      this.accessToken = accessToken;
       this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature = dateAccord;
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -206,7 +213,7 @@ Quand(
             content: convertStringToReadableStream(content),
             format,
           },
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {
@@ -216,13 +223,20 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur accorde l'abandon pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `{string} accorde l'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, role: string, nomProjet: string) {
     try {
       const dateAccord = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      const accessToken = createToken({
+        email,
+        role,
+      });
+
+      this.accessToken = accessToken;
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'ACCORDER_ABANDON_USECASE',
@@ -233,7 +247,7 @@ Quand(
             content: convertStringToReadableStream(`Le contenu de la réponse signée`),
             format: 'text/plain',
           },
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {

@@ -5,11 +5,17 @@ import { Abandon } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
+import { createToken } from '../../../../helpers/createToken';
 
 EtantDonné(
   /une demande d'abandon en cours(.*)pour le projet lauréat "(.*)"/,
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const accessToken = createToken({
+      email: 'porteur@test.test',
+      role: 'le porteur',
+    });
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
@@ -22,7 +28,7 @@ EtantDonné(
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'porteur@test.test',
+        utilisateurValue: accessToken,
       },
     });
   },
@@ -37,6 +43,16 @@ EtantDonné(
     const recandidature = etat.includes('avec recandidature');
     const preuve = etat.includes('avec preuve transmise');
 
+    const porteurAccessToken = createToken({
+      email: 'porteur@test.test',
+      role: 'le porteur',
+    });
+
+    const validateurAccessToken = createToken({
+      email: 'porteur@test.test',
+      role: 'le DGEC validateur',
+    });
+
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
@@ -48,7 +64,7 @@ EtantDonné(
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: recandidature,
         dateDemandeValue: DateTime.now().formatter(),
-        utilisateurValue: 'porteur@test.test',
+        utilisateurValue: porteurAccessToken,
       },
     });
 
@@ -61,7 +77,7 @@ EtantDonné(
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
         },
         dateAccordValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'validateur@test.test',
+        utilisateurValue: validateurAccessToken,
       },
     });
 
@@ -91,6 +107,11 @@ EtantDonné(
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+    const accessToken = createToken({
+      email: 'porteur@test.test',
+      role: 'le porteur',
+    });
+
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
@@ -102,7 +123,7 @@ EtantDonné(
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'porteur@test.test',
+        utilisateurValue: accessToken,
       },
     });
 
@@ -126,6 +147,11 @@ EtantDonné(
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+    const accessToken = createToken({
+      email: 'porteur@test.test',
+      role: 'le porteur',
+    });
+
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
@@ -137,7 +163,7 @@ EtantDonné(
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'porteur@test.test',
+        utilisateurValue: accessToken,
       },
     });
 
@@ -161,6 +187,11 @@ EtantDonné(
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+    const accessToken = createToken({
+      email: 'porteur@test.test',
+      role: 'le porteur',
+    });
+
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
@@ -172,7 +203,7 @@ EtantDonné(
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'porteur@test.test',
+        utilisateurValue: accessToken,
       },
     });
 

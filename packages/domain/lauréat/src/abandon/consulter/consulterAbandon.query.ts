@@ -46,6 +46,7 @@ export type ConsulterAbandonQuery = Message<
   'CONSULTER_ABANDON_QUERY',
   {
     identifiantProjetValue: string;
+    utilisateurValue: string;
   },
   ConsulterAbandonReadModel
 >;

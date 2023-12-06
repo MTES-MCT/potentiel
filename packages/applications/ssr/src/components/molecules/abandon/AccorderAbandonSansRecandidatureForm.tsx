@@ -8,7 +8,6 @@ import {
   AccorderAbandonSansRecandidatureState,
   accorderAbandonSansRecandidatureAction,
 } from '@/app/laureat/[identifiant]/abandon/instruire/accorderSansRecandidature.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { encodeParameter } from '@/utils/encodeParameter';
@@ -20,12 +19,10 @@ const initialState: AccorderAbandonSansRecandidatureState = {
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
   identifiantProjet,
-  utilisateur,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
@@ -39,7 +36,6 @@ export const AccorderAbandonSansRecandidatureForm = ({
     <form action={formAction} method="post" encType="multipart/form-data">
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
 
       <Download
         linkProps={{

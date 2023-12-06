@@ -35,6 +35,19 @@ export class PotentielWorld extends World {
     this.#error = value;
   }
 
+  #accessToken!: string;
+
+  get accessToken() {
+    if (!this.#accessToken) {
+      throw new Error('accessToken undefined');
+    }
+    return this.#accessToken;
+  }
+
+  set accessToken(value: string) {
+    this.#accessToken = value;
+  }
+
   constructor(options: IWorldOptions) {
     super(options);
 
