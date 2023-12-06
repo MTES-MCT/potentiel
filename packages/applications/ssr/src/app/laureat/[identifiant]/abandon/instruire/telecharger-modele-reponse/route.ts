@@ -46,7 +46,7 @@ export const GET = async (request: Request, { params: { identifiant } }: Identif
   const props: Parameters<typeof getModèleRéponseAbandon>[0] = {
     aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
     data: {
-      adresseCandidat: '!!!!!! DONNEE MANQUANTE !!!!!!',
+      adresseCandidat: candidature.candidat.adressePostale,
       codePostalProjet: candidature.localité.codePostal,
       communeProjet: candidature.localité.commune,
       contenuParagrapheAbandon: dispositionCDC.dispositions,

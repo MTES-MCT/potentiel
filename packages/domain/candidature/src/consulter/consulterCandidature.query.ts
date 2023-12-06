@@ -24,6 +24,7 @@ export type ConsulterCandidatureReadModel = {
     nom: string;
     représentantLégal: string;
     contact: IdentifiantUtilisateur.RawType;
+    adressePostale: string;
   };
   dateDésignation: DateTime.RawType;
   puissance: number;
@@ -74,6 +75,7 @@ const mapToReadModel = ({
   puissance,
   période,
   statut,
+  adressePostaleCandidat,
 }: CandidatureProjection): ConsulterCandidatureReadModel => {
   return {
     appelOffre,
@@ -81,6 +83,7 @@ const mapToReadModel = ({
       contact: email,
       nom: nomCandidat,
       représentantLégal: nomReprésentantLégal,
+      adressePostale: adressePostaleCandidat,
     },
     dateDésignation,
     famille,
