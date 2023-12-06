@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Abandon, CahierDesCharges } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-offre';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { ConsulterAbandonQuery } from '../consulter/consulterAbandon.query';
+import { ConsulterCahierDesChargesChoisiQuery } from '../../cahierDesChargesChoisi/consulter/consulterCahierDesChargesChoisi.query';
 
 export type GénérerModèleRéponseAbandonReadModel = {
   format: string;
@@ -65,7 +66,7 @@ export type GénérerModèleRéponseAbandonDependencies = {
   buildModèleRéponseAbandon: BuildModèleRéponseAbandonPort;
 };
 
-export const GegistergénérerModèleRéponseAbandonQuery = ({
+export const registerGénérerModèleRéponseAbandonQuery = ({
   buildModèleRéponseAbandon,
 }: GénérerModèleRéponseAbandonDependencies) => {
   const handler: MessageHandler<GénérerModèleRéponseAbandonQuery> = async ({
@@ -86,7 +87,7 @@ export const GegistergénérerModèleRéponseAbandonQuery = ({
       },
     });
 
-    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+    const abandon = await mediator.send<ConsulterAbandonQuery>({
       type: 'CONSULTER_ABANDON_QUERY',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -98,11 +99,10 @@ export const GegistergénérerModèleRéponseAbandonQuery = ({
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
-    const { cahierDesChargesChoisi } =
-      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
-        type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
-        data: { identifiantProjet },
-      });
+    const { cahierDesChargesChoisi } = await mediator.send<ConsulterCahierDesChargesChoisiQuery>({
+      type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+      data: { identifiantProjet },
+    });
 
     const dispositionCDC = getCDCAbandonRefs({
       appelOffres,

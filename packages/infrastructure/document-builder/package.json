@@ -9,6 +9,7 @@
     "build": "tsc && copyfiles -f src/abandon/modèlesRéponseDocx/*.docx dist/abandon/modèlesRéponseDocx"
   },
   "dependencies": {
+    "@potentiel-domain/laureat": "*",
     "@potentiel-domain/document": "*",
     "@potentiel/monitoring": "*",
     "@react-pdf/renderer": "^3.1.14",

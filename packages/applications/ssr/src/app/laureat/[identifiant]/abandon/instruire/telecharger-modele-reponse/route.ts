@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getUser } from '@/utils/getUtilisateur';
-import { GénérerModèleRéponseAbandonQuery } from '@potentiel-domain/laureat/src/abandon';
+import { Abandon } from '@potentiel-domain/laureat';
 import { redirect } from 'next/navigation';
 
 export const GET = async (request: Request, { params: { identifiant } }: IdentifiantParameter) => {
@@ -13,7 +13,7 @@ export const GET = async (request: Request, { params: { identifiant } }: Identif
     redirect('/login.html');
   }
 
-  const modèleRéponse = await mediator.send<GénérerModèleRéponseAbandonQuery>({
+  const modèleRéponse = await mediator.send<Abandon.GénérerModèleRéponseAbandonQuery>({
     type: 'GENERER_MODELE_REPONSE_ABANDON_QUERY',
     data: {
       identifiantProjet,

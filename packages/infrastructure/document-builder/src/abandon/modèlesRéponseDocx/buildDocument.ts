@@ -2,54 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
+import { Abandon } from '@potentiel-domain/laureat';
 
-type getModèleRéponseAbandonProps = {
-  aprèsConfirmation: boolean;
-  data: {
-    suiviPar: string; // user qui édite le document
-    suiviParEmail: string; // email dgec var env
-    refPotentiel: string; // identifiantProjet
-
-    dreal: string; // région projet
-
-    status: string;
-
-    nomRepresentantLegal: string;
-    nomCandidat: string;
-    adresseCandidat: string;
-    email: string;
-
-    titrePeriode: string;
-    titreAppelOffre: string;
-    familles: 'yes' | '';
-    titreFamille: string;
-    dateNotification: string;
-
-    nomProjet: string;
-    codePostalProjet: string;
-    communeProjet: string;
-    puissance: string;
-    unitePuissance: string;
-
-    dateDemande: string;
-    justificationDemande: string;
-
-    referenceParagrapheAbandon: string;
-    contenuParagrapheAbandon: string;
-
-    dateDemandeConfirmation: string;
-    dateConfirmation: string;
-
-    isEDFOA: string;
-    isEDFSEI: string;
-    isEDM: string;
-  };
-};
-
-export const getModèleRéponseAbandon = async ({
+export const getModèleRéponseAbandon: Abandon.BuildModèleRéponseAbandonPort = async ({
   aprèsConfirmation,
   data,
-}: getModèleRéponseAbandonProps) => {
+}) => {
   const content = fs.readFileSync(
     path.resolve(
       __dirname,
