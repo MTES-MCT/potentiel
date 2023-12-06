@@ -14,7 +14,6 @@ import {
   LegacyModificationFileAttachedDTO,
   CovidDelayGrantedDTO,
   ProjectCompletionDueDateSetDTO,
-  DemandeAbandonDTO,
   GarantiesFinancièresDTO,
 } from '../../../modules/frise';
 import { Timeline } from './Timeline';
@@ -1014,69 +1013,6 @@ export const DemandeDelaiSignaléRefusée = () => (
           notes:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam',
         },
-      ],
-    }}
-  />
-);
-
-export const AbandonDemandéForAdmin = () => (
-  <Timeline
-    projectEventList={{
-      project,
-      events: [
-        {
-          type: 'ProjectNotified',
-          variant: 'admin',
-          date: new Date('2019-01-12').getTime(),
-        } as ProjectNotifiedDTO,
-        {
-          type: 'ProjectCertificateGenerated',
-          variant: 'admin',
-          date: new Date('2010-01-13').getTime(),
-          certificateFileId: 'file-id',
-          nomProjet: 'mon projet pv',
-          email: 'porteur@test.test',
-          potentielIdentifier: 'pot-id',
-        } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'DemandeAbandon',
-          variant: 'admin',
-          date: new Date('2019-01-20').getTime(),
-          statut: 'envoyée',
-          demandeUrl: 'demandeUrl',
-          actionRequise: 'à traiter',
-        } as DemandeAbandonDTO,
-      ],
-    }}
-  />
-);
-
-export const AbandonRejetéForPP = () => (
-  <Timeline
-    projectEventList={{
-      project,
-      events: [
-        {
-          type: 'ProjectNotified',
-          variant: 'porteur-projet',
-          date: new Date('2019-01-12').getTime(),
-        } as ProjectNotifiedDTO,
-        {
-          type: 'ProjectCertificateGenerated',
-          variant: 'porteur-projet',
-          date: new Date('2019-01-13').getTime(),
-          certificateFileId: 'file-id',
-          nomProjet: 'mon projet pv',
-          email: undefined,
-          potentielIdentifier: 'pot-id',
-        } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'DemandeAbandon',
-          variant: 'porteur-projet',
-          date: new Date('2019-01-20').getTime(),
-          statut: 'rejetée',
-          demandeUrl: 'demandeUrl',
-        } as DemandeAbandonDTO,
       ],
     }}
   />
