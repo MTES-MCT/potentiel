@@ -8,6 +8,7 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument } from '@potentiel-infrastructure/document-builder';
+import { getAccessToken } from '@/utils/getAccessToken';
 
 export type AccorderAbandonAvecRecandidatureState = FormState;
 
@@ -24,6 +25,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'CONSULTER_ABANDON_QUERY',
     data: {
       identifiantProjetValue: identifiantProjet,
+      utilisateurValue: await getAccessToken(),
     },
   });
 
