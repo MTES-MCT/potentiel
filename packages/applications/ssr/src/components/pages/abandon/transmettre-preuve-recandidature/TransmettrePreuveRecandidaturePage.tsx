@@ -9,13 +9,11 @@ export type TransmettrePreuveRecandidaturePageProps = {
   projetsÀSélectionner: Parameters<
     typeof TransmettrePreuveRecandidatureForm
   >[0]['projetsÀSélectionner'];
-  utilisateur: Parameters<typeof TransmettrePreuveRecandidatureForm>[0]['utilisateur'];
 };
 
 export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidaturePageProps> = ({
   projet,
   projetsÀSélectionner,
-  utilisateur,
 }) => {
   return (
     <ProjetPageTemplate
@@ -30,7 +28,6 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
         <TransmettrePreuveRecandidatureForm
           identifiantProjet={projet.identifiantProjet}
           projetsÀSélectionner={projetsÀSélectionner}
-          utilisateur={utilisateur}
         />
       ) : (
         <p>Vous ne disposez d'aucun projet éligible avec une preuve de recandidature</p>

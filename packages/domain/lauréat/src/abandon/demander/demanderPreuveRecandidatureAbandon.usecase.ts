@@ -7,6 +7,7 @@ export type DemanderPreuveRecandidatureAbandonUseCase = Message<
   {
     identifiantProjetValue: string;
     dateDemandeValue: string;
+    utilisateurValue: string;
   }
 >;
 

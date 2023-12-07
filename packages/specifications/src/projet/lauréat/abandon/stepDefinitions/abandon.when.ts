@@ -506,39 +506,28 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur relance à la date du {string} le porteur du projet {string} pour qu'il transmettre une preuve de recandidature`,
-  async function (this: PotentielWorld, dateDeRelance: string, nomProjet: string) {
-    try {
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      await mediator.send<Abandon.AbandonUseCase>({
-        type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
-        data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
-          dateDemandeValue: new Date(dateDeRelance).toISOString(),
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  /le DGEC validateur demande au porteur du projet "(.*)" de transmettre une preuve de recandidature(.*)/,
-  async function (this: PotentielWorld, nomProjet: string, dateLimite: string) {
+  /"(.*)" demande au porteur du projet "(.*)" de transmettre une preuve de recandidature(.*)/,
+  async function (this: PotentielWorld, role: string, nomProjet: string, dateLimite: string) {
     try {
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
       const dateDemande = DateTime.convertirEnValueType(
         dateLimite.trim() === 'à la date du 01/04/2025' ? new Date('2025-04-01') : new Date(),
       );
+      const email = 'validateur@test.test';
+      const accessToken = createToken({
+        email,
+        role,
+      });
+
       this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature = dateDemande;
+      this.accessToken = accessToken;
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
           dateDemandeValue: dateDemande.formatter(),
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {

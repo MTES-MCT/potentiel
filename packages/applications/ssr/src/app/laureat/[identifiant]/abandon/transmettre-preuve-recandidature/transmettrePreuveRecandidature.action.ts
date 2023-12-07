@@ -4,19 +4,19 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { getAccessToken } from '@/utils/getAccessToken';
 
 export type TransmettrePreuveRecandidatureState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
   preuveRecandidature: zod.string(),
-  utilisateur: zod.string().email(),
   dateDesignation: zod.string(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, preuveRecandidature, dateDesignation, utilisateur },
+  { identifiantProjet, preuveRecandidature, dateDesignation },
 ) => {
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
@@ -24,7 +24,7 @@ const action: FormAction<FormState, typeof schema> = async (
       identifiantProjetValue: identifiantProjet,
       preuveRecandidatureValue: preuveRecandidature,
       dateNotificationValue: dateDesignation,
-      utilisateurValue: utilisateur,
+      utilisateurValue: await getAccessToken(),
     },
   });
 

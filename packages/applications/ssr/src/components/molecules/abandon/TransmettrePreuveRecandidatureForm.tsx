@@ -11,7 +11,6 @@ import {
   TransmettrePreuveRecandidatureState,
   transmettrePreuveRecandidatureAction,
 } from '@/app/laureat/[identifiant]/abandon/transmettre-preuve-recandidature/transmettrePreuveRecandidature.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { encodeParameter } from '@/utils/encodeParameter';
 
@@ -24,7 +23,6 @@ type ProjetÀSélectionner = {
 type TransmettrePreuveRecandidatureFormProps = {
   identifiantProjet: string;
   projetsÀSélectionner: Array<ProjetÀSélectionner>;
-  utilisateur: Utilisateur;
 };
 
 const initialState: TransmettrePreuveRecandidatureState = {
@@ -35,7 +33,6 @@ const initialState: TransmettrePreuveRecandidatureState = {
 export const TransmettrePreuveRecandidatureForm = ({
   identifiantProjet,
   projetsÀSélectionner,
-  utilisateur,
 }: TransmettrePreuveRecandidatureFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
@@ -77,7 +74,6 @@ export const TransmettrePreuveRecandidatureForm = ({
       />
       <form action={formAction} method="post">
         <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-        <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
         {projetSélectionné && (
           <>
             <input
