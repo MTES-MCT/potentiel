@@ -312,11 +312,15 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur demande une confirmation d'abandon pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `{string} demande une confirmation d'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, role: string, nomProjet: string) {
     try {
       const dateDemandeConfirmation = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
+      const accessToken = createToken({
+        email,
+        role,
+      });
 
       this.lauréatWorld.abandonWorld.dateDemandeConfirmation =
         DateTime.convertirEnValueType(dateDemandeConfirmation);
@@ -325,7 +329,8 @@ Quand(
         content: `Le contenu de la réponse signée`,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
+      this.accessToken = accessToken;
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -338,7 +343,7 @@ Quand(
             content: convertStringToReadableStream(`Le contenu de la réponse signée`),
             format: `text/plain`,
           },
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {
@@ -348,15 +353,19 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur demande une confirmation d'abandon pour le projet lauréat {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+  `{string} demande une confirmation d'abandon pour le projet lauréat {string} avec :`,
+  async function (this: PotentielWorld, role: string, nomProjet: string, table: DataTable) {
     try {
       const exemple = table.rowsHash();
       const format = exemple[`Le format de la réponse signée`] ?? `Le format de la réponse signée`;
       const content =
         exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
       const dateDemandeConfirmation = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
+      const accessToken = createToken({
+        email,
+        role,
+      });
 
       this.lauréatWorld.abandonWorld.dateDemandeConfirmation =
         DateTime.convertirEnValueType(dateDemandeConfirmation);
@@ -365,7 +374,8 @@ Quand(
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
+      this.accessToken = accessToken;
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -378,7 +388,7 @@ Quand(
             content: convertStringToReadableStream(content),
             format,
           },
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {

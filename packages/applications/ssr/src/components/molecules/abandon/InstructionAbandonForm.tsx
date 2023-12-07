@@ -83,10 +83,7 @@ export const InstructionAbandonForm = ({
           </form>
 
           {instruction === 'demander-confirmation' && (
-            <DemanderConfirmationAbandonForm
-              identifiantProjet={identifiantProjet}
-              utilisateur={utilisateur}
-            />
+            <DemanderConfirmationAbandonForm identifiantProjet={identifiantProjet} />
           )}
 
           {instruction === 'rejeter' && (
@@ -99,9 +96,7 @@ export const InstructionAbandonForm = ({
               utilisateur={utilisateur}
             />
           ) : instruction === 'accorder' && !recandidature ? (
-            <AccorderAbandonSansRecandidatureForm
-              identifiantProjet={identifiantProjet}
-            />
+            <AccorderAbandonSansRecandidatureForm identifiantProjet={identifiantProjet} />
           ) : null}
         </>
       ) : (

@@ -7,7 +7,6 @@ import {
   DemanderConfirmationAbandonState,
   demanderConfirmationAbandonAction,
 } from '@/app/laureat/[identifiant]/abandon/instruire/demanderConfirmation.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { encodeParameter } from '@/utils/encodeParameter';
@@ -20,12 +19,10 @@ const initialState: DemanderConfirmationAbandonState = {
 
 type DemanderConfirmationAbandonFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
 };
 
 export const DemanderConfirmationAbandonForm = ({
   identifiantProjet,
-  utilisateur,
 }: DemanderConfirmationAbandonFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
@@ -39,7 +36,6 @@ export const DemanderConfirmationAbandonForm = ({
     <form action={formAction} method="post" encType="multipart/form-data">
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
 
       <Download
         linkProps={{

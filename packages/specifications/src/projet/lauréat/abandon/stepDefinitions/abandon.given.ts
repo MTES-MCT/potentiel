@@ -159,7 +159,7 @@ EtantDonné(
 
     const validateurAccessToken = createToken({
       email: 'porteur@test.test',
-      role: 'le porteur',
+      role: 'le DGEC validateur',
     });
 
     await mediator.send<Abandon.AbandonUseCase>({
@@ -204,7 +204,7 @@ EtantDonné(
 
     const validateurAccessToken = createToken({
       email: 'porteur@test.test',
-      role: 'le porteur',
+      role: 'le DGEC validateur',
     });
 
     await mediator.send<Abandon.AbandonUseCase>({
