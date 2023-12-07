@@ -11,7 +11,9 @@ import {
   DetailAbandonPage,
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
+import { listerIdentifiantsProjetsParPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { OperationRejectedError } from '@potentiel-domain/core';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
@@ -21,6 +23,26 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     if (!utilisateur) {
       return redirect('/login.html');
     }
+
+    // TODO: Cette vérification devrait être faite dans un middleware lors de l'exécution
+    //       de la query ConsulterAbandonQuery
+    if (utilisateur.rôle === 'porteur-projet') {
+      const identifiantsProjetsAccessibles = await listerIdentifiantsProjetsParPorteurAdapter(
+        utilisateur.email,
+      );
+
+      if (
+        !identifiantsProjetsAccessibles
+          .map(
+            ({ appelOffre, période, famille = '', numéroCRE }) =>
+              `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+          )
+          .includes(identifiantProjet)
+      ) {
+        throw new OperationRejectedError(`Vous n'avez pas accès à ce projet`);
+      }
+    }
+
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'CONSULTER_CANDIDATURE_QUERY',
       data: {

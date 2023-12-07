@@ -66,8 +66,21 @@ function getDescription(type: ErrorType) {
           </p>
         </>
       );
-    case 'InvalidOperationError':
     case 'OperationRejectedError':
+      return (
+        <>
+          <p className="fr-text--lead fr-mb-3w">Vous n'êtes pas autorisé à accéder à cette page.</p>
+          <p className="fr-text--sm fr-mb-5w">
+            S'il s'agit d'un projet, veuillez contacter le responsable pour qu'il vous octroie les
+            droits nécessaires.
+            <br />
+            Sinon contactez-nous via notre outil crisp (bouton en bas à droite de l'écran) pour que
+            l’on puisse vous rediriger vers la bonne information.
+          </p>
+        </>
+      );
+
+    case 'InvalidOperationError':
     case 'ServerError':
     default:
       return (
