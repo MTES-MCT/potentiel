@@ -12,6 +12,7 @@ import {
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { getAccessToken } from '@/utils/getAccessToken';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
@@ -32,6 +33,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       type: 'CONSULTER_ABANDON_QUERY',
       data: {
         identifiantProjetValue: identifiantProjet,
+        utilisateurValue: await getAccessToken(),
       },
     });
 

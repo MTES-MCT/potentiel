@@ -4,6 +4,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { getUser } from '@/utils/getUtilisateur';
 import { Abandon } from '@potentiel-domain/laureat';
 import { redirect } from 'next/navigation';
+import { getAccessToken } from '@/utils/getAccessToken';
 
 export const GET = async (request: Request, { params: { identifiant } }: IdentifiantParameter) => {
   const identifiantProjet = decodeParameter(identifiant);
@@ -16,8 +17,8 @@ export const GET = async (request: Request, { params: { identifiant } }: Identif
   const modèleRéponse = await mediator.send<Abandon.GénérerModèleRéponseAbandonQuery>({
     type: 'GENERER_MODELE_REPONSE_ABANDON_QUERY',
     data: {
-      identifiantProjet,
-      identifiantUtilisateur: utilisateur.email,
+      identifiantProjetValue: identifiantProjet,
+      utilisateurValue: await getAccessToken(),
     },
   });
 

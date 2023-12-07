@@ -7,6 +7,7 @@ import { displayDate } from '@/utils/displayDate';
 import { getUser } from '@/utils/getUtilisateur';
 import { redirect } from 'next/navigation';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { getAccessToken } from '@/utils/getAccessToken';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -33,10 +34,7 @@ export default async function Page({ searchParams }: PageProps) {
     const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
       type: 'LISTER_ABANDONS_QUERY',
       data: {
-        utilisateur: {
-          email: utilisateur.email,
-          rôle: utilisateur.rôle,
-        },
+        utilisateurValue: await getAccessToken(),
         pagination: { page, itemsPerPage: 10 },
         recandidature,
         statut,

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-offre';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { ConsulterUtilisateurQuery, Utilisateur } from '@potentiel-domain/utilisateur';
 import { ConsulterAbandonQuery } from '../consulter/consulterAbandon.query';
 import { ConsulterCahierDesChargesChoisiQuery } from '../../cahierDesChargesChoisi/consulter/consulterCahierDesChargesChoisi.query';
 
@@ -13,8 +13,8 @@ export type GénérerModèleRéponseAbandonReadModel = {
 export type GénérerModèleRéponseAbandonQuery = Message<
   'GENERER_MODELE_REPONSE_ABANDON_QUERY',
   {
-    identifiantProjet: string;
-    identifiantUtilisateur: string;
+    identifiantProjetValue: string;
+    utilisateurValue: string;
   },
   GénérerModèleRéponseAbandonReadModel
 >;
@@ -70,27 +70,29 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
   buildModèleRéponseAbandon,
 }: GénérerModèleRéponseAbandonDependencies) => {
   const handler: MessageHandler<GénérerModèleRéponseAbandonQuery> = async ({
-    identifiantProjet,
-    identifiantUtilisateur,
+    identifiantProjetValue,
+    utilisateurValue,
   }) => {
+    const { identifiantUtilisateur } = Utilisateur.convertirEnValueType(utilisateurValue);
     const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
       type: 'CONSULTER_UTILISATEUR_QUERY',
       data: {
-        identifiantUtilisateur,
+        identifiantUtilisateur: identifiantUtilisateur.formatter(),
       },
     });
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'CONSULTER_CANDIDATURE_QUERY',
       data: {
-        identifiantProjet,
+        identifiantProjet: identifiantProjetValue,
       },
     });
 
     const abandon = await mediator.send<ConsulterAbandonQuery>({
       type: 'CONSULTER_ABANDON_QUERY',
       data: {
-        identifiantProjetValue: identifiantProjet,
+        identifiantProjetValue,
+        utilisateurValue,
       },
     });
 
@@ -101,7 +103,7 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
 
     const { cahierDesChargesChoisi } = await mediator.send<ConsulterCahierDesChargesChoisiQuery>({
       type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
-      data: { identifiantProjet },
+      data: { identifiantProjet: identifiantProjetValue },
     });
 
     const dispositionCDC = getCDCAbandonRefs({
@@ -133,7 +135,7 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
         nomRepresentantLegal: candidature.candidat.représentantLégal,
         puissance: candidature.puissance.toString(),
         referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
-        refPotentiel: identifiantProjet,
+        refPotentiel: identifiantProjetValue,
         status: abandon.statut.statut,
         suiviPar: utilisateur?.nomComplet || '',
         suiviParEmail: appelOffres.dossierSuiviPar,

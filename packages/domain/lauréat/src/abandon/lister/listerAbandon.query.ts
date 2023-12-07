@@ -3,6 +3,7 @@ import { AbandonProjection } from '../abandon.projection';
 import { List } from '@potentiel-libraries/projection';
 import { DateTime, IdentifiantProjet, Ports } from '@potentiel-domain/common';
 import { StatutAbandon } from '..';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -43,10 +44,6 @@ export type ListerAbandonsParProjetsPort = (
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
-    utilisateur: {
-      rôle: string;
-      email: string;
-    };
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
@@ -73,8 +70,8 @@ export const registerListerAbandonQuery = ({
     recandidature,
     statut,
     appelOffre,
-    utilisateur: { email, rôle },
     pagination: { page, itemsPerPage },
+    utilisateurValue,
   }) => {
     const filters = {
       ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
@@ -82,7 +79,9 @@ export const registerListerAbandonQuery = ({
       ...(appelOffre && { appelOffre }),
     };
 
-    if (['admin', 'dgec-validateur'].includes(rôle)) {
+    const { role, identifiantUtilisateur } = Utilisateur.convertirEnValueType(utilisateurValue);
+
+    if (['admin', 'dgec-validateur'].includes(role.nom)) {
       const result = await list<AbandonProjection>({
         type: 'abandon',
         pagination: { page, itemsPerPage },
@@ -99,8 +98,10 @@ export const registerListerAbandonQuery = ({
       };
     }
 
-    if (rôle === 'dreal') {
-      const identifiantsProjets = await listerIdentifiantsProjetsParDreal(email);
+    if (role.nom === 'dreal') {
+      const identifiantsProjets = await listerIdentifiantsProjetsParDreal(
+        identifiantUtilisateur.email,
+      );
       const abandons = await listerAbandonsParProjets(
         identifiantsProjets.map(
           ({ appelOffre, période, famille = '', numéroCRE }) =>
@@ -118,7 +119,9 @@ export const registerListerAbandonQuery = ({
       };
     }
 
-    const identifiantsProjets = await listerIdentifiantsProjetsParPorteur(email);
+    const identifiantsProjets = await listerIdentifiantsProjetsParPorteur(
+      identifiantUtilisateur.email,
+    );
     const abandons = await listerAbandonsParProjets(
       identifiantsProjets.map(
         ({ appelOffre, période, famille = '', numéroCRE }) =>

@@ -13,6 +13,7 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { getAccessToken } from '@/utils/getAccessToken';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
@@ -29,6 +30,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
           identifiantProjetValue: identifiantProjet,
+          utilisateurValue: await getAccessToken(),
         },
       });
 
