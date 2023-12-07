@@ -287,13 +287,18 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur annule le rejet de l'abandon pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `{string} annule le rejet de l'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, role: string, nomProjet: string) {
     try {
       const dateAnnulation = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
+      const accessToken = createToken({
+        email,
+        role,
+      });
 
       this.lauréatWorld.abandonWorld.dateAnnulation = DateTime.convertirEnValueType(dateAnnulation);
+      this.accessToken = accessToken;
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -302,7 +307,7 @@ Quand(
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
           dateAnnulationValue: dateAnnulation.toISOString(),
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {

@@ -25,6 +25,10 @@ export const setupLauréat = async () => {
     middlewares: [permissionMiddleware],
   });
   mediator.use({
+    messageType: 'ANNULER_REJET_ABANDON_USECASE',
+    middlewares: [permissionMiddleware],
+  });
+  mediator.use({
     messageType: 'ANNULER_ABANDON_USECASE',
     middlewares: [permissionMiddleware],
   });
