@@ -13,7 +13,7 @@ export type DemanderConfirmationAbandonCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
     dateDemande: DateTime.ValueType;
-    utilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   }
 >;
 
@@ -23,7 +23,7 @@ export const registerDemanderConfirmationAbandonCommand = (loadAggregate: LoadAg
     identifiantProjet,
     réponseSignée,
     dateDemande,
-    utilisateur,
+    identifiantUtilisateur,
   }) => {
     const abandon = await loadAbandon(identifiantProjet);
 
@@ -31,7 +31,7 @@ export const registerDemanderConfirmationAbandonCommand = (loadAggregate: LoadAg
       identifiantProjet,
       réponseSignée,
       dateDemande,
-      utilisateur,
+      identifiantUtilisateur,
     });
   };
   mediator.register('DEMANDER_CONFIRMATION_ABANDON_COMMAND', handler);

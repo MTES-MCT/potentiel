@@ -152,7 +152,12 @@ EtantDonné(
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const accessToken = createToken({
+    const porteurAccessToken = createToken({
+      email: 'porteur@test.test',
+      role: 'le porteur',
+    });
+
+    const validateurAccessToken = createToken({
       email: 'porteur@test.test',
       role: 'le porteur',
     });
@@ -168,7 +173,7 @@ EtantDonné(
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: accessToken,
+        utilisateurValue: porteurAccessToken,
       },
     });
 
@@ -181,7 +186,7 @@ EtantDonné(
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
         },
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'validateur@test.test',
+        utilisateurValue: validateurAccessToken,
       },
     });
   },
@@ -192,7 +197,12 @@ EtantDonné(
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
     const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const accessToken = createToken({
+    const porteurAccessToken = createToken({
+      email: 'porteur@test.test',
+      role: 'le porteur',
+    });
+
+    const validateurAccessToken = createToken({
       email: 'porteur@test.test',
       role: 'le porteur',
     });
@@ -208,7 +218,7 @@ EtantDonné(
         raisonValue: `La raison de l'abandon`,
         recandidatureValue: avecRecandidature.trim() === 'avec recandidature',
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: accessToken,
+        utilisateurValue: porteurAccessToken,
       },
     });
 
@@ -221,7 +231,7 @@ EtantDonné(
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
         },
         dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'validateur@test.test',
+        utilisateurValue: validateurAccessToken,
       },
     });
 
@@ -230,7 +240,7 @@ EtantDonné(
       data: {
         identifiantProjetValue: identitiantProjetValueType.formatter(),
         dateConfirmationValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        utilisateurValue: 'porteur@test.test',
+        utilisateurValue: porteurAccessToken,
       },
     });
   },

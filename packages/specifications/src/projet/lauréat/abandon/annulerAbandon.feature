@@ -33,7 +33,7 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
       Alors le porteur devrait être informé que "L'abandon a déjà été confirmé"   
 
   @select
-  Plan du Scénario: Impossible de demander l'abandon d'un projet lauréat en tant qu'utilisateur n'ayant pas le rôle de validateur
+  Plan du Scénario: Impossible d'annuler l'abandon d'un projet lauréat en tant qu'utilisateur n'ayant pas le rôle de validateur
     Quand "<Role non autorisé>" annule l'abandon pour le projet lauréat "Du boulodrome de Marseille"
     Alors "<Role non autorisé>" devrait être informé que "L'accés à cette fonctionnalité n'est pas autorisé"
     Exemples:

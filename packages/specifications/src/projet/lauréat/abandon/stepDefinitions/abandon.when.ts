@@ -388,16 +388,21 @@ Quand(
 );
 
 Quand(
-  `le porteur confirme l'abandon pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `{string} confirme l'abandon pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, role: string, nomProjet: string) {
     try {
       const dateConfirmation = new Date();
-      const utilisateur = 'porteur@test.test';
+      const email = 'porteur@test.test';
+      const accessToken = createToken({
+        email,
+        role,
+      });
 
       this.lauréatWorld.abandonWorld.dateConfirmation =
         DateTime.convertirEnValueType(dateConfirmation);
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
+      this.accessToken = accessToken;
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -406,7 +411,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateConfirmationValue: dateConfirmation.toISOString(),
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {

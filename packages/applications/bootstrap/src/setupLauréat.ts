@@ -33,6 +33,10 @@ export const setupLauréat = async () => {
     middlewares: [permissionMiddleware],
   });
   mediator.use({
+    messageType: 'CONFIRMER_ABANDON_USECASE',
+    middlewares: [permissionMiddleware],
+  });
+  mediator.use({
     messageType: 'CONSULTER_ABANDON_QUERY',
     middlewares: [permissionMiddleware],
   });

@@ -56,10 +56,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
               />
             )}
           {utilisateur.rôle === 'porteur-projet' && statut === 'confirmation-demandée' && (
-            <ConfirmerAbandonForm
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
+            <ConfirmerAbandonForm identifiantProjet={projet.identifiantProjet} />
           )}
         </div>
       </>

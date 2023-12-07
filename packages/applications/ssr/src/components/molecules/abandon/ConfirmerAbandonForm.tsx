@@ -7,7 +7,6 @@ import {
   ConfirmerAbandonState,
   confirmerAbandonAction,
 } from '@/app/laureat/[identifiant]/abandon/confirmerAbandon.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
@@ -20,7 +19,6 @@ const initialState: ConfirmerAbandonState = {
 
 type ConfirmerAbandonFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
 };
 
 const modal = createModal({
@@ -28,10 +26,7 @@ const modal = createModal({
   isOpenedByDefault: false,
 });
 
-export const ConfirmerAbandonForm = ({
-  identifiantProjet,
-  utilisateur,
-}: ConfirmerAbandonFormProps) => {
+export const ConfirmerAbandonForm = ({ identifiantProjet }: ConfirmerAbandonFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(confirmerAbandonAction, initialState);
@@ -56,7 +51,6 @@ export const ConfirmerAbandonForm = ({
           <p className="mt-3">Êtes-vous sûr de vouloir confirmer cet abandon ?</p>
           <form action={formAction} method="post">
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
             <ButtonsGroup
               inlineLayoutWhen="always"
               alignment="right"

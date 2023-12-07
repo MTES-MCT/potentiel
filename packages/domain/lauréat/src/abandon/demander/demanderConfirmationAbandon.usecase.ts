@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbandon.command';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
@@ -33,7 +33,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
       dateDemandeValue,
       format,
     );
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const { identifiantUtilisateur } = Utilisateur.convertirEnValueType(utilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
@@ -49,7 +49,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
         dateDemande,
         identifiantProjet,
         réponseSignée,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
   };
