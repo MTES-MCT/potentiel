@@ -3,6 +3,10 @@ import ROUTES from '../../../routes';
 
 const porteurProjetActions = (project: {
   id: string;
+  appelOffreId: string;
+  periodeId: string;
+  familleId: string;
+  numeroCRE: string;
   appelOffre?: {
     changementProducteurPossibleAvantAchèvement: ProjectAppelOffre['changementProducteurPossibleAvantAchèvement'];
     unitePuissance: ProjectAppelOffre['unitePuissance'];
@@ -89,7 +93,9 @@ const porteurProjetActions = (project: {
       },
       {
         title: 'Demander un abandon',
-        link: ROUTES.GET_DEMANDER_ABANDON(project.id),
+        link: `/laureat/${encodeURIComponent(
+          `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
+        )}/abandon/demander`,
       },
     ],
   );

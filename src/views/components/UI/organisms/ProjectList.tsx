@@ -4,7 +4,6 @@ import { UserRole } from '../../../../modules/users';
 import routes from '../../../../routes';
 import { PaginatedList } from '../../../../modules/pagination';
 import {
-  ProjectActions,
   PowerIcon,
   EuroIcon,
   CloudIcon,
@@ -261,18 +260,6 @@ export const ProjectList = ({
                 </div>
 
                 <div className="flex md:absolute md:top-4 md:right-5 gap-2">
-                  {project && role && (
-                    <ProjectActions
-                      role={role}
-                      project={{
-                        ...project,
-                        isClasse: project.classe === 'Classé',
-                        isAbandoned: project.abandonedOn !== 0,
-                        isLegacy: project.appelOffre?.periode.type === 'legacy',
-                        notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
-                      }}
-                    />
-                  )}
                   <LinkButton
                     href={routes.PROJECT_DETAILS(project.id)}
                     aria-label={`voir le projet ${project.nomProjet}`}

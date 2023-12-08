@@ -6,10 +6,8 @@ import {
   is,
   ProjectEventListDTO,
   DemandeDélaiDTO,
-  DemandeAbandonDTO,
   CahierDesChargesChoisiDTO,
   GarantiesFinancièresDTO,
-  DemandeAnnulationAbandonDTO,
 } from '../../../modules/frise';
 import {
   TimelineItem,
@@ -26,7 +24,6 @@ import {
   DemandeAbandonSignaledItem,
   DemandeRecoursSignaledItem,
   DemandeDelaiSignaledItem,
-  DemandeAbandonItem,
   CahierDesChargesChoisiItem,
 } from './components';
 import {
@@ -47,7 +44,6 @@ import {
   AttachedFileItemProps,
   extractAttachedFileItemProps,
 } from './helpers';
-import { DemandeAnnulationAbandonItem } from './components/DemandeAnnulationAbandonItem';
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO;
@@ -66,8 +62,6 @@ type ItemProps =
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
-  | DemandeAbandonDTO
-  | DemandeAnnulationAbandonDTO
   | CahierDesChargesChoisiDTO
   | GarantiesFinancièresDTO;
 
@@ -92,8 +86,6 @@ export const Timeline = ({
     ...extractLegacyModificationsItemProps(events),
     ...extractAttachedFileItemProps(events),
     ...events.filter(is('DemandeDélai')),
-    ...events.filter(is('DemandeAbandon')),
-    ...events.filter(is('DemandeAnnulationAbandon')),
     ...events.filter(is('CahierDesChargesChoisi')),
   ]
     .filter(isNotNil)
@@ -151,12 +143,6 @@ export const Timeline = ({
 
       case 'DemandeDélai':
         return <DemandeDélaiItem {...props} />;
-
-      case 'DemandeAbandon':
-        return <DemandeAbandonItem {...props} />;
-
-      case 'DemandeAnnulationAbandon':
-        return <DemandeAnnulationAbandonItem {...props} />;
 
       case 'CahierDesChargesChoisi':
         return <CahierDesChargesChoisiItem {...props} />;

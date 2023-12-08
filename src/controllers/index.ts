@@ -1,4 +1,3 @@
-export * from './abandon';
 export * from './admin';
 export * from './garantiesFinancieres';
 export * from './gestionnaireRéseau';

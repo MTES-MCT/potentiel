@@ -567,7 +567,6 @@ class routes {
   static GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE = `/admin/importer-dates-mise-en-service.html`;
   static POST_IMPORTER_DATES_MISE_EN_SERVICE = `/admin/importer-dates-mise-en-service`;
 
-  static LISTE_ABANDONS = `/abandons`;
   static ANNULER_ABANDON = '/abandon/annuler';
 }
 export default routes;

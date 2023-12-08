@@ -3,10 +3,6 @@ import { Project } from '../../../entities';
 import { LegacyModificationStatus } from '../../modificationRequest';
 import { Fournisseur } from '../../project';
 import { DateParutionCahierDesChargesModifié } from '@potentiel-domain/appel-offre';
-import {
-  DemandeAbandonEventStatus,
-  DemandeAnnulationAbandonEventStatus,
-} from '../../../infra/sequelize/projectionsNext/projectEvents/events';
 
 export type ProjectEventDTO =
   | ProjectNotifiedDTO
@@ -32,9 +28,7 @@ export type ProjectEventDTO =
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
-  | DemandeAbandonDTO
-  | CahierDesChargesChoisiDTO
-  | DemandeAnnulationAbandonDTO;
+  | CahierDesChargesChoisiDTO;
 
 type File = {
   id: string;
@@ -438,38 +432,6 @@ export type DemandeDélaiDTO = {
       dateAchèvementAccordée: string;
     }
 );
-
-export type DemandeAbandonDTO = {
-  type: 'DemandeAbandon';
-  variant:
-    | 'admin'
-    | 'porteur-projet'
-    | 'dreal'
-    | 'acheteur-obligé'
-    | 'dgec-validateur'
-    | 'caisse-des-dépôts'
-    | 'cre';
-  date: number;
-  statut: DemandeAbandonEventStatus;
-  demandeUrl?: string;
-  actionRequise?: 'à traiter';
-};
-
-export type DemandeAnnulationAbandonDTO = {
-  type: 'DemandeAnnulationAbandon';
-  variant:
-    | 'admin'
-    | 'porteur-projet'
-    | 'dreal'
-    | 'acheteur-obligé'
-    | 'dgec-validateur'
-    | 'caisse-des-dépôts'
-    | 'cre';
-  date: number;
-  statut: DemandeAnnulationAbandonEventStatus;
-  demandeUrl?: string;
-  actionRequise?: 'à traiter';
-};
 
 export type CahierDesChargesChoisiDTO = {
   type: 'CahierDesChargesChoisi';

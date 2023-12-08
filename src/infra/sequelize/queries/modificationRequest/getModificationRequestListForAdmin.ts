@@ -6,6 +6,7 @@ import { User } from '../../../../entities';
 import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForAdmin,
+  MODIFICATION_REQUEST_TYPES,
   ModificationRequestListItemDTO,
 } from '../../../../modules/modificationRequest';
 import { InfraNotAvailableError } from '../../../../modules/shared';
@@ -74,7 +75,15 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           },
           ...(userIs(['admin', 'dgec-validateur'])(user) &&
             !forceNoAuthority && { authority: 'dgec' }),
-          ...(modificationRequestType && { type: modificationRequestType }),
+          ...(modificationRequestType
+            ? { type: modificationRequestType }
+            : {
+                type: {
+                  [Op.in]: MODIFICATION_REQUEST_TYPES.filter(
+                    (type) => !['abandon', 'annulation abandon'].includes(type),
+                  ),
+                },
+              }),
           ...(modificationRequestStatus && { status: modificationRequestStatus }),
         },
       };

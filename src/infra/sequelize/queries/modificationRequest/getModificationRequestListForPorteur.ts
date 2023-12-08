@@ -6,6 +6,7 @@ import { User } from '../../../../entities';
 import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForPorteur,
+  MODIFICATION_REQUEST_TYPES,
   ModificationRequestListItemDTO,
 } from '../../../../modules/modificationRequest';
 import { InfraNotAvailableError } from '../../../../modules/shared';
@@ -39,7 +40,15 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
             projectId: {
               [Op.in]: projectIds,
             },
-            ...(modificationRequestType && { type: modificationRequestType }),
+            ...(modificationRequestType
+              ? { type: modificationRequestType }
+              : {
+                  type: {
+                    [Op.in]: MODIFICATION_REQUEST_TYPES.filter(
+                      (type) => !['abandon', 'annulation abandon'].includes(type),
+                    ),
+                  },
+                }),
             ...(modificationRequestStatus && { status: modificationRequestStatus }),
           },
           include: [
