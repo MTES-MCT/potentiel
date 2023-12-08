@@ -11,6 +11,7 @@ import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
@@ -19,6 +20,18 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const utilisateur = await getUser();
     if (!utilisateur) {
       redirect('/login.html');
+    }
+
+    // TODO : Rendre cette vérification automatiquement lors de l'exécution
+    //        d'un(e) query/usecase avec un identifiantProjet
+    if (utilisateur.rôle === 'porteur-projet') {
+      await mediator.send<VérifierAccèsProjetQuery>({
+        type: 'VERIFIER_ACCES_PROJET_QUERY',
+        data: {
+          identifiantProjet,
+          identifiantUtilisateur: utilisateur.email,
+        },
+      });
     }
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({

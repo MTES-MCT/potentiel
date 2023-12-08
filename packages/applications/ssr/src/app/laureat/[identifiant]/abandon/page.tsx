@@ -12,6 +12,7 @@ import {
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/DetailAbandonPage';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
@@ -21,6 +22,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     if (!utilisateur) {
       return redirect('/login.html');
     }
+
+    // TODO : Rendre cette vérification automatiquement lors de l'exécution
+    //        d'un(e) query/usecase avec un identifiantProjet
+    if (utilisateur.rôle === 'porteur-projet') {
+      await mediator.send<VérifierAccèsProjetQuery>({
+        type: 'VERIFIER_ACCES_PROJET_QUERY',
+        data: {
+          identifiantProjet,
+          identifiantUtilisateur: utilisateur.email,
+        },
+      });
+    }
+
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'CONSULTER_CANDIDATURE_QUERY',
       data: {
