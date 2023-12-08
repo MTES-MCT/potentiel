@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 import {
   TransmettrePreuveRecandidaturePage,
   TransmettrePreuveRecandidaturePageProps,
-} from '@/components/pages/abandon/transmettre-preuve-recandidature/TransmettrePreuveRecandidaturePage';
+} from '@/components/pages/abandon/TransmettrePreuveRecandidaturePage';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';

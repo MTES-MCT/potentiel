@@ -5,7 +5,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import {
   AccorderAbandonAvecRecandidatureState,
   accorderAbandonAvecRecandidatureAction,
-} from '@/app/laureat/[identifiant]/abandon/instruire/accorderAvecRecandidature.action';
+} from './accorderAbandonAvecRecandidature.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';

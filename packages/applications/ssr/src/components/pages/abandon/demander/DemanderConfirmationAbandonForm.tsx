@@ -6,7 +6,7 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import {
   DemanderConfirmationAbandonState,
   demanderConfirmationAbandonAction,
-} from '@/app/laureat/[identifiant]/abandon/instruire/demanderConfirmation.action';
+} from './demanderConfirmation.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
@@ -43,9 +43,7 @@ export const DemanderConfirmationAbandonForm = ({
 
       <Download
         linkProps={{
-          href: `/laureat/${encodeParameter(
-            identifiantProjet,
-          )}/abandon/instruire/telecharger-modele-reponse`,
+          href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
         }}
         details="docx"
         label="Télécharger le modèle de réponse"

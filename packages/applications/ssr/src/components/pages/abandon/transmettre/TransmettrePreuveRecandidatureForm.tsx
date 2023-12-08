@@ -10,7 +10,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import {
   TransmettrePreuveRecandidatureState,
   transmettrePreuveRecandidatureAction,
-} from '@/app/laureat/[identifiant]/abandon/transmettre-preuve-recandidature/transmettrePreuveRecandidature.action';
+} from './transmettrePreuveRecandidature.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { encodeParameter } from '@/utils/encodeParameter';
