@@ -80,7 +80,7 @@ describe('porteurProjetActions', () => {
         {
           title: 'Demander un abandon',
           link: `/laureat/${encodeURIComponent(
-            `${fakeProject.appelOffre}#${fakeProject.periode}#${fakeProject.famille}#${fakeProject.numeroCRE}`,
+            `${fakeProject.appelOffreId}#${fakeProject.periodeId}#${fakeProject.familleId}#${fakeProject.numeroCRE}`,
           )}/abandon/demander`,
         },
       ]);
@@ -136,7 +136,9 @@ describe('porteurProjetActions', () => {
           },
           {
             title: 'Demander un abandon',
-            link: ROUTES.GET_DEMANDER_ABANDON(fakeProject.id),
+            link: `/laureat/${encodeURIComponent(
+              `${fakeProject.appelOffreId}#${fakeProject.periodeId}#${fakeProject.familleId}#${fakeProject.numeroCRE}`,
+            )}/abandon/demander`,
           },
         ]);
       });
