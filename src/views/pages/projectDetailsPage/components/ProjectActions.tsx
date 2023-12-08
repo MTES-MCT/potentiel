@@ -98,7 +98,11 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
           >
             <span>Changer de puissance</span>
           </DropdownMenuSecondaryButton.DropdownItem>
-          <DropdownMenuSecondaryButton.DropdownItem href={routes.GET_DEMANDER_ABANDON(project.id)}>
+          <DropdownMenuSecondaryButton.DropdownItem
+            href={`/laureat/${encodeURIComponent(
+              `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
+            )}/abandon/demander`}
+          >
             <span>Demander un abandon</span>
           </DropdownMenuSecondaryButton.DropdownItem>
         </DropdownMenuSecondaryButton>

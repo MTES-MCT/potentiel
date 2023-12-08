@@ -79,7 +79,9 @@ describe('porteurProjetActions', () => {
         },
         {
           title: 'Demander un abandon',
-          link: ROUTES.GET_DEMANDER_ABANDON(fakeProject.id),
+          link: `/laureat/${encodeURIComponent(
+            `${fakeProject.appelOffre}#${fakeProject.periode}#${fakeProject.famille}#${fakeProject.numeroCRE}`,
+          )}/abandon/demander`,
         },
       ]);
     });
