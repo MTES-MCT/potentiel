@@ -9,7 +9,7 @@ export type AnnulerAbandonCommand = Message<
   'ANNULER_ABANDON_COMMAND',
   {
     dateAnnulation: DateTime.ValueType;
-    utilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
   }
 >;
@@ -18,7 +18,7 @@ export const registerAnnulerAbandonCommand = (loadAggregate: LoadAggregate) => {
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<AnnulerAbandonCommand> = async ({
     dateAnnulation,
-    utilisateur,
+    identifiantUtilisateur,
     identifiantProjet,
   }) => {
     const abandon = await loadAbandon(identifiantProjet);
@@ -26,7 +26,7 @@ export const registerAnnulerAbandonCommand = (loadAggregate: LoadAggregate) => {
     await abandon.annuler({
       dateAnnulation,
       identifiantProjet,
-      utilisateur,
+      identifiantUtilisateur,
     });
   };
   mediator.register('ANNULER_ABANDON_COMMAND', handler);

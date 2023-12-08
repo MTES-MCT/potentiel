@@ -60,7 +60,7 @@ v1Router.post(
               dateDemandeValue: new Date().toISOString(),
               raisonValue: justification || '',
               recandidatureValue: !!abandonAvecRecandidature,
-              utilisateurValue: request.user.email,
+              identifiantUtilisateurValue: request.user.email,
             },
           });
         } catch (e) {

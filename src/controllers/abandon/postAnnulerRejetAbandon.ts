@@ -1,5 +1,3 @@
-
-
 import { mediator } from 'mediateur';
 import { annulerRejetAbandon, ensureRole, getIdentifiantProjetByLegacyId } from '../../config';
 import { logger, wrapInfra } from '../../core/utils';
@@ -40,7 +38,7 @@ v1Router.post(
               data: {
                 identifiantProjetValue,
                 dateAnnulationValue: new Date().toISOString(),
-                utilisateurValue: request.user.email,
+                identifiantUtilisateurValue: request.user.email,
               },
             });
           } catch (e) {

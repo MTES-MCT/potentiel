@@ -24,7 +24,7 @@ const action: FormAction<FormState, typeof schema> = async (
       identifiantProjetValue: identifiantProjet,
       preuveRecandidatureValue: preuveRecandidature,
       dateNotificationValue: dateDesignation,
-      utilisateurValue: utilisateur,
+      identifiantUtilisateurValue: utilisateur,
     },
   });
 

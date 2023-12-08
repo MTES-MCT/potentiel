@@ -16,13 +16,13 @@ export type AbandonConfirméEvent = DomainEvent<
 
 export type ConfirmerOptions = {
   dateConfirmation: DateTime.ValueType;
-  utilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export async function confirmer(
   this: AbandonAggregate,
-  { dateConfirmation, utilisateur, identifiantProjet }: ConfirmerOptions,
+  { dateConfirmation, identifiantUtilisateur, identifiantProjet }: ConfirmerOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.confirmé);
 
@@ -31,7 +31,7 @@ export async function confirmer(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       confirméLe: dateConfirmation.formatter(),
-      confirméPar: utilisateur.formatter(),
+      confirméPar: identifiantUtilisateur.formatter(),
     },
   };
 

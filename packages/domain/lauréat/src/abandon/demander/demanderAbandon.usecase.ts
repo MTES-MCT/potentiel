@@ -13,7 +13,7 @@ export type DemanderAbandonUseCase = Message<
   'DEMANDER_ABANDON_USECASE',
   {
     dateDemandeValue: string;
-    utilisateurValue: string;
+    identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
@@ -29,13 +29,15 @@ export const registerDemanderAbandonUseCase = () => {
     dateDemandeValue,
     identifiantProjetValue,
     pièceJustificativeValue,
-    utilisateurValue,
+    identifiantUtilisateurValue,
     raisonValue,
     recandidatureValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
+      identifiantUtilisateurValue,
+    );
 
     const pièceJustificative = pièceJustificativeValue
       ? DocumentProjet.convertirEnValueType(
@@ -63,7 +65,7 @@ export const registerDemanderAbandonUseCase = () => {
         raison: raisonValue,
         recandidature: recandidatureValue,
         identifiantProjet,
-        utilisateur,
+        identifiantUtilisateur,
         pièceJustificative,
       },
     });

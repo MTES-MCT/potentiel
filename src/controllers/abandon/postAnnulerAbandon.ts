@@ -36,7 +36,7 @@ v1Router.post(
           data: {
             dateAnnulationValue: new Date().toISOString(),
             identifiantProjetValue,
-            utilisateurValue: request.user.email,
+            identifiantUtilisateurValue: request.user.email,
           },
         });
       } catch (e) {

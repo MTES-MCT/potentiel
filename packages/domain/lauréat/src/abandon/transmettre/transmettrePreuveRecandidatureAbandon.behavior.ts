@@ -51,7 +51,7 @@ export type TransmettrePreuveRecandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   preuveRecandidature: IdentifiantProjet.ValueType;
   dateNotification: DateTime.ValueType;
-  utilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
 };
 
 export async function transmettrePreuveRecandidature(

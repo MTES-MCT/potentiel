@@ -14,7 +14,7 @@ export type AccorderAbandonCommand = Message<
   'ACCORDER_ABANDON_COMMAND',
   {
     dateAccord: DateTime.ValueType;
-    utilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }
@@ -24,7 +24,7 @@ export const registerAccorderAbandonCommand = (loadAggregate: LoadAggregate) => 
   const load = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<AccorderAbandonCommand> = async ({
     dateAccord,
-    utilisateur,
+    identifiantUtilisateur,
     identifiantProjet,
     réponseSignée,
   }) => {
@@ -32,7 +32,7 @@ export const registerAccorderAbandonCommand = (loadAggregate: LoadAggregate) => 
 
     await abandon.accorder({
       dateAccord,
-      utilisateur,
+      identifiantUtilisateur,
       identifiantProjet,
       réponseSignée,
     });

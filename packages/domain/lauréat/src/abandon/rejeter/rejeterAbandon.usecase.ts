@@ -10,7 +10,7 @@ export type RejeterAbandonUseCase = Message<
   'REJETER_ABANDON_USECASE',
   {
     identifiantProjetValue: string;
-    utilisateurValue: string;
+    identifiantUtilisateurValue: string;
     dateRejetValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
@@ -24,7 +24,7 @@ export const registerRejeterAbandonUseCase = () => {
     dateRejetValue,
     identifiantProjetValue,
     réponseSignéeValue: { content, format },
-    utilisateurValue,
+    identifiantUtilisateurValue,
   }) => {
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
@@ -35,7 +35,9 @@ export const registerRejeterAbandonUseCase = () => {
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
+      identifiantUtilisateurValue,
+    );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
@@ -51,7 +53,7 @@ export const registerRejeterAbandonUseCase = () => {
         dateRejet,
         identifiantProjet,
         réponseSignée,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
   };

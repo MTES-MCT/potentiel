@@ -20,7 +20,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'ANNULER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      utilisateurValue: utilisateur,
+      identifiantUtilisateurValue: utilisateur,
       dateAnnulationValue: new Date().toISOString(),
     },
   });

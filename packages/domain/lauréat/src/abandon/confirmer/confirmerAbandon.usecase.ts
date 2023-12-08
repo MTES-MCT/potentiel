@@ -7,7 +7,7 @@ export type ConfirmerAbandonUseCase = Message<
   'CONFIRMER_ABANDON_USECASE',
   {
     dateConfirmationValue: string;
-    utilisateurValue: string;
+    identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
   }
 >;
@@ -16,18 +16,20 @@ export const registerConfirmerAbandonUseCase = () => {
   const runner: MessageHandler<ConfirmerAbandonUseCase> = async ({
     dateConfirmationValue,
     identifiantProjetValue,
-    utilisateurValue,
+    identifiantUtilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateConfirmation = DateTime.convertirEnValueType(dateConfirmationValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
+      identifiantUtilisateurValue,
+    );
 
     await mediator.send<ConfirmerAbandonCommand>({
       type: 'CONFIRMER_ABANDON_COMMAND',
       data: {
         dateConfirmation,
         identifiantProjet,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
   };

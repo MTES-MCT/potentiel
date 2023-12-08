@@ -23,7 +23,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      utilisateurValue: utilisateur,
+      identifiantUtilisateurValue: utilisateur,
       dateDemandeValue: new Date().toISOString(),
       réponseSignéeValue: {
         content: reponseSignee.stream(),
