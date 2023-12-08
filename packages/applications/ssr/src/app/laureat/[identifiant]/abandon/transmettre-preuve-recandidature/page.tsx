@@ -13,6 +13,7 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
@@ -24,55 +25,63 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       redirect('/login.html');
     }
 
-    try {
-      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON_QUERY',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-        },
-      });
-
-      const preuveDéjàTransmise = !!abandon.demande.preuveRecandidature;
-
-      if (preuveDéjàTransmise) {
-        redirect(`/laureat/${identifiant}/abandon/transmettre-preuve-recandidature`);
-      }
-
-      const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
+    // TODO : Rendre cette vérification automatiquement lors de l'exécution
+    //        d'un(e) query/usecase avec un identifiantProjet
+    if (utilisateur.rôle === 'porteur-projet') {
+      await mediator.send<VérifierAccèsProjetQuery>({
+        type: 'VERIFIER_ACCES_PROJET_QUERY',
         data: {
           identifiantProjet,
+          identifiantUtilisateur: utilisateur.email,
         },
       });
-
-      const projetsÀSélectionner =
-        await mediator.send<ListerCandidaturesEligiblesPreuveRecanditureQuery>({
-          type: 'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
-          data: {
-            identifiantUtilisateur: utilisateur.email,
-          },
-        });
-
-      const transmettrePreuveRecandidaturePageProps: TransmettrePreuveRecandidaturePageProps = {
-        projet: {
-          ...candidature,
-          identifiantProjet,
-        },
-        projetsÀSélectionner: projetsÀSélectionner
-          .filter((p) => p.identifiantProjet.formatter() !== identifiantProjet)
-          .map((projet) => ({
-            ...projet,
-            statut: projet.statut.statut,
-            identifiantProjet: projet.identifiantProjet.formatter(),
-          })),
-        utilisateur,
-      };
-
-      return (
-        <TransmettrePreuveRecandidaturePage {...{ ...transmettrePreuveRecandidaturePageProps }} />
-      );
-    } catch (e) {
-      redirect('/404');
     }
+
+    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      type: 'CONSULTER_ABANDON_QUERY',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+      },
+    });
+
+    const preuveDéjàTransmise = !!abandon.demande.preuveRecandidature;
+
+    if (preuveDéjàTransmise) {
+      redirect(`/laureat/${identifiant}/abandon/transmettre-preuve-recandidature`);
+    }
+
+    const candidature = await mediator.send<ConsulterCandidatureQuery>({
+      type: 'CONSULTER_CANDIDATURE_QUERY',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    const projetsÀSélectionner =
+      await mediator.send<ListerCandidaturesEligiblesPreuveRecanditureQuery>({
+        type: 'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
+        data: {
+          identifiantUtilisateur: utilisateur.email,
+        },
+      });
+
+    const transmettrePreuveRecandidaturePageProps: TransmettrePreuveRecandidaturePageProps = {
+      projet: {
+        ...candidature,
+        identifiantProjet,
+      },
+      projetsÀSélectionner: projetsÀSélectionner
+        .filter((p) => p.identifiantProjet.formatter() !== identifiantProjet)
+        .map((projet) => ({
+          ...projet,
+          statut: projet.statut.statut,
+          identifiantProjet: projet.identifiantProjet.formatter(),
+        })),
+      utilisateur,
+    };
+
+    return (
+      <TransmettrePreuveRecandidaturePage {...{ ...transmettrePreuveRecandidaturePageProps }} />
+    );
   });
 }

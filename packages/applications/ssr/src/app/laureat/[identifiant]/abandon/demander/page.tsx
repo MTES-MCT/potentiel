@@ -24,13 +24,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     // TODO : Rendre cette vérification automatiquement lors de l'exécution
     //        d'un(e) query/usecase avec un identifiantProjet
-    await mediator.send<VérifierAccèsProjetQuery>({
-      type: 'VERIFIER_ACCES_PROJET_QUERY',
-      data: {
-        identifiantProjet,
-        identifiantUtilisateur: utilisateur.email,
-      },
-    });
+    if (utilisateur.rôle === 'porteur-projet') {
+      await mediator.send<VérifierAccèsProjetQuery>({
+        type: 'VERIFIER_ACCES_PROJET_QUERY',
+        data: {
+          identifiantProjet,
+          identifiantUtilisateur: utilisateur.email,
+        },
+      });
+    }
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'CONSULTER_CANDIDATURE_QUERY',
