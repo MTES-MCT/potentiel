@@ -188,6 +188,18 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
     },
+    {
+      id: '4',
+      title: 'quatrième',
+      certificateTemplate: 'ppe2.v2',
+      noteThreshold: 76.25,
+      cahierDesCharges: {
+        référence: '2023/S 176-551607',
+        url: 'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco3',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      cahiersDesChargesModifiésDisponibles: [],
+    },
   ],
   familles: [],
 };
