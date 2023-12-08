@@ -6,6 +6,7 @@ import { User } from '../../../../entities';
 import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForAdmin,
+  MODIFICATION_REQUEST_TYPES,
   ModificationRequestListItemDTO,
 } from '../../../../modules/modificationRequest';
 import { InfraNotAvailableError } from '../../../../modules/shared';
@@ -74,7 +75,9 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           },
           ...(userIs(['admin', 'dgec-validateur'])(user) &&
             !forceNoAuthority && { authority: 'dgec' }),
-          ...(modificationRequestType && { type: modificationRequestType }),
+          ...(modificationRequestType
+            ? { type: modificationRequestType }
+            : { type: { [Op.in]: MODIFICATION_REQUEST_TYPES } }),
           ...(modificationRequestStatus && { status: modificationRequestStatus }),
         },
       };
@@ -125,7 +128,6 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             status,
             requestedOn,
             type,
-            justification,
             actionnaire,
             producteur,
             puissance,
@@ -143,12 +145,9 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           }) => {
             const getDescription = (): string => {
               switch (type) {
-                case 'abandon':
                 case 'recours':
                 case 'fournisseur':
                 case 'delai':
-                case 'annulation abandon':
-                  return justification || '';
                 case 'actionnaire':
                   return actionnaire || '';
                 case 'producteur':

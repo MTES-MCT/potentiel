@@ -254,8 +254,6 @@ export const ModificationRequestList = ({
                 <option value="puissance">Puissance</option>
                 <option value="recours">Recours</option>
                 <option value="delai">Délai</option>
-                <option value="abandon">Abandon</option>
-                <option value="annulation abandon">Annulation abandon</option>
               </Select>
             </div>
           </Form>

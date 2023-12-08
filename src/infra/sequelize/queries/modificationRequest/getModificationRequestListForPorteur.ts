@@ -6,6 +6,7 @@ import { User } from '../../../../entities';
 import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForPorteur,
+  MODIFICATION_REQUEST_TYPES,
   ModificationRequestListItemDTO,
 } from '../../../../modules/modificationRequest';
 import { InfraNotAvailableError } from '../../../../modules/shared';
@@ -39,7 +40,9 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
             projectId: {
               [Op.in]: projectIds,
             },
-            ...(modificationRequestType && { type: modificationRequestType }),
+            ...(modificationRequestType
+              ? { type: modificationRequestType }
+              : { type: { [Op.in]: MODIFICATION_REQUEST_TYPES } }),
             ...(modificationRequestStatus && { status: modificationRequestStatus }),
           },
           include: [
@@ -91,7 +94,6 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
             status,
             requestedOn,
             type,
-            justification,
             actionnaire,
             producteur,
             puissance,
@@ -109,12 +111,9 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
           }) => {
             const getDescription = (): string => {
               switch (type) {
-                case 'abandon':
                 case 'recours':
                 case 'fournisseur':
                 case 'delai':
-                case 'annulation abandon':
-                  return justification || '';
                 case 'actionnaire':
                   return actionnaire || '';
                 case 'producteur':

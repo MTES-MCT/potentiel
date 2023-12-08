@@ -1,13 +1,13 @@
-export type ModificationRequestTypes =
-  | 'actionnaire'
-  | 'fournisseur'
-  | 'producteur'
-  | 'puissance'
-  | 'recours'
-  | 'abandon'
-  | 'delai'
-  | 'annulation abandon'
-  | 'autre';
+export const MODIFICATION_REQUEST_TYPES = [
+  'actionnaire',
+  'fournisseur',
+  'producteur',
+  'puissance',
+  'recours',
+  'delai',
+  'autre',
+] as const;
+export type ModificationRequestTypes = (typeof MODIFICATION_REQUEST_TYPES)[number];
 
 export type ModificationRequestStatusDTO =
   | 'envoyée'
