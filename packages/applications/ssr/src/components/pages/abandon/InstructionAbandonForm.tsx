@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import { Heading2 } from '../../atoms/headings';
-import { StatutAbandonBadge } from './StatutAbandonBadge';
+import { StatutAbandonBadge } from '../../molecules/abandon/StatutAbandonBadge';
 import { Utilisateur } from '@/utils/getUtilisateur';
-import { DemanderConfirmationAbandonForm } from './DemanderConfirmationAbandonForm';
-import { RejeterAbandonForm } from './RejeterAbandonForm';
-import { AccorderAbandonSansRecandidatureForm } from './AccorderAbandonSansRecandidatureForm';
-import { AccorderAbandonAvecRecandidatureForm } from './AccorderAbandonAvecRecandidatureForm';
+import { DemanderConfirmationAbandonForm } from './demander/DemanderConfirmationAbandonForm';
+import { RejeterAbandonForm } from './rejeter/RejeterAbandonForm';
+import { AccorderAbandonSansRecandidatureForm } from './accorder/AccorderAbandonSansRecandidatureForm';
+import { AccorderAbandonAvecRecandidatureForm } from './accorder/AccorderAbandonAvecRecandidatureForm';
 
 type InstructionAbandonFormProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];

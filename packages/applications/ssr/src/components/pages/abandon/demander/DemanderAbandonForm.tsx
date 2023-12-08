@@ -6,10 +6,7 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
-import {
-  DemanderAbandonState,
-  demanderAbandonAction,
-} from '@/app/laureat/[identifiant]/abandon/demander/demander.action';
+import { DemanderAbandonState, demanderAbandonAction } from './demanderAbandon.action';
 import { Form } from '@/components/molecules/Form';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';

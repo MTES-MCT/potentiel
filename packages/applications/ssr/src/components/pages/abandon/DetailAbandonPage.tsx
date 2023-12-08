@@ -1,10 +1,10 @@
 'use client';
 
-import { AnnulerAbandonForm } from '@/components/molecules/abandon/AnnulerAbandonForm';
-import { ConfirmerAbandonForm } from '@/components/molecules/abandon/ConfirmerAbandonForm';
+import { AnnulerAbandonForm } from './annuler/AnnulerAbandonForm';
+import { ConfirmerAbandonForm } from './confirmer/ConfirmerAbandonForm';
 import { DetailDemandeAbandon } from '@/components/molecules/abandon/DetailDemandeAbandon';
 import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailInstructionAbandon';
-import { InstructionAbandonForm } from '@/components/molecules/abandon/InstructionAbandonForm';
+import { InstructionAbandonForm } from './InstructionAbandonForm';
 import { StatutAbandonBadge } from '@/components/molecules/abandon/StatutAbandonBadge';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
