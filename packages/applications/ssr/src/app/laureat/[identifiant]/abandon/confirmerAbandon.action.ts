@@ -31,7 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'CONFIRMER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      utilisateurValue: utilisateur,
+      identifiantUtilisateurValue: utilisateur,
       dateConfirmationValue: new Date().toISOString(),
     },
   });

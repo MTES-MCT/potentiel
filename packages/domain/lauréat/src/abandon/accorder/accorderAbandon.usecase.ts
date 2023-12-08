@@ -14,7 +14,7 @@ export type AccorderAbandonUseCase = Message<
   'ACCORDER_ABANDON_USECASE',
   {
     identifiantProjetValue: string;
-    utilisateurValue: string;
+    identifiantUtilisateurValue: string;
     dateAccordValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
@@ -25,7 +25,7 @@ export type AccorderAbandonUseCase = Message<
 
 export const registerAccorderAbandonUseCase = () => {
   const runner: MessageHandler<AccorderAbandonUseCase> = async ({
-    utilisateurValue,
+    identifiantUtilisateurValue,
     dateAccordValue,
     réponseSignéeValue: { content, format },
     identifiantProjetValue,
@@ -39,9 +39,9 @@ export const registerAccorderAbandonUseCase = () => {
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
-
-    // utilisateur.àLaPermission('ACCORDER_ABANDON_USECASE');
+    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
+      identifiantUtilisateurValue,
+    );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
@@ -55,7 +55,7 @@ export const registerAccorderAbandonUseCase = () => {
       type: 'ACCORDER_ABANDON_COMMAND',
       data: {
         dateAccord,
-        utilisateur,
+        identifiantUtilisateur,
         identifiantProjet,
         réponseSignée,
       },

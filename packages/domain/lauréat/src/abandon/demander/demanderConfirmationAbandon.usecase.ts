@@ -9,7 +9,7 @@ export type DemanderConfirmationAbandonUseCase = Message<
   'DEMANDER_CONFIRMATION_ABANDON_USECASE',
   {
     dateDemandeValue: string;
-    utilisateurValue: string;
+    identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
@@ -23,7 +23,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
     dateDemandeValue,
     identifiantProjetValue,
     réponseSignéeValue: { content, format },
-    utilisateurValue,
+    identifiantUtilisateurValue,
   }) => {
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -33,7 +33,9 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
       dateDemandeValue,
       format,
     );
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
+      identifiantUtilisateurValue,
+    );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
@@ -49,7 +51,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
         dateDemande,
         identifiantProjet,
         réponseSignée,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
   };

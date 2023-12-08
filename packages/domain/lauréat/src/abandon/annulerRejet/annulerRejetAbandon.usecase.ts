@@ -7,26 +7,28 @@ export type AnnulerRejetAbandonUseCase = Message<
   'ANNULER_REJET_ABANDON_USECASE',
   {
     identifiantProjetValue: string;
-    utilisateurValue: string;
+    identifiantUtilisateurValue: string;
     dateAnnulationValue: string;
   }
 >;
 
 export const registerAnnulerRejetAbandonUseCase = () => {
   const runner: MessageHandler<AnnulerRejetAbandonUseCase> = async ({
-    utilisateurValue,
+    identifiantUtilisateurValue,
     dateAnnulationValue,
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAnnulation = DateTime.convertirEnValueType(dateAnnulationValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
+      identifiantUtilisateurValue,
+    );
 
     await mediator.send<AnnulerRejetAbandonCommand>({
       type: 'ANNULER_REJET_ABANDON_COMMAND',
       data: {
         dateAnnulation,
-        utilisateur,
+        identifiantUtilisateur,
         identifiantProjet,
       },
     });

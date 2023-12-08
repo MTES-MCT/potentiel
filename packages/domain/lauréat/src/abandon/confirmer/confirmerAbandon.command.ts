@@ -8,7 +8,7 @@ export type ConfirmerAbandonCommand = Message<
   'CONFIRMER_ABANDON_COMMAND',
   {
     dateConfirmation: DateTime.ValueType;
-    utilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
   }
 >;
@@ -18,13 +18,13 @@ export const registerConfirmerAbandonCommand = (loadAggregate: LoadAggregate) =>
   const handler: MessageHandler<ConfirmerAbandonCommand> = async ({
     identifiantProjet,
     dateConfirmation,
-    utilisateur,
+    identifiantUtilisateur,
   }) => {
     const abandon = await loadAbandon(identifiantProjet);
 
     await abandon.confirmer({
       dateConfirmation,
-      utilisateur,
+      identifiantUtilisateur,
       identifiantProjet,
     });
   };

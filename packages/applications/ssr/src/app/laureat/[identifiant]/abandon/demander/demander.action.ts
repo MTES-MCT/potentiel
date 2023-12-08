@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'DEMANDER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      utilisateurValue: utilisateur,
+      identifiantUtilisateurValue: utilisateur,
       dateDemandeValue: new Date().toISOString(),
       raisonValue: raison,
       recandidatureValue: recandidature === 'true' ? true : false,

@@ -20,14 +20,19 @@ export type ConfirmationAbandonDemandéeEvent = DomainEvent<
 
 export type DemanderConfirmationOptions = {
   dateDemande: DateTime.ValueType;
-  utilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function demanderConfirmation(
   this: AbandonAggregate,
-  { dateDemande, utilisateur, identifiantProjet, réponseSignée }: DemanderConfirmationOptions,
+  {
+    dateDemande,
+    identifiantUtilisateur,
+    identifiantProjet,
+    réponseSignée,
+  }: DemanderConfirmationOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.confirmationDemandée);
 
@@ -39,7 +44,7 @@ export async function demanderConfirmation(
         format: réponseSignée.format,
       },
       confirmationDemandéeLe: dateDemande.formatter(),
-      confirmationDemandéePar: utilisateur.formatter(),
+      confirmationDemandéePar: identifiantUtilisateur.formatter(),
     },
   };
 

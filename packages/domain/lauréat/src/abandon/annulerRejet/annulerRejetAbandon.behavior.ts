@@ -6,13 +6,13 @@ import { AbandonAnnuléEvent } from '../annuler/annulerAbandon.behavior';
 
 export type AnnulerRejetOptions = {
   dateAnnulation: DateTime.ValueType;
-  utilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export async function annulerRejet(
   this: AbandonAggregate,
-  { dateAnnulation, utilisateur, identifiantProjet }: AnnulerRejetOptions,
+  { dateAnnulation, identifiantUtilisateur, identifiantProjet }: AnnulerRejetOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
 
@@ -21,7 +21,7 @@ export async function annulerRejet(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       annuléLe: dateAnnulation.formatter(),
-      annuléPar: utilisateur.formatter(),
+      annuléPar: identifiantUtilisateur.formatter(),
     },
   };
 
@@ -32,7 +32,7 @@ export async function annulerRejet(
     identifiantProjet,
     raison: this.demande.raison,
     recandidature: this.demande.recandidature,
-    utilisateur: this.demande.demandéPar,
+    identifiantUtilisateur: this.demande.demandéPar,
     pièceJustificative: this.demande.pièceJustificative,
   });
 }

@@ -28,7 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'ACCORDER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      utilisateurValue: utilisateur,
+      identifiantUtilisateurValue: utilisateur,
       dateAccordValue: new Date().toISOString(),
       réponseSignéeValue,
     },

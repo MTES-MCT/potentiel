@@ -9,7 +9,7 @@ export type TransmettrePreuveRecandidatureAbandonUseCase = Message<
     identifiantProjetValue: string;
     preuveRecandidatureValue: string;
     dateNotificationValue: string;
-    utilisateurValue: string;
+    identifiantUtilisateurValue: string;
   }
 >;
 
@@ -17,21 +17,23 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
   const runner: MessageHandler<TransmettrePreuveRecandidatureAbandonUseCase> = async ({
     identifiantProjetValue,
     preuveRecandidatureValue,
-    utilisateurValue,
+    identifiantUtilisateurValue,
     dateNotificationValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidatureValue);
 
     const dateNotification = DateTime.convertirEnValueType(dateNotificationValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
+      identifiantUtilisateurValue,
+    );
     await mediator.send<TransmettrePreuveRecandidatureCommand>({
       type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
       data: {
         identifiantProjet,
         preuveRecandidature,
         dateNotification,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
   };

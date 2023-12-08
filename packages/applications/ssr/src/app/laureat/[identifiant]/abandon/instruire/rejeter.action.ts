@@ -23,7 +23,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'REJETER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      utilisateurValue: utilisateur,
+      identifiantUtilisateurValue: utilisateur,
       dateRejetValue: new Date().toISOString(),
       réponseSignéeValue: {
         content: reponseSignee.stream(),

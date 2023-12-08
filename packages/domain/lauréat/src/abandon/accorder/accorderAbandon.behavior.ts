@@ -24,14 +24,14 @@ export type AbandonAccordéEvent = DomainEvent<
 
 export type AccorderOptions = {
   dateAccord: DateTime.ValueType;
-  utilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function accorder(
   this: AbandonAggregate,
-  { dateAccord, utilisateur, identifiantProjet, réponseSignée }: AccorderOptions,
+  { dateAccord, identifiantUtilisateur, identifiantProjet, réponseSignée }: AccorderOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
 
@@ -43,7 +43,7 @@ export async function accorder(
         format: réponseSignée.format,
       },
       accordéLe: dateAccord.formatter(),
-      accordéPar: utilisateur.formatter(),
+      accordéPar: identifiantUtilisateur.formatter(),
     },
   };
 

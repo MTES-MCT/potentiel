@@ -16,7 +16,7 @@ Quand(
       const content = exemple[`Le contenu de la pièce justificative`] ?? undefined;
       const recandidature = exemple[`Recandidature`] === 'oui';
       const dateDemande = new Date();
-      const utilisateur = 'porteur@test.test';
+      const email = 'porteur@test.test';
 
       this.lauréatWorld.abandonWorld.raison = raison;
       this.lauréatWorld.abandonWorld.recandidature = recandidature;
@@ -26,7 +26,7 @@ Quand(
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -43,7 +43,7 @@ Quand(
             : undefined,
           recandidatureValue: recandidature,
           dateDemandeValue: dateDemande.toISOString(),
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -65,7 +65,7 @@ Quand(
           raisonValue: `La raison de l'abandon`,
           recandidatureValue: false,
           dateDemandeValue: new Date().toISOString(),
-          utilisateurValue: 'porteur@test.test',
+          identifiantUtilisateurValue: 'porteur@test.test',
         },
       });
     } catch (error) {
@@ -79,11 +79,11 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateAnnulation = new Date();
-      const utilisateur = 'porteur@test.test';
+      const email = 'porteur@test.test';
 
       this.lauréatWorld.abandonWorld.dateAnnulation = DateTime.convertirEnValueType(dateAnnulation);
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -92,7 +92,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateAnnulationValue: dateAnnulation.toISOString(),
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -106,7 +106,7 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateRejet = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.dateRejet = DateTime.convertirEnValueType(dateRejet);
       this.lauréatWorld.abandonWorld.réponseSignée = {
@@ -114,7 +114,7 @@ Quand(
         content: `Le contenu de la réponse signée`,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -127,7 +127,7 @@ Quand(
             content: convertStringToReadableStream(`Le contenu de la réponse signée`),
             format: `text/plain`,
           },
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -145,7 +145,7 @@ Quand(
       const content =
         exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
       const dateRejet = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.dateRejet = DateTime.convertirEnValueType(dateRejet);
       this.lauréatWorld.abandonWorld.réponseSignée = {
@@ -153,7 +153,7 @@ Quand(
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -166,7 +166,7 @@ Quand(
             content: convertStringToReadableStream(content),
             format,
           },
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -184,7 +184,7 @@ Quand(
       const content =
         exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
       const dateAccord = DateTime.now();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.dateAccord = dateAccord;
       this.lauréatWorld.abandonWorld.réponseSignée = {
@@ -192,7 +192,7 @@ Quand(
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
       this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature = dateAccord;
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -206,7 +206,7 @@ Quand(
             content: convertStringToReadableStream(content),
             format,
           },
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -220,7 +220,7 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateAccord = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -233,7 +233,7 @@ Quand(
             content: convertStringToReadableStream(`Le contenu de la réponse signée`),
             format: 'text/plain',
           },
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -247,7 +247,7 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateAnnulation = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.dateAnnulation = DateTime.convertirEnValueType(dateAnnulation);
 
@@ -258,7 +258,7 @@ Quand(
         data: {
           identifiantProjetValue: identitiantProjetValueType.formatter(),
           dateAnnulationValue: dateAnnulation.toISOString(),
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -272,7 +272,7 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateDemandeConfirmation = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.dateDemandeConfirmation =
         DateTime.convertirEnValueType(dateDemandeConfirmation);
@@ -281,7 +281,7 @@ Quand(
         content: `Le contenu de la réponse signée`,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -294,7 +294,7 @@ Quand(
             content: convertStringToReadableStream(`Le contenu de la réponse signée`),
             format: `text/plain`,
           },
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -312,7 +312,7 @@ Quand(
       const content =
         exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
       const dateDemandeConfirmation = new Date();
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.dateDemandeConfirmation =
         DateTime.convertirEnValueType(dateDemandeConfirmation);
@@ -321,7 +321,7 @@ Quand(
         content,
       };
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -334,7 +334,7 @@ Quand(
             content: convertStringToReadableStream(content),
             format,
           },
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -348,12 +348,12 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateConfirmation = new Date();
-      const utilisateur = 'porteur@test.test';
+      const email = 'porteur@test.test';
 
       this.lauréatWorld.abandonWorld.dateConfirmation =
         DateTime.convertirEnValueType(dateConfirmation);
       this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -362,7 +362,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateConfirmationValue: dateConfirmation.toISOString(),
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -387,7 +387,7 @@ Quand(
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
       const { identitiantProjetValueType: identifiantProjetPreuveRecandidature } =
         this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
 
@@ -397,7 +397,7 @@ Quand(
           dateNotificationValue: new Date(dateNotificationProjet).toISOString(),
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
@@ -422,7 +422,7 @@ Quand(
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
       const { identitiantProjetValueType: identifiantProjetPreuveRecandidature } =
         this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
 
@@ -432,7 +432,7 @@ Quand(
           dateNotificationValue: new Date(dateNotificationProjet).toISOString(),
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: email,
         },
       });
     } catch (error) {
