@@ -39,13 +39,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureat/abandon?recandidature=false',
-              },
-            },
-            {
-              text: 'Abandons avec recandidature',
-              linkProps: {
-                href: '/laureat/abandon?recandidature=true',
+                href: '/laureat/abandon',
               },
             },
           ],
@@ -169,13 +163,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureat/abandon?recandidature=false',
-              },
-            },
-            {
-              text: 'Abandons avec recandidature',
-              linkProps: {
-                href: '/laureat/abandon?recandidature=true',
+                href: '/laureat/abandon',
               },
             },
           ],
@@ -207,13 +195,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureat/abandon?recandidature=false',
-              },
-            },
-            {
-              text: 'Abandons avec recandidature',
-              linkProps: {
-                href: '/laureat/abandon?recandidature=true',
+                href: '/laureat/abandon',
               },
             },
           ],

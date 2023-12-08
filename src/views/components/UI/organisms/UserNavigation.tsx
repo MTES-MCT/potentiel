@@ -73,10 +73,10 @@ const MenuAdmin = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.LISTE_ABANDONS}
+        href="/laureat/abandon"
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
-        Abandons avec recandidature
+        Abandons
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Imports'}>
@@ -178,12 +178,20 @@ const MenuPorteurProjet = (currentPage?: string) => (
     >
       Mes projets
     </Header.MenuItem>
-    <Header.MenuItem
-      href={routes.USER_LIST_REQUESTS}
-      {...(currentPage === 'list-requests' && { isCurrent: true })}
-    >
-      Mes demandes
-    </Header.MenuItem>
+    <DropdownMenu buttonChildren={'Demandes'}>
+      <DropdownMenu.DropdownItem
+        href={routes.USER_LIST_REQUESTS}
+        {...(currentPage === 'list-requests' && { isCurrent: true })}
+      >
+        Mes demandes
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href="/laureat/abandon"
+        {...(currentPage === 'liste-abandons' && { isCurrent: true })}
+      >
+        Abandons
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
     <Header.MenuItem
       href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
       {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
@@ -243,10 +251,10 @@ const MenuDreal = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.LISTE_ABANDONS}
+        href="/laureat/abandon"
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
-        Abandons avec recandidature
+        Abandons
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem
