@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { TransmettrePreuveRecandidatureCommand } from './transmettrePreuveRecandidatureAbandon.command';
 
 export type TransmettrePreuveRecandidatureAbandonUseCase = Message<
@@ -24,14 +24,14 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
     const preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidatureValue);
 
     const dateNotification = DateTime.convertirEnValueType(dateNotificationValue);
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const { identifiantUtilisateur } = Utilisateur.convertirEnValueType(utilisateurValue);
     await mediator.send<TransmettrePreuveRecandidatureCommand>({
       type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
       data: {
         identifiantProjet,
         preuveRecandidature,
         dateNotification,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
   };

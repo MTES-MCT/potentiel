@@ -436,9 +436,10 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet le projet éliminé {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
+  `{string} transmet le projet éliminé {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
   async function (
     this: PotentielWorld,
+    role: string,
     preuveRecandidature: string,
     projetAbandonné: string,
     table: DataTable,
@@ -451,9 +452,14 @@ Quand(
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
       const { identitiantProjetValueType: identifiantProjetPreuveRecandidature } =
         this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
 
+      const accessToken = createToken({
+        email,
+        role,
+      });
       this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
+      this.accessToken = accessToken;
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
@@ -461,7 +467,7 @@ Quand(
           dateNotificationValue: new Date(dateNotificationProjet).toISOString(),
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {
@@ -471,9 +477,10 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet le projet lauréat {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
+  `{string} transmet le projet lauréat {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
   async function (
     this: PotentielWorld,
+    role: string,
     preuveRecandidature: string,
     projetAbandonné: string,
     table: DataTable,
@@ -486,9 +493,15 @@ Quand(
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
       const { identitiantProjetValueType: identifiantProjetPreuveRecandidature } =
         this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
-      const utilisateur = 'validateur@test.test';
+      const email = 'validateur@test.test';
+
+      const accessToken = createToken({
+        email,
+        role,
+      });
 
       this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
+      this.accessToken = accessToken;
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
@@ -496,7 +509,7 @@ Quand(
           dateNotificationValue: new Date(dateNotificationProjet).toISOString(),
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
-          utilisateurValue: utilisateur,
+          utilisateurValue: accessToken,
         },
       });
     } catch (error) {

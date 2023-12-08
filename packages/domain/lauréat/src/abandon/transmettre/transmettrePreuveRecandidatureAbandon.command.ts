@@ -10,7 +10,7 @@ export type TransmettrePreuveRecandidatureCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     preuveRecandidature: IdentifiantProjet.ValueType;
     dateNotification: DateTime.ValueType;
-    utilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   }
 >;
 
@@ -22,14 +22,14 @@ export const registerTransmettrePreuveRecandidatureAbandonCommand = (
     identifiantProjet,
     preuveRecandidature,
     dateNotification,
-    utilisateur,
+    identifiantUtilisateur,
   }) => {
     const abandon = await loadAbandon(identifiantProjet);
     await abandon.transmettrePreuveRecandidature({
       identifiantProjet,
       preuveRecandidature,
       dateNotification,
-      utilisateur,
+      identifiantUtilisateur,
     });
   };
   mediator.register('TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND', handler);
