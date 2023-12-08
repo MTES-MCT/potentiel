@@ -77,7 +77,13 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             !forceNoAuthority && { authority: 'dgec' }),
           ...(modificationRequestType
             ? { type: modificationRequestType }
-            : { type: { [Op.in]: MODIFICATION_REQUEST_TYPES } }),
+            : {
+                type: {
+                  [Op.in]: MODIFICATION_REQUEST_TYPES.filter(
+                    (type) => !['abandon', 'annulation abandon'].includes(type),
+                  ),
+                },
+              }),
           ...(modificationRequestStatus && { status: modificationRequestStatus }),
         },
       };
@@ -128,6 +134,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             status,
             requestedOn,
             type,
+            justification,
             actionnaire,
             producteur,
             puissance,
@@ -145,9 +152,12 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           }) => {
             const getDescription = (): string => {
               switch (type) {
+                case 'abandon':
                 case 'recours':
                 case 'fournisseur':
                 case 'delai':
+                case 'annulation abandon':
+                  return justification || '';
                 case 'actionnaire':
                   return actionnaire || '';
                 case 'producteur':

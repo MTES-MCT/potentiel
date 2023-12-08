@@ -42,7 +42,13 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
             },
             ...(modificationRequestType
               ? { type: modificationRequestType }
-              : { type: { [Op.in]: MODIFICATION_REQUEST_TYPES } }),
+              : {
+                  type: {
+                    [Op.in]: MODIFICATION_REQUEST_TYPES.filter(
+                      (type) => !['abandon', 'annulation abandon'].includes(type),
+                    ),
+                  },
+                }),
             ...(modificationRequestStatus && { status: modificationRequestStatus }),
           },
           include: [
@@ -94,6 +100,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
             status,
             requestedOn,
             type,
+            justification,
             actionnaire,
             producteur,
             puissance,
@@ -111,9 +118,12 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
           }) => {
             const getDescription = (): string => {
               switch (type) {
+                case 'abandon':
                 case 'recours':
                 case 'fournisseur':
                 case 'delai':
+                case 'annulation abandon':
+                  return justification || '';
                 case 'actionnaire':
                   return actionnaire || '';
                 case 'producteur':
