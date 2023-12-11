@@ -136,13 +136,11 @@ const checkLegacyRules = (args: {
       );
     }
   } else {
-    // TO DO
-    // Règle supprimée temporairement :
-    // if (projectData.notifiedOn) {
-    //   throw new Error(
-    //     `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`,
-    //   );
-    // }
+    if (projectData.notifiedOn) {
+      throw new Error(
+        `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`,
+      );
+    }
 
     if (hasLegacyModifications) {
       throw new Error(
