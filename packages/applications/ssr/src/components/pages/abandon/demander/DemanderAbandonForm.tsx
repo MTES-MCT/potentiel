@@ -47,9 +47,10 @@ export const DemanderAbandonForm = ({
           textArea
           label="Raison"
           id="raison"
+          disabled={pending}
           hintText="Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
                 conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)."
-          nativeTextAreaProps={{ name: 'raison', disabled: pending }}
+          nativeTextAreaProps={{ name: 'raison' }}
           state={state.validationErrors.includes('raison') ? 'error' : 'default'}
           stateRelatedMessage="Raison à préciser"
         />
@@ -57,7 +58,8 @@ export const DemanderAbandonForm = ({
           label="Pièce justificative (optionnel)"
           hint="Vous pouvez transmettre un fichier compressé si il y a plusieurs documents"
           id="pieceJustificative"
-          nativeInputProps={{ name: 'pieceJustificative', disabled: pending }}
+          disabled={pending}
+          nativeInputProps={{ name: 'pieceJustificative' }}
           state={state.validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
           stateRelatedMessage="Erreur sur le fichier transmis"
         />
@@ -66,6 +68,7 @@ export const DemanderAbandonForm = ({
           legend="Option"
           id="recandidature"
           state={state.validationErrors.includes('recandidature') ? 'error' : 'default'}
+          disabled={pending}
           options={[
             {
               label: 'Je demande un abandon avec recandidature (optionnel)',
@@ -73,7 +76,6 @@ export const DemanderAbandonForm = ({
               nativeInputProps: {
                 name: 'recandidature',
                 value: 'true',
-                disabled: pending,
                 onClick: () => setRecandidature(!recandidature),
               },
             },
@@ -121,9 +123,9 @@ export const DemanderAbandonForm = ({
         <Button
           type="submit"
           priority="primary"
+          disabled={pending}
           nativeButtonProps={{
             'aria-disabled': pending,
-            disabled: pending,
           }}
           className="bg-blue-france-sun-base text-white"
         >
