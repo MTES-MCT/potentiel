@@ -41,9 +41,9 @@ export const AccorderAbandonAvecRecandidatureForm = ({
       <Button
         type="submit"
         priority="primary"
+        disabled={pending}
         nativeButtonProps={{
           'aria-disabled': pending,
-          disabled: pending,
         }}
         className="bg-blue-france-sun-base text-white"
       >

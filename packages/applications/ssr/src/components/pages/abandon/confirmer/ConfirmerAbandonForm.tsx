@@ -60,9 +60,9 @@ export const ConfirmerAbandonForm = ({
               buttons={[
                 {
                   type: 'submit',
+                  disabled: pending,
                   nativeButtonProps: {
                     'aria-disabled': pending,
-                    disabled: pending,
                     className: 'bg-blue-france-sun-base text-white',
                   },
                   children: 'Oui',
@@ -71,9 +71,9 @@ export const ConfirmerAbandonForm = ({
                   type: 'button',
                   priority: 'secondary',
                   onClick: () => modal.close(),
+                  disabled: pending,
                   nativeButtonProps: {
                     'aria-disabled': pending,
-                    disabled: pending,
                   },
                   children: 'Non',
                 },
