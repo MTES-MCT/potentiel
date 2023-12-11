@@ -84,6 +84,11 @@ const permissions: Record<RawType, string[]> = {
     //QUERY
     'CONSULTER_ABANDON_QUERY',
     'LISTER_ABANDONS_QUERY',
+    //USECASE
+    'ACCORDER_ABANDON_USECASE',
+    'ANNULER_REJET_ABANDON_USECASE',
+    'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+    'REJETER_ABANDON_USECASE',
   ],
   'acheteur-obligé': [],
   ademe: [],
