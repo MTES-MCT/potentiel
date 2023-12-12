@@ -29,6 +29,7 @@ type ChangementPuissanceProps = {
   appelOffre: ProjectAppelOffre;
   technologie: Technologie;
   puissanceSaisie?: number;
+  onUpdateEtatFormulaire: (bloquerEnvoi: boolean) => void;
 };
 
 export const ChangementPuissance = ({
@@ -40,11 +41,11 @@ export const ChangementPuissance = ({
   technologie,
   puissanceSaisie,
   noteProjet,
+  onUpdateEtatFormulaire,
 }: ChangementPuissanceProps) => {
   const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false);
   const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false);
-  const [displayAlertPuissanceMaxVolumeReserve, setDisplayAlertPuissanceMaxVolumeReserve] =
-    useState(false);
+  const [puissanceMaxVolumeReservéDépassée, setPuissanceMaxVolumeReservéDépassée] = useState(false);
   const [fichierEtJustificationRequis, setFichierEtJustificationRequis] = useState(false);
 
   const handlePuissanceOnChange = (e) => {
@@ -61,8 +62,10 @@ export const ChangementPuissance = ({
 
     setDisplayAlertOnPuissanceType(!isNewValueCorrect);
     setDisplayAlertHorsRatios(exceedsRatios);
-    setDisplayAlertPuissanceMaxVolumeReserve(exceedsPuissanceMax);
+    setPuissanceMaxVolumeReservéDépassée(exceedsPuissanceMax);
     setFichierEtJustificationRequis(exceedsRatios || exceedsPuissanceMax);
+
+    onUpdateEtatFormulaire(exceedsPuissanceMax);
   };
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel);
@@ -111,7 +114,7 @@ export const ChangementPuissance = ({
         <AlertePuissanceHorsRatios {...{ project: { appelOffre, technologie } }} />
       )}
 
-      {displayAlertPuissanceMaxVolumeReserve && (
+      {puissanceMaxVolumeReservéDépassée && (
         <AlertePuissanceMaxDepassee {...{ project: { appelOffre } }} />
       )}
 
