@@ -72,8 +72,6 @@ type Variant =
   | { type: 'producteur'; producteur: string }
   | { type: 'puissance'; puissance: number; puissanceAuMomentDuDepot?: number }
   | { type: 'recours' }
-  | { type: 'abandon'; recandidature: boolean }
-  | { type: 'annulation abandon' }
   | ({
       type: 'delai';
       acceptanceParams?: { delayInMonths: number; dateAchèvementAccordée?: string };
@@ -89,10 +87,3 @@ type Variant =
     ));
 
 export type DetailDemandeDelaiPageDTO = ModificationRequestPageDTO & { type: 'delai' };
-
-export type DemandeAbandonPageDTO = ModificationRequestPageDTO & {
-  type: 'abandon';
-};
-export type DemandeAnnulationAbandonPageDTO = ModificationRequestPageDTO & {
-  type: 'annulation abandon';
-};

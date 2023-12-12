@@ -8,8 +8,6 @@ import { afficherDate } from '../../../helpers';
 export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => {
   const { modificationType } = props;
   switch (modificationType) {
-    case 'abandon':
-      return <Abandon {...props} />;
     case 'recours':
       return <Recours {...props} />;
     case 'delai':
@@ -43,19 +41,6 @@ const LegacyModificationContainer = (
         )}
       </ContentArea>
     </>
-  );
-};
-
-type AbandonProps = LegacyModificationsItemProps & { modificationType: 'abandon' };
-
-const Abandon = (props: AbandonProps) => {
-  const { status } = props;
-  const titleStatus =
-    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté';
-  return (
-    <LegacyModificationContainer {...props}>
-      <ItemTitle title={`Abandon ${titleStatus}`} />
-    </LegacyModificationContainer>
   );
 };
 

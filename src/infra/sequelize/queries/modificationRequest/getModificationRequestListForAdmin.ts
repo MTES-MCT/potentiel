@@ -79,9 +79,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             ? { type: modificationRequestType }
             : {
                 type: {
-                  [Op.in]: MODIFICATION_REQUEST_TYPES.filter(
-                    (type) => !['abandon', 'annulation abandon'].includes(type),
-                  ),
+                  [Op.in]: MODIFICATION_REQUEST_TYPES,
                 },
               }),
           ...(modificationRequestStatus && { status: modificationRequestStatus }),
@@ -152,11 +150,9 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           }) => {
             const getDescription = (): string => {
               switch (type) {
-                case 'abandon':
                 case 'recours':
                 case 'fournisseur':
                 case 'delai':
-                case 'annulation abandon':
                   return justification || '';
                 case 'actionnaire':
                   return actionnaire || '';

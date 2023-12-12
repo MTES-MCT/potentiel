@@ -18,7 +18,6 @@ export const handleLegacyModificationImported =
     const modificationsDescDate = modifications.sort((a, b) => b.modifiedOn - a.modifiedOn);
 
     let delayApplied = false;
-    let abandonApplied = false;
     for (const modification of modificationsDescDate) {
       switch (modification.type) {
         case 'delai':
@@ -42,15 +41,6 @@ export const handleLegacyModificationImported =
               });
             });
             delayApplied = true;
-          }
-          break;
-        case 'abandon':
-          if (abandonApplied) continue;
-          if (modification.status === 'acceptée') {
-            await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
-              return project.abandonLegacy(modification.modifiedOn);
-            });
-            abandonApplied = true;
           }
           break;
         default:

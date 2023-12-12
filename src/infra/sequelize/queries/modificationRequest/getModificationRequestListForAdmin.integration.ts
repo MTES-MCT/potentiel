@@ -56,7 +56,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
         projectId,
         userId: fakePorteur.id,
         fileId,
-        type: 'abandon',
+        type: 'producteur',
         requestedOn: 123,
         status: 'envoyée',
         justification: 'justification',
@@ -213,7 +213,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
         {
           ...baseRequest,
           id: new UniqueEntityID().toString(),
-          type: 'abandon',
+          type: 'autre',
           authority: 'dgec',
         },
         {
@@ -233,7 +233,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
       ]);
     });
 
-    it(`should return all modification requests (without abandons) of projects from the user's region`, async () => {
+    it(`should return all modification requests of projects from the user's region`, async () => {
       const res = await getModificationRequestListForAdmin({
         user: fakeDreal,
         pagination: { page: 0, pageSize: 10 },
@@ -241,9 +241,9 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       expect(res.isOk()).toBe(true);
 
-      expect(res._unsafeUnwrap().itemCount).toEqual(2);
+      expect(res._unsafeUnwrap().itemCount).toEqual(3);
 
-      expect(res._unsafeUnwrap().items.length).toEqual(2);
+      expect(res._unsafeUnwrap().items.length).toEqual(3);
 
       expect(res._unsafeUnwrap().items[0]).toMatchObject({
         authority: 'dreal',
@@ -255,7 +255,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
       expect(res._unsafeUnwrap().items[1]).toMatchObject({
         authority: 'dgec',
         status: 'envoyée',
-        type: 'recours',
+        type: 'autre',
         project: expect.objectContaining({ regionProjet: targetDreal }),
       });
     });

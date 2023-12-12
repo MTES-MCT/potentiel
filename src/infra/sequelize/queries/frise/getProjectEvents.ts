@@ -408,16 +408,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     const status = payload.status;
 
                     switch (modificationType) {
-                      case 'abandon':
-                        events.push({
-                          type,
-                          date: valueDate,
-                          variant: user.role,
-                          status,
-                          ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
-                          modificationType,
-                        });
-                        break;
                       case 'autre':
                         events.push({
                           type,

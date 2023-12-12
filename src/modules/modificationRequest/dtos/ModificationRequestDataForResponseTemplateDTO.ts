@@ -34,15 +34,7 @@ export type ModificationRequestDataForResponseTemplateDTO = {
   isEDM: string;
   isDrealAuthority: string;
   isDgecAuthority: string;
-} & (
-  | DelaiVariant
-  | RecoursVariant
-  | AbandonVariant
-  | PuissanceVariant
-  | ActionnaireVariant
-  | ProducteurVariant
-  | AnnulationAbandonVariant
-);
+} & (DelaiVariant | RecoursVariant | PuissanceVariant | ActionnaireVariant | ProducteurVariant);
 
 type DelaiVariant = {
   type: 'delai';
@@ -102,15 +94,6 @@ type RecoursVariant = {
   delaiRealisationTexte: string;
 };
 
-type AbandonVariant = {
-  type: 'abandon';
-  dateNotification: string;
-  referenceParagrapheAbandon: string;
-  contenuParagrapheAbandon: string;
-  dateDemandeConfirmation: string;
-  dateConfirmation: string;
-};
-
 type PuissanceVariant = {
   type: 'puissance';
   referenceParagraphePuissance: string;
@@ -131,13 +114,4 @@ type ProducteurVariant = {
   contenuParagrapheIdentiteProducteur: string;
   referenceParagrapheChangementProducteur: string;
   contenuParagrapheChangementProducteur: string;
-};
-
-type AnnulationAbandonVariant = {
-  type: 'annulation abandon';
-  dateNotification: string;
-  referenceParagrapheAbandon: string;
-  contenuParagrapheAbandon: string;
-  dateDemandeConfirmation: string;
-  dateConfirmation: string;
 };

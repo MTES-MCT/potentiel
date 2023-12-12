@@ -279,7 +279,6 @@ export type LegacyModificationImportedDTO = {
   status: LegacyModificationStatus;
   filename?: string;
 } & (
-  | { modificationType: 'abandon' }
   | { modificationType: 'recours'; motifElimination: string }
   | {
       modificationType: 'delai';

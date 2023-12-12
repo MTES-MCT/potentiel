@@ -9,8 +9,6 @@ import * as FileEvents from '../../../modules/file/events';
 import * as LegacyCandidateNotificationEvents from '../../../modules/legacyCandidateNotification/events';
 import * as DemandeRecoursModificationEvents from '../../../modules/demandeModification/demandeRecours/events';
 import * as DemandeDélaiEvents from '../../../modules/demandeModification/demandeDélai/events';
-import * as DemandeAbandonEvents from '../../../modules/demandeModification/demandeAbandon/events';
-import * as DemandeAnnulationAbandonEvents from '../../../modules/demandeModification/demandeAnnulationAbandon/events';
 import * as DemandeChangementDePuissanceEvents from '../../../modules/demandeModification/demandeChangementDePuissance/events';
 import * as UtilisateurEvents from '../../../modules/utilisateur/events';
 import { RedisMessage } from './RedisMessage';
@@ -46,8 +44,6 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...FileEvents,
   ...DemandeRecoursModificationEvents,
   ...DemandeDélaiEvents,
-  ...DemandeAbandonEvents,
-  ...DemandeAnnulationAbandonEvents,
   ...DemandeChangementDePuissanceEvents,
   ...UtilisateurEvents,
   DateMiseEnServiceTransmise,

@@ -3,52 +3,6 @@ import moment from 'moment';
 import { parseProjectModifications } from './parseProjectModifications';
 
 describe('parseProjectModifications', () => {
-  describe('when line has a single Abandon modification accepted', () => {
-    const phonyLine = {
-      'Type de modification 1': 'Abandon',
-      'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': '',
-      'Ancienne valeur 1': '',
-      'Statut demande 1': 'Acceptée',
-      'Nom courrier 1': 'filename',
-    };
-
-    it('should return a modification of type abandon accepted', async () => {
-      const modifications = parseProjectModifications(phonyLine);
-
-      expect(modifications).toHaveLength(1);
-      expect(modifications[0]).toMatchObject({
-        type: 'abandon',
-        modifiedOn: 1556143200000,
-        status: 'acceptée',
-        filename: 'filename',
-      });
-    });
-  });
-
-  describe('when line has a single Abandon modification rejected', () => {
-    const phonyLine = {
-      'Type de modification 1': 'Abandon',
-      'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': '',
-      'Ancienne valeur 1': '',
-      'Statut demande 1': 'Refusée',
-      'Nom courrier 1': 'filename',
-    };
-
-    it('should return a modification of type abandon rejected', async () => {
-      const modifications = parseProjectModifications(phonyLine);
-
-      expect(modifications).toHaveLength(1);
-      expect(modifications[0]).toMatchObject({
-        type: 'abandon',
-        modifiedOn: 1556143200000,
-        status: 'rejetée',
-        filename: 'filename',
-      });
-    });
-  });
-
   describe('when line has a single Autre modification', () => {
     const phonyLine = {
       'Type de modification 1': 'Autre',

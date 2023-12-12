@@ -28,18 +28,6 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
     },
   };
 
-  const legacyAbandonModificationImportedEvent = {
-    id: new UniqueEntityID().toString(),
-    projectId,
-    type: 'LegacyModificationImported',
-    valueDate: date.getTime(),
-    eventPublishedAt: date.getTime(),
-    payload: {
-      modificationType: 'abandon',
-      status: 'acceptée',
-    },
-  };
-
   const legacyRecoursModificationImportedEvent = {
     id: new UniqueEntityID().toString(),
     projectId,
@@ -102,14 +90,13 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
 
         await ProjectEvent.bulkCreate([
           legacyDelayModificationImportedEvent,
-          legacyAbandonModificationImportedEvent,
           legacyRecoursModificationImportedEvent,
           legacyActionnaireModificationImportedEvent,
           legacyProducteurModificationImportedEvent,
         ]);
 
         const result = await getProjectEvents({ projectId, user: utilisateur });
-        expect(result._unsafeUnwrap().events).toHaveLength(5);
+        expect(result._unsafeUnwrap().events).toHaveLength(4);
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([
             {
@@ -122,13 +109,6 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
                 legacyDelayModificationImportedEvent.payload.ancienneDateLimiteAchevement,
               nouvelleDateLimiteAchevement:
                 legacyDelayModificationImportedEvent.payload.nouvelleDateLimiteAchevement,
-            },
-            {
-              type: 'LegacyModificationImported',
-              date: date.getTime(),
-              variant: role,
-              modificationType: 'abandon',
-              status: 'acceptée',
             },
             {
               type: 'LegacyModificationImported',
@@ -167,7 +147,6 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
 
         await ProjectEvent.bulkCreate([
           legacyDelayModificationImportedEvent,
-          legacyAbandonModificationImportedEvent,
           legacyRecoursModificationImportedEvent,
           legacyActionnaireModificationImportedEvent,
           legacyProducteurModificationImportedEvent,

@@ -137,9 +137,6 @@ export const makeAcceptModificationRequest =
             if (acceptanceParams?.type === 'actionnaire')
               action = project.updateActionnaire(submittedBy, acceptanceParams.newActionnaire);
             break;
-          case 'abandon':
-            action = project.abandon(submittedBy);
-            break;
           case 'producteur':
             if (acceptanceParams?.type === 'producteur')
               action = project.updateProducteur(submittedBy, acceptanceParams.newProducteur);

@@ -5,7 +5,6 @@ export * from './generateCertificate';
 export * from './importProjects';
 export * from './regenerateCertificatesForPeriode';
 export * from './removeGF';
-export * from './signalerDemandeAbandon';
 export * from './signalerDemandeDelai';
 export * from './signalerDemandeRecours';
 export * from './submitGF';

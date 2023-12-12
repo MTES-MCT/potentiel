@@ -19,7 +19,6 @@ export type ModificationRequestedPayload = {
   | { type: 'producteur'; producteur: string }
   | { type: 'fournisseur'; fournisseur: string; evaluationCarbone: number }
   | { type: 'delai'; delayInMonths: number }
-  | { type: 'abandon' }
   | { type: 'recours' }
 );
 export class ModificationRequested

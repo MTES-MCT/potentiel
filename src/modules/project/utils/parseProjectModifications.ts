@@ -214,14 +214,6 @@ function extractModificationType(
         filename: nomCourrier,
         status,
       };
-    case 'Abandon':
-      return {
-        type: 'abandon',
-        modifiedOn,
-        modificationId: new UniqueEntityID().toString(),
-        filename: nomCourrier,
-        status,
-      };
     case 'Recours gracieux':
       return extractRecoursType({
         modifiedOn,

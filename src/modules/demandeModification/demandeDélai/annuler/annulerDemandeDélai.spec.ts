@@ -7,7 +7,7 @@ import {
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates';
 import { makeAnnulerDemandeDélai } from './annulerDemandeDélai';
-import { StatutDemandeDélai, statutsDemandeDélai } from '../DemandeDélai';
+import { statutsDemandeDélai } from '../DemandeDélai';
 import { StatusPreventsCancellingError } from '../../../modificationRequest';
 import { User } from '../../../../entities';
 
@@ -80,40 +80,6 @@ describe(`Commande annuler demande délai`, () => {
 
         expect(res._unsafeUnwrapErr()).toBeInstanceOf(StatusPreventsCancellingError);
         expect(publishToEventStore).not.toHaveBeenCalled();
-      });
-    }
-  });
-
-  describe(`Cas d'une annulation d'abandon possible`, () => {
-    const statutsCompatiblesAvecAnnulation = ['envoyée', 'en instruction'] as StatutDemandeDélai[];
-    for (const statut of statutsCompatiblesAvecAnnulation) {
-      it(`Etant donné un porteur ayant les droits sur le projet,
-      lorsqu'il annule une demande de délai en statut ${statut},
-      alors la demande devrait être annulée`, async () => {
-        const demandeDélaiId = 'la-demande-a-annuler';
-
-        const demandeDélaiRepo = fakeTransactionalRepo(
-          makeFakeDemandeDélai({ id: demandeDélaiId, statut, projetId: 'identifiant-projet' }),
-        );
-
-        const annulerDemandéDélai = makeAnnulerDemandeDélai({
-          shouldUserAccessProject,
-          demandeDélaiRepo,
-          publishToEventStore,
-        });
-
-        await annulerDemandéDélai({ user, demandeDélaiId });
-
-        expect(publishToEventStore).toHaveBeenCalledWith(
-          expect.objectContaining({
-            type: 'DélaiAnnulé',
-            payload: expect.objectContaining({
-              demandeDélaiId,
-              annuléPar: user.id,
-              projetId: 'identifiant-projet',
-            }),
-          }),
-        );
       });
     }
   });

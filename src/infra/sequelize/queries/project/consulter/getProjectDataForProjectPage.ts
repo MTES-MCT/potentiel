@@ -4,18 +4,10 @@ import {
   ProjectDataForProjectPage,
   GetProjectDataForProjectPage,
 } from '../../../../../modules/project';
-import { EntityNotFoundError, InfraNotAvailableError } from '../../../../../modules/shared';
-import {
-  Project,
-  ModificationRequest,
-  User as UserModel,
-  UserProjects,
-  File,
-} from '../../../projectionsNext';
+import { EntityNotFoundError } from '../../../../../modules/shared';
+import { Project, User as UserModel, UserProjects, File } from '../../../projectionsNext';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre, User } from '../../../../../entities';
-import routes from '../../../../../routes';
 import { CahierDesCharges } from '@potentiel-domain/appel-offre';
-import { format } from 'date-fns';
 import { userIs, userIsNot } from '../../../../../modules/users';
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
@@ -225,8 +217,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       dto.appelOffre.typeAppelOffre === 'innovation'
         ? ajouterNotesInnovation({ dto, user })
         : okAsync(dto),
-    )
-    .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)));
+    );
 };
 
 const ajouterNotesInnovation = ({
@@ -271,68 +262,4 @@ const ajouterNotesInnovation = ({
         },
       })
     : okAsync(dto);
-};
-
-const ajouterInfosAlerteAnnulationAbandon = (
-  dto: ProjectDataForProjectPage,
-): ResultAsync<ProjectDataForProjectPage, InfraNotAvailableError> => {
-  const { id: projectId, appelOffre, cahierDesChargesActuel } = dto;
-
-  return wrapInfra(
-    ModificationRequest.findOne({
-      where: { projectId, type: 'annulation abandon', status: 'envoyée' },
-    }),
-  ).map((demande) => {
-    if (demande) {
-      return {
-        ...dto,
-        alerteAnnulationAbandon: {
-          actionPossible: 'voir-demande-en-cours' as const,
-          urlDemandeEnCours: routes.DEMANDE_PAGE_DETAILS(demande.id),
-        },
-      };
-    }
-
-    const cahiersDesChargesModifiésDisponibles =
-      appelOffre.periode.cahiersDesChargesModifiésDisponibles;
-
-    const cdcDispoPourAnnulationAbandon = cahiersDesChargesModifiésDisponibles.filter(
-      (cdc) =>
-        cdc.délaiAnnulationAbandon && new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime(),
-    );
-
-    const dateLimite =
-      cahierDesChargesActuel.type === 'modifié'
-        ? appelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
-            (cdc) =>
-              cdc.paruLe === cahierDesChargesActuel.paruLe &&
-              cdc.alternatif === cahierDesChargesActuel.alternatif,
-          )?.délaiAnnulationAbandon
-        : undefined;
-
-    const cdcActuelPermetAnnulationAbandon = dateLimite ? true : false;
-
-    return {
-      ...dto,
-      ...((cdcActuelPermetAnnulationAbandon || cdcDispoPourAnnulationAbandon.length > 0) && {
-        alerteAnnulationAbandon: {
-          ...(cdcActuelPermetAnnulationAbandon
-            ? {
-                actionPossible: 'demander-annulation-abandon',
-                dateLimite: format(dateLimite!, 'PPP'),
-              }
-            : {
-                actionPossible: 'choisir-nouveau-cdc',
-                cdcAvecOptionAnnulationAbandon: cdcDispoPourAnnulationAbandon.map(
-                  ({ paruLe, alternatif, type }) => ({
-                    paruLe,
-                    alternatif,
-                    type,
-                  }),
-                ),
-              }),
-        },
-      }),
-    };
-  });
 };

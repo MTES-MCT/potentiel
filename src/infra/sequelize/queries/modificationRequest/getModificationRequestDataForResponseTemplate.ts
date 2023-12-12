@@ -263,17 +263,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 dateLimiteAchevementActuelle: formatDate(completionDueOn),
                 ..._makePreviousDelaiFromPreviousRequest(previousRequest),
               } as ModificationRequestDataForResponseTemplateDTO);
-            case 'abandon':
-            case 'annulation abandon':
-              return ok({
-                ...commonData,
-                referenceParagrapheAbandon:
-                  texteEngagementRéalisationEtModalitésAbandon.référenceParagraphe,
-                contenuParagrapheAbandon: texteEngagementRéalisationEtModalitésAbandon.dispositions,
-                dateDemandeConfirmation:
-                  confirmationRequestedOn && formatDate(confirmationRequestedOn),
-                dateConfirmation: confirmedOn && formatDate(confirmedOn),
-              } as ModificationRequestDataForResponseTemplateDTO);
             case 'actionnaire':
               return ok({
                 ...commonData,

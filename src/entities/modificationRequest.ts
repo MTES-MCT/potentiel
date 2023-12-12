@@ -39,14 +39,6 @@ const puissanceSchema = Record({
   type: Literal('puissance'),
   puissance: Number.withConstraint((value) => value > 0),
 });
-const abandonSchema = Record({
-  type: Literal('abandon'),
-  justification: String,
-});
-const annulationAbandonSchema = Record({
-  type: Literal('annulation abandon'),
-  justification: String,
-});
 const recoursSchema = Record({
   type: Literal('recours'),
   justification: String,
@@ -64,10 +56,8 @@ const modificationRequestSchema = baseModificationRequestSchema
       producteurSchema,
       fournisseurSchema,
       puissanceSchema,
-      abandonSchema,
       recoursSchema,
       delaiSchema,
-      annulationAbandonSchema,
     ),
   )
   .And(

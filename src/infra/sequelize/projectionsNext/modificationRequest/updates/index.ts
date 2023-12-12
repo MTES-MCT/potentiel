@@ -1,7 +1,6 @@
 import { EventBus } from '../../../../../core/domain';
 import { logger } from '../../../../../core/utils';
 import {
-  AbandonAnnulé,
   DélaiAccordé,
   DélaiAccordéCorrigé,
   DélaiAnnulé,
@@ -11,16 +10,6 @@ import {
   RejetDélaiAnnulé,
   RejetRecoursAnnulé,
   RejetChangementDePuissanceAnnulé,
-  AbandonDemandé,
-  AbandonAccordé,
-  AbandonRejeté,
-  ConfirmationAbandonDemandée,
-  AbandonConfirmé,
-  RejetAbandonAnnulé,
-  AnnulationAbandonDemandée,
-  AnnulationAbandonAnnulée,
-  AnnulationAbandonRejetée,
-  AnnulationAbandonAccordée,
 } from '../../../../../modules/demandeModification';
 import {
   ConfirmationRequested,
@@ -35,23 +24,6 @@ import {
 } from '../../../../../modules/modificationRequest';
 import { onConfirmationRequested } from './onConfirmationRequested';
 import { onLegacyModificationImported } from './onLegacyModificationImported';
-import { LegacyAbandonSupprimé } from '../../../../../modules/project';
-import {
-  onAbandonDemandé,
-  onAbandonAnnulé,
-  onAbandonConfirmé,
-  onAbandonAccordé,
-  onAbandonRejeté,
-  onLegacyAbandonSupprimé,
-  onConfirmationAbandonDemandée,
-  onRejetAbandonAnnulé,
-} from './abandon';
-import {
-  onAnnulationAbandonDemandée,
-  onAnnulationAbandonAnnulée,
-  onAnnulationAbandonRejetée,
-  onAnnulationAbandonAccordée,
-} from './annulationAbandon';
 import {
   onDélaiDemandé,
   onDélaiAnnulé,
@@ -96,18 +68,6 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
 
   eventBus.subscribe(RejetRecoursAnnulé.type, onRejetRecoursAnnulé);
   eventBus.subscribe(RejetChangementDePuissanceAnnulé.type, onRejetChangementDePuissanceAnnulé);
-  eventBus.subscribe(AbandonDemandé.type, onAbandonDemandé);
-  eventBus.subscribe(AbandonAnnulé.type, onAbandonAnnulé);
-  eventBus.subscribe(AbandonConfirmé.type, onAbandonConfirmé);
-  eventBus.subscribe(AbandonAccordé.type, onAbandonAccordé);
-  eventBus.subscribe(AbandonRejeté.type, onAbandonRejeté);
-  eventBus.subscribe(LegacyAbandonSupprimé.type, onLegacyAbandonSupprimé);
-  eventBus.subscribe(ConfirmationAbandonDemandée.type, onConfirmationAbandonDemandée);
-  eventBus.subscribe(RejetAbandonAnnulé.type, onRejetAbandonAnnulé);
-  eventBus.subscribe(AnnulationAbandonDemandée.type, onAnnulationAbandonDemandée);
-  eventBus.subscribe(AnnulationAbandonAnnulée.type, onAnnulationAbandonAnnulée);
-  eventBus.subscribe(AnnulationAbandonRejetée.type, onAnnulationAbandonRejetée);
-  eventBus.subscribe(AnnulationAbandonAccordée.type, onAnnulationAbandonAccordée);
   logger.info('Initialized ModificationRequest projections');
 };
 

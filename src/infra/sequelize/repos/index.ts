@@ -10,11 +10,7 @@ import { makeProjectRepo } from './projectRepo';
 import { makeProjectClaimRepo } from './projectClaimRepo';
 import { makeLegacyCandidateNotification } from '../../../modules/legacyCandidateNotification';
 import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils';
-import {
-  makeDemandeDélai,
-  makeDemandeAbandon,
-  makeDemandeAnnulationAbandon,
-} from '../../../modules/demandeModification';
+import { makeDemandeDélai } from '../../../modules/demandeModification';
 import { makeUtilisateur } from '../../../modules/utilisateur';
 
 export const fileRepo = makeFileRepo({ fileStorageService });
@@ -42,28 +38,6 @@ export const demandeDélaiRepo = {
   ...makeEventStoreRepo({
     eventStore,
     makeAggregate: makeDemandeDélai,
-  }),
-};
-
-export const demandeAbandonRepo = {
-  ...makeEventStoreTransactionalRepo({
-    eventStore,
-    makeAggregate: makeDemandeAbandon,
-  }),
-  ...makeEventStoreRepo({
-    eventStore,
-    makeAggregate: makeDemandeAbandon,
-  }),
-};
-
-export const demandeAnnulationAbandonRepo = {
-  ...makeEventStoreTransactionalRepo({
-    eventStore,
-    makeAggregate: makeDemandeAnnulationAbandon,
-  }),
-  ...makeEventStoreRepo({
-    eventStore,
-    makeAggregate: makeDemandeAnnulationAbandon,
   }),
 };
 

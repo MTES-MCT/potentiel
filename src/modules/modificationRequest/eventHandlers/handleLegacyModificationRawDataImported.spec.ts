@@ -20,7 +20,7 @@ const familleId = 'familleId';
 const numeroCRE = 'numeroCRE';
 const modifications = [
   {
-    type: 'abandon',
+    type: 'recours',
     modifiedOn: 123,
   } as LegacyModificationDTO,
 ];

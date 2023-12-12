@@ -18,13 +18,11 @@ type ProjectActionsProps = {
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
-  signalementAbandonAutorisé?: true;
   signalementRecoursAutorisé?: true;
 };
 
 const EnregistrerUneModification = ({
   project,
-  signalementAbandonAutorisé,
   signalementRecoursAutorisé,
 }: EnregistrerUneModificationProps) => (
   <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -33,15 +31,6 @@ const EnregistrerUneModification = ({
     >
       <span>Demande de délai</span>
     </DropdownMenuSecondaryButton.DropdownItem>
-    {signalementAbandonAutorisé ? (
-      <DropdownMenuSecondaryButton.DropdownItem
-        href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(project.id)}
-      >
-        <span>Demande d'abandon</span>
-      </DropdownMenuSecondaryButton.DropdownItem>
-    ) : (
-      <></>
-    )}
     {signalementRecoursAutorisé && getProjectStatus(project) === 'éliminé' ? (
       <DropdownMenuSecondaryButton.DropdownItem
         href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(project.id)}

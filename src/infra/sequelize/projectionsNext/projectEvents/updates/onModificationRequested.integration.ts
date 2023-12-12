@@ -92,40 +92,6 @@ describe(`Handler onModificationRequested`, () => {
     });
   });
 
-  describe(`Traitement des demandes d'abandon`, () => {
-    describe(`Etant donné un événement ModificationRequested de type 'abandon' émis`, () => {
-      it('Alors un nouvel événement de type ModificationRequested devrait être ajouté à ProjectEvent', async () => {
-        await onModificationRequested(
-          new ModificationRequested({
-            payload: {
-              type: 'abandon',
-              modificationRequestId: demandeId,
-              projectId: projetId,
-              requestedBy: 'user-id',
-              authority: 'dgec',
-              fileId: 'file-id',
-              justification: 'plus possible',
-            } as ModificationRequestedPayload,
-            original: {
-              version: 1,
-              occurredAt: new Date('2022-02-09'),
-            },
-          }),
-        );
-        const projectEvent = await ProjectEvent.findOne({ where: { projectId: projetId } });
-        expect(projectEvent).toMatchObject({
-          type: 'ModificationRequested',
-          projectId: projetId,
-          payload: {
-            modificationType: 'abandon',
-            modificationRequestId: demandeId,
-            authority: 'dgec',
-          },
-        });
-      });
-    });
-  });
-
   describe(`Traitement des demandes de recours`, () => {
     describe(`Etant donné un événement ModificationRequested de type 'recours' émis`, () => {
       it('Alors un nouvel événement de type ModificationRequested devrait être ajouté à ProjectEvent', async () => {

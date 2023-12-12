@@ -1,10 +1,5 @@
 import { DomainEvent } from '../../core/domain';
-import {
-  DélaiAccordé,
-  AbandonAccordé,
-  AnnulationAbandonAccordée,
-  DélaiAccordéCorrigé,
-} from '../../modules/demandeModification';
+import { DélaiAccordé, DélaiAccordéCorrigé } from '../../modules/demandeModification';
 import { LegacyModificationImported } from '../../modules/modificationRequest';
 import {
   handleLegacyModificationImported,
@@ -16,7 +11,6 @@ import {
   PeriodeNotified,
   ProjectCertificateObsolete,
   ProjectRawDataImported,
-  makeOnAnnulationAbandonAccordée,
   DateMiseEnServiceTransmise,
   makeOnCahierDesChargesChoisi,
   CahierDesChargesChoisi,
@@ -34,7 +28,6 @@ import {
 import { getProjectAppelOffre } from '../queryProjectAO.config';
 import { projectRepo } from '../repos.config';
 import { generateCertificate } from '../useCases.config';
-import { makeOnAbandonAccordé } from '../../modules/project/eventHandlers/onAbandonAccordé';
 
 eventStore.subscribe(
   PeriodeNotified.type,
@@ -103,42 +96,6 @@ const onDélaiAccordéCorrigé = async (event: DomainEvent) => {
   );
 };
 subscribeToRedis(onDélaiAccordéCorrigé, 'Project.onDélaiAccordéCorrigé');
-
-const onAbandonAccordéHandler = makeOnAbandonAccordé({
-  projectRepo,
-  publishToEventStore: eventStore.publish,
-});
-
-const onAbandonAccordé = async (event: DomainEvent) => {
-  if (!(event instanceof AbandonAccordé)) {
-    return Promise.resolve();
-  }
-
-  return onAbandonAccordéHandler(event).match(
-    () => Promise.resolve(),
-    (e) => Promise.reject(e),
-  );
-};
-subscribeToRedis(onAbandonAccordé, 'Project.onAbandonAccordé');
-
-const onAnnulationAbandonAccordéeHandler = makeOnAnnulationAbandonAccordée({
-  projectRepo,
-  publishToEventStore: eventStore.publish,
-  getProjectAppelOffre,
-});
-
-const onAnnulationAbandonAccordée = async (event: DomainEvent) => {
-  if (!(event instanceof AnnulationAbandonAccordée)) {
-    return Promise.resolve();
-  }
-
-  return onAnnulationAbandonAccordéeHandler(event).match(
-    () => Promise.resolve(),
-    (e) => Promise.reject(e),
-  );
-};
-
-subscribeToRedis(onAnnulationAbandonAccordée, 'Project');
 
 const onCahierDesChargesChoisiHandler = makeOnCahierDesChargesChoisi({
   projectRepo,

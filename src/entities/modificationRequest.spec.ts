@@ -152,7 +152,7 @@ describe('ModificationRequest entity', () => {
     const modificationRequestResult = makeModificationRequest({
       userId: '1',
       projectId: '1',
-      type: 'abandon',
+      type: 'recours',
       justification: 'miaou',
     } as any);
 

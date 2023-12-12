@@ -27,15 +27,7 @@ const schema = yup.object({
     redirectUrl: yup.string().required(),
     type: yup
       .mixed<TypeDeModification>()
-      .oneOf([
-        'actionnaire',
-        'fournisseur',
-        'producteur',
-        'puissance',
-        'recours',
-        'abandon',
-        'delai',
-      ])
+      .oneOf(['actionnaire', 'fournisseur', 'producteur', 'puissance', 'recours', 'delai'])
       .optional(),
     choixCDC: yup
       .mixed<CahierDesChargesRéférence>()
@@ -51,8 +43,6 @@ const getRedirectTitle = (type: TypeDeModification) => {
     case 'delai':
     case 'recours':
       return `Retourner sur la demande de ${type}`;
-    case 'abandon':
-      return `Retourner sur la demande d'${type}`;
     case 'puissance':
     case 'fournisseur':
     case 'producteur':

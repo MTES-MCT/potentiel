@@ -149,7 +149,6 @@ class routes {
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData';
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest';
   static ADMIN_REPONDRE_DEMANDE_DELAI = '/admin/repondre-demande-delai';
-  static ADMIN_REPONDRE_DEMANDE_ABANDON = '/admin/repondre-demande-abandon';
 
   static ADMIN_ANNULER_DELAI_REJETE = (args?: { modificationRequestId: string }) => {
     const route = '/admin/demande/:modificationRequestId/annuler-rejet-demande-delai';
@@ -157,8 +156,6 @@ class routes {
       return route.replace(':modificationRequestId', args.modificationRequestId);
     } else return route;
   };
-
-  static ADMIN_ANNULER_ABANDON_REJETE = '/admin/demande/annuler-rejet-demande-abandon';
 
   static ADMIN_ANNULER_RECOURS_REJETE = (args?: { modificationRequestId: string }) => {
     const route = '/admin/demande/:modificationRequestId/annuler-rejet-demande-recours';
@@ -234,11 +231,6 @@ class routes {
     } else return route;
   };
 
-  static GET_DEMANDER_ABANDON = (projectId?: Project['id']) => {
-    const route = '/projet/:projectId/demander-abandon.html';
-    return projectId ? route.replace(':projectId', projectId) : route;
-  };
-
   static DEMANDER_CHANGEMENT_PUISSANCE = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/demander-changement-puissance.html';
     return projectId ? route.replace(':projectId', projectId) : route;
@@ -268,17 +260,9 @@ class routes {
 
   static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai';
 
-  static CONFIRMER_DEMANDE_ABANDON = '/confirmer-demande-abandon';
-
   static ANNULER_DEMANDE_ACTION = '/annuler-demande';
   static POST_ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
-  static POST_DEMANDER_ABANDON = '/soumettre-demande-abandon';
-  static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon';
-
-  static POST_DEMANDER_ANNULATION_ABANDON = '/demander-annulation-abandon';
-  static POST_ANNULER_DEMANDE_ANNULATION_ABANDON = '/annuler-demande-annulation-abandon';
-  static POST_REPONDRE_DEMANDE_ANNULATION_ABANDON = '/repondre-demande-annulation-abandon';
 
   static POST_CHANGER_PRODUCTEUR = '/soumettre-changement-producteur';
   static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur';
@@ -566,7 +550,5 @@ class routes {
   };
   static GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE = `/admin/importer-dates-mise-en-service.html`;
   static POST_IMPORTER_DATES_MISE_EN_SERVICE = `/admin/importer-dates-mise-en-service`;
-
-  static ANNULER_ABANDON = '/abandon/annuler';
 }
 export default routes;

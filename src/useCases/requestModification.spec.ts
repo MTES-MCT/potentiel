@@ -45,7 +45,7 @@ describe('requestModification use-case', () => {
     it('should return ACCESS_DENIED_ERROR', async () => {
       const user = makeFakeUser({ role: 'porteur-projet' });
       const requestResult = await requestModification({
-        type: 'abandon',
+        type: 'recours',
         justification: 'justification',
         file: fakeFileContents,
         user,
@@ -88,7 +88,7 @@ describe('requestModification use-case', () => {
     it('should return ACCESS_DENIED_ERROR', async () => {
       const user = makeFakeUser({ role: 'admin' });
       const requestResult = await requestModification({
-        type: 'abandon',
+        type: 'recours',
         justification: 'justification',
         file: fakeFileContents,
         user,
@@ -130,7 +130,7 @@ describe('requestModification use-case', () => {
 
       beforeAll(async () => {
         const requestResult = await requestModification({
-          type: 'abandon',
+          type: 'recours',
           justification: 'justification',
           file: fakeFileContents,
           user,
@@ -153,7 +153,7 @@ describe('requestModification use-case', () => {
         expect(eventBus.publish).toHaveBeenCalledTimes(1);
         expect(eventBus.publish.mock.calls[0][0].payload).toEqual(
           expect.objectContaining({
-            type: 'abandon',
+            type: 'recours',
             justification: 'justification',
             fileId: fakeFile.id.toString(),
             requestedBy: user.id,
