@@ -1,3 +1,5 @@
+'use client';
+
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/PageTemplate';
 
@@ -53,6 +55,14 @@ export default function NewApp() {
         ultricies mi. Pellentesque diam volutpat commodo sed egestas egestas. Neque viverra justo
         nec ultrices dui.
       </p>
+
+      <form method="post" action="#" id="test-form" onSubmit={() => alert('ok')}>
+        <input type="hidden" value="test" />
+      </form>
+
+      <button type="submit" form="test-form" value="Submit">
+        Submit
+      </button>
     </PageTemplate>
   );
 }

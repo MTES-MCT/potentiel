@@ -7,8 +7,8 @@ import { ConfirmerAbandonState, confirmerAbandonAction } from './confirmerAbando
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
-import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import { encodeParameter } from '@/utils/encodeParameter';
+import { Form } from '@/components/molecules/Form';
 
 const initialState: ConfirmerAbandonState = {
   error: undefined,
@@ -25,10 +25,7 @@ const modal = createModal({
   isOpenedByDefault: false,
 });
 
-export const ConfirmerAbandonForm = ({
-  identifiantProjet,
-  utilisateur,
-}: ConfirmerAbandonFormProps) => {
+export const ConfirmerAbandon = ({ identifiantProjet, utilisateur }: ConfirmerAbandonFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(confirmerAbandonAction, initialState);
@@ -39,47 +36,41 @@ export const ConfirmerAbandonForm = ({
 
   return (
     <>
-      <Button
-        priority="primary"
-        className="bg-blue-france-sun-base text-white"
-        onClick={() => modal.open()}
-      >
+      <Button priority="tertiary no outline" onClick={() => modal.open()}>
         Confirmer l'abandon
       </Button>
 
-      <modal.Component title="Confirmer">
+      <modal.Component
+        title="Confirmer un abandon"
+        buttons={[
+          {
+            type: 'button',
+            onClick: () => modal.close(),
+            disabled: pending,
+            nativeButtonProps: {
+              'aria-disabled': pending,
+            },
+            children: 'Non',
+          },
+          {
+            type: 'submit',
+            disabled: pending,
+            nativeButtonProps: {
+              'aria-disabled': pending,
+              className: 'bg-blue-france-sun-base text-white',
+              form: 'confirmer-abandon-form',
+            },
+            children: 'Oui',
+          },
+        ]}
+      >
         {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
         <div className="flex flex-col gap-5">
           <p className="mt-3">Êtes-vous sûr de vouloir confirmer cet abandon ?</p>
-          <form action={formAction} method="post">
+          <Form action={formAction} method="post" id="confirmer-abandon-form">
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-            <ButtonsGroup
-              inlineLayoutWhen="always"
-              alignment="right"
-              buttons={[
-                {
-                  type: 'submit',
-                  disabled: pending,
-                  nativeButtonProps: {
-                    'aria-disabled': pending,
-                    className: 'bg-blue-france-sun-base text-white',
-                  },
-                  children: 'Oui',
-                },
-                {
-                  type: 'button',
-                  priority: 'secondary',
-                  onClick: () => modal.close(),
-                  disabled: pending,
-                  nativeButtonProps: {
-                    'aria-disabled': pending,
-                  },
-                  children: 'Non',
-                },
-              ]}
-            />
-          </form>
+          </Form>
         </div>
       </modal.Component>
     </>
