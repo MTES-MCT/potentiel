@@ -12,7 +12,6 @@ import {
 } from '@potentiel/domain-usecases';
 import { PermissionModifierGestionnaireRéseau } from '@potentiel/legacy-permissions';
 import { mediator } from 'mediateur';
-import { NotFoundError } from '@potentiel-domain/core';
 
 const schema = yup.object({
   body: yup.object({
@@ -51,21 +50,7 @@ v1Router.post(
             raisonSociale,
           },
         });
-
-        response.redirect(
-          addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
-            success: 'Le gestionnaire a bien été modifié.',
-          }),
-        );
       } catch (error) {
-        if (error instanceof NotFoundError) {
-          return response.redirect(
-            addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
-              error: error.message,
-            }),
-          );
-        }
-
         logger.error(error);
         return errorResponse({
           request,

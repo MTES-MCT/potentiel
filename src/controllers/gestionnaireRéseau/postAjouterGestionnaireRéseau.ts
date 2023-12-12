@@ -59,12 +59,6 @@ v1Router.post(
             raisonSociale,
           },
         });
-
-        response.redirect(
-          addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
-            success: 'Le gestionnaire a bien été enregistré.',
-          }),
-        );
       } catch (error) {
         if (error instanceof InvalidOperationError) {
           return response.redirect(

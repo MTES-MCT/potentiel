@@ -161,7 +161,7 @@ const MenuAdmin = (currentPage?: string) => (
         Tableau de bord
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}
+        href="/reseau/gestionnaires"
         {...(currentPage === 'liste-gestionnaires-réseau' && { isCurrent: true })}
       >
         Gérer les gestionnaires de réseau

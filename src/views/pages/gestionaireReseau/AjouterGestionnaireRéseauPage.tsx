@@ -5,7 +5,6 @@ import {
   Heading1,
   Input,
   Label,
-  Link,
   PageTemplate,
   Form,
   LabelDescription,
@@ -77,7 +76,6 @@ export const AjouterGestionnaireRéseau = ({
 
       <div className="mx-auto flex gap-4 items-center">
         <PrimaryButton type="submit">Ajouter</PrimaryButton>
-        <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </div>
     </Form>
   </PageTemplate>

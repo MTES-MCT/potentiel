@@ -4,7 +4,6 @@ import {
   Heading1,
   Input,
   Label,
-  Link,
   Form,
   PageTemplate,
   LabelDescription,
@@ -80,7 +79,6 @@ export const ModifierGestionnaireRéseau = ({
 
       <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
         <PrimaryButton type="submit">Enregistrer</PrimaryButton>
-        <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </div>
     </Form>
   </PageTemplate>
