@@ -7,7 +7,7 @@ describe('exceedsPuissanceMaxDuVolumeReserve', () => {
   describe(`Étant donné une période d'appel d'offres avec un volume réservé
       pour les projets : 
         - dont la puissance n'excède pas 10
-        - dont la du dernier retenu est de 15`, () => {
+        - dont la note du dernier retenu est de 15`, () => {
     const appelOffre = {
       periode: {
         noteThresholdBy: 'category',
