@@ -29,6 +29,7 @@ type DemanderChangementPuissanceProps = {
     puissanceInitiale: number;
     puissance: number;
     unitePuissance: string;
+    note: number;
   };
   appelOffre: ProjectAppelOffre;
 };
@@ -92,6 +93,7 @@ export const DemanderChangementPuissance = ({
               justification,
               appelOffre,
               puissanceSaisie,
+              noteProjet: project.note,
             }}
           />
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
