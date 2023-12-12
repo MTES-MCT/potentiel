@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import { Heading2 } from '../../atoms/headings';
 import { StatutAbandonBadge } from '../../molecules/abandon/StatutAbandonBadge';
 import { Utilisateur } from '@/utils/getUtilisateur';
@@ -31,80 +29,30 @@ export const InstructionAbandonForm = ({
     utilisateur.rôle === 'dgec-validateur' || (utilisateur.rôle === 'admin' && !recandidature);
   const demandeConfirmationPossible = statut === 'demandé' && !recandidature;
 
-  const [instruction, setInstruction] = useState('');
-
   return (
     <>
       {instructionEnCours && réponsePermise ? (
-        <>
+        <div className="w-1/4">
           <Heading2>Instruire la demande</Heading2>
-          <form>
-            <RadioButtons
-              legend="Instruire l'abandon"
-              orientation="horizontal"
-              name="instruction"
-              options={[
-                ...(demandeConfirmationPossible
-                  ? [
-                      {
-                        label: 'demander une confirmation',
-                        nativeInputProps: {
-                          value: 'demander-confirmation',
-                          onClick: () => {
-                            setInstruction('demander-confirmation');
-                          },
-                          checked: instruction === 'demander-confirmation',
-                        },
-                      },
-                    ]
-                  : []),
-                {
-                  label: 'accorder',
-                  nativeInputProps: {
-                    value: 'accorder',
-                    onClick: () => {
-                      setInstruction('accorder');
-                    },
-                    checked: instruction === 'accorder',
-                  },
-                },
-                {
-                  label: 'rejeter',
-                  nativeInputProps: {
-                    value: 'rejeter',
-                    onClick: () => {
-                      setInstruction('rejeter');
-                    },
-                    checked: instruction === 'rejeter',
-                  },
-                },
-              ]}
-            />
-          </form>
-
-          {instruction === 'demander-confirmation' && demandeConfirmationPossible ? (
+          {demandeConfirmationPossible && (
             <DemanderConfirmationAbandonForm
               identifiantProjet={identifiantProjet}
               utilisateur={utilisateur}
             />
-          ) : null}
-
-          {instruction === 'rejeter' && (
-            <RejeterAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
           )}
-
-          {instruction === 'accorder' && recandidature ? (
+          <RejeterAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
+          {recandidature ? (
             <AccorderAbandonAvecRecandidatureForm
               identifiantProjet={identifiantProjet}
               utilisateur={utilisateur}
             />
-          ) : instruction === 'accorder' && !recandidature ? (
+          ) : !recandidature ? (
             <AccorderAbandonSansRecandidatureForm
               identifiantProjet={identifiantProjet}
               utilisateur={utilisateur}
             />
           ) : null}
-        </>
+        </div>
       ) : null}
     </>
   );

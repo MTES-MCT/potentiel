@@ -35,11 +35,13 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
       }
     >
       <>
-        <DetailDemandeAbandon {...demande} />
-        <div className="flex flex-col gap-6">
-          {(instruction.accord || instruction.confirmation || instruction.rejet) && (
-            <DetailInstructionAbandon {...instruction} />
-          )}
+        <div className="flex flex-row gap-6">
+          <div className="w-3/4 flex flex-col gap-6">
+            <DetailDemandeAbandon {...demande} />
+            {(instruction.accord || instruction.confirmation || instruction.rejet) && (
+              <DetailInstructionAbandon {...instruction} />
+            )}
+          </div>
           <InstructionAbandonForm
             utilisateur={utilisateur}
             statut={statut}
