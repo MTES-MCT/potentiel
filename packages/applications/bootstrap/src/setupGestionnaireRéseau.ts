@@ -1,6 +1,6 @@
 import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { GestionnaireRéseauProjector } from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
 
@@ -11,6 +11,7 @@ export const setupGestionnaireRéseau = async () => {
 
   registerRéseauQueries({
     list: listProjection,
+    find: findProjection,
   });
 
   GestionnaireRéseauProjector.register();
