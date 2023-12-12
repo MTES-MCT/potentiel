@@ -7,6 +7,7 @@ import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
+import { setupGestionnaireRéseau } from './setupGestionnaireRéseau';
 
 export const bootstrap = async (): Promise<() => Promise<void>> => {
   mediator.use({
@@ -20,11 +21,13 @@ export const bootstrap = async (): Promise<() => Promise<void>> => {
   setupUtilisateur();
 
   const unsetupLauréat = await setupLauréat();
+  const unsetupGestionnaireRéseau = await setupGestionnaireRéseau();
 
   getLogger().info('Application bootstrapped');
 
   return async () => {
     await unsetupLauréat();
+    await unsetupGestionnaireRéseau();
     await unsetupTâche();
   };
 };

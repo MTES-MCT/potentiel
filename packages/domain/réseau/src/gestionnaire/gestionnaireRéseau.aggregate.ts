@@ -1,20 +1,20 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import {
-  GestionnaireRéseauAjoutéEventV1,
+  GestionnaireRéseauAjoutéEvent,
   ajouter,
   applyGestionnaireRéseauAjouté,
 } from './ajouter/ajouterGestionnaireRéseau.behavior';
 import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
 import {
-  GestionnaireRéseauModifiéEventV1,
+  GestionnaireRéseauModifiéEvent,
   applyGestionnaireRéseauModifié,
   modifier,
-} from './modifier/ajouterGestionnaireRéseau.behavior';
+} from './modifier/modifierGestionnaireRéseau.behavior';
 
 export type GestionnaireRéseauEvent =
-  | GestionnaireRéseauAjoutéEventV1
-  | GestionnaireRéseauModifiéEventV1;
+  | GestionnaireRéseauAjoutéEvent
+  | GestionnaireRéseauModifiéEvent;
 
 export type GestionnaireRéseauAggregate = Aggregate<GestionnaireRéseauEvent> & {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;

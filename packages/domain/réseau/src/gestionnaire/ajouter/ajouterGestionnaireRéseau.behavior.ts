@@ -2,7 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
-export type GestionnaireRéseauAjoutéEventV1 = DomainEvent<
+export type GestionnaireRéseauAjoutéEvent = DomainEvent<
   'GestionnaireRéseauAjouté-V1',
   {
     raisonSociale: string;
@@ -33,7 +33,7 @@ export async function ajouter(
     raisonSociale,
   }: AjouterOptions,
 ) {
-  const event: GestionnaireRéseauAjoutéEventV1 = {
+  const event: GestionnaireRéseauAjoutéEvent = {
     type: 'GestionnaireRéseauAjouté-V1',
     payload: {
       codeEIC: identifiantGestionnaireRéseau.formatter(),
@@ -47,7 +47,7 @@ export async function ajouter(
 
 export function applyGestionnaireRéseauAjouté(
   this: GestionnaireRéseauAggregate,
-  { payload: { codeEIC } }: GestionnaireRéseauAjoutéEventV1,
+  { payload: { codeEIC } }: GestionnaireRéseauAjoutéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
 }

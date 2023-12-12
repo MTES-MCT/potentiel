@@ -1,3 +1,3 @@
 export * from './register';
 
-export * as Gestionnaire from './gestionnaire';
+export * as GestionnaireRéseau from './gestionnaire';

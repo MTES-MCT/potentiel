@@ -3,7 +3,7 @@ import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
 
-export type GestionnaireRéseauModifiéEventV1 = DomainEvent<
+export type GestionnaireRéseauModifiéEvent = DomainEvent<
   'GestionnaireRéseauModifié-V1',
   {
     codeEIC: string;
@@ -38,7 +38,7 @@ export async function modifier(
     throw new GestionnaireRéseauDéjàExistantError();
   }
 
-  const event: GestionnaireRéseauModifiéEventV1 = {
+  const event: GestionnaireRéseauModifiéEvent = {
     type: 'GestionnaireRéseauModifié-V1',
     payload: {
       codeEIC: identifiantGestionnaireRéseau.formatter(),
@@ -52,7 +52,7 @@ export async function modifier(
 
 export function applyGestionnaireRéseauModifié(
   this: GestionnaireRéseauAggregate,
-  { payload: { codeEIC } }: GestionnaireRéseauModifiéEventV1,
+  { payload: { codeEIC } }: GestionnaireRéseauModifiéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
 }
