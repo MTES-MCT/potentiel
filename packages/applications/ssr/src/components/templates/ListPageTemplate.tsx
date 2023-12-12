@@ -40,9 +40,11 @@ export const ListPageTemplate = <TItem,>({
   return (
     <PageTemplate banner={<Heading1 className="text-white">{heading}</Heading1>}>
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
-        <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
-          <ListFilters key={listFiltersKey} filters={filters} />
-        </div>
+        {filters.length ? (
+          <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
+            <ListFilters key={listFiltersKey} filters={filters} />
+          </div>
+        ) : null}
 
         <div className="flex flex-col gap-3 flex-grow md:w-3/4">
           <div className="flex flex-col md:flex-row md:items-center gap-3">

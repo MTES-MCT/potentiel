@@ -17,7 +17,12 @@ export type ListerGestionnaireRéseauReadModel = {
 
 export type ListerGestionnaireRéseauQuery = Message<
   'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
-  {},
+  {
+    pagination: {
+      page: number;
+      itemsPerPage: number;
+    };
+  },
   ListerGestionnaireRéseauReadModel
 >;
 
@@ -28,12 +33,17 @@ export type ListerGestionnaireRéseauQueryDependencies = {
 export const registerListerGestionnaireRéseauQuery = ({
   list,
 }: ListerGestionnaireRéseauQueryDependencies) => {
-  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async () => {
-    const { currentPage, items, itemsPerPage, totalItems } =
-      await list<GestionnaireRéseauProjection>({
-        type: 'gestionnaire-réseau',
-        orderBy: { property: 'raisonSociale', ascending: true },
-      });
+  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({
+    pagination: { itemsPerPage, page },
+  }) => {
+    const { currentPage, items, totalItems } = await list<GestionnaireRéseauProjection>({
+      type: 'gestionnaire-réseau',
+      orderBy: { property: 'raisonSociale', ascending: true },
+      pagination: {
+        itemsPerPage,
+        page,
+      },
+    });
 
     return {
       currentPage,
