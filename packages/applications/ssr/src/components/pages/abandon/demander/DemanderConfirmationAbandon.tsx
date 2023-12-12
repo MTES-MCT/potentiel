@@ -15,6 +15,8 @@ import Download from '@codegouvfr/react-dsfr/Download';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 
+import { Form } from '@/components/molecules/Form';
+
 const initialState: DemanderConfirmationAbandonState = {
   error: undefined,
   validationErrors: [],
@@ -25,7 +27,12 @@ type DemanderConfirmationAbandonFormProps = {
   utilisateur: Utilisateur;
 };
 
-export const DemanderConfirmationAbandonForm = ({
+const modal = createModal({
+  id: 'demande-confirmation-abandon',
+  isOpenedByDefault: false,
+});
+
+export const DemanderConfirmationAbandon = ({
   identifiantProjet,
   utilisateur,
 }: DemanderConfirmationAbandonFormProps) => {
@@ -33,25 +40,18 @@ export const DemanderConfirmationAbandonForm = ({
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(demanderConfirmationAbandonAction, initialState);
 
-  // if (state.success) {
-  //   router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
-  // }
-
-  console.log(state);
-
-  const modal = createModal({
-    id: 'confirm-abandon',
-    isOpenedByDefault: false,
-  });
+  if (state.success) {
+    router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
+  }
 
   return (
     <>
       <Button priority="secondary" onClick={() => modal.open()}>
-        Demander la confirmation de l'abandon
+        Demander une confirmation
       </Button>
 
-      <modal.Component title="Demander une confirmation d'abandon" concealingBackdrop={true}>
-        <form action={formAction} method="post" encType="multipart/form-data">
+      <modal.Component title="Demander une confirmation d'abandon">
+        <Form action={formAction} method="post" encType="multipart/form-data">
           {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
           <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
           <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
@@ -104,7 +104,7 @@ export const DemanderConfirmationAbandonForm = ({
               },
             ]}
           />
-        </form>
+        </Form>
       </modal.Component>
     </>
   );
