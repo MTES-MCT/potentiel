@@ -54,9 +54,9 @@ export const AccorderAbandonSansRecandidatureForm = ({
         hint="au format pdf"
         state={state.validationErrors.includes('reponseSignee') ? 'error' : 'default'}
         stateRelatedMessage="Réponse signée obligatoire"
+        disabled={pending}
         nativeInputProps={{
           name: 'reponseSignee',
-          disabled: pending,
         }}
         className="mb-4"
       />
@@ -64,9 +64,9 @@ export const AccorderAbandonSansRecandidatureForm = ({
       <Button
         type="submit"
         priority="primary"
+        disabled={pending}
         nativeButtonProps={{
           'aria-disabled': pending,
-          disabled: pending,
         }}
         className="bg-blue-france-sun-base text-white"
       >

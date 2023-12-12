@@ -96,9 +96,9 @@ export const TransmettrePreuveRecandidatureForm = ({
         <Button
           type="submit"
           priority="primary"
+          disabled={pending || !projetSélectionné}
           nativeButtonProps={{
             'aria-disabled': pending || !projetSélectionné,
-            disabled: pending || !projetSélectionné,
           }}
           className="bg-blue-france-sun-base text-white"
         >

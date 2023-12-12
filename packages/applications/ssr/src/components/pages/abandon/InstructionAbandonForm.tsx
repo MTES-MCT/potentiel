@@ -82,12 +82,12 @@ export const InstructionAbandonForm = ({
             />
           </form>
 
-          {instruction === 'demander-confirmation' && (
+          {instruction === 'demander-confirmation' && demandeConfirmationPossible ? (
             <DemanderConfirmationAbandonForm
               identifiantProjet={identifiantProjet}
               utilisateur={utilisateur}
             />
-          )}
+          ) : null}
 
           {instruction === 'rejeter' && (
             <RejeterAbandonForm identifiantProjet={identifiantProjet} utilisateur={utilisateur} />
@@ -105,9 +105,7 @@ export const InstructionAbandonForm = ({
             />
           ) : null}
         </>
-      ) : (
-        ''
-      )}
+      ) : null}
     </>
   );
 };
