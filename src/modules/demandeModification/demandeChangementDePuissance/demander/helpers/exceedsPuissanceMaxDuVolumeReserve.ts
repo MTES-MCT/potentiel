@@ -4,6 +4,7 @@ import { getVolumeReserve } from './getVolumeReserve';
 export type ExceedsPuissanceMaxDuVolumeReserve = (arg: {
   project: {
     puissanceInitiale: number;
+    note: number;
     appelOffre?: ProjectAppelOffre;
   };
   nouvellePuissance: number;
@@ -13,12 +14,12 @@ export const exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeRese
   project,
   nouvellePuissance,
 }) => {
-  const { appelOffre, puissanceInitiale } = project;
+  const { appelOffre, puissanceInitiale, note } = project;
   const volumeReserve = appelOffre && getVolumeReserve(appelOffre);
 
   if (volumeReserve) {
-    const { puissanceMax } = volumeReserve;
-    const wasNotifiedOnVolumeReserve = puissanceInitiale <= puissanceMax;
+    const { puissanceMax, noteThreshold } = volumeReserve;
+    const wasNotifiedOnVolumeReserve = puissanceInitiale <= puissanceMax && note >= noteThreshold;
     if (wasNotifiedOnVolumeReserve && nouvellePuissance > puissanceMax) {
       return true;
     }

@@ -4,36 +4,74 @@ import { Periode } from '@potentiel-domain/appel-offre';
 import { exceedsPuissanceMaxDuVolumeReserve } from './exceedsPuissanceMaxDuVolumeReserve';
 
 describe('exceedsPuissanceMaxDuVolumeReserve', () => {
-  describe(`when the project has an appel offre with a volume reservé`, () => {
+  describe(`Étant donné une période d'appel d'offres avec un volume réservé
+      pour les projets : 
+        - dont la puissance n'excède pas 10
+        - dont la du dernier retenu est de 15`, () => {
     const appelOffre = {
       periode: {
         noteThresholdBy: 'category',
-        noteThreshold: { volumeReserve: { puissanceMax: 10 } },
+        noteThreshold: { volumeReserve: { puissanceMax: 10, noteThreshold: 15 } },
       } as Periode,
     } as ProjectAppelOffre;
 
-    describe(`when the project was notified in the volume reservé`, () => {
-      describe(`when the new puissance exceed the puissance max of the volume reservé`, () => {
-        it(`should return true`, () => {
-          const actual = exceedsPuissanceMaxDuVolumeReserve({
-            project: { puissanceInitiale: 10, appelOffre },
-            nouvellePuissance: 10.1,
-          });
-          expect(actual).toBe(true);
+    describe(`Projet entrant dans le volume réservé`, () => {
+      it(`Étant donné un projet avec une puissance initiale de 9 et une note de 16
+          Lorsque la nouvelle puissance demandée dépasse 10 (puissance max du volume)
+          Alors la demande doit être considérée comme dépassant la puissance max du volume réservé`, () => {
+        const actual = exceedsPuissanceMaxDuVolumeReserve({
+          project: { puissanceInitiale: 9, note: 16, appelOffre },
+          nouvellePuissance: 10.1,
         });
+        expect(actual).toBe(true);
+      });
+
+      it(`Étant donné un projet avec une puissance initiale de 9 et une note de 16
+          Lorsque la nouvelle puissance demandée ne dépasse pas 10 (puissance max du volume)
+          Alors la demande ne doit pas être considérée comme dépassant la puissance max du volume réservé`, () => {
+        const actual = exceedsPuissanceMaxDuVolumeReserve({
+          project: { puissanceInitiale: 9, note: 16, appelOffre },
+          nouvellePuissance: 9.1,
+        });
+        expect(actual).toBe(false);
       });
     });
 
-    describe(`when the project was not notified in the volume reservé`, () => {
-      describe(`when the new puissance exceed the puissance max of the volume reservé`, () => {
-        it(`should return false`, () => {
-          const actual = exceedsPuissanceMaxDuVolumeReserve({
-            project: { puissanceInitiale: 15, appelOffre },
-            nouvellePuissance: 16,
-          });
-          expect(actual).toBe(false);
+    describe(`Projet hors volume réservé`, () => {
+      it(`Étant donné un projet avec une puissance initiale supérieure à celle du volume réservé
+          Lorsque la nouvelle puissance demandée dépasse 10 (puissance max du volume)
+          Alors la demande ne doit pas être considérée comme dépassant la puissance max du volume réservé`, () => {
+        const actual = exceedsPuissanceMaxDuVolumeReserve({
+          project: { puissanceInitiale: 12, note: 16, appelOffre },
+          nouvellePuissance: 10.1,
         });
+        expect(actual).toBe(false);
       });
+
+      it(`Étant donné un projet avec une note inférieure à celle du dernier retenu du volume réservé
+          Lorsque la nouvelle puissance demandée dépasse 10 (puissance max du volume)
+          Alors la demande ne doit pas être considérée comme dépassant la puissance max du volume réservé`, () => {
+        const actual = exceedsPuissanceMaxDuVolumeReserve({
+          project: { puissanceInitiale: 9, note: 10, appelOffre },
+          nouvellePuissance: 10.1,
+        });
+        expect(actual).toBe(false);
+      });
+    });
+  });
+
+  describe(`Étant donné une période d'appel d'offres sans volume réservé`, () => {
+    const appelOffre = {
+      periode: {} as Periode,
+    } as ProjectAppelOffre;
+    it(`Étant donné un projet
+        Lorsque qu'il y a une demande de changement de puissance
+        Alors la demande ne devrait pas être considérée comme dépassant un volume réservé`, () => {
+      const actual = exceedsPuissanceMaxDuVolumeReserve({
+        project: { puissanceInitiale: 9, note: 16, appelOffre },
+        nouvellePuissance: 10.1,
+      });
+      expect(actual).toBe(false);
     });
   });
 });

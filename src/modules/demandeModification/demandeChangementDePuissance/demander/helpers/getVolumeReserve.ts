@@ -3,7 +3,7 @@ import { isNotifiedPeriode } from '../../../../../entities/periode';
 
 export const getVolumeReserve = (
   appelOffre: ProjectAppelOffre,
-): { puissanceMax: number } | undefined => {
+): { noteThreshold: number; puissanceMax: number } | undefined => {
   const { periode } = appelOffre;
 
   if (isNotifiedPeriode(periode)) {
