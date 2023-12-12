@@ -273,6 +273,86 @@ describe('Commande requestPuissanceModification', () => {
         expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents);
         expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename);
       });
+
+      it(`Étant donné un projet avec le cahier des charges 2022
+          Lorsqu'une demande de changement de puissance est faite pour une nouvelle valeur entre la puissance max du CDC initial et la puissance max du CDC 2022
+          Alors la demande devrait être en statut "informations enregistrées"
+          Et le fichier devrait être sauvegardé
+          Et le projet devrait être modifié avec la nouvelle puissance
+         `, async () => {
+        const fakeProject = {
+          ...makeFakeProject(),
+          puissanceInitiale: 100,
+          cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const getProjectAppelOffre = jest.fn(
+          () =>
+            ({
+              typeAppelOffre: 'eolien',
+              changementPuissance: { ratios: { min: 0.8, max: 1.2 } },
+              periode: {
+                cahiersDesChargesModifiésDisponibles: [
+                  {
+                    type: 'modifié',
+                    paruLe: '30/08/2022',
+                    seuilSupplémentaireChangementPuissance: {
+                      ratios: {
+                        min: 0.9,
+                        max: 1.4,
+                      },
+                    },
+                  } as CahierDesChargesModifié,
+                ] as ReadonlyArray<CahierDesChargesModifié>,
+              },
+            } as ProjectAppelOffre),
+        );
+
+        const requestPuissanceModification = makeDemanderChangementDePuissance({
+          projectRepo,
+          eventBus,
+          getPuissanceProjet: jest.fn((projectId: string) => okAsync(123)),
+          shouldUserAccessProject,
+          exceedsRatiosChangementPuissance: () => false,
+          exceedsPuissanceMaxDuVolumeReserve: () => false,
+          fileRepo: fileRepo as Repository<FileObject>,
+          getProjectAppelOffre,
+        });
+        const newPuissance = 135;
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id.toString(),
+          requestedBy: fakeUser,
+          newPuissance,
+          fichier: file,
+        });
+
+        expect(res.isOk()).toBe(true);
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user: fakeUser,
+          projectId: fakeProject.id.toString(),
+        });
+
+        expect(eventBus.publish).toHaveBeenCalledTimes(1);
+        const event = eventBus.publish.mock.calls[0][0];
+        expect(event).toBeInstanceOf(ModificationReceived);
+        expect(event).toMatchObject({
+          payload: {
+            type: 'puissance',
+            puissance: newPuissance,
+            puissanceAuMomentDuDepot: 123,
+            cahierDesCharges: '30/08/2022',
+          },
+        });
+
+        expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, newPuissance);
+
+        expect(fileRepo.save).toHaveBeenCalledTimes(1);
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents);
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename);
+      });
     });
 
     describe(`Cas d'une nouvelle puissance dépassant la puissance max du volume réservé`, () => {
