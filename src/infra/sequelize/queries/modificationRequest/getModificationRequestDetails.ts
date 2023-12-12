@@ -46,6 +46,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'potentielIdentifier',
             'technologie',
             'cahierDesChargesActuel',
+            'note',
           ],
         },
         {

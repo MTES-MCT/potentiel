@@ -104,7 +104,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
           });
           const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
             nouvellePuissance: newPuissance,
-            project: { ...project },
+            project: { ...project, note: project.data!!.note },
           });
 
           const newPuissanceIsAutoAccepted = !exceedsRatios && !exceedsPuissanceMax;

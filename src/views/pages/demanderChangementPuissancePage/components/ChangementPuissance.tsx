@@ -23,6 +23,7 @@ type ChangementPuissanceProps = {
   unitePuissance: string;
   puissance: number;
   puissanceInitiale: number;
+  noteProjet: number;
   justification: string;
   cahierDesChargesActuel: string;
   appelOffre: ProjectAppelOffre;
@@ -38,6 +39,7 @@ export const ChangementPuissance = ({
   appelOffre,
   technologie,
   puissanceSaisie,
+  noteProjet,
 }: ChangementPuissanceProps) => {
   const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false);
   const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false);
@@ -53,7 +55,7 @@ export const ChangementPuissance = ({
       nouvellePuissance,
     });
     const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
-      project: { puissanceInitiale, appelOffre },
+      project: { puissanceInitiale, appelOffre, note: noteProjet },
       nouvellePuissance,
     });
 
