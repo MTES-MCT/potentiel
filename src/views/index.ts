@@ -30,7 +30,6 @@ import {
   AdminImporterCandidats,
   ListeProjets,
   SuccèsOuErreur,
-  FakeLogin,
   InvitationsCandidatsEnAttente,
   EmailsEnErreur,
   ProjetsÀRéclamer,
@@ -307,12 +306,6 @@ export const ListeProjetsPage = (props: Parameters<typeof ListeProjets>[0]) =>
 export const SuccèsOuErreurPage = (props: Parameters<typeof SuccèsOuErreur>[0]) =>
   makeHtml({
     Component: SuccèsOuErreur,
-    props,
-  });
-
-export const FakeLoginPage = (props: Parameters<typeof FakeLogin>[0]) =>
-  makeHtml({
-    Component: FakeLogin,
     props,
   });
 

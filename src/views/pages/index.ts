@@ -31,7 +31,6 @@ export * from './CreStatistiquesPage';
 export * from './DéclarationAccessibilitéPage';
 export * from './EmailsEnErreurPage';
 export * from './Error';
-export * from './FakeLoginPage';
 export * from './InvitationsCandidatsEnAttentePage';
 export * from './LienInvitationPériméPage';
 export * from './ListeProjetsPage';
