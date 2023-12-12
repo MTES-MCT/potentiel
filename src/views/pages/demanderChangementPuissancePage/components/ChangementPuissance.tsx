@@ -116,7 +116,9 @@ export const ChangementPuissance = ({
       )}
 
       {displayAlertOnPuissanceType && (
-        <ErrorBox title="Le format saisi n'est pas conforme, veuillez renseigner un nombre décimal." />
+        <ErrorBox>
+          Le format saisi n'est pas conforme, veuillez renseigner un nombre décimal.
+        </ErrorBox>
       )}
 
       <div>
