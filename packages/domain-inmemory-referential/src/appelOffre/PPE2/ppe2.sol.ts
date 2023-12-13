@@ -130,6 +130,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
               min: 0.9,
               max: 1.4,
             },
+            paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit : 
+- Inférieure au plafond de puissance de 5 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé ; 
+- Inférieure à la limite de puissance de 30 MWc spécifiée au paragraphe 2.2 si celle-ci est applicable. 
+`,
           },
         },
       ],
@@ -162,6 +166,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
               min: 0.9,
               max: 1.4,
             },
+            paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit : 
+- Inférieure au plafond de puissance de 5 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé ; 
+- Inférieure à la limite de puissance de 30 MWc spécifiée au paragraphe 2.2 si celle-ci est applicable. 
+`,
           },
         },
       ],

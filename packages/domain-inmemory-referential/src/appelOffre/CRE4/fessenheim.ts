@@ -48,6 +48,9 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       min: 0.9,
       max: 1.4,
     },
+    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée) et que la Puissance modifiée soit :
+- Inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant ; - Inférieure à la limite de puissance de 30 MWc spécifiée au paragraphe 2.2 si celle-ci est applicable. 
+`,
   },
 };
 

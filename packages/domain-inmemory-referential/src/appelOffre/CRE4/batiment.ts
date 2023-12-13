@@ -33,6 +33,7 @@ const CDCModifié30082022: CahierDesChargesModifié = {
       min: 0.9,
       max: 1.4,
     },
+    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation lorsqu’elle est requise ( y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant.`,
   },
 };
 
