@@ -8,7 +8,7 @@ export default ProjectEventProjector.on(
   async ({ payload, occurredAt }, transaction) => {
     const { projectId, type, modificationRequestId, authority, requestedBy } = payload;
 
-    if (!['delai', 'abandon', 'recours', 'puissance'].includes(type)) {
+    if (!['delai', 'recours', 'puissance'].includes(type)) {
       return;
     }
 

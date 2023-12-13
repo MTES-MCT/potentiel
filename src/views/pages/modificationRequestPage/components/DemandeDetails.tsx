@@ -1,14 +1,11 @@
-import {
-  DemandeAbandonPageDTO,
-  ModificationRequestPageDTO,
-} from '../../../../modules/modificationRequest';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest';
 import React, { ComponentProps } from 'react';
 import ROUTES from '../../../../routes';
 import { DownloadLink, ExternalLink, Heading2, Heading3 } from '../../../components';
 import { afficherDate } from '../../../helpers';
 
 type DemandeDetailsProps = ComponentProps<'div'> & {
-  modificationRequest: ModificationRequestPageDTO | DemandeAbandonPageDTO;
+  modificationRequest: ModificationRequestPageDTO;
 };
 
 export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeDetailsProps) => {

@@ -16,7 +16,7 @@ describe('Sequelize getModificationRequestAuthority', () => {
     await ModificationRequest.create({
       id: modificationRequestId,
       projectId,
-      type: 'abandon',
+      type: 'recours',
       requestedOn: 123,
       status: 'envoyée',
       versionDate,

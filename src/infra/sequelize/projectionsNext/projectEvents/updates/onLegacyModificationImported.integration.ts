@@ -26,7 +26,7 @@ describe('onLegacyModificationImported', () => {
         eventPublishedAt: new Date('2022-03-03').getTime(),
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'abandon' },
+        payload: { modificationType: 'recours' },
       });
 
       await ProjectEvent.create({
@@ -36,7 +36,7 @@ describe('onLegacyModificationImported', () => {
         eventPublishedAt: new Date('2022-03-03').getTime(),
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'abandon' },
+        payload: { modificationType: 'recours' },
       });
 
       await ProjectEvent.create({
@@ -56,7 +56,7 @@ describe('onLegacyModificationImported', () => {
         eventPublishedAt: new Date('2022-03-03').getTime(),
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'abandon' },
+        payload: { modificationType: 'recours' },
       });
 
       const projectEvents = await ProjectEvent.findAll();
@@ -99,13 +99,6 @@ describe('onLegacyModificationImported', () => {
             projectId: projectId.toString(),
             importId: importId.toString(),
             modifications: [
-              {
-                modifiedOn: new Date('2019-01-01').getTime(),
-                modificationId: new UniqueEntityID().toString(),
-                type: 'abandon',
-                status: 'acceptée',
-                filename: 'filename',
-              },
               {
                 modifiedOn: new Date('2019-01-01').getTime(),
                 modificationId: new UniqueEntityID().toString(),
@@ -157,16 +150,12 @@ describe('onLegacyModificationImported', () => {
         where: { projectId: projectId.toString() },
       });
 
-      expect(projectEvent).toHaveLength(6);
+      expect(projectEvent).toHaveLength(5);
       expect(projectEvent[0]).toMatchObject({
-        type: 'LegacyModificationImported',
-        payload: { modificationType: 'abandon', filename: 'filename', status: 'acceptée' },
-      });
-      expect(projectEvent[1]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: { modificationType: 'recours', status: 'acceptée', motifElimination: 'motif' },
       });
-      expect(projectEvent[2]).toMatchObject({
+      expect(projectEvent[1]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
           modificationType: 'delai',
@@ -175,7 +164,7 @@ describe('onLegacyModificationImported', () => {
           status: 'acceptée',
         },
       });
-      expect(projectEvent[3]).toMatchObject({
+      expect(projectEvent[2]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
           modificationType: 'actionnaire',
@@ -183,7 +172,7 @@ describe('onLegacyModificationImported', () => {
           status: 'acceptée',
         },
       });
-      expect(projectEvent[4]).toMatchObject({
+      expect(projectEvent[3]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
           modificationType: 'producteur',
@@ -191,7 +180,7 @@ describe('onLegacyModificationImported', () => {
           status: 'acceptée',
         },
       });
-      expect(projectEvent[5]).toMatchObject({
+      expect(projectEvent[4]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: { modificationType: 'autre', column: 'col', value: 'val', status: 'acceptée' },
       });

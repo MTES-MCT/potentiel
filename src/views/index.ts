@@ -13,15 +13,12 @@ import {
   NewModificationRequest,
   PartnersList,
   ProjectDetails,
-  SignalerDemandeAbandon,
   SignalerDemandeDelai,
   SignalerDemandeRecours,
   Signup,
   Statistiques,
   UploadLegacyModificationFiles,
   ChangerProducteur,
-  DemanderAbandon,
-  DemandeAnnulationAbandon,
   DemanderChangementPuissance,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
@@ -52,8 +49,6 @@ import {
   ModifierPropositionTechniqueEtFinancière,
   AucunDossierALister,
   ImporterDatesMiseEnService,
-  DetailsAbandon,
-  ListeAbandons,
   DetailsDemandeDelai,
   CorrigerDelaiAccorde,
 } from './pages';
@@ -153,13 +148,6 @@ export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
     title: 'Demander délai',
   });
 
-export const DemanderAbandonPage = (props: Parameters<typeof DemanderAbandon>[0]) =>
-  makeHtml({
-    Component: DemanderAbandon,
-    props,
-    title: 'Demander abandon',
-  });
-
 export const DemanderChangementPuissancePage = (
   props: Parameters<typeof DemanderChangementPuissance>[0],
 ) =>
@@ -181,13 +169,6 @@ export const ChangerFournisseurPage = (props: Parameters<typeof ChangerFournisse
     Component: ChangerFournisseur,
     props,
     title: 'Changer fournisseur',
-  });
-
-export const DemandeAbandonPage = (props: Parameters<typeof DetailsAbandon>[0]) =>
-  makeHtml({
-    Component: DetailsAbandon,
-    props,
-    title: 'Demande abandon',
   });
 
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>
@@ -225,13 +206,6 @@ export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemand
     Component: SignalerDemandeDelai,
     props,
     title: 'Signaler demande de délai',
-  });
-
-export const SignalerDemandeAbandonPage = (props: Parameters<typeof SignalerDemandeAbandon>[0]) =>
-  makeHtml({
-    Component: SignalerDemandeAbandon,
-    props,
-    title: 'Signaler demande abandon',
   });
 
 export const SignalerDemandeRecoursPage = (props: Parameters<typeof SignalerDemandeRecours>[0]) =>
@@ -463,22 +437,6 @@ export const ImporterDatesMiseEnServicePage = (
     Component: ImporterDatesMiseEnService,
     props,
     title: 'Importer des dates de mise en service',
-  });
-
-export const ListeAbandonsPage = (props: Parameters<typeof ListeAbandons>[0]) =>
-  makeHtml({
-    Component: ListeAbandons,
-    props,
-    title: 'Lister les projets abandonnés avec recandidature',
-  });
-
-export const DemandeAnnulationAbandonPage = (
-  props: Parameters<typeof DemandeAnnulationAbandon>[0],
-) =>
-  makeHtml({
-    Component: DemandeAnnulationAbandon,
-    props,
-    title: 'Demande annulation abandon',
   });
 
 export const CorrigerDelaiAccordePage = (props: Parameters<typeof CorrigerDelaiAccorde>[0]) =>

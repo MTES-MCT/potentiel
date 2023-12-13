@@ -9,8 +9,6 @@ import * as UserEvents from '../../../modules/users/events';
 import * as LegacyCandidateNotificationEvents from '../../../modules/legacyCandidateNotification/events';
 import * as DemandeRecoursModificationEvents from '../../../modules/demandeModification/demandeRecours/events';
 import * as DemandeDelaiEvents from '../../../modules/demandeModification/demandeDélai/events';
-import * as DemandeAbandonEvents from '../../../modules/demandeModification/demandeAbandon/events';
-import * as DemandeAnnulationAbandonEvents from '../../../modules/demandeModification/demandeAnnulationAbandon/events';
 import * as DemandeChangementDePuissanceEvents from '../../../modules/demandeModification/demandeChangementDePuissance/events';
 import * as UtilisateurEvents from '../../../modules/utilisateur/events';
 
@@ -39,8 +37,6 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...LegacyCandidateNotificationEvents,
   ...DemandeRecoursModificationEvents,
   ...DemandeDelaiEvents,
-  ...DemandeAbandonEvents,
-  ...DemandeAnnulationAbandonEvents,
   ...DemandeChangementDePuissanceEvents,
   ...UtilisateurEvents,
 };

@@ -1,5 +1,3 @@
-export * from './demandeAbandon.notifications';
-export * from './demandeAnnulationAbandon.notifications';
 export * from './demandeChangementDePuissance.notifications';
 export * from './demandeDélai.notifications';
 export * from './demandeRecours.notifications';

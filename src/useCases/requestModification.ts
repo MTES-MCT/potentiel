@@ -23,17 +23,12 @@ interface RequestCommon {
   projectId: string;
 }
 
-interface AbandonRequest {
-  type: 'abandon';
-  justification: string;
-}
-
 interface RecoursRequest {
   type: 'recours';
   justification: string;
 }
 
-type CallUseCaseProps = RequestCommon & (AbandonRequest | RecoursRequest);
+type CallUseCaseProps = RequestCommon & RecoursRequest;
 
 export default function makeRequestModification({
   fileRepo,

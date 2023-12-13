@@ -18,7 +18,7 @@ describe(`Projection de l'annulation d'une demande`, () => {
       id: modificationRequestId,
       projectId,
       userId,
-      type: 'abandon',
+      type: 'recours',
       status: 'envoyée',
       requestedOn: 1,
     });

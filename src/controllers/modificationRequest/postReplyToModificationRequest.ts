@@ -136,10 +136,6 @@ v1Router.post(
         break;
     }
 
-    if (type !== 'abandon' && !acceptanceParams) {
-      return errorResponse({ request, response });
-    }
-
     if (acceptedReply) {
       return await acceptModificationRequest({
         responseFile,

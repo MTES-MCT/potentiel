@@ -3,5 +3,5 @@ import { ResultAsync } from 'neverthrow';
 
 export type HasDemandeDeMêmeTypeOuverte = (args: {
   projetId: string;
-  type: 'recours' | 'delai' | 'abandon';
+  type: 'recours' | 'delai';
 }) => ResultAsync<boolean, EntityNotFoundError | InfraNotAvailableError>;

@@ -81,9 +81,6 @@ export type ModificationRequestEvents = ProjectEvent &
           filename: string;
         } & (
           | {
-              modificationType: 'abandon';
-            }
-          | {
               modificationType: 'actionnaire';
               actionnairePrecedent: string;
             }

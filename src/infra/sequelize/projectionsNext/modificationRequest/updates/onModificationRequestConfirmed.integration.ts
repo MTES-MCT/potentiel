@@ -19,7 +19,7 @@ describe('modificationRequest.onModificationRequestConfirmed', () => {
       id: modificationRequestId,
       projectId,
       userId,
-      type: 'abandon',
+      type: 'recours',
       status: 'en attente de confirmation',
       requestedOn: 1,
     });

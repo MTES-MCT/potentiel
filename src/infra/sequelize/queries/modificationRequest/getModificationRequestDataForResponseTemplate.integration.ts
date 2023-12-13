@@ -656,105 +656,6 @@ Si le candidat a joint à son offre la lettre d’engagement du 3.2.6, il est de
     });
   });
 
-  describe(`Cas d'une demande d'abandon`, () => {
-    describe(`Etant donné une demande d'abandon acceptée sans confirmation préalable du porteurs`, () => {
-      beforeAll(async () => {
-        // Create the tables and remove all data
-        await resetDatabase();
-
-        await Project.create(project);
-        await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
-        await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-
-        await ModificationRequest.create({
-          id: modificationRequestId,
-          projectId,
-          userId,
-          fileId,
-          type: 'abandon',
-          requestedOn: 123,
-          respondedOn: 321,
-          respondedBy: userId2,
-          status: 'envoyée',
-          justification: 'justification',
-          versionDate,
-          delayInMonths: 2,
-        });
-      });
-
-      it('Alors une liste spécifique de champs devrait être retournée', async () => {
-        const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
-          modificationRequestId.toString(),
-          fakeAdminUser,
-          dgecEmail,
-        );
-
-        expect(modificationRequestResult.isOk()).toBe(true);
-        if (modificationRequestResult.isErr()) return;
-
-        const modificationRequestDTO = modificationRequestResult.value;
-
-        expect(modificationRequestDTO).toMatchObject({
-          type: 'abandon',
-          dateNotification: formatDate(321),
-          // les deux données ci-dessous sont issues de l'appel d'offre Fessenheim stocké en mémoire
-          referenceParagrapheAbandon: '6.3',
-          contenuParagrapheAbandon: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.4). 
-Par exception, le Candidat est délié de cette obligation : 
-- en cas de retrait de l’autorisation d’urbanisme par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du candidat ne sont pas concernés. 
--  en  cas  de  non  obtention  ou  de  retrait  de  toute  autre  autorisation  administrative  ou  dérogation nécessaire à la réalisation du projet. 
-Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée. 
-Le Candidat peut également être délié de cette obligation selon appréciation du ministre chargé de l’énergie  suite  à  une  demande  dûment  justifiée.  Le  Ministre  peut  accompagner  son accord  de conditions. L’accord du Ministre et les conditions imposées le cas échéant, ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
-        });
-      });
-    });
-
-    describe(`Etant donné une demande d'abandon acceptée après confirmation du porteur`, () => {
-      beforeAll(async () => {
-        // Create the tables and remove all data
-        await resetDatabase();
-
-        await Project.create(project);
-        await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
-        await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-        await ModificationRequest.create({
-          id: modificationRequestId,
-          projectId,
-          userId,
-          fileId,
-          type: 'abandon',
-          requestedOn: 123,
-          respondedOn: 321,
-          respondedBy: userId2,
-          status: 'demande confirmée',
-          justification: 'justification',
-          confirmationRequestedOn: 6780000000,
-          confirmedOn: 7890000000,
-          versionDate,
-          delayInMonths: 2,
-        });
-      });
-
-      it(`Alors le DTO retourné devrait inclure la date de la demande de confirmation et la date de confirmation`, async () => {
-        const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
-          modificationRequestId.toString(),
-          fakeAdminUser,
-          dgecEmail,
-        );
-
-        expect(modificationRequestResult.isOk()).toBe(true);
-        if (modificationRequestResult.isErr()) return;
-
-        const modificationRequestDTO = modificationRequestResult.value;
-
-        expect(modificationRequestDTO).toMatchObject({
-          dateDemandeConfirmation: formatDate(6780000000),
-          dateConfirmation: formatDate(7890000000),
-        });
-      });
-    });
-  });
-
   describe(`Cas d'un changement de producteur`, () => {
     beforeAll(async () => {
       // Create the tables and remove all data
@@ -823,7 +724,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         projectId,
         userId,
         fileId,
-        type: 'abandon',
+        type: 'producteur',
         requestedOn: 123,
         respondedOn: 321,
         respondedBy: userId2,

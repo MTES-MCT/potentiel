@@ -1,12 +1,10 @@
-import { beforeAll, describe, expect, it } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../core/domain';
 import { makeUser } from '../../entities';
 import makeFakeUser from '../../__tests__/fixtures/user';
 import {
   ModificationRequestAccepted,
   ModificationRequested,
-  ConfirmationRequested,
-  ModificationRequestConfirmed,
 } from './events';
 import { StatusPreventsConfirmationError } from './errors';
 import { makeModificationRequest } from './ModificationRequest';
@@ -19,52 +17,6 @@ describe('Modification.confirm()', () => {
   const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
   const fakeResponseFileId = new UniqueEntityID().toString();
 
-  describe('when demande of type abandon and status is en attente de confirmation', () => {
-    const fakeModificationRequest = UnwrapForTest(
-      makeModificationRequest({
-        modificationRequestId,
-        history: [
-          new ModificationRequested({
-            payload: {
-              modificationRequestId: modificationRequestId.toString(),
-              projectId: projectId.toString(),
-              type: 'abandon',
-              requestedBy: fakeUser.id,
-              authority: 'dgec',
-            },
-          }),
-          new ConfirmationRequested({
-            payload: {
-              modificationRequestId: modificationRequestId.toString(),
-              confirmationRequestedBy: fakeUser.id,
-              responseFileId: '',
-            },
-          }),
-        ],
-      }),
-    );
-
-    beforeAll(() => {
-      expect(fakeModificationRequest.status).toEqual('en attente de confirmation');
-
-      const res = fakeModificationRequest.confirm(fakeUser);
-      expect(res.isOk()).toBe(true);
-    });
-
-    it('should emit ModificationRequestConfirmed', () => {
-      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0);
-
-      const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ModificationRequestConfirmed.type,
-      ) as ModificationRequestConfirmed | undefined;
-      expect(targetEvent).toBeDefined();
-      if (!targetEvent) return;
-
-      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString());
-      expect(targetEvent.payload.confirmedBy).toEqual(fakeUser.id);
-    });
-  });
-
   describe('when demande status is not en attente de confirmation', () => {
     const fakeModificationRequest = UnwrapForTest(
       makeModificationRequest({
@@ -74,7 +26,7 @@ describe('Modification.confirm()', () => {
             payload: {
               modificationRequestId: modificationRequestId.toString(),
               projectId: projectId.toString(),
-              type: 'abandon',
+              type: 'recours',
               requestedBy: fakeUser.id,
               authority: 'dgec',
             },

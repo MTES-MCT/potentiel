@@ -21,7 +21,6 @@ import {
   AttachedFileItem,
   LegacyModificationsItem,
   DemandeDélaiItem,
-  DemandeAbandonSignaledItem,
   DemandeRecoursSignaledItem,
   DemandeDelaiSignaledItem,
   CahierDesChargesChoisiItem,
@@ -134,9 +133,6 @@ export const Timeline = ({
 
       case 'DemandeDelaiSignaled':
         return <DemandeDelaiSignaledItem {...props} />;
-
-      case 'DemandeAbandonSignaled':
-        return <DemandeAbandonSignaledItem {...props} />;
 
       case 'DemandeRecoursSignaled':
         return <DemandeRecoursSignaledItem {...props} />;

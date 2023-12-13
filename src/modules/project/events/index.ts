@@ -4,7 +4,6 @@ export * from './CahierDesChargesChoisi';
 export * from './CertificatesForPeriodeRegenerated';
 export * from './CovidDelayGranted';
 export * from './DateEchéanceGFAjoutée';
-export * from './DemandeAbandonSignaled';
 export * from './DemandeDelaiSignaled';
 export * from './DemandeRecoursSignaled';
 export * from './EtapeGFSupprimée';

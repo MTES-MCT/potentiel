@@ -19,9 +19,6 @@ export type LegacyModificationsItemProps = {
       status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'>;
     }
   | {
-      modificationType: 'abandon';
-    }
-  | {
       modificationType: 'recours';
       motifElimination: string;
     }
@@ -63,15 +60,6 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
   for (const event of legacyModificationEvents) {
     const courrier = getCourrier(event.filename);
     switch (event.modificationType) {
-      case 'abandon':
-        propsArray.push({
-          type: 'modification-historique',
-          date: event.date,
-          status: event.status,
-          modificationType: 'abandon',
-          courrier,
-        });
-        break;
       case 'recours':
         const projectNotifiedAtSameDate = events
           .filter(is('ProjectNotified'))

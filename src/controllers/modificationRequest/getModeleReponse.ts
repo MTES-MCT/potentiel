@@ -82,15 +82,8 @@ const getTemplate = ({
   status: ModificationRequestDataForResponseTemplateDTO['status'];
 }) => {
   switch (type) {
-    case 'abandon':
-      if (status === 'demande confirmée') {
-        return 'Modèle réponse Abandon après confirmation - dynamique.docx';
-      }
-      return 'Modèle réponse Abandon - dynamique.docx';
     case 'actionnaire':
       return 'Modèle réponse Changement Actionnaire - dynamique.docx';
-    case 'annulation abandon':
-      return 'Modèle réponse Annulation Abandon - dynamique.docx';
     case 'delai':
       return 'Modèle réponse Prolongation de délai - dynamique.docx';
     case 'producteur':

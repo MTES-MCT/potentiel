@@ -61,9 +61,7 @@ export type ModificationRequestType =
   | 'producteur'
   | 'puissance'
   | 'recours'
-  | 'abandon'
   | 'delai'
-  | 'annulation abandon'
   | 'autre';
 
 interface ModificationRequestProps {
@@ -163,10 +161,6 @@ export const makeModificationRequest = (args: {
     requestConfirmation: function (confirmationRequestedBy, responseFileId) {
       if (props.status !== 'envoyée') {
         return err(new StatusPreventsConfirmationRequestError(props.status));
-      }
-
-      if (props.type !== 'abandon') {
-        return err(new TypePreventsConfirmationError(props.type));
       }
 
       _publishEvent(

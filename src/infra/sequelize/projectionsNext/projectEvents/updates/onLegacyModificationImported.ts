@@ -22,19 +22,6 @@ export default ProjectEventProjector.on(
       const filename = modification.filename;
       const status = modification.status;
       switch (modification.type) {
-        case 'abandon':
-          await ProjectEvent.create(
-            {
-              ...common,
-              payload: {
-                modificationType: 'abandon',
-                status,
-                ...(filename && { filename }),
-              },
-            },
-            { transaction },
-          );
-          break;
         case 'recours':
           await ProjectEvent.create(
             {

@@ -6,7 +6,6 @@ export * from './getEmailsEnErreurPage';
 export * from './getGarantiesFinancieresPage';
 export * from './getInvitationsCandidatsEnAttentePage';
 export * from './getRegenerateCertificatesPage';
-export * from './getSignalerDemandeAbandonPage';
 export * from './getSignalerDemandeDelaiPage';
 export * from './getSignalerDemandeRecoursPage';
 export * from './postPasserDemandeDelaiEnInstruction';

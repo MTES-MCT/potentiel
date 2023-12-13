@@ -28,55 +28,6 @@ describe('extractLegacyModificationsItemProps', () => {
       expect(result).toHaveLength(0);
     });
   });
-  describe('when there is a legacy abandon modification accepted', () => {
-    it('should return an array with legacy abandon accepted props', () => {
-      const date = new Date('2022-03-02').getTime();
-      const projectEventList: ProjectEventDTO[] = [
-        {
-          type: 'LegacyModificationImported',
-          date,
-          variant: 'admin',
-          modificationType: 'abandon',
-          status: 'acceptée',
-        } as LegacyModificationImportedDTO,
-      ];
-      const result = extractLegacyModificationsItemProps(projectEventList);
-      expect(result).toHaveLength(1);
-      expect(result).toEqual([
-        {
-          type: 'modification-historique',
-          date,
-          status: 'acceptée',
-          modificationType: 'abandon',
-        },
-      ]);
-    });
-  });
-
-  describe('when there is a legacy abandon modification not accepted', () => {
-    it('should return an array with legacy abandon not accepted props', () => {
-      const date = new Date('2022-03-02').getTime();
-      const projectEventList: ProjectEventDTO[] = [
-        {
-          type: 'LegacyModificationImported',
-          date,
-          variant: 'admin',
-          modificationType: 'abandon',
-          status: 'rejetée',
-        } as LegacyModificationImportedDTO,
-      ];
-      const result = extractLegacyModificationsItemProps(projectEventList);
-      expect(result).toHaveLength(1);
-      expect(result).toEqual([
-        {
-          type: 'modification-historique',
-          date,
-          status: 'rejetée',
-          modificationType: 'abandon',
-        },
-      ]);
-    });
-  });
 
   describe('when there is a legacy recours modification', () => {
     it('should return an array with legacy recours props', () => {

@@ -34,11 +34,6 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl, 
 
   const intituléLien = (type: ModificationRequestTypes) => {
     switch (type) {
-      case 'abandon':
-        return `la demande d'abandon`;
-
-      case 'annulation abandon':
-        return `la demande d'annulation d'abandon`;
       case 'delai':
         return `la demande de délai supplémentaire`;
       case 'fournisseur':

@@ -12,14 +12,7 @@ type ChoisirCahierDesChargesFormulaireProps = {
   infoBox: React.ReactNode;
   projet: ProjectDataForChoisirCDCPage;
   redirectUrl?: string;
-  type?:
-    | 'actionnaire'
-    | 'fournisseur'
-    | 'producteur'
-    | 'puissance'
-    | 'recours'
-    | 'abandon'
-    | 'delai';
+  type?: 'actionnaire' | 'fournisseur' | 'producteur' | 'puissance' | 'recours' | 'delai';
 };
 
 export const ChoisirCahierDesChargesFormulaire: React.FC<

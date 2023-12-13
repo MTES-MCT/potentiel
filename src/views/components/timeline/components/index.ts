@@ -4,7 +4,6 @@ export * from './CAItem';
 export * from './CahierDesChargesChoisiItem';
 export * from './ContentArea';
 export * from './CurrentIcon';
-export * from './DemandeAbandonSignaledItem';
 export * from './DemandeDelaiSignaledItem';
 export * from './DemandeDélaiItem';
 export * from './DemandeRecoursSignaledItem';

@@ -8,16 +8,6 @@ import {
   makePasserDemandeDélaiEnInstruction,
   makeCorrigerDélaiAccordé,
 } from '../modules/demandeModification/demandeDélai';
-import {
-  makeDemanderAbandon,
-  makeAnnulerDemandeAbandon,
-  makeAccorderDemandeAbandon,
-  makeRejeterDemandeAbandon,
-  makeDemanderConfirmationAbandon,
-  makeConfirmerDemandeAbandon,
-  makeAnnulerRejetAbandon,
-} from '../modules/demandeModification/demandeAbandon';
-import { makeAnnulerDemandeAnnulationAbandon } from '../modules/demandeModification/demandeAnnulationAbandon';
 import { makeAnnulerRejetRecours } from '../modules/demandeModification/demandeRecours';
 import {
   makeAnnulerRejetChangementDePuissance,
@@ -44,7 +34,6 @@ import {
   makeImportProjects,
   makeRegenerateCertificatesForPeriode,
   makeRemoveGF,
-  makeSignalerDemandeAbandon,
   makeSignalerDemandeDelai,
   makeSignalerDemandeRecours,
   makeSubmitGF,
@@ -73,7 +62,6 @@ import {
   isProjectParticipatif,
 } from './queries.config';
 import {
-  demandeAbandonRepo,
   demandeDélaiRepo,
   fileRepo,
   modificationRequestRepo,
@@ -84,7 +72,6 @@ import {
   projectRepo,
   userRepo,
   utilisateurRepo,
-  demandeAnnulationAbandonRepo,
 } from './repos.config';
 import { sendNotification } from './emails.config';
 import {
@@ -93,10 +80,7 @@ import {
 } from '../modules/notification';
 
 import { makeCréerProfilUtilisateur, makeInviterUtilisateur } from '../modules/utilisateur';
-import { makeDemanderAnnulationAbandon } from '../modules/demandeModification/demandeAnnulationAbandon/demander';
 import { getProjectAppelOffre } from './queryProjectAO.config';
-import { makeRejeterDemandeAnnulationAbandon } from '../modules/demandeModification/demandeAnnulationAbandon/rejeter';
-import { makeAccorderAnnulationAbandon } from '../modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 
@@ -282,13 +266,6 @@ export const signalerDemandeDelai = makeSignalerDemandeDelai({
   projectRepo,
 });
 
-export const signalerDemandeAbandon = makeSignalerDemandeAbandon({
-  fileRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-  hasDemandeDeMêmeTypeOuverte,
-});
-
 export const signalerDemandeRecours = makeSignalerDemandeRecours({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
@@ -357,50 +334,6 @@ export const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePui
   publishToEventStore,
 });
 
-export const demanderAbandon = makeDemanderAbandon({
-  fileRepo,
-  findAppelOffreById: oldAppelOffreRepo.findById,
-  publishToEventStore,
-  getProjectAppelOffreId,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  demandeAbandonRepo,
-  publishToEventStore,
-});
-
-export const accorderDemandeAbandon = makeAccorderDemandeAbandon({
-  fileRepo,
-  demandeAbandonRepo,
-  publishToEventStore,
-});
-
-export const demanderConfirmationAbandon = makeDemanderConfirmationAbandon({
-  fileRepo,
-  demandeAbandonRepo,
-  publishToEventStore,
-});
-
-export const confirmerDemandeAbandon = makeConfirmerDemandeAbandon({
-  demandeAbandonRepo,
-  aAccèsAuProjet: oldUserRepo.hasProject,
-  publishToEventStore,
-});
-
-export const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
-  fileRepo,
-  demandeAbandonRepo,
-  publishToEventStore,
-});
-
-export const annulerRejetAbandon = makeAnnulerRejetAbandon({
-  demandeAbandonRepo,
-  publishToEventStore,
-});
-
 export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
   sendNotification,
 });
@@ -417,31 +350,4 @@ export const inviterUtilisateur = makeInviterUtilisateur({
 export const créerProfilUtilisateur = makeCréerProfilUtilisateur({
   utilisateurRepo,
   publishToEventStore,
-});
-
-export const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
-  publishToEventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-  getProjectAppelOffre,
-});
-
-export const annulerDemandeAnnulationAbandon = makeAnnulerDemandeAnnulationAbandon({
-  publishToEventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  demandeAnnulationAbandonRepo,
-});
-
-export const rejeterDemandeAnnulationAbandon = makeRejeterDemandeAnnulationAbandon({
-  publishToEventStore,
-  fileRepo,
-  demandeAnnulationAbandonRepo,
-});
-
-export const accorderAnnulationAbandon = makeAccorderAnnulationAbandon({
-  demandeAnnulationAbandonRepo,
-  publishToEventStore,
-  getProjectAppelOffre,
-  projectRepo,
-  fileRepo,
 });

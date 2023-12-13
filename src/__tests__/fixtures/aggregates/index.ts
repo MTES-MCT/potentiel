@@ -4,7 +4,6 @@ export * from './fakeRepo';
 export * from './fakeTransactionalRepo';
 export * from './makeFakeAppelOffre';
 export * from './makeFakeCandidateNotification';
-export * from './makeFakeDemandeAbandon';
 export * from './makeFakeDemandeChangementDePuissance';
 export * from './makeFakeDemandeDélai';
 export * from './makeFakeDemandeRecours';

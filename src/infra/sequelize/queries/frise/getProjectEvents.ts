@@ -408,16 +408,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     const status = payload.status;
 
                     switch (modificationType) {
-                      case 'abandon':
-                        events.push({
-                          type,
-                          date: valueDate,
-                          variant: user.role,
-                          status,
-                          ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
-                          modificationType,
-                        });
-                        break;
                       case 'autre':
                         events.push({
                           type,
@@ -570,39 +560,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break;
 
-                case 'DemandeAbandonSignaled':
-                  if (
-                    userIs([
-                      'admin',
-                      'porteur-projet',
-                      'dreal',
-                      'acheteur-obligé',
-                      'dgec-validateur',
-                      'caisse-des-dépôts',
-                      'cre',
-                    ])(user)
-                  ) {
-                    const { signaledBy, status, attachment, notes } = payload;
-                    events.push({
-                      type,
-                      variant: user.role,
-                      date: valueDate,
-                      signaledBy,
-                      status,
-                      ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
-                      ...(userIs([
-                        'admin',
-                        'dgec-validateur',
-                        'dreal',
-                        'porteur-projet',
-                        'cre',
-                        'acheteur-obligé',
-                      ])(user) && {
-                        attachment,
-                      }),
-                    });
-                  }
-                  break;
                 case 'DemandeRecoursSignaled':
                   if (
                     userIs([

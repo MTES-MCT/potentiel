@@ -12,6 +12,5 @@ export * from './postCorrectProjectData';
 export * from './postInviteUserToProject';
 export * from './postRetirerFichier';
 export * from './postRevokeUserRightsToProject';
-export * from './postSignalerDemandeAbandon';
 export * from './postSignalerDemandeDelai';
 export * from './postSignalerDemandeRecours';

@@ -1,9 +1,5 @@
 export type LegacyModificationStatus = 'acceptée' | 'rejetée' | 'accord-de-principe';
 
-export type LegacyAbandon = {
-  type: 'abandon';
-};
-
 export type LegacyRecours = {
   type: 'recours';
   motifElimination: string;
@@ -37,7 +33,6 @@ export type LegacyAutre = {
 };
 
 export type LegacyVariant =
-  | LegacyAbandon
   | LegacyRecours
   | LegacyDelai
   | LegacyActionnaire

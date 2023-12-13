@@ -1,6 +1,4 @@
 export const MODIFICATION_REQUEST_TYPES = [
-  'abandon',
-  'annulation abandon',
   'actionnaire',
   'fournisseur',
   'producteur',

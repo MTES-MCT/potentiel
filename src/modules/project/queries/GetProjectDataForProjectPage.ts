@@ -15,7 +15,6 @@ export type GetProjectDataForProjectPage = (args: {
 
 export type ProjectDataForProjectPage = {
   dcrDueOn: number;
-  alerteAnnulationAbandon?: AlerteAnnulationAbandon;
   id: string;
   potentielIdentifier: string;
 
@@ -106,24 +105,6 @@ type Users = {
     email: string;
   }>;
 };
-
-type AlerteAnnulationAbandon =
-  | {
-      actionPossible: 'voir-demande-en-cours';
-      urlDemandeEnCours: string;
-    }
-  | {
-      actionPossible: 'choisir-nouveau-cdc';
-      cdcAvecOptionAnnulationAbandon: Array<{
-        type: 'modifié';
-        paruLe: string;
-        alternatif?: true;
-      }>;
-    }
-  | {
-      actionPossible: 'demander-annulation-abandon';
-      dateLimite: string;
-    };
 
 type NotesInnovation = {
   note: string;
