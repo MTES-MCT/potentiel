@@ -1,7 +1,6 @@
 export * from './délai';
 export * from './onCahierDesChargesChoisi';
 export * from './onCovidDelayGranted';
-export * from './onDemandeAbandonSignaled';
 export * from './onDemandeDelaiSignaled';
 export * from './onDemandeRecoursSignaled';
 export * from './onFileAttachedToProject';

@@ -186,14 +186,6 @@ class routes {
   };
   static ADMIN_SIGNALER_DEMANDE_DELAI_POST = '/admin/signalerDemandeDelai';
 
-  static ADMIN_SIGNALER_DEMANDE_ABANDON_GET = (projectId?: Project['id']) => {
-    const route = '/admin/projet/:projectId/signalerDemandeAbandon.html';
-    if (projectId) {
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-  static ADMIN_SIGNALER_DEMANDE_ABANDON_POST = '/admin/signalerDemandeAbandon';
-
   static ADMIN_SIGNALER_DEMANDE_RECOURS_GET = (projectId?: Project['id']) => {
     const route = '/admin/projet/:projectId/signalerDemandeRecours.html';
     if (projectId) {
