@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ProjectAppelOffre } from '../../../entities';
 import { Technologie } from '@potentiel-domain/appel-offre';
 import { Request } from 'express';
@@ -49,6 +49,8 @@ export const DemanderChangementPuissance = ({
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
+  const [disableSubmit, setDisableSubmit] = useState(false);
+
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <Heading1 className="mb-10">Je signale un changement de puissance</Heading1>
@@ -94,10 +96,11 @@ export const DemanderChangementPuissance = ({
               appelOffre,
               puissanceSaisie,
               noteProjet: project.note,
+              onUpdateEtatFormulaire: (bloquerEnvoi) => setDisableSubmit(bloquerEnvoi),
             }}
           />
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
-            <PrimaryButton type="submit" id="submit">
+            <PrimaryButton type="submit" id="submit" disabled={disableSubmit}>
               Envoyer
             </PrimaryButton>
             <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>

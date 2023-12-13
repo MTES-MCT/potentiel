@@ -13,6 +13,7 @@ import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { ModificationReceived, ModificationRequested } from '../../../modificationRequest/events';
 import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance';
 import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError } from './NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError';
 
 describe('Commande requestPuissanceModification', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })));
@@ -268,6 +269,35 @@ describe('Commande requestPuissanceModification', () => {
         expect(fileRepo.save).toHaveBeenCalledTimes(1);
         expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents);
         expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename);
+      });
+    });
+
+    describe(`Cas d'une nouvelle puissance dépassant la puissance max du volume réservé`, () => {
+      it(`Étant donné un projet notifié dans un volume réservé
+          Lorsque le porteur demande un changement de puissance au dessus de la puissance max du volume réservé
+          Alors une erreur devrait être retournée et le changement ne devrait pas être enregistré`, async () => {
+        const requestPuissanceModification = makeDemanderChangementDePuissance({
+          projectRepo,
+          eventBus,
+          getPuissanceProjet,
+          shouldUserAccessProject,
+          exceedsRatiosChangementPuissance: () => false,
+          exceedsPuissanceMaxDuVolumeReserve: () => true,
+          fileRepo: fileRepo as Repository<FileObject>,
+          getProjectAppelOffre,
+        });
+
+        const newPuissance = 89;
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id.toString(),
+          requestedBy: fakeUser,
+          newPuissance,
+        });
+
+        expect(res.isErr()).toBe(true);
+        if (res.isOk()) return;
+        expect(res.error).toBeInstanceOf(NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError);
       });
     });
   });

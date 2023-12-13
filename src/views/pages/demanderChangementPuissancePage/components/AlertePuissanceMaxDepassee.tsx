@@ -18,10 +18,9 @@ export const AlertePuissanceMaxDepassee = ({ project }: AlertOnPuissanceExceedMa
 
   return reservedVolume ? (
     <AlertBox className="mt-4">
-      Une autorisation est nécessaire si la modification de puissance dépasse la puissance maximum
-      de {reservedVolume.puissanceMax} {appelOffre.unitePuissance} du volume reservé de l'appel
-      d'offre. Dans ce cas{' '}
-      <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
+      Votre projet étant dans le volume réservé, les modifications de la Puissance installée ne
+      peuvent pas dépasser le plafond de puissance de {reservedVolume.puissanceMax}{' '}
+      {appelOffre.unitePuissance} spécifié au paragraphe 1.2.2 du cahier des charges.
     </AlertBox>
   ) : null;
 };

@@ -17,7 +17,10 @@ import {
 import { ModificationRequested, ModificationReceived } from '../../../modificationRequest/events';
 
 import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers';
-import { PuissanceJustificationEtCourrierManquantError } from '.';
+import {
+  NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError,
+  PuissanceJustificationEtCourrierManquantError,
+} from '.';
 import { GetProjectAppelOffre } from '../../../projectAppelOffre';
 
 type DemanderChangementDePuissance = (commande: {
@@ -94,6 +97,16 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             periodeId: project.periodeId,
             familleId: project.familleId,
           });
+
+          const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
+            nouvellePuissance: newPuissance,
+            project: { ...project, note: project.data!!.note },
+          });
+
+          if (exceedsPuissanceMax) {
+            return errAsync(new NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError());
+          }
+
           const exceedsRatios = exceedsRatiosChangementPuissance({
             nouvellePuissance: newPuissance,
             project: {
@@ -102,16 +115,10 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
               technologie: project.data?.technologie ?? 'N/A',
             },
           });
-          const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
-            nouvellePuissance: newPuissance,
-            project: { ...project, note: project.data!!.note },
-          });
 
-          const newPuissanceIsAutoAccepted = !exceedsRatios && !exceedsPuissanceMax;
-
-          if (newPuissanceIsAutoAccepted) {
+          if (!exceedsRatios) {
             return project.updatePuissance(requestedBy, newPuissance).asyncMap(async () => ({
-              newPuissanceIsAutoAccepted,
+              newPuissanceIsAutoAccepted: true,
               fileId,
               project,
             }));
