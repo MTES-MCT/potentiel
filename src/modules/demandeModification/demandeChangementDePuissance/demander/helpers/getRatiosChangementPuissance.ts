@@ -3,8 +3,6 @@ import { Technologie } from '@potentiel-domain/appel-offre';
 
 const defaultRatios = { min: 0.9, max: 1.1 };
 
-// Cette fonction est fausse, elle ne prend pas en compte le CDC du projet et ses ratios
-
 export const getRatiosChangementPuissance = (project: {
   appelOffre?: ProjectAppelOffre;
   technologie: Technologie;
