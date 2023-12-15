@@ -8,7 +8,6 @@ import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { encodeParameter } from '@/utils/encodeParameter';
-import { Form } from '@/components/molecules/Form';
 
 const initialState: ConfirmerAbandonState = {
   error: undefined,
@@ -36,8 +35,8 @@ export const ConfirmerAbandon = ({ identifiantProjet, utilisateur }: ConfirmerAb
 
   return (
     <>
-      <Button priority="secondary" onClick={() => modal.open()}>
-        Confirmer l'abandon
+      <Button priority="secondary" className="w-full" onClick={() => modal.open()}>
+        <span className="mx-auto">Confirmer</span>
       </Button>
 
       <modal.Component
@@ -67,10 +66,10 @@ export const ConfirmerAbandon = ({ identifiantProjet, utilisateur }: ConfirmerAb
         {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
         <div className="flex flex-col gap-5">
           <p className="mt-3">Êtes-vous sûr de vouloir confirmer cet abandon ?</p>
-          <Form action={formAction} method="post" id="confirmer-abandon-form">
+          <form action={formAction} method="post" id="confirmer-abandon-form">
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-          </Form>
+          </form>
         </div>
       </modal.Component>
     </>

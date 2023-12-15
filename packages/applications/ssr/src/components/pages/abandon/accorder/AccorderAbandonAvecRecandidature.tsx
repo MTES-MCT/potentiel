@@ -42,9 +42,10 @@ export const AccorderAbandonAvecRecandidature = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => modal.open()}>
-        Accorder la demande
+      <Button priority="secondary" className="w-full" onClick={() => modal.open()}>
+        <span className="mx-auto">Accorder</span>
       </Button>
+
       <modal.Component
         title="Accorder un abandon avec recandidature"
         buttons={[

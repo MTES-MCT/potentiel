@@ -38,9 +38,10 @@ export const RejeterAbandon = ({ identifiantProjet, utilisateur }: RejeterAbando
 
   return (
     <>
-      <Button priority="secondary" onClick={() => modal.open()}>
-        Rejeter la demande
+      <Button priority="secondary" className="w-full" onClick={() => modal.open()}>
+        <span className="mx-auto">Rejeter</span>
       </Button>
+
       <modal.Component
         title="Rejeter une demande d'abandon"
         buttons={[
@@ -57,24 +58,25 @@ export const RejeterAbandon = ({ identifiantProjet, utilisateur }: RejeterAbando
             type: 'submit',
             disabled: pending,
             nativeButtonProps: {
+              className: 'bg-blue-france-sun-base text-white',
               'aria-disabled': pending,
             },
             children: 'Rejeter',
           },
         ]}
       >
+        <Download
+          linkProps={{
+            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+          }}
+          details="docx"
+          label="Télécharger le modèle de réponse"
+        />
+
         <Form action={formAction} method="post" encType="multipart/form-data">
           {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
           <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
           <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-
-          <Download
-            linkProps={{
-              href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
-            }}
-            details="docx"
-            label="Télécharger le modèle de réponse"
-          />
 
           <Upload
             label="Téléverser une réponse signée"

@@ -104,14 +104,14 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
               />
             ) : null
           ) : null}
-          {porteur.annuler ? (
-            <AnnulerAbandon
+          {porteur.confirmer ? (
+            <ConfirmerAbandon
               identifiantProjet={projet.identifiantProjet}
               utilisateur={utilisateur}
             />
           ) : null}
-          {porteur.confirmer ? (
-            <ConfirmerAbandon
+          {porteur.annuler ? (
+            <AnnulerAbandon
               identifiantProjet={projet.identifiantProjet}
               utilisateur={utilisateur}
             />

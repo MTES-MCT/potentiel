@@ -45,8 +45,8 @@ export const DemanderConfirmationAbandon = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => modal.open()}>
-        Demander une confirmation
+      <Button priority="secondary" className="w-full" onClick={() => modal.open()}>
+        <span className="mx-auto">Demander une confirmation</span>
       </Button>
 
       <modal.Component
@@ -70,10 +70,18 @@ export const DemanderConfirmationAbandon = ({
               className: 'bg-blue-france-sun-base text-white',
               form: 'demande-confirmation-abandon-form',
             },
-            children: 'Demander la confirmation',
+            children: 'Demander une confirmation',
           },
         ]}
       >
+        <Download
+          linkProps={{
+            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+          }}
+          details="docx"
+          label="Télécharger le modèle de réponse"
+        />
+
         <Form
           action={formAction}
           method="post"
@@ -83,14 +91,6 @@ export const DemanderConfirmationAbandon = ({
           {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
           <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
           <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-
-          <Download
-            linkProps={{
-              href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
-            }}
-            details="docx"
-            label="Télécharger le modèle de réponse"
-          />
 
           <Upload
             label="Téléverser une réponse signée"

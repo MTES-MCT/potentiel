@@ -7,7 +7,6 @@ import { AnnulerAbandonState, annulerAbandonAction } from './annulerAbandon.acti
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { Form } from '@/components/molecules/Form';
 
 const initialState: AnnulerAbandonState = {
   error: undefined,
@@ -35,8 +34,8 @@ export const AnnulerAbandon = ({ identifiantProjet, utilisateur }: AnnulerAbando
 
   return (
     <>
-      <Button priority="secondary" onClick={() => modal.open()}>
-        Annuler l'abandon
+      <Button priority="secondary" className="w-full" onClick={() => modal.open()}>
+        <span className="mx-auto">Annuler</span>
       </Button>
 
       <modal.Component
@@ -66,10 +65,10 @@ export const AnnulerAbandon = ({ identifiantProjet, utilisateur }: AnnulerAbando
         {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
         <div className="flex flex-col gap-5">
           <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
-          <Form action={formAction} method="post" id="annuler-abandon-form">
+          <form action={formAction} method="post" id="annuler-abandon-form">
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-          </Form>
+          </form>
         </div>
       </modal.Component>
     </>
