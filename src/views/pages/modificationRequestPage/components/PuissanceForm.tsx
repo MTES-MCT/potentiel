@@ -9,6 +9,7 @@ import {
 import { AlertBox, Checkbox } from '../../../components';
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest/dtos';
 import { UploadResponseFile } from './UploadResponseFile';
+import { parseCahierDesChargesRéférence } from '../../../../entities';
 
 type PuissanceFormProps = {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' };
@@ -16,9 +17,19 @@ type PuissanceFormProps = {
 
 export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
   const { project, puissance: nouvellePuissance } = modificationRequest;
-  const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance });
+  const cahierDesCharges = parseCahierDesChargesRéférence(project.cahierDesChargesActuel);
+  const exceedsRatios = exceedsRatiosChangementPuissance({
+    project: {
+      ...project,
+      cahierDesCharges,
+    },
+    nouvellePuissance,
+  });
   const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance });
-  const ratios = getRatiosChangementPuissance(project);
+  const ratios = getRatiosChangementPuissance({
+    ...project,
+    cahierDesCharges,
+  });
   const reservedVolume = project.appelOffre && getVolumeReserve(project.appelOffre);
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(

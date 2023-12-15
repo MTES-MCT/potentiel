@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectAppelOffre } from '../../../../entities';
+import { CahierDesChargesRéférenceParsed, ProjectAppelOffre } from '../../../../entities';
 import { getRatiosChangementPuissance } from '../../../../modules/demandeModification';
 import { AlertBox } from '../../../components';
 import { Technologie } from '@potentiel-domain/appel-offre';
@@ -8,6 +8,7 @@ type AlertOnPuissanceOutsideRatiosProps = {
   project: {
     appelOffre: ProjectAppelOffre;
     technologie: Technologie;
+    cahierDesCharges: CahierDesChargesRéférenceParsed;
   };
 };
 export const AlertePuissanceHorsRatios = ({ project }: AlertOnPuissanceOutsideRatiosProps) => {

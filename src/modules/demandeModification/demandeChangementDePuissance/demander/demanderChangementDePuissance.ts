@@ -113,6 +113,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
               ...project,
               appelOffre: appelOffreProjet,
               technologie: project.data?.technologie ?? 'N/A',
+              cahierDesCharges: project.cahierDesCharges,
             },
           });
 

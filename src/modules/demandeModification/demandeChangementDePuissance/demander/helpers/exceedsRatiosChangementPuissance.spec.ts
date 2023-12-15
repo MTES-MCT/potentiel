@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { ProjectAppelOffre } from '../../../../../entities';
-import { Technologie } from '@potentiel-domain/appel-offre';
+import { CahierDesChargesModifié, Periode, Technologie } from '@potentiel-domain/appel-offre';
 import { exceedsRatiosChangementPuissance } from './exceedsRatiosChangementPuissance';
 
 describe(`exceedsRatiosChangementPuissance`, () => {
@@ -19,6 +19,7 @@ describe(`exceedsRatiosChangementPuissance`, () => {
             puissanceInitiale: 100,
             appelOffre,
             technologie: 'pv',
+            cahierDesCharges: { type: 'initial' },
           },
           nouvellePuissance: 80,
         });
@@ -32,6 +33,7 @@ describe(`exceedsRatiosChangementPuissance`, () => {
             puissanceInitiale: 100,
             appelOffre,
             technologie: 'pv',
+            cahierDesCharges: { type: 'initial' },
           },
           nouvellePuissance: 69.9,
         });
@@ -45,6 +47,7 @@ describe(`exceedsRatiosChangementPuissance`, () => {
             puissanceInitiale: 100,
             appelOffre,
             technologie: 'pv',
+            cahierDesCharges: { type: 'initial' },
           },
           nouvellePuissance: 110.1,
         });
@@ -83,6 +86,7 @@ describe(`exceedsRatiosChangementPuissance`, () => {
               puissanceInitiale,
               appelOffre,
               technologie,
+              cahierDesCharges: { type: 'initial' },
             },
             nouvellePuissance,
           });
@@ -101,6 +105,7 @@ describe(`exceedsRatiosChangementPuissance`, () => {
               puissanceInitiale,
               appelOffre,
               technologie,
+              cahierDesCharges: { type: 'initial' },
             },
             nouvellePuissance,
           });
@@ -119,6 +124,7 @@ describe(`exceedsRatiosChangementPuissance`, () => {
               puissanceInitiale,
               appelOffre,
               technologie,
+              cahierDesCharges: { type: 'initial' },
             },
             nouvellePuissance,
           });
@@ -131,7 +137,12 @@ describe(`exceedsRatiosChangementPuissance`, () => {
       describe(`when the new puissance is between 90% and 110% of the initial one`, () => {
         it(`should return false`, () => {
           const actual = exceedsRatiosChangementPuissance({
-            project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
+            project: {
+              puissanceInitiale: 100,
+              appelOffre,
+              technologie: 'N/A',
+              cahierDesCharges: { type: 'initial' },
+            },
             nouvellePuissance: 105,
           });
           expect(actual).toBe(false);
@@ -140,7 +151,12 @@ describe(`exceedsRatiosChangementPuissance`, () => {
       describe(`when the new puissance is below 90% of the initial one`, () => {
         it(`should return true`, () => {
           const actual = exceedsRatiosChangementPuissance({
-            project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
+            project: {
+              puissanceInitiale: 100,
+              appelOffre,
+              technologie: 'N/A',
+              cahierDesCharges: { type: 'initial' },
+            },
             nouvellePuissance: 89.9,
           });
           expect(actual).toBe(true);
@@ -149,7 +165,12 @@ describe(`exceedsRatiosChangementPuissance`, () => {
       describe(`when the new puissance is above 110% of the initial one`, () => {
         it(`should return true`, () => {
           const actual = exceedsRatiosChangementPuissance({
-            project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
+            project: {
+              puissanceInitiale: 100,
+              appelOffre,
+              technologie: 'N/A',
+              cahierDesCharges: { type: 'initial' },
+            },
             nouvellePuissance: 110.1,
           });
           expect(actual).toBe(true);
@@ -162,7 +183,11 @@ describe(`exceedsRatiosChangementPuissance`, () => {
     describe(`when the new puissance is between 90% and 110% of the initial one`, () => {
       it(`should return false`, () => {
         const actual = exceedsRatiosChangementPuissance({
-          project: { puissanceInitiale: 100, technologie: 'pv' },
+          project: {
+            puissanceInitiale: 100,
+            technologie: 'pv',
+            cahierDesCharges: { type: 'initial' },
+          },
           nouvellePuissance: 105,
         });
         expect(actual).toBe(false);
@@ -171,7 +196,11 @@ describe(`exceedsRatiosChangementPuissance`, () => {
     describe(`when the new puissance is below 90% of the initial one`, () => {
       it(`should return true`, () => {
         const actual = exceedsRatiosChangementPuissance({
-          project: { puissanceInitiale: 100, technologie: 'pv' },
+          project: {
+            puissanceInitiale: 100,
+            technologie: 'pv',
+            cahierDesCharges: { type: 'initial' },
+          },
           nouvellePuissance: 89.9,
         });
         expect(actual).toBe(true);
@@ -180,11 +209,55 @@ describe(`exceedsRatiosChangementPuissance`, () => {
     describe(`when the new puissance is above 110% of the initial one`, () => {
       it(`should return true`, () => {
         const actual = exceedsRatiosChangementPuissance({
-          project: { puissanceInitiale: 100, technologie: 'pv' },
+          project: {
+            puissanceInitiale: 100,
+            technologie: 'pv',
+            cahierDesCharges: { type: 'initial' },
+          },
           nouvellePuissance: 110.1,
         });
         expect(actual).toBe(true);
       });
+    });
+  });
+
+  describe(`Contexte du cahier des charges du 30/08/2022`, () => {
+    it(`Étant donné un projet avec le cahier des charges du 30/08/2022
+        Et dont le cahier des charges présente des seuils spécifiques pour les changements de puissance avec un max à 140%
+        Lorsqu'un changement de puissance intervient pour un ratio supérieur au ratio du CDC initial, mais inférieur au ratio max du CDC du projet
+        Alors la demande ne devrait pas être considérée comme dépassant le ratio de son CDC`, () => {
+      const appelOffre = {
+        changementPuissance: {
+          ratios: { min: 0.7, max: 1.1 },
+        },
+        periode: {
+          type: 'notified',
+          certificateTemplate: 'ppe2.v2',
+          noteThreshold: 10,
+          cahierDesCharges: { référence: '', url: '' },
+          delaiDcrEnMois: { texte: '', valeur: 1 },
+          id: '',
+          title: '',
+          cahiersDesChargesModifiésDisponibles: [
+            {
+              type: 'modifié',
+              paruLe: '30/08/2022',
+              seuilSupplémentaireChangementPuissance: { ratios: { min: 0.7, max: 1.4 } },
+            } as CahierDesChargesModifié,
+          ],
+        } as Periode,
+      } as ProjectAppelOffre;
+
+      const actual = exceedsRatiosChangementPuissance({
+        project: {
+          puissanceInitiale: 100,
+          appelOffre,
+          cahierDesCharges: { paruLe: '30/08/2022', type: 'modifié' },
+          technologie: 'pv',
+        },
+        nouvellePuissance: 135,
+      });
+      expect(actual).toBe(false);
     });
   });
 });

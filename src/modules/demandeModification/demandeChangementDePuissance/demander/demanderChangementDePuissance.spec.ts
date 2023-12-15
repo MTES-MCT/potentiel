@@ -56,7 +56,7 @@ describe('Commande requestPuissanceModification', () => {
     fileRepo.save.mockClear();
   });
 
-  describe(`Lorsque le porteur n'a pas les droits sur le projet`, () => {
+  describe(`Le porteur n'a pas les droits sur le projet`, () => {
     const shouldUserAccessProject = jest.fn(async () => false);
     const requestPuissanceModification = makeDemanderChangementDePuissance({
       projectRepo,
@@ -70,9 +70,11 @@ describe('Commande requestPuissanceModification', () => {
     });
     const newPuissance = 89;
 
-    it(`Lorsqu'un fait une demande de changement de puissance
-    alors une erreur de type UnauthorizedError devrait être émise
-    et la demande ne devrait pas être envoyée`, async () => {
+    it(`Étant donné un projet
+        Et un porteur n'ayant pas les droits sur le projet 
+        Lorsque le porteur fait une demande de changement de puissance    
+        Alors une erreur de type UnauthorizedError devrait être émise
+        Et la demande ne devrait pas être envoyée`, async () => {
       fakePublish.mockClear();
       fileRepo.save.mockClear();
 
@@ -87,10 +89,10 @@ describe('Commande requestPuissanceModification', () => {
     });
   });
 
-  describe(`Lorsque le porteur a les droits sur le projet`, () => {
+  describe(`Le porteur a les droits sur le projet`, () => {
     const shouldUserAccessProject = jest.fn(async () => true);
 
-    describe(`Cas d'une demande qui n'est pas auto-acceptée`, () => {
+    describe(`Demandes à instruire`, () => {
       describe(`Erreur à émettre si courrier ou justification manquant pour un CDC autre que 2022`, () => {
         describe(`Etant donné un projet dont le CDC applicable est le CDC initial`, () => {
           it(`Lorsque le porteur fait une demande de changement puissance sans courrier ni justification,
@@ -221,11 +223,12 @@ describe('Commande requestPuissanceModification', () => {
       });
     });
 
-    describe('Cas des demandes auto-acceptées', () => {
-      it(`Etant donné une demande de changement de puissance qui ne sort pas des ratios de l'AO,
-      alors la demande devrait être envoyée,
-      le projet devrait être modifié
-      et le fichier devrait être sauvegardé`, async () => {
+    describe('Informations enregistrées', () => {
+      it(`Lorsqu'une demande de changement de puissance qui ne sort pas des ratios de l'AO est faite
+          Alors la demande devrait être en statut "informations enregistrées"
+          Et le fichier devrait être sauvegardé
+          Et le projet devrait être modifié avec la nouvelle puissance
+         `, async () => {
         const requestPuissanceModification = makeDemanderChangementDePuissance({
           projectRepo,
           eventBus,
@@ -261,6 +264,86 @@ describe('Commande requestPuissanceModification', () => {
             puissance: newPuissance,
             puissanceAuMomentDuDepot: 123,
             cahierDesCharges: 'initial',
+          },
+        });
+
+        expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, newPuissance);
+
+        expect(fileRepo.save).toHaveBeenCalledTimes(1);
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents);
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename);
+      });
+
+      it(`Étant donné un projet avec le cahier des charges 2022
+          Lorsqu'une demande de changement de puissance est faite pour une nouvelle valeur entre la puissance max du CDC initial et la puissance max du CDC 2022
+          Alors la demande devrait être en statut "informations enregistrées"
+          Et le fichier devrait être sauvegardé
+          Et le projet devrait être modifié avec la nouvelle puissance
+         `, async () => {
+        const fakeProject = {
+          ...makeFakeProject(),
+          puissanceInitiale: 100,
+          cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const getProjectAppelOffre = jest.fn(
+          () =>
+            ({
+              typeAppelOffre: 'eolien',
+              changementPuissance: { ratios: { min: 0.8, max: 1.2 } },
+              periode: {
+                cahiersDesChargesModifiésDisponibles: [
+                  {
+                    type: 'modifié',
+                    paruLe: '30/08/2022',
+                    seuilSupplémentaireChangementPuissance: {
+                      ratios: {
+                        min: 0.9,
+                        max: 1.4,
+                      },
+                    },
+                  } as CahierDesChargesModifié,
+                ] as ReadonlyArray<CahierDesChargesModifié>,
+              },
+            } as ProjectAppelOffre),
+        );
+
+        const requestPuissanceModification = makeDemanderChangementDePuissance({
+          projectRepo,
+          eventBus,
+          getPuissanceProjet: jest.fn((projectId: string) => okAsync(123)),
+          shouldUserAccessProject,
+          exceedsRatiosChangementPuissance: () => false,
+          exceedsPuissanceMaxDuVolumeReserve: () => false,
+          fileRepo: fileRepo as Repository<FileObject>,
+          getProjectAppelOffre,
+        });
+        const newPuissance = 135;
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id.toString(),
+          requestedBy: fakeUser,
+          newPuissance,
+          fichier: file,
+        });
+
+        expect(res.isOk()).toBe(true);
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user: fakeUser,
+          projectId: fakeProject.id.toString(),
+        });
+
+        expect(eventBus.publish).toHaveBeenCalledTimes(1);
+        const event = eventBus.publish.mock.calls[0][0];
+        expect(event).toBeInstanceOf(ModificationReceived);
+        expect(event).toMatchObject({
+          payload: {
+            type: 'puissance',
+            puissance: newPuissance,
+            puissanceAuMomentDuDepot: 123,
+            cahierDesCharges: '30/08/2022',
           },
         });
 

@@ -1,4 +1,4 @@
-import { ProjectAppelOffre } from '../../../../../entities';
+import { CahierDesChargesRéférenceParsed, ProjectAppelOffre } from '../../../../../entities';
 import { Technologie } from '@potentiel-domain/appel-offre';
 import { getRatiosChangementPuissance } from './getRatiosChangementPuissance';
 
@@ -7,6 +7,7 @@ export type ExceedsRatiosChangementPuissance = (arg: {
     puissanceInitiale: number;
     appelOffre?: ProjectAppelOffre;
     technologie: Technologie;
+    cahierDesCharges: CahierDesChargesRéférenceParsed;
   };
   nouvellePuissance: number;
 }) => boolean;

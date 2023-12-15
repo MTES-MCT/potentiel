@@ -16,8 +16,9 @@ import {
 } from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
-import { ProjectAppelOffre } from '../../../../entities';
+import { ProjectAppelOffre, parseCahierDesChargesRéférence } from '../../../../entities';
 import { Technologie } from '@potentiel-domain/appel-offre';
+import { AlertePuissanceFourchetteRatioInitialEtCDC2022 } from './AlertePuissanceFourchetteRatioInitialEtCDC2022';
 
 type ChangementPuissanceProps = {
   unitePuissance: string;
@@ -47,12 +48,30 @@ export const ChangementPuissance = ({
   const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false);
   const [puissanceMaxVolumeReservéDépassée, setPuissanceMaxVolumeReservéDépassée] = useState(false);
   const [fichierEtJustificationRequis, setFichierEtJustificationRequis] = useState(false);
+  const [
+    displayAlertOnPuissancebetweenInitialAndCDC2022Ratios,
+    setDisplayAlertOnPuissancebetweenInitialAndCDC2022Ratios,
+  ] = useState(false);
 
   const handlePuissanceOnChange = (e) => {
     const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value);
     const nouvellePuissance = toNumber(e.target.value);
-    const exceedsRatios = exceedsRatiosChangementPuissance({
-      project: { puissanceInitiale, appelOffre, technologie },
+    const exceedsActualCDCRatios = exceedsRatiosChangementPuissance({
+      project: {
+        puissanceInitiale,
+        appelOffre,
+        technologie,
+        cahierDesCharges: parseCahierDesChargesRéférence(cahierDesChargesActuel),
+      },
+      nouvellePuissance,
+    });
+    const exceedInitialCDCRatio = exceedsRatiosChangementPuissance({
+      project: {
+        puissanceInitiale,
+        appelOffre,
+        technologie,
+        cahierDesCharges: { type: 'initial' },
+      },
       nouvellePuissance,
     });
     const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
@@ -61,9 +80,12 @@ export const ChangementPuissance = ({
     });
 
     setDisplayAlertOnPuissanceType(!isNewValueCorrect);
-    setDisplayAlertHorsRatios(exceedsRatios);
+    setDisplayAlertHorsRatios(exceedsActualCDCRatios);
     setPuissanceMaxVolumeReservéDépassée(exceedsPuissanceMax);
-    setFichierEtJustificationRequis(exceedsRatios || exceedsPuissanceMax);
+    setFichierEtJustificationRequis(exceedsActualCDCRatios || exceedsPuissanceMax);
+    setDisplayAlertOnPuissancebetweenInitialAndCDC2022Ratios(
+      exceedInitialCDCRatio && !exceedsActualCDCRatios,
+    );
 
     onUpdateEtatFormulaire(exceedsPuissanceMax);
   };
@@ -110,8 +132,27 @@ export const ChangementPuissance = ({
         />
       </div>
 
-      {!CDC2022choisi && displayAlertHorsRatios && (
-        <AlertePuissanceHorsRatios {...{ project: { appelOffre, technologie } }} />
+      {displayAlertHorsRatios && (
+        <AlertePuissanceHorsRatios
+          {...{
+            project: {
+              appelOffre,
+              technologie,
+              cahierDesCharges: parseCahierDesChargesRéférence(cahierDesChargesActuel),
+            },
+          }}
+        />
+      )}
+
+      {CDC2022choisi && displayAlertOnPuissancebetweenInitialAndCDC2022Ratios && (
+        <AlertePuissanceFourchetteRatioInitialEtCDC2022
+          {...{
+            project: {
+              appelOffre,
+              cahierDesCharges: parseCahierDesChargesRéférence(cahierDesChargesActuel),
+            },
+          }}
+        />
       )}
 
       {puissanceMaxVolumeReservéDépassée && (

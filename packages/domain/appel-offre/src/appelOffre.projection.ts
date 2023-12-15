@@ -15,7 +15,7 @@ type Ratios = {
   max: number;
 };
 
-type ChangementPuissance =
+type ChangementPuissance = { paragrapheAlerte?: string } & (
   | {
       changementByTechnologie?: undefined;
       ratios: Ratios;
@@ -23,7 +23,8 @@ type ChangementPuissance =
   | {
       changementByTechnologie: true;
       ratios: { [key in Exclude<Technologie, 'N/A'>]: Ratios };
-    };
+    }
+);
 
 type DelaiRealisation =
   | {

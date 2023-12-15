@@ -12,7 +12,7 @@ const CDCModifié30082022: CahierDesChargesModifié = {
     •entre quatre-vingt-dix pourcents (90 %) et cent-dix pourcents (110 %) de la Puissance indiquée dans l’offre pour les projets photovoltaïques;
     •entre quatre-vingt pourcents (80 %) et cent-vingt pourcents (120 %) de la Puissance indiquée dans l’offre pour les projets éoliens .
     Elles doivent faire l’objet d’une information au Préfet.
-    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée) ou par l’autorisation environnementale de l’Installation ( y compris si celle-ci a été modifiée) et  que  la  Puissance  modifiée  soit inférieure  à  la  limite  de  puissance  spécifiée  au  paragraphe  2.2  applicable à l’Installation.
+    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) ou par l’autorisation environnementale de l’Installation (y compris si celle-ci a été modifiée) et  que  la  Puissance  modifiée  soit inférieure  à  la  limite  de  puissance  spécifiée  au  paragraphe  2.2  applicable à l’Installation.
     Les modifications à la baisse, en-dessous de :
      • quatre-vingt-dix pourcents (90 %) de la Puissance indiquée dans l’offre pour les projets photovoltaïques,
      • quatre-vingt pourcents (80 %) de la Puissance indiquée dans l’offre pour les projets éoliens,
@@ -58,6 +58,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
         max: 1.4,
       },
     },
+    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) ou par l’autorisation environnementale de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance spécifiée au paragraphe 2.2 applicable à l’Installation.`,
   },
 };
 
