@@ -36,7 +36,7 @@ export const ConfirmerAbandon = ({ identifiantProjet, utilisateur }: ConfirmerAb
 
   return (
     <>
-      <Button priority="tertiary no outline" onClick={() => modal.open()}>
+      <Button priority="secondary" onClick={() => modal.open()}>
         Confirmer l'abandon
       </Button>
 

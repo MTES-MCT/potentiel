@@ -45,7 +45,7 @@ export const AccorderAbandonSansRecandidature = ({
 
   return (
     <>
-      <Button priority="tertiary no outline" onClick={() => modal.open()}>
+      <Button priority="secondary" onClick={() => modal.open()}>
         Accorder la demande
       </Button>
       <modal.Component

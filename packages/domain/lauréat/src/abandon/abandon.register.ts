@@ -12,8 +12,8 @@ import {
 } from './consulter/consulterAbandon.query';
 import { registerDemanderAbandonCommand } from './demander/demanderAbandon.command';
 import { registerDemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
-import { registerDemanderConfirmationAbandonCommand } from './demander/demanderConfirmationAbandon.command';
-import { registerDemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
+import { registerDemanderConfirmationAbandonCommand } from './demanderConfirmation/demanderConfirmationAbandon.command';
+import { registerDemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import {
   ListerAbandonDependencies,
   registerListerAbandonQuery,
@@ -23,8 +23,8 @@ import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase'
 import { registerAnnulerRejetAbandonCommand } from './annulerRejet/annulerRejetAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettre/transmettrePreuveRecandidatureAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
-import { registerDemanderPreuveRecandidatureAbandonCommand } from './demander/demanderPreuveRecandidatureAbandon.command';
-import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
+import { registerDemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.command';
+import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.usecase';
 import {
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,

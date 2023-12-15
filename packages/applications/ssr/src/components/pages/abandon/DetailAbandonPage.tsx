@@ -5,7 +5,7 @@ import { DetailDemandeAbandon } from '@/components/molecules/abandon/DetailDeman
 import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailInstructionAbandon';
 import { StatutAbandonBadge } from '@/components/molecules/abandon/StatutAbandonBadge';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
-import { DemanderConfirmationAbandon } from './demander/DemanderConfirmationAbandon';
+import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';

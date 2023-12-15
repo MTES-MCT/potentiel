@@ -35,7 +35,7 @@ export const AnnulerAbandon = ({ identifiantProjet, utilisateur }: AnnulerAbando
 
   return (
     <>
-      <Button priority="tertiary no outline" onClick={() => modal.open()}>
+      <Button priority="secondary" onClick={() => modal.open()}>
         Annuler l'abandon
       </Button>
 

@@ -7,14 +7,14 @@ import {
   ConsulterAbandonReadModel,
 } from './consulter/consulterAbandon.query';
 import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
-import { DemanderConfirmationAbandonUseCase } from './demander/demanderConfirmationAbandon.usecase';
+import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import {
   ListerAbandonsQuery,
   ListerAbandonReadModel,
   ListerAbandonsParProjetsPort,
 } from './lister/listerAbandon.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
-import { DemanderPreuveRecandidatureAbandonUseCase } from './demander/demanderPreuveRecandidatureAbandon.usecase';
+import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
 import { DétecterAbandonQuery } from './détecter/détecterAbandon.query';
@@ -68,10 +68,10 @@ export {
 // Event
 export { AbandonEvent } from './abandon.aggregate';
 export { AbandonAnnuléEvent } from './annuler/annulerAbandon.behavior';
-export { ConfirmationAbandonDemandéeEvent } from './demander/demanderConfirmationAbandon.behavior';
+export { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 export { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
 export { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
-export { PreuveRecandidatureDemandéeEvent } from './demander/demanderPreuveRecandidatureAbandon.behavior';
+export { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
 export { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 
 // Register

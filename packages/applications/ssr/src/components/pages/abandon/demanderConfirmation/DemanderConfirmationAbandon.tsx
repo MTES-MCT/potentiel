@@ -36,7 +36,6 @@ export const DemanderConfirmationAbandon = ({
   utilisateur,
 }: DemanderConfirmationAbandonFormProps) => {
   const router = useRouter();
-  // const formRef = useRef<HTMLFormElement | null>(null);
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(demanderConfirmationAbandonAction, initialState);
 
@@ -46,7 +45,7 @@ export const DemanderConfirmationAbandon = ({
 
   return (
     <>
-      <Button priority="tertiary no outline" onClick={() => modal.open()}>
+      <Button priority="secondary" onClick={() => modal.open()}>
         Demander une confirmation
       </Button>
 
@@ -55,8 +54,8 @@ export const DemanderConfirmationAbandon = ({
         buttons={[
           {
             type: 'button',
-            onClick: () => modal.close(),
             disabled: pending,
+            priority: 'secondary',
             nativeButtonProps: {
               'aria-disabled': pending,
             },
@@ -65,13 +64,13 @@ export const DemanderConfirmationAbandon = ({
           {
             type: 'submit',
             disabled: pending,
+            priority: 'primary',
             nativeButtonProps: {
               'aria-disabled': pending,
               className: 'bg-blue-france-sun-base text-white',
               form: 'demande-confirmation-abandon-form',
             },
             children: 'Demander la confirmation',
-            doClosesModal: false,
           },
         ]}
       >
