@@ -58,7 +58,7 @@ export const getProjectInfoForModificationReceivedNotification: GetProjectInfoFo
         puissanceInitiale,
         cahierDesChargesActuel,
         evaluationCarboneDeRéférence,
-        technologie: isTechnologie(technologie) ? technologie : 'N/A',
+        technologie: technologie && isTechnologie(technologie) ? technologie : 'N/A',
         appelOffreId,
         periodeId,
         familleId,
@@ -71,6 +71,6 @@ export const getProjectInfoForModificationReceivedNotification: GetProjectInfoFo
     });
   };
 
-function isTechnologie(technologie: any): technologie is Technologie {
-  return technologies.includes(technologie);
+function isTechnologie(technologie: string): technologie is Technologie {
+  return technologies.includes(technologie as Technologie);
 }
