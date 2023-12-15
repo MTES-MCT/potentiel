@@ -39,6 +39,7 @@ import {
   getRecipientsForPeriodeNotifiedNotification,
   récupérerDonnéesPorteursParProjetQueryHandler,
 } from '../queries.config';
+import { getProjectAppelOffre } from '../queryProjectAO.config';
 import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config';
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
@@ -104,6 +105,7 @@ eventStore.subscribe(
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     getProjectInfoForModificationReceivedNotification,
+    getProjectAppelOffres: getProjectAppelOffre,
   }),
 );
 
