@@ -1,6 +1,6 @@
 'use client';
 
-import { TransmettrePreuveRecandidatureForm } from './transmettre/TransmettrePreuveRecandidatureForm';
+import { TransmettrePreuveRecandidatureForm } from './TransmettrePreuveRecandidatureForm';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
 

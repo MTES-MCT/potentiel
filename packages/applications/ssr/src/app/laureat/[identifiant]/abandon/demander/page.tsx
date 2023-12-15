@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
-} from '@/components/pages/abandon/DemanderAbandonPage';
+} from '@/components/pages/abandon/demander/DemanderAbandonPage';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { decodeParameter } from '@/utils/decodeParameter';

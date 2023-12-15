@@ -2,7 +2,7 @@
 
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
-import { DemanderAbandonForm } from './demander/DemanderAbandonForm';
+import { DemanderAbandonForm } from './DemanderAbandonForm';
 
 export type DemanderAbandonPageProps = {
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];

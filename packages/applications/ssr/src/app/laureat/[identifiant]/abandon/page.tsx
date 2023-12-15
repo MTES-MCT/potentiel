@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import {
   DetailAbandonPage,
   DetailAbandonPageProps,
-} from '@/components/pages/abandon/DetailAbandonPage';
+} from '@/components/pages/abandon/détails/DetailAbandonPage';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
