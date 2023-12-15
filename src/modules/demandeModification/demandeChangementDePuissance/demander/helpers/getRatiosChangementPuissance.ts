@@ -45,6 +45,6 @@ export const getRatiosChangementPuissance = (project: {
 
     return changementPuissance.ratios[technologie];
   }
-  // sinon prendre les ratio du CDC initial
+  // sinon prendre les ratios du CDC initial
   return changementPuissance.ratios;
 };
