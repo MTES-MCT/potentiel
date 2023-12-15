@@ -14,7 +14,7 @@ export const getRatiosChangementPuissance = (project: {
     return defaultRatios;
   }
 
-  // prendre les ratio du CDC 2022 si existants
+  // prendre les ratios du CDC 2022 si existants
   if (cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022') {
     const détailCDC = appelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
       (cdc) =>
