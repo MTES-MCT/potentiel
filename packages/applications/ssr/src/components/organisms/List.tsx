@@ -27,7 +27,9 @@ export const List = <TItem,>({
   const getPageUrl = (pageToGo: number): string => {
     const urlSearchParams = new URLSearchParams(searchParams);
     urlSearchParams.set('page', pageToGo.toString());
-    return `${pathname}${urlSearchParams.size > 0 ? `?${urlSearchParams.toString()}` : ''}`;
+    return `${pathname}${
+      Array.from(urlSearchParams.keys()).length > 0 ? `?${urlSearchParams.toString()}` : ''
+    }`;
   };
 
   return (
