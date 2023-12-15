@@ -5,14 +5,31 @@ import {
   ModificationReceived,
 } from '../../../modificationRequest';
 import routes from '../../../../routes';
-import { User } from '../../../../entities';
+import { User , ProjectAppelOffre } from '../../../../entities';
 import { handleModificationReceived } from './handleModificationReceived';
 import { NotificationService } from '../../NotificationService';
 import { UserRepo } from '../../../../dataAccess';
+import { GetProjectAppelOffre } from '../../../projectAppelOffre';
+import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {
   const modificationRequestId = 'id-demande';
   const projetId = 'id-projet';
+  const getProjectAppelOffres: GetProjectAppelOffre = jest.fn(
+    () =>
+      ({
+        changementPuissance: { ratios: { max: 1.1, min: 0.9 } },
+        periode: {
+          cahiersDesChargesModifiésDisponibles: [
+            {
+              paruLe: '30/08/2022',
+              type: 'modifié',
+              seuilSupplémentaireChangementPuissance: { ratios: { max: 1.4, min: 0.9 } },
+            } as CahierDesChargesModifié,
+          ] as ProjectAppelOffre['periode']['cahiersDesChargesModifiésDisponibles'],
+        } as ProjectAppelOffre['periode'],
+      } as ProjectAppelOffre),
+  );
   describe(`Cas général`, () => {
     it(`Etant donné un projet sous l'autorité DREAL
       Et ayant plusieurs porteurs rattachés
@@ -32,6 +49,12 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
             departementProjet: 'département-du-projet',
             regionProjet: 'regionA / regionB',
             evaluationCarboneDeRéférence: 1,
+            appelOffreId: 'CRE4 - Sol',
+            periodeId: '1',
+            familleId: '1',
+            cahierDesChargesActuel: 'initial',
+            puissanceInitiale: 100,
+            technologie: 'pv',
           });
 
       const findUsersForDreal = (region: string) =>
@@ -48,6 +71,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
         sendNotification,
         getProjectInfoForModificationReceivedNotification,
         findUsersForDreal,
+        getProjectAppelOffres,
       })(
         new ModificationReceived({
           payload: {
@@ -186,12 +210,19 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
             departementProjet: 'département-du-projet',
             regionProjet: 'région-du-projet',
             evaluationCarboneDeRéférence: 100,
+            cahierDesChargesActuel: 'iniital',
+            puissanceInitiale: 100,
+            appelOffreId: 'CRE4 - Sol',
+            periodeId: '1',
+            familleId: '1',
+            technologie: 'pv',
           });
 
       await handleModificationReceived({
         sendNotification,
         getProjectInfoForModificationReceivedNotification,
         findUsersForDreal: jest.fn<UserRepo['findUsersForDreal']>(),
+        getProjectAppelOffres,
       })(
         new ModificationReceived({
           payload: {
@@ -233,12 +264,19 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
             departementProjet: 'département-du-projet',
             regionProjet: 'région-du-projet',
             evaluationCarboneDeRéférence: 100,
+            cahierDesChargesActuel: '30/08/2022',
+            puissanceInitiale: 100,
+            appelOffreId: 'CRE4 - Sol',
+            periodeId: '1',
+            familleId: '1',
+            technologie: 'pv',
           });
 
       await handleModificationReceived({
         sendNotification,
         getProjectInfoForModificationReceivedNotification,
         findUsersForDreal: jest.fn<UserRepo['findUsersForDreal']>(),
+        getProjectAppelOffres,
       })(
         new ModificationReceived({
           payload: {
@@ -261,6 +299,74 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
       if (notification.type !== 'pp-modification-received') return;
       expect(notification.variables.demande_action_pp).toEqual(
         `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`,
+      );
+    });
+  });
+
+  describe(`Changement de puissance en "information enregistrée" permis par le CDC 2022`, () => {
+    it(`Étant donné un projet avec le cahier des charges du 30/08/2022
+        Lorsqu'un changement de puissance est enregistré avec un seuil d'augmentation compris entre le seuil du CDC initial et le seuil du CDC 2022
+        Alors la Dreal concernée devrait recevoir une notification spécifique à cette situation`, async () => {
+      const sendNotification = jest.fn<NotificationService['sendNotification']>();
+
+      const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
+        () =>
+          okAsync({
+            porteursProjet: [],
+            nomProjet: 'nom-du-projet',
+            departementProjet: 'département-du-projet',
+            regionProjet: 'regionA',
+            evaluationCarboneDeRéférence: 1,
+            cahierDesChargesActuel: '30/08/2022',
+            puissanceInitiale: 100,
+            appelOffreId: 'CRE4 - Sol',
+            periodeId: '1',
+            familleId: '1',
+            technologie: 'pv',
+          });
+
+      const findUsersForDreal = (region: string) =>
+        Promise.resolve([{ email: 'drealA@test.test', fullName: 'drealA' } as User]);
+
+      await handleModificationReceived({
+        sendNotification,
+        getProjectInfoForModificationReceivedNotification,
+        findUsersForDreal,
+        getProjectAppelOffres,
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'puissance',
+            modificationRequestId,
+            projectId: projetId,
+            requestedBy: 'id-user-1',
+            justification: 'justification',
+            authority: 'dreal',
+            puissance: 135,
+          },
+        }),
+      );
+
+      expect(sendNotification).toHaveBeenCalledTimes(1);
+
+      expect(sendNotification).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'dreal-modification-puissance-cdc-2022',
+          message: expect.objectContaining({
+            email: 'drealA@test.test',
+            name: 'drealA',
+          }),
+          context: expect.objectContaining({
+            modificationRequestId,
+            dreal: 'regionA',
+            projectId: projetId,
+          }),
+          variables: expect.objectContaining({
+            nom_projet: 'nom-du-projet',
+            modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+            departement_projet: 'département-du-projet',
+          }),
+        }),
       );
     });
   });

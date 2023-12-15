@@ -16,6 +16,12 @@ describe('Sequelize getProjectInfoForModificationReceivedNotification', () => {
     nomProjet: 'nomProjet',
     departementProjet: 'departement',
     regionProjet: 'region',
+    puissanceInitiale: 100,
+    cahierDesChargesActuel: 'initial',
+    technologie: 'pv',
+    appelOffreId: 'CRE4 - Bâtiment',
+    periodeId: '1',
+    familleId: '1',
   };
 
   beforeAll(async () => {
@@ -50,6 +56,12 @@ describe('Sequelize getProjectInfoForModificationReceivedNotification', () => {
       departementProjet: 'departement',
       regionProjet: 'region',
       evaluationCarboneDeRéférence: 4.4,
+      puissanceInitiale: 100,
+      cahierDesChargesActuel: 'initial',
+      technologie: 'pv',
+      appelOffreId: 'CRE4 - Bâtiment',
+      periodeId: '1',
+      familleId: '1',
       porteursProjet: expect.arrayContaining([
         {
           id: userId,
