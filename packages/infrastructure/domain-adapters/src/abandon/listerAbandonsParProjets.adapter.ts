@@ -34,7 +34,7 @@ export const listerAbandonParProjetsAdapter: Abandon.ListerAbandonsParProjetsPor
     pagination.page <= 1 ? 0 : (pagination.page - 1) * pagination.itemsPerPage,
   );
 
-  const query = `${getAbandonsQuery} ${whereClause} order by value->>'misÀJourLe' ${paginationClause}`;
+  const query = `${getAbandonsQuery} ${whereClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
 
   const result = await executeSelect<{
     value: Abandon.AbandonProjection;
