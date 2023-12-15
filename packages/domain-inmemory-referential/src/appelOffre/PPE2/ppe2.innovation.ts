@@ -9,7 +9,7 @@ const CDCModifié30082022: CahierDesChargesModifié = {
     texteChangementDePuissance: {
       référenceParagraphe: '5.2.4',
       dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents (70%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.
-    Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée) lorsqu’elle est requise par le code de l’urbanisme et que la Puissance modifiée soit :
+    Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) lorsqu’elle est requise par le code de l’urbanisme et que la Puissance modifiée soit :
     - Inférieure au plafond de puissance de la famille dans laquelle entre l’offre ;
     - Inférieure à la limite de puissance de 5 MWc spécifiée au paragraphe 2.2.
      Les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation, ou par une décision de justice concernant l’autorisation d’urbanisme sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
@@ -36,7 +36,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       min: 0.7,
       max: 1.4,
     },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée) lorsqu’elle est requise par le code de l’urbanisme et que la Puissance modifiée soit : 
+    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) lorsqu’elle est requise par le code de l’urbanisme et que la Puissance modifiée soit : 
 - Inférieure au plafond de puissance de la famille dans laquelle entre l’offre ; 
 - Inférieure à la limite de puissance de 5 MWc spécifiée au paragraphe 2.2. 
 `,
