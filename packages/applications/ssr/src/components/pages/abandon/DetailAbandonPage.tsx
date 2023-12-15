@@ -68,7 +68,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
     <ProjetPageTemplate
       projet={projet}
       heading={
-        <div className="flex flex-row gap-3 items-center">
+        <div className="flex flex-col md:flex-row gap-3 items-center">
           <span>Abandon</span>
           <StatutAbandonBadge statut={statut} />
         </div>

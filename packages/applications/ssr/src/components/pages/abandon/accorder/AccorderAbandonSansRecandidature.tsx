@@ -75,14 +75,6 @@ export const AccorderAbandonSansRecandidature = ({
           },
         ]}
       >
-        <Download
-          linkProps={{
-            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
-          }}
-          details="docx"
-          label="Télécharger le modèle de réponse"
-        />
-
         <Form
           action={formAction}
           method="post"
@@ -107,6 +99,15 @@ export const AccorderAbandonSansRecandidature = ({
             className="mb-4"
           />
         </Form>
+
+        <Download
+          linkProps={{
+            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+          }}
+          details="docx"
+          label="Télécharger le modèle de réponse"
+          className="mb-4"
+        />
       </modal.Component>
     </>
   );

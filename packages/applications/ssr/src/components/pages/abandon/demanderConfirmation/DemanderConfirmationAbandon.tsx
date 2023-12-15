@@ -74,14 +74,6 @@ export const DemanderConfirmationAbandon = ({
           },
         ]}
       >
-        <Download
-          linkProps={{
-            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
-          }}
-          details="docx"
-          label="Télécharger le modèle de réponse"
-        />
-
         <Form
           action={formAction}
           method="post"
@@ -106,6 +98,15 @@ export const DemanderConfirmationAbandon = ({
             className="mb-8"
           />
         </Form>
+
+        <Download
+          linkProps={{
+            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+          }}
+          details="docx"
+          label="Télécharger le modèle de réponse"
+          className="mb-4"
+        />
       </modal.Component>
     </>
   );

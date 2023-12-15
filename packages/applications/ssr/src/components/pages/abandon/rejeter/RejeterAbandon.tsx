@@ -65,14 +65,6 @@ export const RejeterAbandon = ({ identifiantProjet, utilisateur }: RejeterAbando
           },
         ]}
       >
-        <Download
-          linkProps={{
-            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
-          }}
-          details="docx"
-          label="Télécharger le modèle de réponse"
-        />
-
         <Form action={formAction} method="post" encType="multipart/form-data">
           {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
           <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
@@ -92,6 +84,15 @@ export const RejeterAbandon = ({ identifiantProjet, utilisateur }: RejeterAbando
             className="mb-4"
           />
         </Form>
+
+        <Download
+          linkProps={{
+            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+          }}
+          details="docx"
+          label="Télécharger le modèle de réponse"
+          className="mt-4"
+        />
       </modal.Component>
     </>
   );
