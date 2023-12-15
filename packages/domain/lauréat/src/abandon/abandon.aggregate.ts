@@ -12,7 +12,7 @@ import {
   ConfirmationAbandonDemandéeEvent,
   applyConfirmationAbandonDemandée,
   demanderConfirmation,
-} from './demander/demanderConfirmationAbandon.behavior';
+} from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 import { AbandonRejetéEvent, applyAbandonRejeté, rejeter } from './rejeter/rejeterAbandon.behavior';
 import {
   AbandonAccordéEvent,
@@ -37,7 +37,7 @@ import {
   PreuveRecandidatureDemandéeEvent,
   applyPreuveRecandidatureDemandée,
   demanderPreuveRecandidature,
-} from './demander/demanderPreuveRecandidatureAbandon.behavior';
+} from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
 
 export type AbandonEvent =
   | AbandonDemandéEvent
