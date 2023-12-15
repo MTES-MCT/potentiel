@@ -1,10 +1,17 @@
 'use client';
 
 import { Heading1 } from '@/components/atoms/headings';
+import { Action } from '@/components/molecules/Action';
 import { PageTemplate } from '@/components/templates/PageTemplate';
-import Button from '@codegouvfr/react-dsfr/Button';
+import { newAppAction } from './newApp.action';
+import { useFormState } from 'react-dom';
 
 export default function NewApp() {
+  const [state, formAction] = useFormState(newAppAction, {
+    error: undefined,
+    validationErrors: [],
+  });
+
   return (
     <PageTemplate>
       <Heading1>This is the new page</Heading1>
@@ -60,15 +67,28 @@ export default function NewApp() {
           dui.
         </p>
         <div className="w-full md:w-1/4 flex flex-col gap-5">
-          <Button priority="secondary" className="w-full">
-            <div className="mx-auto">B 1</div>
-          </Button>
-          <Button className="w-full">
-            <div className="mx-auto">Button very very large 2</div>
-          </Button>
-          <Button priority="tertiary" className="w-full">
-            <div className="mx-auto">Button 31</div>
-          </Button>
+          <Action
+            name="Action 1"
+            description="Action 1 descirption"
+            form={{
+              id: 'action1',
+              component: (
+                // <form action={formAction} id="action1">
+                <>Action 1 component</>
+                // </form>
+              ),
+            }}
+          />
+          <Action
+            name="Action 2"
+            description="Action 2 descirption"
+            form={{ id: 'action2', component: <p>Action 2 component</p> }}
+          />
+          <Action
+            name="Action 3"
+            description="Action 3 descirption"
+            form={{ id: 'action3', component: <p>Action 3 component</p> }}
+          />
         </div>
       </div>
     </PageTemplate>

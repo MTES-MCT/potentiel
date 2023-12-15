@@ -15,6 +15,7 @@ import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSans
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
+import { ProjetDetailsPageTemplate } from '@/components/templates/ProjetDetailsPageTemplate';
 
 export type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
@@ -67,8 +68,101 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
     statut,
   });
 
+  const actions: Parameters<typeof ProjetDetailsPageTemplate>[0]['actions'] = [
+    ...(admin.demanderConfirmation
+      ? [
+          {
+            name: 'Demander la confirmation',
+            description: "Demander la confirmation de l'abandon",
+            form: {
+              id: 'demande-confirmation-abandon-form',
+              component: (
+                <DemanderConfirmationAbandon
+                  identifiantProjet={projet.identifiantProjet}
+                  utilisateur={utilisateur}
+                />
+              ),
+            },
+          },
+        ]
+      : []),
+    ...(admin.rejeter
+      ? [
+          {
+            name: 'Rejeter',
+            description: "Rejeter l'abandon",
+            form: {
+              id: 'rejeter-abandon-form',
+              component: (
+                <RejeterAbandon
+                  identifiantProjet={projet.identifiantProjet}
+                  utilisateur={utilisateur}
+                />
+              ),
+            },
+          },
+        ]
+      : []),
+    ...(admin.accorder
+      ? [
+          {
+            name: 'Accorder',
+            description: "Accorder l'abandon",
+            form: {
+              id: 'accorder-abandon-form',
+              component: demande.recandidature ? (
+                <AccorderAbandonAvecRecandidature
+                  identifiantProjet={projet.identifiantProjet}
+                  utilisateur={utilisateur}
+                />
+              ) : (
+                <AccorderAbandonSansRecandidature
+                  identifiantProjet={projet.identifiantProjet}
+                  utilisateur={utilisateur}
+                />
+              ),
+            },
+          },
+        ]
+      : []),
+    ...(porteur.confirmer
+      ? [
+          {
+            name: 'Confirmer',
+            description: "Confirmer l'abandon",
+            form: {
+              id: 'confirmer-abandon-form',
+              component: (
+                <ConfirmerAbandon
+                  identifiantProjet={projet.identifiantProjet}
+                  utilisateur={utilisateur}
+                />
+              ),
+            },
+          },
+        ]
+      : []),
+    ...(porteur.annuler
+      ? [
+          {
+            name: 'Annuler',
+            description: "Annuler l'abandon",
+            form: {
+              id: 'annuler-abandon-form',
+              component: (
+                <AnnulerAbandon
+                  identifiantProjet={projet.identifiantProjet}
+                  utilisateur={utilisateur}
+                />
+              ),
+            },
+          },
+        ]
+      : []),
+  ];
+
   return (
-    <ProjetPageTemplate
+    <ProjetDetailsPageTemplate
       projet={projet}
       heading={
         <div className="flex flex-col md:flex-row gap-3 items-center">
@@ -76,56 +170,17 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
           <StatutAbandonBadge statut={statut} />
         </div>
       }
-    >
-      <div className="flex flex-col justify-center items-center md:items-start md:flex-row md:gap-6">
-        <div className="w-full md:w-3/4 flex flex-col gap-6">
+      details={
+        <>
           <DetailDemandeAbandon {...{ ...demande, statut }} />
-        </div>
-        <div className="w-full md:w-1/4 flex flex-col gap-4">
-          {admin.demanderConfirmation && (
-            <DemanderConfirmationAbandon
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
+          {(instruction.accord || instruction.confirmation || instruction.rejet) && (
+            <div className="mt-6">
+              <DetailInstructionAbandon {...instruction} />
+            </div>
           )}
-          {admin.rejeter && (
-            <RejeterAbandon
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
-          )}
-          {admin.accorder ? (
-            demande.recandidature ? (
-              <AccorderAbandonAvecRecandidature
-                identifiantProjet={projet.identifiantProjet}
-                utilisateur={utilisateur}
-              />
-            ) : !demande.recandidature ? (
-              <AccorderAbandonSansRecandidature
-                identifiantProjet={projet.identifiantProjet}
-                utilisateur={utilisateur}
-              />
-            ) : null
-          ) : null}
-          {porteur.confirmer ? (
-            <ConfirmerAbandon
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
-          ) : null}
-          {porteur.annuler ? (
-            <AnnulerAbandon
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
-          ) : null}
-        </div>
-      </div>
-      {(instruction.accord || instruction.confirmation || instruction.rejet) && (
-        <div className="mt-6">
-          <DetailInstructionAbandon {...instruction} />
-        </div>
-      )}
-    </ProjetPageTemplate>
+        </>
+      }
+      actions={actions}
+    />
   );
 };

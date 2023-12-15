@@ -10,11 +10,9 @@ import {
 } from './accorderAbandonSansRecandidature.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
-import Button from '@codegouvfr/react-dsfr/Button';
 import { encodeParameter } from '@/utils/encodeParameter';
 
 import { Form } from '@/components/molecules/Form';
-import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 const initialState: AccorderAbandonSansRecandidatureState = {
   error: undefined,
@@ -25,11 +23,6 @@ type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
   utilisateur: Utilisateur;
 };
-
-const modal = createModal({
-  id: 'accorder-abandon-sans-recandidature',
-  isOpenedByDefault: false,
-});
 
 export const AccorderAbandonSansRecandidature = ({
   identifiantProjet,
@@ -44,71 +37,38 @@ export const AccorderAbandonSansRecandidature = ({
   }
 
   return (
-    <>
-      <Button priority="secondary" className="w-full" onClick={() => modal.open()}>
-        <span className="mx-auto">Accorder</span>
-      </Button>
+    <Form
+      action={formAction}
+      method="post"
+      encType="multipart/form-data"
+      id="accorder-abandon-form"
+    >
+      {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
+      <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+      <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
 
-      <modal.Component
-        title="Accorder un abandon sans recandidature"
-        buttons={[
-          {
-            type: 'button',
-            priority: 'secondary',
-            onClick: () => modal.close(),
-            disabled: pending,
-            nativeButtonProps: {
-              'aria-disabled': pending,
-            },
-            children: 'Annuler',
-          },
-          {
-            type: 'submit',
-            disabled: pending,
-            priority: 'primary',
-            nativeButtonProps: {
-              'aria-disabled': pending,
-              className: 'bg-blue-france-sun-base text-white',
-              form: 'accorder-abandon-sans-recandidature-form',
-            },
-            children: 'Accorder',
-          },
-        ]}
-      >
-        <Form
-          action={formAction}
-          method="post"
-          encType="multipart/form-data"
-          id="accorder-abandon-sans-recandidature-form"
-        >
-          {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
-          <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-          <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+      <Upload
+        label="Téléverser une réponse signée"
+        hint="au format pdf"
+        state={state.validationErrors.includes('reponseSignee') ? 'error' : 'default'}
+        stateRelatedMessage="Réponse signée obligatoire"
+        disabled={pending}
+        nativeInputProps={{
+          name: 'reponseSignee',
+          required: true,
+          'aria-required': true,
+        }}
+        className="mb-4"
+      />
 
-          <Upload
-            label="Téléverser une réponse signée"
-            hint="au format pdf"
-            state={state.validationErrors.includes('reponseSignee') ? 'error' : 'default'}
-            stateRelatedMessage="Réponse signée obligatoire"
-            disabled={pending}
-            nativeInputProps={{
-              name: 'reponseSignee',
-              required: true,
-              'aria-required': true,
-            }}
-            className="mb-4"
-          />
-        </Form>
-
-        <Download
-          linkProps={{
-            href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
-          }}
-          details="docx"
-          label="Télécharger le modèle de réponse"
-          className="mb-4"
-        />
-      </modal.Component>
-    </>
+      <Download
+        linkProps={{
+          href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+        }}
+        details="docx"
+        label="Télécharger le modèle de réponse"
+        className="mb-4"
+      />
+    </Form>
   );
 };

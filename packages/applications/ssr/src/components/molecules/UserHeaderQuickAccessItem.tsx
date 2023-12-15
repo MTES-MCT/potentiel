@@ -11,7 +11,7 @@ export async function UserHeaderQuickAccessItem() {
   if (utilisateur) {
     return (
       <>
-        {await getTâcheHeaderQuickAccessItem(utilisateur)}
+        {/* {await getTâcheHeaderQuickAccessItem(utilisateur)} */}
         <HeaderQuickAccessItem
           quickAccessItem={{
             iconId: 'ri-user-line',
