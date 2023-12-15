@@ -142,6 +142,21 @@ type DrealModificationReceived = {
   };
 };
 
+type DrealModificationPuissanceCDC2022 = {
+  type: 'dreal-modification-puissance-cdc-2022';
+  context: {
+    modificationRequestId: string;
+    dreal: string;
+    userId: string;
+    projectId: string;
+  };
+  variables: {
+    nom_projet: string;
+    departement_projet: string;
+    modification_request_url: string;
+  };
+};
+
 type AdminModificationRequested = {
   type: 'admin-modification-requested';
   context: {
@@ -319,7 +334,8 @@ type NotificationVariants =
   | ChangementCDCAnnuleDélaiCDC2022
   | DateMiseEnServiceTransmiseAnnuleDélaiCDC2022
   | DemandeComplèteRaccordementTransmiseAnnuleDélaiCDC2022
-  | PP_DélaiAccordéCorrigé;
+  | PP_DélaiAccordéCorrigé
+  | DrealModificationPuissanceCDC2022;
 
 export type NotificationProps = BaseNotification & NotificationVariants;
 
