@@ -55,13 +55,14 @@ export const RejeterAbandonForm = ({ identifiantProjet, utilisateur }: RejeterAb
           name: 'reponseSignee',
           required: true,
           'aria-required': true,
+          onChange: () => setRequiredFieldsAdded(true),
         }}
         className="mb-4"
       />
       <Button
         type="submit"
         priority="primary"
-        disabled={pending}
+        disabled={pending || !requiredFieldsAdded}
         nativeButtonProps={{
           'aria-disabled': pending,
         }}
