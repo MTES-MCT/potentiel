@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { encodeParameter } from '@/utils/encodeParameter';
 import Download from '@codegouvfr/react-dsfr/Download';
-import { useState } from 'react';
 
 const initialState: RejeterAbandonState = {
   error: undefined,
@@ -25,7 +24,6 @@ export const RejeterAbandonForm = ({ identifiantProjet, utilisateur }: RejeterAb
   const router = useRouter();
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(rejeterAbandonAction, initialState);
-  const [requiredFieldsAdded, setRequiredFieldsAdded] = useState<boolean>(false);
 
   if (state.success) {
     router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
