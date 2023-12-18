@@ -12,7 +12,6 @@ import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { encodeParameter } from '@/utils/encodeParameter';
-import { useState } from 'react';
 
 const initialState: AccorderAbandonSansRecandidatureState = {
   error: undefined,
@@ -31,7 +30,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
   const router = useRouter();
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(accorderAbandonSansRecandidatureAction, initialState);
-  const [requiredFieldsAdded, setRequiredFieldsAdded] = useState<boolean>(false);
+
   if (state.success) {
     router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
   }
@@ -60,7 +59,6 @@ export const AccorderAbandonSansRecandidatureForm = ({
           name: 'reponseSignee',
           required: true,
           'aria-required': true,
-          onChange: () => setRequiredFieldsAdded(true),
         }}
         className="mb-4"
       />
@@ -68,7 +66,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
       <Button
         type="submit"
         priority="primary"
-        disabled={pending || !requiredFieldsAdded}
+        disabled={pending}
         nativeButtonProps={{
           'aria-disabled': pending,
         }}

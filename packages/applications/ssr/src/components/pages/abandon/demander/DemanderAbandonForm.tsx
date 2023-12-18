@@ -31,7 +31,6 @@ export const DemanderAbandonForm = ({
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(demanderAbandonAction, initialState);
   const [recandidature, setRecandidature] = useState(false);
-  const [requiredFieldsAdded, setRequiredFieldsAdded] = useState(false);
 
   if (state.success) {
     router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
@@ -51,14 +50,9 @@ export const DemanderAbandonForm = ({
           disabled={pending}
           hintText="Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
                 conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)."
+          nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={state.validationErrors.includes('raison') ? 'error' : 'default'}
           stateRelatedMessage="Raison à préciser"
-          nativeTextAreaProps={{
-            name: 'raison',
-            required: true,
-            'aria-required': true,
-            onChange: () => setRequiredFieldsAdded(true),
-          }}
         />
         <Upload
           label="Pièce justificative (optionnel)"
@@ -129,7 +123,7 @@ export const DemanderAbandonForm = ({
         <Button
           type="submit"
           priority="primary"
-          disabled={pending || !requiredFieldsAdded}
+          disabled={pending}
           nativeButtonProps={{
             'aria-disabled': pending,
           }}
