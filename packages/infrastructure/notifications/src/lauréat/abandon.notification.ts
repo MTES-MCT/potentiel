@@ -32,7 +32,7 @@ const sendEmailAbandonChangementDeStatut = async ({
     | 'confirmée'
     | 'accordée'
     | 'rejetée';
-  templateId: string;
+  templateId: number;
   recipients: Array<{ email: string; fullName: string }>;
   projet: CandidatureProjection;
 }) =>
@@ -60,6 +60,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
     const projet = await récupérerCandidature(identifiantProjet.formatter());
     const porteurs = await récupérerPorteursProjet(identifiantProjet);
 
+    console.log('porteurs', porteurs);
     if (isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
       // Que faire ?
       return;
@@ -128,16 +129,20 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
         });
         break;
       case 'PreuveRecandidatureDemandée-V1':
-        await sendEmail({
-          templateId: templateId.abandon.demanderPreuveRecandidature,
-          messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} ((${projet.appelOffre} période ${projet.période}))`,
-          recipients: porteurs,
-          variables: {
-            lien_transmettre_preuve_recandidature: `/laureat/${encodeURIComponent(
-              identifiantProjet.formatter(),
-            )}/abandon/transmettre-preuve-recandidature`,
-          },
-        });
+        try {
+          await sendEmail({
+            templateId: templateId.abandon.demanderPreuveRecandidature,
+            messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} ((${projet.appelOffre} période ${projet.période}))`,
+            recipients: porteurs,
+            variables: {
+              lien_transmettre_preuve_recandidature: `/laureat/${encodeURIComponent(
+                identifiantProjet.formatter(),
+              )}/abandon/transmettre-preuve-recandidature`,
+            },
+          });
+        } catch (error) {
+          console.error(error);
+        }
         break;
     }
   };
