@@ -18,33 +18,29 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
   const mode = mapToSendEmailMode(SEND_EMAIL_MODE);
 
   if (mode !== 'logging-only') {
-    try {
-      await getMailjetClient()
-        .post('send', {
-          version: 'v3.1',
-        })
-        .request({
-          Messages: [
-            {
-              From: {
-                Email: SEND_EMAILS_FROM,
-                Name: SEND_EMAILS_FROM_NAME,
-              },
-              To: recipients.map(({ email, fullName }) => ({
-                Email: email,
-                Name: fullName,
-              })),
-              TemplateID: templateId,
-              TemplateLanguage: true,
-              Subject: messageSubject,
-              Variables: variables,
+    await getMailjetClient()
+      .post('send', {
+        version: 'v3.1',
+      })
+      .request({
+        Messages: [
+          {
+            From: {
+              Email: SEND_EMAILS_FROM,
+              Name: SEND_EMAILS_FROM_NAME,
             },
-          ],
-          SandboxMode: mode === 'sandbox' ? true : false,
-        });
-    } catch (error) {
-      console.error('Error while sending email', error);
-    }
+            To: recipients.map(({ email, fullName }) => ({
+              Email: email,
+              Name: fullName,
+            })),
+            TemplateID: templateId,
+            TemplateLanguage: true,
+            Subject: messageSubject,
+            Variables: variables,
+          },
+        ],
+        SandboxMode: mode === 'sandbox' ? true : false,
+      });
 
     getLogger().info('Email sent', sendEmailArgs);
   } else {
