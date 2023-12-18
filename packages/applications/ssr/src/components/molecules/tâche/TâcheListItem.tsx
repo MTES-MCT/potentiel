@@ -69,8 +69,8 @@ const getDescriptionTâche = (typeTâche: string, identifiantProjet: string) => 
         titre: `Confirmer votre demande d'abandon`,
         description: `La DGEC vous demande de confirmer votre demande d'abandon.`,
         lien: `/laureat/${encodeParameter(identifiantProjet)}/abandon`,
-        action: 'Confirmer',
-        aria: `Confirmer votre demande d'abandon`,
+        action: 'Voir la demande',
+        aria: `Voir la demande de confirmation d'abandon`,
       };
     case 'abandon.transmettre-preuve-recandidature':
       return {
