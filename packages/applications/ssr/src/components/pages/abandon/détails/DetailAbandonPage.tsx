@@ -16,6 +16,12 @@ import { Utilisateur } from '@/utils/getUtilisateur';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { ProjetDetailsPageTemplate } from '@/components/templates/ProjetDetailsPageTemplate';
+import { demanderConfirmationAbandonAction } from './demanderConfirmation/demanderConfirmation.action';
+import { rejeterAbandonAction } from './rejeter/rejeterAbandon.action';
+import { accorderAbandonAvecRecandidatureAction } from './accorder/accorderAbandonAvecRecandidature.action';
+import { accorderAbandonSansRecandidatureAction } from './accorder/accorderAbandonSansRecandidature.action';
+import { confirmerAbandonAction } from './confirmer/confirmerAbandon.action';
+import { annulerAbandonAction } from './annuler/annulerAbandon.action';
 
 export type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
@@ -76,7 +82,8 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
             description: "Demander la confirmation de l'abandon",
             form: {
               id: 'demande-confirmation-abandon-form',
-              component: (
+              action: demanderConfirmationAbandonAction,
+              children: (
                 <DemanderConfirmationAbandon
                   identifiantProjet={projet.identifiantProjet}
                   utilisateur={utilisateur}
@@ -93,7 +100,8 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
             description: "Rejeter l'abandon",
             form: {
               id: 'rejeter-abandon-form',
-              component: (
+              action: rejeterAbandonAction,
+              children: (
                 <RejeterAbandon
                   identifiantProjet={projet.identifiantProjet}
                   utilisateur={utilisateur}
@@ -110,7 +118,10 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
             description: "Accorder l'abandon",
             form: {
               id: 'accorder-abandon-form',
-              component: demande.recandidature ? (
+              action: demande.recandidature
+                ? accorderAbandonAvecRecandidatureAction
+                : accorderAbandonSansRecandidatureAction,
+              children: demande.recandidature ? (
                 <AccorderAbandonAvecRecandidature
                   identifiantProjet={projet.identifiantProjet}
                   utilisateur={utilisateur}
@@ -132,7 +143,8 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
             description: "Confirmer l'abandon",
             form: {
               id: 'confirmer-abandon-form',
-              component: (
+              action: confirmerAbandonAction,
+              children: (
                 <ConfirmerAbandon
                   identifiantProjet={projet.identifiantProjet}
                   utilisateur={utilisateur}
@@ -149,7 +161,8 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
             description: "Annuler l'abandon",
             form: {
               id: 'annuler-abandon-form',
-              component: (
+              action: annulerAbandonAction,
+              children: (
                 <AnnulerAbandon
                   identifiantProjet={projet.identifiantProjet}
                   utilisateur={utilisateur}

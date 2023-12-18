@@ -4,14 +4,8 @@ import { Heading1 } from '@/components/atoms/headings';
 import { Action } from '@/components/molecules/Action';
 import { PageTemplate } from '@/components/templates/PageTemplate';
 import { newAppAction } from './newApp.action';
-import { useFormState } from 'react-dom';
 
 export default function NewApp() {
-  const [state, formAction] = useFormState(newAppAction, {
-    error: undefined,
-    validationErrors: [],
-  });
-
   return (
     <PageTemplate>
       <Heading1>This is the new page</Heading1>
@@ -72,22 +66,19 @@ export default function NewApp() {
             description="Action 1 descirption"
             form={{
               id: 'action1',
-              component: (
-                // <form action={formAction} id="action1">
-                <>Action 1 component</>
-                // </form>
-              ),
+              children: <></>,
+              action: newAppAction,
             }}
           />
           <Action
             name="Action 2"
             description="Action 2 descirption"
-            form={{ id: 'action2', component: <p>Action 2 component</p> }}
+            form={{ id: 'action2', children: <p>Action 2 component</p>, action: newAppAction }}
           />
           <Action
             name="Action 3"
             description="Action 3 descirption"
-            form={{ id: 'action3', component: <p>Action 3 component</p> }}
+            form={{ id: 'action3', children: <p>Action 3 component</p>, action: newAppAction }}
           />
         </div>
       </div>

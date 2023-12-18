@@ -1,20 +1,30 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
+
+import { useFormState } from 'react-dom';
+import { FC, useState } from 'react';
+import { formAction } from '@/utils/formAction';
 
 type ActionProps = {
   name: string;
   description: string;
   form: {
     id: string;
-    component: React.ReactNode;
+    action: ReturnType<typeof formAction>;
+    children: React.ReactNode;
   };
 };
 
 export const Action: FC<ActionProps> = ({ name, description, form }) => {
-  const modal = createModal({
-    id: `action-modal-${name}`,
-    isOpenedByDefault: false,
+  const [modal, _] = useState(
+    createModal({
+      id: `action-modal-${name}`,
+      isOpenedByDefault: false,
+    }),
+  );
+  const [state, formAction] = useFormState(form.action, {
+    error: undefined,
+    validationErrors: [],
   });
 
   const pending = false;
@@ -49,7 +59,10 @@ export const Action: FC<ActionProps> = ({ name, description, form }) => {
           },
         ]}
       >
-        {form.component}
+        {state.error && <p>{state.error}</p>}
+        <form action={formAction} id={form.id}>
+          {form.children}
+        </form>
       </modal.Component>
     </>
   );
