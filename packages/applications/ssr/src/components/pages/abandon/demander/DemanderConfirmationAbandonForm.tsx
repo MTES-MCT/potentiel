@@ -57,6 +57,8 @@ export const DemanderConfirmationAbandonForm = ({
         disabled={pending}
         nativeInputProps={{
           name: 'reponseSignee',
+          required: true,
+          'aria-required': true,
         }}
         className="mb-4"
       />
