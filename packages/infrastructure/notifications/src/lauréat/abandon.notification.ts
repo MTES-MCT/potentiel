@@ -133,6 +133,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} ((${projet.appelOffre} période ${projet.période}))`,
           recipients: porteurs,
           variables: {
+            nom_projet: projet.nom,
             lien_transmettre_preuve_recandidature: `/laureat/${encodeURIComponent(
               identifiantProjet.formatter(),
             )}/abandon/transmettre-preuve-recandidature`,
