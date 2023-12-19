@@ -20,9 +20,11 @@ export const formAction =
   ) =>
   async (previousState: TState, formData: FormData) => {
     try {
+      console.table(Object.fromEntries(formData));
       const data = schema
         ? schema.parse(Object.fromEntries(formData))
         : Object.fromEntries(formData);
+
       await action(previousState, data);
       return {
         success: true as const,
