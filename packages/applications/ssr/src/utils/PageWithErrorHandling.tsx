@@ -7,6 +7,7 @@ import {
 } from '@potentiel-domain/core';
 
 import { CustomErrorPage } from '@/components/pages/custom-error/CustomErrorPage';
+import { getLogger } from '@potentiel/monitoring';
 
 export const PageWithErrorHandling = async (
   action: () => Promise<JSX.Element>,
@@ -26,6 +27,7 @@ export const PageWithErrorHandling = async (
       return <CustomErrorPage statusCode="403" type="OperationRejectedError" />;
     }
 
+    getLogger().error(e as Error);
     return <CustomErrorPage statusCode="500" type="ServerError" />;
   }
 };
