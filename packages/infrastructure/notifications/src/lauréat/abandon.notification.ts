@@ -130,7 +130,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
       case 'PreuveRecandidatureDemandée-V1':
         await sendEmail({
           templateId: templateId.abandon.demanderPreuveRecandidature,
-          messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} ((${projet.appelOffre} période ${projet.période}))`,
+          messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,

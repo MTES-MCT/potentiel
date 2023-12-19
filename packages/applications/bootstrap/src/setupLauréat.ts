@@ -39,7 +39,14 @@ export const setupLauréat = async () => {
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
     streamCategory: 'abandon',
-    eventType: ['PreuveRecandidatureDemandée-V1'],
+    eventType: [
+      'AbandonDemandé-V1',
+      'AbandonAccordé-V1',
+      'AbandonAnnulé-V1',
+      'AbandonConfirmé-V1',
+      'AbandonRejeté-V1',
+      'PreuveRecandidatureDemandée-V1',
+    ],
     eventHandler: async (event) => {
       await mediator.publish<AbandonNotification.Execute>({
         type: 'EXECUTE_LAUREAT_ABANDON_NOTIFICATION',
