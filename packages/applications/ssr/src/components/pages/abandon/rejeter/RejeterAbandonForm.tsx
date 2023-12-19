@@ -51,6 +51,8 @@ export const RejeterAbandonForm = ({ identifiantProjet, utilisateur }: RejeterAb
         disabled={pending}
         nativeInputProps={{
           name: 'reponseSignee',
+          required: true,
+          'aria-required': true,
         }}
         className="mb-4"
       />
