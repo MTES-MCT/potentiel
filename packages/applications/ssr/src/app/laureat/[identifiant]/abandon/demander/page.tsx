@@ -12,6 +12,7 @@ import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { NotFoundError } from '@potentiel-domain/core';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
@@ -58,11 +59,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       redirect(`/projet/${encodeURIComponent(identifiantProjet)}/details.html`);
     }
 
+    const période = appelOffres.periodes.find((p) => p.id === candidature.période);
+    if (!période) {
+      throw new NotFoundError('Période de notification introuvable');
+    }
+
     // TODO: extract the logic in a dedicated function mapToProps
     // identifiantProjet must come from the readmodel as a value type
     const demanderAbandonPageProps: DemanderAbandonPageProps = {
       utilisateur,
       projet: { ...candidature, identifiantProjet },
+      showRecandidatureCheckBox: période.abandonAvecRecandidature ? true : false,
     };
 
     return <DemanderAbandonPage {...{ ...demanderAbandonPageProps }} />;

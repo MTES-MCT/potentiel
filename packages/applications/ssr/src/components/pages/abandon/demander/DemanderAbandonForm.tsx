@@ -21,11 +21,13 @@ const initialState: DemanderAbandonState = {
 type DemanderAbandonFormProps = {
   identifiantProjet: string;
   utilisateur: Utilisateur;
+  showRecandidatureCheckBox: boolean;
 };
 
 export const DemanderAbandonForm = ({
   identifiantProjet,
   utilisateur,
+  showRecandidatureCheckBox,
 }: DemanderAbandonFormProps) => {
   const router = useRouter();
   const { pending } = useFormStatus();
@@ -63,26 +65,28 @@ export const DemanderAbandonForm = ({
           state={state.validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
           stateRelatedMessage="Erreur sur le fichier transmis"
         />
-        <Checkbox
-          className="mt-6"
-          legend="Option"
-          id="recandidature"
-          state={state.validationErrors.includes('recandidature') ? 'error' : 'default'}
-          disabled={pending}
-          options={[
-            {
-              label: 'Je demande un abandon avec recandidature (optionnel)',
-              hintText: 'Cocher cette case pour signaler un abandon pour recandidature',
-              nativeInputProps: {
-                name: 'recandidature',
-                value: 'true',
-                onClick: () => setRecandidature(!recandidature),
+        {showRecandidatureCheckBox && (
+          <Checkbox
+            className="mt-6"
+            legend="Option"
+            id="recandidature"
+            state={state.validationErrors.includes('recandidature') ? 'error' : 'default'}
+            disabled={pending}
+            options={[
+              {
+                label: 'Je demande un abandon avec recandidature (optionnel)',
+                hintText: 'Cocher cette case pour signaler un abandon pour recandidature',
+                nativeInputProps: {
+                  name: 'recandidature',
+                  value: 'true',
+                  onClick: () => setRecandidature(!recandidature),
+                },
               },
-            },
-          ]}
-        />
+            ]}
+          />
+        )}
 
-        {recandidature && (
+        {showRecandidatureCheckBox && recandidature ? (
           <Alert
             severity="warning"
             title="Abandon avec recandidature"
@@ -119,7 +123,7 @@ export const DemanderAbandonForm = ({
               </div>
             }
           />
-        )}
+        ) : null}
         <Button
           type="submit"
           priority="primary"
