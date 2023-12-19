@@ -10,7 +10,6 @@ import {
 } from './modifierGestionnaireRéseau.action';
 import { Form } from '@/components/molecules/Form';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { useState } from 'react';
 
 const initialState: ModifierGestionnaireRéseauState = {
   error: undefined,
@@ -36,10 +35,6 @@ export const ModifierGestionnaireRéseauForm = ({
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(modifierGestionnaireRéseauAction, initialState);
 
-  const [raisonSocialeValue, setRaisonSociale] = useState(raisonSociale);
-  const [formatValue, setFormat] = useState(format);
-  const [légendeValue, setLégende] = useState(légende);
-  const [expressionReguliereValue, setExpressionReguliere] = useState(expressionReguliere);
   if (state.success) {
     router.push('/reseau/gestionnaires');
   }
@@ -70,8 +65,7 @@ export const ModifierGestionnaireRéseauForm = ({
         nativeTextAreaProps={{
           name: 'raisonSociale',
           disabled: pending,
-          value: raisonSocialeValue,
-          onChange: (e) => setRaisonSociale(e.target.value),
+          defaultValue: raisonSociale,
         }}
         state={state.validationErrors.includes('raisonSociale') ? 'error' : 'default'}
         stateRelatedMessage="Raison sociale à préciser"
@@ -84,8 +78,7 @@ export const ModifierGestionnaireRéseauForm = ({
         nativeTextAreaProps={{
           name: 'format',
           disabled: pending,
-          value: formatValue,
-          onChange: (e) => setFormat(e.target.value),
+          defaultValue: format,
         }}
         state={state.validationErrors.includes('format') ? 'error' : 'default'}
         stateRelatedMessage="Format à préciser"
@@ -99,8 +92,7 @@ export const ModifierGestionnaireRéseauForm = ({
         nativeTextAreaProps={{
           name: 'legende',
           disabled: pending,
-          value: légendeValue,
-          onChange: (e) => setLégende(e.target.value),
+          defaultValue: légende,
         }}
         state={state.validationErrors.includes('legende') ? 'error' : 'default'}
         stateRelatedMessage="Légende à préciser"
@@ -114,8 +106,7 @@ export const ModifierGestionnaireRéseauForm = ({
         nativeTextAreaProps={{
           name: 'expressionReguliere',
           disabled: pending,
-          value: expressionReguliereValue,
-          onChange: (e) => setExpressionReguliere(e.target.value),
+          value: expressionReguliere,
         }}
         state={state.validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
         stateRelatedMessage="Raison sociale à préciser"

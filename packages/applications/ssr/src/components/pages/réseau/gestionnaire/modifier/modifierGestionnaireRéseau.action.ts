@@ -5,7 +5,7 @@ import * as zod from 'zod';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-export type ModifierGestionnaireRéseauState = FormState & {};
+export type ModifierGestionnaireRéseauState = FormState;
 
 const schema = zod.object({
   identifiantGestionnaireReseau: zod.string().min(1),
