@@ -32,10 +32,12 @@ const sendEmailAbandonChangementDeStatut = async ({
     | 'confirmée'
     | 'accordée'
     | 'rejetée';
-  templateId: string;
+  templateId: number;
   recipients: Array<{ email: string; fullName: string }>;
   projet: CandidatureProjection;
-}) =>
+}) => {
+  const { BASE_URL } = process.env;
+
   await sendEmail({
     templateId,
     messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
@@ -44,9 +46,12 @@ const sendEmailAbandonChangementDeStatut = async ({
       nom_projet: projet.nom,
       departement_projet: projet.localité.département,
       nouveau_statut: statut,
-      abandon_url: `/laureat/${encodeURIComponent(identifiantProjet.formatter())}/abandon`,
+      abandon_url: `${BASE_URL}/laureat/${encodeURIComponent(
+        identifiantProjet.formatter(),
+      )}/abandon`,
     },
   });
+};
 
 /**
  *
@@ -71,6 +76,8 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
         fullName: 'DGEC',
       },
     ];
+
+    const { BASE_URL } = process.env;
 
     switch (event.type) {
       case 'AbandonDemandé-V1':
@@ -130,10 +137,11 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
       case 'PreuveRecandidatureDemandée-V1':
         await sendEmail({
           templateId: templateId.abandon.demanderPreuveRecandidature,
-          messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} ((${projet.appelOffre} période ${projet.période}))`,
+          messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
           recipients: porteurs,
           variables: {
-            lien_transmettre_preuve_recandidature: `/laureat/${encodeURIComponent(
+            nom_projet: projet.nom,
+            lien_transmettre_preuve_recandidature: `${BASE_URL}/laureat/${encodeURIComponent(
               identifiantProjet.formatter(),
             )}/abandon/transmettre-preuve-recandidature`,
           },

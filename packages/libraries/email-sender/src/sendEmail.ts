@@ -4,7 +4,7 @@ import { getMailjetClient } from './getMailjetClient';
 import { mapToSendEmailMode } from './sendEmailMode';
 
 type SendEmail = (email: {
-  templateId: string;
+  templateId: number;
   messageSubject: string;
   recipients: { email: string; fullName: string }[];
   variables: Record<string, string>;

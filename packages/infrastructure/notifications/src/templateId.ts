@@ -1,4 +1,4 @@
-const abandonChangementStatutTemplateId = '5335914';
+const abandonChangementStatutTemplateId = 5335914;
 
 export const templateId = {
   abandon: {
@@ -8,6 +8,6 @@ export const templateId = {
     demander: abandonChangementStatutTemplateId,
     demanderConfirmation: abandonChangementStatutTemplateId,
     rejeter: abandonChangementStatutTemplateId,
-    demanderPreuveRecandidature: '5308275',
+    demanderPreuveRecandidature: 5308275,
   },
 };

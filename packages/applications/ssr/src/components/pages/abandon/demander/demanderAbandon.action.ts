@@ -12,7 +12,7 @@ const schema = zod.object({
   identifiantProjet: zod.string(),
   utilisateur: zod.string().email(),
   recandidature: zod.string().optional(),
-  raison: zod.string(),
+  raison: zod.string().min(1),
   pieceJustificative: zod.instanceof(Blob),
 });
 
