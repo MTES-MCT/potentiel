@@ -8,6 +8,8 @@ import {
 
 import { CustomErrorPage } from '@/components/pages/custom-error/CustomErrorPage';
 import { getLogger } from '@potentiel/monitoring';
+import { isRedirectError } from 'next/dist/client/components/redirect';
+import { isNotFoundError } from 'next/dist/client/components/not-found';
 
 export const PageWithErrorHandling = async (
   action: () => Promise<JSX.Element>,
@@ -15,6 +17,10 @@ export const PageWithErrorHandling = async (
   try {
     return await action();
   } catch (e) {
+    if (isRedirectError(e) || isNotFoundError(e)) {
+      throw e;
+    }
+
     if (e instanceof NotFoundError) {
       return <CustomErrorPage statusCode="404" type="NotFoundError" />;
     }
