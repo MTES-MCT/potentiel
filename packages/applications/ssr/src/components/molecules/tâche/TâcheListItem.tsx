@@ -20,7 +20,7 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
   misÀJourLe,
   typeTâche,
 }) => {
-  const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet);
+  const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet, nomProjet);
 
   return (
     <>
@@ -53,7 +53,7 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
         <a
           href={descriptionTâche.lien}
           className="self-end mt-2"
-          aria-label={descriptionTâche.aria}
+          aria-label={descriptionTâche.ariaLabel}
         >
           {descriptionTâche.action}
         </a>
@@ -62,15 +62,15 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
   );
 };
 
-const getDescriptionTâche = (typeTâche: string, identifiantProjet: string) => {
+const getDescriptionTâche = (typeTâche: string, identifiantProjet: string, nomProjet: string) => {
   switch (typeTâche) {
     case 'abandon.confirmer':
       return {
         titre: `Confirmer votre demande d'abandon`,
         description: `La DGEC vous demande de confirmer votre demande d'abandon.`,
         lien: `/laureat/${encodeParameter(identifiantProjet)}/abandon`,
-        action: 'Confirmer',
-        aria: `Confirmer votre demande d'abandon`,
+        action: 'Voir la demande',
+        ariaLabel: `Voir la demande de confirmation d'abandon pour le projet ${nomProjet}`,
       };
     case 'abandon.transmettre-preuve-recandidature':
       return {
@@ -80,7 +80,7 @@ const getDescriptionTâche = (typeTâche: string, identifiantProjet: string) => 
           identifiantProjet,
         )}/abandon/transmettre-preuve-recandidature`,
         action: 'Transmettre',
-        aria: `Transmettre votre preuve de recandidature`,
+        ariaLabel: `Transmettre votre preuve de recandidature pour le projet ${nomProjet}`,
       };
   }
 
@@ -89,6 +89,6 @@ const getDescriptionTâche = (typeTâche: string, identifiantProjet: string) => 
     description: '',
     lien: '',
     action: '',
-    aria: '',
+    ariaLabel: '',
   };
 };
