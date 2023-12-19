@@ -1,17 +1,26 @@
 import { AjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase';
 import {
+  ConsulterGestionnaireRéseauQuery,
+  ConsulterGestionnaireRéseauReadModel,
+} from './consulter/consulterGestionnaireRéseau.query';
+import {
   ListerGestionnaireRéseauQuery,
   ListerGestionnaireRéseauReadModel,
 } from './lister/listerGestionnaireRéseau.query';
 import { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
 
 // Query
-export type GestionnaireRéseauQuery = ListerGestionnaireRéseauQuery;
+export type GestionnaireRéseauQuery =
+  | ListerGestionnaireRéseauQuery
+  | ConsulterGestionnaireRéseauQuery;
 
-export { ListerGestionnaireRéseauQuery };
+export { ListerGestionnaireRéseauQuery, ConsulterGestionnaireRéseauQuery };
 
 // ReadModel
-export { ListerGestionnaireRéseauReadModel };
+export {
+  ListerGestionnaireRéseauReadModel,
+  ConsulterGestionnaireRéseauReadModel as ConsulterGetionnaireRéseauReadModel,
+};
 
 // UseCases
 export type GestionnaireRéseauUseCase =

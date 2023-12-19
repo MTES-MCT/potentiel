@@ -5,7 +5,7 @@ import { GestionnaireRéseauProjection } from '../gestionnaireRéseau.projection
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseauInconnu.error';
 
-type ConsulterGetionnaireRéseauReadModel = {
+export type ConsulterGestionnaireRéseauReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
@@ -20,7 +20,7 @@ export type ConsulterGestionnaireRéseauQuery = Message<
   {
     identifiantGestionnaireRéseau: string;
   },
-  ConsulterGetionnaireRéseauReadModel
+  ConsulterGestionnaireRéseauReadModel
 >;
 
 export type ConsulterGestionnaireRéseauQueryDependencies = {
@@ -51,7 +51,7 @@ const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement,
-}: GestionnaireRéseauProjection): ConsulterGetionnaireRéseauReadModel => {
+}: GestionnaireRéseauProjection): ConsulterGestionnaireRéseauReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,

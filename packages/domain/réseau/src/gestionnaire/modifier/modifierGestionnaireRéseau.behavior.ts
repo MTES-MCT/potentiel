@@ -1,7 +1,6 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
 
 export type GestionnaireRéseauModifiéEvent = DomainEvent<
   'GestionnaireRéseauModifié-V1',
@@ -34,10 +33,6 @@ export async function modifier(
     raisonSociale,
   }: ModifierOptions,
 ) {
-  if (!this.identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
-    throw new GestionnaireRéseauDéjàExistantError();
-  }
-
   const event: GestionnaireRéseauModifiéEvent = {
     type: 'GestionnaireRéseauModifié-V1',
     payload: {

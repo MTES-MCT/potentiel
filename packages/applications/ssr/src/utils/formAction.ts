@@ -20,7 +20,6 @@ export const formAction =
   ) =>
   async (previousState: TState, formData: FormData) => {
     try {
-      console.table(Object.fromEntries(formData));
       const data = schema
         ? schema.parse(Object.fromEntries(formData))
         : Object.fromEntries(formData);
