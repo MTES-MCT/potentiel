@@ -1,6 +1,5 @@
 import { Subscribe } from '@potentiel/core-domain';
 import { List, Create, Find, Remove, Search, Update, Upsert } from '@potentiel/core-domain-views';
-import { setupGestionnaireRéseauViews } from './gestionnaireRéseau/gestionnaireRéseau.setup';
 import { ProjetDependencies, setupProjetViews } from './projet/projet.setup';
 import {
   RaccordementDependencies,
@@ -31,7 +30,6 @@ export const setupDomainViews = async ({
   projet,
   raccordement,
 }: DomainViewsDependencies): Promise<UnsetupDomainViews> => {
-  const unsubscribeGestionnaireRéseauViews = await setupGestionnaireRéseauViews(common);
   const unsubscribeProjetViews = await setupProjetViews({
     ...common,
     ...projet,
@@ -41,11 +39,7 @@ export const setupDomainViews = async ({
     ...raccordement,
   });
   return async () => {
-    const unsubscribes = [
-      ...unsubscribeGestionnaireRéseauViews,
-      ...unsubscribeProjetViews,
-      ...unsubscribeRaccordement,
-    ];
+    const unsubscribes = [...unsubscribeProjetViews, ...unsubscribeRaccordement];
 
     for (const unsubscribe of unsubscribes) {
       await unsubscribe();
