@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { ProjetPageTemplate } from './ProjetPageTemplate';
 
-type ProjetDetailsPageTemplateProps = {
+type DetailsAboutProjetPageTemplateProps = {
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
   heading: React.ReactNode;
   details: React.ReactNode;
   actions: React.ReactNode;
 };
 
-export const ProjetDetailsPageTemplate: FC<ProjetDetailsPageTemplateProps> = ({
+export const DetailsAboutProjetPageTemplate: FC<DetailsAboutProjetPageTemplateProps> = ({
   projet,
   heading,
   details,

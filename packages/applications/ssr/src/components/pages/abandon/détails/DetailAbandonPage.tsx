@@ -15,7 +15,7 @@ import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSans
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
-import { ProjetDetailsPageTemplate } from '@/components/templates/ProjetDetailsPageTemplate';
+import { DetailsAboutProjetPageTemplate } from '@/components/templates/ProjetDetailsPageTemplate';
 
 export type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
@@ -69,7 +69,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   });
 
   return (
-    <ProjetDetailsPageTemplate
+    <DetailsAboutProjetPageTemplate
       projet={projet}
       heading={
         <div className="flex flex-col md:flex-row gap-3 items-center">
