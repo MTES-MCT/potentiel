@@ -13,8 +13,8 @@ import { PermissionTransmettreDemandeComplèteRaccordement } from '@potentiel/le
 import {
   ConsulterCandidatureLegacyQuery,
   ConsulterGestionnaireRéseauLauréatQuery,
-  ListerGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { isNone } from '@potentiel/monads';
 import { getProjectAppelOffre } from '../../config';
 
@@ -67,10 +67,16 @@ v1Router.get(
           },
         });
 
-      const { items: gestionnairesRéseau } = await mediator.send<ListerGestionnaireRéseauQuery>({
-        type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
-        data: {},
-      });
+      const { items: gestionnairesRéseau } =
+        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
+          type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+          data: {
+            pagination: {
+              page: 1,
+              itemsPerPage: 1000,
+            },
+          },
+        });
 
       const appelOffre = getProjectAppelOffre({
         appelOffreId: projet.appelOffre,
@@ -89,7 +95,16 @@ v1Router.get(
       return response.send(
         TransmettreDemandeComplèteRaccordementPage({
           user,
-          gestionnairesRéseau,
+          gestionnairesRéseau: gestionnairesRéseau.map((gestionnaireRéseau) => ({
+            codeEIC: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+            raisonSociale: gestionnaireRéseau.raisonSociale,
+            aideSaisieRéférenceDossierRaccordement: {
+              expressionReguliere:
+                gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere || '',
+              format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
+              légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
+            },
+          })),
           gestionnaireRéseauLauréat: isNone(gestionnaireRéseauLauréat)
             ? undefined
             : gestionnaireRéseauLauréat,

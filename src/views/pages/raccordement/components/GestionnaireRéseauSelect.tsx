@@ -1,11 +1,29 @@
-import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
 import { Input, Select } from '../../../components';
 import React, { ComponentProps } from 'react';
 
 type GestionnaireRéseauSelectProps = ComponentProps<'select'> & {
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  gestionnaireRéseauActuel?: GestionnaireRéseauReadModel;
-  onGestionnaireRéseauSelected?: (gestionnaireRéseau: GestionnaireRéseauReadModel) => void;
+  gestionnairesRéseau: ReadonlyArray<{
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
+  }>;
+  gestionnaireRéseauActuel?: {
+    codeEIC: string;
+    raisonSociale: string;
+  };
+  onGestionnaireRéseauSelected?: (gestionnaireRéseau: {
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
+  }) => void;
 };
 
 export const GestionnaireRéseauSelect = ({

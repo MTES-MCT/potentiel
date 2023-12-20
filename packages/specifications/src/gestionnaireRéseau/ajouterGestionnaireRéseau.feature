@@ -1,5 +1,6 @@
 #Language: fr-FR
 Fonctionnalité: Ajouter un gestionnaire de réseau
+    @select
     Scénario: Ajouter un gestionnaire de réseau
         Quand un administrateur ajoute un gestionnaire de réseau
             | Code EIC             | 17X0000009352859       |
@@ -10,6 +11,7 @@ Fonctionnalité: Ajouter un gestionnaire de réseau
         Alors le gestionnaire de réseau "Arc Energies Maurienne" devrait être disponible dans le référenciel des gestionnaires de réseau
         Et les détails du gestionnaire de réseau "Arc Energies Maurienne" devraient être consultables
 
+    @select
     Scénario: Impossible d'ajouter 2 gestionnaires de réseau avec un code EIC identique
         Etant donné un gestionnaire de réseau
             | Code EIC       | 17X100A100A0001B       |

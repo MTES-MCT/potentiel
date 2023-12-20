@@ -14,8 +14,8 @@ import { isNone } from '@potentiel/monads';
 import {
   ConsulterCandidatureLegacyQuery,
   ConsulterGestionnaireRéseauLauréatQuery,
-  ListerGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),
@@ -75,15 +75,29 @@ v1Router.get(
       }
 
       const { items: listeGestionnairesRéseau } =
-        await mediator.send<ListerGestionnaireRéseauQuery>({
+        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
           type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
-          data: {},
+          data: {
+            pagination: {
+              page: 1,
+              itemsPerPage: 1000,
+            },
+          },
         });
 
       return response.send(
         ModifierGestionnaireRéseauProjetPage({
           user,
-          listeGestionnairesRéseau,
+          listeGestionnairesRéseau: listeGestionnairesRéseau.map((gestionnaireRéseau) => ({
+            codeEIC: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+            raisonSociale: gestionnaireRéseau.raisonSociale,
+            aideSaisieRéférenceDossierRaccordement: {
+              expressionReguliere:
+                gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere || '',
+              format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
+              légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
+            },
+          })),
           gestionnaireRéseauLauréat,
           projet,
           error: error as string,

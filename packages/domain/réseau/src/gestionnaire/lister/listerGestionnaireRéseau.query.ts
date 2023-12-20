@@ -6,6 +6,11 @@ import { List } from '@potentiel-libraries/projection';
 type GetionnaireRéseauListItemReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
+  aideSaisieRéférenceDossierRaccordement: {
+    format: string;
+    légende: string;
+    expressionReguliere?: string;
+  };
 };
 
 export type ListerGestionnaireRéseauReadModel = {
@@ -58,9 +63,11 @@ export const registerListerGestionnaireRéseauQuery = ({
 const mapToReadModel = ({
   codeEIC,
   raisonSociale,
+  aideSaisieRéférenceDossierRaccordement,
 }: GestionnaireRéseauProjection): GetionnaireRéseauListItemReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
+    aideSaisieRéférenceDossierRaccordement,
   };
 };

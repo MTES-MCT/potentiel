@@ -7,7 +7,6 @@ import {
   ConsulterCandidatureLegacyQuery,
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauLauréatQuery,
-  ConsulterGestionnaireRéseauQuery,
   DossierRaccordementReadModel,
   ListerDossiersRaccordementQuery,
   PermissionConsulterDossierRaccordement,
@@ -21,6 +20,7 @@ import {
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain-usecases';
 import { isNone, isSome, none } from '@potentiel/monads';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 const schema = yup.object({
   params: yup.object({
@@ -73,10 +73,11 @@ v1Router.get(
         });
 
       const gestionnaireRéseau = isSome(gestionnaireRéseauLauréat)
-        ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
+        ? await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
             type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
             data: {
-              identifiantGestionnaireRéseau: gestionnaireRéseauLauréat.identifiantGestionnaire,
+              identifiantGestionnaireRéseau:
+                gestionnaireRéseauLauréat.identifiantGestionnaire.codeEIC,
             },
           })
         : none;
@@ -109,7 +110,17 @@ v1Router.get(
             ListeDossiersRaccordementPage({
               user,
               projet,
-              gestionnaireRéseau,
+              gestionnaireRéseau: {
+                aideSaisieRéférenceDossierRaccordement: {
+                  expressionReguliere:
+                    gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere ||
+                    '',
+                  format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
+                  légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
+                },
+                codeEIC: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+                raisonSociale: gestionnaireRéseau.raisonSociale,
+              },
               dossiers,
             }),
           );

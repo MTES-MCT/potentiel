@@ -14,7 +14,6 @@ import {
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import {
-  GestionnaireRéseauReadModel,
   CandidatureLegacyReadModel,
   GestionnaireRéseauLauréatReadModel,
 } from '@potentiel/domain-views';
@@ -26,7 +25,15 @@ type ModifierGestionnaireRéseauProjetProps = {
   projet: CandidatureLegacyReadModel;
   gestionnaireRéseauLauréat: GestionnaireRéseauLauréatReadModel;
   error?: string;
-  listeGestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
+  listeGestionnairesRéseau: ReadonlyArray<{
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
+  }>;
 };
 
 export const ModifierGestionnaireRéseauProjet = ({

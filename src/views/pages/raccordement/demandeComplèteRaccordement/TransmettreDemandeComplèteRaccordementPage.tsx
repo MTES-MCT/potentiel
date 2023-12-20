@@ -15,7 +15,6 @@ import {
   ChampsObligatoiresLégende,
 } from '../../../components';
 import {
-  GestionnaireRéseauReadModel,
   CandidatureLegacyReadModel,
   GestionnaireRéseauLauréatReadModel,
 } from '@potentiel/domain-views';
@@ -31,7 +30,15 @@ import {
 
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
+  gestionnairesRéseau: ReadonlyArray<{
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
+  }>;
   gestionnaireRéseauLauréat?: GestionnaireRéseauLauréatReadModel;
   projet: CandidatureLegacyReadModel;
   delaiDemandeDeRaccordementEnMois: InfoBoxFormulaireDCRProps['delaiDemandeDeRaccordementEnMois'];
