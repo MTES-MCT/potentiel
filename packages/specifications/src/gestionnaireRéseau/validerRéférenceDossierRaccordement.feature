@@ -1,7 +1,6 @@
 #Language: fr-FR
 Fonctionnalité: Valider une référence de dossier de raccordement
 
-    @select
     Plan du Scénario: Valider/Invalider une référence de dossier de raccordement
         Etant donné un gestionnaire de réseau
             | Raison sociale       | Enedis                 |
@@ -15,7 +14,6 @@ Fonctionnalité: Valider une référence de dossier de raccordement
             | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "OUE-RP-2022-000034"        | valide           |
             | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "ENEDIS OUE-RP-2022-000034" | invalide         |
 
-    @select
     Plan du Scénario: Valider/Invalider une référence de dossier de raccordement après modification du gestionnaire de réseau
         Etant donné un gestionnaire de réseau
             | Raison sociale       | Enedis |

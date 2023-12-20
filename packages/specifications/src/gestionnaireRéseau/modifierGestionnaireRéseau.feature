@@ -1,7 +1,6 @@
 #Language: fr-FR
 Fonctionnalité: Modifier un gestionnaire de réseau
 
-    @select
     Scénario: Modifier un gestionnaire de réseau
         Etant donné un gestionnaire de réseau
             | Code EIC       | 17X0000009352859       |
@@ -15,7 +14,6 @@ Fonctionnalité: Modifier un gestionnaire de réseau
         Alors le gestionnaire de réseau "RTE" devrait être à jour dans le référenciel des gestionnaires de réseau
         Et les détails à jour du gestionnaire de réseau "RTE" devraient être consultables
 
-    @select
     Scénario: Impossible de modifier un gestionnaire de réseau inconnu
         Quand un administrateur modifie les données d'un gestionnaire de réseau inconnu
             | Code EIC       | Code EIC inconnu |
