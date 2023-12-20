@@ -14,6 +14,7 @@ import React from 'react';
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
   user: User;
+  abandonEnCours: boolean;
 };
 
 type EnregistrerUneModificationProps = {
@@ -54,8 +55,9 @@ const getProjectStatus = (project: ProjectDataForProjectPage) =>
 
 type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
+  abandonEnCours: boolean;
 };
-const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
+const PorteurProjetActions = ({ project, abandonEnCours }: PorteurProjetActionsProps) => (
   <div className="flex flex-col gap-3">
     <div className="flex flex-col xl:flex-row gap-2">
       {!project.isClasse && (
@@ -87,13 +89,15 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
           >
             <span>Changer de puissance</span>
           </DropdownMenuSecondaryButton.DropdownItem>
-          <DropdownMenuSecondaryButton.DropdownItem
-            href={`/laureats/${encodeURIComponent(
-              `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
-            )}/abandon/demander`}
-          >
-            <span>Demander un abandon</span>
-          </DropdownMenuSecondaryButton.DropdownItem>
+          {!abandonEnCours && (
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={`/laureats/${encodeURIComponent(
+                `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
+              )}/abandon/demander`}
+            >
+              <span>Demander un abandon</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
+          )}
         </DropdownMenuSecondaryButton>
       )}
 
@@ -158,14 +162,14 @@ const AdminActions = ({
   </div>
 );
 
-export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
+export const ProjectActions = ({ project, user, abandonEnCours }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && (
       <AdminActions
         {...{ project, signalementAbandonAutorisé: true, signalementRecoursAutorisé: true }}
       />
     )}
-    {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
+    {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project, abandonEnCours }} />}
     {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
   </div>
 );
