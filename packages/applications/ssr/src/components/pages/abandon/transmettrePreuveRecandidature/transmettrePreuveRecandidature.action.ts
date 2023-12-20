@@ -11,13 +11,13 @@ export type TransmettrePreuveRecandidatureState = FormState;
 const schema = zod.object({
   identifiantProjet: zod.string(),
   preuveRecandidature: zod.string(),
-  utilisateur: zod.string().email(),
+  identifiantUtilisateur: zod.string().email(),
   dateDesignation: zod.string(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, preuveRecandidature, dateDesignation, utilisateur },
+  { identifiantProjet, preuveRecandidature, dateDesignation, identifiantUtilisateur },
 ) => {
   // TODO : Rendre cette vérification automatiquement lors de l'exécution
   //        d'un(e) query/usecase avec un identifiantProjet
@@ -25,7 +25,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'VERIFIER_ACCES_PROJET_QUERY',
     data: {
       identifiantProjet,
-      identifiantUtilisateur: utilisateur,
+      identifiantUtilisateur: identifiantUtilisateur,
     },
   });
 
@@ -35,7 +35,7 @@ const action: FormAction<FormState, typeof schema> = async (
       identifiantProjetValue: identifiantProjet,
       preuveRecandidatureValue: preuveRecandidature,
       dateNotificationValue: dateDesignation,
-      identifiantUtilisateurValue: utilisateur,
+      identifiantUtilisateurValue: identifiantUtilisateur,
     },
   });
 

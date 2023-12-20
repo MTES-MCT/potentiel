@@ -8,12 +8,12 @@ import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  utilisateur: zod.string().email(),
+  identifiantUtilisateur: zod.string().email(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, utilisateur },
+  { identifiantProjet, identifiantUtilisateur },
 ) => {
   // TODO : Rendre cette vérification automatiquement lors de l'exécution
   //        d'un(e) query/usecase avec un identifiantProjet
@@ -21,7 +21,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'VERIFIER_ACCES_PROJET_QUERY',
     data: {
       identifiantProjet,
-      identifiantUtilisateur: utilisateur,
+      identifiantUtilisateur,
     },
   });
 
@@ -29,7 +29,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'CONFIRMER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: utilisateur,
+      identifiantUtilisateurValue: identifiantUtilisateur,
       dateConfirmationValue: new Date().toISOString(),
     },
   });

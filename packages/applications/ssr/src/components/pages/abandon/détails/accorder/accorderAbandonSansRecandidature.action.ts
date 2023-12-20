@@ -7,7 +7,7 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  utilisateur: zod.string().email(),
+  identifiantUtilisateur: zod.string().email(),
   reponseSignee: zod
     .instanceof(Blob)
     .refine((data) => data.size > 0, { message: 'Vous devez joindre une réponse signée.' }),
@@ -15,7 +15,7 @@ const schema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, reponseSignee, utilisateur },
+  { identifiantProjet, reponseSignee, identifiantUtilisateur },
 ) => {
   const réponseSignéeValue = {
     content: reponseSignee.stream(),
@@ -26,7 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'ACCORDER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: utilisateur,
+      identifiantUtilisateurValue: identifiantUtilisateur,
       dateAccordValue: new Date().toISOString(),
       réponseSignéeValue,
     },

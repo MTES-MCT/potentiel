@@ -11,12 +11,12 @@ import { buildDocument } from '@potentiel-infrastructure/document-builder';
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  utilisateur: zod.string().email(),
+  identifiantUtilisateur: zod.string().email(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, utilisateur },
+  { identifiantProjet, identifiantUtilisateur },
 ) => {
   const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
     type: 'CONSULTER_ABANDON_QUERY',
@@ -25,13 +25,13 @@ const action: FormAction<FormState, typeof schema> = async (
     },
   });
 
-  const réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
+  const réponseSignéeValue = await buildReponseSignee(abandon, identifiantUtilisateur);
 
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'ACCORDER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: utilisateur,
+      identifiantUtilisateurValue: identifiantUtilisateur,
       dateAccordValue: new Date().toISOString(),
       réponseSignéeValue,
     },
