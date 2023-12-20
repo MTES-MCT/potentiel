@@ -1,33 +1,28 @@
+'use client';
+
 import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
-import { useFormState } from 'react-dom';
 import { FC, useState } from 'react';
-import { formAction } from '@/utils/formAction';
+import { Form } from '../atoms/form/Form';
 
-type ActionProps = {
+type ButtonWithFormInModalProps = {
   name: string;
   description: string;
-  form: {
-    id: string;
-    action: ReturnType<typeof formAction>;
-    children: React.ReactNode;
-  };
+  form: Parameters<typeof Form>[0];
 };
 
-export const Action: FC<ActionProps> = ({ name, description, form }) => {
+export const ButtonWithFormInModal: FC<ButtonWithFormInModalProps> = ({
+  name,
+  description,
+  form,
+}) => {
   const [modal, _] = useState(
     createModal({
       id: `action-modal-${name}`,
       isOpenedByDefault: false,
     }),
   );
-  const [state, formAction] = useFormState(form.action, {
-    error: undefined,
-    validationErrors: [],
-  });
-
-  const pending = false;
 
   return (
     <>
@@ -40,18 +35,12 @@ export const Action: FC<ActionProps> = ({ name, description, form }) => {
         buttons={[
           {
             type: 'button',
-            disabled: pending,
-            nativeButtonProps: {
-              'aria-disabled': pending,
-            },
             children: 'Annuler',
           },
           {
             type: 'submit',
-            disabled: pending,
             nativeButtonProps: {
               className: 'bg-blue-france-sun-base text-white',
-              'aria-disabled': pending,
               form: form.id,
             },
             children: name,
@@ -59,10 +48,7 @@ export const Action: FC<ActionProps> = ({ name, description, form }) => {
           },
         ]}
       >
-        {state.error && <p>{state.error}</p>}
-        <form action={formAction} id={form.id}>
-          {form.children}
-        </form>
+        <Form {...form} />
       </modal.Component>
     </>
   );

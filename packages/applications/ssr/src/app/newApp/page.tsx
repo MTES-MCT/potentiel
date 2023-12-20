@@ -1,7 +1,7 @@
 'use client';
 
 import { Heading1 } from '@/components/atoms/headings';
-import { Action } from '@/components/molecules/Action';
+import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 import { PageTemplate } from '@/components/templates/PageTemplate';
 import { newAppAction } from './newApp.action';
 
@@ -61,7 +61,7 @@ export default function NewApp() {
           dui.
         </p>
         <div className="w-full md:w-1/4 flex flex-col gap-5">
-          <Action
+          <ButtonWithFormInModal
             name="Action 1"
             description="Action 1 descirption"
             form={{
@@ -70,12 +70,12 @@ export default function NewApp() {
               action: newAppAction,
             }}
           />
-          <Action
+          <ButtonWithFormInModal
             name="Action 2"
             description="Action 2 descirption"
             form={{ id: 'action2', children: <p>Action 2 component</p>, action: newAppAction }}
           />
-          <Action
+          <ButtonWithFormInModal
             name="Action 3"
             description="Action 3 descirption"
             form={{ id: 'action3', children: <p>Action 3 component</p>, action: newAppAction }}

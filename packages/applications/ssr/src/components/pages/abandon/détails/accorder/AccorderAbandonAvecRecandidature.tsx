@@ -1,20 +1,9 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import {
-  AccorderAbandonAvecRecandidatureState,
-  accorderAbandonAvecRecandidatureAction,
-} from './accorderAbandonAvecRecandidature.action';
+import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRecandidature.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
-
-import { Form } from '@/components/molecules/Form';
-
-const initialState: AccorderAbandonAvecRecandidatureState = {
-  error: undefined,
-  validationErrors: [],
-};
+import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 
 type AccorderAbandonAvecRecandidatureFormProps = {
   identifiantProjet: string;
@@ -26,23 +15,24 @@ export const AccorderAbandonAvecRecandidature = ({
   utilisateur,
 }: AccorderAbandonAvecRecandidatureFormProps) => {
   const router = useRouter();
-  const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(accorderAbandonAvecRecandidatureAction, initialState);
-
-  if (state.success) {
-    router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`);
-  }
 
   return (
-    <Form
-      action={formAction}
-      method="post"
-      encType="multipart/form-data"
-      id="accorder-abandon-form"
-    >
-      {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
-      <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-    </Form>
+    <ButtonWithFormInModal
+      name="Accorder"
+      description="Accorder l'abandon"
+      form={{
+        id: 'accorder-abandon-form',
+        action: accorderAbandonAvecRecandidatureAction,
+        method: 'post',
+        encType: 'multipart/form-data',
+        onSuccess: () => router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`),
+        children: (
+          <>
+            <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+            <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+          </>
+        ),
+      }}
+    />
   );
 };

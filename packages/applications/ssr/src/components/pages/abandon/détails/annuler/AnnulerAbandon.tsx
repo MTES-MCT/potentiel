@@ -1,15 +1,9 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import { AnnulerAbandonState, annulerAbandonAction } from './annulerAbandon.action';
+import { annulerAbandonAction } from './annulerAbandon.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
-
-const initialState: AnnulerAbandonState = {
-  error: undefined,
-  validationErrors: [],
-};
+import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 
 type AnnulerAbandonFormProps = {
   identifiantProjet: string;
@@ -18,23 +12,25 @@ type AnnulerAbandonFormProps = {
 
 export const AnnulerAbandon = ({ identifiantProjet, utilisateur }: AnnulerAbandonFormProps) => {
   const router = useRouter();
-  const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(annulerAbandonAction, initialState);
-
-  if (state.success) {
-    router.back();
-  }
 
   return (
-    <>
-      {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
-      <div className="flex flex-col gap-5">
-        <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
-        <form action={formAction} method="post" id="annuler-abandon-form">
-          <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-          <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-        </form>
-      </div>
-    </>
+    <ButtonWithFormInModal
+      name="Annuler"
+      description="Annuler l'abandon"
+      form={{
+        action: annulerAbandonAction,
+        method: 'post',
+        id: 'annuler-abandon-form',
+        omitMandatoryFieldsLegend: true,
+        onSuccess: () => router.back(),
+        children: (
+          <>
+            <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
+            <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+            <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+          </>
+        ),
+      }}
+    />
   );
 };
