@@ -3,7 +3,6 @@ import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-of
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-30-aout-2022',
   numéroGestionnaireRequis: true,
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {

@@ -5,7 +5,6 @@ const garantieFinanciereEnMois = 36;
 const CDCModifié30072021: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-2',
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
       référenceParagraphe: '5.4.4',
@@ -19,7 +18,6 @@ const CDCModifié30072021: CahierDesChargesModifié = {
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
   numéroGestionnaireRequis: true,
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
@@ -43,7 +41,6 @@ const CDCModifié30082022Alternatif: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   alternatif: true,
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-bis-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
   numéroGestionnaireRequis: true,
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
@@ -63,7 +60,6 @@ const CDCModifié30082022Alternatif: CahierDesChargesModifié = {
 const CDCModifié07022023: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '07/02/2023',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-07-02-2023',
   numéroGestionnaireRequis: true,
   délaiAnnulationAbandon: new Date('2023-02-23'),
 };
@@ -72,7 +68,6 @@ const CDCModifié07022023Alternatif: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '07/02/2023',
   alternatif: true,
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-alternatif-publie-le-07-02-2023',
   numéroGestionnaireRequis: true,
   délaiAnnulationAbandon: new Date('2023-02-23'),
 };

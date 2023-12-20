@@ -3,7 +3,6 @@ import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-of
 const CDCModifié30072021: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-2',
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
       référenceParagraphe: '5.3.4',

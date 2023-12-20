@@ -3,7 +3,6 @@ import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-of
 const CDCModifié30072021: CahierDesChargesModifié = {
   paruLe: '30/07/2021',
   type: 'modifié',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-autoconsommation-2',
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
       référenceParagraphe: '5.3.4',
@@ -18,7 +17,6 @@ const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   numéroGestionnaireRequis: true,
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-2-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
       référenceParagraphe: '5.3.4',
