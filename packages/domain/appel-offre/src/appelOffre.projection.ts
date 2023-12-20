@@ -60,7 +60,6 @@ export type DonnéesCourriersRéponse = Record<
 // Cahier des charges
 export type CahierDesCharges = {
   référence: string;
-  url: string;
 };
 
 export type DélaiApplicable = {
@@ -199,6 +198,7 @@ export type AppelOffre = {
   title: string;
   shortTitle: string;
   launchDate: string;
+  cahiersDesChargesUrl: string;
   unitePuissance: string;
   delaiRealisationTexte: string;
   paragraphePrixReference: string;
