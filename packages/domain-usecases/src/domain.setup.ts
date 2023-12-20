@@ -1,5 +1,4 @@
 import { LoadAggregate, Publish, Subscribe } from '@potentiel/core-domain';
-import { setupGestionnaireRéseau } from './gestionnaireRéseau/gestionnaireRéseau.setup';
 import { ProjetDependencies, setupProjet } from './projet/projet.setup';
 import { RaccordementDependencies, setupRaccordement } from './raccordement/raccordement.setup';
 
@@ -24,8 +23,6 @@ export const setupDomain = async ({
     ...common,
     ...raccordement,
   });
-
-  setupGestionnaireRéseau(common);
 
   const unsubscribeProjet = await setupProjet({
     ...common,
