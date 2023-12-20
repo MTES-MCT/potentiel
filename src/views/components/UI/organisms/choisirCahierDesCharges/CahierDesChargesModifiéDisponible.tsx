@@ -1,21 +1,15 @@
 import React from 'react';
-import { ExternalLink } from '../../..';
 import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 
 type CahierDesChargesModifiéDisponibleProps = CahierDesChargesModifié;
 
 export const CahierDesChargesModifiéDisponible: React.FC<
   CahierDesChargesModifiéDisponibleProps
-> = ({ paruLe, alternatif, url }) => (
+> = ({ paruLe, alternatif }) => (
   <div className="flex-column">
-    <div>
-      <span className="font-bold">
-        Instruction selon le cahier des charges{alternatif ? ' alternatif' : ''} modifié{' '}
-        rétroactivement et publié le {paruLe}{' '}
-      </span>
-      {'('}
-      <ExternalLink href={url}>voir le cahier des charges</ExternalLink>
-      {')'}.
+    <div className="font-bold">
+      Instruction selon le cahier des charges{alternatif ? ' alternatif' : ''} modifié{' '}
+      rétroactivement et publié le {paruLe}{' '}
     </div>
 
     <ul className="mt-2 list-none p-1 md:list-disc md:pl-10">

@@ -136,6 +136,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         completionDueOn: new Date(completionDueOn).getTime(),
         unitePuissance: appelOffre?.unitePuissance || '??',
         technologie: technologie || 'N/A',
+        cahiersDesChargesUrl: appelOffre?.cahiersDesChargesUrl,
       },
       ...(type === 'puissance' && {
         puissanceAuMomentDuDepot,
@@ -164,7 +165,7 @@ const formatCahierDesCharges = ({
   if (cahierDesChargesRéférenceParsed.type === 'initial') {
     return {
       type: 'initial',
-      url: appelOffre.periode.cahierDesCharges.url,
+      url: appelOffre.cahiersDesChargesUrl,
     };
   }
 
@@ -179,7 +180,7 @@ const formatCahierDesCharges = ({
 
   return {
     type: 'modifié',
-    url: cahiersDesChargesModifié.url,
+    url: appelOffre.cahiersDesChargesUrl,
     paruLe: cahiersDesChargesModifié.paruLe,
     alternatif: cahiersDesChargesModifié.alternatif,
   };

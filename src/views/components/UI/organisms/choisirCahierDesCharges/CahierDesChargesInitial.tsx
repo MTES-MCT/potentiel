@@ -1,5 +1,4 @@
 import React from 'react';
-import { ExternalLink } from '../../..';
 import { ProjectAppelOffre } from '../../../../../entities/appelOffre';
 
 type CahierDesChargesInitialProps = {
@@ -14,15 +13,6 @@ export const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = (
           Instruction selon les dispositions du cahier des charges en vigueur au moment de la
           candidature &nbsp;
         </span>
-        {appelOffre.periode.cahierDesCharges.url && (
-          <>
-            {'('}
-            <ExternalLink href={appelOffre.periode.cahierDesCharges.url}>
-              voir le cahier des charges
-            </ExternalLink>
-            {')'}
-          </>
-        )}
         .
       </div>
 

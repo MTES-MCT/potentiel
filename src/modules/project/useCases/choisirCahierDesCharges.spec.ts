@@ -41,9 +41,9 @@ describe('Choisir un cahier des charges', () => {
           id: periodeId,
           type: 'notified',
           cahiersDesChargesModifiésDisponibles: [
-            { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
-            { type: 'modifié', paruLe: '30/08/2022', url: 'url' },
-            { type: 'modifié', paruLe: '30/08/2022', url: 'url', alternatif: true },
+            { type: 'modifié', paruLe: '30/07/2021' },
+            { type: 'modifié', paruLe: '30/08/2022' },
+            { type: 'modifié', paruLe: '30/08/2022', alternatif: true },
           ] as ReadonlyArray<CahierDesChargesModifié>,
         },
       ],
@@ -218,7 +218,7 @@ describe('Choisir un cahier des charges', () => {
               id: periodeId,
               type: 'notified',
               cahiersDesChargesModifiésDisponibles: [
-                { type: 'modifié', paruLe: '30/08/2022', url: 'url' },
+                { type: 'modifié', paruLe: '30/08/2022' },
               ] as ReadonlyArray<CahierDesChargesModifié>,
             },
           ],
@@ -275,7 +275,6 @@ describe('Choisir un cahier des charges', () => {
                 {
                   type: 'modifié',
                   paruLe: '30/08/2022',
-                  url: 'url',
                   numéroGestionnaireRequis: true,
                 },
               ] as ReadonlyArray<CahierDesChargesModifié>,
@@ -403,7 +402,6 @@ describe('Choisir un cahier des charges', () => {
                 {
                   type: 'modifié',
                   paruLe: '30/08/2022',
-                  url: 'url',
                   numéroGestionnaireRequis: true,
                 },
               ] as ReadonlyArray<CahierDesChargesModifié>,

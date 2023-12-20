@@ -96,7 +96,6 @@ describe(`Récupération des données des courriers de réponse`, () => {
         {
           type: 'modifié',
           paruLe: '30/07/2021',
-          url: 'url',
           donnéesCourriersRéponse: {
             texteEngagementRéalisationEtModalitésAbandon: {
               référenceParagraphe: 'VALEUR NON ATTENDU',
@@ -108,7 +107,6 @@ describe(`Récupération des données des courriers de réponse`, () => {
           type: 'modifié',
           paruLe: '30/08/2022',
           alternatif: true,
-          url: 'url',
           donnéesCourriersRéponse: {
             texteEngagementRéalisationEtModalitésAbandon: {
               référenceParagraphe: 'CDC-1',
@@ -167,7 +165,6 @@ describe(`Récupération des données des courriers de réponse`, () => {
         {
           type: 'modifié',
           paruLe: '30/08/2022',
-          url: 'url',
           donnéesCourriersRéponse: {
             texteEngagementRéalisationEtModalitésAbandon: {
               référenceParagraphe: 'CDC-1',
