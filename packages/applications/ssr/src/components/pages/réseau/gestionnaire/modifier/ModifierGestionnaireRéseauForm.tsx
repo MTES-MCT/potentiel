@@ -43,19 +43,10 @@ export const ModifierGestionnaireRéseauForm = ({
     <Form action={formAction} method="post" encType="multipart/form-data">
       {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
 
-      <Input
-        textArea
-        label="Code EIC ou gestionnaire"
-        id="identifiantGestionnaireReseau"
-        nativeTextAreaProps={{
-          name: 'identifiantGestionnaireReseau',
-          value: identifiantGestionnaireRéseau,
-          readOnly: true,
-        }}
-        state={
-          state.validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'
-        }
-        stateRelatedMessage="Code EIC ou gestionnaire à préciser"
+      <input
+        type={'hidden'}
+        value={identifiantGestionnaireRéseau}
+        name="identifiantGestionnaireReseau"
       />
 
       <Input
