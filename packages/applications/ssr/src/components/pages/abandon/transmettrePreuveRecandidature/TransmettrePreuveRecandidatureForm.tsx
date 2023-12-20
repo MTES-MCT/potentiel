@@ -1,19 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
 
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import Button from '@codegouvfr/react-dsfr/Button';
 
-import {
-  TransmettrePreuveRecandidatureState,
-  transmettrePreuveRecandidatureAction,
-} from './transmettrePreuveRecandidature.action';
+import { transmettrePreuveRecandidatureAction } from './transmettrePreuveRecandidature.action';
 import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { encodeParameter } from '@/utils/encodeParameter';
+import { Form } from '@/components/atoms/form/Form';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 type ProjetÀSélectionner = {
   identifiantProjet: string;
@@ -27,23 +23,12 @@ type TransmettrePreuveRecandidatureFormProps = {
   utilisateur: Utilisateur;
 };
 
-const initialState: TransmettrePreuveRecandidatureState = {
-  error: undefined,
-  validationErrors: [],
-};
-
 export const TransmettrePreuveRecandidatureForm = ({
   identifiantProjet,
   projetsÀSélectionner,
   utilisateur,
 }: TransmettrePreuveRecandidatureFormProps) => {
   const router = useRouter();
-  const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(transmettrePreuveRecandidatureAction, initialState);
-
-  if (state.success) {
-    router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
-  }
 
   const [projetSélectionné, setProjetSélectionné] = useState<{
     identifiantProjet: ProjetÀSélectionner['identifiantProjet'];
@@ -51,8 +36,14 @@ export const TransmettrePreuveRecandidatureForm = ({
   }>();
 
   return (
-    <>
-      {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
+    <Form
+      action={transmettrePreuveRecandidatureAction}
+      method="post"
+      onSuccess={() => router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`)}
+    >
+      <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+      <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+
       <SelectNext
         label="Choisir un projet comme preuve de recandidature"
         placeholder={`Sélectionner un projet`}
@@ -75,36 +66,21 @@ export const TransmettrePreuveRecandidatureForm = ({
           value: projet.identifiantProjet,
         }))}
       />
-      <form action={formAction} method="post">
-        <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-        <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
-        {projetSélectionné && (
-          <>
-            <input
-              type={'hidden'}
-              value={projetSélectionné.identifiantProjet}
-              name="preuveRecandidature"
-            />
-            <input
-              type={'hidden'}
-              value={projetSélectionné.dateDésignation}
-              name="dateDesignation"
-            />
-          </>
-        )}
 
-        <Button
-          type="submit"
-          priority="primary"
-          disabled={pending || !projetSélectionné}
-          nativeButtonProps={{
-            'aria-disabled': pending || !projetSélectionné,
-          }}
-          className="bg-blue-france-sun-base text-white"
-        >
-          Transmettre la preuve de recandidature
-        </Button>
-      </form>
-    </>
+      {projetSélectionné && (
+        <>
+          <input
+            type={'hidden'}
+            value={projetSélectionné.identifiantProjet}
+            name="preuveRecandidature"
+          />
+          <input type={'hidden'} value={projetSélectionné.dateDésignation} name="dateDesignation" />
+        </>
+      )}
+
+      <SubmitButton disabledCondition={() => !projetSélectionné}>
+        Transmettre la preuve de recandidature
+      </SubmitButton>
+    </Form>
   );
 };
