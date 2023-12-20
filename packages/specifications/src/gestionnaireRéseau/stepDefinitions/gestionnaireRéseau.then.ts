@@ -55,7 +55,8 @@ Alors(
         aideSaisieRéférenceDossierRaccordement: {
           format: g.aideSaisieRéférenceDossierRaccordement.format,
           légende: g.aideSaisieRéférenceDossierRaccordement.légende,
-          expressionReguliere: g.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+          expressionReguliere:
+            g.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
         },
         identifiantGestionnaireRéseau: g.identifiantGestionnaireRéseau.codeEIC,
         raisonSociale: g.raisonSociale,
@@ -96,7 +97,7 @@ Alors(
         format: actualReadModel.aideSaisieRéférenceDossierRaccordement.format,
         légende: actualReadModel.aideSaisieRéférenceDossierRaccordement.légende,
         expressionReguliere:
-          actualReadModel.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+          actualReadModel.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
       },
       identifiantGestionnaireRéseau: actualReadModel.identifiantGestionnaireRéseau.codeEIC,
       raisonSociale: actualReadModel.raisonSociale,

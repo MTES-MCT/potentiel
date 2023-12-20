@@ -93,7 +93,8 @@ v1Router.get(
             raisonSociale: gestionnaireRéseau.raisonSociale,
             aideSaisieRéférenceDossierRaccordement: {
               expressionReguliere:
-                gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere || '',
+                gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere
+                  .expression,
               format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
               légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
             },

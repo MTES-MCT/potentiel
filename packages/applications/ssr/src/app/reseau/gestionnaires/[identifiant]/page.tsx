@@ -36,6 +36,6 @@ const mapToProps = ({
     raisonSociale,
     format,
     légende,
-    expressionReguliere: expressionReguliere || '',
+    expressionReguliere: expressionReguliere.expression,
   };
 };

@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { ExpressionRegulière } from '@potentiel-domain/common';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { Find } from '@potentiel-libraries/projection';
 import { GestionnaireRéseauProjection } from '../gestionnaireRéseau.projection';
@@ -11,7 +12,7 @@ export type ConsulterGestionnaireRéseauReadModel = {
   aideSaisieRéférenceDossierRaccordement: {
     format: string;
     légende: string;
-    expressionReguliere?: string;
+    expressionReguliere: ExpressionRegulière.ValueType;
   };
 };
 
@@ -50,11 +51,15 @@ export const registerConsulterGestionnaireRéseauQuery = ({
 const mapToReadModel = ({
   codeEIC,
   raisonSociale,
-  aideSaisieRéférenceDossierRaccordement,
+  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
 }: GestionnaireRéseauProjection): ConsulterGestionnaireRéseauReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
-    aideSaisieRéférenceDossierRaccordement,
+    aideSaisieRéférenceDossierRaccordement: {
+      format,
+      légende,
+      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
+    },
   };
 };

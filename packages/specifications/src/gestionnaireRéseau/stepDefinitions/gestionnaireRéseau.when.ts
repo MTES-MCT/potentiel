@@ -81,29 +81,30 @@ Quand(
   },
 );
 
-// Quand(
-//   `on valide la référence de dossier {string} pour le gestionnaire de réseau {string}`,
-//   async function (
-//     this: PotentielWorld,
-//     référenceÀValider: string,
-//     raisonSocialeGestionnaireRéseau: string,
-//   ) {
-//     const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
-//       raisonSocialeGestionnaireRéseau,
-//     );
+Quand(
+  `on valide la référence de dossier {string} pour le gestionnaire de réseau {string}`,
+  async function (
+    this: PotentielWorld,
+    référenceÀValider: string,
+    raisonSocialeGestionnaireRéseau: string,
+  ) {
+    const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+      raisonSocialeGestionnaireRéseau,
+    );
 
-//     const actualAggregate = await loadGestionnaireRéseauAggregateFactory({ loadAggregate })(
-//       convertirEnIdentifiantGestionnaireRéseau(gestionnaireRéseau.codeEIC),
-//     );
+    const actualReadModel =
+      await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
+        data: {
+          identifiantGestionnaireRéseau: codeEIC,
+        },
+        type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      });
 
-//     if (isNone(actualAggregate)) {
-//       throw new Error(`L'agrégat gestionnaire de réseau n'existe pas !`);
-//     }
+    const résultatValidation =
+      actualReadModel.aideSaisieRéférenceDossierRaccordement.expressionReguliere.valider(
+        référenceÀValider,
+      );
 
-//     const résultatValidation = actualAggregate.validerRéférenceDossierRaccordement(
-//       convertirEnRéférenceDossierRaccordement(référenceÀValider),
-//     );
-
-//     this.gestionnaireRéseauWorld.résultatsValidation.set(référenceÀValider, résultatValidation);
-//   },
-// );
+    this.gestionnaireRéseauWorld.résultatsValidation.set(référenceÀValider, résultatValidation);
+  },
+);

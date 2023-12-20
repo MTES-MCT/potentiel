@@ -129,8 +129,8 @@ v1Router.get(
           gestionnaireRéseauActuel: {
             aideSaisieRéférenceDossierRaccordement: {
               expressionReguliere:
-                gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement
-                  .expressionReguliere || '',
+                gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement.expressionReguliere
+                  .expression,
               format: gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement.format,
               légende: gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement.légende,
             },
