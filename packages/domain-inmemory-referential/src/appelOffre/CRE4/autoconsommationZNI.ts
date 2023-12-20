@@ -3,7 +3,6 @@ import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-of
 const CDCModifié30072021: CahierDesChargesModifié = {
   paruLe: '30/07/2021',
   type: 'modifié',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-autoconsommation-2',
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
       référenceParagraphe: '5.3.4',
@@ -18,7 +17,6 @@ const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   numéroGestionnaireRequis: true,
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-2-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
       référenceParagraphe: '5.3.4',
@@ -44,6 +42,8 @@ export const autoconsommationZNI: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
   shortTitle: 'CRE4 - Autoconsommation ZNI',
   launchDate: 'juin 2019',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appels-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoc',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -113,7 +113,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2019/S 113-276257',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AUTOCONSO-ZNI-Telecharger-le-cahier-des-charges-publie-le-12-07-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -132,7 +131,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       noteThreshold: 32.9,
       cahierDesCharges: {
         référence: '2019/S 113-276257',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/zni-autoconso-telecharger-le-cahier-des-charges-publie-le-09-06-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {

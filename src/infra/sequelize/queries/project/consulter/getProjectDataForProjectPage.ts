@@ -90,15 +90,11 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       cahierDesChargesActuel.type === 'initial'
         ? {
             type: 'initial',
-            url: appelOffre.periode.cahierDesCharges.url,
+            url: appelOffre.cahiersDesChargesUrl,
           }
         : {
             type: 'modifié',
-            url: appelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
-              (c) =>
-                c.paruLe === cahierDesChargesActuel.paruLe &&
-                c.alternatif === cahierDesChargesActuel.alternatif,
-            )?.url,
+            url: appelOffre.cahiersDesChargesUrl,
             paruLe: cahierDesChargesActuel.paruLe,
             alternatif: cahierDesChargesActuel.alternatif,
           };

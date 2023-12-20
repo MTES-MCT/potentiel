@@ -5,7 +5,6 @@ const garantieFinanciereEnMois = 36;
 const CDCModifié30072021: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
       référenceParagraphe: '5.4.4',
@@ -19,7 +18,6 @@ const CDCModifié30072021: CahierDesChargesModifié = {
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
   numéroGestionnaireRequis: true,
   délaiApplicable: {
     délaiEnMois: 18,
@@ -44,6 +42,8 @@ export const batiment: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance comprise entre 100 kWc et 8 MWc »',
   shortTitle: 'CRE4 - Bâtiment',
   launchDate: 'septembre 2016',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-s',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 20,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -124,7 +124,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/aopvbat-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -161,7 +160,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/aopvbat-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-2eme-et-3eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -198,7 +196,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/aopvbat-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-2eme-et-3eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -235,7 +232,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-11-decembre-2017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -272,7 +268,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-11-juin-2018',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -309,7 +304,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-6eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -346,7 +340,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-22-novembre-2018',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -383,7 +376,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/PV-batiment-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-18-juin-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -420,7 +412,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/PV-BAT-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-07-octobre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -462,7 +453,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-pv-bat-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-05-fevrier-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -504,7 +494,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-16-juin-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -546,7 +535,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-bat-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-03-fevrier-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -588,7 +576,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-23-juin-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [

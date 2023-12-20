@@ -18,6 +18,7 @@ export type ProjectProps = {
   gestionnaireRéseau?: { codeEIC: string; raisonSociale: string };
   puissance?: number;
   unitePuissance?: string;
+  cahiersDesChargesUrl?: string;
 };
 
 type ProjectInfoProps = {

@@ -63,6 +63,7 @@ export type ModificationRequestPageDTO = {
     technologie: Technologie;
     appelOffre?: ProjectAppelOffre;
     cahierDesChargesActuel: CahierDesChargesRéférence;
+    cahiersDesChargesUrl?: string;
     note: number;
   };
 } & Variant;

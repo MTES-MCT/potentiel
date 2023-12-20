@@ -70,7 +70,7 @@ export const DemanderChangementPuissance = ({
                   cahier des charges à appliquer"
               className="mb-5"
             >
-              <InfoLienGuideUtilisationCDC />
+              <InfoLienGuideUtilisationCDC cahiersDesChargesUrl={project.cahiersDesChargesUrl} />
             </InfoBox>
           }
         />

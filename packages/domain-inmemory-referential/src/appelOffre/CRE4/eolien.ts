@@ -4,7 +4,6 @@ const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   numéroGestionnaireRequis: true,
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
   délaiApplicable: {
     délaiEnMois: 18,
     intervaleDateMiseEnService: { min: new Date('2022-06-01'), max: new Date('2024-09-30') },
@@ -27,6 +26,8 @@ export const eolien: AppelOffre = {
   shortTitle: 'Eolien',
   dossierSuiviPar: 'Sandra Stojkovic (sandra.stojkovic@developpement-durable.gouv.fr)',
   launchDate: 'mai 2017',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',
   unitePuissance: 'MW',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
@@ -97,7 +98,6 @@ Les changements de Producteur postérieurement à l’Achèvement sont réputés
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode-ao-eolien-08112017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       garantieFinanciereEnMoisSansAutorisationEnvironnementale: 57,
@@ -150,7 +150,6 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cdc-eolien-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -201,7 +200,6 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cahier-des-charges_3eperioTelecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-mars-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       garantieFinanciereEnMoisSansAutorisationEnvironnementale: 57,
@@ -252,7 +250,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Eolien-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-18-juin-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -302,7 +299,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-23-octobre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -353,7 +349,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       noteThreshold: 10.19,
       cahierDesCharges: {
         référence: '2017/S 083-161855',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/eolien-terrestre-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-4-mai-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -404,7 +399,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       noteThreshold: 13,
       cahierDesCharges: {
         référence: '2017/S 083-161855',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/eolien-terrestre-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-4-mai-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -455,7 +449,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       noteThreshold: 9.8,
       cahierDesCharges: {
         référence: '2017/S 083-161855',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-terrestre-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-19-fevrier-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {

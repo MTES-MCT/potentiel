@@ -50,7 +50,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                   cahier des charges à appliquer"
               className="mb-5"
             >
-              <InfoLienGuideUtilisationCDC />
+              <InfoLienGuideUtilisationCDC cahiersDesChargesUrl={project.cahiersDesChargesUrl} />
             </InfoBox>
           }
           projet={{

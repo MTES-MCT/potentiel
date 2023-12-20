@@ -23,7 +23,9 @@ export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesCha
         projet={projet}
         infoBox={
           <InfoBox>
-            <InfoLienGuideUtilisationCDC />
+            <InfoLienGuideUtilisationCDC
+              cahiersDesChargesUrl={projet.appelOffre.cahiersDesChargesUrl}
+            />
           </InfoBox>
         }
       />

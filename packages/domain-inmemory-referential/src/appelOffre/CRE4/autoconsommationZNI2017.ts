@@ -3,7 +3,6 @@ import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-of
 const CDCModifié30072021: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-autoconsommation-1',
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
       référenceParagraphe: '5.2.4',
@@ -17,7 +16,6 @@ const CDCModifié30072021: CahierDesChargesModifié = {
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
-  url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-1-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
   numéroGestionnaireRequis: true,
   donnéesCourriersRéponse: {
     texteChangementDePuissance: {
@@ -44,6 +42,8 @@ export const autoconsommationZNI2017: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - Autoconsommation ZNI 2017',
   launchDate: 'décembre 2016',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco2',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -117,7 +117,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 242-441979',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-derniere-version-modifiee-rendue-publique-le-29-mai-2017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
