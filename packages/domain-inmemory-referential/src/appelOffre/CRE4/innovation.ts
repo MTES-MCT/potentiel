@@ -65,6 +65,8 @@ export const innovation: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
   shortTitle: 'CRE4 - Innovation',
   launchDate: 'mars 2017',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-innovantes-a-partir-de-l-energie-solaire',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -139,7 +141,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 051-094731',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-5-septembre-2017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -162,7 +163,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2017/S 051-094731',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-26-fevrier-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -185,7 +185,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2017/S 051-094731',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-31-mars-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {

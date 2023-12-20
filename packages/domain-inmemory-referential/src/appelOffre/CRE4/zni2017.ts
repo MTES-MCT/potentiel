@@ -46,6 +46,8 @@ export const zni2017: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de techniques de conversion du rayonnement solaire d’une puissance supérieure à 100 kWc et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI 2017',
   launchDate: 'mai 2015',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-techniques-de-conversion-du-ray2',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 36,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -125,7 +127,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 242-441980',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-pv-stockage-zni',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],

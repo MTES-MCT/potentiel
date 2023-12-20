@@ -61,6 +61,8 @@ export const fessenheim: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « transition énergétique du territoire de Fessenheim »',
   shortTitle: 'Fessenheim',
   launchDate: 'janvier 2019',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-transition',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -136,7 +138,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2019/S 019-040037',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-publie-le-24-01-20192',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -159,7 +160,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2019/S 019-040037',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-Fessemheim-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-octobre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -183,7 +183,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2019/S 019-040037',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-fessenheim-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-27-mai-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {

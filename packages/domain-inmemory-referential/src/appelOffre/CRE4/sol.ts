@@ -43,6 +43,8 @@ export const sol: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire « Centrale au sol »',
   shortTitle: 'CRE4 - Sol',
   launchDate: 'août 2016',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-a',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -125,7 +127,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -163,7 +164,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -201,7 +201,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-3eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -239,7 +238,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-4eme-et-5eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -277,7 +275,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-4eme-et-5eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -315,7 +312,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-4-avril-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -358,7 +354,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-5-septembre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -402,7 +397,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/Fichiers/ao-solaire-au-sol-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-29-octobre-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -446,7 +440,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/Fichiers/ao-solaire-au-sol-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-29-octobre-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [
@@ -490,7 +483,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-12-fevrier-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [

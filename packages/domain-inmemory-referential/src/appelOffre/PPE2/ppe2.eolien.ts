@@ -37,6 +37,8 @@ export const eolienPPE2: AppelOffre = {
   shortTitle: 'PPE2 - Eolien',
   dossierSuiviPar: 'tiphany.genin@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-imp',
   unitePuissance: 'MW',
   autoritéCompétenteDemandesDélai: 'dreal',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
@@ -102,7 +104,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThreshold: 0.68,
       cahierDesCharges: {
         référence: '2021/S 146-386083',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
@@ -134,7 +135,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThreshold: 0.692142857142864,
       cahierDesCharges: {
         référence: '2022/S 035-088651',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       cahiersDesChargesModifiésDisponibles: [
@@ -170,7 +170,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       noteThreshold: 1.2,
       cahierDesCharges: {
         référence: '2022/S 214-614410',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       donnéesCourriersRéponse: {
@@ -194,7 +193,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       noteThreshold: 13.8,
       cahierDesCharges: {
         référence: '2023/S 063-187148',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       donnéesCourriersRéponse: {
@@ -217,7 +215,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       noteThreshold: 14.22,
       cahierDesCharges: {
         référence: '2023/S 183-570186',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cdc-eolien-ppe2-cahier-des-charges-5eme-periode ',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       cahiersDesChargesModifiésDisponibles: [],

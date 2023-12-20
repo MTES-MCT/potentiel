@@ -50,6 +50,8 @@ export const innovationPPE2: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire sans dispositifs de stockage',
   shortTitle: 'PPE2 - Innovation',
   launchDate: 'Août 2021',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-innovantes-a-partir-de-l-energie-solaire-sa',
   unitePuissance: 'MW',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,
@@ -116,7 +118,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
         référence: '2021 S 203-530267',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-19-octobre-2021',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'family',

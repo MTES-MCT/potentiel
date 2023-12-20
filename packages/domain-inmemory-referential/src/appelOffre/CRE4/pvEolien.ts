@@ -48,6 +48,8 @@ export const pvEolien: AppelOffre = {
   title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,
   shortTitle: 'PV - Eolien',
   launchDate: 'Décembre 2017',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique-o',
   unitePuissance: 'MW',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationTexte: 'vingt-quatre (24) mois',
@@ -124,7 +126,6 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 238-494941',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-dans-sa-version-mise-en-ligne-le-18-juillet-2018',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {

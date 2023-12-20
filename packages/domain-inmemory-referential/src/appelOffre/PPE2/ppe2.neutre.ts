@@ -8,6 +8,8 @@ export const neutrePPE2: AppelOffre = {
   shortTitle: 'PPE2 - Neutre',
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique',
   unitePuissance: 'MW',
   autoritéCompétenteDemandesDélai: 'dreal',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
@@ -75,7 +77,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThreshold: 26.89,
       cahierDesCharges: {
         référence: '2022 S 100-276861',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-neutre-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       donnéesCourriersRéponse: {
@@ -100,7 +101,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       noteThreshold: 26.87,
       cahierDesCharges: {
         référence: '2023 S 147-469153',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/neutre-2023-2e-periode',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       donnéesCourriersRéponse: {

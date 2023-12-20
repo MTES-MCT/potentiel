@@ -84,6 +84,8 @@ export const zni: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI',
   launchDate: 'juin 2019',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appels-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-et-situees-d',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -163,7 +165,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2019/S 113-276264',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
@@ -200,7 +201,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2019/S 113-276264',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
@@ -236,7 +236,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2019/S 113-276264',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/zni-sol-telecharger-le-cahier-des-charges-publie-le-09-06-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
@@ -270,7 +269,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2019/S 113-276264',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
@@ -306,7 +304,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2019/S 113-276264',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
       },
       noteThresholdBy: 'family',
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -335,7 +332,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2020/S 202-487521',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
       },
       noteThresholdBy: 'family',
       delaiDcrEnMois: { valeur: 2, texte: 'deux' }, // à confirmer si c'est bien deux mois ici

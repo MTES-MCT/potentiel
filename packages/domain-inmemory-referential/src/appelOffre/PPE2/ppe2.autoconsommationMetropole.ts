@@ -69,6 +69,8 @@ export const autoconsommationMetropolePPE2: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'PPE2 - Autoconsommation métropole',
   launchDate: 'Août 2021',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco3',
   unitePuissance: 'MW',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 0 },
@@ -157,7 +159,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThreshold: 62.5,
       cahierDesCharges: {
         référence: '2021 S 176-457526',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
@@ -170,7 +171,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThreshold: 66.95,
       cahierDesCharges: {
         référence: '2022 S 038 098159',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
@@ -183,7 +183,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThreshold: 72.13,
       cahierDesCharges: {
         référence: '2022 S 150-427955',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       cahiersDesChargesModifiésDisponibles: [],
@@ -196,7 +195,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThreshold: 76.25,
       cahierDesCharges: {
         référence: '2023/S 176-551607',
-        url: 'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco3',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       cahiersDesChargesModifiésDisponibles: [],

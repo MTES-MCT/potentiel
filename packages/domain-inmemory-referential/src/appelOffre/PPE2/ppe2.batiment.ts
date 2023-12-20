@@ -35,6 +35,8 @@ export const batimentPPE2: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance supérieure à 500 kWc»',
   shortTitle: 'PPE2 - Bâtiment',
   launchDate: 'Août 2021',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-s2',
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
   autoritéCompétenteDemandesDélai: 'dreal',
@@ -101,7 +103,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2021 S 176-457518',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-bat-cahier-des-charges-applicable-pour-la-1ere-periode-publie-le-05-10-2021',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
@@ -141,7 +142,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2022 S 020-047803',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
@@ -181,7 +181,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
         référence: '2022 S 093-254888',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
@@ -214,7 +213,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
         référence: '2022 S 216-620968',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
@@ -235,7 +233,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
         référence: '2023 S 071-217458',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/maj-cdc-pv-bat-v140423',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',

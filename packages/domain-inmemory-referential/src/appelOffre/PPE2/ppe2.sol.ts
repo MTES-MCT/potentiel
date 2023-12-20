@@ -37,6 +37,8 @@ export const solPPE2: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales au sol »',
   shortTitle: 'PPE2 - Sol',
   launchDate: 'Août 2021',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-a2',
   unitePuissance: 'MW',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,
@@ -102,7 +104,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2021 S 211-553136',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-sol-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
@@ -145,7 +146,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2022/S 061-160516',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2022-pv-sol-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
@@ -181,7 +181,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
         référence: '2022 S 214-614411',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2022-pv-sol-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
@@ -202,7 +201,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
         référence: '2023 S 063-187860',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/maj-cdc-pv-sol-v140423',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',

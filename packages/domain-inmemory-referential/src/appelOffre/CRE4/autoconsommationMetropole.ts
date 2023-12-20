@@ -21,6 +21,8 @@ export const autoconsommationMetropole: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'CRE4 - Autoconsommation métropole',
   launchDate: 'mars 2017',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-auto',
   unitePuissance: 'MWc',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 24,
@@ -73,7 +75,6 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/autoconso-metropole-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -110,7 +111,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Autoconso-Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -145,7 +145,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-24-avril-2018',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -180,7 +179,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-4eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -215,7 +213,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-22-novembre-20182',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -250,7 +247,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Autoconso-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-18-juin-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -286,7 +282,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/autoconsommation-02-01-2020-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -322,7 +317,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-autoconso-metro-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-juin-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -358,7 +352,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-autoconso-metro-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-juin-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {
@@ -394,7 +387,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
-        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-26-avril-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       donnéesCourriersRéponse: {

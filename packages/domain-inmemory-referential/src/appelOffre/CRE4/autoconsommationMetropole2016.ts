@@ -21,6 +21,8 @@ export const autoconsommationMetropole2016: AppelOffre = {
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir d’énergies renouvelables en autoconsommation',
   shortTitle: 'CRE4 - Autoconsommation métropole 2016',
   launchDate: 'juillet 2016',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco',
   unitePuissance: 'MWc',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,
@@ -94,7 +96,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 146-264282',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
@@ -106,7 +107,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       type: 'legacy',
       cahierDesCharges: {
         référence: '2016/S 146-264282',
-        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
