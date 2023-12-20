@@ -8,7 +8,7 @@ import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
 import { useSearchParams } from 'next/navigation';
 import { Heading1 } from '../atoms/headings';
-import Link from 'next/link';
+import { LinkAction } from '../atoms/LinkAction';
 
 export type ListPageTemplateProps<TItem> = {
   heading: string;
@@ -49,9 +49,12 @@ export const ListPageTemplate = <TItem,>({
         {filters.length || actions.length ? (
           <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
             {actions.map((a) => (
-              <Link href={a.link} key={a.link}>
-                {a.name}
-              </Link>
+              <LinkAction
+                label={a.name}
+                href={a.link}
+                key={a.link}
+                className="w-fit fr-link fr-icon-arrow-right-line fr-link--icon-right"
+              />
             ))}
             {filters.length ? <ListFilters key={listFiltersKey} filters={filters} /> : null}
           </div>
