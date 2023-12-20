@@ -85,7 +85,6 @@ export type DateParutionCahierDesChargesModifié =
 
 export type CahierDesChargesModifié = {
   type: 'modifié';
-  url: string;
   paruLe: DateParutionCahierDesChargesModifié;
   alternatif?: true;
   numéroGestionnaireRequis?: true;
