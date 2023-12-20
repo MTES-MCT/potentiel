@@ -5,8 +5,6 @@ import * as zod from 'zod';
 import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 
-export type DemanderConfirmationAbandonState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string(),
   utilisateur: zod.string().email(),

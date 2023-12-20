@@ -9,8 +9,6 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument } from '@potentiel-infrastructure/document-builder';
 
-export type AccorderAbandonAvecRecandidatureState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string(),
   utilisateur: zod.string().email(),
