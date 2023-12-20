@@ -1,18 +1,17 @@
 'use client';
 
 import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRecandidature.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 
 type AccorderAbandonAvecRecandidatureFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
+  identifiantUtilisateur: string;
 };
 
 export const AccorderAbandonAvecRecandidature = ({
   identifiantProjet,
-  utilisateur,
+  identifiantUtilisateur,
 }: AccorderAbandonAvecRecandidatureFormProps) => {
   const router = useRouter();
 
@@ -29,7 +28,7 @@ export const AccorderAbandonAvecRecandidature = ({
         children: (
           <>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
           </>
         ),
       }}

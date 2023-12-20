@@ -1,16 +1,18 @@
 'use client';
 
 import { annulerAbandonAction } from './annulerAbandon.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 
 type AnnulerAbandonFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
+  identifiantUtilisateur: string;
 };
 
-export const AnnulerAbandon = ({ identifiantProjet, utilisateur }: AnnulerAbandonFormProps) => {
+export const AnnulerAbandon = ({
+  identifiantProjet,
+  identifiantUtilisateur,
+}: AnnulerAbandonFormProps) => {
   const router = useRouter();
 
   return (
@@ -27,7 +29,7 @@ export const AnnulerAbandon = ({ identifiantProjet, utilisateur }: AnnulerAbando
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
           </>
         ),
       }}

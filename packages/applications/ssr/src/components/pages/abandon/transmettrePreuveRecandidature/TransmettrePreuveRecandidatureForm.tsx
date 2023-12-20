@@ -5,7 +5,6 @@ import { useState } from 'react';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
 import { transmettrePreuveRecandidatureAction } from './transmettrePreuveRecandidature.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { encodeParameter } from '@/utils/encodeParameter';
 import { Form } from '@/components/atoms/form/Form';
@@ -20,13 +19,13 @@ type ProjetÀSélectionner = {
 type TransmettrePreuveRecandidatureFormProps = {
   identifiantProjet: string;
   projetsÀSélectionner: Array<ProjetÀSélectionner>;
-  utilisateur: Utilisateur;
+  identifiantUtilisateur: string;
 };
 
 export const TransmettrePreuveRecandidatureForm = ({
   identifiantProjet,
   projetsÀSélectionner,
-  utilisateur,
+  identifiantUtilisateur,
 }: TransmettrePreuveRecandidatureFormProps) => {
   const router = useRouter();
 
@@ -42,7 +41,7 @@ export const TransmettrePreuveRecandidatureForm = ({
       onSuccess={() => router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`)}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+      <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
       <SelectNext
         label="Choisir un projet comme preuve de recandidature"

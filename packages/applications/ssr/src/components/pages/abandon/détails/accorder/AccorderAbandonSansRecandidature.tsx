@@ -3,7 +3,6 @@
 import { Download } from '@codegouvfr/react-dsfr/Download';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { accorderAbandonSansRecandidatureAction } from './accorderAbandonSansRecandidature.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { encodeParameter } from '@/utils/encodeParameter';
 
@@ -12,12 +11,12 @@ import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInMo
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
+  identifiantUtilisateur: string;
 };
 
 export const AccorderAbandonSansRecandidature = ({
   identifiantProjet,
-  utilisateur,
+  identifiantUtilisateur,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
@@ -36,7 +35,7 @@ export const AccorderAbandonSansRecandidature = ({
         children: (
           <>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
             <Upload
               label="Téléverser une réponse signée"

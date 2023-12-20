@@ -2,7 +2,6 @@
 
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { rejeterAbandonAction } from './rejeterAbandon.action';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { encodeParameter } from '@/utils/encodeParameter';
 import Download from '@codegouvfr/react-dsfr/Download';
@@ -11,10 +10,13 @@ import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInMo
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
+  identifiantUtilisateur: string;
 };
 
-export const RejeterAbandon = ({ identifiantProjet, utilisateur }: RejeterAbandonFormProps) => {
+export const RejeterAbandon = ({
+  identifiantProjet,
+  identifiantUtilisateur,
+}: RejeterAbandonFormProps) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
@@ -32,7 +34,7 @@ export const RejeterAbandon = ({ identifiantProjet, utilisateur }: RejeterAbando
         children: (
           <>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
             <Upload
               label="Téléverser une réponse signée"

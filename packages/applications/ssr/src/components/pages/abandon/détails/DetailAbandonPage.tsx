@@ -12,47 +12,26 @@ import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConf
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
-import { DetailsAboutProjetPageTemplate } from '@/components/templates/ProjetDetailsPageTemplate';
+import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
 
-export type DetailAbandonPageProps = {
+type AvailableActions = Array<
+  | 'demander-confirmation'
+  | 'confirmer'
+  | 'annuler'
+  | 'accorder-avec-recandidature'
+  | 'accorder-sans-recandidature'
+  | 'rejeter'
+>;
+
+type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
   demande: DetailDemandeAbandonProps;
   instruction: Parameters<typeof DetailInstructionAbandon>[0];
-  utilisateur: Utilisateur;
-};
-
-const getActionsDisponible = ({
-  utilisateur,
-  demande,
-  statut,
-}: {
-  utilisateur: DetailAbandonPageProps['utilisateur'];
-  demande: DetailAbandonPageProps['demande'];
-  statut: DetailAbandonPageProps['statut'];
-}) => {
-  const rolePorteur = utilisateur.rôle === 'porteur-projet';
-  const instructionEnCours = !['accordé', 'rejeté'].includes(statut);
-
-  const réponsePermise =
-    utilisateur.rôle === 'dgec-validateur' ||
-    (utilisateur.rôle === 'admin' && !demande.recandidature);
-  const demandeConfirmationPossible = statut === 'demandé' && !demande.recandidature;
-
-  return {
-    admin: {
-      demanderConfirmation: instructionEnCours && réponsePermise && demandeConfirmationPossible,
-      rejeter: instructionEnCours && réponsePermise,
-      accorder: instructionEnCours && réponsePermise,
-    },
-    porteur: {
-      annuler: rolePorteur && ['demandé', 'confirmation-demandée'].includes(statut),
-      confirmer: rolePorteur && statut === 'confirmation-demandée',
-    },
-  };
+  identifiantUtilisateur: string;
+  actions: AvailableActions;
 };
 
 export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
@@ -60,14 +39,9 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   demande,
   instruction,
   statut,
-  utilisateur,
+  identifiantUtilisateur,
+  actions,
 }) => {
-  const { admin, porteur } = getActionsDisponible({
-    utilisateur,
-    demande,
-    statut,
-  });
-
   return (
     <DetailsAboutProjetPageTemplate
       projet={projet}
@@ -87,47 +61,62 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
           )}
         </>
       }
-      actions={
-        <>
-          {admin.demanderConfirmation && (
-            <DemanderConfirmationAbandon
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
-          )}
-          {admin.rejeter && (
-            <RejeterAbandon
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
-          )}
-          {admin.accorder ? (
-            demande.recandidature ? (
-              <AccorderAbandonAvecRecandidature
-                identifiantProjet={projet.identifiantProjet}
-                utilisateur={utilisateur}
-              />
-            ) : (
-              <AccorderAbandonSansRecandidature
-                identifiantProjet={projet.identifiantProjet}
-                utilisateur={utilisateur}
-              />
-            )
-          ) : null}
-          {porteur.confirmer && (
-            <ConfirmerAbandon
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
-          )}
-          {porteur.annuler && (
-            <AnnulerAbandon
-              identifiantProjet={projet.identifiantProjet}
-              utilisateur={utilisateur}
-            />
-          )}
-        </>
-      }
+      actions={mapToActionComponents({
+        actions,
+        identifiantProjet: projet.identifiantProjet,
+        identifiantUtilisateur,
+      })}
     />
+  );
+};
+
+const mapToActionComponents = ({
+  actions,
+  identifiantProjet,
+  identifiantUtilisateur,
+}: {
+  actions: AvailableActions;
+  identifiantProjet: string;
+  identifiantUtilisateur: string;
+}) => {
+  return (
+    <>
+      {actions.includes('demander-confirmation') && (
+        <DemanderConfirmationAbandon
+          identifiantProjet={identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
+        />
+      )}
+      {actions.includes('rejeter') && (
+        <RejeterAbandon
+          identifiantProjet={identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
+        />
+      )}
+      {actions.includes('accorder-avec-recandidature') && (
+        <AccorderAbandonAvecRecandidature
+          identifiantProjet={identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
+        />
+      )}
+      {actions.includes('accorder-sans-recandidature') && (
+        <AccorderAbandonSansRecandidature
+          identifiantProjet={identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
+        />
+      )}
+      {actions.includes('confirmer') && (
+        <ConfirmerAbandon
+          identifiantProjet={identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
+        />
+      )}
+      {actions.includes('annuler') && (
+        <AnnulerAbandon
+          identifiantProjet={identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
+        />
+      )}
+    </>
   );
 };

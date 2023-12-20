@@ -2,7 +2,6 @@
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import { Utilisateur } from '@/utils/getUtilisateur';
 import { useRouter } from 'next/navigation';
 import { demanderAbandonAction } from './demanderAbandon.action';
 import { Form } from '@/components/atoms/form/Form';
@@ -14,13 +13,13 @@ import { SubmitButton } from '../../../atoms/form/SubmitButton';
 
 type DemanderAbandonFormProps = {
   identifiantProjet: string;
-  utilisateur: Utilisateur;
+  identifiantUtilisateur: string;
   showRecandidatureCheckBox: boolean;
 };
 
 export const DemanderAbandonForm = ({
   identifiantProjet,
-  utilisateur,
+  identifiantUtilisateur,
   showRecandidatureCheckBox,
 }: DemanderAbandonFormProps) => {
   const router = useRouter();
@@ -36,7 +35,7 @@ export const DemanderAbandonForm = ({
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
+      <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
       <Input
         textArea
