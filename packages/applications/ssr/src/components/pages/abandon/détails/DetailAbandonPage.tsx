@@ -79,7 +79,7 @@ const mapToActionComponents = ({
   identifiantProjet: string;
   identifiantUtilisateur: string;
 }) => {
-  return (
+  return actions.length ? (
     <>
       {actions.includes('demander-confirmation') && (
         <DemanderConfirmationAbandon
@@ -118,5 +118,5 @@ const mapToActionComponents = ({
         />
       )}
     </>
-  );
+  ) : null;
 };

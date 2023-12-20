@@ -6,20 +6,20 @@ import { DemanderAbandonForm } from './DemanderAbandonForm';
 
 export type DemanderAbandonPageProps = {
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
-  utilisateur: Parameters<typeof DemanderAbandonForm>[0]['utilisateur'];
+  identifiantUtilisateur: Parameters<typeof DemanderAbandonForm>[0]['identifiantUtilisateur'];
   showRecandidatureCheckBox: boolean;
 };
 
 export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
   projet,
-  utilisateur,
+  identifiantUtilisateur,
   showRecandidatureCheckBox,
 }) => {
   return (
     <ProjetPageTemplate projet={projet} heading={<span>Je demande un abandon de mon projet</span>}>
       <DemanderAbandonForm
         identifiantProjet={projet.identifiantProjet}
-        utilisateur={utilisateur}
+        identifiantUtilisateur={identifiantUtilisateur}
         showRecandidatureCheckBox={showRecandidatureCheckBox}
       />
     </ProjetPageTemplate>
