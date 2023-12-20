@@ -8,7 +8,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Heading2 } from '@/components/atoms/headings';
 import { encodeParameter } from '@/utils/encodeParameter';
 
-type DetailDemandeAbandonProps = {
+export type DetailDemandeAbandonProps = {
   demandéPar: string;
   demandéLe: string;
   recandidature: boolean;
@@ -17,13 +17,14 @@ type DetailDemandeAbandonProps = {
   preuveRecandidature?: string;
 };
 
-export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
+export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps & { statut: string }> = ({
   demandéPar,
   demandéLe,
   recandidature,
   raison,
   pièceJustificative,
   preuveRecandidature,
+  statut,
 }) => (
   <div className="mb-7">
     <CallOut>
@@ -52,20 +53,24 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps> = ({
       </span>
     </CallOut>
 
-    <Heading2 className="mb-2">Preuve de recandidature</Heading2>
-    {preuveRecandidature ? (
-      <p>
-        Le porteur a bien transmis un{' '}
-        <a
-          href={`/projet/${encodeParameter(preuveRecandidature)}/details.html`}
-          aria-label={`voir le projet faisant office de preuve de recandidature`}
-        >
-          projet comme preuve de recandidature
-        </a>
-        .
-      </p>
-    ) : (
-      <p>Le porteur n'a pas encore transmis de projet comme preuve de recandidature.</p>
+    {recandidature && statut === 'accordé' && (
+      <>
+        <Heading2 className="mb-2">Preuve de recandidature</Heading2>
+        {preuveRecandidature ? (
+          <p>
+            Le porteur a bien transmis un{' '}
+            <a
+              href={`/projet/${encodeParameter(preuveRecandidature)}/details.html`}
+              aria-label={`voir le projet faisant office de preuve de recandidature`}
+            >
+              projet comme preuve de recandidature
+            </a>
+            .
+          </p>
+        ) : (
+          <p>Le porteur n'a pas encore transmis de projet comme preuve de recandidature.</p>
+        )}
+      </>
     )}
 
     {recandidature && (

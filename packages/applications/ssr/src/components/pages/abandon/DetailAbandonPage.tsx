@@ -2,7 +2,10 @@
 
 import { AnnulerAbandonForm } from './annuler/AnnulerAbandonForm';
 import { ConfirmerAbandonForm } from './confirmer/ConfirmerAbandonForm';
-import { DetailDemandeAbandon } from '@/components/molecules/abandon/DetailDemandeAbandon';
+import {
+  DetailDemandeAbandon,
+  DetailDemandeAbandonProps,
+} from '@/components/molecules/abandon/DetailDemandeAbandon';
 import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailInstructionAbandon';
 import { InstructionAbandonForm } from './InstructionAbandonForm';
 import { StatutAbandonBadge } from '@/components/molecules/abandon/StatutAbandonBadge';
@@ -12,7 +15,7 @@ import { FC } from 'react';
 export type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
-  demande: Parameters<typeof DetailDemandeAbandon>[0];
+  demande: DetailDemandeAbandonProps;
   instruction: Parameters<typeof DetailInstructionAbandon>[0];
   utilisateur: Parameters<typeof InstructionAbandonForm>[0]['utilisateur'];
 };
@@ -35,7 +38,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
       }
     >
       <>
-        <DetailDemandeAbandon {...demande} />
+        <DetailDemandeAbandon {...{ ...demande, statut }} />
         <div className="flex flex-col gap-6">
           {(instruction.accord || instruction.confirmation || instruction.rejet) && (
             <DetailInstructionAbandon {...instruction} />
