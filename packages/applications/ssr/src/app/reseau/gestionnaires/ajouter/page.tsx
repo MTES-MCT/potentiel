@@ -1,17 +1,18 @@
 import { getUser } from '@/utils/getUtilisateur';
-import { redirect } from 'next/navigation';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { AjouterGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/AjouterGestionnaireRéseauPage';
+import { OperationRejectedError } from '@potentiel-domain/core';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Page() {
   return PageWithErrorHandling(async () => {
     const utilisateur = await getUser();
-    if (!utilisateur) {
-      redirect('/login.html');
+
+    if (utilisateur?.rôle === 'admin') {
+      return <AjouterGestionnaireRéseauPage />;
     }
 
-    return <AjouterGestionnaireRéseauPage />;
+    throw new OperationRejectedError('Utilisateur non connecté');
   });
 }

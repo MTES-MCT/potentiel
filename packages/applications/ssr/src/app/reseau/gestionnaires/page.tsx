@@ -16,7 +16,7 @@ export default async function Page({ searchParams }: PageProps) {
 
     const utilisateur = await getUser();
 
-    if (utilisateur) {
+    if (utilisateur?.rôle === 'admin') {
       const gestionnaireRéseaux =
         await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
           type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
