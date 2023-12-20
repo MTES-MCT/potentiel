@@ -30,6 +30,7 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
   return (
     <ListPageTemplate
       heading="Tâches"
+      actions={[]}
       items={tâches.map((tâche) => ({
         ...tâche,
         key: tâche.identifiantProjet,

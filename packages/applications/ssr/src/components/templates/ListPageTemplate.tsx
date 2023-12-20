@@ -8,11 +8,16 @@ import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
 import { useSearchParams } from 'next/navigation';
 import { Heading1 } from '../atoms/headings';
+import Link from 'next/link';
 
 export type ListPageTemplateProps<TItem> = {
   heading: string;
   filters: ListFiltersProps['filters'];
   tagFilters: ListHeaderProps['tagFilters'];
+  actions: Array<{
+    name: string;
+    link: string;
+  }>;
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;
@@ -22,6 +27,7 @@ export type ListPageTemplateProps<TItem> = {
 
 export const ListPageTemplate = <TItem,>({
   heading,
+  actions,
   ItemComponent,
   filters,
   items,
@@ -40,9 +46,14 @@ export const ListPageTemplate = <TItem,>({
   return (
     <PageTemplate banner={<Heading1 className="text-white">{heading}</Heading1>}>
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
-        {filters.length ? (
+        {filters.length || actions.length ? (
           <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
-            <ListFilters key={listFiltersKey} filters={filters} />
+            {actions.map((a) => (
+              <Link href={a.link} key={a.link}>
+                {a.name}
+              </Link>
+            ))}
+            {filters.length ? <ListFilters key={listFiltersKey} filters={filters} /> : null}
           </div>
         ) : null}
 
