@@ -7,7 +7,10 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { Utilisateur, getUser } from '@/utils/getUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 
-import { DetailAbandonPage } from '@/components/pages/abandon/détails/DetailAbandonPage';
+import {
+  DetailAbandonPage,
+  DetailAbandonPageProps,
+} from '@/components/pages/abandon/détails/DetailAbandonPage';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
@@ -97,7 +100,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 // TODO: this should be a query with the identifiantUtilisateur and identifiantProjet
-type AvailableActions = Parameters<typeof DetailAbandonPage>[0]['actions'];
+type AvailableActions = DetailAbandonPageProps['actions'];
 const mapToActions = ({
   utilisateur,
   recandidature,

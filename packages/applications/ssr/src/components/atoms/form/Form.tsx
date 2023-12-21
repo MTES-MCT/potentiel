@@ -4,10 +4,10 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { formAction } from '@/utils/formAction';
 
-type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
+export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
   action: ReturnType<typeof formAction>;
-  omitMandatoryFieldsLegend?: true;
   children: React.ReactNode;
+  omitMandatoryFieldsLegend?: true;
   onSuccess?: () => void;
   onValidationError?: (validationErrors: Array<string>) => void;
 };
@@ -25,11 +25,11 @@ export const Form: FC<FormProps> = ({
     validationErrors: [],
   });
 
-  if (state.success) {
-    onSuccess && onSuccess();
+  if (state.success && onSuccess) {
+    onSuccess();
   }
-  if (state.validationErrors) {
-    onValidationError && onValidationError(state.validationErrors);
+  if (state.validationErrors && onValidationError) {
+    onValidationError(state.validationErrors);
   }
 
   return (

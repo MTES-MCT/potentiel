@@ -25,7 +25,7 @@ type AvailableActions = Array<
   | 'rejeter'
 >;
 
-type DetailAbandonPageProps = {
+export type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
   demande: DetailDemandeAbandonProps;

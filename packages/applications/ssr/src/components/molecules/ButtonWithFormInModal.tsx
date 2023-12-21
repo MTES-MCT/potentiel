@@ -4,12 +4,12 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { FC, useState } from 'react';
-import { Form } from '../atoms/form/Form';
+import { Form, FormProps } from '../atoms/form/Form';
 
 type ButtonWithFormInModalProps = {
   name: string;
   description: string;
-  form: Parameters<typeof Form>[0];
+  form: FormProps;
   yesNo?: true;
 };
 
