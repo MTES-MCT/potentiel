@@ -1,7 +1,10 @@
 'use client';
 
 import { FC } from 'react';
-import { DetailDemandeAbandon } from '@/components/molecules/abandon/DetailDemandeAbandon';
+import {
+  DetailDemandeAbandon,
+  DetailDemandeAbandonProps,
+} from '@/components/molecules/abandon/DetailDemandeAbandon';
 import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailInstructionAbandon';
 import { StatutAbandonBadge } from '@/components/molecules/abandon/StatutAbandonBadge';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
@@ -16,7 +19,7 @@ import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 export type DetailAbandonPageProps = {
   statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
-  demande: Parameters<typeof DetailDemandeAbandon>[0];
+  demande: DetailDemandeAbandonProps;
   instruction: Parameters<typeof DetailInstructionAbandon>[0];
   utilisateur: Utilisateur;
 };
@@ -76,7 +79,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
     >
       <div className="flex flex-col justify-center items-center md:items-start md:flex-row md:gap-6">
         <div className="w-full md:w-3/4 flex flex-col gap-6">
-          <DetailDemandeAbandon {...demande} />
+          <DetailDemandeAbandon {...{ ...demande, statut }} />
         </div>
         <div className="w-full md:w-1/4 flex flex-col gap-4">
           {admin.demanderConfirmation && (
