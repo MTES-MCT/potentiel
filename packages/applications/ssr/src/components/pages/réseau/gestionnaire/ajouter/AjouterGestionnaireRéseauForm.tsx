@@ -1,42 +1,31 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useRouter } from 'next/navigation';
-import Button from '@codegouvfr/react-dsfr/Button';
-import {
-  AjouterGestionnaireRéseauState,
-  ajouterGestionnaireRéseauAction,
-} from './ajouterGestionnaireRéseau.action';
-import { Form } from '@/components/molecules/Form';
+import { ajouterGestionnaireRéseauAction } from './ajouterGestionnaireRéseau.action';
 import Input from '@codegouvfr/react-dsfr/Input';
-
-const initialState: AjouterGestionnaireRéseauState = {
-  error: undefined,
-  validationErrors: [],
-};
+import { useState } from 'react';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { Form } from '@/components/atoms/form/Form';
 
 export const AjouterGestionnaireRéseauForm = () => {
   const router = useRouter();
-  const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(ajouterGestionnaireRéseauAction, initialState);
 
-  if (state.success) {
-    router.push('/reseau/gestionnaires');
-  }
+  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
-    <Form action={formAction} method="post" encType="multipart/form-data">
-      {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
-
+    <Form
+      action={ajouterGestionnaireRéseauAction}
+      method="post"
+      encType="multipart/form-data"
+      onSuccess={() => router.push('/reseau/gestionnaires')}
+      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+    >
       <Input
         textArea
         label="Code EIC ou gestionnaire"
         id="identifiantGestionnaireReseau"
-        nativeTextAreaProps={{ name: 'identifiantGestionnaireReseau', disabled: pending }}
-        state={
-          state.validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'
-        }
+        nativeTextAreaProps={{ name: 'identifiantGestionnaireReseau' }}
+        state={validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'}
         stateRelatedMessage="Code EIC ou gestionnaire à préciser"
       />
 
@@ -44,8 +33,8 @@ export const AjouterGestionnaireRéseauForm = () => {
         textArea
         label="Raison sociale"
         id="raisonSociale"
-        nativeTextAreaProps={{ name: 'raisonSociale', disabled: pending }}
-        state={state.validationErrors.includes('raisonSociale') ? 'error' : 'default'}
+        nativeTextAreaProps={{ name: 'raisonSociale' }}
+        state={validationErrors.includes('raisonSociale') ? 'error' : 'default'}
         stateRelatedMessage="Raison sociale à préciser"
       />
 
@@ -53,8 +42,8 @@ export const AjouterGestionnaireRéseauForm = () => {
         textArea
         label="Format de l'identifiant du dossier de raccordement (optionnel)"
         id="format"
-        nativeTextAreaProps={{ name: 'format', disabled: pending }}
-        state={state.validationErrors.includes('format') ? 'error' : 'default'}
+        nativeTextAreaProps={{ name: 'format' }}
+        state={validationErrors.includes('format') ? 'error' : 'default'}
         stateRelatedMessage="Format à préciser"
         hintText="Exemple : XXX-RP-AAAA-999999"
       />
@@ -63,8 +52,8 @@ export const AjouterGestionnaireRéseauForm = () => {
         textArea
         label="Aide à la saisie de l'identifiant du dossier de raccordement (optionnel)"
         id="legende"
-        nativeTextAreaProps={{ name: 'legende', disabled: pending }}
-        state={state.validationErrors.includes('legende') ? 'error' : 'default'}
+        nativeTextAreaProps={{ name: 'legende' }}
+        state={validationErrors.includes('legende') ? 'error' : 'default'}
         stateRelatedMessage="Légende à préciser"
         hintText="Exemple : X = caractère alphabétique en majuscule, AAAA = Année, 9 = caractère numérique de 0 à 9"
       />
@@ -73,23 +62,13 @@ export const AjouterGestionnaireRéseauForm = () => {
         textArea
         label="Expression régulière (optionnel)"
         id="expressionReguliere"
-        nativeTextAreaProps={{ name: 'expressionReguliere', disabled: pending }}
-        state={state.validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
+        nativeTextAreaProps={{ name: 'expressionReguliere' }}
+        state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
         stateRelatedMessage="Raison sociale à préciser"
         hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
       />
 
-      <Button
-        type="submit"
-        priority="primary"
-        nativeButtonProps={{
-          'aria-disabled': pending,
-          disabled: pending,
-        }}
-        className="bg-blue-france-sun-base text-white"
-      >
-        Envoyer
-      </Button>
+      <SubmitButton>Envoyer</SubmitButton>
     </Form>
   );
 };
