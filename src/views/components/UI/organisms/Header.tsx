@@ -278,7 +278,7 @@ const CentreDesTâches = () => {
   useEffect(() => {
     const récupérerLeNombreDeTâches = async () => {
       try {
-        const response = await fetch('/api/v1/tache');
+        const response = await fetch('/api/v1/taches');
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${response.status}`);
         }

@@ -29,7 +29,7 @@ export const RejeterAbandon = ({
         method: 'post',
         encType: 'multipart/form-data',
         id: 'rejeter-abandon-form',
-        onSuccess: () => router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`),
+        onSuccess: () => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`),
         onValidationError: (validationErrors) => setValidationErrors(validationErrors),
         children: (
           <>
@@ -51,7 +51,7 @@ export const RejeterAbandon = ({
 
             <Download
               linkProps={{
-                href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+                href: `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
               }}
               details="docx"
               label="Télécharger le modèle de réponse"

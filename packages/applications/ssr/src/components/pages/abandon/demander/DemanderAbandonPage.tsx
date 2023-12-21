@@ -37,7 +37,7 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
         method="post"
         encType="multipart/form-data"
         onSuccess={() =>
-          router.push(`/laureat/${encodeParameter(projet.identifiantProjet)}/abandon`)
+          router.push(`/laureats/${encodeParameter(projet.identifiantProjet)}/abandon`)
         }
         onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       >

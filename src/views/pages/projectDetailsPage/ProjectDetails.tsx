@@ -70,7 +70,7 @@ export const ProjectDetails = ({
         <div className="print:hidden flex flex-col gap-3">
           {abandon && (
             <AlertBox title="Abandon">
-              <a href={`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`}>
+              <a href={`/laureats/${encodeURIComponent(identifiantProjet)}/abandon`}>
                 Voir l'abandon {abandon.statut}
               </a>
             </AlertBox>

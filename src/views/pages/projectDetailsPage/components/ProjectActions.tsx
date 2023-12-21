@@ -88,7 +88,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             <span>Changer de puissance</span>
           </DropdownMenuSecondaryButton.DropdownItem>
           <DropdownMenuSecondaryButton.DropdownItem
-            href={`/laureat/${encodeURIComponent(
+            href={`/laureats/${encodeURIComponent(
               `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
             )}/abandon/demander`}
           >
