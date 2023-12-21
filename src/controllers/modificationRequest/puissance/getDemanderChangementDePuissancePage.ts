@@ -53,6 +53,7 @@ v1Router.get(
           ...project.get(),
           unitePuissance: appelOffre.unitePuissance,
           technologie: project.technologie || 'N/A',
+          cahiersDesChargesUrl: appelOffre.cahiersDesChargesUrl,
         },
         appelOffre,
       }),
