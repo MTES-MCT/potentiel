@@ -3,7 +3,7 @@
 import { FC } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { AbandonListItem } from '@/components/molecules/abandon/AbandonListItem';
+import { AbandonListItem } from '@/components/pages/abandon/lister/AbandonListItem';
 import { ListPageTemplate } from '@/components/templates/ListPageTemplate';
 
 type AbandonListPageProps = {

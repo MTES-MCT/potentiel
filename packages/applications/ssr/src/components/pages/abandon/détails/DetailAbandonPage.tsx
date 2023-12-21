@@ -4,9 +4,9 @@ import { FC } from 'react';
 import {
   DetailDemandeAbandon,
   DetailDemandeAbandonProps,
-} from '@/components/molecules/abandon/DetailDemandeAbandon';
-import { DetailInstructionAbandon } from '@/components/molecules/abandon/DetailInstructionAbandon';
-import { StatutAbandonBadge } from '@/components/molecules/abandon/StatutAbandonBadge';
+} from '@/components/pages/abandon/détails/DetailDemandeAbandon';
+import { DetailInstructionAbandon } from '@/components/pages/abandon/détails/DetailInstructionAbandon';
+import { StatutBadge } from '@/components/molecules/StatutBadge';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
@@ -26,7 +26,7 @@ type AvailableActions = Array<
 >;
 
 export type DetailAbandonPageProps = {
-  statut: Parameters<typeof StatutAbandonBadge>[0]['statut'];
+  statut: Parameters<typeof StatutBadge>[0]['statut'];
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
   demande: DetailDemandeAbandonProps;
   instruction: Parameters<typeof DetailInstructionAbandon>[0];
@@ -48,7 +48,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
       heading={
         <div className="flex flex-col md:flex-row gap-3 items-center">
           <span>Abandon</span>
-          <StatutAbandonBadge statut={statut} />
+          <StatutBadge statut={statut} />
         </div>
       }
       details={

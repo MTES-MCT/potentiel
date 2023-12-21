@@ -2,7 +2,7 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/PageTemplate';
 import { Heading1 } from '../atoms/headings';
 
-type ProjetPageTemplateProps = {
+export type ProjetPageTemplateProps = {
   heading: React.ReactNode;
   projet: Parameters<typeof ProjetBanner>[0];
   children: React.ReactNode;

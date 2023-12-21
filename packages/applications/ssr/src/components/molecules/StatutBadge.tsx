@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
-export type StatutAbandonBadgeProps = {
+export type StatutBadgeProps = {
   statut: string;
   small?: true;
 };
-export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({ statut, small }) => (
+export const StatutBadge: FC<StatutBadgeProps> = ({ statut, small }) => (
   <Badge
     noIcon
     severity={
