@@ -10,12 +10,14 @@ type ButtonWithFormInModalProps = {
   name: string;
   description: string;
   form: Parameters<typeof Form>[0];
+  yesNo?: true;
 };
 
 export const ButtonWithFormInModal: FC<ButtonWithFormInModalProps> = ({
   name,
   description,
   form,
+  yesNo,
 }) => {
   const [modal, _] = useState(
     createModal({
@@ -35,7 +37,7 @@ export const ButtonWithFormInModal: FC<ButtonWithFormInModalProps> = ({
         buttons={[
           {
             type: 'button',
-            children: 'Annuler',
+            children: yesNo ? 'Non' : 'Annuler',
           },
           {
             type: 'submit',
@@ -43,7 +45,7 @@ export const ButtonWithFormInModal: FC<ButtonWithFormInModalProps> = ({
               className: 'bg-blue-france-sun-base text-white',
               form: form.id,
             },
-            children: name,
+            children: yesNo ? 'Oui' : name,
             doClosesModal: false,
           },
         ]}

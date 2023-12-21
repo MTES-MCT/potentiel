@@ -18,15 +18,18 @@ export const AccorderAbandonAvecRecandidature = ({
   return (
     <ButtonWithFormInModal
       name="Accorder"
+      yesNo
       description="Accorder l'abandon"
       form={{
-        id: 'accorder-abandon-form',
+        id: 'accorder-abandon-avec-recandidature-form',
         action: accorderAbandonAvecRecandidatureAction,
         method: 'post',
         encType: 'multipart/form-data',
+        omitMandatoryFieldsLegend: true,
         onSuccess: () => router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`),
         children: (
           <>
+            <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
           </>

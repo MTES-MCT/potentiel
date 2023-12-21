@@ -18,6 +18,7 @@ export const AnnulerAbandon = ({
   return (
     <ButtonWithFormInModal
       name="Annuler"
+      yesNo
       description="Annuler l'abandon"
       form={{
         action: annulerAbandonAction,
