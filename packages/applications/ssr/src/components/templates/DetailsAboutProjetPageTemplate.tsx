@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { ProjetPageTemplate } from './ProjetPageTemplate';
+import { ProjetPageTemplate, ProjetPageTemplateProps } from './ProjetPageTemplate';
 
 type DetailsAboutProjetPageTemplateProps = {
-  projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
+  projet: ProjetPageTemplateProps['projet'];
   heading: React.ReactNode;
   details: React.ReactNode;
   actions?: React.ReactNode;

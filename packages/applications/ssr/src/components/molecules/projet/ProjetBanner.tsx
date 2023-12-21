@@ -1,10 +1,13 @@
 import { FC } from 'react';
-import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
+import {
+  StatutProjetBadge,
+  StatutProjetBadgeProps,
+} from '@/components/molecules/projet/StatutProjetBadge';
 import { displayDate } from '@/utils/displayDate';
 import { encodeParameter } from '@/utils/encodeParameter';
 
-type ProjetBannerProps = {
-  statut: Parameters<typeof StatutProjetBadge>[0]['statut'];
+export type ProjetBannerProps = {
+  statut: StatutProjetBadgeProps['statut'];
   nom: string;
   appelOffre: string;
   période: string;
