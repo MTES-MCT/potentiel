@@ -9,6 +9,7 @@
   - [ Déploiement](#-déploiement)
   - [ Apporter des changements](#-apporter-des-changements)
   - [ Faire un hotfix](#-faire-un-hotfix)
+  - [ Récupérer les modifications d'une branche release vers master](#-récupérer-les-modifications-dune-branche-release-vers-master)
   - [ Approche/Méthode](#-approcheméthode)
 
 ## <a id="organisation-du-code-source"></a> Organisation du code source
@@ -114,6 +115,17 @@ Note : l'équipe utilise `gitmoji` pour les commits, donc merci de bien sélecti
 4. Une fois mergée, créer une PR de la release actuellement en production vers master. ⚠️ Au moment du merge, bien penser à faire un **merge commit** plutôt qu'un squash) en ajoutant le message générique suivant : "🔀 Intégration des dernières modification de la version X.XX"
 
 5. Une fois la PR mergée, penser à **restaurer la branche release** qui a été supprimé automatiquement
+
+## <a id="récupérer-modifications-branche-release-vers-master"></a> Récupérer les modifications d'une branche release vers master
+
+1. Créer une branche qui part de la **release x.x**, et ouvrir la PR vers master, titre  `🔀 Intégration des modifications de la release x.x`
+2. Si pas de conflits, merger la PR en sélectionnant le mode **merge commit**
+3. Si conflits
+   1. Créer une branche qui part de master, exemple : `integrate-release-x.x`
+   2. faire un `git merge release/x.x` pour récupérer les modifications de la release dans notre branche 
+   3. Gérer les conflits et nommer le message du commit comme ceci : `🔀 Resolve merge conflicts after merge` 
+   4. Ouvrir la PR en mettant comme titre de la PR  : `🔀 Intégration des modifications de la release x.x`
+   5. Merger la PR en sélectionnant le mode **merge commit**
 
 ## <a id="approche-methode"></a> Approche/Méthode
 
