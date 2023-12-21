@@ -2,7 +2,10 @@ import { mediator } from 'mediateur';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
 
-import { AbandonListPage } from '@/components/pages/abandon/lister/AbandonListPage';
+import {
+  AbandonListPage,
+  AbandonListPageProps,
+} from '@/components/pages/abandon/lister/AbandonListPage';
 import { displayDate } from '@/utils/displayDate';
 import { getUser } from '@/utils/getUtilisateur';
 import { redirect } from 'next/navigation';
@@ -93,7 +96,7 @@ export default async function Page({ searchParams }: PageProps) {
 
 const mapToListProps = (
   readModel: Abandon.ListerAbandonReadModel,
-): Parameters<typeof AbandonListPage>[0]['list'] => {
+): AbandonListPageProps['list'] => {
   const items = readModel.items.map(
     ({
       identifiantProjet,
