@@ -12,6 +12,7 @@ import {
   ErrorBox,
   AlertBox,
   Heading2,
+  InfoBox,
 } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -55,6 +56,9 @@ export const ProjectDetails = ({
   ).formatter();
 
   const abandonEnCours = !!abandon && abandon.statut !== 'rejeté';
+  const modificationsNonPermisesParLeCDCActuel =
+    project.cahierDesChargesActuel.type === 'initial' &&
+    !!project.appelOffre.choisirNouveauCahierDesCharges;
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -63,7 +67,9 @@ export const ProjectDetails = ({
         Les informations affichées sur cette page reflètent la situation du projet en fonction des
         éléments fournis à Potentiel à date. Elles sont susceptibles de modifications ultérieures.
       </p>
-      <ProjectHeader {...{ project, user, abandonEnCours }} />
+      <ProjectHeader
+        {...{ project, user, abandonEnCours, modificationsNonPermisesParLeCDCActuel }}
+      />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
@@ -76,6 +82,13 @@ export const ProjectDetails = ({
                 Voir l'abandon {abandon.statut}
               </a>
             </AlertBox>
+          )}
+          {modificationsNonPermisesParLeCDCActuel && (
+            <InfoBox>
+              Afin d'accéder aux fonctionnalités dématérialisées d'information au Préfet et de
+              modification de votre projet (recours, abandon, délai), vous devez d'abord changer le
+              cahier des charges applicable (encart "Cahier des charges" ci-dessous).
+            </InfoBox>
           )}
 
           {alertesRaccordement && (
