@@ -38,7 +38,7 @@ export const TransmettrePreuveRecandidatureForm = ({
     <Form
       action={transmettrePreuveRecandidatureAction}
       method="post"
-      onSuccess={() => router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`)}
+      onSuccess={() => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`)}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />

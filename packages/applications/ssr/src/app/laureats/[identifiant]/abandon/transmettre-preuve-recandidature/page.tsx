@@ -47,7 +47,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const preuveDéjàTransmise = !!abandon.demande.preuveRecandidature;
 
     if (preuveDéjàTransmise) {
-      redirect(`/laureat/${identifiant}/abandon/transmettre-preuve-recandidature`);
+      redirect(`/laureats/${identifiant}/abandon/transmettre-preuve-recandidature`);
     }
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({

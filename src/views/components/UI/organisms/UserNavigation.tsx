@@ -73,7 +73,7 @@ const MenuAdmin = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href="/laureat/abandon"
+        href="/laureats/abandon"
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
         Abandons
@@ -186,7 +186,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
         Mes demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href="/laureat/abandon"
+        href="/laureats/abandon"
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
         Abandons
@@ -251,7 +251,7 @@ const MenuDreal = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href="/laureat/abandon"
+        href="/laureats/abandon"
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
         Abandons

@@ -93,7 +93,7 @@ const porteurProjetActions = (project: {
       },
       {
         title: 'Demander un abandon',
-        link: `/laureat/${encodeURIComponent(
+        link: `/laureats/${encodeURIComponent(
           `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
         )}/abandon/demander`,
       },

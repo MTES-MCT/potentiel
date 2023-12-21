@@ -26,7 +26,7 @@ export const AccorderAbandonAvecRecandidature = ({
         method: 'post',
         encType: 'multipart/form-data',
         omitMandatoryFieldsLegend: true,
-        onSuccess: () => router.push(`/laureat/${encodeURIComponent(identifiantProjet)}/abandon`),
+        onSuccess: () => router.push(`/laureats/${encodeURIComponent(identifiantProjet)}/abandon`),
         children: (
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>

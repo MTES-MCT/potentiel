@@ -46,7 +46,7 @@ const sendEmailAbandonChangementDeStatut = async ({
       nom_projet: projet.nom,
       departement_projet: projet.localité.département,
       nouveau_statut: statut,
-      abandon_url: `${BASE_URL}/laureat/${encodeURIComponent(
+      abandon_url: `${BASE_URL}/laureats/${encodeURIComponent(
         identifiantProjet.formatter(),
       )}/abandon`,
     },
@@ -141,7 +141,7 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
-            lien_transmettre_preuve_recandidature: `${BASE_URL}/laureat/${encodeURIComponent(
+            lien_transmettre_preuve_recandidature: `${BASE_URL}/laureats/${encodeURIComponent(
               identifiantProjet.formatter(),
             )}/abandon/transmettre-preuve-recandidature`,
           },

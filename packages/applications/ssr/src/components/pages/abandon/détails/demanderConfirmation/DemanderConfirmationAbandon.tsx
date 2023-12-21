@@ -30,7 +30,7 @@ export const DemanderConfirmationAbandon = ({
         action: demanderConfirmationAbandonAction,
         method: 'post',
         encType: 'multipart/form-data',
-        onSuccess: () => router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`),
+        onSuccess: () => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`),
         onValidationError: (validationErrors) => setValidationErrors(validationErrors),
         children: (
           <>
@@ -52,7 +52,7 @@ export const DemanderConfirmationAbandon = ({
 
             <Download
               linkProps={{
-                href: `/laureat/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+                href: `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
               }}
               details="docx"
               label="Télécharger le modèle de réponse"

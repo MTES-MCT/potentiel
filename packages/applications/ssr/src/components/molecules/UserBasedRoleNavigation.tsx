@@ -39,7 +39,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureat/abandon',
+                href: '/laureats/abandon',
               },
             },
           ],
@@ -163,7 +163,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureat/abandon',
+                href: '/laureats/abandon',
               },
             },
           ],
@@ -195,7 +195,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureat/abandon',
+                href: '/laureats/abandon',
               },
             },
           ],
