@@ -10,7 +10,7 @@ export type DemanderAbandonState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  utilisateur: zod.string().email(),
+  identifiantUtilisateur: zod.string().email(),
   recandidature: zod.string().optional(),
   raison: zod.string().min(1),
   pieceJustificative: zod.instanceof(Blob),
@@ -18,7 +18,7 @@ const schema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, pieceJustificative, utilisateur, recandidature, raison },
+  { identifiantProjet, pieceJustificative, identifiantUtilisateur, recandidature, raison },
 ) => {
   // TODO : Rendre cette vérification automatiquement lors de l'exécution
   //        d'un(e) query/usecase avec un identifiantProjet
@@ -26,7 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'VERIFIER_ACCES_PROJET_QUERY',
     data: {
       identifiantProjet,
-      identifiantUtilisateur: utilisateur,
+      identifiantUtilisateur,
     },
   });
 
@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'DEMANDER_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: utilisateur,
+      identifiantUtilisateurValue: identifiantUtilisateur,
       dateDemandeValue: new Date().toISOString(),
       raisonValue: raison,
       recandidatureValue: recandidature === 'true' ? true : false,

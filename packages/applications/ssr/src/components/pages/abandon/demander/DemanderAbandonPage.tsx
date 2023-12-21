@@ -1,77 +1,75 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import {
+  ProjetPageTemplate,
+  ProjetPageTemplateProps,
+} from '@/components/templates/ProjetPageTemplate';
+import { FC, useState } from 'react';
+import { Form } from '@/components/atoms/form/Form';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { encodeParameter } from '@/utils/encodeParameter';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import { Utilisateur } from '@/utils/getUtilisateur';
-import { useRouter } from 'next/navigation';
-import Button from '@codegouvfr/react-dsfr/Button';
-import { DemanderAbandonState, demanderAbandonAction } from './demanderAbandon.action';
-import { Form } from '@/components/molecules/Form';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
-import { useState } from 'react';
-import { encodeParameter } from '@/utils/encodeParameter';
+import { Upload } from '@codegouvfr/react-dsfr/Upload';
+import { demanderAbandonAction } from './demanderAbandon.action';
+import { useRouter } from 'next/navigation';
 
-const initialState: DemanderAbandonState = {
-  error: undefined,
-  validationErrors: [],
-};
-
-type DemanderAbandonFormProps = {
-  identifiantProjet: string;
-  utilisateur: Utilisateur;
+export type DemanderAbandonPageProps = {
+  projet: ProjetPageTemplateProps['projet'];
+  identifiantUtilisateur: string;
   showRecandidatureCheckBox: boolean;
 };
 
-export const DemanderAbandonForm = ({
-  identifiantProjet,
-  utilisateur,
+export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
+  projet,
+  identifiantUtilisateur,
   showRecandidatureCheckBox,
-}: DemanderAbandonFormProps) => {
+}) => {
   const router = useRouter();
-  const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(demanderAbandonAction, initialState);
+  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const [recandidature, setRecandidature] = useState(false);
 
-  if (state.success) {
-    router.push(`/laureat/${encodeParameter(identifiantProjet)}/abandon`);
-  }
-
   return (
-    <Form action={formAction} method="post" encType="multipart/form-data">
-      <>
-        {state.error && <Alert severity="error" title={state.error} className="mb-4" />}
+    <ProjetPageTemplate projet={projet} heading={<span>Je demande un abandon de mon projet</span>}>
+      <Form
+        action={demanderAbandonAction}
+        method="post"
+        encType="multipart/form-data"
+        onSuccess={() =>
+          router.push(`/laureat/${encodeParameter(projet.identifiantProjet)}/abandon`)
+        }
+        onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      >
+        <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
+        <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
-        <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-        <input type={'hidden'} value={utilisateur.email} name="utilisateur" />
         <Input
           textArea
           label="Raison"
           id="raison"
-          disabled={pending}
           hintText="Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
                 conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
-          state={state.validationErrors.includes('raison') ? 'error' : 'default'}
+          state={validationErrors.includes('raison') ? 'error' : 'default'}
           stateRelatedMessage="Raison à préciser"
         />
+
         <Upload
           label="Pièce justificative (optionnel)"
           hint="Vous pouvez transmettre un fichier compressé si il y a plusieurs documents"
           id="pieceJustificative"
-          disabled={pending}
           nativeInputProps={{ name: 'pieceJustificative' }}
-          state={state.validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
+          state={validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
           stateRelatedMessage="Erreur sur le fichier transmis"
         />
+
         {showRecandidatureCheckBox && (
           <Checkbox
             className="mt-6"
             legend="Option"
             id="recandidature"
-            state={state.validationErrors.includes('recandidature') ? 'error' : 'default'}
-            disabled={pending}
+            state={validationErrors.includes('recandidature') ? 'error' : 'default'}
             options={[
               {
                 label: 'Je demande un abandon avec recandidature (optionnel)',
@@ -124,18 +122,9 @@ export const DemanderAbandonForm = ({
             }
           />
         ) : null}
-        <Button
-          type="submit"
-          priority="primary"
-          disabled={pending}
-          nativeButtonProps={{
-            'aria-disabled': pending,
-          }}
-          className="bg-blue-france-sun-base text-white"
-        >
-          Envoyer
-        </Button>
-      </>
-    </Form>
+
+        <SubmitButton>Envoyer</SubmitButton>
+      </Form>
+    </ProjetPageTemplate>
   );
 };

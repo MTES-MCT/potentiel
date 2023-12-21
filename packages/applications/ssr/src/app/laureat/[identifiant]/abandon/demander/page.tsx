@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
-} from '@/components/pages/abandon/DemanderAbandonPage';
+} from '@/components/pages/abandon/demander/DemanderAbandonPage';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -67,7 +67,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     // TODO: extract the logic in a dedicated function mapToProps
     // identifiantProjet must come from the readmodel as a value type
     const demanderAbandonPageProps: DemanderAbandonPageProps = {
-      utilisateur,
+      identifiantUtilisateur: utilisateur.email,
       projet: { ...candidature, identifiantProjet },
       showRecandidatureCheckBox: période.abandonAvecRecandidature ? true : false,
     };

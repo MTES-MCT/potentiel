@@ -4,13 +4,13 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getUser } from '@/utils/getUtilisateur';
+import { Utilisateur, getUser } from '@/utils/getUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 
 import {
   DetailAbandonPage,
   DetailAbandonPageProps,
-} from '@/components/pages/abandon/DetailAbandonPage';
+} from '@/components/pages/abandon/détails/DetailAbandonPage';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
@@ -51,8 +51,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     // TODO: extract the logic in a dedicated function mapToProps
     // identifiantProjet must come from the readmodel as a value type
-    const detailAbandonPageProps: DetailAbandonPageProps = {
-      utilisateur,
+    const detailAbandonPageProps: Parameters<typeof DetailAbandonPage>[0] = {
+      identifiantUtilisateur: utilisateur.email,
       projet: { ...candidature, identifiantProjet },
       statut: statut.statut,
       demande: {
@@ -92,8 +92,57 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         }),
       },
+      actions: mapToActions({ utilisateur, recandidature: demande.recandidature, statut }),
     };
 
     return <DetailAbandonPage {...{ ...detailAbandonPageProps }} />;
   });
 }
+
+// TODO: this should be a query with the identifiantUtilisateur and identifiantProjet
+type AvailableActions = DetailAbandonPageProps['actions'];
+const mapToActions = ({
+  utilisateur,
+  recandidature,
+  statut,
+}: {
+  utilisateur: Utilisateur;
+  recandidature: boolean;
+  statut: Abandon.StatutAbandon.ValueType;
+}): AvailableActions => {
+  const actions: AvailableActions = [];
+  const demandeConfirmationPossible = statut.estDemandé() && !recandidature;
+
+  switch (utilisateur.rôle) {
+    case 'admin':
+      if (demandeConfirmationPossible) {
+        actions.push('demander-confirmation');
+      }
+      if (statut.estEnCours() && !recandidature) {
+        actions.push('accorder-sans-recandidature');
+        actions.push('rejeter');
+      }
+      break;
+
+    case 'dgec-validateur':
+      if (demandeConfirmationPossible) {
+        actions.push('demander-confirmation');
+      }
+      if (statut.estEnCours()) {
+        actions.push(recandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
+        actions.push('rejeter');
+      }
+      break;
+
+    case 'porteur-projet':
+      if (statut.estConfirmationDemandée()) {
+        actions.push('confirmer');
+      }
+      if (statut.estEnCours()) {
+        actions.push('annuler');
+      }
+      break;
+  }
+
+  return actions;
+};

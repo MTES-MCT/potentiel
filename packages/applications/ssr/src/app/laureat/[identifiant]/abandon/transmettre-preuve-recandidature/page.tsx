@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 import {
   TransmettrePreuveRecandidaturePage,
   TransmettrePreuveRecandidaturePageProps,
-} from '@/components/pages/abandon/TransmettrePreuveRecandidaturePage';
+} from '@/components/pages/abandon/transmettrePreuveRecandidature/TransmettrePreuveRecandidaturePage';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -77,7 +77,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           statut: projet.statut.statut,
           identifiantProjet: projet.identifiantProjet.formatter(),
         })),
-      utilisateur,
+      identifiantUtilisateur: utilisateur.email,
     };
 
     return (

@@ -6,16 +6,18 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
-export type ConfirmerAbandonState = FormState;
+export type TransmettrePreuveRecandidatureState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  utilisateur: zod.string().email(),
+  preuveRecandidature: zod.string(),
+  identifiantUtilisateur: zod.string().email(),
+  dateDesignation: zod.string(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, utilisateur },
+  { identifiantProjet, preuveRecandidature, dateDesignation, identifiantUtilisateur },
 ) => {
   // TODO : Rendre cette vérification automatiquement lors de l'exécution
   //        d'un(e) query/usecase avec un identifiantProjet
@@ -23,20 +25,21 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'VERIFIER_ACCES_PROJET_QUERY',
     data: {
       identifiantProjet,
-      identifiantUtilisateur: utilisateur,
+      identifiantUtilisateur: identifiantUtilisateur,
     },
   });
 
   await mediator.send<Abandon.AbandonUseCase>({
-    type: 'CONFIRMER_ABANDON_USECASE',
+    type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: utilisateur,
-      dateConfirmationValue: new Date().toISOString(),
+      preuveRecandidatureValue: preuveRecandidature,
+      dateNotificationValue: dateDesignation,
+      identifiantUtilisateurValue: identifiantUtilisateur,
     },
   });
 
   return previousState;
 };
 
-export const confirmerAbandonAction = formAction(action, schema);
+export const transmettrePreuveRecandidatureAction = formAction(action, schema);

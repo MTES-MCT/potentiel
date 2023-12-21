@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { Abandon } from '@potentiel-domain/laureat';
-import { StatutAbandonBadge } from './StatutAbandonBadge';
+import { StatutBadge } from '../../../molecules/StatutBadge';
 import { encodeParameter } from '@/utils/encodeParameter';
 
 type AbandonListItemProps = {
@@ -45,7 +45,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
           )}
         </div>
         <div className="flex flex-col md:flex-row gap-2 mt-3">
-          <StatutAbandonBadge statut={statut} small />
+          <StatutBadge statut={statut} small />
           {recandidature && (
             <Badge noIcon small severity="info">
               avec recandidature

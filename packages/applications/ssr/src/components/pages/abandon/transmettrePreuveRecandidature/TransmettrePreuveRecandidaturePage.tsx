@@ -1,6 +1,6 @@
 'use client';
 
-import { TransmettrePreuveRecandidatureForm } from './transmettre/TransmettrePreuveRecandidatureForm';
+import { TransmettrePreuveRecandidatureForm } from './TransmettrePreuveRecandidatureForm';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
 
@@ -9,13 +9,15 @@ export type TransmettrePreuveRecandidaturePageProps = {
   projetsÀSélectionner: Parameters<
     typeof TransmettrePreuveRecandidatureForm
   >[0]['projetsÀSélectionner'];
-  utilisateur: Parameters<typeof TransmettrePreuveRecandidatureForm>[0]['utilisateur'];
+  identifiantUtilisateur: Parameters<
+    typeof TransmettrePreuveRecandidatureForm
+  >[0]['identifiantUtilisateur'];
 };
 
 export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidaturePageProps> = ({
   projet,
   projetsÀSélectionner,
-  utilisateur,
+  identifiantUtilisateur,
 }) => {
   return (
     <ProjetPageTemplate
@@ -29,8 +31,8 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
       {projetsÀSélectionner.length > 0 ? (
         <TransmettrePreuveRecandidatureForm
           identifiantProjet={projet.identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
           projetsÀSélectionner={projetsÀSélectionner}
-          utilisateur={utilisateur}
         />
       ) : (
         <p>Vous ne disposez d'aucun projet éligible avec une preuve de recandidature</p>

@@ -1,8 +1,9 @@
 'use client';
 
 import { Heading1 } from '@/components/atoms/headings';
+import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 import { PageTemplate } from '@/components/templates/PageTemplate';
-import Button from '@codegouvfr/react-dsfr/Button';
+import { newAppAction } from './newApp.action';
 
 export default function NewApp() {
   return (
@@ -60,15 +61,25 @@ export default function NewApp() {
           dui.
         </p>
         <div className="w-full md:w-1/4 flex flex-col gap-5">
-          <Button priority="secondary" className="w-full">
-            <div className="mx-auto">B 1</div>
-          </Button>
-          <Button className="w-full">
-            <div className="mx-auto">Button very very large 2</div>
-          </Button>
-          <Button priority="tertiary" className="w-full">
-            <div className="mx-auto">Button 31</div>
-          </Button>
+          <ButtonWithFormInModal
+            name="Action 1"
+            description="Action 1 descirption"
+            form={{
+              id: 'action1',
+              children: <></>,
+              action: newAppAction,
+            }}
+          />
+          <ButtonWithFormInModal
+            name="Action 2"
+            description="Action 2 descirption"
+            form={{ id: 'action2', children: <p>Action 2 component</p>, action: newAppAction }}
+          />
+          <ButtonWithFormInModal
+            name="Action 3"
+            description="Action 3 descirption"
+            form={{ id: 'action3', children: <p>Action 3 component</p>, action: newAppAction }}
+          />
         </div>
       </div>
     </PageTemplate>
