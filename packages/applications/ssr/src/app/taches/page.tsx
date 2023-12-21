@@ -4,7 +4,7 @@ import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tach
 
 import { displayDate } from '@/utils/displayDate';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { TâcheListPage } from '@/components/pages/tâche/TâcheListPage';
+import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheListPage';
 import { getUser } from '@/utils/getUtilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -55,9 +55,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
   });
 }
 
-const mapToListProps = (
-  readModel: ListerTâcheReadModel,
-): Parameters<typeof TâcheListPage>[0]['list'] => {
+const mapToListProps = (readModel: ListerTâcheReadModel): TâcheListPageProps['list'] => {
   const items = readModel.items.map(
     ({
       identifiantProjet,

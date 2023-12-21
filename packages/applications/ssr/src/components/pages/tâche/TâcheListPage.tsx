@@ -3,20 +3,20 @@
 import { FC } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { ListPageTemplate } from '@/components/templates/ListPageTemplate';
-import { TâcheListItem } from '@/components/molecules/tâche/TâcheListItem';
+import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPageTemplate';
+import { TâcheListItem, TâcheListItemProps } from '@/components/molecules/tâche/TâcheListItem';
 
-type AbandonListPageProps = {
+export type TâcheListPageProps = {
   list: {
-    items: Array<Parameters<typeof TâcheListItem>[0]>;
+    items: Array<TâcheListItemProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: Parameters<typeof ListPageTemplate>[0]['filters'];
+  filters: ListPageTemplateProps<typeof TâcheListItem>['filters'];
 };
 
-export const TâcheListPage: FC<AbandonListPageProps> = ({
+export const TâcheListPage: FC<TâcheListPageProps> = ({
   list: { items: tâches, currentPage, totalItems, itemsPerPage },
   filters,
 }) => {

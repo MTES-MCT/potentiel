@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { encodeParameter } from '@/utils/encodeParameter';
 
-type TâcheListItemProps = {
+export type TâcheListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
   appelOffre: string;
