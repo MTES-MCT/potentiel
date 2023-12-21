@@ -5,6 +5,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { mediator } from 'mediateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import { decodeParameter } from '@/utils/decodeParameter';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
@@ -15,7 +16,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
           type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
           data: {
-            identifiantGestionnaireRéseau: identifiant,
+            identifiantGestionnaireRéseau: decodeParameter(identifiant),
           },
         });
 
