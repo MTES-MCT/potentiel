@@ -5,9 +5,12 @@ import {
   DetailDemandeAbandon,
   DetailDemandeAbandonProps,
 } from '@/components/pages/abandon/détails/DetailDemandeAbandon';
-import { DetailInstructionAbandon } from '@/components/pages/abandon/détails/DetailInstructionAbandon';
-import { StatutBadge } from '@/components/molecules/StatutBadge';
-import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
+import {
+  DetailInstructionAbandon,
+  DetailInstructionAbandonProps,
+} from '@/components/pages/abandon/détails/DetailInstructionAbandon';
+import { StatutBadge, StatutBadgeProps } from '@/components/molecules/StatutBadge';
+import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
@@ -26,10 +29,10 @@ type AvailableActions = Array<
 >;
 
 export type DetailAbandonPageProps = {
-  statut: Parameters<typeof StatutBadge>[0]['statut'];
-  projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
+  statut: StatutBadgeProps['statut'];
+  projet: ProjetPageTemplateProps['projet'];
   demande: DetailDemandeAbandonProps;
-  instruction: Parameters<typeof DetailInstructionAbandon>[0];
+  instruction: DetailInstructionAbandonProps;
   identifiantUtilisateur: string;
   actions: AvailableActions;
 };

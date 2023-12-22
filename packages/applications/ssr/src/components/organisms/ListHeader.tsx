@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Tag from '@codegouvfr/react-dsfr/Tag';
 
-type ListHeaderProps = {
+export type ListHeaderProps = {
   tagFilters: Array<{
     label: string;
     searchParamKey: string;

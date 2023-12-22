@@ -3,17 +3,20 @@
 import { FC } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { AbandonListItem } from '@/components/pages/abandon/lister/AbandonListItem';
-import { ListPageTemplate } from '@/components/templates/ListPageTemplate';
+import {
+  AbandonListItem,
+  AbandonListItemProps,
+} from '@/components/pages/abandon/lister/AbandonListItem';
+import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPageTemplate';
 
-type AbandonListPageProps = {
+export type AbandonListPageProps = {
   list: {
-    items: Array<Parameters<typeof AbandonListItem>[0]>;
+    items: Array<AbandonListItemProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: Parameters<typeof ListPageTemplate>[0]['filters'];
+  filters: ListPageTemplateProps<typeof AbandonListItem>['filters'];
 };
 
 export const AbandonListPage: FC<AbandonListPageProps> = ({

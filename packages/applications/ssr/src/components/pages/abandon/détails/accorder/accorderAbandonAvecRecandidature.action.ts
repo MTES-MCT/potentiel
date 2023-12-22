@@ -7,7 +7,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { buildDocument } from '@potentiel-infrastructure/document-builder';
+import { buildDocument, DonnéesDocument } from '@potentiel-infrastructure/document-builder';
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
@@ -67,7 +67,7 @@ const buildReponseSignee = async (
 
   const période = appelOffre.periodes.find((p) => p.id === projet.période);
 
-  const props: Parameters<typeof buildDocument>[0] = {
+  const props: DonnéesDocument = {
     dateCourrier: new Date().toISOString(),
     projet: {
       identifiantProjet: abandon.identifiantProjet.formatter(),

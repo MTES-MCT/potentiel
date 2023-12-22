@@ -16,7 +16,7 @@ type ProjetÀSélectionner = {
   nom: string;
 };
 
-type TransmettrePreuveRecandidatureFormProps = {
+export type TransmettrePreuveRecandidatureFormProps = {
   identifiantProjet: string;
   projetsÀSélectionner: Array<ProjetÀSélectionner>;
   identifiantUtilisateur: string;

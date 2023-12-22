@@ -3,16 +3,16 @@
 import { FC } from 'react';
 
 import { PageTemplate } from './PageTemplate';
-import { ListHeader } from '../organisms/ListHeader';
+import { ListHeader, ListHeaderProps } from '../organisms/ListHeader';
 import { List } from '../organisms/List';
-import { ListFilters } from '../organisms/ListFilters';
+import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
 import { useSearchParams } from 'next/navigation';
 import { Heading1 } from '../atoms/headings';
 
-type ListPageTemplateProps<TItem> = {
+export type ListPageTemplateProps<TItem> = {
   heading: string;
-  filters: Parameters<typeof ListFilters>[0]['filters'];
-  tagFilters: Parameters<typeof ListHeader>[0]['tagFilters'];
+  filters: ListFiltersProps['filters'];
+  tagFilters: ListHeaderProps['tagFilters'];
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;

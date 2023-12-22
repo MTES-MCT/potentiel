@@ -29,7 +29,7 @@ export type GénérerRéponseAccordAbandonAvecRecandidaturePort = (
   données: DonnéesDocument,
 ) => Promise<ReadableStream>;
 
-type DonnéesDocument = {
+export type DonnéesDocument = {
   dateCourrier: string;
   projet: {
     identifiantProjet: string;

@@ -4,7 +4,7 @@ import { encodeParameter } from '@/utils/encodeParameter';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
-type DetailInstructionAbandonProps = {
+export type DetailInstructionAbandonProps = {
   confirmation?: {
     demandéLe: string;
     demandéPar: string;

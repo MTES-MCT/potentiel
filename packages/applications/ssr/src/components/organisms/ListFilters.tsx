@@ -5,7 +5,7 @@ import { Heading2 } from '../atoms/headings';
 import { FC, useState } from 'react';
 import { Filter } from '../molecules/Filter';
 
-type ListFiltersProps = {
+export type ListFiltersProps = {
   filters: Array<{
     label: string;
     searchParamKey: string;

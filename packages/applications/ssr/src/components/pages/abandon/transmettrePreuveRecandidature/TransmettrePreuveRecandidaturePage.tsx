@@ -1,17 +1,19 @@
 'use client';
 
-import { TransmettrePreuveRecandidatureForm } from './TransmettrePreuveRecandidatureForm';
-import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
+import {
+  TransmettrePreuveRecandidatureForm,
+  TransmettrePreuveRecandidatureFormProps,
+} from './TransmettrePreuveRecandidatureForm';
+import {
+  ProjetPageTemplate,
+  ProjetPageTemplateProps,
+} from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
 
 export type TransmettrePreuveRecandidaturePageProps = {
-  projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];
-  projetsÀSélectionner: Parameters<
-    typeof TransmettrePreuveRecandidatureForm
-  >[0]['projetsÀSélectionner'];
-  identifiantUtilisateur: Parameters<
-    typeof TransmettrePreuveRecandidatureForm
-  >[0]['identifiantUtilisateur'];
+  projet: ProjetPageTemplateProps['projet'];
+  projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
+  identifiantUtilisateur: TransmettrePreuveRecandidatureFormProps['identifiantUtilisateur'];
 };
 
 export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidaturePageProps> = ({

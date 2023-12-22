@@ -4,7 +4,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { StatutBadge } from '../../../molecules/StatutBadge';
 import { encodeParameter } from '@/utils/encodeParameter';
 
-type AbandonListItemProps = {
+export type AbandonListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
   appelOffre: string;

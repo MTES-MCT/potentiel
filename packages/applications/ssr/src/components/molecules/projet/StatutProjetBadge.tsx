@@ -1,7 +1,7 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-type StatutProjetBadgeProps = { statut: 'non-notifié' | 'abandonné' | 'classé' | 'éliminé' };
+export type StatutProjetBadgeProps = { statut: 'non-notifié' | 'abandonné' | 'classé' | 'éliminé' };
 
 export const StatutProjetBadge: FC<StatutProjetBadgeProps> = ({ statut }) => (
   <Badge
