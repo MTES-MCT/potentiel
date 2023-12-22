@@ -8,4 +8,8 @@ export default { title: 'Components/ProjectDetailsPage/ProjectActions' };
 const project = { id: 'projectId', isClasse: true } as ProjectDataForProjectPage;
 const user = { role: 'dreal' } as User;
 
-export const ForDreals = () => <ProjectActions {...{ project, user }} />;
+export const ForDreals = () => (
+  <ProjectActions
+    {...{ project, user, abandonEnCours: false, modificationsNonPermisesParLeCDCActuel: false }}
+  />
+);

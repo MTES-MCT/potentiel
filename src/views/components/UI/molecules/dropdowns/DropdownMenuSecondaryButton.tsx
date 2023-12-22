@@ -99,7 +99,7 @@ const DropdownItem = ({ children, href, isCurrent, download, disabled }: Dropdow
     {isCurrent && <div className="h-[24px] w-[2px] bg-blue-france-sun-base" />}
     <a
       className={`flex-1 px-4 py-3 block no-underline whitespace-nowrap ${
-        disabled && 'pointer-events-none'
+        disabled && 'pointer-events-none !text-gray-400'
       }`}
       href={href}
       {...(download && { download: true })}
