@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@potentiel-domain/core": "*",
+    "@potentiel-domain/utilisateur": "*",
     "@potentiel/monitoring": "*",
-    "mediateur": "^0.1.0"
+    "mediateur": "^0.1.0",
+    "next-auth": "^4.24.5"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
