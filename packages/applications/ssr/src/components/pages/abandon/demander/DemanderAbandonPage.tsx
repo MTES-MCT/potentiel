@@ -11,7 +11,7 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { demanderAbandonAction } from './demanderAbandon.action';
 import { useRouter } from 'next/navigation';
-import { FormPageTemplateForProject } from '@/components/templates/FormPageTemplateForProject';
+import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
 
 export type DemanderAbandonPageProps = {
   projet: ProjetPageTemplateProps['projet'];
@@ -29,9 +29,9 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
   const [recandidature, setRecandidature] = useState(false);
 
   return (
-    <FormPageTemplateForProject
+    <FormForProjetPageTemplate
       projet={projet}
-      heading={<span>Je demande un abandon de mon projet</span>}
+      heading={<span>Demander l'abandon du projet</span>}
       form={
         <>
           <Form
