@@ -1,4 +1,4 @@
-import { mediator } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getUser } from '@/utils/getUtilisateur';
@@ -20,6 +20,18 @@ export const metadata: Metadata = {
   title: "Demander l'abandon du projet - Potentiel",
   description: "Formulaire d'abandon",
 };
+import { cookies } from 'next/headers';
+
+type GetAccessTokenMessage = Message<'GET_ACCESS_TOKEN', {}, string>;
+
+const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
+
+const handler: MessageHandler<GetAccessTokenMessage> = async () => {
+  const cookiesContent = cookies();
+  return cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
+};
+
+mediator.register('GET_ACCESS_TOKEN', handler);
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {

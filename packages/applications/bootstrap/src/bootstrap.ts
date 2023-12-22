@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { logMiddleware } from '@potentiel-libraries/mediateur-middlewares';
+import { Permission } from '@potentiel-libraries/mediateur-middlewares';
 import { setupLauréat } from './setupLauréat';
 import { getLogger } from '@potentiel/monitoring';
 import { setupCandidature } from './setupCandidature';
@@ -10,8 +10,13 @@ import { setupUtilisateur } from './setupUtilisateur';
 import { setupGestionnaireRéseau } from './setupGestionnaireRéseau';
 
 export const bootstrap = async (): Promise<() => Promise<void>> => {
+  // mediator.use({
+  //   middlewares: [Log.middleware],
+  // });
+
   mediator.use({
-    middlewares: [logMiddleware],
+    messageType: 'DEMANDER_ABANDON_USECASE',
+    middlewares: [Permission.middleware],
   });
 
   setupAppelOffre();

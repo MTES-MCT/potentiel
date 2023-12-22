@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 import { Abandon } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+//import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 export type DemanderAbandonState = FormState;
 
@@ -22,13 +22,13 @@ const action: FormAction<FormState, typeof schema> = async (
 ) => {
   // TODO : Rendre cette vérification automatiquement lors de l'exécution
   //        d'un(e) query/usecase avec un identifiantProjet
-  await mediator.send<VérifierAccèsProjetQuery>({
-    type: 'VERIFIER_ACCES_PROJET_QUERY',
-    data: {
-      identifiantProjet,
-      identifiantUtilisateur,
-    },
-  });
+  // await mediator.send<VérifierAccèsProjetQuery>({
+  //   type: 'VERIFIER_ACCES_PROJET_QUERY',
+  //   data: {
+  //     identifiantProjet,
+  //     identifiantUtilisateur,
+  //   },
+  // });
 
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'DEMANDER_ABANDON_USECASE',

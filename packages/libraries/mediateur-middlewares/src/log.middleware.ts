@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import { Middleware } from 'mediateur';
 import { DomainError } from '@potentiel-domain/core';
 
-export const logMiddleware: Middleware = async (message, next) => {
+export const middleware: Middleware = async (message, next) => {
   const correlationId = randomUUID();
   getLogger().info('Executing message', { message: JSON.stringify(message), correlationId });
   try {
