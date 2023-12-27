@@ -6,10 +6,10 @@ import {
   AbandonListPageProps,
 } from '@/components/pages/abandon/lister/AbandonListPage';
 import { displayDate } from '@/utils/displayDate';
-import { getUser } from '@/utils/getUtilisateur';
-import { redirect } from 'next/navigation';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import type { Metadata } from 'next';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -22,10 +22,11 @@ export const metadata: Metadata = {
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const utilisateur = await getUser();
-    if (!utilisateur) {
-      redirect('/login.html');
-    }
+    const accessToken = await mediator.send<GetAccessTokenMessage>({
+      type: 'GET_ACCESS_TOKEN',
+      data: {},
+    });
+    const utilisateur = Utilisateur.convertirEnValueType(accessToken);
 
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
@@ -42,8 +43,8 @@ export default async function Page({ searchParams }: PageProps) {
       type: 'LISTER_ABANDONS_QUERY',
       data: {
         utilisateur: {
-          email: utilisateur.email,
-          rôle: utilisateur.rôle,
+          email: utilisateur.identifiantUtilisateur.email,
+          rôle: utilisateur.role.nom,
         },
         pagination: { page, itemsPerPage: 10 },
         recandidature,

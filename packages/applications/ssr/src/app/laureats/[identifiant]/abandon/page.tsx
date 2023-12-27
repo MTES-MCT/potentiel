@@ -1,10 +1,8 @@
 import { mediator } from 'mediateur';
-import { redirect } from 'next/navigation';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { Utilisateur, getUser } from '@/utils/getUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 
 import {
@@ -12,8 +10,9 @@ import {
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/détails/DetailAbandonPage';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import type { Metadata } from 'next';
+import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
 
 type PageProps = IdentifiantParameter;
 
@@ -33,20 +32,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
-    const utilisateur = await getUser();
 
-    if (!utilisateur) {
-      return redirect('/login.html');
-    }
+    const accessToken = await mediator.send<GetAccessTokenMessage>({
+      type: 'GET_ACCESS_TOKEN',
+      data: {},
+    });
+    const utilisateur = Utilisateur.convertirEnValueType(accessToken);
 
     // TODO : Rendre cette vérification automatiquement lors de l'exécution
     //        d'un(e) query/usecase avec un identifiantProjet
-    if (utilisateur.rôle === 'porteur-projet') {
+    if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
       await mediator.send<VérifierAccèsProjetQuery>({
         type: 'VERIFIER_ACCES_PROJET_QUERY',
         data: {
           identifiantProjet,
-          identifiantUtilisateur: utilisateur.email,
+          identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
         },
       });
     }
@@ -68,7 +68,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     // TODO: extract the logic in a dedicated function mapToProps
     // identifiantProjet must come from the readmodel as a value type
     const detailAbandonPageProps: DetailAbandonPageProps = {
-      identifiantUtilisateur: utilisateur.email,
+      identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
       projet: { ...candidature, identifiantProjet },
       statut: statut.statut,
       abandon: {
@@ -123,14 +123,14 @@ const mapToActions = ({
   recandidature,
   statut,
 }: {
-  utilisateur: Utilisateur;
+  utilisateur: Utilisateur.ValueType;
   recandidature: boolean;
   statut: Abandon.StatutAbandon.ValueType;
 }): AvailableActions => {
   const actions: AvailableActions = [];
   const demandeConfirmationPossible = statut.estDemandé() && !recandidature;
 
-  switch (utilisateur.rôle) {
+  switch (utilisateur.role.nom) {
     case 'admin':
       if (demandeConfirmationPossible) {
         actions.push('demander-confirmation');

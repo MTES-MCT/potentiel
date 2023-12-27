@@ -1,20 +1,20 @@
-import { getAccessToken } from '@/utils/getAccessToken';
+import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-libraries/routes';
+import { mediator } from 'mediateur';
 
 export async function UserBasedRoleNavigation() {
-  const accessToken = await getAccessToken();
+  const accessToken = await mediator.send<GetAccessTokenMessage>({
+    type: 'GET_ACCESS_TOKEN',
+    data: {},
+  });
 
   const navigationItems = accessToken
     ? getNavigationItemsBasedOnRole(Utilisateur.convertirEnValueType(accessToken).role.nom)
     : [];
 
-  return (
-    <>
-      <MainNavigation id="header-navigation" items={navigationItems}></MainNavigation>
-    </>
-  );
+  return <MainNavigation items={navigationItems} />;
 }
 
 const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items'] => {

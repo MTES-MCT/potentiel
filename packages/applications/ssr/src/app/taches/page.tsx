@@ -5,10 +5,10 @@ import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tach
 import { displayDate } from '@/utils/displayDate';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheListPage';
-import { getUser } from '@/utils/getUtilisateur';
-import { OperationRejectedError } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import type { Metadata } from 'next';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -25,39 +25,39 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
 
     const appelOffre = searchParams?.appelOffre;
 
-    const utilisateur = await getUser();
+    const accessToken = await mediator.send<GetAccessTokenMessage>({
+      type: 'GET_ACCESS_TOKEN',
+      data: {},
+    });
+    const utilisateur = Utilisateur.convertirEnValueType(accessToken);
 
-    if (utilisateur) {
-      const appelOffres = await mediator.send<ListerAppelOffreQuery>({
-        type: 'LISTER_APPEL_OFFRE_QUERY',
-        data: {},
-      });
+    const appelOffres = await mediator.send<ListerAppelOffreQuery>({
+      type: 'LISTER_APPEL_OFFRE_QUERY',
+      data: {},
+    });
 
-      const tâches = await mediator.send<ListerTâcheQuery>({
-        type: 'LISTER_TÂCHES_QUERY',
-        data: {
-          pagination: { page, itemsPerPage: 10 },
-          email: utilisateur.email,
-          appelOffre,
-        },
-      });
+    const tâches = await mediator.send<ListerTâcheQuery>({
+      type: 'LISTER_TÂCHES_QUERY',
+      data: {
+        pagination: { page, itemsPerPage: 10 },
+        email: utilisateur.identifiantUtilisateur.email,
+        appelOffre,
+      },
+    });
 
-      const filters = [
-        {
-          label: `Appel d'offres`,
-          searchParamKey: 'appelOffre',
-          defaultValue: appelOffre,
-          options: appelOffres.items.map((appelOffre) => ({
-            label: appelOffre.id,
-            value: appelOffre.id,
-          })),
-        },
-      ];
+    const filters = [
+      {
+        label: `Appel d'offres`,
+        searchParamKey: 'appelOffre',
+        defaultValue: appelOffre,
+        options: appelOffres.items.map((appelOffre) => ({
+          label: appelOffre.id,
+          value: appelOffre.id,
+        })),
+      },
+    ];
 
-      return <TâcheListPage list={mapToListProps(tâches)} filters={filters} />;
-    }
-
-    throw new OperationRejectedError('Utilisateur non connecté');
+    return <TâcheListPage list={mapToListProps(tâches)} filters={filters} />;
   });
 }
 

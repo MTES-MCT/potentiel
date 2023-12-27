@@ -4,7 +4,6 @@ import {
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
 } from '@potentiel-domain/candidature';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getUser } from '@/utils/getUtilisateur';
 import { redirect } from 'next/navigation';
 import {
   TransmettrePreuveRecandidaturePage,
@@ -13,7 +12,6 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import type { Metadata } from 'next';
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -21,25 +19,27 @@ export const metadata: Metadata = {
   title: 'Transmettre preuve de recandidature - Potentiel',
   description: 'Formulaire de transmission de preuve de recandidature suite à un abandon',
 };
+import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const utilisateur = await getUser();
-
-    if (!utilisateur) {
-      redirect('/login.html');
-    }
+    const accessToken = await mediator.send<GetAccessTokenMessage>({
+      type: 'GET_ACCESS_TOKEN',
+      data: {},
+    });
+    const utilisateur = Utilisateur.convertirEnValueType(accessToken);
 
     // TODO : Rendre cette vérification automatiquement lors de l'exécution
     //        d'un(e) query/usecase avec un identifiantProjet
-    if (utilisateur.rôle === 'porteur-projet') {
+    if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
       await mediator.send<VérifierAccèsProjetQuery>({
         type: 'VERIFIER_ACCES_PROJET_QUERY',
         data: {
           identifiantProjet,
-          identifiantUtilisateur: utilisateur.email,
+          identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
         },
       });
     }
@@ -68,7 +68,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       await mediator.send<ListerCandidaturesEligiblesPreuveRecanditureQuery>({
         type: 'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
         data: {
-          identifiantUtilisateur: utilisateur.email,
+          identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
         },
       });
 
@@ -84,7 +84,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           statut: projet.statut.statut,
           identifiantProjet: projet.identifiantProjet.formatter(),
         })),
-      identifiantUtilisateur: utilisateur.email,
+      identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
     };
 
     return (
