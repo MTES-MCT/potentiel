@@ -11,14 +11,16 @@ export async function UserBasedRoleNavigation() {
   });
 
   const navigationItems = accessToken
-    ? getNavigationItemsBasedOnRole(Utilisateur.convertirEnValueType(accessToken).role.nom)
+    ? getNavigationItemsBasedOnRole(Utilisateur.convertirEnValueType(accessToken))
     : [];
 
   return <MainNavigation items={navigationItems} />;
 }
 
-const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items'] => {
-  switch (role) {
+const getNavigationItemsBasedOnRole = (
+  utilisateur: Utilisateur.ValueType,
+): MainNavigationProps['items'] => {
+  switch (utilisateur.role.nom) {
     case 'admin':
     case 'dgec-validateur':
       return [

@@ -6,12 +6,6 @@ export type GetAccessTokenMessage = Message<'GET_ACCESS_TOKEN', {}, string>;
 
 const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
 
-class AuthenticationError extends Error {
-  constructor() {
-    super(`Vous devez être authentifié`);
-  }
-}
-
 export const getAccessTokenHandler: MessageHandler<GetAccessTokenMessage> = async () => {
   const cookiesContent = cookies();
   const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
@@ -21,9 +15,5 @@ export const getAccessTokenHandler: MessageHandler<GetAccessTokenMessage> = asyn
     secret: process.env.NEXTAUTH_SECRET ?? '',
   });
 
-  if (!decoded?.accessToken) {
-    throw new AuthenticationError();
-  }
-
-  return decoded.accessToken;
+  return decoded?.accessToken ?? '';
 };

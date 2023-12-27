@@ -1,15 +1,16 @@
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
+
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
+
 import {
   AbandonListPage,
   AbandonListPageProps,
 } from '@/components/pages/abandon/lister/AbandonListPage';
 import { displayDate } from '@/utils/displayDate';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import type { Metadata } from 'next';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -21,83 +22,81 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const accessToken = await mediator.send<GetAccessTokenMessage>({
-      type: 'GET_ACCESS_TOKEN',
-      data: {},
-    });
-    const utilisateur = Utilisateur.convertirEnValueType(accessToken);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
-    const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+      const recandidature =
+        searchParams?.recandidature !== undefined
+          ? searchParams.recandidature === 'true'
+          : undefined;
 
-    const recandidature =
-      searchParams?.recandidature !== undefined ? searchParams.recandidature === 'true' : undefined;
+      const statut = searchParams?.statut
+        ? Abandon.StatutAbandon.convertirEnValueType(searchParams.statut).statut
+        : undefined;
 
-    const statut = searchParams?.statut
-      ? Abandon.StatutAbandon.convertirEnValueType(searchParams.statut).statut
-      : undefined;
+      const appelOffre = searchParams?.appelOffre;
 
-    const appelOffre = searchParams?.appelOffre;
-
-    const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
-      type: 'LISTER_ABANDONS_QUERY',
-      data: {
-        utilisateur: {
-          email: utilisateur.identifiantUtilisateur.email,
-          rôle: utilisateur.role.nom,
+      const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
+        type: 'LISTER_ABANDONS_QUERY',
+        data: {
+          utilisateur: {
+            email: utilisateur.identifiantUtilisateur.email,
+            rôle: utilisateur.role.nom,
+          },
+          pagination: { page, itemsPerPage: 10 },
+          recandidature,
+          statut,
+          appelOffre,
         },
-        pagination: { page, itemsPerPage: 10 },
-        recandidature,
-        statut,
-        appelOffre,
-      },
-    });
+      });
 
-    const appelOffres = await mediator.send<ListerAppelOffreQuery>({
-      type: 'LISTER_APPEL_OFFRE_QUERY',
-      data: {},
-    });
+      const appelOffres = await mediator.send<ListerAppelOffreQuery>({
+        type: 'LISTER_APPEL_OFFRE_QUERY',
+        data: {},
+      });
 
-    const filters = [
-      {
-        label: `Appel d'offres`,
-        searchParamKey: 'appelOffre',
-        defaultValue: appelOffre,
-        options: appelOffres.items.map((appelOffre) => ({
-          label: appelOffre.id,
-          value: appelOffre.id,
-        })),
-      },
-      {
-        label: 'Recandidature',
-        searchParamKey: 'recandidature',
-        defaultValue: searchParams?.recandidature,
-        options: [
-          {
-            label: 'Avec recandidature',
-            value: 'true',
-          },
-          {
-            label: 'Sans recandidature',
-            value: 'false',
-          },
-        ],
-      },
-      {
-        label: 'Statut',
-        searchParamKey: 'statut',
-        defaultValue: statut,
-        options: Abandon.StatutAbandon.statuts
-          .filter((s) => s !== 'inconnu' && s !== 'annulé')
-          .map((statut) => ({
-            label: statut.replace('-', ' ').toLocaleLowerCase(),
-            value: statut,
+      const filters = [
+        {
+          label: `Appel d'offres`,
+          searchParamKey: 'appelOffre',
+          defaultValue: appelOffre,
+          options: appelOffres.items.map((appelOffre) => ({
+            label: appelOffre.id,
+            value: appelOffre.id,
           })),
-      },
-    ];
+        },
+        {
+          label: 'Recandidature',
+          searchParamKey: 'recandidature',
+          defaultValue: searchParams?.recandidature,
+          options: [
+            {
+              label: 'Avec recandidature',
+              value: 'true',
+            },
+            {
+              label: 'Sans recandidature',
+              value: 'false',
+            },
+          ],
+        },
+        {
+          label: 'Statut',
+          searchParamKey: 'statut',
+          defaultValue: statut,
+          options: Abandon.StatutAbandon.statuts
+            .filter((s) => s !== 'inconnu' && s !== 'annulé')
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
+        },
+      ];
 
-    return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
-  });
+      return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
+    }),
+  );
 }
 
 const mapToListProps = (
