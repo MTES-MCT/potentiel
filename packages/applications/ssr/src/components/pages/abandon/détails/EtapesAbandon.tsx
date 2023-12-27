@@ -39,7 +39,7 @@ const getNextStepTitle = (statut: string, abandonAvecRecandidature?: true) => {
     case 'confirmation-demandée':
       return 'confirmation';
     case 'confirmé':
-      return 'instruction finale';
+      return 'accord ou rejet';
     default:
       return '';
   }
