@@ -8,15 +8,19 @@ import Link from 'next/link';
 import Providers from './Providers';
 import { Header } from '@/components/organisms/Header';
 import { Footer } from '@/components/organisms/Footer';
+import { BootstrapApp } from './BootstrapApp';
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"
   return (
     <html {...getHtmlAttributes({ defaultColorScheme })}>
+      <BootstrapApp />
+
       <head>
         <StartDsfr />
         <DsfrHead Link={Link} />
       </head>
+
       <body className="flex flex-col min-h-screen">
         <Providers>
           <Header />
