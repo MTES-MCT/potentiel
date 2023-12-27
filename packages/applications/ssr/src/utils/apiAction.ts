@@ -1,28 +1,26 @@
 import {
+  DomainError,
   InvalidOperationError,
   NotFoundError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
-import { getLogger } from '@potentiel/monitoring';
+import { withErrorHandling } from './withErrorHandling';
 
-export const apiAction = async (action: () => Promise<Response>) => {
-  try {
-    return await action();
-  } catch (e) {
-    if (e instanceof InvalidOperationError) {
-      return mapTo400(e);
-    }
+export const apiAction = async (action: () => Promise<Response>) =>
+  withErrorHandling(action, mapDomainError, mapTo500);
 
-    if (e instanceof OperationRejectedError) {
-      return mapTo401(e);
-    }
-
-    if (e instanceof NotFoundError) {
-      return mapTo404(e);
-    }
-
-    return mapTo500(e as Error);
+const mapDomainError = (e: DomainError) => {
+  if (e instanceof InvalidOperationError) {
+    return mapTo400(e);
   }
+  if (e instanceof OperationRejectedError) {
+    return mapTo401();
+  }
+  if (e instanceof NotFoundError) {
+    return mapTo404(e);
+  }
+
+  return mapTo500();
 };
 
 const mapTo404 = (e: Error) => {
@@ -52,8 +50,7 @@ const mapTo400 = (e: Error) => {
   );
 };
 
-const mapTo401 = (e: Error) => {
-  getLogger().warn(e.message);
+const mapTo401 = () => {
   return Response.json(
     {
       message: 'Opération rejetée',
@@ -68,8 +65,7 @@ const mapTo401 = (e: Error) => {
   );
 };
 
-const mapTo500 = (e: Error) => {
-  getLogger().error(e);
+const mapTo500 = () => {
   return Response.json(
     {
       message: 'Une erreur est survenue',

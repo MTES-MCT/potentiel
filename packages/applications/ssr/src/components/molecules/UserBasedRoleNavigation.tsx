@@ -8,16 +8,17 @@ export async function UserBasedRoleNavigation() {
     type: 'GET_ACCESS_TOKEN',
     data: {},
   });
-
-  const navigationItems = getNavigationItemsBasedOnRole(
-    Utilisateur.convertirEnValueType(accessToken).role.nom,
-  );
+  const navigationItems = accessToken
+    ? getNavigationItemsBasedOnRole(Utilisateur.convertirEnValueType(accessToken))
+    : [];
 
   return <MainNavigation items={navigationItems}></MainNavigation>;
 }
 
-const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items'] => {
-  switch (role) {
+const getNavigationItemsBasedOnRole = (
+  utilisateur: Utilisateur.ValueType,
+): MainNavigationProps['items'] => {
+  switch (utilisateur.role.nom) {
     case 'admin':
     case 'dgec-validateur':
       return [

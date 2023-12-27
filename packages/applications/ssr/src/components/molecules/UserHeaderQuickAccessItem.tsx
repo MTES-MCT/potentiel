@@ -9,8 +9,7 @@ export async function UserHeaderQuickAccessItem() {
     type: 'GET_ACCESS_TOKEN',
     data: {},
   });
-
-  const utilisateur = Utilisateur.convertirEnValueType(accessToken);
+  const utilisateur = accessToken && Utilisateur.convertirEnValueType(accessToken);
   const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 
   if (utilisateur) {
@@ -63,6 +62,7 @@ export async function UserHeaderQuickAccessItem() {
     );
   }
 }
+
 async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType) {
   if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
     const { nombreTâches } = await mediator.send<ConsulterNombreTâchesQuery>({

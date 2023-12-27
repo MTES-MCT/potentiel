@@ -12,76 +12,72 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
-import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
+import { Role, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = decodeParameter(identifiant);
 
-    const accessToken = await mediator.send<GetAccessTokenMessage>({
-      type: 'GET_ACCESS_TOKEN',
-      data: {},
-    });
-    const utilisateur = Utilisateur.convertirEnValueType(accessToken);
+      // TODO : Rendre cette vérification automatiquement lors de l'exécution
+      //        d'un(e) query/usecase avec un identifiantProjet
+      if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
+        await mediator.send<VérifierAccèsProjetQuery>({
+          type: 'VERIFIER_ACCES_PROJET_QUERY',
+          data: {
+            identifiantProjet,
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+          },
+        });
+      }
 
-    // TODO : Rendre cette vérification automatiquement lors de l'exécution
-    //        d'un(e) query/usecase avec un identifiantProjet
-    if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
-      await mediator.send<VérifierAccèsProjetQuery>({
-        type: 'VERIFIER_ACCES_PROJET_QUERY',
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'CONSULTER_ABANDON_QUERY',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+        },
+      });
+
+      const preuveDéjàTransmise = !!abandon.demande.preuveRecandidature;
+
+      if (preuveDéjàTransmise) {
+        redirect(`/laureats/${identifiant}/abandon/transmettre-preuve-recandidature`);
+      }
+
+      const candidature = await mediator.send<ConsulterCandidatureQuery>({
+        type: 'CONSULTER_CANDIDATURE_QUERY',
         data: {
           identifiantProjet,
-          identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-        },
-      });
-    }
-
-    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-      type: 'CONSULTER_ABANDON_QUERY',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-      },
-    });
-
-    const preuveDéjàTransmise = !!abandon.demande.preuveRecandidature;
-
-    if (preuveDéjàTransmise) {
-      redirect(`/laureats/${identifiant}/abandon/transmettre-preuve-recandidature`);
-    }
-
-    const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'CONSULTER_CANDIDATURE_QUERY',
-      data: {
-        identifiantProjet,
-      },
-    });
-
-    const projetsÀSélectionner =
-      await mediator.send<ListerCandidaturesEligiblesPreuveRecanditureQuery>({
-        type: 'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
-        data: {
-          identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
         },
       });
 
-    const transmettrePreuveRecandidaturePageProps: TransmettrePreuveRecandidaturePageProps = {
-      projet: {
-        ...candidature,
-        identifiantProjet,
-      },
-      projetsÀSélectionner: projetsÀSélectionner
-        .filter((p) => p.identifiantProjet.formatter() !== identifiantProjet)
-        .map((projet) => ({
-          ...projet,
-          statut: projet.statut.statut,
-          identifiantProjet: projet.identifiantProjet.formatter(),
-        })),
-      identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-    };
+      const projetsÀSélectionner =
+        await mediator.send<ListerCandidaturesEligiblesPreuveRecanditureQuery>({
+          type: 'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
+          data: {
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+          },
+        });
 
-    return (
-      <TransmettrePreuveRecandidaturePage {...{ ...transmettrePreuveRecandidaturePageProps }} />
-    );
-  });
+      const transmettrePreuveRecandidaturePageProps: TransmettrePreuveRecandidaturePageProps = {
+        projet: {
+          ...candidature,
+          identifiantProjet,
+        },
+        projetsÀSélectionner: projetsÀSélectionner
+          .filter((p) => p.identifiantProjet.formatter() !== identifiantProjet)
+          .map((projet) => ({
+            ...projet,
+            statut: projet.statut.statut,
+            identifiantProjet: projet.identifiantProjet.formatter(),
+          })),
+        identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+      };
+
+      return (
+        <TransmettrePreuveRecandidaturePage {...{ ...transmettrePreuveRecandidaturePageProps }} />
+      );
+    }),
+  );
 }
