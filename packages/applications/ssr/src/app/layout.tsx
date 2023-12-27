@@ -9,6 +9,7 @@ import { Header } from '@/components/organisms/Header';
 import { Footer } from '@/components/organisms/Footer';
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
+import { BootstrapApp } from './BootstrapApp';
 
 export const metadata: Metadata = {
   title: 'Potentiel',
@@ -20,10 +21,13 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"
   return (
     <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">
+      <BootstrapApp />
+
       <head>
         <StartDsfr />
         <DsfrHead Link={Link} />
       </head>
+
       <body className="flex flex-col min-h-screen">
         <Providers>
           <SkipLinks

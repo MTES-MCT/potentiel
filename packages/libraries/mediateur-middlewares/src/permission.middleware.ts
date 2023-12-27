@@ -1,21 +1,13 @@
 import { Message, Middleware, mediator } from 'mediateur';
-import { decode } from 'next-auth/jwt';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 type GetAccessTokenMessage = Message<'GET_ACCESS_TOKEN', {}, string>;
 
 export const middleware: Middleware = async (message, next) => {
-  const sessionToken = await mediator.send<GetAccessTokenMessage>({
+  const accessToken = await mediator.send<GetAccessTokenMessage>({
     type: 'GET_ACCESS_TOKEN',
     data: {},
   });
-
-  const decoded = await decode({
-    token: sessionToken,
-    secret: process.env.NEXTAUTH_SECRET ?? '',
-  });
-
-  const accessToken = decoded?.accessToken || '';
 
   const utilisateur = Utilisateur.convertirEnValueType(accessToken);
 
