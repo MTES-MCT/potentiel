@@ -49,7 +49,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       // TODO: extract the logic in a dedicated function mapToProps
       // identifiantProjet must come from the readmodel as a value type
       const detailAbandonPageProps: DetailAbandonPageProps = {
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
         projet: { ...candidature, identifiantProjet },
         statut: statut.statut,
         demande: {

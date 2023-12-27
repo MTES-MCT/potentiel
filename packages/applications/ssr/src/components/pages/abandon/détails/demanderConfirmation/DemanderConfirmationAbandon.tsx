@@ -11,12 +11,10 @@ import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInMo
 
 type DemanderConfirmationAbandonFormProps = {
   identifiantProjet: string;
-  identifiantUtilisateur: string;
 };
 
 export const DemanderConfirmationAbandon = ({
   identifiantProjet,
-  identifiantUtilisateur,
 }: DemanderConfirmationAbandonFormProps) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
@@ -35,7 +33,6 @@ export const DemanderConfirmationAbandon = ({
         children: (
           <>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
             <Upload
               label="Téléverser une réponse signée"

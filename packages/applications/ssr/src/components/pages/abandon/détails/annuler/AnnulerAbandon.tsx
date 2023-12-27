@@ -6,13 +6,9 @@ import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInMo
 
 type AnnulerAbandonFormProps = {
   identifiantProjet: string;
-  identifiantUtilisateur: string;
 };
 
-export const AnnulerAbandon = ({
-  identifiantProjet,
-  identifiantUtilisateur,
-}: AnnulerAbandonFormProps) => {
+export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) => {
   const router = useRouter();
 
   return (
@@ -30,7 +26,6 @@ export const AnnulerAbandon = ({
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
           </>
         ),
       }}

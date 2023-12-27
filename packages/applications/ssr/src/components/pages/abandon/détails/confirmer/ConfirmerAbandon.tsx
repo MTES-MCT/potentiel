@@ -7,13 +7,9 @@ import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInMo
 
 type ConfirmerAbandonFormProps = {
   identifiantProjet: string;
-  identifiantUtilisateur: string;
 };
 
-export const ConfirmerAbandon = ({
-  identifiantProjet,
-  identifiantUtilisateur,
-}: ConfirmerAbandonFormProps) => {
+export const ConfirmerAbandon = ({ identifiantProjet }: ConfirmerAbandonFormProps) => {
   const router = useRouter();
 
   return (
@@ -30,7 +26,6 @@ export const ConfirmerAbandon = ({
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir confirmer cet abandon ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
           </>
         ),
       }}

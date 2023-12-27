@@ -13,13 +13,11 @@ import { FC } from 'react';
 export type TransmettrePreuveRecandidaturePageProps = {
   projet: ProjetPageTemplateProps['projet'];
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
-  identifiantUtilisateur: TransmettrePreuveRecandidatureFormProps['identifiantUtilisateur'];
 };
 
 export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidaturePageProps> = ({
   projet,
   projetsÀSélectionner,
-  identifiantUtilisateur,
 }) => {
   return (
     <ProjetPageTemplate
@@ -33,7 +31,6 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
       {projetsÀSélectionner.length > 0 ? (
         <TransmettrePreuveRecandidatureForm
           identifiantProjet={projet.identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
           projetsÀSélectionner={projetsÀSélectionner}
         />
       ) : (
