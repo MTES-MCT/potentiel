@@ -81,7 +81,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
             statut: projet.statut.statut,
             identifiantProjet: projet.identifiantProjet.formatter(),
           })),
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
       };
 
       return (

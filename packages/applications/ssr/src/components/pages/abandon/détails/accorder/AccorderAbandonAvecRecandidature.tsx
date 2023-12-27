@@ -7,12 +7,10 @@ import { Routes } from '@potentiel-libraries/routes';
 
 type AccorderAbandonAvecRecandidatureFormProps = {
   identifiantProjet: string;
-  identifiantUtilisateur: string;
 };
 
 export const AccorderAbandonAvecRecandidature = ({
   identifiantProjet,
-  identifiantUtilisateur,
 }: AccorderAbandonAvecRecandidatureFormProps) => {
   const router = useRouter();
 
@@ -32,7 +30,6 @@ export const AccorderAbandonAvecRecandidature = ({
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
           </>
         ),
       }}

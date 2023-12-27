@@ -8,36 +8,41 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-infrastructure/document-builder';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  identifiantUtilisateur: zod.string().email(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, identifiantUtilisateur },
+  { identifiantProjet },
 ) => {
-  const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-    type: 'CONSULTER_ABANDON_QUERY',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-    },
+  return withUtilisateur(async (utilisateur) => {
+    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      type: 'CONSULTER_ABANDON_QUERY',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+      },
+    });
+
+    const réponseSignéeValue = await buildReponseSignee(
+      abandon,
+      utilisateur.identifiantUtilisateur.formatter(),
+    );
+
+    await mediator.send<Abandon.AbandonUseCase>({
+      type: 'ACCORDER_ABANDON_USECASE',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        dateAccordValue: new Date().toISOString(),
+        réponseSignéeValue,
+      },
+    });
+
+    return previousState;
   });
-
-  const réponseSignéeValue = await buildReponseSignee(abandon, identifiantUtilisateur);
-
-  await mediator.send<Abandon.AbandonUseCase>({
-    type: 'ACCORDER_ABANDON_USECASE',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: identifiantUtilisateur,
-      dateAccordValue: new Date().toISOString(),
-      réponseSignéeValue,
-    },
-  });
-
-  return previousState;
 };
 
 export const accorderAbandonAvecRecandidatureAction = formAction(action, schema);
