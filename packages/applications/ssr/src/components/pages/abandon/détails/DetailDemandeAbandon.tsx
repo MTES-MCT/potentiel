@@ -2,7 +2,6 @@
 
 import { displayDate } from '@/utils/displayDate';
 import Download from '@codegouvfr/react-dsfr/Download';
-import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Heading2 } from '@/components/atoms/headings';
@@ -27,34 +26,37 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps & { statut: stri
   statut,
 }) => (
   <div className="mb-7">
-    <CallOut>
-      <span className="text-base">
+    <Heading2 className="mb-2">Détail de la demande</Heading2>
+    <div>
+      <div>
         Demande déposée par <span className="font-bold">{demandéPar}</span> le{' '}
         <span className="font-bold">{displayDate(new Date(demandéLe))}</span>
-        {recandidature && (
-          <>
-            <br />
-            Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
-          </>
-        )}
-        <br />
-        Explications du porteur de projet : <span className="italic">"{raison}"</span>
-        <br />
-        {pièceJustificative && (
-          <Download
-            details=""
-            label="Télécharger la pièce justificative"
-            linkProps={{
-              href: `/documents/${encodeParameter(pièceJustificative)}`,
-            }}
-            className="mb-0 pb-0"
-          />
-        )}
-      </span>
-    </CallOut>
+      </div>
+      {recandidature && (
+        <div>
+          Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
+        </div>
+      )}
+      <div>
+        Explications du porteur de projet :
+        <blockquote className="italic">
+          <p className="mt-2">"{raison}"</p>
+        </blockquote>
+      </div>
+      {pièceJustificative && (
+        <Download
+          details=""
+          label="Télécharger la pièce justificative"
+          linkProps={{
+            href: `/documents/${encodeParameter(pièceJustificative)}`,
+          }}
+          className="mb-0 pb-0"
+        />
+      )}
+    </div>
 
     {recandidature && statut === 'accordé' && (
-      <>
+      <div className="mt-4">
         <Heading2 className="mb-2">Preuve de recandidature</Heading2>
         {preuveRecandidature ? (
           <p>
@@ -70,7 +72,7 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps & { statut: stri
         ) : (
           <p>Le porteur n'a pas encore transmis de projet comme preuve de recandidature.</p>
         )}
-      </>
+      </div>
     )}
 
     {recandidature && (
