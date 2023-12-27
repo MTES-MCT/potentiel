@@ -23,7 +23,7 @@ export const DetailInstructionAbandon: FC<DetailInstructionAbandonProps> = ({
 }) => {
   return (
     <div>
-      <Heading2 className="mb-2">Instruction</Heading2>
+      <Heading2 className="mb-2">Étapes de l'instruction</Heading2>
       <div className="flex gap-3 flex-col">
         {confirmation?.demandéLe && (
           <div>
