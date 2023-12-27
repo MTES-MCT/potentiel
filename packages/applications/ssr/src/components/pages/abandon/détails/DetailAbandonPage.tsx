@@ -52,7 +52,9 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
       heading={<>Abandon</>}
       details={
         <>
-          <EtapesAbandon {...{ statut }} />
+          <EtapesAbandon
+            {...{ statut, ...(demande.recandidature && { abandonAvecRecandidature: true }) }}
+          />
           <DetailDemandeAbandon {...{ ...demande, statut }} />
           {(instruction.accord || instruction.confirmation || instruction.rejet) && (
             <div className="mt-6">
