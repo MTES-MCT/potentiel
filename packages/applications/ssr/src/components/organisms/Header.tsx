@@ -22,7 +22,7 @@ export const Header = () => {
       }
       homeLinkProps={{
         href: '/',
-        title: "Accueil - Nom de l’entité (ministère, secrétariat d'état, gouvernement)",
+        title: "Retour à l'accueil",
       }}
       quickAccessItems={[
         <UserHeaderQuickAccessItem key={0} />,

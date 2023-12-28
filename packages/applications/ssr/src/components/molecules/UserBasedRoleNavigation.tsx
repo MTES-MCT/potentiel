@@ -11,7 +11,7 @@ export async function UserBasedRoleNavigation() {
 
   return (
     <>
-      <MainNavigation items={navigationItems}></MainNavigation>
+      <MainNavigation id="header-navigation" items={navigationItems}></MainNavigation>
     </>
   );
 }

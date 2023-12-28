@@ -2,6 +2,7 @@ import DsfrFooter from '@codegouvfr/react-dsfr/Footer';
 
 export const Footer = () => (
   <DsfrFooter
+    id="footer"
     brandTop={
       <>
         Ministère
