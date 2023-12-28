@@ -1,5 +1,6 @@
 import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
+import Badge from '@mui/material/Badge';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { mediator } from 'mediateur';
@@ -13,9 +14,27 @@ export async function UserHeaderQuickAccessItem() {
   const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 
   if (utilisateur) {
+    const nombreTâches =
+      utilisateur.role.estÉgaleÀ(Role.porteur) && (await getNombreTâches(utilisateur));
+
     return (
       <>
-        {await getTâcheHeaderQuickAccessItem(utilisateur)}
+        {nombreTâches && (
+          <HeaderQuickAccessItem
+            quickAccessItem={{
+              iconId: 'ri-list-check-3',
+              linkProps: {
+                href: '/taches',
+              },
+              text: (
+                <Badge color="secondary" badgeContent={nombreTâches}>
+                  Tâche{nombreTâches > 1 && 's'}
+                </Badge>
+              ),
+            }}
+          />
+        )}
+
         <HeaderQuickAccessItem
           quickAccessItem={{
             iconId: 'ri-user-line',
@@ -63,8 +82,8 @@ export async function UserHeaderQuickAccessItem() {
   }
 }
 
-async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType) {
-  if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
+const getNombreTâches = async (utilisateur: Utilisateur.ValueType) => {
+  try {
     const { nombreTâches } = await mediator.send<ConsulterNombreTâchesQuery>({
       type: 'CONSULTER_NOMBRE_TÂCHES_QUERY',
       data: {
@@ -72,16 +91,8 @@ async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType
       },
     });
 
-    return (
-      <HeaderQuickAccessItem
-        quickAccessItem={{
-          iconId: nombreTâches > 0 ? 'ri-mail-unread-line' : 'ri-mail-check-line',
-          linkProps: {
-            href: '/taches',
-          },
-          text: `Tâches (${nombreTâches})`,
-        }}
-      />
-    );
-  }
-}
+    return nombreTâches;
+  } catch (error) {}
+
+  return 0;
+};
