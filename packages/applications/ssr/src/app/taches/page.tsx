@@ -10,6 +10,8 @@ import { OperationRejectedError } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 type PageProps = {
   searchParams?: Record<string, string>;
 };
