@@ -1,7 +1,9 @@
 import { Message, Middleware, mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel/monitoring';
 
+// Maybe it must be a dependency of this middleware ?
 type GetAccessTokenMessage = Message<'GET_ACCESS_TOKEN', {}, string>;
 
 export const middleware: Middleware = async (message, next) => {
@@ -17,9 +19,14 @@ export const middleware: Middleware = async (message, next) => {
     });
   } catch (error) {
     if (isSystemProcess(message)) {
-      // This is probably a query executed by a system process, but who knows ...
+      getLogger().warn(
+        `[permission.middleware] Fail to get access token probably because a system process trigger the message`,
+        { type: message.type, data: message.data },
+      );
       return await next();
     }
+
+    throw new AuthenticationError(error as Error);
   }
 
   const utilisateur = Utilisateur.convertirEnValueType(accessToken);
@@ -40,14 +47,23 @@ export const middleware: Middleware = async (message, next) => {
   return await next();
 };
 
+class AuthenticationError extends Error {
+  constructor(cause: Error) {
+    super(`Authentification obligatoire`, { cause });
+  }
+}
+
 const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>) => {
   return message.type === 'GET_ACCESS_TOKEN' || message.type === 'VERIFIER_ACCES_PROJET_QUERY';
 };
 
 const isSystemProcess = (message: Message<string, Record<string, unknown>, void>) => {
   return (
-    message.type.endsWith('_QUERY') ||
+    message.type.endsWith('GET_ACCESS_TOKEN') ||
+    message.type.endsWith('_NOTIFICATION') ||
+    message.type.endsWith('_PROJECTOR') ||
     message.type.endsWith('_SAGA') ||
+    message.type.endsWith('_QUERY') ||
     message.type.endsWith('_COMMAND')
   );
 };
