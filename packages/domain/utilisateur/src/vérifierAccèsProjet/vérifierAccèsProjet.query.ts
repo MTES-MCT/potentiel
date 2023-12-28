@@ -1,18 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import { Role, Utilisateur } from '..';
 
 export type VérifierAccèsProjetQuery = Message<
   'VERIFIER_ACCES_PROJET_QUERY',
   {
-    identifiantUtilisateur: string;
-    identifiantProjet: string;
+    utilisateur: Utilisateur.ValueType;
+    identifiantProjetValue: string;
   },
   void
 >;
 
 export type VérifierAccèsProjetPort = (args: {
-  identifiantUtilisateur: string;
-  identifiantProjet: string;
+  identifiantUtilisateurValue: string;
+  identifiantProjetValue: string;
 }) => Promise<boolean>;
 
 export type VérifierAccèsProjetDependencies = {
@@ -29,10 +30,22 @@ export const registerVérifierAccèsProjetQuery = ({
   vérifierAccèsProjet,
 }: VérifierAccèsProjetDependencies) => {
   const handler: MessageHandler<VérifierAccèsProjetQuery> = async ({
-    identifiantUtilisateur,
-    identifiantProjet,
+    utilisateur,
+    identifiantProjetValue,
   }) => {
-    const estAccessible = await vérifierAccèsProjet({ identifiantUtilisateur, identifiantProjet });
+    if (
+      utilisateur.role.estÉgaleÀ(Role.admin) ||
+      utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
+      utilisateur.role.estÉgaleÀ(Role.dreal)
+    ) {
+      return;
+    }
+
+    const identifiantUtilisateurValue = utilisateur.identifiantUtilisateur.formatter();
+    const estAccessible = await vérifierAccèsProjet({
+      identifiantUtilisateurValue,
+      identifiantProjetValue,
+    });
 
     if (!estAccessible) {
       throw new ProjetInaccessibleError();

@@ -12,25 +12,12 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { Role, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
-
-      // TODO : Rendre cette vérification automatiquement lors de l'exécution
-      //        d'un(e) query/usecase avec un identifiantProjet
-      if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
-        await mediator.send<VérifierAccèsProjetQuery>({
-          type: 'VERIFIER_ACCES_PROJET_QUERY',
-          data: {
-            identifiantProjet,
-            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-          },
-        });
-      }
 
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON_QUERY',
