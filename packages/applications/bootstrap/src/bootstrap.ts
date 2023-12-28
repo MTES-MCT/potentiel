@@ -15,7 +15,7 @@ export const bootstrap = async (): Promise<() => Promise<void>> => {
   // });
 
   mediator.use({
-    messageType: 'DEMANDER_ABANDON_USECASE',
+    // messageType: 'DEMANDER_ABANDON_USECASE',
     middlewares: [Permission.middleware],
   });
 
