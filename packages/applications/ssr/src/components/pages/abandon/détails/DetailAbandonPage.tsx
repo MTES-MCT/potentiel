@@ -1,15 +1,7 @@
 'use client';
 
 import { FC } from 'react';
-import {
-  DetailDemandeAbandon,
-  DetailDemandeAbandonProps,
-} from '@/components/pages/abandon/détails/DetailDemandeAbandon';
-import {
-  DetailInstructionAbandon,
-  DetailInstructionAbandonProps,
-} from '@/components/pages/abandon/détails/DetailInstructionAbandon';
-import { StatutBadgeProps } from '@/components/molecules/StatutBadge';
+import { StatutBadge, StatutBadgeProps } from '@/components/molecules/StatutBadge';
 import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
@@ -18,7 +10,7 @@ import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSans
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
-import { EtapesAbandon } from './EtapesAbandon';
+import { EtapesAbandonProps, EtapesAbandon } from './EtapesAbandon';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -30,18 +22,16 @@ type AvailableActions = Array<
 >;
 
 export type DetailAbandonPageProps = {
-  statut: StatutBadgeProps['statut'];
   projet: ProjetPageTemplateProps['projet'];
-  demande: DetailDemandeAbandonProps;
-  instruction: DetailInstructionAbandonProps;
+  abandon: EtapesAbandonProps;
+  statut: StatutBadgeProps['statut'];
   identifiantUtilisateur: string;
   actions: AvailableActions;
 };
 
 export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   projet,
-  demande,
-  instruction,
+  abandon,
   statut,
   identifiantUtilisateur,
   actions,
@@ -49,20 +39,13 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   return (
     <DetailsAboutProjetPageTemplate
       projet={projet}
-      heading={<>Abandon</>}
-      details={
-        <>
-          <EtapesAbandon
-            {...{ statut, ...(demande.recandidature && { abandonAvecRecandidature: true }) }}
-          />
-          <DetailDemandeAbandon {...{ ...demande, statut }} />
-          {(instruction.accord || instruction.confirmation || instruction.rejet) && (
-            <div className="mt-6">
-              <DetailInstructionAbandon {...instruction} />
-            </div>
-          )}
-        </>
+      heading={
+        <div className="flex flex-col md:flex-row gap-3 items-center">
+          <span>Abandon</span>
+          <StatutBadge statut={statut} />
+        </div>
       }
+      details={<EtapesAbandon {...{ ...abandon, statut }} />}
       actions={mapToActionComponents({
         actions,
         identifiantProjet: projet.identifiantProjet,

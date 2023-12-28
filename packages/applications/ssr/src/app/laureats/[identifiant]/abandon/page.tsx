@@ -71,19 +71,19 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       identifiantUtilisateur: utilisateur.email,
       projet: { ...candidature, identifiantProjet },
       statut: statut.statut,
-      demande: {
-        demandéPar: demande.demandéPar.formatter(),
-        demandéLe: demande.demandéLe.formatter(),
-        recandidature: demande.recandidature,
-        raison: demande.raison,
-        ...(demande.piéceJustificative && {
-          pièceJustificative: demande.piéceJustificative.formatter(),
-        }),
-        ...(demande.preuveRecandidature && {
-          preuveRecandidature: demande.preuveRecandidature.formatter(),
-        }),
-      },
-      instruction: {
+      abandon: {
+        demande: {
+          demandéPar: demande.demandéPar.formatter(),
+          demandéLe: demande.demandéLe.formatter(),
+          recandidature: demande.recandidature,
+          raison: demande.raison,
+          ...(demande.piéceJustificative && {
+            pièceJustificative: demande.piéceJustificative.formatter(),
+          }),
+          ...(demande.preuveRecandidature && {
+            preuveRecandidature: demande.preuveRecandidature.formatter(),
+          }),
+        },
         ...(demande.confirmation && {
           confirmation: {
             demandéLe: demande.confirmation.demandéLe.formatter(),
@@ -108,6 +108,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           },
         }),
       },
+
       actions: mapToActions({ utilisateur, recandidature: demande.recandidature, statut }),
     };
 
