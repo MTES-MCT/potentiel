@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
-import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import {
   DetailAbandonPage,
@@ -34,18 +34,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      // TODO : Rendre cette vérification automatiquement lors de l'exécution
-      //        d'un(e) query/usecase avec un identifiantProjet
-      if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
-        await mediator.send<VérifierAccèsProjetQuery>({
-          type: 'VERIFIER_ACCES_PROJET_QUERY',
-          data: {
-            identifiantProjet,
-            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-          },
-        });
-      }
-
       const candidature = await mediator.send<ConsulterCandidatureQuery>({
         type: 'CONSULTER_CANDIDATURE_QUERY',
         data: {
@@ -66,6 +54,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       // identifiantProjet must come from the readmodel as a value type
       const detailAbandonPageProps: DetailAbandonPageProps = {
         projet: { ...candidature, identifiantProjet },
+        identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
         statut: statut.statut,
         abandon: {
           demande: {
