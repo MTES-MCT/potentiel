@@ -14,6 +14,12 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Transmettre preuve de recandidature - Potentiel',
+  description: 'Formulaire de transmission de preuve de recandidature suite à un abandon',
+};
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {

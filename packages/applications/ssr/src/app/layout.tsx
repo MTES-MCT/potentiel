@@ -1,5 +1,4 @@
 import './global.css';
-
 import { DsfrHead } from '@codegouvfr/react-dsfr/next-appdir/DsfrHead';
 import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes';
 import { StartDsfr } from './StartDsfr';
@@ -9,11 +8,16 @@ import Providers from './Providers';
 import { Header } from '@/components/organisms/Header';
 import { Footer } from '@/components/organisms/Footer';
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Potentiel',
+};
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"
   return (
-    <html {...getHtmlAttributes({ defaultColorScheme })}>
+    <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">
       <head>
         <StartDsfr />
         <DsfrHead Link={Link} />
