@@ -41,7 +41,7 @@ export const convertirEnValueType = (value: string): ValueType => {
       const àLaPermission = permissions[this.nom].includes(permission);
 
       if (!àLaPermission) {
-        throw new AccésFonctionnalitéRefuséError(this.nom, permission);
+        throw new AccésFonctionnalitéRefuséError(permission, this.nom);
       }
     },
   };
@@ -60,6 +60,9 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const porteur = convertirEnValueType('porteur-projet');
+export const admin = convertirEnValueType('admin');
+export const dgecValidateur = convertirEnValueType('dgec-validateur');
+export const dreal = convertirEnValueType('dreal');
 
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
@@ -84,12 +87,15 @@ const permissions: Record<RawType, string[]> = {
     //QUERY
     'CONSULTER_ABANDON_QUERY',
     'LISTER_ABANDONS_QUERY',
+    'CONSULTER_APPEL_OFFRE_QUERY',
     'LISTER_APPEL_OFFRE_QUERY',
     'CONSULTER_CANDIDATURE_QUERY',
     'CONSULTER_DOCUMENT_PROJET',
+    'GENERER_MODELE_REPONSE_ABANDON_QUERY',
     'CONSULTER_CAHIER_DES_CHARGES_QUERY',
     'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
     'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+    'CONSULTER_UTILISATEUR_QUERY',
     //USECASE
     'ACCORDER_ABANDON_USECASE',
     'ACCORDER_ABANDON_COMMAND',
@@ -112,10 +118,13 @@ const permissions: Record<RawType, string[]> = {
     //QUERY
     'CONSULTER_ABANDON_QUERY',
     'LISTER_ABANDONS_QUERY',
+    'CONSULTER_APPEL_OFFRE_QUERY',
     'LISTER_APPEL_OFFRE_QUERY',
     'CONSULTER_CANDIDATURE_QUERY',
     'CONSULTER_DOCUMENT_PROJET',
+    'GENERER_MODELE_REPONSE_ABANDON_QUERY',
     'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+    'CONSULTER_UTILISATEUR_QUERY',
     //USECASE
     'ACCORDER_ABANDON_USECASE',
     'ACCORDER_ABANDON_COMMAND',
@@ -131,10 +140,13 @@ const permissions: Record<RawType, string[]> = {
     //QUERY
     'CONSULTER_ABANDON_QUERY',
     'LISTER_ABANDONS_QUERY',
+    'CONSULTER_APPEL_OFFRE_QUERY',
     'LISTER_APPEL_OFFRE_QUERY',
     'CONSULTER_CANDIDATURE_QUERY',
     'CONSULTER_DOCUMENT_PROJET',
     'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+    'CONSULTER_NOMBRE_TÂCHES_QUERY',
+    'CONSULTER_UTILISATEUR_QUERY',
     //USECASE
     'ANNULER_ABANDON_USECASE',
     'ANNULER_ABANDON_COMMAND',
