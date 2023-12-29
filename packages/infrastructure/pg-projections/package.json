@@ -9,12 +9,12 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/projection": "*",
-    "@potentiel/pg-helpers": "*",
+    "@potentiel-libraries/projection": "^0.0.0",
+    "@potentiel/pg-helpers": "^0.0.0",
     "pg-format": "^1.0.4"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*",
-    "@types/pg-format": "^1.0.2"
+    "@types/pg-format": "^1.0.5"
   }
 }

@@ -9,11 +9,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/core-domain": "*",
-    "@potentiel/core-domain-views": "*",
-    "@potentiel/domain-usecases": "*",
-    "@potentiel/monads": "*",
-    "mediateur": "^0.1.0"
+    "@potentiel/core-domain": "^0.0.0",
+    "@potentiel/core-domain-views": "^0.0.0",
+    "@potentiel/domain-usecases": "^0.0.0",
+    "@potentiel/monads": "^0.0.0",
+    "mediateur": "^0.1.2"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

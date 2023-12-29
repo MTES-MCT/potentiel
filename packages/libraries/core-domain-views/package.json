@@ -9,8 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
-    "@potentiel/core-domain": "*"
+    "@potentiel/core-domain": "^0.0.0",
+    "@potentiel/monads": "^0.0.0"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
