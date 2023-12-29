@@ -21,6 +21,7 @@ export const Form: FC<FormProps> = ({
   ...props
 }) => {
   const [state, formAction] = useFormState(action, {
+    success: false,
     error: undefined,
     validationErrors: [],
   });

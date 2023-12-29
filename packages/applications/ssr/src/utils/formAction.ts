@@ -3,7 +3,7 @@ import { getLogger } from '@potentiel/monitoring';
 import * as zod from 'zod';
 
 export type FormState = {
-  success?: true;
+  success?: boolean;
   error?: string;
   validationErrors: string[];
 };
@@ -23,9 +23,11 @@ export const formAction =
       const data = schema
         ? schema.parse(Object.fromEntries(formData))
         : Object.fromEntries(formData);
+
       await action(previousState, data);
+
       return {
-        success: true as const,
+        success: true,
         validationErrors: [],
       };
     } catch (e) {
