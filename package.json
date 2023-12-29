@@ -110,7 +110,6 @@
     "keycloak-connect": "^21.1.2",
     "mediateur": "^0.1.2",
     "mime-types": "^2.1.35",
-    "minisearch": "^5.1.0",
     "mkdirp": "^1.0.4",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.43",
