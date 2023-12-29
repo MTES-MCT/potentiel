@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
-
 import {
   AbandonListPage,
   AbandonListPageProps,
@@ -10,9 +9,15 @@ import { displayDate } from '@/utils/displayDate';
 import { getUser } from '@/utils/getUtilisateur';
 import { redirect } from 'next/navigation';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import type { Metadata } from 'next';
 
 type PageProps = {
   searchParams?: Record<string, string>;
+};
+
+export const metadata: Metadata = {
+  title: 'Abandons - Potentiel',
+  description: 'Liste des abandons de projet',
 };
 
 export default async function Page({ searchParams }: PageProps) {

@@ -20,11 +20,7 @@ export const FormForProjetPageTemplate: FC<FormForProjetPageTemplateProps> = ({
       <div className="flex-1 mt-6">{form}</div>
       {information && (
         <div className="md:w-1/3 md:mx-auto">
-          <Alert
-            severity="info"
-            title="Informations"
-            description={<div className="mt-3">{information}</div>}
-          />
+          <Alert severity="info" small description={<div className="py-4">{information}</div>} />
         </div>
       )}
     </div>

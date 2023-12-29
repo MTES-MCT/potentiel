@@ -13,8 +13,24 @@ import {
 } from '@/components/pages/abandon/détails/DetailAbandonPage';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import type { Metadata } from 'next';
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+type PageProps = IdentifiantParameter;
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const candidature = await mediator.send<ConsulterCandidatureQuery>({
+    type: 'CONSULTER_CANDIDATURE_QUERY',
+    data: {
+      identifiantProjet: decodeParameter(params.identifiant),
+    },
+  });
+
+  return {
+    title: `Abandon du projet ${candidature.nom} - Potentiel`,
+  };
+}
+
+export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
     const utilisateur = await getUser();

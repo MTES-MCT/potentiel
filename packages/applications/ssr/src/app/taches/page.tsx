@@ -8,9 +8,15 @@ import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/T
 import { getUser } from '@/utils/getUtilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import type { Metadata } from 'next';
 
 type PageProps = {
   searchParams?: Record<string, string>;
+};
+
+export const metadata: Metadata = {
+  title: 'Tâches - Potentiel',
+  description: 'Liste des tâches en attente',
 };
 
 export default async function Page({ searchParams }: IdentifiantParameter & PageProps) {

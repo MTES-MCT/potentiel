@@ -14,6 +14,12 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { NotFoundError } from '@potentiel-domain/core';
 import { encodeParameter } from '@/utils/encodeParameter';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Demander l'abandon du projet - Potentiel",
+  description: "Formulaire d'abandon",
+};
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {

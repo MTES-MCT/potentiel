@@ -47,7 +47,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
 
   return (
     <ListPageTemplate
-      heading="Abandon"
+      heading="Abandons"
       items={abandons.map((abandon) => ({
         ...abandon,
         key: abandon.identifiantProjet,
