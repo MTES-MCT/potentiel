@@ -13,7 +13,7 @@ type PaginationProps = {
  */
 export const Pagination: FC<PaginationProps> = ({ pageCount, currentPage, getPageUrl }) => {
   return (
-    <nav role="pagination" aria-label="Pagination">
+    <nav role="navigation" aria-label="Pagination navigation">
       <ul className="flex list-none gap-3 m-0 my-0 mt-6 p-0">
         <li>
           <PageLink href={getPageUrl(1)} title="Première page" disabled={currentPage === 1}>
