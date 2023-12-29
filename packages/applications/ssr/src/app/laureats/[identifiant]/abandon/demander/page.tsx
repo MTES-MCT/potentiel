@@ -17,7 +17,7 @@ import { encodeParameter } from '@/utils/encodeParameter';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Demander un abandon - Potentiel',
+  title: "Demander l'abandon du projet - Potentiel",
   description: "Formulaire d'abandon",
 };
 
