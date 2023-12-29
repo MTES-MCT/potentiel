@@ -11,7 +11,7 @@
     "prebuild": "only-include-used-icons"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^0.78.7",
+    "@codegouvfr/react-dsfr": "^1.0.4",
     "@potentiel-domain/appel-offre": "^0.0.0",
     "@potentiel-domain/candidature": "^0.0.0",
     "@potentiel-domain/document": "^0.0.0",
