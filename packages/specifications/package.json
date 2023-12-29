@@ -28,6 +28,6 @@
     "@cucumber/pretty-formatter": "^1.0.0",
     "@potentiel/tsconfig": "*",
     "@types/chai": "^4.3.11",
-    "chai": "^4.3.10"
+    "chai": "^5.0.0"
   }
 }
