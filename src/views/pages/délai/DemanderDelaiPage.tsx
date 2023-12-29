@@ -23,7 +23,7 @@ import { ProjectAppelOffre } from '../../../entities';
 
 import { Request } from 'express';
 import React from 'react';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 
 import { hydrateOnClient } from '../../helpers';
 

@@ -1,8 +1,11 @@
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 import { DomainError } from '../../../../core/domain';
 
 export class DemanderDateAchèvementAntérieureDateThéoriqueError extends DomainError {
-  constructor(public nouvelleDateAchèvement: Date, public dateThéorique: Date) {
+  constructor(
+    public nouvelleDateAchèvement: Date,
+    public dateThéorique: Date,
+  ) {
     super(
       `Impossible de demander la nouvelle date d'achèvement (${format(
         nouvelleDateAchèvement,
