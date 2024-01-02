@@ -72,11 +72,12 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
 
       {recandidature && (
         <Alert
-          className="mt-4 mb-6"
+          className="mt-4 mb-6 text-sm"
           severity="warning"
-          title="Demande d'abandon pour recandidature"
+          small
           description={
             <div>
+              <div className="font-bold mb-2">Demande d'abandon pour recandidature</div>
               Le porteur s'engage sur l'honneur à ne pas avoir débuté ses travaux au sens du cahier
               des charges de l'AO associé et a abandonné son statut de lauréat au profit d'une
               recandidature réalisée au plus tard le 31/12/2024. <br />
