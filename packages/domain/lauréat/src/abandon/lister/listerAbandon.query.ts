@@ -1,6 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
-import { List } from '@potentiel-libraries/projection';
 import { DateTime, IdentifiantProjet, Ports } from '@potentiel-domain/common';
 import { StatutAbandon } from '..';
 
@@ -40,6 +39,24 @@ export type ListerAbandonsParProjetsPort = (
   totalItems: number;
 }>;
 
+export type ListerAbandonsPort = (
+  filters: {
+    recandidature?: boolean;
+    statut?: StatutAbandon.RawType;
+    appelOffre?: string;
+  },
+  pagination: {
+    page: number;
+    itemsPerPage: number;
+  },
+  région?: string,
+) => Promise<{
+  items: ReadonlyArray<AbandonProjection>;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+}>;
+
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
@@ -50,28 +67,28 @@ export type ListerAbandonsQuery = Message<
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
+    région?: string;
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
 >;
 
 export type ListerAbandonDependencies = {
-  list: List;
   listerIdentifiantsProjetsParPorteur: Ports.ListerIdentifiantsProjetsAccessiblesPort;
-  listerIdentifiantsProjetsParDreal: Ports.ListerIdentifiantsProjetsAccessiblesPort;
   listerAbandonsParProjets: ListerAbandonsParProjetsPort;
+  listerAbandons: ListerAbandonsPort;
 };
 
 export const registerListerAbandonQuery = ({
-  list,
   listerIdentifiantsProjetsParPorteur,
-  listerIdentifiantsProjetsParDreal,
   listerAbandonsParProjets,
+  listerAbandons,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
     statut,
     appelOffre,
+    région,
     utilisateur: { email, rôle },
     pagination: { page, itemsPerPage },
   }) => {
@@ -81,35 +98,14 @@ export const registerListerAbandonQuery = ({
       ...(appelOffre && { appelOffre }),
     };
 
-    if (['admin', 'dgec-validateur'].includes(rôle)) {
-      const result = await list<AbandonProjection>({
-        type: 'abandon',
-        pagination: { page, itemsPerPage },
-        where: filters,
-        orderBy: {
-          property: 'misÀJourLe',
-          ascending: false,
-        },
-      });
-
-      return {
-        ...result,
-        items: result.items.map((item) => mapToReadModel(item)),
-      };
-    }
-
-    if (rôle === 'dreal') {
-      const identifiantsProjets = await listerIdentifiantsProjetsParDreal(email);
-      const abandons = await listerAbandonsParProjets(
-        identifiantsProjets.map(
-          ({ appelOffre, période, famille = '', numéroCRE }) =>
-            `${appelOffre}#${période}#${famille}#${numéroCRE}`,
-        ),
+    if (['admin', 'dgec-validateur', 'dreal'].includes(rôle)) {
+      const abandons = await listerAbandons(
         filters,
         {
           page,
           itemsPerPage,
         },
+        région,
       );
       return {
         ...abandons,
