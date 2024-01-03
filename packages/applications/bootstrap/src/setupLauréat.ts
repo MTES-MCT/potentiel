@@ -9,8 +9,8 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerPorteursProjetAdapter,
   listerIdentifiantsProjetsParPorteurAdapter,
-  AbandonAdapter,
-  listerIdentifiantsProjetsParDrealAdapter,
+  listerAbandonsAdapter,
+  listerAbandonParProjetsAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
 
@@ -24,9 +24,9 @@ export const setupLauréat = async () => {
     list: listProjection,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
     listerIdentifiantsProjetsParPorteur: listerIdentifiantsProjetsParPorteurAdapter,
-    listerAbandonsParProjets: AbandonAdapter.listerAbandonParProjetsAdapter,
-    listerIdentifiantsProjetsParDreal: listerIdentifiantsProjetsParDrealAdapter,
+    listerAbandonsParProjets: listerAbandonParProjetsAdapter,
     buildModèleRéponseAbandon: getModèleRéponseAbandon,
+    listerAbandons: listerAbandonsAdapter,
   });
 
   AbandonNotification.register({
