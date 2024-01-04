@@ -1,5 +1,4 @@
 import React from 'react';
-import ROUTES from '../../routes';
 import { Request } from 'express';
 import {
   PrimaryButton,
@@ -12,6 +11,8 @@ import {
   Form,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
+
+import { PAGE_IMPORT_CANDIDATS } from '@potentiel/legacy-routes';
 
 type AdminImporterCandidatsProps = {
   request: Request;
@@ -30,7 +31,7 @@ export const AdminImporterCandidats = ({
     <LegacyPageTemplate user={request.user} currentPage="import-projects">
       <Heading1>Importer des candidats</Heading1>
       <Form
-        action={ROUTES.IMPORT_PROJECTS_ACTION}
+        action={PAGE_IMPORT_CANDIDATS}
         method="post"
         encType="multipart/form-data"
         className="mx-auto"

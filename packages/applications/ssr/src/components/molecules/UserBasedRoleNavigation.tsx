@@ -49,7 +49,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Nouveaux candidats',
               linkProps: {
-                href: '/admin/importer-candidats.html' as Route,
+                href: ROUTES_LEGACY.PAGE_IMPORT_CANDIDATS,
               },
             },
             {

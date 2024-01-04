@@ -4,7 +4,11 @@ import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
-import { PAGE_LISTE_PROJETS, PAGE_LISTE_DEMANDES } from '@potentiel/legacy-routes';
+import {
+  PAGE_LISTE_PROJETS,
+  PAGE_LISTE_DEMANDES,
+  PAGE_IMPORT_CANDIDATS,
+} from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
   user,
@@ -83,7 +87,7 @@ const MenuAdmin = (currentPage?: string) => (
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
-        href={routes.IMPORT_PROJECTS}
+        href={PAGE_IMPORT_CANDIDATS}
         {...(currentPage === 'import-projects' && { isCurrent: true })}
       >
         Nouveaux candidats

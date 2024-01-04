@@ -4,19 +4,20 @@ import asyncHandler from '../helpers/asyncHandler';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { parseCsv } from '../../helpers/parseCsv';
 import { IllegalProjectDataError } from '../../modules/project';
-import routes from '../../routes';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import { AdminImporterCandidatsPage } from '../../views';
 
+import { PAGE_IMPORT_CANDIDATS } from '@potentiel/legacy-routes';
+
 v1Router.post(
-  routes.IMPORT_PROJECTS_ACTION,
+  PAGE_IMPORT_CANDIDATS,
   ensureRole(['admin', 'dgec-validateur']),
   upload.single('candidats'),
   asyncHandler(async (request, response) => {
     if (!request.file || !request.file.path) {
       return response.redirect(
-        addQueryParams(routes.IMPORT_PROJECTS, {
+        addQueryParams(PAGE_IMPORT_CANDIDATS, {
           error: 'Le fichier candidat est manquant.',
         }),
       );
