@@ -20,6 +20,7 @@ import routes from '../../../../routes';
 import { userIs } from '../../../../modules/users';
 import { Dossier } from './components/Dossier';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
+import { GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET } from '@potentiel/legacy-routes';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
@@ -44,7 +45,7 @@ export const ListeDossiersRaccordement = ({
           {userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && (
             <Link
               className="ml-1"
-              href={routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet)}
+              href={GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(identifiantProjet)}
               aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
             >
               (<EditIcon className="mr-1" />

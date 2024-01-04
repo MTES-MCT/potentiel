@@ -21,6 +21,10 @@ import { logger } from '../../core/utils';
 import { mediator } from 'mediateur';
 import { NotFoundError } from '@potentiel-domain/core';
 import { isSome } from '@potentiel/monads';
+import {
+  GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET,
+  POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET,
+} from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),
@@ -30,7 +34,7 @@ const schema = yup.object({
 });
 
 v1Router.post(
-  routes.POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(),
+  POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(),
   vérifierPermissionUtilisateur(PermissionModifierGestionnaireRéseauProjet),
   safeAsyncHandler(
     {
@@ -107,7 +111,7 @@ v1Router.post(
       } catch (error) {
         if (error instanceof NotFoundError) {
           return response.redirect(
-            addQueryParams(routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(identifiantProjet), {
+            addQueryParams(GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(identifiantProjet), {
               error: error.message,
             }),
           );

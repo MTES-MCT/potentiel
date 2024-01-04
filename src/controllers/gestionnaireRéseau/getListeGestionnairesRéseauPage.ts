@@ -2,15 +2,15 @@ import {
   PermissionListerGestionnairesRéseau,
   ListerGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
-import routes from '../../routes';
 import { ListeGestionnairesRéseauPage } from '../../views';
 import { vérifierPermissionUtilisateur } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import { mediator } from 'mediateur';
+import { GET_LISTE_GESTIONNAIRES_RESEAU } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  routes.GET_LISTE_GESTIONNAIRES_RESEAU,
+  GET_LISTE_GESTIONNAIRES_RESEAU,
   vérifierPermissionUtilisateur(PermissionListerGestionnairesRéseau),
   asyncHandler(async (request, response) => {
     const { items: gestionnairesRéseau } = await mediator.send<ListerGestionnaireRéseauQuery>({

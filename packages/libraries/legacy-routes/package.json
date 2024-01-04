@@ -12,6 +12,7 @@
     "querystring": "^0.2.1"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel/tsconfig": "*",
+    "@potentiel/domain-usecases": "^0.0.0"
   }
 }

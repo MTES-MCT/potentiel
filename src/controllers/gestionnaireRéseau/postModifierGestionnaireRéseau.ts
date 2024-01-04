@@ -1,4 +1,3 @@
-import routes from '../../routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -13,6 +12,11 @@ import {
 import { PermissionModifierGestionnaireRéseau } from '@potentiel/legacy-permissions';
 import { mediator } from 'mediateur';
 import { NotFoundError } from '@potentiel-domain/core';
+import {
+  GET_GESTIONNAIRE_RESEAU,
+  GET_LISTE_GESTIONNAIRES_RESEAU,
+  POST_MODIFIER_GESTIONNAIRE_RESEAU,
+} from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -24,14 +28,14 @@ const schema = yup.object({
 });
 
 v1Router.post(
-  routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(),
+  POST_MODIFIER_GESTIONNAIRE_RESEAU(),
   vérifierPermissionUtilisateur(PermissionModifierGestionnaireRéseau),
   safeAsyncHandler(
     {
       schema,
       onError: ({ request, response, errors }) =>
         response.redirect(
-          addQueryParams(routes.GET_DETAIL_GESTIONNAIRE_RESEAU(request.params.codeEIC), {
+          addQueryParams(GET_GESTIONNAIRE_RESEAU(request.params.codeEIC), {
             ...request.body,
             errors: JSON.stringify(errors),
           }),
@@ -53,14 +57,14 @@ v1Router.post(
         });
 
         response.redirect(
-          addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
+          addQueryParams(GET_LISTE_GESTIONNAIRES_RESEAU, {
             success: 'Le gestionnaire a bien été modifié.',
           }),
         );
       } catch (error) {
         if (error instanceof NotFoundError) {
           return response.redirect(
-            addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
+            addQueryParams(GET_LISTE_GESTIONNAIRES_RESEAU, {
               error: error.message,
             }),
           );

@@ -1,7 +1,7 @@
-import routes from '../../../../routes';
 import { Link, Tile } from '../../../components';
 import React, { FC } from 'react';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
+import { GET_GESTIONNAIRE_RESEAU } from '@potentiel/legacy-routes';
 
 type ListeProps = {
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
@@ -13,7 +13,7 @@ export const Liste: FC<ListeProps> = ({ gestionnairesRéseau }) => (
         <Tile className="flex justify-between">
           <div className="font-bold">{raisonSociale}</div>
           <Link
-            href={routes.GET_DETAIL_GESTIONNAIRE_RESEAU(codeEIC)}
+            href={GET_GESTIONNAIRE_RESEAU(codeEIC)}
             aria-label={`Voir les détails pour ${raisonSociale}`}
           >
             Voir

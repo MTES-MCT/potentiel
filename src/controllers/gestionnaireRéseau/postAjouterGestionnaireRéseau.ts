@@ -1,4 +1,3 @@
-import routes from '../../routes';
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
@@ -14,6 +13,11 @@ import { PermissionAjouterGestionnaireRéseau } from '@potentiel/legacy-permissi
 
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { mediator } from 'mediateur';
+import {
+  GET_AJOUTER_GESTIONNAIRE_RESEAU,
+  GET_LISTE_GESTIONNAIRES_RESEAU,
+  POST_AJOUTER_GESTIONNAIRE_RESEAU,
+} from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -26,14 +30,14 @@ const schema = yup.object({
 });
 
 v1Router.post(
-  routes.POST_AJOUTER_GESTIONNAIRE_RESEAU,
+  POST_AJOUTER_GESTIONNAIRE_RESEAU,
   vérifierPermissionUtilisateur(PermissionAjouterGestionnaireRéseau),
   safeAsyncHandler(
     {
       schema,
       onError: ({ request, response, error, errors }) => {
         response.redirect(
-          addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
+          addQueryParams(GET_AJOUTER_GESTIONNAIRE_RESEAU, {
             ...request.body,
             error,
             errors: JSON.stringify(errors),
@@ -61,14 +65,14 @@ v1Router.post(
         });
 
         response.redirect(
-          addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
+          addQueryParams(GET_LISTE_GESTIONNAIRES_RESEAU, {
             success: 'Le gestionnaire a bien été enregistré.',
           }),
         );
       } catch (error) {
         if (error instanceof InvalidOperationError) {
           return response.redirect(
-            addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
+            addQueryParams(GET_AJOUTER_GESTIONNAIRE_RESEAU, {
               error: error.message,
             }),
           );

@@ -20,6 +20,7 @@ import {
 } from '@potentiel/domain-views';
 import routes from '../../../routes';
 import { GestionnaireRéseauSelect } from './components/GestionnaireRéseauSelect';
+import { POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET } from '@potentiel/legacy-routes';
 
 type ModifierGestionnaireRéseauProjetProps = {
   user: UtilisateurReadModel;
@@ -57,7 +58,7 @@ export const ModifierGestionnaireRéseauProjet = ({
         <Form
           className="flex gap-3 flex-col max-w-none w-full md:w-1/2 mx-0"
           method="POST"
-          action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(identifiantProjet)}
+          action={POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(identifiantProjet)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2 className="mb-0">Modifier le gestionnaire de réseau du projet</Heading2>

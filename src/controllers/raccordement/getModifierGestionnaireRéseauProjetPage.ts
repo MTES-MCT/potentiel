@@ -3,7 +3,6 @@ import {
   estUnRawIdentifiantProjet,
 } from '@potentiel/domain-usecases';
 import { PermissionModifierGestionnaireRéseauProjet } from '@potentiel/legacy-permissions';
-import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -22,7 +21,7 @@ const schema = yup.object({
 });
 
 v1Router.get(
-  routes.GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE(),
+  ModifierGestionnaireRéseauProjetPage(),
   vérifierPermissionUtilisateur(PermissionModifierGestionnaireRéseauProjet),
   safeAsyncHandler(
     {

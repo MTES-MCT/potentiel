@@ -1,4 +1,3 @@
-import routes from '../../routes';
 import { ConsulterGestionnairesRéseauPage } from '../../views';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
@@ -10,13 +9,14 @@ import {
 } from '@potentiel/domain-views';
 import { mediator } from 'mediateur';
 import { isNone } from '@potentiel/monads';
+import { GET_GESTIONNAIRE_RESEAU } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   params: yup.object({ codeEIC: yup.string().required() }),
 });
 
 v1Router.get(
-  routes.GET_DETAIL_GESTIONNAIRE_RESEAU(),
+  GET_GESTIONNAIRE_RESEAU(),
   vérifierPermissionUtilisateur(PermissionConsulterGestionnaireRéseau),
   safeAsyncHandler(
     {

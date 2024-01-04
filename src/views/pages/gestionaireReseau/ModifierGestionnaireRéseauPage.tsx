@@ -13,8 +13,11 @@ import {
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
-import routes from '../../../routes';
 import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisieIdentifiant';
+import {
+  GET_LISTE_GESTIONNAIRES_RESEAU,
+  POST_MODIFIER_GESTIONNAIRE_RESEAU,
+} from '@potentiel/legacy-routes';
 
 type ModifierGestionnaireRéseauProps = {
   utilisateur: UtilisateurReadModel;
@@ -37,11 +40,7 @@ export const ModifierGestionnaireRéseau = ({
     contentHeader={<div className="text-3xl">Outils</div>}
   >
     <Heading1>Modifier le gestionnaire de réseau ({raisonSociale})</Heading1>
-    <Form
-      method="post"
-      action={routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(codeEIC)}
-      className="mx-auto"
-    >
+    <Form method="post" action={POST_MODIFIER_GESTIONNAIRE_RESEAU(codeEIC)} className="mx-auto">
       <ChampsObligatoiresLégende />
 
       <div>
@@ -80,7 +79,7 @@ export const ModifierGestionnaireRéseau = ({
 
       <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
         <PrimaryButton type="submit">Enregistrer</PrimaryButton>
-        <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
+        <Link href={GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </div>
     </Form>
   </PageTemplate>

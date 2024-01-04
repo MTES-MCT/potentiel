@@ -13,8 +13,11 @@ import {
 } from '../../components';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '../../helpers';
-import routes from '../../../routes';
 import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisieIdentifiant';
+import {
+  GET_LISTE_GESTIONNAIRES_RESEAU,
+  POST_AJOUTER_GESTIONNAIRE_RESEAU,
+} from '@potentiel/legacy-routes';
 
 type AjouterGestionnaireRéseauProps = {
   utilisateur: UtilisateurReadModel;
@@ -34,7 +37,7 @@ export const AjouterGestionnaireRéseau = ({
   >
     <Heading1>Ajouter un gestionnaire de réseau</Heading1>
     {erreur && <ErrorBox title={erreur} />}
-    <Form method="post" action={routes.POST_AJOUTER_GESTIONNAIRE_RESEAU} className="mx-auto">
+    <Form method="post" action={POST_AJOUTER_GESTIONNAIRE_RESEAU} className="mx-auto">
       <ChampsObligatoiresLégende />
       <div>
         <Label htmlFor="codeEIC">Code EIC ou gestionnaire</Label>
@@ -77,7 +80,7 @@ export const AjouterGestionnaireRéseau = ({
 
       <div className="mx-auto flex gap-4 items-center">
         <PrimaryButton type="submit">Ajouter</PrimaryButton>
-        <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
+        <Link href={GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </div>
     </Form>
   </PageTemplate>

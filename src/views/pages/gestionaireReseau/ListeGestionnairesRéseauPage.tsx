@@ -3,8 +3,8 @@ import { Heading1, LinkButton, ListeVide, LegacyPageTemplate, SuccessBox } from 
 import { hydrateOnClient } from '../../helpers';
 import React from 'react';
 import { Liste } from './components/Liste';
-import routes from '../../../routes';
 import { GestionnaireRéseauReadModel } from '@potentiel/domain-views';
+import { GET_AJOUTER_GESTIONNAIRE_RESEAU } from '@potentiel/legacy-routes';
 
 type ListeGestionnairesRéseauProps = {
   user: UtilisateurReadModel;
@@ -21,7 +21,7 @@ export const ListeGestionnairesRéseau = ({
     <div className="panel flex flex-col">
       <Heading1>Liste des gestionnaires de réseau</Heading1>
       {success && <SuccessBox title={success} className="mb-4" />}
-      <LinkButton href={routes.GET_AJOUTER_GESTIONNAIRE_RESEAU} className="mb-4 self-end">
+      <LinkButton href={GET_AJOUTER_GESTIONNAIRE_RESEAU} className="mb-4 self-end">
         Ajouter
       </LinkButton>
       {gestionnairesRéseau.length === 0 ? (

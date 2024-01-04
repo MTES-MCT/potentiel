@@ -1,12 +1,12 @@
-import routes from '../../routes';
 import { vérifierPermissionUtilisateur } from '../helpers';
 import { v1Router } from '../v1Router';
 import { PermissionConsulterGestionnaireRéseau } from '@potentiel/domain-views';
 import asyncHandler from '../helpers/asyncHandler';
 import { AjouterGestionnaireRéseauPage } from '../../views';
+import { GET_AJOUTER_GESTIONNAIRE_RESEAU } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  routes.GET_AJOUTER_GESTIONNAIRE_RESEAU,
+  GET_AJOUTER_GESTIONNAIRE_RESEAU,
   vérifierPermissionUtilisateur(PermissionConsulterGestionnaireRéseau),
   asyncHandler(async (request, response) => {
     const {

@@ -47,15 +47,6 @@ class routes {
   static EXPORT_AO_CSV = '/admin/appelsOffres.csv';
   static EXPORT_PERIODE_CSV = '/admin/periodes.csv';
 
-  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/gestionnaires-reseau`;
-  static GET_DETAIL_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
-    codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
-
-  static POST_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau`;
-  static POST_MODIFIER_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
-    codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
-  static GET_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau/ajouter`;
-
   static ADMIN_USERS = '/admin/utilisateurs.html';
   static ADMIN_INVITE_USER_ACTION = '/admin/inviterUtilisateur';
   static ADMIN_INVITE_DREAL_USER_ACTION = '/admin/inviterUtilisateurDreal';
@@ -465,20 +456,6 @@ class routes {
     }/raccordements/${
       reference ? encodeURIComponent(reference) : ':reference'
     }/modifier-demande-complete-raccordement`;
-  };
-
-  static GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET_PAGE = (
-    identifiantProjet?: RawIdentifiantProjet,
-  ) => {
-    return `/projet/${
-      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
-    }/raccordements/modifier-gestionnaire-reseau.html`;
-  };
-
-  static POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (identifiantProjet?: RawIdentifiantProjet) => {
-    return `/projet/${
-      identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
-    }/raccordements/modifier-gestionnaire-reseau`;
   };
 
   static GET_MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE = (

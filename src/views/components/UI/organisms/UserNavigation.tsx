@@ -24,6 +24,7 @@ import {
   GET_LISTE_PARTENAIRES,
   GET_INVITER_DGEC_VALIDATEUR,
   GET_INVITER_ADMINISTRATEUR,
+  GET_LISTE_GESTIONNAIRES_RESEAU,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -183,7 +184,7 @@ const MenuAdmin = (currentPage?: string) => (
         Tableau de bord
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}
+        href={GET_LISTE_GESTIONNAIRES_RESEAU}
         {...(currentPage === 'liste-gestionnaires-réseau' && { isCurrent: true })}
       >
         Gérer les gestionnaires de réseau
