@@ -8,6 +8,7 @@ import Download from '@codegouvfr/react-dsfr/Download';
 
 import { useState } from 'react';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { Route } from 'next';
 
 type DemanderConfirmationAbandonFormProps = {
   identifiantProjet: string;
@@ -52,7 +53,9 @@ export const DemanderConfirmationAbandon = ({
 
             <Download
               linkProps={{
-                href: `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+                href: `/laureats/${encodeParameter(
+                  identifiantProjet,
+                )}/abandon/modele-reponse` as Route,
               }}
               details="docx"
               label="Télécharger le modèle de réponse"

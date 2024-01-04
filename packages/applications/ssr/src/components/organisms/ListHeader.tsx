@@ -2,6 +2,7 @@
 import { FC } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Tag from '@codegouvfr/react-dsfr/Tag';
+import { Route } from 'next';
 
 export type ListHeaderProps = {
   tagFilters: Array<{
@@ -28,7 +29,7 @@ export const ListHeader: FC<ListHeaderProps> = ({ tagFilters, totalCount }) => {
     searchParams.delete(tagName);
 
     const url = `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;
-    router.push(url);
+    router.push(url as Route);
   };
 
   return (

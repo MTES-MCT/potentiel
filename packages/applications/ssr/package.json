@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "predev": "only-include-used-icons",
-    "prebuild": "only-include-used-icons"
+    "prebuild": "only-include-used-icons",
+    "ts:check": "tsc --noEmit --incremental"
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^0.78.6",

@@ -7,6 +7,7 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Heading2 } from '@/components/atoms/headings';
 import { encodeParameter } from '@/utils/encodeParameter';
+import { Route } from 'next';
 
 export type DetailDemandeAbandonProps = {
   demandéPar: string;
@@ -45,7 +46,7 @@ export const DetailDemandeAbandon: FC<DetailDemandeAbandonProps & { statut: stri
             details=""
             label="Télécharger la pièce justificative"
             linkProps={{
-              href: `/documents/${encodeParameter(pièceJustificative)}`,
+              href: `/documents/${encodeParameter(pièceJustificative)}` as Route,
             }}
             className="mb-0 pb-0"
           />

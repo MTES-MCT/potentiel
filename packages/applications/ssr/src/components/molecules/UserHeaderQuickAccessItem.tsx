@@ -3,6 +3,7 @@ import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Role } from '@potentiel-domain/utilisateur';
 import { mediator } from 'mediateur';
+import { Route } from 'next';
 
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = await getUser();
@@ -16,7 +17,7 @@ export async function UserHeaderQuickAccessItem() {
           quickAccessItem={{
             iconId: 'ri-user-line',
             linkProps: {
-              href: accountUrl,
+              href: accountUrl as Route,
             },
             text: utilisateur.nom,
           }}
@@ -40,7 +41,7 @@ export async function UserHeaderQuickAccessItem() {
           quickAccessItem={{
             iconId: 'ri-account-circle-line',
             linkProps: {
-              href: '/signup.html',
+              href: '/signup.html' as Route,
             },
             text: "M'inscrire",
           }}
