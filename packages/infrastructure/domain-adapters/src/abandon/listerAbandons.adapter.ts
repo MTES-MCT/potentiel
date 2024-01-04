@@ -31,7 +31,7 @@ export const listerAbandonsAdapter: Abandon.ListerAbandonsPort = async (
   const régionClause = région
     ? `and $${
         Object.keys(filters).length + 1
-      }  IN (SELECT jsonb_array_elements_text(value->'régionProjet'))`
+      }  in (select jsonb_array_elements_text(value->'régionProjet'))`
     : '';
 
   const paginationClause = format(
