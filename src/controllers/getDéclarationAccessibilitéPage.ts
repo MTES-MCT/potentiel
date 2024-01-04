@@ -1,10 +1,11 @@
 import asyncHandler from './helpers/asyncHandler';
-import routes from '../routes';
 import { v1Router } from './v1Router';
 import { DéclarationAccessibilitéPage } from '../views';
 
+import { PAGE_DECLARATION_ACCESSIBILITE } from '@potentiel/legacy-routes';
+
 v1Router.get(
-  routes.DECLARATION_ACCESSIBILITE,
+  PAGE_DECLARATION_ACCESSIBILITE,
   asyncHandler(async (request, response) => {
     response.send(
       DéclarationAccessibilitéPage({

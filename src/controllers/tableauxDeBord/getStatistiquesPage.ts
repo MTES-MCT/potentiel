@@ -1,9 +1,10 @@
 import asyncHandler from '../helpers/asyncHandler';
 import jwt from 'jsonwebtoken';
 import { logger } from '../../core/utils';
-import routes from '../../routes';
 import { StatistiquesPage } from '../../views';
 import { v1Router } from '../v1Router';
+
+import { PAGE_STATISTIQUES } from '@potentiel/legacy-routes';
 
 const { METABASE_SECRET_KEY, METABASE_SITE_URL } = process.env;
 
@@ -12,7 +13,7 @@ if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {
 }
 
 v1Router.get(
-  routes.STATS,
+  PAGE_STATISTIQUES,
   asyncHandler(async (request, response) => {
     if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {
       response.status(500).send('Service indisponible');

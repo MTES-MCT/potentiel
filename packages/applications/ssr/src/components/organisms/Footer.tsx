@@ -1,4 +1,7 @@
+// import { ROUTES_LEGACY } from '@/routes.legacy';
 import DsfrFooter from '@codegouvfr/react-dsfr/Footer';
+import { PAGE_STATISTIQUES } from '@potentiel/legacy-routes';
+import { Route } from 'next';
 
 export const Footer = () => (
   <DsfrFooter
@@ -33,7 +36,7 @@ export const Footer = () => (
       {
         text: 'Statistiques',
         linkProps: {
-          href: '/stats.html',
+          href: PAGE_STATISTIQUES as Route,
         },
       },
       {
