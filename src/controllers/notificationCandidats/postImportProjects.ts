@@ -8,16 +8,16 @@ import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import { AdminImporterCandidatsPage } from '../../views';
 
-import { PAGE_IMPORT_CANDIDATS } from '@potentiel/legacy-routes';
+import { GET_IMPORT_CANDIDATS } from '@potentiel/legacy-routes';
 
 v1Router.post(
-  PAGE_IMPORT_CANDIDATS,
+  GET_IMPORT_CANDIDATS,
   ensureRole(['admin', 'dgec-validateur']),
   upload.single('candidats'),
   asyncHandler(async (request, response) => {
     if (!request.file || !request.file.path) {
       return response.redirect(
-        addQueryParams(PAGE_IMPORT_CANDIDATS, {
+        addQueryParams(GET_IMPORT_CANDIDATS, {
           error: 'Le fichier candidat est manquant.',
         }),
       );

@@ -12,7 +12,7 @@ import {
 } from '../components';
 import { hydrateOnClient } from '../helpers/hydrateOnClient';
 
-import { PAGE_IMPORT_DOCUMENTS_HISTORIQUE } from '@potentiel/legacy-routes';
+import { GET_IMPORT_DOCUMENTS_HISTORIQUE } from '@potentiel/legacy-routes';
 
 export type UploadLegacyModificationFileResult =
   | {
@@ -64,7 +64,7 @@ export const UploadLegacyModificationFiles = ({
         />
       )}
 
-      <Form action={PAGE_IMPORT_DOCUMENTS_HISTORIQUE} method="post" encType="multipart/form-data">
+      <Form action={GET_IMPORT_DOCUMENTS_HISTORIQUE} method="post" encType="multipart/form-data">
         <div>
           <Label htmlFor="files">
             Sélectionner les fichiers à attacher aux demandes historiques.

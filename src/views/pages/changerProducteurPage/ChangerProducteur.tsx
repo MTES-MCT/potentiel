@@ -26,7 +26,7 @@ import {
 import { hydrateOnClient } from '../../helpers';
 import routes from '../../../routes';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 type ChangerProducteurProps = {
   request: Request;
@@ -139,7 +139,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
             <PrimaryButton type="submit" id="submit">
               Envoyer
             </PrimaryButton>
-            <SecondaryLinkButton href={PAGE_LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+            <SecondaryLinkButton href={GET_LISTE_PROJETS}>Annuler</SecondaryLinkButton>
           </div>
         </Form>
       )}

@@ -10,7 +10,7 @@ import {
 import { parseCahierDesChargesRéférence } from '../../../../entities';
 import { GetProjectAppelOffre } from '../../../projectAppelOffre';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleModificationReceived =
   (deps: {
@@ -60,7 +60,7 @@ export const handleModificationReceived =
             };
 
             if (type === 'producteur') {
-              notificationPayload.variables.button_url = PAGE_LISTE_PROJETS;
+              notificationPayload.variables.button_url = GET_LISTE_PROJETS;
               notificationPayload.variables.button_title = 'Voir mes projets';
               notificationPayload.variables.button_instructions = `Pour consulter vos projets, connectez-vous à Potentiel.`;
             }

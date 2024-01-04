@@ -4,7 +4,7 @@ import { ProjectRepo, UserRepo } from '../../../dataAccess';
 import { ProjectGFSubmitted } from '../../project/events';
 import { logger } from '../../../core/utils';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleProjectGFSubmitted =
   (deps: {
@@ -70,7 +70,7 @@ export const handleProjectGFSubmitted =
               variables: {
                 nomProjet: project.nomProjet,
                 departementProjet: project.departementProjet,
-                invitation_link: PAGE_LISTE_PROJETS,
+                invitation_link: GET_LISTE_PROJETS,
               },
             }),
           ),

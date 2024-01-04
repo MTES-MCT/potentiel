@@ -8,7 +8,7 @@ import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
@@ -52,7 +52,7 @@ v1Router.post(
         response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: `La période ${appelOffreId} - ${periodeId} a bien été notifiée.`,
-            redirectUrl: addQueryParams(PAGE_LISTE_PROJETS, {
+            redirectUrl: addQueryParams(GET_LISTE_PROJETS, {
               appelOffreId,
               periodeId,
             }),

@@ -8,10 +8,10 @@ import { userIs } from '../../modules/users';
 import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
 import { PermissionListerDemandesAdmin } from '../../modules/modificationRequest/queries';
 
-import { PAGE_LISTE_DEMANDES } from '@potentiel/legacy-routes';
+import { GET_LISTE_DEMANDES } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  PAGE_LISTE_DEMANDES,
+  GET_LISTE_DEMANDES,
   vérifierPermissionUtilisateur(PermissionListerDemandesAdmin),
   asyncHandler(async (request, response) => {
     const { user, query } = request;

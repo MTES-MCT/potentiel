@@ -23,7 +23,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
+            href: ROUTES_LEGACY.GET_LISTE_PROJETS,
           },
         },
         {
@@ -32,7 +32,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Toutes les demandes',
               linkProps: {
-                href: ROUTES_LEGACY.PAGE_LISTE_DEMANDES,
+                href: ROUTES_LEGACY.GET_LISTE_DEMANDES,
               },
             },
             {
@@ -49,13 +49,13 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Nouveaux candidats',
               linkProps: {
-                href: ROUTES_LEGACY.PAGE_IMPORT_CANDIDATS,
+                href: ROUTES_LEGACY.GET_IMPORT_CANDIDATS,
               },
             },
             {
               text: 'Courriers historiques',
               linkProps: {
-                href: ROUTES_LEGACY.PAGE_IMPORT_DOCUMENTS_HISTORIQUE,
+                href: ROUTES_LEGACY.GET_IMPORT_DOCUMENTS_HISTORIQUE,
               },
             },
             {
@@ -147,7 +147,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
+            href: ROUTES_LEGACY.GET_LISTE_PROJETS,
           },
         },
         {
@@ -156,7 +156,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Toutes les demandes',
               linkProps: {
-                href: ROUTES_LEGACY.PAGE_LISTE_DEMANDES,
+                href: ROUTES_LEGACY.GET_LISTE_DEMANDES,
               },
             },
             {
@@ -179,7 +179,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Mes projets',
           linkProps: {
-            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
+            href: ROUTES_LEGACY.GET_LISTE_PROJETS,
           },
         },
         {
@@ -211,7 +211,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
+            href: ROUTES_LEGACY.GET_LISTE_PROJETS,
           },
         },
       ];
@@ -220,7 +220,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
+            href: ROUTES_LEGACY.GET_LISTE_PROJETS,
           },
         },
         {
@@ -235,7 +235,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
+            href: ROUTES_LEGACY.GET_LISTE_PROJETS,
           },
         },
         {
@@ -250,7 +250,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
+            href: ROUTES_LEGACY.GET_LISTE_PROJETS,
           },
         },
         {

@@ -7,7 +7,7 @@ import routes from '../../routes';
 import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
@@ -59,7 +59,7 @@ v1Router.post(
             success: `Les attestations de la période ${appelOffreId} - ${periodeId}${
               familleId ? ` famille ${familleId}` : ''
             } sont en cours de regénération. Les porteurs de projets seront prévenus par email dès que leur nouvelle attestation sera prête.`,
-            redirectUrl: addQueryParams(PAGE_LISTE_PROJETS, {
+            redirectUrl: addQueryParams(GET_LISTE_PROJETS, {
               appelOffreId,
               periodeId,
               familleId,

@@ -6,7 +6,7 @@ import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../
 import { Project } from '../../project/Project';
 import { RécupérerDonnéesPorteursParProjetQueryHandler } from '../../project/queries';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleProjectCertificateUpdatedOrRegenerated =
   (deps: {
@@ -53,7 +53,7 @@ export const handleProjectCertificateUpdatedOrRegenerated =
           nomProjet: project.data?.nomProjet || '',
           raison:
             event.type === ProjectCertificateRegenerated.type ? event.payload.reason : undefined,
-          urlRedirection: PAGE_LISTE_PROJETS,
+          urlRedirection: GET_LISTE_PROJETS,
         },
       });
     }

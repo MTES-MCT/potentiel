@@ -16,7 +16,7 @@ import {
 } from '../../modules/project/queries/listerProjets';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 const getFiltres = ({
   query,
@@ -106,7 +106,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 });
 
 v1Router.get(
-  PAGE_LISTE_PROJETS,
+  GET_LISTE_PROJETS,
   vérifierPermissionUtilisateur(PermissionListerProjets),
   getProjectListPage,
 );

@@ -5,10 +5,10 @@ import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
 import {
-  PAGE_LISTE_PROJETS,
-  PAGE_LISTE_DEMANDES,
-  PAGE_IMPORT_CANDIDATS,
-  PAGE_IMPORT_DOCUMENTS_HISTORIQUE,
+  GET_LISTE_PROJETS,
+  GET_LISTE_DEMANDES,
+  GET_IMPORT_CANDIDATS,
+  GET_IMPORT_DOCUMENTS_HISTORIQUE,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -40,7 +40,7 @@ export const UserNavigation = ({
 
 const MenuCaisseDesDépôts = (currentPage?: string) => (
   <Header.MenuItem
-    href={PAGE_LISTE_PROJETS}
+    href={GET_LISTE_PROJETS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
   >
     Projets
@@ -50,7 +50,7 @@ const MenuCaisseDesDépôts = (currentPage?: string) => (
 const MenuCre = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={PAGE_LISTE_PROJETS}
+      href={GET_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -67,14 +67,14 @@ const MenuCre = (currentPage?: string) => (
 const MenuAdmin = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={PAGE_LISTE_PROJETS}
+      href={GET_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={PAGE_LISTE_DEMANDES}
+        href={GET_LISTE_DEMANDES}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
         Toutes les demandes
@@ -88,13 +88,13 @@ const MenuAdmin = (currentPage?: string) => (
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
-        href={PAGE_IMPORT_CANDIDATS}
+        href={GET_IMPORT_CANDIDATS}
         {...(currentPage === 'import-projects' && { isCurrent: true })}
       >
         Nouveaux candidats
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={PAGE_IMPORT_DOCUMENTS_HISTORIQUE}
+        href={GET_IMPORT_DOCUMENTS_HISTORIQUE}
         {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
       >
         Courriers historiques
@@ -180,7 +180,7 @@ const MenuAdmin = (currentPage?: string) => (
 const MenuPorteurProjet = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={PAGE_LISTE_PROJETS}
+      href={GET_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Mes projets
@@ -211,7 +211,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
 const MenuAcheteurObligé = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={PAGE_LISTE_PROJETS}
+      href={GET_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -228,7 +228,7 @@ const MenuAcheteurObligé = (currentPage?: string) => (
 const MenuAdeme = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={PAGE_LISTE_PROJETS}
+      href={GET_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -245,14 +245,14 @@ const MenuAdeme = (currentPage?: string) => (
 const MenuDreal = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={PAGE_LISTE_PROJETS}
+      href={GET_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={PAGE_LISTE_DEMANDES}
+        href={GET_LISTE_DEMANDES}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
         Toutes les demandes

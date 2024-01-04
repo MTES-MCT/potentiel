@@ -27,7 +27,7 @@ import format from 'date-fns/format';
 
 import { hydrateOnClient } from '../../helpers';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 type DemanderDelaiProps = {
   request: Request;
@@ -135,7 +135,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
             <PrimaryButton type="submit" id="submit">
               Envoyer
             </PrimaryButton>
-            <SecondaryLinkButton href={PAGE_LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+            <SecondaryLinkButton href={GET_LISTE_PROJETS}>Annuler</SecondaryLinkButton>
           </div>
         </Form>
       )}

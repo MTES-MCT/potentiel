@@ -3,7 +3,7 @@ import { ProjectAppelOffre } from '../../../entities';
 import routes from '../../../routes';
 import { Request } from 'express';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 import {
   ChoisirCahierDesChargesFormulaire,
@@ -168,7 +168,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
             <PrimaryButton type="submit" id="submit">
               Envoyer
             </PrimaryButton>
-            <SecondaryLinkButton href={PAGE_LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+            <SecondaryLinkButton href={GET_LISTE_PROJETS}>Annuler</SecondaryLinkButton>
           </div>
         </Form>
       )}

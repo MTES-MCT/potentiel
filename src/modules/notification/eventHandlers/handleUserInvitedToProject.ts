@@ -3,7 +3,7 @@ import { ProjectRepo, UserRepo } from '../../../dataAccess';
 import { UserInvitedToProject } from '../../authZ';
 import { logger } from '../../../core/utils';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleUserInvitedToProject =
   (deps: {
@@ -41,7 +41,7 @@ export const handleUserInvitedToProject =
           },
           variables: {
             nomProjet,
-            invitation_link: PAGE_LISTE_PROJETS,
+            invitation_link: GET_LISTE_PROJETS,
           },
         });
       },

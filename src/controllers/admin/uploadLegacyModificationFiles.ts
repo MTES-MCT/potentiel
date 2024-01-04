@@ -7,10 +7,10 @@ import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 
-import { PAGE_IMPORT_DOCUMENTS_HISTORIQUE } from '@potentiel/legacy-routes';
+import { GET_IMPORT_DOCUMENTS_HISTORIQUE } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  PAGE_IMPORT_DOCUMENTS_HISTORIQUE,
+  GET_IMPORT_DOCUMENTS_HISTORIQUE,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     return response.send(UploadLegacyModificationFilesPage({ request }));
@@ -18,13 +18,13 @@ v1Router.get(
 );
 
 v1Router.post(
-  PAGE_IMPORT_DOCUMENTS_HISTORIQUE,
+  GET_IMPORT_DOCUMENTS_HISTORIQUE,
   ensureRole(['admin', 'dgec-validateur']),
   upload.multiple(),
   asyncHandler(async (request, response) => {
     if (!request.files || !request.files.length) {
       return response.redirect(
-        addQueryParams(PAGE_IMPORT_DOCUMENTS_HISTORIQUE, {
+        addQueryParams(GET_IMPORT_DOCUMENTS_HISTORIQUE, {
           error: 'Merci de sélectionner au moins un fichier.',
           ...request.body,
         }),

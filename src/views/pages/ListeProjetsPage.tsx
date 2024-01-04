@@ -3,7 +3,7 @@ import querystring from 'querystring';
 import React, { useState } from 'react';
 import { PaginatedList } from '../../modules/pagination';
 import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 import {
   ProjectList,
@@ -128,7 +128,7 @@ export const ListeProjets = ({
           )}
         </div>
         <Form
-          action={PAGE_LISTE_PROJETS}
+          action={GET_LISTE_PROJETS}
           method="GET"
           className="w-full order-1 lg:order-2 lg:ml-auto"
         >
@@ -145,7 +145,7 @@ export const ListeProjets = ({
           defaultOpen={!!appelOffreId}
           className="max-w-xl"
         >
-          <Form action={PAGE_LISTE_PROJETS} method="GET">
+          <Form action={GET_LISTE_PROJETS} method="GET">
             <div>
               <Label
                 htmlFor="appelOffreId"
@@ -248,7 +248,7 @@ export const ListeProjets = ({
             title="Filtrer par état des garanties financières"
             defaultOpen={!!garantiesFinancieres}
           >
-            <Form action={PAGE_LISTE_PROJETS} method="GET">
+            <Form action={GET_LISTE_PROJETS} method="GET">
               <div>
                 <Label htmlFor="garantiesFinancieres">Garanties financières</Label>
                 <Select
@@ -277,7 +277,7 @@ export const ListeProjets = ({
           title="Filtrer par état du projet"
           defaultOpen={defaultClassementFilter || classement}
         >
-          <Form action={PAGE_LISTE_PROJETS} method="GET" className="mt-2">
+          <Form action={GET_LISTE_PROJETS} method="GET" className="mt-2">
             <div>
               <Label htmlFor="classement">Projets Classés/Eliminés/Abandons</Label>
               <Select

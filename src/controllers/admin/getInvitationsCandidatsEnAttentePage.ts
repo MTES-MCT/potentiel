@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router';
 import { InvitationsCandidatsEnAttentePage } from '../../views';
 import { getCurrentUrl, getPagination } from '../helpers';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 v1Router.get(
   routes.ADMIN_INVITATION_LIST,
@@ -26,7 +26,7 @@ v1Router.get(
       },
       () => {
         return response.redirect(
-          addQueryParams(PAGE_LISTE_PROJETS, {
+          addQueryParams(GET_LISTE_PROJETS, {
             error: "La liste des invitations en attente n'a pas pu être générée.",
           }),
         );
