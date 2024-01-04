@@ -83,7 +83,7 @@ export const ProjectDetails = ({
               </a>
             </AlertBox>
           )}
-          {modificationsNonPermisesParLeCDCActuel && (
+          {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
             <InfoBox>
               Afin d'accéder aux fonctionnalités dématérialisées d'information au Préfet et de
               modification de votre projet (recours, abandon, délai), vous devez d'abord changer le
