@@ -2,15 +2,16 @@ import { getModificationRequestListForAdmin } from '../../config/queries.config'
 import { logger } from '../../core/utils';
 import { appelOffreRepo } from '../../dataAccess/inMemory';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
 import { ModificationRequestListPage } from '../../views';
 import { v1Router } from '../v1Router';
 import { userIs } from '../../modules/users';
 import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
 import { PermissionListerDemandesAdmin } from '../../modules/modificationRequest/queries';
 
+import { PAGE_LISTE_DEMANDES } from '@potentiel/legacy-routes';
+
 v1Router.get(
-  routes.ADMIN_LIST_REQUESTS,
+  PAGE_LISTE_DEMANDES,
   vérifierPermissionUtilisateur(PermissionListerDemandesAdmin),
   asyncHandler(async (request, response) => {
     const { user, query } = request;

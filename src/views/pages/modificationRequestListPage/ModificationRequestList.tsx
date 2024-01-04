@@ -23,6 +23,8 @@ import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers'
 import { userIs } from '../../../modules/users';
 import routes from '../../../routes';
 
+import { PAGE_LISTE_DEMANDES } from '@potentiel/legacy-routes';
+
 type ModificationRequestListProps = {
   request: Request;
   modificationRequests: PaginatedList<ModificationRequestListItemDTO>;
@@ -77,9 +79,7 @@ export const ModificationRequestList = ({
   const filtreParFamilleActif = appelOffreId && familles && familles.length > 0;
 
   const targetRoute =
-    request.user?.role === 'porteur-projet'
-      ? routes.USER_LIST_REQUESTS
-      : routes.ADMIN_LIST_REQUESTS;
+    request.user?.role === 'porteur-projet' ? routes.USER_LIST_REQUESTS : PAGE_LISTE_DEMANDES;
 
   const formActionRoute = `${targetRoute}?showOnlyDGEC=${isShowOnlyDGECChecked ? 'on' : 'off'}`;
 

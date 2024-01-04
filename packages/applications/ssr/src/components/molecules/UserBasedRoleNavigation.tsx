@@ -32,7 +32,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Toutes les demandes',
               linkProps: {
-                href: '/admin/demandes.html' as Route,
+                href: ROUTES_LEGACY.PAGE_LISTE_DEMANDES,
               },
             },
             {
@@ -156,7 +156,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Toutes les demandes',
               linkProps: {
-                href: '/admin/demandes.html' as Route,
+                href: ROUTES_LEGACY.PAGE_LISTE_DEMANDES,
               },
             },
             {

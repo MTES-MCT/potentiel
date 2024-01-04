@@ -90,7 +90,6 @@ class routes {
 
   static EXPORTER_LISTE_PROJETS_CSV = '/export-liste-projets.csv';
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv';
-  static ADMIN_LIST_REQUESTS = '/admin/demandes.html';
   static ADMIN_REGENERATE_CERTIFICATES = '/admin/regenerer-attestations.html';
   static ADMIN_REGENERATE_CERTIFICATES_ACTION = '/admin/regenerer-attestations';
   static GET_NOTIFIER_CANDIDATS = withParams<{

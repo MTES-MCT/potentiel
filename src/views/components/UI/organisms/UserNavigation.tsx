@@ -4,7 +4,7 @@ import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
-import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { PAGE_LISTE_PROJETS, PAGE_LISTE_DEMANDES } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
   user,
@@ -69,7 +69,7 @@ const MenuAdmin = (currentPage?: string) => (
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_LIST_REQUESTS}
+        href={PAGE_LISTE_DEMANDES}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
         Toutes les demandes
@@ -247,7 +247,7 @@ const MenuDreal = (currentPage?: string) => (
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_LIST_REQUESTS}
+        href={PAGE_LISTE_DEMANDES}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
         Toutes les demandes
