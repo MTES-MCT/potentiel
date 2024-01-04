@@ -30,7 +30,6 @@ class routes {
   static HOME = '/';
   static LOGIN = '/login.html';
   static LOGIN_ACTION = '/login.html';
-  static STATS = '/stats.html';
   static ABONNEMENT_LETTRE_INFORMATION = '/abonnement-lettre-information.html';
   static POST_SINSCRIRE_LETTRE_INFORMATION = '/s-inscrire-a-la-lettre-d-information';
   static DECLARATION_ACCESSIBILITE = '/accessibilite.html';
