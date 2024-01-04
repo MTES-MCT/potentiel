@@ -19,6 +19,7 @@ import {
   TasksDone,
 } from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { GET_SENREGISTRER } from '@potentiel/legacy-routes';
 
 type HeaderProps = {
   user?: UtilisateurReadModel;
@@ -166,7 +167,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         <li>
           <Link
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
-            href={routes.SIGNUP}
+            href={GET_SENREGISTRER}
           >
             <AccountIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block mx-1 text-blue-france-sun-base">M'inscrire</span>

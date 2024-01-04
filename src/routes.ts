@@ -35,8 +35,6 @@ class routes {
   static POST_SINSCRIRE_LETTRE_INFORMATION = '/s-inscrire-a-la-lettre-d-information';
   static DECLARATION_ACCESSIBILITE = '/accessibilite.html';
   static LOGOUT_ACTION = '/signout';
-  static SIGNUP = '/signup.html';
-  static POST_SIGNUP = '/signup';
 
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard';
 

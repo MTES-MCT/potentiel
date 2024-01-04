@@ -1,7 +1,6 @@
 import { getAccessToken } from '@/utils/getAccessToken';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Route } from 'next';
 
 import { ROUTES_LEGACY } from '@/routes.legacy';
 
@@ -170,7 +169,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Garanties Financières',
           linkProps: {
-            href: '/admin/garanties-financieres.html' as Route,
+            href: ROUTES_LEGACY.GET_LISTE_GARANTIES_FINANCIERES,
           },
         },
       ];

@@ -1,6 +1,6 @@
-import routes from '../../../routes';
 import { NotificationService } from '../NotificationService';
 import { UtilisateurInvité } from '../../utilisateur';
+import { GET_SENREGISTRER } from '@potentiel/legacy-routes';
 
 type Dépendances = {
   sendNotification: NotificationService['sendNotification'];
@@ -19,7 +19,7 @@ export const onUtilisateurInvité =
       },
       context: {},
       variables: {
-        invitation_link: `${routes.SIGNUP}?email=${email}`,
+        invitation_link: `${GET_SENREGISTRER}?email=${email}`,
       },
     });
   };

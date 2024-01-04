@@ -1,3 +1,4 @@
+import { ROUTES_LEGACY } from '@/routes.legacy';
 import { Utilisateur, getUser } from '@/utils/getUtilisateur';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
@@ -7,7 +8,8 @@ import { Route } from 'next';
 
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = await getUser();
-  const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
+  const accountUrl =
+    `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account` as Route;
 
   if (utilisateur) {
     return (
@@ -17,7 +19,7 @@ export async function UserHeaderQuickAccessItem() {
           quickAccessItem={{
             iconId: 'ri-user-line',
             linkProps: {
-              href: accountUrl as Route,
+              href: accountUrl,
             },
             text: utilisateur.nom,
           }}
@@ -41,7 +43,7 @@ export async function UserHeaderQuickAccessItem() {
           quickAccessItem={{
             iconId: 'ri-account-circle-line',
             linkProps: {
-              href: '/signup.html' as Route,
+              href: ROUTES_LEGACY.GET_SENREGISTRER,
             },
             text: "M'inscrire",
           }}

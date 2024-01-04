@@ -1,3 +1,4 @@
+export * from './routes/accounts.legacy.routes';
 export * from './routes/candidats.legacy.routes';
 export * from './routes/demandes.legacy.routes';
 export * from './routes/gestionnaires-reseau.legacy.routes';

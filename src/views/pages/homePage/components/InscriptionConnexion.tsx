@@ -11,6 +11,7 @@ import {
   AccountIcon,
   LoginIcon,
 } from '../../../components';
+import { GET_SENREGISTRER } from '@potentiel/legacy-routes';
 
 type InscriptionConnexionProps = {
   user: User;
@@ -90,7 +91,7 @@ const SignupBox = () => {
         />
       </div>
       {active === 'porteur-projet' && (
-        <SecondaryLinkButton href={routes.SIGNUP} className="inline-flex items-center mx-auto">
+        <SecondaryLinkButton href={GET_SENREGISTRER} className="inline-flex items-center mx-auto">
           <AccountIcon className="mr-4" aria-hidden />
           M'inscrire
         </SecondaryLinkButton>

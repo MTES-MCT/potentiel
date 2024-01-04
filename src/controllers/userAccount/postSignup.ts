@@ -1,4 +1,3 @@
-import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { createUser, créerProfilUtilisateur } from '../../config';
 import { logger } from '../../core/utils';
@@ -6,6 +5,7 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { EmailAlreadyUsedError } from '../../modules/shared';
+import { GET_SENREGISTRER, POST_SENREGISTRER } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -20,13 +20,13 @@ const schema = yup.object({
 });
 
 v1Router.post(
-  routes.POST_SIGNUP,
+  POST_SENREGISTRER,
   safeAsyncHandler(
     {
       schema,
       onError: ({ request, response, error }) =>
         response.redirect(
-          addQueryParams(routes.SIGNUP, {
+          addQueryParams(GET_SENREGISTRER, {
             error:
               error.message ||
               `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
@@ -41,13 +41,13 @@ v1Router.post(
         return créerProfilUtilisateur({ email, nom: lastname, prénom: firstname }).match(
           () =>
             response.redirect(
-              addQueryParams(routes.SIGNUP, {
+              addQueryParams(GET_SENREGISTRER, {
                 success: true,
               }),
             ),
           (e) =>
             response.redirect(
-              addQueryParams(routes.SIGNUP, {
+              addQueryParams(GET_SENREGISTRER, {
                 error:
                   e.message ||
                   `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
@@ -68,7 +68,7 @@ v1Router.post(
           }
 
           return response.redirect(
-            addQueryParams(routes.SIGNUP, {
+            addQueryParams(GET_SENREGISTRER, {
               error:
                 res.error.message ||
                 `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
@@ -78,7 +78,7 @@ v1Router.post(
         }
 
         return response.redirect(
-          addQueryParams(routes.SIGNUP, {
+          addQueryParams(GET_SENREGISTRER, {
             success: true,
           }),
         );

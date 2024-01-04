@@ -4,7 +4,7 @@ import { v1Router } from '../v1Router';
 import { SignupPage } from '../../views';
 
 v1Router.get(
-  routes.SIGNUP,
+  GET_SENREGISTRER,
   asyncHandler(async (request, response) => {
     const { user, query } = request;
 

@@ -15,6 +15,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
+import { GET_SENREGISTRER } from '@potentiel/legacy-routes';
 
 type SignupProps = {
   request: Request;
@@ -176,7 +177,7 @@ const SignupFailed = ({ error }: SignupFailedProps) => (
       <LinkButton className="text-center" href={routes.LOGIN}>
         M'identifier
       </LinkButton>
-      <LinkButton className="text-center" href={routes.SIGNUP}>
+      <LinkButton className="text-center" href={GET_SENREGISTRER}>
         M'inscrire
       </LinkButton>
     </div>
