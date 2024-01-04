@@ -1,11 +1,11 @@
 import asyncHandler from '../../helpers/asyncHandler';
-import routes from '../../../routes';
 import { ensureRole, getPartnersList } from '../../../config';
 import { v1Router } from '../../v1Router';
 import { PartnersListPage } from '../../../views';
+import { GET_LISTE_PARTENAIRES } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  routes.ADMIN_PARTNER_USERS,
+  GET_LISTE_PARTENAIRES,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { query } = request;

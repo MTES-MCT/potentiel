@@ -56,8 +56,6 @@ class routes {
     codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
   static GET_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau/ajouter`;
 
-  static ADMIN_PARTNER_USERS = '/admin/utilisateurs-partenaires.html';
-
   static ADMIN_USERS = '/admin/utilisateurs.html';
   static ADMIN_INVITE_USER_ACTION = '/admin/inviterUtilisateur';
   static ADMIN_INVITE_DREAL_USER_ACTION = '/admin/inviterUtilisateurDreal';
@@ -149,13 +147,9 @@ class routes {
   static ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE =
     '/admin/demande/annuler-rejet-demande-changement-de-puissance';
 
-  static ADMIN_DREAL_LIST = '/admin/dreals.html';
   static ADMIN_INVITATION_RELANCE_ACTION = '/admin/relanceInvitations';
-  static ADMIN_NOTIFICATION_LIST = '/admin/notifications.html';
   static ADMIN_NOTIFICATION_RETRY_ACTION = '/admin/retryNotifications';
 
-  static ADMIN_INVITATION_DGEC_VALIDATEUR = '/admin/inviter-dgec-validateur.html';
-  static ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION = '/admin/inviter-dgec-validateur';
   static GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE = '/admin/inviter-administrateur.html';
   static POST_INVITER_UTILISATEUR_ADMINISTRATEUR = '/admin/inviter-administrateur';
 

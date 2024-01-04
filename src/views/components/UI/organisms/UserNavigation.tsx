@@ -20,6 +20,9 @@ import {
   GET_CRE_STATISTIQUES,
   GET_LISTE_CANDIDATS_EN_ATTENTE,
   GET_LISTE_EMAILS_EN_ERREUR,
+  GET_LISTE_DREALS,
+  GET_LISTE_PARTENAIRES,
+  GET_INVITER_DGEC_VALIDATEUR,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -146,19 +149,19 @@ const MenuAdmin = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
 
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_DREAL_LIST}
+        href={GET_LISTE_DREALS}
         {...(currentPage === 'list-dreal' && { isCurrent: true })}
       >
         Dreals
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_PARTNER_USERS}
+        href={GET_LISTE_PARTENAIRES}
         {...(currentPage === 'admin-users' && { isCurrent: true })}
       >
         Partenaires
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_INVITATION_DGEC_VALIDATEUR}
+        href={GET_INVITER_DGEC_VALIDATEUR}
         {...(currentPage === 'inviter-dgec-validateur' && { isCurrent: true })}
       >
         Dgec validateurs

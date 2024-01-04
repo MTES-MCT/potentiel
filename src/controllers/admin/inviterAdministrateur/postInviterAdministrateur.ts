@@ -16,6 +16,8 @@ import { logger } from '../../../core/utils';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 
+import { GET_LISTE_DREALS } from '@potentiel/legacy-routes';
+
 const schema = yup.object({
   body: yup.object({
     email: yup.string().email("L'email saisi est invalide").required('Ce champ est obligatoire'),
@@ -30,7 +32,7 @@ v1Router.post(
       schema,
       onError: ({ response, request, error }) =>
         response.redirect(
-          addQueryParams(routes.ADMIN_DREAL_LIST, {
+          addQueryParams(GET_LISTE_DREALS, {
             ...request.params,
             error: `${error.errors.join(' ')}`,
           }),

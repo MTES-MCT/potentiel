@@ -1,11 +1,11 @@
 import asyncHandler from '../../helpers/asyncHandler';
-import routes from '../../../routes';
 import { ensureRole, getDreals } from '../../../config';
 import { v1Router } from '../../v1Router';
 import { DrealListPage } from '../../../views';
+import { GET_LISTE_DREALS } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  routes.ADMIN_DREAL_LIST,
+  GET_LISTE_DREALS,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { query } = request;

@@ -101,19 +101,19 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Dreals',
               linkProps: {
-                href: '/admin/dreals.html' as Route,
+                href: ROUTES_LEGACY.GET_LISTE_DREALS,
               },
             },
             {
               text: 'Partenaires',
               linkProps: {
-                href: '/admin/utilisateurs-partenaires.html' as Route,
+                href: ROUTES_LEGACY.GET_LISTE_PARTENAIRES,
               },
             },
             {
               text: 'Dgec validateurs',
               linkProps: {
-                href: '/admin/inviter-dgec-validateur.html' as Route,
+                href: ROUTES_LEGACY.GET_INVITER_DGEC_VALIDATEUR,
               },
             },
             {

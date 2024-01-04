@@ -1,6 +1,5 @@
 import React from 'react';
 import { Request } from 'express';
-import routes from '../../../routes';
 import {
   PrimaryButton,
   Heading1,
@@ -12,6 +11,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
+import { POST_INVITER_DGEC_VALIDATEUR } from '@potentiel/legacy-routes';
 
 type InviterDgecValidateurProps = {
   request: Request;
@@ -29,11 +29,7 @@ export const InviterDgecValidateur = ({
       <Heading1>Ajouter un utilisateur DGEC-VALIDATEUR</Heading1>
       {inviationRéussi && <SuccessBox title="L'invitation a bien été envoyée" />}
 
-      <Form
-        action={routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION}
-        method="post"
-        className="mx-auto mt-8"
-      >
+      <Form action={POST_INVITER_DGEC_VALIDATEUR} method="post" className="mx-auto mt-8">
         <ChampsObligatoiresLégende />
         <input type="hidden" name="role" value="dgec-validateur" />
         <div>

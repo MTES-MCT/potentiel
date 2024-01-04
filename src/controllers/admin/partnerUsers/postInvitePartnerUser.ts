@@ -10,6 +10,7 @@ import {
   InvitationUniqueParUtilisateurError,
   InvitationUtilisateurExistantError,
 } from '../../../modules/utilisateur';
+import { GET_LISTE_PARTENAIRES } from '@potentiel/legacy-routes';
 
 const requestBodySchema = yup.object({
   role: yup
@@ -36,14 +37,14 @@ v1Router.post(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `Une invitation a bien été envoyée à ${email}.`,
-              redirectUrl: routes.ADMIN_PARTNER_USERS,
+              redirectUrl: GET_LISTE_PARTENAIRES,
               redirectTitle: 'Retourner à la liste des utilisateurs partenaires',
             }),
           ),
         (error: Error) => {
           if (error instanceof RequestValidationError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_PARTNER_USERS, {
+              addQueryParams(GET_LISTE_PARTENAIRES, {
                 ...request.body,
                 ...error.errors,
               }),
@@ -54,7 +55,7 @@ v1Router.post(
             error instanceof InvitationUtilisateurExistantError
           ) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_PARTNER_USERS, {
+              addQueryParams(GET_LISTE_PARTENAIRES, {
                 ...request.body,
                 error: error.message,
               }),

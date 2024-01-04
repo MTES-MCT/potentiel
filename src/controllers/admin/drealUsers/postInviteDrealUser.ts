@@ -10,6 +10,8 @@ import { EmailAlreadyUsedError } from '../../../modules/shared/errors';
 import { logger } from '../../../core/utils';
 import { REGIONS } from '../../../modules/dreal/région';
 
+import { GET_LISTE_DREALS } from '@potentiel/legacy-routes';
+
 const schema = yup.object({
   body: yup.object({
     role: yup
@@ -37,7 +39,7 @@ v1Router.post(
       schema,
       onError: ({ response, request, error }) =>
         response.redirect(
-          addQueryParams(routes.ADMIN_DREAL_LIST, {
+          addQueryParams(GET_LISTE_DREALS, {
             ...request.params,
             error: `${error.errors.join(' ')}`,
           }),
@@ -67,7 +69,7 @@ v1Router.post(
         .match(
           ({ email }) =>
             response.redirect(
-              addQueryParams(routes.ADMIN_DREAL_LIST, {
+              addQueryParams(GET_LISTE_DREALS, {
                 ...request.params,
                 success: `Une invitation a bien été envoyée à ${email}.`,
               }),
@@ -75,7 +77,7 @@ v1Router.post(
           (error: Error) => {
             if (error instanceof RequestValidationError) {
               return response.redirect(
-                addQueryParams(routes.ADMIN_DREAL_LIST, {
+                addQueryParams(GET_LISTE_DREALS, {
                   ...request.body,
                   ...error.errors,
                 }),
@@ -83,7 +85,7 @@ v1Router.post(
             }
             if (error instanceof EmailAlreadyUsedError) {
               return response.redirect(
-                addQueryParams(routes.ADMIN_DREAL_LIST, {
+                addQueryParams(GET_LISTE_DREALS, {
                   ...request.body,
                   error:
                     "L'invitation n'a pas pu être envoyée car l'adresse email est déjà associée à un compte Potentiel.",
