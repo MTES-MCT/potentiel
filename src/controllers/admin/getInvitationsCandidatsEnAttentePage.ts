@@ -1,15 +1,14 @@
 import { getPendingCandidateInvitations, ensureRole } from '../../config';
 import asyncHandler from '../helpers/asyncHandler';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { InvitationsCandidatsEnAttentePage } from '../../views';
 import { getCurrentUrl, getPagination } from '../helpers';
 
-import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_CANDIDATS_EN_ATTENTE, GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  routes.ADMIN_INVITATION_LIST,
+  GET_LISTE_CANDIDATS_EN_ATTENTE,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const pagination = getPagination(request);

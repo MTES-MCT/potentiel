@@ -17,6 +17,8 @@ import {
   GET_ADMIN_STATISTIQUES,
   GET_ADEME_STATISTIQUES,
   GET_ACHETEUR_OBLIGE_STATISTIQUES,
+  GET_CRE_STATISTIQUES,
+  GET_LISTE_CANDIDATS_EN_ATTENTE,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -130,7 +132,7 @@ const MenuAdmin = (currentPage?: string) => (
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_INVITATION_LIST}
+        href={GET_LISTE_CANDIDATS_EN_ATTENTE}
         {...(currentPage === 'list-invitations' && { isCurrent: true })}
       >
         Candidats en attente

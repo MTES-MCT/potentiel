@@ -18,6 +18,7 @@ import { Request } from 'express';
 import React from 'react';
 import { PaginatedList } from '../../modules/pagination';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
+import { GET_LISTE_CANDIDATS_EN_ATTENTE } from '@potentiel/legacy-routes';
 
 interface InvitationsCandidatsEnAttenteProps {
   request: Request;
@@ -102,7 +103,7 @@ export const InvitationsCandidatsEnAttente = ({
       ) : (
         <ListeVide titre="Aucune invitation candidat en attente">
           {invitations.itemCount > 0 && (
-            <Link href={routes.ADMIN_INVITATION_LIST}>Voir toutes les invitations</Link>
+            <Link href={GET_LISTE_CANDIDATS_EN_ATTENTE}>Voir toutes les invitations</Link>
           )}
         </ListeVide>
       )}

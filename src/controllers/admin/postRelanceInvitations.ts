@@ -3,6 +3,7 @@ import asyncHandler from '../helpers/asyncHandler';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
+import { GET_LISTE_CANDIDATS_EN_ATTENTE } from '@potentiel/legacy-routes';
 
 v1Router.post(
   routes.ADMIN_INVITATION_RELANCE_ACTION,
@@ -10,7 +11,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     const { email } = request.body;
 
-    const redirectTo = routes.ADMIN_INVITATION_LIST;
+    const redirectTo = GET_LISTE_CANDIDATS_EN_ATTENTE;
 
     await relanceInvitation({ email, relanceBy: request.user }).match(
       () => {

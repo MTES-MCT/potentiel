@@ -89,7 +89,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Candidats en attente',
               linkProps: {
-                href: '/admin/invitations.html' as Route,
+                href: ROUTES_LEGACY.GET_LISTE_CANDIDATS_EN_ATTENTE,
               },
             },
             {
