@@ -12,6 +12,7 @@ import {
   GET_IMPORT_DATES_MISE_EN_SERVICE,
   GET_NOTIFIER_CANDIDATS,
   GET_REGENERER_CERTIFICATS,
+  GET_LISTE_DEMANDES_PORTEURS,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -190,7 +191,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={routes.USER_LIST_REQUESTS}
+        href={GET_LISTE_DEMANDES_PORTEURS}
         {...(currentPage === 'list-requests' && { isCurrent: true })}
       >
         Mes demandes

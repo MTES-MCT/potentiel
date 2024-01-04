@@ -197,7 +197,6 @@ class routes {
 
   static USER_LIST_MISSING_OWNER_PROJECTS = '/projets-a-reclamer.html';
   static USER_CLAIM_PROJECTS = '/reclamer-propriete-projets.html';
-  static USER_LIST_REQUESTS = '/mes-demandes.html';
   static DEMANDE_GENERIQUE = '/demande-modification.html';
   static DEPOSER_RECOURS = withProjectId('/demande-modification.html?action=recours');
 

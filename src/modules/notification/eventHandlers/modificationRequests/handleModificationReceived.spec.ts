@@ -5,12 +5,13 @@ import {
   ModificationReceived,
 } from '../../../modificationRequest';
 import routes from '../../../../routes';
-import { User , ProjectAppelOffre } from '../../../../entities';
+import { User, ProjectAppelOffre } from '../../../../entities';
 import { handleModificationReceived } from './handleModificationReceived';
 import { NotificationService } from '../../NotificationService';
 import { UserRepo } from '../../../../dataAccess';
 import { GetProjectAppelOffre } from '../../../projectAppelOffre';
 import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { GET_LISTE_DEMANDES_PORTEURS } from '@potentiel/legacy-routes';
 
 describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () => {
   const modificationRequestId = 'id-demande';
@@ -101,7 +102,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           }),
           variables: expect.objectContaining({
             type_demande: 'actionnaire',
-            button_url: routes.USER_LIST_REQUESTS,
+            button_url: GET_LISTE_DEMANDES_PORTEURS,
             button_title: 'Consulter la demande',
             button_instructions: `Pour la consulter, connectez-vous à Potentiel.`,
             demande_action_pp: undefined,
@@ -122,7 +123,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
           }),
           variables: expect.objectContaining({
             type_demande: 'actionnaire',
-            button_url: routes.USER_LIST_REQUESTS,
+            button_url: GET_LISTE_DEMANDES_PORTEURS,
             button_title: 'Consulter la demande',
             button_instructions: `Pour la consulter, connectez-vous à Potentiel.`,
             demande_action_pp: undefined,

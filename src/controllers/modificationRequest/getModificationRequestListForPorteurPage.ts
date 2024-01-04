@@ -2,15 +2,15 @@ import { getModificationRequestListForPorteur } from '../../config/queries.confi
 import { logger } from '../../core/utils';
 import { appelOffreRepo } from '../../dataAccess/inMemory';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
 import { ModificationRequestListPage } from '../../views';
 import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import { getCurrentUrl } from '../helpers';
 import { getPagination } from '../helpers/getPagination';
+import { GET_LISTE_DEMANDES_PORTEURS } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  routes.USER_LIST_REQUESTS,
+  GET_LISTE_DEMANDES_PORTEURS,
   ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
     const { user, query } = request;

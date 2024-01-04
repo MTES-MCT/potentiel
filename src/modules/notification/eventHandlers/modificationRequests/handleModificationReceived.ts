@@ -10,7 +10,7 @@ import {
 import { parseCahierDesChargesRéférence } from '../../../../entities';
 import { GetProjectAppelOffre } from '../../../projectAppelOffre';
 
-import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_DEMANDES_PORTEURS, GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleModificationReceived =
   (deps: {
@@ -52,7 +52,7 @@ export const handleModificationReceived =
               variables: {
                 nom_projet: nomProjet,
                 type_demande: type,
-                button_url: routes.USER_LIST_REQUESTS,
+                button_url: GET_LISTE_DEMANDES_PORTEURS,
                 button_title: 'Consulter la demande',
                 button_instructions: `Pour la consulter, connectez-vous à Potentiel.`,
                 demande_action_pp: undefined as string | undefined,
