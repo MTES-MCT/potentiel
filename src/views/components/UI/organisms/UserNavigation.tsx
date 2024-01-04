@@ -11,6 +11,7 @@ import {
   GET_IMPORT_DOCUMENTS_HISTORIQUE,
   GET_IMPORT_DATES_MISE_EN_SERVICE,
   GET_NOTIFIER_CANDIDATS,
+  GET_REGENERER_CERTIFICATS,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -116,7 +117,7 @@ const MenuAdmin = (currentPage?: string) => (
         Notifier des candidats
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_REGENERATE_CERTIFICATES}
+        href={GET_REGENERER_CERTIFICATS}
         {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
       >
         Régénérer des attestations

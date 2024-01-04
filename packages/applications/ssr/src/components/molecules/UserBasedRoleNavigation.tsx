@@ -78,7 +78,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Régénérer des attestations',
               linkProps: {
-                href: '/admin/regenerer-attestations.html' as Route,
+                href: ROUTES_LEGACY.GET_REGENERER_CERTIFICATS,
               },
             },
           ],

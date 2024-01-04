@@ -7,12 +7,16 @@ import routes from '../../routes';
 import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 
-import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import {
+  GET_LISTE_PROJETS,
+  GET_REGENERER_CERTIFICATS,
+  POST_REGENERER_CERTIFICATS,
+} from '@potentiel/legacy-routes';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
 v1Router.post(
-  routes.ADMIN_REGENERATE_CERTIFICATES_ACTION,
+  POST_REGENERER_CERTIFICATS,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const {
@@ -22,7 +26,7 @@ v1Router.post(
 
     if (!appelOffreId || !periodeId) {
       return response.redirect(
-        addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
+        addQueryParams(GET_REGENERER_CERTIFICATS, {
           error: 'Il est nécessaire de choisir un appel d‘offre et une période.',
           ...request.body,
         }),
@@ -31,7 +35,7 @@ v1Router.post(
 
     if (notificationDate && !isDateFormatValid(notificationDate)) {
       return response.redirect(
-        addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
+        addQueryParams(GET_REGENERER_CERTIFICATS, {
           error: 'La date de notification est au mauvais format.',
           ...request.body,
         }),
@@ -70,7 +74,7 @@ v1Router.post(
       (e: Error) => {
         logger.error(e);
         response.redirect(
-          addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
+          addQueryParams(GET_REGENERER_CERTIFICATS, {
             ...request.body,
             error: `Les relances n'ont pas pu être envoyées. (Erreur: ${e.message})`,
           }),

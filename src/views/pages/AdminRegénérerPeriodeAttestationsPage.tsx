@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import React from 'react';
 import { appelsOffreStatic } from '../../dataAccess/inMemory';
-import ROUTES from '../../routes';
 import {
   PrimaryButton,
   ErrorBox,
@@ -17,6 +16,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../components';
 import { hydrateOnClient, updateUrlParams } from '../helpers';
+import { POST_REGENERER_CERTIFICATS } from '@potentiel/legacy-routes';
 
 type AdminRegénérerPeriodeAttestationsProps = {
   request: Request;
@@ -46,11 +46,7 @@ export const AdminRegénérerPeriodeAttestations = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
 
-      <Form
-        action={ROUTES.ADMIN_REGENERATE_CERTIFICATES_ACTION}
-        method="post"
-        className="max-w-none mx-0 mb-4"
-      >
+      <Form action={POST_REGENERER_CERTIFICATS} method="post" className="max-w-none mx-0 mb-4">
         <ChampsObligatoiresLégende />
         <div>
           <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
