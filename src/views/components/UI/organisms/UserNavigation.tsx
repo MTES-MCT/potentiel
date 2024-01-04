@@ -8,6 +8,7 @@ import {
   PAGE_LISTE_PROJETS,
   PAGE_LISTE_DEMANDES,
   PAGE_IMPORT_CANDIDATS,
+  PAGE_IMPORT_DOCUMENTS_HISTORIQUE,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -93,7 +94,7 @@ const MenuAdmin = (currentPage?: string) => (
         Nouveaux candidats
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
+        href={PAGE_IMPORT_DOCUMENTS_HISTORIQUE}
         {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
       >
         Courriers historiques

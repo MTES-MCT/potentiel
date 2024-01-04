@@ -1,6 +1,5 @@
 import type { Request } from 'express';
 import React from 'react';
-import ROUTES from '../../routes';
 import {
   ErrorBox,
   PrimaryButton,
@@ -12,6 +11,8 @@ import {
   Form,
 } from '../components';
 import { hydrateOnClient } from '../helpers/hydrateOnClient';
+
+import { PAGE_IMPORT_DOCUMENTS_HISTORIQUE } from '@potentiel/legacy-routes';
 
 export type UploadLegacyModificationFileResult =
   | {
@@ -63,11 +64,7 @@ export const UploadLegacyModificationFiles = ({
         />
       )}
 
-      <Form
-        action={ROUTES.UPLOAD_LEGACY_MODIFICATION_FILES}
-        method="post"
-        encType="multipart/form-data"
-      >
+      <Form action={PAGE_IMPORT_DOCUMENTS_HISTORIQUE} method="post" encType="multipart/form-data">
         <div>
           <Label htmlFor="files">
             Sélectionner les fichiers à attacher aux demandes historiques.

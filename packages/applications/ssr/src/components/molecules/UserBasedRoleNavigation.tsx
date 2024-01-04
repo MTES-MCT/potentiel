@@ -55,7 +55,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Courriers historiques',
               linkProps: {
-                href: '/admin/importer-documents-historiques' as Route,
+                href: ROUTES_LEGACY.PAGE_IMPORT_DOCUMENTS_HISTORIQUE,
               },
             },
             {

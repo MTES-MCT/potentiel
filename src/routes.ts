@@ -56,8 +56,6 @@ class routes {
     codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
   static GET_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau/ajouter`;
 
-  static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';
-
   static ADMIN_PARTNER_USERS = '/admin/utilisateurs-partenaires.html';
 
   static ADMIN_USERS = '/admin/utilisateurs.html';
@@ -65,9 +63,6 @@ class routes {
   static ADMIN_INVITE_DREAL_USER_ACTION = '/admin/inviterUtilisateurDreal';
 
   static USER_INVITATION = '/enregistrement.html';
-
-  static IMPORT_PROJECTS_ACTION = '/admin/importer-candidats.html';
-  static IMPORT_PROJECTS = '/admin/importer-candidats.html';
 
   static ADMIN_STATISTIQUES = '/admin/statistiques.html';
   static ADEME_STATISTIQUES = '/ademe/statistiques.html';
