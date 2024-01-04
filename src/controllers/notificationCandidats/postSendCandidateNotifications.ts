@@ -8,12 +8,16 @@ import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 
-import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import {
+  GET_LISTE_PROJETS,
+  GET_NOTIFIER_CANDIDATS,
+  POST_NOTIFIER_CANDIDATS,
+} from '@potentiel/legacy-routes';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
 v1Router.post(
-  routes.POST_NOTIFIER_CANDIDATS,
+  POST_NOTIFIER_CANDIDATS,
   ensureRole(['dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { appelOffreId, periodeId, notificationDate } = request.body;
@@ -23,7 +27,7 @@ v1Router.post(
     ) {
       return response.redirect(
         addQueryParams(
-          routes.GET_NOTIFIER_CANDIDATS({
+          GET_NOTIFIER_CANDIDATS({
             appelOffreId,
             periodeId,
           }),
@@ -63,7 +67,7 @@ v1Router.post(
         logger.error(e);
         return response.redirect(
           addQueryParams(
-            routes.GET_NOTIFIER_CANDIDATS({
+            GET_NOTIFIER_CANDIDATS({
               appelOffreId,
               periodeId,
             }),

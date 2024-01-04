@@ -72,7 +72,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Notifier des candidats',
               linkProps: {
-                href: '/admin/notifier-candidats.html' as Route,
+                href: ROUTES_LEGACY.GET_NOTIFIER_CANDIDATS,
               },
             },
             {

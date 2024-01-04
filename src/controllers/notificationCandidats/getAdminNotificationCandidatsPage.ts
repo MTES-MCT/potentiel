@@ -1,13 +1,14 @@
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { AdminNotificationCandidatsPage } from '../../views';
 import { getCurrentUrl, getPagination, vérifierPermissionUtilisateur } from '../helpers';
 import { PermissionListerProjetsÀNotifier } from '../../modules/notificationCandidats';
 import { getDonnéesPourPageNotificationCandidats } from '../../config/queries.config';
 
+import { GET_NOTIFIER_CANDIDATS } from '@potentiel/legacy-routes';
+
 v1Router.get(
-  routes.GET_NOTIFIER_CANDIDATS(),
+  GET_NOTIFIER_CANDIDATS(),
   vérifierPermissionUtilisateur(PermissionListerProjetsÀNotifier),
   asyncHandler(async (request, response) => {
     let {

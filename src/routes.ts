@@ -87,10 +87,6 @@ class routes {
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv';
   static ADMIN_REGENERATE_CERTIFICATES = '/admin/regenerer-attestations.html';
   static ADMIN_REGENERATE_CERTIFICATES_ACTION = '/admin/regenerer-attestations';
-  static GET_NOTIFIER_CANDIDATS = withParams<{
-    appelOffreId: string;
-    periodeId: string;
-  }>('/admin/notifier-candidats.html');
 
   static PREVIEW_CANDIDATE_CERTIFICATE = (project?: {
     id: string;
@@ -139,7 +135,6 @@ class routes {
       makeCertificateFilename({ ...project, forAdmin: false }),
     );
 
-  static POST_NOTIFIER_CANDIDATS = '/admin/envoyer-les-notifications-aux-candidats';
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData';
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest';
   static ADMIN_REPONDRE_DEMANDE_DELAI = '/admin/repondre-demande-delai';

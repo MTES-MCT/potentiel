@@ -10,6 +10,7 @@ import {
   GET_IMPORT_CANDIDATS,
   GET_IMPORT_DOCUMENTS_HISTORIQUE,
   GET_IMPORT_DATES_MISE_EN_SERVICE,
+  GET_NOTIFIER_CANDIDATS,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -109,7 +110,7 @@ const MenuAdmin = (currentPage?: string) => (
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Désignation'}>
       <DropdownMenu.DropdownItem
-        href={routes.GET_NOTIFIER_CANDIDATS()}
+        href={GET_NOTIFIER_CANDIDATS()}
         {...(currentPage === 'notify-candidates' && { isCurrent: true })}
       >
         Notifier des candidats

@@ -23,6 +23,7 @@ import React, { useState } from 'react';
 import { PaginatedList } from '../../modules/pagination';
 import { afficherDate, hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { GET_NOTIFIER_CANDIDATS, POST_NOTIFIER_CANDIDATS } from '@potentiel/legacy-routes';
 
 type AdminNotificationCandidatsProps = {
   request: Request;
@@ -95,7 +96,7 @@ export const AdminNotificationCandidats = ({
           )}
         </div>
         <Form
-          action={ROUTES.GET_NOTIFIER_CANDIDATS()}
+          action={GET_NOTIFIER_CANDIDATS()}
           method="GET"
           className="w-full order-1 lg:order-2 lg:ml-auto"
         >
@@ -107,7 +108,7 @@ export const AdminNotificationCandidats = ({
         </Form>
       </PageListeTemplate.TopBar>
       <PageListeTemplate.SideBar open={formOpen}>
-        <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
+        <Form action={POST_NOTIFIER_CANDIDATS} method="post">
           <div>
             <Label htmlFor="appelOffreId">Appel d'offres concerné</Label>
             <Select
@@ -186,7 +187,7 @@ export const AdminNotificationCandidats = ({
               </>
             )}
         </Form>
-        <Form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="mt-4">
+        <Form action={GET_NOTIFIER_CANDIDATS()} method="GET" className="mt-4">
           <div>
             <Label htmlFor="classement">Classés/Eliminés</Label>
             <Select
