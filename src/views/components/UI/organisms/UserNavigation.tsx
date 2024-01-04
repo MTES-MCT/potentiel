@@ -23,6 +23,7 @@ import {
   GET_LISTE_DREALS,
   GET_LISTE_PARTENAIRES,
   GET_INVITER_DGEC_VALIDATEUR,
+  GET_INVITER_ADMINISTRATEUR,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -167,7 +168,7 @@ const MenuAdmin = (currentPage?: string) => (
         Dgec validateurs
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE}
+        href={GET_INVITER_ADMINISTRATEUR}
         {...(currentPage === 'inviter-administrateur' && { isCurrent: true })}
       >
         Administrateurs

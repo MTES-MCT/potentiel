@@ -119,7 +119,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Administrateurs',
               linkProps: {
-                href: '/admin/inviter-administrateur.html' as Route,
+                href: ROUTES_LEGACY.GET_INVITER_ADMINISTRATEUR,
               },
             },
           ],
@@ -130,7 +130,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Tableau de bord',
               linkProps: {
-                href: '/admin/statistiques.html' as Route,
+                href: ROUTES_LEGACY.GET_ADMIN_STATISTIQUES,
               },
             },
             {

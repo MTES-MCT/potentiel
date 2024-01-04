@@ -1,4 +1,3 @@
-import routes from '../../../routes';
 import * as yup from 'yup';
 import { v1Router } from '../../v1Router';
 import {
@@ -10,13 +9,13 @@ import { inviterUtilisateur } from '../../../config';
 import {
   InvitationUniqueParUtilisateurError,
   InvitationUtilisateurExistantError,
-  PermissionInviterDgecValidateur,
+  PermissionInviterAdministrateur,
 } from '../../../modules/utilisateur';
 import { logger } from '../../../core/utils';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 
-import { GET_LISTE_DREALS } from '@potentiel/legacy-routes';
+import { GET_INVITER_ADMINISTRATEUR, POST_INVITER_ADMINISTRATEUR } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -25,14 +24,14 @@ const schema = yup.object({
 });
 
 v1Router.post(
-  routes.POST_INVITER_UTILISATEUR_ADMINISTRATEUR,
-  vérifierPermissionUtilisateur(PermissionInviterDgecValidateur),
+  POST_INVITER_ADMINISTRATEUR,
+  vérifierPermissionUtilisateur(PermissionInviterAdministrateur),
   safeAsyncHandler(
     {
       schema,
       onError: ({ response, request, error }) =>
         response.redirect(
-          addQueryParams(GET_LISTE_DREALS, {
+          addQueryParams(GET_INVITER_ADMINISTRATEUR, {
             ...request.params,
             error: `${error.errors.join(' ')}`,
           }),
@@ -47,7 +46,7 @@ v1Router.post(
         .match(
           ({ email }) =>
             response.redirect(
-              addQueryParams(routes.GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE, {
+              addQueryParams(GET_INVITER_ADMINISTRATEUR, {
                 ...request.params,
                 success: `Une invitation a bien été envoyée à ${email}.`,
               }),
@@ -56,7 +55,7 @@ v1Router.post(
           (error: Error) => {
             if (error instanceof RequestValidationError) {
               return response.redirect(
-                addQueryParams(routes.GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE, {
+                addQueryParams(GET_INVITER_ADMINISTRATEUR, {
                   ...request.body,
                   ...error.errors,
                 }),
@@ -67,7 +66,7 @@ v1Router.post(
               error instanceof InvitationUtilisateurExistantError
             ) {
               return response.redirect(
-                addQueryParams(routes.GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE, {
+                addQueryParams(GET_INVITER_ADMINISTRATEUR, {
                   ...request.body,
                   error: error.message,
                 }),

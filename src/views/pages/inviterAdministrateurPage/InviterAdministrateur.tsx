@@ -1,6 +1,5 @@
 import React from 'react';
 import { Request } from 'express';
-import routes from '../../../routes';
 import {
   PrimaryButton,
   Heading1,
@@ -13,6 +12,7 @@ import {
   ErrorBox,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
+import { POST_INVITER_ADMINISTRATEUR } from '@potentiel/legacy-routes';
 
 type InviterAdministrateurProps = {
   request: Request;
@@ -28,11 +28,7 @@ export const InviterAdministrateur = ({
     <LegacyPageTemplate user={request.user} currentPage="inviter-administrateur">
       <Heading1>Ajouter un utilisateur ADMINISTRATEUR</Heading1>
 
-      <Form
-        action={routes.POST_INVITER_UTILISATEUR_ADMINISTRATEUR}
-        method="post"
-        className="mx-auto mt-8"
-      >
+      <Form action={POST_INVITER_ADMINISTRATEUR} method="post" className="mx-auto mt-8">
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
         <ChampsObligatoiresLégende />

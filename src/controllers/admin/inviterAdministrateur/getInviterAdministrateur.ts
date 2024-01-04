@@ -1,12 +1,12 @@
 import asyncHandler from '../../helpers/asyncHandler';
-import routes from '../../../routes';
 import { v1Router } from '../../v1Router';
 import { vérifierPermissionUtilisateur } from '../../helpers';
 import { InviterAdministrateurPage } from '../../../views';
 import { PermissionInviterAdministrateur } from '../../../modules/utilisateur';
+import { GET_INVITER_ADMINISTRATEUR } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  routes.GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE,
+  GET_INVITER_ADMINISTRATEUR,
   vérifierPermissionUtilisateur(PermissionInviterAdministrateur),
   asyncHandler(async (request, response) => {
     const { query } = request;

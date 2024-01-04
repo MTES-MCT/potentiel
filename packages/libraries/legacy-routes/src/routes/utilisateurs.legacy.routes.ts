@@ -26,6 +26,16 @@ export const POST_INVITER_DGEC_VALIDATEUR = '/admin/inviter-dgec-validateur';
 /**
  * @deprecated à supprimer dès que la migration sera faite
  */
+export const GET_INVITER_ADMINISTRATEUR = '/admin/inviter-administrateur.html';
+
+/**
+ * @deprecated à supprimer dès que la migration sera faite
+ */
+export const POST_INVITER_ADMINISTRATEUR = '/admin/inviter-administrateur';
+
+/**
+ * @deprecated à supprimer dès que la migration sera faite
+ */
 export const GET_ADMIN_STATISTIQUES = '/admin/statistiques.html';
 
 /**

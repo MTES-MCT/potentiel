@@ -150,9 +150,6 @@ class routes {
   static ADMIN_INVITATION_RELANCE_ACTION = '/admin/relanceInvitations';
   static ADMIN_NOTIFICATION_RETRY_ACTION = '/admin/retryNotifications';
 
-  static GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE = '/admin/inviter-administrateur.html';
-  static POST_INVITER_UTILISATEUR_ADMINISTRATEUR = '/admin/inviter-administrateur';
-
   static ADMIN_SIGNALER_DEMANDE_DELAI_PAGE = (projectId?: Project['id']) => {
     const route = '/admin/projet/:projectId/signalerDemandeDelai.html';
     if (projectId) {
