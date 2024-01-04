@@ -1,2 +1,2 @@
 export * from './listerAbandons.adapter';
-export * from './listerAbandonsParProjets.adapter';
+export * from './listerAbandonsPourPorteur.adapter';

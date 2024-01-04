@@ -8,9 +8,8 @@ import {
   CandidatureAdapter,
   consulterCahierDesChargesChoisiAdapter,
   récupérerPorteursProjetAdapter,
-  listerIdentifiantsProjetsParPorteurAdapter,
   listerAbandonsAdapter,
-  listerAbandonParProjetsAdapter,
+  listerAbandonsPourPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
 
@@ -23,8 +22,7 @@ export const setupLauréat = async () => {
     find: findProjection,
     list: listProjection,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-    listerIdentifiantsProjetsParPorteur: listerIdentifiantsProjetsParPorteurAdapter,
-    listerAbandonsParProjets: listerAbandonParProjetsAdapter,
+    listerAbandonsPourPorteur: listerAbandonsPourPorteurAdapter,
     buildModèleRéponseAbandon: getModèleRéponseAbandon,
     listerAbandons: listerAbandonsAdapter,
   });

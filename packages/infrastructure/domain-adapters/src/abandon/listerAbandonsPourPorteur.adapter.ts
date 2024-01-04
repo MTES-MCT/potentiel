@@ -5,17 +5,31 @@ import { Abandon } from '@potentiel-domain/laureat';
 const countAbandonsQuery = `
   select count(key) as "totalItems"
   from domain_views.projection 
-  where key like 'abandon|%' and value->>'identifiantProjet' = any($1)
+  inner join (
+    select distinct p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as project_id
+    from "projects" p
+    inner join "UserProjects" up on p.id = up."projectId"
+    inner join "users" u on up."userId" = u.id
+    where p."notifiedOn" > 0 and u."email" = $1
+) as project_ids on value->>'identifiantProjet' = project_ids.project_id
+where key like 'abandon|%'
 `;
 
 const getAbandonsQuery = `
-  select value
-  from domain_views.projection 
-  where key like 'abandon|%' and value->>'identifiantProjet' = any($1)
+select value
+from domain_views.projection 
+inner join (
+    select distinct p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as project_id
+    from "projects" p
+    inner join "UserProjects" up on p.id = up."projectId"
+    inner join "users" u on up."userId" = u.id
+    where p."notifiedOn" > 0 and u."email" = $1
+) as project_ids on value->>'identifiantProjet' = project_ids.project_id
+where key like 'abandon|%'
 `;
 
-export const listerAbandonParProjetsAdapter: Abandon.ListerAbandonsParProjetsPort = async (
-  identifiantsProjets,
+export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteurPort = async (
+  identifiantUtilisateur,
   filters,
   pagination,
 ) => {
@@ -38,12 +52,12 @@ export const listerAbandonParProjetsAdapter: Abandon.ListerAbandonsParProjetsPor
 
   const result = await executeSelect<{
     value: Abandon.AbandonProjection;
-  }>(query, identifiantsProjets, ...(filters ? Object.values(filters) : []));
+  }>(query, identifiantUtilisateur, ...(filters ? Object.values(filters) : []));
 
   const countQuery = `${countAbandonsQuery} ${whereClause}`;
   const countResult = await executeSelect<{ totalItems: string }>(
     countQuery,
-    identifiantsProjets,
+    identifiantUtilisateur,
     ...(filters ? Object.values(filters) : []),
   );
 

@@ -11,7 +11,7 @@ import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/deman
 import {
   ListerAbandonsQuery,
   ListerAbandonReadModel,
-  ListerAbandonsParProjetsPort,
+  ListerAbandonsPourPorteurPort,
   ListerAbandonsPort,
 } from './lister/listerAbandon.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
@@ -87,4 +87,4 @@ export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 export * from './abandon.projection';
 
 // Ports
-export { ListerAbandonsParProjetsPort, BuildModèleRéponseAbandonPort, ListerAbandonsPort };
+export { ListerAbandonsPourPorteurPort, BuildModèleRéponseAbandonPort, ListerAbandonsPort };

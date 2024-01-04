@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
-import { DateTime, IdentifiantProjet, Ports } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { StatutAbandon } from '..';
 
 type AbandonListItemReadModel = {
@@ -21,24 +21,6 @@ export type ListerAbandonReadModel = {
   totalItems: number;
 };
 
-export type ListerAbandonsParProjetsPort = (
-  identifiantsProjets: Array<string>,
-  filters: {
-    recandidature?: boolean;
-    statut?: StatutAbandon.RawType;
-    appelOffre?: string;
-  },
-  pagination: {
-    page: number;
-    itemsPerPage: number;
-  },
-) => Promise<{
-  items: ReadonlyArray<AbandonProjection>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-}>;
-
 export type ListerAbandonsPort = (
   filters: {
     recandidature?: boolean;
@@ -50,6 +32,24 @@ export type ListerAbandonsPort = (
     itemsPerPage: number;
   },
   région?: string,
+) => Promise<{
+  items: ReadonlyArray<AbandonProjection>;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+}>;
+
+export type ListerAbandonsPourPorteurPort = (
+  identifiantUtilisateur: string,
+  filters: {
+    recandidature?: boolean;
+    statut?: StatutAbandon.RawType;
+    appelOffre?: string;
+  },
+  pagination: {
+    page: number;
+    itemsPerPage: number;
+  },
 ) => Promise<{
   items: ReadonlyArray<AbandonProjection>;
   currentPage: number;
@@ -74,14 +74,12 @@ export type ListerAbandonsQuery = Message<
 >;
 
 export type ListerAbandonDependencies = {
-  listerIdentifiantsProjetsParPorteur: Ports.ListerIdentifiantsProjetsAccessiblesPort;
-  listerAbandonsParProjets: ListerAbandonsParProjetsPort;
+  listerAbandonsPourPorteur: ListerAbandonsPourPorteurPort;
   listerAbandons: ListerAbandonsPort;
 };
 
 export const registerListerAbandonQuery = ({
-  listerIdentifiantsProjetsParPorteur,
-  listerAbandonsParProjets,
+  listerAbandonsPourPorteur,
   listerAbandons,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
@@ -113,18 +111,10 @@ export const registerListerAbandonQuery = ({
       };
     }
 
-    const identifiantsProjets = await listerIdentifiantsProjetsParPorteur(email);
-    const abandons = await listerAbandonsParProjets(
-      identifiantsProjets.map(
-        ({ appelOffre, période, famille = '', numéroCRE }) =>
-          `${appelOffre}#${période}#${famille}#${numéroCRE}`,
-      ),
-      filters,
-      {
-        page,
-        itemsPerPage,
-      },
-    );
+    const abandons = await listerAbandonsPourPorteur(email, filters, {
+      page,
+      itemsPerPage,
+    });
     return {
       ...abandons,
       items: abandons.items.map((abandon) => mapToReadModel(abandon)),
