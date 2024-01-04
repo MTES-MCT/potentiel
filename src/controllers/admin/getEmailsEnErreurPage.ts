@@ -1,13 +1,13 @@
 import { getFailedNotificationDetails, ensureRole } from '../../config';
 import { logger } from '../../core/utils';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { EmailsEnErreurPage } from '../../views';
 import { getCurrentUrl, getPagination } from '../helpers';
+import { GET_LISTE_EMAILS_EN_ERREUR } from '@potentiel/legacy-routes';
 
 v1Router.get(
-  routes.ADMIN_NOTIFICATION_LIST,
+  GET_LISTE_EMAILS_EN_ERREUR,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const pagination = getPagination(request);

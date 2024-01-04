@@ -150,7 +150,6 @@ class routes {
     '/admin/demande/annuler-rejet-demande-changement-de-puissance';
 
   static ADMIN_DREAL_LIST = '/admin/dreals.html';
-  static ADMIN_INVITATION_LIST = '/admin/invitations.html';
   static ADMIN_INVITATION_RELANCE_ACTION = '/admin/relanceInvitations';
   static ADMIN_NOTIFICATION_LIST = '/admin/notifications.html';
   static ADMIN_NOTIFICATION_RETRY_ACTION = '/admin/retryNotifications';

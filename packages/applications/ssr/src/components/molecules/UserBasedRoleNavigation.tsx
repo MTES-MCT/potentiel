@@ -95,7 +95,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Emails en erreur',
               linkProps: {
-                href: '/admin/notifications.html' as Route,
+                href: ROUTES_LEGACY.GET_LISTE_EMAILS_EN_ERREUR,
               },
             },
             {

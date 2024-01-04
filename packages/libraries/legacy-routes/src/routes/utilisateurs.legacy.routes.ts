@@ -1,6 +1,11 @@
 /**
  * @deprecated à supprimer dès que la migration sera faite
  */
+export const GET_LISTE_EMAILS_EN_ERREUR = '/admin/notifications.html';
+
+/**
+ * @deprecated à supprimer dès que la migration sera faite
+ */
 export const GET_ADMIN_STATISTIQUES = '/admin/statistiques.html';
 
 /**

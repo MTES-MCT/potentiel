@@ -18,6 +18,7 @@ import React from 'react';
 import { PaginatedList } from '../../modules/pagination';
 import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 import routes from '../../routes';
+import { GET_LISTE_EMAILS_EN_ERREUR } from '@potentiel/legacy-routes';
 type EmailsEnErreurProps = {
   request: Request;
   notifications: PaginatedList<FailedNotificationDTO>;
@@ -93,7 +94,7 @@ export const EmailsEnErreur = ({ request, notifications, currentUrl }: EmailsEnE
       ) : (
         <ListeVide titre="Aucune notification à lister">
           {notifications.itemCount > 0 && (
-            <Link href={routes.ADMIN_NOTIFICATION_LIST}>Voir toutes les notifications</Link>
+            <Link href={GET_LISTE_EMAILS_EN_ERREUR}>Voir toutes les notifications</Link>
           )}
         </ListeVide>
       )}

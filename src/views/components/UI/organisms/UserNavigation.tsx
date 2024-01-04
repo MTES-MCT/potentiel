@@ -19,6 +19,7 @@ import {
   GET_ACHETEUR_OBLIGE_STATISTIQUES,
   GET_CRE_STATISTIQUES,
   GET_LISTE_CANDIDATS_EN_ATTENTE,
+  GET_LISTE_EMAILS_EN_ERREUR,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -138,7 +139,7 @@ const MenuAdmin = (currentPage?: string) => (
         Candidats en attente
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_NOTIFICATION_LIST}
+        href={GET_LISTE_EMAILS_EN_ERREUR}
         {...(currentPage === 'list-notifications' && { isCurrent: true })}
       >
         Emails en erreur
