@@ -11,6 +11,8 @@ import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddlewa
 import { miseAJourStatistiquesUtilisation } from '../../controllers/helpers';
 import { isLocalEnv } from '../../config';
 
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+
 export interface KeycloakAuthDeps {
   sequelizeInstance: any;
   KEYCLOAK_SERVER: string | undefined;
@@ -164,10 +166,10 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
        *
        */
       if (req.cookies[NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME]) {
-        return res.redirect(`${routes.LISTE_PROJETS}?${queryString}`);
+        return res.redirect(`${PAGE_LISTE_PROJETS}?${queryString}`);
       }
 
-      return res.redirect(`auth/signIn?callbackUrl=${routes.LISTE_PROJETS}?${queryString}`);
+      return res.redirect(`auth/signIn?callbackUrl=${PAGE_LISTE_PROJETS}?${queryString}`);
     });
   };
 

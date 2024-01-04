@@ -21,6 +21,8 @@ import { hydrateOnClient } from '../../helpers';
 import { ChangementActionnaire, DemandeRecours } from './components';
 import routes from '../../../routes';
 
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+
 type NewModificationRequestProps = {
   request: Request;
   project: ProjectProps & { cahierDesChargesActuel: string; actionnaire?: string };
@@ -44,7 +46,7 @@ export const NewModificationRequest = ({
       case 'recours':
         return routes.DEPOSER_RECOURS(project.id);
       default:
-        return routes.LISTE_PROJETS;
+        return PAGE_LISTE_PROJETS;
     }
   };
 
@@ -100,7 +102,7 @@ export const NewModificationRequest = ({
             <PrimaryButton type="submit" id="submit">
               Envoyer
             </PrimaryButton>
-            <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+            <SecondaryLinkButton href={PAGE_LISTE_PROJETS}>Annuler</SecondaryLinkButton>
           </div>
         </Form>
       )}

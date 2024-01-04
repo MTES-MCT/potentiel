@@ -1,5 +1,4 @@
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { ListeProjetsPage } from '../../views';
 import { userIs } from '../../modules/users';
@@ -16,6 +15,8 @@ import {
   FiltreListeProjets,
 } from '../../modules/project/queries/listerProjets';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 const getFiltres = ({
   query,
@@ -105,7 +106,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 });
 
 v1Router.get(
-  routes.LISTE_PROJETS,
+  PAGE_LISTE_PROJETS,
   vérifierPermissionUtilisateur(PermissionListerProjets),
   getProjectListPage,
 );

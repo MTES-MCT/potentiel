@@ -20,6 +20,8 @@ import { Request } from 'express';
 import React, { useState } from 'react';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+
 type SignalerDemandeDelaiProps = {
   request: Request;
   project: ProjectDataForSignalerDemandeDelaiPage;
@@ -158,7 +160,7 @@ export const SignalerDemandeDelai = ({
 
         <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
           <PrimaryButton type="submit">Enregistrer</PrimaryButton>
-          <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+          <SecondaryLinkButton href={PAGE_LISTE_PROJETS}>Annuler</SecondaryLinkButton>
         </div>
       </Form>
     </LegacyPageTemplate>

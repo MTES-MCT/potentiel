@@ -3,6 +3,8 @@ import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/Main
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Route } from 'next';
 
+import { ROUTES_LEGACY } from '@/routes.legacy';
+
 export async function UserBasedRoleNavigation() {
   const accessToken = await getAccessToken();
 
@@ -10,11 +12,7 @@ export async function UserBasedRoleNavigation() {
     ? getNavigationItemsBasedOnRole(Utilisateur.convertirEnValueType(accessToken).role.nom)
     : [];
 
-  return (
-    <>
-      <MainNavigation id="header-navigation" items={navigationItems}></MainNavigation>
-    </>
-  );
+  return <MainNavigation id="header-navigation" items={navigationItems}></MainNavigation>;
 }
 
 const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items'] => {
@@ -25,7 +23,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html' as Route,
+            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
           },
         },
         {
@@ -149,7 +147,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html' as Route,
+            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
           },
         },
         {
@@ -181,7 +179,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Mes projets',
           linkProps: {
-            href: '/projets.html' as Route,
+            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
           },
         },
         {
@@ -213,7 +211,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html' as Route,
+            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
           },
         },
       ];
@@ -222,7 +220,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html' as Route,
+            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
           },
         },
         {
@@ -237,7 +235,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html' as Route,
+            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
           },
         },
         {
@@ -252,7 +250,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html' as Route,
+            href: ROUTES_LEGACY.PAGE_LISTE_PROJETS,
           },
         },
         {

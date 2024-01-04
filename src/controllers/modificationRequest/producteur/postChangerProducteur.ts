@@ -15,6 +15,8 @@ import { ChangementProducteurImpossiblePourEolienError } from '../../../modules/
 import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeModification';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+
 const schema = yup.object({
   body: yup.object({
     projetId: yup.string().uuid().required(),
@@ -59,7 +61,7 @@ v1Router.post(
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `Votre changement de producteur a bien été enregistré. Vous n'avez plus accès au projet sur Potentiel.`,
-              redirectUrl: routes.LISTE_PROJETS,
+              redirectUrl: PAGE_LISTE_PROJETS,
               redirectTitle: 'Retourner à la liste des mes projets',
             }),
           );

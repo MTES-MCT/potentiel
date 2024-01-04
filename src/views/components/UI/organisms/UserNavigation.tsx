@@ -4,6 +4,8 @@ import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+
 export const UserNavigation = ({
   user,
   currentPage,
@@ -33,7 +35,7 @@ export const UserNavigation = ({
 
 const MenuCaisseDesDépôts = (currentPage?: string) => (
   <Header.MenuItem
-    href={routes.LISTE_PROJETS}
+    href={PAGE_LISTE_PROJETS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
   >
     Projets
@@ -43,7 +45,7 @@ const MenuCaisseDesDépôts = (currentPage?: string) => (
 const MenuCre = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={routes.LISTE_PROJETS}
+      href={PAGE_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -60,7 +62,7 @@ const MenuCre = (currentPage?: string) => (
 const MenuAdmin = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={routes.LISTE_PROJETS}
+      href={PAGE_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -173,7 +175,7 @@ const MenuAdmin = (currentPage?: string) => (
 const MenuPorteurProjet = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={routes.LISTE_PROJETS}
+      href={PAGE_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Mes projets
@@ -204,7 +206,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
 const MenuAcheteurObligé = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={routes.LISTE_PROJETS}
+      href={PAGE_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -221,7 +223,7 @@ const MenuAcheteurObligé = (currentPage?: string) => (
 const MenuAdeme = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={routes.LISTE_PROJETS}
+      href={PAGE_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -238,7 +240,7 @@ const MenuAdeme = (currentPage?: string) => (
 const MenuDreal = (currentPage?: string) => (
   <>
     <Header.MenuItem
-      href={routes.LISTE_PROJETS}
+      href={PAGE_LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets

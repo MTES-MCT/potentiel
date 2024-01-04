@@ -1,5 +1,5 @@
-import routes from '../../../routes';
 import { NotificationService } from '../NotificationService';
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export type NotifierPorteurRévocationAccèsProjet = (args: {
   email: string;
@@ -30,7 +30,7 @@ export const makeNotifierPorteurRévocationAccèsProjet: MakeNotifierPorteurRév
       },
       variables: {
         nom_projet: nomProjet,
-        mes_projets_url: routes.LISTE_PROJETS,
+        mes_projets_url: PAGE_LISTE_PROJETS,
         cause:
           cause === 'changement producteur'
             ? 'Cela fait suite à un changement de producteur déclaré sur Potentiel.'

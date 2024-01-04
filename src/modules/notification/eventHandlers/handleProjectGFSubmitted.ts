@@ -1,9 +1,10 @@
 import { NotificationService } from '..';
 import moment from 'moment';
 import { ProjectRepo, UserRepo } from '../../../dataAccess';
-import routes from '../../../routes';
 import { ProjectGFSubmitted } from '../../project/events';
 import { logger } from '../../../core/utils';
+
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleProjectGFSubmitted =
   (deps: {
@@ -69,7 +70,7 @@ export const handleProjectGFSubmitted =
               variables: {
                 nomProjet: project.nomProjet,
                 departementProjet: project.departementProjet,
-                invitation_link: routes.LISTE_PROJETS,
+                invitation_link: PAGE_LISTE_PROJETS,
               },
             }),
           ),

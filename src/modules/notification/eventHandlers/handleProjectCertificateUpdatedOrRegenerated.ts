@@ -4,8 +4,9 @@ import { wrapInfra } from '../../../core/utils';
 import { User } from '../../../entities';
 import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events';
 import { Project } from '../../project/Project';
-import routes from '../../../routes';
 import { RécupérerDonnéesPorteursParProjetQueryHandler } from '../../project/queries';
+
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleProjectCertificateUpdatedOrRegenerated =
   (deps: {
@@ -52,7 +53,7 @@ export const handleProjectCertificateUpdatedOrRegenerated =
           nomProjet: project.data?.nomProjet || '',
           raison:
             event.type === ProjectCertificateRegenerated.type ? event.payload.reason : undefined,
-          urlRedirection: routes.LISTE_PROJETS,
+          urlRedirection: PAGE_LISTE_PROJETS,
         },
       });
     }

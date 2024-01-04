@@ -19,6 +19,8 @@ import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+
 const routeRedirection = (type, projectId) => {
   let returnRoute: string;
   switch (type) {
@@ -29,7 +31,7 @@ const routeRedirection = (type, projectId) => {
       returnRoute = routes.DEPOSER_RECOURS(projectId);
       break;
     default:
-      returnRoute = routes.LISTE_PROJETS;
+      returnRoute = PAGE_LISTE_PROJETS;
       break;
   }
   return returnRoute;

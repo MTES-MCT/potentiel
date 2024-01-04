@@ -8,6 +8,8 @@ import { logger } from '../../core/utils';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import * as yup from 'yup';
 
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
+
 const schema = yup.object({
   body: yup.object({
     email: yup.string().required().email(),
@@ -23,7 +25,7 @@ const schema = yup.object({
 });
 
 const getRedirectTo = (projectId: string | string[]) =>
-  Array.isArray(projectId) ? routes.LISTE_PROJETS : routes.PROJECT_DETAILS(projectId);
+  Array.isArray(projectId) ? PAGE_LISTE_PROJETS : routes.PROJECT_DETAILS(projectId);
 
 v1Router.post(
   routes.INVITE_USER_TO_PROJECT_ACTION,

@@ -1,8 +1,9 @@
 import { NotificationService } from '..';
 import { ProjectRepo, UserRepo } from '../../../dataAccess';
-import routes from '../../../routes';
 import { UserInvitedToProject } from '../../authZ';
 import { logger } from '../../../core/utils';
+
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleUserInvitedToProject =
   (deps: {
@@ -40,7 +41,7 @@ export const handleUserInvitedToProject =
           },
           variables: {
             nomProjet,
-            invitation_link: routes.LISTE_PROJETS,
+            invitation_link: PAGE_LISTE_PROJETS,
           },
         });
       },

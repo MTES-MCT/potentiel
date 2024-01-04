@@ -1,9 +1,10 @@
 import { logger, wrapInfra } from '../../../core/utils';
-import routes from '../../../routes';
 import { GetPeriodeTitle } from '../../appelOffre';
 import { NotificationService } from '../../notification';
 import { GetUserByEmail, CreateUser } from '../../users';
 import { CandidateNotifiedForPeriode } from '../events/CandidateNotifiedForPeriode';
+
+import { PAGE_LISTE_PROJETS } from '@potentiel/legacy-routes';
 
 export const handleCandidateNotifiedForPeriode =
   (deps: {
@@ -51,7 +52,7 @@ export const handleCandidateNotifiedForPeriode =
                 periodeId,
               },
               variables: {
-                invitation_link: routes.LISTE_PROJETS,
+                invitation_link: PAGE_LISTE_PROJETS,
               },
               message: {
                 subject,
