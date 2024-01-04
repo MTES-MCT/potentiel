@@ -1,10 +1,10 @@
 import asyncHandler from '../helpers/asyncHandler';
 import jwt from 'jsonwebtoken';
 import { logger } from '../../core/utils';
-import routes from '../../routes';
 import { AdemeStatistiquesPage } from '../../views';
 import { v1Router } from '../v1Router';
 import { ensureRole } from '../../config';
+import { GET_ADEME_STATISTIQUES } from '@potentiel/legacy-routes';
 
 const { METABASE_SECRET_KEY, METABASE_SITE_URL } = process.env;
 
@@ -13,7 +13,7 @@ if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {
 }
 
 v1Router.get(
-  routes.ADEME_STATISTIQUES,
+  GET_ADEME_STATISTIQUES,
   ensureRole(['ademe']),
   asyncHandler(async (request, response) => {
     if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {

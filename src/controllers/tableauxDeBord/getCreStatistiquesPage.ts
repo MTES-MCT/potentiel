@@ -1,15 +1,16 @@
 import asyncHandler from '../helpers/asyncHandler';
 import jwt from 'jsonwebtoken';
 import { logger } from '../../core/utils';
-import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { ensureRole } from '../../config';
 import { CreStatistiquesPage } from '../../views';
 
+import { GET_CRE_STATISTIQUES } from '@potentiel/legacy-routes';
+
 const { METABASE_SECRET_KEY, METABASE_SITE_URL } = process.env;
 
 v1Router.get(
-  routes.GET_CRE_STATISTIQUES,
+  GET_CRE_STATISTIQUES,
   ensureRole(['cre']),
   asyncHandler(async (request, response) => {
     if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {

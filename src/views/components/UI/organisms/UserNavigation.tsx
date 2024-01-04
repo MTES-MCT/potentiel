@@ -14,6 +14,9 @@ import {
   GET_REGENERER_CERTIFICATS,
   GET_LISTE_DEMANDES_PORTEURS,
   GET_LISTE_PROJETS_A_RECLAMER,
+  GET_ADMIN_STATISTIQUES,
+  GET_ADEME_STATISTIQUES,
+  GET_ACHETEUR_OBLIGE_STATISTIQUES,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -61,7 +64,7 @@ const MenuCre = (currentPage?: string) => (
       Projets
     </Header.MenuItem>
     <Header.MenuItem
-      href={routes.GET_CRE_STATISTIQUES}
+      href={GET_CRE_STATISTIQUES}
       {...(currentPage === 'cre-statistiques' && { isCurrent: true })}
     >
       Tableau de bord
@@ -167,7 +170,7 @@ const MenuAdmin = (currentPage?: string) => (
 
     <DropdownMenu buttonChildren={'Outils'}>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_STATISTIQUES}
+        href={GET_ADMIN_STATISTIQUES}
         {...(currentPage === 'admin-statistiques' && { isCurrent: true })}
       >
         Tableau de bord
@@ -222,7 +225,7 @@ const MenuAcheteurObligé = (currentPage?: string) => (
       Projets
     </Header.MenuItem>
     <Header.MenuItem
-      href={routes.ACHETEUR_OBLIGE_STATISTIQUES}
+      href={GET_ACHETEUR_OBLIGE_STATISTIQUES}
       {...(currentPage === 'acheteur-oblige-statistiques' && { isCurrent: true })}
     >
       Tableau de bord
@@ -239,7 +242,7 @@ const MenuAdeme = (currentPage?: string) => (
       Projets
     </Header.MenuItem>
     <Header.MenuItem
-      href={routes.ADEME_STATISTIQUES}
+      href={GET_ADEME_STATISTIQUES}
       {...(currentPage === 'ademe-statistiques' && { isCurrent: true })}
     >
       Tableau de bord

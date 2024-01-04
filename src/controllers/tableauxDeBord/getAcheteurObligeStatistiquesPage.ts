@@ -1,10 +1,10 @@
 import asyncHandler from '../helpers/asyncHandler';
 import jwt from 'jsonwebtoken';
 import { logger } from '../../core/utils';
-import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { ensureRole } from '../../config';
 import { AcheteurObligeStatistiquesPage } from '../../views';
+import { GET_ACHETEUR_OBLIGE_STATISTIQUES } from '@potentiel/legacy-routes';
 
 const { METABASE_SECRET_KEY, METABASE_SITE_URL } = process.env;
 
@@ -13,7 +13,7 @@ if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {
 }
 
 v1Router.get(
-  routes.ACHETEUR_OBLIGE_STATISTIQUES,
+  GET_ACHETEUR_OBLIGE_STATISTIQUES,
   ensureRole(['acheteur-obligé']),
   asyncHandler(async (request, response) => {
     if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {

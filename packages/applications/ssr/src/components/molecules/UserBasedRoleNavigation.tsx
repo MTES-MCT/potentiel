@@ -226,7 +226,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Tableau de bord',
           linkProps: {
-            href: '/cre/statistiques.html' as Route,
+            href: ROUTES_LEGACY.GET_CRE_STATISTIQUES,
           },
         },
       ];
@@ -241,7 +241,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Tableau de bord',
           linkProps: {
-            href: '/ademe/statistiques.html' as Route,
+            href: ROUTES_LEGACY.GET_ADEME_STATISTIQUES,
           },
         },
       ];
@@ -256,7 +256,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Tableau de bord',
           linkProps: {
-            href: '/acheteur-oblige/statistiques.html' as Route,
+            href: ROUTES_LEGACY.GET_ACHETEUR_OBLIGE_STATISTIQUES,
           },
         },
       ];
