@@ -1,6 +1,7 @@
 import { getAccessToken } from '@/utils/getAccessToken';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Route } from 'next';
 
 export async function UserBasedRoleNavigation() {
   const accessToken = await getAccessToken();
@@ -24,7 +25,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html',
+            href: '/projets.html' as Route,
           },
         },
         {
@@ -33,7 +34,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Toutes les demandes',
               linkProps: {
-                href: '/admin/demandes.html',
+                href: '/admin/demandes.html' as Route,
               },
             },
             {
@@ -50,19 +51,19 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Nouveaux candidats',
               linkProps: {
-                href: '/admin/importer-candidats.html',
+                href: '/admin/importer-candidats.html' as Route,
               },
             },
             {
               text: 'Courriers historiques',
               linkProps: {
-                href: '/admin/importer-documents-historiques',
+                href: '/admin/importer-documents-historiques' as Route,
               },
             },
             {
               text: 'Dates de mise en service',
               linkProps: {
-                href: '/admin/importer-dates-mise-en-service.html',
+                href: '/admin/importer-dates-mise-en-service.html' as Route,
               },
             },
           ],
@@ -73,13 +74,13 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Notifier des candidats',
               linkProps: {
-                href: '/admin/notifier-candidats.html',
+                href: '/admin/notifier-candidats.html' as Route,
               },
             },
             {
               text: 'Régénérer des attestations',
               linkProps: {
-                href: '/admin/regenerer-attestations.html',
+                href: '/admin/regenerer-attestations.html' as Route,
               },
             },
           ],
@@ -90,37 +91,37 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Candidats en attente',
               linkProps: {
-                href: '/admin/invitations.html',
+                href: '/admin/invitations.html' as Route,
               },
             },
             {
               text: 'Emails en erreur',
               linkProps: {
-                href: '/admin/notifications.html',
+                href: '/admin/notifications.html' as Route,
               },
             },
             {
               text: 'Dreals',
               linkProps: {
-                href: '/admin/dreals.html',
+                href: '/admin/dreals.html' as Route,
               },
             },
             {
               text: 'Partenaires',
               linkProps: {
-                href: '/admin/utilisateurs-partenaires.html',
+                href: '/admin/utilisateurs-partenaires.html' as Route,
               },
             },
             {
               text: 'Dgec validateurs',
               linkProps: {
-                href: '/admin/inviter-dgec-validateur.html',
+                href: '/admin/inviter-dgec-validateur.html' as Route,
               },
             },
             {
               text: 'Administrateurs',
               linkProps: {
-                href: '/admin/inviter-administrateur.html',
+                href: '/admin/inviter-administrateur.html' as Route,
               },
             },
           ],
@@ -131,13 +132,13 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Tableau de bord',
               linkProps: {
-                href: '/admin/statistiques.html',
+                href: '/admin/statistiques.html' as Route,
               },
             },
             {
               text: 'Gérer les gestionnaires de réseau',
               linkProps: {
-                href: '/reseau/gestionnaires',
+                href: '/reseau/gestionnaires' as Route,
               },
             },
           ],
@@ -148,7 +149,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html',
+            href: '/projets.html' as Route,
           },
         },
         {
@@ -157,7 +158,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Toutes les demandes',
               linkProps: {
-                href: '/admin/demandes.html',
+                href: '/admin/demandes.html' as Route,
               },
             },
             {
@@ -171,7 +172,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Garanties Financières',
           linkProps: {
-            href: '/admin/garanties-financieres.html',
+            href: '/admin/garanties-financieres.html' as Route,
           },
         },
       ];
@@ -180,7 +181,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Mes projets',
           linkProps: {
-            href: '/projets.html',
+            href: '/projets.html' as Route,
           },
         },
         {
@@ -189,7 +190,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Mes demandes',
               linkProps: {
-                href: '/mes-demandes.html',
+                href: '/mes-demandes.html' as Route,
               },
             },
             {
@@ -203,7 +204,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets à réclamer',
           linkProps: {
-            href: '/projets-a-reclamer.html',
+            href: '/projets-a-reclamer.html' as Route,
           },
         },
       ];
@@ -212,7 +213,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html',
+            href: '/projets.html' as Route,
           },
         },
       ];
@@ -221,13 +222,13 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html',
+            href: '/projets.html' as Route,
           },
         },
         {
           text: 'Tableau de bord',
           linkProps: {
-            href: '/cre/statistiques.html',
+            href: '/cre/statistiques.html' as Route,
           },
         },
       ];
@@ -236,13 +237,13 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html',
+            href: '/projets.html' as Route,
           },
         },
         {
           text: 'Tableau de bord',
           linkProps: {
-            href: '/ademe/statistiques.html',
+            href: '/ademe/statistiques.html' as Route,
           },
         },
       ];
@@ -251,13 +252,13 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets',
           linkProps: {
-            href: '/projets.html',
+            href: '/projets.html' as Route,
           },
         },
         {
           text: 'Tableau de bord',
           linkProps: {
-            href: '/acheteur-oblige/statistiques.html',
+            href: '/acheteur-oblige/statistiques.html' as Route,
           },
         },
       ];

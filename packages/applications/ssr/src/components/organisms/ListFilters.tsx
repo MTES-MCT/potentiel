@@ -4,6 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Heading2 } from '../atoms/headings';
 import { FC, useState } from 'react';
 import { Filter } from '../molecules/Filter';
+import { Route } from 'next';
 
 export type ListFiltersProps = {
   filters: Array<{
@@ -46,7 +47,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
         />
       ))}
 
-      <Button className="mb-4" linkProps={{ href: url }}>
+      <Button className="mb-4" linkProps={{ href: url as Route }}>
         Filtrer
       </Button>
     </>
