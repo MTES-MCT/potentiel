@@ -1,0 +1,14 @@
+{
+  "name": "@potentiel/legacy-routes",
+  "version": "0.0.0",
+  "description": "Legacy routes",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

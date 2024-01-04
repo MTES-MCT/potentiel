@@ -73,6 +73,9 @@
     },
     {
       "path": "packages/libraries/legacy-permissions"
+    },
+    {
+      "path": "packages/libraries/legacy-routes"
     }
   ],
 }
