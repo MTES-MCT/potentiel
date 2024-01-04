@@ -1,11 +1,11 @@
 import { appelOffreRepo } from '../../dataAccess';
 import asyncHandler from '../helpers/asyncHandler';
-import routes from '../../routes';
 import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import { GarantiesFinancieresPage } from '../../views';
 import { getCurrentUrl, getPagination, getOptionsFiltresParAOs } from '../helpers';
 import { listerProjets } from '../../infra/sequelize/queries';
+import { GET_LISTE_GARANTIES_FINANCIERES } from '@potentiel/legacy-routes';
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres } =
@@ -47,8 +47,4 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   );
 });
 
-v1Router.get(
-  routes.ADMIN_GARANTIES_FINANCIERES,
-  ensureRole(['dreal']),
-  getGarantiesFinancieresPage,
-);
+v1Router.get(GET_LISTE_GARANTIES_FINANCIERES, ensureRole(['dreal']), getGarantiesFinancieresPage);

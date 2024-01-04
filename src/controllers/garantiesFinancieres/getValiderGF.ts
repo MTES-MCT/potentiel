@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { GFDéjàValidéesError, PermissionValiderGF } from '../../modules/project';
 import { vérifierPermissionUtilisateur } from '../helpers/vérifierPermissionUtilisateur';
+import { GET_LISTE_GARANTIES_FINANCIERES } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   params: yup.object({
@@ -24,7 +25,7 @@ v1Router.get(
       schema,
       onError: ({ response, request, error }) =>
         response.redirect(
-          addQueryParams(routes.ADMIN_GARANTIES_FINANCIERES, {
+          addQueryParams(GET_LISTE_GARANTIES_FINANCIERES, {
             ...request.params,
             error: `${error.errors.join(' ')}`,
           }),
@@ -38,7 +39,7 @@ v1Router.get(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `Les garanties financières pour ce projet sont bien considérées comme validées.`,
-              redirectUrl: routes.ADMIN_GARANTIES_FINANCIERES,
+              redirectUrl: GET_LISTE_GARANTIES_FINANCIERES,
               redirectTitle: 'Retourner à la liste des garanties financières',
             }),
           ),
@@ -50,7 +51,7 @@ v1Router.get(
           if (error instanceof GFDéjàValidéesError) {
             return response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
-                redirectUrl: routes.ADMIN_GARANTIES_FINANCIERES,
+                redirectUrl: GET_LISTE_GARANTIES_FINANCIERES,
                 redirectTitle: 'Retourner à la liste des garanties financières',
                 error: error.message,
               }),

@@ -1,5 +1,4 @@
 import React from 'react';
-import routes from '../../../../routes';
 import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
@@ -25,6 +24,7 @@ import {
   GET_INVITER_DGEC_VALIDATEUR,
   GET_INVITER_ADMINISTRATEUR,
   GET_LISTE_GESTIONNAIRES_RESEAU,
+  GET_LISTE_GARANTIES_FINANCIERES,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -281,7 +281,7 @@ const MenuDreal = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem
-      href={routes.ADMIN_GARANTIES_FINANCIERES}
+      href={GET_LISTE_GARANTIES_FINANCIERES}
       {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
     >
       Garanties Financières

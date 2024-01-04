@@ -21,6 +21,7 @@ import {
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../../helpers';
 import { ProjectListItem } from '../../../modules/project/queries';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { GET_LISTE_GARANTIES_FINANCIERES } from '@potentiel/legacy-routes';
 
 export type GarantiesFinancieresProps = {
   request: Request;
@@ -63,7 +64,7 @@ export const GarantiesFinancieres = ({
     <LegacyPageTemplate user={utilisateur} currentPage="list-garanties-financieres">
       <Heading1>Garanties financières</Heading1>
 
-      <Form action={routes.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
+      <Form action={GET_LISTE_GARANTIES_FINANCIERES} method="GET" className="m-0">
         <BarreDeRecherche
           placeholder="Rechercher par nom du projet"
           name="recherche"
