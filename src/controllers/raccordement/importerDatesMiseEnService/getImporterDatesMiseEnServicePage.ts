@@ -1,4 +1,3 @@
-import routes from '../../../routes';
 import { PermissionTransmettreDateMiseEnService } from '@potentiel/legacy-permissions';
 
 import { v1Router } from '../../v1Router';
@@ -8,15 +7,20 @@ import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServic
 import { CsvError } from '../../helpers/mapCsvYupValidationErrorToCsvErrors';
 import { vérifierPermissionUtilisateur } from '../../helpers';
 
+import {
+  GET_IMPORT_DATES_MISE_EN_SERVICE,
+  POST_IMPORT_DATES_MISE_EN_SERVICE,
+} from '@potentiel/legacy-routes';
+
 v1Router.get(
-  routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE,
+  GET_IMPORT_DATES_MISE_EN_SERVICE,
   vérifierPermissionUtilisateur(PermissionTransmettreDateMiseEnService),
   async (request, response) => {
     const { user } = request;
 
     const apiResult = getApiResult<ImporterDatesMiseEnServiceApiResult>(
       request,
-      routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
+      POST_IMPORT_DATES_MISE_EN_SERVICE,
     );
 
     const résultatImport = apiResult?.status === 'OK' ? apiResult.result : undefined;

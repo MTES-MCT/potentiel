@@ -1,5 +1,4 @@
 import asyncHandler from '../../helpers/asyncHandler';
-import routes from '../../../routes';
 import { v1Router } from '../../v1Router';
 import { upload } from '../../upload';
 import * as yup from 'yup';
@@ -21,6 +20,11 @@ import { ImporterDatesMiseEnServiceApiResult } from './importerDatesMiseEnServic
 import { RechercherDossierRaccordementQuery } from '@potentiel/domain-views';
 import { Project } from '../../../infra/sequelize/projectionsNext';
 import { isSome } from '@potentiel/monads';
+
+import {
+  GET_IMPORT_DATES_MISE_EN_SERVICE,
+  POST_IMPORT_DATES_MISE_EN_SERVICE,
+} from '@potentiel/legacy-routes';
 
 const csvDataSchema = yup
   .array()
@@ -72,12 +76,12 @@ const parseCsv = (fileStream: NodeJS.ReadableStream) => {
 };
 
 v1Router.post(
-  routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
+  POST_IMPORT_DATES_MISE_EN_SERVICE,
   vérifierPermissionUtilisateur(PermissionTransmettreDateMiseEnService),
   upload.single('fichier-dates-mise-en-service'),
   asyncHandler(async (request, response) => {
     if (!request?.file?.path) {
-      return response.redirect(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE);
+      return response.redirect(GET_IMPORT_DATES_MISE_EN_SERVICE);
     }
 
     try {
@@ -160,23 +164,23 @@ v1Router.post(
       }
 
       setApiResult(request, {
-        route: routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
+        route: POST_IMPORT_DATES_MISE_EN_SERVICE,
         status: 'OK',
         result,
       });
 
-      return response.redirect(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE);
+      return response.redirect(GET_IMPORT_DATES_MISE_EN_SERVICE);
     } catch (error) {
       if (error instanceof ValidationError) {
         setApiResult(request, {
-          route: routes.POST_IMPORTER_DATES_MISE_EN_SERVICE,
+          route: POST_IMPORT_DATES_MISE_EN_SERVICE,
           status: 'BAD_REQUEST',
           message: `Le fichier CSV n'est pas valide`,
           formErrors: {
             'fichier-dates-mise-en-service': mapCsvYupValidationErrorToCsvErrors(error),
           },
         });
-        return response.redirect(routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE);
+        return response.redirect(GET_IMPORT_DATES_MISE_EN_SERVICE);
       }
 
       throw error;

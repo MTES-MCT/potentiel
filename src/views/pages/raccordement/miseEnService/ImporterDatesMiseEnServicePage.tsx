@@ -12,10 +12,11 @@ import {
   Dialog,
   Spinner,
 } from '../../../components';
-import routes from '../../../../routes';
 import { hydrateOnClient } from '../../../helpers';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { CsvError } from '../../../../controllers/helpers/mapCsvYupValidationErrorToCsvErrors';
+
+import { POST_IMPORT_DATES_MISE_EN_SERVICE } from '@potentiel/legacy-routes';
 
 type Réussi = {
   référenceDossier: string;
@@ -63,7 +64,7 @@ export const ImporterDatesMiseEnService = ({
       <div className="flex flex-col md:flex-row gap-4 justify-between">
         <form
           className="flex gap-5 flex-col max-w-none w-full md:w-2/5 mx-0 self-center"
-          action={routes.POST_IMPORTER_DATES_MISE_EN_SERVICE}
+          action={POST_IMPORT_DATES_MISE_EN_SERVICE}
           method="post"
           encType="multipart/form-data"
           onSubmit={() => setIsImportInProgress(true)}

@@ -9,6 +9,7 @@ import {
   GET_LISTE_DEMANDES,
   GET_IMPORT_CANDIDATS,
   GET_IMPORT_DOCUMENTS_HISTORIQUE,
+  GET_IMPORT_DATES_MISE_EN_SERVICE,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -100,7 +101,7 @@ const MenuAdmin = (currentPage?: string) => (
         Courriers historiques
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={routes.GET_IMPORTER_DATES_MISE_EN_SERVICE_PAGE}
+        href={GET_IMPORT_DATES_MISE_EN_SERVICE}
         {...(currentPage === 'importer-dates-mise-en-service' && { isCurrent: true })}
       >
         Dates de mise en service

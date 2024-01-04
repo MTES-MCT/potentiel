@@ -61,7 +61,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Dates de mise en service',
               linkProps: {
-                href: '/admin/importer-dates-mise-en-service.html' as Route,
+                href: ROUTES_LEGACY.GET_IMPORT_DATES_MISE_EN_SERVICE,
               },
             },
           ],
