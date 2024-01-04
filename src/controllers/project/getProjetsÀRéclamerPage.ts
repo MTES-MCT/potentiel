@@ -1,11 +1,11 @@
 import { appelOffreRepo } from '../../dataAccess';
-import routes from '../../routes';
 import { listMissingOwnerProjects } from '../../useCases';
 import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
 import { ProjetsÀRéclamerPage } from '../../views';
 import { getCurrentUrl, getPagination } from '../helpers';
+import { GET_LISTE_PROJETS_A_RECLAMER } from '@potentiel/legacy-routes';
 
 const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {
   let { appelOffreId, periodeId, familleId, recherche, classement, garantiesFinancieres } =
@@ -58,7 +58,7 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
 });
 
 v1Router.get(
-  routes.USER_LIST_MISSING_OWNER_PROJECTS,
+  GET_LISTE_PROJETS_A_RECLAMER,
   ensureRole(['porteur-projet']),
   getMissingOwnerProjectListPage,
 );

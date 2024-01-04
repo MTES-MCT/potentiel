@@ -13,6 +13,7 @@ import {
   GET_NOTIFIER_CANDIDATS,
   GET_REGENERER_CERTIFICATS,
   GET_LISTE_DEMANDES_PORTEURS,
+  GET_LISTE_PROJETS_A_RECLAMER,
 } from '@potentiel/legacy-routes';
 
 export const UserNavigation = ({
@@ -204,7 +205,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem
-      href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
+      href={GET_LISTE_PROJETS_A_RECLAMER}
       {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
     >
       Projets à réclamer

@@ -7,6 +7,7 @@ import { upload } from '../upload';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { errorResponse } from '../helpers';
 import { addQueryParams } from '../../helpers/addQueryParams';
+import { GET_LISTE_PROJETS_A_RECLAMER } from '@potentiel/legacy-routes';
 
 v1Router.post(
   routes.USER_CLAIM_PROJECTS,
@@ -69,20 +70,20 @@ v1Router.post(
         )}`;
 
         return response.redirect(
-          addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, {
+          addQueryParams(GET_LISTE_PROJETS_A_RECLAMER, {
             error: errorMessages,
           }),
         );
       }
 
       return response.redirect(
-        addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, {
+        addQueryParams(GET_LISTE_PROJETS_A_RECLAMER, {
           success: successMessages,
         }),
       );
     } catch (error) {
       return response.redirect(
-        addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, {
+        addQueryParams(GET_LISTE_PROJETS_A_RECLAMER, {
           error: error.message,
         }),
       );

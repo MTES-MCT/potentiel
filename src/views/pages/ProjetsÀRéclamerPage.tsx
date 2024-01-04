@@ -21,7 +21,7 @@ import {
   SecondaryLinkButton,
 } from '../components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
-import routes from '../../routes';
+import { GET_LISTE_PROJETS_A_RECLAMER } from '@potentiel/legacy-routes';
 
 interface ProjetsÀRéclamerProps {
   request: Request;
@@ -107,7 +107,7 @@ export const ProjetsÀRéclamer = ({
           )}
         </div>
         <Form
-          action={routes.USER_LIST_MISSING_OWNER_PROJECTS}
+          action={GET_LISTE_PROJETS_A_RECLAMER}
           method="GET"
           className="w-full order-1 lg:order-2 lg:ml-auto"
         >
@@ -121,7 +121,7 @@ export const ProjetsÀRéclamer = ({
       </PageListeTemplate.TopBar>
       <PageListeTemplate.SideBar open={filtersOpen}>
         <Accordeon title="Filtrer par appel d'offre" defaultOpen={!!appelOffreId}>
-          <Form action={routes.USER_LIST_MISSING_OWNER_PROJECTS} method="GET">
+          <Form action={GET_LISTE_PROJETS_A_RECLAMER} method="GET">
             <div>
               <Label htmlFor="appelOffreId">Appel d'offres concerné</Label>
               <Select

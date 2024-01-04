@@ -188,7 +188,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Mes demandes',
               linkProps: {
-                href: '/mes-demandes.html' as Route,
+                href: ROUTES_LEGACY.GET_LISTE_DEMANDES_PORTEURS,
               },
             },
             {
@@ -202,7 +202,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
         {
           text: 'Projets à réclamer',
           linkProps: {
-            href: '/projets-a-reclamer.html' as Route,
+            href: ROUTES_LEGACY.GET_LISTE_PROJETS_A_RECLAMER,
           },
         },
       ];
