@@ -199,7 +199,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
             </TimelineOppositeContent>
             <TimelineSeparator>
               <TimelineDot />
-              {['accordé', 'rejeté', 'confirmé'].includes(statut) && <TimelineConnector />}
+              <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
               <div>
