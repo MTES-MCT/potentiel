@@ -19,7 +19,7 @@ import {
   TasksDone,
 } from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { GET_SENREGISTRER } from '@potentiel/legacy-routes';
+import { GET_PAGE_ACCUEIL, GET_SENREGISTRER } from '@potentiel/legacy-routes';
 
 type HeaderProps = {
   user?: UtilisateurReadModel;
@@ -41,7 +41,7 @@ const LogoAndTitle = () => (
     </div>
     <Link
       className="no-underline hover:no-underline focus:no-underline visited:no-underline"
-      href={routes.HOME}
+      href={GET_PAGE_ACCUEIL}
       title="Retour à l'accueil"
       aria-label="Retour à l'accueil"
     >

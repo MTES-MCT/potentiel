@@ -14,6 +14,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
+import { GET_PAGE_ACCUEIL } from '@potentiel/legacy-routes';
 
 type AbonnementLettreInformationProps = {
   request: Request;
@@ -103,7 +104,7 @@ const AbonnementLettreInformationForm = ({
             <SaveIcon className="mr-2" />
             M'abonner
           </PrimaryButton>
-          <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
+          <SecondaryLinkButton href={GET_PAGE_ACCUEIL}>Annuler</SecondaryLinkButton>
         </div>
       </Form>
     </div>
@@ -123,7 +124,7 @@ const AbonnementLettreInformationSuccessful = () => (
       </div>
     </h1>
 
-    <SecondaryLinkButton className="mt-8 my-4 mx-auto" href={routes.HOME}>
+    <SecondaryLinkButton className="mt-8 my-4 mx-auto" href={GET_PAGE_ACCUEIL}>
       Retour à l'accueil
     </SecondaryLinkButton>
   </Container>

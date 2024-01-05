@@ -27,7 +27,6 @@ const withProjectId = (url: string) => (projectId: Project['id']) => withParams(
 export { withParams };
 
 class routes {
-  static HOME = '/';
   static LOGIN = '/login.html';
   static LOGIN_ACTION = '/login.html';
   static ABONNEMENT_LETTRE_INFORMATION = '/abonnement-lettre-information.html';

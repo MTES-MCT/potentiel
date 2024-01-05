@@ -15,7 +15,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
-import { GET_SENREGISTRER } from '@potentiel/legacy-routes';
+import { GET_PAGE_ACCUEIL, GET_SENREGISTRER, POST_SENREGISTRER } from '@potentiel/legacy-routes';
 
 type SignupProps = {
   request: Request;
@@ -64,7 +64,7 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
 
     <div className="w-full md:w-1/2 lg:w-2/5 md:p-8 lg:p-10 xl:p-14">
       <Form
-        action={routes.POST_SIGNUP}
+        action={POST_SENREGISTRER}
         method="POST"
         className="flex flex-col gap-3 p-4 mx-0 bg-white"
       >
@@ -128,7 +128,7 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
             <SaveIcon className="mr-2" />
             M'inscrire
           </PrimaryButton>
-          <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
+          <SecondaryLinkButton href={GET_PAGE_ACCUEIL}>Annuler</SecondaryLinkButton>
         </div>
       </Form>
     </div>
@@ -151,7 +151,7 @@ const SignupSuccessful = () => (
       Un courriel vous a été envoyé afin de vérifier et valider votre inscription.
     </div>
 
-    <SecondaryLinkButton className="my-4 mx-auto" href={routes.HOME}>
+    <SecondaryLinkButton className="my-4 mx-auto" href={GET_PAGE_ACCUEIL}>
       Retour à l'accueil
     </SecondaryLinkButton>
   </Container>

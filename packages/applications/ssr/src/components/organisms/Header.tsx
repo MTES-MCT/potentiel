@@ -1,7 +1,8 @@
 import DsfrHeader from '@codegouvfr/react-dsfr/Header';
 import { UserHeaderQuickAccessItem } from '../molecules/UserHeaderQuickAccessItem';
 import { UserBasedRoleNavigation } from '../molecules/UserBasedRoleNavigation';
-import { Route } from 'next';
+
+import { ROUTES_LEGACY } from '@/routes.legacy';
 
 export const Header = () => {
   return (
@@ -22,7 +23,7 @@ export const Header = () => {
         </>
       }
       homeLinkProps={{
-        href: '/' as Route,
+        href: ROUTES_LEGACY.GET_PAGE_ACCUEIL,
         title: "Retour à l'accueil",
       }}
       quickAccessItems={[
