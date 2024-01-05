@@ -1,5 +1,3 @@
-import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
-
 /**
  * @deprecated à supprimer dès que la migration sera faite
  */
@@ -30,9 +28,7 @@ export const POST_MODIFIER_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
 /**
  * @deprecated à supprimer dès que la migration sera faite
  */
-export const GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (
-  identifiantProjet?: RawIdentifiantProjet,
-) => {
+export const GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (identifiantProjet?: string) => {
   return `/projet/${
     identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
   }/raccordements/modifier-gestionnaire-reseau.html`;
@@ -41,9 +37,7 @@ export const GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (
 /**
  * @deprecated à supprimer dès que la migration sera faite
  */
-export const POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (
-  identifiantProjet?: RawIdentifiantProjet,
-) => {
+export const POST_MODIFIER_GESTIONNAIRE_RESEAU_PROJET = (identifiantProjet?: string) => {
   return `/projet/${
     identifiantProjet ? encodeURIComponent(identifiantProjet) : ':identifiantProjet'
   }/raccordements/modifier-gestionnaire-reseau`;
