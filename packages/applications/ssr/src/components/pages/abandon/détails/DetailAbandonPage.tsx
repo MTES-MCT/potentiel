@@ -72,12 +72,6 @@ const mapToActionComponents = ({
           identifiantUtilisateur={identifiantUtilisateur}
         />
       )}
-      {actions.includes('rejeter') && (
-        <RejeterAbandon
-          identifiantProjet={identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
-        />
-      )}
       {actions.includes('accorder-avec-recandidature') && (
         <AccorderAbandonAvecRecandidature
           identifiantProjet={identifiantProjet}
@@ -86,6 +80,12 @@ const mapToActionComponents = ({
       )}
       {actions.includes('accorder-sans-recandidature') && (
         <AccorderAbandonSansRecandidature
+          identifiantProjet={identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
+        />
+      )}
+      {actions.includes('rejeter') && (
+        <RejeterAbandon
           identifiantProjet={identifiantProjet}
           identifiantUtilisateur={identifiantUtilisateur}
         />
