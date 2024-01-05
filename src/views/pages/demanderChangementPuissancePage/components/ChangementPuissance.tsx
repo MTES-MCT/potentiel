@@ -132,7 +132,7 @@ export const ChangementPuissance = ({
         />
       </div>
 
-      {displayAlertHorsRatios && (
+      {!puissanceMaxVolumeReservéDépassée && displayAlertHorsRatios && (
         <AlertePuissanceHorsRatios
           {...{
             project: {
@@ -144,16 +144,18 @@ export const ChangementPuissance = ({
         />
       )}
 
-      {CDC2022choisi && displayAlertOnPuissancebetweenInitialAndCDC2022Ratios && (
-        <AlertePuissanceFourchetteRatioInitialEtCDC2022
-          {...{
-            project: {
-              appelOffre,
-              cahierDesCharges: parseCahierDesChargesRéférence(cahierDesChargesActuel),
-            },
-          }}
-        />
-      )}
+      {!puissanceMaxVolumeReservéDépassée &&
+        CDC2022choisi &&
+        displayAlertOnPuissancebetweenInitialAndCDC2022Ratios && (
+          <AlertePuissanceFourchetteRatioInitialEtCDC2022
+            {...{
+              project: {
+                appelOffre,
+                cahierDesCharges: parseCahierDesChargesRéférence(cahierDesChargesActuel),
+              },
+            }}
+          />
+        )}
 
       {puissanceMaxVolumeReservéDépassée && (
         <AlertePuissanceMaxDepassee {...{ project: { appelOffre } }} />
