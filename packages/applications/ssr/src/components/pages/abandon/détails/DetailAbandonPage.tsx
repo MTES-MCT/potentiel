@@ -11,6 +11,7 @@ import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
 import { EtapesAbandonProps, EtapesAbandon } from './EtapesAbandon';
+import { PreuveRecandidatureStatutBadge } from './PreuveRecandidatureStatutBadge';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -43,6 +44,11 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
         <div className="flex flex-col md:flex-row gap-3 items-center">
           <span>Abandon</span>
           <StatutBadge statut={statut} />
+          {abandon.demande.recandidature && abandon.accord?.accordéLe && (
+            <PreuveRecandidatureStatutBadge
+              statut={abandon.demande.preuveRecandidature ? 'transmise' : 'en-attente'}
+            />
+          )}
         </div>
       }
       details={<EtapesAbandon {...{ ...abandon, statut }} />}

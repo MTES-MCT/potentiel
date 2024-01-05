@@ -51,28 +51,9 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
 }) => {
   return (
     <div className="flex flex-col">
-      {recandidature && statut === 'accordé' && (
-        <div>
-          {preuveRecandidature ? (
-            <p>
-              Le porteur a bien transmis un{' '}
-              <a
-                href={`/projet/${encodeParameter(preuveRecandidature)}/details.html`}
-                aria-label={`voir le projet faisant office de preuve de recandidature`}
-              >
-                projet comme preuve de recandidature
-              </a>
-              .
-            </p>
-          ) : (
-            <p>Le porteur n'a pas encore transmis de projet comme preuve de recandidature.</p>
-          )}
-        </div>
-      )}
-
       {recandidature && (
         <Alert
-          className="mt-4 mb-6 text-sm"
+          className="mb-6"
           severity="warning"
           small
           description={
@@ -103,6 +84,29 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
             </div>
           }
         />
+      )}
+
+      {recandidature && statut === 'accordé' && (
+        <div>
+          <p className="font-bold mb-4">
+            {preuveRecandidature ? (
+              <span>
+                Le porteur a bien transmis un{' '}
+                <a
+                  href={`/projet/${encodeParameter(preuveRecandidature)}/details.html`}
+                  aria-label={`voir le projet faisant office de preuve de recandidature`}
+                >
+                  projet comme preuve de recandidature
+                </a>
+                .
+              </span>
+            ) : (
+              <span>
+                Le porteur n'a pas encore transmis de projet comme preuve de recandidature.
+              </span>
+            )}
+          </p>
+        </div>
       )}
 
       <Timeline
