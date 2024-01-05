@@ -2,6 +2,7 @@ import asyncHandler from '../helpers/asyncHandler';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { SignupPage } from '../../views';
+import { GET_SENREGISTRER } from '@potentiel/legacy-routes';
 
 v1Router.get(
   GET_SENREGISTRER,

@@ -15,13 +15,14 @@ import {
   ConsulterGestionnaireRéseauLauréatQuery,
   ListerGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
+import { GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),
 });
 
 v1Router.get(
-  ModifierGestionnaireRéseauProjetPage(),
+  GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET(),
   vérifierPermissionUtilisateur(PermissionModifierGestionnaireRéseauProjet),
   safeAsyncHandler(
     {
