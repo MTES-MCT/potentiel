@@ -17,6 +17,7 @@ import {
   NoGFCertificateToDeleteError,
   SuppressionGFValidéeImpossibleError,
 } from '../../modules/project/errors';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 v1Router.get(
   routes.REMOVE_GARANTIES_FINANCIERES(),
@@ -37,7 +38,7 @@ v1Router.get(
     ).match(
       () =>
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          addQueryParams(GET_PROJET(projectId), {
             success: "Le dépôt de l'attestation de garanties financières a été annulé avec succès.",
           }),
         ),
@@ -47,7 +48,7 @@ v1Router.get(
           e instanceof NoGFCertificateToDeleteError
         ) {
           return response.redirect(
-            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            addQueryParams(GET_PROJET(projectId), {
               error: e.message,
             }),
           );

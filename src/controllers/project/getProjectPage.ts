@@ -10,7 +10,6 @@ import {
   miseAJourStatistiquesUtilisation,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import routes from '../../routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '../../modules/project';
 import { mediator } from 'mediateur';
@@ -29,13 +28,14 @@ import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Abandon } from '@potentiel-domain/laureat';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
 
 v1Router.get(
-  routes.PROJECT_DETAILS(),
+  GET_PROJET(),
   vérifierPermissionUtilisateur(PermissionConsulterProjet),
   safeAsyncHandler(
     {
@@ -48,7 +48,7 @@ v1Router.get(
 
       if (estUnRawIdentifiantProjet(request.params.projectId)) {
         const projectId = await getIdentifiantLegacyProjet(request.params.projectId);
-        return response.redirect(routes.PROJECT_DETAILS(projectId));
+        return response.redirect(GET_PROJET(projectId));
       }
 
       const projectId = request.params.projectId;

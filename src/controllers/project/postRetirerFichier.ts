@@ -1,3 +1,4 @@
+import { GET_PROJET } from '@potentiel/legacy-routes';
 import { ensureRole, eventStore } from '../../config';
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
@@ -37,7 +38,7 @@ v1Router.post(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: 'Le fichier a bien été retiré du projet.',
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectUrl: GET_PROJET(projectId),
               redirectTitle: 'Retourner à la page projet',
             }),
           );
@@ -46,7 +47,7 @@ v1Router.post(
           logger.error(e as Error);
 
           return response.redirect(
-            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            addQueryParams(GET_PROJET(projectId), {
               error: "Votre demande n'a pas pu être prise en compte.",
               ...request.body,
             }),

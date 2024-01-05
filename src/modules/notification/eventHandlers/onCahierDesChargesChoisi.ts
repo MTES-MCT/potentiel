@@ -2,7 +2,7 @@ import { NotificationService } from '..';
 import { ProjectRepo, UserRepo } from '../../../dataAccess';
 import { logger } from '../../../core/utils';
 import { CahierDesChargesChoisi } from '../../project';
-import routes from '../../../routes';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 type OnCahierDesChargesChoisi = (dépendances: {
   sendNotification: NotificationService['sendNotification'];
@@ -25,7 +25,7 @@ export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
 
     const variables = {
       nom_projet: project.nomProjet,
-      projet_url: routes.PROJECT_DETAILS(projectId),
+      projet_url: GET_PROJET(projectId),
       ...(type === 'modifié' && {
         cdc_date: payload.paruLe,
         cdc_alternatif: payload.alternatif ? 'alternatif ' : '',

@@ -7,6 +7,7 @@ import { formatCahierDesChargesRéférence } from '../../../../../entities/cahie
 import { CahierDesChargesInitial } from './CahierDesChargesInitial';
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible';
 import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 type ChoisirCahierDesChargesFormulaireProps = {
   infoBox: React.ReactNode;
@@ -27,11 +28,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
   return (
     <Form action={routes.CHANGER_CDC} method="post" className="mx-auto">
       {infoBox}
-      <input
-        type="hidden"
-        name="redirectUrl"
-        value={redirectUrl || routes.PROJECT_DETAILS(projetId)}
-      />
+      <input type="hidden" name="redirectUrl" value={redirectUrl || GET_PROJET(projetId)} />
       <input type="hidden" name="projectId" value={projetId} />
       {type && <input type="hidden" name="type" value={type} />}
       <ul className="list-none pl-0 m-0 flex flex-col gap-4">
@@ -100,7 +97,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
         <PrimaryButton type="submit" disabled={!peutEnregistrerLeChangement}>
           Enregistrer mon changement
         </PrimaryButton>
-        <SecondaryLinkButton className="ml-3" href={routes.PROJECT_DETAILS(projetId)}>
+        <SecondaryLinkButton className="ml-3" href={GET_PROJET(projetId)}>
           Annuler
         </SecondaryLinkButton>
       </div>

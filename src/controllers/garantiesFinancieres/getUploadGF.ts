@@ -17,6 +17,7 @@ import { format } from 'date-fns';
 import * as yup from 'yup';
 import { pathExists } from '../../helpers/pathExists';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -48,7 +49,7 @@ v1Router.post(
       schema,
       onError: ({ request, response, error }) => {
         return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+          addQueryParams(GET_PROJET(request.body.projectId), {
             ...request.body,
             error: `${error.errors.join(' ')}`,
           }),
@@ -58,7 +59,7 @@ v1Router.post(
     async (request, response) => {
       if (!request.file || !pathExists(request.file.path)) {
         return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+          addQueryParams(GET_PROJET(request.body.projectId), {
             error:
               "L'attestation de constitution des garanties financières n'a pas pu être envoyée. Vous devez joindre un fichier.",
           }),
@@ -80,7 +81,7 @@ v1Router.post(
             return response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
                 success: 'Votre attestation de garanties financières a bien été enregistrée.',
-                redirectUrl: routes.PROJECT_DETAILS(projectId),
+                redirectUrl: GET_PROJET(projectId),
                 redirectTitle: 'Retourner à la page projet',
               }),
             );
@@ -88,7 +89,7 @@ v1Router.post(
           (error) => {
             if (error instanceof GFCertificateHasAlreadyBeenSentError) {
               return response.redirect(
-                addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+                addQueryParams(GET_PROJET(request.body.projectId), {
                   error:
                     "Il semblerait qu'il y ait déjà une garantie financière en cours de validité sur ce projet.",
                 }),

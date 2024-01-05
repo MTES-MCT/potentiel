@@ -18,6 +18,7 @@ import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeModification/demandeDélai/demander/NouveauCahierDesChargesNonChoisiError';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -72,7 +73,7 @@ v1Router.post(
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: 'Votre demande de délai a bien été envoyée.',
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectUrl: GET_PROJET(projectId),
               redirectTitle: 'Retourner à la page projet',
             }),
           );

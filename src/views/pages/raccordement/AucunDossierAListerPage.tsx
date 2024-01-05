@@ -4,7 +4,7 @@ import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/U
 import { PageProjetTemplate, PlugIcon, ListeVide, Link } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
-import routes from '../../../routes';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 type AucunDossierAListerProps = {
   user: UtilisateurReadModel;
@@ -25,9 +25,7 @@ export const AucunDossierALister = ({ user, projet }: AucunDossierAListerProps) 
     <ListeVide titre="Aucun dossier à lister" />
 
     <div className="mt-4">
-      <Link href={routes.PROJECT_DETAILS(projet.identifiantProjet)}>
-        Retour vers le détail du projet
-      </Link>
+      <Link href={GET_PROJET(projet.identifiantProjet)}>Retour vers le détail du projet</Link>
     </div>
   </PageProjetTemplate>
 );

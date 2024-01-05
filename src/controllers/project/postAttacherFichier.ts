@@ -11,6 +11,7 @@ import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -40,7 +41,7 @@ v1Router.post(
       schema,
       onError: ({ request, response, error }) =>
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+          addQueryParams(GET_PROJET(request.body.projectId), {
             error: `${error.errors.join(' ')}`,
             ...request.body,
           }),
@@ -51,7 +52,7 @@ v1Router.post(
 
       if (!request.files || !request.files.length) {
         return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          addQueryParams(GET_PROJET(projectId), {
             error: "Merci d'attacher un fichier.",
             ...request.body,
           }),
@@ -75,7 +76,7 @@ v1Router.post(
 
         if (fileResult.isErr()) {
           return response.redirect(
-            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            addQueryParams(GET_PROJET(projectId), {
               error: "Echec de l'envoi du fichier.",
               ...request.body,
             }),
@@ -101,7 +102,7 @@ v1Router.post(
             response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
                 success: 'Les fichiers ont bien été attachés au projet.',
-                redirectUrl: routes.PROJECT_DETAILS(projectId),
+                redirectUrl: GET_PROJET(projectId),
                 redirectTitle: 'Retourner à la page projet',
               }),
             );
@@ -110,7 +111,7 @@ v1Router.post(
             logger.error(e as Error);
 
             return response.redirect(
-              addQueryParams(routes.PROJECT_DETAILS(projectId), {
+              addQueryParams(GET_PROJET(projectId), {
                 error: "Votre demande n'a pas pu être prise en compte.",
                 ...request.body,
               }),

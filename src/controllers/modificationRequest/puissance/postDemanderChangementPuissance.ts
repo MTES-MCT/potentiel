@@ -18,6 +18,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../hel
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -73,7 +74,7 @@ v1Router.post(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: 'Votre demande a bien été prise en compte.',
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectUrl: GET_PROJET(projectId),
               redirectTitle: 'Retourner à la page projet',
             }),
           ),

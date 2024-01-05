@@ -11,6 +11,7 @@ import { UniqueEntityID } from '../../../core/domain';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 import { UnauthorizedError } from '../../../modules/shared';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup
@@ -83,7 +84,7 @@ v1Router.post(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: 'Vos changements ont bien été enregistrés.',
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectUrl: GET_PROJET(projectId),
               redirectTitle: 'Retourner à la page projet',
             }),
           ),

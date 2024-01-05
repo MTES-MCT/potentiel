@@ -1,7 +1,7 @@
 import React from 'react';
-import routes from '../../routes';
 import { Link } from '.';
 import { afficherDate } from '../helpers/afficherDate';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 export type ProjectProps = {
   id: string;
@@ -50,7 +50,7 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
       className={`${className} p-4 bg-gray-100 border-solid border-l-4 border-y-0 border-r-0 border-blue-france-main-525-base`}
     >
       <div>
-        <Link href={routes.PROJECT_DETAILS(id)}>{nomProjet}</Link>
+        <Link href={GET_PROJET(id)}>{nomProjet}</Link>
       </div>
       <div className="italic text-xs">
         <span>{nomCandidat}</span>

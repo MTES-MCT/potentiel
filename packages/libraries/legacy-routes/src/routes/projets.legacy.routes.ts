@@ -27,3 +27,9 @@ export const POST_REGENERER_CERTIFICATS = '/admin/regenerer-attestations';
  * @deprecated à supprimer dès que la migration sera faite
  */
 export const GET_LISTE_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
+
+/**
+ * @deprecated à supprimer dès que la migration sera faite
+ */
+export const GET_PROJET = (projetId?: string) =>
+  `/projet/${projetId ? encodeURIComponent(projetId) : ':projetId'}/details.html`;

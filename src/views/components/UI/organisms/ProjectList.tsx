@@ -21,6 +21,7 @@ import {
   ExcelFileIcon,
 } from '../..';
 import { afficherDate } from '../../../helpers';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -187,7 +188,7 @@ export const ProjectList = ({
                       checked={selectedIds.indexOf(project.id) > -1}
                     />
                   )}
-                  <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
+                  <Link href={GET_PROJET(project.id)}>{project.nomProjet}</Link>
                   <StatutBadge project={project} role={role} />
                 </div>
                 <div className="italic text-xs text-grey-425-base">
@@ -261,7 +262,7 @@ export const ProjectList = ({
 
                 <div className="flex md:absolute md:top-4 md:right-5 gap-2">
                   <LinkButton
-                    href={routes.PROJECT_DETAILS(project.id)}
+                    href={GET_PROJET(project.id)}
                     aria-label={`voir le projet ${project.nomProjet}`}
                   >
                     Voir

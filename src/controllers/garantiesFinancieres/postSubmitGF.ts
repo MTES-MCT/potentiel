@@ -23,6 +23,7 @@ import {
 import { format } from 'date-fns';
 import * as yup from 'yup';
 import { pathExists } from '../../helpers/pathExists';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
@@ -72,7 +73,7 @@ v1Router.post(
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: 'Votre attestation de garanties financières a bien été enregistrée.',
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectUrl: GET_PROJET(projectId),
               redirectTitle: 'Retourner à la page projet',
             }),
           );
@@ -80,7 +81,7 @@ v1Router.post(
         (error) => {
           if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
-              addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+              addQueryParams(GET_PROJET(request.body.projectId), {
                 ...request.body,
                 error: `${error.message} ${error.errors.join(' ')}`,
               }),
@@ -93,7 +94,7 @@ v1Router.post(
             error instanceof GFImpossibleASoumettreError
           ) {
             return response.redirect(
-              addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+              addQueryParams(GET_PROJET(request.body.projectId), {
                 error: error.message,
               }),
             );

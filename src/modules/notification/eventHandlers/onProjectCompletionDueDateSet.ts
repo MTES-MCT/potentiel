@@ -4,8 +4,8 @@ import {
   ProjectCompletionDueDateSet,
   RécupérerDonnéesPorteursParProjetQueryHandler,
 } from '../../project';
-import routes from '../../../routes';
 import { NotificationService } from '../NotificationService';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 type OnProjectCompletionDueDateSet = (évènement: ProjectCompletionDueDateSet) => Promise<void>;
 
@@ -39,7 +39,7 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
             context: { projetId: projectId, utilisateurId: id },
             variables: {
               nom_projet: projet.nomProjet,
-              projet_url: routes.PROJECT_DETAILS(projectId),
+              projet_url: GET_PROJET(projectId),
             },
             message: {
               email,
@@ -60,7 +60,7 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
                 context: { projetId: projectId, utilisateurId: id },
                 variables: {
                   nom_projet: projet.nomProjet,
-                  projet_url: routes.PROJECT_DETAILS(projectId),
+                  projet_url: GET_PROJET(projectId),
                 },
                 message: {
                   email,
@@ -85,7 +85,7 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
     ) {
       const variables = {
         nom_projet: projet.nomProjet,
-        projet_url: routes.PROJECT_DETAILS(projectId),
+        projet_url: GET_PROJET(projectId),
       };
       const type =
         reason === 'DateMiseEnServiceAnnuleDélaiCdc2022'

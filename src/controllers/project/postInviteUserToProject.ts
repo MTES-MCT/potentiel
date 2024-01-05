@@ -8,7 +8,7 @@ import { logger } from '../../core/utils';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import * as yup from 'yup';
 
-import { GET_LISTE_PROJETS } from '@potentiel/legacy-routes';
+import { GET_LISTE_PROJETS, GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -25,7 +25,7 @@ const schema = yup.object({
 });
 
 const getRedirectTo = (projectId: string | string[]) =>
-  Array.isArray(projectId) ? GET_LISTE_PROJETS : routes.PROJECT_DETAILS(projectId);
+  Array.isArray(projectId) ? GET_LISTE_PROJETS : GET_PROJET(projectId);
 
 v1Router.post(
   routes.INVITE_USER_TO_PROJECT_ACTION,

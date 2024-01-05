@@ -20,6 +20,7 @@ import {
 import { hydrateOnClient } from '../../helpers';
 import { ChangementPuissance } from './components/ChangementPuissance';
 import routes from '../../../routes';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 type DemanderChangementPuissanceProps = {
   request: Request;
@@ -103,9 +104,7 @@ export const DemanderChangementPuissance = ({
             <PrimaryButton type="submit" id="submit" disabled={disableSubmit}>
               Envoyer
             </PrimaryButton>
-            <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
-              Annuler
-            </SecondaryLinkButton>
+            <SecondaryLinkButton href={GET_PROJET(project.id)}>Annuler</SecondaryLinkButton>
           </div>
         </Form>
       )}

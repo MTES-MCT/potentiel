@@ -8,6 +8,7 @@ import { ensureRole } from '../../config';
 import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 v1Router.get(
   routes.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION(),
@@ -16,7 +17,7 @@ v1Router.get(
     const { userId, projectId } = request.query as any;
     const { user } = request;
 
-    const redirectTo = routes.PROJECT_DETAILS(projectId);
+    const redirectTo = GET_PROJET(projectId);
 
     if (!validateUniqueId(userId) || !validateUniqueId(projectId)) {
       return notFoundResponse({ request, response });

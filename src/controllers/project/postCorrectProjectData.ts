@@ -12,6 +12,7 @@ import { errorResponse } from '../helpers';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import { ProjetDéjàClasséError } from '../../modules/modificationRequest';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
@@ -22,7 +23,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     if (request.body.numeroCRE || request.body.familleId || request.body.appelOffreAndPeriode) {
       return response.redirect(
-        addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+        addQueryParams(GET_PROJET(request.body.projectId), {
           error:
             'Vous tentez de changer une donnée non-modifiable, votre demande ne peut être prise en compte.',
           ...request.body,
@@ -75,7 +76,7 @@ v1Router.post(
       moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
     ) {
       return response.redirect(
-        addQueryParams(routes.PROJECT_DETAILS(projectId), {
+        addQueryParams(GET_PROJET(projectId), {
           error: 'La date de notification est au mauvais format.',
           ...request.body,
         }),
@@ -128,7 +129,7 @@ v1Router.post(
         response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: 'Les données du projet ont bien été mises à jour.',
-            redirectUrl: routes.PROJECT_DETAILS(projectId),
+            redirectUrl: GET_PROJET(projectId),
             redirectTitle: 'Retourner à la page projet',
           }),
         );
@@ -136,7 +137,7 @@ v1Router.post(
       (e) => {
         if (e instanceof IllegalProjectDataError) {
           return response.redirect(
-            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            addQueryParams(GET_PROJET(projectId), {
               error:
                 "Votre demande n'a pas pu être prise en compte: " +
                 Object.entries(e.errors)
@@ -149,7 +150,7 @@ v1Router.post(
 
         if (e instanceof CertificateFileIsMissingError || e instanceof ProjetDéjàClasséError) {
           return response.redirect(
-            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            addQueryParams(GET_PROJET(projectId), {
               error: e.message,
               ...request.body,
             }),
@@ -159,7 +160,7 @@ v1Router.post(
         logger.error(e as Error);
 
         return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          addQueryParams(GET_PROJET(projectId), {
             error: "Votre demande n'a pas pu être prise en compte.",
             ...request.body,
           }),

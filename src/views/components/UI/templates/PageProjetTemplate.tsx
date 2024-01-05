@@ -2,8 +2,8 @@ import React, { FC, ReactNode } from 'react';
 
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } from '../..';
-import routes from '../../../../routes';
 import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
@@ -31,7 +31,7 @@ const EntêteProjet: FC<CandidatureLegacyReadModel> = ({
     <div className="mb-3">
       <div className="flex justify-start items-center">
         <Link
-          href={routes.PROJECT_DETAILS(identifiantProjet)}
+          href={GET_PROJET(identifiantProjet)}
           className="no-underline text-3xl font-bold text-white"
           style={{ color: 'white', textDecoration: 'none' }}
         >

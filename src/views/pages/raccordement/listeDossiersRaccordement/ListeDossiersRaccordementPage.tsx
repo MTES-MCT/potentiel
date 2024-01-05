@@ -20,7 +20,7 @@ import routes from '../../../../routes';
 import { userIs } from '../../../../modules/users';
 import { Dossier } from './components/Dossier';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
-import { GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET } from '@potentiel/legacy-routes';
+import { GET_MODIFIER_GESTIONNAIRE_RESEAU_PROJET, GET_PROJET } from '@potentiel/legacy-routes';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
@@ -71,7 +71,7 @@ export const ListeDossiersRaccordement = ({
         </Link>
         .
       </InfoBox>
-      <SecondaryLinkButton href={routes.PROJECT_DETAILS(projet.identifiantProjet)} className="mt-3">
+      <SecondaryLinkButton href={GET_PROJET(projet.identifiantProjet)} className="mt-3">
         <ArrowLeftIcon aria-hidden className="w-5 h-5 mr-2" />
         Retour vers le projet
       </SecondaryLinkButton>

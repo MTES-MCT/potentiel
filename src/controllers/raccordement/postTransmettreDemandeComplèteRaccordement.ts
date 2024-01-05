@@ -27,6 +27,7 @@ import { upload as uploadMiddleware } from '../upload';
 import { mediator } from 'mediateur';
 import { DomainError } from '@potentiel-domain/core';
 import { isSome } from '@potentiel/monads';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   params: yup.object({ identifiantProjet: yup.string().required() }),
@@ -65,7 +66,7 @@ v1Router.post(
           );
         }
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(identifiant), {
+          addQueryParams(GET_PROJET(identifiant), {
             error: `Une erreur est survenue lors de la transmission de la demande complète de raccordement, merci de vérifier les informations communiquées.`,
           }),
         );

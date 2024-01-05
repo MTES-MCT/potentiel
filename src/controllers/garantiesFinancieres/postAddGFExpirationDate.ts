@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionAjouterDateExpirationGF } from '../../modules/project/useCases';
 import { addGFExpirationDate } from '../../config/useCases.config';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 const schema = yup.object({
   body: yup.object({
@@ -34,7 +35,7 @@ v1Router.post(
       schema,
       onError: ({ response, request, error }) =>
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+          addQueryParams(GET_PROJET(request.body.projectId), {
             ...request.body,
             error: `${error.errors.join(' ')}`,
           }),
@@ -48,7 +49,7 @@ v1Router.post(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: "La date d'échéance des garanties financières a bien été enregistrée.",
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectUrl: GET_PROJET(projectId),
               redirectTitle: 'Retourner à la page projet',
             }),
           ),

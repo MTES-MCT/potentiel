@@ -48,13 +48,6 @@ class routes {
 
   static USER_INVITATION = '/enregistrement.html';
 
-  static PROJECT_DETAILS = (projectId?: Project['id'] | RawIdentifiantProjet) => {
-    const route = '/projet/:projectId/details.html';
-    if (projectId) {
-      return route.replace(':projectId', encodeURIComponent(projectId));
-    } else return route;
-  };
-
   static CHOISIR_CAHIER_DES_CHARGES = (projetId?: Project['id']) => {
     const route = '/projet/:projetId/choisir-cahier-des-charges.html';
     if (projetId) {

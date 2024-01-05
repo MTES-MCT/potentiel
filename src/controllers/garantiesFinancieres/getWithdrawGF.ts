@@ -13,6 +13,7 @@ import {
 } from '../helpers';
 import { UnauthorizedError } from '../../modules/shared';
 import { PermissionRetirerGF } from '../../modules/project';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 v1Router.get(
   routes.WITHDRAW_GARANTIES_FINANCIERES(),
@@ -33,7 +34,7 @@ v1Router.get(
     ).match(
       () =>
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          addQueryParams(GET_PROJET(projectId), {
             success: "Le dépôt de l'attestation de garanties financières a été annulé avec succès.",
           }),
         ),

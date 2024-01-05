@@ -28,6 +28,7 @@ import {
   InfoBoxFormulaireDCR,
   InfoBoxFormulaireDCRProps,
 } from '../components/InfoBoxFormulaireDCR';
+import { GET_PROJET } from '@potentiel/legacy-routes';
 
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
@@ -147,7 +148,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
                 Retour vers le dossier de raccordement
               </Link>
             ) : (
-              <Link href={routes.PROJECT_DETAILS(legacyId)} className="m-auto">
+              <Link href={GET_PROJET(legacyId)} className="m-auto">
                 Retour vers le projet
               </Link>
             )}
