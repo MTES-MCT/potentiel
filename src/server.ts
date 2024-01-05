@@ -104,7 +104,17 @@ export async function makeServer(port: number, sessionSecret: string) {
     app.use(v1Router);
     app.use(express.static(path.join(__dirname, 'public')));
 
-    app.use(Sentry.Handlers.errorHandler());
+    app.use(
+      Sentry.Handlers.errorHandler({
+        shouldHandleError(error) {
+          if (error.statusCode && error.statusCode !== 500) {
+            return false;
+          }
+
+          return true;
+        },
+      }),
+    );
 
     app.use((error, req, res, next) => {
       logger.error(error);
