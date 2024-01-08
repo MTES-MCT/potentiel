@@ -1,5 +1,5 @@
+import { encodeUrl } from '@/utils/encodeUrl';
 import { FC } from 'react';
-import { encodeParameter } from '@/utils/encodeParameter';
 
 type GestionnaireRéseauListItemProps = {
   identifiantGestionnaireRéseau: string;
@@ -21,7 +21,9 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
 
     <div className="flex flex-col justify-between mt-4 md:mt-2">
       <a
-        href={`/reseau/gestionnaires/${encodeParameter(identifiantGestionnaireRéseau)}`}
+        href={encodeUrl('/reseau/gestionnaires/:identifiantGestionnaireRéseau', {
+          identifiantGestionnaireRéseau,
+        })}
         className="self-end mt-2"
         aria-label={`voir le détails du gestionnaire de réseau ${raisonSociale}`}
       >
