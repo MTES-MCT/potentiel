@@ -37,9 +37,6 @@ import {
   InviterAdministrateur,
   AcheteurObligeStatistiques,
   CreStatistiques,
-  ListeGestionnairesRéseau,
-  ModifierGestionnaireRéseau,
-  AjouterGestionnaireRéseau,
   TransmettreDemandeComplèteRaccordement,
   ListeDossiersRaccordement,
   TransmettreDateMiseEnService,
@@ -331,33 +328,6 @@ export const InviterAdministrateurPage = (props: Parameters<typeof InviterAdmini
     Component: InviterAdministrateur,
     props,
     title: 'Inviter un utilisateur administrateur',
-  });
-
-export const ListeGestionnairesRéseauPage = (
-  props: Parameters<typeof ListeGestionnairesRéseau>[0],
-) =>
-  makeHtml({
-    Component: ListeGestionnairesRéseau,
-    props,
-    title: 'Liste des gestionnaires de réseau',
-  });
-
-export const ConsulterGestionnairesRéseauPage = (
-  props: Parameters<typeof ModifierGestionnaireRéseau>[0],
-) =>
-  makeHtml({
-    Component: ModifierGestionnaireRéseau,
-    props,
-    title: 'Détail du gestionnaire de réseau',
-  });
-
-export const AjouterGestionnaireRéseauPage = (
-  props: Parameters<typeof AjouterGestionnaireRéseau>[0],
-) =>
-  makeHtml({
-    Component: AjouterGestionnaireRéseau,
-    props,
-    title: 'Ajouter un gestionnaire de réseau',
   });
 
 export const TransmettreDemandeComplèteRaccordementPage = (

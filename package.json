@@ -27,6 +27,7 @@
     "./packages/domain/candidature",
     "./packages/domain/appel-offre",
     "./packages/domain/lauréat",
+    "./packages/domain/réseau",
     "./packages/domain/tâche",
     "./packages/domain-usecases/",
     "./packages/domain-views/",

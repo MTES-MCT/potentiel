@@ -137,7 +137,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Gérer les gestionnaires de réseau',
               linkProps: {
-                href: '/admin/gestionnaires-reseau',
+                href: '/reseau/gestionnaires',
               },
             },
           ],

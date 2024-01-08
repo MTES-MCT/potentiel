@@ -47,7 +47,6 @@ class routes {
   static EXPORT_AO_CSV = '/admin/appelsOffres.csv';
   static EXPORT_PERIODE_CSV = '/admin/periodes.csv';
 
-  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/gestionnaires-reseau`;
   static GET_DETAIL_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
     codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
 

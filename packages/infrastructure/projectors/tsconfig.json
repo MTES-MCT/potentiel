@@ -12,6 +12,9 @@
       "path": "../../domain/tâche"
     },
     {
+      "path": "../../domain/réseau"
+    },
+    {
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {

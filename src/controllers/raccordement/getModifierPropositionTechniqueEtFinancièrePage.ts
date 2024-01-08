@@ -16,8 +16,8 @@ import {
   ConsulterCandidatureLegacyQuery,
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauLauréatQuery,
-  ConsulterGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 const schema = yup.object({
   params: yup.object({
@@ -88,10 +88,11 @@ v1Router.get(
         });
 
       const gestionnaireRéseauActuel = isSome(gestionnaireRéseauLauréat)
-        ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
+        ? await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
             type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
             data: {
-              identifiantGestionnaireRéseau: gestionnaireRéseauLauréat.identifiantGestionnaire,
+              identifiantGestionnaireRéseau:
+                gestionnaireRéseauLauréat.identifiantGestionnaire.codeEIC,
             },
           })
         : none;

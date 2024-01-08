@@ -1,13 +1,9 @@
-import { GestionnaireRéseauUseCase } from './gestionnaireRéseau/gestionnaireRéseau.usecase';
 import { GestionnaireRéseauProjetUseCase } from './projet/lauréat/gestionnaireRéseau/gestionnaireRéseauProjet.usecase';
 import { RaccordementUsecase } from './raccordement/raccordement.usecase';
 import { LoadAggregate, Publish } from '@potentiel/core-domain';
 import { ProjetDependencies } from './projet/projet.setup';
 
-export type DomainUseCase =
-  | GestionnaireRéseauUseCase
-  | GestionnaireRéseauProjetUseCase
-  | RaccordementUsecase;
+export type DomainUseCase = GestionnaireRéseauProjetUseCase | RaccordementUsecase;
 
 export type UseCaseDependencies = {
   common: {

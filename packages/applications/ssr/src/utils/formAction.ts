@@ -23,6 +23,7 @@ export const formAction =
       const data = schema
         ? schema.parse(Object.fromEntries(formData))
         : Object.fromEntries(formData);
+
       await action(previousState, data);
       return {
         success: true as const,

@@ -17,11 +17,11 @@ import {
   ConsulterCandidatureLegacyQuery,
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauLauréatQuery,
-  ConsulterGestionnaireRéseauQuery,
 } from '@potentiel/domain-views';
 import { ProjectEvent } from '../../infra/sequelize/projectionsNext';
 import { getProjectAppelOffre } from '../../config/queryProjectAO.config';
 import { CahierDesChargesRéférenceParsed, parseCahierDesChargesRéférence } from '../../entities';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 const schema = yup.object({
   params: yup.object({
@@ -100,10 +100,11 @@ v1Router.get(
         });
 
       const gestionnaireRéseauActuel = isSome(gestionnaireRéseauLauréat)
-        ? await mediator.send<ConsulterGestionnaireRéseauQuery>({
+        ? await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
             type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
             data: {
-              identifiantGestionnaireRéseau: gestionnaireRéseauLauréat.identifiantGestionnaire,
+              identifiantGestionnaireRéseau:
+                gestionnaireRéseauLauréat.identifiantGestionnaire.codeEIC,
             },
           })
         : none;

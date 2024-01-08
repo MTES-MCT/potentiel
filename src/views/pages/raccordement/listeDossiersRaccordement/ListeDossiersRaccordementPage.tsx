@@ -11,11 +11,7 @@ import {
   ArrowLeftIcon,
 } from '../../../components';
 import { hydrateOnClient } from '../../../helpers';
-import {
-  GestionnaireRéseauReadModel,
-  CandidatureLegacyReadModel,
-  DossierRaccordementReadModel,
-} from '@potentiel/domain-views';
+import { CandidatureLegacyReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { userIs } from '../../../../modules/users';
 import { Dossier } from './components/Dossier';
@@ -24,7 +20,15 @@ import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
   projet: CandidatureLegacyReadModel;
-  gestionnaireRéseau: GestionnaireRéseauReadModel;
+  gestionnaireRéseau: {
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
+  };
   dossiers: ReadonlyArray<DossierRaccordementReadModel>;
 };
 

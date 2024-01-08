@@ -14,11 +14,7 @@ import {
   InputFile,
 } from '../../../components';
 import { formatDateForInput, hydrateOnClient } from '../../../helpers';
-import {
-  GestionnaireRéseauReadModel,
-  CandidatureLegacyReadModel,
-  DossierRaccordementReadModel,
-} from '@potentiel/domain-views';
+import { CandidatureLegacyReadModel, DossierRaccordementReadModel } from '@potentiel/domain-views';
 import routes from '../../../../routes';
 import { GestionnaireRéseauSelect } from '../components/GestionnaireRéseauSelect';
 import { TitrePageRaccordement } from '../components/TitrePageRaccordement';
@@ -32,7 +28,15 @@ type ModifierDemandeComplèteRaccordementProps = {
   projet: CandidatureLegacyReadModel;
   dossierRaccordement: DossierRaccordementReadModel;
   error?: string;
-  gestionnaireRéseauActuel: GestionnaireRéseauReadModel;
+  gestionnaireRéseauActuel: {
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
+  };
   delaiDemandeDeRaccordementEnMois: InfoBoxFormulaireDCRProps['delaiDemandeDeRaccordementEnMois'];
 };
 

@@ -1,10 +1,7 @@
 import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { mediator } from 'mediateur';
-import {
-  DomainUseCase,
-  convertirEnIdentifiantGestionnaireRéseau,
-} from '@potentiel/domain-usecases';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { sleep } from '../../helpers/sleep';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
@@ -18,12 +15,16 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     expressionReguliere: exemple['Expression régulière'],
   };
 
-  await mediator.send<DomainUseCase>({
+  await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
     data: {
-      identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-      raisonSociale,
-      aideSaisieRéférenceDossierRaccordement,
+      identifiantGestionnaireRéseauValue: codeEIC,
+      raisonSocialeValue: raisonSociale,
+      aideSaisieRéférenceDossierRaccordementValue: {
+        expressionReguliereValue: aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+        formatValue: aideSaisieRéférenceDossierRaccordement.format,
+        légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
+      },
     },
   });
 
@@ -45,12 +46,16 @@ EtantDonné(
       expressionReguliere: '(.*)',
     };
 
-    await mediator.send<DomainUseCase>({
+    await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
       type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
       data: {
-        identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-        raisonSociale,
-        aideSaisieRéférenceDossierRaccordement,
+        identifiantGestionnaireRéseauValue: codeEIC,
+        raisonSocialeValue: raisonSociale,
+        aideSaisieRéférenceDossierRaccordementValue: {
+          expressionReguliereValue: aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+          formatValue: aideSaisieRéférenceDossierRaccordement.format,
+          légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
+        },
       },
     });
 

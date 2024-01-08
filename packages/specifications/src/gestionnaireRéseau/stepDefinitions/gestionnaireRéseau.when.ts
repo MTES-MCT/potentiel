@@ -1,15 +1,8 @@
 import { When as Quand, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
-import {
-  DomainUseCase,
-  convertirEnIdentifiantGestionnaireRéseau,
-  convertirEnRéférenceDossierRaccordement,
-  loadGestionnaireRéseauAggregateFactory,
-} from '@potentiel/domain-usecases';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
-import { loadAggregate } from '@potentiel/pg-event-sourcing';
-import { isNone } from '@potentiel/monads';
 
 Quand(
   'un administrateur ajoute un gestionnaire de réseau( avec le même code EIC)',
@@ -25,12 +18,16 @@ Quand(
         expressionReguliere: exemple['Expression régulière'],
       };
 
-      await mediator.send<DomainUseCase>({
+      await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
         type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
         data: {
-          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-          raisonSociale,
-          aideSaisieRéférenceDossierRaccordement,
+          identifiantGestionnaireRéseauValue: codeEIC,
+          raisonSocialeValue: raisonSociale,
+          aideSaisieRéférenceDossierRaccordementValue: {
+            expressionReguliereValue: aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+            formatValue: aideSaisieRéférenceDossierRaccordement.format,
+            légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
+          },
         },
       });
 
@@ -59,12 +56,16 @@ Quand(
     };
 
     try {
-      await mediator.send<DomainUseCase>({
+      await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
         type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
         data: {
-          identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-          raisonSociale,
-          aideSaisieRéférenceDossierRaccordement,
+          identifiantGestionnaireRéseauValue: codeEIC,
+          raisonSocialeValue: raisonSociale,
+          aideSaisieRéférenceDossierRaccordementValue: {
+            expressionReguliereValue: aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+            formatValue: aideSaisieRéférenceDossierRaccordement.format,
+            légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
+          },
         },
       });
 
@@ -87,21 +88,22 @@ Quand(
     référenceÀValider: string,
     raisonSocialeGestionnaireRéseau: string,
   ) {
-    const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+    const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialeGestionnaireRéseau,
     );
 
-    const actualAggregate = await loadGestionnaireRéseauAggregateFactory({ loadAggregate })(
-      convertirEnIdentifiantGestionnaireRéseau(gestionnaireRéseau.codeEIC),
-    );
+    const actualReadModel =
+      await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
+        data: {
+          identifiantGestionnaireRéseau: codeEIC,
+        },
+        type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      });
 
-    if (isNone(actualAggregate)) {
-      throw new Error(`L'agrégat gestionnaire de réseau n'existe pas !`);
-    }
-
-    const résultatValidation = actualAggregate.validerRéférenceDossierRaccordement(
-      convertirEnRéférenceDossierRaccordement(référenceÀValider),
-    );
+    const résultatValidation =
+      actualReadModel.aideSaisieRéférenceDossierRaccordement.expressionReguliere.valider(
+        référenceÀValider,
+      );
 
     this.gestionnaireRéseauWorld.résultatsValidation.set(référenceÀValider, résultatValidation);
   },

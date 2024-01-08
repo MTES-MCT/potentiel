@@ -5,11 +5,7 @@ import {
   loadGestionnaireRéseauAggregateFactory,
 } from '@potentiel/domain-usecases';
 import { isNone } from '@potentiel/monads';
-import {
-  ConsulterGestionnaireRéseauQuery,
-  GestionnaireRéseauReadModel,
-  ListerGestionnaireRéseauQuery,
-} from '@potentiel/domain-views';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { mediator } from 'mediateur';
 
@@ -25,17 +21,49 @@ Alors(
     actualAggregate.codeEIC.should.equal(gestionnaireRéseau.codeEIC);
 
     // Assert read model
-    const actualReadModel = await mediator.send<ListerGestionnaireRéseauQuery>({
+    const actualReadModel = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
       type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
-      data: {},
+      data: {
+        pagination: {
+          itemsPerPage: 1000,
+          page: 1,
+        },
+      },
     });
 
-    const expected: GestionnaireRéseauReadModel = {
-      type: 'gestionnaire-réseau',
-      ...gestionnaireRéseau,
+    const expected = {
+      currentPage: 1,
+      items: [
+        {
+          aideSaisieRéférenceDossierRaccordement: {
+            format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
+            légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
+            expressionReguliere:
+              gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+          },
+          identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
+          raisonSociale: gestionnaireRéseau.raisonSociale,
+        },
+      ],
+      itemsPerPage: 1000,
+      totalItems: 1,
     };
 
-    actualReadModel.items.should.deep.contain(expected);
+    ({
+      currentPage: actualReadModel.currentPage,
+      items: actualReadModel.items.map((g) => ({
+        aideSaisieRéférenceDossierRaccordement: {
+          format: g.aideSaisieRéférenceDossierRaccordement.format,
+          légende: g.aideSaisieRéférenceDossierRaccordement.légende,
+          expressionReguliere:
+            g.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
+        },
+        identifiantGestionnaireRéseau: g.identifiantGestionnaireRéseau.codeEIC,
+        raisonSociale: g.raisonSociale,
+      })),
+      itemsPerPage: actualReadModel.itemsPerPage,
+      totalItems: 1,
+    }).should.deep.equal(expected);
   },
 );
 
@@ -53,12 +81,27 @@ Alors(
     // Assert read model
     const actualReadModel = await getConsulterReadModel(gestionnaireRéseau.codeEIC);
 
-    const expected: GestionnaireRéseauReadModel = {
-      type: 'gestionnaire-réseau',
-      ...gestionnaireRéseau,
+    const expected = {
+      aideSaisieRéférenceDossierRaccordement: {
+        format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
+        légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
+        expressionReguliere:
+          gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+      },
+      identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
+      raisonSociale: gestionnaireRéseau.raisonSociale,
     };
 
-    actualReadModel.should.be.deep.equal(expected);
+    ({
+      aideSaisieRéférenceDossierRaccordement: {
+        format: actualReadModel.aideSaisieRéférenceDossierRaccordement.format,
+        légende: actualReadModel.aideSaisieRéférenceDossierRaccordement.légende,
+        expressionReguliere:
+          actualReadModel.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
+      },
+      identifiantGestionnaireRéseau: actualReadModel.identifiantGestionnaireRéseau.codeEIC,
+      raisonSociale: actualReadModel.raisonSociale,
+    }).should.be.deep.equal(expected);
   },
 );
 
@@ -88,7 +131,7 @@ Alors(
 );
 
 const getConsulterReadModel = async (codeEIC: string) => {
-  const actualReadModel = await mediator.send<ConsulterGestionnaireRéseauQuery>({
+  const actualReadModel = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
     type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
     data: {
       identifiantGestionnaireRéseau: codeEIC,
