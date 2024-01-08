@@ -43,6 +43,7 @@ export const register = () => {
         demandeRecandidature: false,
         statut: 'demandé',
         misÀJourLe: DateTime.now().formatter(),
+        régionProjet: [],
       };
 
       const abandonToUpsert: Omit<AbandonProjection, 'type'> = isSome(abandon)
@@ -71,6 +72,7 @@ export const register = () => {
             demandeRecandidature: payload.recandidature,
             statut: 'demandé',
             misÀJourLe: payload.demandéLe,
+            régionProjet: isSome(projet) ? [...projet.localité.région.split(' / ')] : [],
           });
           break;
         case 'AbandonAccordé-V1':
