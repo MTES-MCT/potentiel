@@ -1,14 +1,6 @@
 'use client';
 
 import { FC } from 'react';
-import {
-  DetailDemandeAbandon,
-  DetailDemandeAbandonProps,
-} from '@/components/pages/abandon/détails/DetailDemandeAbandon';
-import {
-  DetailInstructionAbandon,
-  DetailInstructionAbandonProps,
-} from '@/components/pages/abandon/détails/DetailInstructionAbandon';
 import { StatutBadge, StatutBadgeProps } from '@/components/molecules/StatutBadge';
 import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
@@ -18,6 +10,8 @@ import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSans
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
+import { EtapesAbandonProps, EtapesAbandon } from './EtapesAbandon';
+import { PreuveRecandidatureStatutBadge } from './PreuveRecandidatureStatutBadge';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -29,18 +23,16 @@ type AvailableActions = Array<
 >;
 
 export type DetailAbandonPageProps = {
-  statut: StatutBadgeProps['statut'];
   projet: ProjetPageTemplateProps['projet'];
-  demande: DetailDemandeAbandonProps;
-  instruction: DetailInstructionAbandonProps;
+  abandon: EtapesAbandonProps;
+  statut: StatutBadgeProps['statut'];
   identifiantUtilisateur: string;
   actions: AvailableActions;
 };
 
 export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   projet,
-  demande,
-  instruction,
+  abandon,
   statut,
   identifiantUtilisateur,
   actions,
@@ -52,18 +44,14 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
         <div className="flex flex-col md:flex-row gap-3 items-center">
           <span>Abandon</span>
           <StatutBadge statut={statut} />
+          {abandon.demande.recandidature && abandon.accord?.accordéLe && (
+            <PreuveRecandidatureStatutBadge
+              statut={abandon.demande.preuveRecandidature ? 'transmise' : 'en-attente'}
+            />
+          )}
         </div>
       }
-      details={
-        <>
-          <DetailDemandeAbandon {...{ ...demande, statut }} />
-          {(instruction.accord || instruction.confirmation || instruction.rejet) && (
-            <div className="mt-6">
-              <DetailInstructionAbandon {...instruction} />
-            </div>
-          )}
-        </>
-      }
+      details={<EtapesAbandon {...{ ...abandon, statut }} />}
       actions={mapToActionComponents({
         actions,
         identifiantProjet: projet.identifiantProjet,
@@ -90,12 +78,6 @@ const mapToActionComponents = ({
           identifiantUtilisateur={identifiantUtilisateur}
         />
       )}
-      {actions.includes('rejeter') && (
-        <RejeterAbandon
-          identifiantProjet={identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
-        />
-      )}
       {actions.includes('accorder-avec-recandidature') && (
         <AccorderAbandonAvecRecandidature
           identifiantProjet={identifiantProjet}
@@ -104,6 +86,12 @@ const mapToActionComponents = ({
       )}
       {actions.includes('accorder-sans-recandidature') && (
         <AccorderAbandonSansRecandidature
+          identifiantProjet={identifiantProjet}
+          identifiantUtilisateur={identifiantUtilisateur}
+        />
+      )}
+      {actions.includes('rejeter') && (
+        <RejeterAbandon
           identifiantProjet={identifiantProjet}
           identifiantUtilisateur={identifiantUtilisateur}
         />

@@ -24,7 +24,12 @@
     "next": "^14.0.1",
     "react": "^18",
     "react-dom": "^18",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@mui/material": "*",
+    "@mui/lab": "*",
+    "@emotion/react": "*",
+    "@emotion/styled": "*",
+    "@emotion/server": "*"
   },
   "devDependencies": {
     "@types/node": "^20",
