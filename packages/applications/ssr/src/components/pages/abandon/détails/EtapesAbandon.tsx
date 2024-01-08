@@ -12,8 +12,8 @@ import TimelineOppositeContent, {
 } from '@mui/lab/TimelineOppositeContent';
 import { displayDate } from '@/utils/displayDate';
 import Download from '@codegouvfr/react-dsfr/Download';
-import { encodeParameter } from '@/utils/encodeParameter';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { encodeUrl } from '@/utils/encodeUrl';
 
 export type EtapesAbandonProps = {
   demande: {
@@ -93,7 +93,9 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
               <span>
                 Le porteur a bien transmis un{' '}
                 <a
-                  href={`/projet/${encodeParameter(preuveRecandidature)}/details.html`}
+                  href={encodeUrl('/projet/:identifiantProjet/details.html', {
+                    identifiantProjet: preuveRecandidature,
+                  })}
                   aria-label={`voir le projet faisant office de preuve de recandidature`}
                 >
                   projet comme preuve de recandidature
@@ -137,7 +139,9 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
                     details=""
                     label="Télécharger la pièce justificative"
                     linkProps={{
-                      href: `/documents/${encodeParameter(accord.réponseSignée)}`,
+                      href: encodeUrl('/documents/:identifiantDocument', {
+                        identifiantDocument: accord.réponseSignée,
+                      }),
                     }}
                     className="mb-0 pb-0"
                   />
@@ -164,7 +168,9 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
                     details=""
                     label="Télécharger la pièce justificative"
                     linkProps={{
-                      href: `/documents/${encodeParameter(rejet.réponseSignée)}`,
+                      href: encodeUrl('/documents/:identifiantDocument', {
+                        identifiantDocument: rejet.réponseSignée,
+                      }),
                     }}
                     className="mb-0 pb-0"
                   />
@@ -212,7 +218,9 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
                     details=""
                     label="Télécharger la pièce justificative"
                     linkProps={{
-                      href: `/documents/${encodeParameter(confirmation.réponseSignée)}`,
+                      href: encodeUrl('/documents/:identifiantDocument', {
+                        identifiantDocument: confirmation.réponseSignée,
+                      }),
                     }}
                     className="mb-0 pb-0"
                   />
@@ -247,7 +255,9 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
                   details=""
                   label="Télécharger la pièce justificative"
                   linkProps={{
-                    href: `/documents/${encodeParameter(justificatifDemande)}`,
+                    href: encodeUrl('/documents/:identifiantDocument', {
+                      identifiantDocument: justificatifDemande,
+                    }),
                   }}
                   className="mb-0 pb-0"
                 />

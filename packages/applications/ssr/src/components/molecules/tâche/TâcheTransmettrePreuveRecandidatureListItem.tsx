@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { encodeParameter } from '@/utils/encodeParameter';
+import { encodeUrl } from '@/utils/encodeUrl';
 
 type TâcheTransmettrePreuveRecandidatureListItemProps = {
   identifiantProjet: string;
@@ -14,7 +14,7 @@ export const TâcheTransmettrePreuveRecandidatureListItem: FC<
     <div className="flex flex-col justify-between mt-4 md:mt-2">
       <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
       <a
-        href={`/laureats/${encodeParameter(identifiantProjet)}/abandon`}
+        href={encodeUrl('/laureats/:identifiantProjet/abandon', { identifiantProjet })}
         className="self-end mt-2"
         aria-label={`voir`}
       >

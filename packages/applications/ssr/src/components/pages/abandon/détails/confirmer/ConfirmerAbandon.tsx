@@ -2,8 +2,8 @@
 
 import { confirmerAbandonAction } from './confirmerAbandon.action';
 import { useRouter } from 'next/navigation';
-import { encodeParameter } from '@/utils/encodeParameter';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { encodeUrl } from '@/utils/encodeUrl';
 
 type ConfirmerAbandonFormProps = {
   identifiantProjet: string;
@@ -25,7 +25,12 @@ export const ConfirmerAbandon = ({
         method: 'post',
         id: 'confirmer-abandon-form',
         omitMandatoryFieldsLegend: true,
-        onSuccess: () => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`),
+        onSuccess: () =>
+          router.push(
+            encodeUrl(`/laureats/:identifiantProjet/abandon`, {
+              identifiantProjet,
+            }),
+          ),
         children: (
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir confirmer cet abandon ?</p>

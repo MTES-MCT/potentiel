@@ -4,7 +4,6 @@ import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTempla
 import { FC, useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { encodeParameter } from '@/utils/encodeParameter';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
@@ -12,6 +11,7 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { demanderAbandonAction } from './demanderAbandon.action';
 import { useRouter } from 'next/navigation';
 import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
+import { encodeUrl } from '@/utils/encodeUrl';
 
 export type DemanderAbandonPageProps = {
   projet: ProjetPageTemplateProps['projet'];
@@ -39,7 +39,11 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
             method="post"
             encType="multipart/form-data"
             onSuccess={() =>
-              router.push(`/laureats/${encodeParameter(projet.identifiantProjet)}/abandon`)
+              router.push(
+                encodeUrl('/laureats/:identifiantProjet/abandon', {
+                  identifiantProjet: projet.identifiantProjet,
+                }),
+              )
             }
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
