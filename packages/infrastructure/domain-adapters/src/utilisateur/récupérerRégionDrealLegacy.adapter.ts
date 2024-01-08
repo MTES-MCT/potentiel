@@ -1,4 +1,4 @@
-import { RécupérerRégionDrealPort } from '@potentiel-domain/utilisateur';
+import { Abandon } from '@potentiel-domain/laureat';
 import { none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
@@ -16,7 +16,7 @@ const query = `
   ;                 
 `;
 
-export const récupérerRégionDrealAdapter: RécupérerRégionDrealPort = async (
+export const récupérerRégionDrealAdapter: Abandon.RécupérerRégionDrealPort = async (
   identifiantUtilisateur,
 ) => {
   const résultat = await executeSelect<{

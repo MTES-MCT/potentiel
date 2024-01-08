@@ -10,7 +10,6 @@ import { getUser } from '@/utils/getUtilisateur';
 import { redirect } from 'next/navigation';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import type { Metadata } from 'next';
-import { ConsulterRégionDrealQuery } from '@potentiel-domain/utilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -39,13 +38,6 @@ export default async function Page({ searchParams }: PageProps) {
 
     const appelOffre = searchParams?.appelOffre;
 
-    const getRégion = async (email: string) => {
-      return await mediator.send<ConsulterRégionDrealQuery>({
-        type: 'CONSULTER_RÉGION_DREAL_QUERY',
-        data: { identifiantUtilisateur: email },
-      });
-    };
-
     const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
       type: 'LISTER_ABANDONS_QUERY',
       data: {
@@ -57,9 +49,6 @@ export default async function Page({ searchParams }: PageProps) {
         recandidature,
         statut,
         appelOffre,
-        ...(utilisateur.rôle === 'dreal' && {
-          région: (await getRégion(utilisateur.email)).région,
-        }),
       },
     });
 

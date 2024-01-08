@@ -2,6 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { StatutAbandon } from '..';
+import { Option, isNone } from '@potentiel/monads';
+import { RégionNonTrouvéeError } from '../régionNonTrouvée.error';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -57,6 +59,10 @@ export type ListerAbandonsPourPorteurPort = (
   totalItems: number;
 }>;
 
+export type RécupérerRégionDrealPort = (
+  identifiantUtilisateur: string,
+) => Promise<Option<{ région: string }>>;
+
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
@@ -67,7 +73,6 @@ export type ListerAbandonsQuery = Message<
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
-    région?: string;
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
@@ -76,17 +81,18 @@ export type ListerAbandonsQuery = Message<
 export type ListerAbandonDependencies = {
   listerAbandonsPourPorteur: ListerAbandonsPourPorteurPort;
   listerAbandons: ListerAbandonsPort;
+  récupérerRégionDrealAdapter: RécupérerRégionDrealPort;
 };
 
 export const registerListerAbandonQuery = ({
   listerAbandonsPourPorteur,
   listerAbandons,
+  récupérerRégionDrealAdapter,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
     statut,
     appelOffre,
-    région,
     utilisateur: { email, rôle },
     pagination: { page, itemsPerPage },
   }) => {
@@ -96,14 +102,30 @@ export const registerListerAbandonQuery = ({
       ...(appelOffre && { appelOffre }),
     };
 
-    if (['admin', 'dgec-validateur', 'dreal'].includes(rôle)) {
+    if (['admin', 'dgec-validateur'].includes(rôle)) {
+      const abandons = await listerAbandons(filters, {
+        page,
+        itemsPerPage,
+      });
+      return {
+        ...abandons,
+        items: abandons.items.map((abandon) => mapToReadModel(abandon)),
+      };
+    }
+
+    if (rôle === 'dreal') {
+      const région = await récupérerRégionDrealAdapter(email);
+      if (isNone(région)) {
+        throw new RégionNonTrouvéeError();
+      }
+
       const abandons = await listerAbandons(
         filters,
         {
           page,
           itemsPerPage,
         },
-        région,
+        région.région,
       );
       return {
         ...abandons,

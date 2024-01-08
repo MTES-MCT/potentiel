@@ -1,8 +1,4 @@
 import {
-  registerConsulterRégionDrealQuery,
-  ConsulterRégionDrealDependencies,
-} from './consulter/consulterRégionDreal.query';
-import {
   ConsulterUtilisateurDependencies,
   registerConsulterUtilisateurQuery,
 } from './consulter/consulterUtilisateur.query';
@@ -12,11 +8,9 @@ import {
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
-  VérifierAccèsProjetDependencies &
-  ConsulterRégionDrealDependencies;
+  VérifierAccèsProjetDependencies;
 
 export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDependencies) => {
   registerConsulterUtilisateurQuery(dependencies);
   registerVérifierAccèsProjetQuery(dependencies);
-  registerConsulterRégionDrealQuery(dependencies);
 };
