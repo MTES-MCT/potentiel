@@ -6,6 +6,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { Form } from '@/components/atoms/form/Form';
 import { useState } from 'react';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { Routes } from '@potentiel-libraries/routes';
 
 export type ModifierGestionnaireRéseauFormProps = {
   identifiantGestionnaireRéseau: string;
@@ -31,7 +32,7 @@ export const ModifierGestionnaireRéseauForm = ({
       action={modifierGestionnaireRéseauAction}
       method="post"
       encType="multipart/form-data"
-      onSuccess={() => router.push('/reseau/gestionnaires')}
+      onSuccess={() => router.push(Routes.Gestionnaire.lister)}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
     >
       <div className="mb-6">

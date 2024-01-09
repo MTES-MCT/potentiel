@@ -3,6 +3,7 @@
 import { FC } from 'react';
 import { GestionnaireRéseauListItem } from '@/components/molecules/réseau/gestionnaireRéseau/GestionnaireRéseauListItem';
 import { ListPageTemplate } from '@/components/templates/ListPageTemplate';
+import { Routes } from '@potentiel-libraries/routes';
 
 type GestionnaireRéseauListPageProps = {
   list: {
@@ -22,7 +23,7 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
       actions={[
         {
           name: 'Ajouter un gestionnaire',
-          link: '/reseau/gestionnaires/ajouter',
+          link: Routes.Gestionnaire.ajouter,
         },
       ]}
       items={gestionnaireRéseaux.map((gestionnaireRéseaux) => ({
