@@ -4,6 +4,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { none } from '@potentiel/monads';
+import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 
 export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
   'DemandeComplèteDeRaccordementTransmise-V1',
@@ -85,7 +86,9 @@ export function applyDemandeComplèteDeRaccordementTransmiseV1(
 
   this.dossiers.set(référenceDossierRaccordement, {
     demandeComplèteRaccordement: {
-      dateQualification: dateQualification ? new Date(dateQualification) : none,
+      dateQualification: dateQualification
+        ? DateTime.convertirEnValueType(dateQualification)
+        : none,
       format: none,
     },
     miseEnService: {
@@ -97,12 +100,6 @@ export function applyDemandeComplèteDeRaccordementTransmiseV1(
     },
     référence: RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement),
   });
-}
-
-export class DateDansLeFuturError extends InvalidOperationError {
-  constructor() {
-    super(`La date ne peut pas être une date future`);
-  }
 }
 
 export class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends InvalidOperationError {
