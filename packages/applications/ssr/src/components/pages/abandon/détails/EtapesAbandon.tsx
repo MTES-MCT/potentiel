@@ -15,6 +15,8 @@ import Download from '@codegouvfr/react-dsfr/Download';
 import { encodeParameter } from '@/utils/encodeParameter';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
+import { Routes } from '@potentiel-libraries/routes';
+
 export type EtapesAbandonProps = {
   demande: {
     demandéPar: string;
@@ -137,7 +139,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
                     details=""
                     label="Télécharger la pièce justificative"
                     linkProps={{
-                      href: `/documents/${encodeParameter(accord.réponseSignée)}`,
+                      href: Routes.Document.télécharger(accord.réponseSignée),
                     }}
                     className="mb-0 pb-0"
                   />
@@ -164,7 +166,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
                     details=""
                     label="Télécharger la pièce justificative"
                     linkProps={{
-                      href: `/documents/${encodeParameter(rejet.réponseSignée)}`,
+                      href: Routes.Document.télécharger(rejet.réponseSignée),
                     }}
                     className="mb-0 pb-0"
                   />
@@ -212,7 +214,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
                     details=""
                     label="Télécharger la pièce justificative"
                     linkProps={{
-                      href: `/documents/${encodeParameter(confirmation.réponseSignée)}`,
+                      href: Routes.Document.télécharger(confirmation.réponseSignée),
                     }}
                     className="mb-0 pb-0"
                   />
@@ -247,7 +249,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
                   details=""
                   label="Télécharger la pièce justificative"
                   linkProps={{
-                    href: `/documents/${encodeParameter(justificatifDemande)}`,
+                    href: Routes.Document.télécharger(justificatifDemande),
                   }}
                   className="mb-0 pb-0"
                 />
