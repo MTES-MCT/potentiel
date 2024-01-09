@@ -3,6 +3,7 @@ import Badge from '@codegouvfr/react-dsfr/Badge';
 import { Abandon } from '@potentiel-domain/laureat';
 import { StatutBadge } from '../../../molecules/StatutBadge';
 import { Routes } from '@potentiel-libraries/routes';
+import { PreuveRecandidatureStatutBadge } from '../détails/PreuveRecandidatureStatutBadge';
 
 export type AbandonListItemProps = {
   identifiantProjet: string;
@@ -11,8 +12,9 @@ export type AbandonListItemProps = {
   période: string;
   famille?: string;
   statut: Abandon.StatutAbandon.RawType;
-  misÀJourLe: string;
   recandidature: boolean;
+  preuveRecandidatureTransmise: boolean;
+  misÀJourLe: string;
 };
 
 export const AbandonListItem: FC<AbandonListItemProps> = ({
@@ -24,6 +26,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   statut,
   misÀJourLe,
   recandidature,
+  preuveRecandidatureTransmise,
 }) => (
   <>
     <div>
@@ -47,9 +50,17 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
         <div className="flex flex-col md:flex-row gap-2 mt-3">
           <StatutBadge statut={statut} small />
           {recandidature && (
-            <Badge noIcon small severity="info">
-              avec recandidature
-            </Badge>
+            <>
+              <Badge noIcon small severity="info">
+                avec recandidature
+              </Badge>
+              {statut === 'accordé' && (
+                <PreuveRecandidatureStatutBadge
+                  small
+                  statut={preuveRecandidatureTransmise ? 'transmise' : 'en-attente'}
+                />
+              )}
+            </>
           )}
         </div>
       </div>

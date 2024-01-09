@@ -112,6 +112,7 @@ const mapToListProps = (
       statut: { statut },
       misÀJourLe,
       recandidature,
+      preuveRecandidatureTransmise,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -121,6 +122,7 @@ const mapToListProps = (
       statut,
       misÀJourLe: displayDate(misÀJourLe.date),
       recandidature,
+      preuveRecandidatureTransmise,
     }),
   );
 

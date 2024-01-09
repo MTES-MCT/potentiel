@@ -13,6 +13,7 @@ type AbandonListItemReadModel = {
   nomProjet: string;
   statut: StatutAbandon.ValueType;
   recandidature: boolean;
+  preuveRecandidatureTransmise: boolean;
   misÀJourLe: DateTime.ValueType;
 };
 
@@ -151,6 +152,7 @@ const mapToReadModel = (projection: AbandonProjection): AbandonListItemReadModel
     ...projection,
     statut: StatutAbandon.convertirEnValueType(projection.statut),
     recandidature: projection.demandeRecandidature,
+    preuveRecandidatureTransmise: !!projection.preuveRecandidature,
     misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
   };
