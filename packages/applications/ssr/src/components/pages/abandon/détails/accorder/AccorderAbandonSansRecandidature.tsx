@@ -4,7 +4,6 @@ import { Download } from '@codegouvfr/react-dsfr/Download';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { accorderAbandonSansRecandidatureAction } from './accorderAbandonSansRecandidature.action';
 import { useRouter } from 'next/navigation';
-import { encodeParameter } from '@/utils/encodeParameter';
 
 import { useState } from 'react';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
@@ -53,7 +52,7 @@ export const AccorderAbandonSansRecandidature = ({
 
             <Download
               linkProps={{
-                href: `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+                href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
               }}
               details="docx"
               label="Télécharger le modèle de réponse"

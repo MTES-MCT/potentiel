@@ -1,6 +1,7 @@
 import { getAccessToken } from '@/utils/getAccessToken';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-libraries/routes';
 
 export async function UserBasedRoleNavigation() {
   const accessToken = await getAccessToken();
@@ -39,7 +40,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureats/abandons',
+                href: Routes.Abandon.liste,
               },
             },
           ],
@@ -163,7 +164,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureats/abandons',
+                href: Routes.Abandon.liste,
               },
             },
           ],
@@ -195,7 +196,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: '/laureats/abandons',
+                href: Routes.Abandon.liste,
               },
             },
           ],

@@ -52,7 +52,7 @@ export const DemanderConfirmationAbandon = ({
 
             <Download
               linkProps={{
-                href: `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+                href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
               }}
               details="docx"
               label="Télécharger le modèle de réponse"

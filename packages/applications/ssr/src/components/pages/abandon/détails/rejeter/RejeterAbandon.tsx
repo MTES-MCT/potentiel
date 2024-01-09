@@ -3,7 +3,6 @@
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { rejeterAbandonAction } from './rejeterAbandon.action';
 import { useRouter } from 'next/navigation';
-import { encodeParameter } from '@/utils/encodeParameter';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { useState } from 'react';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
@@ -52,7 +51,7 @@ export const RejeterAbandon = ({
 
             <Download
               linkProps={{
-                href: `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`,
+                href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
               }}
               details="docx"
               label="Télécharger le modèle de réponse"

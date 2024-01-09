@@ -15,6 +15,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import type { Metadata } from 'next';
+import { Routes } from '@potentiel-libraries/routes';
 
 export const metadata: Metadata = {
   title: 'Transmettre preuve de recandidature - Potentiel',
@@ -53,7 +54,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const preuveDéjàTransmise = !!abandon.demande.preuveRecandidature;
 
     if (preuveDéjàTransmise) {
-      redirect(`/laureats/${identifiant}/abandon/transmettre-preuve-recandidature`);
+      redirect(Routes.Abandon.transmettrePreuveRecandidature(identifiantProjet));
     }
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
