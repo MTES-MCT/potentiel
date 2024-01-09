@@ -6,7 +6,7 @@ import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
 import { transmettrePreuveRecandidatureAction } from './transmettrePreuveRecandidature.action';
 import { useRouter } from 'next/navigation';
-import { encodeParameter } from '@/utils/encodeParameter';
+import { Routes } from '@potentiel-libraries/routes';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
@@ -38,7 +38,7 @@ export const TransmettrePreuveRecandidatureForm = ({
     <Form
       action={transmettrePreuveRecandidatureAction}
       method="post"
-      onSuccess={() => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`)}
+      onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />

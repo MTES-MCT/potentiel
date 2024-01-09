@@ -1,0 +1,14 @@
+{
+  "name": "@potentiel-libraries/routes",
+  "version": "0.0.0",
+  "description": "A simple routes repository",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

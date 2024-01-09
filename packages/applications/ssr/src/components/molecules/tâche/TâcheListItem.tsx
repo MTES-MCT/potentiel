@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { encodeParameter } from '@/utils/encodeParameter';
+import { Routes } from '@potentiel-libraries/routes';
 
 export type TâcheListItemProps = {
   identifiantProjet: string;
@@ -68,7 +69,7 @@ const getDescriptionTâche = (typeTâche: string, identifiantProjet: string, nom
       return {
         titre: `Confirmer votre demande d'abandon`,
         description: `La DGEC vous demande de confirmer votre demande d'abandon.`,
-        lien: `/laureats/${encodeParameter(identifiantProjet)}/abandon`,
+        lien: Routes.Abandon.détail(identifiantProjet),
         action: 'Voir la demande',
         ariaLabel: `Voir la demande de confirmation d'abandon pour le projet ${nomProjet}`,
       };

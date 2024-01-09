@@ -8,6 +8,7 @@ import { encodeParameter } from '@/utils/encodeParameter';
 
 import { useState } from 'react';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { Routes } from '@potentiel-libraries/routes';
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
@@ -30,7 +31,7 @@ export const AccorderAbandonSansRecandidature = ({
         method: 'post',
         encType: 'multipart/form-data',
         id: 'accorder-abandon-form',
-        onSuccess: () => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`),
+        onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
         onValidationError: (validationErrors) => setValidationErrors(validationErrors),
         children: (
           <>

@@ -7,6 +7,7 @@ import { encodeParameter } from '@/utils/encodeParameter';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { useState } from 'react';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { Routes } from '@potentiel-libraries/routes';
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
@@ -29,7 +30,7 @@ export const RejeterAbandon = ({
         method: 'post',
         encType: 'multipart/form-data',
         id: 'rejeter-abandon-form',
-        onSuccess: () => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`),
+        onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
         onValidationError: (validationErrors) => setValidationErrors(validationErrors),
         children: (
           <>

@@ -3,7 +3,7 @@
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { demanderConfirmationAbandonAction } from './demanderConfirmation.action';
 import { useRouter } from 'next/navigation';
-import { encodeParameter } from '@/utils/encodeParameter';
+import { Routes } from '@potentiel-libraries/routes';
 import Download from '@codegouvfr/react-dsfr/Download';
 
 import { useState } from 'react';
@@ -30,7 +30,7 @@ export const DemanderConfirmationAbandon = ({
         action: demanderConfirmationAbandonAction,
         method: 'post',
         encType: 'multipart/form-data',
-        onSuccess: () => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`),
+        onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
         onValidationError: (validationErrors) => setValidationErrors(validationErrors),
         children: (
           <>
