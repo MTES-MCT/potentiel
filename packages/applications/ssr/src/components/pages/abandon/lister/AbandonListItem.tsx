@@ -2,7 +2,8 @@ import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { Abandon } from '@potentiel-domain/laureat';
 import { StatutBadge } from '../../../molecules/StatutBadge';
-import { encodeUrl } from '@/utils/encodeUrl';
+import { Routes } from '@/routes';
+import Link from 'next/link';
 
 export type AbandonListItemProps = {
   identifiantProjet: string;
@@ -57,15 +58,13 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
 
     <div className="flex flex-col justify-between mt-4 md:mt-2">
       <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
-      <a
-        href={encodeUrl(`/laureats/:identifiantProjet/abandon`, {
-          identifiantProjet,
-        })}
+      <Link
+        href={Routes.Abandon.détail(identifiantProjet)}
         className="self-end mt-2"
         aria-label={`voir le détail de l'abandon en statut ${statut} pour le projet ${nomProjet}`}
       >
         voir le détail
-      </a>
+      </Link>
     </div>
   </>
 );
