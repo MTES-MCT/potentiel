@@ -6,35 +6,44 @@ import {
   transmettreDemande,
 } from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import { IdentifiantGestionnaireRéseau } from '../gestionnaire';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
-import { AucunRaccordementError } from './raccordementInconnu';
+import { AucunRaccordementError } from './raccordementInconnu.error';
+import {
+  DateMiseEnServiceTransmiseEventV1,
+  transmettreDateMiseEnService,
+  applyDateMiseEnServiceTransmiseEventV1,
+} from './transmettre/transmettreDateMiseEnService.behavior';
+import { DossierRaccordementNonRéférencéError } from './dossierRaccordementNonRéférencé.error';
 
-export type RaccordementRéseauEvent = DemandeComplèteRaccordementTransmiseEventV1;
+export type RaccordementRéseauEvent =
+  | DemandeComplèteRaccordementTransmiseEventV1
+  | DateMiseEnServiceTransmiseEventV1;
+
+type DossierRaccordement = {
+  référence: RéférenceDossierRaccordement.ValueType;
+  demandeComplèteRaccordement: {
+    dateQualification: Option<DateTime.ValueType>;
+    format: Option<string>;
+  };
+  miseEnService: {
+    dateMiseEnService: Option<DateTime.ValueType>;
+  };
+  propositionTechniqueEtFinancière: {
+    dateSignature: Option<DateTime.ValueType>;
+    format: Option<string>;
+  };
+};
 
 export type RaccordementAggregate = Aggregate<RaccordementRéseauEvent> & {
-  dossiers: Map<
-    string,
-    {
-      référence: RéférenceDossierRaccordement.ValueType;
-      demandeComplèteRaccordement: {
-        dateQualification: Option<Date>;
-        format: Option<string>;
-      };
-      miseEnService: {
-        dateMiseEnService: Option<Date>;
-      };
-      propositionTechniqueEtFinancière: {
-        dateSignature: Option<Date>;
-        format: Option<string>;
-      };
-    }
-  >;
+  dossiers: Map<string, DossierRaccordement>;
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   readonly transmettreDemande: typeof transmettreDemande;
+  readonly transmettreDateMiseEnService: typeof transmettreDateMiseEnService;
   contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
+  récupérerDossier: (référence: string) => DossierRaccordement;
 };
 
 export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
@@ -46,8 +55,18 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
   apply,
   transmettreDemande,
+  transmettreDateMiseEnService,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
+  },
+  récupérerDossier(référence) {
+    const dossier = this.dossiers.get(référence);
+
+    if (!dossier) {
+      throw new DossierRaccordementNonRéférencéError();
+    }
+
+    return dossier;
   },
 });
 
@@ -55,6 +74,9 @@ function apply(this: RaccordementAggregate, event: RaccordementRéseauEvent) {
   switch (event.type) {
     case 'DemandeComplèteDeRaccordementTransmise-V1':
       applyDemandeComplèteDeRaccordementTransmiseV1.bind(this)(event);
+      break;
+    case 'DateMiseEnServiceTransmise-V1':
+      applyDateMiseEnServiceTransmiseEventV1.bind(this)(event);
       break;
   }
 }
