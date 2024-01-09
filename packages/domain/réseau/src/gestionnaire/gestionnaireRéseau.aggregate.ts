@@ -11,6 +11,7 @@ import {
   applyGestionnaireRéseauModifié,
   modifier,
 } from './modifier/modifierGestionnaireRéseau.behavior';
+import { ExpressionRegulière } from '@potentiel-domain/common';
 
 export type GestionnaireRéseauEvent =
   | GestionnaireRéseauAjoutéEvent
@@ -18,6 +19,7 @@ export type GestionnaireRéseauEvent =
 
 export type GestionnaireRéseauAggregate = Aggregate<GestionnaireRéseauEvent> & {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  référenceDossierRaccordementExpressionRegulière: ExpressionRegulière.ValueType;
   readonly ajouter: typeof ajouter;
   readonly modifier: typeof modifier;
 };
@@ -27,6 +29,7 @@ export const getDefaultGestionnaireRéseauAggregate: GetDefaultAggregateState<
   GestionnaireRéseauEvent
 > = () => ({
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
+  référenceDossierRaccordementExpressionRegulière: ExpressionRegulière.convertirEnValueType(''),
   apply,
   ajouter,
   modifier,

@@ -2,6 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
+import { ExpressionRegulière } from '@potentiel-domain/common';
 
 export type GestionnaireRéseauAjoutéEvent = DomainEvent<
   'GestionnaireRéseauAjouté-V1',
@@ -52,7 +53,14 @@ export async function ajouter(
 
 export function applyGestionnaireRéseauAjouté(
   this: GestionnaireRéseauAggregate,
-  { payload: { codeEIC } }: GestionnaireRéseauAjoutéEvent,
+  {
+    payload: {
+      codeEIC,
+      aideSaisieRéférenceDossierRaccordement: { expressionReguliere },
+    },
+  }: GestionnaireRéseauAjoutéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
+  this.référenceDossierRaccordementExpressionRegulière =
+    ExpressionRegulière.convertirEnValueType(expressionReguliere);
 }
