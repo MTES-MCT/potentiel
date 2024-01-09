@@ -7,7 +7,6 @@ import {
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
 } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
-import { Role, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-libraries/routes';
 
 import {

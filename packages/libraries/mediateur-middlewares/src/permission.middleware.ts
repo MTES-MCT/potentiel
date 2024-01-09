@@ -63,7 +63,7 @@ const isSystemProcess = (message: Message<string, Record<string, unknown>, void>
     message.type.endsWith('_NOTIFICATION') ||
     message.type.endsWith('_PROJECTOR') ||
     message.type.endsWith('_SAGA') ||
-    message.type.endsWith('_QUERY') ||
+    // message.type.endsWith('_QUERY') ||
     message.type.endsWith('_COMMAND')
   );
 };

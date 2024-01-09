@@ -71,7 +71,6 @@ const mapToActionComponents = ({
       {actions.includes('demander-confirmation') && (
         <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
       )}
-      {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('accorder-avec-recandidature') && (
         <AccorderAbandonAvecRecandidature identifiantProjet={identifiantProjet} />
       )}
@@ -79,8 +78,6 @@ const mapToActionComponents = ({
         <AccorderAbandonSansRecandidature identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
-      {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
-      {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
     </>
