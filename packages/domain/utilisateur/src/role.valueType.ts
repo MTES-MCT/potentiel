@@ -74,7 +74,7 @@ class RoleRefuséError extends OperationRejectedError {
 
 class AccésFonctionnalitéRefuséError extends OperationRejectedError {
   constructor(fonctionnalité: string, role: string) {
-    super('Accés à la fonctionnalité refusé', {
+    super(`Accés à la fonctionnalité refusé`, {
       fonctionnalité,
       role,
     });
@@ -107,7 +107,9 @@ const permissions: Record<RawType, string[]> = {
     'REJETER_ABANDON_COMMAND',
     'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
     'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+    'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
     'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+    'MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND',
   ],
   'acheteur-obligé': [],
   ademe: [],

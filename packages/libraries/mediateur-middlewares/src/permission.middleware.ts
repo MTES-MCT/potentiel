@@ -54,18 +54,17 @@ class AuthenticationError extends Error {
 }
 
 const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>) => {
-  return message.type === 'GET_ACCESS_TOKEN' || message.type === 'VERIFIER_ACCES_PROJET_QUERY';
+  return (
+    message.type === 'GET_ACCESS_TOKEN' ||
+    message.type === 'VERIFIER_ACCES_PROJET_QUERY' ||
+    message.type.endsWith('_NOTIFICATION') ||
+    message.type.endsWith('_PROJECTOR') ||
+    message.type.endsWith('_SAGA')
+  );
 };
 
 const isSystemProcess = (message: Message<string, Record<string, unknown>, void>) => {
-  return (
-    message.type.endsWith('GET_ACCESS_TOKEN') ||
-    message.type.endsWith('_NOTIFICATION') ||
-    message.type.endsWith('_PROJECTOR') ||
-    message.type.endsWith('_SAGA') ||
-    // message.type.endsWith('_QUERY') ||
-    message.type.endsWith('_COMMAND')
-  );
+  return message.type.endsWith('GET_ACCESS_TOKEN') || message.type.endsWith('_QUERY');
 };
 
 const mustCheckProjetAccess = (message: Message<string, Record<string, unknown>, void>) => {

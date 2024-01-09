@@ -14,6 +14,7 @@ import { bootstrap as bootstrapWebApp } from '@potentiel/web';
 import { bootstrap } from '@potentiel-application/bootstrap';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
+import { Log, Permission } from '@potentiel-libraries/mediateur-middlewares';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -134,7 +135,7 @@ export async function makeServer(port: number, sessionSecret: string) {
 
     await nextApp.prepare();
 
-    await bootstrap();
+    await bootstrap({ middlewares: [Log.middleware, Permission.middleware] });
     app.listen(port, () => {
       process.env.start_datetime = new Date().getTime().toString();
       logger.info(`Server listening on port ${port}!`);
