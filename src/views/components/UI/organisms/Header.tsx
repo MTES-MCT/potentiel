@@ -19,6 +19,7 @@ import {
   TasksDone,
 } from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Routes } from '@potentiel-libraries/routes';
 
 type HeaderProps = {
   user?: UtilisateurReadModel;
@@ -295,7 +296,7 @@ const CentreDesTâches = () => {
   }, []);
   return (
     <Link
-      href="/taches"
+      href={Routes.Tache.lister}
       className={`no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base`}
     >
       {nombreTâches > 0 ? <TasksToDo aria-hidden /> : <TasksDone aria-hidden />}
