@@ -1,6 +1,7 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import { ExpressionRegulière } from '@potentiel-domain/common';
 
 export type GestionnaireRéseauModifiéEvent = DomainEvent<
   'GestionnaireRéseauModifié-V1',
@@ -47,7 +48,14 @@ export async function modifier(
 
 export function applyGestionnaireRéseauModifié(
   this: GestionnaireRéseauAggregate,
-  { payload: { codeEIC } }: GestionnaireRéseauModifiéEvent,
+  {
+    payload: {
+      codeEIC,
+      aideSaisieRéférenceDossierRaccordement: { expressionReguliere },
+    },
+  }: GestionnaireRéseauModifiéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
+  this.référenceDossierRaccordementExpressionRegulière =
+    ExpressionRegulière.convertirEnValueType(expressionReguliere);
 }

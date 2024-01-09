@@ -39,6 +39,10 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
+export const inconnu = convertirEnValueType(
+  'appelOffreInconnu#périodeInconnu#familleInconnu#numéroCREInconnu',
+);
+
 class IdentifiantProjetInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(
