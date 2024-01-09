@@ -10,6 +10,7 @@ import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import routes from '../../../../routes';
 import React from 'react';
+import { Routes } from '@potentiel-libraries/routes';
 
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
@@ -97,9 +98,9 @@ const PorteurProjetActions = ({
           </DropdownMenuSecondaryButton.DropdownItem>
           {!abandonEnCours && (
             <DropdownMenuSecondaryButton.DropdownItem
-              href={`/laureats/${encodeURIComponent(
+              href={Routes.Abandon.demander(
                 `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
-              )}/abandon/demander`}
+              )}
               {...(modificationsNonPermisesParLeCDCActuel && { disabled: true })}
             >
               <span>Demander un abandon</span>

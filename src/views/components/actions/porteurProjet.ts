@@ -1,3 +1,4 @@
+import { Routes } from '@potentiel-libraries/routes';
 import { ProjectAppelOffre } from '../../../entities/appelOffre';
 import ROUTES from '../../../routes';
 
@@ -93,9 +94,9 @@ const porteurProjetActions = (project: {
       },
       {
         title: 'Demander un abandon',
-        link: `/laureats/${encodeURIComponent(
+        link: Routes.Abandon.demander(
           `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
-        )}/abandon/demander`,
+        ),
       },
     ],
   );

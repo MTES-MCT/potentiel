@@ -40,7 +40,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: Routes.Abandon.liste,
+                href: Routes.Abandon.lister,
               },
             },
           ],
@@ -164,7 +164,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: Routes.Abandon.liste,
+                href: Routes.Abandon.lister,
               },
             },
           ],
@@ -196,7 +196,7 @@ const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items
             {
               text: 'Abandons',
               linkProps: {
-                href: Routes.Abandon.liste,
+                href: Routes.Abandon.lister,
               },
             },
           ],

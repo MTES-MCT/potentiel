@@ -3,6 +3,7 @@ import routes from '../../../../routes';
 import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Routes } from '@potentiel-libraries/routes';
 
 export const UserNavigation = ({
   user,
@@ -73,7 +74,7 @@ const MenuAdmin = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href="/laureats/abandons"
+        href={Routes.Abandon.lister}
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
         Abandons
@@ -186,7 +187,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
         Mes demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href="/laureats/abandons"
+        href={Routes.Abandon.lister}
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
         Abandons
@@ -251,7 +252,7 @@ const MenuDreal = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href="/laureats/abandons"
+        href={Routes.Abandon.lister}
         {...(currentPage === 'liste-abandons' && { isCurrent: true })}
       >
         Abandons

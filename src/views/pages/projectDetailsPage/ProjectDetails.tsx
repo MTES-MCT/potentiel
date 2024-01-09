@@ -26,6 +26,7 @@ import {
 import { ProjectHeader } from './components';
 import routes from '../../../routes';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
+import { Routes } from '@potentiel-libraries/routes';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -78,9 +79,7 @@ export const ProjectDetails = ({
         <div className="print:hidden flex flex-col gap-3">
           {abandon && (
             <AlertBox title="Abandon">
-              <a href={`/laureats/${encodeURIComponent(identifiantProjet)}/abandon`}>
-                Voir l'abandon {abandon.statut}
-              </a>
+              <a href={Routes.Abandon.détail(identifiantProjet)}>Voir l'abandon {abandon.statut}</a>
             </AlertBox>
           )}
           {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
