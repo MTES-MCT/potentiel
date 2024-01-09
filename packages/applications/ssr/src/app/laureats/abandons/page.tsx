@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { mediator } from 'mediateur';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';

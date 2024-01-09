@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { mediator } from 'mediateur';
 
 import { getUser } from '@/utils/getUtilisateur';
