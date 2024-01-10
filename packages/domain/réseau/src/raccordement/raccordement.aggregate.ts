@@ -1,8 +1,12 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel/monads';
 import {
+  AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
+  DemandeComplèteRaccordementTransmiseEvent,
   DemandeComplèteRaccordementTransmiseEventV1,
+  applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   applyDemandeComplèteDeRaccordementTransmiseV1,
+  applyDemandeComplèteDeRaccordementTransmiseV2,
   transmettreDemande,
 } from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import { IdentifiantGestionnaireRéseau } from '../gestionnaire';
@@ -11,7 +15,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
 import { AucunRaccordementError } from './raccordementInconnu.error';
 import {
-  DateMiseEnServiceTransmiseEventV1,
+  DateMiseEnServiceTransmiseEvent,
   transmettreDateMiseEnService,
   applyDateMiseEnServiceTransmiseEventV1,
 } from './transmettre/transmettreDateMiseEnService.behavior';
@@ -22,10 +26,15 @@ import {
   transmettrePropositionTechniqueEtFinancière,
 } from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
 
-export type RaccordementRéseauEvent =
+export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
+  | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1;
+
+export type RaccordementRéseauEvent =
+  | DeprecateEvent
+  | DemandeComplèteRaccordementTransmiseEvent
   | PropositionTechniqueEtFinancièreTransmiseEventV1
-  | DateMiseEnServiceTransmiseEventV1;
+  | DateMiseEnServiceTransmiseEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -82,6 +91,12 @@ function apply(this: RaccordementAggregate, event: RaccordementRéseauEvent) {
   switch (event.type) {
     case 'DemandeComplèteDeRaccordementTransmise-V1':
       applyDemandeComplèteDeRaccordementTransmiseV1.bind(this)(event);
+      break;
+    case 'DemandeComplèteDeRaccordementTransmise-V2':
+      applyDemandeComplèteDeRaccordementTransmiseV2.bind(this)(event);
+      break;
+    case 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1':
+      applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1.bind(this)(event);
       break;
     case 'PropositionTechniqueEtFinancièreTransmise-V1':
       applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)(event);

@@ -13,6 +13,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     dateQualification: DateTime.ValueType;
     référenceDossier: RéférenceDossierRaccordement.ValueType;
+    formatAccuséRéception: string;
   }
 >;
 
@@ -27,6 +28,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     dateQualification,
     identifiantGestionnaireRéseau,
     référenceDossier,
+    formatAccuséRéception,
   }) => {
     const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau, true);
     const raccordement = await loadRaccordement(identifiantProjet, false);
@@ -38,6 +40,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
       référenceDossier,
       référenceDossierExpressionRegulière:
         gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
+      formatAccuséRéception,
     });
   };
 
