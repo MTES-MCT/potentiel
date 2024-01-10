@@ -1,6 +1,6 @@
-export const lister = '/reseau/gestionnaires';
+export const lister = '/reseaux/gestionnaires';
 
 export const détail = (identifiantGestionnaireRéseau: string) =>
-  `/reseau/gestionnaires/${encodeURIComponent(identifiantGestionnaireRéseau)}`;
+  `/reseaux/gestionnaires/${encodeURIComponent(identifiantGestionnaireRéseau)}`;
 
-export const ajouter = '/reseau/gestionnaires/ajouter';
+export const ajouter = '/reseaux/gestionnaires/ajouter';

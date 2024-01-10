@@ -13,8 +13,8 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { NotFoundError } from '@potentiel-domain/core';
-import { encodeParameter } from '@/utils/encodeParameter';
 import { Metadata } from 'next';
+import { Routes } from '@potentiel-libraries/routes';
 
 export const metadata: Metadata = {
   title: "Demander l'abandon du projet - Potentiel",
@@ -63,7 +63,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
     if (appelOffres.choisirNouveauCahierDesCharges && cahierDesChargesChoisi === 'initial') {
-      redirect(`/projet/${encodeParameter(identifiantProjet)}/details.html`);
+      redirect(Routes.Projet.details(identifiantProjet));
     }
 
     const période = appelOffres.periodes.find((p) => p.id === candidature.période);

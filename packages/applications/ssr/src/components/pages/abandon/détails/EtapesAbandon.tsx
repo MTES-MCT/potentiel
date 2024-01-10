@@ -12,7 +12,6 @@ import TimelineOppositeContent, {
 } from '@mui/lab/TimelineOppositeContent';
 import { displayDate } from '@/utils/displayDate';
 import Download from '@codegouvfr/react-dsfr/Download';
-import { encodeParameter } from '@/utils/encodeParameter';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
@@ -95,7 +94,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
               <span>
                 Le porteur a bien transmis un{' '}
                 <a
-                  href={`/projet/${encodeParameter(preuveRecandidature)}/details.html`}
+                  href={Routes.Projet.details(preuveRecandidature)}
                   aria-label={`voir le projet faisant office de preuve de recandidature`}
                 >
                   projet comme preuve de recandidature
