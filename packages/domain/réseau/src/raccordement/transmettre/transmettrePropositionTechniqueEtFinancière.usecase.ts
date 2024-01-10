@@ -54,6 +54,7 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
         dateSignature,
         identifiantProjet,
         référenceDossierRaccordement,
+        formatPropositionTechniqueEtFinancièreSignée: format,
       },
     });
   };
