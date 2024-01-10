@@ -1,5 +1,4 @@
 #Language: fr-FR
-@select
 Fonctionnalité: Accorder l'abandon d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
