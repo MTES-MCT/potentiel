@@ -3,22 +3,21 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel/monitoring';
 
-// Maybe it must be a dependency of this middleware ?
-type GetAccessTokenMessage = Message<'GET_ACCESS_TOKEN', {}, string>;
+type GetAuthenticatedUserMessage = Message<'GET_AUTHENTICATED_USER', {}, Utilisateur.ValueType>;
 
 export const middleware: Middleware = async (message, next) => {
-  if (mustSkipMessage(message)) {
+  if (isSystemProcess(message)) {
     return await next();
   }
 
-  let accessToken = '';
+  let utilisateur: Utilisateur.ValueType | undefined;
   try {
-    accessToken = await mediator.send<GetAccessTokenMessage>({
-      type: 'GET_ACCESS_TOKEN',
+    utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
+      type: 'GET_AUTHENTICATED_USER',
       data: {},
     });
   } catch (error) {
-    if (isSystemProcess(message)) {
+    if (mustSkipMessage(message)) {
       getLogger().warn(
         `[permission.middleware] Fail to get access token probably because a system process trigger the message`,
         { type: message.type, data: message.data },
@@ -29,7 +28,6 @@ export const middleware: Middleware = async (message, next) => {
     throw new AuthenticationError(error as Error);
   }
 
-  const utilisateur = Utilisateur.convertirEnValueType(accessToken);
   utilisateur.role.vérifierLaPermission(message.type);
 
   if (mustCheckProjetAccess(message)) {
@@ -48,14 +46,14 @@ export const middleware: Middleware = async (message, next) => {
 };
 
 class AuthenticationError extends Error {
-  constructor(cause: Error) {
+  constructor(cause?: Error) {
     super(`Authentification obligatoire`, { cause });
   }
 }
 
-const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>) => {
+const isSystemProcess = (message: Message<string, Record<string, unknown>, void>) => {
   return (
-    message.type === 'GET_ACCESS_TOKEN' ||
+    message.type === 'GET_AUTHENTICATED_USER' ||
     message.type === 'VERIFIER_ACCES_PROJET_QUERY' ||
     message.type.endsWith('_NOTIFICATION') ||
     message.type.endsWith('_PROJECTOR') ||
@@ -63,8 +61,8 @@ const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>
   );
 };
 
-const isSystemProcess = (message: Message<string, Record<string, unknown>, void>) => {
-  return message.type.endsWith('GET_ACCESS_TOKEN') || message.type.endsWith('_QUERY');
+const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>) => {
+  return message.type.endsWith('GET_AUTHENTICATED_USER') || message.type.endsWith('_QUERY');
 };
 
 const mustCheckProjetAccess = (message: Message<string, Record<string, unknown>, void>) => {

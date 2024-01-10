@@ -1,12 +1,19 @@
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Message, MessageHandler } from 'mediateur';
 import { decode } from 'next-auth/jwt';
 import { cookies } from 'next/headers';
 
-export type GetAccessTokenMessage = Message<'GET_ACCESS_TOKEN', {}, string>;
+export type GetAuthenticatedUserMessage = Message<
+  'GET_AUTHENTICATED_USER',
+  {},
+  Utilisateur.ValueType
+>;
 
 const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
 
-export const getAccessTokenHandler: MessageHandler<GetAccessTokenMessage> = async () => {
+export const getAuthenticatedUserHandler: MessageHandler<
+  GetAuthenticatedUserMessage
+> = async () => {
   const cookiesContent = cookies();
   const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
 
@@ -15,5 +22,6 @@ export const getAccessTokenHandler: MessageHandler<GetAccessTokenMessage> = asyn
     secret: process.env.NEXTAUTH_SECRET ?? '',
   });
 
-  return decoded?.accessToken ?? '';
+  const utilisateur = Utilisateur.convertirEnValueType(decoded?.accessToken ?? '');
+  return utilisateur;
 };

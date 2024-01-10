@@ -1,16 +1,23 @@
-import { GetAccessTokenMessage } from '@/bootstrap/getAccessToken.handler';
+import { GetAuthenticatedUserMessage } from '@/utils/getAuthenticatedUser.handler';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Routes } from '@potentiel-libraries/routes';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel/monitoring';
 import { mediator } from 'mediateur';
 
 export async function UserHeaderQuickAccessItem() {
-  const accessToken = await mediator.send<GetAccessTokenMessage>({
-    type: 'GET_ACCESS_TOKEN',
-    data: {},
-  });
-  const utilisateur = accessToken && Utilisateur.convertirEnValueType(accessToken);
+  let utilisateur: Utilisateur.ValueType | undefined;
+
+  try {
+    utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
+      type: 'GET_AUTHENTICATED_USER',
+      data: {},
+    });
+  } catch (error) {
+    getLogger().warn(`Error when getting Authenticated user`, { error });
+  }
+
   const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 
   if (utilisateur) {

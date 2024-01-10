@@ -1,7 +1,7 @@
-import { getAccessTokenHandler } from '@/bootstrap/getAccessToken.handler';
+import { getAuthenticatedUserHandler } from '@/utils/getAuthenticatedUser.handler';
 import { mediator } from 'mediateur';
 
-mediator.register('GET_ACCESS_TOKEN', getAccessTokenHandler);
+mediator.register('GET_AUTHENTICATED_USER', getAuthenticatedUserHandler);
 
 export const BootstrapApp = () => {
   return null;
