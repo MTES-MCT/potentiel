@@ -6,23 +6,8 @@ import {
   ModifierPropositionTechniqueEtFinancièreDependencies,
   registerModifierPropositionTechniqueEtFinancièreCommand,
 } from './modifier/modifierPropositiontechniqueEtFinancière.command';
-import {
-  TransmettreDateMiseEnServiceCommandDependencies,
-  registerTransmettreDateMiseEnServiceCommand,
-} from './transmettre/transmettreDateMiseEnService.command';
-import {
-  TransmettreDemandeComplèteRaccordementDependencies,
-  registerTransmettreDemandeComplèteRaccordementCommand,
-} from './transmettre/transmettreDemandeComplèteRaccordement.command';
-import {
-  TransmettrePropositionTechniqueEtFinancièreDependencies,
-  registerTransmettrePropositionTechniqueEtFinancièreCommand,
-} from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/modifierDemandeComplèteRaccordement.usecase';
 import { registerModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/modifierPropositiontechniqueEtFinancière.usecase';
-import { registerTransmettreDateMiseEnServiceUseCase } from './transmettre/transmettreDateMiseEnService.usecase';
-import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettre/transmettreDemandeComplèteRaccordement.usecase';
-import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/transmettrePropositionTechniqueEtFinancière.usecase';
 import {
   ModifierRéférenceDossierRaccordementDependencies,
   registerModifierRéférenceDossierRaccordementCommand,
@@ -33,19 +18,13 @@ import { registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand } fr
 
 export type RaccordementDependencies = ModifierDemandeComplèteRaccordementDependencies &
   ModifierPropositionTechniqueEtFinancièreDependencies &
-  ModifierRéférenceDossierRaccordementDependencies &
-  TransmettreDateMiseEnServiceCommandDependencies &
-  TransmettreDemandeComplèteRaccordementDependencies &
-  TransmettrePropositionTechniqueEtFinancièreDependencies;
+  ModifierRéférenceDossierRaccordementDependencies;
 
 export const setupRaccordement = (dependencies: RaccordementDependencies) => {
   // Commands
   registerModifierDemandeComplèteRaccordementCommand(dependencies);
   registerModifierPropositionTechniqueEtFinancièreCommand(dependencies);
   registerModifierRéférenceDossierRaccordementCommand(dependencies);
-  registerTransmettreDateMiseEnServiceCommand(dependencies);
-  registerTransmettreDemandeComplèteRaccordementCommand(dependencies);
-  registerTransmettrePropositionTechniqueEtFinancièreCommand(dependencies);
   registerEnregistrerAccuséRéceptionDemandeComplèteRaccordementCommand(dependencies);
   registerEnregistrerPropositionTechniqueEtFinancièreSignéeCommand(dependencies);
 
@@ -53,9 +32,6 @@ export const setupRaccordement = (dependencies: RaccordementDependencies) => {
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierPropositiontechniqueEtFinancièreUseCase();
   registerModifierRéférenceDossierRaccordementUseCase();
-  registerTransmettreDateMiseEnServiceUseCase();
-  registerTransmettreDemandeComplèteRaccordementUseCase();
-  registerTransmettrePropositionTechniqueEtFinancièreUseCase();
 
   // Sagas
   return [];

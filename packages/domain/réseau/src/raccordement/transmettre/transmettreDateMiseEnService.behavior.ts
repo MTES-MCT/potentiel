@@ -5,7 +5,7 @@ import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 
-export type DateMiseEnServiceTransmiseEventV1 = DomainEvent<
+export type DateMiseEnServiceTransmiseEvent = DomainEvent<
   'DateMiseEnServiceTransmise-V1',
   {
     dateMiseEnService: DateTime.RawType;
@@ -42,7 +42,7 @@ export async function transmettreDateMiseEnService(
     throw new DossierRaccordementNonRéférencéError();
   }
 
-  const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEventV1 = {
+  const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
     type: 'DateMiseEnServiceTransmise-V1',
     payload: {
       dateMiseEnService: dateMiseEnService.formatter(),
@@ -56,9 +56,7 @@ export async function transmettreDateMiseEnService(
 
 export function applyDateMiseEnServiceTransmiseEventV1(
   this: RaccordementAggregate,
-  {
-    payload: { dateMiseEnService, référenceDossierRaccordement },
-  }: DateMiseEnServiceTransmiseEventV1,
+  { payload: { dateMiseEnService, référenceDossierRaccordement } }: DateMiseEnServiceTransmiseEvent,
 ) {
   const dossier = this.récupérerDossier(référenceDossierRaccordement);
   dossier.miseEnService.dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnService);

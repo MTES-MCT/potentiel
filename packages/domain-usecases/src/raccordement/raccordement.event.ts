@@ -1,16 +1,6 @@
 import { DomainEvent } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '../projet/projet.valueType';
 import { RawRéférenceDossierRaccordement } from './raccordement.valueType';
-import { RawIdentifiantGestionnaireRéseau } from '../domain.valueType';
-
-export type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = DomainEvent<
-  'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
-  {
-    identifiantProjet: RawIdentifiantProjet;
-    format: string;
-    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
-  }
->;
 
 export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEvent<
   'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
@@ -61,41 +51,9 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
   }
 >;
 
-export type DateMiseEnServiceTransmiseEventV1 = DomainEvent<
-  'DateMiseEnServiceTransmise-V1',
-  {
-    dateMiseEnService: string;
-    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
-    identifiantProjet: RawIdentifiantProjet;
-  }
->;
-
-export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
-  'DemandeComplèteDeRaccordementTransmise-V1',
-  {
-    identifiantProjet: RawIdentifiantProjet;
-    identifiantGestionnaireRéseau: RawIdentifiantGestionnaireRéseau;
-    dateQualification?: string;
-    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
-  }
->;
-
-export type PropositionTechniqueEtFinancièreTransmiseEventV1 = DomainEvent<
-  'PropositionTechniqueEtFinancièreTransmise-V1',
-  {
-    dateSignature: string;
-    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
-    identifiantProjet: RawIdentifiantProjet;
-  }
->;
-
 export type RaccordementEvent =
-  | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
-  | DemandeComplèteRaccordementTransmiseEventV1
   | DemandeComplèteRaccordementModifiéeEventV1
   | DemandeComplèteRaccordementModifiéeEventV2
   | RéférenceDossierRacordementModifiéeEventV1
-  | PropositionTechniqueEtFinancièreTransmiseEventV1
   | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
-  | PropositionTechniqueEtFinancièreModifiéeEventV1
-  | DateMiseEnServiceTransmiseEventV1;
+  | PropositionTechniqueEtFinancièreModifiéeEventV1;
