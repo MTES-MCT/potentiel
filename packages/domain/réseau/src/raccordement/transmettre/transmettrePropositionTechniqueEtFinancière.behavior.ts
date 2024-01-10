@@ -37,7 +37,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
     dateSignature: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
-    PropositionTechniqueEtFinancièreSignée: {
+    propositionTechniqueEtFinancièreSignée: {
       format: string;
     };
   }
@@ -73,7 +73,7 @@ export async function transmettrePropositionTechniqueEtFinancière(
       dateSignature: dateSignature.formatter(),
       référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
       identifiantProjet: identifiantProjet.formatter(),
-      PropositionTechniqueEtFinancièreSignée: {
+      propositionTechniqueEtFinancièreSignée: {
         format: formatPropositionTechniqueEtFinancièreSignée,
       },
     },
@@ -110,7 +110,7 @@ export function applyPropositionTechniqueEtFinancièreTransmiseEventV2(
       identifiantProjet,
       dateSignature,
       référenceDossierRaccordement,
-      PropositionTechniqueEtFinancièreSignée: { format },
+      propositionTechniqueEtFinancièreSignée: { format },
     },
   }: PropositionTechniqueEtFinancièreTransmiseEvent,
 ) {
