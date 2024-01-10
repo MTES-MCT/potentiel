@@ -2,15 +2,6 @@ import { DomainEvent } from '@potentiel/core-domain';
 import { RawIdentifiantProjet } from '../projet/projet.valueType';
 import { RawRéférenceDossierRaccordement } from './raccordement.valueType';
 
-export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEvent<
-  'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
-  {
-    identifiantProjet: RawIdentifiantProjet;
-    format: string;
-    référenceDossierRaccordement: RawRéférenceDossierRaccordement;
-  }
->;
-
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEventV1 et RéférenceDossierRacordementModifiéeEventV1 à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
@@ -55,5 +46,4 @@ export type RaccordementEvent =
   | DemandeComplèteRaccordementModifiéeEventV1
   | DemandeComplèteRaccordementModifiéeEventV2
   | RéférenceDossierRacordementModifiéeEventV1
-  | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
   | PropositionTechniqueEtFinancièreModifiéeEventV1;
