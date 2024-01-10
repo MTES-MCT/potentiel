@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { mediator } from 'mediateur';
 import { redirect } from 'next/navigation';
 import { Abandon } from '@potentiel-domain/laureat';

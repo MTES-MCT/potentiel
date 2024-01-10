@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { mediator } from 'mediateur';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
