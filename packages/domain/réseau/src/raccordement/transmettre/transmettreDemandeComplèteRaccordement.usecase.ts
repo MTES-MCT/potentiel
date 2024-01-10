@@ -58,6 +58,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
         identifiantGestionnaireRéseau,
         dateQualification,
         référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référenceDossierValue),
+        formatAccuséRéception: format,
       },
     });
   };
