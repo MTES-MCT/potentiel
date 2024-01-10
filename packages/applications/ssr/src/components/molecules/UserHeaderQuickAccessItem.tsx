@@ -2,6 +2,7 @@ import { Utilisateur, getUser } from '@/utils/getUtilisateur';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-libraries/routes';
 import { mediator } from 'mediateur';
 
 export async function UserHeaderQuickAccessItem() {
@@ -72,7 +73,7 @@ async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur) {
         quickAccessItem={{
           iconId: nombreTâches > 0 ? 'ri-mail-unread-line' : 'ri-mail-check-line',
           linkProps: {
-            href: '/taches',
+            href: Routes.Tache.lister,
           },
           text: `Tâches (${nombreTâches})`,
         }}

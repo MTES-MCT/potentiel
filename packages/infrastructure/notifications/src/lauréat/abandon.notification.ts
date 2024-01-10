@@ -6,6 +6,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { RécupérerPorteursProjetPort } from '@potentiel/domain-views';
 import { Abandon } from '@potentiel-domain/laureat';
 import { CandidatureProjection, RécupérerCandidaturePort } from '@potentiel-domain/candidature';
+import { Routes } from '@potentiel-libraries/routes';
 import { templateId } from '../templateId';
 
 export type SubscriptionEvent = Abandon.AbandonEvent & Event;
@@ -46,9 +47,7 @@ const sendEmailAbandonChangementDeStatut = async ({
       nom_projet: projet.nom,
       departement_projet: projet.localité.département,
       nouveau_statut: statut,
-      abandon_url: `${BASE_URL}/laureats/${encodeURIComponent(
-        identifiantProjet.formatter(),
-      )}/abandon`,
+      abandon_url: `${BASE_URL}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
     },
   });
 };
@@ -141,9 +140,9 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           recipients: porteurs,
           variables: {
             nom_projet: projet.nom,
-            lien_transmettre_preuve_recandidature: `${BASE_URL}/laureats/${encodeURIComponent(
+            lien_transmettre_preuve_recandidature: `${BASE_URL}${Routes.Abandon.transmettrePreuveRecandidature(
               identifiantProjet.formatter(),
-            )}/abandon/transmettre-preuve-recandidature`,
+            )}/`,
           },
         });
         break;

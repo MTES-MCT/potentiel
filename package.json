@@ -17,6 +17,7 @@
     "./packages/libraries/email-sender/",
     "./packages/libraries/legacy-permissions",
     "./packages/libraries/projection",
+    "./packages/libraries/routes",
     "./packages/domain/core",
     "./packages/domain/core-views/",
     "./packages/domain/common",

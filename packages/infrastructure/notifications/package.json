@@ -12,6 +12,7 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel/email-sender": "*",
+    "@potentiel-libraries/routes": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {

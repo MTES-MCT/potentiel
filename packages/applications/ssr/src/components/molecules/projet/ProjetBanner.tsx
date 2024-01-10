@@ -4,7 +4,7 @@ import {
   StatutProjetBadgeProps,
 } from '@/components/molecules/projet/StatutProjetBadge';
 import { displayDate } from '@/utils/displayDate';
-import { encodeParameter } from '@/utils/encodeParameter';
+import { Routes } from '@potentiel-libraries/routes';
 
 export type ProjetBannerProps = {
   statut: StatutProjetBadgeProps['statut'];
@@ -36,7 +36,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = ({
     <aside className="mb-3">
       <div className="flex justify-start items-center">
         <a
-          href={`/projet/${encodeParameter(identifiantProjet)}/details.html`}
+          href={Routes.Projet.details(identifiantProjet)}
           className="text-xl font-bold !text-white mr-2"
         >
           {nom}

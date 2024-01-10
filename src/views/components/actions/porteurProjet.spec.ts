@@ -3,6 +3,8 @@ import ROUTES from '../../../routes';
 import { porteurProjetActions } from '.';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 
+import { Routes } from '@potentiel-libraries/routes';
+
 describe('porteurProjetActions', () => {
   describe('when project is abandoned', () => {
     it('should return an empty action array', () => {
@@ -79,9 +81,9 @@ describe('porteurProjetActions', () => {
         },
         {
           title: 'Demander un abandon',
-          link: `/laureats/${encodeURIComponent(
+          link: Routes.Abandon.demander(
             `${fakeProject.appelOffreId}#${fakeProject.periodeId}#${fakeProject.familleId}#${fakeProject.numeroCRE}`,
-          )}/abandon/demander`,
+          ),
         },
       ]);
     });
@@ -136,9 +138,9 @@ describe('porteurProjetActions', () => {
           },
           {
             title: 'Demander un abandon',
-            link: `/laureats/${encodeURIComponent(
+            link: Routes.Abandon.demander(
               `${fakeProject.appelOffreId}#${fakeProject.periodeId}#${fakeProject.familleId}#${fakeProject.numeroCRE}`,
-            )}/abandon/demander`,
+            ),
           },
         ]);
       });

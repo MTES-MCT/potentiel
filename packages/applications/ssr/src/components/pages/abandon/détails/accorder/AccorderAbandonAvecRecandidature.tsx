@@ -3,7 +3,7 @@
 import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRecandidature.action';
 import { useRouter } from 'next/navigation';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
-import { encodeParameter } from '@/utils/encodeParameter';
+import { Routes } from '@potentiel-libraries/routes';
 
 type AccorderAbandonAvecRecandidatureFormProps = {
   identifiantProjet: string;
@@ -27,7 +27,7 @@ export const AccorderAbandonAvecRecandidature = ({
         method: 'post',
         encType: 'multipart/form-data',
         omitMandatoryFieldsLegend: true,
-        onSuccess: () => router.push(`/laureats/${encodeParameter(identifiantProjet)}/abandon`),
+        onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
         children: (
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>
