@@ -28,19 +28,27 @@ inner join (
 where key like 'abandon|%'
 `;
 
-export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteurPort = async (
+export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteurPort = async ({
   identifiantUtilisateur,
-  filters,
+  where,
   pagination,
-) => {
-  const whereClause = filters
+  preuveRecandidatureTransmise,
+}) => {
+  const whereClause = where
     ? format(
-        Object.keys(filters)
+        Object.keys(where)
           .map((_, index) => `and value ->> %L = $${index + 2}`)
           .join(' '),
-        ...Object.keys(filters),
+        ...Object.keys(where),
       )
     : '';
+
+  const preuveRecandidatureClause =
+    preuveRecandidatureTransmise !== undefined
+      ? `and value ->> 'preuveRecandidature' is ${
+          preuveRecandidatureTransmise === true ? `not` : ''
+        } null`
+      : '';
 
   const paginationClause = format(
     'limit %s offset %s',
@@ -48,17 +56,17 @@ export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteur
     pagination.page <= 1 ? 0 : (pagination.page - 1) * pagination.itemsPerPage,
   );
 
-  const query = `${getAbandonsQuery} ${whereClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
+  const query = `${getAbandonsQuery} ${whereClause} ${preuveRecandidatureClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
 
   const result = await executeSelect<{
     value: Abandon.AbandonProjection;
-  }>(query, identifiantUtilisateur, ...(filters ? Object.values(filters) : []));
+  }>(query, identifiantUtilisateur, ...(where ? Object.values(where) : []));
 
-  const countQuery = `${countAbandonsQuery} ${whereClause}`;
+  const countQuery = `${countAbandonsQuery} ${whereClause} ${preuveRecandidatureClause}`;
   const countResult = await executeSelect<{ totalItems: string }>(
     countQuery,
     identifiantUtilisateur,
-    ...(filters ? Object.values(filters) : []),
+    ...(where ? Object.values(where) : []),
   );
 
   return {

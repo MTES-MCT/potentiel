@@ -13,7 +13,7 @@ export type AbandonListItemProps = {
   famille?: string;
   statut: Abandon.StatutAbandon.RawType;
   recandidature: boolean;
-  preuveRecandidatureTransmise: boolean;
+  statutPreuveRecandidature?: string;
   misÀJourLe: string;
 };
 
@@ -26,7 +26,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   statut,
   misÀJourLe,
   recandidature,
-  preuveRecandidatureTransmise,
+  statutPreuveRecandidature,
 }) => (
   <>
     <div>
@@ -54,10 +54,10 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
               <Badge noIcon small severity="info">
                 avec recandidature
               </Badge>
-              {statut === 'accordé' && (
+              {statutPreuveRecandidature && (
                 <PreuveRecandidatureStatutBadge
                   small
-                  statut={preuveRecandidatureTransmise ? 'transmise' : 'en-attente'}
+                  statut={statutPreuveRecandidature === 'transmise' ? 'transmise' : 'en-attente'}
                 />
               )}
             </>

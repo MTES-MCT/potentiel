@@ -13,7 +13,7 @@ type AbandonListItemReadModel = {
   nomProjet: string;
   statut: StatutAbandon.ValueType;
   recandidature: boolean;
-  preuveRecandidatureTransmise: boolean;
+  statutPreuveRecandidature?: string;
   misÀJourLe: DateTime.ValueType;
 };
 
@@ -24,36 +24,38 @@ export type ListerAbandonReadModel = {
   totalItems: number;
 };
 
-export type ListerAbandonsPort = (
-  filters: {
+export type ListerAbandonsPort = (args: {
+  where: {
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
-  },
+  };
   pagination: {
     page: number;
     itemsPerPage: number;
-  },
-  région?: string,
-) => Promise<{
+  };
+  région?: string;
+  preuveRecandidatureTransmise?: boolean;
+}) => Promise<{
   items: ReadonlyArray<AbandonProjection>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
 }>;
 
-export type ListerAbandonsPourPorteurPort = (
-  identifiantUtilisateur: string,
-  filters: {
+export type ListerAbandonsPourPorteurPort = (args: {
+  identifiantUtilisateur: string;
+  where: {
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
-  },
+  };
   pagination: {
     page: number;
     itemsPerPage: number;
-  },
-) => Promise<{
+  };
+  preuveRecandidatureTransmise?: boolean;
+}) => Promise<{
   items: ReadonlyArray<AbandonProjection>;
   currentPage: number;
   itemsPerPage: number;
@@ -74,6 +76,7 @@ export type ListerAbandonsQuery = Message<
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
+    statutPreuveRecandidature?: string;
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
@@ -94,19 +97,27 @@ export const registerListerAbandonQuery = ({
     recandidature,
     statut,
     appelOffre,
+    statutPreuveRecandidature,
     utilisateur: { email, rôle },
     pagination: { page, itemsPerPage },
   }) => {
-    const filters = {
+    const where = {
       ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
+      ...(statutPreuveRecandidature && { statut: 'accordé' }),
       ...(statut && { statut }),
       ...(appelOffre && { appelOffre }),
     };
 
     if (['admin', 'dgec-validateur'].includes(rôle)) {
-      const abandons = await listerAbandons(filters, {
-        page,
-        itemsPerPage,
+      const abandons = await listerAbandons({
+        where,
+        pagination: {
+          page,
+          itemsPerPage,
+        },
+        ...(statutPreuveRecandidature && {
+          preuveRecandidatureTransmise: statutPreuveRecandidature === 'transmise',
+        }),
       });
       return {
         ...abandons,
@@ -120,23 +131,30 @@ export const registerListerAbandonQuery = ({
         throw new RégionNonTrouvéeError();
       }
 
-      const abandons = await listerAbandons(
-        filters,
-        {
+      const abandons = await listerAbandons({
+        where,
+        pagination: {
           page,
           itemsPerPage,
         },
-        région.région,
-      );
+        région: région.région,
+        ...(statutPreuveRecandidature && {
+          preuveRecandidatureTransmise: statutPreuveRecandidature === 'transmise',
+        }),
+      });
       return {
         ...abandons,
         items: abandons.items.map((abandon) => mapToReadModel(abandon)),
       };
     }
 
-    const abandons = await listerAbandonsPourPorteur(email, filters, {
-      page,
-      itemsPerPage,
+    const abandons = await listerAbandonsPourPorteur({
+      identifiantUtilisateur: email,
+      where,
+      pagination: { itemsPerPage, page },
+      ...(statutPreuveRecandidature && {
+        preuveRecandidatureTransmise: statutPreuveRecandidature === 'transmise',
+      }),
     });
     return {
       ...abandons,
@@ -152,8 +170,10 @@ const mapToReadModel = (projection: AbandonProjection): AbandonListItemReadModel
     ...projection,
     statut: StatutAbandon.convertirEnValueType(projection.statut),
     recandidature: projection.demandeRecandidature,
-    preuveRecandidatureTransmise: !!projection.preuveRecandidature,
     misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
+    ...(projection.statut === 'accordé' && {
+      statutPreuveRecandidature: projection.preuveRecandidature ? 'transmise' : 'en-attente',
+    }),
   };
 };

@@ -14,23 +14,31 @@ const getAbandonsQuery = `
   where key like 'abandon|%'
 `;
 
-export const listerAbandonsAdapter: Abandon.ListerAbandonsPort = async (
-  filters,
+export const listerAbandonsAdapter: Abandon.ListerAbandonsPort = async ({
+  where,
   pagination,
   région,
-) => {
-  const whereClause = filters
+  preuveRecandidatureTransmise,
+}) => {
+  const whereClause = where
     ? format(
-        Object.keys(filters)
+        Object.keys(where)
           .map((_, index) => `and value ->> %L = $${index + 1}`)
           .join(' '),
-        ...Object.keys(filters),
+        ...Object.keys(where),
       )
     : '';
 
+  const preuveRecandidatureClause =
+    preuveRecandidatureTransmise !== undefined
+      ? `and value ->> 'preuveRecandidature' is ${
+          preuveRecandidatureTransmise === true ? `not` : ''
+        } null`
+      : '';
+
   const régionClause = région
     ? `and $${
-        Object.keys(filters).length + 1
+        Object.keys(where).length + 1
       }  in (select jsonb_array_elements_text(value->'régionProjet'))`
     : '';
 
@@ -40,16 +48,16 @@ export const listerAbandonsAdapter: Abandon.ListerAbandonsPort = async (
     pagination.page <= 1 ? 0 : (pagination.page - 1) * pagination.itemsPerPage,
   );
 
-  const query = `${getAbandonsQuery} ${whereClause} ${régionClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
+  const query = `${getAbandonsQuery} ${whereClause} ${régionClause} ${preuveRecandidatureClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
 
   const result = await executeSelect<{
     value: Abandon.AbandonProjection;
-  }>(query, ...(filters ? Object.values(filters) : []).concat(région ? [région] : []));
+  }>(query, ...(where ? Object.values(where) : []).concat(région ? [région] : []));
 
-  const countQuery = `${countAbandonsQuery} ${whereClause} ${régionClause}`;
+  const countQuery = `${countAbandonsQuery} ${whereClause} ${régionClause} ${preuveRecandidatureClause}`;
   const countResult = await executeSelect<{ totalItems: string }>(
     countQuery,
-    ...(filters ? Object.values(filters) : []).concat(région ? [région] : []),
+    ...(where ? Object.values(where) : []).concat(région ? [région] : []),
   );
 
   return {
