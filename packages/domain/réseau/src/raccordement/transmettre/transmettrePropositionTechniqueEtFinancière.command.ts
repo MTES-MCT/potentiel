@@ -10,6 +10,7 @@ export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
     dateSignature: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    formatPropositionTechniqueEtFinancièreSignée: string;
   }
 >;
 
@@ -21,12 +22,14 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = (
     dateSignature,
     référenceDossierRaccordement,
     identifiantProjet,
+    formatPropositionTechniqueEtFinancièreSignée,
   }) => {
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
     await raccordement.transmettrePropositionTechniqueEtFinancière({
       dateSignature,
       référenceDossierRaccordement,
       identifiantProjet,
+      formatPropositionTechniqueEtFinancièreSignée,
     });
   };
 

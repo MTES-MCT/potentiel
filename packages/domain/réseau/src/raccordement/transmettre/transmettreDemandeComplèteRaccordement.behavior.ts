@@ -7,7 +7,7 @@ import { none } from '@potentiel/monads';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 
 /**
- * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
+ * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEvent à la place.
  * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<

@@ -21,19 +21,25 @@ import {
 } from './transmettre/transmettreDateMiseEnService.behavior';
 import { DossierRaccordementNonRéférencéError } from './dossierRaccordementNonRéférencé.error';
 import {
+  PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
+  PropositionTechniqueEtFinancièreTransmiseEvent,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
+  applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   applyPropositionTechniqueEtFinancièreTransmiseEventV1,
+  applyPropositionTechniqueEtFinancièreTransmiseEventV2,
   transmettrePropositionTechniqueEtFinancière,
 } from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
-  | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1;
+  | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
+  | PropositionTechniqueEtFinancièreTransmiseEventV1
+  | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1;
 
 export type RaccordementRéseauEvent =
   | DeprecateEvent
   | DemandeComplèteRaccordementTransmiseEvent
-  | PropositionTechniqueEtFinancièreTransmiseEventV1
+  | PropositionTechniqueEtFinancièreTransmiseEvent
   | DateMiseEnServiceTransmiseEvent;
 
 type DossierRaccordement = {
@@ -100,6 +106,12 @@ function apply(this: RaccordementAggregate, event: RaccordementRéseauEvent) {
       break;
     case 'PropositionTechniqueEtFinancièreTransmise-V1':
       applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)(event);
+      break;
+    case 'PropositionTechniqueEtFinancièreSignéeTransmise-V1':
+      applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1.bind(this)(event);
+      break;
+    case 'PropositionTechniqueEtFinancièreTransmise-V2':
+      applyPropositionTechniqueEtFinancièreTransmiseEventV2.bind(this)(event);
       break;
     case 'DateMiseEnServiceTransmise-V1':
       applyDateMiseEnServiceTransmiseEventV1.bind(this)(event);
