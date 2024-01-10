@@ -62,7 +62,12 @@ const isSystemProcess = (message: Message<string, Record<string, unknown>, void>
 };
 
 const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>) => {
-  return message.type.endsWith('GET_AUTHENTICATED_USER') || message.type.endsWith('_QUERY');
+  return (
+    message.type.endsWith('GET_AUTHENTICATED_USER') ||
+    message.type.endsWith('_COMMAND') || // Message to skip because executed by a saga or legacy app
+    message.type.endsWith('_USECASE') || // Message executed by the legacy app
+    message.type.endsWith('_QUERY') // Message executed by the legacy app
+  );
 };
 
 const mustCheckProjetAccess = (message: Message<string, Record<string, unknown>, void>) => {

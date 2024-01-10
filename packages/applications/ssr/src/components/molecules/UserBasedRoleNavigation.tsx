@@ -1,21 +1,14 @@
-import { GetAuthenticatedUserMessage } from '@/utils/getAuthenticatedUser.handler';
+import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-libraries/routes';
-import { getLogger } from '@potentiel/monitoring';
-import { mediator } from 'mediateur';
 
 export async function UserBasedRoleNavigation() {
   let utilisateur: Utilisateur.ValueType | undefined;
 
   try {
-    utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
-      type: 'GET_AUTHENTICATED_USER',
-      data: {},
-    });
-  } catch (error) {
-    getLogger().warn(`Error when getting Authenticated user`, { error });
-  }
+    utilisateur = await getAuthenticatedUser({});
+  } catch (error) {}
 
   const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
 

@@ -1,8 +1,10 @@
+import { redirect } from 'next/navigation';
 import { isRedirectError } from 'next/dist/client/components/redirect';
 import { isNotFoundError } from 'next/dist/client/components/not-found';
 
 import { DomainError } from '@potentiel-domain/core';
 import { getLogger } from '@potentiel/monitoring';
+import { NoAuthenticatedUserError } from './getAuthenticatedUser.handler';
 
 export async function withErrorHandling<TResult>(
   action: () => Promise<TResult>,
@@ -14,6 +16,10 @@ export async function withErrorHandling<TResult>(
   } catch (e) {
     if (isRedirectError(e) || isNotFoundError(e)) {
       throw e;
+    }
+
+    if (e instanceof NoAuthenticatedUserError) {
+      redirect('/auth/signIn');
     }
 
     if (e instanceof DomainError) {

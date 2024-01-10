@@ -11,9 +11,7 @@ export type GetAuthenticatedUserMessage = Message<
 
 const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
 
-export const getAuthenticatedUserHandler: MessageHandler<
-  GetAuthenticatedUserMessage
-> = async () => {
+export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> = async () => {
   const cookiesContent = cookies();
   const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
 
@@ -22,6 +20,15 @@ export const getAuthenticatedUserHandler: MessageHandler<
     secret: process.env.NEXTAUTH_SECRET ?? '',
   });
 
-  const utilisateur = Utilisateur.convertirEnValueType(decoded?.accessToken ?? '');
-  return utilisateur;
+  if (!decoded?.accessToken) {
+    throw new NoAuthenticatedUserError();
+  }
+
+  return Utilisateur.convertirEnValueType(decoded.accessToken);
 };
+
+export class NoAuthenticatedUserError extends Error {
+  constructor(cause?: Error) {
+    super(`Authentification obligatoire`, { cause });
+  }
+}
