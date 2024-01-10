@@ -5,8 +5,8 @@ import {
   DemandeComplèteRaccordementTransmiseEvent,
   DemandeComplèteRaccordementTransmiseEventV1,
   applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
-  applyDemandeComplèteDeRaccordementTransmiseV1,
-  applyDemandeComplèteDeRaccordementTransmiseV2,
+  applyDemandeComplèteDeRaccordementTransmiseEventV1,
+  applyDemandeComplèteDeRaccordementTransmiseEventV2,
   transmettreDemande,
 } from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import { IdentifiantGestionnaireRéseau } from '../gestionnaire';
@@ -29,18 +29,34 @@ import {
   applyPropositionTechniqueEtFinancièreTransmiseEventV2,
   transmettrePropositionTechniqueEtFinancière,
 } from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
+import {
+  DemandeComplèteRaccordementModifiéeEvent,
+  DemandeComplèteRaccordementModifiéeEventV1,
+  DemandeComplèteRaccordementModifiéeEventV2,
+  RéférenceDossierRacordementModifiéeEvent,
+  applyDemandeComplèteRaccordementModifiéeEventV1,
+  applyDemandeComplèteRaccordementModifiéeEventV2,
+  applyDemandeComplèteRaccordementModifiéeEventV3,
+  applyRéférenceDossierRacordementModifiéeEventV1,
+  modifierDemandeComplèteRaccordement,
+} from './modifier/modifierDemandeComplèteRaccordement.behavior';
+import { modifierRéférenceDossierRacordement } from './modifier/modifierRéférenceDossierRaccordement.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
   | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
   | PropositionTechniqueEtFinancièreTransmiseEventV1
-  | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1;
+  | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
+  | DemandeComplèteRaccordementModifiéeEventV1
+  | DemandeComplèteRaccordementModifiéeEventV2;
 
 export type RaccordementRéseauEvent =
   | DeprecateEvent
   | DemandeComplèteRaccordementTransmiseEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent
-  | DateMiseEnServiceTransmiseEvent;
+  | DateMiseEnServiceTransmiseEvent
+  | DemandeComplèteRaccordementModifiéeEvent
+  | RéférenceDossierRacordementModifiéeEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -64,6 +80,8 @@ export type RaccordementAggregate = Aggregate<RaccordementRéseauEvent> & {
   readonly transmettreDemande: typeof transmettreDemande;
   readonly transmettreDateMiseEnService: typeof transmettreDateMiseEnService;
   readonly transmettrePropositionTechniqueEtFinancière: typeof transmettrePropositionTechniqueEtFinancière;
+  readonly modifierDemandeComplèteRaccordement: typeof modifierDemandeComplèteRaccordement;
+  readonly modifierRéférenceDossierRacordement: typeof modifierRéférenceDossierRacordement;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
 };
@@ -79,6 +97,8 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   transmettreDemande,
   transmettreDateMiseEnService,
   transmettrePropositionTechniqueEtFinancière,
+  modifierDemandeComplèteRaccordement,
+  modifierRéférenceDossierRacordement,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
@@ -96,13 +116,25 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
 function apply(this: RaccordementAggregate, event: RaccordementRéseauEvent) {
   switch (event.type) {
     case 'DemandeComplèteDeRaccordementTransmise-V1':
-      applyDemandeComplèteDeRaccordementTransmiseV1.bind(this)(event);
+      applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this)(event);
       break;
     case 'DemandeComplèteDeRaccordementTransmise-V2':
-      applyDemandeComplèteDeRaccordementTransmiseV2.bind(this)(event);
+      applyDemandeComplèteDeRaccordementTransmiseEventV2.bind(this)(event);
       break;
     case 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1':
       applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1.bind(this)(event);
+      break;
+    case 'DemandeComplèteRaccordementModifiée-V1':
+      applyDemandeComplèteRaccordementModifiéeEventV1.bind(this)(event);
+      break;
+    case 'DemandeComplèteRaccordementModifiée-V2':
+      applyDemandeComplèteRaccordementModifiéeEventV2.bind(this)(event);
+      break;
+    case 'DemandeComplèteRaccordementModifiée-V3':
+      applyDemandeComplèteRaccordementModifiéeEventV3.bind(this)(event);
+      break;
+    case 'RéférenceDossierRacordementModifiée-V1':
+      applyRéférenceDossierRacordementModifiéeEventV1.bind(this)(event);
       break;
     case 'PropositionTechniqueEtFinancièreTransmise-V1':
       applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)(event);
