@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import { mediator } from 'mediateur';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tache';

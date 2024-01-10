@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import { getUser } from '@/utils/getUtilisateur';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { AjouterGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/AjouterGestionnaireRéseauPage';

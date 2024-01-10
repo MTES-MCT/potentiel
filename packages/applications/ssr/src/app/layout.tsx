@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   title: 'Potentiel',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"
   return (
