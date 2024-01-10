@@ -109,7 +109,7 @@ export function applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV
   dossier.demandeComplèteRaccordement.format = format;
 }
 
-export function applyDemandeComplèteDeRaccordementTransmiseV1(
+export function applyDemandeComplèteDeRaccordementTransmiseEventV1(
   this: RaccordementAggregate,
   {
     payload: {
@@ -148,7 +148,7 @@ export function applyDemandeComplèteDeRaccordementTransmiseV1(
   });
 }
 
-export function applyDemandeComplèteDeRaccordementTransmiseV2(
+export function applyDemandeComplèteDeRaccordementTransmiseEventV2(
   this: RaccordementAggregate,
   {
     payload: {
@@ -160,7 +160,7 @@ export function applyDemandeComplèteDeRaccordementTransmiseV2(
     },
   }: DemandeComplèteRaccordementTransmiseEvent,
 ) {
-  applyDemandeComplèteDeRaccordementTransmiseV1.bind(this)({
+  applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this)({
     type: 'DemandeComplèteDeRaccordementTransmise-V1',
     payload: {
       identifiantGestionnaireRéseau,

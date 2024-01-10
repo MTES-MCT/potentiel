@@ -15,6 +15,9 @@
       "path": "../../domain/document"
     },
     {
+      "path": "../../domain/document"
+    },
+    {
       "path": "../../domain/core"
     }
   ]
