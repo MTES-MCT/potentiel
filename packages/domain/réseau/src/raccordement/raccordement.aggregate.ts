@@ -33,14 +33,23 @@ import {
   DemandeComplèteRaccordementModifiéeEvent,
   DemandeComplèteRaccordementModifiéeEventV1,
   DemandeComplèteRaccordementModifiéeEventV2,
-  RéférenceDossierRacordementModifiéeEvent,
   applyDemandeComplèteRaccordementModifiéeEventV1,
   applyDemandeComplèteRaccordementModifiéeEventV2,
   applyDemandeComplèteRaccordementModifiéeEventV3,
-  applyRéférenceDossierRacordementModifiéeEventV1,
   modifierDemandeComplèteRaccordement,
 } from './modifier/modifierDemandeComplèteRaccordement.behavior';
-import { modifierRéférenceDossierRacordement } from './modifier/modifierRéférenceDossierRaccordement.behavior';
+import {
+  RéférenceDossierRacordementModifiéeEvent,
+  applyRéférenceDossierRacordementModifiéeEventV1,
+  modifierRéférenceDossierRacordement,
+} from './modifier/modifierRéférenceDossierRaccordement.behavior';
+import {
+  PropositionTechniqueEtFinancièreModifiéeEvent,
+  PropositionTechniqueEtFinancièreModifiéeEventV1,
+  applyPropositionTechniqueEtFinancièreModifiéeEventV1,
+  applyPropositionTechniqueEtFinancièreModifiéeEventV2,
+  modifierPropositionTechniqueEtFinancière,
+} from './modifier/modifierPropositiontechniqueEtFinancière.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -48,7 +57,8 @@ export type DeprecateEvent =
   | PropositionTechniqueEtFinancièreTransmiseEventV1
   | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
   | DemandeComplèteRaccordementModifiéeEventV1
-  | DemandeComplèteRaccordementModifiéeEventV2;
+  | DemandeComplèteRaccordementModifiéeEventV2
+  | PropositionTechniqueEtFinancièreModifiéeEventV1;
 
 export type RaccordementRéseauEvent =
   | DeprecateEvent
@@ -56,7 +66,8 @@ export type RaccordementRéseauEvent =
   | PropositionTechniqueEtFinancièreTransmiseEvent
   | DateMiseEnServiceTransmiseEvent
   | DemandeComplèteRaccordementModifiéeEvent
-  | RéférenceDossierRacordementModifiéeEvent;
+  | RéférenceDossierRacordementModifiéeEvent
+  | PropositionTechniqueEtFinancièreModifiéeEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -82,6 +93,7 @@ export type RaccordementAggregate = Aggregate<RaccordementRéseauEvent> & {
   readonly transmettrePropositionTechniqueEtFinancière: typeof transmettrePropositionTechniqueEtFinancière;
   readonly modifierDemandeComplèteRaccordement: typeof modifierDemandeComplèteRaccordement;
   readonly modifierRéférenceDossierRacordement: typeof modifierRéférenceDossierRacordement;
+  readonly modifierPropositionTechniqueEtFinancière: typeof modifierPropositionTechniqueEtFinancière;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
 };
@@ -99,6 +111,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   transmettrePropositionTechniqueEtFinancière,
   modifierDemandeComplèteRaccordement,
   modifierRéférenceDossierRacordement,
+  modifierPropositionTechniqueEtFinancière,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
@@ -144,6 +157,12 @@ function apply(this: RaccordementAggregate, event: RaccordementRéseauEvent) {
       break;
     case 'PropositionTechniqueEtFinancièreTransmise-V2':
       applyPropositionTechniqueEtFinancièreTransmiseEventV2.bind(this)(event);
+      break;
+    case 'PropositionTechniqueEtFinancièreModifiée-V1':
+      applyPropositionTechniqueEtFinancièreModifiéeEventV1.bind(this)(event);
+      break;
+    case 'PropositionTechniqueEtFinancièreModifiée-V2':
+      applyPropositionTechniqueEtFinancièreModifiéeEventV2.bind(this)(event);
       break;
     case 'DateMiseEnServiceTransmise-V1':
       applyDateMiseEnServiceTransmiseEventV1.bind(this)(event);
