@@ -6,6 +6,10 @@ import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { none } from '@potentiel/monads';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 
+/**
+ * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
+ * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
 export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
   'DemandeComplèteDeRaccordementTransmise-V1',
   {
@@ -16,12 +20,39 @@ export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
   }
 >;
 
+/**
+ * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
+ * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
+export type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = DomainEvent<
+  'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    format: string;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+  }
+>;
+
+export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
+  'DemandeComplèteDeRaccordementTransmise-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
+    dateQualification?: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    accuséRéception: {
+      format: string;
+    };
+  }
+>;
+
 type TransmettreDemandeOptions = {
   dateQualification: DateTime.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   référenceDossierExpressionRegulière: ExpressionRegulière.ValueType;
+  formatAccuséRéception: string;
 };
 
 export async function transmettreDemande(
@@ -32,6 +63,7 @@ export async function transmettreDemande(
     identifiantProjet,
     référenceDossier,
     référenceDossierExpressionRegulière,
+    formatAccuséRéception,
   }: TransmettreDemandeOptions,
 ) {
   if (!this.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)) {
@@ -50,17 +82,31 @@ export async function transmettreDemande(
     throw new DateDansLeFuturError();
   }
 
-  const event: DemandeComplèteRaccordementTransmiseEventV1 = {
-    type: 'DemandeComplèteDeRaccordementTransmise-V1',
+  const event: DemandeComplèteRaccordementTransmiseEvent = {
+    type: 'DemandeComplèteDeRaccordementTransmise-V2',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       dateQualification: dateQualification?.formatter(),
       identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
       référenceDossierRaccordement: référenceDossier.formatter(),
+      accuséRéception: {
+        format: formatAccuséRéception,
+      },
     },
   };
 
   await this.publish(event);
+}
+
+export function applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1(
+  this: RaccordementAggregate,
+  {
+    payload: { référenceDossierRaccordement, format },
+  }: AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
+) {
+  const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+  dossier.demandeComplèteRaccordement.format = format;
 }
 
 export function applyDemandeComplèteDeRaccordementTransmiseV1(
@@ -99,6 +145,37 @@ export function applyDemandeComplèteDeRaccordementTransmiseV1(
       format: none,
     },
     référence: RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement),
+  });
+}
+
+export function applyDemandeComplèteDeRaccordementTransmiseV2(
+  this: RaccordementAggregate,
+  {
+    payload: {
+      accuséRéception: { format },
+      identifiantGestionnaireRéseau,
+      identifiantProjet,
+      référenceDossierRaccordement,
+      dateQualification,
+    },
+  }: DemandeComplèteRaccordementTransmiseEvent,
+) {
+  applyDemandeComplèteDeRaccordementTransmiseV1.bind(this)({
+    type: 'DemandeComplèteDeRaccordementTransmise-V1',
+    payload: {
+      identifiantGestionnaireRéseau,
+      identifiantProjet,
+      référenceDossierRaccordement,
+      dateQualification,
+    },
+  });
+  applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1.bind(this)({
+    type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
+    payload: {
+      format,
+      identifiantProjet,
+      référenceDossierRaccordement,
+    },
   });
 }
 
