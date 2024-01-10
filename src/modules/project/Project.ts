@@ -1304,7 +1304,6 @@ export const makeProject = (args: {
         break;
       case AppelOffreProjetModifié.type:
         props.appelOffreId = event.payload.appelOffreId;
-        props.periodeId = event.payload.periodeId;
         break;
       case DateEchéanceGFAjoutée.type:
         props.GFExpirationDate = event.payload.expirationDate;
