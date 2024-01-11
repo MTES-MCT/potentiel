@@ -65,7 +65,7 @@ export type DeprecateEvent =
   | DemandeComplèteRaccordementModifiéeEventV2
   | PropositionTechniqueEtFinancièreModifiéeEventV1;
 
-export type RaccordementRéseauEvent =
+export type RaccordementEvent =
   | DeprecateEvent
   | DemandeComplèteRaccordementTransmiseEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent
@@ -90,7 +90,7 @@ type DossierRaccordement = {
   };
 };
 
-export type RaccordementAggregate = Aggregate<RaccordementRéseauEvent> & {
+export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   dossiers: Map<string, DossierRaccordement>;
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -107,7 +107,7 @@ export type RaccordementAggregate = Aggregate<RaccordementRéseauEvent> & {
 
 export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   RaccordementAggregate,
-  RaccordementRéseauEvent
+  RaccordementEvent
 > = () => ({
   dossiers: new Map(),
   identifiantProjet: IdentifiantProjet.inconnu,
@@ -134,7 +134,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   },
 });
 
-function apply(this: RaccordementAggregate, event: RaccordementRéseauEvent) {
+function apply(this: RaccordementAggregate, event: RaccordementEvent) {
   switch (event.type) {
     case 'DemandeComplèteDeRaccordementTransmise-V1':
       applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this)(event);
