@@ -1,4 +1,3 @@
-
 import { setupDomain } from '@potentiel/domain-usecases';
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
@@ -25,10 +24,6 @@ export type UnsetupApp = () => Promise<void>;
  */
 export const bootstrap = async (): Promise<UnsetupApp> => {
   await seed();
-
-  // mediator.use<Message>({
-  //   middlewares: [Log.middleware],
-  // });
 
   const unsetupDomain = await setupDomain({
     common: {
