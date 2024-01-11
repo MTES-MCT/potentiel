@@ -26,7 +26,6 @@ export type DetailAbandonPageProps = {
   projet: ProjetPageTemplateProps['projet'];
   abandon: EtapesAbandonProps;
   statut: StatutBadgeProps['statut'];
-  identifiantUtilisateur: string;
   actions: AvailableActions;
 };
 

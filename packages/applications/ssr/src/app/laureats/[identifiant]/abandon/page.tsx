@@ -54,7 +54,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       // identifiantProjet must come from the readmodel as a value type
       const detailAbandonPageProps: DetailAbandonPageProps = {
         projet: { ...candidature, identifiantProjet },
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
         statut: statut.statut,
         abandon: {
           demande: {
