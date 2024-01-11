@@ -58,13 +58,12 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   );
 };
 
-const mapToActionComponents = ({
-  actions,
-  identifiantProjet,
-}: {
+type MapToActionsComponentsProps = {
   actions: AvailableActions;
   identifiantProjet: string;
-}) => {
+};
+
+const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => {
   return actions.length ? (
     <>
       {actions.includes('demander-confirmation') && (

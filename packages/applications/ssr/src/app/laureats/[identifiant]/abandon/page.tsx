@@ -99,15 +99,18 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
 // TODO: this should be a query with the identifiantUtilisateur and identifiantProjet
 type AvailableActions = DetailAbandonPageProps['actions'];
+
+type MapToActionsProps = {
+  utilisateur: Utilisateur.ValueType;
+  recandidature: boolean;
+  statut: Abandon.StatutAbandon.ValueType;
+};
+
 const mapToActions = ({
   utilisateur,
   recandidature,
   statut,
-}: {
-  utilisateur: Utilisateur.ValueType;
-  recandidature: boolean;
-  statut: Abandon.StatutAbandon.ValueType;
-}): AvailableActions => {
+}: MapToActionsProps): AvailableActions => {
   const actions: AvailableActions = [];
   const demandeConfirmationPossible = statut.estDemandé() && !recandidature;
 
