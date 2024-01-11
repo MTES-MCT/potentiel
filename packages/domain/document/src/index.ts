@@ -2,7 +2,10 @@ import {
   ConsulterDocumentProjetQuery,
   RécupérerDocumentProjetPort,
 } from './consulter/consulterDocumentProjet.query';
-import { DéplacerDocumentProjetCommand } from './déplacer/déplacerDocument.command';
+import {
+  DéplacerDocumentProjetCommand,
+  DéplacerDocumentProjetPort,
+} from './déplacer/déplacerDocument.command';
 import {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
@@ -27,4 +30,4 @@ export * from './register';
 export * as DocumentProjet from './documentProjet.valueType';
 
 // Port
-export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort };
+export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort, DéplacerDocumentProjetPort };
