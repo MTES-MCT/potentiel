@@ -33,12 +33,6 @@
   ],
   "references": [
     {
-      "path": "packages/applications/web"
-    },
-    {
-      "path": "packages/domain-usecases"
-    },
-    {
       "path": "packages/domain-views"
     },
     {
