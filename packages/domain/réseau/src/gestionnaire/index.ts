@@ -34,12 +34,6 @@ export { GestionnaireRéseauEvent } from './gestionnaireRéseau.aggregate';
 export { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.behavior';
 export { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.behavior';
 
-// Register
-export {
-  registerGestionnaireRéseauQueries,
-  registerGestionnaireRéseauUseCases,
-} from './gestionnaireRéseau.register';
-
 // ValueTypes
 export * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
 
