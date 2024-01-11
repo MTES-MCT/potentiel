@@ -16,18 +16,14 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = IdentifiantParameter;
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const candidature = await mediator.send<ConsulterCandidatureQuery>({
-    type: 'CONSULTER_CANDIDATURE_QUERY',
-    data: {
-      identifiantProjet: decodeParameter(params.identifiant),
-    },
-  });
-
-  return {
-    title: `Abandon du projet ${candidature.nom} - Potentiel`,
-  };
-}
+/**
+ *
+ * @todo afficher le nom du projet dans le title de la page
+ */
+export const metadata: Metadata = {
+  title: 'Détail abandon projet - Potentiel',
+  description: "Détail de l'abandon d'un projet",
+};
 
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
