@@ -38,10 +38,10 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.nom.replace('-', ' ').toLocaleUpperCase();
     },
     vérifierLaPermission(permission) {
-      const àLaPermission = permissions[this.nom].includes(permission);
+      const aLaPermission = permissions[this.nom].includes(permission);
 
-      if (!àLaPermission) {
-        throw new AccésFonctionnalitéRefuséError(permission, this.nom);
+      if (!aLaPermission) {
+        throw new AccèsFonctionnalitéRefuséError(permission, this.nom);
       }
     },
   };
@@ -72,9 +72,9 @@ class RoleRefuséError extends OperationRejectedError {
   }
 }
 
-class AccésFonctionnalitéRefuséError extends OperationRejectedError {
+class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
   constructor(fonctionnalité: string, role: string) {
-    super(`Accés à la fonctionnalité refusé`, {
+    super(`Accès à la fonctionnalité refusé`, {
       fonctionnalité,
       role,
     });
