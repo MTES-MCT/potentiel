@@ -1,67 +1,67 @@
-import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
-import {
-  GestionnaireRéseau,
-  loadGestionnaireRéseauAggregateFactory,
-} from '../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
-import { IdentifiantProjetValueType } from '../../projet.valueType';
-import { GestionnaireRéseauProjetEvent } from './gestionnaireRéseauProjet.event';
-import { Option, none } from '@potentiel/monads';
-import { convertirEnIdentifiantGestionnaireRéseau } from '../../../domain.valueType';
+// import { AggregateFactory, LoadAggregate } from '@potentiel/core-domain';
+// import {
+//   GestionnaireRéseau,
+//   loadGestionnaireRéseauAggregateFactory,
+// } from '../../../gestionnaireRéseau/gestionnaireRéseau.aggregate';
+// import { IdentifiantProjetValueType } from '../../projet.valueType';
+// import { GestionnaireRéseauProjetEvent } from './gestionnaireRéseauProjet.event';
+// import { Option, none } from '@potentiel/monads';
+// import { convertirEnIdentifiantGestionnaireRéseau } from '../../../domain.valueType';
 
-/**
- * @deprecated
- * La catégory de ce stream n'est plus la bonne
- */
-type GestionRéseauProjetAggregateId = `projet|${string}`;
+// /**
+//  * @deprecated
+//  * La catégory de ce stream n'est plus la bonne
+//  */
+// type GestionRéseauProjetAggregateId = `projet|${string}`;
 
-export const createGestionnaireRéseauProjetAggregateId = (
-  identifiantProjet: IdentifiantProjetValueType,
-): GestionRéseauProjetAggregateId => {
-  return `projet|${identifiantProjet.formatter()}`;
-};
+// export const createGestionnaireRéseauProjetAggregateId = (
+//   identifiantProjet: IdentifiantProjetValueType,
+// ): GestionRéseauProjetAggregateId => {
+//   return `projet|${identifiantProjet.formatter()}`;
+// };
 
-type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
+// type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
-export type GestionnaireRéseauProjet = {
-  getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>>;
-};
+// export type GestionnaireRéseauProjet = {
+//   getGestionnaireRéseau(): Promise<Option<GestionnaireRéseau>>;
+// };
 
-const getDefaultAggregate = (): GestionnaireRéseauProjet => ({
-  getGestionnaireRéseau: async () => Promise.resolve(none),
-});
+// const getDefaultAggregate = (): GestionnaireRéseauProjet => ({
+//   getGestionnaireRéseau: async () => Promise.resolve(none),
+// });
 
-const gestionnaireRéseauProjetAggregateFactory: AggregateFactory<
-  GestionnaireRéseauProjet,
-  GestionnaireRéseauProjetEvent
-> = (events, loadAggregate) => {
-  return events.reduce((aggregate, event) => {
-    switch (event.type) {
-      case 'GestionnaireRéseauProjetDéclaré-V1':
-      case 'GestionnaireRéseauProjetModifié-V1':
-        return {
-          ...aggregate,
-          getGestionnaireRéseau: async () => {
-            const loadGestionnaireRéseau = loadGestionnaireRéseauAggregateFactory({
-              loadAggregate,
-            });
-            return loadGestionnaireRéseau(
-              convertirEnIdentifiantGestionnaireRéseau(event.payload.identifiantGestionnaireRéseau),
-            );
-          },
-        };
-      default:
-        return { ...aggregate };
-    }
-  }, getDefaultAggregate());
-};
+// const gestionnaireRéseauProjetAggregateFactory: AggregateFactory<
+//   GestionnaireRéseauProjet,
+//   GestionnaireRéseauProjetEvent
+// > = (events, loadAggregate) => {
+//   return events.reduce((aggregate, event) => {
+//     switch (event.type) {
+//       case 'GestionnaireRéseauProjetDéclaré-V1':
+//       case 'GestionnaireRéseauProjetModifié-V1':
+//         return {
+//           ...aggregate,
+//           getGestionnaireRéseau: async () => {
+//             const loadGestionnaireRéseau = loadGestionnaireRéseauAggregateFactory({
+//               loadAggregate,
+//             });
+//             return loadGestionnaireRéseau(
+//               convertirEnIdentifiantGestionnaireRéseau(event.payload.identifiantGestionnaireRéseau),
+//             );
+//           },
+//         };
+//       default:
+//         return { ...aggregate };
+//     }
+//   }, getDefaultAggregate());
+// };
 
-export const loadGestionnaireRéseauProjetAggregateFactory = ({
-  loadAggregate,
-}: LoadAggregateFactoryDependencies) => {
-  return async (identifiantProjet: IdentifiantProjetValueType) => {
-    return loadAggregate<GestionnaireRéseauProjet, GestionnaireRéseauProjetEvent>(
-      createGestionnaireRéseauProjetAggregateId(identifiantProjet),
-      gestionnaireRéseauProjetAggregateFactory,
-    );
-  };
-};
+// export const loadGestionnaireRéseauProjetAggregateFactory = ({
+//   loadAggregate,
+// }: LoadAggregateFactoryDependencies) => {
+//   return async (identifiantProjet: IdentifiantProjetValueType) => {
+//     return loadAggregate<GestionnaireRéseauProjet, GestionnaireRéseauProjetEvent>(
+//       createGestionnaireRéseauProjetAggregateId(identifiantProjet),
+//       gestionnaireRéseauProjetAggregateFactory,
+//     );
+//   };
+// };
