@@ -12,9 +12,6 @@
       "path": "../libraries/monads"
     },
     {
-      "path": "../domain-usecases"
-    },
-    {
       "path": "../domain/core"
     },
     {

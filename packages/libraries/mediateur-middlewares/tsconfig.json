@@ -6,22 +6,10 @@
   },
   "references": [
     {
-      "path": "../../domain-inmemory-referential"
-    },
-    {
-      "path": "../../domain-usecases"
-    },
-    {
       "path": "../../domain/core"
     },
     {
-      "path": "../../libraries/pg-event-sourcing"
-    },
-    {
-      "path": "../../infrastructure/pg-projections"
-    },
-    {
-      "path": "../../infrastructure/domain-adapters"
+      "path": "../monitoring"
     }
   ]
 }
