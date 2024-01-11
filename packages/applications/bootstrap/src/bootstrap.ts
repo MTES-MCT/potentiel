@@ -6,7 +6,7 @@ import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
-import { setupGestionnaireRéseau } from './setupGestionnaireRéseau';
+import { setupRéseau } from './setupRéseau';
 
 export const bootstrap = async ({
   middlewares,
@@ -24,7 +24,7 @@ export const bootstrap = async ({
   setupUtilisateur();
 
   const unsetupLauréat = await setupLauréat();
-  const unsetupGestionnaireRéseau = await setupGestionnaireRéseau();
+  const unsetupGestionnaireRéseau = await setupRéseau();
 
   getLogger().info('Application bootstrapped');
 
