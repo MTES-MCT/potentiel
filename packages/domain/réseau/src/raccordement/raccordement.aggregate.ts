@@ -50,6 +50,11 @@ import {
   applyPropositionTechniqueEtFinancièreModifiéeEventV2,
   modifierPropositionTechniqueEtFinancière,
 } from './modifier/modifierPropositiontechniqueEtFinancière.behavior';
+import {
+  GestionnaireRéseauRaccordementModifiéEvent,
+  applyGestionnaireRéseauRaccordementModifiéEventV1,
+  modifierGestionnaireRéseau,
+} from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -67,7 +72,8 @@ export type RaccordementRéseauEvent =
   | DateMiseEnServiceTransmiseEvent
   | DemandeComplèteRaccordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEvent
-  | PropositionTechniqueEtFinancièreModifiéeEvent;
+  | PropositionTechniqueEtFinancièreModifiéeEvent
+  | GestionnaireRéseauRaccordementModifiéEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -94,6 +100,7 @@ export type RaccordementAggregate = Aggregate<RaccordementRéseauEvent> & {
   readonly modifierDemandeComplèteRaccordement: typeof modifierDemandeComplèteRaccordement;
   readonly modifierRéférenceDossierRacordement: typeof modifierRéférenceDossierRacordement;
   readonly modifierPropositionTechniqueEtFinancière: typeof modifierPropositionTechniqueEtFinancière;
+  readonly modifierGestionnaireRéseau: typeof modifierGestionnaireRéseau;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
 };
@@ -112,6 +119,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   modifierDemandeComplèteRaccordement,
   modifierRéférenceDossierRacordement,
   modifierPropositionTechniqueEtFinancière,
+  modifierGestionnaireRéseau,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
@@ -166,6 +174,9 @@ function apply(this: RaccordementAggregate, event: RaccordementRéseauEvent) {
       break;
     case 'DateMiseEnServiceTransmise-V1':
       applyDateMiseEnServiceTransmiseEventV1.bind(this)(event);
+      break;
+    case 'GestionnaireRéseauRaccordementModifié-V1':
+      applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);
       break;
   }
 }
