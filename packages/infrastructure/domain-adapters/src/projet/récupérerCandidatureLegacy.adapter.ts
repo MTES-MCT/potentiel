@@ -1,4 +1,4 @@
-import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import {
   CandidatureLegacyReadModel,
   RécupérerCandidatureLegacyPort,
@@ -60,12 +60,9 @@ export const récupérerCandidatureAdapter: RécupérerCandidatureLegacyPort = a
 
   return {
     ...projet,
-    identifiantProjet: convertirEnIdentifiantProjet({
-      appelOffre,
-      période,
-      famille,
-      numéroCRE,
-    }).formatter(),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(
+      `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+    ).formatter(),
     type: 'projet',
   };
 };
