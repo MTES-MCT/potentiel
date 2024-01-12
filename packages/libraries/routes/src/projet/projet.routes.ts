@@ -1,2 +1,4 @@
+import { encodeParameter } from '../encodeParameter';
+
 export const details = (identifiantProjet: string) =>
-  `/projet/${encodeURIComponent(identifiantProjet)}/details.html`;
+  `/projet/${encodeParameter(identifiantProjet)}/details.html`;

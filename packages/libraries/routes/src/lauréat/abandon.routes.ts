@@ -1,13 +1,15 @@
+import { encodeParameter } from '../encodeParameter';
+
 export const lister = '/abandons';
 
 export const détail = (identifiantProjet: string) =>
-  `/laureats/${encodeURIComponent(identifiantProjet)}/abandon`;
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon`;
 
 export const demander = (identifiantProjet: string) =>
-  `/laureats/${encodeURIComponent(identifiantProjet)}/abandon/demander`;
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon/demander`;
 
 export const téléchargerModèleRéponse = (identifiantProjet: string) =>
-  `/laureats/${encodeURIComponent(identifiantProjet)}/abandon/modele-reponse`;
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`;
 
 export const transmettrePreuveRecandidature = (identifiantProjet: string) =>
-  `/laureats/${encodeURIComponent(identifiantProjet)}/abandon/transmettre-preuve-recandidature`;
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon/transmettre-preuve-recandidature`;

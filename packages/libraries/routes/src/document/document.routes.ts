@@ -1,2 +1,4 @@
+import { encodeParameter } from '../encodeParameter';
+
 export const télécharger = (identifiantDocument: string) =>
-  `/documents/${encodeURIComponent(identifiantDocument)}`;
+  `/documents/${encodeParameter(identifiantDocument)}`;
