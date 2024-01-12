@@ -37,7 +37,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       const appelOffre = searchParams?.appelOffre;
 
-      const statutPreuveRecandidature = searchParams?.statutPreuveRecandidature;
+      const preuveRecandidatureStatut = searchParams?.preuveRecandidatureStatut;
 
       const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
         type: 'LISTER_ABANDONS_QUERY',
@@ -50,7 +50,8 @@ export default async function Page({ searchParams }: PageProps) {
           recandidature,
           statut,
           appelOffre,
-          statutPreuveRecandidature,
+          ...((preuveRecandidatureStatut === 'transmise' ||
+            preuveRecandidatureStatut === 'en-attente') && { preuveRecandidatureStatut }),
         },
       });
 
@@ -84,25 +85,21 @@ export default async function Page({ searchParams }: PageProps) {
             },
           ],
         },
-        ...(searchParams?.recandidature === 'true'
-          ? [
-              {
-                label: 'Preuve de recandidature',
-                searchParamKey: 'statutPreuveRecandidature',
-                defaultValue: searchParams?.statutPreuveRecandidature,
-                options: [
-                  {
-                    label: 'Transmise',
-                    value: 'transmise',
-                  },
-                  {
-                    label: 'En attente',
-                    value: 'en-attente',
-                  },
-                ],
-              },
-            ]
-          : []),
+        {
+          label: 'Preuve de recandidature',
+          searchParamKey: 'preuveRecandidatureStatut',
+          defaultValue: searchParams?.preuveRecandidatureStatut,
+          options: [
+            {
+              label: 'Transmise',
+              value: 'transmise',
+            },
+            {
+              label: 'En attente',
+              value: 'en-attente',
+            },
+          ],
+        },
         {
           label: 'Statut',
           searchParamKey: 'statut',
@@ -134,7 +131,7 @@ const mapToListProps = (
       statut: { statut },
       misÀJourLe,
       recandidature,
-      statutPreuveRecandidature,
+      preuveRecandidatureStatut,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -144,7 +141,7 @@ const mapToListProps = (
       statut,
       misÀJourLe: displayDate(misÀJourLe.date),
       recandidature,
-      statutPreuveRecandidature,
+      preuveRecandidatureStatut,
     }),
   );
 

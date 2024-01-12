@@ -32,7 +32,6 @@ export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteur
   identifiantUtilisateur,
   where,
   pagination,
-  preuveRecandidatureTransmise,
 }) => {
   const whereClause = where
     ? format(
@@ -43,26 +42,19 @@ export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteur
       )
     : '';
 
-  const preuveRecandidatureClause =
-    preuveRecandidatureTransmise !== undefined
-      ? `and value ->> 'preuveRecandidature' is ${
-          preuveRecandidatureTransmise === true ? `not` : ''
-        } null`
-      : '';
-
   const paginationClause = format(
     'limit %s offset %s',
     pagination.itemsPerPage,
     pagination.page <= 1 ? 0 : (pagination.page - 1) * pagination.itemsPerPage,
   );
 
-  const query = `${getAbandonsQuery} ${whereClause} ${preuveRecandidatureClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
+  const query = `${getAbandonsQuery} ${whereClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
 
   const result = await executeSelect<{
     value: Abandon.AbandonProjection;
   }>(query, identifiantUtilisateur, ...(where ? Object.values(where) : []));
 
-  const countQuery = `${countAbandonsQuery} ${whereClause} ${preuveRecandidatureClause}`;
+  const countQuery = `${countAbandonsQuery} ${whereClause}`;
   const countResult = await executeSelect<{ totalItems: string }>(
     countQuery,
     identifiantUtilisateur,

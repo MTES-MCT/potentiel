@@ -18,7 +18,6 @@ export const listerAbandonsAdapter: Abandon.ListerAbandonsPort = async ({
   where,
   pagination,
   région,
-  preuveRecandidatureTransmise,
 }) => {
   const whereClause = where
     ? format(
@@ -28,13 +27,6 @@ export const listerAbandonsAdapter: Abandon.ListerAbandonsPort = async ({
         ...Object.keys(where),
       )
     : '';
-
-  const preuveRecandidatureClause =
-    preuveRecandidatureTransmise !== undefined
-      ? `and value ->> 'preuveRecandidature' is ${
-          preuveRecandidatureTransmise === true ? `not` : ''
-        } null`
-      : '';
 
   const régionClause = région
     ? `and $${
@@ -48,13 +40,13 @@ export const listerAbandonsAdapter: Abandon.ListerAbandonsPort = async ({
     pagination.page <= 1 ? 0 : (pagination.page - 1) * pagination.itemsPerPage,
   );
 
-  const query = `${getAbandonsQuery} ${whereClause} ${régionClause} ${preuveRecandidatureClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
+  const query = `${getAbandonsQuery} ${whereClause} ${régionClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
 
   const result = await executeSelect<{
     value: Abandon.AbandonProjection;
   }>(query, ...(where ? Object.values(where) : []).concat(région ? [région] : []));
 
-  const countQuery = `${countAbandonsQuery} ${whereClause} ${régionClause} ${preuveRecandidatureClause}`;
+  const countQuery = `${countAbandonsQuery} ${whereClause} ${régionClause}`;
   const countResult = await executeSelect<{ totalItems: string }>(
     countQuery,
     ...(where ? Object.values(where) : []).concat(région ? [région] : []),

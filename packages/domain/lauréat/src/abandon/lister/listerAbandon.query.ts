@@ -13,7 +13,7 @@ type AbandonListItemReadModel = {
   nomProjet: string;
   statut: StatutAbandon.ValueType;
   recandidature: boolean;
-  statutPreuveRecandidature?: string;
+  preuveRecandidatureStatut: AbandonProjection['preuveRecandidatureStatut'];
   misÀJourLe: DateTime.ValueType;
 };
 
@@ -27,6 +27,7 @@ export type ListerAbandonReadModel = {
 export type ListerAbandonsPort = (args: {
   where: {
     recandidature?: boolean;
+    preuveRecandidatureStatut?: 'transmise' | 'en-attente';
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
   };
@@ -35,7 +36,6 @@ export type ListerAbandonsPort = (args: {
     itemsPerPage: number;
   };
   région?: string;
-  preuveRecandidatureTransmise?: boolean;
 }) => Promise<{
   items: ReadonlyArray<AbandonProjection>;
   currentPage: number;
@@ -47,6 +47,7 @@ export type ListerAbandonsPourPorteurPort = (args: {
   identifiantUtilisateur: string;
   where: {
     recandidature?: boolean;
+    preuveRecandidatureStatut?: 'transmise' | 'en-attente';
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
   };
@@ -54,7 +55,6 @@ export type ListerAbandonsPourPorteurPort = (args: {
     page: number;
     itemsPerPage: number;
   };
-  preuveRecandidatureTransmise?: boolean;
 }) => Promise<{
   items: ReadonlyArray<AbandonProjection>;
   currentPage: number;
@@ -76,7 +76,7 @@ export type ListerAbandonsQuery = Message<
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
-    statutPreuveRecandidature?: string;
+    preuveRecandidatureStatut?: 'transmise' | 'en-attente';
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
@@ -97,15 +97,17 @@ export const registerListerAbandonQuery = ({
     recandidature,
     statut,
     appelOffre,
-    statutPreuveRecandidature,
+    preuveRecandidatureStatut,
     utilisateur: { email, rôle },
     pagination: { page, itemsPerPage },
   }) => {
     const where = {
       ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
-      ...(statutPreuveRecandidature && { statut: 'accordé' }),
       ...(statut && { statut }),
       ...(appelOffre && { appelOffre }),
+      ...(preuveRecandidatureStatut && {
+        preuveRecandidatureStatut,
+      }),
     };
 
     if (['admin', 'dgec-validateur'].includes(rôle)) {
@@ -115,9 +117,6 @@ export const registerListerAbandonQuery = ({
           page,
           itemsPerPage,
         },
-        ...(statutPreuveRecandidature && {
-          preuveRecandidatureTransmise: statutPreuveRecandidature === 'transmise',
-        }),
       });
       return {
         ...abandons,
@@ -138,9 +137,6 @@ export const registerListerAbandonQuery = ({
           itemsPerPage,
         },
         région: région.région,
-        ...(statutPreuveRecandidature && {
-          preuveRecandidatureTransmise: statutPreuveRecandidature === 'transmise',
-        }),
       });
       return {
         ...abandons,
@@ -152,9 +148,6 @@ export const registerListerAbandonQuery = ({
       identifiantUtilisateur: email,
       where,
       pagination: { itemsPerPage, page },
-      ...(statutPreuveRecandidature && {
-        preuveRecandidatureTransmise: statutPreuveRecandidature === 'transmise',
-      }),
     });
     return {
       ...abandons,
@@ -172,8 +165,5 @@ const mapToReadModel = (projection: AbandonProjection): AbandonListItemReadModel
     recandidature: projection.demandeRecandidature,
     misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
-    ...(projection.statut === 'accordé' && {
-      statutPreuveRecandidature: projection.preuveRecandidature ? 'transmise' : 'en-attente',
-    }),
   };
 };
