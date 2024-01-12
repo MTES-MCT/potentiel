@@ -15,13 +15,11 @@ import { Routes } from '@potentiel-libraries/routes';
 
 export type DemanderAbandonPageProps = {
   projet: ProjetPageTemplateProps['projet'];
-  identifiantUtilisateur: string;
   showRecandidatureCheckBox: boolean;
 };
 
 export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
   projet,
-  identifiantUtilisateur,
   showRecandidatureCheckBox,
 }) => {
   const router = useRouter();
@@ -42,7 +40,6 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
             <Input
               textArea

@@ -26,7 +26,6 @@ export type DetailAbandonPageProps = {
   projet: ProjetPageTemplateProps['projet'];
   abandon: EtapesAbandonProps;
   statut: StatutBadgeProps['statut'];
-  identifiantUtilisateur: string;
   actions: AvailableActions;
 };
 
@@ -34,7 +33,6 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   projet,
   abandon,
   statut,
-  identifiantUtilisateur,
   actions,
 }) => {
   return (
@@ -55,7 +53,6 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
       actions={mapToActionComponents({
         actions,
         identifiantProjet: projet.identifiantProjet,
-        identifiantUtilisateur,
       })}
     />
   );
@@ -64,50 +61,24 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
 const mapToActionComponents = ({
   actions,
   identifiantProjet,
-  identifiantUtilisateur,
 }: {
   actions: AvailableActions;
   identifiantProjet: string;
-  identifiantUtilisateur: string;
 }) => {
   return actions.length ? (
     <>
       {actions.includes('demander-confirmation') && (
-        <DemanderConfirmationAbandon
-          identifiantProjet={identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
-        />
+        <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('accorder-avec-recandidature') && (
-        <AccorderAbandonAvecRecandidature
-          identifiantProjet={identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
-        />
+        <AccorderAbandonAvecRecandidature identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('accorder-sans-recandidature') && (
-        <AccorderAbandonSansRecandidature
-          identifiantProjet={identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
-        />
+        <AccorderAbandonSansRecandidature identifiantProjet={identifiantProjet} />
       )}
-      {actions.includes('rejeter') && (
-        <RejeterAbandon
-          identifiantProjet={identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
-        />
-      )}
-      {actions.includes('confirmer') && (
-        <ConfirmerAbandon
-          identifiantProjet={identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
-        />
-      )}
-      {actions.includes('annuler') && (
-        <AnnulerAbandon
-          identifiantProjet={identifiantProjet}
-          identifiantUtilisateur={identifiantUtilisateur}
-        />
-      )}
+      {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
+      {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
+      {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
     </>
   ) : null;
 };

@@ -1,20 +1,20 @@
 import { mediator } from 'mediateur';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getUser } from '@/utils/getUtilisateur';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+
+import { NotFoundError } from '@potentiel-domain/core';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { CahierDesCharges } from '@potentiel-domain/laureat';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { Routes } from '@potentiel-libraries/routes';
+
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
 } from '@/components/pages/abandon/demander/DemanderAbandonPage';
-import { CahierDesCharges } from '@potentiel-domain/laureat';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
-import { NotFoundError } from '@potentiel-domain/core';
-import { Metadata } from 'next';
-import { Routes } from '@potentiel-libraries/routes';
 
 export const metadata: Metadata = {
   title: "Demander l'abandon du projet - Potentiel",
@@ -24,23 +24,6 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
-
-    const utilisateur = await getUser();
-    if (!utilisateur) {
-      redirect('/login.html');
-    }
-
-    // TODO : Rendre cette vérification automatiquement lors de l'exécution
-    //        d'un(e) query/usecase avec un identifiantProjet
-    if (utilisateur.rôle === 'porteur-projet') {
-      await mediator.send<VérifierAccèsProjetQuery>({
-        type: 'VERIFIER_ACCES_PROJET_QUERY',
-        data: {
-          identifiantProjet,
-          identifiantUtilisateur: utilisateur.email,
-        },
-      });
-    }
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'CONSULTER_CANDIDATURE_QUERY',
@@ -74,7 +57,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     // TODO: extract the logic in a dedicated function mapToProps
     // identifiantProjet must come from the readmodel as a value type
     const demanderAbandonPageProps: DemanderAbandonPageProps = {
-      identifiantUtilisateur: utilisateur.email,
       projet: { ...candidature, identifiantProjet },
       showRecandidatureCheckBox: période.abandonAvecRecandidature ? true : false,
     };

@@ -17,11 +17,11 @@ const getEstUnProjetAccessibleQuery = `
 `;
 
 export const vérifierAccèsProjetAdapter: VérifierAccèsProjetPort = async ({
-  identifiantProjet,
-  identifiantUtilisateur,
+  identifiantProjetValue,
+  identifiantUtilisateurValue,
 }) => {
   const { appelOffre, période, famille, numéroCRE } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
+    IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
   const results = await executeSelect<{ exists: 1 }>(
     getEstUnProjetAccessibleQuery,
@@ -29,7 +29,7 @@ export const vérifierAccèsProjetAdapter: VérifierAccèsProjetPort = async ({
     période,
     numéroCRE,
     famille,
-    identifiantUtilisateur,
+    identifiantUtilisateurValue,
   );
 
   return results.length > 0;

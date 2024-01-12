@@ -10,13 +10,9 @@ import { Routes } from '@potentiel-libraries/routes';
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
-  identifiantUtilisateur: string;
 };
 
-export const RejeterAbandon = ({
-  identifiantProjet,
-  identifiantUtilisateur,
-}: RejeterAbandonFormProps) => {
+export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
@@ -34,7 +30,6 @@ export const RejeterAbandon = ({
         children: (
           <>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
             <Upload
               label="Téléverser une réponse signée"

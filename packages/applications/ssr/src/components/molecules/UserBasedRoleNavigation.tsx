@@ -1,24 +1,24 @@
-import { getAccessToken } from '@/utils/getAccessToken';
+import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-libraries/routes';
 
 export async function UserBasedRoleNavigation() {
-  const accessToken = await getAccessToken();
+  let utilisateur: Utilisateur.ValueType | undefined;
 
-  const navigationItems = accessToken
-    ? getNavigationItemsBasedOnRole(Utilisateur.convertirEnValueType(accessToken).role.nom)
-    : [];
+  try {
+    utilisateur = await getAuthenticatedUser({});
+  } catch (error) {}
 
-  return (
-    <>
-      <MainNavigation id="header-navigation" items={navigationItems}></MainNavigation>
-    </>
-  );
+  const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
+
+  return <MainNavigation items={navigationItems} />;
 }
 
-const getNavigationItemsBasedOnRole = (role: string): MainNavigationProps['items'] => {
-  switch (role) {
+const getNavigationItemsBasedOnRole = (
+  utilisateur: Utilisateur.ValueType,
+): MainNavigationProps['items'] => {
+  switch (utilisateur.role.nom) {
     case 'admin':
     case 'dgec-validateur':
       return [

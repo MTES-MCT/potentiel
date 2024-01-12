@@ -19,13 +19,11 @@ type ProjetÀSélectionner = {
 export type TransmettrePreuveRecandidatureFormProps = {
   identifiantProjet: string;
   projetsÀSélectionner: Array<ProjetÀSélectionner>;
-  identifiantUtilisateur: string;
 };
 
 export const TransmettrePreuveRecandidatureForm = ({
   identifiantProjet,
   projetsÀSélectionner,
-  identifiantUtilisateur,
 }: TransmettrePreuveRecandidatureFormProps) => {
   const router = useRouter();
 
@@ -41,7 +39,6 @@ export const TransmettrePreuveRecandidatureForm = ({
       onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
       <SelectNext
         label="Choisir un projet comme preuve de recandidature"

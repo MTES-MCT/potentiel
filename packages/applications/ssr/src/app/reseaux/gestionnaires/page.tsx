@@ -1,7 +1,5 @@
 import { mediator } from 'mediateur';
 
-import { getUser } from '@/utils/getUtilisateur';
-import { OperationRejectedError } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { GestionnaireRéseauListPage } from '@/components/pages/réseau/gestionnaire/GestionnaireRéseauListPage';
@@ -14,21 +12,15 @@ export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
-    const utilisateur = await getUser();
+    const gestionnaireRéseaux =
+      await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
+        type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        data: {
+          pagination: { page, itemsPerPage: 10 },
+        },
+      });
 
-    if (utilisateur?.rôle === 'admin') {
-      const gestionnaireRéseaux =
-        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-          type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
-          data: {
-            pagination: { page, itemsPerPage: 10 },
-          },
-        });
-
-      return <GestionnaireRéseauListPage list={mapToListProps(gestionnaireRéseaux)} />;
-    }
-
-    throw new OperationRejectedError('Utilisateur non connecté');
+    return <GestionnaireRéseauListPage list={mapToListProps(gestionnaireRéseaux)} />;
   });
 }
 

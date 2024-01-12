@@ -1,14 +1,14 @@
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
+
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tache';
 
+import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheListPage';
 import { displayDate } from '@/utils/displayDate';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheListPage';
-import { getUser } from '@/utils/getUtilisateur';
-import { OperationRejectedError } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import type { Metadata } from 'next';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -20,14 +20,12 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ searchParams }: IdentifiantParameter & PageProps) {
-  return PageWithErrorHandling(async () => {
-    const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
-    const appelOffre = searchParams?.appelOffre;
+      const appelOffre = searchParams?.appelOffre;
 
-    const utilisateur = await getUser();
-
-    if (utilisateur) {
       const appelOffres = await mediator.send<ListerAppelOffreQuery>({
         type: 'LISTER_APPEL_OFFRE_QUERY',
         data: {},
@@ -37,7 +35,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         type: 'LISTER_TÂCHES_QUERY',
         data: {
           pagination: { page, itemsPerPage: 10 },
-          email: utilisateur.email,
+          email: utilisateur.identifiantUtilisateur.email,
           appelOffre,
         },
       });
@@ -55,10 +53,8 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
       ];
 
       return <TâcheListPage list={mapToListProps(tâches)} filters={filters} />;
-    }
-
-    throw new OperationRejectedError('Utilisateur non connecté');
-  });
+    }),
+  );
 }
 
 const mapToListProps = (readModel: ListerTâcheReadModel): TâcheListPageProps['list'] => {

@@ -11,12 +11,10 @@ import { Routes } from '@potentiel-libraries/routes';
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
-  identifiantUtilisateur: string;
 };
 
 export const AccorderAbandonSansRecandidature = ({
   identifiantProjet,
-  identifiantUtilisateur,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
@@ -35,7 +33,6 @@ export const AccorderAbandonSansRecandidature = ({
         children: (
           <>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <input type={'hidden'} value={identifiantUtilisateur} name="identifiantUtilisateur" />
 
             <Upload
               label="Téléverser une réponse signée"

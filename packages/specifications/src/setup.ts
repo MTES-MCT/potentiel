@@ -57,7 +57,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
   clear();
 
   unsetupApp = await bootstrapWeb();
-  unsetup = await bootstrap();
+  unsetup = await bootstrap({ middlewares: [] });
 });
 
 After(async () => {
