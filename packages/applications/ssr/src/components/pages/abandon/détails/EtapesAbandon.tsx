@@ -15,15 +15,17 @@ import Download from '@codegouvfr/react-dsfr/Download';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
+import { PreuveRecandidatureStatutBadgeProps } from './PreuveRecandidatureStatutBadge';
 
 export type EtapesAbandonProps = {
   demande: {
     demandéPar: string;
     demandéLe: string;
     recandidature: boolean;
+    preuveRecandidatureStatut: PreuveRecandidatureStatutBadgeProps['statut'];
+    preuveRecandidature?: string;
     raison: string;
     pièceJustificative?: string;
-    preuveRecandidature?: string;
   };
   confirmation?: {
     demandéLe: string;
@@ -36,14 +38,14 @@ export type EtapesAbandonProps = {
   rejet?: { rejetéPar: string; rejetéLe: string; réponseSignée: string };
 };
 
-export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
-  statut,
+export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   demande: {
     demandéLe,
     demandéPar,
     recandidature,
     raison,
     pièceJustificative: justificatifDemande,
+    preuveRecandidatureStatut,
     preuveRecandidature,
   },
   confirmation,
@@ -87,27 +89,23 @@ export const EtapesAbandon: FC<EtapesAbandonProps & { statut: string }> = ({
         />
       )}
 
-      {recandidature && statut === 'accordé' && (
-        <div>
-          <p className="font-bold mb-4">
-            {preuveRecandidature ? (
-              <span>
-                Le porteur a bien transmis un{' '}
-                <a
-                  href={Routes.Projet.details(preuveRecandidature)}
-                  aria-label={`voir le projet faisant office de preuve de recandidature`}
-                >
-                  projet comme preuve de recandidature
-                </a>
-                .
-              </span>
-            ) : (
-              <span>
-                Le porteur n'a pas encore transmis de projet comme preuve de recandidature.
-              </span>
-            )}
-          </p>
-        </div>
+      {preuveRecandidatureStatut === 'transmise' && preuveRecandidature && (
+        <p className="font-bold mb-4">
+          Le porteur a bien transmis un{' '}
+          <a
+            href={Routes.Projet.details(preuveRecandidature)}
+            aria-label={`voir le projet faisant office de preuve de recandidature`}
+          >
+            projet comme preuve de recandidature
+          </a>
+          .
+        </p>
+      )}
+
+      {preuveRecandidatureStatut === 'en-attente' && (
+        <p className="font-bold mb-4">
+          Le porteur n'a pas encore transmis de projet comme preuve de recandidature.
+        </p>
       )}
 
       <Timeline
