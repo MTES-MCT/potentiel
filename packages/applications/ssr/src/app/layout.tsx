@@ -17,7 +17,11 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default function RootLayout({ children }: { children: JSX.Element }) {
+type RootLayoutProps = {
+  children: JSX.Element;
+};
+
+export default function RootLayout({ children }: RootLayoutProps) {
   //NOTE: The lang parameter is optional and defaults to "fr"
   return (
     <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">

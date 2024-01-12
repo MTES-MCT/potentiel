@@ -1,10 +1,13 @@
 import { mediator } from 'mediateur';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
-export const GET = async (
-  request: Request,
-  { params: { documentKey } }: { params: { documentKey: string } },
-) => {
+type DocumentKeyParameter = {
+  params: {
+    documentKey: string;
+  };
+};
+
+export const GET = async (request: Request, { params: { documentKey } }: DocumentKeyParameter) => {
   const result = await mediator.send<ConsulterDocumentProjetQuery>({
     type: 'CONSULTER_DOCUMENT_PROJET',
     data: {
