@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { StatutAbandon , StatutPreuveRecandidature } from '..';
+import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { Option, isNone } from '@potentiel/monads';
 import { RégionNonTrouvéeError } from '../régionNonTrouvée.error';
 
@@ -110,7 +110,7 @@ export const registerListerAbandonQuery = ({
       }),
     };
 
-    if (['admin', 'dgec-validateur'].includes(rôle)) {
+    if (['admin', 'dgec-validateur', 'cre'].includes(rôle)) {
       const abandons = await listerAbandons({
         where,
         pagination: {
