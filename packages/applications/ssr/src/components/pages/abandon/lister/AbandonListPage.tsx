@@ -29,6 +29,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
   const recandidature = searchParams.has('recandidature')
     ? searchParams.get('recandidature') === 'true'
     : undefined;
+  const preuveRecandidatureStatut = searchParams.get('preuveRecandidatureStatut') ?? undefined;
 
   const tagFilters = [
     ...(appelOffre
@@ -40,6 +41,16 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
           {
             label: `${recandidature ? 'avec' : 'sans'} recandidature`,
             searchParamKey: 'recandidature',
+          },
+        ]
+      : []),
+    ...(preuveRecandidatureStatut !== undefined
+      ? [
+          {
+            label: `preuve de recandidature ${
+              preuveRecandidatureStatut === 'transmise' ? 'transmise' : 'en attente'
+            }`,
+            searchParamKey: 'preuveRecandidatureStatut',
           },
         ]
       : []),

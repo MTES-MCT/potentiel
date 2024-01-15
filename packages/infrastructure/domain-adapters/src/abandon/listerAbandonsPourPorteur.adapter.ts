@@ -28,17 +28,17 @@ inner join (
 where key like 'abandon|%'
 `;
 
-export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteurPort = async (
+export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteurPort = async ({
   identifiantUtilisateur,
-  filters,
+  where,
   pagination,
-) => {
-  const whereClause = filters
+}) => {
+  const whereClause = where
     ? format(
-        Object.keys(filters)
+        Object.keys(where)
           .map((_, index) => `and value ->> %L = $${index + 2}`)
           .join(' '),
-        ...Object.keys(filters),
+        ...Object.keys(where),
       )
     : '';
 
@@ -52,13 +52,13 @@ export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteur
 
   const result = await executeSelect<{
     value: Abandon.AbandonProjection;
-  }>(query, identifiantUtilisateur, ...(filters ? Object.values(filters) : []));
+  }>(query, identifiantUtilisateur, ...(where ? Object.values(where) : []));
 
   const countQuery = `${countAbandonsQuery} ${whereClause}`;
   const countResult = await executeSelect<{ totalItems: string }>(
     countQuery,
     identifiantUtilisateur,
-    ...(filters ? Object.values(filters) : []),
+    ...(where ? Object.values(where) : []),
   );
 
   return {

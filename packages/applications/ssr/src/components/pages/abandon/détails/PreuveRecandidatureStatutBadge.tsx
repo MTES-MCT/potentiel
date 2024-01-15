@@ -1,17 +1,19 @@
 import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import { Abandon } from '@potentiel-domain/laureat';
 
-export type PreuveRecandidatureStatutBadgeProps = {
-  statut: 'transmise' | 'en-attente';
+export type StatutPreuveRecandidatureBadgeProps = {
+  statut: Abandon.StatutPreuveRecandidature.RawType;
   small?: true;
 };
-export const PreuveRecandidatureStatutBadge: FC<PreuveRecandidatureStatutBadgeProps> = ({
+export const StatutPreuveRecandidatureBadge: FC<StatutPreuveRecandidatureBadgeProps> = ({
   statut,
   small,
-}) => (
-  <Badge noIcon severity={statut === 'transmise' ? 'info' : 'warning'} small={small}>
-    {statut === 'transmise'
-      ? 'preuve de recandidature transmise'
-      : 'preuve de recandidature en attente'}
-  </Badge>
-);
+}) =>
+  (statut === 'transmise' || statut === 'en-attente') && (
+    <Badge noIcon severity={statut === 'transmise' ? 'success' : 'warning'} small={small}>
+      {statut === 'transmise'
+        ? 'preuve de recandidature transmise'
+        : 'preuve de recandidature en attente'}
+    </Badge>
+  );

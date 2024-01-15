@@ -30,7 +30,7 @@ export const register = () => {
 
       const abandon = await findProjection<AbandonProjection>(`abandon|${identifiantProjet}`);
 
-      const abandonDefaultValue = {
+      const abandonDefaultValue: Omit<AbandonProjection, 'type'> = {
         identifiantProjet,
         nomProjet: '',
         appelOffre: '',
@@ -41,6 +41,7 @@ export const register = () => {
         demandePièceJustificativeFormat: '',
         demandeRaison: '',
         demandeRecandidature: false,
+        preuveRecandidatureStatut: 'non-applicable',
         statut: 'demandé',
         misÀJourLe: DateTime.now().formatter(),
         régionProjet: [],
@@ -118,6 +119,7 @@ export const register = () => {
           await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             preuveRecandidature: payload.preuveRecandidature,
+            preuveRecandidatureStatut: 'transmise',
           });
           await removeProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
             `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,
@@ -127,6 +129,7 @@ export const register = () => {
           await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             preuveRecandidatureDemandéeLe: payload.demandéeLe,
+            preuveRecandidatureStatut: 'en-attente',
           });
           await upsertProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
             `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,

@@ -11,7 +11,8 @@ import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
 import { EtapesAbandonProps, EtapesAbandon } from './EtapesAbandon';
-import { PreuveRecandidatureStatutBadge } from './PreuveRecandidatureStatutBadge';
+import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
+import Badge from '@codegouvfr/react-dsfr/Badge';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -42,14 +43,17 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
         <div className="flex flex-col md:flex-row gap-3 items-center">
           <span>Abandon</span>
           <StatutBadge statut={statut} />
-          {abandon.demande.recandidature && abandon.accord?.accordéLe && (
-            <PreuveRecandidatureStatutBadge
-              statut={abandon.demande.preuveRecandidature ? 'transmise' : 'en-attente'}
-            />
+          {abandon.demande.recandidature && (
+            <>
+              <Badge noIcon severity="info">
+                avec recandidature
+              </Badge>
+              <StatutPreuveRecandidatureBadge statut={abandon.demande.preuveRecandidatureStatut} />
+            </>
           )}
         </div>
       }
-      details={<EtapesAbandon {...{ ...abandon, statut }} />}
+      details={<EtapesAbandon {...abandon} />}
       actions={mapToActionComponents({
         actions,
         identifiantProjet: projet.identifiantProjet,

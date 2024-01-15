@@ -81,6 +81,7 @@ export { registerAbandonQueries, registerAbandonUseCases } from './abandon.regis
 
 // ValueTypes
 export * as StatutAbandon from './statutAbandon.valueType';
+export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueType';
 export * as Abandon from './abandon.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 

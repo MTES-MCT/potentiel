@@ -8,7 +8,7 @@ export const statuts = [
   'demandé',
   'rejeté',
   'inconnu',
-];
+] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -132,7 +132,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = (statuts as Array<string>).includes(value);
+  const isValid = statuts.includes(value as RawType);
 
   if (!isValid) {
     throw new StatutAbandonInvalideError(value);

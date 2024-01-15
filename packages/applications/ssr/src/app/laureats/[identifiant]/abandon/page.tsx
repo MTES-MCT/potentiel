@@ -63,6 +63,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             ...(demande.preuveRecandidature && {
               preuveRecandidature: demande.preuveRecandidature.formatter(),
             }),
+            preuveRecandidatureStatut: demande.preuveRecandidatureStatut.statut,
           },
           ...(demande.confirmation && {
             confirmation: {

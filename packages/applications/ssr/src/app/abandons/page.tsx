@@ -37,6 +37,12 @@ export default async function Page({ searchParams }: PageProps) {
 
       const appelOffre = searchParams?.appelOffre;
 
+      const preuveRecandidatureStatut = searchParams?.preuveRecandidatureStatut
+        ? Abandon.StatutPreuveRecandidature.convertirEnValueType(
+            searchParams.preuveRecandidatureStatut,
+          ).statut
+        : undefined;
+
       const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
         type: 'LISTER_ABANDONS_QUERY',
         data: {
@@ -48,6 +54,7 @@ export default async function Page({ searchParams }: PageProps) {
           recandidature,
           statut,
           appelOffre,
+          preuveRecandidatureStatut,
         },
       });
 
@@ -82,6 +89,17 @@ export default async function Page({ searchParams }: PageProps) {
           ],
         },
         {
+          label: 'Preuve de recandidature',
+          searchParamKey: 'preuveRecandidatureStatut',
+          defaultValue: searchParams?.preuveRecandidatureStatut,
+          options: Abandon.StatutPreuveRecandidature.statuts
+            .filter((s) => s !== 'non-applicable')
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
+        },
+        {
           label: 'Statut',
           searchParamKey: 'statut',
           defaultValue: statut,
@@ -112,6 +130,7 @@ const mapToListProps = (
       statut: { statut },
       misÀJourLe,
       recandidature,
+      preuveRecandidatureStatut: { statut: preuveRecandidatureStatut },
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -121,6 +140,7 @@ const mapToListProps = (
       statut,
       misÀJourLe: displayDate(misÀJourLe.date),
       recandidature,
+      preuveRecandidatureStatut,
     }),
   );
 

@@ -18,6 +18,7 @@ export type AbandonProjection = Projection<
     demandeRaison: string;
     demandePièceJustificativeFormat?: string;
     demandeRecandidature: boolean;
+    preuveRecandidatureStatut: string;
     preuveRecandidature?: string;
     preuveRecandidatureDemandéeLe?: string;
     demandeDemandéPar: string;
