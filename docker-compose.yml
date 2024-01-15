@@ -40,7 +40,7 @@ services:
       /bin/sh -c " /usr/bin/mc alias set myminio http://s3:9000 minioadmin minioadmin; /usr/bin/mc mb myminio/potentiel; exit 0; "
     profiles: ['app']
   auth:
-    image: quay.io/keycloak/keycloak:23.0.4
+    image: quay.io/keycloak/keycloak
     restart: always
     container_name: potentiel_auth
     ports:
