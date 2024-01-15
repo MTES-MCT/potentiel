@@ -11,7 +11,7 @@ import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
 import { EtapesAbandonProps, EtapesAbandon } from './EtapesAbandon';
-import { PreuveRecandidatureStatutBadge } from './PreuveRecandidatureStatutBadge';
+import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
 type AvailableActions = Array<
@@ -48,7 +48,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
               <Badge noIcon severity="info">
                 avec recandidature
               </Badge>
-              <PreuveRecandidatureStatutBadge statut={abandon.demande.preuveRecandidatureStatut} />
+              <StatutPreuveRecandidatureBadge statut={abandon.demande.preuveRecandidatureStatut} />
             </>
           )}
         </div>

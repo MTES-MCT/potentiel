@@ -4,8 +4,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { StatutBadge } from '../../../molecules/StatutBadge';
 import { Routes } from '@potentiel-libraries/routes';
 import {
-  PreuveRecandidatureStatutBadge,
-  PreuveRecandidatureStatutBadgeProps,
+  StatutPreuveRecandidatureBadge,
 } from '../détails/PreuveRecandidatureStatutBadge';
 
 export type AbandonListItemProps = {
@@ -16,7 +15,7 @@ export type AbandonListItemProps = {
   famille?: string;
   statut: Abandon.StatutAbandon.RawType;
   recandidature: boolean;
-  preuveRecandidatureStatut: PreuveRecandidatureStatutBadgeProps['statut'];
+  preuveRecandidatureStatut: Abandon.StatutPreuveRecandidature.RawType;
   misÀJourLe: string;
 };
 
@@ -57,7 +56,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
               <Badge noIcon small severity="info">
                 avec recandidature
               </Badge>
-              <PreuveRecandidatureStatutBadge small statut={preuveRecandidatureStatut} />
+              <StatutPreuveRecandidatureBadge small statut={preuveRecandidatureStatut} />
             </>
           )}
         </div>

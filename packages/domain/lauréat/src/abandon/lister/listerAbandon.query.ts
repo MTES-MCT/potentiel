@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonProjection } from '../abandon.projection';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { StatutAbandon } from '..';
+import { StatutAbandon , StatutPreuveRecandidature } from '..';
 import { Option, isNone } from '@potentiel/monads';
 import { RégionNonTrouvéeError } from '../régionNonTrouvée.error';
 
@@ -13,7 +13,7 @@ type AbandonListItemReadModel = {
   nomProjet: string;
   statut: StatutAbandon.ValueType;
   recandidature: boolean;
-  preuveRecandidatureStatut: AbandonProjection['preuveRecandidatureStatut'];
+  preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
   misÀJourLe: DateTime.ValueType;
 };
 
@@ -27,7 +27,7 @@ export type ListerAbandonReadModel = {
 export type ListerAbandonsPort = (args: {
   where: {
     recandidature?: boolean;
-    preuveRecandidatureStatut?: 'transmise' | 'en-attente';
+    preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
   };
@@ -47,7 +47,7 @@ export type ListerAbandonsPourPorteurPort = (args: {
   identifiantUtilisateur: string;
   where: {
     recandidature?: boolean;
-    preuveRecandidatureStatut?: 'transmise' | 'en-attente';
+    preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
   };
@@ -76,7 +76,7 @@ export type ListerAbandonsQuery = Message<
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
-    preuveRecandidatureStatut?: 'transmise' | 'en-attente';
+    preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     pagination: { page: number; itemsPerPage: number };
   },
   ListerAbandonReadModel
@@ -165,5 +165,8 @@ const mapToReadModel = (projection: AbandonProjection): AbandonListItemReadModel
     recandidature: projection.demandeRecandidature,
     misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
+    preuveRecandidatureStatut: StatutPreuveRecandidature.convertirEnValueType(
+      projection.preuveRecandidatureStatut,
+    ),
   };
 };

@@ -37,7 +37,11 @@ export default async function Page({ searchParams }: PageProps) {
 
       const appelOffre = searchParams?.appelOffre;
 
-      const preuveRecandidatureStatut = searchParams?.preuveRecandidatureStatut;
+      const preuveRecandidatureStatut = searchParams?.preuveRecandidatureStatut
+        ? Abandon.StatutPreuveRecandidature.convertirEnValueType(
+            searchParams.preuveRecandidatureStatut,
+          ).statut
+        : undefined;
 
       const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
         type: 'LISTER_ABANDONS_QUERY',
@@ -50,8 +54,7 @@ export default async function Page({ searchParams }: PageProps) {
           recandidature,
           statut,
           appelOffre,
-          ...((preuveRecandidatureStatut === 'transmise' ||
-            preuveRecandidatureStatut === 'en-attente') && { preuveRecandidatureStatut }),
+          preuveRecandidatureStatut,
         },
       });
 
@@ -89,16 +92,12 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Preuve de recandidature',
           searchParamKey: 'preuveRecandidatureStatut',
           defaultValue: searchParams?.preuveRecandidatureStatut,
-          options: [
-            {
-              label: 'Transmise',
-              value: 'transmise',
-            },
-            {
-              label: 'En attente',
-              value: 'en-attente',
-            },
-          ],
+          options: Abandon.StatutPreuveRecandidature.statuts
+            .filter((s) => s !== 'non-applicable')
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
         },
         {
           label: 'Statut',
@@ -131,7 +130,7 @@ const mapToListProps = (
       statut: { statut },
       misÀJourLe,
       recandidature,
-      preuveRecandidatureStatut,
+      preuveRecandidatureStatut: { statut: preuveRecandidatureStatut },
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,

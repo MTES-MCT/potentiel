@@ -18,7 +18,7 @@ export type AbandonProjection = Projection<
     demandeRaison: string;
     demandePièceJustificativeFormat?: string;
     demandeRecandidature: boolean;
-    preuveRecandidatureStatut: (typeof preuveRecandidatureStatuts)[number];
+    preuveRecandidatureStatut: string;
     preuveRecandidature?: string;
     preuveRecandidatureDemandéeLe?: string;
     demandeDemandéPar: string;
@@ -47,5 +47,3 @@ export type AbandonAvecRecandidatureSansPreuveProjection = Projection<
     demandéeLe: string;
   }
 >;
-
-const preuveRecandidatureStatuts = ['transmise', 'en-attente', 'non-applicable'] as const;

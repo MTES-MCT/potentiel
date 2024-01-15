@@ -15,14 +15,14 @@ import Download from '@codegouvfr/react-dsfr/Download';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
-import { PreuveRecandidatureStatutBadgeProps } from './PreuveRecandidatureStatutBadge';
+import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
 
 export type EtapesAbandonProps = {
   demande: {
     demandéPar: string;
     demandéLe: string;
     recandidature: boolean;
-    preuveRecandidatureStatut: PreuveRecandidatureStatutBadgeProps['statut'];
+    preuveRecandidatureStatut: StatutPreuveRecandidatureBadgeProps['statut'];
     preuveRecandidature?: string;
     raison: string;
     pièceJustificative?: string;

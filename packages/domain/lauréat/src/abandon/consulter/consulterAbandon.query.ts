@@ -10,6 +10,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { AbandonProjection } from '../abandon.projection';
 import { Find } from '@potentiel-libraries/projection';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+import { StatutPreuveRecandidature } from '..';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -19,7 +20,7 @@ export type ConsulterAbandonReadModel = {
     recandidature: boolean;
     preuveRecandidature?: IdentifiantProjet.ValueType;
     preuveRecandidatureDemandéeLe?: DateTime.ValueType;
-    preuveRecandidatureStatut: AbandonProjection['preuveRecandidatureStatut'];
+    preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
     piéceJustificative?: DocumentProjet.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: IdentifiantUtilisateur.ValueType;
@@ -75,7 +76,9 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
       preuveRecandidatureDemandéeLe: result.preuveRecandidatureDemandéeLe
         ? DateTime.convertirEnValueType(result.preuveRecandidatureDemandéeLe)
         : undefined,
-      preuveRecandidatureStatut: result.preuveRecandidatureStatut,
+      preuveRecandidatureStatut: StatutPreuveRecandidature.convertirEnValueType(
+        result.preuveRecandidatureStatut,
+      ),
       piéceJustificative: result.demandePièceJustificativeFormat
         ? DocumentProjet.convertirEnValueType(
             identifiantProjet.formatter(),
