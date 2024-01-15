@@ -18,6 +18,7 @@ export const exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance 
 }) => {
   const { puissanceInitiale } = project;
   const { min, max } = getRatiosChangementPuissance(project);
-  const ratio = nouvellePuissance / puissanceInitiale;
+  const ratio = (nouvellePuissance * 1000000) / (puissanceInitiale * 1000000);
+
   return !(ratio >= min && ratio <= max);
 };
