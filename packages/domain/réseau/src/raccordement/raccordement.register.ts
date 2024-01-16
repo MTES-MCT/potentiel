@@ -15,10 +15,31 @@ import { registerTransmettreDateMiseEnServiceCommand } from './transmettre/trans
 import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettre/transmettreDemandeComplèteRaccordement.command';
 import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/transmettrePropositionTechniqueEtFinancière.command';
 
-export type RaccordementQueryDependencies = {};
+import {
+  ConsulterDossierRaccordementDependencies,
+  registerConsulterDossierRaccordementQuery,
+} from './consulter/consulterDossierRaccordement.query';
+import {
+  ListerDossierRaccordementDependencies,
+  registerListerDossierRaccordementQuery,
+} from './lister/listerDossierRaccordement.query';
+import {
+  RechercherDossierRaccordementDependencies,
+  registerRechercherDossierRaccordementQuery,
+} from './rechercher/rechercherDossierRaccordement.query';
+
+export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
+  ListerDossierRaccordementDependencies &
+  RechercherDossierRaccordementDependencies;
 
 export type RaccordementCommandDependencies = {
   loadAggregate: LoadAggregate;
+};
+
+export const registerRaccordementQueries = (dependencies: RaccordementQueryDependencies) => {
+  registerConsulterDossierRaccordementQuery(dependencies);
+  registerListerDossierRaccordementQuery(dependencies);
+  registerRechercherDossierRaccordementQuery(dependencies);
 };
 
 export const registerRaccordementUseCases = ({
@@ -40,5 +61,3 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
 };
-
-export const registerRaccordementQueries = (dependencies: RaccordementQueryDependencies) => {};
