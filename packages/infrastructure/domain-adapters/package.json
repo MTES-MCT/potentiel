@@ -14,8 +14,6 @@
     "@potentiel-domain/document": "^0.0.0",
     "@potentiel-domain/utilisateur": "^0.0.0",
     "@potentiel-domain/laureat": "^0.0.0",
-    "@potentiel/domain-usecases": "^0.0.0",
-    "@potentiel/domain-views": "^0.0.0",
     "@potentiel/file-storage": "^0.0.0",
     "@potentiel/monads": "^0.0.0",
     "@potentiel/monitoring": "^0.0.0",

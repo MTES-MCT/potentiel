@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@potentiel/monads": "*",
-    "@potentiel/web": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {

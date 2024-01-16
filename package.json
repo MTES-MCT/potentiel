@@ -30,7 +30,6 @@
     "./packages/domain/lauréat",
     "./packages/domain/réseau",
     "./packages/domain/tâche",
-    "./packages/domain-views/",
     "./packages/libraries/mediateur-middlewares",
     "./packages/specifications",
     "./packages/domain-inmemory-referential/",

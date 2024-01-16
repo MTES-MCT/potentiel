@@ -10,13 +10,10 @@
     "specs": "cucumber-js"
   },
   "dependencies": {
-    "@potentiel/web": "*",
     "@potentiel-application/bootstrap": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/core": "^0.0.0",
-    "@potentiel/domain-usecases": "^0.0.0",
-    "@potentiel/domain-views": "^0.0.0",
     "@potentiel/file-storage": "^0.0.0",
     "@potentiel-infrastructure/domain-adapters": "^0.0.0",
     "@potentiel-infrastructure/pg-event-sourcing": "^0.0.0",
