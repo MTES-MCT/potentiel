@@ -6,9 +6,6 @@
   },
   "references": [
     {
-      "path": "../domain-usecases"
-    },
-    {
       "path": "../domain/core"
     },
     {
@@ -28,9 +25,6 @@
     },
     {
       "path": "../infrastructure/domain-adapters"
-    },
-    {
-      "path": "../applications/web"
     },
     {
       "path": "../applications/bootstrap"

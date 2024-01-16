@@ -33,9 +33,6 @@
   ],
   "references": [
     {
-      "path": "packages/domain-views"
-    },
-    {
       "path": "packages/specifications"
     },
     {
