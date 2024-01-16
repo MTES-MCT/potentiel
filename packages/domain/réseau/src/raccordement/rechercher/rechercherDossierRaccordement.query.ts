@@ -30,7 +30,7 @@ export const registerRechercherDossierRaccordementQuery = ({
     référenceDossierRaccordement,
   }) => {
     const result = await find<RéférenceRaccordementIdentifiantProjetEntity>(
-      `référence-raccordement-identifiant-projet|${référenceDossierRaccordement}`,
+      `référence-raccordement-projet|${référenceDossierRaccordement}`,
     );
 
     if (isNone(result)) {
