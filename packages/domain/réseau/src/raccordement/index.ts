@@ -6,17 +6,23 @@ import { ModifierDemandeComplèteRaccordementUseCase } from './modifier/modifier
 import { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/modifierGestionnaireRéseauRaccordement.usecase';
 import { ModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/modifierPropositiontechniqueEtFinancière.usecase';
 import { ModifierRéférenceDossierRaccordementUseCase } from './modifier/modifierRéférenceDossierRaccordement.usecase';
+import {
+  RechercherDossierRaccordementQuery,
+  RechercherDossierRaccordementReadModel,
+} from './rechercher/rechercherDossierRaccordement.query';
 import { TransmettreDateMiseEnServiceUseCase } from './transmettre/transmettreDateMiseEnService.usecase';
 import { TransmettreDemandeComplèteRaccordementUseCase } from './transmettre/transmettreDemandeComplèteRaccordement.usecase';
 import { TransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/transmettrePropositionTechniqueEtFinancière.usecase';
 
 // Query
-export type RaccordementQuery = ConsulterDossierRaccordementQuery;
+export type RaccordementQuery =
+  | ConsulterDossierRaccordementQuery
+  | RechercherDossierRaccordementQuery;
 
-export { ConsulterDossierRaccordementQuery };
+export { ConsulterDossierRaccordementQuery, RechercherDossierRaccordementQuery };
 
 // ReadModel
-export { ConsulterDossierRaccordementReadModel };
+export { ConsulterDossierRaccordementReadModel, RechercherDossierRaccordementReadModel };
 
 // UseCases
 export type GestionnaireRéseauUseCase =
