@@ -9,6 +9,9 @@
       "path": "../../domain/lauréat"
     },
     {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {

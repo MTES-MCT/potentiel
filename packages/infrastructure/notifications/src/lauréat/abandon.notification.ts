@@ -3,9 +3,11 @@ import { sendEmail } from '@potentiel/email-sender';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { isNone } from '@potentiel/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { RécupérerPorteursProjetPort } from '@potentiel/domain-views';
+import {
+  récupérerPorteursParIdentifiantProjetAdapter,
+  CandidatureAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import { Abandon } from '@potentiel-domain/laureat';
-import { CandidatureProjection, RécupérerCandidaturePort } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-libraries/routes';
 import { templateId } from '../templateId';
 
@@ -13,17 +15,15 @@ export type SubscriptionEvent = Abandon.AbandonEvent & Event;
 
 export type Execute = Message<'EXECUTE_LAUREAT_ABANDON_NOTIFICATION', SubscriptionEvent>;
 
-type Dependencies = {
-  récupérerCandidature: RécupérerCandidaturePort;
-  récupérerPorteursProjet: RécupérerPorteursProjetPort;
-};
-
 const sendEmailAbandonChangementDeStatut = async ({
   identifiantProjet,
   statut,
   templateId,
   recipients,
-  projet,
+  nomProjet,
+  départementProjet,
+  appelOffre,
+  période,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut:
@@ -35,17 +35,20 @@ const sendEmailAbandonChangementDeStatut = async ({
     | 'rejetée';
   templateId: number;
   recipients: Array<{ email: string; fullName: string }>;
-  projet: CandidatureProjection;
+  nomProjet: string;
+  départementProjet: string;
+  appelOffre: string;
+  période: string;
 }) => {
   const { BASE_URL } = process.env;
 
   await sendEmail({
     templateId,
-    messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
+    messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
     recipients,
     variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.localité.département,
+      nom_projet: nomProjet,
+      departement_projet: départementProjet,
       nouveau_statut: statut,
       abandon_url: `${BASE_URL}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
     },
@@ -56,18 +59,25 @@ const sendEmailAbandonChangementDeStatut = async ({
  *
  * @todo vérifier les urls de redirection des mails vers les différentes pages abandons
  */
-export const register = ({ récupérerCandidature, récupérerPorteursProjet }: Dependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const projet = await récupérerCandidature(identifiantProjet.formatter());
-    const porteurs = await récupérerPorteursProjet(identifiantProjet);
+    const projet = await CandidatureAdapter.récupérerCandidatureAdapter(
+      identifiantProjet.formatter(),
+    );
+    const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
     if (isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
       // Que faire ?
       return;
     }
+
+    const nomProjet = projet.nom;
+    const départementProjet = projet.localité.département;
+    const appelOffre = projet.appelOffre;
+    const période = projet.période;
 
     const admins = [
       {
@@ -85,7 +95,10 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           templateId: templateId.abandon.demander,
           recipients: [...porteurs, ...admins],
           identifiantProjet,
-          projet,
+          nomProjet,
+          départementProjet,
+          appelOffre,
+          période,
         });
         break;
       case 'AbandonAnnulé-V1':
@@ -94,7 +107,10 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           templateId: templateId.abandon.annuler,
           recipients: [...porteurs, ...admins],
           identifiantProjet,
-          projet,
+          nomProjet,
+          départementProjet,
+          appelOffre,
+          période,
         });
         break;
       case 'ConfirmationAbandonDemandée-V1':
@@ -103,7 +119,10 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           templateId: templateId.abandon.demanderConfirmation,
           recipients: porteurs,
           identifiantProjet,
-          projet,
+          nomProjet,
+          départementProjet,
+          appelOffre,
+          période,
         });
         break;
       case 'AbandonConfirmé-V1':
@@ -112,7 +131,10 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           templateId: templateId.abandon.demanderConfirmation,
           recipients: [...porteurs, ...admins],
           identifiantProjet,
-          projet,
+          nomProjet,
+          départementProjet,
+          appelOffre,
+          période,
         });
         break;
       case 'AbandonAccordé-V1':
@@ -121,7 +143,10 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           templateId: templateId.abandon.accorder,
           recipients: porteurs,
           identifiantProjet,
-          projet,
+          nomProjet,
+          départementProjet,
+          appelOffre,
+          période,
         });
         break;
       case 'AbandonRejeté-V1':
@@ -130,7 +155,10 @@ export const register = ({ récupérerCandidature, récupérerPorteursProjet }: 
           templateId: templateId.abandon.rejeter,
           recipients: porteurs,
           identifiantProjet,
-          projet,
+          nomProjet,
+          départementProjet,
+          appelOffre,
+          période,
         });
         break;
       case 'PreuveRecandidatureDemandée-V1':
