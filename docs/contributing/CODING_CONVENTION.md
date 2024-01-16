@@ -1,15 +1,13 @@
 # Convention de codage
 
-L'ensemble du projet suit la convention de codage proposée par google disponible en suivant ce lien : https://google.github.io/styleguide/tsguide.html
-
-## Application Front
+## Application Web
 
 ### Framework/Approche utilisé :
 
 - [NextJS](https://nextjs.org/) (App router + SSR)
 - [React](https://fr.legacy.reactjs.org/)
 - Atomic Web Design ([Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/))
-- react-dsfr
+- [react-dsfr](https://github.com/codegouvfr/react-dsfr)
 
 ### Structure :
 
@@ -47,6 +45,22 @@ Pour afficher le contenu d'une URL, on utilise une `page.tsx` qui a les responsa
 - Pour récupérer l'utilisateur courant il faut utiliser l'utilitaire `withUtilisateur`
 - En ce qui concerne les actions de formulaire utiliser l'utilitaire `formAction`
 
-## Apporter une modification du domaine métier
+## Domaine métier
 
-Toutes les règles métier sont implémenter dans des packages dédiés dans la partie `./packages/domain`.
+### Queries
+
+### Use cases
+
+### Commands
+
+### Sagas
+
+### Value type
+
+## Infrastructure
+
+### Adapters
+
+### Notifications
+
+### Projectors
