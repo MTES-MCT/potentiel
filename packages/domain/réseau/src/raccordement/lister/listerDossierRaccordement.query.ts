@@ -3,12 +3,12 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { Find } from '@potentiel-libraries/projection';
-import { DossierRaccordementEntity } from '../raccordement.entity';
+import { RaccordementEntity } from '../raccordement.entity';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-export type ConsulterDossierRaccordementReadModel = {
+export type ListerDossierRaccordementReadModel = Array<{
   référence: RéférenceDossierRaccordement.ValueType;
   demandeComplèteRaccordement: {
     dateQualification?: DateTime.ValueType;
@@ -21,67 +21,61 @@ export type ConsulterDossierRaccordementReadModel = {
   miseEnService?: {
     dateMiseEnService?: DateTime.ValueType;
   };
-};
+}>;
 
-export type ConsulterDossierRaccordementQuery = Message<
-  'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+export type ListerDossierRaccordementQuery = Message<
+  'LISTER_DOSSIER_RACCORDEMENT_QUERY',
   {
     identifiantProjetValue: string;
-    référenceDossierRaccordement: string;
   },
-  ConsulterDossierRaccordementReadModel
+  ListerDossierRaccordementReadModel
 >;
 
-export type ConsulterDossierRaccordementDependencies = {
+export type ListerDossierRaccordementDependencies = {
   find: Find;
 };
 
-export const registerConsulterDossierRaccordementQuery = ({
+export const registerListerDossierRaccordementQuery = ({
   find,
-}: ConsulterDossierRaccordementDependencies) => {
-  const handler: MessageHandler<ConsulterDossierRaccordementQuery> = async ({
+}: ListerDossierRaccordementDependencies) => {
+  const handler: MessageHandler<ListerDossierRaccordementQuery> = async ({
     identifiantProjetValue,
-    référenceDossierRaccordement,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const référence = RéférenceDossierRaccordement.convertirEnValueType(
-      référenceDossierRaccordement,
-    );
 
-    const result = await find<DossierRaccordementEntity>(
-      `dossier-raccordement|${identifiantProjet.formatter()}#${référenceDossierRaccordement}`,
-    );
+    const result = await find<RaccordementEntity>(`raccordement|${identifiantProjet.formatter()}`);
 
     if (isNone(result)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    return mapToResult(identifiantProjet, référence, result);
+    return result.demandes.map((demande) => mapToReadModel(identifiantProjet, demande));
   };
 
-  mediator.register('CONSULTER_DOSSIER_RACCORDEMENT_QUERY', handler);
+  mediator.register('LISTER_DOSSIER_RACCORDEMENT_QUERY', handler);
 };
 
-const mapToResult = (
+const mapToReadModel = (
   identifiantProjet: IdentifiantProjet.ValueType,
-  référence: RéférenceDossierRaccordement.ValueType,
   {
+    référence,
     demandeComplèteRaccordement,
     propositionTechniqueEtFinancière,
     miseEnService,
-  }: DossierRaccordementEntity,
-): ConsulterDossierRaccordementReadModel => {
+  }: RaccordementEntity['demandes'][number],
+): ListerDossierRaccordementReadModel[number] => {
+  const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(référence);
   return {
-    référence,
+    référence: référenceDossierRaccordement,
     demandeComplèteRaccordement: {
-      dateQualification: demandeComplèteRaccordement.dateQualification
+      dateQualification: demandeComplèteRaccordement?.dateQualification
         ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
         : undefined,
-      accuséRéception: demandeComplèteRaccordement.accuséRéception
+      accuséRéception: demandeComplèteRaccordement?.accuséRéception
         ? DocumentProjet.convertirEnValueType(
             identifiantProjet.formatter(),
             TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-              référence.formatter(),
+              référenceDossierRaccordement.formatter(),
             ).formatter(),
             demandeComplèteRaccordement.dateQualification || '',
             demandeComplèteRaccordement.accuséRéception.format,
@@ -96,7 +90,7 @@ const mapToResult = (
           propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
             identifiantProjet.formatter(),
             TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-              référence.formatter(),
+              référenceDossierRaccordement.formatter(),
             ).formatter(),
             propositionTechniqueEtFinancière.dateSignature,
             propositionTechniqueEtFinancière.format,
