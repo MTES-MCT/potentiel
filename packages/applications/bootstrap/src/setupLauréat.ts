@@ -5,9 +5,7 @@ import { AbandonNotification } from '@potentiel-infrastructure/notifications';
 import { AbandonProjector } from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
 import {
-  CandidatureAdapter,
   consulterCahierDesChargesChoisiAdapter,
-  récupérerPorteursProjetAdapter,
   listerAbandonsAdapter,
   listerAbandonsPourPorteurAdapter,
   récupérerRégionDrealAdapter,
@@ -27,11 +25,6 @@ export const setupLauréat = async () => {
     buildModèleRéponseAbandon: getModèleRéponseAbandon,
     listerAbandons: listerAbandonsAdapter,
     récupérerRégionDrealAdapter: récupérerRégionDrealAdapter,
-  });
-
-  AbandonNotification.register({
-    récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
-    récupérerPorteursProjet: récupérerPorteursProjetAdapter,
   });
 
   AbandonProjector.register();
