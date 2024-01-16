@@ -226,6 +226,12 @@ const getNavigationItemsBasedOnRole = (
           },
         },
         {
+          text: 'Abandons',
+          linkProps: {
+            href: Routes.Abandon.lister,
+          },
+        },
+        {
           text: 'Tableau de bord',
           linkProps: {
             href: '/cre/statistiques.html',

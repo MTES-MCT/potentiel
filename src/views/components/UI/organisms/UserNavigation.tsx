@@ -50,6 +50,12 @@ const MenuCre = (currentPage?: string) => (
       Projets
     </Header.MenuItem>
     <Header.MenuItem
+      href={Routes.Abandon.lister}
+      {...(currentPage === 'liste-abandons' && { isCurrent: true })}
+    >
+      Abandons
+    </Header.MenuItem>
+    <Header.MenuItem
       href={routes.GET_CRE_STATISTIQUES}
       {...(currentPage === 'cre-statistiques' && { isCurrent: true })}
     >

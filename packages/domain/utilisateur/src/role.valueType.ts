@@ -63,6 +63,7 @@ export const porteur = convertirEnValueType('porteur-projet');
 export const admin = convertirEnValueType('admin');
 export const dgecValidateur = convertirEnValueType('dgec-validateur');
 export const dreal = convertirEnValueType('dreal');
+export const cre = convertirEnValueType('cre');
 
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
@@ -115,7 +116,15 @@ const permissions: Record<RawType, string[]> = {
   'acheteur-obligé': [],
   ademe: [],
   'caisse-des-dépôts': [],
-  cre: [],
+  cre: [
+    //QUERY
+    'CONSULTER_ABANDON_QUERY',
+    'LISTER_ABANDONS_QUERY',
+    'LISTER_APPEL_OFFRE_QUERY',
+    'CONSULTER_CANDIDATURE_QUERY',
+    'CONSULTER_DOCUMENT_PROJET',
+    'DÉTECTER_ABANDON_QUERY',
+  ],
   dreal: [
     //QUERY
     'CONSULTER_ABANDON_QUERY',

@@ -36,7 +36,8 @@ export const registerVérifierAccèsProjetQuery = ({
     if (
       utilisateur.role.estÉgaleÀ(Role.admin) ||
       utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-      utilisateur.role.estÉgaleÀ(Role.dreal)
+      utilisateur.role.estÉgaleÀ(Role.dreal) ||
+      utilisateur.role.estÉgaleÀ(Role.cre)
     ) {
       return;
     }
