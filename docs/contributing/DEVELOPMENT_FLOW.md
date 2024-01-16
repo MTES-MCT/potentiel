@@ -1,6 +1,7 @@
 # Flow de développement
 
 ## Table des matières
+
 - [Flow de développement](#flow-de-développement)
   - [Table des matières](#table-des-matières)
   - [ Organisation du code source](#-organisation-du-code-source)
@@ -45,6 +46,7 @@ Nous avons donc :
 ## <a id="scripts-npm"></a> Scripts NPM
 
 Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des scripts NPM du projet :
+
 - **type:check** : Lance le compilateur pour vérifier le typage. Ce script ne produit aucun fichier js en sortie
 - **build** : Compile l'ensemble du projet (bibliothéque, CSS, Front, Backend)
 - **build:back** : Compile le backend
@@ -65,7 +67,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 - **specs** : Execute les tests de `specifications`. Lance les services locaux nécessaire à l'éxecution des tests, éxecute les migrations de base de données, compile l'ensemble du projet et éxecute les scénarios Gherkin
 - **specs:select** : Similaire à **specs**, mais ne lance que les scénarios Gherkin taggés avec **@select**
 - **version** : Calcul le numéro de version de l'application.
-> ⚠️ Attention, ce script n'est utilisé que par la CI
+  > ⚠️ Attention, ce script n'est utilisé que par la CI
 - **test:legacy** : Similaire à **specs**, mais lance uniquement les tests unitaire et d'intégration mise en place avec Jest
 - **storybook** : Lance Storybook
 
@@ -74,14 +76,17 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 Liste des environnements sur Scalingo :
 
 **Démo**
+
 - https://demo.potentiel.incubateur.net
 - Déployé automatiquement à chaque mise en production
 
 **Staging**
+
 - https://staging.potentiel.incubateur.net
 - Déployé automatiquement à chaque création d'une branche release
 
 **Production**
+
 - https://potentiel.beta.gouv.fr
 - Déployé manuellement depuis le workflow `Release workflow` depuis les actions Github du projet
 
@@ -90,15 +95,15 @@ Liste des environnements sur Scalingo :
 Le projet potentiel suit la stratégie de branche de release : [Release Flow](http://releaseflow.org/).
 Les différentes étapes du workflow déclenchent des déploiements automatiquement depuis les workflows github configurés.
 
-Pour plus de détail vous pouvez consulter les diagrammes [release flow](./docs/ci/release-flow.drawio.svg) et [workflows](./docs/ci/workflows.drawio.svg).
+Pour plus de détail vous pouvez consulter les diagrammes [release flow](../ci/release-flow.drawio.svg) et [workflows](../ci/workflows.drawio.svg).
 
 ## <a id="apporter-des-changements"></a> Apporter des changements
 
 1. Créer une nouvelle branche à partir et à destination de la branche `master`
 
-2. Implémenter vos changements
+2. Implémenter vos changements en respectant la [convention de codage](./CODING_CONVENTION.md).
 
-3. Une fois les changements terminés localement ouvrir une PR et demander la revue à au moins 1 autre développeur de l'équipe (idéalement 2).
+3. Une fois les changements terminés localement ouvrir une PR et demander la revue à au moins un autre développeur de l'équipe (idéalement 2).
 
 4. Une fois que la PR est approuvée et que les changements demandés ont été apportés, la PR peut être mergée.
 
@@ -118,13 +123,13 @@ Note : l'équipe utilise `gitmoji` pour les commits, donc merci de bien sélecti
 
 ## <a id="récupérer-modifications-branche-release-vers-master"></a> Récupérer les modifications d'une branche release vers master
 
-1. Créer une branche qui part de la **release x.x**, et ouvrir la PR vers master, titre  `🔀 Intégration des modifications de la release x.x`
+1. Créer une branche qui part de la **release x.x**, et ouvrir la PR vers master, titre `🔀 Intégration des modifications de la release x.x`
 2. Si pas de conflits, merger la PR en sélectionnant le mode **merge commit**
 3. Si conflits
    1. Créer une branche qui part de master, exemple : `integrate-release-x.x`
-   2. faire un `git merge release/x.x` pour récupérer les modifications de la release dans notre branche 
-   3. Gérer les conflits et nommer le message du commit comme ceci : `🔀 Resolve merge conflicts after merge` 
-   4. Ouvrir la PR en mettant comme titre de la PR  : `🔀 Intégration des modifications de la release x.x`
+   2. faire un `git merge release/x.x` pour récupérer les modifications de la release dans notre branche
+   3. Gérer les conflits et nommer le message du commit comme ceci : `🔀 Resolve merge conflicts after merge`
+   4. Ouvrir la PR en mettant comme titre de la PR : `🔀 Intégration des modifications de la release x.x`
    5. Merger la PR en sélectionnant le mode **merge commit**
 
 ## <a id="approche-methode"></a> Approche/Méthode
