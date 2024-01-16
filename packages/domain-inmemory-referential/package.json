@@ -8,9 +8,7 @@
   "scripts": {
     "build": "tsc"
   },
-  "dependencies": {
-    "@potentiel/domain-views": "*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@potentiel/tsconfig": "*"
   }
