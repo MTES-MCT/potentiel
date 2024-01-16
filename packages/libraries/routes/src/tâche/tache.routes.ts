@@ -1,1 +1,1 @@
-export const lister = 'taches';
+export const lister = '/taches';
