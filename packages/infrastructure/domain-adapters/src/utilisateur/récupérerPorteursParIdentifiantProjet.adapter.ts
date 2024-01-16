@@ -1,4 +1,4 @@
-import { RécupérerPorteursProjetPort } from '@potentiel/domain-views';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { isSome } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
@@ -15,12 +15,12 @@ const selectPorteursProjectQuery = `
   ) as u
 `;
 
-export const récupérerPorteursProjetAdapter: RécupérerPorteursProjetPort = async ({
+export const récupérerPorteursParIdentifiantProjetAdapter = async ({
   appelOffre,
   période,
   famille,
   numéroCRE,
-}) => {
+}: IdentifiantProjet.ValueType) => {
   const porteurs = await executeSelect<{
     value: { email: string; fullName: string };
   }>(selectPorteursProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
