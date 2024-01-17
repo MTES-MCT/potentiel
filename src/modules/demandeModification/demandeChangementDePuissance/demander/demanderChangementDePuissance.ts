@@ -125,13 +125,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             }));
           }
 
-          if (
-            (project.cahierDesCharges.type === 'initial' ||
-              (project.cahierDesCharges.type === 'modifié' &&
-                project.cahierDesCharges.paruLe !== '30/08/2022')) &&
-            !fileId &&
-            !justification
-          ) {
+          if (!fileId || !justification) {
             return errAsync(new PuissanceJustificationEtCourrierManquantError());
           }
 

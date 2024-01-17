@@ -92,7 +92,7 @@ export const ChangementPuissance = ({
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel);
 
-  const tousLesChampsRequis = !CDC2022choisi && fichierEtJustificationRequis;
+  fichierEtJustificationRequis;
 
   return (
     <>
@@ -168,7 +168,7 @@ export const ChangementPuissance = ({
       )}
 
       <div>
-        <Label htmlFor="justification" optionnel={!tousLesChampsRequis ? true : undefined}>
+        <Label htmlFor="justification" optionnel={!fichierEtJustificationRequis ? true : undefined}>
           Veuillez nous indiquer les raisons qui motivent votre demande
         </Label>
         <LabelDescription>
@@ -179,20 +179,24 @@ export const ChangementPuissance = ({
           name="justification"
           id="justification"
           defaultValue={justification || ''}
-          required={tousLesChampsRequis ? true : undefined}
-          aria-required={tousLesChampsRequis}
+          required={fichierEtJustificationRequis ? true : undefined}
+          aria-required={fichierEtJustificationRequis}
         />
       </div>
       <div>
-        <Label htmlFor="file" className="mt-4" optionnel={!tousLesChampsRequis ? true : undefined}>
+        <Label
+          htmlFor="file"
+          className="mt-4"
+          optionnel={!fichierEtJustificationRequis ? true : undefined}
+        >
           Courrier explicatif ou décision administrative
         </Label>
         <Input
           type="file"
           name="file"
           id="file"
-          required={tousLesChampsRequis}
-          aria-required={tousLesChampsRequis}
+          required={fichierEtJustificationRequis}
+          aria-required={fichierEtJustificationRequis}
         />
       </div>
     </>
