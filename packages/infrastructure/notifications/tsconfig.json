@@ -16,6 +16,9 @@
     },
     {
       "path": "../../libraries/email-sender"
+    },
+    {
+      "path": "../../libraries/routes"
     }
   ]
 }
