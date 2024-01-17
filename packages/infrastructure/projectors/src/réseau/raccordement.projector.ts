@@ -4,7 +4,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { removeProjection } from '../utils/removeProjection';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { isNone, isSome } from '@potentiel/monads';
-import { RaccordementEntity } from '@potentiel-domain/reseau/src/raccordement';
 import { IdentifiantGestionnaireRéseau } from '@potentiel-domain/reseau/src/gestionnaire';
 import { upsertProjection } from '../utils/upsertProjection';
 
@@ -35,11 +34,11 @@ export const register = () => {
       }
     } else {
       const { identifiantProjet } = payload;
-      const raccordement = await findProjection<RaccordementEntity>(
+      const raccordement = await findProjection<Raccordement.RaccordementEntity>(
         `raccordement|${event.payload.identifiantProjet}`,
       );
 
-      const raccordementDefaultValue: Omit<RaccordementEntity, 'type'> = {
+      const raccordementDefaultValue: Omit<Raccordement.RaccordementEntity, 'type'> = {
         identifiantProjet,
         nomProjet: '',
         appelOffre: '',
@@ -50,7 +49,9 @@ export const register = () => {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu.formatter(),
       };
 
-      const raccordementToUpsert: Omit<RaccordementEntity, 'type'> = isSome(raccordement)
+      const raccordementToUpsert: Omit<Raccordement.RaccordementEntity, 'type'> = isSome(
+        raccordement,
+      )
         ? raccordement
         : raccordementDefaultValue;
 
@@ -60,6 +61,40 @@ export const register = () => {
         case 'DateMiseEnServiceTransmise-V1':
           break;
         case 'DemandeComplèteDeRaccordementTransmise-V1':
+          await upsertProjection<Raccordement.RaccordementEntity>(
+            `raccordement|${event.payload.identifiantProjet}`,
+            {
+              ...raccordementToUpsert,
+              identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
+              demandes: [
+                ...raccordementToUpsert.demandes,
+                {
+                  référence: event.payload.référenceDossierRaccordement,
+                  demandeComplèteRaccordement: {
+                    dateQualification: event.payload.dateQualification,
+                  },
+                },
+              ],
+            },
+          );
+
+          await upsertProjection<Raccordement.DossierRaccordementEntity>(
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+            {
+              référence: event.payload.référenceDossierRaccordement,
+              demandeComplèteRaccordement: {
+                dateQualification: event.payload.dateQualification,
+              },
+            },
+          );
+
+          await upsertProjection<Raccordement.RéférenceRaccordementIdentifiantProjetEntity>(
+            `référence-raccordement-projet|${event.payload.référenceDossierRaccordement}`,
+            {
+              identifiantProjet: event.payload.identifiantProjet,
+              référence: event.payload.référenceDossierRaccordement,
+            },
+          );
           break;
         case 'DemandeComplèteDeRaccordementTransmise-V2':
           break;
