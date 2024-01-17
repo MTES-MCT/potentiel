@@ -1,10 +1,31 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import {
-  CandidatureLegacyReadModel,
-  RécupérerCandidatureLegacyPort,
-} from '@potentiel/domain-views';
 import { isSome, none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
+
+export type CandidatureLegacyReadModel = {
+  legacyId: string;
+  identifiantProjet: string;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
+  technologie: string;
+  statut: string;
+  nom: string;
+  localité: {
+    commune: string;
+    département: string;
+    région: string;
+    codePostal: string;
+  };
+  potentielIdentifier: string;
+  nomReprésentantLégal: string;
+  nomCandidat: string;
+  email: string;
+  dateDésignation: string;
+  puissance: number;
+  cahierDesCharges: string;
+};
 
 const selectProjectQuery = `
   select json_build_object(
@@ -42,12 +63,12 @@ const selectProjectQuery = `
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4
 `;
 
-export const récupérerCandidatureAdapter: RécupérerCandidatureLegacyPort = async ({
+export const récupérerCandidatureAdapter = async ({
   appelOffre,
   période,
   famille,
   numéroCRE,
-}) => {
+}: IdentifiantProjet.ValueType) => {
   const projets = await executeSelect<{
     value: Omit<CandidatureLegacyReadModel, 'type' | 'identifiantProjet'>;
   }>(selectProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
