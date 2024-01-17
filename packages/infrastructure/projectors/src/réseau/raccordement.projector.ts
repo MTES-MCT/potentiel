@@ -97,6 +97,46 @@ export const register = () => {
           );
           break;
         case 'DemandeComplèteDeRaccordementTransmise-V2':
+          await upsertProjection<Raccordement.RaccordementEntity>(
+            `raccordement|${event.payload.identifiantProjet}`,
+            {
+              ...raccordementToUpsert,
+              identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
+              demandes: [
+                ...raccordementToUpsert.demandes,
+                {
+                  référence: event.payload.référenceDossierRaccordement,
+                  demandeComplèteRaccordement: {
+                    dateQualification: event.payload.dateQualification,
+                    accuséRéception: {
+                      format: event.payload.accuséRéception.format,
+                    },
+                  },
+                },
+              ],
+            },
+          );
+
+          await upsertProjection<Raccordement.DossierRaccordementEntity>(
+            `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
+            {
+              référence: event.payload.référenceDossierRaccordement,
+              demandeComplèteRaccordement: {
+                dateQualification: event.payload.dateQualification,
+                accuséRéception: {
+                  format: event.payload.accuséRéception.format,
+                },
+              },
+            },
+          );
+
+          await upsertProjection<Raccordement.RéférenceRaccordementIdentifiantProjetEntity>(
+            `référence-raccordement-projet|${event.payload.référenceDossierRaccordement}`,
+            {
+              identifiantProjet: event.payload.identifiantProjet,
+              référence: event.payload.référenceDossierRaccordement,
+            },
+          );
           break;
         case 'DemandeComplèteRaccordementModifiée-V1':
           break;
