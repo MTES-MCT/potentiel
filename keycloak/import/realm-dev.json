@@ -1054,7 +1054,7 @@
         "saml.force.post.binding": "false",
         "saml.multivalued.roles": "false",
         "saml.encrypt": "false",
-        "login_theme": "potentiel",
+        "login_theme": "",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "saml.server.signature": "false",
@@ -1746,10 +1746,10 @@
     "xXSSProtection": "1; mode=block",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
-  "loginTheme": "potentiel",
-  "accountTheme": "potentiel",
-  "adminTheme": "potentiel",
-  "emailTheme": "potentiel",
+  "loginTheme": "dsfr",
+  "accountTheme": "dsfr",
+  "adminTheme": "",
+  "emailTheme": "",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
@@ -1914,10 +1914,12 @@
       }
     ]
   },
-  "internationalizationEnabled": false,
+  "internationalizationEnabled": true,
   "supportedLocales": [
-    ""
+    "",
+    "fr"
   ],
+  "defaultLocale": "fr",
   "authenticationFlows": [
     {
       "id": "ba0e2a1e-9873-4090-888e-f3f3b52e0bef",

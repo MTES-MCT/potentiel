@@ -11,7 +11,7 @@ services:
     container_name: potentiel_db
     ports:
       - 5432:5432
-    profiles: [ "app" ]
+    profiles: ['app']
   eventBus:
     image: redis:alpine
     command: redis-server --requirepass localpwd
@@ -19,7 +19,7 @@ services:
     container_name: potentiel_eventBus
     ports:
       - 6379:6379
-    profiles: [ "app" ]
+    profiles: ['app']
   s3:
     image: quay.io/minio/minio
     command: server /data --console-address ":9090"
@@ -31,14 +31,14 @@ services:
     ports:
       - 9000:9000
       - 9090:9090
-    profiles: [ "app" ]
+    profiles: ['app']
   create_bucket:
     image: minio/mc
     depends_on:
       - s3
     entrypoint: >
       /bin/sh -c " /usr/bin/mc alias set myminio http://s3:9000 minioadmin minioadmin; /usr/bin/mc mb myminio/potentiel; exit 0; "
-    profiles: [ "app" ]
+    profiles: ['app']
   auth:
     image: quay.io/keycloak/keycloak
     restart: always
@@ -48,12 +48,16 @@ services:
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
-      - POTENTIEL_BASE_URL=http://localhost:3000
+      - DSFR_THEME_HOME_URL=http://localhost:3000
+      - DSFR_THEME_SERVICE_TITLE=Potentiel
+      - DSFR_THEME_BRAND_TOP="République<br/>Française"
+      - DSFR_THEME_TOS_URL=https://sill.code.gouv.fr/tos_fr.md
+      - DSFR_THEME_CONTACT_EMAIL=contact@potentiel.fr
     command: start-dev --import-realm
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
-      - ./keycloak/potentiel-keycloak/theme/potentiel:/opt/keycloak/themes/potentiel
-    profiles: [ "app" ]
+      - ./keycloak/import/providers/:/opt/keycloak/providers
+    profiles: ['app']
 
   db_test:
     image: postgres:13
@@ -65,14 +69,14 @@ services:
     container_name: potentiel_db_tests_integration
     ports:
       - 5433:5432
-    profiles: [ "test" ]
+    profiles: ['test']
   eventBus_test:
     image: redis:alpine
     restart: always
     container_name: potentiel_eventBus_tests_integration
     ports:
       - 6380:6379
-    profiles: [ "test" ]
+    profiles: ['test']
   s3_test:
     image: quay.io/minio/minio
     command: server /data --console-address ":9091"
@@ -84,4 +88,4 @@ services:
     ports:
       - 9001:9000
       - 9091:9090
-    profiles: [ "test" ]
+    profiles: ['test']
