@@ -1,3 +1,99 @@
+import { Raccordement } from '@potentiel-domain/reseau';
+import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { removeProjection } from '../utils/removeProjection';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { isNone, isSome } from '@potentiel/monads';
+import { RaccordementEntity } from '@potentiel-domain/reseau/src/raccordement';
+import { IdentifiantGestionnaireRéseau } from '@potentiel-domain/reseau/src/gestionnaire';
+import { upsertProjection } from '../utils/upsertProjection';
+
+export type SubscriptionEvent = (Raccordement.RaccordementEvent & Event) | RebuildTriggered;
+
+export type Execute = Message<'EXECUTE_RACCORDEMENT_PROJECTOR', SubscriptionEvent>;
+
+export const register = () => {
+  const handler: MessageHandler<Execute> = async (event) => {
+    const { type, payload } = event;
+
+    if (type === 'RebuildTriggered') {
+      const raccordement = await findProjection<Raccordement.RaccordementEntity>(
+        `raccordement|${payload.id}`,
+      );
+
+      if (!isNone(raccordement)) {
+        for (const référence of raccordement.demandes.map((d) => d.référence)) {
+          await removeProjection<Raccordement.DossierRaccordementEntity>(
+            `dossier-raccordement|${payload.id}#${référence}`,
+          );
+          await removeProjection<Raccordement.RéférenceRaccordementIdentifiantProjetEntity>(
+            `référence-raccordement-projet|${référence}`,
+          );
+        }
+
+        await removeProjection<Raccordement.RaccordementEntity>(`raccordement|${payload.id}`);
+      }
+    } else {
+      const { identifiantProjet } = payload;
+      const raccordement = await findProjection<RaccordementEntity>(
+        `raccordement|${event.payload.identifiantProjet}`,
+      );
+
+      const raccordementDefaultValue: Omit<RaccordementEntity, 'type'> = {
+        identifiantProjet,
+        nomProjet: '',
+        appelOffre: '',
+        période: '',
+        famille: undefined,
+        numéroCRE: '',
+        demandes: [],
+        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu.formatter(),
+      };
+
+      const raccordementToUpsert: Omit<RaccordementEntity, 'type'> = isSome(raccordement)
+        ? raccordement
+        : raccordementDefaultValue;
+
+      switch (event.type) {
+        case 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1':
+          break;
+        case 'DateMiseEnServiceTransmise-V1':
+          break;
+        case 'DemandeComplèteDeRaccordementTransmise-V1':
+          break;
+        case 'DemandeComplèteDeRaccordementTransmise-V2':
+          break;
+        case 'DemandeComplèteRaccordementModifiée-V1':
+          break;
+        case 'DemandeComplèteRaccordementModifiée-V2':
+          break;
+        case 'DemandeComplèteRaccordementModifiée-V3':
+          break;
+        case 'GestionnaireRéseauRaccordementModifié-V1':
+          await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
+            ...raccordementToUpsert,
+            IdentifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
+          });
+          break;
+        case 'PropositionTechniqueEtFinancièreModifiée-V1':
+          break;
+        case 'PropositionTechniqueEtFinancièreModifiée-V2':
+          break;
+        case 'PropositionTechniqueEtFinancièreSignéeTransmise-V1':
+          break;
+        case 'PropositionTechniqueEtFinancièreTransmise-V1':
+          break;
+        case 'PropositionTechniqueEtFinancièreTransmise-V2':
+          break;
+        case 'RéférenceDossierRacordementModifiée-V1':
+          break;
+      }
+    }
+  };
+
+  mediator.register('EXECUTE_RACCORDEMENT_PROJECTOR', handler);
+};
+
 // import { Message, MessageHandler, mediator } from 'mediateur';
 // import { RaccordementEvent } from '@potentiel/domain-usecases';
 // import { isNone } from '@potentiel/monads';
