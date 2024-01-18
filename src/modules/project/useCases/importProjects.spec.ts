@@ -35,6 +35,8 @@ const validLine = {
     '230.50',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
   'Technologie\n(dispositif de production)': 'Hydraulique',
+  'Gouvernance partagée (Oui/Non)': 'Non',
+  'Financement collectif (Oui/Non)': 'Non',
   Autre: 'valeur',
 } as Record<string, string>;
 

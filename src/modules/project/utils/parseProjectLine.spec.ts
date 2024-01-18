@@ -31,6 +31,8 @@ const fakeLine = {
     '230.50',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
   Autre: 'valeur',
+  'Gouvernance partagée (Oui/Non)': 'Non',
+  'Financement collectif (Oui/Non)': 'Non',
 };
 
 const expected = {
@@ -60,6 +62,7 @@ const expected = {
   territoireProjet: '',
   evaluationCarbone: 230.5,
   technologie: 'N/A',
+  actionnariat: undefined,
   details: {
     Autre: 'valeur',
   },
@@ -96,7 +99,7 @@ describe('parseProjectLine', () => {
     });
   });
   describe('Nom du candidat (obligatoire)', () => {
-    it(`Lorsque le nom du candidat (colonne candidat) est manquant
+    it(`Lorsque le nom du candidat est manquant
         Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
@@ -597,9 +600,78 @@ describe('parseProjectLine', () => {
       );
     });
   });
-  describe(`Actionnariat : Financement collectif / Gouvernance partagée (seulement PPE2)`, () => {
-    it(`Les valeurs 'financement-collectif', ''gouvernance-partagee' ou null
-        peuvent être affectées à la propriété 'actionnariat'`, () => {
+  describe(`Actionnariat : Financement collectif / Gouvernance partagée (obligatoire)`, () => {
+    it(`Lorsque l'une des colonnes Financement collectif et Gouvernance partagée est manquante
+        Alors une erreur devrait être retournée`, () => {
+      const fakeLineWithoutFinancementCollectif = Object.fromEntries(
+        Object.entries(fakeLine).filter(([cle]) => cle !== 'Financement collectif (Oui/Non)'),
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLineWithoutFinancementCollectif,
+        }),
+      ).toThrowError(
+        `Les colonnes 'Financement collectif (Oui/Non)' et 'Gouvernance partagée (Oui/Non)' sont obligatoires`,
+      );
+
+      const fakeLineWithoutGouvernancePartagée = Object.fromEntries(
+        Object.entries(fakeLine).filter(([cle]) => cle !== 'Gouvernance partagée (Oui/Non)'),
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLineWithoutGouvernancePartagée,
+        }),
+      ).toThrowError(
+        `Les colonnes 'Financement collectif (Oui/Non)' et 'Gouvernance partagée (Oui/Non)' sont obligatoires`,
+      );
+    });
+
+    it(`Lorsque l'une des colonnes Financement collectif et Gouvernance partagée n'est pas complétée par Oui ou Non
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Gouvernance partagée (Oui/Non)': 'abcd',
+          'Financement collectif (Oui/Non)': 'Non',
+        }),
+      ).toThrowError(
+        `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Financement collectif (Oui/Non)': 'abcd',
+          'Gouvernance partagée (Oui/Non)': 'Non',
+        }),
+      ).toThrowError(
+        `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Gouvernance partagée (Oui/Non)': '',
+          'Financement collectif (Oui/Non)': '',
+        }),
+      ).toThrowError(
+        `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+      );
+    });
+
+    it(`Si les deux champs Financement collectif et Gouvernance partagée sont 'Oui
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Financement collectif (Oui/Non)': 'Oui',
+          'Gouvernance partagée (Oui/Non)': 'Oui',
+        }),
+      ).toThrowError(
+        'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"',
+      );
+    });
+
+    it(`Les valeurs 'financement-collectif', ''gouvernance-partagee' ou undefined
+      peuvent être affectées à la propriété 'actionnariat'`, () => {
       expect(
         parseProjectLine({
           ...fakeLine,
@@ -627,46 +699,8 @@ describe('parseProjectLine', () => {
           'Gouvernance partagée (Oui/Non)': 'Non',
         }),
       ).toMatchObject({
-        actionnariat: null,
+        actionnariat: undefined,
       });
-
-      expect(
-        parseProjectLine({
-          ...fakeLine,
-          'Financement collectif (Oui/Non)': '',
-          'Gouvernance partagée (Oui/Non)': '',
-        }),
-      ).toMatchObject({
-        actionnariat: null,
-      });
-
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          'Financement collectif (Oui/Non)': 'Oui',
-          'Gouvernance partagée (Oui/Non)': 'Oui',
-        }),
-      ).toThrowError(
-        'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"',
-      );
-
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          'Financement collectif (Oui/Non)': 'abcd',
-        }),
-      ).toThrowError(
-        `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
-      );
-
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          'Gouvernance partagée (Oui/Non)': 'abcd',
-        }),
-      ).toThrowError(
-        `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
-      );
     });
   });
   describe(`Investissement / financement participatif (seulement CRE4)`, () => {

@@ -143,29 +143,8 @@ const columnMapper = {
     if (technologie === '') return 'pv';
     return null;
   },
-  actionnariat: (line: any) => {
-    if (
-      !['Oui', 'Non', '', undefined].includes(line['Financement collectif (Oui/Non)']) ||
-      !['Oui', 'Non', '', undefined].includes(line['Gouvernance partagée (Oui/Non)'])
-    ) {
-      return 'wrong-value';
-    }
-
-    if (
-      line['Financement collectif (Oui/Non)'] === 'Oui' &&
-      line['Gouvernance partagée (Oui/Non)'] === 'Oui'
-    ) {
-      return 'not-possible';
-    }
-
-    if (line['Financement collectif (Oui/Non)'] === 'Oui') {
-      return 'financement-collectif';
-    }
-    if (line['Gouvernance partagée (Oui/Non)'] === 'Oui') {
-      return 'gouvernance-partagee';
-    }
-    return null;
-  },
+  financementCollectif: (line: any) => line['Financement collectif (Oui/Non)'],
+  gouvernancePartagee: (line: any) => line['Gouvernance partagée (Oui/Non)'],
   garantiesFinancièresType: (line: any) => {
     if (
       !line.hasOwnProperty(
@@ -356,23 +335,24 @@ const projectSchema = yup.object().shape({
       ['pv', 'hydraulique', 'eolien', 'N/A'],
       'Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" ou rester vide pour la technologie PV',
     ),
-  actionnariat: yup.lazy((str) => {
-    if (str === 'wrong-value') {
-      return yup
-        .boolean()
-        .typeError(
-          `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
-        );
-    }
-
-    return yup
-      .mixed()
-      .nullable()
-      .oneOf(
-        ['gouvernance-partagee', 'financement-collectif', null],
-        'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"',
-      );
-  }),
+  financementCollectif: yup
+    .mixed()
+    .oneOf(
+      ['Oui', 'Non'],
+      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+    )
+    .required(
+      `Les colonnes 'Financement collectif (Oui/Non)' et 'Gouvernance partagée (Oui/Non)' sont obligatoires`,
+    ),
+  gouvernancePartagee: yup
+    .mixed()
+    .oneOf(
+      ['Oui', 'Non'],
+      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+    )
+    .required(
+      `Les colonnes 'Financement collectif (Oui/Non)' et 'Gouvernance partagée (Oui/Non)' sont obligatoires`,
+    ),
   garantiesFinancièresType: yup
     .mixed()
     .oneOf(
@@ -423,7 +403,7 @@ const getGeoPropertiesFromCodePostal = (codePostalValues) => {
 export const parseProjectLine = (line) => {
   try {
     const rawProjectData = projectSchema.validateSync(extractRawDataFromColumns(line));
-    console.log('rawProjectData', rawProjectData);
+
     const { codePostalProjet, departementProjet, regionProjet } = getGeoPropertiesFromCodePostal(
       rawProjectData.codePostalProjet,
     );
@@ -452,12 +432,27 @@ export const parseProjectLine = (line) => {
       );
     }
 
+    if (
+      rawProjectData.financementCollectif === 'Oui' &&
+      rawProjectData.gouvernancePartagee === 'Oui'
+    ) {
+      throw new yup.ValidationError(
+        'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"',
+      );
+    }
+
     return {
       ...rawProjectData,
       codePostalProjet,
       departementProjet,
       regionProjet,
       puissanceInitiale: rawProjectData.puissance,
+      actionnariat:
+        rawProjectData.financementCollectif === 'Oui'
+          ? 'financement-collectif'
+          : rawProjectData.gouvernancePartagee === 'Oui'
+          ? 'gouvernance-partagee'
+          : undefined,
       garantiesFinancièresType: rawProjectData.garantiesFinancièresType,
       garantiesFinancièresDateEchéance: rawProjectData.garantiesFinancièresDateEchéance,
       details: Object.entries(line)
