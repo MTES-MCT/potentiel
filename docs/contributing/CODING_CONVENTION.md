@@ -210,10 +210,7 @@ export type ComportementOptions = {
   donnée: string;
 };
 
-export async function comportement(
-  this: ExempleAggregate,
-  { date, donnée }: ComportementOptions,
-) {
+export async function comportement(this: ExempleAggregate, { date, donnée }: ComportementOptions) {
   const event: ComportementArrivéEvent = {
     type: 'ComportementArrivé-V1',
     payload: {
@@ -230,7 +227,7 @@ export function applyComportementArrivé(
   { payload: { date, identifiant, donnée } }: ComportementArrivéEvent,
 ) {
   this.date = DateTime.convertirEnValueType(date);
-  this.donnée = donnée
+  this.donnée = donnée;
 }
 ```
 
@@ -414,10 +411,59 @@ Les scénarios eux sont écrits en langage [Gherkin](https://cucumber.io/docs/gh
 
 ### Adapters
 
+Package regroupant les implémentations des `Ports` nécessaire et définis dans le domaine qui font appels à des librairies tierces. Cette séparation permet de ne pas coupler la couche domaine à des parties spécifique à l'infrastructure, comme par exemple l'accès à un bucket s3 pour le stockage de fichiers.
+
 ### Notifications
 
 Package permettant la notification par email de certains évènements ayant lieu dans le domaine.
 
 ### Projectors
 
-C'est ici que nous allons alimenter
+Cette partie de l'infrastructure permet l'alimentation de la partie `Query` et donc des projections du projet.
+
+```typescript
+// file: exemple.projector.ts
+
+export type SubscriptionEvent = (ExempleEvent & Event) | RebuildTriggered;
+
+export type Execute = Message<'EXECUTE_EXEMPLE_PROJECTOR', SubscriptionEvent>;
+
+export const register = () => {
+  const handler: MessageHandler<Execute> = async (event) => {
+    const { type, payload } = event;
+
+    if (type === 'RebuildTriggered') {
+      await removeProjection<ExempleProjection>(`exemple|${payload.id}`);
+    } else {
+      const { identifiant } = payload;
+
+      const exemple = await findProjection<ExempleProjection>(`exemple|${identifiant}`);
+
+      const exempleDefaultValue = {
+        identifiant,
+        donnée: '',
+        date: DateTime.now().formatter(),
+      };
+
+      const exempleToUpsert: Omit<ExempleProjection, 'type'> = isSome(exemple)
+        ? exemple
+        : exempleDefaultValue;
+
+      switch (type) {
+        case 'ExempleSupprimé-V1':
+          await removeProjection<ExempleProjection>(`exemple|${identifiant}`);
+          break;
+        case 'ExempleAjouté-V1':
+          await upsertProjection<ExempleProjection>(`exemple|${identifiant}`, {
+            ...exempleToUpsert,
+            donnée: payload.donnée,
+            date: payload.date,
+          });
+          break;
+      }
+    }
+  };
+
+  mediator.register('EXECUTE_EXEMPLE_PROJECTOR', handler);
+};
+```
