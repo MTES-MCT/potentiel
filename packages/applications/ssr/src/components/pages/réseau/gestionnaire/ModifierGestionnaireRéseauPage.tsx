@@ -1,8 +1,10 @@
 'use client';
 
 import { FC } from 'react';
-import { PageTemplate } from '@/components/templates/PageTemplate';
+
 import { Heading1 } from '@/components/atoms/headings';
+import { PageTemplate } from '@/components/templates/PageTemplate';
+
 import { ModifierGestionnaireRéseauForm } from './modifier/ModifierGestionnaireRéseauForm';
 
 type ModifierGestionnaireRéseauProps = {

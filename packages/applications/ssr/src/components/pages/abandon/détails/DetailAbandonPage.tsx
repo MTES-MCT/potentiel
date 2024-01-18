@@ -1,18 +1,20 @@
 'use client';
 
+import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
+
 import { StatutBadge, StatutBadgeProps } from '@/components/molecules/StatutBadge';
+import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
 import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
-import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
-import { RejeterAbandon } from './rejeter/RejeterAbandon';
+
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
-import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
-import { EtapesAbandonProps, EtapesAbandon } from './EtapesAbandon';
+import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
+import { EtapesAbandon, EtapesAbandonProps } from './EtapesAbandon';
 import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
-import Badge from '@codegouvfr/react-dsfr/Badge';
+import { RejeterAbandon } from './rejeter/RejeterAbandon';
 
 type AvailableActions = Array<
   | 'demander-confirmation'

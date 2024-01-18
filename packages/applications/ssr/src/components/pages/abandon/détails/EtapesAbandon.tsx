@@ -1,20 +1,21 @@
 'use client';
 
-import { FC } from 'react';
+import Alert from '@codegouvfr/react-dsfr/Alert';
+import Download from '@codegouvfr/react-dsfr/Download';
 import Timeline from '@mui/lab/Timeline';
-import TimelineItem from '@mui/lab/TimelineItem';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
-import { displayDate } from '@/utils/displayDate';
-import Download from '@codegouvfr/react-dsfr/Download';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { Routes } from '@potentiel-libraries/routes';
+import { FC } from 'react';
+
+import { displayDate } from '@/utils/displayDate';
+
 import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
 
 export type EtapesAbandonProps = {

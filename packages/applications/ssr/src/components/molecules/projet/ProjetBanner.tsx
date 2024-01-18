@@ -1,10 +1,11 @@
+import { Routes } from '@potentiel-libraries/routes';
 import { FC } from 'react';
+
 import {
   StatutProjetBadge,
   StatutProjetBadgeProps,
 } from '@/components/molecules/projet/StatutProjetBadge';
 import { displayDate } from '@/utils/displayDate';
-import { Routes } from '@potentiel-libraries/routes';
 
 export type ProjetBannerProps = {
   statut: StatutProjetBadgeProps['statut'];

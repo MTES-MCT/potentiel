@@ -1,8 +1,7 @@
-import { mediator } from 'mediateur';
-import type { Metadata } from 'next';
-
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
+import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
 import {
   AbandonListPage,

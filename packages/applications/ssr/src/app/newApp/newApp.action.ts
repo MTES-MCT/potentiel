@@ -1,8 +1,9 @@
 'use server';
 
-import * as zod from 'zod';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { NotFoundError } from '@potentiel-domain/core';
+import * as zod from 'zod';
+
+import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 export type NewAppState = FormState;
 

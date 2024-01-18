@@ -1,17 +1,19 @@
 'use client';
 
-import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
+import Alert from '@codegouvfr/react-dsfr/Alert';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { Upload } from '@codegouvfr/react-dsfr/Upload';
+import { Routes } from '@potentiel-libraries/routes';
+import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
+
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import Input from '@codegouvfr/react-dsfr/Input';
-import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import { demanderAbandonAction } from './demanderAbandon.action';
-import { useRouter } from 'next/navigation';
 import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
-import { Routes } from '@potentiel-libraries/routes';
+import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
+
+import { demanderAbandonAction } from './demanderAbandon.action';
 
 export type DemanderAbandonPageProps = {
   projet: ProjetPageTemplateProps['projet'];

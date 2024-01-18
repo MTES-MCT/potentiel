@@ -4,6 +4,7 @@ import {
   NotFoundError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
+
 import { withErrorHandling } from './withErrorHandling';
 
 export const apiAction = async (action: () => Promise<Response>) =>

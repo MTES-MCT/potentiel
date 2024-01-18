@@ -1,9 +1,10 @@
-import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
-import { Routes } from '@potentiel-libraries/routes';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-libraries/routes';
 import { mediator } from 'mediateur';
+
+import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 
 export async function UserHeaderQuickAccessItem() {
   let utilisateur: Utilisateur.ValueType | undefined;

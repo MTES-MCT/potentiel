@@ -1,8 +1,7 @@
-import { mediator } from 'mediateur';
-import type { Metadata } from 'next';
-
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tache';
+import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
 import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheListPage';
 import { displayDate } from '@/utils/displayDate';

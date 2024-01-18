@@ -1,5 +1,5 @@
-import { FC } from 'react';
 import { Routes } from '@potentiel-libraries/routes';
+import { FC } from 'react';
 
 type GestionnaireRéseauListItemProps = {
   identifiantGestionnaireRéseau: string;

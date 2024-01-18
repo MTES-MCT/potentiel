@@ -3,6 +3,7 @@
 import { Heading1 } from '@/components/atoms/headings';
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 import { PageTemplate } from '@/components/templates/PageTemplate';
+
 import { newAppAction } from './newApp.action';
 
 export default function NewApp() {
