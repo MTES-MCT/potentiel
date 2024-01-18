@@ -123,10 +123,10 @@ describe('Commande requestPuissanceModification', () => {
         });
       });
 
-      describe(`Demande sans courrier ni justificatif pour projet soumis au CDC 2022`, () => {
+      describe(`Explication et fichier manquants pour une demande hors ratio pour un projet ayant le CDC 2022`, () => {
         describe(`Etant donné un projet dont le CDC applicable est celui du 30/08/22`, () => {
-          it(`Lorsque le porteur fait une demande de changement puissance sans courrier ni justification,
-        alors la demande devrait être envoyée`, async () => {
+          it(`Lorsque le porteur fait une demande de changement puissance hors ratio sans courrier ni justification,
+        alors une erreur devrait être retournée et le changement ne devrait pas être enregistré`, async () => {
             const fakeProject = {
               ...makeFakeProject(),
               puissanceInitiale: 100,
@@ -144,7 +144,7 @@ describe('Commande requestPuissanceModification', () => {
               getProjectAppelOffre,
             });
 
-            const newPuissance = 89;
+            const newPuissance = 160;
 
             const res = await requestPuissanceModification({
               projectId: fakeProject.id.toString(),
@@ -152,26 +152,17 @@ describe('Commande requestPuissanceModification', () => {
               newPuissance,
             });
 
-            expect(res.isOk()).toBe(true);
-            if (res.isErr()) return;
+            expect(res.isErr()).toBe(true);
+            if (res.isOk()) return;
+            expect(res.error).toBeInstanceOf(PuissanceJustificationEtCourrierManquantError);
 
-            expect(eventBus.publish).toHaveBeenCalledTimes(1);
-            const event = eventBus.publish.mock.calls[0][0];
-            expect(event).toBeInstanceOf(ModificationRequested);
-            expect(event).toMatchObject({
-              payload: {
-                type: 'puissance',
-                puissance: newPuissance,
-                puissanceAuMomentDuDepot: 123,
-                cahierDesCharges: '30/08/2022',
-              },
-            });
+            expect(eventBus.publish).not.toHaveBeenCalled();
           });
         });
       });
 
       describe(`Demande avec courrier et justificatif pour projet soumis au CDC 2021`, () => {
-        describe(`Etant donné un projet dont le CDC applicable n'est pas celui du 30/08/22`, () => {
+        describe(`Etant donné un projet dont le CDC applicable est le CDC 2021`, () => {
           it(`Lorsque le porteur fait une demande de changement puissance avec courrier et justification,
         alors la demande devrait être envoyée,
         le fichier devrait être enregistré
@@ -191,6 +182,7 @@ describe('Commande requestPuissanceModification', () => {
               requestedBy: fakeUser,
               newPuissance: 90,
               fichier: file,
+              justification: 'test',
             });
 
             expect(res.isOk()).toBe(true);
