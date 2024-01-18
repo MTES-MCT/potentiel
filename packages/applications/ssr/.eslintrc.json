@@ -1,7 +1,9 @@
 {
   "extends": "next/core-web-vitals",
+  "plugins": ["simple-import-sort"],
   "rules": {
     "import/no-unassigned-import": "off",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "simple-import-sort/imports": "error"
   }
 }
