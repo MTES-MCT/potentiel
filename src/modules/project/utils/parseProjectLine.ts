@@ -246,9 +246,8 @@ const projectSchema = yup.object().shape({
     .required(),
   note: yup
     .number()
-    .typeError('Le champ Note doit contenir un nombre')
-    .min(0, 'Le champ Note doit être un nombre positif')
-    .required(),
+    .typeError('Le champ "Note totale" doit contenir un nombre')
+    .required('Le champ "Note totale" doit contenir un nombre'),
   nomRepresentantLegal: yup
     .string()
     .required("Le champ 'Nom et prénom du représentant légal' doit être rempli"),
@@ -424,7 +423,7 @@ const getGeoPropertiesFromCodePostal = (codePostalValues) => {
 export const parseProjectLine = (line) => {
   try {
     const rawProjectData = projectSchema.validateSync(extractRawDataFromColumns(line));
-
+    console.log('rawProjectData', rawProjectData);
     const { codePostalProjet, departementProjet, regionProjet } = getGeoPropertiesFromCodePostal(
       rawProjectData.codePostalProjet,
     );

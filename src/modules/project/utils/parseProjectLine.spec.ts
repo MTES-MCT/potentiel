@@ -326,6 +326,42 @@ describe('parseProjectLine', () => {
       ).toThrowError("Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé'");
     });
   });
+  describe(`Note totale (obligatoire)`, () => {
+    it(`La note totale peut être un nombre positif, négatif ou égal à 0`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Note totale': '12',
+        }),
+      ).toMatchObject({ ...expected, note: 12 });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Note totale': '-12',
+        }),
+      ).toMatchObject({ ...expected, note: -12 });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Note totale': '0',
+        }),
+      ).toMatchObject({ ...expected, note: 0 });
+    });
+
+    it(`Lorsque la note totale n'est pas renseignée
+          Alors une erreur devrait être retournée`, () => {
+      const fakeLineWithoutNoteTotale = Object.fromEntries(
+        Object.entries(fakeLine).filter(([cle]) => cle !== 'Note totale'),
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLineWithoutNoteTotale,
+        }),
+      ).toThrowError('Le champ "Note totale" doit contenir un nombre');
+    });
+  });
   describe(`Date de notification (optionnelle)`, () => {
     it(`Si une valeur est présente
       Alors elle devrait être vérifiée et retournée sous forme numérique `, () => {
@@ -384,7 +420,7 @@ describe('parseProjectLine', () => {
     // });
   });
   describe(`Technologie`, () => {
-    it(`Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" 
+    it(`Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien"
         ou rester vide pour la technologie PV`, () => {
       expect(
         parseProjectLine({
@@ -418,7 +454,7 @@ describe('parseProjectLine', () => {
     });
   });
   describe('Évaluation carbone (obligatoire)', () => {
-    it(`Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" 
+    it(`Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)"
         doit contenir un nombre strictement positif ou N/A`, () => {
       expect(
         parseProjectLine({
@@ -562,7 +598,7 @@ describe('parseProjectLine', () => {
     });
   });
   describe(`Actionnariat : Financement collectif / Gouvernance partagée (seulement PPE2)`, () => {
-    it(`Les valeurs 'financement-collectif', ''gouvernance-partagee' ou null 
+    it(`Les valeurs 'financement-collectif', ''gouvernance-partagee' ou null
         peuvent être affectées à la propriété 'actionnariat'`, () => {
       expect(
         parseProjectLine({
