@@ -1,5 +1,23 @@
 import { Projection } from '@potentiel-libraries/projection';
 
+type DossierRaccordement = {
+  référence: string;
+  demandeComplèteRaccordement: {
+    dateQualification?: string;
+    accuséRéception?: { format: string };
+  };
+  propositionTechniqueEtFinancière?: {
+    dateSignature: string;
+    propositionTechniqueEtFinancièreSignée?: {
+      format: string;
+    };
+  };
+  miseEnService?: {
+    dateMiseEnService: string;
+  };
+  misÀJourLe: string;
+};
+
 export type RaccordementEntity = Projection<
   'raccordement',
   {
@@ -12,40 +30,11 @@ export type RaccordementEntity = Projection<
     famille?: string;
     numéroCRE: string;
 
-    demandes: Array<{
-      référence: string;
-      demandeComplèteRaccordement?: {
-        dateQualification?: string;
-        accuséRéception?: { format: string };
-      };
-      propositionTechniqueEtFinancière?: {
-        dateSignature: string;
-        format: string;
-      };
-      miseEnService?: {
-        dateMiseEnService: string;
-      };
-    }>;
+    dossiers: Array<DossierRaccordement>;
   }
 >;
 
-export type DossierRaccordementEntity = Projection<
-  'dossier-raccordement',
-  {
-    référence: string;
-    demandeComplèteRaccordement: {
-      dateQualification?: string;
-      accuséRéception?: { format: string };
-    };
-    propositionTechniqueEtFinancière?: {
-      dateSignature: string;
-      format: string;
-    };
-    miseEnService?: {
-      dateMiseEnService: string;
-    };
-  }
->;
+export type DossierRaccordementEntity = Projection<'dossier-raccordement', DossierRaccordement>;
 
 export type RéférenceRaccordementIdentifiantProjetEntity = Projection<
   'référence-raccordement-projet',

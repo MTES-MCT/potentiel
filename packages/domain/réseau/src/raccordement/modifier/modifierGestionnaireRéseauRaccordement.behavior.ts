@@ -9,16 +9,16 @@ import { RaccordementAggregate } from '../raccordement.aggregate';
 export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
   'GestionnaireRéseauProjetModifié-V1',
   {
-    identifiantProjet: string;
-    identifiantGestionnaireRéseau: string;
+    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
   }
 >;
 
 export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
   'GestionnaireRéseauRaccordementModifié-V1',
   {
-    identifiantProjet: string;
-    identifiantGestionnaireRéseau: string;
+    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
   }
 >;
 
