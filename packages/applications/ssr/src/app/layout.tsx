@@ -2,12 +2,14 @@ import './global.css';
 
 import { DsfrHead } from '@codegouvfr/react-dsfr/next-appdir/DsfrHead';
 import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes';
-import { StartDsfr } from './StartDsfr';
-import { defaultColorScheme } from './defaultColorScheme';
 import Link from 'next/link';
-import Providers from './Providers';
-import { Header } from '@/components/organisms/Header';
+
 import { Footer } from '@/components/organisms/Footer';
+import { Header } from '@/components/organisms/Header';
+
+import { defaultColorScheme } from './defaultColorScheme';
+import Providers from './Providers';
+import { StartDsfr } from './StartDsfr';
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   //NOTE: The lang parameter is optional and defaults to "fr"

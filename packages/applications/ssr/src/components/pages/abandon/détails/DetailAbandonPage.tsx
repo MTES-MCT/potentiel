@@ -1,20 +1,22 @@
 'use client';
 
 import { FC } from 'react';
+
+import { StatutBadge } from '@/components/molecules/StatutBadge';
 import {
   DetailDemandeAbandon,
   DetailDemandeAbandonProps,
 } from '@/components/pages/abandon/détails/DetailDemandeAbandon';
 import { DetailInstructionAbandon } from '@/components/pages/abandon/détails/DetailInstructionAbandon';
-import { StatutBadge } from '@/components/molecules/StatutBadge';
+import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
 import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
-import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
-import { RejeterAbandon } from './rejeter/RejeterAbandon';
+
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
-import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
+import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
+import { RejeterAbandon } from './rejeter/RejeterAbandon';
 
 type AvailableActions = Array<
   | 'demander-confirmation'

@@ -1,5 +1,6 @@
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/PageTemplate';
+
 import { Heading1 } from '../atoms/headings';
 
 export type ProjetPageTemplateProps = {

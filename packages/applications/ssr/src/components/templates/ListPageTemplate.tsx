@@ -1,13 +1,13 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { PageTemplate } from './PageTemplate';
-import { ListHeader } from '../organisms/ListHeader';
+import { Heading1 } from '../atoms/headings';
 import { List } from '../organisms/List';
 import { ListFilters } from '../organisms/ListFilters';
-import { useSearchParams } from 'next/navigation';
-import { Heading1 } from '../atoms/headings';
+import { ListHeader } from '../organisms/ListHeader';
+import { PageTemplate } from './PageTemplate';
 
 type ListPageTemplateProps<TItem> = {
   heading: string;

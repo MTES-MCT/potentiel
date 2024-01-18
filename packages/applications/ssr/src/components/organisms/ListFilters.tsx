@@ -1,8 +1,9 @@
 'use client';
-import { usePathname } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { Heading2 } from '../atoms/headings';
+import { usePathname } from 'next/navigation';
 import { FC, useState } from 'react';
+
+import { Heading2 } from '../atoms/headings';
 import { Filter } from '../molecules/Filter';
 
 type ListFiltersProps = {

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { displayDate } from '@/utils/displayDate';
 import { encodeParameter } from '@/utils/encodeParameter';

@@ -1,8 +1,10 @@
 'use client';
 
-import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRecandidature.action';
 import { useRouter } from 'next/navigation';
+
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+
+import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRecandidature.action';
 
 type AccorderAbandonAvecRecandidatureFormProps = {
   identifiantProjet: string;

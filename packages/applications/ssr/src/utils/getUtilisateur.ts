@@ -1,4 +1,5 @@
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+
 import { getAccessToken } from './getAccessToken';
 
 export type Utilisateur = {

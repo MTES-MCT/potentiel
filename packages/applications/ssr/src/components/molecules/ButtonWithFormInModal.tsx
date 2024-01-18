@@ -2,8 +2,8 @@
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
-
 import { FC, useState } from 'react';
+
 import { Form, FormProps } from '../atoms/form/Form';
 
 type ButtonWithFormInModalProps = {

@@ -1,15 +1,15 @@
 'use server';
 
+import { getLogger } from '@potentiel/monitoring';
 import {
   InvalidOperationError,
   NotFoundError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
+import { isNotFoundError } from 'next/dist/client/components/not-found';
+import { isRedirectError } from 'next/dist/client/components/redirect';
 
 import { CustomErrorPage } from '@/components/pages/custom-error/CustomErrorPage';
-import { getLogger } from '@potentiel/monitoring';
-import { isRedirectError } from 'next/dist/client/components/redirect';
-import { isNotFoundError } from 'next/dist/client/components/not-found';
 
 export const PageWithErrorHandling = async (
   action: () => Promise<JSX.Element>,

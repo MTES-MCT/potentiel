@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { ProjetPageTemplate } from './ProjetPageTemplate';
 
 type DetailsAboutProjetPageTemplateProps = {

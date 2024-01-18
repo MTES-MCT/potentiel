@@ -1,8 +1,10 @@
 'use client';
 
-import { TransmettrePreuveRecandidatureForm } from './TransmettrePreuveRecandidatureForm';
-import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
+
+import { ProjetPageTemplate } from '@/components/templates/ProjetPageTemplate';
+
+import { TransmettrePreuveRecandidatureForm } from './TransmettrePreuveRecandidatureForm';
 
 export type TransmettrePreuveRecandidaturePageProps = {
   projet: Parameters<typeof ProjetPageTemplate>[0]['projet'];

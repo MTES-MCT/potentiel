@@ -1,11 +1,11 @@
-import { mediator } from 'mediateur';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
+import { mediator } from 'mediateur';
+import { redirect } from 'next/navigation';
 
 import { AbandonListPage } from '@/components/pages/abandon/lister/AbandonListPage';
 import { displayDate } from '@/utils/displayDate';
 import { getUser } from '@/utils/getUtilisateur';
-import { redirect } from 'next/navigation';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 type PageProps = {

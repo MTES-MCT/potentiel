@@ -1,5 +1,5 @@
-import { DomainError } from '@potentiel-domain/core';
 import { getLogger } from '@potentiel/monitoring';
+import { DomainError } from '@potentiel-domain/core';
 import * as zod from 'zod';
 
 export type FormState = {

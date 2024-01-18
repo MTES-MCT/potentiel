@@ -1,8 +1,9 @@
-import { apiAction } from '@/utils/apiAction';
-import { mediator } from 'mediateur';
-import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
-import { getUser } from '@/utils/getUtilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
+import { mediator } from 'mediateur';
+
+import { apiAction } from '@/utils/apiAction';
+import { getUser } from '@/utils/getUtilisateur';
 
 export const dynamic = 'force-dynamic';
 

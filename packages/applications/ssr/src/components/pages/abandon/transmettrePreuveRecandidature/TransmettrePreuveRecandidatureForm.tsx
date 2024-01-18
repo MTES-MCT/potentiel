@@ -1,14 +1,14 @@
 'use client';
 
+import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
-
-import { transmettrePreuveRecandidatureAction } from './transmettrePreuveRecandidature.action';
-import { useRouter } from 'next/navigation';
-import { encodeParameter } from '@/utils/encodeParameter';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { encodeParameter } from '@/utils/encodeParameter';
+
+import { transmettrePreuveRecandidatureAction } from './transmettrePreuveRecandidature.action';
 
 type ProjetÀSélectionner = {
   identifiantProjet: string;

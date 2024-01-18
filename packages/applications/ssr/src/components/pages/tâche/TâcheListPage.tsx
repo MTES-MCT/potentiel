@@ -1,10 +1,10 @@
 'use client';
 
-import { FC } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 
-import { ListPageTemplate } from '@/components/templates/ListPageTemplate';
 import { TâcheListItem } from '@/components/molecules/tâche/TâcheListItem';
+import { ListPageTemplate } from '@/components/templates/ListPageTemplate';
 
 type AbandonListPageProps = {
   list: {

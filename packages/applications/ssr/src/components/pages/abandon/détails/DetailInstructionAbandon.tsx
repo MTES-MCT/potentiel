@@ -1,8 +1,9 @@
+import Download from '@codegouvfr/react-dsfr/Download';
+import { FC } from 'react';
+
 import { Heading2 } from '@/components/atoms/headings';
 import { displayDate } from '@/utils/displayDate';
 import { encodeParameter } from '@/utils/encodeParameter';
-import Download from '@codegouvfr/react-dsfr/Download';
-import { FC } from 'react';
 
 type DetailInstructionAbandonProps = {
   confirmation?: {

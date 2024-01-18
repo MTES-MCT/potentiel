@@ -1,5 +1,5 @@
-import { decode } from 'next-auth/jwt';
 import { cookies } from 'next/headers';
+import { decode } from 'next-auth/jwt';
 
 const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
 

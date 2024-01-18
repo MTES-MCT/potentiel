@@ -1,9 +1,9 @@
+import { getLogger } from '@potentiel/monitoring';
 import {
   InvalidOperationError,
   NotFoundError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
-import { getLogger } from '@potentiel/monitoring';
 
 export const apiAction = async (action: () => Promise<Response>) => {
   try {

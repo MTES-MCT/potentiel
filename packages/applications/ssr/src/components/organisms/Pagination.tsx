@@ -1,5 +1,6 @@
 import React, { ComponentProps, FC } from 'react';
-import { PreviousPageIcon, NextPageIcon, FirstPageIcon, LastPageIcon } from '../atoms/icons';
+
+import { FirstPageIcon, LastPageIcon, NextPageIcon, PreviousPageIcon } from '../atoms/icons';
 
 type PaginationProps = {
   pageCount: number;

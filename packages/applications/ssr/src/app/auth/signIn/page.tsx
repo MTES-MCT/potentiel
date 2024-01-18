@@ -1,9 +1,10 @@
 'use client';
 
-import { PageTemplate } from '@/components/templates/PageTemplate';
-import { signIn, useSession } from 'next-auth/react';
 import { redirect, useSearchParams } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
+
+import { PageTemplate } from '@/components/templates/PageTemplate';
 
 export default function SignIn() {
   const params = useSearchParams();

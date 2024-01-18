@@ -1,11 +1,12 @@
 'use client';
 
-import { displayDate } from '@/utils/displayDate';
-import Download from '@codegouvfr/react-dsfr/Download';
-import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
+import Download from '@codegouvfr/react-dsfr/Download';
+import { FC } from 'react';
+
 import { Heading2 } from '@/components/atoms/headings';
+import { displayDate } from '@/utils/displayDate';
 import { encodeParameter } from '@/utils/encodeParameter';
 
 export type DetailDemandeAbandonProps = {

@@ -1,5 +1,6 @@
-import { FC } from 'react';
 import Image from 'next/image';
+import { FC } from 'react';
+
 import { Heading1 } from '@/components/atoms/headings';
 
 type ErrorType =

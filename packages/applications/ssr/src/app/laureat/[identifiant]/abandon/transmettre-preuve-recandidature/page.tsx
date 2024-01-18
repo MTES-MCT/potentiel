@@ -1,19 +1,20 @@
-import { mediator } from 'mediateur';
 import {
   ConsulterCandidatureQuery,
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
 } from '@potentiel-domain/candidature';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getUser } from '@/utils/getUtilisateur';
+import { Abandon } from '@potentiel-domain/laureat';
+import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { mediator } from 'mediateur';
 import { redirect } from 'next/navigation';
+
 import {
   TransmettrePreuveRecandidaturePage,
   TransmettrePreuveRecandidaturePageProps,
 } from '@/components/pages/abandon/transmettrePreuveRecandidature/TransmettrePreuveRecandidaturePage';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { Abandon } from '@potentiel-domain/laureat';
+import { getUser } from '@/utils/getUtilisateur';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {

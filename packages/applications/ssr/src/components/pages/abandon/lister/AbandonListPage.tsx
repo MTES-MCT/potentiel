@@ -1,7 +1,7 @@
 'use client';
 
-import { FC } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 
 import { AbandonListItem } from '@/components/pages/abandon/lister/AbandonListItem';
 import { ListPageTemplate } from '@/components/templates/ListPageTemplate';

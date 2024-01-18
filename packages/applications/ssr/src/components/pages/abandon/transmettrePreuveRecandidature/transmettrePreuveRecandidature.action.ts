@@ -1,10 +1,11 @@
 'use server';
 
+import { Abandon } from '@potentiel-domain/laureat';
+import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
-import { Abandon } from '@potentiel-domain/laureat';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+
+import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 export type TransmettrePreuveRecandidatureState = FormState;
 

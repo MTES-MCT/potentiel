@@ -1,9 +1,10 @@
+import { Abandon } from '@potentiel-domain/laureat';
 import { mediator } from 'mediateur';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { redirect } from 'next/navigation';
+
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getUser } from '@/utils/getUtilisateur';
-import { Abandon } from '@potentiel-domain/laureat';
-import { redirect } from 'next/navigation';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 export const GET = async (request: Request, { params: { identifiant } }: IdentifiantParameter) => {
   const identifiantProjet = decodeParameter(identifiant);

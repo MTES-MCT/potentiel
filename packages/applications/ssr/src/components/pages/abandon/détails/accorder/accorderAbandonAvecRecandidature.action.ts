@@ -1,13 +1,14 @@
 'use server';
 
-import { mediator } from 'mediateur';
-import * as zod from 'zod';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { Abandon } from '@potentiel-domain/laureat';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument } from '@potentiel-infrastructure/document-builder';
+import { mediator } from 'mediateur';
+import * as zod from 'zod';
+
+import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 const schema = zod.object({
   identifiantProjet: zod.string(),

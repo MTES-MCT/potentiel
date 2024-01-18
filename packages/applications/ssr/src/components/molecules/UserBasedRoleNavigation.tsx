@@ -1,6 +1,7 @@
-import { getAccessToken } from '@/utils/getAccessToken';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+
+import { getAccessToken } from '@/utils/getAccessToken';
 
 export async function UserBasedRoleNavigation() {
   const accessToken = await getAccessToken();

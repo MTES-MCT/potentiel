@@ -1,12 +1,12 @@
-import { mediator } from 'mediateur';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tache';
-
-import { displayDate } from '@/utils/displayDate';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { TâcheListPage } from '@/components/pages/tâche/TâcheListPage';
-import { getUser } from '@/utils/getUtilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tache';
+import { mediator } from 'mediateur';
+
+import { TâcheListPage } from '@/components/pages/tâche/TâcheListPage';
+import { displayDate } from '@/utils/displayDate';
+import { getUser } from '@/utils/getUtilisateur';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 type PageProps = {

@@ -1,18 +1,19 @@
-import { mediator } from 'mediateur';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getUser } from '@/utils/getUtilisateur';
+import { NotFoundError } from '@potentiel-domain/core';
+import { CahierDesCharges } from '@potentiel-domain/laureat';
+import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { mediator } from 'mediateur';
 import { redirect } from 'next/navigation';
+
 import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
 } from '@/components/pages/abandon/demander/DemanderAbandonPage';
-import { CahierDesCharges } from '@potentiel-domain/laureat';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { decodeParameter } from '@/utils/decodeParameter';
+import { getUser } from '@/utils/getUtilisateur';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
-import { NotFoundError } from '@potentiel-domain/core';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {

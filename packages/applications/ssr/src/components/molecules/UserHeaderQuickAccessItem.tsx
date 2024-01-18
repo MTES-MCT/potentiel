@@ -1,8 +1,9 @@
-import { Utilisateur, getUser } from '@/utils/getUtilisateur';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Role } from '@potentiel-domain/utilisateur';
 import { mediator } from 'mediateur';
+
+import { getUser, Utilisateur } from '@/utils/getUtilisateur';
 
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = await getUser();
