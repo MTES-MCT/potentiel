@@ -162,9 +162,11 @@ export const registerExempleUseCase = () => {
 
 Les commandes sont des unités de travail unitaires permettant de muter les entités du domaine. Elles sont généralement appelées par un use case ou une saga.
 
-Les paramètres en entrée d'une commande représentant des entités métier sont obligatoirement des value types
+Les paramètres en entrée d'une commande représentant des éléments métier sont obligatoirement des values types
 
-C'est ici que l'on va charger l'agrégat, faire des vérifications et exécuter le comportement (`behavior`) attendu.
+C'est ici que l'on va charger l'agrégat, exécuter le comportement (`behavior`) attendu.
+
+Le `behavior` lui fait les vérifications nécessaires et publie les évènements.
 
 Exemple d'une commande et de son comportement associé :
 
@@ -325,7 +327,7 @@ export const register = () => {
 
 ### <a id="valuetype"></a>ValueType
 
-Un value type permet de centraliser des règles métier et de permettre également de récupérer une représentation métier depuis une valeur brute (`RawType`).
+Un value type (ou value object) est un type immuable qui se distingue uniquement par l'état de ses propriétés. Autrement dit, contrairement à une entité métier, qui possède un identifiant unique et reste distincte même si ses propriétés sont par ailleurs identiques, deux objets de valeur ayant exactement les mêmes propriétés peuvent être considérés comme égaux.
 
 Par exemple le value type pour les dates :
 
@@ -401,7 +403,7 @@ class DateTimeInvalideError extends InvalidOperationError {
 
 ## Tests/Spécifications
 
-Dans le package `@potentiel/specifications` sont centralisés tous les scénarios des fonctionnalités implémentés dans le projet.
+Dans le package `@potentiel/specifications` sont centralisés tous les scénarii des fonctionnalités implémentés dans le projet.
 
 L'exécution est faite grâce à librairie [@cucumber/cucumber-js](https://cucumber.io/docs/installation/javascript/)
 
@@ -411,7 +413,7 @@ Les scénarios eux sont écrits en langage [Gherkin](https://cucumber.io/docs/gh
 
 ### Adapters
 
-Package regroupant les implémentations des `Ports` nécessaire et définis dans le domaine qui font appels à des librairies tierces. Cette séparation permet de ne pas coupler la couche domaine à des parties spécifique à l'infrastructure, comme par exemple l'accès à un bucket s3 pour le stockage de fichiers.
+Package regroupant les implémentations des `Ports` nécessaire et définis dans le domaine qui font appels à des librairies tierces. Cette séparation permet de ne pas coupler la couche domaine à des parties spécifique de l'infrastructure, comme par exemple l'accès à un bucket s3 pour le stockage de fichiers.
 
 ### Notifications
 
@@ -419,7 +421,7 @@ Package permettant la notification par email de certains évènements ayant lieu
 
 ### Projectors
 
-Cette partie de l'infrastructure permet l'alimentation de la partie `Query` et donc des projections du projet.
+Cette partie de l'infrastructure permet l'alimentation de la partie `Query` et donc des projections. C'est ici que l'on opère des transformations de donnée si beosin.
 
 ```typescript
 // file: exemple.projector.ts
