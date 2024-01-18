@@ -26,7 +26,7 @@
 
 ### Routing (répertoire `app`)
 
-Les répertoires permettant de formaliser les routes de l'applications sont plurialisés afin d'avoir des URLs du genre :
+Les répertoires permettant de formaliser les routes de l'applications sont plurialisées afin d'avoir des URLs du genre :
 
 - pour l'accès à l'abandon d'un projet lauréat : `/laureats/[:id]/abandon`
 - la liste complète des abandons : `/abandons`
@@ -89,7 +89,7 @@ Exemple d'une query :
 ```typescript
 // file: exemple.query.ts
 
-export type ConsulterAbandonReadModel = {
+export type ConsulterExempleReadModel = {
   propriété: string;
 };
 
@@ -187,7 +187,6 @@ export const registerExemple1Command = (loadAggregate: LoadAggregate) => {
 
     await domaine.comportement({
       date,
-      identifiant,
       donnée,
     });
   };
@@ -202,43 +201,36 @@ export type ComportementArrivéEvent = DomainEvent<
   'ComportementArrivé-V1',
   {
     date: DateTime.RawType;
-    identifiant: Identifiant.RawType;
     donnée: string;
   }
 >;
 
 export type ComportementOptions = {
   date: DateTime.ValueType;
-  identifiant: IdentifiantUtilisateur.ValueType;
   donnée: string;
 };
 
 export async function comportement(
   this: ExempleAggregate,
-  { date, identifiant, donnée }: ComportementOptions,
+  { date, donnée }: ComportementOptions,
 ) {
   const event: ComportementArrivéEvent = {
     type: 'ComportementArrivé-V1',
     payload: {
-      identifiant: identifiant.formatter(),
-      donnée,
       date: date.formatter(),
+      donnée,
     },
   };
 
   await this.publish(event);
 }
 
-export function applyAbandonAccordé(
-  this: AbandonAggregate,
-  { payload: { accordéLe, réponseSignée } }: AbandonAccordéEvent,
+export function applyComportementArrivé(
+  this: ExempleAggregate,
+  { payload: { date, identifiant, donnée } }: ComportementArrivéEvent,
 ) {
-  this.statut = StatutAbandon.accordé;
-  this.rejet = undefined;
-  this.accord = {
-    accordéLe: DateTime.convertirEnValueType(accordéLe),
-    réponseSignée,
-  };
+  this.date = DateTime.convertirEnValueType(date);
+  this.donnée = donnée
 }
 ```
 
@@ -280,7 +272,7 @@ function apply(this: ExempleAggregate, event: ExempleEvent) {
   }
 }
 
-export const loadAbandonFactory =
+export const loadExempleFactory =
   (loadAggregate: LoadAggregate) =>
   (identifiant: Identifiant.ValueType, throwOnNone = true) => {
     return loadAggregate({
@@ -412,11 +404,11 @@ class DateTimeInvalideError extends InvalidOperationError {
 
 ## Tests/Spécifications
 
-Dans le package `@potentiel/spcifications` sont centralisés tous les scénarii des fonctionnalités implémentés dans le projet.
+Dans le package `@potentiel/specifications` sont centralisés tous les scénarios des fonctionnalités implémentés dans le projet.
 
 L'exécution est faite grâce à librairie [@cucumber/cucumber-js](https://cucumber.io/docs/installation/javascript/)
 
-Les scénarii eux sont écrits en langage [Gherkin](https://cucumber.io/docs/gherkin/reference/)
+Les scénarios eux sont écrits en langage [Gherkin](https://cucumber.io/docs/gherkin/reference/)
 
 ## Infrastructure
 
