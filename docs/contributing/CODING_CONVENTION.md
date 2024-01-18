@@ -39,6 +39,104 @@ Pour afficher le contenu d'une URL, on utilise une `page.tsx` qui a les responsa
 - Ensuite, convertir le `read model` en `props`
 - Enfin retourner la page correspondante située dans la partie `pages` de l'Atomic Design (répertoire `components`)
 
+Exemple d'une page listant des exemples :
+
+```typescript
+// file: page.tsx
+
+type PageProps = {
+  searchParams?: Record<string, string>;
+};
+
+export const metadata: Metadata = {
+  title: 'Titre de la page',
+  description: 'Description de la page',
+};
+
+export default async function Page({ searchParams }: IdentifiantParameter & PageProps) {
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+
+      const exemples = await mediator.send<ListerExemplesQuery>({
+        type: 'LISTER_EXEMPLES_QUERY',
+        data: {
+          pagination: { page, itemsPerPage: 10 },
+          email: utilisateur.identifiantUtilisateur.email,
+        },
+      });
+
+      const filters = [
+        {
+          label: `Un filtre`,
+          searchParamKey: 'filtre',
+          defaultValue: 'Valeur par défaut',
+          options: [...],
+        },
+      ];
+
+      return <ExempleListPage list={mapToListProps(exemples)} filters={filters} />;
+    }),
+  );
+}
+
+const mapToListProps = (readModel: ListerExemplesReadModel): ExempleListPageProps['list'] => {
+  const items = readModel.items.map(
+    ({
+      identifiant,
+      date,
+      donnée,
+    }) => ({
+      identifiant: identifiant.formatter(),
+      date: displayDate(date),
+      donnée,
+    }),
+  );
+
+  return {
+    items,
+    currentPage: readModel.currentPage,
+    itemsPerPage: readModel.itemsPerPage,
+    totalItems: readModel.totalItems,
+  };
+};
+```
+
+### Convention de nommage des composants
+
+- Avoir un nom clair
+- Les termes liés au métier ne sont pas traduits et donc en français
+- Les termes techniques eux restent en anglais
+
+Exemple :
+
+```typescript
+// file: StatutConventionCodageBadge.tsx
+
+export const StatutConventionCodageBadge = () => {
+  return <div>Statut</div>;
+};
+```
+
+### Bonnes pratiques :
+
+- Les `props` des composants sont exportées afin d'être réutilisable dans les composants parents
+- Les `props` sont définis explicitement dans des types
+
+Exemple :
+
+```typescript
+// file: StatutConventionCodageBadge.tsx
+
+export type StatutConventionCodageBadgeProps = {
+  statut: 'en-cours' | 'terminée';
+};
+
+export const StatutConventionCodageBadge: FC<StatutConventionCodageBadgeProps> = ({ statut }) => {
+  return <div>{statut}</div>;
+};
+```
+
 ### Les utilitaires clés
 
 - Pour gérer les erreurs d'une page, il faut utiliser le composant utilitaire `PageWithErrorHandling`
