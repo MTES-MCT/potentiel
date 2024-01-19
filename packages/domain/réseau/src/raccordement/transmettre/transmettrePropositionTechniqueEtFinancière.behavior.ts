@@ -63,7 +63,7 @@ export async function transmettrePropositionTechniqueEtFinancière(
     throw new DateDansLeFuturError();
   }
 
-  if (this.contientLeDossier(référenceDossierRaccordement)) {
+  if (!this.contientLeDossier(référenceDossierRaccordement)) {
     throw new DossierRaccordementNonRéférencéError();
   }
 
