@@ -49,7 +49,7 @@ export const registerListerDossierRaccordementQuery = ({
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    return result.demandes.map((demande) => mapToReadModel(identifiantProjet, demande));
+    return result.dossiers.map((dossier) => mapToReadModel(identifiantProjet, dossier));
   };
 
   mediator.register('LISTER_DOSSIER_RACCORDEMENT_QUERY', handler);
@@ -62,7 +62,7 @@ const mapToReadModel = (
     demandeComplèteRaccordement,
     propositionTechniqueEtFinancière,
     miseEnService,
-  }: RaccordementEntity['demandes'][number],
+  }: RaccordementEntity['dossiers'][number],
 ): ListerDossierRaccordementReadModel[number] => {
   const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(référence);
   return {
@@ -93,7 +93,7 @@ const mapToReadModel = (
               référenceDossierRaccordement.formatter(),
             ).formatter(),
             propositionTechniqueEtFinancière.dateSignature,
-            propositionTechniqueEtFinancière.format,
+            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format || '',
           ),
         }
       : undefined,

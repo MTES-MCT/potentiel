@@ -25,7 +25,7 @@ export { ConsulterDossierRaccordementQuery, RechercherDossierRaccordementQuery }
 export { ConsulterDossierRaccordementReadModel, RechercherDossierRaccordementReadModel };
 
 // UseCases
-export type GestionnaireRéseauUseCase =
+export type RaccordementUseCase =
   | ModifierDemandeComplèteRaccordementUseCase
   | ModifierGestionnaireRéseauRaccordementUseCase
   | ModifierPropositiontechniqueEtFinancièreUseCase
