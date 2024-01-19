@@ -15,18 +15,18 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
-  // #dateSignature!: DateTimeValueType;
+  #dateSignature!: DateTime.ValueType;
 
-  // get dateSignature(): DateTimeValueType {
-  //   if (!this.#dateSignature) {
-  //     throw new Error('dateSignature not initialized');
-  //   }
-  //   return this.#dateSignature;
-  // }
+  get dateSignature(): DateTime.ValueType {
+    if (!this.#dateSignature) {
+      throw new Error('dateSignature not initialized');
+    }
+    return this.#dateSignature;
+  }
 
-  // set dateSignature(value: DateTimeValueType) {
-  //   this.#dateSignature = value;
-  // }
+  set dateSignature(value: DateTime.ValueType) {
+    this.#dateSignature = value;
+  }
 
   #dateMiseEnService!: DateTime.ValueType;
 
@@ -54,18 +54,18 @@ export class RaccordementWorld {
     this.#accuséRéceptionDemandeComplèteRaccordement = value;
   }
 
-  // #propositionTechniqueEtFinancièreSignée!: { format: string; content: string };
+  #propositionTechniqueEtFinancièreSignée!: { format: string; content: string };
 
-  // get propositionTechniqueEtFinancièreSignée(): { format: string; content: string } {
-  //   if (!this.#propositionTechniqueEtFinancièreSignée) {
-  //     throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
-  //   }
-  //   return this.#propositionTechniqueEtFinancièreSignée;
-  // }
+  get propositionTechniqueEtFinancièreSignée(): { format: string; content: string } {
+    if (!this.#propositionTechniqueEtFinancièreSignée) {
+      throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
+    }
+    return this.#propositionTechniqueEtFinancièreSignée;
+  }
 
-  // set propositionTechniqueEtFinancièreSignée(value: { format: string; content: string }) {
-  //   this.#propositionTechniqueEtFinancièreSignée = value;
-  // }
+  set propositionTechniqueEtFinancièreSignée(value: { format: string; content: string }) {
+    this.#propositionTechniqueEtFinancièreSignée = value;
+  }
 
   #référenceDossierRaccordement!: RéférenceDossierRaccordement.ValueType;
 

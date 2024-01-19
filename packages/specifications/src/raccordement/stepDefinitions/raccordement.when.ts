@@ -92,3 +92,49 @@ Quand(
     }
   },
 );
+
+Quand(
+  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat {string} ayant pour référence {string} avec :`,
+  async function (
+    this: PotentielWorld,
+    nomProjet: string,
+    référenceDossierRaccordement: string,
+    table: DataTable,
+  ) {
+    const exemple = table.rowsHash();
+    const dateSignature = exemple['La date de signature'];
+    const format = exemple[`Le format de la proposition technique et financière`];
+    const content = exemple[`Le contenu de proposition technique et financière`];
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const propositionTechniqueEtFinancièreSignée = {
+      format,
+      content: convertStringToReadableStream(content),
+    };
+
+    this.raccordementWorld.dateSignature = DateTime.convertirEnValueType(
+      new Date(dateSignature).toISOString(),
+    );
+    this.raccordementWorld.référenceDossierRaccordement =
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
+    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+      format,
+      content,
+    };
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+        data: {
+          dateSignatureValue: new Date(dateSignature).toISOString(),
+          référenceDossierRaccordementValue: référenceDossierRaccordement,
+          identifiantProjetValue: identifiantProjet.formatter(),
+          propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);

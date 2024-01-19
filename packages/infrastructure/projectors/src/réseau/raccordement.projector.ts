@@ -1,4 +1,4 @@
-import { Raccordement , GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { removeProjection } from '../utils/removeProjection';
@@ -184,7 +184,9 @@ export const register = () => {
                   ...dossier,
                   propositionTechniqueEtFinancière: {
                     dateSignature: event.payload.dateSignature,
-                    format: '',
+                    propositionTechniqueEtFinancièreSignée: {
+                      format: '',
+                    },
                   },
                   misÀJourLe: event.created_at,
                 };
@@ -193,7 +195,9 @@ export const register = () => {
                   ...dossier,
                   propositionTechniqueEtFinancière: {
                     dateSignature: event.payload.dateSignature,
-                    format: event.payload.propositionTechniqueEtFinancièreSignée.format,
+                    propositionTechniqueEtFinancièreSignée: {
+                      format: event.payload.propositionTechniqueEtFinancièreSignée.format,
+                    },
                   },
                   misÀJourLe: event.created_at,
                 };
