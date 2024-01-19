@@ -1,5 +1,6 @@
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mediator } from 'mediateur';
+
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ModifierGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/ModifierGestionnaireRéseauPage';
 import { decodeParameter } from '@/utils/decodeParameter';

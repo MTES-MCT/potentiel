@@ -1,11 +1,12 @@
+import { mediator } from 'mediateur';
+import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { NotFoundError } from '@potentiel-domain/core';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-libraries/routes';
-import { mediator } from 'mediateur';
-import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 import {
   DemanderAbandonPage,

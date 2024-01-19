@@ -11,8 +11,9 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { Routes } from '@potentiel-libraries/routes';
 import { FC } from 'react';
+
+import { Routes } from '@potentiel-libraries/routes';
 
 import { displayDate } from '@/utils/displayDate';
 

@@ -1,8 +1,9 @@
+import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
+
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { mediator } from 'mediateur';
-import type { Metadata } from 'next';
 
 import {
   DetailAbandonPage,

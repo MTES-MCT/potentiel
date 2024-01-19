@@ -1,6 +1,7 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { Abandon } from '@potentiel-domain/laureat';
 import { FC } from 'react';
+
+import { Abandon } from '@potentiel-domain/laureat';
 
 export type StatutPreuveRecandidatureBadgeProps = {
   statut: Abandon.StatutPreuveRecandidature.RawType;

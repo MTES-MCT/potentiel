@@ -1,7 +1,8 @@
 'use server';
 
-import { NotFoundError } from '@potentiel-domain/core';
 import * as zod from 'zod';
+
+import { NotFoundError } from '@potentiel-domain/core';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 

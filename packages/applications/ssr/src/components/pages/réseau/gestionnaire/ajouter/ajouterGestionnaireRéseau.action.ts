@@ -1,8 +1,9 @@
 'use server';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
+
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 

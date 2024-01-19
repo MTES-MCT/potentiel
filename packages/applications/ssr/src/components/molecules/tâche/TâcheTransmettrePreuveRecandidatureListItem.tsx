@@ -1,5 +1,6 @@
-import { Routes } from '@potentiel-libraries/routes';
 import { FC } from 'react';
+
+import { Routes } from '@potentiel-libraries/routes';
 
 type TâcheTransmettrePreuveRecandidatureListItemProps = {
   identifiantProjet: string;

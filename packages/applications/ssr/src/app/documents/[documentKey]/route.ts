@@ -1,5 +1,6 @@
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { mediator } from 'mediateur';
+
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
 type DocumentKeyParameter = {
   params: {

@@ -1,4 +1,5 @@
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-libraries/routes';
 

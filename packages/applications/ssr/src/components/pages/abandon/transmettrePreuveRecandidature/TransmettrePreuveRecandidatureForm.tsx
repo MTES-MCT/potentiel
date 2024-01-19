@@ -1,9 +1,10 @@
 'use client';
 
-import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
-import { Routes } from '@potentiel-libraries/routes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
+
+import { Routes } from '@potentiel-libraries/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';

@@ -1,12 +1,13 @@
+import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+
 import {
   ConsulterCandidatureQuery,
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
 } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-libraries/routes';
-import { mediator } from 'mediateur';
-import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 import {
   TransmettrePreuveRecandidaturePage,

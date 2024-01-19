@@ -1,7 +1,8 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import { FC } from 'react';
+
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-libraries/routes';
-import { FC } from 'react';
 
 import { StatutBadge } from '../../../molecules/StatutBadge';
 import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';

@@ -8,6 +8,7 @@ import { LinkAction } from '../atoms/LinkAction';
 import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
 import { ListHeader, ListHeaderProps } from '../organisms/ListHeader';
+
 import { PageTemplate } from './PageTemplate';
 
 export type ListPageTemplateProps<TItem> = {

@@ -1,6 +1,7 @@
-import { getLogger } from '@potentiel/monitoring';
-import { DomainError } from '@potentiel-domain/core';
 import * as zod from 'zod';
+import { getLogger } from '@potentiel/monitoring';
+
+import { DomainError } from '@potentiel-domain/core';
 
 export type FormState = {
   success?: true;

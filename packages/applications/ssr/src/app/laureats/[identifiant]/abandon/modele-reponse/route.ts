@@ -1,5 +1,6 @@
-import { Abandon } from '@potentiel-domain/laureat';
 import { mediator } from 'mediateur';
+
+import { Abandon } from '@potentiel-domain/laureat';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';

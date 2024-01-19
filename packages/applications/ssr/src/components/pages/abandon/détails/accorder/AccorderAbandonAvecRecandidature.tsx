@@ -1,7 +1,8 @@
 'use client';
 
-import { Routes } from '@potentiel-libraries/routes';
 import { useRouter } from 'next/navigation';
+
+import { Routes } from '@potentiel-libraries/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 

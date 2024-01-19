@@ -2,9 +2,10 @@
 
 import Download from '@codegouvfr/react-dsfr/Download';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import { Routes } from '@potentiel-libraries/routes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { Routes } from '@potentiel-libraries/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 

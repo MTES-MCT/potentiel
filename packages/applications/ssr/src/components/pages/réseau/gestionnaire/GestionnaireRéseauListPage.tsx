@@ -1,7 +1,8 @@
 'use client';
 
-import { Routes } from '@potentiel-libraries/routes';
 import { FC } from 'react';
+
+import { Routes } from '@potentiel-libraries/routes';
 
 import { GestionnaireRéseauListItem } from '@/components/molecules/réseau/gestionnaireRéseau/GestionnaireRéseauListItem';
 import { ListPageTemplate } from '@/components/templates/ListPageTemplate';

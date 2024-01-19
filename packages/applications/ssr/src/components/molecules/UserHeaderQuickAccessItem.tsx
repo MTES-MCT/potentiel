@@ -1,8 +1,9 @@
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
+import { mediator } from 'mediateur';
+
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-libraries/routes';
-import { mediator } from 'mediateur';
 
 import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 
