@@ -99,7 +99,7 @@ const mapToResult = (
               référence.formatter(),
             ).formatter(),
             propositionTechniqueEtFinancière.dateSignature,
-            propositionTechniqueEtFinancière.format,
+            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format || '',
           ),
         }
       : undefined,
