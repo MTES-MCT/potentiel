@@ -1,8 +1,8 @@
 'use client';
 
+import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Routes } from '@potentiel-libraries/routes';
 

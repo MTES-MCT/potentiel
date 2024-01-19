@@ -1,8 +1,8 @@
-import { getLogger } from '@potentiel/monitoring';
 import { isNotFoundError } from 'next/dist/client/components/not-found';
 import { isRedirectError } from 'next/dist/client/components/redirect';
 import { redirect } from 'next/navigation';
 
+import { getLogger } from '@potentiel/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
 import { NoAuthenticatedUserError } from './getAuthenticatedUser.handler';

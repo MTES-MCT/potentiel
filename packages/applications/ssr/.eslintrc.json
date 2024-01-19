@@ -16,7 +16,7 @@
         ],
         "pathGroups": [
           {
-            "pattern": "@potentiel-*/**",
+            "pattern": "@potentiel*/**",
             "group": "internal",
             "position": "before"
           },
