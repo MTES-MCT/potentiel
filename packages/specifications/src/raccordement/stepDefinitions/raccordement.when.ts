@@ -3,6 +3,7 @@ import { PotentielWorld } from '../../potentiel.world';
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 import { mediator } from 'mediateur';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { DateTime } from '@potentiel-domain/common';
 // import {
 //   convertirEnDateTime,
 //   DomainUseCase,
@@ -76,8 +77,9 @@ Quand(
             raisonSocialeGestionnaire,
           ).codeEIC;
 
-    this.raccordementWorld.dateQualification = dateQualification;
-    this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
+    this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
+    this.raccordementWorld.référenceDossierRaccordement =
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
     this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
       format,
       content,
@@ -95,7 +97,6 @@ Quand(
         },
       });
     } catch (e) {
-      console.log((e as Error).message);
       this.error = e as Error;
     }
   },

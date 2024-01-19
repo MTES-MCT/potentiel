@@ -1,15 +1,17 @@
+import { DateTime } from '@potentiel-domain/common';
+import { RéférenceDossierRaccordement } from '@potentiel-domain/reseau/src/raccordement';
 
 export class RaccordementWorld {
-  #dateQualification!: string;
+  #dateQualification!: DateTime.ValueType;
 
-  get dateQualification(): string {
+  get dateQualification(): DateTime.ValueType {
     if (!this.#dateQualification) {
       throw new Error('dateQualification not initialized');
     }
     return this.#dateQualification;
   }
 
-  set dateQualification(value: string) {
+  set dateQualification(value: DateTime.ValueType) {
     this.#dateQualification = value;
   }
 
@@ -65,16 +67,16 @@ export class RaccordementWorld {
   //   this.#propositionTechniqueEtFinancièreSignée = value;
   // }
 
-  #référenceDossierRaccordement!: string;
+  #référenceDossierRaccordement!: RéférenceDossierRaccordement.ValueType;
 
-  get référenceDossierRaccordement(): string {
+  get référenceDossierRaccordement(): RéférenceDossierRaccordement.ValueType {
     if (!this.#référenceDossierRaccordement) {
       throw new Error('référenceDossierRaccordement not initialized');
     }
     return this.#référenceDossierRaccordement;
   }
 
-  set référenceDossierRaccordement(value: string) {
+  set référenceDossierRaccordement(value: RéférenceDossierRaccordement.ValueType) {
     this.#référenceDossierRaccordement = value;
   }
 }
