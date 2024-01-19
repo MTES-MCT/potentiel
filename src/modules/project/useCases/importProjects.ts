@@ -6,6 +6,7 @@ import { User } from '../../../entities';
 import { parseProjectLine } from '../utils/parseProjectLine';
 import { LegacyModificationRawDataImported } from '../../modificationRequest';
 import { EventBus } from '../../../core/domain';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 interface ImportProjectsDeps {
   eventBus: EventBus;
@@ -86,7 +87,10 @@ export const makeImportProjects =
     }
   };
 
-const checkAppelOffrePeriode = (projectData, appelsOffre) => {
+const checkAppelOffrePeriode = (
+  projectData: ReturnType<typeof parseProjectLine>,
+  appelsOffre: AppelOffre[],
+) => {
   const { appelOffreId, periodeId, familleId } = projectData;
   const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreId);
   if (!appelOffre) {
@@ -116,6 +120,15 @@ const checkAppelOffrePeriode = (projectData, appelsOffre) => {
         `L'appel d'offre ${appelOffreId} requiert une famille et aucune n'est présente`,
       );
     }
+  }
+
+  // Check garanties financières
+  if (
+    appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature' &&
+    projectData.classe === 'Classé' &&
+    !projectData.garantiesFinancièresType
+  ) {
+    throw new Error(`Vous devez renseigner le type de garanties financières.`);
   }
 
   return { isLegacyProject: periode.type === 'legacy' };

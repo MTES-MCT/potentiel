@@ -424,7 +424,7 @@ export const parseProjectLine = (line) => {
       !rawProjectData.garantiesFinancièresDateEchéance
     ) {
       throw new yup.ValidationError(
-        `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+        `La date d'échéance des garanties financières doit être au format JJ/MM/AAAA`,
       );
     }
 

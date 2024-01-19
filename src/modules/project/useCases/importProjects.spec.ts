@@ -550,4 +550,47 @@ describe('importProjects', () => {
       }
     });
   });
+
+  describe(`garanties financières`, () => {
+    it(`Etant donné un projet lauréat 
+        Et dont l'appel d'offre est soumis à garanties financières à la candidature
+        Lorsqu'un projet est importé sans type de garanties financières
+        Alors une erreur devrait être retournée`, async () => {
+      const appelOffreRepo = {
+        findAll: async () => [
+          {
+            id: 'appelOffreId',
+            periodes: [{ id: 'periodeId', type: 'notified' }],
+            familles: [{ id: 'familleId' }],
+            soumisAuxGarantiesFinancieres: 'à la candidature',
+          },
+        ],
+      } as unknown as AppelOffreRepo;
+
+      const lines = [{ ...validLine, 'Classé ?': 'Classé' }] as Record<string, string>[];
+      const importId = new UniqueEntityID().toString();
+
+      const eventBus = {
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        subscribe: jest.fn(),
+      };
+
+      const importProjects = makeImportProjects({
+        eventBus,
+        appelOffreRepo,
+      });
+
+      expect.assertions(4);
+      try {
+        await importProjects({ lines, importId, importedBy: user });
+      } catch (error) {
+        expect(error).toBeDefined();
+        expect(error).toBeInstanceOf(IllegalProjectDataError);
+        expect(error.errors[1]).toContain(
+          `Vous devez renseigner le type de garanties financières.`,
+        );
+        expect(eventBus.publish).not.toHaveBeenCalled();
+      }
+    });
+  });
 });
