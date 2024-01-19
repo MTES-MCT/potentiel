@@ -22,7 +22,6 @@ const fakeLine = {
   CP: '69100 / 01390',
   Commune: 'communeProjet',
   'Classé ?': 'Classé',
-  Notification: '',
   'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': '',
   'Territoire\n(AO ZNI)': '',
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
@@ -54,7 +53,6 @@ const expected = {
   classe: 'Classé',
   isInvestissementParticipatif: false,
   isFinancementParticipatif: false,
-  notifiedOn: 0,
   engagementFournitureDePuissanceAlaPointe: false,
   territoireProjet: '',
   evaluationCarbone: 230.5,
@@ -448,16 +446,9 @@ describe('parseProjectLine', () => {
         }),
       ).toThrowError("Le champ 'Notification' est erronné (la date parait trop ancienne)");
     });
-    // TODO
-    // it(`La colonne est optionnelle`, () => {
-    //   const { Notification, ...fakeLineWithoutNotification } = fakeLine;
-    //   const { notifiedOn, ...expectedWithoutNotifiedOn } = expected;
-    //   expect(
-    //     parseProjectLine({
-    //       ...fakeLineWithoutNotification,
-    //     }),
-    //   ).toMatchObject(expectedWithoutNotifiedOn);
-    // });
+    it(`La colonne Notification est optionnelle`, () => {
+      expect(parseProjectLine(fakeLine)).toMatchObject(expected);
+    });
   });
   describe(`Technologie`, () => {
     it(`Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien"

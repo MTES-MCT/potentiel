@@ -102,7 +102,7 @@ const columnMapper = {
   isFinancementParticipatif: (line: any) => line['Investissement ou financement participatif ?'],
   notifiedOn: (line: any) => {
     const notifiedDate = line['Notification'];
-    if (notifiedDate === '') return 0;
+    if (notifiedDate === '' || !('Notification' in line)) return 0;
 
     const parsed = moment(notifiedDate, DATE_FORMAT);
     if (parsed.isValid()) return parsed.toDate().getTime();
