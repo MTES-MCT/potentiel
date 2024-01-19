@@ -38,7 +38,7 @@ export async function transmettreDateMiseEnService(
     throw new DateAntérieureDateDésignationProjetError();
   }
 
-  if (this.contientLeDossier(référenceDossier)) {
+  if (!this.contientLeDossier(référenceDossier)) {
     throw new DossierRaccordementNonRéférencéError();
   }
 

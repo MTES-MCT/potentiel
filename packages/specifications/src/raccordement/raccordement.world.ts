@@ -28,18 +28,18 @@ export class RaccordementWorld {
   //   this.#dateSignature = value;
   // }
 
-  // #dateMiseEnService!: DateTimeValueType;
+  #dateMiseEnService!: DateTime.ValueType;
 
-  // get dateMiseEnService(): DateTimeValueType {
-  //   if (!this.#dateMiseEnService) {
-  //     throw new Error('dateMiseEnService not initialized');
-  //   }
-  //   return this.#dateMiseEnService;
-  // }
+  get dateMiseEnService(): DateTime.ValueType {
+    if (!this.#dateMiseEnService) {
+      throw new Error('dateMiseEnService not initialized');
+    }
+    return this.#dateMiseEnService;
+  }
 
-  // set dateMiseEnService(value: DateTimeValueType) {
-  //   this.#dateMiseEnService = value;
-  // }
+  set dateMiseEnService(value: DateTime.ValueType) {
+    this.#dateMiseEnService = value;
+  }
 
   #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: string };
 
