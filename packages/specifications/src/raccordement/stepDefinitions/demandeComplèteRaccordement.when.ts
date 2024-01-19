@@ -55,7 +55,7 @@ Quand(
     table: DataTable,
   ) {
     const exemple = table.rowsHash();
-    const dateQualification = exemple['La date de qualification'];
+    const dateQualification = new Date(exemple['La date de qualification']).toISOString();
     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
     const format = exemple[`Le format de l'accusé de réception`];
     const content = exemple[`Le contenu de l'accusé de réception`];
@@ -95,6 +95,7 @@ Quand(
         },
       });
     } catch (e) {
+      console.log((e as Error).message);
       this.error = e as Error;
     }
   },

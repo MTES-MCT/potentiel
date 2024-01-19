@@ -66,7 +66,10 @@ export async function transmettreDemande(
     formatAccuséRéception,
   }: TransmettreDemandeOptions,
 ) {
-  if (!this.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)) {
+  if (
+    !this.identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu) &&
+    !this.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)
+  ) {
     throw new PlusieursGestionnairesRéseauPourUnProjetError();
   }
 
