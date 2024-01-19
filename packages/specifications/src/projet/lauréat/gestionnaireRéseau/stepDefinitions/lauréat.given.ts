@@ -1,9 +1,7 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
-import { none } from '@potentiel/monads';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { randomUUID } from 'crypto';
 import { PotentielWorld } from '../../../../potentiel.world';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
@@ -81,13 +79,7 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
 
   this.lauréatWorld.lauréatFixtures.set(nomProjet, {
     nom: nomProjet,
-    identitiantProjetValueType: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
-    identifiantProjet: convertirEnIdentifiantProjet({
-      appelOffre: 'PPE2 - Eolien',
-      période: '1',
-      famille: none,
-      numéroCRE: '23',
-    }),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
   });
 });
 
@@ -166,12 +158,6 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
 
   this.lauréatWorld.lauréatFixtures.set(nomProjet, {
     nom: nomProjet,
-    identitiantProjetValueType: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
-    identifiantProjet: convertirEnIdentifiantProjet({
-      appelOffre: 'PPE2 - Eolien',
-      période: '1',
-      famille: none,
-      numéroCRE: '23',
-    }),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
   });
 });

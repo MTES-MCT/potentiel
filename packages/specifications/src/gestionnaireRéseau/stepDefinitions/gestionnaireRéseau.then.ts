@@ -1,12 +1,7 @@
 import { Then as Alors, defineParameterType } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
-import {
-  convertirEnIdentifiantGestionnaireRéseau,
-  loadGestionnaireRéseauAggregateFactory,
-} from '@potentiel/domain-usecases';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { loadAggregate } from '@potentiel/pg-event-sourcing';
 import { mediator } from 'mediateur';
 
 Alors(
@@ -15,10 +10,6 @@ Alors(
     const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialeGestionnaireRéseau,
     );
-
-    // Assert aggregate
-    const actualAggregate = await loadGestionnaireRéseauAggregate(gestionnaireRéseau.codeEIC);
-    actualAggregate.codeEIC.should.equal(gestionnaireRéseau.codeEIC);
 
     // Assert read model
     const actualReadModel = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
@@ -73,10 +64,6 @@ Alors(
     const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialeGestionnaireRéseau,
     );
-
-    // Assert aggregate
-    const actualAggregate = await loadGestionnaireRéseauAggregate(gestionnaireRéseau.codeEIC);
-    actualAggregate.codeEIC.should.equal(gestionnaireRéseau.codeEIC);
 
     // Assert read model
     const actualReadModel = await getConsulterReadModel(gestionnaireRéseau.codeEIC);
@@ -143,16 +130,4 @@ const getConsulterReadModel = async (codeEIC: string) => {
   }
 
   return actualReadModel;
-};
-
-const loadGestionnaireRéseauAggregate = async (codeEIC: string) => {
-  const actualAggregate = await loadGestionnaireRéseauAggregateFactory({ loadAggregate })(
-    convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-  );
-
-  if (isNone(actualAggregate)) {
-    throw new Error(`L'agrégat gestionnaire de réseau n'existe pas !`);
-  }
-
-  return actualAggregate;
 };

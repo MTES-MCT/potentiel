@@ -7,21 +7,27 @@ import { RaccordementEntity } from '../raccordement.entity';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
-export type ListerDossierRaccordementReadModel = Array<{
-  référence: RéférenceDossierRaccordement.ValueType;
-  demandeComplèteRaccordement: {
-    dateQualification?: DateTime.ValueType;
-    accuséRéception?: DocumentProjet.ValueType;
-  };
-  propositionTechniqueEtFinancière?: {
-    dateSignature: DateTime.ValueType;
-    propositionTechniqueEtFinancièreSignée: DocumentProjet.ValueType;
-  };
-  miseEnService?: {
-    dateMiseEnService?: DateTime.ValueType;
-  };
-}>;
+export type ListerDossierRaccordementReadModel = {
+  identifiantProject: IdentifiantProjet.ValueType;
+  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  dossiers: Array<{
+    référence: RéférenceDossierRaccordement.ValueType;
+    demandeComplèteRaccordement: {
+      dateQualification?: DateTime.ValueType;
+      accuséRéception?: DocumentProjet.ValueType;
+    };
+    propositionTechniqueEtFinancière?: {
+      dateSignature: DateTime.ValueType;
+      propositionTechniqueEtFinancièreSignée: DocumentProjet.ValueType;
+    };
+    miseEnService?: {
+      dateMiseEnService?: DateTime.ValueType;
+    };
+    misÀJourLe: DateTime.ValueType;
+  }>;
+};
 
 export type ListerDossierRaccordementQuery = Message<
   'LISTER_DOSSIER_RACCORDEMENT_QUERY',
@@ -49,58 +55,61 @@ export const registerListerDossierRaccordementQuery = ({
       throw new DossierRaccordementNonRéférencéError();
     }
 
-    return result.dossiers.map((dossier) => mapToReadModel(identifiantProjet, dossier));
+    return mapToReadModel(result);
   };
 
   mediator.register('LISTER_DOSSIER_RACCORDEMENT_QUERY', handler);
 };
 
-const mapToReadModel = (
-  identifiantProjet: IdentifiantProjet.ValueType,
-  {
-    référence,
-    demandeComplèteRaccordement,
-    propositionTechniqueEtFinancière,
-    miseEnService,
-  }: RaccordementEntity['dossiers'][number],
-): ListerDossierRaccordementReadModel[number] => {
-  const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(référence);
+const mapToReadModel = (entity: RaccordementEntity): ListerDossierRaccordementReadModel => {
   return {
-    référence: référenceDossierRaccordement,
-    demandeComplèteRaccordement: {
-      dateQualification: demandeComplèteRaccordement?.dateQualification
-        ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
-        : undefined,
-      accuséRéception: demandeComplèteRaccordement?.accuséRéception
-        ? DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-              référenceDossierRaccordement.formatter(),
-            ).formatter(),
-            demandeComplèteRaccordement.dateQualification || '',
-            demandeComplèteRaccordement.accuséRéception.format,
-          )
-        : undefined,
-    },
-    propositionTechniqueEtFinancière: propositionTechniqueEtFinancière
-      ? {
-          dateSignature: DateTime.convertirEnValueType(
-            propositionTechniqueEtFinancière.dateSignature,
-          ),
-          propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-              référenceDossierRaccordement.formatter(),
-            ).formatter(),
-            propositionTechniqueEtFinancière.dateSignature,
-            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format || '',
-          ),
-        }
-      : undefined,
-    miseEnService: miseEnService
-      ? {
-          dateMiseEnService: DateTime.convertirEnValueType(miseEnService.dateMiseEnService),
-        }
-      : undefined,
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
+      entity.identifiantGestionnaireRéseau,
+    ),
+    identifiantProject: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+    dossiers: entity.dossiers.map(
+      ({
+        demandeComplèteRaccordement,
+        misÀJourLe,
+        référence,
+        miseEnService,
+        propositionTechniqueEtFinancière,
+      }) => ({
+        référence: RéférenceDossierRaccordement.convertirEnValueType(référence),
+        demandeComplèteRaccordement: {
+          dateQualification: demandeComplèteRaccordement?.dateQualification
+            ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
+            : undefined,
+          accuséRéception: demandeComplèteRaccordement?.accuséRéception
+            ? DocumentProjet.convertirEnValueType(
+                entity.identifiantProjet,
+                TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(référence).formatter(),
+                demandeComplèteRaccordement.dateQualification || '',
+                demandeComplèteRaccordement.accuséRéception.format,
+              )
+            : undefined,
+        },
+        propositionTechniqueEtFinancière: propositionTechniqueEtFinancière
+          ? {
+              dateSignature: DateTime.convertirEnValueType(
+                propositionTechniqueEtFinancière.dateSignature,
+              ),
+              propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
+                entity.identifiantProjet,
+                TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(référence).formatter(),
+                propositionTechniqueEtFinancière.dateSignature,
+                propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format ||
+                  '',
+              ),
+            }
+          : undefined,
+        miseEnService: miseEnService
+          ? {
+              dateMiseEnService: DateTime.convertirEnValueType(miseEnService.dateMiseEnService),
+            }
+          : undefined,
+        misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+      }),
+    ),
   };
 };

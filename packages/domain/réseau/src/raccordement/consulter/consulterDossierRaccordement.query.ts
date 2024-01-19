@@ -27,7 +27,7 @@ export type ConsulterDossierRaccordementQuery = Message<
   'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
   {
     identifiantProjetValue: string;
-    référenceDossierRaccordement: string;
+    référenceDossierRaccordementValue: string;
   },
   ConsulterDossierRaccordementReadModel
 >;
@@ -41,7 +41,7 @@ export const registerConsulterDossierRaccordementQuery = ({
 }: ConsulterDossierRaccordementDependencies) => {
   const handler: MessageHandler<ConsulterDossierRaccordementQuery> = async ({
     identifiantProjetValue,
-    référenceDossierRaccordement,
+    référenceDossierRaccordementValue: référenceDossierRaccordement,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const référence = RéférenceDossierRaccordement.convertirEnValueType(

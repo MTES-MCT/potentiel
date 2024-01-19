@@ -9,12 +9,12 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 EtantDonné(
   /une demande d'abandon en cours(.*)pour le projet lauréat "(.*)"/,
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet.formatter(),
         pièceJustificativeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de l'accusé de réception`),
@@ -31,16 +31,16 @@ EtantDonné(
 EtantDonné(
   /un abandon accordé(.*)pour le projet lauréat "(.*)"/,
   async function (this: PotentielWorld, etat: string, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const identifiantProjet = identitiantProjetValueType.formatter();
+    const identifiantProjetValue = identifiantProjet.formatter();
     const recandidature = etat.includes('avec recandidature');
     const preuve = etat.includes('avec preuve transmise');
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identifiantProjet,
+        identifiantProjetValue,
         pièceJustificativeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
@@ -55,7 +55,7 @@ EtantDonné(
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'ACCORDER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identifiantProjet,
+        identifiantProjetValue,
         réponseSignéeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
@@ -71,7 +71,7 @@ EtantDonné(
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue,
           dateNotificationValue: (DateTime.now().estAntérieurÀ(dateMininum)
             ? dateMininum
             : DateTime.now()
@@ -90,12 +90,12 @@ EtantDonné(
 EtantDonné(
   /un abandon rejeté(.*)pour le projet lauréat "(.*)"/,
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet.formatter(),
         pièceJustificativeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
@@ -110,7 +110,7 @@ EtantDonné(
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'REJETER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet.formatter(),
         réponseSignéeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
@@ -125,12 +125,12 @@ EtantDonné(
 EtantDonné(
   /une confirmation d'abandon demandée(.*)pour le projet lauréat "(.*)"/,
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet.formatter(),
         pièceJustificativeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
@@ -145,7 +145,7 @@ EtantDonné(
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet.formatter(),
         réponseSignéeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
@@ -160,12 +160,12 @@ EtantDonné(
 EtantDonné(
   /un abandon confirmé(.*)pour le projet lauréat "(.*)"/,
   async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet.formatter(),
         pièceJustificativeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
@@ -180,7 +180,7 @@ EtantDonné(
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet.formatter(),
         réponseSignéeValue: {
           format: `text/plain`,
           content: convertStringToReadableStream(`Le contenu de la réponse signée`),
@@ -193,7 +193,7 @@ EtantDonné(
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'CONFIRMER_ABANDON_USECASE',
       data: {
-        identifiantProjetValue: identitiantProjetValueType.formatter(),
+        identifiantProjetValue: identifiantProjet.formatter(),
         dateConfirmationValue: DateTime.convertirEnValueType(new Date()).formatter(),
         identifiantUtilisateurValue: 'porteur@test.test',
       },
