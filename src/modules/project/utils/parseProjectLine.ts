@@ -250,7 +250,13 @@ const projectSchema = yup.object().shape({
     .mixed()
     .required()
     .oneOf(['Eliminé', 'Classé'], `Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé'`),
-  motifsElimination: yup.string().ensure(),
+  motifsElimination: yup.string().when('classe', {
+    is: 'Eliminé',
+    then: yup
+      .string()
+      .required("Le motif d'élimination doit être précisé (il sera affiché sur l'avis de rejet)"),
+    otherwise: yup.string(),
+  }),
   isInvestissementParticipatif: yup
     .boolean()
     .transform((str) => {
@@ -455,6 +461,7 @@ export const parseProjectLine = (line) => {
           : undefined,
       garantiesFinancièresType: rawProjectData.garantiesFinancièresType,
       garantiesFinancièresDateEchéance: rawProjectData.garantiesFinancièresDateEchéance,
+      motifsElimination: rawProjectData.motifsElimination || '',
       details: Object.entries(line)
         .filter(([key, value]) => !mappedColumns.includes(key) && !!value)
         .reduce((details, [key, value]) => ({ ...details, [key]: value }), {}),

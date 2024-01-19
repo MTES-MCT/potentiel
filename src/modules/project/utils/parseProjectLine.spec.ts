@@ -21,8 +21,7 @@ const fakeLine = {
   'N°, voie, lieu-dit 2': '',
   CP: '69100 / 01390',
   Commune: 'communeProjet',
-  'Classé ?': 'Eliminé',
-  "Motif d'élimination": 'motifsElimination',
+  'Classé ?': 'Classé',
   'Investissement ou financement participatif ?': '',
   Notification: '',
   'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': '',
@@ -53,8 +52,7 @@ const expected = {
   departementProjet: 'Rhône / Ain',
   regionProjet: 'Auvergne-Rhône-Alpes',
   communeProjet: 'communeProjet',
-  classe: 'Eliminé',
-  motifsElimination: 'motifsElimination',
+  classe: 'Classé',
   isInvestissementParticipatif: false,
   isFinancementParticipatif: false,
   notifiedOn: 0,
@@ -327,6 +325,46 @@ describe('parseProjectLine', () => {
           'Classé ?': 'pas bon',
         }),
       ).toThrowError("Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé'");
+    });
+  });
+  describe(`Motif d'élimination (obligatoire si éliminé)`, () => {
+    it(`Etant donné un projet éliminé
+        Lorsque le motif d'élimination est complété
+        Alors il devrait être enregistré,`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Classé ?': 'Eliminé',
+          "Motif d'élimination": 'compétititivé',
+        }),
+      ).toMatchObject({ classe: 'Eliminé', motifsElimination: 'compétititivé' });
+    });
+
+    it(`Etant donné un projet éliminé
+        Lorsque la colonne du motif d'élimination est manquante
+        Alors une erreur devrait être retournée,`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Classé ?': 'Eliminé',
+        }),
+      ).toThrowError(
+        "Le motif d'élimination doit être précisé (il sera affiché sur l'avis de rejet)",
+      );
+    });
+
+    it(`Etant donné un projet éliminé
+        Lorsque le motif d'élimination n'est pas complété
+        Alors une erreur devrait être retournée,`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Classé ?': 'Eliminé',
+          "Motif d'élimination": '',
+        }),
+      ).toThrowError(
+        "Le motif d'élimination doit être précisé (il sera affiché sur l'avis de rejet)",
+      );
     });
   });
   describe(`Note totale (obligatoire)`, () => {
