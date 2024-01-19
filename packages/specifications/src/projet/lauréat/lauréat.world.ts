@@ -4,6 +4,7 @@ import { AbandonWord } from './abandon/abandon.world';
 type LauréatFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet.ValueType;
+  dateDésignation: string;
 };
 
 export class LauréatWorld {

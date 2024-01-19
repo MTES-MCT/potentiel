@@ -4,48 +4,6 @@ import { convertStringToReadableStream } from '../../helpers/convertStringToRead
 import { mediator } from 'mediateur';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { DateTime } from '@potentiel-domain/common';
-// import {
-//   convertirEnDateTime,
-//   DomainUseCase,
-//   convertirEnIdentifiantProjet,
-//   convertirEnIdentifiantGestionnaireRéseau,
-//   convertirEnRéférenceDossierRaccordement,
-//   IdentifiantProjet,
-// } from '@potentiel/domain-usecases';
-// import { mediator } from 'mediateur';
-// import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
-
-// type DemandeComplèteRaccordement = {
-//   identifiantProjet: IdentifiantProjet;
-//   raisonSociale: string;
-//   dateQualification: string | Date;
-//   référenceDossierRaccordement: string;
-//   format: string;
-//   content: string;
-// };
-
-// const demandeComplèteRaccordementParDéfaut: Omit<
-//   DemandeComplèteRaccordement,
-//   'raisonSociale' | 'identifiantProjet'
-// > = {
-//   dateQualification: new Date(),
-//   référenceDossierRaccordement: 'REF_DOSSIER',
-//   format: 'application/pdf',
-//   content: `Accusé de réception ayant pour référence REF_DOSSIER et la date de qualification au ${new Date().toISOString()}`,
-// };
-
-// Quand(
-//   `un porteur transmet une demande complète de raccordement auprès du gestionnaire de réseau {string} pour le projet {string}`,
-//   async function (this: PotentielWorld, raisonSociale: string, nomProjet: string) {
-//     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-//     await transmettreDemandeComplèteRaccordement(this, {
-//       ...demandeComplèteRaccordementParDéfaut,
-//       identifiantProjet,
-//       raisonSociale,
-//     });
-//   },
-// );
 
 Quand(
   `le porteur transmet une demande complète de raccordement pour le projet lauréat {string} auprès du gestionnaire de réseau {string} avec :`,
@@ -102,53 +60,35 @@ Quand(
   },
 );
 
-// const transmettreDemandeComplèteRaccordement = async (
-//   world: PotentielWorld,
-//   {
-//     identifiantProjet,
-//     raisonSociale,
-//     dateQualification,
-//     référenceDossierRaccordement,
-//     content,
-//     format,
-//   }: DemandeComplèteRaccordement,
-// ) => {
-//   const dateQualificationValueType = convertirEnDateTime(dateQualification);
-//   const accuséRéceptionContent =
-//     content ??
-//     `Accusé de réception ayant pour référence ${référenceDossierRaccordement} et la date de qualification au ${dateQualificationValueType.formatter()}`;
+Quand(
+  `le porteur transmet la date de mise en service {string} pour le dossier de raccordement du le projet lauréat {string} ayant pour référence {string}`,
+  async function (
+    this: PotentielWorld,
+    dateMiseEnService: string,
+    nomProjet: string,
+    référenceDossierRaccordement: string,
+  ) {
+    const { identifiantProjet, dateDésignation } =
+      this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-//   const accuséRéception = {
-//     format,
-//     content: convertStringToReadableStream(accuséRéceptionContent),
-//   };
+    this.raccordementWorld.dateMiseEnService = DateTime.convertirEnValueType(
+      new Date(dateMiseEnService).toISOString(),
+    );
+    this.raccordementWorld.référenceDossierRaccordement =
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
 
-//   const codeEIC =
-//     raisonSociale === 'Inconnu'
-//       ? 'Code EIC inconnu'
-//       : world.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale).codeEIC;
-
-//   world.raccordementWorld.dateQualification = dateQualificationValueType;
-//   world.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-//   world.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-//     format,
-//     content: accuséRéceptionContent,
-//   };
-
-//   try {
-//     await mediator.send<DomainUseCase>({
-//       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-//       data: {
-//         identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet),
-//         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-//         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-//           référenceDossierRaccordement,
-//         ),
-//         dateQualification: dateQualificationValueType,
-//         accuséRéception,
-//       },
-//     });
-//   } catch (e) {
-//     world.error = e as Error;
-//   }
-// };
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierValue: référenceDossierRaccordement,
+          dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
+          dateDésignationValue: new Date(dateDésignation).toISOString(),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
