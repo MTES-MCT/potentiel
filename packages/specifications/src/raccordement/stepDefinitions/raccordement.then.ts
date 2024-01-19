@@ -129,3 +129,43 @@ Alors(
     });
   },
 );
+
+Alors(
+  `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat {string} ayant pour référence {string}`,
+  async function (this: PotentielWorld, nomProjet: string, référenceDossierRaccordement: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    await waitForExpect(async () => {
+      const { propositionTechniqueEtFinancière } =
+        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            référenceDossierRaccordementValue: référenceDossierRaccordement,
+          },
+        });
+
+      const {
+        dateSignature: expectedDateSignature,
+        propositionTechniqueEtFinancièreSignée: { content: expectedContent },
+      } = this.raccordementWorld;
+
+      expect(propositionTechniqueEtFinancière).to.be.not.undefined;
+
+      expect(propositionTechniqueEtFinancière?.dateSignature?.estÉgaleÀ(expectedDateSignature)).to
+        .be.true;
+
+      if (propositionTechniqueEtFinancière) {
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'CONSULTER_DOCUMENT_PROJET',
+          data: {
+            documentKey:
+              propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(result.content);
+        actualContent.should.be.equal(expectedContent);
+      }
+    });
+  },
+);
