@@ -6,6 +6,8 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
+import { isNone } from '@potentiel/monads';
+import { DateTime } from '@potentiel-domain/common';
 
 Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat {string}`,
@@ -89,6 +91,41 @@ Alors(
       });
 
       actual.dossiers.should.length(nombreDeDemandes);
+    });
+  },
+);
+
+Alors(
+  `la date de mise en service {string} devrait être consultable dans le dossier de raccordement du le projet lauréat {string} ayant pour référence {string}`,
+  async function (
+    this: PotentielWorld,
+    dateMiseEnService: string,
+    nomProjet: string,
+    référenceDossierRaccordement: string,
+  ) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    await waitForExpect(async () => {
+      const actual = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+        data: {
+          référenceDossierRaccordementValue: référenceDossierRaccordement,
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+
+      if (isNone(actual)) {
+        throw new Error('Dossier de raccordement non trouvé');
+      }
+
+      if (isNone(actual.miseEnService)) {
+        throw new Error('Date mise en service non trouvé');
+      }
+
+      expect(
+        actual.miseEnService?.dateMiseEnService?.estÉgaleÀ(
+          DateTime.convertirEnValueType(new Date(dateMiseEnService).toISOString()),
+        ),
+      ).to.be.true;
     });
   },
 );
