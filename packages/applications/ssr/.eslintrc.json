@@ -1,9 +1,32 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": ["simple-import-sort"],
   "rules": {
     "import/no-unassigned-import": "off",
     "react/no-unescaped-entities": "off",
-    "simple-import-sort/imports": "error"
+    "import/order": [
+      "error", {
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@potentiel-*/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/**",
+            "group": "parent",
+            "position": "before"
+          }
+        ]
+      }
+    ]
   }
 }
