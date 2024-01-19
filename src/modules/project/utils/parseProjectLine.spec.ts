@@ -22,7 +22,6 @@ const fakeLine = {
   CP: '69100 / 01390',
   Commune: 'communeProjet',
   'Classé ?': 'Classé',
-  'Investissement ou financement participatif ?': '',
   Notification: '',
   'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': '',
   'Territoire\n(AO ZNI)': '',
@@ -741,7 +740,7 @@ describe('parseProjectLine', () => {
       });
     });
   });
-  describe(`Investissement / financement participatif (seulement CRE4)`, () => {
+  describe(`Investissement / financement participatif (optionnel)`, () => {
     it(`La valeur de la colonne 'Investissement ou financement participatif ?' doit impacter les deux propriétés isInvestissementParticipatif et  isFinancementParticipatif`, () => {
       expect(
         parseProjectLine({
@@ -771,6 +770,18 @@ describe('parseProjectLine', () => {
       ).toThrowError(
         "Le champ 'Investissement ou financement participatif ?' a une valeur erronnée",
       );
+    });
+    it(`Lorsque la colonne 'Investissement ou financement participatif ?' n'existe pas
+        Alors la valeur "false" est appliquée aux propriétés isInvestissementParticipatif et isFinancementParticipatif
+    `, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+        }),
+      ).toMatchObject({
+        isInvestissementParticipatif: false,
+        isFinancementParticipatif: false,
+      });
     });
   });
   describe(`Garanties financières`, () => {

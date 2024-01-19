@@ -266,8 +266,7 @@ const projectSchema = yup.object().shape({
 
       return null; // will result in error
     })
-    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`)
-    .required(),
+    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`),
   isFinancementParticipatif: yup
     .boolean()
     .transform((str) => {
@@ -277,8 +276,7 @@ const projectSchema = yup.object().shape({
 
       return null; // will result in error
     })
-    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`)
-    .required(),
+    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`),
   notifiedOn: yup
     .number()
     .typeError(
@@ -462,6 +460,8 @@ export const parseProjectLine = (line) => {
       garantiesFinancièresType: rawProjectData.garantiesFinancièresType,
       garantiesFinancièresDateEchéance: rawProjectData.garantiesFinancièresDateEchéance,
       motifsElimination: rawProjectData.motifsElimination || '',
+      isFinancementParticipatif: rawProjectData.isFinancementParticipatif || false,
+      isInvestissementParticipatif: rawProjectData.isInvestissementParticipatif || false,
       details: Object.entries(line)
         .filter(([key, value]) => !mappedColumns.includes(key) && !!value)
         .reduce((details, [key, value]) => ({ ...details, [key]: value }), {}),
