@@ -2,18 +2,18 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { NotFoundError } from '@potentiel-domain/core';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
-import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { NotFoundError } from '@potentiel-domain/core';
+import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-libraries/routes';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
 } from '@/components/pages/abandon/demander/DemanderAbandonPage';
 import { decodeParameter } from '@/utils/decodeParameter';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export const metadata: Metadata = {

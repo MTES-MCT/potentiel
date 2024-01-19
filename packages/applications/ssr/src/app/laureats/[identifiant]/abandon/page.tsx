@@ -1,16 +1,16 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { Abandon } from '@potentiel-domain/laureat';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import {
   DetailAbandonPage,
   DetailAbandonPageProps,
 } from '@/components/pages/abandon/détails/DetailAbandonPage';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 

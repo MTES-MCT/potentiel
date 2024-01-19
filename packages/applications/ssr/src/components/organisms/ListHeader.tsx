@@ -1,7 +1,7 @@
 'use client';
-import { FC } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Tag from '@codegouvfr/react-dsfr/Tag';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 
 export type ListHeaderProps = {
   tagFilters: Array<{

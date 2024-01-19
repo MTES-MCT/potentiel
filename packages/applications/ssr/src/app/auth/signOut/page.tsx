@@ -1,8 +1,9 @@
 'use client';
 
-import { PageTemplate } from '@/components/templates/PageTemplate';
 import { signOut } from 'next-auth/react';
 import { useEffect } from 'react';
+
+import { PageTemplate } from '@/components/templates/PageTemplate';
 
 export default function SignIn() {
   useEffect(() => {

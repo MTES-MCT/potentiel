@@ -1,9 +1,11 @@
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { ModifierGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/ModifierGestionnaireRéseauPage';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { mediator } from 'mediateur';
+
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+
+import { ModifierGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/ModifierGestionnaireRéseauPage';
 import { decodeParameter } from '@/utils/decodeParameter';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {

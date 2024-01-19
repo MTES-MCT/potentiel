@@ -1,10 +1,10 @@
 'use client';
 
-import { FC } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPageTemplate';
 import { TâcheListItem, TâcheListItemProps } from '@/components/molecules/tâche/TâcheListItem';
+import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPageTemplate';
 
 export type TâcheListPageProps = {
   list: {

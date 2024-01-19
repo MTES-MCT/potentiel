@@ -1,11 +1,11 @@
-import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import { FC } from 'react';
+
 import { Abandon } from '@potentiel-domain/laureat';
-import { StatutBadge } from '../../../molecules/StatutBadge';
 import { Routes } from '@potentiel-libraries/routes';
-import {
-  StatutPreuveRecandidatureBadge,
-} from '../détails/PreuveRecandidatureStatutBadge';
+
+import { StatutBadge } from '../../../molecules/StatutBadge';
+import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';
 
 export type AbandonListItemProps = {
   identifiantProjet: string;

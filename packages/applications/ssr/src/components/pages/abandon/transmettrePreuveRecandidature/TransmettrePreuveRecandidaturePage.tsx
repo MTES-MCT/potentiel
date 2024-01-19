@@ -1,14 +1,16 @@
 'use client';
 
-import {
-  TransmettrePreuveRecandidatureForm,
-  TransmettrePreuveRecandidatureFormProps,
-} from './TransmettrePreuveRecandidatureForm';
+import { FC } from 'react';
+
 import {
   ProjetPageTemplate,
   ProjetPageTemplateProps,
 } from '@/components/templates/ProjetPageTemplate';
-import { FC } from 'react';
+
+import {
+  TransmettrePreuveRecandidatureForm,
+  TransmettrePreuveRecandidatureFormProps,
+} from './TransmettrePreuveRecandidatureForm';
 
 export type TransmettrePreuveRecandidaturePageProps = {
   projet: ProjetPageTemplateProps['projet'];

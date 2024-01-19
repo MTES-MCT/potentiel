@@ -1,7 +1,8 @@
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Message, MessageHandler } from 'mediateur';
-import { decode } from 'next-auth/jwt';
 import { cookies } from 'next/headers';
+import { decode } from 'next-auth/jwt';
+
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 export type GetAuthenticatedUserMessage = Message<
   'GET_AUTHENTICATED_USER',

@@ -1,6 +1,7 @@
-import { FC } from 'react';
-import { ProjetPageTemplate, ProjetPageTemplateProps } from './ProjetPageTemplate';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { FC } from 'react';
+
+import { ProjetPageTemplate, ProjetPageTemplateProps } from './ProjetPageTemplate';
 
 type FormForProjetPageTemplateProps = {
   projet: ProjetPageTemplateProps['projet'];

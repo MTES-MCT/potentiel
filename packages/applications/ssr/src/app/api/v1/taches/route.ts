@@ -1,6 +1,8 @@
-import { apiAction } from '@/utils/apiAction';
 import { mediator } from 'mediateur';
+
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
+
+import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const dynamic = 'force-dynamic';

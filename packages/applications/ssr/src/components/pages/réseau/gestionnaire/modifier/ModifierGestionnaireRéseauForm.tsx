@@ -1,12 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { Form } from '@/components/atoms/form/Form';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+
 import { Routes } from '@potentiel-libraries/routes';
+
+import { Form } from '@/components/atoms/form/Form';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+
+import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 
 export type ModifierGestionnaireRéseauFormProps = {
   identifiantGestionnaireRéseau: string;

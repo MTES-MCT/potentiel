@@ -1,6 +1,7 @@
 import DsfrHeader from '@codegouvfr/react-dsfr/Header';
-import { UserHeaderQuickAccessItem } from '../molecules/UserHeaderQuickAccessItem';
+
 import { UserBasedRoleNavigation } from '../molecules/UserBasedRoleNavigation';
+import { UserHeaderQuickAccessItem } from '../molecules/UserHeaderQuickAccessItem';
 
 export const Header = () => {
   return (

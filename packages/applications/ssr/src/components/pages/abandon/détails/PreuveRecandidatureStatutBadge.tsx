@@ -1,5 +1,6 @@
-import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import { FC } from 'react';
+
 import { Abandon } from '@potentiel-domain/laureat';
 
 export type StatutPreuveRecandidatureBadgeProps = {

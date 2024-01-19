@@ -1,8 +1,9 @@
 import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+
 import { GestionnaireRéseauListPage } from '@/components/pages/réseau/gestionnaire/GestionnaireRéseauListPage';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 type PageProps = {
   searchParams?: Record<string, string>;

@@ -2,8 +2,10 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+
+import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 export type ModifierGestionnaireRéseauState = FormState;
 

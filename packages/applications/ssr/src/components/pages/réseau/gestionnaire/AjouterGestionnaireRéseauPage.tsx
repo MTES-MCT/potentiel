@@ -1,9 +1,11 @@
 'use client';
 
 import { FC } from 'react';
-import { PageTemplate } from '@/components/templates/PageTemplate';
-import { AjouterGestionnaireRéseauForm } from './ajouter/AjouterGestionnaireRéseauForm';
+
 import { Heading1 } from '@/components/atoms/headings';
+import { PageTemplate } from '@/components/templates/PageTemplate';
+
+import { AjouterGestionnaireRéseauForm } from './ajouter/AjouterGestionnaireRéseauForm';
 
 export const AjouterGestionnaireRéseauPage: FC = () => {
   return (

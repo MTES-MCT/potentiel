@@ -1,7 +1,9 @@
-import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-libraries/routes';
+
+import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 
 export async function UserBasedRoleNavigation() {
   let utilisateur: Utilisateur.ValueType | undefined;

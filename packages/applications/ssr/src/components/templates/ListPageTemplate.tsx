@@ -1,14 +1,15 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { PageTemplate } from './PageTemplate';
-import { ListHeader, ListHeaderProps } from '../organisms/ListHeader';
-import { List } from '../organisms/List';
-import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
-import { useSearchParams } from 'next/navigation';
 import { Heading1 } from '../atoms/headings';
 import { LinkAction } from '../atoms/LinkAction';
+import { List } from '../organisms/List';
+import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
+import { ListHeader, ListHeaderProps } from '../organisms/ListHeader';
+
+import { PageTemplate } from './PageTemplate';
 
 export type ListPageTemplateProps<TItem> = {
   heading: string;

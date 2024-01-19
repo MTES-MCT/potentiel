@@ -1,6 +1,6 @@
 'use client';
-import { FC } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 
 import { Pagination } from './Pagination';
 import { Tile } from './Tile';

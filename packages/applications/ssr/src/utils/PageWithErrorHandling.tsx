@@ -8,6 +8,7 @@ import {
 } from '@potentiel-domain/core';
 
 import { CustomErrorPage } from '@/components/pages/custom-error/CustomErrorPage';
+
 import { withErrorHandling } from './withErrorHandling';
 
 export const PageWithErrorHandling = async (

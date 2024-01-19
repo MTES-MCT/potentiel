@@ -2,8 +2,10 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
+
 import { Abandon } from '@potentiel-domain/laureat';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+
+import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type TransmettrePreuveRecandidatureState = FormState;
