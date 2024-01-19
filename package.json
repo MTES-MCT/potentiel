@@ -40,7 +40,7 @@
     "./packages/infrastructure/notifications",
     "./packages/infrastructure/projectors",
     "./packages/libraries/mediateur-middlewares",
-    "./packages/applications/*"
+    "./packages/applications/bootstrap"
   ],
   "scripts": {
     "type:check": "tsc --noEmit",

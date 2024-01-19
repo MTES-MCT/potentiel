@@ -1,7 +1,8 @@
 import { IWorldOptions, World } from '@cucumber/cucumber';
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world';
-import { RaccordementWorld } from './raccordement/raccordement.world';
+//import { RaccordementWorld } from './raccordement/raccordement.world';
 import { LauréatWorld } from './projet/lauréat/lauréat.world';
+import { RaccordementWorld } from './raccordement/raccordement.world';
 
 export class PotentielWorld extends World {
   #gestionnaireRéseauWorld!: GestionnaireRéseauWorld;

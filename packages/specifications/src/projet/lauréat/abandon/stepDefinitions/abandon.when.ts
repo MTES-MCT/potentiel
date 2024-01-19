@@ -155,12 +155,12 @@ Quand(
       this.lauréatWorld.abandonWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(email);
 
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'REJETER_ABANDON_USECASE',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateRejetValue: dateRejet.toISOString(),
           réponseSignéeValue: {
             content: convertStringToReadableStream(content),
@@ -195,12 +195,12 @@ Quand(
         IdentifiantUtilisateur.convertirEnValueType(email);
       this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature = dateAccord;
 
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'ACCORDER_ABANDON_USECASE',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateAccordValue: dateAccord.formatter(),
           réponseSignéeValue: {
             content: convertStringToReadableStream(content),
@@ -222,12 +222,12 @@ Quand(
       const dateAccord = new Date();
       const email = 'validateur@test.test';
 
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'ACCORDER_ABANDON_USECASE',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateAccordValue: dateAccord.toISOString(),
           réponseSignéeValue: {
             content: convertStringToReadableStream(`Le contenu de la réponse signée`),
@@ -251,12 +251,12 @@ Quand(
 
       this.lauréatWorld.abandonWorld.dateAnnulation = DateTime.convertirEnValueType(dateAnnulation);
 
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'ANNULER_REJET_ABANDON_USECASE',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateAnnulationValue: dateAnnulation.toISOString(),
           identifiantUtilisateurValue: email,
         },
@@ -283,12 +283,12 @@ Quand(
       this.lauréatWorld.abandonWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(email);
 
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateDemandeValue: dateDemandeConfirmation.toISOString(),
           réponseSignéeValue: {
             content: convertStringToReadableStream(`Le contenu de la réponse signée`),
@@ -323,12 +323,12 @@ Quand(
       this.lauréatWorld.abandonWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(email);
 
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateDemandeValue: dateDemandeConfirmation.toISOString(),
           réponseSignéeValue: {
             content: convertStringToReadableStream(content),
@@ -383,9 +383,9 @@ Quand(
       const exemple = table.rowsHash();
       const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
 
-      const { identitiantProjetValueType: identifiantProjetAbandonné } =
+      const { identifiantProjet: identifiantProjetAbandonné } =
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
-      const { identitiantProjetValueType: identifiantProjetPreuveRecandidature } =
+      const { identifiantProjet: identifiantProjetPreuveRecandidature } =
         this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
       const email = 'validateur@test.test';
 
@@ -418,9 +418,9 @@ Quand(
       const exemple = table.rowsHash();
       const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
 
-      const { identitiantProjetValueType: identifiantProjetAbandonné } =
+      const { identifiantProjet: identifiantProjetAbandonné } =
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
-      const { identitiantProjetValueType: identifiantProjetPreuveRecandidature } =
+      const { identifiantProjet: identifiantProjetPreuveRecandidature } =
         this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
       const email = 'validateur@test.test';
 
@@ -445,12 +445,12 @@ Quand(
   `le DGEC validateur relance à la date du {string} le porteur du projet {string} pour qu'il transmettre une preuve de recandidature`,
   async function (this: PotentielWorld, dateDeRelance: string, nomProjet: string) {
     try {
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateDemandeValue: new Date(dateDeRelance).toISOString(),
         },
       });
@@ -464,7 +464,7 @@ Quand(
   /le DGEC validateur demande au porteur du projet "(.*)" de transmettre une preuve de recandidature(.*)/,
   async function (this: PotentielWorld, nomProjet: string, dateLimite: string) {
     try {
-      const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
       const dateDemande = DateTime.convertirEnValueType(
         dateLimite.trim() === 'à la date du 01/04/2025' ? new Date('2025-04-01') : new Date(),
       );
@@ -473,7 +473,7 @@ Quand(
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateDemandeValue: dateDemande.formatter(),
         },
       });
