@@ -1,44 +1,43 @@
-import { DateTimeValueType } from '@potentiel/domain-usecases';
 
 export class RaccordementWorld {
-  #dateQualification!: DateTimeValueType;
+  #dateQualification!: string;
 
-  get dateQualification(): DateTimeValueType {
+  get dateQualification(): string {
     if (!this.#dateQualification) {
       throw new Error('dateQualification not initialized');
     }
     return this.#dateQualification;
   }
 
-  set dateQualification(value: DateTimeValueType) {
+  set dateQualification(value: string) {
     this.#dateQualification = value;
   }
 
-  #dateSignature!: DateTimeValueType;
+  // #dateSignature!: DateTimeValueType;
 
-  get dateSignature(): DateTimeValueType {
-    if (!this.#dateSignature) {
-      throw new Error('dateSignature not initialized');
-    }
-    return this.#dateSignature;
-  }
+  // get dateSignature(): DateTimeValueType {
+  //   if (!this.#dateSignature) {
+  //     throw new Error('dateSignature not initialized');
+  //   }
+  //   return this.#dateSignature;
+  // }
 
-  set dateSignature(value: DateTimeValueType) {
-    this.#dateSignature = value;
-  }
+  // set dateSignature(value: DateTimeValueType) {
+  //   this.#dateSignature = value;
+  // }
 
-  #dateMiseEnService!: DateTimeValueType;
+  // #dateMiseEnService!: DateTimeValueType;
 
-  get dateMiseEnService(): DateTimeValueType {
-    if (!this.#dateMiseEnService) {
-      throw new Error('dateMiseEnService not initialized');
-    }
-    return this.#dateMiseEnService;
-  }
+  // get dateMiseEnService(): DateTimeValueType {
+  //   if (!this.#dateMiseEnService) {
+  //     throw new Error('dateMiseEnService not initialized');
+  //   }
+  //   return this.#dateMiseEnService;
+  // }
 
-  set dateMiseEnService(value: DateTimeValueType) {
-    this.#dateMiseEnService = value;
-  }
+  // set dateMiseEnService(value: DateTimeValueType) {
+  //   this.#dateMiseEnService = value;
+  // }
 
   #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: string };
 
@@ -53,18 +52,18 @@ export class RaccordementWorld {
     this.#accuséRéceptionDemandeComplèteRaccordement = value;
   }
 
-  #propositionTechniqueEtFinancièreSignée!: { format: string; content: string };
+  // #propositionTechniqueEtFinancièreSignée!: { format: string; content: string };
 
-  get propositionTechniqueEtFinancièreSignée(): { format: string; content: string } {
-    if (!this.#propositionTechniqueEtFinancièreSignée) {
-      throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
-    }
-    return this.#propositionTechniqueEtFinancièreSignée;
-  }
+  // get propositionTechniqueEtFinancièreSignée(): { format: string; content: string } {
+  //   if (!this.#propositionTechniqueEtFinancièreSignée) {
+  //     throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
+  //   }
+  //   return this.#propositionTechniqueEtFinancièreSignée;
+  // }
 
-  set propositionTechniqueEtFinancièreSignée(value: { format: string; content: string }) {
-    this.#propositionTechniqueEtFinancièreSignée = value;
-  }
+  // set propositionTechniqueEtFinancièreSignée(value: { format: string; content: string }) {
+  //   this.#propositionTechniqueEtFinancièreSignée = value;
+  // }
 
   #référenceDossierRaccordement!: string;
 

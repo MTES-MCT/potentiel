@@ -1,18 +1,9 @@
-import {
-  IdentifiantProjet,
-  IdentifiantProjetValueType,
-  convertirEnIdentifiantProjet,
-} from '@potentiel/domain-usecases';
-import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
-import { IdentifiantProjet as IdentifiantProjetCommon } from '@potentiel-domain/common';
-import { none } from '@potentiel/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AbandonWord } from './abandon/abandon.world';
 
 type LauréatFixture = {
   nom: string;
-  identifiantProjet: IdentifiantProjetValueType;
-  identitiantProjetValueType: IdentifiantProjetCommon.ValueType;
-  projet?: CandidatureLegacyReadModel;
+  identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export class LauréatWorld {
@@ -30,7 +21,7 @@ export class LauréatWorld {
     return lauréat;
   }
 
-  #identifiantProjet: IdentifiantProjet;
+  #identifiantProjet: IdentifiantProjet.ValueType;
 
   get identifiantProjet() {
     return this.#identifiantProjet;
@@ -45,11 +36,6 @@ export class LauréatWorld {
   constructor() {
     this.#abandonWorld = new AbandonWord();
 
-    this.#identifiantProjet = convertirEnIdentifiantProjet({
-      appelOffre: 'PPE2 - Eolien',
-      période: '1',
-      famille: none,
-      numéroCRE: '23',
-    });
+    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
   }
 }
