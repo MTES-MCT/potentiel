@@ -1,10 +1,9 @@
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement , GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { removeProjection } from '../utils/removeProjection';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { isNone, isSome } from '@potentiel/monads';
-import { IdentifiantGestionnaireRéseau } from '@potentiel-domain/reseau/src/gestionnaire';
 import { upsertProjection } from '../utils/upsertProjection';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel/monitoring';
@@ -286,7 +285,8 @@ const getRaccordementToUpsert = async (
     famille: undefined,
     numéroCRE: '',
     dossiers: [],
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu.formatter(),
+    identifiantGestionnaireRéseau:
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
   };
 
   return isSome(raccordement) ? raccordement : raccordementDefaultValue;

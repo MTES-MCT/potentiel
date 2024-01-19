@@ -2,6 +2,10 @@ import {
   ConsulterDossierRaccordementQuery,
   ConsulterDossierRaccordementReadModel,
 } from './consulter/consulterDossierRaccordement.query';
+import {
+  ListerDossierRaccordementQuery,
+  ListerDossierRaccordementReadModel,
+} from './lister/listerDossierRaccordement.query';
 import { ModifierDemandeComplèteRaccordementUseCase } from './modifier/modifierDemandeComplèteRaccordement.usecase';
 import { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/modifierGestionnaireRéseauRaccordement.usecase';
 import { ModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/modifierPropositiontechniqueEtFinancière.usecase';
@@ -16,13 +20,22 @@ import { TransmettrePropositionTechniqueEtFinancièreUseCase } from './transmett
 
 // Query
 export type RaccordementQuery =
+  | ListerDossierRaccordementQuery
   | ConsulterDossierRaccordementQuery
   | RechercherDossierRaccordementQuery;
 
-export { ConsulterDossierRaccordementQuery, RechercherDossierRaccordementQuery };
+export {
+  ConsulterDossierRaccordementQuery,
+  RechercherDossierRaccordementQuery,
+  ListerDossierRaccordementQuery,
+};
 
 // ReadModel
-export { ConsulterDossierRaccordementReadModel, RechercherDossierRaccordementReadModel };
+export {
+  ConsulterDossierRaccordementReadModel,
+  RechercherDossierRaccordementReadModel,
+  ListerDossierRaccordementReadModel,
+};
 
 // UseCases
 export type RaccordementUseCase =

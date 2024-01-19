@@ -2,15 +2,17 @@
 Fonctionnalité: Transmettre une demande complète de raccordement
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
+        Et le projet lauréat "Du boulodrome de Marseille"
 
+    @select
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet
-        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet
-        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
+        #Alors la demande complète de raccordement devrait être consultable dans le dossier de raccordement
 
     Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement pour son projet
         Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
