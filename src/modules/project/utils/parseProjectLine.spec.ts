@@ -911,7 +911,7 @@ describe('parseProjectLine', () => {
             "Date d'échéance au format JJ/MM/AAAA": 'coucou',
           }),
         ).toThrowError(
-          `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+          `La date d'échéance des garanties financières doit être au format JJ/MM/AAAA`,
         );
       });
 
@@ -925,7 +925,7 @@ describe('parseProjectLine', () => {
             "Date d'échéance au format JJ/MM/AAAA": null,
           }),
         ).toThrowError(
-          `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+          `La date d'échéance des garanties financières doit être au format JJ/MM/AAAA`,
         );
       });
     });
