@@ -109,7 +109,7 @@ Alors(
     });
 
     actual.dossiers
-      .map((d) => d.référence)
+      .map((d) => d.référence.formatter())
       .should.contain(this.raccordementWorld.référenceDossierRaccordement);
   },
 );
