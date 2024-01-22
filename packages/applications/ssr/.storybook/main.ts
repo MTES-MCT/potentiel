@@ -31,6 +31,14 @@ const config: StorybookConfig = {
         '@': path.resolve(__dirname, '../src'),
       };
     }
+
+    if (config.module?.rules) {
+      config.module.rules.push({
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+      });
+    }
+
     return config;
   },
   staticDirs: ['../.next/static'],
