@@ -84,9 +84,10 @@ export const ProjectDetails = ({
           )}
           {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
             <InfoBox>
-              Afin d'accéder aux fonctionnalités dématérialisées d'information au Préfet et de
-              modification de votre projet (recours, abandon, délai), vous devez d'abord changer le
-              cahier des charges applicable (encart "Cahier des charges" ci-dessous).
+              Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
+              dématérialisées d'information au Préfet et de modification de votre projet, vous devez
+              d'abord choisir un cahier des charges modificatif (encart "Cahier des charges"
+              ci-dessous).
             </InfoBox>
           )}
 

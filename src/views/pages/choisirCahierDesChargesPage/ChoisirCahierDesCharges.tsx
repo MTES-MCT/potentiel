@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  ChoisirCahierDesChargesFormulaire,
-  Heading1,
-  InfoBox,
-  InfoLienGuideUtilisationCDC,
-  LegacyPageTemplate,
-} from '../../components';
+import { ChoisirCahierDesChargesFormulaire, Heading1, LegacyPageTemplate } from '../../components';
 import { ProjectDataForChoisirCDCPage } from '../../../modules/project';
 import { Request } from 'express';
 import { hydrateOnClient } from '../../helpers';
@@ -21,13 +15,7 @@ export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesCha
       <Heading1 className="mb-10">Cahier des charges</Heading1>
       <ChoisirCahierDesChargesFormulaire
         projet={projet}
-        infoBox={
-          <InfoBox>
-            <InfoLienGuideUtilisationCDC
-              cahiersDesChargesUrl={projet.appelOffre.cahiersDesChargesUrl}
-            />
-          </InfoBox>
-        }
+        cahiersDesChargesUrl={projet.appelOffre.cahiersDesChargesUrl}
       />
     </LegacyPageTemplate>
   );

@@ -10,9 +10,7 @@ import {
   Input,
   TextArea,
   AlertBox,
-  InfoBox,
   ChoisirCahierDesChargesFormulaire,
-  InfoLienGuideUtilisationCDC,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
@@ -44,15 +42,8 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
 
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
-          infoBox={
-            <InfoBox
-              title="Afin d'accéder au formulaire de changement de producteur, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-              className="mb-5"
-            >
-              <InfoLienGuideUtilisationCDC cahiersDesChargesUrl={project.cahiersDesChargesUrl} />
-            </InfoBox>
-          }
+          cahiersDesChargesUrl={project.cahiersDesChargesUrl}
+          formulaireModificationProjet={true}
           projet={{
             id: project.id,
             appelOffre,

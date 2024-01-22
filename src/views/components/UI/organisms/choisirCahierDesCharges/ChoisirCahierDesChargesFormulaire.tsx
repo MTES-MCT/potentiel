@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { AlertBox, Form, PrimaryButton, SecondaryLinkButton } from '../../..';
+import {
+  AlertBox,
+  ExternalLink,
+  Form,
+  InfoBox,
+  PrimaryButton,
+  SecondaryLinkButton,
+} from '../../..';
 import { ProjectDataForChoisirCDCPage } from '../../../../../modules/project';
 import routes from '../../../../../routes';
 import { formatCahierDesChargesRéférence } from '../../../../../entities/cahierDesCharges';
@@ -9,15 +16,16 @@ import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDi
 import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable';
 
 type ChoisirCahierDesChargesFormulaireProps = {
-  infoBox: React.ReactNode;
+  cahiersDesChargesUrl?: string;
   projet: ProjectDataForChoisirCDCPage;
   redirectUrl?: string;
+  formulaireModificationProjet?: true;
   type?: 'actionnaire' | 'fournisseur' | 'producteur' | 'puissance' | 'recours' | 'delai';
 };
 
 export const ChoisirCahierDesChargesFormulaire: React.FC<
   ChoisirCahierDesChargesFormulaireProps
-> = ({ projet, redirectUrl, type, infoBox }) => {
+> = ({ projet, redirectUrl, type, cahiersDesChargesUrl, formulaireModificationProjet }) => {
   const { id: projetId, appelOffre, cahierDesChargesActuel } = projet;
   const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel);
   const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false);
@@ -26,7 +34,34 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
 
   return (
     <Form action={routes.CHANGER_CDC} method="post" className="mx-auto">
-      {infoBox}
+      <InfoBox className="mb-5">
+        {formulaireModificationProjet && (
+          <span>
+            Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
+            dématérialisées d'information au Préfet et de modification de votre projet, vous devez
+            d'abord choisir un cahier des charges modificatif.
+            <br />
+          </span>
+        )}
+        <span>
+          Pour plus d'informations sur les cahiers des charges modificatifs, veuillez consulter
+          cette&nbsp;
+          <ExternalLink href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/gestion-de-mon-projet-sur-potentiel/cahiers-des-charges-modificatifs">
+            page d'aide
+          </ExternalLink>
+          .
+        </span>
+        {cahiersDesChargesUrl && (
+          <>
+            <br />
+            <span className="block mt-3">
+              Les cahiers des charges disponibles pour votre appel d'offres, sont consultables
+              sur&nbsp;
+              <ExternalLink href={cahiersDesChargesUrl}>cette page de la CRE</ExternalLink>.
+            </span>
+          </>
+        )}
+      </InfoBox>
       <input
         type="hidden"
         name="redirectUrl"

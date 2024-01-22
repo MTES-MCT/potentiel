@@ -4,9 +4,7 @@ import {
   Input,
   PrimaryButton,
   SecondaryLinkButton,
-  InfoBox,
   ChoisirCahierDesChargesFormulaire,
-  InfoLienGuideUtilisationCDC,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
@@ -61,15 +59,8 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           }}
           redirectUrl={routes.DEMANDER_DELAI(project.id)}
           type="delai"
-          infoBox={
-            <InfoBox
-              title="Afin d'accéder au formulaire de demande de délai, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-              className="mb-5"
-            >
-              <InfoLienGuideUtilisationCDC cahiersDesChargesUrl={project.cahiersDesChargesUrl} />
-            </InfoBox>
-          }
+          cahiersDesChargesUrl={project.cahiersDesChargesUrl}
+          formulaireModificationProjet={true}
         />
       ) : (
         <Form
