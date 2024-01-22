@@ -230,3 +230,44 @@ Quand(
     }
   },
 );
+
+Quand(
+  `un porteur modifie le gestionnaire de réseau du projet {string} avec un gestionnaire non référencé`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+        type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantGestionnaireRéseauValue: 'GESTIONNAIRE NON RÉFÉRENCÉ',
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  `un porteur modifie le gestionnaire de réseau du projet {string} avec le gestionnaire {string}`,
+  async function (this: PotentielWorld, nomProjet: string, raisonSocialGestionnaireRéseau: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+      raisonSocialGestionnaireRéseau,
+    );
+
+    try {
+      await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+        type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantGestionnaireRéseauValue: codeEIC,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);

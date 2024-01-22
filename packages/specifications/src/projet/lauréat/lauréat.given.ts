@@ -1,7 +1,7 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { randomUUID } from 'crypto';
-import { PotentielWorld } from '../../../../potentiel.world';
+import { PotentielWorld } from '../../potentiel.world';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
