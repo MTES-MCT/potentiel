@@ -69,6 +69,38 @@ EtantDonné(
   },
 );
 
+EtantDonné(
+  'une propositon technique et financière pour le dossier de raccordement pour le projet lauréat {string} ayant pour référence {string} avec :',
+  async function (
+    this: PotentielWorld,
+    nomProjet: string,
+    référenceDossierRaccordement: string,
+    table: DataTable,
+  ) {
+    const exemple = table.rowsHash();
+    const dateSignature = new Date(exemple['La date de signature']).toISOString();
+    const format = exemple[`Le format de la proposition technique et financière`];
+    const content = exemple[`Le contenu de proposition technique et financière`];
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const propositionTechniqueEtFinancièreSignée = {
+      format,
+      content: convertStringToReadableStream(content),
+    };
+
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        référenceDossierRaccordementValue: référenceDossierRaccordement,
+        dateSignatureValue: dateSignature,
+        propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
+      },
+    });
+  },
+);
+
 // EtantDonné(
 //   'un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau {string} avec :',
 //   async function (this: PotentielWorld, raisonSociale, table: DataTable) {
