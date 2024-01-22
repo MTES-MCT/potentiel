@@ -1,12 +1,10 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
-import {
-  FormatRéférenceDossierRaccordementInvalideError,
-  RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
-} from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
+import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DomainEvent } from '@potentiel-domain/core';
+import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
@@ -71,8 +69,8 @@ export async function modifierDemandeComplèteRaccordement(
     throw new FormatRéférenceDossierRaccordementInvalideError();
   }
 
-  if (this.contientLeDossier(référenceDossierRaccordement)) {
-    throw new RéférenceDossierRaccordementDéjàExistantePourLeProjetError();
+  if (!this.contientLeDossier(référenceDossierRaccordement)) {
+    throw new DossierRaccordementNonRéférencéError();
   }
 
   const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEvent = {
