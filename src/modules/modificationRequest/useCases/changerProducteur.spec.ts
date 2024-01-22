@@ -71,47 +71,47 @@ describe('Commande changerProducteur', () => {
   });
 
   describe(`Impossible de changer de producteur sans avoir souscri au CDC pour les AO concernés`, () => {
-    describe(`Etant donné un porteur de projet ayant les droits sur 
-            un projet concerné par le changement de CDC, 
-            et pour lequel le nouveau CDC n'a pas été souscri, `, () => {
-      it(`Lorsque le porteur change de producteur,
-        alors une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
-        fakePublish.mockClear();
-        fileRepo.save.mockClear();
+    it(`Etant donné un projet sur le CDC initial
+        Et dont le CDC initial ne permet pas de modifier le projet dans Potentiel
+        Lorsque le porteur change de producteur
+        Alors une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
+      fakePublish.mockClear();
+      fileRepo.save.mockClear();
 
-        const shouldUserAccessProject = jest.fn(async () => true);
+      const shouldUserAccessProject = jest.fn(async () => true);
 
-        const fakeProject = {
-          ...makeFakeProject(),
-          producteur: 'initial producteur',
-          cahierDesCharges: { type: 'initial' },
-        };
-        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+      const fakeProject = {
+        ...makeFakeProject(),
+        producteur: 'initial producteur',
+        cahierDesCharges: { type: 'initial' },
+      };
+      const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-        const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
-          ({
-            id: 'appelOffreId',
-            periodes: [{ id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true }],
-            familles: [{ id: 'familleId' }],
-          } as AppelOffre);
+      const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+        ({
+          id: 'appelOffreId',
+          periodes: [
+            { id: fakeProject.periodeId, type: 'notified', choisirNouveauCahierDesCharges: true },
+          ],
+          familles: [{ id: 'familleId' }],
+        } as AppelOffre);
 
-        const changerProducteur = makeChangerProducteur({
-          projectRepo,
-          eventBus,
-          shouldUserAccessProject,
-          fileRepo: fileRepo as Repository<FileObject>,
-          findAppelOffreById,
-        });
-
-        const res = await changerProducteur({
-          projetId: fakeProject.id.toString(),
-          porteur: fakeUser,
-          nouveauProducteur: 'new producteur',
-        });
-
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(NouveauCahierDesChargesNonChoisiError);
-        expect(fakePublish).not.toHaveBeenCalled();
+      const changerProducteur = makeChangerProducteur({
+        projectRepo,
+        eventBus,
+        shouldUserAccessProject,
+        fileRepo: fileRepo as Repository<FileObject>,
+        findAppelOffreById,
       });
+
+      const res = await changerProducteur({
+        projetId: fakeProject.id.toString(),
+        porteur: fakeUser,
+        nouveauProducteur: 'new producteur',
+      });
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(NouveauCahierDesChargesNonChoisiError);
+      expect(fakePublish).not.toHaveBeenCalled();
     });
   });
 
