@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { mediator } from 'mediateur';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement , GestionnaireRéseau } from '@potentiel-domain/reseau';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -69,6 +69,29 @@ Alors(
         actualContent.should.be.equal(expectedContent);
       }
     });
+  },
+);
+
+Alors(
+  `le projet {string} devrait avoir comme gestionnaire de réseau {string}`,
+  async function (this: PotentielWorld, nomProjet: string, raisonSociale: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { codeEIC } =
+      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
+
+    // Assert on read model
+    const résultat = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
+      type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+    expect(
+      résultat.identifiantGestionnaireRéseau.estÉgaleÀ(
+        GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+      ),
+    ).to.be.true;
   },
 );
 
