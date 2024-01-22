@@ -110,7 +110,6 @@ export const zni: AppelOffre = {
     },
   },
   changementProducteurPossibleAvantAchèvement: true,
-  choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
@@ -189,6 +188,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -224,6 +224,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '3',
@@ -257,6 +258,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '4',
@@ -292,6 +294,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '5',
@@ -320,6 +323,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '6',
