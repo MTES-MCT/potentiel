@@ -51,7 +51,6 @@ export const autoconsommationMetropole2016: AppelOffre = {
     },
   },
   changementProducteurPossibleAvantAchèvement: true,
-  choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
@@ -99,6 +98,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -110,6 +110,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
   ],
   familles: [],

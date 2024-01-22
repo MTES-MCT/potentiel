@@ -75,7 +75,6 @@ export const zni2017: AppelOffre = {
     },
   },
   changementProducteurPossibleAvantAchèvement: true,
-  choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
@@ -129,6 +128,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
   ],
   familles: [
