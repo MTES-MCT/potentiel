@@ -182,7 +182,50 @@ Quand(
         },
       });
     } catch (e) {
-      console.log(e);
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  `le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat {string} ayant pour référence {string} avec :`,
+  async function (
+    this: PotentielWorld,
+    nomProjet: string,
+    référenceDossierRaccordement: string,
+    table: DataTable,
+  ) {
+    const exemple = table.rowsHash();
+    const dateSignature = new Date(exemple['La date de signature']).toISOString();
+    const format = exemple[`Le format de la proposition technique et financière`];
+    const content = exemple[`Le contenu de proposition technique et financière`];
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const propositionTechniqueEtFinancièreSignée = {
+      format,
+      content: convertStringToReadableStream(content),
+    };
+
+    this.raccordementWorld.dateSignature = DateTime.convertirEnValueType(dateSignature);
+    this.raccordementWorld.référenceDossierRaccordement =
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
+    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+      format,
+      content,
+    };
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+        data: {
+          dateSignatureValue: dateSignature,
+          référenceDossierRaccordementValue: référenceDossierRaccordement,
+          identifiantProjetValue: identifiantProjet.formatter(),
+          propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
+        },
+      });
+    } catch (e) {
       this.error = e as Error;
     }
   },
