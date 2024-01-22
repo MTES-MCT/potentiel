@@ -347,11 +347,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2b', territoire: 'La Réunion', noteThreshold: 32.6 },
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 24.18 },
       ],
-      cahiersDesChargesModifiésDisponibles: [
-        CDCModifié30072021,
-        CDCModifié07022023,
-        CDCModifié07022023Alternatif,
-      ],
+      cahiersDesChargesModifiésDisponibles: [CDCModifié07022023, CDCModifié07022023Alternatif],
     },
   ],
   familles: [
