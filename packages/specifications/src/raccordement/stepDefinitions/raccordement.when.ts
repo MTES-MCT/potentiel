@@ -138,3 +138,52 @@ Quand(
     }
   },
 );
+
+Quand(
+  `le porteur modifie la demande complète de raccordement pour le dossier de raccordement du projet lauréat {string} ayant pour référence {string} auprès du gestionnaire de réseau {string} avec :`,
+  async function (
+    this: PotentielWorld,
+    nomProjet: string,
+    référenceDossierRaccordement: string,
+    raisonSocialeGestionnaire: string,
+    table: DataTable,
+  ) {
+    const exemple = table.rowsHash();
+    const dateQualification = new Date(exemple['La date de qualification']).toISOString();
+    const format = exemple[`Le format de l'accusé de réception`];
+    const content = exemple[`Le contenu de l'accusé de réception`];
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { codeEIC } =
+      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSocialeGestionnaire);
+
+    const accuséRéception = {
+      format,
+      content: convertStringToReadableStream(content),
+    };
+
+    this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
+    this.raccordementWorld.référenceDossierRaccordement =
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
+    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
+      format,
+      content,
+    };
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantGestionnaireRéseauValue: codeEIC,
+          référenceDossierRaccordementValue: référenceDossierRaccordement,
+          dateQualificationValue: dateQualification,
+          accuséRéceptionValue: accuséRéception,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+      this.error = e as Error;
+    }
+  },
+);
