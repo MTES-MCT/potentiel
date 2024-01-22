@@ -13,6 +13,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat "Du boulodrome de Marseille"
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat "Du boulodrome de Marseille"
+        Et le projet "Du boulodrome de Marseille" devrait avoir comme gestionnaire de réseau "Enedis"
     
     @select
     Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement pour son projet
