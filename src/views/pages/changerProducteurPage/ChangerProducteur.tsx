@@ -36,7 +36,8 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
   const { error, success, justification } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
+    appelOffre.periode.choisirNouveauCahierDesCharges &&
+    project.cahierDesChargesActuel === 'initial';
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">

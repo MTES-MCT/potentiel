@@ -47,7 +47,8 @@ export const DemanderChangementPuissance = ({
   } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
+    appelOffre.periode.choisirNouveauCahierDesCharges &&
+    project.cahierDesChargesActuel === 'initial';
 
   const [disableSubmit, setDisableSubmit] = useState(false);
 

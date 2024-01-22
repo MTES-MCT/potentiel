@@ -26,8 +26,7 @@ describe('Commande demanderDélai', () => {
   const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
     ({
       id: 'appelOffreId',
-      choisirNouveauCahierDesCharges: true,
-      periodes: [{ id: 'periodeId', type: 'notified' }],
+      periodes: [{ id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true }],
       familles: [{ id: 'familleId' }],
     } as AppelOffre);
 
@@ -249,8 +248,9 @@ describe('Commande demanderDélai', () => {
             ({
               id: 'Eolien',
               autoritéCompétenteDemandesDélai: 'dgec',
-              choisirNouveauCahierDesCharges: true,
-              periodes: [{ id: 'periodeId', type: 'notified' }],
+              periodes: [
+                { id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true },
+              ],
               familles: [{ id: 'familleId' }],
             } as AppelOffre);
 
@@ -291,8 +291,9 @@ describe('Commande demanderDélai', () => {
           const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
             ({
               id: 'autre AO',
-              choisirNouveauCahierDesCharges: true,
-              periodes: [{ id: 'periodeId', type: 'notified' }],
+              periodes: [
+                { id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true },
+              ],
               familles: [{ id: 'familleId' }],
             } as AppelOffre);
 

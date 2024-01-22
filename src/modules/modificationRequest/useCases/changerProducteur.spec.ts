@@ -91,9 +91,8 @@ describe('Commande changerProducteur', () => {
         const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
           ({
             id: 'appelOffreId',
-            periodes: [{ id: 'periodeId', type: 'notified' }],
+            periodes: [{ id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true }],
             familles: [{ id: 'familleId' }],
-            choisirNouveauCahierDesCharges: true,
           } as AppelOffre);
 
         const changerProducteur = makeChangerProducteur({

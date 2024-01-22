@@ -59,7 +59,7 @@ export const ProjectDetails = ({
   const abandonEnCours = !!abandon && abandon.statut !== 'rejeté';
   const modificationsNonPermisesParLeCDCActuel =
     project.cahierDesChargesActuel.type === 'initial' &&
-    !!project.appelOffre.choisirNouveauCahierDesCharges;
+    !!project.appelOffre.periode.choisirNouveauCahierDesCharges;
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">

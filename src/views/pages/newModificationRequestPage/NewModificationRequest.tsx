@@ -35,7 +35,8 @@ export const NewModificationRequest = ({
   const { action, error, success, actionnaire, justification } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
+    appelOffre.periode.choisirNouveauCahierDesCharges &&
+    project.cahierDesChargesActuel === 'initial';
 
   const redirectionRoute = (action) => {
     switch (action) {

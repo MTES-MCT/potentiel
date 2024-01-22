@@ -16,7 +16,7 @@ export const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = (
         .
       </div>
 
-      {appelOffre.choisirNouveauCahierDesCharges && (
+      {appelOffre.periode.choisirNouveauCahierDesCharges && (
         <ul className="mt-2 list-none md:list-disc p-1 md:pl-10">
           <li>Je dois envoyer ma demande ou mon signalement au format papier.</li>
           <li>
