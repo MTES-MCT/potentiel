@@ -1,9 +1,8 @@
-import { RawIdentifiantProjet } from '@potentiel/domain-usecases';
 import { BaseDomainEvent, DomainEvent } from '../../../../core/domain';
 
 type Payload = {
   projectLegacyId: string;
-  identifiantProjet: RawIdentifiantProjet;
+  identifiantProjet: string;
   demandeDélaiId: string;
   ancienneDateThéoriqueAchèvement: string;
   dateAchèvementAccordée: string;
