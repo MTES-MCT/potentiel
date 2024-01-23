@@ -13,4 +13,3 @@ export * from './getSuccèsPage';
 export * from './signout';
 export * from './upload';
 export * from './v1Router';
-export * from './raccordement';

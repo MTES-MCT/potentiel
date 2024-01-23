@@ -3,8 +3,8 @@ import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { Project } from '../../projectionsNext';
-import { IdentifiantProjet } from '@potentiel/domain-usecases';
 import { getIdentifiantProjetByLegacyId } from './getIdentifiantProjetByLegacyId';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 describe('Query getIdentifiantProjetByLegacyId', () => {
   beforeEach(async () => {
@@ -19,7 +19,10 @@ describe('Query getIdentifiantProjetByLegacyId', () => {
       Lorsqu'on recherche l'identifiant naturel d'un projet à partir d'un identifiant technique
       Alors l'identifiant naturel de celui-ci doit être retourné
       `, async () => {
-      const identifiantNaturel: IdentifiantProjet = {
+      const identifiantNaturel: Pick<
+        IdentifiantProjet.ValueType,
+        'appelOffre' | 'famille' | 'numéroCRE' | 'période'
+      > = {
         appelOffre: 'CRE4 - Bâtiment',
         période: '1',
         famille: '1',

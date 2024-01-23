@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel/domain-usecases';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Project } from '../../projectionsNext';
 import { isSome } from '@potentiel/monads';
 
@@ -7,7 +7,7 @@ export const getLegacyIdByIdentifiantProjet = async ({
   période,
   famille,
   numéroCRE,
-}: IdentifiantProjet) => {
+}: Pick<IdentifiantProjet.ValueType, 'appelOffre' | 'famille' | 'numéroCRE' | 'période'>) => {
   try {
     const projet = await Project.findOne({
       where: {
