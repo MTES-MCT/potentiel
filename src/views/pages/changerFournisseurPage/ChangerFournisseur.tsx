@@ -9,8 +9,6 @@ import {
   PrimaryButton,
   Label,
   SecondaryLinkButton,
-  InfoBox,
-  InfoLienGuideUtilisationCDC,
   AlertBox,
   LegacyPageTemplate,
   SuccessBox,
@@ -52,15 +50,8 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
 
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
-          infoBox={
-            <InfoBox
-              title="Afin d'accéder au formulaire de changement de fournisseur, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-              className="mb-5"
-            >
-              <InfoLienGuideUtilisationCDC cahiersDesChargesUrl={project.cahiersDesChargesUrl} />
-            </InfoBox>
-          }
+          formulaireModificationProjet={true}
+          cahiersDesChargesUrl={project.cahiersDesChargesUrl}
           projet={{
             id: project.id,
             appelOffre,

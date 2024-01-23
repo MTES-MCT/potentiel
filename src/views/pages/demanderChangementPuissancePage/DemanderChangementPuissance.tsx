@@ -7,9 +7,7 @@ import {
   ProjectInfo,
   PrimaryButton,
   SecondaryLinkButton,
-  InfoBox,
   ChoisirCahierDesChargesFormulaire,
-  InfoLienGuideUtilisationCDC,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
@@ -64,15 +62,8 @@ export const DemanderChangementPuissance = ({
           }}
           redirectUrl={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
           type="puissance"
-          infoBox={
-            <InfoBox
-              title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
-                  cahier des charges à appliquer"
-              className="mb-5"
-            >
-              <InfoLienGuideUtilisationCDC cahiersDesChargesUrl={project.cahiersDesChargesUrl} />
-            </InfoBox>
-          }
+          cahiersDesChargesUrl={project.cahiersDesChargesUrl}
+          formulaireModificationProjet={true}
         />
       ) : (
         <Form
