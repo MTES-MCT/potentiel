@@ -3,7 +3,7 @@ import {
   registerConsulterDocumentProjetQuery,
 } from './consulter/consulterDocumentProjet.query';
 import {
-  DéplacerDocumentProjetDependencies,
+  DéplacerDossierProjetDependencies,
   registerDéplacerDocumentCommand,
 } from './déplacer/déplacerDocument.command';
 import {
@@ -13,7 +13,7 @@ import {
 
 type DocumentProjetQueryDependencies = ConsulterDocumentProjetDependencies;
 type DocumentProjetCommandDependencies = EnregistrerDocumentProjetDependencies &
-  DéplacerDocumentProjetDependencies;
+  DéplacerDossierProjetDependencies;
 
 export const registerDocumentProjetQueries = (dependencies: DocumentProjetQueryDependencies) => {
   registerConsulterDocumentProjetQuery(dependencies);

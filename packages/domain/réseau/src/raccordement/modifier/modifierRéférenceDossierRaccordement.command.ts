@@ -4,7 +4,7 @@ import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { Role } from '@potentiel-domain/utilisateur';
-import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 
 export type ModifierRéférenceDossierRaccordementCommand = Message<
@@ -14,7 +14,6 @@ export type ModifierRéférenceDossierRaccordementCommand = Message<
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.ValueType;
     nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
-    référenceDossierExpressionRegulière: ExpressionRegulière.ValueType;
     rôle: Role.ValueType;
   }
 >;
@@ -30,7 +29,6 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
     identifiantGestionnaireRéseau,
     référenceDossierRaccordementActuelle,
     nouvelleRéférenceDossierRaccordement,
-    référenceDossierExpressionRegulière,
     rôle,
   }) => {
     const raccordement = await loadRaccordement(identifiantProjet);
@@ -39,7 +37,9 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
     await raccordement.modifierRéférenceDossierRacordement({
       identifiantProjet,
       nouvelleRéférenceDossierRaccordement,
-      référenceDossierExpressionRegulière,
+      référenceDossierExpressionRegulière: (
+        await gestionnaireRéseau
+      ).référenceDossierRaccordementExpressionRegulière,
       référenceDossierRaccordementActuelle,
       rôle,
     });
