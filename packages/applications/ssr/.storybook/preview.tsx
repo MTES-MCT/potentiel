@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { withThemeByClassName } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/react';
 import { DsfrProvider } from '@codegouvfr/react-dsfr/next-appdir/DsfrProvider';
 import { createMuiDsfrThemeProvider } from '@codegouvfr/react-dsfr/mui';
@@ -9,6 +10,16 @@ import { StartDsfr } from '../src/app/StartDsfr';
 import '../src/app/global.css';
 import '../.next/static/css/59864da3adfd3489.css';
 import '../.next/static/css/69615fe075a559cb.css';
+
+export const decorators = [
+  withThemeByClassName({
+    themes: {
+      light: 'light',
+      dark: 'dark',
+    },
+    defaultTheme: 'light',
+  }),
+];
 
 const preview: Preview = {
   parameters: {
