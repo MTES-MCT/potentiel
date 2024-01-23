@@ -17,6 +17,7 @@ import {
 import { ProjectHasBeenUpdatedSinceError } from '../errors/ProjectHasBeenUpdatedSinceError';
 import { Project } from '../Project';
 import { GenerateCertificate } from './generateCertificate';
+import { Actionnariat } from '../types';
 
 interface CorrectProjectDataDeps {
   projectRepo: TransactionalRepository<Project>;
@@ -53,7 +54,7 @@ interface CorrectProjectDataArgs {
     isFinancementParticipatif: boolean;
     isInvestissementParticipatif: boolean;
     motifsElimination: string;
-    actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
+    actionnariat?: Actionnariat;
   }>;
 }
 
