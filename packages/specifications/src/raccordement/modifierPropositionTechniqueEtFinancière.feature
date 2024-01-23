@@ -4,7 +4,6 @@ Fonctionnalité: Modifier une proposition technique et financière
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
 
-    @select
     Scénario: Un porteur de projet modifie une proposition technique et financière
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
@@ -21,7 +20,6 @@ Fonctionnalité: Modifier une proposition technique et financière
             | Le contenu de proposition technique et financière   | Une autre proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-02-12 |
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
 
-    @select
     Scénario: Impossible de modifier une proposition technique et financière pour un projet sans dossier de raccordement
         Quand le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" avec :
             | La date de signature                                | 2023-02-12                                                                                                                  |
@@ -29,7 +27,6 @@ Fonctionnalité: Modifier une proposition technique et financière
             | Le contenu de proposition technique et financière   | Une autre proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-02-12 |
         Alors le porteur devrait être informé que "Aucun raccordement pour le projet lauréat"
 
-    @select
     Scénario: Impossible de modifier une proposition technique et financière pour un dossier de raccordement non référencé
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
@@ -42,7 +39,6 @@ Fonctionnalité: Modifier une proposition technique et financière
             | Le contenu de proposition technique et financière   | Une autre proposition technique et financière pour la référence OUE-RP-2022-000034 avec une date de signature au 2023-02-12 |
         Alors le porteur devrait être informé que "Le dossier de raccordement n'est pas référencé"
 
-    @select
     Scénario: Impossible de modifier une proposition technique et financière avec une date de signature dans le futur
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
