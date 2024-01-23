@@ -24,7 +24,6 @@ import {
   ResultatsAppelOffreInnovation,
 } from './sections';
 import { ProjectHeader } from './components';
-import routes from '../../../routes';
 import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -175,8 +174,7 @@ const AlerteBoxRaccordement: FC<{
         Afin de nous permettre de vérifier si le délai relatif au cahier des charges du 30/08/2022
         concerne le projet pour l'appliquer le cas échéant, nous vous invitons à renseigner une
         référence de dossier de raccordement et à vous assurer que le gestionnaire de réseau indiqué{' '}
-        <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}>sur cette page</Link>{' '}
-        est correct.
+        <Link href="">sur cette page</Link> est correct.
       </p>
     )}
     {alertes.includes('demandeComplèteRaccordementManquante') && (
@@ -189,9 +187,7 @@ const AlerteBoxRaccordement: FC<{
         Cocontractant, etc.).
       </p>
     )}
-    <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(identifiantProjet)}>
-      Mettre à jour les données de raccordement de mon projet
-    </Link>
+    <Link href="">Mettre à jour les données de raccordement de mon projet</Link>
   </AlertBox>
 );
 
