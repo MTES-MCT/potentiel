@@ -9,11 +9,11 @@
     "lint": "next lint",
     "predev": "only-include-used-icons",
     "prebuild": "only-include-used-icons",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "copy-dsfr-to-public && only-include-used-icons && storybook dev -p 6006",
+    "build-storybook": "only-include-used-icons && storybook build"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^0.78.6",
+    "@codegouvfr/react-dsfr": "^1.2.1",
     "@emotion/react": "*",
     "@emotion/server": "*",
     "@emotion/styled": "*",
