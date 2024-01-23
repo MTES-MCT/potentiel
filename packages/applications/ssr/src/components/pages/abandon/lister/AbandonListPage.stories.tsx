@@ -67,7 +67,7 @@ export const Page: Story = {
       {
         label: 'Statut',
         searchParamKey: 'statut',
-        defaultValue: undefined,
+        defaultValue: 'statut-1',
         options: [
           { label: 'Statut 1', value: 'statut-1' },
           { label: 'Statut 2', value: 'statut-2' },
