@@ -21,299 +21,81 @@ const fakeLine = {
   'N°, voie, lieu-dit 2': '',
   CP: '69100 / 01390',
   Commune: 'communeProjet',
-  'Classé ?': 'Eliminé',
-  "Motif d'élimination": 'motifsElimination',
-  'Investissement ou financement participatif ?': '',
-  Notification: '',
+  'Classé ?': 'Classé',
   'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': '',
   'Territoire\n(AO ZNI)': '',
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
     '230.50',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
   Autre: 'valeur',
+  'Gouvernance partagée (Oui/Non)': 'Non',
+  'Financement collectif (Oui/Non)': 'Non',
+};
+
+const expected = {
+  appelOffreId: 'appelOffreId',
+  periodeId: 'periodeId',
+  familleId: 'familleId',
+  numeroCRE: 'numeroCRE',
+  nomCandidat: 'nomCandidat',
+  nomProjet: 'nomProjet',
+  actionnaire: 'actionnaire',
+  puissance: 1.234,
+  prixReference: 3.456,
+  note: 10.1,
+  nomRepresentantLegal: 'nomRepresentantLegal',
+  email: 'test@test.test',
+  adresseProjet: 'adresseProjet',
+  codePostalProjet: '69100 / 01390',
+  departementProjet: 'Rhône / Ain',
+  regionProjet: 'Auvergne-Rhône-Alpes',
+  communeProjet: 'communeProjet',
+  classe: 'Classé',
+  isInvestissementParticipatif: false,
+  isFinancementParticipatif: false,
+  engagementFournitureDePuissanceAlaPointe: false,
+  territoireProjet: '',
+  evaluationCarbone: 230.5,
+  technologie: 'N/A',
+  actionnariat: undefined,
+  details: {
+    Autre: 'valeur',
+  },
 };
 
 describe('parseProjectLine', () => {
-  it('should return the project properties', () => {
-    const project = parseProjectLine(fakeLine);
+  describe(`Cas général`, () => {
+    it('Les données du projet doivent être retournées au format attendu', () => {
+      const project = parseProjectLine(fakeLine);
 
-    expect(project).toMatchObject({
-      appelOffreId: 'appelOffreId',
-      periodeId: 'periodeId',
-      familleId: 'familleId',
-      numeroCRE: 'numeroCRE',
-      nomCandidat: 'nomCandidat',
-      nomProjet: 'nomProjet',
-      actionnaire: 'actionnaire',
-      puissance: 1.234,
-      prixReference: 3.456,
-      note: 10.1,
-      nomRepresentantLegal: 'nomRepresentantLegal',
-      email: 'test@test.test',
-      adresseProjet: 'adresseProjet',
-      codePostalProjet: '69100 / 01390',
-      departementProjet: 'Rhône / Ain',
-      regionProjet: 'Auvergne-Rhône-Alpes',
-      communeProjet: 'communeProjet',
-      classe: 'Eliminé',
-      motifsElimination: 'motifsElimination',
-      isInvestissementParticipatif: false,
-      isFinancementParticipatif: false,
-      notifiedOn: 0,
-      engagementFournitureDePuissanceAlaPointe: false,
-      territoireProjet: '',
-      evaluationCarbone: 230.5,
-      technologie: 'N/A',
-      details: {
-        Autre: 'valeur',
-      },
+      expect(project).toMatchObject(expected);
     });
   });
-
-  it('should parse the N°, voie, lieu-dit" columns', () => {
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'N°, voie, lieu-dit': 'adresseProjet',
-      }),
-    ).toMatchObject({ adresseProjet: 'adresseProjet' });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'N°, voie, lieu-dit 1': 'adresseProjetPart1',
-        'N°, voie, lieu-dit 2': 'adresseProjetPart2',
-      }),
-    ).toMatchObject({ adresseProjet: 'adresseProjetPart1\nadresseProjetPart2' });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'N°, voie, lieu-dit 1': 'adresseProjetPart1',
-        'N°, voie, lieu-dit 2': '',
-      }),
-    ).toMatchObject({ adresseProjet: 'adresseProjetPart1' });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'N°, voie, lieu-dit 1': '',
-        'N°, voie, lieu-dit 2': 'adresseProjetPart2',
-      }),
-    ).toMatchObject({ adresseProjet: 'adresseProjetPart2' });
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        'N°, voie, lieu-dit': '',
-        'N°, voie, lieu-dit 1': '',
-        'N°, voie, lieu-dit 2': '',
-      }),
-    ).toThrowError(
-      `L'adresse du projet est manquante : vous devez compléter au moins l'une des colonnes "N°, voie, lieu-dit"`,
-    );
-  });
-
-  it('should parse the "Technologie\n(dispositif de production)" column', () => {
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Technologie\n(dispositif de production)': 'Hydraulique',
-      }),
-    ).toMatchObject({ technologie: 'hydraulique' });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Technologie\n(dispositif de production)': 'Eolien',
-      }),
-    ).toMatchObject({ technologie: 'eolien' });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Technologie\n(dispositif de production)': '',
-      }),
-    ).toMatchObject({ technologie: 'pv' });
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        'Technologie\n(dispositif de production)': 'bad value',
-      }),
-    ).toThrowError(
-      'Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" ou rester vide pour la technologie PV',
-    );
-  });
-
-  it("should parse the 'actionnariat' column", () => {
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Financement collectif (Oui/Non)': 'Oui',
-        'Gouvernance partagée (Oui/Non)': 'Non',
-      }),
-    ).toMatchObject({
-      actionnariat: 'financement-collectif',
-    });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Financement collectif (Oui/Non)': 'Non',
-        'Gouvernance partagée (Oui/Non)': 'Oui',
-      }),
-    ).toMatchObject({
-      actionnariat: 'gouvernance-partagee',
-    });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Financement collectif (Oui/Non)': 'Non',
-        'Gouvernance partagée (Oui/Non)': 'Non',
-      }),
-    ).toMatchObject({
-      actionnariat: null,
-    });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Financement collectif (Oui/Non)': '',
-        'Gouvernance partagée (Oui/Non)': '',
-      }),
-    ).toMatchObject({
-      actionnariat: null,
-    });
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        'Financement collectif (Oui/Non)': 'Oui',
-        'Gouvernance partagée (Oui/Non)': 'Oui',
-      }),
-    ).toThrowError(
-      'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"',
-    );
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        'Financement collectif (Oui/Non)': 'abcd',
-      }),
-    ).toThrowError(
-      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
-    );
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        'Gouvernance partagée (Oui/Non)': 'abcd',
-      }),
-    ).toThrowError(
-      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
-    );
-  });
-
-  it("should parse the 'Investissement ou financement participatif ?' column", () => {
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Investissement ou financement participatif ?': 'Investissement participatif (T1)',
-      }),
-    ).toMatchObject({
-      isInvestissementParticipatif: true,
-      isFinancementParticipatif: false,
-    });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Investissement ou financement participatif ?': 'Financement participatif (T2)',
-      }),
-    ).toMatchObject({
-      isInvestissementParticipatif: false,
-      isFinancementParticipatif: true,
-    });
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        'Investissement ou financement participatif ?': 'autre',
-      }),
-    ).toThrowError("Le champ 'Investissement ou financement participatif ?' a une valeur erronnée");
-  });
-
-  it("should parse the 'Notification' column", () => {
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        Notification: '22/03/2020',
-      }),
-    ).toMatchObject({
-      notifiedOn: 1584831600000,
-    });
-
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        Notification: '',
-      }),
-    ).toMatchObject({
-      notifiedOn: 0,
-    });
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        Notification: 'autre',
-      }),
-    ).toThrowError(
-      "Le champ 'Notification' est erronné (devrait être vide ou une date de la forme 25/12/2020)",
-    );
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        Notification: moment().add(1, 'day').format('DD/MM/YYYY'),
-      }),
-    ).toThrowError(
-      "Le champ 'Notification' est erronné (devrait une date antérieure à aujourd'hui)",
-    );
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        Notification: '01/01/1999',
-      }),
-    ).toThrowError("Le champ 'Notification' est erronné (la date parait trop ancienne)");
-  });
-
-  describe("when the Appel d'offres is missing", () => {
-    it('should throw an error', () => {
+  describe("Appel d'offres (obligatoire)", () => {
+    it(`Lorsque l'appel d'offres est manquant
+        Alors une erreur devrait être retournée`, () => {
       expect(() => parseProjectLine({ ...fakeLine, "Appel d'offres": '' })).toThrowError(
         "Appel d'offres manquant",
       );
     });
   });
-
-  describe('when the Période is missing', () => {
-    it('should throw an error', () => {
+  describe('Période (obligatoire)', () => {
+    it(`Lorsque la période est manquante
+        Alors une erreur devrait être retournée`, () => {
       expect(() => parseProjectLine({ ...fakeLine, Période: '' })).toThrowError(
         'Période manquante',
       );
     });
   });
-
-  describe('when the N°CRE is missing', () => {
-    it('should throw an error', () => {
+  describe('Numéro CRE (obligatoire)', () => {
+    it(`Lorsque le numéro CRE est manquant
+        Alors une erreur devrait être retournée`, () => {
       expect(() => parseProjectLine({ ...fakeLine, 'N°CRE': '' })).toThrowError('N°CRE manquant');
     });
   });
-
-  describe('when the Candidat is missing', () => {
-    it('should throw an error', () => {
+  describe('Nom du candidat (obligatoire)', () => {
+    it(`Lorsque le nom du candidat est manquant
+        Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
@@ -323,42 +105,103 @@ describe('parseProjectLine', () => {
       ).toThrowError('Candidat manquant');
     });
   });
+  describe(`Adresse du projet (obligatoire)`, () => {
+    it(`Les colonnes "N°, voie, lieu-dit" devraient être affectée à la propriété "adresseProjet"`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'N°, voie, lieu-dit': 'adresseProjet',
+        }),
+      ).toMatchObject({ adresseProjet: 'adresseProjet' });
 
-  describe('when the puissance is missing', () => {
-    it('should throw an error', () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'N°, voie, lieu-dit 1': 'adresseProjetPart1',
+          'N°, voie, lieu-dit 2': 'adresseProjetPart2',
+        }),
+      ).toMatchObject({ adresseProjet: 'adresseProjetPart1\nadresseProjetPart2' });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'N°, voie, lieu-dit 1': 'adresseProjetPart1',
+          'N°, voie, lieu-dit 2': '',
+        }),
+      ).toMatchObject({ adresseProjet: 'adresseProjetPart1' });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'N°, voie, lieu-dit 1': '',
+          'N°, voie, lieu-dit 2': 'adresseProjetPart2',
+        }),
+      ).toMatchObject({ adresseProjet: 'adresseProjetPart2' });
+    });
+
+    it(`Les colonnes "N°, voie, lieu-dit" doivent être complétées`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '',
+          'N°, voie, lieu-dit': '',
+          'N°, voie, lieu-dit 1': '',
+          'N°, voie, lieu-dit 2': '',
         }),
-      ).toThrowError('Le champ Puissance doit être un nombre');
+      ).toThrowError(
+        `L'adresse du projet est manquante : vous devez compléter au moins l'une des colonnes "N°, voie, lieu-dit"`,
+      );
     });
   });
-
-  describe('when the puissance is negative', () => {
-    it('should throw an error', () => {
+  describe(`Code postal du projet (obligatoire)`, () => {
+    it(`Lorsque le code postal est manquant
+        Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '-32',
+          CP: '',
         }),
-      ).toThrowError('Le champ Puissance doit être strictement positif');
+      ).toThrowError(`Code Postal manquant`);
     });
-  });
 
-  describe('when the puissance is 0', () => {
-    it('should throw an error', () => {
+    it(`Lorsque le code postal est mal formaté
+        Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '0',
+          CP: 'not a code postal',
         }),
-      ).toThrowError('Le champ Puissance doit être strictement positif');
+      ).toThrowError(`Code Postal mal formé`);
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          CP: '69100 / non',
+        }),
+      ).toThrowError(`Code Postal mal formé`);
+    });
+
+    it(`Lorsque le code postal ne correspond pas à un département (ou région)
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          CP: '96000',
+        }),
+      ).toThrowError(`Le Code Postal ne correspond à aucun département`);
+    });
+
+    it(`Les codes postaux à 4 chiffres sont acceptés`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          CP: '1390',
+        }),
+      ).toMatchObject({ codePostalProjet: '01390' });
     });
   });
-
-  describe('when the prix is missing', () => {
-    it('should throw an error', () => {
+  describe(`Prix de référence (obligatoire)`, () => {
+    it(`Lorsque le prix est manquant
+        Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
@@ -366,10 +209,9 @@ describe('parseProjectLine', () => {
         }),
       ).toThrowError('Le Prix doit être un nombre');
     });
-  });
 
-  describe('when the prix is negative', () => {
-    it('should throw an error', () => {
+    it(`Lorsque le prix est une valeur négative
+        Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
@@ -378,11 +220,12 @@ describe('parseProjectLine', () => {
         }),
       ).toThrowError('Le champ Prix doit être strictement positif');
     });
-  });
 
-  describe('when the prix is 0', () => {
-    describe('when the appelOffreId contains autoconsommation', () => {
-      it('should accept 0 as the value', () => {
+    describe(`Cas d'un prix égal à 0`, () => {
+      it(`Etant donné un appel d'offre ID contenant "autoconsommation"
+          Lorsque le prix est égal à 0
+          Alors cette donnée devrait être acceptée comme prix de référence
+          `, () => {
         expect(
           parseProjectLine({
             ...fakeLine,
@@ -392,10 +235,11 @@ describe('parseProjectLine', () => {
           }),
         ).toMatchObject({ prixReference: 0 });
       });
-    });
 
-    describe('when the appelOffreId does not contain autoconsommation', () => {
-      it('should throw an error', () => {
+      it(`Etant donné un appel d'offre ID ne contenant pas "autoconsommation"
+          Lorsque le prix est égal à 0
+          Alors une erreur devrait être retournée
+          `, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -407,9 +251,40 @@ describe('parseProjectLine', () => {
       });
     });
   });
+  describe(`Puissance (obligatoire et strictement positive)`, () => {
+    it(`Lorsque la puissance est manquante
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '',
+        }),
+      ).toThrowError('Le champ Puissance doit être un nombre');
+    });
 
-  describe('when the email is missing', () => {
-    it('should throw an error', () => {
+    it(`Lorsque la puissance est négative
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '-32',
+        }),
+      ).toThrowError('Le champ Puissance doit être strictement positif');
+    });
+
+    it(`Lorsque la puissance est égale à 0
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '0',
+        }),
+      ).toThrowError('Le champ Puissance doit être strictement positif');
+    });
+  });
+  describe(`Email candidat (obligatoire)`, () => {
+    it(`Lorsque l'adresse mail du candidat est manquante
+        Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
@@ -417,10 +292,9 @@ describe('parseProjectLine', () => {
         }),
       ).toThrowError(`L'adresse email est manquante`);
     });
-  });
 
-  describe('when the email is not a valid email', () => {
-    it('should throw an error', () => {
+    it(`Lorsque l'adresse mail du candidat est invalide
+        Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
@@ -428,10 +302,9 @@ describe('parseProjectLine', () => {
         }),
       ).toThrowError(`L'adresse email n'est pas valide`);
     });
-  });
 
-  describe('when the email is not lowercase', () => {
-    it('should lowercase it', () => {
+    it(`Lorsque l'adresse mail du candidat contient des majuscules
+        Alors l'adresse devrait être retournée en minuscules`, () => {
       expect(
         parseProjectLine({
           ...fakeLine,
@@ -440,64 +313,9 @@ describe('parseProjectLine', () => {
       ).toMatchObject({ email: 'test@test.test' });
     });
   });
-
-  describe('when the Code Postal is missing', () => {
-    it('should throw an error', () => {
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          CP: '',
-        }),
-      ).toThrowError(`Code Postal manquant`);
-    });
-  });
-
-  describe('when the Code Postal is malformed', () => {
-    it('should throw an error', () => {
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          CP: 'not a code postal',
-        }),
-      ).toThrowError(`Code Postal mal formé`);
-    });
-  });
-
-  describe('when the Code Postal has one malformed item', () => {
-    it('should throw an error', () => {
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          CP: '69100 / non',
-        }),
-      ).toThrowError(`Code Postal mal formé`);
-    });
-  });
-
-  describe('when the Code Postal corresponds to no departement/region', () => {
-    it('should throw an error', () => {
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          CP: '96000',
-        }),
-      ).toThrowError(`Le Code Postal ne correspond à aucun département`);
-    });
-  });
-
-  describe('when the Code Postal is only 4 numbers', () => {
-    it('should parse it', () => {
-      expect(
-        parseProjectLine({
-          ...fakeLine,
-          CP: '1390',
-        }),
-      ).toMatchObject({ codePostalProjet: '01390' });
-    });
-  });
-
-  describe('when Classé? is malformed', () => {
-    it('should throw an error', () => {
+  describe(`Classé / Eliminé (obligatoire)`, () => {
+    it(`Lorsque le statut du projet n'est pas correct
+        Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
@@ -506,76 +324,169 @@ describe('parseProjectLine', () => {
       ).toThrowError("Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé'");
     });
   });
-
-  it('should parse Engagement de fourniture de puissance à la pointe\n(AO ZNI) column', () => {
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'Oui',
-      }),
-    ).toMatchObject({
-      engagementFournitureDePuissanceAlaPointe: true,
+  describe(`Motif d'élimination (obligatoire si éliminé)`, () => {
+    it(`Etant donné un projet éliminé
+        Lorsque le motif d'élimination est complété
+        Alors il devrait être enregistré,`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Classé ?': 'Eliminé',
+          "Motif d'élimination": 'compétititivé',
+        }),
+      ).toMatchObject({ classe: 'Eliminé', motifsElimination: 'compétititivé' });
     });
 
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': '',
-      }),
-    ).toMatchObject({
-      engagementFournitureDePuissanceAlaPointe: false,
+    it(`Etant donné un projet éliminé
+        Lorsque la colonne du motif d'élimination est manquante
+        Alors une erreur devrait être retournée,`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Classé ?': 'Eliminé',
+        }),
+      ).toThrowError(
+        "Le motif d'élimination doit être précisé (il sera affiché sur l'avis de rejet)",
+      );
     });
 
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'pas bon',
-      }),
-    ).toThrowError(
-      "Le champ 'Engagement de fourniture de puissance à la pointe (AO ZNI)' doit être vide ou 'Oui'",
-    );
+    it(`Etant donné un projet éliminé
+        Lorsque le motif d'élimination n'est pas complété
+        Alors une erreur devrait être retournée,`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Classé ?': 'Eliminé',
+          "Motif d'élimination": '',
+        }),
+      ).toThrowError(
+        "Le motif d'élimination doit être précisé (il sera affiché sur l'avis de rejet)",
+      );
+    });
   });
+  describe(`Note totale (obligatoire)`, () => {
+    it(`La note totale peut être un nombre positif, négatif ou égal à 0`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Note totale': '12',
+        }),
+      ).toMatchObject({ ...expected, note: 12 });
 
-  it('should parse Territoire column for applicable AO', () => {
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        "Appel d'offres": 'CRE4 - ZNI',
-        'Territoire\n(AO ZNI)': 'Corse',
-      }),
-    ).toMatchObject({
-      territoireProjet: 'Corse',
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Note totale': '-12',
+        }),
+      ).toMatchObject({ ...expected, note: -12 });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Note totale': '0',
+        }),
+      ).toMatchObject({ ...expected, note: 0 });
     });
 
-    expect(
-      parseProjectLine({
-        ...fakeLine,
-        "Appel d'offres": 'Autre', // AO non concerné, on ignore le territoire
-        'Territoire\n(AO ZNI)': 'Corse',
-      }),
-    ).toMatchObject({
-      territoireProjet: '',
+    it(`Lorsque la note totale n'est pas renseignée
+          Alors une erreur devrait être retournée`, () => {
+      const fakeLineWithoutNoteTotale = Object.fromEntries(
+        Object.entries(fakeLine).filter(([cle]) => cle !== 'Note totale'),
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLineWithoutNoteTotale,
+        }),
+      ).toThrowError('Le champ "Note totale" doit contenir un nombre');
     });
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        "Appel d'offres": 'CRE4 - ZNI',
-        'Territoire\n(AO ZNI)': 'Autre',
-      }),
-    ).toThrowError("Le champ 'Territoire (AO ZNI)' a une valeur erronnée");
-
-    expect(() =>
-      parseProjectLine({
-        ...fakeLine,
-        "Appel d'offres": 'CRE4 - ZNI',
-        'Territoire\n(AO ZNI)': '',
-      }),
-    ).toThrowError("Le champ 'Territoire (AO ZNI)' est requis pour cet Appel d'offres");
   });
+  describe(`Date de notification (optionnelle)`, () => {
+    it(`Si une valeur est présente
+      Alors elle devrait être vérifiée et retournée sous forme numérique `, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          Notification: '22/03/2020',
+        }),
+      ).toMatchObject({
+        notifiedOn: 1584831600000,
+      });
 
-  describe('concerning the evaluation carbone column', () => {
-    it('should accept a positive number as a value', () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          Notification: '',
+        }),
+      ).toMatchObject({
+        notifiedOn: 0,
+      });
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          Notification: 'autre',
+        }),
+      ).toThrowError(
+        "Le champ 'Notification' est erronné (devrait être vide ou une date de la forme 25/12/2020)",
+      );
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          Notification: moment().add(1, 'day').format('DD/MM/YYYY'),
+        }),
+      ).toThrowError(
+        "Le champ 'Notification' est erronné (devrait une date antérieure à aujourd'hui)",
+      );
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          Notification: '01/01/1999',
+        }),
+      ).toThrowError("Le champ 'Notification' est erronné (la date parait trop ancienne)");
+    });
+    it(`La colonne Notification est optionnelle`, () => {
+      expect(parseProjectLine(fakeLine)).toMatchObject(expected);
+    });
+  });
+  describe(`Technologie`, () => {
+    it(`Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien"
+        ou rester vide pour la technologie PV`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Technologie\n(dispositif de production)': 'Hydraulique',
+        }),
+      ).toMatchObject({ technologie: 'hydraulique' });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Technologie\n(dispositif de production)': 'Eolien',
+        }),
+      ).toMatchObject({ technologie: 'eolien' });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Technologie\n(dispositif de production)': '',
+        }),
+      ).toMatchObject({ technologie: 'pv' });
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Technologie\n(dispositif de production)': 'bad value',
+        }),
+      ).toThrowError(
+        'Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" ou rester vide pour la technologie PV',
+      );
+    });
+  });
+  describe('Évaluation carbone (obligatoire)', () => {
+    it(`Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)"
+        doit contenir un nombre strictement positif ou N/A`, () => {
       expect(
         parseProjectLine({
           ...fakeLine,
@@ -585,9 +496,7 @@ describe('parseProjectLine', () => {
       ).toMatchObject({
         evaluationCarbone: 350,
       });
-    });
 
-    it('should accept N/A as a value', () => {
       expect(
         parseProjectLine({
           ...fakeLine,
@@ -597,9 +506,7 @@ describe('parseProjectLine', () => {
       ).toMatchObject({
         evaluationCarbone: 0,
       });
-    });
 
-    it('should throw an error if ecs is not strictly positive', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
@@ -619,9 +526,7 @@ describe('parseProjectLine', () => {
       ).toThrowError(
         'Le champ "Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)" doit contenir un nombre strictement positif ou N/A',
       );
-    });
 
-    it('should throw an error if ecs is not a number', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
@@ -654,9 +559,224 @@ describe('parseProjectLine', () => {
       );
     });
   });
+  describe(`Territoire (pour les ZNI uniquement)`, () => {
+    it(`Le champ territoire doit être complété pour l'appel d'offres CRE4 - ZNI avec une valeur connue`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          "Appel d'offres": 'CRE4 - ZNI',
+          'Territoire\n(AO ZNI)': 'Corse',
+        }),
+      ).toMatchObject({
+        territoireProjet: 'Corse',
+      });
 
-  describe(`when there are GF datas`, () => {
-    it(`should parse the "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" column`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          "Appel d'offres": 'Autre', // AO non concerné, on ignore le territoire
+          'Territoire\n(AO ZNI)': 'Corse',
+        }),
+      ).toMatchObject({
+        territoireProjet: '',
+      });
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          "Appel d'offres": 'CRE4 - ZNI',
+          'Territoire\n(AO ZNI)': 'Autre', // valeur inconnue
+        }),
+      ).toThrowError("Le champ 'Territoire (AO ZNI)' a une valeur erronnée");
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          "Appel d'offres": 'CRE4 - ZNI',
+          'Territoire\n(AO ZNI)': '', // territoire manquant
+        }),
+      ).toThrowError("Le champ 'Territoire (AO ZNI)' est requis pour cet Appel d'offres");
+    });
+  });
+  describe(`Engagement de fourniture de puissance à la pointe (ZNI)`, () => {
+    it(`Le champ 'Engagement de fourniture de puissance à la pointe (AO ZNI)' doit être vide ou 'Oui'`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'Oui',
+        }),
+      ).toMatchObject({
+        engagementFournitureDePuissanceAlaPointe: true,
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': '',
+        }),
+      ).toMatchObject({
+        engagementFournitureDePuissanceAlaPointe: false,
+      });
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'pas bon',
+        }),
+      ).toThrowError(
+        "Le champ 'Engagement de fourniture de puissance à la pointe (AO ZNI)' doit être vide ou 'Oui'",
+      );
+    });
+  });
+  describe(`Actionnariat : Financement collectif / Gouvernance partagée (obligatoire)`, () => {
+    it(`Lorsque l'une des colonnes Financement collectif et Gouvernance partagée est manquante
+        Alors une erreur devrait être retournée`, () => {
+      const fakeLineWithoutFinancementCollectif = Object.fromEntries(
+        Object.entries(fakeLine).filter(([cle]) => cle !== 'Financement collectif (Oui/Non)'),
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLineWithoutFinancementCollectif,
+        }),
+      ).toThrowError(
+        `Les colonnes 'Financement collectif (Oui/Non)' et 'Gouvernance partagée (Oui/Non)' sont obligatoires`,
+      );
+
+      const fakeLineWithoutGouvernancePartagée = Object.fromEntries(
+        Object.entries(fakeLine).filter(([cle]) => cle !== 'Gouvernance partagée (Oui/Non)'),
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLineWithoutGouvernancePartagée,
+        }),
+      ).toThrowError(
+        `Les colonnes 'Financement collectif (Oui/Non)' et 'Gouvernance partagée (Oui/Non)' sont obligatoires`,
+      );
+    });
+
+    it(`Lorsque l'une des colonnes Financement collectif et Gouvernance partagée n'est pas complétée par Oui ou Non
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Gouvernance partagée (Oui/Non)': 'abcd',
+          'Financement collectif (Oui/Non)': 'Non',
+        }),
+      ).toThrowError(
+        `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Financement collectif (Oui/Non)': 'abcd',
+          'Gouvernance partagée (Oui/Non)': 'Non',
+        }),
+      ).toThrowError(
+        `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Gouvernance partagée (Oui/Non)': '',
+          'Financement collectif (Oui/Non)': '',
+        }),
+      ).toThrowError(
+        `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+      );
+    });
+
+    it(`Si les deux champs Financement collectif et Gouvernance partagée sont 'Oui
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Financement collectif (Oui/Non)': 'Oui',
+          'Gouvernance partagée (Oui/Non)': 'Oui',
+        }),
+      ).toThrowError(
+        'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"',
+      );
+    });
+
+    it(`Les valeurs 'financement-collectif', ''gouvernance-partagee' ou undefined
+      peuvent être affectées à la propriété 'actionnariat'`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Financement collectif (Oui/Non)': 'Oui',
+          'Gouvernance partagée (Oui/Non)': 'Non',
+        }),
+      ).toMatchObject({
+        actionnariat: 'financement-collectif',
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Financement collectif (Oui/Non)': 'Non',
+          'Gouvernance partagée (Oui/Non)': 'Oui',
+        }),
+      ).toMatchObject({
+        actionnariat: 'gouvernance-partagee',
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Financement collectif (Oui/Non)': 'Non',
+          'Gouvernance partagée (Oui/Non)': 'Non',
+        }),
+      ).toMatchObject({
+        actionnariat: undefined,
+      });
+    });
+  });
+  describe(`Investissement / financement participatif (optionnel)`, () => {
+    it(`La valeur de la colonne 'Investissement ou financement participatif ?' doit impacter les deux propriétés isInvestissementParticipatif et  isFinancementParticipatif`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Investissement ou financement participatif ?': 'Investissement participatif (T1)',
+        }),
+      ).toMatchObject({
+        isInvestissementParticipatif: true,
+        isFinancementParticipatif: false,
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Investissement ou financement participatif ?': 'Financement participatif (T2)',
+        }),
+      ).toMatchObject({
+        isInvestissementParticipatif: false,
+        isFinancementParticipatif: true,
+      });
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Investissement ou financement participatif ?': 'autre',
+        }),
+      ).toThrowError(
+        "Le champ 'Investissement ou financement participatif ?' a une valeur erronnée",
+      );
+    });
+    it(`Lorsque la colonne 'Investissement ou financement participatif ?' n'existe pas
+        Alors la valeur "false" est appliquée aux propriétés isInvestissementParticipatif et isFinancementParticipatif
+    `, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+        }),
+      ).toMatchObject({
+        isInvestissementParticipatif: false,
+        isFinancementParticipatif: false,
+      });
+    });
+  });
+  describe(`Garanties financières`, () => {
+    it(`la colonne contenant le type de garanties financières doit impacter la propriété garantiesFinancièresType`, () => {
       expect(
         parseProjectLine({
           ...fakeLine,
@@ -693,8 +813,9 @@ describe('parseProjectLine', () => {
       ).toBe(undefined);
     });
 
-    describe(`when the project is Classé`, () => {
-      it(`should return an error if the GF type is not 1, 2 or 3`, () => {
+    describe(`Étant donné un projet classé`, () => {
+      it(`Lorsque le type n'est pas 1, 2 ou 3
+          Alors une erreur devrait être retournée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -707,7 +828,8 @@ describe('parseProjectLine', () => {
         );
       });
 
-      it(`should return an error if GF type is missing`, () => {
+      it(`Lorsque la colonne type existe mais qu'aucune valeur n'est affectée pour le projet
+          Alors une erreur devrait être retournée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -721,8 +843,9 @@ describe('parseProjectLine', () => {
       });
     });
 
-    describe(`when the project is Eliminé`, () => {
-      it(`should return an error if the GF type is not 1, 2, 3 or N/A`, () => {
+    describe(`Étant donné un projet éliminé`, () => {
+      it(`Lorsque le type est une valeur autre que 1, 2, 3 or N/A
+          Alors une erreur devrait être retournée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -735,7 +858,8 @@ describe('parseProjectLine', () => {
         );
       });
 
-      it(`should return an error if GF type is missing`, () => {
+      it(`Lorsqu'aucun type n'est affecté à la colonne type
+          Alors une erreur devrait être retournée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -748,7 +872,7 @@ describe('parseProjectLine', () => {
         );
       });
 
-      it(`should accept the value "N/A" for GF type`, () => {
+      it(`La valeur "N/A" devrait être acceptée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -762,8 +886,8 @@ describe('parseProjectLine', () => {
       });
     });
 
-    describe(`when the GF type is "Garantie financière avec date d'échéance et à renouveler"`, () => {
-      it(`the expiration date should be saved`, () => {
+    describe(`Cas du type "Garantie financière avec date d'échéance et à renouveler"`, () => {
+      it(`La date d'échéance devrait être enregistrée`, () => {
         expect(
           parseProjectLine({
             ...fakeLine,
@@ -777,7 +901,8 @@ describe('parseProjectLine', () => {
         });
       });
 
-      it(`if the expiration date has wrong format an error should be thrown`, () => {
+      it(`Lorsque la date d'échéance a un mauvais format
+          Alors une erreur devrait être retournée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -786,11 +911,12 @@ describe('parseProjectLine', () => {
             "Date d'échéance au format JJ/MM/AAAA": 'coucou',
           }),
         ).toThrowError(
-          `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+          `La date d'échéance des garanties financières doit être au format JJ/MM/AAAA`,
         );
       });
 
-      it(`if the expiration date is missing an error should be thrown`, () => {
+      it(`Lorsque la date d'échéance est manquante
+          Alors une erreur devrait être retournée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -799,13 +925,15 @@ describe('parseProjectLine', () => {
             "Date d'échéance au format JJ/MM/AAAA": null,
           }),
         ).toThrowError(
-          `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+          `La date d'échéance des garanties financières doit être au format JJ/MM/AAAA`,
         );
       });
     });
 
-    describe(`when the GF type is not "Garantie financière avec date d'échéance et à renouveler"`, () => {
-      it(`For type 1 if there is an expiration date, then an error should be thrown`, () => {
+    describe(`Cas d'un type autre que "Garantie financière avec date d'échéance et à renouveler"`, () => {
+      it(`Lorsque le type est 1
+          Et qu'une date d'échéance est renseignée
+          Alors une erreur devrait être retourée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,
@@ -816,7 +944,9 @@ describe('parseProjectLine', () => {
         ).toThrowError(`Ce type de garanties financières n'accepte pas de date d'échéance`);
       });
 
-      it(`For type 3 if there is an expiration date, then an error should be thrown`, () => {
+      it(`Lorsque le type est 3
+          Et qu'une date d'échéance est renseignée
+          Alors une erreur devrait être retourée`, () => {
         expect(() =>
           parseProjectLine({
             ...fakeLine,

@@ -102,7 +102,7 @@ const columnMapper = {
   isFinancementParticipatif: (line: any) => line['Investissement ou financement participatif ?'],
   notifiedOn: (line: any) => {
     const notifiedDate = line['Notification'];
-    if (notifiedDate === '') return 0;
+    if (notifiedDate === '' || !('Notification' in line)) return 0;
 
     const parsed = moment(notifiedDate, DATE_FORMAT);
     if (parsed.isValid()) return parsed.toDate().getTime();
@@ -143,29 +143,8 @@ const columnMapper = {
     if (technologie === '') return 'pv';
     return null;
   },
-  actionnariat: (line: any) => {
-    if (
-      !['Oui', 'Non', '', undefined].includes(line['Financement collectif (Oui/Non)']) ||
-      !['Oui', 'Non', '', undefined].includes(line['Gouvernance partagée (Oui/Non)'])
-    ) {
-      return 'wrong-value';
-    }
-
-    if (
-      line['Financement collectif (Oui/Non)'] === 'Oui' &&
-      line['Gouvernance partagée (Oui/Non)'] === 'Oui'
-    ) {
-      return 'not-possible';
-    }
-
-    if (line['Financement collectif (Oui/Non)'] === 'Oui') {
-      return 'financement-collectif';
-    }
-    if (line['Gouvernance partagée (Oui/Non)'] === 'Oui') {
-      return 'gouvernance-partagee';
-    }
-    return null;
-  },
+  financementCollectif: (line: any) => line['Financement collectif (Oui/Non)'],
+  gouvernancePartagee: (line: any) => line['Gouvernance partagée (Oui/Non)'],
   garantiesFinancièresType: (line: any) => {
     if (
       !line.hasOwnProperty(
@@ -246,9 +225,8 @@ const projectSchema = yup.object().shape({
     .required(),
   note: yup
     .number()
-    .typeError('Le champ Note doit contenir un nombre')
-    .min(0, 'Le champ Note doit être un nombre positif')
-    .required(),
+    .typeError('Le champ "Note totale" doit contenir un nombre')
+    .required('Le champ "Note totale" doit contenir un nombre'),
   nomRepresentantLegal: yup
     .string()
     .required("Le champ 'Nom et prénom du représentant légal' doit être rempli"),
@@ -272,7 +250,13 @@ const projectSchema = yup.object().shape({
     .mixed()
     .required()
     .oneOf(['Eliminé', 'Classé'], `Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé'`),
-  motifsElimination: yup.string().ensure(),
+  motifsElimination: yup.string().when('classe', {
+    is: 'Eliminé',
+    then: yup
+      .string()
+      .required("Le motif d'élimination doit être précisé (il sera affiché sur l'avis de rejet)"),
+    otherwise: yup.string(),
+  }),
   isInvestissementParticipatif: yup
     .boolean()
     .transform((str) => {
@@ -282,8 +266,7 @@ const projectSchema = yup.object().shape({
 
       return null; // will result in error
     })
-    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`)
-    .required(),
+    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`),
   isFinancementParticipatif: yup
     .boolean()
     .transform((str) => {
@@ -293,8 +276,7 @@ const projectSchema = yup.object().shape({
 
       return null; // will result in error
     })
-    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`)
-    .required(),
+    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`),
   notifiedOn: yup
     .number()
     .typeError(
@@ -357,23 +339,24 @@ const projectSchema = yup.object().shape({
       ['pv', 'hydraulique', 'eolien', 'N/A'],
       'Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" ou rester vide pour la technologie PV',
     ),
-  actionnariat: yup.lazy((str) => {
-    if (str === 'wrong-value') {
-      return yup
-        .boolean()
-        .typeError(
-          `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
-        );
-    }
-
-    return yup
-      .mixed()
-      .nullable()
-      .oneOf(
-        ['gouvernance-partagee', 'financement-collectif', null],
-        'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"',
-      );
-  }),
+  financementCollectif: yup
+    .mixed()
+    .oneOf(
+      ['Oui', 'Non'],
+      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+    )
+    .required(
+      `Les colonnes 'Financement collectif (Oui/Non)' et 'Gouvernance partagée (Oui/Non)' sont obligatoires`,
+    ),
+  gouvernancePartagee: yup
+    .mixed()
+    .oneOf(
+      ['Oui', 'Non'],
+      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`,
+    )
+    .required(
+      `Les colonnes 'Financement collectif (Oui/Non)' et 'Gouvernance partagée (Oui/Non)' sont obligatoires`,
+    ),
   garantiesFinancièresType: yup
     .mixed()
     .oneOf(
@@ -439,7 +422,7 @@ export const parseProjectLine = (line) => {
       !rawProjectData.garantiesFinancièresDateEchéance
     ) {
       throw new yup.ValidationError(
-        `La date d'échéance des garanties financières doit être au format AA/MM/JJJJ`,
+        `La date d'échéance des garanties financières doit être au format JJ/MM/AAAA`,
       );
     }
 
@@ -453,14 +436,32 @@ export const parseProjectLine = (line) => {
       );
     }
 
+    if (
+      rawProjectData.financementCollectif === 'Oui' &&
+      rawProjectData.gouvernancePartagee === 'Oui'
+    ) {
+      throw new yup.ValidationError(
+        'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"',
+      );
+    }
+
     return {
       ...rawProjectData,
       codePostalProjet,
       departementProjet,
       regionProjet,
       puissanceInitiale: rawProjectData.puissance,
+      actionnariat:
+        rawProjectData.financementCollectif === 'Oui'
+          ? 'financement-collectif'
+          : rawProjectData.gouvernancePartagee === 'Oui'
+          ? 'gouvernance-partagee'
+          : undefined,
       garantiesFinancièresType: rawProjectData.garantiesFinancièresType,
       garantiesFinancièresDateEchéance: rawProjectData.garantiesFinancièresDateEchéance,
+      motifsElimination: rawProjectData.motifsElimination || '',
+      isFinancementParticipatif: rawProjectData.isFinancementParticipatif || false,
+      isInvestissementParticipatif: rawProjectData.isInvestissementParticipatif || false,
       details: Object.entries(line)
         .filter(([key, value]) => !mappedColumns.includes(key) && !!value)
         .reduce((details, [key, value]) => ({ ...details, [key]: value }), {}),
