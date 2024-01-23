@@ -84,6 +84,12 @@ EtantDonné(
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+    this.raccordementWorld.dateSignature = DateTime.convertirEnValueType(dateSignature);
+    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
+      content,
+      format,
+    };
+
     const propositionTechniqueEtFinancièreSignée = {
       format,
       content: convertStringToReadableStream(content),
@@ -101,67 +107,36 @@ EtantDonné(
   },
 );
 
-// EtantDonné(
-//   'un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau {string} avec :',
-//   async function (this: PotentielWorld, raisonSociale, table: DataTable) {
-//     const exemple = table.rowsHash();
-//     const dateQualification = convertirEnDateTime(exemple['La date de qualification']);
-//     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
-//     const format = exemple[`Le format de l'accusé de réception`];
-//     const content = exemple[`Le contenu de l'accusé de réception`];
+EtantDonné(
+  'une date de mise en service {string} pour le dossier de raccordement pour le projet lauréat {string} ayant pour référence {string}',
+  async function (
+    this: PotentielWorld,
+    dateMiseEnService: string,
+    nomProjet: string,
+    référenceDossierRaccordement: string,
+  ) {
+    const dateMiseEnServiceValueType = new Date(dateMiseEnService).toISOString();
 
-//     const accuséRéception = {
-//       format,
-//       content: convertStringToReadableStream(content),
-//     };
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-//     const { codeEIC } =
-//       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
+    this.raccordementWorld.dateMiseEnService = DateTime.convertirEnValueType(
+      dateMiseEnServiceValueType,
+    );
+    this.raccordementWorld.référenceDossierRaccordement =
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
 
-//     this.raccordementWorld.dateQualification = dateQualification;
-//     this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-//     this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-//       format,
-//       content,
-//     };
-
-//     await mediator.send<DomainUseCase>({
-//       type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-//       data: {
-//         identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
-//         identifiantGestionnaireRéseau: convertirEnIdentifiantGestionnaireRéseau(codeEIC),
-//         référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-//           référenceDossierRaccordement,
-//         ),
-//         dateQualification,
-//         accuséRéception,
-//       },
-//     });
-//   },
-// );
-
-// EtantDonné(
-//   'une date de mise en service {string} pour le dossier de raccordement {string}',
-//   async function (this: PotentielWorld, dateMiseEnService, référenceDossierRaccordement) {
-//     const dateMiseEnServiceValueType = convertirEnDateTime(dateMiseEnService);
-
-//     this.raccordementWorld.dateMiseEnService = dateMiseEnServiceValueType;
-//     this.raccordementWorld.référenceDossierRaccordement = référenceDossierRaccordement;
-
-//     try {
-//       await mediator.send<DomainUseCase>({
-//         type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-//         data: {
-//           identifiantProjet: convertirEnIdentifiantProjet(this.lauréatWorld.identifiantProjet),
-//           référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(
-//             référenceDossierRaccordement,
-//           ),
-//           dateMiseEnService: dateMiseEnServiceValueType,
-//           dateDésignation: convertirEnDateTime(new Date('2020-01-01')),
-//         },
-//       });
-//     } catch (e) {
-//       this.error = e as Error;
-//     }
-//   },
-// );
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierValue: référenceDossierRaccordement,
+          dateMiseEnServiceValue: dateMiseEnServiceValueType,
+          dateDésignationValue: new Date('2020-01-01').toISOString(),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);

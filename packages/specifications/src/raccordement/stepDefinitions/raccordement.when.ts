@@ -271,3 +271,38 @@ Quand(
     }
   },
 );
+
+Quand(
+  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat {string} ayant pour référence {string} avec la référence {string} auprès du gestionnaire de réseau {string}`,
+  async function (
+    this: PotentielWorld,
+    rôleUtilisateur: string,
+    nomProjet: string,
+    référenceDossierRaccordementActuelle: string,
+    nouvelleRéférenceDossierRaccordement: string,
+    raisonSocialeGestionnaire: string,
+  ) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { codeEIC } =
+      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSocialeGestionnaire);
+    this.raccordementWorld.référenceDossierRaccordement =
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+        nouvelleRéférenceDossierRaccordement,
+      );
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
+        data: {
+          identifiantGestionnaireRéseauValue: codeEIC,
+          identifiantProjetValue: identifiantProjet.formatter(),
+          nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossierRaccordement,
+          référenceDossierRaccordementActuelleValue: référenceDossierRaccordementActuelle,
+          rôleValue: rôleUtilisateur,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);

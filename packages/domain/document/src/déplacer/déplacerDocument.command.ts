@@ -1,29 +1,29 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DocumentProjet } from '..';
+import * as DossierProjet from '../dossierProjet.valueType';
 
-export type DéplacerDocumentProjetCommand = Message<
+export type DéplacerDossierProjetCommand = Message<
   'DÉPLACER_DOCUMENT_PROJET_COMMAND',
   {
-    documentProjetSource: DocumentProjet.ValueType;
-    documentProjetTarget: DocumentProjet.ValueType;
+    dossierProjetSource: DossierProjet.ValueType;
+    dossierProjetTarget: DossierProjet.ValueType;
   }
 >;
 
-export type DéplacerDocumentProjetPort = (
-  documentProjetSourceKey: string,
-  documentProjetTargetKey: string,
+export type DéplacerDossierProjetPort = (
+  dossierProjetSourceKey: string,
+  dossierProjetTargetKey: string,
 ) => Promise<void>;
 
-export type DéplacerDocumentProjetDependencies = {
-  déplacerDocumentProjet: DéplacerDocumentProjetPort;
+export type DéplacerDossierProjetDependencies = {
+  déplacerDossierProjet: DéplacerDossierProjetPort;
 };
 
 export const registerDéplacerDocumentCommand = ({
-  déplacerDocumentProjet,
-}: DéplacerDocumentProjetDependencies) => {
-  const handler: MessageHandler<DéplacerDocumentProjetCommand> = ({
-    documentProjetSource,
-    documentProjetTarget,
-  }) => déplacerDocumentProjet(documentProjetSource.formatter(), documentProjetTarget.formatter());
+  déplacerDossierProjet,
+}: DéplacerDossierProjetDependencies) => {
+  const handler: MessageHandler<DéplacerDossierProjetCommand> = ({
+    dossierProjetSource,
+    dossierProjetTarget,
+  }) => déplacerDossierProjet(dossierProjetSource.formatter(), dossierProjetTarget.formatter());
   mediator.register('DÉPLACER_DOCUMENT_PROJET_COMMAND', handler);
 };

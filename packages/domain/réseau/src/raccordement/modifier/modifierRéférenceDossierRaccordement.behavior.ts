@@ -38,7 +38,7 @@ export async function modifierRéférenceDossierRacordement(
     throw new RéférencesDossierRaccordementIdentiquesError();
   }
 
-  if (this.contientLeDossier(référenceDossierRaccordementActuelle)) {
+  if (!this.contientLeDossier(référenceDossierRaccordementActuelle)) {
     throw new DossierRaccordementNonRéférencéError();
   }
 
