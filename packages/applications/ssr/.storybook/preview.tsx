@@ -7,9 +7,8 @@ import { createMuiDsfrThemeProvider } from '@codegouvfr/react-dsfr/mui';
 
 import { StartDsfr } from '../src/app/StartDsfr';
 
+import '../public/dsfr/dsfr.min.css';
 import '../src/app/global.css';
-import '../.next/static/css/59864da3adfd3489.css';
-import '../.next/static/css/69615fe075a559cb.css';
 
 export const decorators = [
   withThemeByClassName({
