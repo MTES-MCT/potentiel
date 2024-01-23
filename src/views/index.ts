@@ -37,15 +37,6 @@ import {
   InviterAdministrateur,
   AcheteurObligeStatistiques,
   CreStatistiques,
-  TransmettreDemandeComplèteRaccordement,
-  ListeDossiersRaccordement,
-  TransmettreDateMiseEnService,
-  TransmettrePropositionTechniqueEtFinancière,
-  ModifierDemandeComplèteRaccordement,
-  ModifierGestionnaireRéseauProjet,
-  ModifierPropositionTechniqueEtFinancière,
-  AucunDossierALister,
-  ImporterDatesMiseEnService,
   DetailsDemandeDelai,
   CorrigerDelaiAccorde,
 } from './pages';
@@ -328,85 +319,6 @@ export const InviterAdministrateurPage = (props: Parameters<typeof InviterAdmini
     Component: InviterAdministrateur,
     props,
     title: 'Inviter un utilisateur administrateur',
-  });
-
-export const TransmettreDemandeComplèteRaccordementPage = (
-  props: Parameters<typeof TransmettreDemandeComplèteRaccordement>[0],
-) =>
-  makeHtml({
-    Component: TransmettreDemandeComplèteRaccordement,
-    props,
-    title: 'Transmettre une demande complète de raccordement',
-  });
-
-export const ListeDossiersRaccordementPage = (
-  props: Parameters<typeof ListeDossiersRaccordement>[0],
-) =>
-  makeHtml({
-    Component: ListeDossiersRaccordement,
-    props,
-    title: 'Liste des dossiers de raccordement',
-  });
-
-export const TransmettreDateMiseEnServicePage = (
-  props: Parameters<typeof TransmettreDateMiseEnService>[0],
-) =>
-  makeHtml({
-    Component: TransmettreDateMiseEnService,
-    props,
-    title: 'Transmettre une date de mise en service',
-  });
-
-export const TransmettrePropositionTechniqueEtFinancièrePage = (
-  props: Parameters<typeof TransmettrePropositionTechniqueEtFinancière>[0],
-) =>
-  makeHtml({
-    Component: TransmettrePropositionTechniqueEtFinancière,
-    props,
-    title: 'Transmettre une proposition technique et financière',
-  });
-
-export const ModifierDemandeComplèteRaccordementPage = (
-  props: Parameters<typeof ModifierDemandeComplèteRaccordement>[0],
-) =>
-  makeHtml({
-    Component: ModifierDemandeComplèteRaccordement,
-    props,
-    title: 'Modifier une demande complète de raccordement',
-  });
-
-export const ModifierGestionnaireRéseauProjetPage = (
-  props: Parameters<typeof ModifierGestionnaireRéseauProjet>[0],
-) =>
-  makeHtml({
-    Component: ModifierGestionnaireRéseauProjet,
-    props,
-    title: 'Modifier le gestionnaire réseau du projet',
-  });
-
-export const ModifierPropositionTechniqueEtFinancièrePage = (
-  props: Parameters<typeof ModifierPropositionTechniqueEtFinancière>[0],
-) =>
-  makeHtml({
-    Component: ModifierPropositionTechniqueEtFinancière,
-    props,
-    title: 'Modifier une proposition technique et financière',
-  });
-
-export const AucunDossierAListerPage = (props: Parameters<typeof AucunDossierALister>[0]) =>
-  makeHtml({
-    Component: AucunDossierALister,
-    props,
-    title: 'Aucun dossier de raccordement à lister',
-  });
-
-export const ImporterDatesMiseEnServicePage = (
-  props: Parameters<typeof ImporterDatesMiseEnService>[0],
-) =>
-  makeHtml({
-    Component: ImporterDatesMiseEnService,
-    props,
-    title: 'Importer des dates de mise en service',
   });
 
 export const CorrigerDelaiAccordePage = (props: Parameters<typeof CorrigerDelaiAccorde>[0]) =>
