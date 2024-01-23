@@ -20,6 +20,7 @@ export interface ProjectDataCorrectedPayload {
     isFinancementParticipatif: boolean;
     isInvestissementParticipatif: boolean;
     motifsElimination: string;
+    actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
   }>;
 }
 export class ProjectDataCorrected

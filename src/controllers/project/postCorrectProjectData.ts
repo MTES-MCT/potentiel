@@ -52,6 +52,7 @@ v1Router.post(
       motifsElimination,
       reason,
       attestation,
+      actionnariat,
     } = request.body;
 
     if (!validateUniqueId(projectId)) {
@@ -99,6 +100,7 @@ v1Router.post(
       isFinancementParticipatif: Boolean(isFinancementParticipatif),
       isInvestissementParticipatif: Boolean(isInvestissementParticipatif),
       motifsElimination,
+      actionnariat,
     };
 
     const certificateFile =

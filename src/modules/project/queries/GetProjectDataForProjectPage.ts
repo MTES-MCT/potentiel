@@ -45,6 +45,7 @@ export type ProjectDataForProjectPage = {
   engagementFournitureDePuissanceAlaPointe: boolean;
   isFinancementParticipatif: boolean;
   isInvestissementParticipatif: boolean;
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
 
   adresseProjet: string;
   codePostalProjet: string;

@@ -53,6 +53,7 @@ interface CorrectProjectDataArgs {
     isFinancementParticipatif: boolean;
     isInvestissementParticipatif: boolean;
     motifsElimination: string;
+    actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
   }>;
 }
 
