@@ -1,9 +1,7 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { BuildingIcon, Heading3, Link, Section } from '../../../components';
-import routes from '../../../../routes';
 import { UserRole } from '../../../../modules/users';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -32,6 +30,7 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => {
             </p>
           )}
       </div>
+
       <div>
         <Heading3 className="mb-0">Site de production</Heading3>
         <p className="m-0">{project.adresseProjet}</p>
@@ -49,18 +48,7 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => {
         ) && (
           <div className="print:hidden mb-3">
             <Heading3 className="mb-0">Raccordement au réseau</Heading3>
-            <Link
-              href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
-                convertirEnIdentifiantProjet({
-                  appelOffre: project.appelOffreId,
-                  période: project.periodeId,
-                  famille: project.familleId,
-                  numéroCRE: project.numeroCRE,
-                }).formatter(),
-              )}
-            >
-              Mettre à jour ou consulter les données de raccordement
-            </Link>
+            <Link href="">Mettre à jour ou consulter les données de raccordement</Link>
           </div>
         )}
     </Section>
