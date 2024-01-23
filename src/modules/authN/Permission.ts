@@ -20,13 +20,11 @@ import {
   PermissionTransmettreDateMiseEnService,
   PermissionTransmettrePropositionTechniqueEtFinancière,
   PermissionModifierGestionnaireRéseauProjet,
-} from '@potentiel/legacy-permissions';
-import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
   PermissionConsulterDossierRaccordement,
   PermissionListerAbandons,
-} from '@potentiel/domain-views';
+} from '@potentiel/legacy-permissions';
 
 export type Permission = {
   nom: string;
