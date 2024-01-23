@@ -10,7 +10,6 @@ import * as Sentry from '@sentry/node';
 import { isLocalEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
-import { bootstrap as bootstrapWebApp } from '@potentiel/web';
 import { bootstrap } from '@potentiel-application/bootstrap';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
@@ -23,7 +22,6 @@ const FILE_SIZE_LIMIT_MB = 50;
 
 export async function makeServer(port: number, sessionSecret: string) {
   try {
-    await bootstrapWebApp();
     await registerSagas();
 
     const app = express();

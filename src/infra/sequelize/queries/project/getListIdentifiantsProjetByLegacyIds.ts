@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel/domain-usecases';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Project } from '../../projectionsNext';
 import { Op } from 'sequelize';
 
@@ -16,7 +16,10 @@ export const getListIdentifiantsProjetByLegacyIds = async (legacyIds: Array<Proj
       attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
     });
 
-    const identifiantsProjet: IdentifiantProjet[] = projets.map((p) => ({
+    const identifiantsProjet: Pick<
+      IdentifiantProjet.ValueType,
+      'appelOffre' | 'famille' | 'numéroCRE' | 'période'
+    >[] = projets.map((p) => ({
       appelOffre: p.appelOffreId,
       période: p.periodeId,
       famille: p.familleId,

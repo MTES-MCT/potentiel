@@ -1,14 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { RaccordementEvent } from '@potentiel/domain-usecases';
 import { publishToEventBus } from '../config/eventBus.config';
 import { transformerISOStringEnDate } from '../infra/helpers';
 import {
   DateMiseEnServiceTransmise,
   DemandeComplèteRaccordementTransmise,
 } from '../modules/project';
+import { Raccordement } from '@potentiel-domain/reseau';
 
-export type SubscriptionEvent = RaccordementEvent & Event;
+export type SubscriptionEvent = (
+  | Raccordement.DateMiseEnServiceTransmiseEvent
+  | Raccordement.DemandeComplèteRaccordementTransmiseEvent
+) &
+  Event;
 
 export type Execute = Message<'EXECUTE_RACCORDEMENT_SAGA', SubscriptionEvent>;
 
@@ -28,7 +32,7 @@ export const register = () => {
             resolve();
           });
         });
-      case 'DemandeComplèteDeRaccordementTransmise-V1':
+      case 'DemandeComplèteDeRaccordementTransmise-V2':
         return new Promise<void>((resolve) => {
           publishToEventBus(
             new DemandeComplèteRaccordementTransmise({

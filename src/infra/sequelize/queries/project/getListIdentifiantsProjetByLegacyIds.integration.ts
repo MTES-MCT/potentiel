@@ -3,8 +3,8 @@ import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { Project } from '../../projectionsNext';
-import { IdentifiantProjet } from '@potentiel/domain-usecases';
 import { getListIdentifiantsProjetByLegacyIds } from './getListIdentifiantsProjetByLegacyIds';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 describe('Query getListIdentifiantsProjetByLegacyIds', () => {
   beforeEach(async () => {
@@ -20,7 +20,10 @@ describe('Query getListIdentifiantsProjetByLegacyIds', () => {
       const projetALegacyId = new UniqueEntityID().toString();
       const projetBLegacyId = new UniqueEntityID().toString();
 
-      const listeIdentifiantsNaturelCible: IdentifiantProjet[] = [
+      const listeIdentifiantsNaturelCible: Pick<
+        IdentifiantProjet.ValueType,
+        'appelOffre' | 'famille' | 'numéroCRE' | 'période'
+      >[] = [
         {
           appelOffre: 'CRE4 - Bâtiment',
           période: '1',
