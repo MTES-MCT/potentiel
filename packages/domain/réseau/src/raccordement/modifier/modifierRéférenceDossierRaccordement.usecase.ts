@@ -1,9 +1,11 @@
 import { mediator, MessageHandler, Message } from 'mediateur';
 import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
-import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
+import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
+import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 
 export type ModifierRéférenceDossierRaccordementUseCase = Message<
   'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
@@ -12,7 +14,6 @@ export type ModifierRéférenceDossierRaccordementUseCase = Message<
     identifiantGestionnaireRéseauValue: string;
     référenceDossierRaccordementActuelleValue: string;
     nouvelleRéférenceDossierRaccordementValue: string;
-    référenceDossierExpressionRegulièreValue: string;
     rôleValue: string;
   }
 >;
@@ -22,7 +23,6 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     identifiantGestionnaireRéseauValue,
     identifiantProjetValue,
     nouvelleRéférenceDossierRaccordementValue,
-    référenceDossierExpressionRegulièreValue,
     référenceDossierRaccordementActuelleValue,
     rôleValue,
   }) => {
@@ -33,15 +33,55 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     const nouvelleRéférenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
       nouvelleRéférenceDossierRaccordementValue,
     );
-    const référenceDossierExpressionRegulière = ExpressionRegulière.convertirEnValueType(
-      référenceDossierExpressionRegulièreValue,
-    );
     const référenceDossierRaccordementActuelle = RéférenceDossierRaccordement.convertirEnValueType(
       référenceDossierRaccordementActuelleValue,
     );
     const rôle = Role.convertirEnValueType(rôleValue);
 
-    // TODO: Move DCR et PTF
+    const dossierAccuséRéceptionSource = DossierProjet.convertirEnValueType(
+      identifiantProjetValue,
+      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+        référenceDossierRaccordementActuelleValue,
+      ).formatter(),
+    );
+
+    const dossierAccuséRéceptionDestination = DossierProjet.convertirEnValueType(
+      identifiantProjetValue,
+      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+        nouvelleRéférenceDossierRaccordementValue,
+      ).formatter(),
+    );
+
+    const dossierPropositionTechniqueEtFinancièreSignéeSource = DossierProjet.convertirEnValueType(
+      identifiantProjetValue,
+      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+        référenceDossierRaccordementActuelleValue,
+      ).formatter(),
+    );
+
+    const dossierPropositionTechniqueEtFinancièreSignéeDestination =
+      DossierProjet.convertirEnValueType(
+        identifiantProjetValue,
+        TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+          nouvelleRéférenceDossierRaccordementValue,
+        ).formatter(),
+      );
+
+    await mediator.send<DéplacerDocumentProjetCommand>({
+      type: 'DÉPLACER_DOCUMENT_PROJET_COMMAND',
+      data: {
+        dossierProjetSource: dossierAccuséRéceptionSource,
+        dossierProjetTarget: dossierAccuséRéceptionDestination,
+      },
+    });
+
+    await mediator.send<DéplacerDocumentProjetCommand>({
+      type: 'DÉPLACER_DOCUMENT_PROJET_COMMAND',
+      data: {
+        dossierProjetSource: dossierPropositionTechniqueEtFinancièreSignéeSource,
+        dossierProjetTarget: dossierPropositionTechniqueEtFinancièreSignéeDestination,
+      },
+    });
 
     await mediator.send<ModifierRéférenceDossierRaccordementCommand>({
       type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND',
@@ -49,7 +89,6 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
         identifiantGestionnaireRéseau,
         identifiantProjet,
         nouvelleRéférenceDossierRaccordement,
-        référenceDossierExpressionRegulière,
         référenceDossierRaccordementActuelle,
         rôle,
       },

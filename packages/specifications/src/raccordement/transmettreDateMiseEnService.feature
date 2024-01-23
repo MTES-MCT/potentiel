@@ -4,7 +4,6 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
 
-    @select
     Scénario: Le porteur transmet une date de mise en service pour un dossier de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
@@ -14,12 +13,10 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Quand le porteur transmet la date de mise en service "2023-03-27" pour le dossier de raccordement du le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
         Alors la date de mise en service "2023-03-27" devrait être consultable dans le dossier de raccordement du le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
 
-    @select
     Scénario: Impossible de transmettre une date de mise en service pour un projet sans dossier de raccordement
         Quand le porteur transmet la date de mise en service "2023-03-27" pour le dossier de raccordement du le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
         Alors le porteur devrait être informé que "Aucun raccordement pour le projet lauréat"
 
-    @select
     Scénario: Impossible de transmettre une date de mise en service pour un dossier de raccordement non référencé
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
@@ -29,7 +26,6 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Quand le porteur transmet la date de mise en service "2023-03-27" pour le dossier de raccordement du le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000034"
         Alors le porteur devrait être informé que "Le dossier de raccordement n'est pas référencé"
 
-    @select
     Scénario: Impossible de transmettre une date de mise en service dans le futur
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
@@ -39,7 +35,6 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Quand le porteur transmet la date de mise en service "2999-03-27" pour le dossier de raccordement du le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
 
-    @select
     Scénario: Impossible d'enregistrer une date de mise en service antérieure à la date de notification du projet
         Etant donné le projet lauréat "Du boulodrome de Lille" avec :
             | La date de désignation | 2022-10-27 |

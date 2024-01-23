@@ -3,8 +3,8 @@ import {
   RécupérerDocumentProjetPort,
 } from './consulter/consulterDocumentProjet.query';
 import {
-  DéplacerDocumentProjetCommand,
-  DéplacerDocumentProjetPort,
+  DéplacerDossierProjetCommand,
+  DéplacerDossierProjetPort,
 } from './déplacer/déplacerDocument.command';
 import {
   EnregistrerDocumentProjetCommand,
@@ -17,17 +17,19 @@ export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
 export { ConsulterDocumentProjetQuery };
 
 // Command
-export type DocumentProjetCommand =
-  | EnregistrerDocumentProjetCommand
-  | DéplacerDocumentProjetCommand;
+export type DocumentProjetCommand = EnregistrerDocumentProjetCommand | DéplacerDossierProjetCommand;
 
-export { EnregistrerDocumentProjetCommand, DéplacerDocumentProjetCommand };
+export {
+  EnregistrerDocumentProjetCommand,
+  DéplacerDossierProjetCommand as DéplacerDocumentProjetCommand,
+};
 
 // Register
 export * from './register';
 
 // ValueType
 export * as DocumentProjet from './documentProjet.valueType';
+export * as DossierProjet from './dossierProjet.valueType';
 
 // Port
-export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort, DéplacerDocumentProjetPort };
+export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort, DéplacerDossierProjetPort };
