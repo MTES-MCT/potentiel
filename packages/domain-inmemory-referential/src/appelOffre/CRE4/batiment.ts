@@ -73,7 +73,6 @@ export const batiment: AppelOffre = {
     },
   },
   changementProducteurPossibleAvantAchèvement: true,
-  choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
@@ -153,6 +152,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -189,6 +189,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '3',
@@ -225,6 +226,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '4',
@@ -261,6 +263,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '5',
@@ -297,6 +300,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '6',
@@ -333,6 +337,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '7',
@@ -369,6 +374,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '8',
@@ -405,6 +411,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '9',
@@ -441,6 +448,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '10',
@@ -482,6 +490,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '11',
@@ -523,6 +532,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '12',
@@ -564,6 +574,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '13',

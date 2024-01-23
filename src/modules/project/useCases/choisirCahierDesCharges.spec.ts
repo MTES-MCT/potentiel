@@ -176,10 +176,10 @@ describe('Choisir un cahier des charges', () => {
               id: periodeId,
               type: 'notified',
               cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
+              choisirNouveauCahierDesCharges: true,
             },
           ],
           familles: [{ id: 'familleId' }],
-          choisirNouveauCahierDesCharges: true,
         } as AppelOffre);
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
@@ -217,13 +217,13 @@ describe('Choisir un cahier des charges', () => {
             {
               id: periodeId,
               type: 'notified',
+              choisirNouveauCahierDesCharges: true,
               cahiersDesChargesModifiésDisponibles: [
                 { type: 'modifié', paruLe: '30/08/2022' },
               ] as ReadonlyArray<CahierDesChargesModifié>,
             },
           ],
           familles: [{ id: 'familleId' }],
-          choisirNouveauCahierDesCharges: true,
         } as AppelOffre);
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
@@ -271,6 +271,7 @@ describe('Choisir un cahier des charges', () => {
             {
               id: 'periodeId',
               type: 'notified',
+              choisirNouveauCahierDesCharges: true,
               cahiersDesChargesModifiésDisponibles: [
                 {
                   type: 'modifié',
@@ -281,7 +282,6 @@ describe('Choisir un cahier des charges', () => {
             },
           ],
           familles: [{ id: 'familleId' }],
-          choisirNouveauCahierDesCharges: true,
         } as AppelOffre);
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
@@ -398,6 +398,7 @@ describe('Choisir un cahier des charges', () => {
             {
               id: periodeId,
               type: 'notified',
+              choisirNouveauCahierDesCharges: true,
               cahiersDesChargesModifiésDisponibles: [
                 {
                   type: 'modifié',
@@ -408,7 +409,6 @@ describe('Choisir un cahier des charges', () => {
             },
           ],
           familles: [{ id: 'familleId' }],
-          choisirNouveauCahierDesCharges: true,
           doitPouvoirChoisirCDCInitial: true,
         } as AppelOffre);
 

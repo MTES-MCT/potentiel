@@ -64,7 +64,8 @@ export const makeDemanderDélai: MakeDemanderDélai =
         return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
           if (
             project.cahierDesCharges.type === 'initial' &&
-            appelOffre?.choisirNouveauCahierDesCharges
+            appelOffre?.periodes.find(({ id }) => id === project.periodeId)
+              ?.choisirNouveauCahierDesCharges
           ) {
             return errAsync(new NouveauCahierDesChargesNonChoisiError());
           }

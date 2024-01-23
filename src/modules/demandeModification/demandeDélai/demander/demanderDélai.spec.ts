@@ -26,8 +26,7 @@ describe('Commande demanderDélai', () => {
   const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
     ({
       id: 'appelOffreId',
-      choisirNouveauCahierDesCharges: true,
-      periodes: [{ id: 'periodeId', type: 'notified' }],
+      periodes: [{ id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true }],
       familles: [{ id: 'familleId' }],
     } as AppelOffre);
 
@@ -205,35 +204,47 @@ describe('Commande demanderDélai', () => {
       });
 
       describe(`Erreur si le porteur n'a pas souscri à un CDC modifié alors que l'AO le requiert`, () => {
-        describe(`Étant donné un projet avec un AO requérant le choix d'un CDC modifié pour pouvoir effectuer des modifications sur Potentiel,
-                  Lorsque le porteur fait une demande de délai,
-                  et qu'il n'a pas encore souscri au nouveau cahier des charges`, () => {
-          it(`Alors une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
-            const projectRepo = fakeRepo({
-              ...fakeProject,
-              cahierDesCharges: { type: 'initial' },
-            } as Project);
+        it(`Etant donné un projet avec le CDC initial
+            Et dont le CDC initial ne permet pas de faire des modifications dans Potentiel
+            Lorsqu'un porteur demande un délai
+            Alors une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
+          const projectRepo = fakeRepo({
+            ...fakeProject,
+            cahierDesCharges: { type: 'initial' },
+          } as Project);
 
-            const demandeDelai = makeDemanderDélai({
-              fileRepo: fileRepo as Repository<FileObject>,
-              findAppelOffreById,
-              publishToEventStore,
-              shouldUserAccessProject,
-              getProjectAppelOffreId,
-              projectRepo,
-            });
+          const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+            ({
+              id: 'appelOffreId',
+              periodes: [
+                {
+                  id: fakeProject.periodeId,
+                  type: 'notified',
+                  choisirNouveauCahierDesCharges: true,
+                },
+              ],
+              familles: [{ id: 'familleId' }],
+            } as AppelOffre);
 
-            const res = await demandeDelai({
-              justification: 'justification',
-              dateAchèvementDemandée,
-              user,
-              projectId: fakeProject.id.toString(),
-            });
-
-            expect(res.isErr()).toEqual(true);
-            if (res.isOk()) return;
-            expect(res.error).toBeInstanceOf(NouveauCahierDesChargesNonChoisiError);
+          const demandeDelai = makeDemanderDélai({
+            fileRepo: fileRepo as Repository<FileObject>,
+            findAppelOffreById,
+            publishToEventStore,
+            shouldUserAccessProject,
+            getProjectAppelOffreId,
+            projectRepo,
           });
+
+          const res = await demandeDelai({
+            justification: 'justification',
+            dateAchèvementDemandée,
+            user,
+            projectId: fakeProject.id.toString(),
+          });
+
+          expect(res.isErr()).toEqual(true);
+          if (res.isOk()) return;
+          expect(res.error).toBeInstanceOf(NouveauCahierDesChargesNonChoisiError);
         });
       });
 
@@ -249,8 +260,9 @@ describe('Commande demanderDélai', () => {
             ({
               id: 'Eolien',
               autoritéCompétenteDemandesDélai: 'dgec',
-              choisirNouveauCahierDesCharges: true,
-              periodes: [{ id: 'periodeId', type: 'notified' }],
+              periodes: [
+                { id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true },
+              ],
               familles: [{ id: 'familleId' }],
             } as AppelOffre);
 
@@ -291,8 +303,9 @@ describe('Commande demanderDélai', () => {
           const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
             ({
               id: 'autre AO',
-              choisirNouveauCahierDesCharges: true,
-              periodes: [{ id: 'periodeId', type: 'notified' }],
+              periodes: [
+                { id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true },
+              ],
               familles: [{ id: 'familleId' }],
             } as AppelOffre);
 

@@ -51,7 +51,6 @@ export const autoconsommationMetropole: AppelOffre = {
     },
   },
   changementProducteurPossibleAvantAchèvement: true,
-  choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
@@ -103,6 +102,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -137,6 +137,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '3',
@@ -171,6 +172,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '4',
@@ -205,6 +207,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '5',
@@ -239,6 +242,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '6',
@@ -273,6 +277,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '7',
@@ -308,6 +313,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '8',
@@ -343,6 +349,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '9',
@@ -378,6 +385,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '10',
@@ -413,6 +421,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
   ],
   familles: [],

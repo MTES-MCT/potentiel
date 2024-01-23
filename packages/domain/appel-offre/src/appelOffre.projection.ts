@@ -177,6 +177,7 @@ export type Periode = {
   garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
+  choisirNouveauCahierDesCharges?: true;
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
 
 // Territoire
@@ -216,7 +217,6 @@ export type AppelOffre = {
   afficherValeurEvaluationCarbone: boolean;
   afficherPhraseRegionImplantation: boolean;
   dossierSuiviPar: string;
-  choisirNouveauCahierDesCharges?: true;
   periodes: Periode[];
   familles: Famille[];
   renvoiSoumisAuxGarantiesFinancieres?: string;

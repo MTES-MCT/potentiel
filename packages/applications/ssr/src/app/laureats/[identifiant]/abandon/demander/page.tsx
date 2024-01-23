@@ -45,7 +45,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-    if (appelOffres.choisirNouveauCahierDesCharges && cahierDesChargesChoisi === 'initial') {
+    if (
+      appelOffres.periodes.find(({ id }) => id === candidature.période)
+        ?.choisirNouveauCahierDesCharges &&
+      cahierDesChargesChoisi === 'initial'
+    ) {
       redirect(Routes.Projet.details(identifiantProjet));
     }
 

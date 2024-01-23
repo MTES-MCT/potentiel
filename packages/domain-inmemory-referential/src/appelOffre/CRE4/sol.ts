@@ -72,7 +72,6 @@ export const sol: AppelOffre = {
     },
   },
   changementProducteurPossibleAvantAchèvement: true,
-  choisirNouveauCahierDesCharges: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
@@ -155,6 +154,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -192,6 +192,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '3',
@@ -229,6 +230,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '4',
@@ -266,6 +268,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '5',
@@ -303,6 +306,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '6',
@@ -340,6 +344,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '7',
@@ -383,6 +388,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '8',
@@ -426,6 +432,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '9',
@@ -469,6 +476,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '10',
@@ -512,6 +520,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      choisirNouveauCahierDesCharges: true,
     },
   ],
   familles: [

@@ -47,7 +47,8 @@ export const makeChangerProducteur =
             .andThen((appelOffre) => {
               if (
                 projet.cahierDesCharges.type === 'initial' &&
-                appelOffre?.choisirNouveauCahierDesCharges
+                appelOffre?.periodes.find(({ id }) => id === projet.periodeId)
+                  ?.choisirNouveauCahierDesCharges
               ) {
                 return errAsync(new NouveauCahierDesChargesNonChoisiError());
               }
