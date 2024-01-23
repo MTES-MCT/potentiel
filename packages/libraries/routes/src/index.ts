@@ -1,4 +1,4 @@
-import { Abandon } from './lauréat';
+import { Abandon, Raccordement } from './lauréat';
 import { Document } from './document';
 import { Gestionnaire } from './réseau';
 import { Projet } from './projet';
@@ -9,5 +9,6 @@ export const Routes = {
   Document,
   Gestionnaire,
   Projet,
+  Raccordement,
   Tache,
 };
