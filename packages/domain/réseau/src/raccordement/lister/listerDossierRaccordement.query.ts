@@ -10,7 +10,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ListerDossierRaccordementReadModel = {
-  identifiantProject: IdentifiantProjet.ValueType;
+  identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   dossiers: Array<{
     référence: RéférenceDossierRaccordement.ValueType;
@@ -66,7 +66,7 @@ const mapToReadModel = (entity: RaccordementEntity): ListerDossierRaccordementRe
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
       entity.identifiantGestionnaireRéseau,
     ),
-    identifiantProject: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
     dossiers: entity.dossiers.map(
       ({
         demandeComplèteRaccordement,
