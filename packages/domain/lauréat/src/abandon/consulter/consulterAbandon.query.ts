@@ -75,6 +75,12 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
       preuveRecandidature: result.preuveRecandidature
         ? IdentifiantProjet.convertirEnValueType(result.preuveRecandidature)
         : undefined,
+      preuveRecandidatureTransmiseLe: result.preuveRecandidatureTransmiseLe
+        ? DateTime.convertirEnValueType(result.preuveRecandidatureTransmiseLe)
+        : undefined,
+      preuveRecandidatureTransmisePar: result.preuveRecandidatureTransmisePar
+        ? IdentifiantUtilisateur.convertirEnValueType(result.preuveRecandidatureTransmisePar)
+        : undefined,
       preuveRecandidatureDemandéeLe: result.preuveRecandidatureDemandéeLe
         ? DateTime.convertirEnValueType(result.preuveRecandidatureDemandéeLe)
         : undefined,
