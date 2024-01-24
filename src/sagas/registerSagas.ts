@@ -3,6 +3,9 @@ import * as RaccordementSaga from './raccordement.saga';
 import * as AbandonSaga from './abandon.saga';
 import { mediator } from 'mediateur';
 
+/**
+ * @deprecated à bouger dans la nouvelle app
+ */
 export const registerSagas = async () => {
   RaccordementSaga.register();
   AbandonSaga.register();
