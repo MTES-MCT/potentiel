@@ -7,10 +7,19 @@ import { getLegacyIdByIdentifiantProjet } from '../infra/sequelize/queries/proje
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { logger } from '../core/utils';
 
+/**
+ * @deprecated à bouger dans la nouvelle app
+ */
 export type SubscriptionEvent = Abandon.AbandonEvent & Event;
 
+/**
+ * @deprecated à bouger dans la nouvelle app
+ */
 export type Execute = Message<'EXECUTE_ABANDON_SAGA', SubscriptionEvent>;
 
+/**
+ * @deprecated à bouger dans la nouvelle app
+ */
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     switch (event.type) {
