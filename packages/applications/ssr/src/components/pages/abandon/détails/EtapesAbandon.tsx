@@ -93,12 +93,6 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         />
       )}
 
-      {preuveRecandidatureStatut === 'en-attente' && (
-        <p className="font-bold mb-4">
-          Le porteur n'a pas encore transmis de projet comme preuve de recandidature.
-        </p>
-      )}
-
       <Timeline
         sx={{
           [`& .${timelineOppositeContentClasses.root}`]: {
@@ -108,6 +102,23 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           paddingLeft: 0,
         }}
       >
+        {preuveRecandidatureStatut === 'en-attente' && (
+          <TimelineItem>
+            <TimelineOppositeContent>
+              <span className="italic">En attente</span>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineDot color="warning" />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <p className="font-bold">
+                Le porteur n'a pas encore transmis de projet comme preuve de recandidature.
+              </p>
+            </TimelineContent>
+          </TimelineItem>
+        )}
+
         {preuveRecandidature &&
           preuveRecandidatureTransmiseLe &&
           preuveRecandidatureTransmisePar && (
